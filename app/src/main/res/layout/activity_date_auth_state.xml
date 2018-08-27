@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.DateAuthStateActivity">
+
+    <ImageView
+        android:id="@+id/iv_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:background="@mipmap/ic_auth_tip_bg1" />
+    <TextView
+        android:id="@+id/tv_date_count"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSize"
+        android:paddingLeft="24dp"
+        android:layout_alignTop="@+id/iv_top_bg"
+        android:layout_marginTop="130dp"
+        android:text="目前已有1000人在D6约会成功"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/back_white"
+        android:id="@+id/tv_back"
+        android:padding="12dp" />
+
+    <TextView
+        android:id="@+id/tv_base_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_top_bg"
+        android:background="@color/white"
+        android:lineSpacingExtra="8dp"
+        android:padding="16dp"
+        android:text="第一步:完善个人信息\n必须完成超过80%,才能进入约会"
+        android:textColor="@color/textColor"
+        android:textSize="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_base_info"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_base_info"
+        android:drawableRight="@mipmap/ic_right_arrow"
+        android:gravity="center"
+        android:paddingRight="16dp"
+        android:text="0%"
+        android:id="@+id/tv_percent"
+        android:textColor="@color/textColor99" />
+
+    <View
+        style="@style/view_line_h"
+        android:layout_alignBottom="@+id/tv_base_info" />
+
+    <TextView
+        android:id="@+id/tv_contact_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_base_info"
+        android:background="@color/white"
+        android:lineSpacingExtra="8dp"
+        android:padding="16dp"
+        android:text="第二步:填写联系方式\n绝对保密，取得你同意后对方才能看到"
+        android:textColor="@color/textColor"
+        android:textSize="16dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_contact_info"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_contact_info"
+        android:drawableRight="@mipmap/ic_right_arrow"
+        android:gravity="center"
+        android:paddingRight="16dp"
+        android:text="未完成"
+        android:id="@+id/tv_contact_state"
+        android:textColor="@color/orange_f6a" />
+
+    <View
+        style="@style/view_line_h"
+        android:layout_alignBottom="@+id/tv_contact_info" />
+
+    <TextView
+        android:id="@+id/tv_auth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_contact_info"
+        android:background="@color/white"
+        android:lineSpacingExtra="8dp"
+        android:padding="16dp"
+        android:text="第三步:用户认证\n认证保证约会双方信息真实避免诈骗"
+        android:textColor="@color/textColor"
+        android:textSize="16dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_auth"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_auth"
+        android:drawableRight="@mipmap/ic_right_arrow"
+        android:gravity="center"
+        android:paddingRight="16dp"
+        android:id="@+id/tv_auth_state"
+        android:text="去认证"
+        android:textColor="@color/orange_f6a" />
+    <View
+        style="@style/view_line_h"
+        android:layout_alignBottom="@+id/tv_auth" />
+</RelativeLayout>

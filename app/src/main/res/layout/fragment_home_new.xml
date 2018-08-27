@@ -1,0 +1,107 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        app:layout_behavior="com.d6.android.app.utils.MyBehavior"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="120dp" />
+
+            <TextView
+                android:id="@+id/tv_speed_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mBanner"
+                android:drawableLeft="@drawable/shape_blue_vertical_bg"
+                android:drawablePadding="8dp"
+                android:paddingBottom="@dimen/padding_12"
+                android:paddingLeft="@dimen/padding_16"
+                android:paddingTop="@dimen/padding_12"
+                android:text="速约"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_speed_date_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_speed_date"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_speed_date"
+                android:gravity="center"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="更多"
+                android:textColor="@color/color_369" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvSpeedDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_speed_date"
+                android:minHeight="80dp" />
+
+            <TextView
+                android:id="@+id/tv_newest_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rvSpeedDate"
+                android:drawableLeft="@drawable/shape_blue_vertical_bg"
+                android:drawablePadding="8dp"
+                android:paddingBottom="@dimen/padding_12"
+                android:paddingLeft="@dimen/padding_16"
+                android:paddingTop="@dimen/padding_12"
+                android:text="最新觅约"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_newest_date_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_newest_date"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/tv_newest_date"
+                android:gravity="center"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="更多"
+                android:textColor="@color/color_369" />
+        </RelativeLayout>
+
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/mTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            app:tl_indicator_color="@color/orange_f6a"
+            app:tl_indicator_height="2dp"
+            app:tl_indicator_margin_bottom="6dp"
+            app:tl_textSelectColor="@color/orange_f6a"
+            app:tl_textUnselectColor="@color/textColor66"
+            app:tl_indicator_width="30dp" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+
+        android:id="@+id/mViewPager"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/padding_16"
+        android:layout_marginRight="4dp"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</android.support.design.widget.CoordinatorLayout>

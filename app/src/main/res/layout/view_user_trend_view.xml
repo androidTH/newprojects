@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/padding_16"
+    android:paddingTop="@dimen/padding_16"
+    android:paddingRight="@dimen/padding_16">
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-----------------"
+            android:textSize="15sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_comments"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:background="#f5f7f9"
+        android:layout_below="@+id/ll_content"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_comment"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看全部0条评论"
+            android:textSize="13sp"
+            android:drawableRight="@mipmap/ic_arrow_right_orange"
+            android:textColor="@color/orange_f6a"
+            android:id="@+id/tv_all_comment"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_appraise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_comments"
+        android:layout_toLeftOf="@+id/tv_comment"
+        android:drawableLeft="@drawable/ic_praise_selector"
+        android:drawablePadding="4dp"
+        android:padding="8dp"
+        android:text="0"
+        android:textColor="@color/textColor66"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_appraise"
+        android:layout_alignLeft="@+id/tv_comment"
+        android:layout_alignTop="@+id/tv_appraise"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/dividing_line_color" />
+
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ll_comments"
+        android:drawableLeft="@mipmap/ic_comment"
+        android:drawablePadding="4dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:text="0"
+        android:textColor="@color/textColor66"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_appraise"
+        android:layout_alignTop="@+id/tv_appraise"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="80dp"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="--"
+        android:textColor="@color/textColor99"
+        android:textSize="14sp" />
+    <View style="@style/view_line_h"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_below="@+id/tv_appraise"/>
+
+</RelativeLayout>

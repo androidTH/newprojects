@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_size"
+        android:background="@color/white"
+        android:id="@+id/titleBar">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/padding_16"
+            android:textSize="20dp"
+            android:id="@+id/tv_title"
+            android:paddingRight="@dimen/padding_16"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/padding_16"
+            android:textSize="20dp"
+            android:id="@+id/tv_title1"
+            android:visibility="gone"
+            android:drawableRight="@mipmap/ic_arrow_down"
+            android:text=""
+            android:gravity="center_vertical|left"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/orange_f6a"
+            android:layout_alignParentRight="true"
+            android:paddingRight="12dp"
+            android:id="@+id/iv_right"
+            android:visibility="gone"/>
+    </RelativeLayout>
+    <View style="@style/view_line_h"
+        android:id="@+id/line"/>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <View style="@style/view_line_h" />
+
+    <com.d6.android.app.widget.FragmentTabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0"/>
+    </com.d6.android.app.widget.FragmentTabHost>
+</LinearLayout>

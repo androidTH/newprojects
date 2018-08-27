@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mSwipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#efefef"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_my_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/padding_16">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    style="@style/DefaultCircleHeadStyle"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="6dp"
+                    android:id="@+id/headView"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/headView"
+                    android:layout_toRightOf="@+id/headView"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/textColor"
+                    android:layout_marginTop="6dp"
+                    android:maxWidth="88dp"
+                    android:layout_marginRight="8dp"
+                    android:singleLine="true"
+                    android:id="@+id/tv_nick"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_toRightOf="@+id/tv_nick"
+                    android:layout_alignTop="@+id/tv_nick"
+                    android:background="@drawable/ic_sex_bg_selector"
+                    android:textColor="@color/white"
+                    android:drawablePadding="4dp"
+                    android:drawableLeft="@drawable/sex_white_selector"
+                    android:textSize="12dp"
+                    android:layout_marginRight="8dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:id="@+id/tv_sex"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="@color/white"
+                    android:layout_toRightOf="@+id/tv_sex"
+                    android:layout_alignTop="@+id/tv_nick"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
+                    android:visibility="invisible"
+                    android:id="@+id/tv_vip"
+                    android:text="--"
+                    android:background="@drawable/shape_4r_orange"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="@color/textColor"
+                    android:textSize="12dp"
+                    android:layout_below="@+id/tv_nick"
+                    android:layout_marginTop="12dp"
+                    android:layout_toRightOf="@+id/headView"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:id="@+id/tv_signature"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_contact_us"
+                style="@style/mineTextStyle"
+                android:layout_marginTop="8dp"
+                android:text="联系我们" />
+
+            <ImageView
+                style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_online_service"
+                style="@style/mineTextStyle"
+                android:text="在线客服" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_messages"
+                    style="@style/mineTextStyle"
+                    android:text="消息" />
+
+                <TextView
+                    android:id="@+id/tv_msg_count1"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24dp"
+                    android:background="@drawable/shape_4r_red"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_feedback"
+                style="@style/mineTextStyle"
+                android:layout_marginTop="8dp"
+                android:text="意见反馈" />
+
+            <ImageView
+                style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_aboutUs"
+                style="@style/mineTextStyle"
+                android:text="关于我们" />
+
+            <ImageView
+                style="@style/ImageView_h"/>
+
+            <TextView
+                android:id="@+id/tv_search_weChat"
+                style="@style/mineTextStyle"
+                android:text="微信查询  防止假冒客服与您联系！" />
+
+            <TextView
+                android:id="@+id/btn_sign_out"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="120dp"
+                android:background="@drawable/shape_orange_circle1"
+                android:gravity="center"
+                android:padding="@dimen/padding_16"
+                android:text="退出登录"
+                android:textColor="@color/white"
+                android:textSize="@dimen/btnTextSize" />
+        </LinearLayout>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

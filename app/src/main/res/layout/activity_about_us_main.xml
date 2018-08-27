@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_aboutUs"
+        style="@style/mineTextStyle"
+        android:text="关于我们"/>
+    <ImageView style="@style/ImageView_h"/>
+    <TextView
+        android:id="@+id/tv_platform_service"
+        style="@style/mineTextStyle"
+        android:text="平台服务"/>
+    <ImageView style="@style/ImageView_h"/>
+
+    <TextView
+        android:id="@+id/tv_business"
+        style="@style/mineTextStyle"
+        android:text="商务合作"/>
+</LinearLayout>

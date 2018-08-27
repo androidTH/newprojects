@@ -1,0 +1,166 @@
+<resources>
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="BaseAppTheme">
+        <!-- Customize your theme here. -->
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/textSize</item>
+    </style>
+
+    <style name="Theme.ProgressDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/l_transparent</item>
+        <item name="android:backgroundDimAmount">0</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="view_line_h">
+        <item name="android:background">@color/dividing_line_color</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="DefaultImageStyle">
+        <item name="failureImage">@color/dividing_line_color</item>
+        <item name="placeholderImage">@color/dividing_line_color</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+    </style>
+
+    <style name="ImageView_h">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:src">@color/dividing_line_color</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:paddingRight">@dimen/padding_16</item>
+        <item name="android:paddingLeft">@dimen/padding_16</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="DefaultHeadStyle">
+        <item name="failureImage">@mipmap/default_head</item>
+        <item name="placeholderImage">@mipmap/default_head</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+        <item name="viewAspectRatio">1</item>
+        <item name="roundedCornerRadius">6dp</item>
+    </style>
+
+    <style name="DefaultCircleHeadStyle" parent="DefaultHeadStyle">
+        <item name="roundAsCircle">true</item>
+    </style>
+
+    <style name="editStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
+
+    <style name="phoneStyle" parent="editStyle">
+        <item name="android:digits">0123456789-</item>
+        <item name="android:inputType">phone</item>
+    </style>
+
+    <style name="passwordStyle" parent="editStyle">
+        <item name="android:maxLength">16</item>
+        <item name="android:digits">0123456789`!@#$%^&amp;*()_+{}|:"&#060;>?-=[]\;',./qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="mineTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_16</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">@dimen/btnTextSize</item>
+        <item name="android:drawableRight">@drawable/ic_chevron_right_gray_24dp</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+
+    <style name="mineTextStyle1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/padding_16</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:textSize">@dimen/btnTextSize</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+
+    <style name="textRedLineBgStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#838383</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:paddingBottom">1dp</item>
+        <item name="android:background">@drawable/shape_6r_pink_line</item>
+    </style>
+
+    <style name="textRedBgStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:paddingBottom">1dp</item>
+        <item name="android:background">@drawable/shape_6r_pink</item>
+    </style>
+
+    <style name="Base.Animation.Dialog.Style" parent="@android:style/Animation.Translucent">
+        <item name="android:windowEnterAnimation">@anim/popup_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_out</item>
+    </style>
+
+    <style name="Base.Animation.Dialog.Style.Fade" parent="@android:style/Animation.Translucent">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <style name="BaseDialog" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+    </style>
+    <!--选择照片和拍照选择页面theme，因为继承自AppCompatActivity所以必须使用AppCompat类型主题。-->
+    <style name="Dialog" parent="BaseDialog">
+        <item name="android:windowAnimationStyle">@style/Base.Animation.Dialog.Style</item>
+    </style>
+
+    <style name="FadeDialog" parent="BaseDialog">
+        <item name="android:windowAnimationStyle">@style/Base.Animation.Dialog.Style.Fade</item>
+    </style>
+
+    <style name="FadePopup" parent="FadeDialog">
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="datePickerStyle">
+        <item name="android:calendarViewShown">false</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

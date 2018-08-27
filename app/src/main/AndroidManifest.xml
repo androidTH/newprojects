@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.d6.android.app">
+
+    <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:name=".application.D6Application"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="808bc15cea5a1648a2c84a08fff73267" />
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="0f16af7d3011a5aad7cf82a996b6b94c" />
+
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity
+            android:name=".activities.LauncherActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SignChooseActivity"
+            android:screenOrientation="portrait">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".activities.SignInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FilterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SpeedDateDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ReleaseNewTrendsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FeedBackActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AboutUsMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.WeChatSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MySquareActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ForgetPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ModifyPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ContactUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MyInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activities.FilterVipLevelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FilterCityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PublishFindDateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SquareTrendDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.BusinessCooperationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PlatformServiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.NewestFindDateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FindDateDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MessagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SelectPhotoDialog"
+            android:theme="@style/Dialog" />
+        <activity
+            android:name=".activities.CropImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.UserInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SelfReleaseDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.FilterTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ResetPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SystemMessagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SquareMessagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MessageSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ChatActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="${applicationId}"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.UnAuthUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.QRActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ImagePagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
+        <activity android:name=".activities.MessageDetailActivity" />
+        <activity android:name=".activities.ChooseSexActivity" />
+        <activity android:name=".activities.QRNewActivity" />
+        <activity android:name=".activities.SplashActivity" />
+        <activity android:name=".activities.SetUserInfoActivity" />
+        <activity android:name=".activities.ChooseCountryActivity" />
+        <activity android:name=".activities.TrendDetailActivity" />
+        <activity android:name=".activities.SettingActivity" />
+        <activity android:name=".activities.ReportActivity" />
+        <activity
+            android:name=".activities.SpeedDateActivity"
+            android:label="@string/title_activity_speed_date"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.DateAuthStateActivity" />
+        <activity android:name=".activities.MyDateActivity"></activity>
+    </application>
+
+</manifest>

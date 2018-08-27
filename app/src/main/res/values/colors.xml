@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">#80ffffff</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="l_transparent">#80000000</color>
+    <color name="orange_f6a">#f6ab00</color>
+    <color name="white">@android:color/white</color>
+    <color name="color4c">#4c4c4c</color>
+    <color name="textColor">#151717</color>
+    <color name="textColor66">#666666</color>
+    <color name="textColor99">#999999</color>
+    <color name="title_bar">@color/white</color>
+    <color name="dividing_line_color">#dbdbdb</color>
+    <color name="white_ef">#efefef</color>
+    <color name="red_fc3">#fc3d23</color>
+    <color name="pink_fd9">#fd95d9</color>
+    <color name="pink_fe7">#fe75a3</color>
+    <color name="pink_fc6">#fc6899</color>
+    <color name="purple_434">#4342a3</color>
+    <color name="color_369">#336699</color>
+    <color name="color_l_369">#80336699</color>
+    <color name="color_l_trans_b">#33000000</color>
+    <color name="color_24c">#24cdff</color>
+    <color name="color_8888">#888888</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_000000">#000000</color>
+</resources>

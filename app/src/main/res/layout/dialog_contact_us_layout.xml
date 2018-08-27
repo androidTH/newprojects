@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/img"
+        android:layout_margin="15dp"
+        app:roundingBorderWidth="2dp"
+        app:roundingBorderColor="@color/white"
+        style="@style/DefaultImageStyle"
+        app:viewAspectRatio="1"/>
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_height="30dp"
+        android:drawableRight="@mipmap/ic_close_white"/>
+</RelativeLayout>

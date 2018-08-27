@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_16">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/headView"
+        style="@style/DefaultHeadStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        app:roundAsCircle="true" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="80dp"
+        android:drawablePadding="8dp"
+        android:layout_marginTop="2dp"
+        android:drawableRight="@drawable/sex_selector"
+        android:layout_toRightOf="@+id/headView"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:text="-----------" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize"
+        android:layout_alignParentRight="true"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        android:id="@+id/tv_delete"
+        android:visibility="gone"
+        android:textColor="@color/color_369"
+        android:text="删除"/>
+    <TextView
+        android:id="@+id/tv_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/headView"
+        android:layout_alignLeft="@+id/tv_name"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="80dp"
+        android:singleLine="true"
+        android:text="--"
+        android:textColor="@color/textColor99"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_attention"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/shape_6r_orange_line"
+        android:gravity="center"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:visibility="invisible"
+        android:text="关注"
+        android:textColor="@color/orange_f6a" />
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/headView"
+        android:layout_below="@+id/headView"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:textSize="15sp"
+            android:layout_height="wrap_content"
+            android:text="-----------------" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="8dp"
+            android:id="@+id/rv_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_comments"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="10dp"
+        android:background="#f5f7f9"
+        android:layout_below="@+id/ll_content"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_comment"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查看全部0条评论"
+            android:drawableRight="@mipmap/ic_arrow_right_orange"
+            android:textSize="13sp"
+            android:textColor="@color/orange_f6a"
+            android:id="@+id/tv_all_comment"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_appraise"
+        android:text="0"
+        android:textColor="@color/textColor99"
+        android:layout_toLeftOf="@+id/tv_comment"
+        android:paddingTop="8dp"
+        android:drawableLeft="@drawable/ic_praise_selector"
+        android:drawablePadding="4dp"
+        android:paddingBottom="8dp"
+        android:textSize="14sp"
+        android:layout_marginRight="8dp"
+        android:paddingLeft="8dp"
+        android:layout_below="@+id/ll_comments"/>
+    <View android:layout_width="1px"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_appraise"
+        android:layout_alignLeft="@+id/tv_comment"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_alignTop="@+id/tv_appraise"
+        android:visibility="gone"
+        android:background="@color/dividing_line_color"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_comment"
+        android:layout_alignParentRight="true"
+        android:text="0"
+        android:drawableLeft="@mipmap/ic_comment"
+        android:drawablePadding="4dp"
+        android:textColor="@color/textColor99"
+
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textSize="14sp"
+        android:layout_below="@+id/ll_comments"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/tv_tag"-->
+        <!--android:layout_alignTop="@+id/tv_appraise"-->
+        <!--android:layout_alignBottom="@+id/tv_appraise"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:layout_alignLeft="@+id/tv_name"-->
+        <!--android:textSize="13sp"-->
+        <!--android:visibility="gone"-->
+        <!--android:textColor="@color/color_369"-->
+        <!--android:text="#心动故事#"/>-->
+
+
+</RelativeLayout>

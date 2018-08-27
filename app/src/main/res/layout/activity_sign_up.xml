@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="60dp">
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_expand_more_24dp"
+            android:gravity="center_vertical"
+            android:text="国内"
+            android:textColor="@color/color_369" />
+
+        <EditText
+            android:id="@+id/et_phone"
+            style="@style/phoneStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="输入手机号"
+            android:paddingBottom="@dimen/padding_16"
+            android:paddingTop="@dimen/padding_16" />
+    </LinearLayout>
+
+    <View
+        style="@style/view_line_h"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="输入验证码"
+            android:maxLength="6"
+            android:paddingBottom="@dimen/padding_16"
+            android:paddingTop="@dimen/padding_16"
+            android:textSize="@dimen/textSize" />
+
+        <TextView
+            android:id="@+id/tv_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:maxLength="6"
+            android:paddingBottom="@dimen/padding_16"
+            android:paddingTop="@dimen/padding_16"
+            android:text="获取验证码"
+            android:textColor="@color/color_369" />
+    </RelativeLayout>
+
+    <View
+        style="@style/view_line_h"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+    <EditText
+        android:id="@+id/et_password"
+        style="@style/passwordStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:hint="输入6-16位字符密码"
+        android:paddingBottom="@dimen/padding_16"
+        android:paddingTop="@dimen/padding_16" />
+
+    <View
+        style="@style/view_line_h"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_sex"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginLeft="40dp"-->
+        <!--android:layout_marginRight="40dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingTop="24dp"-->
+
+            <!--android:textColor="@color/textColor66"-->
+            <!--android:paddingBottom="24dp"-->
+            <!--android:text="性别(注册后不可修改)" />-->
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:textColor="@color/textColor66"
+            android:paddingBottom="@dimen/padding_16"
+            android:paddingTop="@dimen/padding_16"
+            android:id="@+id/tv_choose_sex"
+            android:layout_marginTop="20dp"
+            android:drawablePadding="8dp"
+            android:drawableRight="@drawable/ic_chevron_right_gray_24dp"
+            android:layout_height="wrap_content"
+            android:hint="选择性别"/>
+    <!--</LinearLayout>-->
+    <!--<RadioGroup-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="16dp"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rb_male"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="我是男生"-->
+            <!--android:drawablePadding="6dp"-->
+            <!--android:checked="true"-->
+            <!--android:drawableLeft="@drawable/ic_circle_selector"-->
+            <!--android:paddingTop="16sp"-->
+            <!--android:paddingBottom="16sp"-->
+            <!--android:button="@null"-->
+            <!--android:textSize="13sp"-->
+            <!--android:textColor="@color/color_orange_gray"/>-->
+        <!--<RadioButton-->
+            <!--android:id="@+id/rb_female"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:text="我是女生"-->
+            <!--android:drawableLeft="@drawable/ic_circle_selector"-->
+            <!--android:drawablePadding="6dp"-->
+            <!--android:button="@null"-->
+            <!--android:paddingTop="16sp"-->
+            <!--android:paddingBottom="16sp"-->
+            <!--android:textSize="13sp"-->
+            <!--android:textColor="@color/color_orange_gray"/>-->
+    <!--</RadioGroup>-->
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center"-->
+        <!--android:text="性别注册之后不可修改"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textColor="@color/textColor99"/>-->
+    <View
+        style="@style/view_line_h"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp" />
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv2"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/shape_orange_rounded"
+        android:text="完成"
+        android:textColor="@color/white"
+        android:textSize="@dimen/btnTextSize" />
+</LinearLayout>

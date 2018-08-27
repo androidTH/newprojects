@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">12dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
+    <dimen name="padding_16">12dp</dimen>
+    <dimen name="request_12">12sp</dimen>
+    <dimen name="textSize">14sp</dimen>
+    <dimen name="btnTextSize">16sp</dimen>
+    <dimen name="btnTextSize20">20sp</dimen>
+    <dimen name="btnTextSize25">25sp</dimen>
+    <dimen name="title_bar_size">48dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

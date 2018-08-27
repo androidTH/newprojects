@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/title_bar_size"
+        android:background="@color/l_transparent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:background="@drawable/popup_bg1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_height="400dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="热门"
+                    android:paddingLeft="16dp"
+                    android:id="@+id/tv_hot"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/textColor99"
+                    android:paddingTop="16dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="取消选择"
+                    android:paddingLeft="16dp"
+                    android:id="@+id/tv_cancel"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/orange_f6a"
+                    android:layout_marginRight="16dp"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="16dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_hot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_hot" />
+                <View style="@style/view_line_h"
+                    android:layout_alignBottom="@+id/rv_hot"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全国"
+                    android:paddingLeft="16dp"
+                    android:id="@+id/tv_all"
+                    android:layout_below="@+id/rv_hot"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/textColor99"
+                    android:paddingTop="16dp"/>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_all"
+                    android:id="@+id/rv_guonei"/>
+                <View style="@style/view_line_h"
+                    android:layout_alignBottom="@+id/rv_guonei"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="海外"
+                    android:paddingLeft="16dp"
+                    android:id="@+id/tv_out"
+                    android:layout_below="@+id/rv_guonei"
+                    android:textSize="@dimen/textSize"
+                    android:textColor="@color/textColor99"
+                    android:paddingTop="16dp"/>
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_out"
+                    android:id="@+id/rv_out"/>
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </FrameLayout>
+
+    <View
+        android:id="@+id/bgView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/l_transparent" />
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_action"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="举报" />
+    <View style="@style/view_line_h"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"/>
+    <TextView
+        android:id="@+id/tv_action1"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="屏蔽" />
+    <View style="@style/view_line_h"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"/>
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="取消" />
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ChooseCountryActivity">
+
+    <me.yokeyword.indexablerv.IndexableLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/indexableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:indexBar_background="#08000000"
+        app:indexBar_layout_width="24dp"
+        app:indexBar_selectedTextColor="#f33737"
+        app:indexBar_textColor="#000000"
+        app:indexBar_textSize="14sp"
+        app:indexBar_textSpace="6dp" />
+</LinearLayout>

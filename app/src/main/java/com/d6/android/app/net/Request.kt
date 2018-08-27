@@ -1,0 +1,266 @@
+package com.d6.android.app.net
+
+import com.d6.android.app.models.Response
+import com.d6.android.app.models.UserData
+import com.d6.android.app.utils.getFileSuffix
+import com.d6.android.app.utils.ioScheduler
+import com.d6.android.app.utils.sysErr
+import com.qiniu.android.storage.UploadManager
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
+import io.reactivex.schedulers.Schedulers
+import java.io.File
+
+
+/**
+ * 服务端接口相关。。
+ */
+object Request {
+
+    const val PAGE_SIZE = 20
+
+    fun uploadFile(file: File): Flowable<String> {
+        return RRetrofit.instance().create(ApiServices::class.java).getQiniuToken().ioScheduler().flatMap {
+            if (it.res == 1) {
+                val upload = UploadManager()
+                val objectKey = System.currentTimeMillis().toString() + "." + file.getFileSuffix()
+                val token = it.resMsg
+                Flowable.create<String>({
+                    val info = upload.syncPut(file, objectKey, token, null)
+                    sysErr("--->$info")
+                    sysErr("--->" + info.response)
+                    if (info.isOK) {
+                        val key = info.response.optString("key")
+                        it.onNext("http://p22l7xdxa.bkt.clouddn.com/$key")
+                        it.onComplete()
+                    } else {
+                        it.onError(ResultException("上传失败！"))
+                    }
+                }, BackpressureStrategy.DROP).subscribeOn(Schedulers.io())
+            } else {
+                Flowable.error { ResultException(it.resMsg) }
+            }
+        }
+    }
+
+    /**
+     * 登陆
+     */
+    fun login(type: Int, account: String, pwd: String): Flowable<Response<UserData>> {
+//        val type = if (account.length >= 11) {//是手机号
+//            1
+//        } else {
+//            0
+//        }
+        val phone = if (type == 1) {
+            account
+        } else {
+            null
+        }
+
+        val loginName = if (type == 1) {
+            null
+        } else {
+            account
+        }
+        return RRetrofit.instance().create(ApiServices::class.java).login(phone, loginName, pwd, type)
+    }
+
+    /**
+     * 注册
+     */
+    fun register(phone: String, pwd: String, code: String, phoneType: String, sex: Int) =
+            RRetrofit.instance().create(ApiServices::class.java).register(phone, pwd, code, phoneType, sex)
+
+    fun sendSMSCode(phone: String, type: Int, phoneType: Int) =
+            RRetrofit.instance().create(ApiServices::class.java).sendSMSCode(phone, type, phoneType)
+
+    /**
+     * 获取
+     */
+    fun getBanners() =
+            RRetrofit.instance().create(ApiServices::class.java).getBanners()
+
+    fun getInfo(piecesMark: String) =
+            RRetrofit.instance().create(ApiServices::class.java).getInfo(piecesMark)
+
+    /**
+     * 广场分类
+     */
+    fun getSquareTags() =
+            RRetrofit.instance().create(ApiServices::class.java).getSquareTags()
+
+    /**
+     * 广场列表
+     * @param limit 广场对应的评论信息，初始加载的时候要显示前几条，这里就传入数字几，不显示，则传入0即可，如果是下拉滚动条刷新获取最新数据，请调用/backstage/comments/findByPage分页查询
+     * sex 1男0女2全部
+     */
+    fun getSquareList(accountId: String, classesid: String, pageNum: Int, limit: Int = 0,sex:Int =2) =
+            RRetrofit.instance().create(ApiServices::class.java).getSquareList(accountId, classesid, pageNum, limit = limit,sex= sex)
+
+    /**
+     * 广场详情
+     */
+    fun getSquareDetail(accountId: String, id: String) =
+            RRetrofit.instance().create(ApiServices::class.java).getSquareDetail(accountId, id)
+
+    /**
+     * 广场评论
+     */
+    fun getCommentList(id: String, pageNum: Int) =
+            RRetrofit.instance().create(ApiServices::class.java).getCommentList(id, pageNum)
+
+    /**
+     * 获取个人信息
+     */
+    fun getUserInfo(id: String) =
+            RRetrofit.instance().create(ApiServices::class.java).getUserInfo(id)
+
+    /**
+     * SHANCHU
+     */
+    fun deleteSquare(userId: String, id: String?) =
+            RRetrofit.instance().create(ApiServices::class.java).deleteSquare(userId, id)
+
+    fun deleteSysMsg(userId: String, id: String?) =
+            RRetrofit.instance().create(ApiServices::class.java).deleteSysMsg(userId, id)
+
+    /**
+     * 更新个人信息
+     */
+    fun updateUserInfo(userData: UserData) =
+            RRetrofit.instance().create(ApiServices::class.java).updateUserInfo(userData)
+
+    /**
+     * 反馈
+     */
+    fun feedback(userId: String, content: String) =
+            RRetrofit.instance().create(ApiServices::class.java).feedback(userId, content)
+
+    fun addComment(userId: String, newsId: String, content: String, replyUid: String?) =
+            RRetrofit.instance().create(ApiServices::class.java).addComment(userId, newsId, content, replyUid)
+
+    /**
+     * 速约
+     */
+    fun getSpeedDateList(type: Int, pageNum: Int, beginTime: String? = null, endTime: String? = null, classesId: String? = null
+                         , arraySpeedState: String? = null, area: String? = null, outArea: String? = null, arrayUserClassesId: String? = null, speedhomepage: String? = null, pageSize: Int = PAGE_SIZE) =
+            RRetrofit.instance().create(ApiServices::class.java).getSpeedDateList(type, pageNum, beginTime, endTime, classesId, arraySpeedState, area, outArea, arrayUserClassesId, speedhomepage, pageSize)
+
+    fun getSpeedDetail(ids: String?) = RRetrofit.instance().create(ApiServices::class.java).getSpeedDetail(ids)
+
+    /**
+     * 觅约
+     */
+    fun getFindDateList(type: Int, pageNum: Int, beginTime: String? = null, endTime: String? = null, classesId: String? = null
+                        , arrayLookState: String? = null, area: String? = null, outArea: String? = null, arrayUserClassesId: String? = null, pageSize: Int = PAGE_SIZE) =
+            RRetrofit.instance().create(ApiServices::class.java).getFindDateList(type, pageNum, beginTime, endTime, classesId, arrayLookState, area, outArea, arrayUserClassesId, pageSize)
+
+    /**
+     *
+     */
+    fun searchWeChatId(kfName: String) =
+            RRetrofit.instance().create(ApiServices::class.java).searchWeChatId(kfName)
+
+    fun addPraise(userId: String, newsId: String?) =
+            RRetrofit.instance().create(ApiServices::class.java).addPraise(userId, newsId)
+
+    fun cancelPraise(userId: String, newsId: String?) =
+            RRetrofit.instance().create(ApiServices::class.java).cancelPraise(userId, newsId)
+
+    /**
+     * 我的广场
+     * @param limit 为0的时候查询我发布的,1的时候我点赞的,2的时候我评论的
+     */
+    fun getMySquares(userId: String, limit: Int, pageNum: Int) =
+            RRetrofit.instance().create(ApiServices::class.java).getMySquares(userId, limit, pageNum)
+
+    fun getSelfReleaseList(userId: String, pageNum: Int, beginTime: String? = null, endTime: String? = null
+                           , area: String? = null, outArea: String? = null, arrayUserClassesId: String? = null, pageSize: Int = PAGE_SIZE) =
+            RRetrofit.instance().create(ApiServices::class.java).getSelfReleaseList(pageNum, beginTime, endTime, area, outArea, arrayUserClassesId, pageSize)
+
+    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String) =
+            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content)
+
+    fun releaseSelfAbout(userId: String, outArea: String?, area: String?, city: String?, beginTime: String?, endTime: String?, content: String, imgUrl: String?) =
+            RRetrofit.instance().create(ApiServices::class.java).releaseSelfAbout(userId, content, outArea, area, city, beginTime, endTime, imgUrl)
+
+    fun getUserLevels() =
+            RRetrofit.instance().create(ApiServices::class.java).getUserLevels()
+
+    fun getCities(paramKey: String) =
+            RRetrofit.instance().create(ApiServices::class.java).getCities(paramKey)
+
+    fun resetPwdFirstStep(phone: String, code: String) =
+            RRetrofit.instance().create(ApiServices::class.java).resetPwdFirstStep(phone, code)
+
+    fun resetPwd(phone: String, password: String) =
+            RRetrofit.instance().create(ApiServices::class.java).resetPwd(phone, password)
+
+    fun getSquareMessages(userId: String, pageNum: Int, time: String? = null, pageSize: Int = PAGE_SIZE) =
+            RRetrofit.instance().create(ApiServices::class.java).getSquareMessages(userId, pageNum, time, pageSize)
+
+    fun getSystemMessages(userId: String, pageNum: Int, time: String? = null, pageSize: Int = PAGE_SIZE) =
+            RRetrofit.instance().create(ApiServices::class.java).getSystemMsgs(userId, pageNum, time, pageSize)
+
+    fun getTalkDetails(fromUserId: String, toUserId: String, date: String) =
+            RRetrofit.instance().create(ApiServices::class.java).getTalkDetails(fromUserId, toUserId, date)
+
+
+    fun updateDeviceType(userId: String) =
+            RRetrofit.instance().create(ApiServices::class.java).updateDeviceType(userId)
+
+    fun getVerifyCodeV2(phone: String, verifyCodeType: Int) =
+            RRetrofit.instance().create(ApiServices::class.java).getVerifyCodeV2(phone, verifyCodeType)
+
+
+    fun loginV2(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null) =
+            RRetrofit.instance().create(ApiServices::class.java).loginV2(type, vercode, phone, guoneiguowai, openId)
+
+    fun findDataDict(key: String? = "quhao") =
+            RRetrofit.instance().create(ApiServices::class.java).findDataDict(key)
+
+    fun addBlackList(userId: String,id:String) =
+            RRetrofit.instance().create(ApiServices::class.java).addBlackList(userId,id)
+
+    fun report(userId: String,id:String,content:String) =
+            RRetrofit.instance().create(ApiServices::class.java).report(userId,id,content)
+
+    fun updateSeeCount(userId: String) =
+            RRetrofit.instance().create(ApiServices::class.java).updateSeeCount(userId)
+
+    fun findSeeCount(userId: String) =
+            RRetrofit.instance().create(ApiServices::class.java).findSeeCount(userId)
+
+    fun myDateCount(userId: String) =
+            RRetrofit.instance().create(ApiServices::class.java).myDateCount(userId)
+
+    fun dateMeCount(userId: String) =
+            RRetrofit.instance().create(ApiServices::class.java).dateMeCount(userId)
+
+    fun getDateSuccessCount() =
+            RRetrofit.instance().create(ApiServices::class.java).getDateSuccessCount()
+
+    fun updateDateInfo(userId: String,egagementtype:String?=null,egagementtext:String?=null,userhandlookwhere:String?=null,userlookwhere:String?=null,phone:String?=null,egagementwx:String?=null,openEgagementflag:String?=null) =
+            RRetrofit.instance().create(ApiServices::class.java).updateDateInfo(userId,egagementtype,egagementtext,userhandlookwhere,userlookwhere,phone,egagementwx,openEgagementflag)
+
+    fun updateDateState(userId: String,state:Int) =
+            RRetrofit.instance().create(ApiServices::class.java).updateDateState(userId,state)
+
+    fun dateUser(userId: String,engagementuserid:String) =
+            RRetrofit.instance().create(ApiServices::class.java).dateUser(userId,engagementuserid)
+
+    fun findMyDatingList(userId: String,pageNum:Int) =
+            RRetrofit.instance().create(ApiServices::class.java).findMyDatingList(userId,pageNum)
+
+    fun findDatingMeList(userId: String,pageNum:Int) =
+            RRetrofit.instance().create(ApiServices::class.java).findDatingMeList(userId,pageNum)
+
+    fun getHomeDateList(userId: String,sex:String,egagementtype:Int,userlookwhere:String?=null,userhandlookwhere:String?=null) =
+            RRetrofit.instance().create(ApiServices::class.java).getHomeDateList(userId,sex,egagementtype,userlookwhere,userhandlookwhere)
+
+    fun getAuthState(userId: String) =
+            RRetrofit.instance().create(ApiServices::class.java).getAuthState(userId)
+
+
+}

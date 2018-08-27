@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_white_8r"
+        android:orientation="vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:padding="16dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            style="@style/DefaultImageStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            app:viewAspectRatio="1" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="---"
+            android:gravity="center"
+            android:id="@+id/tv_content"
+            android:textColor="@color/textColor"
+            android:textSize="15dp"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/tv_wx"
+                android:textColor="@color/textColor99"
+                android:textSize="@dimen/textSize"
+                android:text="客服微信号:"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="点击复制"
+                android:textSize="@dimen/textSize"
+                android:id="@+id/tv_copy"
+                android:textColor="@color/orange_f6a"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="联系微信客服认证"
+            android:textSize="@dimen/btnTextSize"
+            android:id="@+id/tv_action"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/shape_4r_orange"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/ic_close_orange2"/>
+</RelativeLayout>

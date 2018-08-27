@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.d6.android.app.activities.QRActivity">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableTop="@mipmap/ic_big_arrow"
+        android:layout_marginTop="50dp"
+        android:id="@+id/arrow"
+        android:layout_height="wrap_content" />
+    <FrameLayout
+        android:layout_width="172dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@mipmap/icon_qr_bg"
+        android:layout_marginTop="20dp"
+        android:layout_height="172dp">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="男生添加微信"
+        android:textSize="18sp"
+        android:textColor="@color/color_369"
+        android:textStyle="bold"
+        android:id="@+id/tv_tip"/>
+</LinearLayout>

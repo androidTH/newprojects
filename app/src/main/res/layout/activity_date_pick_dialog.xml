@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        style="@style/datePickerStyle"
+        android:id="@+id/mDatePicker"/>
+    <TextView
+        android:id="@+id/action_sure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mDatePicker"
+        android:padding="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/textSize"
+        android:textColor="@color/colorAccent"
+        android:text="确定"/>
+    <TextView
+        android:id="@+id/action_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mDatePicker"
+        android:layout_alignParentLeft="true"
+        android:textSize="@dimen/textSize"
+        android:padding="16dp"
+        android:textColor="@color/textColor"
+        android:layout_marginLeft="16dp"
+        android:text="取消"/>
+</RelativeLayout>
