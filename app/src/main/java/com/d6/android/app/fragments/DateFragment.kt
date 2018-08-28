@@ -2,9 +2,7 @@ package com.d6.android.app.fragments
 
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.widget.Toast
 import com.d6.android.app.R
-import com.d6.android.app.activities.DateAuthStateActivity
 import com.d6.android.app.activities.MyDateActivity
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.DateCardAdapter
@@ -26,7 +24,6 @@ import com.lin.cardlib.OnSwipeCardListener
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.support.v4.toast
 
 
 /**

@@ -58,7 +58,10 @@ class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean
         holder.setText(R.id.tv_type, array[(data.egagementtype ?: 0)])
         holder.setText(R.id.tv_content, if (data.egagementtext.isNullOrEmpty()) {
             data.gexingqianming
-        } else data.egagementtext)
+        } else if(data.gexingqianming.isNullOrEmpty()){
+            "身高：${data.height} 体重:${data.tizhong}职业:${data.zhiye}星座:${data.xinzuo}"
+        }else data.egagementtext)
+
         if (TextUtils.equals("null", data.userlookwhere.toString())) {
             data.userlookwhere=""
         }

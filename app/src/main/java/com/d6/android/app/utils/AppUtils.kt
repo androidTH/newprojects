@@ -2,7 +2,12 @@ package com.d6.android.app.utils
 
 import android.content.Context
 import android.os.Environment
+import android.text.SpannableString
+import android.text.Spanned
 import android.text.TextUtils
+import android.text.style.TextAppearanceSpan
+import android.widget.TextView
+import com.d6.android.app.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import java.io.File
@@ -17,6 +22,16 @@ class AppUtils {
         var context: Context? = null
         var SP_NAME :String? = null
         var PICDIR :String? = null
+
+        fun setTvStyle(context: Context,value:CharSequence , start:Int,end :Int, tv: TextView){
+            val ss = SpannableString(value)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_auth_style_title), start, end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_auth_style_desc), end,
+                    value.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            tv.setText(ss, TextView.BufferType.SPANNABLE)
+        }
 
         fun init(context: Context) {
             this.context = context.applicationContext

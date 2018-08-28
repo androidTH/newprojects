@@ -47,7 +47,7 @@
         android:background="@color/white"
         android:lineSpacingExtra="8dp"
         android:padding="16dp"
-        android:text="第一步:完善个人信息\n必须完成超过80%,才能进入约会"
+        android:text=""
         android:textColor="@color/textColor"
         android:textSize="16dp" />
 
@@ -62,7 +62,7 @@
         android:paddingRight="16dp"
         android:text="0%"
         android:id="@+id/tv_percent"
-        android:textColor="@color/textColor99" />
+        android:textColor="@color/orange_f6a"/>
 
     <View
         style="@style/view_line_h"
@@ -76,7 +76,7 @@
         android:background="@color/white"
         android:lineSpacingExtra="8dp"
         android:padding="16dp"
-        android:text="第二步:填写联系方式\n绝对保密，取得你同意后对方才能看到"
+        android:text=""
         android:textColor="@color/textColor"
         android:textSize="16dp" />
     <TextView
@@ -104,7 +104,7 @@
         android:background="@color/white"
         android:lineSpacingExtra="8dp"
         android:padding="16dp"
-        android:text="第三步:用户认证\n认证保证约会双方信息真实避免诈骗"
+        android:text=""
         android:textColor="@color/textColor"
         android:textSize="16dp" />
     <TextView

@@ -24,6 +24,10 @@ data class DateBean(
         @SerializedName("seecount") val seecount: String? = "",
         @SerializedName("guoneiarea") val guoneiarea: String? = "",
         @SerializedName("guowaiarea") val guowaiarea: String? = "",
+        @SerializedName("tizhong") val tizhong:String?="",
+        @SerializedName("zhiye") val zhiye:String?="",
+        @SerializedName("xingzuo") val xinzuo:String?="", //星座
+        @SerializedName("shengao") val height:String?="",
         val gexingqianming: String? = ""
 ) : Serializable {
     val screen: Int? = -1

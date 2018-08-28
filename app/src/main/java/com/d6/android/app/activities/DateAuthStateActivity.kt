@@ -15,6 +15,12 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_date_auth_state.*
 import org.jetbrains.anko.startActivity
+import android.widget.TextView
+import android.text.Spanned
+import android.text.style.TextAppearanceSpan
+import android.text.SpannableString
+
+
 
 /**
  * 约会认证情况
@@ -34,6 +40,10 @@ class DateAuthStateActivity : BaseActivity() {
                 .fitsSystemWindows(false)
                 .titleBar(tv_back)
                 .init()
+
+        AppUtils.setTvStyle( this, resources.getString(R.string.first_step_info),0 ,10 , tv_base_info);
+        AppUtils.setTvStyle( this, resources.getString(R.string.second_step_info),0 ,10 , tv_contact_info);
+        AppUtils.setTvStyle( this, resources.getString(R.string.third_step_info),0 ,8 , tv_auth);
 
         tv_back.setOnClickListener {
             finish()
@@ -63,7 +73,6 @@ class DateAuthStateActivity : BaseActivity() {
             val dateAuthTipDialog = DateAuthTipDialog()
             dateAuthTipDialog.show(supportFragmentManager, "t")
         }
-
 
     }
 
