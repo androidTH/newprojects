@@ -1,6 +1,7 @@
 package com.d6.android.app.adapters
 
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
@@ -56,11 +57,28 @@ class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean
         }
         tv_age.isSelected = TextUtils.equals("0", data.sex)
         holder.setText(R.id.tv_type, array[(data.egagementtype ?: 0)])
-        holder.setText(R.id.tv_content, if (data.egagementtext.isNullOrEmpty()) {
-            data.gexingqianming
-        } else if(data.gexingqianming.isNullOrEmpty()){
-            "身高：${data.height} 体重:${data.tizhong}职业:${data.zhiye}星座:${data.xinzuo}"
-        }else data.egagementtext)
+        if(!data.egagementtext.isNullOrEmpty()){
+            holder.setText(R.id.tv_content, data.egagementtext)
+        }else if(!(data.gexingqianming.isNullOrEmpty())){
+            holder.setText(R.id.tv_content, data.gexingqianming)
+        }else{
+            var sb:StringBuffer = StringBuffer()
+            if(!data.height.isNullOrEmpty()){
+               sb.append("身高：${data.height}")
+            }
+            if(!data.tizhong.isNullOrEmpty()){
+                sb.append("体重:${data.tizhong}")
+            }
+            if(!data.zhiye.isNullOrEmpty()){
+                sb.append("职业:${data.zhiye}")
+            }
+            if(!data.xinzuo.isNullOrEmpty()){
+                sb.append("星座:${data.xinzuo}")
+            }
+            holder.setText(R.id.tv_content,sb.toString())
+        }
+
+        Log.i("DateCardAdapter", "${data.name},${data.egagementtext},${data.gexingqianming},身高：${data.height} 体重:${data.tizhong}职业:${data.zhiye}星座:${data.xinzuo}")
 
         if (TextUtils.equals("null", data.userlookwhere.toString())) {
             data.userlookwhere=""
