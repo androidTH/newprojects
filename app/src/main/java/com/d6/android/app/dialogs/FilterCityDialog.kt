@@ -38,6 +38,8 @@ class FilterCityDialog : DialogFragment(), RequestManager {
     private val mHotCities = ArrayList<City>()
     private val mCities = ArrayList<City>()
     private val mOutCities = ArrayList<City>()
+    private var Flag_Hidle_Cancel:Boolean = false
+
     private val hotAdapter by lazy {
         SelectCity2Adapter(mHotCities)
     }
@@ -111,9 +113,16 @@ class FilterCityDialog : DialogFragment(), RequestManager {
         }
 
         tv_cancel.setOnClickListener {
-            dialogListener?.onClick(-2,"不限")
+            dialogListener?.onClick(-2,"地区")
             dismissAllowingStateLoss()
         }
+
+        if(Flag_Hidle_Cancel){
+            tv_cancel.visibility = View.GONE
+        }else{
+            tv_cancel.visibility = View.VISIBLE
+        }
+
         //全国
         getData("1")
 
@@ -158,6 +167,10 @@ class FilterCityDialog : DialogFragment(), RequestManager {
                 l(position, data)
             }
         }
+    }
+
+    fun hidleCancel(flag : Boolean):Unit{
+        this.Flag_Hidle_Cancel = flag
     }
 
     override fun onDestroy() {

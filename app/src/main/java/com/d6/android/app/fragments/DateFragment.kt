@@ -1,6 +1,7 @@
 package com.d6.android.app.fragments
 
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.activities.DateAuthStateActivity
@@ -93,6 +94,7 @@ class DateFragment : BaseFragment() {
         }
         tv_city.setOnClickListener {
             val filterCityDialog = FilterCityDialog()
+            filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
             filterCityDialog.show(childFragmentManager, "fcd")
             filterCityDialog.setDialogListener { p, s ->
                 if (p == 1) {
