@@ -12,6 +12,9 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import kotlinx.android.synthetic.main.header_date_me.view.*
 
+/**
+ * 我约会的人
+ */
 class MeDateFragment : RecyclerFragment() {
     private var pageNum = 1
     private val userId by lazy {

@@ -9,9 +9,19 @@
     <ImageView
         android:id="@+id/iv_top_bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="180dp"
         android:adjustViewBounds="true"
-        android:background="@mipmap/ic_auth_tip_bg1" />
+        android:background="@mipmap/certification_picture" />
+    <TextView
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSize_18"
+        android:lineSpacingExtra="5dp"
+        android:paddingLeft="24dp"
+        android:layout_alignTop="@+id/iv_top_bg"
+        android:layout_marginTop="60dp"
+        android:text="只有完善信息和认证之后才会收到别人的邀约哦~"/>
     <TextView
         android:id="@+id/tv_date_count"
         android:layout_width="220dp"

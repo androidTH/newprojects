@@ -25,7 +25,10 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_my_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
+
+/**
+ * 我的约会
+ */
 
 class MyDateActivity : TitleActivity() {
 
@@ -38,7 +41,7 @@ class MyDateActivity : TitleActivity() {
     }
 
 
-    private val titles = arrayListOf("别人约我", "我约的人")
+    private val titles = arrayListOf("我约的人", "别人约我")
 
     public fun getB() {
 
@@ -55,6 +58,7 @@ class MyDateActivity : TitleActivity() {
 //                    DateMeFragment()
 //                }
                 return if (position==0 && SPUtils.instance().getBoolean(Const.User.IASKSOMEONEELSE)) {
+                    //我约的人
                     MeDateFragment()
                 } else if (position==0 && SPUtils.instance().getBoolean(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME)) {
                     MeDateFragment()
@@ -62,6 +66,7 @@ class MyDateActivity : TitleActivity() {
                     if(position==0){
                         MeDateFragment()
                     }else{
+                        //被约会
                         DateMeFragment()
                     }
                 }
@@ -74,9 +79,9 @@ class MyDateActivity : TitleActivity() {
 
             override fun getPageTitle(position: Int): CharSequence {
                 // return titles[position]
-                return if (SPUtils.instance().getBoolean(Const.User.IASKSOMEONEELSE)) {
+                return if (SPUtils.instance().getBoolean(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME)) {
                     titles[position]
-                } else if (SPUtils.instance().getBoolean(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME)) {
+                } else if (SPUtils.instance().getBoolean(Const.User.IASKSOMEONEELSE)) {
                     titles[position - position]
                 } else {
                     titles[position]
@@ -93,9 +98,9 @@ class MyDateActivity : TitleActivity() {
         if (TextUtils.equals(whetherOrNotToBeCertified, "0")) {
             re_auth_interface!!.visibility = View.VISIBLE
             headView1!!.visibility = View.VISIBLE
-            tv_rel!!.visibility = View.VISIBLE
-            tv_rz_tip!!.visibility = View.VISIBLE
-            tv_rz_tip.setText("只有完善信息和认证之后才" + "\n" + "     会收到别人的邀约哦~");
+            tv_rel!!.visibility = View.GONE
+//            tv_rz_tip!!.visibility = View.VISIBLE
+//            tv_rz_tip.setText("只有完善信息和认证之后才" + "\n" + "     会收到别人的邀约哦~");
             tv_to_authenticate!!.visibility = View.VISIBLE
             tv_date_rel!!.visibility = View.GONE
             rl_set!!.visibility = View.GONE
@@ -122,14 +127,14 @@ class MyDateActivity : TitleActivity() {
                 tv_toggle_set.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_arrow_down_orange, 0)
                 rl_set.gone()
             } else {
-                tv_toggle_set.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_arrow_up_orange, 0)
+                tv_toggle_set.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_arrow_right_orange, 0)
                 rl_set.visible()
             }
         }
 
         //判断
         if (TextUtils.equals("0", SPUtils.instance().getString("select"))) {
-            tv_date_hint!!.visibility = View.INVISIBLE
+//            tv_date_hint!!.visibility = View.VISIBLE
             update(flag = "0")
         }
         tv_date_content1.setOnClickListener {
@@ -234,10 +239,10 @@ class MyDateActivity : TitleActivity() {
         Request.updateDateInfo(userId, egagementtype = type, userhandlookwhere = outCity, userlookwhere = city, openEgagementflag = flag).request(this) { _, data ->
             tv_date_switch.isSelected = TextUtils.equals(flag, "1")
             if (TextUtils.equals(flag, "1")) {
-                tv_date_hint!!.visibility = View.INVISIBLE
+//                tv_date_hint!!.visibility = View.VISIBLE
                 SPUtils.instance().put("select", "1").apply()
             } else {
-                tv_date_hint!!.visibility = View.VISIBLE
+//                tv_date_hint!!.visibility = View.VISIBLE
                 SPUtils.instance().put("select", "0").apply()
             }
         }

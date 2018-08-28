@@ -132,7 +132,6 @@ class DateFragment : BaseFragment() {
 //                }
             } else {
                 tv_tip.visible()
-
             }
         }
 
@@ -180,7 +179,7 @@ class DateFragment : BaseFragment() {
             }
             mRecyclerView.adapter.notifyDataSetChanged()
             if (mDates.isEmpty()) {
-                tv_tip.visible()
+                tv_tip.gone()
                 tv_main_card_bg_im_id.visible()
                 tv_main_card_Bg_tv_id.visible()
                 fb_unlike.gone()

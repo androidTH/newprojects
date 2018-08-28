@@ -104,11 +104,11 @@ class DateContactAuthDialog : DialogFragment(), RequestManager {
 
 
     private fun submit() {
-        val phone = et_phone.text.toString().trim()
-        if (phone.isEmpty()) {
-            toast("手机号不能为空")
-            return
-        }
+//        val phone = et_phone.text.toString().trim()
+//        if (phone.isEmpty()) {
+//            toast("手机号不能为空")
+//            return
+//        }
         val weChatAccount = et_weChat.text.toString().trim()
         if (weChatAccount.isEmpty()) {
             toast("微信账号不能为空")
@@ -118,7 +118,7 @@ class DateContactAuthDialog : DialogFragment(), RequestManager {
         if (context is BaseActivity) {
             (context as BaseActivity).dialog()
         }
-        Request.updateDateInfo(userId, phone = phone, egagementwx = weChatAccount).request(this) { _, data ->
+        Request.updateDateInfo(userId, phone = "", egagementwx = weChatAccount).request(this) { _, data ->
             toast("联系方式已更新！")
             dialogListener?.onClick(0, "")
             dismissAllowingStateLoss()

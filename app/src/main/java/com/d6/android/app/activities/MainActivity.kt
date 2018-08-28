@@ -89,10 +89,10 @@ class MainActivity : BaseActivity() {
                     tv_title1.gone()
                     tv_title.text = "D6社区"
 
-                    val fragment0 = supportFragmentManager.findFragmentByTag(tabTexts[0])
-                    if (fragment0 != null && fragment0 is DateFragment) {
-                        fragment0.onFirstVisibleToUser()
-                    }
+//                    val fragment0 = supportFragmentManager.findFragmentByTag(tabTexts[0])
+//                    if (fragment0 != null && fragment0 is DateFragment) {
+//                        fragment0.onFirstVisibleToUser()
+//                    }
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
