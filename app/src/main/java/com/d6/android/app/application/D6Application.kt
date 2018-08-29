@@ -18,6 +18,7 @@ import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
+import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SignChooseActivity
 import com.d6.android.app.activities.SignInActivity
@@ -107,6 +108,9 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
             initCacheLib()
             setInputProvider()
         }
+
+        //在这里初始化
+        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble);
     }
 
     override fun attachBaseContext(base: Context?) {

@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelectCity2Adapter
+import com.d6.android.app.adapters.SelectHotCity2Adapter
+import com.d6.android.app.adapters.SelectOutCity2Adapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
@@ -39,9 +41,11 @@ class FilterCityDialog : DialogFragment(), RequestManager {
     private val mCities = ArrayList<City>()
     private val mOutCities = ArrayList<City>()
     private var Flag_Hidle_Cancel:Boolean = false
+    private var cityType:Int = -2
+    private var cityName:String? = ""
 
     private val hotAdapter by lazy {
-        SelectCity2Adapter(mHotCities)
+        SelectHotCity2Adapter(mHotCities)
     }
 
     private val cityAdapter by lazy {
@@ -49,7 +53,7 @@ class FilterCityDialog : DialogFragment(), RequestManager {
     }
 
     private val outCityAdapter by lazy {
-        SelectCity2Adapter(mOutCities)
+        SelectOutCity2Adapter(mOutCities)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +85,8 @@ class FilterCityDialog : DialogFragment(), RequestManager {
         rv_hot.isNestedScrollingEnabled = false
         rv_hot.adapter = hotAdapter
 
+        hotAdapter.setValue(cityType, cityName)
+
         hotAdapter.setOnItemClickListener { view, position ->
             val city = mHotCities[position]
             dialogListener?.onClick(0,city.name)
@@ -91,6 +97,8 @@ class FilterCityDialog : DialogFragment(), RequestManager {
         rv_guonei.layoutManager = GridLayoutManager(context, 4)
         rv_guonei.isNestedScrollingEnabled = false
         rv_guonei.adapter = cityAdapter
+        cityAdapter.setValue(cityType, cityName)
+
 
         cityAdapter.setOnItemClickListener { view, position ->
             val city = mCities[position]
@@ -102,6 +110,7 @@ class FilterCityDialog : DialogFragment(), RequestManager {
         rv_out.layoutManager = GridLayoutManager(context, 4)
         rv_out.isNestedScrollingEnabled = false
         rv_out.adapter = outCityAdapter
+        outCityAdapter.setValue(cityType, cityName)
 
         outCityAdapter.setOnItemClickListener { view, position ->
             val city = mOutCities[position]
@@ -125,7 +134,7 @@ class FilterCityDialog : DialogFragment(), RequestManager {
 
         //全国
         getData("1")
-
+        getData("0")
     }
 
     private fun getData(key: String) {
@@ -138,9 +147,9 @@ class FilterCityDialog : DialogFragment(), RequestManager {
             }
             data?.let {
                 if (key == "0") {
-                    mCities.addAll(it)
+                    mCities.addAll(it)//国内城市
                 } else {
-                    mOutCities.addAll(it)
+                    mOutCities.addAll(it)//海外城市
                 }
                 it.forEach {
                     //isValid 1 热门地市，0 普通地市
@@ -155,7 +164,6 @@ class FilterCityDialog : DialogFragment(), RequestManager {
                 }
                 hotAdapter.notifyDataSetChanged()
             }
-            getData("0")
         }
     }
 
@@ -171,6 +179,11 @@ class FilterCityDialog : DialogFragment(), RequestManager {
 
     fun hidleCancel(flag : Boolean):Unit{
         this.Flag_Hidle_Cancel = flag
+    }
+
+    fun setCityValue(type:Int ,name:String?){
+      this.cityType = type;
+      this.cityName = name
     }
 
     override fun onDestroy() {

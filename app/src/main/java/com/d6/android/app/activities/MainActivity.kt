@@ -36,8 +36,6 @@ import org.jetbrains.anko.collections.forEachWithIndex
  * 主页
  */
 class MainActivity : BaseActivity() {
-    //    private val tabTexts = arrayOf("主页",  "广场","消息", "我的")
-//    private val tabTexts = arrayOf("主页",  "速约","广场", "我的")
     private val tabTexts = arrayOf("约会", "推荐", "动态", "我的")
 
     private val tabImages = arrayOf(R.drawable.home_main_selector

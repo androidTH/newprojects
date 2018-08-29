@@ -9,7 +9,6 @@ import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.DateBean
 import com.facebook.drawee.view.SimpleDraweeView
-import com.tencent.open.utils.Util.subString
 
 class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean>(mData, R.layout.item_date_card) {
     private val array by lazy {

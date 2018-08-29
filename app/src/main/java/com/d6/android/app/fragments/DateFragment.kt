@@ -2,6 +2,7 @@ package com.d6.android.app.fragments
 
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
 import com.d6.android.app.activities.UserInfoActivity
@@ -25,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 
-
 /**
  * 约会
  */
@@ -42,6 +42,7 @@ class DateFragment : BaseFragment() {
     private var city: String? = null
     private var outCity: String? = null
     private var type: Int = 0
+    private var cityType: Int = -2
 
     private val mDates = ArrayList<DateBean>()
 
@@ -83,18 +84,26 @@ class DateFragment : BaseFragment() {
             }
 
         })
+
         headView.setOnClickListener {
             getAuthState()
+            tv_tip.visibility = View.GONE
+            SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
         }
+
         tv_my_date.setOnClickListener {
             getAuthState()
+            tv_tip.visibility = View.GONE
+            SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
         }
+
         tv_city.setOnClickListener {
             val filterCityDialog = FilterCityDialog()
             filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
+            filterCityDialog.setCityValue(cityType, tv_city.text.toString())
             filterCityDialog.show(childFragmentManager, "fcd")
             filterCityDialog.setDialogListener { p, s ->
-                if (p == 1) {
+                if (p == 1 || p == 0) {
                     city = s
                     outCity = null
                 } else if (p == 2) {
@@ -104,6 +113,7 @@ class DateFragment : BaseFragment() {
                     city = null
                     outCity = null
                 }
+                cityType = p
                 tv_city.text = s
                 getData(1)
             }
@@ -121,12 +131,10 @@ class DateFragment : BaseFragment() {
         btn_like.setOnClickListener {
             tv_tip.gone()
             if (mDates.isNotEmpty()) {
-//                activity?.isVipSilver {
                 val date = mDates[0]
                 sysErr("--->$date")
                 showDialog()
                 sendDateRequest(date)
-//                }
             } else {
                 tv_tip.visible()
             }
@@ -182,7 +190,11 @@ class DateFragment : BaseFragment() {
                 fb_unlike.gone()
                 btn_like.gone()
             } else {
-                tv_tip.gone()
+                if(SPUtils.instance().getBoolean(Const.User.IS_FIRST_SHOW_TIPS, true)){
+                    tv_tip.visibility = View.VISIBLE
+                }else{
+                    tv_tip.visibility = View.GONE
+                }
                 tv_main_card_bg_im_id.gone()
                 tv_main_card_Bg_tv_id.gone()
                 fb_unlike.visible()

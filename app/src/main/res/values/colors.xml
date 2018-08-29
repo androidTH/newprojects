@@ -26,5 +26,7 @@
     <color name="color_999999">#999999</color>
     <color name="color_000000">#000000</color>
     <color name="trans_parent">#00000000</color>
+    <color name="color_F7AB00">#F7AB00</color>
+    <color name="color_333333">#333333</color>
 
 </resources>

@@ -8,6 +8,7 @@ object Const {
     object User{
         val IS_LOGIN="isLogin"
         val IS_FIRST="isFirst"
+        val IS_FIRST_SHOW_TIPS="isFirstShowTips"
         val USER_ID="userId"
         val USER_SEX="userSex"
         val USER_PHONE="userPhone"
@@ -23,4 +24,5 @@ object Const {
 
     val LAST_TIME = "lastTime"
     val NEW_MESSAGE = "com.d6.app.new_msg"
+    val BUGTAGS_KEY = "e3ed18af47d9993fbfbc5dc02194079e"
 }
