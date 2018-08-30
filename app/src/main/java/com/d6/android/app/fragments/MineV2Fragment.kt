@@ -318,11 +318,11 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 headerView.tv_sex.text = it.age
-                if (TextUtils.equals("0", it.sex)) {
-                    headerView.tv_vip.invisible()
-                } else {
-                    headerView.tv_vip.visible()
-                }
+//                if (TextUtils.equals("0", it.sex)) {
+//                    headerView.tv_vip.invisible()
+//                } else {
+//                    headerView.tv_vip.visible()
+//                }
                 headerView.tv_vip.text = String.format("%s", it.classesname)
 
                 mTags.clear()

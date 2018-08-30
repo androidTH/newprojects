@@ -15,17 +15,16 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_date_auth_state.*
 import org.jetbrains.anko.startActivity
-import android.widget.TextView
-import android.text.Spanned
-import android.text.style.TextAppearanceSpan
-import android.text.SpannableString
-
+import org.jetbrains.anko.bundleOf
 
 
 /**
  * 约会认证情况
  */
 class DateAuthStateActivity : BaseActivity() {
+
+    @JvmField
+    public var phoneNum:String? = ""
     private val immersionBar by lazy {
         ImmersionBar.with(this)
     }
@@ -49,6 +48,7 @@ class DateAuthStateActivity : BaseActivity() {
             finish()
         }
 
+        //第一步认证
         tv_base_info.setOnClickListener {
 //            if (wanshanziliao < 10) {
                 getUserInfo()
@@ -58,14 +58,20 @@ class DateAuthStateActivity : BaseActivity() {
 
         }
 
+        //第二步认证
         tv_contact_info.setOnClickListener {
 //            if (lianxifangshi > 0) {
 //                return@setOnClickListener
 //            }
             val dateContactAuthDialog = DateContactAuthDialog()
+            dateContactAuthDialog.arguments =bundleOf("w" to (phoneNum ?: ""))
             dateContactAuthDialog.show(supportFragmentManager, "c")
+            dateContactAuthDialog.setDialogListener { p, s ->
+                phoneNum = s
+            }
         }
 
+        //第三步认证
         tv_auth.setOnClickListener {
 //            if (qurenzheng > 0) {
 //                return@setOnClickListener

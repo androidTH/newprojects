@@ -31,6 +31,7 @@ import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.MsgConstant
 import com.umeng.message.PushAgent
+import com.umeng.socialize.Config
 import com.umeng.socialize.PlatformConfig
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber

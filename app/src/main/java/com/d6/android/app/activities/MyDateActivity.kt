@@ -1,5 +1,6 @@
 package com.d6.android.app.activities
 
+import android.app.Dialog
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -42,10 +43,6 @@ class MyDateActivity : TitleActivity() {
 
 
     private val titles = arrayListOf("我约的人", "别人约我")
-
-    public fun getB() {
-
-    }
 
     var b1: Boolean = true
     var b2: Boolean = true
@@ -94,28 +91,6 @@ class MyDateActivity : TitleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_date)
         title = "我的约会"
-        print(message = "whetherOrNotToBeCertified==" + whetherOrNotToBeCertified)
-        if (TextUtils.equals(whetherOrNotToBeCertified, "0")) {
-            re_auth_interface!!.visibility = View.VISIBLE
-            headView1!!.visibility = View.VISIBLE
-            tv_rel!!.visibility = View.GONE
-//            tv_rz_tip!!.visibility = View.VISIBLE
-//            tv_rz_tip.setText("只有完善信息和认证之后才" + "\n" + "     会收到别人的邀约哦~");
-            tv_to_authenticate!!.visibility = View.VISIBLE
-            tv_date_rel!!.visibility = View.GONE
-            rl_set!!.visibility = View.GONE
-            tv_to_authenticate.setOnClickListener() {
-                this.startActivity<DateAuthStateActivity>()
-            }
-        } else if (TextUtils.equals(whetherOrNotToBeCertified, "1")) {
-            re_auth_interface!!.visibility = View.GONE
-            headView1!!.visibility = View.GONE
-            tv_rel!!.visibility = View.GONE
-            tv_rz_tip!!.visibility = View.GONE
-            tv_to_authenticate!!.visibility = View.GONE
-            tv_date_rel!!.visibility = View.VISIBLE
-            rl_set!!.visibility = View.VISIBLE
-        }
         appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
             mSwipeRefreshLayout.isEnabled = verticalOffset >= 0
         }
@@ -245,6 +220,54 @@ class MyDateActivity : TitleActivity() {
 //                tv_date_hint!!.visibility = View.VISIBLE
                 SPUtils.instance().put("select", "0").apply()
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dialog()
+        Request.getAuthState(userId).request(this) { _, data ->
+            dismissDialog()
+            if (data != null) {
+                val wanshanziliao = data.optDouble("wanshanziliao")
+                val lianxifangshi = data.optInt("lianxifangshi")
+                val qurenzheng = data.optInt("qurenzheng")
+                if (wanshanziliao < 8 || lianxifangshi == 0 || qurenzheng == 0) {//资料完善程度大于=80%
+                    // 0
+                    showOrNotAuth("0")
+                    return@request
+                }
+                //1
+                showOrNotAuth("1")
+            } else {//startActivity<DateAuthStateActivity>
+                //0
+                showOrNotAuth("0")
+            }
+        }
+    }
+
+    //更新页面ui
+    fun showOrNotAuth(BeCertified :String?){
+        if (TextUtils.equals(BeCertified, "0")) {
+            re_auth_interface!!.visibility = View.VISIBLE
+            headView1!!.visibility = View.VISIBLE
+            tv_rel!!.visibility = View.GONE
+//            tv_rz_tip!!.visibility = View.VISIBLE
+//            tv_rz_tip.setText("只有完善信息和认证之后才" + "\n" + "     会收到别人的邀约哦~");
+            tv_to_authenticate!!.visibility = View.VISIBLE
+            tv_date_rel!!.visibility = View.GONE
+            rl_set!!.visibility = View.GONE
+            tv_to_authenticate.setOnClickListener() {
+                this.startActivity<DateAuthStateActivity>()
+            }
+        } else if (TextUtils.equals(BeCertified, "1")) {
+            re_auth_interface!!.visibility = View.GONE
+            headView1!!.visibility = View.GONE
+            tv_rel!!.visibility = View.GONE
+            tv_rz_tip!!.visibility = View.GONE
+            tv_to_authenticate!!.visibility = View.GONE
+            tv_date_rel!!.visibility = View.VISIBLE
+            rl_set!!.visibility = View.VISIBLE
         }
     }
 }

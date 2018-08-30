@@ -1,5 +1,6 @@
 package com.d6.android.app.fragments
 
+import android.media.browse.MediaBrowser
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
@@ -58,6 +59,19 @@ class DateFragment : BaseFragment() {
                 .init()
 
         val setting = CardSetting()
+        setting.setSwipeListener(object : OnSwipeCardListener<DateBean> {
+            override fun onSwiping(viewHolder: RecyclerView.ViewHolder?, dx: Float, dy: Float, direction: Int) {
+//                getNext()//下翻页面
+            }
+
+            override fun onSwipedOut(viewHolder: RecyclerView.ViewHolder?, t: DateBean?, direction: Int) {
+                getNext()//下翻页面
+            }
+
+            override fun onSwipedClear() {
+//                getNext()//下翻页面
+            }
+        })
         val helperCallback = CardTouchHelperCallback(mRecyclerView, mDates, setting)
         val mReItemTouchHelper = ReItemTouchHelper(helperCallback)
         val layoutManager = CardLayoutManager(mReItemTouchHelper, setting)
@@ -70,31 +84,12 @@ class DateFragment : BaseFragment() {
             startActivity<UserInfoActivity>("id" to dateBean.accountId)
         }
 
-        setting.setSwipeListener(object : OnSwipeCardListener<DateBean> {
-            override fun onSwiping(viewHolder: RecyclerView.ViewHolder?, dx: Float, dy: Float, direction: Int) {
-
-            }
-
-            override fun onSwipedOut(viewHolder: RecyclerView.ViewHolder?, t: DateBean?, direction: Int) {
-                getNext()
-
-            }
-
-            override fun onSwipedClear() {
-            }
-
-        })
-
         headView.setOnClickListener {
             getAuthState()
-            tv_tip.visibility = View.GONE
-            SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
         }
 
         tv_my_date.setOnClickListener {
             getAuthState()
-            tv_tip.visibility = View.GONE
-            SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
         }
 
         tv_city.setOnClickListener {
@@ -203,7 +198,6 @@ class DateFragment : BaseFragment() {
         }
     }
 
-
     private fun sendDateRequest(dateBean: DateBean) {
         Request.dateUser(userId, dateBean.accountId).request(this, success = { _, data ->
             val dateSendedDialog = DateSendedDialog()
@@ -233,32 +227,9 @@ class DateFragment : BaseFragment() {
     }
 
     private fun getAuthState() {
-        showDialog()
-        Request.getAuthState(userId).request(this) { _, data ->
-            if (data != null) {
-                val wanshanziliao = data.optDouble("wanshanziliao")
-                if (wanshanziliao < 8) {//资料完善程度大于=80%
-                    startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "0")
-                    return@request
-                }
-                val lianxifangshi = data.optInt("lianxifangshi")
-                if (lianxifangshi == 0) {
-                    startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "0")
-                    return@request
-                }
-
-                val qurenzheng = data.optInt("qurenzheng")
-                if (qurenzheng == 0) {
-                    startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "0")
-                    return@request
-                }
-
-                startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "1")
-
-            } else {//startActivity<DateAuthStateActivity>
-                startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "0")
-            }
-        }
+        startActivity<MyDateActivity>()
+        tv_tip.visibility = View.GONE
+        SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
