@@ -50,7 +50,8 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="输入验证码"
-            android:maxLength="6"
+            android:maxLength="4"
+            android:inputType="number"
             android:paddingBottom="@dimen/padding_16"
             android:paddingTop="@dimen/padding_16"
             android:textSize="@dimen/textSize" />

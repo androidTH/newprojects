@@ -25,28 +25,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="认证是为了保证用户的信息真实性，提供优质服务，目前仅提供微信人工认证服务"
+            android:text="@string/auth_tips"
             android:gravity="center"
             android:textColor="@color/textColor"
             android:textSize="15dp"
             android:layout_marginTop="20dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="联系微信客服认证"
-            android:id="@+id/tv_action"
-            android:textSize="@dimen/btnTextSize"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/shape_4r_orange"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="16dp"
             android:layout_height="wrap_content">
             <TextView
@@ -65,5 +53,19 @@
                 android:id="@+id/tv_copy"
                 android:textColor="@color/orange_f6a"/>
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:layout_marginRight="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_5"
+            android:text="联系微信客服认证"
+            android:id="@+id/tv_action"
+            android:textSize="@dimen/btnTextSize"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/shape_4r_orange"/>
     </LinearLayout>
 </RelativeLayout>

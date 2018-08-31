@@ -37,6 +37,7 @@
                 android:background="@drawable/shape_orange_lb_tr_circle"
                 android:paddingLeft="12dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:paddingRight="12dp"/>
             <com.facebook.drawee.view.SimpleDraweeView
                 android:layout_width="40dp"

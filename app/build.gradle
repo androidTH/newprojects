@@ -75,7 +75,7 @@ android {
 bugtags {
     //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
     appKey "e3ed18af47d9993fbfbc5dc02194079e"  //这里是你的 appKey
-    appSecret "APP_SECRET"    //这里是你的 appSecret，管理员在设置页可以查看
+    appSecret "e9a27754bef3bc7e6ca8291185b9bea4"    //这里是你的 appSecret，管理员在设置页可以查看
     mappingUploadEnabled true
 
     //网络跟踪功能配置(企业版)
@@ -133,5 +133,5 @@ dependencies {
     //debug 包
     debugCompile 'com.bugtags.library:bugtags-lib:3.0.0'
     //release 包
-    releaseCompile 'com.bugtags.metrics:bugtags-lib:3.0.0'
+//    releaseCompile 'com.bugtags.metrics:bugtags-lib:3.0.0'
 }

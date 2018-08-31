@@ -11,10 +11,7 @@ import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
-import com.d6.android.app.dialogs.DateContactAuthDialog
-import com.d6.android.app.dialogs.DateDeclarationDialog
-import com.d6.android.app.dialogs.FilterCityDialog
-import com.d6.android.app.dialogs.FilterDateTypeDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.DateMeFragment
 import com.d6.android.app.fragments.MeDateFragment
@@ -76,13 +73,14 @@ class MyDateActivity : TitleActivity() {
 
             override fun getPageTitle(position: Int): CharSequence {
                 // return titles[position]
-                return if (SPUtils.instance().getBoolean(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME)) {
-                    titles[position]
-                } else if (SPUtils.instance().getBoolean(Const.User.IASKSOMEONEELSE)) {
-                    titles[position - position]
-                } else {
-                    titles[position]
-                }
+//                return if (SPUtils.instance().getBoolean(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME)) {
+//                    titles[position]
+//                } else if (SPUtils.instance().getBoolean(Const.User.IASKSOMEONEELSE)) {
+//                    titles[position - position]
+//                } else {
+//                    titles[position]
+//                }
+                return titles[position]
             }
         }
     }

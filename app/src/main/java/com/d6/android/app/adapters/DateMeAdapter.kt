@@ -2,6 +2,7 @@ package com.d6.android.app.adapters
 
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyDateActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
@@ -85,8 +86,8 @@ class DateMeAdapter(mData: ArrayList<NewDate>, val type: Int = 0) : HFRecyclerAd
             val dateContactDialog = DateContactDialog()
             dateContactDialog.arguments = bundleOf("phone" to (data.phone
                     ?: ""), "wx" to (data.egagementwx ?: ""))
-            if (context is BaseActivity) {
-                dateContactDialog.show((context as BaseActivity).supportFragmentManager, "dcd")
+            if (context is MyDateActivity) {
+                dateContactDialog.show((context as MyDateActivity).supportFragmentManager, "dcd")
             }
         }
         //放弃

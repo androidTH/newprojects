@@ -79,26 +79,26 @@ class DateContactDialog : DialogFragment(),RequestManager {
         }
 
         if(TextUtils.isEmpty(tv_phone.text.toString())){
-            tv_copy1!!.visibility = View.GONE
+            tv_copy_phone!!.visibility = View.GONE
         }else{
-            tv_copy1!!.visibility = View.VISIBLE
+            tv_copy_phone!!.visibility = View.VISIBLE
         }
 
         if(TextUtils.isEmpty(et_weChat.text.toString())){
-            tv_copy2!!.visibility = View.GONE
+            tv_copy_wx!!.visibility = View.GONE
         }else{
-            tv_copy2!!.visibility = View.VISIBLE
+            tv_copy_wx!!.visibility = View.VISIBLE
         }
 
 
-        tv_copy1.setOnClickListener {
+        tv_copy_phone.setOnClickListener {
             val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // 将文本内容放到系统剪贴板里。
             cm.text = tv_phone.text.toString()
             toast("手机号已复制到剪切板")
         }
 
-        tv_copy2.setOnClickListener {
+        tv_copy_wx.setOnClickListener {
             val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // 将文本内容放到系统剪贴板里。
             cm.text = et_weChat.text.toString()

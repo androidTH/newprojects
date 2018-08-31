@@ -81,11 +81,12 @@ class DateContactAuthDialog : DialogFragment(), RequestManager {
         et_phone.setText(phone)
         et_weChat.setText(wx)
 
-        et_weChat.setSelection(wx.length)
-
         if (dateDeclarationViewView1 != null) {
             et_weChat.setText(dateDeclarationViewView1!!.text.toString())
         }
+
+        et_weChat.setSelection(et_weChat.text.toString().length)
+
         tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()
         }

@@ -29,19 +29,6 @@
             android:textColor="@color/textColor"
             android:textSize="15dp"
             android:layout_marginTop="20dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="联系微信客服认证"
-            android:textSize="@dimen/btnTextSize"
-            android:id="@+id/tv_action"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/shape_4r_orange"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_marginLeft="16dp"
@@ -65,6 +52,19 @@
                 android:id="@+id/tv_copy"
                 android:textColor="@color/orange_f6a"/>
         </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="联系微信客服开通权限"
+            android:textSize="@dimen/btnTextSize"
+            android:id="@+id/tv_action"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/shape_4r_orange"/>
+
     </LinearLayout>
     <TextView
         android:id="@+id/tv_close"
