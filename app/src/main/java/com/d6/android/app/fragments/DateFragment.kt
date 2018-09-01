@@ -1,6 +1,5 @@
 package com.d6.android.app.fragments
 
-import android.media.browse.MediaBrowser
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
