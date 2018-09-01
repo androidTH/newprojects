@@ -130,6 +130,9 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
     private fun setInputProvider() {
         RongIM.setOnReceiveMessageListener(this)
         RongIM.setConnectionStatusListener(this)
+
+
+
         RongIM.setConversationClickListener(RongIMConversationClickListener())
     }
 
