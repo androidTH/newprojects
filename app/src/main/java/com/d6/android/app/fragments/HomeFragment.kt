@@ -65,12 +65,13 @@ class HomeFragment : BaseFragment() {
         }
 
         mViewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
-            val titles = arrayOf("官方推荐", "自主发布")
+            val titles = arrayOf("官方推荐")
             override fun getItem(position: Int): Fragment {
                 if (position == 0) {
                     return HomeFindDateFragment.instance(position)
                 }
-                return HomeSelfReleaseFragment.instance(position)
+                return HomeFindDateFragment.instance(position)
+//                return HomeSelfReleaseFragment.instance(position)
             }
 
             override fun getCount() = titles.size
@@ -106,9 +107,10 @@ class HomeFragment : BaseFragment() {
                 if (it != null && !it.isDetached) {
                     if (it is HomeFindDateFragment) {
                         it.refresh()
-                    } else if (it is HomeSelfReleaseFragment) {
-                        it.refresh()
                     }
+//                    else if (it is HomeSelfReleaseFragment) {
+//                        it.refresh()
+//                    }
                 }
             }
         }

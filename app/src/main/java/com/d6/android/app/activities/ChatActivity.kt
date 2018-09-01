@@ -14,6 +14,7 @@ import io.rong.imlib.model.Conversation
 import java.util.*
 
 
+//聊天
 class ChatActivity : TitleActivity() {
     private val mTargetId by lazy {
         intent.data.getQueryParameter("targetId")

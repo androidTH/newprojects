@@ -244,7 +244,7 @@ object Request {
     fun updateDateInfo(userId: String,egagementtype:String?=null,egagementtext:String?=null,userhandlookwhere:String?=null,userlookwhere:String?=null,phone:String?=null,egagementwx:String?=null,openEgagementflag:String?=null) =
             RRetrofit.instance().create(ApiServices::class.java).updateDateInfo(userId,egagementtype,egagementtext,userhandlookwhere,userlookwhere,phone,egagementwx,openEgagementflag)
 
-    fun updateDateState(userId: String,state:Int) =
+    fun updateDateState(userId: String,state:String) =
             RRetrofit.instance().create(ApiServices::class.java).updateDateState(userId,state)
 
     fun dateUser(userId: String,engagementuserid:String) =

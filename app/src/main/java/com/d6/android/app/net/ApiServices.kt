@@ -156,7 +156,7 @@ interface ApiServices {
     fun updateDateInfo(@Query("userid") userid:String,@Query("egagementtype")egagementtype:String?,@Query("egagementtext")egagementtext:String?,@Query("userhandlookwhere")userhandlookwhere:String?,@Query("userlookwhere")userlookwhere:String?,@Query("phone")phone:String?,@Query("egagementwx")egagementwx:String?,@Query("openEgagementflag")openEgagementflag:String?): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagements/update")
-    fun updateDateState(@Query("ids")ids:String,@Query("state")state:Int): Flowable<Response<JsonPrimitive>>
+    fun updateDateState(@Query("ids")ids:String,@Query("state")state:String): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagements/add")
     fun dateUser(@Query("userid")userid:String,@Query("engagementuserid")engagementuserid:String): Flowable<Response<JsonPrimitive>>
