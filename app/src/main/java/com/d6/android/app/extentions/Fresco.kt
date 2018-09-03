@@ -7,7 +7,7 @@ import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 
 
-fun SimpleDraweeView?.showBlur(path: String?, iterations: Int = 3, blurRadius: Int = 5) {
+fun SimpleDraweeView?.showBlur(path: String?, iterations: Int = 8, blurRadius: Int = 45) {
     if (path == null || this == null) {
         return
     }
