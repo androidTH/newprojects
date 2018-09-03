@@ -32,8 +32,7 @@
             android:paddingBottom="8dp"
             android:layout_centerVertical="true"
             android:textColor="@color/orange_f6a"
-            android:text="发送"
-            />
+            android:text="发送" />
     </RelativeLayout>
     <View style="@style/view_line_h"/>
     <android.support.v4.widget.NestedScrollView

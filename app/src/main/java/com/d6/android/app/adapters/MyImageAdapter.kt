@@ -33,7 +33,7 @@ class MyImageAdapter(mData: ArrayList<AddImage>) : BaseRecyclerAdapter<AddImage>
     override fun onBind(holder: ViewHolder, position: Int, data: AddImage) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         if (data.type == 1) {//添加。
-            imageView.setImageURI("res:///" + R.mipmap.ic_add_bg)
+            imageView.setImageURI("res:///" + R.mipmap.ic_add_v2bg)
         } else {
             imageView.setImageURI(data.imgUrl)
         }

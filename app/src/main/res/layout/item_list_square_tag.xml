@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
+
     <com.facebook.drawee.view.SimpleDraweeView
-    android:layout_width="80dp"
-    android:layout_height="wrap_content"
-    android:id="@+id/imageView"
-    style="@style/DefaultImageStyle"
-    app:viewAspectRatio="1.476"
-    app:roundedCornerRadius="4dp"/>
+        android:id="@+id/imageView"
+        style="@style/DefaultImageStyle"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        app:roundedCornerRadius="4dp"
+        app:viewAspectRatio="1.476" />
+
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView"
         android:layout_alignBottom="@+id/imageView"
+        android:layout_alignTop="@+id/imageView"
         android:background="@drawable/shape_4r_trans"
+        android:gravity="center"
         android:textColor="@color/color_orange_white"
-        android:textSize="@dimen/textSize"
-        android:gravity="center"/>
+        android:textSize="@dimen/textSize" />
 </RelativeLayout>

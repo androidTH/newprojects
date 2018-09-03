@@ -23,7 +23,7 @@ import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivityForResult
 
 /**
- * 广场
+ * 动态
  */
 class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
     override fun onPageScrollStateChanged(state: Int) {

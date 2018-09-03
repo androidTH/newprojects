@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.util.Log
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
