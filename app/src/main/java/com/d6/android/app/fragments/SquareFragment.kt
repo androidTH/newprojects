@@ -87,8 +87,8 @@ class SquareFragment : RecyclerFragment() {
         }
 
         mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
-                .colorResId(R.color.white_ef)
-                .size(dip(8))
+                .colorResId(R.color.color_ECECEC)
+                .size(dip(1))
                 .visibilityProvider { position, parent ->
                     position==0
                 }

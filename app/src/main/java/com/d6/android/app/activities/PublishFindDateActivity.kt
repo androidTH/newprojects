@@ -75,7 +75,7 @@ class PublishFindDateActivity : TitleActivity() {
             }
             startActivityForResult<SelectPhotoDialog>(0)
         }
-        mImages.add(AddImage("res:///" + R.mipmap.ic_add_pic, 1))
+        mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
         addAdapter.notifyDataSetChanged()
 
         tv_area.setOnClickListener {

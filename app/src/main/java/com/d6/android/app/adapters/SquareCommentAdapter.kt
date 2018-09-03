@@ -33,13 +33,13 @@ class SquareCommentAdapter(mData:ArrayList<Comment>): HFRecyclerAdapter<Comment>
     override fun onBind(holder: ViewHolder, position: Int, data: Comment) {
         val contentView = holder.bind<TextView>(R.id.tv_content)
         val spanText = if (data.replyUserId.isNullOrEmpty()) {
-            val content = String.format("%s:%s",data.name,data.content)
+            val content = String.format("%s: %s",data.name,data.content)
             val length = data.name?.length?:0
             SpanBuilder(content)
                     .click(0,length,TextClickableSpan(data.userId))
                     .build()
         } else {
-            val content =  String.format("%s回复%s:%s",data.name,data.replyName,data.content)
+            val content =  String.format("%s回复%s: %s",data.name,data.replyName,data.content)
             val length = data.name?.length?:0
             val length1 = data.replyName?.length?:0
             SpanBuilder(content)
@@ -61,7 +61,7 @@ class SquareCommentAdapter(mData:ArrayList<Comment>): HFRecyclerAdapter<Comment>
             context.startActivity<UserInfoActivity>("id" to userId)
         }
         override fun updateDrawState(ds: TextPaint) {
-            ds.color = ContextCompat.getColor(context,R.color.color_369)
+            ds.color = ContextCompat.getColor(context,R.color.textColor66)
             ds.isUnderlineText = false
         }
     }

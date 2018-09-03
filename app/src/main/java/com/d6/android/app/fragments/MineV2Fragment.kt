@@ -97,7 +97,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         headerView.rv_my_images.adapter = myImageAdapter
         headerView.rv_my_images.addItemDecoration(VerticalDividerItemDecoration.Builder(context)
                 .colorResId(android.R.color.transparent)
-                .size(dip(8))
+                .size(dip(2))
                 .build())
 
         myImageAdapter.setOnItemClickListener { _, position ->
@@ -179,9 +179,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             }
         })
 
-        mImages.add(AddImage("res:///" + R.mipmap.ic_add_pic, 1))
+        mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
         showDialog()
-
     }
 
     private fun setTitleBgAlpha(alpha:Int) {
@@ -358,7 +357,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 mImages.add(AddImage(it))
             }
         }
-        mImages.add(AddImage("res:///" + R.mipmap.ic_add_pic, 1))
+        mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
         myImageAdapter.notifyDataSetChanged()
     }
 

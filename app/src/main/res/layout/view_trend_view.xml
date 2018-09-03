@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding_16">
+    android:paddingLeft="@dimen/margin_16"
+    android:paddingTop="@dimen/margin_16"
+    android:paddingRight="@dimen/margin_16">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/headView"
@@ -89,11 +91,11 @@
     <LinearLayout
         android:id="@+id/ll_comments"
         android:layout_width="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:orientation="vertical"
         android:visibility="gone"
-        android:padding="10dp"
-        android:background="#f5f7f9"
+        android:padding="5dp"
+        android:background="@drawable/shape_coment_bg"
         android:layout_below="@+id/ll_content"
         android:layout_height="wrap_content">
         <android.support.v7.widget.RecyclerView
@@ -104,6 +106,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看全部0条评论"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_5"
             android:drawableRight="@mipmap/ic_arrow_right_orange"
             android:textSize="13sp"
             android:textColor="@color/orange_f6a"
@@ -113,17 +117,17 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:id="@+id/tv_appraise"
         android:text="0"
         android:textColor="@color/textColor99"
         android:layout_toLeftOf="@+id/tv_comment"
-        android:paddingTop="8dp"
         android:drawableLeft="@drawable/ic_praise_selector"
         android:drawablePadding="4dp"
-        android:paddingBottom="8dp"
+        android:layout_marginTop="8dp"
         android:textSize="14sp"
-        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:layout_marginRight="@dimen/margin_16"
         android:paddingLeft="8dp"
         android:layout_below="@+id/ll_comments"/>
     <View android:layout_width="1px"
@@ -144,7 +148,6 @@
         android:drawableLeft="@mipmap/ic_comment"
         android:drawablePadding="4dp"
         android:textColor="@color/textColor99"
-
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
@@ -162,6 +165,4 @@
         <!--android:visibility="gone"-->
         <!--android:textColor="@color/color_369"-->
         <!--android:text="#心动故事#"/>-->
-
-
 </RelativeLayout>

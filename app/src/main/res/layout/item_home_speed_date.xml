@@ -21,7 +21,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_marginRight="24dp" />
+            android:layout_marginRight="10dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:id="@+id/ll_name"
             android:layout_width="wrap_content"
             android:layout_alignTop="@+id/imageView"
-            android:layout_marginRight="62dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/imageView"
             android:layout_height="wrap_content">
             <TextView
@@ -71,38 +71,36 @@
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_name"
+            android:layout_height="25dp"
             android:layout_above="@+id/tv_content"
             android:gravity="center_vertical"
             android:layout_toLeftOf="@+id/tv_booking"
-            android:text="28|180CM|80KG"
+            android:text="28 180CM 80KG"
             android:layout_alignLeft="@+id/ll_name"
-            android:textColor="@color/textColor66"
-            android:textSize="11sp" />
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/imageView"
             android:layout_alignLeft="@+id/ll_name"
+            android:layout_marginBottom="6dp"
             android:singleLine="true"
             android:layout_toLeftOf="@+id/tv_booking"
             android:text="----"
-            android:textColor="@color/textColor99"
-            android:textSize="11sp" />
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
         <TextView
             android:id="@+id/tv_booking"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_4r_orange_line"
-            android:textColor="@color/orange_f6a"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:background="@drawable/shape_orange_6r"
+            android:textColor="@color/white"
             android:layout_alignParentRight="true"
-            android:paddingTop="6dp"
             android:gravity="center"
-            android:textSize="13sp"
+            android:textSize="12sp"
             android:layout_centerVertical="true"
-            android:paddingBottom="6dp"
             android:text="报名"/>
     </RelativeLayout>
     <View style="@style/view_line_h"

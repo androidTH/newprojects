@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/mBanner"
-                    android:drawableLeft="@drawable/shape_blue_vertical_bg"
+                    android:drawableLeft="@mipmap/title_label_icon"
                     android:drawablePadding="8dp"
                     android:paddingBottom="@dimen/padding_12"
                     android:paddingTop="@dimen/padding_12"
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/rvSpeedDate"
-                    android:drawableLeft="@drawable/shape_blue_vertical_bg"
+                    android:drawableLeft="@mipmap/title_label_icon"
                     android:drawablePadding="8dp"
                     android:paddingBottom="@dimen/padding_12"
                     android:textSize="15sp"
@@ -101,7 +101,15 @@
                 app:tl_textSelectColor="@color/orange_f6a"
                 app:tl_textUnselectColor="@color/textColor66"
                 app:tl_indicator_width="30dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="-6dp"
+                android:background="@color/color_ECECEC" />
         </android.support.design.widget.AppBarLayout>
+
 
         <android.support.v4.view.ViewPager
 

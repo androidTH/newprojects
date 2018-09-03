@@ -3,6 +3,7 @@ package com.d6.android.app.fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import com.d6.android.app.R
 import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.adapters.FindDateAdapter
 import com.d6.android.app.base.RecyclerFragment
@@ -13,6 +14,8 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -46,6 +49,11 @@ class HomeFindDateFragment : RecyclerFragment() {
     override fun onFirstVisibleToUser() {
 
         mSwipeRefreshLayout.setBackgroundColor(Color.WHITE)
+
+        mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
+                .colorResId(R.color.color_ECECEC)
+                .size(dip(1))
+                .build())
 
         dateAdapter.setOnItemClickListener { _, position ->
             activity?.isAuthUser {

@@ -80,7 +80,7 @@ class ReleaseNewTrendsActivity : BaseActivity() {
             )
         }
 
-        mImages.add(AddImage("res:///" + R.mipmap.ic_add_pic, 1))
+        mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
         addAdapter.notifyDataSetChanged()
         tv_back.setOnClickListener {
             finish()
@@ -191,7 +191,7 @@ class ReleaseNewTrendsActivity : BaseActivity() {
                     image.path = it
                     mImages.add(image)
                 }
-                mImages.add(AddImage("res:///" + R.mipmap.ic_add_pic, 1))
+                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 addAdapter.notifyDataSetChanged()
 //                val path = data.getStringExtra(SelectPhotoDialog.PATH)
 //                val size = mImages.size

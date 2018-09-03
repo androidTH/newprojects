@@ -136,6 +136,7 @@
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:background="@drawable/shape_white_top_8r"
@@ -143,22 +144,24 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rv_tags">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="+发布动态"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:text="发布动态"
             android:gravity="center"
-            android:paddingTop="8dp"
+            android:paddingTop="@dimen/margin_8"
+            android:paddingBottom="@dimen/margin_8"
+            android:drawableLeft="@mipmap/ic_add_pic"
+            android:drawablePadding="-10dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:layout_marginTop="8dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="@dimen/margin_18"
             android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/margin_16"
             android:textColor="@color/orange_f6a"
             android:textSize="14dp"
             android:enabled="false"
             android:background="@drawable/shape_orange_circle_line"
-            android:paddingBottom="8dp"
             android:layout_marginRight="16dp"/>
     </FrameLayout>
 </RelativeLayout>

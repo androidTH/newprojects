@@ -15,6 +15,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_16">16dp</dimen>
+    <dimen name="margin_18">18dp</dimen>
+    <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_5">5dp</dimen>
 </resources>

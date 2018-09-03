@@ -28,7 +28,7 @@ class SpeedDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDate>(m
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
         nameView.text = String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
-        holder.setText(R.id.tv_info, String.format("%s | %s | %s", data.age, data.height, data.weight))
+        holder.setText(R.id.tv_info, String.format("%s岁 %s %s", data.age, data.height, data.weight))
         holder.setText(R.id.tv_content, data.speedcontent)
         holder.setText(R.id.tv_type, data.getSpeedStateStr())
         val tv_audio_auth = holder.bind<TextView>(R.id.tv_audio_auth)
