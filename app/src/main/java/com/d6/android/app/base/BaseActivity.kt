@@ -38,7 +38,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     }
 
     public val immersionBar by lazy {
-        ImmersionBar.with(this).fitsSystemWindows(true)
+        ImmersionBar.with(this)
                 .statusBarColor(R.color.colorPrimaryDark)
                 .statusBarDarkFont(false)
     }
@@ -63,7 +63,6 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         if (isRegisterCloseBroadReceiver()) {
             registerReceiver(closeAllReceiver, IntentFilter(ACTION_CLOSE_ALL))
         }
-        immersionBar.init()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

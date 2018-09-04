@@ -30,6 +30,7 @@ class MyInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_info)
+        immersionBar.fitsSystemWindows(true).init()
         tv_back.setOnClickListener {
             finish()
         }
