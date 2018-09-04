@@ -88,7 +88,7 @@ class DateMeAdapter(mData: ArrayList<NewDate>, val type: Int = 0) : HFRecyclerAd
         tv_action1.setOnClickListener {
             val dateContactDialog = DateContactDialog()
             dateContactDialog.arguments = bundleOf("phone" to (data.phone
-                    ?: ""), "wx" to (data.egagementwx ?: ""))
+                    ?: ""), "wx" to (data.egagementwx ?: ""), "ids" to data.ids,"name" to if(data.name !=null) data.name else "")
             if (context is MyDateActivity) {
                 dateContactDialog.show((context as MyDateActivity).supportFragmentManager, "dcd")
             }

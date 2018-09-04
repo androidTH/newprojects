@@ -194,13 +194,10 @@ class DateFragment : BaseFragment() {
     private fun sendDateRequest(dateBean: DateBean) {
         Request.dateUser(userId, dateBean.accountId).request(this, success = { msg, data ->
             val dateSendedDialog = DateSendedDialog()//35619 35641  35643    35589
-            dateSendedDialog.arguments = bundleOf("data" to dateBean)
+            dateSendedDialog.arguments = bundleOf("data" to dateBean,"msg" to if(msg!=null)msg else "")
             dateSendedDialog.show(childFragmentManager, "d")
             mDates.remove(dateBean)
             mRecyclerView.adapter.notifyDataSetChanged()
-            if (msg != null) {
-                toast(msg)
-            }
             //请求下次
             getNext()
         }) { code, msg ->

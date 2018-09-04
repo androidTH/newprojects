@@ -15,12 +15,11 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.OnDialogListener
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.screenWidth
+import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_my_date.*
 import kotlinx.android.synthetic.main.dialog_date_contact_layout.*
 import org.jetbrains.anko.support.v4.toast
@@ -90,12 +89,15 @@ class DateContactDialog : DialogFragment(),RequestManager {
             tv_copy_wx!!.visibility = View.VISIBLE
         }
 
-
         tv_copy_phone.setOnClickListener {
-            val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            // 将文本内容放到系统剪贴板里。
-            cm.text = tv_phone.text.toString()
-            toast("手机号已复制到剪切板")
+//            val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+//            // 将文本内容放到系统剪贴板里。
+//            cm.text = tv_phone.text.toString()
+//            toast("手机号已复制到剪切板")
+            RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, arguments.getString("ids"), arguments.getString("name"))
+//            .isAuthUser {
+//                RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, id, name)
+//            }
         }
 
         tv_copy_wx.setOnClickListener {

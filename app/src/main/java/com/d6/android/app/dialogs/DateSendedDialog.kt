@@ -75,6 +75,7 @@ class DateSendedDialog : DialogFragment(),RequestManager {
         } else {
             DateBean()
         }
+        tv_date_send.text = arguments.getString("msg")
         headView.setImageURI(dateBean.picUrl)
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
