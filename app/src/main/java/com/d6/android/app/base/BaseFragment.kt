@@ -11,6 +11,7 @@ import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.utils.sysErr
 import com.d6.android.app.widget.ProgressDialog
+import com.gyf.barlibrary.ImmersionBar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.support.v4.toast
@@ -48,6 +49,11 @@ abstract class BaseFragment : Fragment() ,RequestManager{
     //改用lazy初始，第一次使用时才会初始化
     private val dialog: ProgressDialog by lazy {
         ProgressDialog(context, R.style.Theme_ProgressDialog)
+    }
+
+    public val immersionBar by lazy {
+        ImmersionBar.with(this).fitsSystemWindows(true)
+                .statusBarDarkFont(false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

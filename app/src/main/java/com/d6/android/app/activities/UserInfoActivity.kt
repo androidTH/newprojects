@@ -66,9 +66,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         ColorDrawable(Color.WHITE).mutate()
     }
 
-    private val immersionBar by lazy {
-        ImmersionBar.with(this)
-    }
+//    private val immersionBar by lazy {
+//        ImmersionBar.with(this)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,9 +76,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         immersionBar
                 .fitsSystemWindows(false)
-                .statusBarAlpha(0f)
+                .statusBarColor(R.color.trans_parent)
                 .titleBar(rl_title)
-                .statusBarDarkFont(true)
+                .statusBarDarkFont(false)
                 .keyboardEnable(true)
                 .init()
 

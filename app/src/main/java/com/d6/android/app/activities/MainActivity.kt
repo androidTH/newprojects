@@ -1,5 +1,6 @@
 package com.d6.android.app.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -56,10 +57,6 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
-    }
-
-    private val immersionBar by lazy {
-        ImmersionBar.with(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

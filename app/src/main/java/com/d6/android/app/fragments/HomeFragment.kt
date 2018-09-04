@@ -39,14 +39,11 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun contentViewId() = R.layout.fragment_home
-    private val immersionBar by lazy {
-        ImmersionBar.with(this)
-    }
+//    private val immersionBar by lazy {
+//        ImmersionBar.with(this)
+//    }
     override fun onFirstVisibleToUser() {
-        immersionBar
-                .fitsSystemWindows(true)
-                .statusBarDarkFont(true)
-                .init()
+        immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
 
         appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
             mSwipeRefreshLayout.isEnabled = verticalOffset >= 0

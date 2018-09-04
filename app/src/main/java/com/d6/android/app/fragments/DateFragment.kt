@@ -48,16 +48,9 @@ class DateFragment : BaseFragment() {
     private val mDates = ArrayList<DateBean>()
 
     override fun contentViewId() = R.layout.fragment_date
-    private val immersionBar by lazy {
-        ImmersionBar.with(this)
-    }
 
     override fun onFirstVisibleToUser() {
-        immersionBar
-                .fitsSystemWindows(true)
-                .statusBarDarkFont(true)
-                .init()
-
+        immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
         val setting = CardSetting()
         setting.setSwipeListener(object : OnSwipeCardListener<DateBean> {
             override fun onSwiping(viewHolder: RecyclerView.ViewHolder?, dx: Float, dy: Float, direction: Int) {

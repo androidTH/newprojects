@@ -21,7 +21,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
 import java.lang.Exception
 import android.view.MotionEvent
-
+import com.gyf.barlibrary.ImmersionBar
 
 
 /**
@@ -35,6 +35,12 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     //改用lazy初始，第一次使用时才会初始化
     private val dialog: ProgressDialog by lazy {
         ProgressDialog(this, R.style.Theme_ProgressDialog)
+    }
+
+    public val immersionBar by lazy {
+        ImmersionBar.with(this).fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimaryDark)
+                .statusBarDarkFont(false)
     }
 
     var isDestroy = false
@@ -57,6 +63,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         if (isRegisterCloseBroadReceiver()) {
             registerReceiver(closeAllReceiver, IntentFilter(ACTION_CLOSE_ALL))
         }
+        immersionBar.init()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

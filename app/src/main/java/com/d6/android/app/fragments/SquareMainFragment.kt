@@ -41,15 +41,11 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
     private val mSquareTags = ArrayList<SquareTag>()
 
     override fun contentViewId() = R.layout.fragment_square_main
-    private val immersionBar by lazy {
-        ImmersionBar.with(this)
-    }
+//    private val immersionBar by lazy {
+//        ImmersionBar.with(this)
+//    }
     override fun onFirstVisibleToUser() {
-        immersionBar
-                .fitsSystemWindows(true)
-                .statusBarDarkFont(true)
-                .init()
-
+        immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mRecyclerView.setHasFixedSize(true)
         val adapter = SquareTagAdapter(mSquareTags)

@@ -6,6 +6,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.defaultScheduler
+import com.gyf.barlibrary.ImmersionBar
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import org.jetbrains.anko.startActivity
@@ -39,11 +40,10 @@ class LauncherActivity : BaseActivity() {
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
-
-
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
     }
 

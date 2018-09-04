@@ -68,9 +68,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_mine_layout, mSwipeRefreshLayout.mRecyclerView, false)
     }
-    private val immersionBar by lazy {
-        ImmersionBar.with(this)
-    }
 
     private val colorDrawable by lazy {
         ColorDrawable(Color.WHITE).mutate()
@@ -82,7 +79,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 .fitsSystemWindows(false)
                 .statusBarAlpha(0f)
                 .titleBar(rl_title)
-                .statusBarDarkFont(true)
                 .keyboardEnable(true)
                 .init()
 

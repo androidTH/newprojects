@@ -25,9 +25,9 @@ class DateAuthStateActivity : BaseActivity() {
 
     @JvmField
     public var phoneNum:String? = ""
-    private val immersionBar by lazy {
-        ImmersionBar.with(this)
-    }
+//    private val immersionBar by lazy {
+//        ImmersionBar.with(this)
+//    }
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
