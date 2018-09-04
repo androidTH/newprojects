@@ -25,6 +25,7 @@ import com.lin.cardlib.OnSwipeCardListener
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * 约会
@@ -198,13 +199,16 @@ class DateFragment : BaseFragment() {
     }
 
     private fun sendDateRequest(dateBean: DateBean) {
-        Request.dateUser(userId, dateBean.accountId).request(this, success = { _, data ->
-            val dateSendedDialog = DateSendedDialog()
+        Request.dateUser(userId, dateBean.accountId).request(this, success = { msg, data ->
+            val dateSendedDialog = DateSendedDialog()//35619 35641  35643    35589
             dateSendedDialog.arguments = bundleOf("data" to dateBean)
             dateSendedDialog.show(childFragmentManager, "d")
             mDates.remove(dateBean)
             mRecyclerView.adapter.notifyDataSetChanged()
-            //
+            if (msg != null) {
+                toast(msg)
+            }
+            //请求下次
             getNext()
         }) { code, msg ->
             val dateErrorDialog = DateErrorDialog()

@@ -14,7 +14,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.widget.UserTrendView
 
 /**
- *
+ *动态
  */
 class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapter<Square>(mData, R.layout.item_list_user_square) {
     private val userId by lazy {

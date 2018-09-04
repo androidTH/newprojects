@@ -159,7 +159,7 @@ interface ApiServices {
     fun updateDateState(@Query("ids")ids:String,@Query("state")state:String): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagements/add")
-    fun dateUser(@Query("userid")userid:String,@Query("engagementuserid")engagementuserid:String): Flowable<Response<JsonPrimitive>>
+    fun dateUser(@Query("userid")userid:String,@Query("engagementuserid")engagementuserid:String): Flowable<Response<JsonObject>>
 
     @POST("backstage/engagementsaccount/findByPagewoyuebieren")
     fun findMyDatingList(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE): Flowable<Response<Page<NewDate>>>
