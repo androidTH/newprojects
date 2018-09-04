@@ -17,7 +17,7 @@
             android:paddingRight="12dp"
             android:id="@+id/tv_back"
             android:layout_height="@dimen/title_bar_size"
-            android:drawableLeft="@mipmap/back" />
+            android:drawableLeft="@mipmap/navigation_back_white" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_bar_size"
