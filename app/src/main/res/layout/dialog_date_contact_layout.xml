@@ -34,48 +34,9 @@
         android:layout_marginBottom="16dp">
 
         <TextView
-            android:id="@+id/tv_open_chat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_8"
-            android:gravity="center_vertical"
-            android:text="发起私信"
-            android:textColor="@color/textColor99"
-            android:textSize="12dp" />
-
-        <TextView
-            android:id="@+id/tv_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_open_chat"
-            android:layout_marginTop="8dp"
-            android:singleLine="true"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/textSize" />
-
-        <TextView
-            android:id="@+id/tv_copy_phone"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/shape_orange_circle2"
-            android:gravity="center"
-            android:text="私信"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textSize" />
-
-        <View
-            android:id="@+id/view2"
-            style="@style/view_line_h"
-            android:layout_below="@+id/tv_phone"
-            android:layout_marginTop="@dimen/margin_12" />
-
-        <TextView
             android:id="@+id/tv3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/view2"
             android:layout_marginTop="@dimen/margin_8"
             android:gravity="center_vertical"
             android:text="微信号"
@@ -86,8 +47,8 @@
             android:id="@+id/et_weChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv3"
             android:layout_marginTop="@dimen/margin_5"
+            android:layout_below="@+id/tv3"
             android:singleLine="true"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/textSize"
@@ -98,11 +59,48 @@
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/view2"
             android:layout_marginTop="20dp"
             android:background="@drawable/shape_orange_circle2"
             android:gravity="center"
             android:text="复制"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize" />
+        <View
+            android:id="@+id/view2"
+            style="@style/view_line_h"
+            android:layout_below="@+id/et_weChat"
+            android:layout_marginTop="@dimen/margin_12" />
+
+        <TextView
+            android:id="@+id/tv_open_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_vertical"
+            android:text="发起私信"
+            android:layout_below="@+id/view2"
+            android:textColor="@color/textColor99"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:visibility="invisible"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/textSize" />
+
+        <TextView
+            android:id="@+id/tv_copy_phone"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/view2"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shape_orange_circle2"
+            android:gravity="center"
+            android:text="私信"
             android:textColor="@color/white"
             android:textSize="@dimen/textSize" />
     </RelativeLayout>

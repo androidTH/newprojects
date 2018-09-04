@@ -21,9 +21,10 @@
             android:id="@+id/headView"
             app:viewAspectRatio="1" />
         <TextView
+            android:id="@+id/tv_date_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="已发出邀约，等待对方同意。同意后就可以开始您的甜蜜之约了。点击“我的约会”可查看约会状态"
+            android:text=""
             android:gravity="center"
             android:textColor="@color/textColor"
             android:textSize="15dp"
