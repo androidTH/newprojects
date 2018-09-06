@@ -28,17 +28,18 @@
             android:paddingLeft="12dp"
             android:gravity="center_vertical"
             android:drawableRight="@drawable/ic_expand_more_24dp"
-            android:textColor="@color/textColor"/>
+            android:textColor="@color/color_333333"/>
         <View android:layout_width="1dp"
             android:layout_height="16dp"
             android:background="@color/dividing_line_color"
+            android:visibility="gone"
             android:layout_gravity="center_vertical"/>
         <EditText
             android:id="@+id/et_phone"
             style="@style/phoneStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入手机号"
+            android:hint="输入手机号"
             android:padding="@dimen/padding_16"
             android:background="@null"/>
     </LinearLayout>
@@ -65,25 +66,26 @@
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入验证码"
+            android:hint="短信验证码"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:padding="@dimen/padding_16"
+            android:textColorHint="@color/color_C1C1C6"
+            android:textSize="14sp"
             android:background="@null"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_30"
             android:textSize="13dp"
             android:id="@+id/tv_get_code"
-            android:paddingTop="4dp"
             android:enabled="false"
+            android:gravity="center"
             android:layout_centerVertical="true"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_8"
             android:background="@drawable/circle_gray_bg"
             android:layout_alignRight="@+id/et_code"
-            android:textColor="@color/white"
+            android:textColor="@color/color_CCCCCC"
             android:text="获取验证码"/>
     </RelativeLayout>
     <View style="@style/view_line_h"

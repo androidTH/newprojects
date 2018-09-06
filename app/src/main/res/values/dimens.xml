@@ -19,4 +19,6 @@
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_5">5dp</dimen>
+    <dimen name="height_40">40dp</dimen>
+    <dimen name="height_30">30dp</dimen>
 </resources>
