@@ -13,6 +13,9 @@ import com.d6.android.app.widget.SwipeItemLayout
 import org.jetbrains.anko.startActivity
 
 
+/**
+ * 系统消息
+ */
 class SystemMessagesActivity : RecyclerActivity() {
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)

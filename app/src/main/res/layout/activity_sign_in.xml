@@ -2,191 +2,232 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/color_F5F5F5"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="60dp"-->
+    <!--android:text="优质男女互动社区"-->
+    <!--android:textColor="@color/textColor"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="18dp"/>-->
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
-        android:text="优质男女互动社区"
-        android:textColor="@color/textColor"
-        android:gravity="center"
-        android:textSize="18dp"/>
+        android:src="@mipmap/login_d6_icon" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:layout_marginTop="48dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_height="wrap_content">
+        android:background="@drawable/shape_sign_bg"
+        android:paddingBottom="@dimen/margin_15"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/ic_expand_more_24dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="12dp"
+                android:text="+86"
+                android:textColor="@color/color_333333" />
+
+            <!--<View-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_height="16dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:background="@color/dividing_line_color"-->
+                <!--android:visibility="gone" />-->
+
+            <EditText
+                android:id="@+id/et_phone"
+                style="@style/phoneStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="输入手机号"
+                android:textColor="@color/color_333333"
+                android:padding="@dimen/padding_10"
+                android:textColorHint="@color/color_CCCCCC" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/phoneLine"
+            style="@style/view_sign_line_h" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_type"
-            android:text="+86"
-            android:paddingLeft="12dp"
-            android:gravity="center_vertical"
-            android:drawableRight="@drawable/ic_expand_more_24dp"
-            android:textColor="@color/color_333333"/>
-        <View android:layout_width="1dp"
-            android:layout_height="16dp"
-            android:background="@color/dividing_line_color"
-            android:visibility="gone"
-            android:layout_gravity="center_vertical"/>
-        <EditText
-            android:id="@+id/et_phone"
-            style="@style/phoneStyle"
+            android:id="@+id/tv_phone_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="输入手机号"
-            android:padding="@dimen/padding_16"
-            android:background="@null"/>
-    </LinearLayout>
-    <View style="@style/view_line_h"
-        android:id="@+id/phoneLine"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_phone_error"
-        android:visibility="invisible"
-        android:text="请输入正确的手机号格式"
-        android:textColor="@color/red_fc3"
-        android:textSize="12dp"
-        android:paddingTop="5dp"
-        android:paddingLeft="56dp"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/et_code"
-            android:maxLength="4"
-            android:inputType="number"
+            android:paddingLeft="56dp"
+            android:paddingTop="5dp"
+            android:text="请输入正确的手机号格式"
+            android:textColor="@color/red_fc3"
+            android:textSize="12dp"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="40dp"
+                android:background="@null"
+                android:hint="短信验证码"
+                android:inputType="number"
+                android:maxLength="4"
+                android:padding="@dimen/padding_16"
+                android:textColor="@color/color_333333"
+                android:textColorHint="@color/color_C1C1C6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_get_code"
+                android:layout_width="90dp"
+                android:layout_height="@dimen/height_30"
+                android:layout_alignParentRight="true"
+                android:layout_alignRight="@+id/et_code"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@drawable/circle_gray_bg"
+                android:enabled="false"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_8"
+                android:paddingRight="@dimen/margin_8"
+                android:text="获取验证码"
+                android:textColor="@color/color_CCCCCC"
+                android:textColorHint="@color/color_C1C1C6"
+                android:textSize="13dp" />
+        </RelativeLayout>
+        <!--<View style="@style/view_sign_line_h"-->
+        <!--android:id="@+id/codeLine"/>-->
+        <TextView
+            android:id="@+id/tv_code_error"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="短信验证码"
-            android:layout_marginLeft="40dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:text="请输入验证码"
+            android:textColor="@color/red_fc3"
+            android:textSize="12dp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="40dp"
-            android:padding="@dimen/padding_16"
-            android:textColorHint="@color/color_C1C1C6"
-            android:textSize="14sp"
-            android:background="@null"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_30"
-            android:textSize="13dp"
-            android:id="@+id/tv_get_code"
-            android:enabled="false"
-            android:gravity="center"
-            android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/margin_8"
-            android:paddingRight="@dimen/margin_8"
-            android:background="@drawable/circle_gray_bg"
-            android:layout_alignRight="@+id/et_code"
-            android:textColor="@color/color_CCCCCC"
-            android:text="获取验证码"/>
-    </RelativeLayout>
-    <View style="@style/view_line_h"
-        android:id="@+id/codeLine"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_code_error"
-        android:visibility="invisible"
-        android:text="请输入验证码"
-        android:textColor="@color/red_fc3"
-        android:textSize="12dp"
-        android:paddingTop="5dp"
-        android:paddingLeft="56dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="right"
-        android:visibility="gone"
-        android:layout_marginRight="40dp"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_forget_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="忘记密码？"
-            android:paddingTop="@dimen/padding_16"
-            android:paddingBottom="@dimen/padding_16"
-            android:textColor="#336699"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_12"
-            android:id="@+id/tv_contact"
-            android:text="或联系客服"
-            android:paddingTop="@dimen/padding_16"
-            android:paddingBottom="@dimen/padding_16"
-            android:textColor="#336699"/>
+            android:gravity="right"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_forget_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_16"
+                android:paddingTop="@dimen/padding_16"
+                android:text="忘记密码？"
+                android:textColor="#336699" />
+
+            <TextView
+                android:id="@+id/tv_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:paddingBottom="@dimen/padding_16"
+                android:paddingTop="@dimen/padding_16"
+                android:text="或联系客服"
+                android:textColor="#336699" />
+        </LinearLayout>
+
     </LinearLayout>
+
     <Button
         android:id="@+id/btn_sign_in"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:textColor="@color/white"
-        android:text="注册/登录"
+        android:layout_height="48dp"
+        android:layout_below="@+id/iv2"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_below="@+id/iv2"
-        android:textSize="@dimen/btnTextSize"
         android:layout_marginTop="40dp"
+        android:background="@drawable/shape_sign_circle_selector"
         android:enabled="false"
-        android:background="@drawable/shape_orange_circle_selector"/>
+        android:text="注册/登录"
+        android:textColor="@color/white"
+        android:textSize="@dimen/btnTextSize" />
 
     <TextView
         android:id="@+id/action_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
         android:text="注册帐户"
-        android:visibility="gone"
-        android:textColor="#bbbbbb"/>
+        android:textColor="#bbbbbb"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/action_protocols"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:textSize="12dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
         android:text="注册即表示同意D6社区《用户协议》"
-        android:textColor="#bbbbbb"/>
-    <View android:layout_weight="1"
+        android:textColor="@color/color_C1C1C6"
+        android:textSize="13dp" />
+
+    <View
         android:layout_width="0dp"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="center"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_height="wrap_content">
-        <View
-            style="@style/view_line_h"
-            android:layout_weight="1"/>
+        android:gravity="center">
+
+        <!--<View-->
+            <!--style="@style/view_line_h"-->
+            <!--android:layout_weight="1" />-->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/textSize"
-            android:textColor="@color/textColor99"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:text="微信登录"/>
-        <View
-            style="@style/view_line_h"
-            android:layout_weight="1"/>
+            android:text="@string/wx_fast_login"
+            android:textColor="@color/color_C1C1C6"
+            android:textSize="@dimen/textSize_16" />
+
+        <!--<View-->
+            <!--style="@style/view_line_h"-->
+            <!--android:layout_weight="1" />-->
     </LinearLayout>
+
     <TextView
         android:id="@+id/tv_wechat_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
-        android:drawableTop="@mipmap/ic_wx"/>
+        android:drawableTop="@mipmap/ic_wx" />
 </LinearLayout>

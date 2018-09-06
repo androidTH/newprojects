@@ -23,7 +23,6 @@ class SquareMessageAdapter(mData:ArrayList<SquareMessage>): HFRecyclerAdapter<Sq
         val textContent = holder.bind<TextView>(R.id.tv_square_content)
         textContent.text = data.squareContent
 
-
         sysErr(data.toString()+"--------url----->"+data.replypicUrl.isNullOrEmpty())
         if (data.replypicUrl.isNullOrEmpty()) {
             imageView.invisible()

@@ -28,6 +28,7 @@
         android:layout_alignLeft="@+id/tv_name"
         android:layout_marginRight="88dp"
         android:text="--"
+        android:textColor="@color/color_333333"
         android:layout_below="@+id/tv_name"
         android:layout_marginBottom="6dp"/>
     <TextView
@@ -35,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tv_name"
         android:layout_below="@+id/tv_content"
-        android:textColor="@color/textColor99"
+        android:textColor="@color/color_888888"
         android:id="@+id/tv_time"
         android:text="--"
         android:layout_marginBottom="6dp"/>

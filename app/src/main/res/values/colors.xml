@@ -36,5 +36,9 @@
     <color name="color_e6e6e6">#e6e6e6</color>
     <color name="color_CCCCCC">#CCCCCC</color>
     <color name="color_C1C1C6">#C1C1C6</color>
+    <color name="color_F5F5F5">#F5F5F5</color>
+    <color name="color_EFEFEF">#EFEFEF</color>
+    <color name="color_777777">#777777</color>
+    <color name="color_EAEAEA">#EAEAEA</color>
 
 </resources>

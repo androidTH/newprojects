@@ -13,12 +13,15 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.d6.android.app.widget.badge.Badge
+import com.d6.android.app.widget.badge.QBadgeView
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.message.TextMessage
+import kotlinx.android.synthetic.main.header_messages.*
 import kotlinx.android.synthetic.main.header_messages.view.*
 import org.jetbrains.anko.startActivity
 
@@ -27,9 +30,19 @@ import org.jetbrains.anko.startActivity
  * 消息
  */
 class MessagesActivity : RecyclerActivity() {
+
+
     private val mConversations = ArrayList<Conversation>()
     private val conversationsAdapter by lazy {
         ConversationsAdapter(mConversations)
+    }
+
+    private val mSquareMsg by lazy{
+        QBadgeView(this);
+    }
+
+    private val mSysMsg by lazy{
+        QBadgeView(this);
     }
 
     private val headerView by lazy {
@@ -42,6 +55,7 @@ class MessagesActivity : RecyclerActivity() {
     override fun adapter() = conversationsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        immersionBar.statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
         title = "消息"
         titleBar.addRightButton(rightId = R.mipmap.ic_msg_setting,onClickListener = View.OnClickListener {
             startActivity<MessageSettingActivity>()
@@ -115,19 +129,20 @@ class MessagesActivity : RecyclerActivity() {
             SPUtils.instance().put(Const.LAST_TIME,D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
-                headerView.tv_msg_count1.gone()
+//                headerView.tv_msg_count1.gone()
             } else {
-
                 val c = if ((data.count ?: 0) > 99) {
                     "99+"
                 } else {
                     data.count.toString()
                 }
-                headerView.tv_msg_count1.text = c
+//                headerView.tv_msg_count1.text = c
                 if ((data.count ?: 0) > 0) {
-                    headerView.tv_msg_count1.visible()
+                    mSysMsg.bindTarget(headerView.iv1).setBadgeText(c).setGravityOffset(-3F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
+                        dragState, badge, targetView ->
+
+                    })
                 } else {
-                    headerView.tv_msg_count1.gone()
                 }
                 headerView.tv_content1.text = data.list.results[0].content
             }
@@ -141,20 +156,21 @@ class MessagesActivity : RecyclerActivity() {
             SPUtils.instance().put(Const.LAST_TIME,D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
-                headerView.tv_msg_count2.gone()
+//                headerView.tv_msg_count2.gone()
             } else {
-                headerView.tv_msg_count2.visible()
                 val c = if ((data.count ?: 0) > 99) {
                     "99+"
                 } else {
                     data.count.toString()
                 }
                 if ((data.count ?: 0) > 0) {
-                    headerView.tv_msg_count2.visible()
-                } else {
-                    headerView.tv_msg_count2.gone()
+//                    headerView.tv_msg_count2.visible()
+                    mSquareMsg.bindTarget(headerView.iv2).setBadgeText(c)
+                            .setGravityOffset(-3F,-2F, true)
+                            .setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
+                                dragState, badge, targetView ->
+                            })
                 }
-                headerView.tv_msg_count2.text = c
                 headerView.tv_content2.text = data.list.results[0].content
             }
         }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.utils.sysErr
@@ -77,7 +78,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
         if (userVisibleHint) {
             onVisibleToUser()
         }
-//        Bugtags.onResume(this);
+        Bugtags.onResume(this);
     }
 
     override fun onPause() {
@@ -85,7 +86,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
         if (userVisibleHint) {
             onInvisibleToUser()
         }
-//        Bugtags.onPause(this);
+        Bugtags.onPause(this);
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

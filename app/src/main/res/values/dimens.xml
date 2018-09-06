@@ -2,6 +2,7 @@
 <resources>
     <dimen name="activity_horizontal_margin">12dp</dimen>
     <dimen name="padding_12">12dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
     <dimen name="padding_16">12dp</dimen>
     <dimen name="request_12">12sp</dimen>
     <dimen name="textSize">14sp</dimen>
@@ -19,6 +20,9 @@
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_5">5dp</dimen>
+    <dimen name="margin_1">1dp</dimen>
+    <dimen name="radius_10">10dp</dimen>
     <dimen name="height_40">40dp</dimen>
     <dimen name="height_30">30dp</dimen>
+    <dimen name="height_1">1dp</dimen>
 </resources>

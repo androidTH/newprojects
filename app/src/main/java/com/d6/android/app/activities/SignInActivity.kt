@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextPaint
@@ -121,10 +123,10 @@ class SignInActivity : BaseActivity() {
                 btn_sign_in.isEnabled = !(s.isNullOrEmpty() || !isPhone(et_phone.text))
                 if (s.isNullOrEmpty()) {
                     tv_code_error.visible()
-                    codeLine.setBackgroundResource(R.color.red_fc3)
+//                    codeLine.setBackgroundResource(R.color.red_fc3)
                 } else {
-                    tv_code_error.invisible()
-                    codeLine.setBackgroundResource(R.color.dividing_line_color)
+                    tv_code_error.gone()
+//                    codeLine.setBackgroundResource(R.color.dividing_line_color)
                 }
             }
 
@@ -145,9 +147,9 @@ class SignInActivity : BaseActivity() {
         }
 
         action_protocols.movementMethod = LinkMovementMethod.getInstance()
-        val s = "注册即表示同意D6社区《用户协议》"
+        val s = "注册即表示同意 D6社区用户协议"
         action_protocols.text = SpanBuilder(s)
-                .click(s.length - 6, s.length, MClickSpan(this))
+                .click(s.length - 8, s.length, MClickSpan(this))
                 .build()
     }
 
@@ -174,7 +176,8 @@ class SignInActivity : BaseActivity() {
 
     private fun phoneFormatOk() {
         tv_get_code.isEnabled = true
-        tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_369)
+        tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_F7AB00)
+        tv_get_code.setBackgroundResource(R.drawable.shape_code_btn_bg)
         phoneLine.setBackgroundResource(R.color.dividing_line_color)
         tv_phone_error.invisible()
     }
@@ -182,7 +185,8 @@ class SignInActivity : BaseActivity() {
     private fun phoneFormatError() {
         if (tv_get_code.isEnabled) {
             tv_get_code.isEnabled = false
-            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.white)
+            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
+            tv_get_code.setBackgroundResource(R.drawable.circle_gray_bg)
         }
         phoneLine.setBackgroundResource(R.color.red_fc3)
         tv_phone_error.visible()
@@ -206,7 +210,8 @@ class SignInActivity : BaseActivity() {
             showToast("验证码发送成功")
             tv_get_code.isEnabled = false
             countDownTimer.start()
-            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_l_369)
+            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
+            tv_get_code.setBackgroundResource(R.drawable.circle_gray_bg)
         }
     }
 
@@ -330,11 +335,11 @@ class SignInActivity : BaseActivity() {
         override fun onFinish() {
             tv_get_code.text = "重新获取"
             tv_get_code.isEnabled = true
-            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_369)
+//            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
         }
 
         override fun onTick(millisUntilFinished: Long) {
-            tv_get_code.text = String.format("重新获取(%s)", millisUntilFinished / 1000)
+            tv_get_code.text = String.format("%ss", millisUntilFinished / 1000)//重新获取(%s)
         }
     }
 
@@ -344,8 +349,8 @@ class SignInActivity : BaseActivity() {
         }
 
         override fun updateDrawState(ds: TextPaint?) {
-            ds?.color = ContextCompat.getColor(context, R.color.color_369)
-            ds?.isUnderlineText = false
+            ds?.color = ContextCompat.getColor(context, R.color.color_C1C1C6)
+            ds?.isUnderlineText = true
         }
     }
 
