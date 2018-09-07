@@ -131,7 +131,7 @@ dependencies {
     compile project(':cardlib')
     //完全版
     //debug 包
-//    debugCompile 'com.bugtags.library:bugtags-lib:3.0.0'
+    debugCompile 'com.bugtags.library:bugtags-lib:3.0.0'
     //release 包
 //    releaseCompile 'com.bugtags.metrics:bugtags-lib:3.0.0'
 }

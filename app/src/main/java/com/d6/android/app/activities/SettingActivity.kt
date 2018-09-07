@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
@@ -123,6 +124,12 @@ class SettingActivity : TitleActivity() {
                 headView.setImageURI(it.picUrl)
                 tv_nick.text = it.name
                 tv_signature.text = it.intro
+
+                if(data.signature.isNullOrEmpty()){
+                    img_auther.visibility = View.GONE
+                }else {
+                    img_auther.visibility = View.VISIBLE
+                }
             }
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
