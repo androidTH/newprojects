@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.TrendDetailActivity
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
 import com.d6.android.app.adapters.TrendCommentAdapter
 import com.d6.android.app.base.BaseActivity
@@ -28,6 +29,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_select_sex_layout.*
 import kotlinx.android.synthetic.main.dialog_trend_comments_layout.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
@@ -76,7 +78,7 @@ class TrendCommentsDialog : DialogFragment(),RequestManager,SwipeRefreshRecycler
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout(matchParent, wrapContent)
+        dialog.window.setLayout(matchParent, resources.getDimensionPixelSize(R.dimen.height_300))
         dialog.window.setGravity(Gravity.BOTTOM)
         dialog.setCanceledOnTouchOutside(true)
     }
@@ -103,6 +105,15 @@ class TrendCommentsDialog : DialogFragment(),RequestManager,SwipeRefreshRecycler
         if (activity is BaseActivity) {
             (activity as BaseActivity).dialog()
         }
+
+        tv_trend_comment_content.setOnClickListener(View.OnClickListener {
+            val commentsDialog = CommentTrendDialog()
+            commentsDialog.arguments = bundleOf("id" to (mTrend.id ?: ""))
+            commentsDialog.setDialogListener { p, s ->
+
+            }
+            commentsDialog.show((activity as BaseActivity).supportFragmentManager, "comm")
+        })
         getData()
     }
 

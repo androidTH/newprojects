@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
@@ -13,6 +14,7 @@ import com.d6.android.app.models.NewDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
+import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.toast
 
@@ -23,6 +25,7 @@ class DateMeAdapter(mData: ArrayList<NewDate>, val type: Int = 0) : HFRecyclerAd
         val nameView = holder.bind<TextView>(R.id.tv_name)
         var tv_content = holder.bind<TextView>(R.id.tv_content)
         nameView.text = data.name
+        nameView.isSelected = TextUtils.equals("0", data.sex)
         if(!data.egagementtext.isNullOrEmpty()){
            tv_content.visibility = View.VISIBLE
            tv_content.text = data.egagementtext

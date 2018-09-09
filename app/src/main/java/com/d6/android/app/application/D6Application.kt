@@ -31,6 +31,7 @@ import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.MsgConstant
 import com.umeng.message.PushAgent
+import com.umeng.message.UTrack
 import com.umeng.socialize.Config
 import com.umeng.socialize.PlatformConfig
 import io.reactivex.Flowable
@@ -84,11 +85,13 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
         super.onCreate()
 //        UMConfigure.setLogEnabled(true)
         Bugout.init(this, "ed3b07b4f9f09c390b7dd863e153a276", "d6")
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, null)
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "0f16af7d3011a5aad7cf82a996b6b94c")
+        UMConfigure.init(this, Const.UMENG_APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
         PlatformConfig.setWeixin("wx43d13a711f68131c", "00537b54033cd022ceda1894bae5ebf5")
 //        Config.DEBUG = true
         val mPushAgent = PushAgent.getInstance(this)
         mPushAgent.notificationPlaySound = MsgConstant.NOTIFICATION_PLAY_SERVER
+        mPushAgent.setNotificationClickHandler(CustomNotificationHandler())
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {
 

@@ -138,7 +138,7 @@ class MessagesActivity : RecyclerActivity() {
                 }
 //                headerView.tv_msg_count1.text = c
                 if ((data.count ?: 0) > 0) {
-                    mSysMsg.bindTarget(headerView.iv1).setBadgeText(c).setGravityOffset(-3F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
+                    mSysMsg.bindTarget(headerView.iv1).setBadgeText(c).setGravityOffset(0F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
                         dragState, badge, targetView ->
 
                     })

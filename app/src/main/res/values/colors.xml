@@ -16,6 +16,7 @@
     <color name="red_fc3">#fc3d23</color>
     <color name="pink_fd9">#fd95d9</color>
     <color name="pink_fe7">#fe75a3</color>
+    <color name="pink_ff7070">#ff7070</color>
     <color name="pink_fc6">#fc6899</color>
     <color name="purple_434">#4342a3</color>
     <color name="color_369">#336699</color>
@@ -25,8 +26,13 @@
     <color name="color_8888">#888888</color>
     <color name="color_999999">#999999</color>
     <color name="color_000000">#000000</color>
+    <color name="color_40000000">#40000000</color>
+    <color name="color_BF000000">#BF000000</color>
+    <color name="color_80000000">#80000000</color>
+    <color name="color_7D000000">#7D000000</color>
     <color name="trans_parent">#00000000</color>
     <color name="color_F7AB00">#F7AB00</color>
+    <color name="color_26F7AB00">#26F7AB00</color>
     <color name="color_333333">#333333</color>
     <color name="color_888888">#888888</color>
     <color name="color_ECECEC">#ECECEC</color>
@@ -41,5 +47,11 @@
     <color name="color_777777">#777777</color>
     <color name="color_EAEAEA">#EAEAEA</color>
     <color name="color_8E52FE">#8E52FE</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_4D000000">#4D000000</color>
+    <color name="color_CC000000">#CC000000</color>
+    <color name="color_CDCDCD">#CDCDCD</color>
+    <color name="color_66ffffff">#66FFFFFF</color>
+    <color name="color_F1F1F3">#F1F1F3</color>
 
 </resources>

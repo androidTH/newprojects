@@ -8,6 +8,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
+import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
@@ -21,8 +22,12 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    protected var mUserData: UserData? = null;
+
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<UserTrendView>(R.id.mTrendView)
+        data.sex = mUserData?.sex
+        data.age = mUserData?.age
         trendView.update(data,if (type==0) 1 else 0 )
         val count = data.appraiseCount ?: 0
         trendView.setPraiseClick {
@@ -39,6 +44,10 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         trendView.setOnItemClick{v,s->
             mOnItemClickListener?.onItemClick(v,position)
         }
+    }
+
+    fun setUserInfo(data: UserData){
+           this.mUserData = data;
     }
 
     private fun delete(square: Square){

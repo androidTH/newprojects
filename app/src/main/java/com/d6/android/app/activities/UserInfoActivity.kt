@@ -175,9 +175,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         if (alpha > 128) {
             tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_chat_orange, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_orange, 0)
+            immersionBar.statusBarDarkFont(true).init()
         } else {
             tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_chat_white1, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_white, 0)
+            immersionBar.statusBarDarkFont(false).init()
         }
     }
 
@@ -227,6 +229,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 refreshImages(it)
 
+                squareAdapter.setUserInfo(mData!!)
                 getTrendData()
 //                headView.setImageURI(it.picUrl)
 //                tv_name.text = it.name
@@ -281,7 +284,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private fun getTrendData() {
 
         Request.getMySquares(id, 0, pageNum).request(this, success = { _, data ->
-            mSwipeRefreshLayout.isRefreshing = false
+            mSwipeRefreshLayout.isRefreshing = false//15717
             if (pageNum == 1) {
                 mSquares.clear()
             }

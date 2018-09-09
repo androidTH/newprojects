@@ -38,7 +38,7 @@ class TrendContentDialog : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout(matchParent, wrapContent)
+        dialog.window.setLayout(matchParent, resources.getDimensionPixelSize(R.dimen.height_300))
         dialog.window.setGravity(Gravity.BOTTOM)
         dialog.setCanceledOnTouchOutside(true)
     }
@@ -49,11 +49,11 @@ class TrendContentDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        headView.setImageURI(mTrend.picUrl)
-        tv_nick.text = mTrend.name
-        tv_age.isSelected = TextUtils.equals("0", mTrend.sex)
-        tv_age.text = mTrend.age
-        tv_time.text = mTrend.updatetime.toTime("MM.dd")
+//        headView.setImageURI(mTrend.picUrl)
+//        tv_nick.text = mTrend.name
+//        tv_age.isSelected = TextUtils.equals("0", mTrend.sex)
+//        tv_age.text = mTrend.age
+//        tv_time.text = mTrend.updatetime.toTime("MM.dd")
         tv_content.text = mTrend.content
         tv_close.setOnClickListener { dismissAllowingStateLoss() }
     }

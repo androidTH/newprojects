@@ -6,6 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
@@ -22,14 +25,16 @@ import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
+import org.jetbrains.anko.appcompat.v7.Appcompat
+import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 
 /**
- * 广场发布
+ * 广场动态
  */
-class ReleaseNewTrendsActivity : BaseActivity() {
+class ReleaseNewTrendsActivity : BaseActivity(){
 
     private var tagId: String? = null
     private val userId by lazy {
@@ -80,7 +85,7 @@ class ReleaseNewTrendsActivity : BaseActivity() {
             )
         }
 
-        mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+        mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))//ic_add_bg
         addAdapter.notifyDataSetChanged()
         tv_back.setOnClickListener {
             finish()
@@ -93,13 +98,13 @@ class ReleaseNewTrendsActivity : BaseActivity() {
                 locationClient.stopLocation()
                 if (cityType == 0) {
                     tv_address.text = ""
-                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
-                    tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
+//                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
+                    tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,R.mipmap.ic_add1,0)
 //                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.textColor99))
                 } else {
                     tv_address.text = city
-                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_loc_yellow,0,0,0)
-                    tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_delete1,0,0,0)
+//                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(,0,0,0)
+                    tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,R.mipmap.comment_local_del,0)
 //                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.orange_f6a))
                 }
 
@@ -107,7 +112,9 @@ class ReleaseNewTrendsActivity : BaseActivity() {
         }
 
         tv_release.setOnClickListener {
-            publish()
+            if(et_content.text.length>0){
+                publish()
+            }
         }
 
         tv_address.text = city
@@ -120,8 +127,10 @@ class ReleaseNewTrendsActivity : BaseActivity() {
                 cityType=0
                 toast("没有定位权限")
                 tv_address.text = ""
-                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
+//                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
+//                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
+                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,R.mipmap.ic_add1,0)
+
             }
         }
 
@@ -130,8 +139,10 @@ class ReleaseNewTrendsActivity : BaseActivity() {
                 cityType = 0
                 city = ""
                 tv_address.text = ""
-                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
+//                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
+//                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
+                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,R.mipmap.ic_add1,0)
+
             } else {
                 cityType = 1
                 RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
@@ -140,16 +151,17 @@ class ReleaseNewTrendsActivity : BaseActivity() {
                             startLocation()
                         } else {
                             tv_address.text = city
-                            tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_loc_yellow,0,0,0)
-                            tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_delete1,0,0,0)
+//                            tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_loc_yellow,0,0,0)
+//                            tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_delete1,0,0,0)
+                            tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,R.mipmap.comment_local_del,0)
                         }
                     } else {
                         cityType = 0
                         toast("没有定位权限")
                         tv_address.text = ""
-                        tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
-                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-
+//                        tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
+//                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
+                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,R.mipmap.ic_add1,0)
                     }
                 }
             }
@@ -178,6 +190,24 @@ class ReleaseNewTrendsActivity : BaseActivity() {
 //
 //            selectCityDialog.show(supportFragmentManager, "City")
         }
+
+        et_content.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                if(s.isNullOrEmpty() || TextUtils.isEmpty(et_content.text)){
+                    tv_release.backgroundResource = R.drawable.shape_10r_grey
+                }else{
+                    tv_release.backgroundResource = R.drawable.shape_10r_orange
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

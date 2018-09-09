@@ -14,6 +14,9 @@ import com.d6.android.app.utils.visible
 import kotlinx.android.synthetic.main.activity_image_pager.*
 import java.lang.StringBuilder
 
+/**
+ * 广场照片详情页
+ */
 class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var urls: ArrayList<String>? = null
     private var userData:UserData?=null

@@ -83,6 +83,7 @@
                     android:layout_toRightOf="@+id/headView"
                     android:background="@drawable/shape_4r_orange"
                     android:drawableLeft="@mipmap/memberorder_icon_white"
+                    android:drawablePadding="@dimen/margin_2"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:textColor="@color/white"

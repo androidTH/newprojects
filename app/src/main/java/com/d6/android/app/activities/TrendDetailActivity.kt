@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.ImagePagerAdapter
 import com.d6.android.app.base.BaseActivity
@@ -20,6 +21,9 @@ import com.d6.android.app.utils.toTime
 import kotlinx.android.synthetic.main.activity_trend_detail.*
 import org.jetbrains.anko.bundleOf
 
+/**
+ * 评论详情页
+ */
 class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     companion object {
         const val CURRENT_POSITION = "position"
@@ -75,6 +79,9 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_count.text = String.format("%d/%d", position + 1, mUrls.size)
 
         headView.setImageURI(mTrend.picUrl)
+        tv_trend_uname.text = mTrend.name
+        tv_trend_uage.text = mTrend.age
+        tv_trend_uage.isSelected = TextUtils.equals("0", mTrend.sex)
         tv_time.text = mTrend.updatetime.toTime("MM.dd")
         tv_content.text = mTrend.content
 //        tv_appraise.text = mTrend.appraiseCount.toString()
@@ -90,6 +97,7 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         } else {
             ""
         }
+
         tv_comment_content.setOnClickListener {
             val commentsDialog = CommentTrendDialog()
             commentsDialog.arguments = bundleOf("id" to (mTrend.id ?: ""))
@@ -108,15 +116,19 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         tv_content.setOnClickListener {
-            val line = tv_content.lineCount
+//            val line = tv_content.lineCount
             //ellipsisCount>0说明没有显示全部，存在省略部分。
-            val count = tv_content.layout.getEllipsisCount(line-1)
-            sysErr("----------->$count")
-            if (line>2 || count > 0 ) {
-                val trendContentDialog = TrendContentDialog()
-                trendContentDialog.arguments = bundleOf("data" to mTrend)
-                trendContentDialog.show(supportFragmentManager, "con")
-            }
+//            val count = tv_content.layout.getEllipsisCount(line-1)
+//            sysErr("----------->$count")
+//            if (line>2 || count > 0 ) {
+//                val trendContentDialog = TrendContentDialog()
+//                trendContentDialog.arguments = bundleOf("data" to mTrend)
+//                trendContentDialog.show(supportFragmentManager, "con")
+//            }
+
+            val trendContentDialog = TrendContentDialog()
+            trendContentDialog.arguments = bundleOf("data" to mTrend)
+            trendContentDialog.show(supportFragmentManager, "con")
         }
 
         tv_comment.setOnClickListener {

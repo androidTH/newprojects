@@ -13,6 +13,7 @@ import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.Comment
 import com.d6.android.app.utils.CustomLinkMovementMethod
 import com.d6.android.app.utils.SpanBuilder
+import com.d6.android.app.utils.toTime
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.startActivity
 
@@ -33,6 +34,7 @@ class TrendCommentAdapter(mData:ArrayList<Comment>):HFRecyclerAdapter<Comment>(m
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         headView.setImageURI(data.picUrl)
         holder.setText(R.id.tv_name,data.name)
+        holder.setText(R.id.tv_time, data.createTime.toTime("MM.dd"))
         headView.setOnClickListener {
             val id = data.userId ?: ""
             context.startActivity<UserInfoActivity>("id" to id)
@@ -59,7 +61,7 @@ class TrendCommentAdapter(mData:ArrayList<Comment>):HFRecyclerAdapter<Comment>(m
 
         }
         override fun updateDrawState(ds: TextPaint) {
-            ds.color = ContextCompat.getColor(context,R.color.color_369)
+            ds.color = ContextCompat.getColor(context, R.color.textColor66)
             ds.isUnderlineText = false
         }
     }

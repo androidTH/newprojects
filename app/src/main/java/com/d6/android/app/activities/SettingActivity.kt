@@ -13,6 +13,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.umeng.message.PushAgent
+import com.umeng.message.UTrack
 import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
@@ -20,6 +21,7 @@ import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_setting.*
+import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
@@ -125,9 +127,9 @@ class SettingActivity : TitleActivity() {
                 tv_nick.text = it.name
                 tv_signature.text = it.intro
 
-                if(data.signature.isNullOrEmpty()){
+                if(TextUtils.equals("0",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
                     img_auther.visibility = View.GONE
-                }else {
+                }else{
                     img_auther.visibility = View.VISIBLE
                 }
             }

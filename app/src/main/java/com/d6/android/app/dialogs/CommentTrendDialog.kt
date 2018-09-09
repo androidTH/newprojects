@@ -1,12 +1,11 @@
 package com.d6.android.app.dialogs
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,9 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.dialog_comment_trend_layout.*
+import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
@@ -48,7 +49,7 @@ class CommentTrendDialog : DialogFragment() ,RequestManager,TrendDetailActivity.
     private val compositeDisposable = CompositeDisposable()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout((screenWidth() * 0.9f).toInt(), wrapContent)
+        dialog.window.setLayout((screenWidth() * 1f).toInt(), wrapContent)
         dialog.window.setGravity(Gravity.BOTTOM)
 //        dialog.setOnDismissListener {
 //            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -77,6 +78,23 @@ class CommentTrendDialog : DialogFragment() ,RequestManager,TrendDetailActivity.
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
         }
+
+        et_content.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                if (et_content.text.length > 0) {
+                    tv_send.backgroundResource = R.drawable.shape_15r_orange
+                } else {
+                    tv_send.backgroundResource = R.drawable.shape_15r_grey
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
 
 //        Handler(Looper.getMainLooper()).postDelayed({
 //            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

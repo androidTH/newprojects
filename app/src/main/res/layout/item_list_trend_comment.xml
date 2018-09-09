@@ -2,46 +2,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/color_CC000000"
     android:padding="@dimen/padding_12"
     android:layout_height="wrap_content">
     <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="50dp"
+        android:layout_width="35dp"
         style="@style/DefaultHeadStyle"
         android:layout_marginRight="12dp"
         android:id="@+id/headView"
         app:roundAsCircle="true"
-        android:layout_height="50dp" />
+        android:layout_height="35dp" />
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="35dp"
         android:gravity="center_vertical"
         android:layout_toRightOf="@+id/headView"
         android:layout_marginRight="8dp"
         android:singleLine="true"
         android:textSize="15sp"
         android:text="---"
-        android:textColor="@color/textColor"/>
+        android:textColor="@color/color_888888"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginRight="12dp"
-        android:id="@+id/tv_age"
+        android:id="@+id/tv_time"
         android:textSize="@dimen/textSize"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/margin_8"
         android:layout_alignTop="@+id/headView"
+        android:layout_alignParentRight="true"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:background="@drawable/ic_sex_bg_selector"
-        android:layout_toRightOf="@+id/tv_name"
         android:gravity="center_vertical"
-        android:textColor="@color/white"
+        android:textColor="@color/color_888888"
         android:text="0"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/headView"
+        android:textColor="@color/white"
         android:textSize="12sp"
         android:layout_marginTop="4dp"
         android:id="@+id/tv_content"

@@ -8,6 +8,7 @@ import android.net.Uri
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.view.View
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import com.d6.android.app.R
@@ -318,6 +319,14 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //                } else {
 //                    headerView.tv_vip.visible()
 //                }
+
+                if(TextUtils.equals("0",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
+                    headerView.tv_auther_sign.visibility = View.VISIBLE
+                    headerView.img_auther.visibility = View.GONE
+                }else{
+                    headerView.tv_auther_sign.visibility = View.GONE
+                    headerView.img_auther.visibility = View.VISIBLE
+                }
                 headerView.tv_vip.text = String.format("%s", it.classesname)
 
                 mTags.clear()

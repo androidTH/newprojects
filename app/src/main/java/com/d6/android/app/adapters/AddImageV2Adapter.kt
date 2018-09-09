@@ -33,7 +33,7 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
         val ivDeleteView = holder.bind<ImageView>(R.id.ivDeleteView)
         if (data.type == 1) {//添加。
             ivDeleteView.gone()
-            imageView.setImageResource(R.mipmap.ic_add_bg)
+            imageView.setImageResource(R.mipmap.comment_addphoto_icon)
         } else {
             ivDeleteView.visible()
             imageView.setImageURI(data.imgUrl)

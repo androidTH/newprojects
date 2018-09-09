@@ -2,17 +2,29 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:orientation="vertical"
-    android:background="@color/white"
+    android:background="@color/color_7D000000"
     android:layout_height="wrap_content">
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="56dp"
-        android:id="@+id/headView"
-        style="@style/DefaultCircleHeadStyle"
+    <!--<com.facebook.drawee.view.SimpleDraweeView-->
+        <!--android:layout_width="56dp"-->
+        <!--android:id="@+id/headView"-->
+        <!--style="@style/DefaultCircleHeadStyle"-->
+        <!--android:layout_marginLeft="12dp"-->
+        <!--android:layout_marginTop="36dp"-->
+        <!--android:layout_marginRight="8dp"-->
+        <!--android:layout_marginBottom="12dp"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_height="56dp" />-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/tv_trend_content_info"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginTop="12dp"
+        android:text="查看详情"
         android:layout_marginBottom="12dp"
-        android:layout_height="56dp" />
+        android:textSize="16dp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
     <TextView
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
@@ -20,56 +32,74 @@
         android:layout_gravity="right"
         android:padding="12dp"
         android:id="@+id/tv_close"
-        android:drawableRight="@mipmap/ic_close_gray"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
-        android:id="@+id/tv_nick"
-        android:textSize="@dimen/textSize"
-        android:layout_alignTop="@+id/headView"
-        android:layout_toRightOf="@+id/headView"
-        android:maxWidth="120dp"
-        android:singleLine="true"
-        android:layout_alignBottom="@+id/headView"
-        android:gravity="center_vertical"
-        android:textColor="@color/textColor"
-        android:text="昵称"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginRight="12dp"
-        android:id="@+id/tv_age"
-        android:textSize="@dimen/textSize"
-        android:layout_marginTop="18dp"
-        android:layout_alignTop="@+id/headView"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:background="@drawable/ic_sex_bg_selector"
-        android:layout_toRightOf="@+id/tv_nick"
-        android:gravity="center_vertical"
-        android:textColor="@color/white"
-        android:text="0"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp"
-        android:id="@+id/tv_time"
-        android:textSize="@dimen/textSize"
-        android:layout_alignTop="@+id/headView"
-        android:layout_alignBottom="@+id/headView"
-        android:gravity="center_vertical"
-        android:textColor="@color/textColor99"
-        android:text="刚刚"/>
+        android:drawableRight="@mipmap/window_close_button"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginRight="12dp"-->
+        <!--android:id="@+id/tv_nick"-->
+        <!--android:textSize="@dimen/textSize"-->
+        <!--android:layout_alignTop="@+id/headView"-->
+        <!--android:layout_toRightOf="@+id/headView"-->
+        <!--android:maxWidth="120dp"-->
+        <!--android:singleLine="true"-->
+        <!--android:layout_alignBottom="@+id/headView"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:textColor="@color/textColor"-->
+        <!--android:visibility="gone"-->
+        <!--android:text="昵称"/>-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:layout_marginRight="12dp"-->
+        <!--android:id="@+id/tv_age"-->
+        <!--android:textSize="@dimen/textSize"-->
+        <!--android:layout_marginTop="18dp"-->
+        <!--android:layout_alignTop="@+id/headView"-->
+        <!--android:paddingLeft="8dp"-->
+        <!--android:paddingRight="8dp"-->
+        <!--android:background="@drawable/ic_sex_bg_selector"-->
+        <!--android:layout_toRightOf="@+id/tv_nick"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:visibility="gone"-->
+        <!--android:text="0"/>-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginRight="12dp"-->
+        <!--android:id="@+id/tv_time"-->
+        <!--android:textSize="@dimen/textSize"-->
+        <!--android:layout_alignTop="@+id/headView"-->
+        <!--android:layout_alignBottom="@+id/headView"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:textColor="@color/textColor99"-->
+        <!--android:visibility="gone"-->
+        <!--android:text="刚刚"/>-->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:id="@+id/tv_content"
-        android:textColor="@color/textColor"
+        android:textColor="@color/white"
         android:textSize="@dimen/textSize"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:paddingBottom="16dp"
-        android:layout_below="@+id/headView"/>
+        android:layout_below="@+id/tv_trend_content_info"
+        android:text=""/>
+    <TextView
+        android:id="@+id/tv_trend_comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/shape_comment_circle_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:text="我来说两句"
+        android:textColor="@color/color_66ffffff"
+        android:textSize="@dimen/textSize" />
 </RelativeLayout>

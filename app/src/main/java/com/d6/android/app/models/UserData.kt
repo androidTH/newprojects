@@ -34,6 +34,8 @@ data class UserData(val accountId: String? = "") : Serializable {
     var constellation: String? = ""
     @SerializedName("ziwojieshao")
     var intro: String? = ""
+    @SerializedName("screen")
+    var screen:String?=""
     var invitecode: String? = ""
     var birthday: String? = ""
     var userpics: String? = ""

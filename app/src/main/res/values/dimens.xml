@@ -6,10 +6,12 @@
     <dimen name="padding_16">12dp</dimen>
     <dimen name="request_12">12sp</dimen>
     <dimen name="textSize">14sp</dimen>
+    <dimen name="textSize_12">12sp</dimen>
     <dimen name="textSize_16">16sp</dimen>
     <dimen name="textSize_18">18sp</dimen>
     <dimen name="textSize_20">20sp</dimen>
     <dimen name="btnTextSize">16sp</dimen>
+    <dimen name="TextSize_14">14sp</dimen>
     <dimen name="btnTextSize20">20sp</dimen>
     <dimen name="btnTextSize25">25sp</dimen>
     <dimen name="title_bar_size">48dp</dimen>
@@ -19,10 +21,14 @@
     <dimen name="margin_18">18dp</dimen>
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_5">5dp</dimen>
     <dimen name="margin_1">1dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_3">3dp</dimen>
     <dimen name="radius_10">10dp</dimen>
     <dimen name="height_40">40dp</dimen>
     <dimen name="height_30">30dp</dimen>
     <dimen name="height_1">1dp</dimen>
+    <dimen name="height_300">300dp</dimen>
 </resources>
