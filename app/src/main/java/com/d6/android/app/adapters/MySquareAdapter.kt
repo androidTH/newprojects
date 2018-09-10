@@ -6,6 +6,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.dialogs.SquareActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
@@ -13,6 +14,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.widget.UserTrendView
+import org.jetbrains.anko.bundleOf
 
 /**
  *动态
@@ -43,6 +45,17 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         }
         trendView.setOnItemClick{v,s->
             mOnItemClickListener?.onItemClick(v,position)
+        }
+
+        trendView.setDeleteClick {
+            val squareActionDialog = SquareActionDialog()
+            squareActionDialog.arguments = bundleOf("data" to it)
+            squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
+            squareActionDialog.setDialogListener { p, s ->
+                if (p == 1) {
+                    delete(data)
+                }
+            }
         }
     }
 

@@ -223,8 +223,8 @@ object Request {
     fun addBlackList(userId: String,id:String) =
             RRetrofit.instance().create(ApiServices::class.java).addBlackList(userId,id)
 
-    fun report(userId: String,id:String,content:String) =
-            RRetrofit.instance().create(ApiServices::class.java).report(userId,id,content)
+    fun report(userId: String,id:String,content:String,tiptype:String) =
+            RRetrofit.instance().create(ApiServices::class.java).report(userId,id,content,tiptype)
 
     fun updateSeeCount(userId: String) =
             RRetrofit.instance().create(ApiServices::class.java).updateSeeCount(userId)

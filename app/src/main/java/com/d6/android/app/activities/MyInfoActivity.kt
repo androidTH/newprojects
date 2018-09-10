@@ -3,19 +3,31 @@ package com.d6.android.app.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.d6.android.app.R
+import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
+import com.d6.android.app.utils.BitmapUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.sysErr
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
+import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_my_info.*
+import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.support.v4.dip
+import org.jetbrains.anko.support.v4.startActivityForResult
+import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 import java.io.File
 
 /**
@@ -25,12 +37,47 @@ class MyInfoActivity : BaseActivity() {
     private val userData by lazy {
         intent.getSerializableExtra("data") as UserData
     }
+
+    private val mImagesData by lazy<ArrayList<AddImage>>{
+        intent.getParcelableArrayListExtra("images")
+    }
+
+    private val myImageAdapter by lazy {
+        MyImageAdapter(mImagesData)
+    }
+
     private var sex: String = "1"
     private var headFilePath: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_info)
         immersionBar.fitsSystemWindows(true).init()
+
+        rv_edit_images.setHasFixedSize(true)
+        rv_edit_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rv_edit_images.isNestedScrollingEnabled = false
+        rv_edit_images.adapter = myImageAdapter
+        rv_edit_images.addItemDecoration(VerticalDividerItemDecoration.Builder(this)
+                .colorResId(android.R.color.transparent)
+                .size(dip(2))
+                .build())
+
+        myImageAdapter.setOnItemClickListener { _, position ->
+            val data = mImagesData[position]
+            if (data.type != 1) {
+                userData?.let {
+                    val urls = mImagesData.filter { it.type != 1 }.map { it.imgUrl }
+                    startActivityForResult<ImagePagerActivity>(22, "data" to it, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position, "delete" to true)
+                }
+            } else {
+                if (mImagesData.size >= 9) {
+                    toast("最多上传8张图片")
+                    return@setOnItemClickListener
+                }
+                startActivityForResult<SelectPhotoDialog>(8)
+            }
+        }
+
         tv_back.setOnClickListener {
             finish()
         }
@@ -38,7 +85,7 @@ class MyInfoActivity : BaseActivity() {
             saveInfo()
         }
 
-        headView.setOnClickListener {
+        tv_edit_headview.setOnClickListener {
             startActivityForResult<SelectPhotoDialog>(0)
         }
 
@@ -131,8 +178,41 @@ class MyInfoActivity : BaseActivity() {
             } else if (requestCode == 1) {
                 headFilePath = data?.getStringExtra("path")
                 headView.setImageURI("file://$headFilePath")
+            }else if (requestCode == 8 && data != null) {//选择图片
+                val path = data.getStringExtra(SelectPhotoDialog.PATH)
+                updateImages(path)
+            }else if(requestCode==22){
+                 refreshImages(data!!.getSerializableExtra("data") as UserData)
             }
         }
+    }
+
+    private fun updateImages(path: String) {
+        Flowable.just(path).flatMap {
+            val file = BitmapUtils.compressImageFile(path)
+            Request.uploadFile(file)
+        }.flatMap {
+            if (userData.userpics.isNullOrEmpty()) {
+                userData.userpics = it
+            } else {
+                userData.userpics = userData.userpics + "," + it
+            }
+            Request.updateUserInfo(userData)
+        }.request(this) { _, _ ->
+            refreshImages(userData)
+        }
+    }
+
+    private fun refreshImages(userData: UserData) {
+        mImagesData.clear()
+        if (!userData.userpics.isNullOrEmpty()) {
+            val images = userData.userpics!!.split(",")
+            images.forEach {
+                mImagesData.add(AddImage(it))
+            }
+        }
+        mImagesData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+        myImageAdapter.notifyDataSetChanged()
     }
 
     private fun saveInfo() {

@@ -21,6 +21,9 @@ class ReportActivity : TitleActivity() {
     private val id by lazy {
         intent.getStringExtra("id")
     }
+    private val tiptype by lazy{
+        intent.getStringExtra("tiptype")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed_back)
@@ -38,7 +41,7 @@ class ReportActivity : TitleActivity() {
             return
         }
         dialog()
-        Request.report(userId,id,content).request(this){msg,_->
+        Request.report(userId,id,content,tiptype).request(this){msg,_->
             toast(msg.toString())
             finish()
         }

@@ -135,7 +135,7 @@ interface ApiServices {
     fun addBlackList(@Query("userid") userid:String,@Query("blackuserid") blackuserid:String): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/tip/add")
-    fun report(@Query("userid") userid:String,@Query("tipuserid") tipuserid:String,@Query("content") content:String): Flowable<Response<JsonPrimitive>>
+    fun report(@Query("userid") userid:String,@Query("tipuserid") tipuserid:String,@Query("content") content:String,@Query("tiptype") tiptype:String): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagementsaccount/update")
     fun updateSeeCount(@Query("userid") userid:String,@Query("seecount") seecount:String="1"): Flowable<Response<JsonPrimitive>>

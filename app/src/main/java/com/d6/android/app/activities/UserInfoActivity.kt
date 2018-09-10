@@ -305,7 +305,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun report() {
-        startActivity<ReportActivity>("id" to id)
+        startActivity<ReportActivity>("id" to id, "tiptype" to "1")
     }
 
     private fun addBlackList() {

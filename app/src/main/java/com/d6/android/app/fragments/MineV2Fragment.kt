@@ -133,7 +133,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             mineActionDialog.setDialogListener { p, s ->
                 if (p == 0) {
                     mData?.let {
-                        startActivityForResult<MyInfoActivity>(0, "data" to it)
+                        startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
                     }
                 } else if (p == 1) {
                     startActivityForResult<SettingActivity>(5)
@@ -188,10 +188,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_my_msg_orange, 0)
             tv_setting.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_orange, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_orange, 0)
+            immersionBar.statusBarDarkFont(true).init()
         } else {
             tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_my_msg, 0)
             tv_setting.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_white, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_white, 0)
+            immersionBar.statusBarDarkFont(false).init()
         }
     }
 
@@ -293,7 +295,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     }
 
     private fun getUserInfo() {
-
         Request.getUserInfo(userId).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             mData = data

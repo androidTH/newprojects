@@ -23,6 +23,7 @@ import org.jetbrains.anko.startActivity
 
 /**
  * Created on 2017/12/17.
+ * 动态列表
  */
 class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
 
@@ -82,12 +83,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     fun update(square: Square,type:Int?=0) {
 
         imageAdapter.bindSquare(square)
-        val uid = SPUtils.instance().getString(Const.User.USER_ID)
-        if (TextUtils.equals(square.userid, uid) && type == 1) {//是自己。
-            tv_delete.visible()
-        } else {
-            tv_delete.gone()
-        }
+//        val uid = SPUtils.instance().getString(Const.User.USER_ID)
+//        if (TextUtils.equals(square.userid, uid) && type == 1) {//是自己。
+//            tv_delete.visible()
+//        } else {
+//            tv_delete.gone()
+//        }
         this.square = square
         headView.setImageURI(square.picUrl)
         tv_name.text = square.name

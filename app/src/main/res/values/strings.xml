@@ -16,4 +16,5 @@
     <string name="auth_tips">认证是为了保证用户的信息真实性，提供优质服务，目前仅提供微信人工认证服务（女生免费）</string>
     <string name="wx_fast_login">微信快捷登录</string>
     <string name="user_no_auther">未认证,认证后获得更多特权</string>
+    <string name="mine_edit_info">编辑资料</string>
 </resources>

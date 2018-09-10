@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
 import com.d6.android.app.R
 import com.d6.android.app.activities.MainActivity
+import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.activities.SquareTrendDetailActivity
 import com.d6.android.app.activities.TrendDetailActivity
 import com.d6.android.app.adapters.BannerAdapter
@@ -29,6 +30,7 @@ import org.jetbrains.anko.support.v4.startActivityForResult
 
 /**
  * Created on 2017/12/17.
+ * 动态
  */
 class SquareFragment : RecyclerFragment() {
     companion object {

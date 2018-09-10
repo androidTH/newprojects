@@ -31,14 +31,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/textSize"
         android:layout_alignParentRight="true"
-        android:paddingRight="8dp"
-        android:paddingTop="8dp"
-        android:id="@+id/tv_delete"
-        android:visibility="gone"
-        android:textColor="@color/color_369"
-        android:text="删除"/>
+        android:paddingRight="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_15"
+        android:paddingTop="@dimen/margin_10"
+        android:background="@mipmap/discuss_more_gray"
+        android:id="@+id/tv_delete" />
     <TextView
         android:id="@+id/tv_sub_title"
         android:layout_width="wrap_content"

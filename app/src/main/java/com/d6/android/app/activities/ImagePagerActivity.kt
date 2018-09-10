@@ -1,6 +1,7 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import com.d6.android.app.R
@@ -12,6 +13,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.visible
 import kotlinx.android.synthetic.main.activity_image_pager.*
+import org.jetbrains.anko.bundleOf
 import java.lang.StringBuilder
 
 /**
@@ -74,7 +76,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             dialog()
             user.userpics = imgs.toString()
             Request.updateUserInfo(user).request(this){_,_->
-                setResult(Activity.RESULT_OK)
+                setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to user)))
                 finish()
             }
         }

@@ -21,6 +21,7 @@ import org.jetbrains.anko.find
 
 /**
  * Created on 2017/12/17.
+ * 我的动态
  */
 class UserTrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
 
@@ -66,11 +67,11 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //            textClickedListener?.onTextClicked()
 //        }
 //
-//        tv_delete.setOnClickListener {
-//            square?.let {
-//                deleteAction?.onDelete(it)
-//            }
-//        }
+        tv_my_square_delete.setOnClickListener {
+            square?.let {
+                deleteAction?.onDelete(it)
+            }
+        }
     }
 
     /**

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#f8f8f8"
+    android:background="@color/color_F5F5F5"
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -11,7 +11,8 @@
         android:id="@+id/rl_title"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_size">
+        android:layout_height="@dimen/title_bar_size"
+        android:layout_marginBottom="@dimen/margin_8">
         <TextView
             android:id="@+id/tv_back"
             android:layout_width="60dp"
@@ -24,22 +25,25 @@
             android:layout_height="match_parent"
             android:textSize="20dp"
             android:id="@+id/tv_title"
-            android:text="个人资料"
+            android:text="@string/mine_edit_info"
+            android:textColor="@color/color_000000"
             android:gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:id="@+id/tv_save"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
             android:layout_centerVertical="true"
-            android:textColor="@color/orange_f6a"
+            android:layout_marginRight="@dimen/margin_10"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_10r_orange"
             android:text="保存" />
     </RelativeLayout>
-    <View style="@style/view_line_h"/>
+    <!--<View style="@style/view_line_h"/>-->
     <ScrollView
         android:layout_width="match_parent"
         android:scrollbars="none"
@@ -57,32 +61,38 @@
                 android:paddingBottom="12dp"
                 android:background="@color/white">
                 <com.facebook.drawee.view.SimpleDraweeView
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:id="@+id/headView"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="24dp"
-                    app:roundingBorderColor="@color/orange_f6a"
+                    android:layout_marginLeft="@dimen/margin_15"
                     app:roundingBorderWidth="1dp"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     style="@style/DefaultCircleHeadStyle"/>
+                <!--app:roundingBorderColor="@color/orange_f6a"-->
+
                 <TextView
+                    android:id="@+id/tv_edit_headview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="更换头像"
-                    android:textSize="10dp"
-                    android:layout_alignRight="@+id/headView"
-                    android:textColor="@color/textColor66"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:background="@drawable/shape_orange_circle_line"
-                    android:layout_marginRight="-2dp"
-                    android:layout_alignBottom="@+id/headView"/>
+                    android:textSize="14dp"
+                    android:drawablePadding="@dimen/margin_10"
+                    android:textColor="@color/color_888888"
+                    android:layout_marginRight="@dimen/margin_8"
+                    android:layout_centerVertical="true"
+                    android:drawableRight="@mipmap/ic_more_gray"
+                    android:layout_alignParentRight="true"/>
             </RelativeLayout>
+            <View style="@style/view_line_h"
+                android:layout_alignBottom="@+id/rl_headView"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
             <TextView
                 style="@style/mineTextStyle1"
                 android:layout_below="@+id/rl_headView"
                 android:id="@+id/tv_nick"
+                android:textColor="@color/color_333333"
                 android:text="昵称"/>
             <EditText
                 android:layout_width="match_parent"
@@ -93,18 +103,19 @@
                 android:singleLine="true"
                 android:maxLength="10"
                 android:background="@null"
-                android:layout_marginLeft="96dp"
+                android:layout_marginLeft="70dp"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_alignTop="@+id/tv_nick"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
+                android:textColor="@color/color_666666" />
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_nick"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
             <TextView
                 style="@style/mineTextStyle1"
                 android:id="@+id/tv_intro"
-                android:text="自我介绍"
+                android:text="简介"
+                android:textColor="@color/color_333333"
                 android:layout_below="@+id/tv_nick"/>
             <EditText
                 android:layout_width="match_parent"
@@ -112,21 +123,40 @@
                 android:layout_alignRight="@+id/tv_intro"
                 android:id="@+id/tv_intro1"
                 android:layout_alignBottom="@+id/tv_intro"
-                android:layout_marginLeft="96dp"
+                android:layout_marginLeft="70dp"
                 android:singleLine="true"
                 android:hint="一个好的自我介绍更受异性青睐~"
                 android:background="@null"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_alignTop="@+id/tv_intro"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
-
+                android:textColor="@color/color_666666" />
+            <TextView
+                style="@style/mineTextStyle1"
+                android:id="@+id/tv_photo_wall"
+                android:layout_height="90dp"
+                android:text="照片墙"
+                android:textColor="@color/color_333333"
+                android:layout_below="@+id/tv_intro"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_edit_images"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_below="@+id/tv_intro"
+                android:layout_marginLeft="70dp"
+                android:layout_marginBottom="6dp"
+                android:background="@color/white"
+                android:minHeight="66dp"
+                android:paddingLeft="16dp"
+                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="8dp" />
             <TextView
                 style="@style/mineTextStyle1"
                 android:id="@+id/tv_birthday"
                 android:layout_marginTop="8dp"
                 android:text="生日"
-                android:layout_below="@+id/tv_intro"/>
+                android:textColor="@color/color_333333"
+                android:layout_below="@+id/rv_edit_images"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -141,7 +171,7 @@
                 android:text=""
                 android:layout_alignTop="@+id/tv_birthday"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
+                android:textColor="@color/color_666666" />
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_birthday"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
@@ -149,6 +179,7 @@
                 style="@style/mineTextStyle"
                 android:id="@+id/tv_sex"
                 android:text="性别"
+                android:textColor="@color/color_333333"
                 android:drawableRight="@null"
                 android:layout_below="@+id/tv_birthday"/>
             <TextView
@@ -163,7 +194,7 @@
                 android:hint="男"
                 android:layout_alignTop="@+id/tv_sex"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
+                android:textColor="@color/color_666666" />
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_sex"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
@@ -171,6 +202,7 @@
                 style="@style/mineTextStyle1"
                 android:id="@+id/tv_height"
                 android:text="身高"
+                android:textColor="@color/color_333333"
                 android:layout_below="@+id/tv_sex"/>
             <TextView
                 android:layout_width="match_parent"
@@ -185,7 +217,7 @@
                 android:layout_alignBottom="@+id/tv_height"
                 android:layout_alignTop="@+id/tv_height"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
+                android:textColor="@color/color_666666" />
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_height"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
@@ -193,6 +225,7 @@
                 style="@style/mineTextStyle1"
                 android:id="@+id/tv_weight"
                 android:text="体重"
+                android:textColor="@color/color_333333"
                 android:layout_below="@+id/tv_height"/>
             <TextView
                 android:layout_width="match_parent"
@@ -207,12 +240,13 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_alignTop="@+id/tv_weight"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
+                android:textColor="@color/color_666666" />
             <TextView
                 style="@style/mineTextStyle1"
                 android:id="@+id/tv_job"
                 android:layout_marginTop="8dp"
                 android:text="职业"
+                android:textColor="@color/color_333333"
                 android:layout_below="@+id/tv_weight"/>
             <EditText
                 android:layout_width="match_parent"
@@ -227,7 +261,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_alignTop="@+id/tv_job"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
+                android:textColor="@color/color_666666" />
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_job"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
@@ -235,6 +269,7 @@
                 style="@style/mineTextStyle1"
                 android:id="@+id/tv_hobbit"
                 android:text="兴趣爱好"
+                android:textColor="@color/color_333333"
                 android:layout_below="@+id/tv_job"/>
             <EditText
                 android:layout_width="match_parent"
@@ -249,7 +284,7 @@
                 android:layout_alignBottom="@+id/tv_hobbit"
                 android:layout_alignTop="@+id/tv_hobbit"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
+                android:textColor="@color/color_666666" />
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_hobbit"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
@@ -257,6 +292,7 @@
                 style="@style/mineTextStyle1"
                 android:id="@+id/tv_constellation"
                 android:text="星座"
+                android:textColor="@color/color_333333"
                 android:layout_below="@+id/tv_hobbit"/>
             <TextView
                 android:layout_width="match_parent"
@@ -271,7 +307,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_alignTop="@+id/tv_constellation"
                 android:gravity="center_vertical"
-                android:textColor="@color/textColor66" />
+                android:textColor="@color/color_666666" />
 
         </RelativeLayout>
     </ScrollView>
