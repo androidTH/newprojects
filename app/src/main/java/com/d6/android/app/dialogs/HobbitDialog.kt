@@ -10,10 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.screenWidth
 import com.d6.android.app.widget.LabelsView
@@ -91,9 +88,11 @@ class HobbitDialog : DialogFragment(), RequestManager {
                 labelsView.setLabels(mLabels, R.layout.layout_tag)
             }
         })
-        labelsView.setOnLabelClickListener(LabelsView.OnLabelClickListener { label, data, position ->
-            labelsView.removeView(label.parent as View)
-            mLabels.remove(data)
+        labelsView.setOnLabelClickListener(object:LabelsView.OnLabelClickListener {
+            override fun onLabelClick(label: TextView, data: Any, position: Int) {
+                labelsView.removeView(label.parent as View)
+                mLabels.remove(data)
+            }
         }, R.layout.layout_tag)
 
     }
