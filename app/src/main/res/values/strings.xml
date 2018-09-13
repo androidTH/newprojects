@@ -1,4 +1,6 @@
 <resources>
+    <item name="tag_key_data" type="id"/>
+    <item name="tag_key_position" type="id"/>
     <string name="app_name">D6社区</string>
     <string name="step1">STEP\n1</string>
     <string name="step2">STEP\n2</string>
@@ -17,4 +19,5 @@
     <string name="wx_fast_login">微信快捷登录</string>
     <string name="user_no_auther">未认证,认证后获得更多特权</string>
     <string name="mine_edit_info">编辑资料</string>
+    <string name="hobbit_string">最长可输入3个爱好，每个爱好最长5个字,点击+号可添加另一个</string>
 </resources>

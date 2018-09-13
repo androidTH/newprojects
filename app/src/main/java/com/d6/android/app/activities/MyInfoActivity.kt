@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.base.BaseActivity
@@ -61,7 +62,7 @@ class MyInfoActivity : BaseActivity() {
                 .colorResId(android.R.color.transparent)
                 .size(dip(2))
                 .build())
-
+        myImageAdapter.mRes = R.mipmap.person_edit_addphoto
         myImageAdapter.setOnItemClickListener { _, position ->
             val data = mImagesData[position]
             if (data.type != 1) {
@@ -151,6 +152,17 @@ class MyInfoActivity : BaseActivity() {
             }
             selectConstellationDialog.show(supportFragmentManager,"c")
         }
+
+        tv_hobbit1.setOnClickListener(View.OnClickListener {
+            val hobbitDialog = HobbitDialog()
+            hobbitDialog.show(supportFragmentManager, "hobbit")
+            hobbitDialog.setDialogListener { p, s ->
+                if(!TextUtils.isEmpty(s)){
+                    userData.hobbit = s
+                    tv_hobbit1.text = s!!.replace("#",",",false)
+                }
+            }
+        })
 
         headView.setImageURI(userData.picUrl)
         tv_nickName.setText(userData.name)

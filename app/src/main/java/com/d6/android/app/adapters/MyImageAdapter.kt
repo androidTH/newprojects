@@ -20,6 +20,8 @@ import org.jetbrains.anko.startActivity
  */
 class MyImageAdapter(mData: ArrayList<AddImage>) : BaseRecyclerAdapter<AddImage>(mData, R.layout.item_list_my_image) {
 
+    var mRes:Int=R.mipmap.ic_add_v2bg
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val holder = super.onCreateViewHolder(parent, viewType)
         val rootLayout = holder.bind<View>(R.id.root_layout)
@@ -33,7 +35,7 @@ class MyImageAdapter(mData: ArrayList<AddImage>) : BaseRecyclerAdapter<AddImage>
     override fun onBind(holder: ViewHolder, position: Int, data: AddImage) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         if (data.type == 1) {//添加。
-            imageView.setImageURI("res:///" + R.mipmap.ic_add_v2bg)
+            imageView.setImageURI("res:///" + mRes)
         } else {
             imageView.setImageURI(data.imgUrl)
         }
