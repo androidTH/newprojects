@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.muzhi.camerasdk.library.filter.GPUImageView
+        android:id="@+id/bl_gpu_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <www.morefuntrip.cn.sticker.StickerView
+            android:id="@+id/bl_sticker_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:showBorder="true"
+            app:showIcons="true"
+            app:bringToFrontCurrentSticker="true">
+        </www.morefuntrip.cn.sticker.StickerView>
+    </com.muzhi.camerasdk.library.filter.GPUImageView>
+
+</FrameLayout>
