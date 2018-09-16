@@ -37,7 +37,7 @@ class SystemMessageAdapter(mData: ArrayList<SysMessage>) : HFRecyclerAdapter<Sys
     private fun delete(sysMessage: SysMessage) {
         isBaseActivity {
             it.dialog(canCancel = false)
-            Request.deleteSysMsg(userId, sysMessage.id).request(it) { _, _ ->
+            Request.deleteSysMsg(userId, sysMessage.ids.toString()).request(it) { _, _ ->
                 it.showToast("删除成功")
                 mData.remove(sysMessage)
                 notifyDataSetChanged()

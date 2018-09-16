@@ -35,16 +35,16 @@ class SystemMessagesActivity : RecyclerActivity() {
             val msg = mMessages[position]
 //            sysErr("------------->${msg.urltype}")
             when {
-                msg.urltype == 0 -> //链接
+                msg.urltype == "0" -> //链接
                     startActivity<WebViewActivity>("url" to (msg.url?:""),"title" to "")
-                msg.urltype == 1 -> //广场
+                msg.urltype == "1" -> //广场
 //                    getTrendDetail((msg.url?:"")){
 //                        startActivity<TrendDetailActivity>("data" to it)
 //                    }
                     startActivity<SquareTrendDetailActivity>("id" to (msg.url?:""))
-                msg.urltype == 2 -> //会员
+                msg.urltype == "2" -> //会员
                     startActivity<UserInfoActivity>("id" to (msg.url?:""))
-                msg.urltype == 4 -> {//速约
+                msg.urltype == "4" -> {//速约
 
                     getSpeedDateDetail((msg.url ?: ""))
                 }

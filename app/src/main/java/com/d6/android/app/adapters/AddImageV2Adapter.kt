@@ -51,9 +51,9 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
             }
         }
         ivDeleteView.setOnClickListener {
-//            mData.remove(data)
-//            notifyDataSetChanged()
-            startActivity(mData,position)
+            mData.remove(data)
+            notifyDataSetChanged()
+//            startActivity(mData,position)
         }
     }
 

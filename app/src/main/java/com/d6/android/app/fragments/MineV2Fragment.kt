@@ -123,7 +123,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
         headerView.headView.setOnClickListener {
             mData?.let {
-                startActivityForResult<MyInfoActivity>(0, "data" to it)
+                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
             }
         }
         tv_more.setOnClickListener {

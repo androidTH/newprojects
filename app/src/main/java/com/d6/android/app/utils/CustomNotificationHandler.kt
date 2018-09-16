@@ -43,7 +43,7 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
 
     override fun dealWithCustomAction(context: Context?, msg: UMessage?) {
         super.dealWithCustomAction(context, msg)
-        Toast.makeText(context, "dealWithCustomAction+${msg!!.extra["type"]}", Toast.LENGTH_LONG).show()
+//        Toast.makeText(context, "dealWithCustomAction+${msg!!.extra["type"]}", Toast.LENGTH_LONG).show()
         handleCustomAction(context, msg)
     }
 
