@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.*
@@ -22,6 +23,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_my_date.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.custom.customView
 import org.jetbrains.anko.startActivity
 
 /**
@@ -34,10 +36,13 @@ class MyDateActivity : TitleActivity() {
         intent.getStringExtra("whetherOrNotToBeCertified")
     }
 
+    private val egagementtype by lazy{
+        intent.getStringExtra("egagementtype")
+    }
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
-
 
     private val titles = arrayListOf("我约的人", "别人约我")
 
@@ -94,6 +99,7 @@ class MyDateActivity : TitleActivity() {
         }
         mViewPager.adapter = adapter
         mTabLayout.setViewPager(mViewPager)
+        mViewPager.currentItem = if(TextUtils.equals(egagementtype,"1")) 0 else 1
         headView.setImageURI(SPUtils.instance().getString(Const.User.USER_HEAD));
         tv_toggle_set.setOnClickListener {
             if (rl_set.visibility == View.VISIBLE) {

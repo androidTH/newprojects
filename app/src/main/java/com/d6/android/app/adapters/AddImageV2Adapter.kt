@@ -4,6 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.d6.android.app.R
+import com.d6.android.app.activities.BLBeautifyImageActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.AddImage
@@ -12,6 +14,10 @@ import com.d6.android.app.utils.screenWidth
 import com.d6.android.app.utils.visible
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.imageBitmap
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
+import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
  *
@@ -45,9 +51,21 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
             }
         }
         ivDeleteView.setOnClickListener {
-            mData.remove(data)
-            notifyDataSetChanged()
+//            mData.remove(data)
+//            notifyDataSetChanged()
+            startActivity(mData,position)
         }
+    }
+
+    fun startActivity(mData:ArrayList<AddImage>,pos:Int){
+        var param:BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+        param.index = pos
+        mData.forEach {
+            if(it.type == 0){
+                param.images.add(it.imgUrl.replace("file://",""))
+            }
+        }
+        (context as BaseActivity).startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE,BLBeautifyParam.KEY to param);
     }
 
     fun setOnAddClickListener(l:()->Unit){

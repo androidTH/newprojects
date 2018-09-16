@@ -35,12 +35,12 @@
             android:name="com.amap.api.v2.apikey"
             android:value="808bc15cea5a1648a2c84a08fff73267" />
 
-        <!--<meta-data-->
-            <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="5a5b309af29d9835ae000262" />-->
-        <!--<meta-data-->
-            <!--android:name="UMENG_MESSAGE_SECRET"-->
-            <!--android:value="0f16af7d3011a5aad7cf82a996b6b94c" />-->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_APPKEY" -->
+        <!-- android:value="5a5b309af29d9835ae000262" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_MESSAGE_SECRET" -->
+        <!-- android:value="0f16af7d3011a5aad7cf82a996b6b94c" /> -->
 
         <service android:name="com.amap.api.location.APSService" />
 
@@ -212,7 +212,9 @@
             android:label="@string/title_activity_speed_date"
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.DateAuthStateActivity" />
-        <activity android:name=".activities.MyDateActivity"></activity>
+        <activity android:name=".activities.MyDateActivity" />
+        <activity android:name=".activities.EditImageActivity"></activity>
+        <activity android:name=".activities.BLBeautifyImageActivity"/>
     </application>
 
 </manifest>

@@ -4,18 +4,14 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
-import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.SelectCityDialog
-import com.d6.android.app.dialogs.SelectTagDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.net.Request
@@ -25,11 +21,11 @@ import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
-import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
+import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
  * 广场动态
@@ -219,7 +215,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 result.forEach {
                     val image = AddImage("file://$it")
                     image.path = it
-                    mImages.add(image)
+                    mImages.add(image)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
                 }
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 addAdapter.notifyDataSetChanged()
@@ -230,6 +226,16 @@ class ReleaseNewTrendsActivity : BaseActivity(){
 //                image.path = path
 //                mImages.add(size - 1, image)
 //                addAdapter.notifyDataSetChanged()
+            }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
+                var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
+                mImages.clear()
+                param.images.forEach {
+                    val image = AddImage("file://$it")
+                    image.path = it
+                    mImages.add(image)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+                }
+                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+                addAdapter.notifyDataSetChanged()
             }
         }
     }

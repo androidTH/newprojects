@@ -4,11 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Toast
+import com.d6.android.app.activities.MyDateActivity
+import com.d6.android.app.base.BaseActivity
 
 import com.umeng.analytics.MobclickAgent
 import com.umeng.message.UmengNotificationClickHandler
 import com.umeng.message.common.UmLog
 import com.umeng.message.entity.UMessage
+import org.jetbrains.anko.startActivity
 
 import java.util.HashMap
 
@@ -17,71 +21,49 @@ import java.util.HashMap
 class  CustomNotificationHandler: UmengNotificationClickHandler() {
 
     override fun dismissNotification(context: Context?, msg: UMessage?) {
-        UmLog.d(TAG, "dismissNotification")
         super.dismissNotification(context, msg)
-        MobclickAgent.onEvent(context, "dismiss_notification")
+        Toast.makeText(context, "dismission+${msg!!.extra["type"]}", Toast.LENGTH_LONG).show()
     }
 
     override fun launchApp(context: Context, msg: UMessage?) {
-        UmLog.d(TAG, "launchApp")
         super.launchApp(context, msg)
-        val map = HashMap<String, String>()
-        map["action"] = "launch_app"
-        MobclickAgent.onEvent(context, "click_notification", map)
     }
 
     override fun openActivity(context: Context, msg: UMessage) {
-        UmLog.d(TAG, "openActivity")
         super.openActivity(context, msg)
-        val map = HashMap<String, String>()
-        map["action"] = "open_activity"
-        MobclickAgent.onEvent(context, "click_notification", map)
+    }
+
+    fun open(context:Context,type:String){
+        (context as BaseActivity).startActivity<MyDateActivity>("type" to type)
     }
 
     override fun openUrl(context: Context, msg: UMessage) {
-        UmLog.d(TAG, "openUrl")
         super.openUrl(context, msg)
-        val map = HashMap<String, String>()
-        map["action"] = "open_url"
-        MobclickAgent.onEvent(context, "click_notification", map)
     }
 
     override fun dealWithCustomAction(context: Context?, msg: UMessage?) {
-        UmLog.d(TAG, "dealWithCustomAction")
+        super.dealWithCustomAction(context, msg)
+        Toast.makeText(context, "dealWithCustomAction+${msg!!.extra["type"]}", Toast.LENGTH_LONG).show()
         handleCustomAction(context, msg)
-        val map = HashMap<String, String>()
-        map["action"] = "custom_action"
-        MobclickAgent.onEvent(context, "click_notification", map)
     }
 
     override fun autoUpdate(context: Context, msg: UMessage?) {
-        UmLog.d(TAG, "autoUpdate")
         super.autoUpdate(context, msg)
-        val map = HashMap<String, String>()
-        map["action"] = "auto_update"
-        MobclickAgent.onEvent(context, "click_notification", map)
     }
 
     private fun handleCustomAction(context: Context?, msg: UMessage?) {
         if (msg != null && !TextUtils.isEmpty(msg.custom)) {
             //                mMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            //                PushMessageResponse response = GsonHelper.GsonToBean(msg.custom, PushMessageResponse.class);
+//                            PushMessageResponse response = GsonHelper.GsonToBean(msg.custom, PushMessageResponse.class);
             //                PushMessageResponse response = mMapper.readValue(msg.custom, PushMessageResponse.class);
             //                int type = response.getCode();
-            val type = 0
+            val type = msg.extra["type"]
             val intent: Intent? = null
-            if (type == MSG_TYPE_NEWS_DETAILS) {
-                //                    if(response.getData().getVideo_type() == 9){
-                //                        intent = getHtmlNewsDetailsIntent(context, response);
-                //                    }else {
-                //                        intent = getNewsDetailsIntent(context, response);
-                //                    }
-            } else if (type == MSG_TYPE_THEME) {
-                //                    intent = getThemeIntent(context, response);
-            } else {
-                //                    intent = getHomeIntent(context, response);
+            if (TextUtils.equals(type,"1")) {
+                (context as BaseActivity).startActivity<MyDateActivity>()
+            } else if (TextUtils.equals(type,"2")) {
+                (context as BaseActivity).startActivity<MyDateActivity>()
             }
-            context!!.startActivity(intent)
         }
     }
 

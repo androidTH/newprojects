@@ -49,7 +49,7 @@ import org.jetbrains.anko.support.v4.toast
 class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListener {
     override fun contentViewId() = R.layout.fragment_mine_v2
     private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
+        SPUtils.instance().getString(Const.User.USER_ID)//35598
     }
     private var mData: UserData? = null
 
