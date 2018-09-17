@@ -99,7 +99,7 @@ class MyDateActivity : TitleActivity() {
         }
         mViewPager.adapter = adapter
         mTabLayout.setViewPager(mViewPager)
-        mViewPager.currentItem = if(TextUtils.equals(egagementtype,"1")) 0 else 1
+        mViewPager.currentItem = if(TextUtils.equals(egagementtype,"1")||egagementtype.isNullOrEmpty()) 0 else 1
         headView.setImageURI(SPUtils.instance().getString(Const.User.USER_HEAD));
         tv_toggle_set.setOnClickListener {
             if (rl_set.visibility == View.VISIBLE) {

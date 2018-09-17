@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F7AA00"
+    tools:context=".activities.DateAuthStateActivity">
+
+    <ImageView
+        android:id="@+id/iv_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:adjustViewBounds="true"
+        android:background="@mipmap/certification_picture" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_59FFFFFF"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_alignBottom="@+id/iv_top_bg" />
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_top_bg"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="60dp"
+        android:lineSpacingExtra="5dp"
+        android:text="您还未完成信息认证"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSize_20" />
+
+    <TextView
+        android:id="@+id/tv_date_count"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_top_bg"
+        android:layout_marginTop="130dp"
+        android:paddingLeft="24dp"
+        android:text="目前已有1000人在D6约会成功"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textSize"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/nav_closebutton_white"
+        android:padding="12dp" />
+
+    <LinearLayout
+        android:id="@+id/l_auth_privilege"
+        android:layout_below="@+id/iv_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:text="认证特权"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15">
+            <ImageView
+                android:id="@+id/iv_vipchat_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:src="@mipmap/privilege_vipchat_big"/>
+            <TextView
+                android:id="@+id/tv_vipchat"
+                android:layout_toRightOf="@+id/iv_vipchat_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="16sp"
+                android:text="一对一私聊"/>
+            <TextView
+                android:layout_below="@+id/tv_vipchat"
+                android:layout_toRightOf="@+id/iv_vipchat_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_B3FFFFFF"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="14sp"
+                android:text="可以和你喜欢的异性一对一聊天"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15">
+            <ImageView
+                android:id="@+id/iv_openchat_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:src="@mipmap/privilege_date_bigicon"/>
+            <TextView
+                android:id="@+id/tv_openchat"
+                android:layout_toRightOf="@+id/iv_openchat_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="16sp"
+                android:text="开启约会"/>
+            <TextView
+                android:layout_below="@+id/tv_openchat"
+                android:layout_toRightOf="@+id/iv_openchat_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_B3FFFFFF"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="14sp"
+                android:text="认证后将获得更多曝光机会,等待异性来约你"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15">
+            <ImageView
+                android:id="@+id/iv_square_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:src="@mipmap/privilege_dynamic_icon"/>
+            <TextView
+                android:id="@+id/tv_square"
+                android:layout_toRightOf="@+id/iv_square_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="16sp"
+                android:text="发布动态"/>
+            <TextView
+                android:layout_below="@+id/tv_square"
+                android:layout_toRightOf="@+id/iv_square_big"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_B3FFFFFF"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="14sp"
+                android:text="认证后将获得更多曝光机会,等待异性来约你"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/l_auth_privilege"
+        android:background="@drawable/shape_10r_white"
+        android:paddingBottom="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15">
+
+        <TextView
+            android:id="@+id/tv_fun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:textSize="16sp"
+            android:textColor="@color/color_F7AB00"
+            android:text="认证步骤"/>
+
+        <TextView
+            android:id="@+id/tv_base_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_below="@+id/tv_fun"
+            android:lineSpacingExtra="8dp"
+            android:padding="16dp"
+            android:text=""
+            android:textColor="@color/textColor"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_base_info"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_base_info"
+            android:drawableRight="@mipmap/ic_right_arrow"
+            android:gravity="center"
+            android:paddingRight="16dp"
+            android:text="0%"
+            android:textColor="@color/orange_f6a" />
+
+
+        <TextView
+            android:id="@+id/tv_contact_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_base_info"
+            android:background="@color/white"
+            android:lineSpacingExtra="8dp"
+            android:padding="16dp"
+            android:text=""
+            android:textColor="@color/textColor"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_contact_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_contact_info"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_contact_info"
+            android:drawableRight="@mipmap/ic_right_arrow"
+            android:gravity="center"
+            android:paddingRight="16dp"
+            android:text="未完成"
+            android:textColor="@color/orange_f6a" />
+
+        <TextView
+            android:id="@+id/tv_auth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_contact_info"
+            android:background="@color/white"
+            android:lineSpacingExtra="8dp"
+            android:padding="16dp"
+            android:text=""
+            android:textColor="@color/textColor"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_auth_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_auth"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_auth"
+            android:drawableRight="@mipmap/ic_right_arrow"
+            android:gravity="center"
+            android:paddingRight="16dp"
+            android:text="去认证"
+            android:textColor="@color/orange_f6a" />
+    </RelativeLayout>
+</RelativeLayout>
