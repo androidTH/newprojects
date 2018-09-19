@@ -28,7 +28,7 @@ interface ApiServices {
     fun resetPwdFirstStep(@Query("phone") phone: String, @Query("vercode") vercode: String, @Query("logintype") logintype: Int = 1): Flowable<Response<JsonObject>>
 
     @POST("backstage/account/find")
-    fun getUserInfo(@Query("userid") accountId: String): Flowable<Response<UserData>>
+    fun getUserInfo(@Query("loginuserid") loginuserid:String,@Query("userid") accountId: String): Flowable<Response<UserData>>
 
     @POST("backstage/banner/findByPage")
     fun getBanners(@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("bannerkey") bannerkey: String="home"): Flowable<Response<Page<Banner>>>
@@ -173,4 +173,33 @@ interface ApiServices {
     @POST("backstage/engagementsaccount/percent")
     fun getAuthState(@Query("userid")userid:String): Flowable<Response<JsonObject>>
 
+    //添加关注
+    @POST("backstage/follow/add")
+    fun getAddFollow(@Query("userid") userid:String,@Query("followuserid") followuserid:String?):Flowable<Response<JsonObject>>
+
+    //取消关注
+    @POST("backstage/follow/del")
+    fun getDelFollow(@Query("userid") userid:String,@Query("followuserid") followuserid:String?):Flowable<Response<JsonObject>>
+
+    //查询我的关注,粉丝访客个数
+    @POST("backstage/statistic/find")
+    fun getUserFollowAndFansandVistor(@Query("userid") userid:String?):Flowable<Response<FollowFansVistor>>
+
+    @POST("backstage/follow/findMyFans")
+    fun getFindMyFans(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<Fans>>>
+
+    @POST("backstage/follow/find")
+    fun getFindMyFollows(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<Fans>>>
+
+    //添加访客
+    @POST("backstage/vistor/add")
+    fun getAddVistor(@Query("userid") userid:String,@Query("vistorid") vistorid:String?):Flowable<Response<JsonObject>>
+
+    //删除访客
+    @POST("backstage/vistor/del")
+    fun getDelVistor(@Query("userid") userid:String,@Query("vistorid") vistorid:String?):Flowable<Response<JsonObject>>
+
+    //查询访客记录
+    @POST("backstage/vistor/find")
+    fun getFindVistor(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<Fans>>>
 }

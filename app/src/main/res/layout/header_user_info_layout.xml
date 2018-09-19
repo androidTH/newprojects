@@ -31,9 +31,10 @@
         android:layout_toRightOf="@+id/headView"
         android:textSize="@dimen/textSize"
         android:textColor="@color/white"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="4dp"
         android:maxWidth="88dp"
         android:layout_marginRight="8dp"
+        android:layout_marginLeft="@dimen/margin_8"
         android:singleLine="true"
         android:id="@+id/tv_nick"/>
     <TextView
@@ -87,24 +88,33 @@
         <!--android:paddingLeft="6dp"-->
         <!--android:paddingRight="6dp"/>-->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="-"
         android:textColor="@color/white"
         android:textSize="12dp"
         android:layout_below="@+id/tv_nick"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/margin_8"
         android:layout_toRightOf="@+id/headView"
+        android:layout_marginLeft="@dimen/margin_8"
         android:maxLines="3"
         android:ellipsize="end"
         android:id="@+id/tv_signature"
         android:paddingBottom="16dp"/>
+    <ImageView
+        android:id="@+id/iv_isfollow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_nick"
+        android:visibility="gone"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/usercenter_privatechat"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_my_images"
         android:layout_below="@+id/tv_signature"
         android:layout_width="match_parent"
         android:minHeight="66dp"
-        android:paddingTop="4dp"
+        android:layout_marginTop="@dimen/margin_15"
         android:layout_marginBottom="6dp"
         android:paddingLeft="16dp"
         android:layout_height="wrap_content">
@@ -119,7 +129,6 @@
         android:paddingBottom="16dp"
         android:layout_marginBottom="8dp"
         android:layout_height="wrap_content">
-
     </android.support.v7.widget.RecyclerView>
     <TextView
         android:id="@+id/tv"

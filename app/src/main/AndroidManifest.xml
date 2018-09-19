@@ -215,6 +215,8 @@
         <activity android:name=".activities.MyDateActivity" />
         <activity android:name=".activities.EditImageActivity"></activity>
         <activity android:name=".activities.BLBeautifyImageActivity"/>
+        <activity android:name=".activities.FansActivity"/>
+        <activity android:name=".activities.FollowActivity"/>
     </application>
 
 </manifest>

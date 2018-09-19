@@ -15,7 +15,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 class UserTagAdapter(mData:ArrayList<UserTag>): BaseRecyclerAdapter<UserTag>(mData, R.layout.item_list_user_tag) {
     override fun onBind(holder: ViewHolder, position: Int, data: UserTag) {
         val contentView = holder.bind<TextView>(R.id.tv_content)
-        contentView.text = data.content
+        contentView.text = data.content.replace("#",",")
         contentView.setBackgroundResource(data.color)
     }
 }

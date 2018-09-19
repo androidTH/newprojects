@@ -128,7 +128,7 @@ class DateAuthStateActivity : BaseActivity() {
 
     private fun getUserInfo() {
         dialog()
-        Request.getUserInfo(userId).request(this, success = { _, data ->
+        Request.getUserInfo("",userId).request(this, success = { _, data ->
             saveUserInfo(data)
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))

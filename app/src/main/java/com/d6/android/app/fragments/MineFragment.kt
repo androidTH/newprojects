@@ -174,7 +174,7 @@ class MineFragment : BaseFragment() {
 
     private fun getUserInfo() {
 
-        Request.getUserInfo(userId).request(this, success = { _, data ->
+        Request.getUserInfo("",userId).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             mData = data
             activity?.saveUserInfo(data)

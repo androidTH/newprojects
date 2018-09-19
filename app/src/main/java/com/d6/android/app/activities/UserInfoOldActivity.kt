@@ -46,7 +46,7 @@ class UserInfoOldActivity : TitleActivity() {
 
     private fun getUserInfo() {
 
-        Request.getUserInfo(id).request(this,success = { _, data->
+        Request.getUserInfo("",id).request(this,success = { _, data->
             this.mData = data
             data?.let {
                 val info = UserInfo(data.accountId,data.name, Uri.parse(""+data.picUrl))

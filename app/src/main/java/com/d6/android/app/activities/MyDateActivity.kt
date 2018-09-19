@@ -196,7 +196,7 @@ class MyDateActivity : TitleActivity() {
 
     private fun getData() {
         dialog()
-        Request.getUserInfo(userId).request(this, success = { _, data ->
+        Request.getUserInfo("",userId).request(this, success = { _, data ->
             saveUserInfo(data)
             this.mData = data
             data?.let {

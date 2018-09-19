@@ -176,13 +176,15 @@
         android:paddingTop="8dp">
 
     </android.support.v7.widget.RecyclerView>
+
     <LinearLayout
         android:id="@+id/fl_add_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rv_tags"
-        android:orientation="vertical"
-        android:background="@drawable/shape_white_top_8r">
+        android:background="@drawable/shape_white_top_8r"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/relayout_zoom"
             android:layout_width="match_parent"
@@ -191,6 +193,7 @@
             android:layout_marginTop="@dimen/margin_15">
 
             <LinearLayout
+                android:id="@+id/ll_fans_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="45dp"
@@ -198,10 +201,10 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_fans_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="99"
                     android:textColor="@color/color_F7AB00"
                     android:textSize="16sp" />
 
@@ -213,6 +216,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_follow_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -221,10 +225,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_follow_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="58"
+                    android:text="-"
                     android:textColor="@color/color_F7AB00"
                     android:textSize="16sp" />
 
@@ -244,10 +249,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_vistor_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="58"
+                    android:text="-"
                     android:textColor="@color/color_F7AB00"
                     android:textSize="16sp" />
 
@@ -259,30 +265,39 @@
                     android:textColor="@color/color_666666" />
             </LinearLayout>
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color_EFEFEF" />
-        <TextView
-            android:id="@+id/tv_add_square"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/margin_16"
-            android:layout_marginLeft="@dimen/margin_16"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="@dimen/margin_18"
-            android:background="@drawable/shape_orange_circle_line"
-            android:drawableLeft="@mipmap/ic_add_pic"
-            android:drawablePadding="-10dp"
-            android:enabled="false"
-            android:gravity="center"
-            android:paddingBottom="@dimen/margin_8"
-            android:paddingLeft="15dp"
-            android:paddingRight="10dp"
-            android:paddingTop="@dimen/margin_8"
-            android:text="发布动态"
-            android:textColor="@color/orange_f6a"
-            android:textSize="14dp" />
+
+        <RelativeLayout
+            android:id="@+id/rel_add_square"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_add_square"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/margin_16"
+                android:layout_marginLeft="@dimen/margin_16"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="@dimen/margin_18"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_orange_circle_line"
+                android:drawableLeft="@mipmap/ic_add_pic"
+                android:drawablePadding="-10dp"
+                android:enabled="false"
+                android:gravity="center"
+                android:paddingBottom="@dimen/margin_8"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:paddingTop="@dimen/margin_8"
+                android:text="发布动态"
+                android:textColor="@color/orange_f6a"
+                android:textSize="14dp" />
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -113,8 +113,8 @@ object Request {
     /**
      * 获取个人信息
      */
-    fun getUserInfo(id: String) =
-            RRetrofit.instance().create(ApiServices::class.java).getUserInfo(id)
+    fun getUserInfo(loginuserid:String,id: String) =
+            RRetrofit.instance().create(ApiServices::class.java).getUserInfo(loginuserid,id)
 
     /**
      * SHANCHU
@@ -262,5 +262,24 @@ object Request {
     fun getAuthState(userId: String) =
             RRetrofit.instance().create(ApiServices::class.java).getAuthState(userId)
 
+    //添加关注
+    fun getAddFollow(userid:String,followuserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAddFollow(userid, followuserid)
 
+    //取消关注
+    fun getDelFollow(userid:String,followuserid:String)=RRetrofit.instance().create(ApiServices::class.java).getDelFollow(userid, followuserid)
+
+    fun getUserFollowAndFansandVistor(userid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserFollowAndFansandVistor(userid)
+
+    fun getFindMyFans(userId: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindMyFans(userId,pageNum)
+
+    fun getFindMyFollows(userId: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindMyFollows(userId,pageNum)
+
+    //添加访客
+    fun getAddVistor(userid:String,vistorid:String)=RRetrofit.instance().create(ApiServices::class.java).getAddVistor(userid, vistorid)
+
+    //删除访客
+    fun getDelVistor(userid:String,vistorid:String)=RRetrofit.instance().create(ApiServices::class.java).getDelVistor(userid, vistorid)
+
+    //查询用户的访客
+    fun getFindVistors(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindVistor(userid , pageNum)
 }

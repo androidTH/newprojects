@@ -20,10 +20,7 @@ import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.MineActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
-import com.d6.android.app.models.AddImage
-import com.d6.android.app.models.Square
-import com.d6.android.app.models.UserData
-import com.d6.android.app.models.UserTag
+import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
@@ -117,7 +114,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         headerView.rv_tags.layoutManager = FlexboxLayoutManager(context)
         headerView.rv_tags.isNestedScrollingEnabled = false
         headerView.rv_tags.adapter = userTagAdapter
-        headerView.fl_add_square.setOnClickListener {
+        headerView.rel_add_square.setOnClickListener {
             startActivityForResult<ReleaseNewTrendsActivity>(3)
         }
 
@@ -126,6 +123,14 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
             }
         }
+        headerView.ll_fans_count.setOnClickListener(View.OnClickListener {
+//            startActivity<FansActivity>()
+        })
+
+        headerView.ll_follow_count.setOnClickListener(View.OnClickListener {
+//            startActivity<FollowActivity>()
+        })
+
         tv_more.setOnClickListener {
             //            startActivity<SettingActivity>()
             val mineActionDialog = MineActionDialog()
@@ -201,6 +206,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         super.onResume()
         getUserInfo()
         getUnReadCount()
+        getUserFollowAndFansandVistor()
     }
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
@@ -295,7 +301,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo(userId).request(this, success = { _, data ->
+        Request.getUserInfo("",userId).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             mData = data
             activity?.saveUserInfo(data)
@@ -353,6 +359,18 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    //关注粉丝访客
+    fun getUserFollowAndFansandVistor(){
+        Request.getUserFollowAndFansandVistor(userId).request(this,success = {s:String?,data:FollowFansVistor?->
+//            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
+            data?.let {
+                headerView.tv_fans_count.text = data.iFansCountAll.toString()
+                headerView.tv_follow_count.text = data.iFollowCount.toString()
+                headerView.tv_vistor_count.text = data.iVistorCountAll.toString()
+            }
+        })
     }
 
     private fun refreshImages(userData: UserData) {
@@ -417,6 +435,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     override fun onRefresh() {
         pageNum = 1
         getUserInfo()
+        getUserFollowAndFansandVistor()
     }
 
     override fun onLoadMore() {

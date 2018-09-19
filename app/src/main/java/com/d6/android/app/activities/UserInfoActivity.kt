@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.view.View
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
@@ -25,12 +27,14 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.gson.JsonObject
 import com.gyf.barlibrary.ImmersionBar
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
+import kotlinx.android.synthetic.main.header_user_info_layout.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import org.jetbrains.anko.*
 
@@ -66,10 +70,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         ColorDrawable(Color.WHITE).mutate()
     }
 
-//    private val immersionBar by lazy {
-//        ImmersionBar.with(this)
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_info_v2)
@@ -99,6 +99,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .colorResId(android.R.color.transparent)
                 .size(dip(8))
                 .build())
+
+        headerView.iv_isfollow.setOnClickListener(View.OnClickListener {
+            if(mData?.iIsFollow != null){
+                if(mData?.iIsFollow == 0){//mData?.iIsFollow
+                    addFollow()
+                }else{
+                    delFollow()
+                }
+            }
+        })
         myImageAdapter.setOnItemClickListener { _, position ->
             val data = mImages[position]
             if (data.type != 1) {
@@ -185,7 +195,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun getUserInfo() {
 
-        Request.getUserInfo(id).request(this, success = { _, data ->
+        Request.getUserInfo(userId,id).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             this.mData = data
             data?.let {
@@ -266,6 +276,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                } else {
 //                    tv_content.visible()
 //                }
+//                Toast.makeText(this, data.iIsFollow.toString(), Toast.LENGTH_LONG).show()
+                if(data.iIsFollow !=null){
+                    if(data.iIsFollow==0){
+                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat_no
+                    }else{
+                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat
+                    }
+                }
             }
         }) { _, _ -> mSwipeRefreshLayout.isRefreshing = false }
     }
@@ -313,6 +331,25 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.addBlackList(userId,id).request(this){_,_->
             toast("已加入黑名单")
         }
+    }
+
+    private fun addFollow(){
+        dialog()//35578
+        Request.getAddFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
+//            toast("$s,$jsonObject")
+            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat_no
+        }
+    }
+
+    private fun delFollow(){
+        dialog()
+        Request.getDelFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
+//            data.optDouble("wanshanziliao")
+//            toast("$s,$jsonObject")
+            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat
+        }
+
+//        data.optDouble("wanshanziliao") DateAuthStateActivity
     }
 
     override fun onRefresh() {
