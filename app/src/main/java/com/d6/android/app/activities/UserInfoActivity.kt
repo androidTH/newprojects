@@ -355,13 +355,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     //添加访客
     private fun addVistor(){
         Request.getAddVistor(id,userId).request(this){s: String?, jsonObject: JsonObject? ->
-//            toast("$s,$jsonObject")
         }
     }
 
     override fun onRefresh() {
         pageNum = 1
         getUserInfo()
+    }
+
+
+    override fun showToast(msg: String) {
     }
 
     override fun onLoadMore() {
