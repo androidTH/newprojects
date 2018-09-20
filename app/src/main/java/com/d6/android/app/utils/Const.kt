@@ -20,6 +20,7 @@ object Const {
         //别人约我
         var SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME="someoneElseMakesAnAppointmentWithMe"
         var IASKSOMEONEELSE="IAskSomeoneElse"  //我约的人
+        var  DEVICETOKEN ="devicetoken"
 }
 
     val LAST_TIME = "lastTime"

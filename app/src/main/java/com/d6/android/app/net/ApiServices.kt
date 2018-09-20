@@ -126,7 +126,7 @@ interface ApiServices {
     fun getVerifyCodeV2(@Query("phone") phone: String, @Query("vercodetype") vercodetype:Int): Flowable<Response<JsonObject>>
 
     @POST("backstage/new_login/system_login")
-    fun loginV2(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null): Flowable<Response<UserData>>
+    fun loginV2(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?): Flowable<Response<UserData>>
 
     @POST("backstage/dataDict/find")
     fun findDataDict(@Query("dataKey") dataKey:String?="quhao"): Flowable<Response<JsonPrimitive>>

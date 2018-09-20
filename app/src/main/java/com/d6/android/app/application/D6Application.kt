@@ -96,7 +96,8 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
         mPushAgent.register(object : IUmengRegisterCallback {
 
             override fun onSuccess(deviceToken: String) {
-                //注册成功会返回device token
+                SPUtils.instance().put(Const.User.DEVICETOKEN, deviceToken)
+                //注册成功会返回device token ArblO5X82GPZtR8dvWGOMXlPXpdJsOcOdTAoti6gm_ew
                 sysErr("------deviceToken---------->" + deviceToken)
             }
 
@@ -235,6 +236,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
                 .remove(Const.User.IS_LOGIN)
                 .remove(Const.User.RONG_TOKEN)
                 .remove(Const.User.USER_TOKEN)
+                .remove(Const.User.DEVICETOKEN)
                 .apply()
         val loginActivityIntent = Intent()
         loginActivityIntent.setClass(this, SignInActivity::class.java)

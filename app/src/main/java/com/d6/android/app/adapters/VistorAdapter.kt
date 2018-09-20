@@ -19,6 +19,10 @@ import com.google.gson.JsonObject
  */
 class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
 
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
     override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
         holder.setText(R.id.tv_name,data.sUserName)
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
@@ -59,7 +63,7 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
     }
 
     private fun addFollow(fans:Fans,tv_focus:TextView){
-        Request.getAddFollow(fans.iFollowUserid.toString(), fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
+        Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
             tv_focus.setText("已关注")
@@ -68,7 +72,7 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
     }
 
     private fun delFollow(fans:Fans,tv_focus:TextView){
-        Request.getDelFollow(fans.iFollowUserid.toString(), fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
+        Request.getDelFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_nofans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
             tv_focus.text ="关注"

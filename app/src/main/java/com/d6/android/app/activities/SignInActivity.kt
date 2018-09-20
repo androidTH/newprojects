@@ -46,6 +46,10 @@ class SignInActivity : BaseActivity() {
         UMShareAPI.get(this)
     }
 
+    private val devicetoken by lazy{
+        SPUtils.instance().getString(Const.User.DEVICETOKEN)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
@@ -273,7 +277,7 @@ class SignInActivity : BaseActivity() {
             "$countryCode-$phone"
         }
         sysErr("------->$p")
-        Request.loginV2(1, code, p).request(this) { msg, data ->
+        Request.loginV2(1, code, p,devicetoken).request(this) { msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
