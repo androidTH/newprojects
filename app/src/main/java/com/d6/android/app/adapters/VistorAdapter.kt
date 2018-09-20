@@ -17,7 +17,7 @@ import com.google.gson.JsonObject
 /**
  *粉丝
  */
-class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layout.item_list_follows) ,View.OnClickListener{
+class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
 
     override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
         holder.setText(R.id.tv_name,data.sUserName)
@@ -33,10 +33,15 @@ class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
         tv_vip.text = String.format("%s", data.userclassesname)
         var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
-
-        mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
-        mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-        mTvFollow.setText("已关注")
+        if(data.iIsFollow == 0){
+            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
+            mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
+            mTvFollow.setText("关注")
+        }else{
+            mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
+            mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
+            mTvFollow.setText("已关注")
+        }
 
         mTvFollow.setOnClickListener(this)
         mTvFollow.setTag(data)
@@ -45,27 +50,29 @@ class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
 
     override fun onClick(v: View?) {
         var fans= (v as TextView).tag as Fans
-        delFollow(fans,v)
+        if(fans.iIsFollow == 0){
+            addFollow(fans,v)
+        }else {
+            delFollow(fans,v)
+        }
 //        notifyDataSetChanged()
     }
 
-//    private fun addFollow(fans:Fans,tv_focus:TextView){
-//        Request.getAddFollow(fans.iFollowUserid.toString(), fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
-//            tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
-//            tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-//            tv_focus.setText("已关注")
-//            fans.isFollow = "1"
-//        }
-//    }
+    private fun addFollow(fans:Fans,tv_focus:TextView){
+        Request.getAddFollow(fans.iFollowUserid.toString(), fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
+            tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
+            tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
+            tv_focus.setText("已关注")
+            fans.iIsFollow = 1
+        }
+    }
 
     private fun delFollow(fans:Fans,tv_focus:TextView){
         Request.getDelFollow(fans.iFollowUserid.toString(), fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
-//            tv_focus.setBackgroundResource(R.drawable.shape_10r_nofans)
-//            tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
-//            tv_focus.text ="关注"
-//            fans.isFollow = "0"
-            mData.remove(fans)
-            notifyDataSetChanged()
+            tv_focus.setBackgroundResource(R.drawable.shape_10r_nofans)
+            tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
+            tv_focus.text ="关注"
+            fans.iIsFollow = 0
         }
     }
 }

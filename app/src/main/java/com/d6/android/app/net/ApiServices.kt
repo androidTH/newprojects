@@ -201,5 +201,5 @@ interface ApiServices {
 
     //查询访客记录
     @POST("backstage/vistor/find")
-    fun getFindVistor(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<Fans>>>
+    fun getFindVistors(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<Fans>>>
 }

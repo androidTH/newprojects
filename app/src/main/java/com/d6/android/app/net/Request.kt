@@ -281,5 +281,5 @@ object Request {
     fun getDelVistor(userid:String,vistorid:String)=RRetrofit.instance().create(ApiServices::class.java).getDelVistor(userid, vistorid)
 
     //查询用户的访客
-    fun getFindVistors(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindVistor(userid , pageNum)
+    fun getFindVistors(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindVistors(userid , pageNum)
 }

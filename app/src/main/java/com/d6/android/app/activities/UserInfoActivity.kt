@@ -176,6 +176,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         dialog()
         getUserInfo()
+        addVistor()
     }
 
     private fun setTitleBgAlpha(alpha:Int) {
@@ -348,8 +349,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //            toast("$s,$jsonObject")
             headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat
         }
-
 //        data.optDouble("wanshanziliao") DateAuthStateActivity
+    }
+
+    //添加访客
+    private fun addVistor(){
+        Request.getAddVistor(id,userId).request(this){s: String?, jsonObject: JsonObject? ->
+//            toast("$s,$jsonObject")
+        }
     }
 
     override fun onRefresh() {

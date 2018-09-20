@@ -217,6 +217,7 @@
         <activity android:name=".activities.BLBeautifyImageActivity"/>
         <activity android:name=".activities.FansActivity"/>
         <activity android:name=".activities.FollowActivity"/>
+        <activity android:name=".activities.VistorsActivity"/>
     </application>
 
 </manifest>

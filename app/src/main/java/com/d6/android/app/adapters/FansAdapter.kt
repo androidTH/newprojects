@@ -31,9 +31,9 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
-        tv_vip.text = String.format("%s", data.userclassesid)
+        tv_vip.text = String.format("%s", data.userclassesname)
         var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
-        if(TextUtils.equals(data.isFollow,"0")){
+        if(data.iIsFollow == 0){
             mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
             mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
             mTvFollow.setText("关注")
@@ -50,7 +50,7 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
 
     override fun onClick(v: View?) {
         var fans= (v as TextView).tag as Fans
-        if(TextUtils.equals(fans.isFollow,"0")){
+        if(fans.iIsFollow == 0){
             addFollow(fans,v)
         }else {
             delFollow(fans,v)
@@ -63,7 +63,7 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
             tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
             tv_focus.setText("已关注")
-            fans.isFollow = "1"
+            fans.iIsFollow = 1
         }
     }
 
@@ -72,7 +72,7 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
             tv_focus.setBackgroundResource(R.drawable.shape_10r_nofans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
             tv_focus.text ="关注"
-            fans.isFollow = "0"
+            fans.iIsFollow = 0
         }
     }
 }

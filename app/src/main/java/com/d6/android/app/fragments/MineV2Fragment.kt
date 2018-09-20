@@ -124,11 +124,15 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             }
         }
         headerView.ll_fans_count.setOnClickListener(View.OnClickListener {
-//            startActivity<FansActivity>()
+            startActivity<FansActivity>()
         })
 
         headerView.ll_follow_count.setOnClickListener(View.OnClickListener {
-//            startActivity<FollowActivity>()
+            startActivity<FollowActivity>()
+        })
+
+        headerView.ll_vistors_count.setOnClickListener(View.OnClickListener {
+            startActivity<VistorsActivity>()
         })
 
         tv_more.setOnClickListener {
