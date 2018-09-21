@@ -236,7 +236,6 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
                 .remove(Const.User.IS_LOGIN)
                 .remove(Const.User.RONG_TOKEN)
                 .remove(Const.User.USER_TOKEN)
-                .remove(Const.User.DEVICETOKEN)
                 .apply()
         val loginActivityIntent = Intent()
         loginActivityIntent.setClass(this, SignInActivity::class.java)

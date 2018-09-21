@@ -15,6 +15,10 @@ import kotlinx.android.synthetic.main.activity_newest_find_date.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
+
+/**
+ * 觅约
+ */
 class NewestFindDateActivity : TitleActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
