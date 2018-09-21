@@ -16,6 +16,7 @@ data class FollowFansVistor(val iUserid:Int?):Parcelable {
     @SerializedName("iFansCount")var iFansCount:Int?=0
     @SerializedName("iFansCountAll")var iFansCountAll:Int?=0
     @SerializedName("iFollowCount")var iFollowCount:Int?=0
+    @SerializedName("iFollowCountAll")var iFollowCountAll:Int?=0
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         iVistorCount = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -23,6 +24,7 @@ data class FollowFansVistor(val iUserid:Int?):Parcelable {
         iFansCount = parcel.readValue(Int::class.java.classLoader) as? Int
         iFansCountAll = parcel.readValue(Int::class.java.classLoader) as? Int
         iFollowCount = parcel.readValue(Int::class.java.classLoader) as? Int
+        iFollowCountAll = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -32,6 +34,7 @@ data class FollowFansVistor(val iUserid:Int?):Parcelable {
         parcel.writeValue(iFansCount)
         parcel.writeValue(iFansCountAll)
         parcel.writeValue(iFollowCount)
+        parcel.writeValue(iFollowCountAll)
     }
 
     override fun describeContents(): Int {

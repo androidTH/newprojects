@@ -18,7 +18,7 @@ data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
     @SerializedName("sPicUrl")var sPicUrl:String?=""
     @SerializedName("userclassesid") var userclassesid:String?=""
     @SerializedName("nianling")var nianling:String?=""
-    @SerializedName("gexingqianming")var gexingqianming:String?=""
+    @SerializedName("ziwojieshao")var gexingqianming:String?=""
     @SerializedName("iIsFollow")var iIsFollow:Int?=0
     @SerializedName("userclassesname") var userclassesname:String?=""
 //    screen

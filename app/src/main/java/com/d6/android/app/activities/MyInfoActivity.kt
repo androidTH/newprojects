@@ -29,6 +29,7 @@ import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
+import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 import java.io.File
 
 /**
@@ -190,11 +191,30 @@ class MyInfoActivity : BaseActivity() {
             } else if (requestCode == 1) {
                 headFilePath = data?.getStringExtra("path")
                 headView.setImageURI("file://$headFilePath")
+//                var path = data?.getStringExtra("path")
+//                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+//                param.index = 0
+//                param.type = Const.User.HEADERIMAGE
+//                param.images.add(path)
+//                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             }else if (requestCode == 8 && data != null) {//选择图片
                 val path = data.getStringExtra(SelectPhotoDialog.PATH)
                 updateImages(path)
+//                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+//                param.index = 0
+//                param.type = Const.User.SELECTIMAGE
+//                param.images.add(path)
+//                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             }else if(requestCode==22){
                  refreshImages(data!!.getSerializableExtra("data") as UserData)
+            }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
+                var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
+                if(param.type.equals(Const.User.SELECTIMAGE)){
+                    updateImages(param.images[param.index])
+                }else if(param.type.equals(Const.User.HEADERIMAGE)){
+                    headFilePath = param.images[param.index]
+                    headView.setImageURI("file://$headFilePath")
+                }
             }
         }
     }

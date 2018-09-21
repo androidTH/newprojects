@@ -21,6 +21,8 @@ object Const {
         var SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME="someoneElseMakesAnAppointmentWithMe"
         var IASKSOMEONEELSE="IAskSomeoneElse"  //我约的人
         var  DEVICETOKEN ="devicetoken"
+        var  HEADERIMAGE ="headerimage"
+        var  SELECTIMAGE ="selectimage"
 }
 
     val LAST_TIME = "lastTime"

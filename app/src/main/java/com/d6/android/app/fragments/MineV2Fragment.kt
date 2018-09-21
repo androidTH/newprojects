@@ -16,6 +16,7 @@ import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
 import com.d6.android.app.adapters.UserTagAdapter
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.MineActionDialog
 import com.d6.android.app.extentions.request
@@ -35,10 +36,12 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
+import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
  * 我的
@@ -99,6 +102,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             val data = mImages[position]
             if (data.type != 1) {
                 mData?.let {
+                    //广场照片详情页面
                     val urls = mImages.filter { it.type != 1 }.map { it.imgUrl }
                     startActivityForResult<ImagePagerActivity>(22, "data" to it, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position, "delete" to true)
                 }
@@ -297,9 +301,17 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 onRefresh()
             } else if (requestCode == 8 && data != null) {//选择图片
                 val path = data.getStringExtra(SelectPhotoDialog.PATH)
-                updateImages(path)
+               updateImages(path)
+//                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+//                param.index = 0
+//                param.type = Const.User.SELECTIMAGE
+//                param.images.add(path)
+//                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             } else if (requestCode == 22) {
                 onRefresh()
+            }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
+                var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
+                updateImages(param.images[param.index])
             }
         }
     }
