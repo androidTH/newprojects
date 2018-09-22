@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textSize"
-        android:textColor="@color/orange_f6a"
+        android:textColor="@color/color_888888"
         android:visibility="invisible"
         android:text="赴约"
         android:layout_below="@+id/tv_content"

@@ -16,6 +16,6 @@ class UserTagAdapter(mData:ArrayList<UserTag>): BaseRecyclerAdapter<UserTag>(mDa
     override fun onBind(holder: ViewHolder, position: Int, data: UserTag) {
         val contentView = holder.bind<TextView>(R.id.tv_content)
         contentView.text = data.content.replace("#",",")
-        contentView.setBackgroundResource(data.color)
+//        contentView.setBackgroundResource(data.color)
     }
 }

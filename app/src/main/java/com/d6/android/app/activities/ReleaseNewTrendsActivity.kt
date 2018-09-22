@@ -108,9 +108,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         }
 
         tv_release.setOnClickListener {
-            if(et_content.text.length>0){
-                publish()
-            }
+            publish()
         }
 
         tv_address.text = city
@@ -219,6 +217,9 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 }
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 addAdapter.notifyDataSetChanged()
+                if(mImages.size > 1){
+                    tv_release.backgroundResource = R.drawable.shape_10r_orange
+                }
 //                val path = data.getStringExtra(SelectPhotoDialog.PATH)
 //                val size = mImages.size
 //                val image = AddImage("file://$path")

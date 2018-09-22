@@ -15,9 +15,9 @@
         android:gravity="center"
         android:id="@+id/next"
         android:visibility="gone"
-        android:textColor="@color/textColor"
+        android:textColor="@color/trans_parent"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
-        android:background="@drawable/circle_f6a_bg"/>
+        android:layout_marginBottom="60dp"
+        android:background="@color/trans_parent"/>
 </RelativeLayout>

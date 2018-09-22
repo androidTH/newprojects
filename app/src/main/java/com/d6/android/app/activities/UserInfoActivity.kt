@@ -1,7 +1,5 @@
 package com.d6.android.app.activities
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -10,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
@@ -19,10 +16,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UserActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
-import com.d6.android.app.models.AddImage
-import com.d6.android.app.models.Square
-import com.d6.android.app.models.UserData
-import com.d6.android.app.models.UserTag
+import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
@@ -34,7 +28,6 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
-import kotlinx.android.synthetic.main.header_user_info_layout.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import org.jetbrains.anko.*
 
@@ -177,6 +170,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         dialog()
         getUserInfo()
         addVistor()
+        getUserFollowAndFansandVistor()
     }
 
     private fun setTitleBgAlpha(alpha:Int) {
@@ -279,7 +273,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                }
 //                Toast.makeText(this, data.iIsFollow.toString(), Toast.LENGTH_LONG).show()
                 if(data.iIsFollow !=null){
-                    if(data.iIsFollow==0){
+                    if(data.iIsFollow==1){
                         headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat_no
                     }else{
                         headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat
@@ -334,11 +328,24 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
+    //关注粉丝访客
+    fun getUserFollowAndFansandVistor(){
+        Request.getUserFollowAndFansandVistor(id).request(this,success = {s:String?,data: FollowFansVistor?->
+            //            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
+            data?.let {
+                headerView.tv_user_fans_count.text = data.iFansCountAll.toString()
+                headerView.tv_user_follow_count.text = data.iFollowCountAll.toString()
+                headerView.tv_user_vistor_count.text = data.iVistorCountAll.toString()
+            }
+        })
+    }
+
     private fun addFollow(){
         dialog()//35578
         Request.getAddFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
 //            toast("$s,$jsonObject")
             headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat_no
+            mData?.iIsFollow = 1
         }
     }
 
@@ -348,6 +355,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
             headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat
+            mData?.iIsFollow = 0
         }
 //        data.optDouble("wanshanziliao") DateAuthStateActivity
     }

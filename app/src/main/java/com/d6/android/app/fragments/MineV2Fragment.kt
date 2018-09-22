@@ -16,7 +16,6 @@ import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
 import com.d6.android.app.adapters.UserTagAdapter
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.MineActionDialog
 import com.d6.android.app.extentions.request
@@ -26,7 +25,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.gyf.barlibrary.ImmersionBar
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.rong.imkit.RongIM
@@ -36,7 +34,6 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -128,15 +125,15 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             }
         }
         headerView.ll_fans_count.setOnClickListener(View.OnClickListener {
-//            startActivity<FansActivity>()
+            startActivity<FansActivity>()
         })
 
         headerView.ll_follow_count.setOnClickListener(View.OnClickListener {
-//            startActivity<FollowActivity>()
+            startActivity<FollowActivity>()
         })
 
         headerView.ll_vistors_count.setOnClickListener(View.OnClickListener {
-//            startActivity<VistorsActivity>()
+            startActivity<VistorsActivity>()
         })
 
         tv_more.setOnClickListener {
@@ -383,7 +380,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
                 headerView.tv_fans_count.text = data.iFansCountAll.toString()
-                headerView.tv_follow_count.text = data.iFollowCount.toString()
+                headerView.tv_follow_count.text = data.iFollowCountAll.toString()
                 headerView.tv_vistor_count.text = data.iVistorCountAll.toString()
             }
         })
