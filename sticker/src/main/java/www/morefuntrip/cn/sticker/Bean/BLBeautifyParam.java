@@ -21,6 +21,7 @@ public class BLBeautifyParam implements Parcelable {
 
     private int index;
     private String mImage;
+    private String type;
 
     public BLBeautifyParam(){}
 
@@ -56,6 +57,14 @@ public class BLBeautifyParam implements Parcelable {
         this.index = index;
     }
 
+    public String getType() {
+        return type == null ? "headerImage" : type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -66,12 +75,14 @@ public class BLBeautifyParam implements Parcelable {
         dest.writeStringList(this.images);
         dest.writeInt(this.index);
         dest.writeString(this.mImage);
+        dest.writeString(this.type);
     }
 
     protected BLBeautifyParam(Parcel in) {
         this.images = in.createStringArrayList();
         this.index = in.readInt();
         this.mImage = in.readString();
+        this.type = in.readString();
     }
 
     public static final Creator<BLBeautifyParam> CREATOR = new Creator<BLBeautifyParam>() {
