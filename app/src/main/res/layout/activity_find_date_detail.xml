@@ -257,7 +257,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_15"
             android:textColor="@color/textColor99"
-            android:text="想要TA的联系方式请联系微信客服" />
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:text="@string/date_wenan" />
 
         <TextView
             android:id="@+id/tv_contact"

@@ -33,10 +33,18 @@
         android:layout_alignTop="@+id/headView"
         android:layout_alignParentRight="true"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:paddingRight="@dimen/margin_15"
         android:gravity="center_vertical"
         android:textColor="@color/color_888888"
-        android:text="0"/>
+        android:text="sfasfsdfsd"/>
+    <ImageView
+        android:id="@+id/iv_comment_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="6dp"
+        android:visibility="visible"
+        android:src="@mipmap/comment_delete_icon"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

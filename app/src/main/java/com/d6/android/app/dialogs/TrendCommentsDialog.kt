@@ -93,6 +93,17 @@ class TrendCommentsDialog : DialogFragment(),RequestManager,SwipeRefreshRecycler
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(context))
         mSwipeRefreshLayout.setAdapter(squareDetailCommentAdapter)
 
+        squareDetailCommentAdapter.setDeleteClick {
+             val commentDelDialog = CommentDelDialog()
+            commentDelDialog.arguments = bundleOf("data" to it)
+            commentDelDialog.show((context as BaseActivity).supportFragmentManager, "action")
+            commentDelDialog.setDialogListener { p, s ->
+                if (p == 1) {
+                    delete(it)
+                }
+            }
+        }
+
         commentCountView.text = String.format("共%s条评论",mTrend.commentCount)
 //        mComments.clear()
 //        if (mTrend.comments == null || mTrend.comments!!.isEmpty()) {
@@ -191,6 +202,23 @@ class TrendCommentsDialog : DialogFragment(),RequestManager,SwipeRefreshRecycler
         super.onDetach()
         if (!compositeDisposable.isDisposed) {
             compositeDisposable.dispose()
+        }
+    }
+
+      private fun delete(data: Comment){
+        isBaseActivity {
+            it.dialog(canCancel = false)
+            Request.delComments(data.id!!.toInt()).request(it) { _, _ ->
+                it.showToast("删除成功")
+                mComments.remove(data)
+                squareDetailCommentAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
         }
     }
 }

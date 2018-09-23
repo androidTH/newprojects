@@ -4,6 +4,7 @@ import com.d6.android.app.models.*
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import io.reactivex.Flowable
+import org.intellij.lang.annotations.Flow
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -61,6 +62,9 @@ interface ApiServices {
 
     @POST("backstage/comments/add")
     fun addComment(@Query("userid") accountId: String, @Query("newsId") newsId: String, @Query("content") content: String, @Query("replyuserid") replyuserid: String?): Flowable<Response<JsonObject>>
+
+    @POST("backstage/comments/del")
+    fun delComment(@Query("ids")ids:Int):Flowable<Response<JsonObject>>
 
     @POST("backstage/tool/webuploader/getqiniutoken")
     fun getQiniuToken(): Flowable<Response<JsonPrimitive>>

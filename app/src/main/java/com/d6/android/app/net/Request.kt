@@ -282,4 +282,6 @@ object Request {
 
     //查询用户的访客
     fun getFindVistors(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindVistors(userid , pageNum)
+
+    fun delComments(ids:Int)=RRetrofit.instance().create(ApiServices::class.java).delComment(ids)
 }
