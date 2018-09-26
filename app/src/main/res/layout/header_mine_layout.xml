@@ -172,7 +172,7 @@
         android:minHeight="30dp"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:paddingTop="8dp">
 
     </android.support.v7.widget.RecyclerView>
@@ -192,79 +192,129 @@
             android:layout_marginBottom="@dimen/margin_8"
             android:layout_marginTop="@dimen/margin_15">
 
-            <LinearLayout
-                android:id="@+id/ll_fans_count"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_fans_count"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
+                android:layout_alignParentLeft="true"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:paddingLeft="@dimen/margin_15">
+                <TextView
+                    android:id="@+id/tv_fcount"
+                    android:layout_toRightOf="@+id/tv_fans_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_2"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:textColor="@color/white"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
+                    android:background="@drawable/shape_4r_orange"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    android:text="+1" />
                 <TextView
                     android:id="@+id/tv_fans_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textColor="@color/color_F7AB00"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:layout_centerHorizontal="true"
+                    android:text="9"/>
 
                 <TextView
+                    android:layout_below="@+id/tv_fans_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="粉丝"
+                    android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_follow_count"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_follow_count"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:paddingLeft="@dimen/margin_15">
+                <TextView
+                    android:id="@+id/tv_fllcount"
+                    android:layout_toRightOf="@+id/tv_follow_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
+                    android:background="@drawable/shape_4r_orange"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    android:text="+14" />
                 <TextView
                     android:id="@+id/tv_follow_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="-"
+                    android:text="30"
+                    android:layout_centerHorizontal="true"
                     android:textColor="@color/color_F7AB00"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:layout_below="@+id/tv_follow_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="关注"
+                    android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_vistors_count"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_vistors_count"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="45dp"
                 android:gravity="center"
-                android:orientation="vertical">
-
+                android:paddingLeft="@dimen/margin_15">
+                <TextView
+                    android:id="@+id/tv_vcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tv_vistor_count"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:textColor="@color/white"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
+                    android:background="@drawable/shape_4r_orange"
+                    android:textSize="10sp"
+                    android:visibility="gone"
+                    android:text="+14" />
                 <TextView
                     android:id="@+id/tv_vistor_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="-"
+                    android:layout_centerHorizontal="true"
+                    android:text="99"
                     android:textColor="@color/color_F7AB00"
                     android:textSize="16sp" />
-
                 <TextView
+                    android:layout_below="@+id/tv_vistor_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="访客"
+                    android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
-            </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
 
         <TextView

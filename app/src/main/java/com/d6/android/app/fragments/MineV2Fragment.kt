@@ -24,6 +24,8 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.d6.android.app.widget.badge.Badge
+import com.d6.android.app.widget.badge.QBadgeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
@@ -32,6 +34,7 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.fragment_mine_v2.*
+import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.dip
@@ -124,15 +127,15 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
             }
         }
-        headerView.ll_fans_count.setOnClickListener(View.OnClickListener {
+        headerView.rl_fans_count.setOnClickListener(View.OnClickListener {
             startActivity<FansActivity>()
         })
 
-        headerView.ll_follow_count.setOnClickListener(View.OnClickListener {
+        headerView.rl_follow_count.setOnClickListener(View.OnClickListener {
             startActivity<FollowActivity>()
         })
 
-        headerView.ll_vistors_count.setOnClickListener(View.OnClickListener {
+        headerView.rl_vistors_count.setOnClickListener(View.OnClickListener {
             startActivity<VistorsActivity>()
         })
 
@@ -298,12 +301,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 onRefresh()
             } else if (requestCode == 8 && data != null) {//选择图片
                 val path = data.getStringExtra(SelectPhotoDialog.PATH)
-               updateImages(path)
-//                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
-//                param.index = 0
-//                param.type = Const.User.SELECTIMAGE
-//                param.images.add(path)
-//                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
+//               updateImages(path)
+                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+                param.index = 0
+                param.type = Const.User.SELECTIMAGE
+                param.images.add(path)
+                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             } else if (requestCode == 22) {
                 onRefresh()
             }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
@@ -350,8 +353,15 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 headerView.tv_vip.text = String.format("%s", it.classesname)
 
                 mTags.clear()
-                mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
-                mTags.add(UserTag("体重:${it.weight}", R.drawable.shape_tag_bg_2))
+
+                if(!it.height.isNullOrEmpty()){
+                    mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
+                }
+
+                if(!it.weight.isNullOrEmpty()){
+                    mTags.add(UserTag("体重:${it.weight}", R.drawable.shape_tag_bg_2))
+                }
+
                 if (!it.job.isNullOrEmpty()) {
                     mTags.add(UserTag(it.job ?: "", R.drawable.shape_tag_bg_3))
                 }
@@ -362,7 +372,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     mTags.add(UserTag(it.constellation ?: "", R.drawable.shape_tag_bg_5))
                 }
                 if (!it.hobbit.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.hobbit ?: "", R.drawable.shape_tag_bg_6))
+                    var mHobbies = it.hobbit?.replace("#",",")?.split(",")
+                    if (mHobbies != null) {
+                        for(str in mHobbies){
+                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
+                        }
+                    }
                 }
 
                 userTagAdapter.notifyDataSetChanged()
@@ -382,6 +397,26 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 headerView.tv_fans_count.text = data.iFansCountAll.toString()
                 headerView.tv_follow_count.text = data.iFollowCountAll.toString()
                 headerView.tv_vistor_count.text = data.iVistorCountAll.toString()
+                if(data.iFansCount!! > 0){
+                    headerView.tv_fcount.text = "+${data.iFansCount.toString()}"
+                    headerView.tv_fcount.visibility = View.VISIBLE
+                }else {
+                    headerView.tv_fcount.visibility = View.GONE
+                }
+
+                if(data.iFollowCount!! > 0){
+                    headerView.tv_fllcount.text = "+${data.iFollowCount.toString()}"
+                    headerView.tv_fllcount.visibility = View.VISIBLE
+                }else {
+                    headerView.tv_fllcount.visibility = View.GONE
+                }
+
+                if(data.iVistorCount!! > 0){
+                    headerView.tv_vcount.text = "+${data.iVistorCount.toString()}"
+                    headerView.tv_vcount.visibility = View.VISIBLE
+                }else {
+                    headerView.tv_vcount.visibility = View.GONE
+                }
             }
         })
     }

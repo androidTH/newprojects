@@ -189,22 +189,22 @@ class MyInfoActivity : BaseActivity() {
                 val path = data.getStringExtra(SelectPhotoDialog.PATH)
                 startActivityForResult<CropImageActivity>(1, "scale" to 1f, "uri" to path)
             } else if (requestCode == 1) {
-                headFilePath = data?.getStringExtra("path")
-                headView.setImageURI("file://$headFilePath")
-//                var path = data?.getStringExtra("path")
-//                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
-//                param.index = 0
-//                param.type = Const.User.HEADERIMAGE
-//                param.images.add(path)
-//                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
+//                headFilePath = data?.getStringExtra("path")
+//                headView.setImageURI("file://$headFilePath")
+                var path = data?.getStringExtra("path")
+                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+                param.index = 0
+                param.type = Const.User.HEADERIMAGE
+                param.images.add(path)
+                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             }else if (requestCode == 8 && data != null) {//选择图片
                 val path = data.getStringExtra(SelectPhotoDialog.PATH)
-                updateImages(path)
-//                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
-//                param.index = 0
-//                param.type = Const.User.SELECTIMAGE
-//                param.images.add(path)
-//                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
+//                updateImages(path)
+                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+                param.index = 0
+                param.type = Const.User.SELECTIMAGE
+                param.images.add(path)
+                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             }else if(requestCode==22){
                  refreshImages(data!!.getSerializableExtra("data") as UserData)
             }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){

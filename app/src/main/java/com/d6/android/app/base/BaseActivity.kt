@@ -21,6 +21,7 @@ import org.jetbrains.anko.toast
 import java.lang.Exception
 import android.view.MotionEvent
 import com.bugtags.library.Bugtags
+import com.d6.android.app.utils.KeyboardktUtils
 import com.gyf.barlibrary.ImmersionBar
 
 
@@ -37,10 +38,14 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         ProgressDialog(this, R.style.Theme_ProgressDialog)
     }
 
-    public val immersionBar by lazy {
+    val immersionBar by lazy {
         ImmersionBar.with(this)
                 .statusBarColor(R.color.colorPrimaryDark)
                 .statusBarDarkFont(false)
+    }
+
+    val mKeyboardKt by lazy{
+        KeyboardktUtils()
     }
 
     var isDestroy = false

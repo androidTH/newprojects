@@ -109,6 +109,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
 
         tv_release.setOnClickListener {
             publish()
+            mKeyboardKt.toggleSoftInput(it)
         }
 
         tv_address.text = city
