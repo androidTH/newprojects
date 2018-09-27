@@ -86,6 +86,7 @@ class HobbitDialog : DialogFragment(), RequestManager {
             if(mLabels.size < 3){
                 mLabels.add(et_hobbit_content.text.toString().trim())
                 labelsView.setLabels(mLabels, R.layout.layout_tag)
+                et_hobbit_content.text.clear()
             }
         })
         labelsView.setOnLabelClickListener(object:LabelsView.OnLabelClickListener {

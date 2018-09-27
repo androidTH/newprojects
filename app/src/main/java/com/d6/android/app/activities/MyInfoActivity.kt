@@ -154,7 +154,7 @@ class MyInfoActivity : BaseActivity() {
             selectConstellationDialog.show(supportFragmentManager,"c")
         }
 
-        tv_hobbit1.setOnClickListener(View.OnClickListener {
+        tv_hobbit1.setOnClickListener({
             val hobbitDialog = HobbitDialog()
             hobbitDialog.show(supportFragmentManager, "hobbit")
             hobbitDialog.setDialogListener { p, s ->

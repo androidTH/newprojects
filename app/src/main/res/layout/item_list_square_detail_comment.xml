@@ -30,4 +30,12 @@
         android:id="@+id/tv_content"
         android:layout_below="@+id/tv_name"
         android:text="-------------------"/>
+    <TextView
+        android:id="@+id/tv_del_myselfcomment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_333333"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="删除"/>
 </RelativeLayout>

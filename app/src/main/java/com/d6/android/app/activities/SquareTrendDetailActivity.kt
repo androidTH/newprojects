@@ -23,6 +23,9 @@ import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.inputmethod.InputMethodManager
+import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.CommentDelDialog
+import org.jetbrains.anko.bundleOf
 
 
 /**
@@ -73,6 +76,17 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             //显示软键盘
             imm.showSoftInputFromInputMethod(et_content.windowToken, 0)
             et_content.requestFocus()
+        }
+
+        squareDetailCommentAdapter.setDeleteClick {
+            val commentDelDialog = CommentDelDialog()
+            commentDelDialog.arguments = bundleOf("data" to it)
+            commentDelDialog.show(supportFragmentManager, "action")
+            commentDelDialog.setDialogListener { p, s ->
+                if (p == 1) {
+                    delete(it)
+                }
+            }
         }
 //        et_content.setOnClickListener {
 //            isAuthUser {
@@ -225,4 +239,12 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         loadData()
     }
 
+    private fun delete(data: Comment){
+            dialog(canCancel = false)
+            Request.delComments(data.id!!.toInt()).request(this) { _, _ ->
+                showToast("删除成功")
+                mComments.remove(data)
+                squareDetailCommentAdapter.notifyDataSetChanged()
+            }
+    }
 }

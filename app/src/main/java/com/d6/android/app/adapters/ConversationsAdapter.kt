@@ -51,9 +51,13 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
 //        tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
         tv_unread.text = count.toString() + ""
 
-        mBadegeUser.bindTarget(headView).setBadgeText(count.toString()).setGravityOffset(-3F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
-            dragState, badge, targetView ->
-        })
+        if(count > 0){
+            mBadegeUser.bindTarget(headView).setBadgeText(count.toString()).setGravityOffset(-3F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
+                dragState, badge, targetView ->
+            })
+        }else{
+            mBadegeUser.hide(false)
+        }
 
         holder.bind<View>(R.id.rl_main).setOnClickListener {
             if (mOnItemClickListener!=null){

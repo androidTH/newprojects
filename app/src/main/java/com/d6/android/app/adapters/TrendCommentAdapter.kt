@@ -70,7 +70,7 @@ class TrendCommentAdapter(mData:ArrayList<Comment>):HFRecyclerAdapter<Comment>(m
             iv_comment_del.visibility = View.GONE
         }
 
-        iv_comment_del.setOnClickListener(View.OnClickListener {
+        iv_comment_del.setOnClickListener({
             deleteAction?.onDelete(data)
         })
         contentView.text = spanText

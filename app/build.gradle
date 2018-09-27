@@ -130,6 +130,7 @@ dependencies {
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     compile project(':cardlib')
     compile project(':sticker')
+    //https://github.com/ongakuer/CircleIndicator
 
 //    compile 'com.github.zcweng:switch-button:0.0.3@aar'
     //完全版

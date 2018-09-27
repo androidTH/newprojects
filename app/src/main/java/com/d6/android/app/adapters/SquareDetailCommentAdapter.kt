@@ -10,8 +10,11 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.dialogs.CommentDelDialog
 import com.d6.android.app.models.Comment
+import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.CustomLinkMovementMethod
+import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.SpanBuilder
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.startActivity
@@ -20,6 +23,11 @@ import org.jetbrains.anko.startActivity
  *
  */
 class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<Comment>(mData, R.layout.item_list_square_detail_comment) {
+
+
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val holder = super.onCreateViewHolder(parent, viewType)
@@ -51,6 +59,16 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
                     .build()
         }
         contentView.text = spanText
+
+        val tv_del_myself_comment = holder.bind<TextView>(R.id.tv_del_myselfcomment)
+        if(data.userId == userId){
+            tv_del_myself_comment.visibility = View.VISIBLE
+        }else{
+            tv_del_myself_comment.visibility = View.GONE
+        }
+        tv_del_myself_comment.setOnClickListener {
+            deleteAction?.onDelete(data)
+        }
     }
 
     private inner class TextClickableSpan(private val id: String?) : ClickableSpan() {
@@ -65,4 +83,27 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
             ds.isUnderlineText = false
         }
     }
+
+    private var deleteAction:DeleteClick?=null
+
+    interface DeleteClick{
+        fun onDelete(comment: Comment)
+    }
+
+    fun setDeleteClick(action:(comment:Comment)->Unit){
+        this.deleteAction = object : SquareDetailCommentAdapter.DeleteClick {
+            override fun onDelete(comment: Comment) {
+                action(comment)
+            }
+        }
+    }
+
+//    val commentDelDialog = CommentDelDialog()
+//    commentDelDialog.arguments = bundleOf("data" to it)
+//    commentDelDialog.show((context as BaseActivity).supportFragmentManager, "action")
+//    commentDelDialog.setDialogListener { p, s ->
+//        if (p == 1) {
+//            delete(it)
+//        }
+//    }
 }

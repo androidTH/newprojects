@@ -146,6 +146,7 @@
             android:gravity="center"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
+            android:textSize="@dimen/textSize_12"
             android:text="@string/date_wenan" />
 
         <TextView

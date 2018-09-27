@@ -35,7 +35,14 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
-        tv_vip.text = String.format("%s", data.userclassesname)
+        val sex = SPUtils.instance().getString(Const.User.USER_SEX)
+        if (TextUtils.equals("0", sex)&& TextUtils.equals(data.sSex, "1")) {//0 男 1 女
+            tv_vip.text = String.format("%s", data.userclassesname)
+            tv_vip.visibility =View.GONE
+        } else {
+            tv_vip.text = String.format("%s", data.userclassesname)
+            tv_vip.visibility = View.VISIBLE
+        }
         var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
         if(data.iIsFollow == 0){
             mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);

@@ -31,8 +31,8 @@ class FollowActivity : RecyclerActivity() {
         super.onCreate(savedInstanceState)
         title = "关注"
         followAdapter.setOnItemClickListener { view, position ->
-//            val squareMessage = mMessages[position]
-//            startActivity<SquareTrendDetailActivity>("id" to squareMessage.newsId)
+            val id = mMessages[position].iUserid
+            startActivity<UserInfoActivity>("id" to id.toString())
         }
         addItemDecoration()
         dialog()

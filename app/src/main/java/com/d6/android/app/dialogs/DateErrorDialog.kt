@@ -89,6 +89,7 @@ class DateErrorDialog : DialogFragment(),RequestManager {
         val mark = when (type) {
             0 -> "qrcode-boy"
             1 -> "qrcode-girl"
+            2 -> "service_wechat_code"
             else -> "qrcode-weixin"
         }
         Request.getInfo(mark).request(this) { _, data ->

@@ -32,8 +32,8 @@ class VistorsActivity : RecyclerActivity() {
         super.onCreate(savedInstanceState)
         title = "访客"
         vistorAdapter.setOnItemClickListener { view, position ->
-//            val squareMessage = mMessages[position]
-//            startActivity<SquareTrendDetailActivity>("id" to squareMessage.newsId)
+            val id =  mVistors[position].iUserid
+            startActivity<UserInfoActivity>("id" to id.toString())
         }
         addItemDecoration()
         dialog()

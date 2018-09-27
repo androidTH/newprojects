@@ -143,6 +143,7 @@ class MessagesActivity : RecyclerActivity() {
 
                     })
                 } else {
+                    mSysMsg.hide(false)
                 }
                 headerView.tv_content1.text = data.list.results[0].content
             }
@@ -170,6 +171,8 @@ class MessagesActivity : RecyclerActivity() {
                             .setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
                                 dragState, badge, targetView ->
                             })
+                }else{
+                    mSquareMsg.hide(false)
                 }
                 headerView.tv_content2.text = data.list.results[0].content
             }
