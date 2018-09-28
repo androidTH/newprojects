@@ -34,13 +34,14 @@ class UnAuthUserActivity : TitleActivity() {
         getData()
         val sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if (TextUtils.equals("1", sex)) {
-            getWeChat(0)
-        } else {
             getWeChat(1)
+        } else {
+            getWeChat(0)
         }
     }
 
     private fun getData() {
+
         Request.getInfo("Authentication-D6").request(this) { _, data ->
             data?.let {
                 val content1 = data.optString("ext1")

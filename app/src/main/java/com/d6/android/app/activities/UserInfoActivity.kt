@@ -215,8 +215,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
                 headerView.tv_vip.text = String.format("%s", it.classesname)
                 mTags.clear()
-                mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
-                mTags.add(UserTag("体重:${it.weight}", R.drawable.shape_tag_bg_2))
+                if(!it.height.isNullOrEmpty()){
+                    mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
+                }
+                if(!it.weight.isNullOrEmpty()){
+                    mTags.add(UserTag("体重:${it.weight}",R.drawable.shape_tag_bg_2))
+                }
+//                mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
+//                mTags.add(UserTag("体重:${it.weight}", R.drawable.shape_tag_bg_2))
                 if (!it.job.isNullOrEmpty()) {
                     mTags.add(UserTag(it.job ?: "", R.drawable.shape_tag_bg_3))
                 }

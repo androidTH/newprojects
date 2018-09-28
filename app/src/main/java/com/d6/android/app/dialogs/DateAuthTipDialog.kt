@@ -66,9 +66,9 @@ class DateAuthTipDialog : DialogFragment(),RequestManager {
 
         val sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if (TextUtils.equals("1", sex)) {
-            getData(0)
-        } else {
             getData(1)
+        } else {
+            getData(0)
         }
     }
 

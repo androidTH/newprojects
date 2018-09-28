@@ -78,9 +78,9 @@ class DateErrorDialog : DialogFragment(),RequestManager {
 
         val sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if (TextUtils.equals("1", sex)) {
-            getData(0)
-        } else {
             getData(1)
+        } else {
+            getData(0)
         }
     }
 
@@ -89,7 +89,6 @@ class DateErrorDialog : DialogFragment(),RequestManager {
         val mark = when (type) {
             0 -> "qrcode-boy"
             1 -> "qrcode-girl"
-            2 -> "service_wechat_code"
             else -> "qrcode-weixin"
         }
         Request.getInfo(mark).request(this) { _, data ->

@@ -81,10 +81,10 @@ class DateDeclarationDialog : DialogFragment(), RequestManager {
 
     private fun submit() {
         val content = et_content.text.toString().trim()
-        if (content.isEmpty()) {
-            toast("约会宣言不能为空")
-            return
-        }
+//        if (content.isEmpty()) {
+//            toast("约会宣言不能为空")
+//            return
+//        }
 
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         if (context is BaseActivity) {
