@@ -81,6 +81,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ReleaseNewTrendsActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FeedBackActivity"

@@ -84,6 +84,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))//ic_add_bg
         addAdapter.notifyDataSetChanged()
         tv_back.setOnClickListener {
+            mKeyboardKt.hideKeyboard(it)
             finish()
         }
 
