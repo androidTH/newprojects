@@ -116,11 +116,11 @@ class SettingActivity : TitleActivity() {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                 RongIM.getInstance().refreshUserInfoCache(info)
                 tv_vip.text = String.format("%s", it.classesname)
-                if (TextUtils.equals("0", it.sex)) {//女性
-                    tv_vip.invisible()
-                } else {
-                    tv_vip.visible()
-                }
+//                if (TextUtils.equals("0", it.sex)) {//女性
+//                    tv_vip.visible()
+//                } else {
+//                    tv_vip.visible()
+//                }
                 tv_sex.isSelected = TextUtils.equals("0",it.sex)
                 tv_sex.text = it.age
                 headView.setImageURI(it.picUrl)

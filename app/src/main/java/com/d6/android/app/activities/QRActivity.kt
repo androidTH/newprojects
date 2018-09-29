@@ -7,6 +7,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
+import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.optString
 import kotlinx.android.synthetic.main.activity_qr.*
 
@@ -45,14 +46,7 @@ class QRActivity : TitleActivity() {
     }
 
     private fun getData() {
-        val mark = if (type == 0) {
-            "qrcode-boy"
-        } else if (type == 1) {
-            "qrcode-girl"
-        } else {
-            "qrcode-weixin"
-        }
-        Request.getInfo(mark).request(this) { _, data ->
+        Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
             data?.let {
                 val url = data.optString("picUrl")
                 imageView.setImageURI(url)

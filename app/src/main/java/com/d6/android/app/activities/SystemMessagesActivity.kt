@@ -45,7 +45,6 @@ class SystemMessagesActivity : RecyclerActivity() {
                 msg.urltype == "2" -> //会员
                     startActivity<UserInfoActivity>("id" to (msg.url?:""))
                 msg.urltype == "4" -> {//速约
-
                     getSpeedDateDetail((msg.url ?: ""))
                 }
                 else -> startActivity<MessageDetailActivity>("data" to mMessages[position])

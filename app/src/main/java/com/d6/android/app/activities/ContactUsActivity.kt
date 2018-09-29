@@ -7,6 +7,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
+import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SpanBuilder
 import com.d6.android.app.utils.optString
 import kotlinx.android.synthetic.main.activity_contact_us.*
@@ -50,32 +51,20 @@ class ContactUsActivity : TitleActivity() {
                 .bold(0,6)
                 .build()
         dialog()
-        getData(0)
-        getData(1)
+        getData()
     }
 
-    private fun getData(type:Int) {
-        val mark = if (type == 0) {
-            "qrcode-boy"
-        } else if (type == 1) {
-            "qrcode-girl"
-        } else {
-            "qrcode-weixin"
-        }
-        Request.getInfo(mark).request(this) { _, data ->
+    private fun getData() {
+        Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
             data?.let {
-                val ext1 = data.optString("ext1")
-                if (type == 0) {
-                    manWeChat = ext1
-                    tv_man_tip.text = SpanBuilder(String.format("男生专属客服\n点击复制微信号:%s",manWeChat))
-                            .bold(0,6)
-                            .build()
-                }else if (type == 1) {
-                    womanWeChat = ext1
-                    tv_woman_tip.text = SpanBuilder(String.format("女生专属客服\n点击复制微信号:%s",womanWeChat))
-                            .bold(0,6)
-                            .build()
-                }
+                val womanWeChat = data.optString("ext1")
+                val manWeChat = data.optString("ext2")
+                tv_man_tip.text = SpanBuilder(String.format("男生专属客服\n点击复制微信号:%s", manWeChat))
+                        .bold(0, 6)
+                        .build()
+                tv_woman_tip.text = SpanBuilder(String.format("女生专属客服\n点击复制微信号:%s", womanWeChat))
+                        .bold(0, 6)
+                        .build()
             }
         }
     }

@@ -38,20 +38,15 @@ class QRNewActivity : TitleActivity() {
     }
 
     private fun getData() {
-//        val mark = "qrcode-weixin"
-        val sex = SPUtils.instance().getString(Const.User.USER_SEX)
-        val mark = if (TextUtils.equals(sex,"0")) {
-            "qrcode-boy"
-        } else if (TextUtils.equals(sex, "1")) {
-            "qrcode-girl"
-        } else {
-            "qrcode-weixin"
-        }
-        Request.getInfo(mark).request(this) { _, data ->
+        Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
             data?.let {
-                val ext1 = data.optString("ext1")
-                weChat = ext1
-                tv_tip.text = SpanBuilder(String.format("微信公众号\n点击复制微信号:%s", ext1))
+                val sex = SPUtils.instance().getString(Const.User.USER_SEX)
+                if(TextUtils.equals(sex, "0")){
+                    weChat  = data.optString("ext1")
+                }else{
+                    weChat = data.optString("ext2")
+                }
+                tv_tip.text = SpanBuilder(String.format("微信公众号\n点击复制微信号:%s", weChat))
                         .bold(0, 5)
                         .build()
             }

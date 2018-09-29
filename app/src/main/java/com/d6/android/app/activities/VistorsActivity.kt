@@ -32,7 +32,7 @@ class VistorsActivity : RecyclerActivity() {
         super.onCreate(savedInstanceState)
         title = "访客"
         vistorAdapter.setOnItemClickListener { view, position ->
-            val id =  mVistors[position].iUserid
+            val id =  mVistors[position].iVistorid
             startActivity<UserInfoActivity>("id" to id.toString())
         }
         addItemDecoration()

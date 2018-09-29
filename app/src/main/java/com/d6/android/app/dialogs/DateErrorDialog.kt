@@ -76,24 +76,19 @@ class DateErrorDialog : DialogFragment(),RequestManager {
         }
         tv_close.setOnClickListener { dismissAllowingStateLoss() }
 
-        val sex = SPUtils.instance().getString(Const.User.USER_SEX)
-        if (TextUtils.equals("1", sex)) {
-            getData(1)
-        } else {
-            getData(0)
-        }
+        getData()
     }
 
     private var weChat=""
-    private fun getData(type:Int) {
-        val mark = when (type) {
-            0 -> "qrcode-boy"
-            1 -> "qrcode-girl"
-            else -> "qrcode-weixin"
-        }
-        Request.getInfo(mark).request(this) { _, data ->
+    private fun getData() {
+        Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
             data?.let {
-                weChat = data.optString("ext1")
+                val sex = SPUtils.instance().getString(Const.User.USER_SEX)
+                if(TextUtils.equals(sex, "0")){
+                    weChat  = data.optString("ext1")
+                }else{
+                    weChat = data.optString("ext2")
+                }
                 tv_wx.text= "客服微信号：$weChat"
             }
         }

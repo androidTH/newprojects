@@ -30,4 +30,5 @@ object Const {
     val BUGTAGS_KEY = "e3ed18af47d9993fbfbc5dc02194079e"
     val UMENG_APPKEY = "5a5b309af29d9835ae000262"
     val UMENG_MESSAGE_SECRET = "0f16af7d3011a5aad7cf82a996b6b94c"
+    val SERVICE_WECHAT_CODE = "service_wechat_code"
 }

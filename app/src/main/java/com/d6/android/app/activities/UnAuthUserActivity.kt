@@ -32,12 +32,7 @@ class UnAuthUserActivity : TitleActivity() {
 
         dialog()
         getData()
-        val sex = SPUtils.instance().getString(Const.User.USER_SEX)
-        if (TextUtils.equals("1", sex)) {
-            getWeChat(1)
-        } else {
-            getWeChat(0)
-        }
+        getWeChat()
     }
 
     private fun getData() {
@@ -69,18 +64,15 @@ class UnAuthUserActivity : TitleActivity() {
         }
     }
 
-    private fun getWeChat(type:Int) {
-        val mark = if (type == 0) {
-            "qrcode-boy"
-        } else if (type == 1) {
-            "qrcode-girl"
-        } else {
-            "qrcode-weixin"
-        }
-        Request.getInfo(mark).request(this) { _, data ->
+    private fun getWeChat() {
+        Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
             data?.let {
-                val ext1 = data.optString("ext1")
-                weChat = ext1
+                val sex = SPUtils.instance().getString(Const.User.USER_SEX)
+                if(TextUtils.equals(sex, "0")){
+                    weChat  = data.optString("ext1")
+                }else{
+                    weChat = data.optString("ext2")
+                }
                 tv_action.text = String.format("微信号:%s  点击复制微信号", weChat)
             }
         }

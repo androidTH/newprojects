@@ -36,7 +36,7 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
         tv_sex.text = data.nianling
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
         val sex = SPUtils.instance().getString(Const.User.USER_SEX)
-        if (TextUtils.equals("0", sex)&& TextUtils.equals(data.sSex, "1")) {//0 男 1 女
+        if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
             tv_vip.text = String.format("%s", data.userclassesname)
             tv_vip.visibility =View.GONE
         } else {
