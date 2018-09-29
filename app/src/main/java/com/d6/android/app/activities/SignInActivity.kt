@@ -25,10 +25,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.textColor
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import org.json.JSONObject
 
 /**
@@ -179,8 +176,9 @@ class SignInActivity : BaseActivity() {
     private fun phoneFormatOk() {
         tv_get_code.isEnabled = true
         tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_F7AB00)
-        tv_get_code.setBackgroundResource(R.drawable.shape_code_btn_bg)
-        phoneLine.setBackgroundResource(R.color.dividing_line_color)
+        tv_get_code.backgroundResource = R.drawable.shape_code_btn_bg
+//        phoneLine.setBackgroundResource(R.color.dividing_line_color)
+        phoneLine.backgroundResource = R.color.dividing_line_color
         tv_phone_error.invisible()
     }
 
@@ -188,9 +186,9 @@ class SignInActivity : BaseActivity() {
         if (tv_get_code.isEnabled) {
             tv_get_code.isEnabled = false
             tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
-            tv_get_code.setBackgroundResource(R.drawable.circle_gray_bg)
+            tv_get_code.backgroundResource = R.drawable.circle_gray_bg
         }
-        phoneLine.setBackgroundResource(R.color.red_fc3)
+        phoneLine.backgroundResource = R.color.red_fc3
         tv_phone_error.visible()
     }
 
@@ -213,7 +211,7 @@ class SignInActivity : BaseActivity() {
             tv_get_code.isEnabled = false
             countDownTimer.start()
             tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
-            tv_get_code.setBackgroundResource(R.drawable.circle_gray_bg)
+            tv_get_code.backgroundResource = R.drawable.circle_gray_bg
         }
     }
 
