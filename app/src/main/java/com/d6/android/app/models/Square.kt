@@ -15,6 +15,8 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var userid: String? = ""
     @SerializedName("classesname")
     var classesName: String? = ""
+    @SerializedName("userclassesname")
+    var userclassesname:String?=""
     @SerializedName("coverurl")
     var imgUrl: String? = ""//图片集
     var city: String? = ""
