@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_about_us_main.*
  */
 class AboutUsActivity : TitleActivity() {
 
+//    https://github.com/rbro112/Android-Indefinite-Pager-Indicator
     private val mAboutUsInfo = ArrayList<AboutUsInfo>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
