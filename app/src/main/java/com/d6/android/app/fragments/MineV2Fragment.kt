@@ -119,7 +119,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         headerView.rv_tags.isNestedScrollingEnabled = false
         headerView.rv_tags.adapter = userTagAdapter
         headerView.rel_add_square.setOnClickListener {
-            startActivityForResult<ReleaseNewTrendsActivity>(3)
+//            startActivityForResult<ReleaseNewTrendsActivity>(3)
+            startActivity<MyPointsActivity>()
         }
 
         headerView.headView.setOnClickListener {

@@ -219,6 +219,7 @@
         <activity android:name=".activities.FansActivity"/>
         <activity android:name=".activities.FollowActivity"/>
         <activity android:name=".activities.VistorsActivity"/>
+        <activity android:name=".activities.MyPointsActivity"/>
     </application>
 
 </manifest>
