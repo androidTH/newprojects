@@ -11,6 +11,8 @@ import com.d6.android.app.adapters.PointsAdapter
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.RecyclerActivity
+import com.d6.android.app.dialogs.PointsListDialog
+import com.d6.android.app.dialogs.TrendCommentsDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
 import com.d6.android.app.net.Request
@@ -29,6 +31,9 @@ import kotlinx.android.synthetic.main.activity_mypoints.*
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_messages.*
 import kotlinx.android.synthetic.main.header_messages.view.*
+import kotlinx.android.synthetic.main.item_mypoints_header.*
+import kotlinx.android.synthetic.main.item_mypoints_header.view.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
 
@@ -59,6 +64,20 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
         mypoints_refreshrecycler.setAdapter(mPointsAdapter)
         mPointsAdapter.setHeaderView(mHeaderView)
         mypoints_refreshrecycler.setOnRefreshListener(this)
+
+        tv_mypoints_back.setOnClickListener {
+            finish()
+        }
+
+        tv_points_info.setOnClickListener {
+
+        }
+
+        mHeaderView.tv_recharge.setOnClickListener {
+            val mPointsListDialog = PointsListDialog()
+//            mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
+            mPointsListDialog.show(supportFragmentManager, "c")
+        }
     }
 
     override fun onResume() {
@@ -79,7 +98,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
                     mSwipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {
-                mMessages.addAll(data.list.results)
+                var addAll = mMessages.addAll(data.list.results)
             }
             mPointsAdapter.notifyDataSetChanged()
         }

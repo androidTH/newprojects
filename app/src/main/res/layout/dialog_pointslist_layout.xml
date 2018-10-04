@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingBottom="20dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/tv_points_title"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="12dp"
+        android:text="积分充值"
+        android:layout_marginBottom="12dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="@color/color_000000"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="12dp"
+        android:id="@+id/tv_points_close"
+        android:drawableRight="@mipmap/window_close_orangebtn"/>
+
+    <View
+        android:layout_below="@+id/tv_points_title"
+        android:layout_width="match_parent"
+        android:background="@color/color_D8D8D8"
+        android:layout_height="0.5dp"/>
+
+    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_margin="@dimen/margin_15"
+        android:id="@+id/swiprl_points_list"
+        android:layout_below="@+id/tv_points_title"/>
+
+    <LinearLayout
+        android:id="@+id/ll_jifen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_points_title"
+        android:gravity="center"
+        android:paddingTop="@dimen/margin_15"
+        android:paddingBottom="@dimen/margin_15"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@drawable/shape_ef"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_15"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_333333"
+            android:text="200积分"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_F7AB00"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/margin_5"
+            android:text="¥168"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:text="1元=10积分,充值越多优惠越大哦"
+        android:textColor="@color/color_888888"
+        android:textSize="10sp"
+        android:id="@+id/tv_integral_explanation"
+        android:layout_below="@+id/swiprl_points_list" />
+</RelativeLayout>

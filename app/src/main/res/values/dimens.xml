@@ -32,4 +32,5 @@
     <dimen name="height_30">30dp</dimen>
     <dimen name="height_1">1dp</dimen>
     <dimen name="height_300">300dp</dimen>
+    <dimen name="height_330">330dp</dimen>
 </resources>

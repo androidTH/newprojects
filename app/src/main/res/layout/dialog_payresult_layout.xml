@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="12dp"
+        android:id="@+id/tv_payresult_close"
+        android:drawableRight="@mipmap/window_close_orangebtn"/>
+
+    <ImageView
+        android:id="@+id/iv_payresult_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_payresult_close"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_15"
+        android:src="@mipmap/intergral_successful_icon"/>
+    <TextView
+        android:id="@+id/tv_paysuccess_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_payresult_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="@string/str_points_pay_success"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:text="有疑问请联系微信客服"
+        android:textColor="@color/color_888888"
+        android:textSize="12sp"
+        android:layout_below="@+id/tv_paysuccess_title"
+        android:id="@+id/tv_payresult_fail"
+        android:layout_marginTop="35dp" />
+    <LinearLayout
+        android:id="@+id/ll_wx_copy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_paysuccess_title"
+        android:gravity="center"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_payreuslt_wx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:text="客服微信号：sfasdfasdfasdf "
+            android:textColor="@color/color_888888"
+            android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/tv_payresult_fail_copywx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:textColor="@color/color_F7AB00"
+            android:text="点击复制"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_payresult_success"
+        android:layout_below="@+id/tv_paysuccess_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape_10r_orange"
+        android:layout_marginTop="60dp"
+        android:visibility="gone"
+        android:text="完成"/>
+</RelativeLayout>

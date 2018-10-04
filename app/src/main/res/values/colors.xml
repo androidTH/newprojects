@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">@color/white</color>
-    <color name="colorPrimaryDark">#CC000000</color>//CC000000
+    <color name="colorPrimaryDark">#CC000000</color>
     <color name="colorAccent">#FF4081</color>
     <color name="l_transparent">#80000000</color>
     <color name="orange_f6a">#f6ab00</color>
@@ -61,5 +61,6 @@
     <color name="color_24FFFFFF">#24FFFFFF</color>
     <color name="color_F79C00">#F79C00</color>
     <color name="color_68BFFF">#68BFFF</color>
+    <color name="color_D8D8D8">#D8D8D8</color>
 
 </resources>
