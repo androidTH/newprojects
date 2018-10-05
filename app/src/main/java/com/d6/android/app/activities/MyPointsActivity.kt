@@ -15,6 +15,7 @@ import com.d6.android.app.dialogs.PointsListDialog
 import com.d6.android.app.dialogs.TrendCommentsDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
+import com.d6.android.app.models.UserPoints
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeItemLayout
@@ -46,10 +47,15 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val myPointNums by lazy {
+        intent.getStringExtra("points")
+    }
+
     private var pageNum = 1
-    private val mMessages = ArrayList<Fans>()
+    private val mUserPoints = ArrayList<UserPoints>()
+
     private val mPointsAdapter by lazy {
-        PointsAdapter(mMessages)
+        PointsAdapter(mUserPoints)
     }
 
     private val mHeaderView by lazy {
@@ -64,6 +70,8 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
         mypoints_refreshrecycler.setAdapter(mPointsAdapter)
         mPointsAdapter.setHeaderView(mHeaderView)
         mypoints_refreshrecycler.setOnRefreshListener(this)
+
+        mHeaderView.tv_mypointnums.text = myPointNums
 
         tv_mypoints_back.setOnClickListener {
             finish()
@@ -86,22 +94,22 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     private fun getData() {
-        Request.getFindMyFans(userId, pageNum).request(this) { _, data ->
+        Request.getUserPoints(userId, pageNum).request(this, success = {_,data->
             if (pageNum == 1) {
-                mMessages.clear()
+                mUserPoints.clear()
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
-                    mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                    mypoints_refreshrecycler.setLoadMoreText("没有更多了")
                     pageNum--
                 } else {
-                    mSwipeRefreshLayout.setLoadMoreText("暂无数据")
+                    mypoints_refreshrecycler.setLoadMoreText("暂无数据")
                 }
             } else {
-                var addAll = mMessages.addAll(data.list.results)
+                var addAll = mUserPoints.addAll(data.list.results)
             }
             mPointsAdapter.notifyDataSetChanged()
-        }
+        })
     }
 
     override fun onRefresh() {

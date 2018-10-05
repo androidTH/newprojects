@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.TypedValue
 import android.view.Gravity
@@ -12,12 +13,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.activities.TrendDetailActivity
+import com.d6.android.app.adapters.PointRuleAdapter
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
 import com.d6.android.app.adapters.TrendCommentAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Comment
+import com.d6.android.app.models.PointRule
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
@@ -27,6 +30,7 @@ import com.d6.android.app.utils.screenWidth
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import kotlinx.android.synthetic.main.dialog_pointslist_layout.*
 import kotlinx.android.synthetic.main.dialog_select_sex_layout.*
 import kotlinx.android.synthetic.main.dialog_trend_comments_layout.*
@@ -39,7 +43,7 @@ import org.jetbrains.anko.wrapContent
 /**
  * 积分充值页面
  */
-class PointsListDialog : DialogFragment(),RequestManager,SwipeRefreshRecyclerLayout.OnRefreshListener {
+class PointsListDialog : DialogFragment(),RequestManager {
     override fun showToast(msg: String) {
         toast(msg)
     }
@@ -56,17 +60,15 @@ class PointsListDialog : DialogFragment(),RequestManager,SwipeRefreshRecyclerLay
 
     private val compositeDisposable = CompositeDisposable()
 
-    private val mTrend by lazy {
-        if (arguments!=null && arguments.containsKey("data")) {
-            arguments.getSerializable("data") as Square
-        } else {
-            Square()
-        }
+
+    private var mPointsRule =  ArrayList<PointRule>()
+    private val mPRAdapter by lazy {
+        PointRuleAdapter(mPointsRule)
     }
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
-    private var pageNum = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,23 +87,29 @@ class PointsListDialog : DialogFragment(),RequestManager,SwipeRefreshRecyclerLay
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        swiprl_points_list.setOnRefreshListener(this)
-        swiprl_points_list.setLayoutManager(LinearLayoutManager(context))
+        swiprl_points_list.setHasFixedSize(true)
+        swiprl_points_list.layoutManager = GridLayoutManager(context, 3)
         tv_points_close.setOnClickListener { dismissAllowingStateLoss() }
-        ll_jifen.setOnClickListener {
-            val payResultDialog = PayResultDialog()
-//            payResultDialog.arguments = bundleOf("payresult" to payResultDialog.PAY_FAIL)
-            payResultDialog.show((context as BaseActivity).supportFragmentManager, "action")
-            payResultDialog.setDialogListener { p, s ->
-
-            }
-        }
+        swiprl_points_list.adapter = mPRAdapter
+//        ll_jifen.setOnClickListener {
+//            val payResultDialog = PayResultDialog()
+////            payResultDialog.arguments = bundleOf("payresult" to payResultDialog.PAY_FAIL)
+//            payResultDialog.show((context as BaseActivity).supportFragmentManager, "action")
+//            payResultDialog.setDialogListener { p, s ->
+//
+//            }
+//        }
         getData()
     }
 
     private fun getData() {
-
+        Request.getPointsRule().request(this){_,data->
+            if(data!=null){
+                data.let {
+                    mPointsRule.addAll(it)
+                }
+            }
+        }
     }
 
     private fun loadData() {
@@ -118,15 +126,6 @@ class PointsListDialog : DialogFragment(),RequestManager,SwipeRefreshRecyclerLay
         }
     }
 
-    override fun onRefresh() {
-        pageNum = 1
-        getData()
-    }
-
-    override fun onLoadMore() {
-        pageNum++
-        loadData()
-    }
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)

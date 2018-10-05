@@ -16,12 +16,13 @@
         android:layout_marginLeft="@dimen/height_30"
         android:layout_marginTop="@dimen/height_30"
         android:drawableLeft="@mipmap/intergal_white_coin"
-        android:drawablePadding="@dimen/margin_8"
+        android:drawablePadding="@dimen/margin_5"
         android:text="剩余积分"
         android:textColor="@color/white"
         android:textSize="18dp" />
 
     <TextView
+        android:id="@+id/tv_mypointnums"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="35dp"

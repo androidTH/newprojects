@@ -21,6 +21,7 @@
         android:text="dddd"
         android:textColor="@color/color_888888" />
     <TextView
+        android:id="@+id/tv_nums"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

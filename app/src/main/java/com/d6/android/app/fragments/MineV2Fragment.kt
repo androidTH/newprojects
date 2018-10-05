@@ -119,8 +119,11 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         headerView.rv_tags.isNestedScrollingEnabled = false
         headerView.rv_tags.adapter = userTagAdapter
         headerView.rel_add_square.setOnClickListener {
-//            startActivityForResult<ReleaseNewTrendsActivity>(3)
-            startActivity<MyPointsActivity>()
+            startActivityForResult<ReleaseNewTrendsActivity>(3)
+        }
+
+        headerView.rl_mypoints_count.setOnClickListener {
+            startActivity<MyPointsActivity>("points" to headerView.tv_mypointscount.text)
         }
 
         headerView.headView.setOnClickListener {
@@ -353,6 +356,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 headerView.tv_sex.text = it.age
+                headerView.tv_mypointscount.text = it.iPoint.toString()
 //                if (TextUtils.equals("0", it.sex)) {
 //                    headerView.tv_vip.invisible()
 //                } else {

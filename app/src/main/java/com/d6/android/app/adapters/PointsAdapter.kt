@@ -1,55 +1,29 @@
 package com.d6.android.app.adapters
 
-import android.text.TextUtils
-import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Fans
-import com.d6.android.app.net.Request
+import com.d6.android.app.models.UserPoints
 import com.d6.android.app.utils.*
-import com.facebook.drawee.view.SimpleDraweeView
-import com.google.gson.JsonObject
+import org.jetbrains.anko.textColor
 
 /**
  *粉丝
  */
-class PointsAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData,  R.layout.item_list_fans){//R.layout.mypoints_items_list
+class PointsAdapter(mData:ArrayList<UserPoints>): HFRecyclerAdapter<UserPoints>(mData,  R.layout.item_list_mypoints){//R.layout.item_list_mypoints
 
-    override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
-        holder.setText(R.id.tv_name,data.sUserName)
-        val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-//        val tv_time =holder.bind<TextView>(R.id.tv_time)
-//        tv_time.text = data.dJointime.toTime("MM.dd")
-        headView.setImageURI(data.sPicUrl)
-        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        tv_userinfo.text = data.gexingqianming
-        val tv_sex = holder.bind<TextView>(R.id.tv_sex)
-        tv_sex.isSelected = TextUtils.equals("0", data.sSex)
-        tv_sex.text = data.nianling
-        val tv_vip = holder.bind<TextView>(R.id.tv_vip)
-        val sex = SPUtils.instance().getString(Const.User.USER_SEX)
-        if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
-            tv_vip.text = String.format("%s", data.userclassesname)
-            tv_vip.visibility =View.GONE
-        } else {
-            tv_vip.text = String.format("%s", data.userclassesname)
-            tv_vip.visibility = View.VISIBLE
+    override fun onBind(holder: ViewHolder, position: Int, data: UserPoints) {
+        holder.setText(R.id.tv_mypoints_content,data.sPointdesc)
+        val tv_mypointstime = holder.bind<TextView>(R.id.tv_mypointstime)
+        tv_mypointstime.text = data.dCreatetime.toTime("yyyy.MM.dd HH:mm")
+        val tv_nums = holder.bind<TextView>(R.id.tv_nums)
+        if(data.iPointtype == 1){
+            tv_nums.text = "+${data.iPoint.toString()}"
+            tv_nums.textColor = context.resources.getColor(R.color.color_F7AB00)
+        }else if(data.iPointtype == 2){
+            tv_nums.text = "-${data.iPoint.toString()}"
+            tv_nums.textColor = context.resources.getColor(R.color.color_68BFFF)
         }
-
-        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
-        if(data.iIsFollow == 0){
-            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
-            mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
-            mTvFollow.setText("关注")
-        }else{
-            mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
-            mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-            mTvFollow.setText("已关注")
-        }
-        mTvFollow.setTag(data)
     }
 }

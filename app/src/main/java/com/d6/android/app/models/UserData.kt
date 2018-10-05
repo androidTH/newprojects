@@ -47,6 +47,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var userlookwhere: String? = ""
     var egagementtype: Int? = 0
     var iIsFollow:Int? = 0
+    var iPoint:Int? = 0
 
     override fun toString(): String {
         //                "\"nianling\":\"$age\"," +
