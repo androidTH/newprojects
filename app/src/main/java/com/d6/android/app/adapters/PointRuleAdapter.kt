@@ -27,7 +27,7 @@ class PointRuleAdapter(mData:ArrayList<PointRule>): HFRecyclerAdapter<PointRule>
     override fun onBind(holder: ViewHolder, position: Int, data: PointRule) {
         holder.setText(R.id.tv_point_nums,"${data.iPoint.toString()}积分")
         var  mTvPointMoney= holder.bind<TextView>(R.id.tv_point_money)
-        mTvPointMoney.text = "$${data.iPrice.toString()}"
+        mTvPointMoney.text = "¥${data.iPrice.toString()}"
 //        mTvFollow.setOnClickListener(this)
 //        mTvFollow.setTag(data)
     }

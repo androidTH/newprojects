@@ -107,6 +107,7 @@ class PointsListDialog : DialogFragment(),RequestManager {
             if(data!=null){
                 data.let {
                     mPointsRule.addAll(it)
+                    mPRAdapter.notifyDataSetChanged()
                 }
             }
         }

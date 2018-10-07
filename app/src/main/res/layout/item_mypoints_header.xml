@@ -18,8 +18,9 @@
         android:drawableLeft="@mipmap/intergal_white_coin"
         android:drawablePadding="@dimen/margin_5"
         android:text="剩余积分"
+        android:gravity="center_vertical"
         android:textColor="@color/white"
-        android:textSize="18dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/tv_mypointnums"

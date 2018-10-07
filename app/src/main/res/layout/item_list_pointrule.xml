@@ -4,15 +4,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@+id/tv_points_title"
-    android:layout_marginLeft="@dimen/margin_15"
-    android:layout_marginTop="@dimen/margin_15"
+    android:layout_marginLeft="@dimen/margin_10"
+    android:layout_marginTop="@dimen/margin_10"
     android:background="@drawable/shape_ef"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingTop="@dimen/margin_15"
-    android:paddingRight="20dp"
-    android:paddingBottom="@dimen/margin_15">
+    android:paddingLeft="@dimen/margin_15"
+    android:paddingTop="@dimen/margin_10"
+    android:paddingRight="@dimen/margin_15"
+    android:paddingBottom="@dimen/margin_10">
 
     <TextView
         android:id="@+id/tv_point_nums"
