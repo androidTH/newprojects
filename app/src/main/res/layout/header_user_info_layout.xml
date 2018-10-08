@@ -127,6 +127,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="16dp"
         android:layout_marginBottom="8dp"
+        android:visibility="gone"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
     <LinearLayout
@@ -148,8 +149,9 @@
                 android:id="@+id/ll_fans_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
                 android:gravity="center"
+                android:layout_alignRight="@id/strut"
+                android:layout_alignParentLeft="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -167,14 +169,19 @@
                     android:text="粉丝"
                     android:textColor="@color/color_666666" />
             </LinearLayout>
+            <View
+                android:id= "@+id/strut"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true" />
 
             <LinearLayout
                 android:id="@+id/ll_follow_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
                 android:gravity="center"
+                android:layout_alignLeft="@id/strut"
+                android:layout_alignParentRight="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -200,6 +207,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="45dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView

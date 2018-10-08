@@ -33,7 +33,7 @@ class SplashActivity : BaseActivity() {
     }
 
     class SplashFragment :BaseFragment(){
-
+        val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
         companion object {
             fun instance(p:Int):Fragment{
                 val fragment = SplashFragment()
@@ -64,8 +64,6 @@ class SplashActivity : BaseActivity() {
                 next.gone()
             }
             next.setOnClickListener{
-                SPUtils.instance().put(Const.User.IS_FIRST,false).apply()
-                val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
                 if (isLogin) {
                     startActivity<MainActivity>()
                 } else {
