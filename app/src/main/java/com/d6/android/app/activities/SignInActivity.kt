@@ -150,6 +150,7 @@ class SignInActivity : BaseActivity() {
         action_protocols.text = SpanBuilder(s)
                 .click(s.length - 8, s.length, MClickSpan(this))
                 .build()
+
         SPUtils.instance().put(Const.User.IS_FIRST,false).apply()
     }
 
