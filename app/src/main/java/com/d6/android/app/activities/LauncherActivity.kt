@@ -1,5 +1,6 @@
 package com.d6.android.app.activities
 
+import android.content.Intent
 import android.os.Bundle
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -43,6 +44,16 @@ class LauncherActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        if (!this.isTaskRoot()) {
+//            var intent = getIntent()
+//            if (intent != null) {
+//                var action = intent.getAction()
+//                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+//                    finish()
+//                    return;
+//                }
+//            }
+//        }
         setContentView(R.layout.activity_launcher)
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
     }

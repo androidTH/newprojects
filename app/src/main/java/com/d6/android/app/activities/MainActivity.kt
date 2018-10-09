@@ -41,7 +41,7 @@ class MainActivity : BaseActivity() {
 
     private val tabImages = arrayOf(R.drawable.home_main_selector
             , R.drawable.home_speed_date_selector, R.drawable.home_square_selector
-            ,R.drawable.home_main_selector, R.drawable.home_mine_selector)
+            ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
     //    private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java
 //            , SquareMainFragment::class.java, MessagesFragment::class.java,
 //            MineFragment::class.java)
@@ -113,7 +113,7 @@ class MainActivity : BaseActivity() {
                     iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 //                    iv_right.imageResource = R.mipmap.ic_msg_setting
                     tv_title.text = "消息"
-                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_msg_setting, 0)
+//                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_msg_setting, 0)
 //                    iv_right.text = "发布"
                     tv_title1.text = ""
                 }
