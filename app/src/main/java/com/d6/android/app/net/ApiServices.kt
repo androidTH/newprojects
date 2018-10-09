@@ -213,7 +213,7 @@ interface ApiServices {
 
     //获取用户消费的积分
     @POST("backstage/userpoint/find")
-    fun getUserPoints(@Query("sUserId")sUserId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<UserPoints>>>
+    fun getUserPoints(@Query("iUserid")sUserId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<UserPoints>>>
 
     //创建订单
     @POST("backstage/order/add")

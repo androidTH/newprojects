@@ -109,6 +109,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
                 var addAll = mUserPoints.addAll(data.list.results)
             }
             mPointsAdapter.notifyDataSetChanged()
+            mypoints_refreshrecycler.isRefreshing = false
         })
     }
 
