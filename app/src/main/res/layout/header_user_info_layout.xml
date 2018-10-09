@@ -127,6 +127,7 @@
         android:paddingTop="8dp"
         android:paddingBottom="16dp"
         android:layout_marginBottom="8dp"
+        android:visibility="visible"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
     <LinearLayout
@@ -165,7 +166,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="粉丝"
+                    android:text="@string/likeme"
                     android:textColor="@color/color_666666" />
             </LinearLayout>
             <View
@@ -195,7 +196,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="关注"
+                    android:text="@string/Ilike"
                     android:textColor="@color/color_666666" />
             </LinearLayout>
 

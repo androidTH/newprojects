@@ -37,17 +37,17 @@ import org.jetbrains.anko.collections.forEachWithIndex
  * 主页
  */
 class MainActivity : BaseActivity() {
-    private val tabTexts = arrayOf("约会", "推荐", "动态", "我的")
+    private val tabTexts = arrayOf("约会", "推荐", "动态","消息", "我的")
 
     private val tabImages = arrayOf(R.drawable.home_main_selector
             , R.drawable.home_speed_date_selector, R.drawable.home_square_selector
-            , R.drawable.home_mine_selector)
+            ,R.drawable.home_main_selector, R.drawable.home_mine_selector)
     //    private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java
 //            , SquareMainFragment::class.java, MessagesFragment::class.java,
 //            MineFragment::class.java)
     private val fragmentArray = arrayOf<Class<*>>(DateFragment::class.java
             , HomeFragment::class.java, SquareMainFragment::class.java,
-            MineV2Fragment::class.java)
+            MessageFragment::class.java,MineV2Fragment::class.java)
 
     private val broadcast by lazy {
         object : BroadcastReceiver() {
@@ -107,11 +107,21 @@ class MainActivity : BaseActivity() {
 //                    iv_right.text = "发布"
                     tv_title1.text = "动态"
                 }
+
                 TextUtils.equals(it, tabTexts[3]) -> {
+                    titleBar.gone()
+                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+//                    iv_right.imageResource = R.mipmap.ic_msg_setting
+                    tv_title.text = "消息"
+                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_msg_setting, 0)
+//                    iv_right.text = "发布"
+                    tv_title1.text = ""
+                }
+                TextUtils.equals(it, tabTexts[4]) -> {
+                    titleBar.gone()
                     iv_right.gone()
                     tv_title1.gone()
                     tv_title.text = "我的"
-                    titleBar.gone()
                     line.gone()
                 }
             }

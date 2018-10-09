@@ -26,4 +26,9 @@
     <string name="string_mypoints">我的积分</string>
     <string name="str_points_pay_success">积分充值成功</string>
     <string name="str_points_pay_fail">充值失败，请重新支付</string>
+    <string name="likeme">喜欢我的</string>
+    <string name="Ilike">我喜欢的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

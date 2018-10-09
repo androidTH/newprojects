@@ -228,7 +228,7 @@
                     android:layout_below="@+id/tv_fans_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="粉丝"
+                    android:text="@string/likeme"
                     android:textSize="12sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
@@ -268,7 +268,7 @@
                     android:layout_below="@+id/tv_follow_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="关注"
+                    android:text="@string/Ilike"
                     android:textSize="12sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
