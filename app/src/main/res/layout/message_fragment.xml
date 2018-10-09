@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_size"
+        android:background="@color/white"
+        android:id="@+id/msg_titleBar">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/padding_16"
+            android:textSize="20dp"
+            android:id="@+id/tv_title"
+            android:paddingRight="@dimen/padding_16"
+            android:text="消息"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/orange_f6a"
+            android:layout_alignParentRight="true"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:id="@+id/iv_msg_right"
+            android:drawableLeft="@mipmap/ic_msg_setting"/>
+    </RelativeLayout>
+    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+        android:id="@+id/swiprefreshRecyclerlayout_msg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

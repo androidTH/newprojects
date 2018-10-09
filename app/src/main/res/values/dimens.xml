@@ -26,9 +26,11 @@
     <dimen name="margin_1">1dp</dimen>
     <dimen name="margin_2">2dp</dimen>
     <dimen name="margin_3">3dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
     <dimen name="radius_10">10dp</dimen>
     <dimen name="height_40">40dp</dimen>
     <dimen name="height_30">30dp</dimen>
     <dimen name="height_1">1dp</dimen>
     <dimen name="height_300">300dp</dimen>
+    <dimen name="height_330">330dp</dimen>
 </resources>

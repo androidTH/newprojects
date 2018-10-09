@@ -206,4 +206,20 @@ interface ApiServices {
     //查询访客记录
     @POST("backstage/vistor/find")
     fun getFindVistors(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<Fans>>>
+
+    //积分充值列表
+    @POST("backstage/userpointrule/find")
+    fun getUserPointsRule():Flowable<Response<ArrayList<PointRule>>>
+
+    //获取用户消费的积分
+    @POST("backstage/userpoint/find")
+    fun getUserPoints(@Query("iUserid")sUserId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<UserPoints>>>
+
+    //创建订单
+    @POST("backstage/order/add")
+    fun createOrder()
+
+    //获取订单支付状态
+    @POST("backstage/order/getOrderById")
+    fun getOrderById()
 }

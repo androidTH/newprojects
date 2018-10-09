@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_size">
+        <TextView
+            android:id="@+id/tv_mypoints_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/back"
+            android:paddingLeft="@dimen/padding_16"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:textSize="18dp"
+            android:id="@+id/tv_title"
+            android:text="@string/string_mypoints"
+            android:textColor="@color/color_000000"
+            android:textStyle="bold"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_points_info"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:textColor="@color/color_888888"
+            android:drawableLeft="@mipmap/icon_integral_info"
+            android:drawablePadding="@dimen/margin_4"
+            android:text="积分说明" />
+    </RelativeLayout>
+
+    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mypoints_refreshrecycler"/>
+</LinearLayout>

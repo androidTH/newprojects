@@ -9,6 +9,7 @@ import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Retrofit
 import java.io.File
 
 
@@ -284,4 +285,10 @@ object Request {
     fun getFindVistors(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindVistors(userid , pageNum)
 
     fun delComments(ids:Int)=RRetrofit.instance().create(ApiServices::class.java).delComment(ids)
+
+    //获取充值列表
+    fun getPointsRule()=RRetrofit.instance().create(ApiServices::class.java).getUserPointsRule()
+
+    //获取用户消费的积分
+    fun getUserPoints(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getUserPoints(userid , pageNum)
 }

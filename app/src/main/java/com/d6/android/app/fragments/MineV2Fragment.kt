@@ -122,6 +122,10 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             startActivityForResult<ReleaseNewTrendsActivity>(3)
         }
 
+        headerView.rl_mypoints_count.setOnClickListener {
+            startActivity<MyPointsActivity>("points" to headerView.tv_mypointscount.text)
+        }
+
         headerView.headView.setOnClickListener {
             mData?.let {
                 startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
@@ -153,9 +157,15 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
             }
         }
-        tv_msg.setOnClickListener {
+
+//        tv_msg.setOnClickListener {
+//            startActivity<MessagesActivity>()
+//        }
+
+        headerView.rl_msg.setOnClickListener {
             startActivity<MessagesActivity>()
         }
+
         tv_setting.setOnClickListener {
             startActivityForResult<SettingActivity>(5)
         }
@@ -198,12 +208,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         rl_title.backgroundDrawable = colorDrawable
         tv_title_nick.alpha = alpha/255f
         if (alpha > 128) {
-            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_my_msg_orange, 0)
+//            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_my_msg_orange, 0)
             tv_setting.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_orange, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_orange, 0)
             immersionBar.statusBarDarkFont(true).init()
         } else {
-            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_my_msg, 0)
+//            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_my_msg, 0)
             tv_setting.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_white, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_white, 0)
             immersionBar.statusBarDarkFont(false).init()
@@ -228,9 +238,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             override fun onSuccess(p0: Int?) {
                 p0?.let {
                     if (p0 > 0) {
-                        tv_msg_count1.visible()
+//                        tv_msg_count1.visible()
+                        headerView.tv_msg_count.visible()
+                        headerView.tv_msg_count.text = p0.toString()
                     } else {
-                        tv_msg_count1.gone()
+//                        tv_msg_count1.gone()
+                        headerView.tv_msg_count.gone()
                         getSysLastOne()
                     }
                 }
@@ -250,11 +263,14 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
-                tv_msg_count1.gone()
+//                tv_msg_count1.gone()
+                headerView.tv_msg_count.gone()
                 getSquareMsg()
             } else {
                 if ((data.count ?:0)> 0) {
-                    tv_msg_count1.visible()
+//                    tv_msg_count1.visible()
+                    headerView.tv_msg_count.visible()
+                    headerView.tv_msg_count.text = data.count.toString()
                 } else {
                     getSquareMsg()
                 }
@@ -272,10 +288,13 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
-                tv_msg_count1.gone()
+//                tv_msg_count1.gone()
+                headerView.tv_msg_count.gone()
             } else {
                 if ((data.count ?:0)> 0) {
-                    tv_msg_count1.visible()
+//                    tv_msg_count1.visible()
+                    headerView.tv_msg_count.visible()
+                    headerView.tv_msg_count.text = data.count.toString()
                 }
             }
         }) { _, _ ->
@@ -337,6 +356,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 headerView.tv_sex.text = it.age
+                headerView.tv_mypointscount.text = it.iPoint.toString()
 //                if (TextUtils.equals("0", it.sex)) {
 //                    headerView.tv_vip.invisible()
 //                } else {

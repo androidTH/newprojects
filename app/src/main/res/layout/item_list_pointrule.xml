@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_jifen"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/tv_points_title"
+    android:layout_marginLeft="@dimen/margin_10"
+    android:layout_marginTop="@dimen/margin_10"
+    android:background="@drawable/shape_ef"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin_15"
+    android:paddingTop="@dimen/margin_10"
+    android:paddingRight="@dimen/margin_15"
+    android:paddingBottom="@dimen/margin_10">
+
+    <TextView
+        android:id="@+id/tv_point_nums"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="200积分"
+        android:textColor="@color/color_333333" />
+
+    <TextView
+        android:id="@+id/tv_point_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:text="¥168"
+        android:textColor="@color/color_F7AB00"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+</LinearLayout>
