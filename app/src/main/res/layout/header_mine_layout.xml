@@ -172,7 +172,7 @@
         android:minHeight="30dp"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:paddingTop="8dp">
 
     </android.support.v7.widget.RecyclerView>
@@ -252,7 +252,7 @@
                     android:paddingBottom="1dp"
                     android:background="@drawable/shape_4r_orange"
                     android:textSize="10sp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:text="+14" />
                 <TextView
                     android:id="@+id/tv_follow_count"
