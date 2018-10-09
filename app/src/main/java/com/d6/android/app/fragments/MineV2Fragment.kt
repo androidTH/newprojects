@@ -395,7 +395,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
                 headerView.tv_fans_count.text = data.iFansCountAll.toString()
-                headerView.tv_follow_count.text = data.iFollowCountAll.toString()
+                headerView.tv_follow_count.text = data.iFollowCount.toString()
                 headerView.tv_vistor_count.text = data.iVistorCountAll.toString()
                 if(data.iFansCount!! > 0){
                     headerView.tv_fcount.text = "+${data.iFansCount.toString()}"
@@ -404,12 +404,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     headerView.tv_fcount.visibility = View.GONE
                 }
 
-                if(data.iFollowCount!! > 0){
-                    headerView.tv_fllcount.text = "+${data.iFollowCount.toString()}"
-                    headerView.tv_fllcount.visibility = View.VISIBLE
-                }else {
-                    headerView.tv_fllcount.visibility = View.GONE
-                }
+//                if(data.iFollowCount!! > 0){
+//                    headerView.tv_fllcount.text = "+${data.iFollowCount.toString()}"
+//                    headerView.tv_fllcount.visibility = View.VISIBLE
+//                }else {
+//                    headerView.tv_fllcount.visibility = View.GONE
+//                }
 
                 if(data.iVistorCount!! > 0){
                     headerView.tv_vcount.text = "+${data.iVistorCount.toString()}"

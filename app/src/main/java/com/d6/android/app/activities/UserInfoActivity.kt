@@ -340,8 +340,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             //            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
                 headerView.tv_user_fans_count.text = data.iFansCountAll.toString()
-                headerView.tv_user_follow_count.text = data.iFollowCountAll.toString()
-                headerView.tv_user_vistor_count.text = data.iVistorCountAll.toString()
+                headerView.tv_user_follow_count.text = data.iFollowCount.toString()
+//                headerView.tv_user_vistor_count.text = data.iVistorCountAll.toString()
             }
         })
     }
