@@ -136,7 +136,7 @@ class PointsListDialog : DialogFragment(),RequestManager {
                 .goodsIntroduction("此商品属性过于强大，难以调教，一般人切勿轻易购买，吼吼！")
                 .httpType(HttpType.Post)
                 .httpClientType(NetworkClientType.Retrofit)
-                .requestBaseUrl(API.BASE_URL+"backstage/order/add")// 此处替换为为你的app服务器host主机地址
+                .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
                 .build()
 
         showToast(PayWay.WechatPay.toString())
