@@ -1,6 +1,5 @@
 package com.d6.android.app.activities
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,10 +8,8 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -21,14 +18,12 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.gyf.barlibrary.ImmersionBar
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_splash.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
 

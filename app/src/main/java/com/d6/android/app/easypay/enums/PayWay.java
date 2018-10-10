@@ -5,9 +5,9 @@ package com.d6.android.app.easypay.enums;
  */
 
 public enum PayWay {
-    WechatPay(0),
-    ALiPay(1),
-    UPPay(2);
+    WechatPay(1),
+    ALiPay(2),
+    UPPay(3);
 
     int payway;
     PayWay(int way) {

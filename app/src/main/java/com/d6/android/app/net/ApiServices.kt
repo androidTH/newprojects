@@ -217,7 +217,7 @@ interface ApiServices {
 
     //创建订单
     @POST("backstage/order/add")
-    fun createOrder()
+    fun createOrder(@Query("iUserid") iUserid:Int?,@Query("iOrdertype") iOrdertype:Int?,@Query("iPrice") iPrice:Int?,@Query("iPoint") iPoint:Int?)
 
     //获取订单支付状态
     @POST("backstage/order/getOrderById")

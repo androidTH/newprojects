@@ -8,6 +8,9 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.d6.android.app.easypay.EasyPay;
 import com.d6.android.app.easypay.PayParams;
+import com.d6.android.app.easypay.pay.PrePayInfo;
+import com.google.gson.Gson;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -51,7 +54,7 @@ public class WeChatPayStrategy extends BasePayStrategy {
         registPayResultBroadcast();
 
         // TODO 需要做正式解析，修改PrePayInfo.java类，并解开此处注释
-        /*Gson gson = new Gson();
+        Gson gson = new Gson();
         PrePayInfo payInfo = gson.fromJson(mPrePayInfo, PrePayInfo.class);
         PayReq req = new PayReq();
         req.appId = payInfo.appid;
@@ -63,7 +66,7 @@ public class WeChatPayStrategy extends BasePayStrategy {
         req.sign = payInfo.sign;
 
         // 发送支付请求：跳转到微信客户端
-        wxapi.sendReq(req);*/
+        wxapi.sendReq(req);
     }
 
     private void registPayResultBroadcast() {

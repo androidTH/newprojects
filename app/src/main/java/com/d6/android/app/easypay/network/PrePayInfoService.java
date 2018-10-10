@@ -24,6 +24,11 @@ public interface PrePayInfoService {
     @GET("?")  // TODO 添加实际接口路径
     Call<ResponseBody> getPrePayInfo(@Query("pay_way") String payWay, @Query("price") String GoddsPrice, @Query("goods_name") String goodsName, @Query(("goods_introduction")) String goodsIntroduce);
 
-    @POST("?") // TODO 添加实际接口路径
+    @POST("") // TODO 添加实际接口路径
     Call<ResponseBody> postPrePayInfo(@Query("pay_way") String payWay, @Query("price") String GoddsPrice, @Query("goods_name") String goodsName, @Query(("goods_introduction")) String goodsIntroduce);
+
+    //创建订单
+    @POST("backstage/order/add")
+    Call<ResponseBody> postPrePayInfo(@Query("iUserid") int iUserid,@Query("iOrdertype") int iOrdertype,@Query("iPrice") int iPrice,@Query("iPoint") int iPoint);
+
 }

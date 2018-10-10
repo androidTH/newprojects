@@ -6,6 +6,8 @@ import com.d6.android.app.easypay.enums.HttpType;
 import com.d6.android.app.easypay.enums.NetworkClientType;
 import com.d6.android.app.easypay.enums.PayWay;
 
+import retrofit2.http.Query;
+
 
 /**
  * Author: michaelx
@@ -24,6 +26,8 @@ public class PayParams {
     private String mWechatAppID;
     private PayWay mPayWay;
     private int mGoodsPrice;
+    private int iUserid;
+    private int iPoint;
     private String mGoodsName;
     private String mGoodsIntroduction;
     private HttpType mHttpType = HttpType.Post;
@@ -78,6 +82,22 @@ public class PayParams {
         this.mGoodsIntroduction = mGoodsIntroduction;
     }
 
+    public int getiUserid() {
+        return iUserid;
+    }
+
+    public void setiUserid(int iUserid) {
+        this.iUserid = iUserid;
+    }
+
+    public int getiPoint() {
+        return iPoint;
+    }
+
+    public void setiPoint(int iPoint) {
+        this.iPoint = iPoint;
+    }
+
     public HttpType getHttpType() {
         return mHttpType;
     }
@@ -107,11 +127,14 @@ public class PayParams {
         String wechatAppId;
         PayWay payWay;
         int goodsPrice;
+        int iUserid;
+        int iPoint;
         String goodsName;
         String goodsIntroduction;
         HttpType httpType;
         NetworkClientType mNetworkClientType;
         String apiUrl;
+
 
         public Builder(Activity activity) {
             mActivity = activity;
@@ -127,7 +150,7 @@ public class PayParams {
             return this;
         }
 
-        public PayParams.Builder goodsPrice(int price) {
+        public PayParams.Builder goodsPrice(Integer price) {
             goodsPrice = price;
             return this;
         }
@@ -157,6 +180,16 @@ public class PayParams {
             return this;
         }
 
+        public PayParams.Builder UserId(int userId) {
+            iUserid = userId;
+            return this;
+        }
+
+        public PayParams.Builder iPoint(Integer point) {
+            iPoint = point;
+            return this;
+        }
+
         public PayParams build() {
             PayParams params = new PayParams();
 
@@ -164,6 +197,8 @@ public class PayParams {
             params.setWechatAppID(wechatAppId);
             params.setPayWay(payWay);
             params.setGoodsPrice(goodsPrice);
+            params.setiUserid(iUserid);
+            params.setiPoint(iPoint);
             params.setGoodsName(goodsName);
             params.setGoodsIntroduction(goodsIntroduction);
             params.setHttpType(httpType);
