@@ -10,7 +10,7 @@ import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.DateBean
 import com.facebook.drawee.view.SimpleDraweeView
 
-class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean>(mData, R.layout.item_date_card) {
+class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean>(mData, R.layout.item_date_newcard) {
     private val array by lazy {
         arrayOf("不限", "救火", "征求", "急约", "旅行约")
     }

@@ -322,6 +322,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/rl_fans_count"
                 android:layout_marginTop="@dimen/margin_8"
+                android:visibility="gone"
                 android:paddingLeft="@dimen/margin_15">
                 <TextView
                     android:id="@+id/tv_msg_count"
@@ -362,6 +363,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/rl_follow_count"
                 android:layout_marginTop="@dimen/margin_8">
                 <TextView

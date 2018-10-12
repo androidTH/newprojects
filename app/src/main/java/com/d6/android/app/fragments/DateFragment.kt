@@ -1,5 +1,6 @@
 package com.d6.android.app.fragments
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
@@ -16,7 +17,8 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.DateBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.gyf.barlibrary.ImmersionBar
+import com.d6.android.app.widget.gallery.AnimManager
+import com.d6.android.app.widget.gallery.GalleryRecyclerView
 import com.lin.cardlib.CardSetting
 import com.lin.cardlib.CardLayoutManager
 import com.lin.cardlib.utils.ReItemTouchHelper
@@ -25,12 +27,15 @@ import com.lin.cardlib.OnSwipeCardListener
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.support.v4.toast
 
 /**
  * 约会
  */
-class DateFragment : BaseFragment() {
+class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
+    override fun onItemClick(view: View?, position: Int) {
+        val dateBean = mDates[position]
+        startActivity<UserInfoActivity>("id" to dateBean.accountId)
+    }
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -51,31 +56,43 @@ class DateFragment : BaseFragment() {
 
     override fun onFirstVisibleToUser() {
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
-        val setting = CardSetting()
-        setting.setSwipeListener(object : OnSwipeCardListener<DateBean> {
-            override fun onSwiping(viewHolder: RecyclerView.ViewHolder?, dx: Float, dy: Float, direction: Int) {
-//                getNext()//下翻页面
-            }
-
-            override fun onSwipedOut(viewHolder: RecyclerView.ViewHolder?, t: DateBean?, direction: Int) {
-                getNext()//下翻页面
-            }
-
-            override fun onSwipedClear() {
-//                getNext()//下翻页面
-            }
-        })
-        val helperCallback = CardTouchHelperCallback(mRecyclerView, mDates, setting)
-        val mReItemTouchHelper = ReItemTouchHelper(helperCallback)
-        val layoutManager = CardLayoutManager(mReItemTouchHelper, setting)
-        mRecyclerView.layoutManager = layoutManager
+        mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val cardAdapter = DateCardAdapter(mDates)
         mRecyclerView.adapter = cardAdapter
+        mRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    var position = mRecyclerView.scrolledPosition;
+                    if ((mDates.size-position) <= 2) {
+                        getData()
+                    }
+                }
+            }
 
-        cardAdapter.setOnItemClickListener { view, position ->
-            val dateBean = mDates[position]
-            startActivity<UserInfoActivity>("id" to dateBean.accountId)
-        }
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
+        mRecyclerView
+                // 设置滑动速度（像素/s）
+                .initFlingSpeed(9000)
+                // 设置页边距和左右图片的可见宽度，单位dp
+                .initPageParams(-10, 40)
+                // 设置切换动画的参数因子
+                .setAnimFactor(0.1f)
+                // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
+                .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)
+                // 设置点击事件
+                .setOnItemClickListener(this)
+                // 设置自动播放
+                .autoPlay(false)
+                // 设置自动播放间隔时间 ms
+                .intervalTime(2000)
+                // 设置初始化的位置
+                .initPosition(0)
+                // 在设置完成之后，必须调用setUp()方法
+                .setUp()
 
         headView.setOnClickListener {
             getAuthState()

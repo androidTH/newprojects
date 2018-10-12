@@ -32,7 +32,7 @@ import org.jetbrains.anko.collections.forEachWithIndex
  * 主页
  */
 class MainActivity : BaseActivity() {
-    private val tabTexts = arrayOf("约会", "推荐", "动态","消息", "我的")
+    private val tabTexts = arrayOf("发现", "约会", "动态","消息", "我的")
 
     private val tabImages = arrayOf(R.drawable.home_main_selector
             , R.drawable.home_speed_date_selector, R.drawable.home_square_selector

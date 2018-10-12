@@ -52,7 +52,8 @@
             android:id="@+id/tv_setting"
             android:gravity="center_vertical"
             android:paddingTop="8dp"
-            android:layout_toLeftOf="@+id/tv_more"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_10"
             android:paddingBottom="8dp"
             android:drawableRight="@mipmap/ic_setting_white"
             android:paddingLeft="6dp"
@@ -67,6 +68,7 @@
             android:drawableRight="@mipmap/ic_more_white"
             android:layout_alignParentRight="true"
             android:paddingLeft="6dp"
+            android:visibility="gone"
             android:paddingRight="6dp"/>
     </RelativeLayout>
 </RelativeLayout>

@@ -162,9 +162,9 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //            startActivity<MessagesActivity>()
 //        }
 
-        headerView.rl_msg.setOnClickListener {
-            startActivity<MessagesActivity>()
-        }
+//        headerView.rl_msg.setOnClickListener {
+//            startActivity<MessagesActivity>()
+//        }
 
         tv_setting.setOnClickListener {
             startActivityForResult<SettingActivity>(5)
