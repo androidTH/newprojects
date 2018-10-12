@@ -19,11 +19,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.gallery.AnimManager
 import com.d6.android.app.widget.gallery.GalleryRecyclerView
-import com.lin.cardlib.CardSetting
-import com.lin.cardlib.CardLayoutManager
-import com.lin.cardlib.utils.ReItemTouchHelper
-import com.lin.cardlib.CardTouchHelperCallback
-import com.lin.cardlib.OnSwipeCardListener
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
@@ -56,7 +51,7 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
 
     override fun onFirstVisibleToUser() {
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
-        mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mRecyclerView.layoutManager=LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         val cardAdapter = DateCardAdapter(mDates)
         mRecyclerView.adapter = cardAdapter
         mRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
@@ -64,35 +59,12 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     var position = mRecyclerView.scrolledPosition;
-                    if ((mDates.size-position) <= 2) {
-                        getData()
-                    }
+//                    if ((mDates.size-position) <= 2) {
+//                        getData()
+//                    }
                 }
             }
-
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-            }
         })
-        mRecyclerView
-                // 设置滑动速度（像素/s）
-                .initFlingSpeed(9000)
-                // 设置页边距和左右图片的可见宽度，单位dp
-                .initPageParams(-10, 40)
-                // 设置切换动画的参数因子
-                .setAnimFactor(0.1f)
-                // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
-                .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)
-                // 设置点击事件
-                .setOnItemClickListener(this)
-                // 设置自动播放
-                .autoPlay(false)
-                // 设置自动播放间隔时间 ms
-                .intervalTime(2000)
-                // 设置初始化的位置
-                .initPosition(0)
-                // 在设置完成之后，必须调用setUp()方法
-                .setUp()
 
         headView.setOnClickListener {
             getAuthState()
@@ -188,6 +160,7 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 mDates.addAll(it)
             }
             mRecyclerView.adapter.notifyDataSetChanged()
+            InitRecyclerView()
             if (mDates.isEmpty()) {
                 tv_tip.gone()
                 tv_main_card_bg_im_id.visible()
@@ -206,6 +179,28 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 btn_like.visible()
             }
         }
+    }
+
+    private fun InitRecyclerView(){
+        mRecyclerView
+                // 设置滑动速度（像素/s）
+                .initFlingSpeed(9000)
+                // 设置页边距和左右图片的可见宽度，单位dp
+                .initPageParams(-10, 40)
+                // 设置切换动画的参数因子
+                .setAnimFactor(0.1f)
+                // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
+                .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)
+                // 设置点击事件
+                .setOnItemClickListener(this)
+                // 设置自动播放
+                .autoPlay(false)
+                // 设置自动播放间隔时间 ms
+                .intervalTime(2000)
+                // 设置初始化的位置
+                .initPosition(0)
+                // 在设置完成之后，必须调用setUp()方法
+                .setUp()
     }
 
     private fun sendDateRequest(dateBean: DateBean) {
