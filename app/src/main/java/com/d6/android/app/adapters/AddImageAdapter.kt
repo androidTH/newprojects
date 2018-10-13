@@ -16,7 +16,7 @@ import org.jetbrains.anko.dip
 /**
  *
  */
-class AddImageAdapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage>(mData, R.layout.item_grid_add_image) {
+class AddImageAdapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage>(mData, R.layout.item_grid_date_add_image) {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val holder = super.onCreateViewHolder(parent, viewType)
@@ -33,7 +33,7 @@ class AddImageAdapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage>(
         val ivDeleteView = holder.bind<ImageView>(R.id.ivDeleteView)
         if (data.type == 1) {//添加。
             ivDeleteView.gone()
-            imageView.setImageResource(R.mipmap.ic_add_bg)
+            imageView.setImageResource(R.mipmap.comment_addphoto_icon)
         } else {
             ivDeleteView.visible()
             imageView.setImageURI(data.imgUrl)

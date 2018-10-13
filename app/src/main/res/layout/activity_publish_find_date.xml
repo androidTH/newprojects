@@ -1,24 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/color_F5F5F5"
     android:orientation="vertical">
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/title_bar_size"
+        android:layout_marginBottom="@dimen/margin_8">
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/back"
+            android:paddingLeft="@dimen/padding_16"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:textSize="18dp"
+            android:id="@+id/tv_title"
+            android:text="@string/open_date_string"
+            android:textColor="@color/color_000000"
+            android:textStyle="bold"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_sure"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_10r_orange"
+            android:text="发布" />
+    </RelativeLayout>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_datetype"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_height="100dp"/>
+            <View style="@style/view_line_h"
+                android:layout_marginLeft="@dimen/padding_16"/>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:paddingLeft="@dimen/padding_16"
-                    android:text="地区"
+                    android:text="城市"
+                    android:textColor="@color/color_333333"
                     android:gravity="center_vertical" />
                 <TextView
                     android:id="@+id/tv_area"
@@ -32,6 +80,7 @@
                     android:drawableRight="@drawable/ic_chevron_right_gray_24dp"
                     android:paddingRight="@dimen/padding_16"
                     android:drawablePadding="8dp"
+                    android:textColor="@color/color_666666"
                     android:gravity="center_vertical|right" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -39,6 +88,8 @@
                     android:layout_below="@+id/tv_area"
                     android:paddingLeft="@dimen/padding_16"
                     android:text="城市"
+                    android:textColor="@color/color_333333"
+                    android:visibility="gone"
                     android:gravity="center_vertical" />
                 <EditText
                     android:id="@+id/tv_city"
@@ -53,23 +104,27 @@
                     android:hint="请输入"
                     android:paddingRight="@dimen/padding_16"
                     android:drawablePadding="8dp"
+                    android:visibility="gone"
+                    android:textColor="@color/color_666666"
                     android:gravity="center_vertical|right" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:paddingLeft="@dimen/padding_16"
-                    android:layout_below="@+id/tv_city"
+                    android:layout_below="@+id/tv_area"
                     android:text="开始时间"
+                    android:textColor="@color/color_333333"
                     android:gravity="center_vertical" />
                 <TextView
                     android:id="@+id/tv_startTime"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/tv_city"
+                    android:layout_below="@+id/tv_area"
                     android:layout_marginLeft="80dp"
                     android:singleLine="true"
                     android:paddingLeft="@dimen/padding_16"
                     android:text=""
+                    android:textColor="@color/color_666666"
                     android:hint="约会报名开始时间"
                     android:paddingRight="@dimen/padding_16"
                     android:drawablePadding="8dp"
@@ -77,14 +132,14 @@
                     android:gravity="center_vertical|right" />
                 <View style="@style/view_line_h"
                     android:layout_marginLeft="@dimen/padding_16"
-                    android:layout_marginRight="@dimen/padding_16"
-                    android:layout_alignBottom="@+id/tv_city"/>
+                    android:layout_alignBottom="@+id/tv_area"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_below="@+id/tv_startTime"
                     android:paddingLeft="@dimen/padding_16"
                     android:text="结束时间"
+                    android:textColor="@color/color_333333"
                     android:gravity="center_vertical" />
                 <TextView
                     android:id="@+id/tv_endTime"
@@ -95,6 +150,7 @@
                     android:singleLine="true"
                     android:paddingLeft="@dimen/padding_16"
                     android:text=""
+                    android:textColor="@color/color_666666"
                     android:hint="约会报名结束时间"
                     android:paddingRight="@dimen/padding_16"
                     android:drawablePadding="8dp"
@@ -102,7 +158,6 @@
                     android:gravity="center_vertical|right" />
                 <View style="@style/view_line_h"
                     android:layout_marginLeft="@dimen/padding_16"
-                    android:layout_marginRight="@dimen/padding_16"
                     android:layout_alignBottom="@+id/tv_startTime"/>
             </RelativeLayout>
             <View style="@style/view_line_h"
@@ -111,10 +166,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:id="@+id/et_content"
-                android:background="@null"
+                android:background="@color/white"
                 android:gravity="top"
                 style="@style/editStyle"
-                android:textColorHint="#7e786b"
+                android:textColorHint="@color/color_888888"
                 android:maxLength="1000"
                 android:padding="@dimen/padding_16"
                 android:hint="聪明的你会目标明确、清晰。让他/她主动关注你......"/>
@@ -123,20 +178,35 @@
                 android:layout_width="match_parent"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
                 android:layout_height="wrap_content"/>
 
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textColor="#7e786b"-->
+                <!--android:paddingLeft="12dp"-->
+                <!--android:paddingRight="12dp"-->
+                <!--android:background="#ebebeb"-->
+                <!--android:paddingTop="4dp"-->
+                <!--android:paddingBottom="4dp"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:text="严禁上传淫秽色情等图片或不良信息违者封号！"/>-->
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#7e786b"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:background="#ebebeb"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/padding_16"
+                android:background="@color/color_F5F5F5"
+                android:drawablePadding="8dp"
+                android:textSize="12sp"
+                android:hint="严禁传播淫秽色情等不良信息违者封号！"
                 android:layout_marginBottom="20dp"
-                android:text="严禁上传淫秽色情等图片或不良信息违者封号！"/>
+                android:textColor="@color/color_CDCDCD"
+                android:drawableLeft="@mipmap/notice_warning_icon"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -147,8 +217,8 @@
                 android:textColor="@color/white"
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"/>
+                android:layout_marginRight="40dp"
+                android:visibility="gone"/>
         </LinearLayout>
-    </ScrollView>
-
-</RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

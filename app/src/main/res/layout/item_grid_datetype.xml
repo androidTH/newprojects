@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingTop="@dimen/margin_15"
+    android:layout_marginLeft="@dimen/margin_15"
+    android:layout_marginRight="@dimen/margin_5"
+    android:orientation="vertical">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_datetype_img"
+        style="@style/DefaultCircleHeadStyle"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:padding="@dimen/margin_2halfe"
+        android:background="@drawable/datetype_selector"/>
+    <TextView
+        android:id="@+id/tv_datetype_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:textColor="@color/color_666666"
+        android:textSize="14sp"
+        android:text="逛街"/>
+</LinearLayout>

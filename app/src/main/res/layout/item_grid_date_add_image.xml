@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/DefaultImageStyle"
+        android:background="@color/color_26F7AB00"
+        app:viewAspectRatio="1"
+        android:id="@+id/imageView"/>
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:id="@+id/ivDeleteView"
+        android:scaleType="centerInside"
+        android:layout_alignParentRight="true"
+        android:visibility="visible"
+        android:src="@mipmap/ic_delete_yellow"/>
+    <!--ic_delete_yellow-->
+</RelativeLayout>

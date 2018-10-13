@@ -5,13 +5,16 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
-import com.d6.android.app.base.TitleActivity
+import com.d6.android.app.adapters.DateTypeAdapter
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
+import com.d6.android.app.models.DateType
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -24,12 +27,19 @@ import org.jetbrains.anko.startActivityForResult
 /**
  * 自主发布
  */
-class PublishFindDateActivity : TitleActivity() {
+class PublishFindDateActivity : BaseActivity() {
 
     private val mImages = ArrayList<AddImage>()
+    private val mDateTypes = ArrayList<DateType>();
+
     private val addAdapter by lazy {
         AddImageAdapter(mImages)
     }
+
+    private val mDateTypeAdapter by lazy {
+        DateTypeAdapter(mDateTypes);
+    }
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -63,6 +73,29 @@ class PublishFindDateActivity : TitleActivity() {
             }
         }
 
+        for (i in 0..5){
+          var dt = DateType(1)
+            dt.dateTypeName ="吃饭$i"
+            dt.imgUrl = ""
+            mDateTypes.add(dt)
+        }
+
+        rv_datetype.setHasFixedSize(true)
+        rv_datetype.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rv_datetype.isNestedScrollingEnabled = false
+        rv_datetype.adapter = mDateTypeAdapter
+
+        mDateTypeAdapter.setOnItemClickListener { view, position ->
+            for (i in 0..(mDateTypes.size-1)){
+                var dt = mDateTypes.get(i)
+                if(i == position){
+                    dt.type = 2
+                }else{
+                    dt.type = 1
+                }
+            }
+            mDateTypeAdapter.notifyDataSetChanged()
+        }
 
         rv_images.setHasFixedSize(true)
         rv_images.layoutManager = GridLayoutManager(this, 5)
@@ -75,7 +108,7 @@ class PublishFindDateActivity : TitleActivity() {
             }
             startActivityForResult<SelectPhotoDialog>(0)
         }
-        mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+        mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))//ic_add_bg
         addAdapter.notifyDataSetChanged()
 
         tv_area.setOnClickListener {
@@ -100,8 +133,14 @@ class PublishFindDateActivity : TitleActivity() {
             }
             dialog.show(supportFragmentManager,"end")
         }
-        btn_sure.setOnClickListener {
+
+        tv_sure.setOnClickListener {
             publish()
+        }
+
+        tv_back.setOnClickListener {
+            mKeyboardKt.hideKeyboard(it)
+            finish()
         }
     }
 
@@ -124,12 +163,12 @@ class PublishFindDateActivity : TitleActivity() {
     }
 
     private fun publish() {
-        val city = tv_city.text.toString().trim()
+//        val city = tv_city.text.toString().trim()
 //        if (city.isEmpty()) {
 //            showToast("请输入城市")
 //            return
 //        }
-        if (city.isNotEmpty() && areaType == -1) {
+        if (areaType == -1) {//city.isNotEmpty() &&
             showToast("请选择城市所属地区")
             return
         }
@@ -183,7 +222,7 @@ class PublishFindDateActivity : TitleActivity() {
                 Flowable.just(sb.toString())
             }.flatMap {
 //                sysErr("------releaseSelfAbout--------->"+it)
-                Request.releaseSelfAbout(userId, outArea,inArae,city, startTime,endTime,content ,it)
+                Request.releaseSelfAbout(userId, outArea,inArae,area, startTime,endTime,content ,it)//city
             }.request(this) { _, data ->
                 showToast("发布成功")
                 setResult(Activity.RESULT_OK)
@@ -191,7 +230,8 @@ class PublishFindDateActivity : TitleActivity() {
             }
 
         } else {
-            Request.releaseSelfAbout(userId, outArea,inArae,city, startTime,endTime,content ,null).request(this) { _, data ->
+            // area 代替city
+            Request.releaseSelfAbout(userId, outArea,inArae,area, startTime,endTime,content ,null).request(this) { _, data ->
                 showToast("发布成功")
                 setResult(Activity.RESULT_OK)
                 finish()
