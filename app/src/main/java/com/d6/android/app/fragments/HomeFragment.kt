@@ -17,6 +17,7 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.utils.sysErr
+import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
@@ -29,19 +30,14 @@ class HomeFragment : BaseFragment() {
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
-//    private val mBanners = ArrayList<Banner>()
-//    private val bannerAdapter by lazy {
-//        BannerAdapter(mBanners)
-//    }
+
     private val mSpeedDates = ArrayList<MyDate>()
     private val speedDateAdapter by lazy {
         SpeedDateAdapter(mSpeedDates)
     }
 
     override fun contentViewId() = R.layout.fragment_home
-//    private val immersionBar by lazy {
-//        ImmersionBar.with(this)
-//    }
+
     override fun onFirstVisibleToUser() {
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
 
@@ -65,10 +61,10 @@ class HomeFragment : BaseFragment() {
             val titles = arrayOf("官方推荐")
             override fun getItem(position: Int): Fragment {
                 if (position == 0) {
-                    return HomeFindDateFragment.instance(position)
+//                    return HomeFindDateFragment.instance(position)
+                    return SelfReleaseFragment.instance(position)
                 }
-                return HomeFindDateFragment.instance(position)
-//                return HomeSelfReleaseFragment.instance(position)
+                return SelfReleaseFragment.instance(position)
             }
 
             override fun getCount() = titles.size
@@ -92,6 +88,7 @@ class HomeFragment : BaseFragment() {
 //            }
             startActivity<SpeedDateActivity>()
         }
+
         tv_newest_date_more.setOnClickListener {
             startActivity<NewestFindDateActivity>()
         }

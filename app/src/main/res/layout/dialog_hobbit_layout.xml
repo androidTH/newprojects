@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="兴趣爱好"
             android:gravity="center"
-            android:textColor="@color/color_000000"
+            android:textColor="@color/color_black"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="10dp"/>

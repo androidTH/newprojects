@@ -10,6 +10,7 @@ import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -42,6 +43,8 @@ class SelfReleaseFragment : RecyclerFragment() {
         SelfReleaseAdapter(mFindDates)
     }
 
+    override fun getMode() = SwipeRefreshRecyclerLayout.Mode.Bottom
+
     override fun setAdapter() = dateAdapter
 
     override fun onFirstVisibleToUser() {
@@ -49,6 +52,7 @@ class SelfReleaseFragment : RecyclerFragment() {
         mSwipeRefreshLayout.setBackgroundColor(Color.WHITE)
 
         addItemDecoration()
+
         dateAdapter.setOnItemClickListener { _, position ->
             val data = mFindDates[position]
             startActivity<SelfReleaseDetailActivity>("data" to data)
@@ -63,6 +67,10 @@ class SelfReleaseFragment : RecyclerFragment() {
         this.areaType = 1
         this.vipIds = ""
         pageNum = 1
+        getData()
+    }
+
+    fun refresh() {
         getData()
     }
 

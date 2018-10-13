@@ -36,7 +36,7 @@
                     android:paddingBottom="@dimen/padding_12"
                     android:paddingTop="@dimen/padding_12"
                     android:textSize="15sp"
-                    android:text="速约"
+                    android:text="人工推荐"
                     android:textStyle="bold" />
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:paddingBottom="@dimen/padding_12"
                     android:textSize="15sp"
                     android:paddingTop="@dimen/padding_12"
-                    android:text="最新觅约"
+                    android:text="自主约会"
                     android:textStyle="bold" />
 
                 <TextView
@@ -86,6 +86,7 @@
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:textSize="12sp"
                     android:text="查看更多"
+                    android:visibility="gone"
                     android:drawableRight="@mipmap/ic_arrow_right_orange"
                     android:textColor="@color/orange_f6a" />
 
@@ -112,11 +113,8 @@
 
 
         <android.support.v4.view.ViewPager
-
             android:id="@+id/mViewPager"
             android:layout_width="match_parent"
-            android:layout_marginLeft="@dimen/padding_16"
-            android:layout_marginRight="4dp"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.design.widget.CoordinatorLayout>

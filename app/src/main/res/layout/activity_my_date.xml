@@ -88,7 +88,7 @@
                     android:layout_toEndOf="@+id/tv_date_rel"
                     android:layout_toRightOf="@+id/tv_date_rel"
                     android:alpha="0.7"
-                    android:background="@color/color_000000"
+                    android:background="@color/color_black"
                     android:visibility="gone"/>
                 <TextView
                     android:id="@+id/tv_rz_tip"

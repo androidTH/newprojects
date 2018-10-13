@@ -9,7 +9,7 @@
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginBottom="@dimen/margin_5"
-        android:textColor="@color/color_000000"
+        android:textColor="@color/color_black"
         android:text="ddddddddddddd" />
 
     <TextView

@@ -6,6 +6,7 @@
     <com.d6.android.app.widget.SelfReleaseView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10"
         android:id="@+id/srv_view"/>
     <FrameLayout
         android:layout_width="match_parent"

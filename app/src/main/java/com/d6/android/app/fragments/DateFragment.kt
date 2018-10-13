@@ -66,13 +66,13 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
             }
         })
 
-        headView.setOnClickListener {
-            getAuthState()
-        }
+//        headView.setOnClickListener {
+//            getAuthState()
+//        }
 
-        tv_my_date.setOnClickListener {
-            getAuthState()
-        }
+//        tv_my_date.setOnClickListener {
+//            getAuthState()
+//        }
 
         tv_city.setOnClickListener {
             val filterCityDialog = FilterCityDialog()
@@ -141,8 +141,8 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
-        headView.setImageURI(head)
+//        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
+//        headView.setImageURI(head)
     }
 
     fun getData(type: Int = 0) {

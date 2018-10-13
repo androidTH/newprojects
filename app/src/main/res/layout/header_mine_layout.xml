@@ -219,7 +219,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/color_000000"
+                    android:textColor="@color/color_black"
                     android:textSize="16sp"
                     android:layout_centerHorizontal="true"
                     android:text="9"/>
@@ -261,7 +261,7 @@
                     android:gravity="center"
                     android:text="30"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/color_000000"
+                    android:textColor="@color/color_black"
                     android:textSize="16sp" />
 
                 <TextView
@@ -303,7 +303,7 @@
                     android:gravity="center"
                     android:layout_centerHorizontal="true"
                     android:text="99"
-                    android:textColor="@color/color_000000"
+                    android:textColor="@color/color_black"
                     android:textSize="16sp" />
                 <TextView
                     android:layout_below="@+id/tv_vistor_count"
@@ -346,7 +346,7 @@
                     android:gravity="center"
                     android:layout_centerHorizontal="true"
                     android:drawableLeft="@mipmap/mycenter_notice_icon"
-                    android:textColor="@color/color_000000"
+                    android:textColor="@color/color_black"
                     android:textSize="16sp" />
                 <TextView
                     android:layout_below="@+id/tv_msg_countall"
@@ -387,7 +387,7 @@
                     android:gravity="center"
                     android:drawableLeft="@mipmap/mycenter_intergral_icon"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/color_000000"
+                    android:textColor="@color/color_black"
                     android:textSize="16sp" />
 
                 <TextView

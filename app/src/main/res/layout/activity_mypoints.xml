@@ -22,7 +22,7 @@
             android:textSize="18dp"
             android:id="@+id/tv_title"
             android:text="@string/string_mypoints"
-            android:textColor="@color/color_000000"
+            android:textColor="@color/color_black"
             android:textStyle="bold"
             android:gravity="center"/>
         <TextView

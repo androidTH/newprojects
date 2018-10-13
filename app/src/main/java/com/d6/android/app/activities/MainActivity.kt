@@ -24,8 +24,10 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
+import org.jetbrains.anko.support.v4.startActivity
 
 
 /**
@@ -87,12 +89,18 @@ class MainActivity : BaseActivity() {
                 TextUtils.equals(it, tabTexts[1]) -> {
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
 //                    tv_title.text = "广场"
+                    tv_create_date.visible()
+                    tv_date_mydate.visible()
+                    date_headView.visible()
                     iv_right.gone()
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
-                    tv_title.text = "推荐"
+                    tv_title.text = "约会"
                 }
                 TextUtils.equals(it, tabTexts[2]) -> {
+                    tv_create_date.gone()
+                    tv_date_mydate.gone()
+                    date_headView.gone()
                     iv_right.visible()
                     tv_title1.visible()
                     iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
@@ -135,6 +143,22 @@ class MainActivity : BaseActivity() {
 
             }
             filterTrendDialog.show(supportFragmentManager, "ftd")
+        }
+
+//        tv_create_date.gone()
+
+        tv_create_date.setOnClickListener {
+            isAuthUser {
+                startActivityForResult<PublishFindDateActivity>(1)
+            }
+        }
+
+        date_headView.setOnClickListener {
+            getAuthState()
+        }
+
+        tv_date_mydate.setOnClickListener {
+            getAuthState()
         }
 
         iv_right.setOnClickListener {
@@ -210,10 +234,16 @@ class MainActivity : BaseActivity() {
         }
     }
 
-
+    private fun getAuthState() {
+        startActivity<MyDateActivity>()
+//        tv_tip.visibility = View.GONE
+//        SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
+    }
 
     override fun onResume() {
         super.onResume()
+        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
+        date_headView.setImageURI(head)
         getUnReadCount()
     }
 

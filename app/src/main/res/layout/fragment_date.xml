@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
         android:background="@color/white"
+        android:gravity="center_horizontal"
         android:id="@+id/mTitleBar">
-
         <TextView
             android:id="@+id/tv_city"
             android:layout_width="wrap_content"
@@ -26,38 +26,37 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tv_type"
-            android:text="类型"
+            android:text="同城"
             android:gravity="center"
             android:textStyle="bold"
             android:drawableRight="@mipmap/ic_arrow_down"
             android:textColor="@color/textColor"
             android:layout_toRightOf="@+id/tv_city"
             android:textSize="@dimen/textSize"
-            android:visibility="gone"
             android:layout_marginLeft="4dp"
             android:paddingLeft="16dp"
-            android:paddingRight="12dp"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/textSize"
-            android:layout_toLeftOf="@+id/headView"
-            android:textColor="@color/textColor"
-            android:gravity="center"
-            android:layout_marginRight="8dp"
-            android:id="@+id/tv_my_date"
-            android:textStyle="bold"
-            android:text="我的约会"/>
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:id="@+id/headView"
-            style="@style/DefaultCircleHeadStyle"/>
-    </RelativeLayout>
+            android:visibility="gone"
+            android:paddingRight="12dp"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:textSize="@dimen/textSize"-->
+            <!--android:layout_toLeftOf="@+id/headView"-->
+            <!--android:textColor="@color/textColor"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:id="@+id/tv_my_date"-->
+            <!--android:textStyle="bold"-->
+            <!--android:text="我的约会"/>-->
+        <!--<com.facebook.drawee.view.SimpleDraweeView-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:id="@+id/headView"-->
+            <!--style="@style/DefaultCircleHeadStyle"/>-->
+    </LinearLayout>
 
     <com.d6.android.app.widget.gallery.GalleryRecyclerView
         android:id="@+id/mRecyclerView"
