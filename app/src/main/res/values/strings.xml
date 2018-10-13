@@ -29,4 +29,5 @@
     <string name="likeme">喜欢我的</string>
     <string name="Ilike">我喜欢的</string>
     <string name="open_date_string">发起约会</string>
+    <string name="send_date_string">你发起的约会将通知对方,对方同意之后就可以开启甜蜜之旅,点击"我的约会",可查看约会状态</string>
 </resources>

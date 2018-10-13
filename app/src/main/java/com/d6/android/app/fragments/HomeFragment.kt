@@ -19,7 +19,10 @@ import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.utils.sysErr
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.gyf.barlibrary.ImmersionBar
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 
 
@@ -46,8 +49,8 @@ class HomeFragment : BaseFragment() {
         }
 
         rvSpeedDate.setHasFixedSize(true)
-        rvSpeedDate.isNestedScrollingEnabled = false
-        rvSpeedDate.layoutManager = LinearLayoutManager(context)
+        rvSpeedDate.isNestedScrollingEnabled = true
+        rvSpeedDate.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
         rvSpeedDate.adapter = speedDateAdapter
 
         speedDateAdapter.setOnItemClickListener { _, position ->
