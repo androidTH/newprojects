@@ -2,13 +2,9 @@ package com.d6.android.app.adapters
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
-import com.d6.android.app.R.id.rv_mydate_imgs
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
@@ -19,7 +15,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.item_list_mydate.view.*
 
 /**
  *粉丝

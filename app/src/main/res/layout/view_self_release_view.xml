@@ -107,6 +107,7 @@
         android:textColor="@color/color_888888"
         android:textSize="12sp" />
     <TextView
+        android:id="@+id/tv_send_date"
         android:layout_below="@+id/ll_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

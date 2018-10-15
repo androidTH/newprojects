@@ -36,8 +36,9 @@ class MyDateListActivity : RecyclerActivity() {
         super.onCreate(savedInstanceState)
         title = "我的约会"
         fansAdapter .setOnItemClickListener { view, position ->
-            val id = mMyAppointments[position].iUserid
-            startActivity<UserInfoActivity>("id" to id.toString())
+//            val id = mMyAppointments[position].iAppointUserid
+//            startActivity<UserInfoActivity>("id" to id.toString())
+            startActivity<MyDateDetailActivity>()
         }
         addItemDecoration()
         dialog()

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:background="@color/color_F7AB00"/>
+    <ImageView
+        android:id="@+id/iv_process_complete"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:src="@mipmap/process_complete"/>
+    <View
+        android:layout_below="@+id/iv_process_complete"
+        android:layout_width="1dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="@dimen/margin_16"
+        android:layout_marginTop="22dp"
+        android:background="@color/color_F7AB00"/>
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/headView"
+        style="@style/DefaultHeadStyle"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="@dimen/height_40"
+        app:roundAsCircle="true" />
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="6dp"
+        android:drawablePadding="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@+id/headView"
+        android:singleLine="true"
+        android:textSize="15sp"
+        android:textColor="@color/color_333333"
+        android:text="-----------" />
+    <TextView
+        android:id="@+id/tv_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/headView"
+        android:layout_alignLeft="@+id/tv_name"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="80dp"
+        android:singleLine="true"
+        android:text="2天前"
+        android:textColor="@color/textColor99"
+        android:textSize="14sp" />
+    <View
+        android:layout_below="@+id/headView"
+        android:background="@color/color_EFEFEF"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/height_40"
+        android:layout_height="1dp"/>
+</RelativeLayout>

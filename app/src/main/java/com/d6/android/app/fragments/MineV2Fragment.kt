@@ -357,6 +357,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 headerView.tv_sex.text = it.age
                 headerView.tv_mypointscount.text = it.iPoint.toString()
+                SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
 //                if (TextUtils.equals("0", it.sex)) {
 //                    headerView.tv_vip.invisible()
 //                } else {

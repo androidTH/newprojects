@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/shape_white_8r">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,6 +12,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"
         android:padding="16dp">
         <TextView
             android:layout_width="match_parent"
@@ -23,17 +23,17 @@
             android:textStyle="bold"
             android:text="已发起约会,请静候佳音"/>
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:gravity="center_horizontal"
             android:layout_marginTop="25dp"
-            android:src="@mipmap/mycenter_intergral_icon"/>
+            android:src="@mipmap/mailsend_icon"/>
         <TextView
             android:layout_width="188dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:textSize="16sp"
             android:textColor="@color/color_666666"
             android:text="@string/send_date_string"/>
@@ -51,6 +51,7 @@
             android:paddingBottom="15dp"
             android:background="@drawable/shape_4r_orange"/>
         <TextView
+            android:id="@+id/tv_point_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -58,7 +59,7 @@
             android:layout_marginTop="15dp"
             android:textSize="16sp"
             android:textColor="@color/color_888888"
-            android:text="本次约会预付10积分,查看我的积分"/>
+            android:text="@string/string_pointdesc"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tv_close"

@@ -5,6 +5,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.utils.getFileSuffix
 import com.d6.android.app.utils.ioScheduler
 import com.d6.android.app.utils.sysErr
+import com.google.gson.JsonObject
 import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -301,4 +302,8 @@ object Request {
 
     //我的约会
     fun findMyAppointmentList(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findMyAppointmentList(userid , pageNum)
+
+    //报名约会
+    fun signUpdate(userid:String,sAppointmentId:String,sDesc:String)=RRetrofit.instance().create(ApiServices::class.java).signUpdate(userid, sAppointmentId,sDesc)
+
 }

@@ -80,11 +80,30 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         } else {
             rv_images.visible()
         }
+
         mImages.clear()
         val images = myAppointment.sAppointPic?.split(",")
         if (images != null) {
             mImages.addAll(images.toList())
         }
         imageAdapter.notifyDataSetChanged()
+        tv_send_date.setOnClickListener {
+            mSendDateClick?.let {
+                it.onDateClick(myAppointment)
+            }
+        }
+    }
+
+    public fun sendDateListener(action:(myAppointment: MyAppointment)->Unit) {
+        mSendDateClick = object : sendDateClickListener {
+            override fun onDateClick(myAppointment: MyAppointment) {
+                action(myAppointment)
+            }
+        }
+    }
+    private var mSendDateClick:sendDateClickListener?=null
+
+    interface sendDateClickListener{
+        fun onDateClick(myAppointment: MyAppointment)
     }
 }

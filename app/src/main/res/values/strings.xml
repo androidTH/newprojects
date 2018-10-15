@@ -30,4 +30,6 @@
     <string name="Ilike">我喜欢的</string>
     <string name="open_date_string">发起约会</string>
     <string name="send_date_string">你发起的约会将通知对方,对方同意之后就可以开启甜蜜之旅,点击"我的约会",可查看约会状态</string>
+    <string name="string_pointdesc">本次约会预付10积分,查看我的积分</string>
+    <string name="string_pointlow">你当前积分为8积分,发起约会需要消耗10积分。点击"充值"可获得更多积分,为了不过错心仪的TA。快充值吧！</string>
 </resources>

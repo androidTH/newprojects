@@ -25,6 +25,7 @@ object Const {
         var  DEVICETOKEN ="devicetoken"
         var  HEADERIMAGE ="headerimage"
         var  SELECTIMAGE ="selectimage"
+        var  USERPOINTS_NUMS = "UserPointNums"
 }
 
     val LAST_TIME = "lastTime"

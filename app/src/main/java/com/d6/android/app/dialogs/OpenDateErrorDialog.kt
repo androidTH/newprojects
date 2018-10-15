@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
@@ -16,7 +17,8 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.dialog_date_error.*
+import kotlinx.android.synthetic.main.dialog_date_send_fail.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -24,10 +26,14 @@ import org.jetbrains.anko.wrapContent
 /**
  * 约会发送
  */
-class OpenDateDialog : DialogFragment(),RequestManager {
+class OpenDateErrorDialog : DialogFragment(),RequestManager {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
+    private val point_nums by lazy {
+        SPUtils.instance().getString(Const.User.USERPOINTS_NUMS)
     }
 
     private var myAppointment:MyAppointment?=null
@@ -55,34 +61,27 @@ class OpenDateDialog : DialogFragment(),RequestManager {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.dialog_date_send, container, false)
+            inflater?.inflate(R.layout.dialog_date_send_fail, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        myAppointment = if (arguments != null) {
-            arguments.getParcelable("data") as MyAppointment
-        } else {
-            MyAppointment()
-        }
-
-        tv_action.setOnClickListener {
-            getData()
-        }
-
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
+        }
+
+        tv_chongzhi.setOnClickListener {
+            context.startActivity<MyPointsActivity>("points" to point_nums)
         }
     }
 
     private fun getData() {
         dismissAllowingStateLoss()
         isBaseActivity{
-            Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
-                val openSuccessDialog = OpenDateSuccessDialog()
-                openSuccessDialog.show(it.supportFragmentManager, "d")
+            Request.signUpdate(userId,myAppointment?.iAppointUserid.toString(),"").request(it,success = { msg, data ->
+
             }) { code, msg ->
-                val openErrorDialog = OpenDateErrorDialog()
-                openErrorDialog.show(it.supportFragmentManager, "d")
+                val dateErrorDialog = DateErrorDialog()
+                dateErrorDialog.show(it.supportFragmentManager, "d")
             }
         }
     }
