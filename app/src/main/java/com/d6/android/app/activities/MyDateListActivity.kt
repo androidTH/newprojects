@@ -38,7 +38,8 @@ class MyDateListActivity : RecyclerActivity() {
         fansAdapter .setOnItemClickListener { view, position ->
 //            val id = mMyAppointments[position].iAppointUserid
 //            startActivity<UserInfoActivity>("id" to id.toString())
-            startActivity<MyDateDetailActivity>()
+            var myAppointment = mMyAppointments[position];
+            startActivity<MyDateDetailActivity>("data" to myAppointment)
         }
         addItemDecoration()
         dialog()

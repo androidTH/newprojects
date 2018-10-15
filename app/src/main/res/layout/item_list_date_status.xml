@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_process_complete0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:src="@mipmap/process_complete" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/iv_process_complete0"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:layout_marginTop="22dp"
+            android:background="@color/color_F7AB00" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/headView0"
+            style="@style/DefaultHeadStyle"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/height_40"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/tv_name0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/headView0"
+            android:drawablePadding="8dp"
+            android:singleLine="true"
+            android:text="-----------"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_days0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_name0"
+            android:layout_alignBottom="@+id/headView0"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="2dp"
+            android:singleLine="true"
+            android:text="2天前"
+            android:textColor="@color/color_888888"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/headView0"
+            android:layout_marginLeft="@dimen/height_40"
+            android:background="@color/color_EFEFEF" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:background="@color/color_F7AB00" />
+
+        <ImageView
+            android:id="@+id/iv_process_complete1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:src="@mipmap/process_complete" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/iv_process_complete1"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:layout_marginTop="22dp"
+            android:background="@color/color_F7AB00" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/headView1"
+            style="@style/DefaultHeadStyle"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/height_40"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/tv_name1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/headView1"
+            android:drawablePadding="8dp"
+            android:singleLine="true"
+            android:text="-----------"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_days1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_name1"
+            android:layout_alignBottom="@+id/headView1"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="2dp"
+            android:singleLine="true"
+            android:text="2天前"
+            android:textColor="@color/color_888888"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/headView1"
+            android:layout_marginLeft="@dimen/height_40"
+            android:background="@color/color_EFEFEF" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:background="@color/color_F7AB00" />
+
+        <ImageView
+            android:id="@+id/iv_process_complete2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:src="@mipmap/process_complete" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/iv_process_complete2"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:layout_marginTop="22dp"
+            android:background="@color/color_F7AB00" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/headView2"
+            style="@style/DefaultHeadStyle"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/height_40"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/tv_name2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/headView2"
+            android:drawablePadding="8dp"
+            android:singleLine="true"
+            android:text="-----------"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_days2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_name2"
+            android:layout_alignBottom="@+id/headView2"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="2dp"
+            android:singleLine="true"
+            android:text="2天前"
+            android:textColor="@color/color_888888"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/headView2"
+            android:layout_marginLeft="@dimen/height_40"
+            android:background="@color/color_EFEFEF" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/margin_16"
+            android:background="@color/color_F7AB00" />
+
+        <ImageView
+            android:id="@+id/iv_process_complete3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:src="@mipmap/process_waiting" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/headView3"
+            style="@style/DefaultHeadStyle"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/height_40"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:roundAsCircle="true" />
+
+        <TextView
+            android:id="@+id/tv_name3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="6dp"
+            android:layout_toRightOf="@+id/headView3"
+            android:drawablePadding="8dp"
+            android:singleLine="true"
+            android:text="-----------"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_days3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_name3"
+            android:layout_alignBottom="@+id/headView3"
+            android:layout_marginRight="80dp"
+            android:layout_marginBottom="2dp"
+            android:singleLine="true"
+            android:text="2天前"
+            android:textColor="@color/color_888888"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</LinearLayout>

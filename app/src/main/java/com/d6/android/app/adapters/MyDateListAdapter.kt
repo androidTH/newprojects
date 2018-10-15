@@ -26,9 +26,6 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
     }
 
     private val mImages = ArrayList<String>()
-    private val imageAdapter by lazy {
-        SelfReleaselmageAdapter(mImages,1)
-    }
 
     override fun onBind(holder: ViewHolder, position: Int, data: MyAppointment) {
 //        var ll_imgs = holder.bind<RelativeLayout>(R.id.ll_imgs)
