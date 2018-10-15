@@ -1,5 +1,7 @@
 package com.d6.android.app.utils
 
+import com.d6.android.app.R
+
 /**
  *
  */
@@ -35,6 +37,8 @@ object Const {
     @JvmField
     var WXPAY_APP_ID:String?= "wxd930ea5d5a258f4f"
 
-
+    var dateTypes = arrayOf("旅行","吃饭","电影","唱歌","运动","征婚","其它")
+    var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,
+            R.mipmap.invitation_shopping_small,R.mipmap.invitation_nolimit_small)
     //正式 f509c00b16c12f2d7c3306d3383e7655 测试 f509c00b16c12f2d7c3306d3383e7655
 }

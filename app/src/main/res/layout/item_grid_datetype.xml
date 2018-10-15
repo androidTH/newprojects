@@ -15,6 +15,13 @@
         android:layout_height="45dp"
         android:padding="@dimen/margin_2halfe"
         android:background="@drawable/datetype_selector"/>
+    <ImageView
+        android:id="@+id/iv_pressok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-8dp"
+        android:visibility="gone"
+        android:src="@mipmap/invitation_icon_seleted"/>
     <TextView
         android:id="@+id/tv_datetype_name"
         android:layout_width="wrap_content"

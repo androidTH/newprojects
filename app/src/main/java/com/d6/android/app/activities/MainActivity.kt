@@ -235,7 +235,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getAuthState() {
-        startActivity<MyDateActivity>()
+//        startActivity<MyDateActivity>()
+        startActivity<MyDateListActivity>()
 //        tv_tip.visibility = View.GONE
 //        SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
     }

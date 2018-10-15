@@ -21,6 +21,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_publish_find_date.*
+import org.jetbrains.anko.db.NULL
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
 
@@ -49,6 +50,7 @@ class PublishFindDateActivity : BaseActivity() {
     private var area = ""
     private var startTime:String = ""
     private var endTime:String = ""
+    private var selectedDateType: DateType? = null;
     private val locationClient by lazy {
         AMapLocationClient(applicationContext)
     }
@@ -74,9 +76,10 @@ class PublishFindDateActivity : BaseActivity() {
         }
 
         for (i in 0..5){
-          var dt = DateType(1)
+          var dt = DateType(i)
             dt.dateTypeName ="吃饭$i"
             dt.imgUrl = ""
+            dt.isSelected = false
             mDateTypes.add(dt)
         }
 
@@ -88,12 +91,9 @@ class PublishFindDateActivity : BaseActivity() {
         mDateTypeAdapter.setOnItemClickListener { view, position ->
             for (i in 0..(mDateTypes.size-1)){
                 var dt = mDateTypes.get(i)
-                if(i == position){
-                    dt.type = 2
-                }else{
-                    dt.type = 1
-                }
+                dt.isSelected = i == position
             }
+            selectedDateType = mDateTypes.get(position)
             mDateTypeAdapter.notifyDataSetChanged()
         }
 
@@ -168,6 +168,10 @@ class PublishFindDateActivity : BaseActivity() {
 //            showToast("请输入城市")
 //            return
 //        }
+        if(selectedDateType == null){
+            showToast("请选择约会类型")
+        }
+
         if (areaType == -1) {//city.isNotEmpty() &&
             showToast("请选择城市所属地区")
             return
@@ -221,8 +225,8 @@ class PublishFindDateActivity : BaseActivity() {
                 }
                 Flowable.just(sb.toString())
             }.flatMap {
-//                sysErr("------releaseSelfAbout--------->"+it)
-                Request.releaseSelfAbout(userId, outArea,inArae,area, startTime,endTime,content ,it)//city
+//                sysErr("------releaseSelfAbout--------->"+it) //city
+                Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
             }.request(this) { _, data ->
                 showToast("发布成功")
                 setResult(Activity.RESULT_OK)
@@ -231,7 +235,7 @@ class PublishFindDateActivity : BaseActivity() {
 
         } else {
             // area 代替city
-            Request.releaseSelfAbout(userId, outArea,inArae,area, startTime,endTime,content ,null).request(this) { _, data ->
+            Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this) { _, data ->
                 showToast("发布成功")
                 setResult(Activity.RESULT_OK)
                 finish()

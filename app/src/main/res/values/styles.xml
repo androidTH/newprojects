@@ -59,7 +59,22 @@
         <item name="roundedCornerRadius">6dp</item>
     </style>
 
+    <style name="DefaultCircle" parent="DefaultHeadStyle">
+        <item name="roundAsCircle">true</item>
+    </style>
+
     <style name="DefaultCircleHeadStyle" parent="DefaultHeadStyle">
+        <item name="roundAsCircle">true</item>
+    </style>
+
+    <style name="DefaultfrescoStyle">
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+        <item name="viewAspectRatio">1</item>
+        <item name="roundedCornerRadius">6dp</item>
+    </style>
+
+    <style name="DefaultStyle" parent="DefaultfrescoStyle">
         <item name="roundAsCircle">true</item>
     </style>
 

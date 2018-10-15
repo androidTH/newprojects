@@ -10,6 +10,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
+import retrofit2.http.Query
 import java.io.File
 
 
@@ -291,4 +292,13 @@ object Request {
 
     //获取用户消费的积分
     fun getUserPoints(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getUserPoints(userid , pageNum)
+
+    //发布约会
+    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?)=RRetrofit.instance().
+            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic)
+    //自主约会
+    fun findAppointmentList(userid: String,iAppointType:String?, sPlace:String?,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAppointmentList(userid,iAppointType ,sPlace,pageNum)
+
+    //我的约会
+    fun findMyAppointmentList(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findMyAppointmentList(userid , pageNum)
 }

@@ -224,6 +224,7 @@
         <activity android:name=".activities.FollowActivity"/>
         <activity android:name=".activities.VistorsActivity"/>
         <activity android:name=".activities.MyPointsActivity"/>
+        <activity android:name=".activities.MyDateListActivity"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"

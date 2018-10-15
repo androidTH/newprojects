@@ -222,4 +222,19 @@ interface ApiServices {
     //获取订单支付状态
     @POST("backstage/order/getOrderById")
     fun getOrderById()
+
+    //发布约会
+    @POST("backstage/appointment/add")
+    fun releasePullDate(@Query("iUserid") userid: String, @Query("sPlace") sPlace: String?, @Query("sDesc") sDesc: String?
+                         , @Query("iAppointType") iAppointType: Int?, @Query("dStarttime") beginTime: String?
+                         , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?): Flowable<Response<JsonObject>>
+
+    //自主约会
+    @POST("backstage/appointment/findAppointmentListByPage")
+    fun findAppointmentList(@Query("iUserid") userid:String, @Query("iAppointType") iAppointType:String?, @Query("sPlace") sPlace:String?, @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<MyAppointment>>>;
+
+    //我的约会
+    @POST("backstage/appointment/findMyAppointmentListByPage")
+    fun findMyAppointmentList(@Query("iUserid")sUserId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<MyAppointment>>>
+
 }

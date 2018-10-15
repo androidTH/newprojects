@@ -65,9 +65,9 @@ class HomeFragment : BaseFragment() {
             override fun getItem(position: Int): Fragment {
                 if (position == 0) {
 //                    return HomeFindDateFragment.instance(position)
-                    return SelfReleaseFragment.instance(position)
+                    return SelfPullDateFragment.instance(position)
                 }
-                return SelfReleaseFragment.instance(position)
+                return SelfPullDateFragment.instance(position)
             }
 
             override fun getCount() = titles.size
@@ -102,7 +102,7 @@ class HomeFragment : BaseFragment() {
             val fragments = childFragmentManager.fragments
             fragments?.forEach {
                 if (it != null && !it.isDetached) {
-                    if (it is HomeFindDateFragment) {
+                    if (it is SelfPullDateFragment) {
                         it.refresh()
                     }
 //                    else if (it is HomeSelfReleaseFragment) {
