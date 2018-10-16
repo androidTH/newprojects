@@ -37,6 +37,7 @@ class SelfPullDateFragment : RecyclerFragment() {
     private var vipIds: String? = ""
     private var area: String? = ""
     private var areaType: Int? = 1
+    private var dateType: String? ="1"
 
     private var pageNum = 1
     private val mFindDates = ArrayList<MyAppointment>()
@@ -76,6 +77,13 @@ class SelfPullDateFragment : RecyclerFragment() {
         getData()
     }
 
+    fun refresh(city: String?, datetype: String) {
+        this.area = city
+        this.dateType = datetype
+        pageNum = 1
+        getData()
+    }
+
     fun refresh(area: String?, areaType: Int, levelIds: String?) {
         this.area = area
         this.areaType = areaType
@@ -85,22 +93,22 @@ class SelfPullDateFragment : RecyclerFragment() {
     }
 
     private fun getData() {
-        val classesId = if (vipIds.isNullOrEmpty()) {
-            null
-        } else {
-            vipIds
-        }
-        val areaStr = if (areaType == 0 && !area.isNullOrEmpty()) {
-            area
-        } else {
-            null
-        }
-        val outArea = if (areaType == 1 && !area.isNullOrEmpty()) {
-            area
-        } else {
-            null
-        }
-        Request.findAppointmentList(userId,"","",pageNum).request(this) { _, data ->
+//        val classesId = if (vipIds.isNullOrEmpty()) {
+//            null
+//        } else {
+//            vipIds
+//        }
+//        val areaStr = if (areaType == 0 && !area.isNullOrEmpty()) {
+//            area
+//        } else {
+//            null
+//        }
+//        val outArea = if (areaType == 1 && !area.isNullOrEmpty()) {
+//            area
+//        } else {
+//            null
+//        }
+        Request.findAppointmentList(userId,dateType,area,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFindDates.clear()
             }

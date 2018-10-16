@@ -25,8 +25,6 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
-import com.d6.android.app.R.id.view
-import android.widget.TextView
 
 
 
