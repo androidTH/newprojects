@@ -25,6 +25,10 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
+import com.d6.android.app.R.id.view
+import android.widget.TextView
+
+
 
 /**
  * 约会发送
@@ -75,6 +79,7 @@ class OpenDateSuccessDialog : DialogFragment(),RequestManager {
         tv_point_desc.text =SpanBuilder(str)
                 .click(str.length - 4, str.length, MClickSpan(context))
                 .build()
+        tv_point_desc.highlightColor = ContextCompat.getColor(context, R.color.trans_parent)
     }
 
     private fun getData() {

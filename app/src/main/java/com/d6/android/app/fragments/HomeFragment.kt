@@ -75,7 +75,7 @@ class HomeFragment : BaseFragment() {
             override fun getPageTitle(position: Int) = titles[position]
 
         }
-        mTabLayout.setViewPager(mViewPager)
+//        mTabLayout.setViewPager(mViewPager)
 
 //        bannerAdapter.setOnItemClickListener { view, position ->
 //            val banner = mBanners[position]

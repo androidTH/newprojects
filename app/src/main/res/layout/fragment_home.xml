@@ -90,24 +90,32 @@
                     android:textColor="@color/orange_f6a" />
 
             </RelativeLayout>
-            <com.flyco.tablayout.SlidingTabLayout
-                android:id="@+id/mTabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
-                app:tl_indicator_color="@color/orange_f6a"
-                app:tl_indicator_height="2dp"
-                app:tl_indicator_margin_bottom="6dp"
-                app:tl_textSelectColor="@color/orange_f6a"
-                app:tl_textUnselectColor="@color/textColor66"
-                app:tl_indicator_width="30dp" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="-6dp"
-                android:background="@color/color_ECECEC" />
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_4r_f5f5"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/color_black"
+                    android:textSize="14sp"
+                    android:drawableRight="@mipmap/titlemore_icon"
+                    android:text="地区"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/color_black"
+                    android:drawableRight="@mipmap/titlemore_icon"
+                    android:textSize="14sp"
+                    android:text="类型"/>
+            </LinearLayout>
         </android.support.design.widget.AppBarLayout>
 
 

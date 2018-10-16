@@ -34,7 +34,7 @@
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/color_666666"
             android:text="@string/send_date_string"/>
 
@@ -56,8 +56,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:textSize="16sp"
+            android:layout_marginTop="12dp"
+            android:textSize="14sp"
             android:textColor="@color/color_888888"
             android:text="@string/string_pointdesc"/>
     </LinearLayout>
