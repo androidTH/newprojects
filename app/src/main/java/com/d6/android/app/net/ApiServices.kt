@@ -3,6 +3,7 @@ package com.d6.android.app.net
 import com.d6.android.app.models.*
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import com.qiniu.android.utils.Json
 import io.reactivex.Flowable
 import org.intellij.lang.annotations.Flow
 import retrofit2.http.Body
@@ -239,9 +240,16 @@ interface ApiServices {
 
     //报名约会
     @POST("backstage/appointmentsignup/add")
-    fun signUpdate(@Query("iUserid") userid:String,@Query("sAppointmentId") sAppointmentId:String,@Query("sDesc") sDesc:String):Flowable<Response<JsonObject>>
+    fun signUpdate(@Query("iUserid") userid:Int,@Query("sAppointmentId") sAppointmentId:String,@Query("sDesc") sDesc:String):Flowable<Response<JsonObject>>
 
    //约会详情页
     @POST("backstage/appointment/queryAppointmentDetail")
     fun getAppoinmentIdDetail(@Query("iUserid") iUserid:String,@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("sAppointmentId") sAppointmentId:String):Flowable<Response<MyAppointment>>
+
+    //约会状态
+    @POST("backstage/appointmentsignup/updateAppointment")
+    fun updateDateStatus(@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("iStatus") iStatus:Int,@Query("sRefuseDesc") sRefuseDesc:String):Flowable<Response<JsonObject>>
+
+    @POST("backstage/appointmentsignup/getUnreadAppointmentCount")
+    fun getUnreadAppointmentCount(@Query("iUserid") userid:String):Flowable<Response<JsonObject>>
 }

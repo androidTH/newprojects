@@ -71,9 +71,13 @@ class MyDateDetailActivity : BaseActivity() {
                             tv_private_chat.visibility = View.GONE;
                             tv_no_date.visibility = View.GONE
                             tv_agree_date.visibility = View.GONE
+                            tv_waiting_agree.visibility = View.VISIBLE
+                            tv_giveup_date.visibility = View.VISIBLE
                         }else{
                             tv_no_date.visibility = View.VISIBLE
                             tv_agree_date.visibility = View.VISIBLE
+                            tv_waiting_agree.visibility = View.GONE
+                            tv_giveup_date.visibility = View.GONE
                         }
                     }
                     2 -> { //

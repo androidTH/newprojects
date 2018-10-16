@@ -77,7 +77,7 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
     private fun getData() {
         dismissAllowingStateLoss()
         isBaseActivity{
-            Request.signUpdate(userId,myAppointment?.iAppointUserid.toString(),"").request(it,success = { msg, data ->
+            Request.signUpdate(userId.toInt(),myAppointment?.iAppointUserid.toString(),"").request(it,success = { msg, data ->
 
             }) { code, msg ->
                 val dateErrorDialog = DateErrorDialog()

@@ -76,8 +76,8 @@ class OpenDateDialog : DialogFragment(),RequestManager {
 
     private fun getData() {
         dismissAllowingStateLoss()
-        isBaseActivity{
-            Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
+        isBaseActivity{//194ecdb4-4809-4b2d-bf32-42a3342964df
+            Request.signUpdate(userId.toInt(),myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
                 val openSuccessDialog = OpenDateSuccessDialog()
                 openSuccessDialog.show(it.supportFragmentManager, "d")
             }) { code, msg ->

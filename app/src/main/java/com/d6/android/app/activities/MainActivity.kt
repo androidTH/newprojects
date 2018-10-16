@@ -16,6 +16,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.FilterTrendDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
+import com.d6.android.app.models.Response
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.umeng.message.PushAgent
@@ -271,6 +272,12 @@ class MainActivity : BaseActivity() {
             }
 
         }, Conversation.ConversationType.PRIVATE)
+    }
+
+    private fun myDateUnMsg(){
+        Request.getUnreadAppointmentCount(SPUtils.instance().getString(Const.User.USER_ID)).request(this,success = {msg,data->{
+
+        }})
     }
 
     fun setTrendTitle(p: Int) {

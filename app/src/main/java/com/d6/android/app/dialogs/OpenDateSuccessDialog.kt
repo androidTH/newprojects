@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.text.TextPaint
+import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -70,6 +71,7 @@ class OpenDateSuccessDialog : DialogFragment(),RequestManager {
         }
 
         var str = resources.getString(R.string.string_pointdesc)
+        tv_point_desc.movementMethod = LinkMovementMethod.getInstance()
         tv_point_desc.text =SpanBuilder(str)
                 .click(str.length - 4, str.length, MClickSpan(context))
                 .build()

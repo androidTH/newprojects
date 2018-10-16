@@ -304,8 +304,14 @@ object Request {
     fun findMyAppointmentList(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findMyAppointmentList(userid , pageNum)
 
     //报名约会
-    fun signUpdate(userid:String,sAppointmentId:String,sDesc:String)=RRetrofit.instance().create(ApiServices::class.java).signUpdate(userid, sAppointmentId,sDesc)
+    fun signUpdate(userid:Int,sAppointmentId:String,sDesc:String)=RRetrofit.instance().create(ApiServices::class.java).signUpdate(userid, sAppointmentId,sDesc)
 
     //约会详情页
     fun getAppointDetails(userId:String,sAppointmentSignupId:String,sAppointmentId:String)=RRetrofit.instance().create(ApiServices::class.java).getAppoinmentIdDetail(userId,sAppointmentSignupId,sAppointmentId)
+
+    //更新约会状态
+    fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int,sRefuseDesc:String)=RRetrofit.instance().create(ApiServices::class.java).updateDateStatus(sAppointmentSignupId,iStatus,sRefuseDesc)
+
+    //为读消息
+    fun getUnreadAppointmentCount(userid:String)=RRetrofit.instance().create(ApiServices::class.java).getUnreadAppointmentCount(userid)
 }

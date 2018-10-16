@@ -22,7 +22,6 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
     }
 
-
     private fun signUpDate(myAppointment:MyAppointment) {
         isBaseActivity {
             val dateDialog = OpenDateDialog()
