@@ -27,10 +27,8 @@ data class MyDate(@SerializedName("ids") val id: String?) : Serializable {
     val looknumber: String? = ""//觅约使用
     val content: String? = ""//自主发布使用
     val lookcontent: String? = ""//觅约内容
-    @SerializedName("userhandlookwhere")
-    val handlookwhere: String? = ""//觅约地点
-    @SerializedName("userlookwhere")
-    val lookwhere: String? = ""//觅约地点
+    val userhandlookwhere: String? = ""//觅约地点
+    val userlookwhere: String? = ""//觅约地点
     val speedwhere: String? = ""
     val speedcity: String? = ""
     val speedfriendstand: String? = ""
@@ -56,6 +54,8 @@ data class MyDate(@SerializedName("ids") val id: String?) : Serializable {
     val zuojia: String? = ""
     val screen: String? = ""
     val selfpicurl: String? = ""//自助发布图片
+    @SerializedName("iType")
+    val iType:Int?=-1
     fun getSpeedStateStr(): String {
         return when (speedstate) {
             "1" -> "救火"

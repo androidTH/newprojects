@@ -40,12 +40,10 @@ class MainActivity : BaseActivity() {
     private val tabImages = arrayOf(R.drawable.home_main_selector
             , R.drawable.home_speed_date_selector, R.drawable.home_square_selector
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
-    //    private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java
-//            , SquareMainFragment::class.java, MessagesFragment::class.java,
-//            MineFragment::class.java)
     private val fragmentArray = arrayOf<Class<*>>(DateFragment::class.java
             , HomeFragment::class.java, SquareMainFragment::class.java,
             MessageFragment::class.java,MineV2Fragment::class.java)
+    private var unReadMsg:Int?=-1
 
     private val broadcast by lazy {
         object : BroadcastReceiver() {
@@ -93,6 +91,7 @@ class MainActivity : BaseActivity() {
                     tv_create_date.visible()
                     tv_date_mydate.visible()
                     date_headView.visible()
+                    setNoticeIsNoShow()
                     iv_right.gone()
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
@@ -102,6 +101,7 @@ class MainActivity : BaseActivity() {
                     tv_create_date.gone()
                     tv_date_mydate.gone()
                     date_headView.gone()
+                    iv_mydate_newnotice.gone()
                     iv_right.visible()
                     tv_title1.visible()
                     iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
@@ -247,6 +247,8 @@ class MainActivity : BaseActivity() {
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
         getUnReadCount()
+        //获取我都约会未读消息
+        myDateUnMsg()
     }
 
     private fun getUnReadCount() {
@@ -275,9 +277,20 @@ class MainActivity : BaseActivity() {
     }
 
     private fun myDateUnMsg(){
-        Request.getUnreadAppointmentCount(SPUtils.instance().getString(Const.User.USER_ID)).request(this,success = {msg,data->{
+        Request.getUnreadAppointmentCount(SPUtils.instance().getString(Const.User.USER_ID)).request(this, success = { msg, data ->
+            if (data != null) {
+                unReadMsg = data.unreadCount
+                setNoticeIsNoShow()
+            }
+        })
+    }
 
-        }})
+    private fun setNoticeIsNoShow(){
+        if(unReadMsg!! > 0){
+            iv_mydate_newnotice.visibility = View.VISIBLE
+        }else{
+            iv_mydate_newnotice.visibility = View.GONE
+        }
     }
 
     fun setTrendTitle(p: Int) {

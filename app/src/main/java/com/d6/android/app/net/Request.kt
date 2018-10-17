@@ -314,4 +314,7 @@ object Request {
 
     //为读消息
     fun getUnreadAppointmentCount(userid:String)=RRetrofit.instance().create(ApiServices::class.java).getUnreadAppointmentCount(userid)
+
+    //人工推荐
+    fun findLookAboutList(userId:String)=RRetrofit.instance().create(ApiServices::class.java).findLookAboutList(userId)
 }

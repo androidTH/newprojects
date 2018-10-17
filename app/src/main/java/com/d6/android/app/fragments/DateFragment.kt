@@ -167,6 +167,7 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 tv_main_card_Bg_tv_id.visible()
                 fb_unlike.gone()
                 btn_like.gone()
+                fb_heat_like.gone()
             } else {
                 if(SPUtils.instance().getBoolean(Const.User.IS_FIRST_SHOW_TIPS, true)){
                     tv_tip.visibility = View.VISIBLE
@@ -177,6 +178,7 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 tv_main_card_Bg_tv_id.gone()
                 fb_unlike.visible()
                 btn_like.visible()
+                fb_heat_like.visible()
             }
         }
     }

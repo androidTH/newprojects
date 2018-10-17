@@ -250,6 +250,10 @@ interface ApiServices {
     @POST("backstage/appointmentsignup/updateAppointment")
     fun updateDateStatus(@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("iStatus") iStatus:Int,@Query("sRefuseDesc") sRefuseDesc:String):Flowable<Response<JsonObject>>
 
+    //未读取消息
     @POST("backstage/appointmentsignup/getUnreadAppointmentCount")
-    fun getUnreadAppointmentCount(@Query("iUserid") userid:String):Flowable<Response<JsonObject>>
+    fun getUnreadAppointmentCount(@Query("iUserid") userid:String):Flowable<Response<UnreadMsg>>
+
+    @POST("backstage/lookabout/findLookAboutList")
+    fun findLookAboutList(@Query("iUserid") iUserid:String):Flowable<Response<Page<MyDate>>>
 }

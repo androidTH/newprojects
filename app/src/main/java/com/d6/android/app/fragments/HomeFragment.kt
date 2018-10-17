@@ -184,7 +184,8 @@ class HomeFragment : BaseFragment() {
 //    }
 
     private fun getSpeedData() {
-        Request.getSpeedDateList(1, 1, speedhomepage = "1", pageSize = 2).request(this, success = { _, data ->
+
+        Request.findLookAboutList(userId).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             mSpeedDates.clear()
             data?.list?.results?.let {

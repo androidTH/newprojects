@@ -59,6 +59,14 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp" />
+        <ImageView
+            android:id="@+id/iv_mydate_newnotice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/margin_10"
+            android:src="@mipmap/mycenter_top_newnotice"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
