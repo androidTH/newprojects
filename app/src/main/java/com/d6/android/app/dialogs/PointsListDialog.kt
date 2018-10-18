@@ -127,19 +127,17 @@ class PointsListDialog : DialogFragment(),RequestManager {
 
     private fun payMoney(pointRule:PointRule) {
         val params = PayParams.Builder(activity)
-                .wechatAppID("your_wechat_appid")// 仅当支付方式选择微信支付时需要此参数
+                .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
                 .UserId(userId.toInt())
                 .iPoint(pointRule.iPoint)
                 .goodsPrice(pointRule.iPrice)// 单位为：分
-                .goodsName("皮皮虾")
-                .goodsIntroduction("此商品属性过于强大，难以调教，一般人切勿轻易购买，吼吼！")
+                .goodsName("")
+                .goodsIntroduction("")
                 .httpType(HttpType.Post)
                 .httpClientType(NetworkClientType.Retrofit)
                 .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
                 .build()
-
-        showToast(PayWay.WechatPay.toString())
         EasyPay.newInstance(params).requestPayInfo(object:OnPayInfoRequestListener{
             override fun onPayInfoRequetStart() {
 
@@ -154,6 +152,7 @@ class PointsListDialog : DialogFragment(),RequestManager {
 
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?) {
+
             }
 
             override fun onPayCancel(payWay: PayWay?) {

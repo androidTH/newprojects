@@ -1,6 +1,10 @@
 package com.d6.android.app.easypay.network;
 
+import android.util.Log;
+
 import com.d6.android.app.easypay.PayParams;
+
+import java.io.IOException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -56,7 +60,14 @@ public class RetrofitClient implements NetworkClientInterf {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    c.onSuccess(response.body().toString());
+                    try {
+                        String result = response.body().string();
+                        Log.i("sss",result);
+                        c.onSuccess(result);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 } else {
                     c.onFailure();
                 }

@@ -8,6 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.d6.android.app.easypay.EasyPay;
 import com.d6.android.app.easypay.PayParams;
+import com.d6.android.app.easypay.pay.BaseModel;
 import com.d6.android.app.easypay.pay.PrePayInfo;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -55,7 +56,8 @@ public class WeChatPayStrategy extends BasePayStrategy {
 
         // TODO 需要做正式解析，修改PrePayInfo.java类，并解开此处注释
         Gson gson = new Gson();
-        PrePayInfo payInfo = gson.fromJson(mPrePayInfo, PrePayInfo.class);
+        BaseModel baseModel = gson.fromJson(mPrePayInfo, BaseModel.class);
+        PrePayInfo payInfo =baseModel.getObj();
         PayReq req = new PayReq();
         req.appId = payInfo.appid;
         req.partnerId = payInfo.partnerid;

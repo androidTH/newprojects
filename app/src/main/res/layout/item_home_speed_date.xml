@@ -30,6 +30,7 @@
             android:paddingRight="2dp"
             android:layout_alignTop="@+id/imageView"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:background="#cc562BFF"/>
         <LinearLayout
             android:id="@+id/ll_name"

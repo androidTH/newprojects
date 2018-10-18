@@ -14,6 +14,7 @@ import com.google.gson.annotations.SerializedName;
  * Description: 用于微信支付.// TODO 集成时请按照自身需求修改此类
  */
 public class PrePayInfo {
+
     public String appid;
     public String partnerid;
     public String prepayid;
@@ -22,6 +23,7 @@ public class PrePayInfo {
     public String noncestr;
     public String timestamp;
     public String sign;
+    public String pre_pay_order_status;
 
     public String getAppid() {
         return appid;
@@ -77,5 +79,13 @@ public class PrePayInfo {
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    public String getPre_pay_order_status() {
+        return pre_pay_order_status == null ? "" : pre_pay_order_status;
+    }
+
+    public void setPre_pay_order_status(String pre_pay_order_status) {
+        this.pre_pay_order_status = pre_pay_order_status;
     }
 }

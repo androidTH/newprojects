@@ -255,5 +255,5 @@ interface ApiServices {
     fun getUnreadAppointmentCount(@Query("iUserid") userid:String):Flowable<Response<UnreadMsg>>
 
     @POST("backstage/lookabout/findLookAboutList")
-    fun findLookAboutList(@Query("iUserid") iUserid:String):Flowable<Response<Page<MyDate>>>
+    fun findLookAboutList(@Query("iUserid") iUserid:String):Flowable<Response<Page<NewDateBean>>>
 }

@@ -36,7 +36,7 @@ object Const {
     val SERVICE_WECHAT_CODE = "service_wechat_code"
     // APP_ID 替换为你的应用从官方网站申请到的合法appId
     @JvmField
-    var WXPAY_APP_ID:String?= "wxd930ea5d5a258f4f"
+    var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
 
     var dateTypes = arrayOf("旅行","吃饭","电影","唱歌","运动","征婚","其它")
     var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,

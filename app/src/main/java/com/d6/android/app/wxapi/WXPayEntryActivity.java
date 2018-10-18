@@ -14,6 +14,9 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import static com.d6.android.app.easypay.pay.paystrategy.WeChatPayStrategy.WECHAT_PAY_RESULT_ACTION;
+import static com.d6.android.app.easypay.pay.paystrategy.WeChatPayStrategy.WECHAT_PAY_RESULT_EXTRA;
+
 
 /**
  * Created by michaelx on 17-3-15.
@@ -62,8 +65,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     private void sendPayResultBroadcast(int resultCode) {
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
         Intent payResult = new Intent();
-//        payResult.setAction(WECHAT_PAY_RESULT_ACTION);
-//        payResult.putExtra(WECHAT_PAY_RESULT_EXTRA, resultCode);
+        payResult.setAction(WECHAT_PAY_RESULT_ACTION);
+        payResult.putExtra(WECHAT_PAY_RESULT_EXTRA, resultCode);
         broadcastManager.sendBroadcast(payResult);
         finish();
     }

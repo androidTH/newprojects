@@ -1,7 +1,10 @@
 package com.d6.android.app.easypay.network;
 
+import com.d6.android.app.easypay.pay.BaseModel;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -29,6 +32,6 @@ public interface PrePayInfoService {
 
     //创建订单
     @POST("backstage/order/add")
-    Call<ResponseBody> postPrePayInfo(@Query("iUserid") int iUserid,@Query("iOrdertype") int iOrdertype,@Query("iPrice") int iPrice,@Query("iPoint") int iPoint);
+    Call<ResponseBody> postPrePayInfo(@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iPoint") int iPoint);
 
 }
