@@ -16,11 +16,11 @@ import com.google.gson.annotations.SerializedName;
 public class PrePayInfo {
 
     public String appid;
-    public String partnerid;
-    public String prepayid;
+    public String partnerid;//商户号
+    public String prepayid;//微信返回的支付交易会话ID
     @SerializedName("package")
     public String packageValue;
-    public String noncestr;
+    public String noncestr;//随机字符串
     public String timestamp;
     public String sign;
     public String pre_pay_order_status;

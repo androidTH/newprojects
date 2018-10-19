@@ -222,7 +222,7 @@ interface ApiServices {
 
     //获取订单支付状态
     @POST("backstage/order/getOrderById")
-    fun getOrderById()
+    fun getOrderById(@Query("sOrderid") sOrderid:String?):Flowable<JsonObject>
 
     //发布约会
     @POST("backstage/appointment/add")

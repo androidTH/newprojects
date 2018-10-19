@@ -57,7 +57,7 @@ public class WeChatPayStrategy extends BasePayStrategy {
         // TODO 需要做正式解析，修改PrePayInfo.java类，并解开此处注释
         Gson gson = new Gson();
         BaseModel baseModel = gson.fromJson(mPrePayInfo, BaseModel.class);
-        PrePayInfo payInfo =baseModel.getObj();
+        PrePayInfo payInfo = baseModel.getObj();
         PayReq req = new PayReq();
         req.appId = payInfo.appid;
         req.partnerId = payInfo.partnerid;
@@ -66,8 +66,7 @@ public class WeChatPayStrategy extends BasePayStrategy {
         req.nonceStr = payInfo.noncestr;
         req.timeStamp = payInfo.timestamp;
         req.sign = payInfo.sign;
-
-        // 发送支付请求：跳转到微信客户端
+        //发送支付请求：跳转到微信客户端
         wxapi.sendReq(req);
     }
 
@@ -90,7 +89,6 @@ public class WeChatPayStrategy extends BasePayStrategy {
         public void onReceive(Context context, Intent intent) {
             int result = intent.getIntExtra(WECHAT_PAY_RESULT_EXTRA, -100);
             mOnPayResultListener.onPayCallBack(result);
-
             unRegistPayResultBroadcast();
         }
     };

@@ -317,4 +317,7 @@ object Request {
 
     //人工推荐
     fun findLookAboutList(userId:String)=RRetrofit.instance().create(ApiServices::class.java).findLookAboutList(userId)
+
+    //获取支付后的订单状态
+    fun getOrderById(sOrderid:String)=RRetrofit.instance().create(ApiServices::class.java).getOrderById(sOrderid)
 }

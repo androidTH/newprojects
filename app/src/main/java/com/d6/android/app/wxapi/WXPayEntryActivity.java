@@ -21,7 +21,6 @@ import static com.d6.android.app.easypay.pay.paystrategy.WeChatPayStrategy.WECHA
 /**
  * Created by michaelx on 17-3-15.
  */
-
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     private static final String TAG = "WXPayEntryActivity";
 

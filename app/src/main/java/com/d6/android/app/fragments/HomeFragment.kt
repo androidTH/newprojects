@@ -5,16 +5,15 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.d6.android.app.R
+import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.NewestFindDateActivity
 import com.d6.android.app.activities.SpeedDateActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.RecommendDateAdapter
-import com.d6.android.app.adapters.SpeedDateAdapter
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.NewDateBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
@@ -59,7 +58,11 @@ class HomeFragment : BaseFragment() {
         speedDateAdapter.setOnItemClickListener { _, position ->
             activity?.isAuthUser {
                 val date = mSpeedDates[position]
-                startActivity<SpeedDateDetailActivity>("data" to date)
+                if(date.iType == 1){
+                    startActivity<SpeedDateDetailActivity>("data" to date)
+                }else{
+                    startActivity<FindDateDetailActivity>("data" to date)
+                }
             }
         }
 
