@@ -83,14 +83,18 @@
 
                 <TextView
                     android:id="@+id/tv_pull_name"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_888888"
                     android:layout_below="@+id/iv_pull_persion"
-                    android:layout_marginTop="@dimen/margin_8"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/margin_5"
-                    android:text="发起人"/>
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:layout_marginBottom="0dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="发起人"
+                    android:textColor="@color/color_888888"
+                    android:textSize="10sp" />
                 <TextView
                     android:id="@+id/tv_push_name"
                     android:layout_below="@+id/iv_push_persion"

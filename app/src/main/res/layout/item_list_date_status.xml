@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rel_0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -70,8 +71,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rel_1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="visible">
 
         <View
             android:layout_width="1dp"
@@ -88,6 +91,7 @@
             android:src="@mipmap/process_complete" />
 
         <View
+            android:id="@+id/view_rel_1"
             android:layout_width="1dp"
             android:layout_height="25dp"
             android:layout_below="@+id/iv_process_complete1"
@@ -141,8 +145,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rel_2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="visible">
 
         <View
             android:layout_width="1dp"
@@ -159,6 +165,7 @@
             android:src="@mipmap/process_complete" />
 
         <View
+            android:id="@+id/view_rel_2"
             android:layout_width="1dp"
             android:layout_height="25dp"
             android:layout_below="@+id/iv_process_complete2"
@@ -212,8 +219,10 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rel_3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <View
             android:layout_width="1dp"
