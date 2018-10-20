@@ -55,7 +55,7 @@ data class MyDate(@SerializedName("ids") val id: String?) : Serializable {
     val screen: String? = ""
     val selfpicurl: String? = ""//自助发布图片
     @SerializedName("iType")
-    val iType:Int?=-1
+    var iType:Int?=-1
     fun getSpeedStateStr(): String {
         return when (speedstate) {
             "1" -> "救火"

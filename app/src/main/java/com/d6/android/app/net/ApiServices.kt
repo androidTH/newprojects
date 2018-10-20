@@ -256,5 +256,5 @@ interface ApiServices {
 
     //人工推荐
     @POST("backstage/lookabout/findLookAboutList")
-    fun findLookAboutList(@Query("iUserid") iUserid:String):Flowable<Response<Page<NewDateBean>>>
+    fun findLookAboutList(@Query("iUserid") iUserid:String):Flowable<Response<ArrayList<MyDate>>>
 }

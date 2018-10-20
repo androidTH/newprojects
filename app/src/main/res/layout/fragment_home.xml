@@ -39,13 +39,18 @@
                     android:text="人工推荐"
                     android:textStyle="bold" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvSpeedDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_speed_date"/>
+
                 <TextView
                     android:id="@+id/tv_speed_date_more"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/tv_speed_date"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/tv_speed_date"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/rvSpeedDate"
+                    android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -54,17 +59,11 @@
                     android:textSize="12sp"
                     android:textColor="@color/orange_f6a" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvSpeedDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_speed_date"/>
-
                 <TextView
                     android:id="@+id/tv_newest_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rvSpeedDate"
+                    android:layout_below="@+id/tv_speed_date_more"
                     android:drawableLeft="@mipmap/title_label_icon"
                     android:drawablePadding="8dp"
                     android:paddingBottom="@dimen/padding_12"

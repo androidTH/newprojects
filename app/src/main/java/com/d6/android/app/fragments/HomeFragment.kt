@@ -10,10 +10,12 @@ import com.d6.android.app.activities.NewestFindDateActivity
 import com.d6.android.app.activities.SpeedDateActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.RecommendDateAdapter
+import com.d6.android.app.adapters.SpeedDateAdapter
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.NewDateBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
@@ -36,7 +38,7 @@ class HomeFragment : BaseFragment() {
     private var city: String? = ""
     private var outCity: String? = ""
 
-    private val mSpeedDates = ArrayList<NewDateBean>()
+    private val mSpeedDates = ArrayList<MyDate>()
     private val speedDateAdapter by lazy {
         RecommendDateAdapter(mSpeedDates)
     }
@@ -192,7 +194,7 @@ class HomeFragment : BaseFragment() {
         Request.findLookAboutList(userId).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             mSpeedDates.clear()
-            data?.list?.results?.let {
+            data?.let {
                 mSpeedDates.addAll(it)
             }
             speedDateAdapter.notifyDataSetChanged()

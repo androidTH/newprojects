@@ -21,16 +21,16 @@ import org.jetbrains.anko.backgroundResource
 /**
  *
  */
-class RecommendDateAdapter(mData: ArrayList<NewDateBean>) : BaseRecyclerAdapter<NewDateBean>(mData, R.layout.item_home_speed_date) {
-    override fun onBind(holder: ViewHolder, position: Int, data: NewDateBean) {
+class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDate>(mData, R.layout.item_home_speed_date) {
+    override fun onBind(holder: ViewHolder, position: Int, data: MyDate) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         imageView.setImageURI(data.lookpics)
         val nameView = holder.bind<TextView>(R.id.tv_name)
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
         nameView.text = String.format("%s", data.name) //String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
-        holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.nianling, data.shengao, data.tizhong))
-        holder.setText(R.id.tv_content, data.duifangyaoqiu)
+        holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
+        holder.setText(R.id.tv_content, data.lookfriendstand)
 //        holder.setText(R.id.tv_type, data.getSpeedStateStr())
         holder.setText(R.id.tv_address,data.city)
         val tv_audio_auth = holder.bind<TextView>(R.id.tv_audio_auth)
