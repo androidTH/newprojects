@@ -226,6 +226,7 @@
         <activity android:name=".activities.MyPointsActivity"/>
         <activity android:name=".activities.MyDateListActivity"/>
         <activity android:name=".activities.MyDateDetailActivity"/>
+        <activity android:name=".activities.RecommendDateActivity"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"

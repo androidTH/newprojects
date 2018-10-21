@@ -1,0 +1,65 @@
+package com.d6.android.app.adapters
+
+import android.graphics.Color
+import android.text.TextUtils
+import android.view.View
+import android.widget.TextView
+import com.d6.android.app.R
+import com.d6.android.app.application.D6Application
+import com.d6.android.app.base.adapters.BaseRecyclerAdapter
+import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.models.MyDate
+import com.d6.android.app.models.NewDateBean
+import com.d6.android.app.utils.gone
+import com.d6.android.app.utils.parserTime
+import com.d6.android.app.utils.toTime
+import com.d6.android.app.utils.visible
+import com.facebook.drawee.view.SimpleDraweeView
+import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.backgroundResource
+
+/**
+ *
+ */
+class RecommendAllDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDate>(mData, R.layout.item_list_recommend_date) {
+    override fun onBind(holder: ViewHolder, position: Int, data: MyDate) {
+        val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
+        imageView.setImageURI(data.lookpics)
+        val nameView = holder.bind<TextView>(R.id.tv_name)
+//        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
+        nameView.text = String.format("%s", data.name) //String.format("%s%s", data.speedcity, data.speednumber)
+        nameView.isSelected = TextUtils.equals(data.sex, "0")
+        holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
+        holder.setText(R.id.tv_content, data.lookfriendstand)
+//        holder.setText(R.id.tv_type, data.getSpeedStateStr())
+        holder.setText(R.id.tv_address,data.city)
+        val tv_audio_auth = holder.bind<TextView>(R.id.tv_auth_state)
+        if (TextUtils.equals("1", data.screen)) {
+            tv_audio_auth.isSelected = true
+            tv_audio_auth.text = "视频认证"
+        } else if(TextUtils.equals("0", data.screen)){
+            tv_audio_auth.isSelected = false
+            tv_audio_auth.text = "已认证"
+        }
+//        val endTime = data.createTime.parserTime().toTime("yyyy-MM-dd")
+        val cTime = if (D6Application.systemTime <= 0) {
+            System.currentTimeMillis()
+        } else {
+            D6Application.systemTime
+        }
+        val current = cTime.toTime("yyyy-MM-dd")
+        val typeView = holder.bind<TextView>(R.id.tv_type)
+        typeView.backgroundColor = Color.parseColor("#cc562BFF")
+//        if (current > endTime) {//已过期
+//            typeView.text = "已过期"
+//            typeView.backgroundColor = Color.parseColor("#94000000")
+//        }
+
+//        val line = holder.bind<View>(R.id.line)
+//        if (position == mData.size - 1) {
+//            line.gone()
+//        } else {
+//            line.visible()
+//        }
+    }
+}

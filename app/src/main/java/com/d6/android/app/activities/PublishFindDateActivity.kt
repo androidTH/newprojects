@@ -17,6 +17,8 @@ import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.DateType
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.dateTypesDefault
+import com.d6.android.app.utils.Const.dateTypesSelected
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -31,7 +33,8 @@ import org.jetbrains.anko.startActivityForResult
 class PublishFindDateActivity : BaseActivity() {
 
     private val mImages = ArrayList<AddImage>()
-    private val mDateTypes = ArrayList<DateType>();
+    private val mDateTypes = ArrayList<DateType>()
+    var dateTypes = arrayOf("吃饭","旅行","逛街","看电影","其它")
 
     private val addAdapter by lazy {
         AddImageAdapter(mImages)
@@ -75,10 +78,11 @@ class PublishFindDateActivity : BaseActivity() {
             }
         }
 
-        for (i in 0..5){
+        for (i in 0..4){
           var dt = DateType(i)
-            dt.dateTypeName ="吃饭$i"
-            dt.imgUrl = ""
+            dt.dateTypeName =dateTypes[i]
+            dt.imgUrl = "res:///${dateTypesDefault[i]}"
+            dt.selectedimgUrl ="res:///${dateTypesSelected[i]}"
             dt.isSelected = false
             mDateTypes.add(dt)
         }

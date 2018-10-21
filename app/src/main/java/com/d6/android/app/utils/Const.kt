@@ -42,4 +42,10 @@ object Const {
     var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,
             R.mipmap.invitation_shopping_small,R.mipmap.invitation_nolimit_small)
     //正式 f509c00b16c12f2d7c3306d3383e7655 测试 f509c00b16c12f2d7c3306d3383e7655
+
+    var dateTypesDefault = arrayOf(R.mipmap.invitation_travel_default,R.mipmap.invitation_meal_default,R.mipmap.invitation_film_default,
+            R.mipmap.invitation_shopping_default,R.mipmap.invitation_nolimit_default)
+
+    var dateTypesSelected = arrayOf(R.mipmap.invitation_travel_seleted,R.mipmap.invitation_meal_seleted,R.mipmap.invitation_film_seleted,
+            R.mipmap.invitation_shopping_seleted,R.mipmap.invitation_nolimit_seleted)
 }

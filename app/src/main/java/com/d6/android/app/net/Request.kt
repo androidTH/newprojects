@@ -318,6 +318,9 @@ object Request {
     //人工推荐
     fun findLookAboutList(userId:String)=RRetrofit.instance().create(ApiServices::class.java).findLookAboutList(userId)
 
+    //查询全部人工推荐
+    fun findLookAllAboutList(userId:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findLookAllAboutList(userId,pageNum)
+
     //获取支付后的订单状态
     fun getOrderById(sOrderid:String)=RRetrofit.instance().create(ApiServices::class.java).getOrderById(sOrderid)
 }

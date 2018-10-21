@@ -257,4 +257,10 @@ interface ApiServices {
     //人工推荐
     @POST("backstage/lookabout/findLookAboutList")
     fun findLookAboutList(@Query("iUserid") iUserid:String):Flowable<Response<ArrayList<MyDate>>>
+
+    //查询全部人工推荐
+    @POST("backstage/lookabout/findAllLookAboutList")
+    fun findLookAllAboutList(@Query("iUserid") iUserid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<MyDate>>>
+
+
 }

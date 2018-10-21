@@ -1,13 +1,10 @@
 package com.d6.android.app.adapters
 
-import android.util.Log
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.models.SquareTag
 import com.d6.android.app.models.UserTag
-import com.facebook.drawee.view.SimpleDraweeView
 
 /**
  *

@@ -5,10 +5,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.d6.android.app.R
-import com.d6.android.app.activities.FindDateDetailActivity
-import com.d6.android.app.activities.NewestFindDateActivity
-import com.d6.android.app.activities.SpeedDateActivity
-import com.d6.android.app.activities.SpeedDateDetailActivity
+import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.RecommendDateAdapter
 import com.d6.android.app.adapters.SpeedDateAdapter
 import com.d6.android.app.base.BaseFragment
@@ -97,7 +94,8 @@ class HomeFragment : BaseFragment() {
 //                    it.changeTab(1)
 //                }
 //            }
-            startActivity<SpeedDateActivity>()
+//            startActivity<SpeedDateActivity>()
+            startActivity<RecommendDateActivity>()
         }
 
         tv_newest_date_more.setOnClickListener {

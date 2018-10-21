@@ -26,13 +26,15 @@ class DateTypeAdapter(mData:ArrayList<DateType>): BaseRecyclerAdapter<DateType>(
         if(data.isSelected){
             tv_dateTypeName.textColor = context.getColor(R.color.color_F7AB00)
             tv_dateTypeName.text = data.dateTypeName
-            imageView.isSelected = true
+//            imageView.isSelected = true
             iv_pressok.visibility = View.VISIBLE
+            imageView.setImageURI(data.selectedimgUrl)
         }else{
             tv_dateTypeName.textColor = context.getColor(R.color.color_666666)
             tv_dateTypeName.text = data.dateTypeName
-            imageView.isSelected = false
-            iv_pressok.visibility = View.GONE
+//            imageView.isSelected = false
+            iv_pressok.visibility = View.INVISIBLE
+            imageView.setImageURI(data.imgUrl)
         }
     }
 

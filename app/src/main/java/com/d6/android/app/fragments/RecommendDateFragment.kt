@@ -1,9 +1,12 @@
 package com.d6.android.app.fragments
 
 import android.graphics.Color
-import com.d6.android.app.activities.FindDateDetailActivity
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.DateAdapter
+import com.d6.android.app.adapters.RecommendAllDateAdapter
+import com.d6.android.app.adapters.RecommendDateAdapter
 import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
@@ -13,12 +16,13 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.utils.sysErr
 import com.gyf.barlibrary.ImmersionBar
+import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
- * 速约（请不要吐槽这个命名，我英语就这样了）
+ * 人工推荐
  */
-class SpeedDateFragment : RecyclerFragment() {
+class RecommendDateFragment : RecyclerFragment() {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -27,7 +31,7 @@ class SpeedDateFragment : RecyclerFragment() {
     private val mSpeedDates = ArrayList<MyDate>()
 
     private val dateAdapter by lazy {
-        DateAdapter(mSpeedDates)
+        RecommendAllDateAdapter(mSpeedDates)
     }
 
     private var vipIds: String? = ""
@@ -37,17 +41,19 @@ class SpeedDateFragment : RecyclerFragment() {
 
     override fun setAdapter() = dateAdapter
 
+    override fun getLayoutManager(): RecyclerView.LayoutManager {
+        return GridLayoutManager(context, 2)
+    }
+
     override fun onFirstVisibleToUser() {
         mSwipeRefreshLayout.setBackgroundColor(Color.WHITE)
+
+        mSwipeRefreshLayout.setLayoutManager(getLayoutManager())
 
         dateAdapter.setOnItemClickListener { _, position ->
             activity?.isAuthUser {
                 val date = mSpeedDates[position]
-                if(date.iType == 1){
-                    startActivity<SpeedDateDetailActivity>("data" to date)
-                }else{
-                    startActivity<FindDateDetailActivity>("data" to date)
-                }
+                startActivity<SpeedDateDetailActivity>("data" to date)
             }
         }
         showDialog()
@@ -65,28 +71,7 @@ class SpeedDateFragment : RecyclerFragment() {
     }
 
     private fun getData() {
-        val classesId = if (vipIds.isNullOrEmpty()) {
-            null
-        } else {
-            vipIds
-        }
-        val arraySpeedState = if (typeIds.isNullOrEmpty()) {
-            null
-        } else {
-            typeIds
-        }
-        val areaStr = if (areaType == 0 && !area.isNullOrEmpty()) {
-            area
-        } else {
-            null
-        }
-        val outArea = if (areaType == 1 && !area.isNullOrEmpty()) {
-            area
-        } else {
-            null
-        }
-
-        Request.getSpeedDateList(1, pageNum, classesId = classesId, arraySpeedState = arraySpeedState, area = areaStr,outArea = outArea).request(this) { _, data ->
+        Request.findLookAllAboutList(userId, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mSpeedDates.clear()
             }
