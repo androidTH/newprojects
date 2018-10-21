@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyDateListActivity
 import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.interfaces.RequestManager
@@ -23,6 +24,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_date_dosend.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
@@ -69,6 +71,11 @@ class OpenDateSuccessDialog : DialogFragment(),RequestManager {
         super.onViewCreated(view, savedInstanceState)
 
         tv_close.setOnClickListener {
+            dismissAllowingStateLoss()
+        }
+
+        tv_action.setOnClickListener {
+            startActivity<MyDateListActivity>()
             dismissAllowingStateLoss()
         }
 
