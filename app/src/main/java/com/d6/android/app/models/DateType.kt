@@ -6,7 +6,7 @@ import android.os.Parcelable
 /**
  *
  */
-data class DateType(var type: Int = 0):Parcelable {
+data class DateType(var type: Int = 1):Parcelable {
     var imgUrl: String = ""
     var selectedimgUrl:String=""
     var dateTypeName:String=""
@@ -16,7 +16,7 @@ data class DateType(var type: Int = 0):Parcelable {
         imgUrl = parcel.readString()
         selectedimgUrl = parcel.readString()
         dateTypeName = parcel.readString()
-        isSelected = parcel.readByte() != 0.toByte()
+        isSelected = parcel.readByte() != 1.toByte()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

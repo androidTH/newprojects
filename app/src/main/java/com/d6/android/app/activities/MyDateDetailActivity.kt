@@ -1,8 +1,13 @@
 package com.d6.android.app.activities
 
+import android.content.Context
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
 import android.text.TextUtils
+import android.text.style.ClickableSpan
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
@@ -16,12 +21,15 @@ import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_mydate_details.*
 import kotlinx.android.synthetic.main.item_list_date_status.*
 
+/**
+ * 约会详情页
+ */
 class MyDateDetailActivity : BaseActivity() {
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private var myAppointment:MyAppointment? = null
+    private lateinit var myAppointment:MyAppointment
     private val mImages = ArrayList<String>()
     private var iAppointUserid:String =""
 
@@ -32,7 +40,11 @@ class MyDateDetailActivity : BaseActivity() {
         myAppointment = (intent.getParcelableExtra("data") as MyAppointment)
         if(myAppointment !=null){
             iAppointUserid = myAppointment!!.iAppointUserid.toString()
-            getData(myAppointment!!.sAppointmentSignupId, myAppointment!!.sId.toString());
+            if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
+                getData(myAppointment!!.sAppointmentSignupId,"")
+            }else{
+                getData("",myAppointment!!.sId.toString());
+            }
         }
         updateUI()
     }
@@ -56,19 +68,16 @@ class MyDateDetailActivity : BaseActivity() {
             }
         }
 
-//        tv_waiting_agree.setOnClickListener {
-//            updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
-//        }
-//        tv_giveup_date.setOnClickListener {
-//            updateDateStatus(myAppointment!!.sAppointmentSignupId,4)
-//        }
-
         tv_no_date.setOnClickListener {
             updateDateStatus(myAppointment!!.sAppointmentSignupId,3)
         }
 
         tv_agree_date.setOnClickListener {
             updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
+        }
+
+        tv_giveup_date.setOnClickListener {
+            updateDateStatus(myAppointment!!.sAppointmentSignupId,4)
         }
 
         tv_private_chat.setOnClickListener {
@@ -88,68 +97,41 @@ class MyDateDetailActivity : BaseActivity() {
 
         Request.getAppointDetails(userId,sAppointmentSignupId, sAppointmentId).request(this,success={msg, data->
             if (data != null) {
-                if(data.iStatus == 1){
-                    rel_0.visibility = View.VISIBLE
-                    rel_1.visibility = View.GONE
-                    rel_2.visibility = View.GONE
-                    rel_3.visibility = View.GONE
-                    headView0.setImageURI(data.sAppointmentPicUrl)
-                    tv_name0.text = data.sAppointUserName
-                    tv_days0.text = data.dCreatetime.interval()//约会发布时间
-                }else if(data.iStatus == 2){
-                    rel_0.visibility = View.VISIBLE
-                    rel_1.visibility = View.VISIBLE
-                    rel_2.visibility = View.GONE
-                    rel_3.visibility = View.GONE
-                    headView0.setImageURI(data.sAppointmentPicUrl)
-                    tv_name0.text = data.sAppointUserName
-                    tv_days0.text = data.dCreatetime.interval()//约会发布时间//stampToTime(data.dCreatetime)
-
-                    headView1.setImageURI(data.sPicUrl)
-                    tv_name1.text = data.sUserName
-                    tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
-
-                }else if(data.iStatus == 3){
-                    rel_0.visibility = View.VISIBLE
-                    rel_1.visibility = View.VISIBLE
-                    rel_2.visibility = View.VISIBLE
-                    rel_3.visibility = View.VISIBLE
-                    headView0.setImageURI(data.sAppointmentPicUrl)
-                    tv_name0.text = data.sAppointUserName
-                    tv_days0.text = data.dCreatetime.interval() //约会发布时间
-
-                    headView1.setImageURI(data.sPicUrl)
-                    tv_name1.text = data.sUserName
-                    tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
-
-                    headView2.setImageURI(data.sAppointmentPicUrl)
-                    tv_name2.text = data.sAppointUserName
-                    tv_days2.text = data.dStarttime.interval() //同意约会时间
-                    headView3.setImageURI(data.sPicUrl)
-                    tv_name3.text = data.sUserName
-                    tv_days3.text = data.dUpdatetime.interval()
-                }
 
                 when (data.iStatus) {
                     1 -> {//
-                        if(data!!.iUserid.toString().isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                        if(data!!.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
                             tv_private_chat.visibility = View.GONE;
                             tv_no_date.visibility = View.GONE
                             tv_agree_date.visibility = View.GONE
-//                            tv_waiting_agree.visibility = View.GONE
-//                            tv_giveup_date.visibility = View.GONE
+                            tv_giveup_date.visibility = View.GONE
                             tv_date_status.text="状态：发起"
-                        }else if(data.iUserid.toString().isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+
+                            rel_0.visibility = View.VISIBLE
+                            rel_1.visibility = View.GONE
+                            rel_2.visibility = View.GONE
+                            rel_3.visibility = View.GONE
+                            headView0.setImageURI(data.sAppointmentPicUrl)
+                            tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
+                            tv_days0.text = data.dCreatetime.interval()//约会发布时间
+
+                        }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                            tv_date_status.text="状态：待同意"
+                            tv_no_date.visibility = View.VISIBLE
+                            tv_agree_date.visibility = View.VISIBLE
+                            tv_private_chat.visibility = View.GONE
+                            tv_giveup_date.visibility = View.GONE
+
+                            setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3)
+
+                        }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(userId,data.iUserid.toString())){
                             tv_date_status.text="状态：等待对方同意"
                             tv_no_date.visibility = View.GONE
                             tv_agree_date.visibility = View.GONE
-//                            tv_waiting_agree.visibility = View.GONE
-//                            tv_giveup_date.visibility = View.GONE
                             tv_private_chat.visibility = View.GONE
-                        }else if(TextUtils.equals(userId,data.iUserid.toString())){
-                            tv_date_status.text="状态：同意"
-                            tv_no_date.visibility = View.VISIBLE
-                            tv_agree_date.visibility = View.VISIBLE
+                            tv_giveup_date.visibility = View.VISIBLE
+
+                            setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3)
                         }
                     }
                     2 -> { //
@@ -157,6 +139,8 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_private_chat.visibility = View.VISIBLE
                         tv_no_date.visibility = View.GONE
                         tv_agree_date.visibility = View.GONE
+                        tv_giveup_date.visibility = View.GONE
+                        setDateStatus(data)
                     }
                     3 -> { //
                         //tv_action0.text = "对方已关闭约会"
@@ -164,24 +148,83 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_private_chat.visibility = View.GONE;
                         tv_no_date.visibility = View.GONE
                         tv_agree_date.visibility = View.GONE
+                        tv_giveup_date.visibility = View.GONE
+                        setAgreeDate(data,data.dAppointmentSignupUpdatetime,"已拒绝",3)
                     }
                     4 -> { //
                         tv_date_status.text="状态：主动取消"
                         tv_private_chat.visibility = View.GONE;
                         tv_no_date.visibility = View.GONE
                         tv_agree_date.visibility = View.GONE
+                        tv_giveup_date.visibility = View.GONE
+
+                        setAgreeDate(data,data.dAppointmentSignupUpdatetime,"主动取消",4)
                     }
                     5 -> { //
                         tv_date_status.text="状态：过期自动取消"
                         tv_private_chat.visibility = View.GONE;
                         tv_no_date.visibility = View.GONE
                         tv_agree_date.visibility = View.GONE
+                        tv_giveup_date.visibility = View.GONE
+
+                        rel_0.visibility = View.VISIBLE
+                        rel_1.visibility = View.VISIBLE
+                        rel_2.visibility = View.GONE
+                        rel_3.visibility = View.GONE
+                        headView0.setImageURI(data.sAppointmentPicUrl)
+                        tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
+                        tv_days0.text = data.dCreatetime.interval()//约会发布时间
+
+                        headView1.setImageURI(data.sAppointmentPicUrl)
+                        tv_name1.text =  getSpannable("${data.sAppointUserName}:过期自动取消",6)
+                        tv_days1.text = data.dAppointmentSignupUpdatetime.interval()//报名约会时间
                     }
                 }
 
                 tv_point_nums.text="预付${data.iPoint}积分"
+                myAppointment = data;
             }
         })
+    }
+
+    fun setAgreeDate(data:MyAppointment,updateTime:Long,str:String,len:Int){
+        rel_0.visibility = View.VISIBLE
+        rel_1.visibility = View.VISIBLE
+        rel_2.visibility = View.VISIBLE
+        rel_3.visibility = View.GONE
+        headView0.setImageURI(data.sAppointmentPicUrl)
+        tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
+        tv_days0.text = data.dCreatetime.interval()//约会发布时间//stampToTime(data.dCreatetime)
+
+        headView1.setImageURI(data.sPicUrl)
+        tv_name1.text =  getSpannable("${data.sUserName}:发起邀约",4)
+        tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
+
+        headView2.setImageURI(data.sPicUrl)
+        tv_name2.text = getSpannable("${data.sUserName}:${str}",len)
+        tv_days2.text = updateTime.interval() //同意约会时间
+    }
+
+    fun setDateStatus(data:MyAppointment){
+        rel_0.visibility = View.VISIBLE
+        rel_1.visibility = View.VISIBLE
+        rel_2.visibility = View.VISIBLE
+        rel_3.visibility = View.VISIBLE
+        headView0.setImageURI(data.sAppointmentPicUrl)
+        tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4);
+        tv_days0.text = data.dCreatetime.interval() //约会发布时间
+
+        headView1.setImageURI(data.sPicUrl)
+        tv_name1.text = getSpannable("${data.sUserName}:发起邀约",4)
+        tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
+
+        headView2.setImageURI(data.sAppointmentPicUrl)
+        tv_name2.text = getSpannable("${data.sAppointUserName}:同意",2)
+        tv_days2.text = data.dAppointmentSignupUpdatetime.interval() //同意约会时间
+
+        headView3.setImageURI(data.sPicUrl)
+        tv_name3.text = getSpannable("${data.sUserName}:赴约",2)
+        tv_days3.text = data.dAppointmentSignupUpdatetime.interval()
     }
 
     fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int){
@@ -192,14 +235,42 @@ class MyDateDetailActivity : BaseActivity() {
                     tv_no_date.visibility = View.GONE
                     tv_agree_date.visibility = View.GONE
                     tv_private_chat.visibility = View.VISIBLE
+                    tv_giveup_date.visibility = View.GONE
+                    myAppointment.dAppointmentSignupUpdatetime = System.currentTimeMillis()
+                    setDateStatus(myAppointment)
                 } else if (iStatus == 3) {
                     tv_date_status.text = "状态：已拒绝"
                     tv_private_chat.visibility = View.GONE;
                     tv_no_date.visibility = View.GONE
                     tv_agree_date.visibility = View.GONE
+                    tv_giveup_date.visibility = View.GONE
+                    setAgreeDate(myAppointment,System.currentTimeMillis(),"已拒绝",3)
+                }else if(iStatus == 4){
+                    tv_date_status.text="状态：主动取消"
+                    tv_private_chat.visibility = View.GONE;
+                    tv_no_date.visibility = View.GONE
+                    tv_agree_date.visibility = View.GONE
+                    tv_giveup_date.visibility = View.GONE
+                    setAgreeDate(myAppointment,System.currentTimeMillis(),"主动取消",4)
                 }
             }
         })
     }
 
+    fun getSpannable(str:String,len:Int):SpannableStringBuilder{
+        return SpanBuilder(str)
+                .click(str.length - len, str.length, MClickSpan(this))
+                .build()
+    }
+    private class MClickSpan(val context: Context) : ClickableSpan() {
+
+        override fun onClick(p0: View?) {
+
+        }
+
+        override fun updateDrawState(ds: TextPaint?) {
+            ds?.color = ContextCompat.getColor(context, R.color.color_333333)
+            ds?.isUnderlineText = false
+        }
+    }
 }

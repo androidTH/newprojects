@@ -189,22 +189,22 @@
             <!--android:textSize="16sp"-->
             <!--android:textStyle="bold"-->
             <!--android:visibility="gone"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/tv_giveup_date"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginRight="@dimen/margin_15"-->
-            <!--android:background="@drawable/shape_4r_orange"-->
-            <!--android:paddingLeft="@dimen/margin_15"-->
-            <!--android:paddingTop="@dimen/margin_8"-->
-            <!--android:paddingRight="@dimen/margin_15"-->
-            <!--android:paddingBottom="@dimen/margin_8"-->
-            <!--android:layout_toLeftOf="@+id/tv_waiting_agree"-->
-            <!--android:text="放弃"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:textSize="16sp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:visibility="gone"/>-->
+        <TextView
+            android:id="@+id/tv_giveup_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@drawable/shape_4r_orange"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_15"
+            android:paddingBottom="@dimen/margin_8"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="取消"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone"/>
     </RelativeLayout>
 </RelativeLayout>

@@ -34,7 +34,7 @@ class PublishFindDateActivity : BaseActivity() {
 
     private val mImages = ArrayList<AddImage>()
     private val mDateTypes = ArrayList<DateType>()
-    var dateTypes = arrayOf("吃饭","旅行","逛街","看电影","其它")
+    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","其它")
 
     private val addAdapter by lazy {
         AddImageAdapter(mImages)
@@ -79,7 +79,7 @@ class PublishFindDateActivity : BaseActivity() {
         }
 
         for (i in 0..4){
-          var dt = DateType(i)
+          var dt = DateType((i+1))
             dt.dateTypeName =dateTypes[i]
             dt.imgUrl = "res:///${dateTypesDefault[i]}"
             dt.selectedimgUrl ="res:///${dateTypesSelected[i]}"
