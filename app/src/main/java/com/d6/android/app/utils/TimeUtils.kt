@@ -71,16 +71,26 @@ fun Long.interval(nowTime: Long = System.currentTimeMillis()): String {
     val secondsOfDay = secondsOfHour * 24
     val secondsOfTwoDay = secondsOfDay * 2
     val secondsOfThreeDay = secondsOfDay * 3
+    val secondsOfFourDay = secondsOfDay * 4
+    val secondsOfFiveDay = secondsOfDay * 5
+    val secondsOfSixDay = secondsOfDay * 6
+    val secondsOfSevenDay = secondsOfDay * 7
+    val secondsOfEightDay = secondsOfDay * 7
     // 相差的秒数
     val delaySeconds = delay / 1000
     desc = when {
-        delaySeconds < 10 -> "刚刚"
-        delaySeconds <= 60 -> delaySeconds.toString() + "秒前"
+        delaySeconds < 60 -> "刚刚" //10
+//        delaySeconds <= 60 -> delaySeconds.toString() + "秒前"
         delaySeconds < secondsOfHour -> (delaySeconds / 60).toString() + "分前"
         delaySeconds < secondsOfDay -> (delaySeconds / 60 / 60).toString() + "小时前"
-        delaySeconds < secondsOfTwoDay -> "一天前"
-        delaySeconds < secondsOfThreeDay -> "两天前"
-        else -> this.toDefaultTime()
+        delaySeconds < secondsOfTwoDay -> "1天前"
+        delaySeconds < secondsOfThreeDay -> "2天前"
+        delaySeconds < secondsOfFourDay ->"3天前"
+        delaySeconds < secondsOfFiveDay ->"4天前"
+        delaySeconds < secondsOfSixDay ->"5天前"
+        delaySeconds < secondsOfSevenDay ->"6天前"
+        delaySeconds < secondsOfEightDay ->"7天前"
+        else -> this.toTime("yyyy-MM-dd")
     }
     return desc
 }

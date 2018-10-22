@@ -65,7 +65,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         tv_sub_title.text = "${myAppointment.iAge}岁·${myAppointment.iHeight}cm·${myAppointment.iWeight}kg"
 
         var time = converTime(myAppointment.dEndtime)
-        tv_time_long.text="倒计时:${time} 天"
+        tv_time_long.text="倒计时:${time}"
 
         tv_self_address.text = myAppointment.sPlace
 
@@ -103,9 +103,9 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         fun onDateClick(myAppointment: MyAppointment)
     }
 
-    fun converTime(timestamp: Double): String {
-        val currentSeconds = System.currentTimeMillis() / 1000
-        val timeGap = timestamp -currentSeconds// 与现在时间相差秒数
+    fun converTime(timestamp: Long): String {
+        val currentSeconds = System.currentTimeMillis()
+        val timeGap = (timestamp -currentSeconds)// 与现在时间相差秒数
         var timeStr: String? = null
         if (timeGap > 24 * 60 * 60) {// 1天以上
             timeStr = (timeGap / (24 * 60 * 60)).toString() + "天"
@@ -114,7 +114,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         } else if (timeGap > 60) {// 1分钟-59分钟
             timeStr = (timeGap / 60).toString() + "分钟"
         } else {// 1秒钟-59秒钟
-            timeStr = "0"
+            timeStr = "0秒"
         }
         return timeStr
     }

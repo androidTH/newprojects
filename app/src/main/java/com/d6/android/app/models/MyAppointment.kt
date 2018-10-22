@@ -21,16 +21,16 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
     @SerializedName("iAppointUserid") var iAppointUserid:Int?=-1 //约会发布人的id
     @SerializedName("sAppointUserName") var sAppointUserName:String?="" //约会发布人的名称
     @SerializedName("sAppointmentPicUrl") var sAppointmentPicUrl:String?=""//约会发布人的头像
-    @SerializedName("dAppointmentSignupCreatetime") var dAppointmentSignupCreatetime:Double = 0.0//报名约会时间
-    @SerializedName("dAppointmentSignupUpdatetime") var dAppointmentSignupUpdatetime:Double=0.0//报名约会主动取消、对方同意、对方拒绝、过期自动取消的时间
+    @SerializedName("dAppointmentSignupCreatetime") var dAppointmentSignupCreatetime:Long = 0//报名约会时间
+    @SerializedName("dAppointmentSignupUpdatetime") var dAppointmentSignupUpdatetime:Long=0//报名约会主动取消、对方同意、对方拒绝、过期自动取消的时间
     @SerializedName("iIsread") var iIsread:Int?=-1 //约会消息是否已读（1、未读  2、已读 ）
     @SerializedName("sPlace") var sPlace:String?="" //约会地点
     @SerializedName("sAppointPic") var sAppointPic:String?="" //"sAppointPic":"http://p22l7xdxa.bkt.clouddn.com/Fkqkg2-Wy4Cq2nAlthV92dCW9_o0,http://p22l7xdxa.bkt.clouddn.com/1535596704971.jpg,http://p22l7xdxa.bkt.clouddn.com/1536127172202.jpg,http://p22l7xdxa.bkt.clouddn.com/FrBTMocJHtq5ye0D6TxxE0Yo-Y-v,http://p22l7xdxa.bkt.clouddn.com/FhqGXx5hjTNHDttbWX4hFU2382-f"//约会图片描述
     @SerializedName("sRefuseDesc") var sRefuseDesc:String?="" //sRefuseDesc:null,//约会拒绝原因（暂未使用）
-    @SerializedName("dCreatetime") var dCreatetime:Double = 0.0 //"dCreatetime":1539418366000,//约会发布时间
-    @SerializedName("dStarttime") var dStarttime:Double = 0.0// "dStarttime":1539078078000,//约会开始时间
-    @SerializedName("dEndtime") var dEndtime:Double = 0.0 //"dEndtime":1539855678000,//约会截至时间
-    @SerializedName("dUpdatetime") var dUpdatetime:Double = 0.0 //"dUpdatetime":null//约会更新时间
+    @SerializedName("dCreatetime") var dCreatetime:Long = 0 //"dCreatetime":1539418366000,//约会发布时间
+    @SerializedName("dStarttime") var dStarttime:Long = 0// "dStarttime":1539078078000,//约会开始时间
+    @SerializedName("dEndtime") var dEndtime:Long =0  //"dEndtime":1539855678000,//约会截至时间
+    @SerializedName("dUpdatetime") var dUpdatetime:Long = 0 //"dUpdatetime":null//约会更新时间
     @SerializedName("iSex") var iSex:Int?=-1
     @SerializedName("iAge") var iAge:Int?=-1
     @SerializedName("iHeight") var iHeight:Int?=-1
@@ -48,16 +48,16 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
         iAppointUserid = parcel.readValue(Int::class.java.classLoader) as? Int
         sAppointUserName = parcel.readString()
         sAppointmentPicUrl = parcel.readString()
-        dAppointmentSignupCreatetime = parcel.readDouble()
-        dAppointmentSignupUpdatetime = parcel.readDouble()
+        dAppointmentSignupCreatetime = parcel.readLong()
+        dAppointmentSignupUpdatetime = parcel.readLong()
         iIsread = parcel.readValue(Int::class.java.classLoader) as? Int
         sPlace = parcel.readString()
         sAppointPic = parcel.readString()
         sRefuseDesc = parcel.readString()
-        dCreatetime = parcel.readDouble()
-        dStarttime = parcel.readDouble()
-        dEndtime = parcel.readDouble()
-        dUpdatetime = parcel.readDouble()
+        dCreatetime = parcel.readLong()
+        dStarttime = parcel.readLong()
+        dEndtime = parcel.readLong()
+        dUpdatetime = parcel.readLong()
         iSex = parcel.readValue(Int::class.java.classLoader) as? Int
         iAge = parcel.readValue(Int::class.java.classLoader) as? Int
         iHeight = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -77,16 +77,16 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
         parcel.writeValue(iAppointUserid)
         parcel.writeString(sAppointUserName)
         parcel.writeString(sAppointmentPicUrl)
-        parcel.writeDouble(dAppointmentSignupCreatetime)
-        parcel.writeDouble(dAppointmentSignupUpdatetime)
+        parcel.writeLong(dAppointmentSignupCreatetime)
+        parcel.writeLong(dAppointmentSignupUpdatetime)
         parcel.writeValue(iIsread)
         parcel.writeString(sPlace)
         parcel.writeString(sAppointPic)
         parcel.writeString(sRefuseDesc)
-        parcel.writeDouble(dCreatetime)
-        parcel.writeDouble(dStarttime)
-        parcel.writeDouble(dEndtime)
-        parcel.writeDouble(dUpdatetime)
+        parcel.writeLong(dCreatetime)
+        parcel.writeLong(dStarttime)
+        parcel.writeLong(dEndtime)
+        parcel.writeLong(dUpdatetime)
         parcel.writeValue(iSex)
         parcel.writeValue(iAge)
         parcel.writeValue(iHeight)

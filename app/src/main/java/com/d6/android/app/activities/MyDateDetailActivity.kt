@@ -11,6 +11,8 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_mydate_details.*
 import kotlinx.android.synthetic.main.item_list_date_status.*
 
@@ -70,7 +72,14 @@ class MyDateDetailActivity : BaseActivity() {
         }
 
         tv_private_chat.setOnClickListener {
-
+            isAuthUser {
+                myAppointment?.let {
+                    val name = it.sAppointUserName ?: ""
+                    checkChatCount(it.iAppointUserid.toString()) {
+                        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
+                    }
+                }
+            }
         }
 
     }
@@ -86,8 +95,7 @@ class MyDateDetailActivity : BaseActivity() {
                     rel_3.visibility = View.GONE
                     headView0.setImageURI(data.sAppointmentPicUrl)
                     tv_name0.text = data.sAppointUserName
-                    tv_days0.text = data.dCreatetime.toString().parserTime("yyyy-MM-dd").toString()//约会发布时间
-
+                    tv_days0.text = data.dCreatetime.interval()//约会发布时间
                 }else if(data.iStatus == 2){
                     rel_0.visibility = View.VISIBLE
                     rel_1.visibility = View.VISIBLE
@@ -95,11 +103,11 @@ class MyDateDetailActivity : BaseActivity() {
                     rel_3.visibility = View.GONE
                     headView0.setImageURI(data.sAppointmentPicUrl)
                     tv_name0.text = data.sAppointUserName
-                    tv_days0.text = data.dCreatetime.toString().parserTime("yyyy-MM-dd").toString()//约会发布时间
+                    tv_days0.text = data.dCreatetime.interval()//约会发布时间//stampToTime(data.dCreatetime)
 
                     headView1.setImageURI(data.sPicUrl)
                     tv_name1.text = data.sUserName
-                    tv_days1.text = data.dAppointmentSignupCreatetime.toString().parserTime("yyyy-MM-dd").toString()//报名约会时间
+                    tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
 
                 }else if(data.iStatus == 3){
                     rel_0.visibility = View.VISIBLE
@@ -108,18 +116,18 @@ class MyDateDetailActivity : BaseActivity() {
                     rel_3.visibility = View.VISIBLE
                     headView0.setImageURI(data.sAppointmentPicUrl)
                     tv_name0.text = data.sAppointUserName
-                    tv_days0.text = data.dCreatetime.toString().parserTime("yyyy-MM-dd").toString()//约会发布时间
+                    tv_days0.text = data.dCreatetime.interval() //约会发布时间
 
                     headView1.setImageURI(data.sPicUrl)
                     tv_name1.text = data.sUserName
-                    tv_days1.text = data.dAppointmentSignupCreatetime.toString().parserTime("yyyy-MM-dd").toString()//报名约会时间
+                    tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
 
                     headView2.setImageURI(data.sAppointmentPicUrl)
                     tv_name2.text = data.sAppointUserName
-                    tv_days2.text = data.dStarttime.toString().parserTime("yyyy-MM-dd").toString()//同意约会时间
+                    tv_days2.text = data.dStarttime.interval() //同意约会时间
                     headView3.setImageURI(data.sPicUrl)
                     tv_name3.text = data.sUserName
-                    tv_days3.text = data.dUpdatetime.toString().parserTime("yyyy-MM-dd").toString()
+                    tv_days3.text = data.dUpdatetime.interval()
                 }
 
                 when (data.iStatus) {
@@ -177,8 +185,21 @@ class MyDateDetailActivity : BaseActivity() {
     }
 
     fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int){
-        Request.updateDateStatus(sAppointmentSignupId,iStatus,"").request(this, success = {msg, data->{
-
-        }})
+        Request.updateDateStatus(sAppointmentSignupId,iStatus,"").request(this, success = {msg, data->
+            run {
+                if (iStatus == 2) {
+                    tv_date_status.text = "状态:赴约"
+                    tv_no_date.visibility = View.GONE
+                    tv_agree_date.visibility = View.GONE
+                    tv_private_chat.visibility = View.VISIBLE
+                } else if (iStatus == 3) {
+                    tv_date_status.text = "状态：已拒绝"
+                    tv_private_chat.visibility = View.GONE;
+                    tv_no_date.visibility = View.GONE
+                    tv_agree_date.visibility = View.GONE
+                }
+            }
+        })
     }
+
 }

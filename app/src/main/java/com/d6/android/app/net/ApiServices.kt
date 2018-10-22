@@ -264,6 +264,6 @@ interface ApiServices {
 
     //添加查询约会扣除、退回、取消需要的积分接口
     @POST("backstage/appointment/queryAppointmentPoint")
-    fun queryAppointmentPoint():Flowable<Response<IntegralExplain>>;
+    fun queryAppointmentPoint():Flowable<Response<IntegralExplain>>
 
 }

@@ -36,6 +36,7 @@ import org.jetbrains.anko.*
 import java.io.File
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -389,3 +390,36 @@ inline fun BaseActivity.getTrendDetail(id:String,crossinline next:(square:Square
         }
     }
 }
+
+//fun converTime(timestamp: Double): String {
+//    val currentSeconds = System.currentTimeMillis() / 1000
+//    val timeGap = currentSeconds - timestamp// 与现在时间相差秒数
+//    var timeStr: String? = null
+//    if (timeGap > 24 * 60 * 60) {// 1天以上
+//        timeStr = (timeGap / (24 * 60 * 60)).toString() + "天"
+//    } else if (timeGap > 60 * 60) {// 1小时-24小时
+//        timeStr = (timeGap / (60 * 60)).toString() + "小时"
+//    } else if (timeGap > 60) {// 1分钟-59分钟
+//        timeStr = (timeGap / 60).toString() + "分钟"
+//    } else {// 1秒钟-59秒钟
+//        timeStr = "0"
+//    }
+//    return timeStr
+
+    fun stampToTime(stamp: Long): String {
+        val now = System.currentTimeMillis()
+        val intervals = (now - stamp)/1000
+        return if (intervals / 60 <= 1) {
+            "刚刚"
+        } else if (intervals / 60 < 60) {
+            (intervals / 60).toString() + "分钟前"
+        } else if (intervals / 3600 < 24) {
+            (intervals / 3600).toString() + "小时前"
+        } else if (intervals / (3600 * 24) < 30) {
+            (intervals / (3600 * 24)).toString() + "天前"
+        } else if (intervals / (3600 * 24 * 30) < 12) {
+            (intervals / (3600 * 24 * 30)).toString() + "月前"
+        } else {
+           stamp.toTime("yyyy-MM-dd")
+        }
+    }
