@@ -54,14 +54,23 @@ class MyDateDetailActivity : BaseActivity() {
             }
         }
 
-        tv_waiting_agree.setOnClickListener {
-            updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
-        }
-        tv_giveup_date.setOnClickListener {
-            updateDateStatus(myAppointment!!.sAppointmentSignupId,4)
-        }
+//        tv_waiting_agree.setOnClickListener {
+//            updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
+//        }
+//        tv_giveup_date.setOnClickListener {
+//            updateDateStatus(myAppointment!!.sAppointmentSignupId,4)
+//        }
+
         tv_no_date.setOnClickListener {
             updateDateStatus(myAppointment!!.sAppointmentSignupId,3)
+        }
+
+        tv_agree_date.setOnClickListener {
+            updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
+        }
+
+        tv_private_chat.setOnClickListener {
+
         }
 
     }
@@ -115,25 +124,31 @@ class MyDateDetailActivity : BaseActivity() {
 
                 when (data.iStatus) {
                     1 -> {//
-                        tv_date_status.text="状态：发起"
-                        if(TextUtils.equals(userId, iAppointUserid)){
+                        if(data!!.iUserid.toString().isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
                             tv_private_chat.visibility = View.GONE;
                             tv_no_date.visibility = View.GONE
                             tv_agree_date.visibility = View.GONE
-                            tv_waiting_agree.visibility = View.VISIBLE
-                            tv_giveup_date.visibility = View.VISIBLE
-                        }else{
+//                            tv_waiting_agree.visibility = View.GONE
+//                            tv_giveup_date.visibility = View.GONE
+                            tv_date_status.text="状态：发起"
+                        }else if(data.iUserid.toString().isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                            tv_date_status.text="状态：等待对方同意"
+                            tv_no_date.visibility = View.GONE
+                            tv_agree_date.visibility = View.GONE
+//                            tv_waiting_agree.visibility = View.GONE
+//                            tv_giveup_date.visibility = View.GONE
+                            tv_private_chat.visibility = View.GONE
+                        }else if(TextUtils.equals(userId,data.iUserid.toString())){
+                            tv_date_status.text="状态：同意"
                             tv_no_date.visibility = View.VISIBLE
                             tv_agree_date.visibility = View.VISIBLE
-                            tv_waiting_agree.visibility = View.GONE
-                            tv_giveup_date.visibility = View.GONE
                         }
                     }
                     2 -> { //
-                        tv_date_status.text="状态：待同意"
-                        tv_private_chat.visibility = View.GONE;
-                        tv_no_date.visibility = View.VISIBLE
-                        tv_agree_date.visibility = View.VISIBLE
+                        tv_date_status.text="状态:私聊"
+                        tv_private_chat.visibility = View.VISIBLE
+                        tv_no_date.visibility = View.GONE
+                        tv_agree_date.visibility = View.GONE
                     }
                     3 -> { //
                         //tv_action0.text = "对方已关闭约会"
@@ -155,6 +170,8 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_agree_date.visibility = View.GONE
                     }
                 }
+
+                tv_point_nums.text="预付${data.iPoint}积分"
             }
         })
     }

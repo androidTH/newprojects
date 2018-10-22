@@ -16,7 +16,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.dialog_date_error.*
+import kotlinx.android.synthetic.main.dialog_date_send.*
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -72,18 +72,36 @@ class OpenDateDialog : DialogFragment(),RequestManager {
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
+        queryPoints()
     }
 
     private fun getData() {
         dismissAllowingStateLoss()
-        isBaseActivity{//194ecdb4-4809-4b2d-bf32-42a3342964df
-            Request.signUpdate(userId.toInt(),myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
+        //194ecdb4-4809-4b2d-bf32-42a3342964df
+            Request.signUpdate(userId.toInt(),myAppointment?.sId.toString(),"").request(context as BaseActivity,success = { msg, data ->
                 val openSuccessDialog = OpenDateSuccessDialog()
-                openSuccessDialog.show(it.supportFragmentManager, "d")
+                openSuccessDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }) { code, msg ->
-                val openErrorDialog = OpenDateErrorDialog()
-                openErrorDialog.show(it.supportFragmentManager, "d")
+                if(code == 2){
+                    toast(msg)
+                }else{
+                    val openErrorDialog = OpenDateErrorDialog()
+                    openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                }
             }
+//        }
+    }
+
+    private fun queryPoints(){
+        Request.queryAppointmentPoint().request((activity as BaseActivity), success = {msg,data->
+            data?.let {
+                tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
+                tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
+                tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
+                tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
+            }
+        }){code,msg->
+
         }
     }
 

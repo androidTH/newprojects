@@ -35,6 +35,7 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
     @SerializedName("iAge") var iAge:Int?=-1
     @SerializedName("iHeight") var iHeight:Int?=-1
     @SerializedName("iWeight") var iWeight:Int?=-1
+    var iPoint:Int?=-1
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         sAppointmentSignupId = parcel.readString()
@@ -61,6 +62,7 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
         iAge = parcel.readValue(Int::class.java.classLoader) as? Int
         iHeight = parcel.readValue(Int::class.java.classLoader) as? Int
         iWeight = parcel.readValue(Int::class.java.classLoader) as? Int
+        iPoint = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -89,6 +91,7 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
         parcel.writeValue(iAge)
         parcel.writeValue(iHeight)
         parcel.writeValue(iWeight)
+        parcel.writeValue(iPoint)
     }
 
     override fun describeContents(): Int {

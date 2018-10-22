@@ -23,14 +23,15 @@
             android:textStyle="bold"
             android:text="发起约会"/>
         <TextView
+            android:id="@+id/tv_preparepoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_marginTop="25dp"
             android:textColor="@color/color_black"
-
-            android:text="本次约会将预付10积分"/>
+            android:text="----"/>
         <TextView
+            android:id="@+id/tv_agree_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -38,8 +39,9 @@
             android:textColor="@color/color_666666"
             android:drawableLeft="@mipmap/agreed_small_icon"
             android:drawablePadding="@dimen/margin_8"
-            android:text="对方同意,预付10积分"/>
+            android:text="----"/>
         <TextView
+            android:id="@+id/tv_noagree_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -47,8 +49,9 @@
             android:textColor="@color/color_666666"
             android:drawableLeft="@mipmap/refused_small_icon"
             android:drawablePadding="@dimen/margin_8"
-            android:text="对方拒绝,返还5积分"/>
+            android:text="----"/>
         <TextView
+            android:id="@+id/tv_timeout_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -56,7 +59,7 @@
             android:textColor="@color/color_666666"
             android:drawableLeft="@mipmap/timeout_small_icon"
             android:drawablePadding="@dimen/margin_8"
-            android:text="超时未回复,返还10积分"/>
+            android:text="----"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

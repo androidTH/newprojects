@@ -323,4 +323,7 @@ object Request {
 
     //获取支付后的订单状态
     fun getOrderById(sOrderid:String)=RRetrofit.instance().create(ApiServices::class.java).getOrderById(sOrderid)
+
+    //添加查询约会扣除、退回、取消需要的积分接口
+    fun queryAppointmentPoint()=RRetrofit.instance().create(ApiServices::class.java).queryAppointmentPoint()
 }
