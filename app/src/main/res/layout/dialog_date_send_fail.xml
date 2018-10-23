@@ -28,13 +28,13 @@
             android:layout_marginTop="25dp"
             android:src="@mipmap/popup_money_icon"/>
         <TextView
+            android:id="@+id/tv_tishi_point"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:textSize="16sp"
-            android:textColor="@color/color_666666"
-            android:text="@string/string_pointlow"/>
+            android:textColor="@color/color_666666"/>
 
         <TextView
             android:layout_width="match_parent"

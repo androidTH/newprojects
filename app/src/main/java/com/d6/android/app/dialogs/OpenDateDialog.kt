@@ -77,19 +77,18 @@ class OpenDateDialog : DialogFragment(),RequestManager {
 
     private fun getData() {
         dismissAllowingStateLoss()
-        //194ecdb4-4809-4b2d-bf32-42a3342964df
-            Request.signUpdate(userId.toInt(),myAppointment?.sId.toString(),"").request(context as BaseActivity,success = { msg, data ->
-                val openSuccessDialog = OpenDateSuccessDialog()
-                openSuccessDialog.show((context as BaseActivity).supportFragmentManager, "d")
+        isBaseActivity {
+            //194ecdb4-4809-4b2d-bf32-42a3342964df
+            Request.signUpdate(userId.toInt(),myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
+                var openSuccessDialog = OpenDateSuccessDialog()
+                openSuccessDialog.show(it.supportFragmentManager, "d")
             }) { code, msg ->
-                if(code == 2){
-                    toast(msg)
-                }else{
-                    val openErrorDialog = OpenDateErrorDialog()
-                    openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                if(code == 0){
+                    var openErrorDialog = OpenDateErrorDialog()
+                    openErrorDialog.show(it.supportFragmentManager, "d")
                 }
             }
-//        }
+        }
     }
 
     private fun queryPoints(){

@@ -98,7 +98,7 @@ class FilterDateTypeDialog : DialogFragment() {
                 .build()
 
         tv_4.text = SpanBuilder("看电影\n快速响应的约会")
-                .color(context,0,2,R.color.textColor)
+                .color(context,0,3,R.color.textColor)
                 .size(0,2,15)
                 .build()
 

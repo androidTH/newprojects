@@ -49,14 +49,14 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 //                .color(context,0,time.length,R.color.color_369)
 //                .build()
 
-        tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()]
+        tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()-1]
 
-        if(myAppointment.iAppointType!! > Const.dateTypesImg.size){
+        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesImg.size){
             var drawable = context.resources.getDrawable(R.mipmap.invitation_nolimit_small)
             tv_datetype_name.setCompoundDrawables(drawable,null,null,null)
-            tv_datetype_name.setCompoundDrawablePadding(dip(3));
+            tv_datetype_name.setCompoundDrawablePadding(dip(3))
         }else{
-            var drawable = context.resources.getDrawable(Const.dateTypesImg[myAppointment.iAppointType!!.toInt()])
+            var drawable = context.resources.getDrawable(Const.dateTypesImg[myAppointment.iAppointType!!.toInt()-1])
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
             tv_datetype_name.setCompoundDrawablePadding(dip(3));
             tv_datetype_name.setCompoundDrawables(drawable,null,null,null);
@@ -105,7 +105,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 
     fun converTime(timestamp: Long): String {
         val currentSeconds = System.currentTimeMillis()
-        val timeGap = (timestamp -currentSeconds)// 与现在时间相差秒数
+        val timeGap = (timestamp -currentSeconds)/1000 // 与现在时间相差秒数
         var timeStr: String? = null
         if (timeGap > 24 * 60 * 60) {// 1天以上
             timeStr = (timeGap / (24 * 60 * 60)).toString() + "天"

@@ -38,7 +38,7 @@ object Const {
     @JvmField
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
 
-    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","其它","运动","征婚")
+    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","其它")
     var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,
             R.mipmap.invitation_shopping_small,R.mipmap.invitation_nolimit_small)
     //正式 f509c00b16c12f2d7c3306d3383e7655 测试 f509c00b16c12f2d7c3306d3383e7655

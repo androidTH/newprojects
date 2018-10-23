@@ -109,7 +109,10 @@ class PointsListDialog : DialogFragment(),RequestManager {
 //        }
         mPRAdapter.setOnItemClickListener { view, position ->
             var pointRule = mPointsRule.get(position)
-            payMoney(pointRule);
+            if(mOnPayListerner!=null){
+                mOnPayListerner.onPayClick(position, pointRule)
+            }
+//            payMoney(pointRule);
         }
         getData()
     }
@@ -125,44 +128,45 @@ class PointsListDialog : DialogFragment(),RequestManager {
         }
     }
 
-    private fun payMoney(pointRule:PointRule) {
-        val params = PayParams.Builder(activity)
-                .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
-                .payWay(PayWay.WechatPay)
-                .UserId(userId.toInt())
-                .iPoint(pointRule.iPoint)
-                .goodsPrice(pointRule.iPrice)// 单位为：分
-                .goodsName("")
-                .goodsIntroduction("")
-                .httpType(HttpType.Post)
-                .httpClientType(NetworkClientType.Retrofit)
-                .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
-                .build()
-        EasyPay.newInstance(params).requestPayInfo(object:OnPayInfoRequestListener{
-            override fun onPayInfoRequetStart() {
-
-            }
-
-            override fun onPayInfoRequstSuccess() {
-            }
-
-            override fun onPayInfoRequestFailure() {
-
-            }
-
-        }).toPay(object : OnPayResultListener {
-            override fun onPaySuccess(payWay: PayWay?) {
-
-            }
-
-            override fun onPayCancel(payWay: PayWay?) {
-            }
-
-            override fun onPayFailure(payWay: PayWay?, errCode: Int) {
-
-            }
-        })
-    }
+//    private fun payMoney(pointRule:PointRule) {
+//        val params = PayParams.Builder(activity)
+//                .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
+//                .payWay(PayWay.WechatPay)
+//                .UserId(userId.toInt())
+//                .iPoint(pointRule.iPoint)
+//                .goodsPrice(pointRule.iPrice)// 单位为：分
+//                .goodsName("")
+//                .goodsIntroduction("")
+//                .httpType(HttpType.Post)
+//                .httpClientType(NetworkClientType.Retrofit)
+//                .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
+//                .build()
+//        EasyPay.newInstance(params).requestPayInfo(object:OnPayInfoRequestListener{
+//            override fun onPayInfoRequetStart() {
+//
+//            }
+//
+//            override fun onPayInfoRequstSuccess() {
+//            }
+//
+//            override fun onPayInfoRequestFailure() {
+//
+//            }
+//
+//        }).toPay(object : OnPayResultListener {
+//            override fun onPaySuccess(payWay: PayWay?) {
+//                 dismissAllowingStateLoss()
+//            }
+//
+//            override fun onPayCancel(payWay: PayWay?) {
+//
+//            }
+//
+//            override fun onPayFailure(payWay: PayWay?, errCode: Int) {
+//
+//            }
+//        })
+//    }
 
     private var dialogListener: OnDialogListener? = null
 
@@ -174,6 +178,20 @@ class PointsListDialog : DialogFragment(),RequestManager {
         }
     }
 
+    lateinit var mOnPayListerner:OnPayListener
+
+    interface OnPayListener{
+        fun onPayClick(position: Int,pointRule:PointRule)
+    }
+
+    fun setOnPayListener(l: (p: Int, data: PointRule) -> Unit){
+        this.mOnPayListerner = object :OnPayListener{
+            override fun onPayClick(position: Int, pointRule: PointRule) {
+                l(position,pointRule)
+            }
+        }
+
+    }
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)

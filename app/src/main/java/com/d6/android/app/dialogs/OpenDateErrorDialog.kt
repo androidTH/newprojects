@@ -12,7 +12,6 @@ import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
@@ -35,8 +34,6 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
     private val point_nums by lazy {
         SPUtils.instance().getString(Const.User.USERPOINTS_NUMS)
     }
-
-    private var myAppointment:MyAppointment?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,19 +68,23 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
 
         tv_chongzhi.setOnClickListener {
             context.startActivity<MyPointsActivity>("points" to point_nums)
+            dismissAllowingStateLoss()
         }
+        getData()
     }
 
     private fun getData() {
-        dismissAllowingStateLoss()
         isBaseActivity{
-            Request.signUpdate(userId.toInt(),myAppointment?.iAppointUserid.toString(),"").request(it,success = { msg, data ->
-
-            }) { code, msg ->
-                val dateErrorDialog = DateErrorDialog()
-                dateErrorDialog.show(it.supportFragmentManager, "d")
+                Request.queryAppointmentPoint().request(it, success = {msg,data->
+                    data?.let {
+//                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
+//                        tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
+//                        tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
+//                        tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
+                        tv_tishi_point.text = String.format(resources.getString(R.string.string_pointlow),point_nums,it.iAppointPoint)
+                    }
+                })
             }
-        }
     }
 
     private var dialogListener: OnDialogListener? = null
