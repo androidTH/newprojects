@@ -17,6 +17,7 @@ import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_date_send.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -83,8 +84,9 @@ class OpenDateDialog : DialogFragment(),RequestManager {
                 var openSuccessDialog = OpenDateSuccessDialog()
                 openSuccessDialog.show(it.supportFragmentManager, "d")
             }) { code, msg ->
-                if(code == 0){
+                if(code == 0||code == 3){
                     var openErrorDialog = OpenDateErrorDialog()
+                    openErrorDialog.arguments= bundleOf("code" to code)
                     openErrorDialog.show(it.supportFragmentManager, "d")
                 }
             }

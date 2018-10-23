@@ -70,6 +70,12 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
             context.startActivity<MyPointsActivity>("points" to point_nums)
             dismissAllowingStateLoss()
         }
+        var code = arguments.get("code")
+        if(code == 0){
+            tv_date_send_fail.text = getString(R.string.string_senddatefail)
+        }else if(code == 3){
+            tv_date_send_fail.text = getString(R.string.senddatepointlow)
+        }
         getData()
     }
 
