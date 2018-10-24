@@ -266,4 +266,6 @@ interface ApiServices {
     @POST("backstage/appointment/queryAppointmentPoint")
     fun queryAppointmentPoint():Flowable<Response<IntegralExplain>>
 
+    @POST("backstage/account/updateUserPosition")
+    fun updateUserPosition(@Query("iUserid") iUserid:String,@Query("sPosition") sPosition:String):Flowable<Response<JsonObject>>
 }

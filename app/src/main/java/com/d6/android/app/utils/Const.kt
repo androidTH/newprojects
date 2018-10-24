@@ -34,6 +34,7 @@ object Const {
     val UMENG_APPKEY = "5a5b309af29d9835ae000262"
     val UMENG_MESSAGE_SECRET = "0f16af7d3011a5aad7cf82a996b6b94c"
     val SERVICE_WECHAT_CODE = "service_wechat_code"
+    val SCORE_EXPLAIN_CODE = "score_explain"
     // APP_ID 替换为你的应用从官方网站申请到的合法appId
     @JvmField
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"

@@ -1,9 +1,11 @@
 package com.d6.android.app.fragments
 
+import android.Manifest
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
+import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
 import com.d6.android.app.activities.UserInfoActivity
@@ -12,13 +14,13 @@ import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.DateErrorDialog
 import com.d6.android.app.dialogs.DateSendedDialog
 import com.d6.android.app.dialogs.FilterCityDialog
-import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.DateBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.gallery.AnimManager
 import com.d6.android.app.widget.gallery.GalleryRecyclerView
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
@@ -38,6 +40,10 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
 
     private val sex by lazy {
         SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
+    private val locationClient by lazy {
+        AMapLocationClient(activity)
     }
 
     private var city: String? = null
@@ -95,14 +101,15 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 getData(1)
             }
         }
+
         tv_type.setOnClickListener {
-            val filterDateTypeDialog = FilterDateTypeDialog()
-            filterDateTypeDialog.show(childFragmentManager, "ftd")
-            filterDateTypeDialog.setDialogListener { p, s ->
-                type = p
-                tv_type.text = s
-                getData(1)
-            }
+//            val filterDateTypeDialog = FilterDateTypeDialog()
+//            filterDateTypeDialog.show(childFragmentManager, "ftd")
+//            filterDateTypeDialog.setDialogListener { p, s ->
+//                type = p
+//                tv_type.text = s
+//                getData(1)
+//            }
         }
 
         btn_like.setOnClickListener {
@@ -137,12 +144,34 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
 
         showDialog()
         getData()
+        checkLocation()
     }
 
     override fun onResume() {
         super.onResume()
 //        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
 //        headView.setImageURI(head)
+    }
+
+    private fun checkLocation(){
+        RxPermissions(activity).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
+            if (it) {
+                startLocation()
+            }
+        }
+
+        locationClient.setLocationListener {
+            if (it != null) {
+                tv_type.text = it.city
+                locationClient.stopLocation()
+                updateAddress(tv_type.text.toString().trim());
+            }
+        }
+    }
+
+    private fun startLocation() {
+        locationClient.stopLocation()
+        locationClient.startLocation()
     }
 
     fun getData(type: Int = 0) {
@@ -181,6 +210,12 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 fb_heat_like.visible()
             }
         }
+    }
+
+    private fun updateAddress(address:String){
+        Request.updateDateState(userId,address).request(this, success={msg,data->
+
+        })
     }
 
     private fun InitRecyclerView(){
@@ -249,5 +284,6 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
     override fun onDestroy() {
         super.onDestroy()
         immersionBar.destroy()
+        locationClient.onDestroy()
     }
 }

@@ -46,6 +46,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     private val locationClient by lazy {
         AMapLocationClient(applicationContext)
     }
+
     private var cityType = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,7 +118,6 @@ class ReleaseNewTrendsActivity : BaseActivity(){
 
         RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
-
                 startLocation()
             } else {
                 cityType=0

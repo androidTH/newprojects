@@ -15,57 +15,34 @@
         android:layout_height="wrap_content">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/imageView"
-            style="@style/DefaultImageStyle"
-            app:viewAspectRatio="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-
-        <TextView
-            android:id="@+id/tv_type"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/shape_orange_lb_tr_circle"
-            android:gravity="center"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="全部"
-            android:textColor="@color/white"
-            android:textSize="@dimen/textSize"
-            android:visibility="gone" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/headView"
             style="@style/DefaultCircleHeadStyle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_below="@+id/imageView"
-            android:layout_marginLeft="16dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="8dp" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/headView"
-            android:layout_alignBottom="@id/headView"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/headView"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:textColor="@color/textColor"
             android:textSize="@dimen/btnTextSize"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="-----"/>
 
         <TextView
             android:id="@+id/tv_age"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_alignTop="@+id/headView"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/margin_5"
             android:layout_toRightOf="@+id/tv_name"
             android:background="@drawable/ic_sex_circle_bg_selector"
             android:drawableLeft="@drawable/sex_white_selector"
@@ -78,57 +55,91 @@
             android:textSize="10dp" />
 
         <TextView
+            android:id="@+id/tv_vip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_age"
+            android:layout_alignTop="@+id/headView"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/shape_4r_orange"
+            android:drawableLeft="@mipmap/memberorder_icon_white"
+            android:drawablePadding="@dimen/margin_2"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:text="12"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_vistorfollownums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:layout_toRightOf="@+id/headView"
+            android:layout_marginTop="@dimen/margin_5"
+            android:paddingRight="6dp"
+            android:text="------"
+            android:textColor="@color/color_888888"
+            android:textSize="12dp" />
+
+        <TextView
             android:id="@+id/tv_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/headView"
-            android:layout_alignBottom="@+id/headView"
-            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_vistorfollownums"
+            android:layout_toRightOf="@+id/headView"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="@dimen/margin_5"
             android:gravity="center_vertical"
             android:text="--"
             android:textColor="@color/textColor99"
             android:textSize="@dimen/textSize" />
-
-        <View
-            style="@style/view_line_h"
-            android:layout_below="@+id/headView"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="14dp"
-            android:layout_marginRight="16dp" />
-
-        <TextView
-            android:id="@+id/tv_limit"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_below="@+id/headView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/shape_line_gray_circle"
-            android:drawableLeft="@mipmap/ic_vip_limit"
-            android:drawablePadding="4dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="白银及以上可约"
-            android:textColor="@color/textColor99"
-            android:textSize="12dp"
-            android:visibility="invisible" />
+        <ImageView
+            android:id="@+id/iv_discover"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/tv_city"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:src="@mipmap/discover_mancard_reference"/>
 
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_limit"
-            android:layout_alignLeft="@+id/headView"
+            android:layout_below="@+id/iv_discover"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginBottom="16dp"
             android:ellipsize="end"
-            android:lines="2"
-            android:maxLines="2"
+            android:lines="3"
+            android:maxLines="3"
             android:text="---"
-            android:textColor="@color/textColor"
+            android:textColor="@color/color_333333"
             android:textSize="@dimen/textSize" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_mydate_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="@dimen/margin_8"
+            android:minHeight="66dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rv_mydate_images"
+            android:minHeight="30dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

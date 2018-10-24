@@ -11,35 +11,14 @@ import com.d6.android.app.models.DateBean
 import com.facebook.drawee.view.SimpleDraweeView
 
 class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean>(mData, R.layout.item_date_newcard) {
-    private val array by lazy {
-        arrayOf("不限", "救火", "征求", "急约", "旅行约")
-    }
-
-//    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-//        val h = super.onCreateViewHolder(parent, viewType)
-//        val imageView = h.bind<Banner>(R.id.imageView)
-//        imageView.setImageLoader(BannerLoader2(1.25f))
-//        imageView.layoutParams.height = (( context.screenWidth()-2*context.dip(30))/1.25f).toInt()
-//        imageView.isAutoPlay(false)
-//        imageView.requestLayout()
-////        imageView.setOnTouchListener { _, motionEvent ->
-////            if (motionEvent.action == MotionEvent.ACTION_MOVE){
-////                if (imageView.mImageViewPager.adapter != null) {
-////                    if (imageView.mImageViewPager.currentItem==)
-////                }
-////            }
-////            return@setOnTouchListener false
-////        }
-//        return h
-//    }
 
     override fun onBind(holder: ViewHolder, position: Int, data: DateBean) {
 //        val imageView = holder.bind<Banner>(R.id.imageView)
-        val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
+//        val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         data.userpics?.let {
             val images = it.split(",")
             if (images.isNotEmpty()) {
-                imageView.setImageURI(images[0])
+//                imageView.setImageURI(images[0])
 //                imageView.update(images)
             }
         }
@@ -55,7 +34,7 @@ class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean
             tv_age.text = data.nianling
         }
         tv_age.isSelected = TextUtils.equals("0", data.sex)
-        holder.setText(R.id.tv_type, array[(data.egagementtype ?: 0)])
+//        holder.setText(R.id.tv_type, array[(data.egagementtype ?: 0)])
         if(!data.egagementtext.isNullOrEmpty()){
             holder.setText(R.id.tv_content, data.egagementtext)
         }else if(!(data.gexingqianming.isNullOrEmpty())){

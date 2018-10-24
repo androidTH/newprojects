@@ -94,7 +94,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
         }
 
         tv_points_info.setOnClickListener {
-
+            startActivity<PointExplainActivity>()
         }
 
         mHeaderView.tv_recharge.setOnClickListener {
