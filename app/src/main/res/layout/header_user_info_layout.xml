@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_nick"
         android:layout_alignParentRight="true"
-        android:src="@mipmap/usercenter_privatechat"/>
+        android:src="@mipmap/usercenter_like_button"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_my_images"
         android:layout_below="@+id/tv_signature"

@@ -280,9 +280,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                Toast.makeText(this, data.iIsFollow.toString(), Toast.LENGTH_LONG).show()
                 if(data.iIsFollow !=null){
                     if(data.iIsFollow==1){
-                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat_no
+                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
                     }else{
-                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat
+                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
                     }
                 }
             }
@@ -350,7 +350,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         dialog()//35578
         Request.getAddFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
 //            toast("$s,$jsonObject")
-            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat_no
+            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
             mData?.iIsFollow = 1
         }
     }
@@ -360,7 +360,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.getDelFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
 //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
-            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_privatechat
+            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
             mData?.iIsFollow = 0
         }
 //        data.optDouble("wanshanziliao") DateAuthStateActivity
