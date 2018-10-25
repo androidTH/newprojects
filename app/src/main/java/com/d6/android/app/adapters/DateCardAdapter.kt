@@ -8,11 +8,12 @@ import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.DateBean
+import com.d6.android.app.models.FindDate
 import com.facebook.drawee.view.SimpleDraweeView
 
-class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean>(mData, R.layout.item_date_newcard) {
+class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
 
-    override fun onBind(holder: ViewHolder, position: Int, data: DateBean) {
+    override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
 //        val imageView = holder.bind<Banner>(R.id.imageView)
 //        val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         data.userpics?.let {
@@ -41,8 +42,8 @@ class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean
             holder.setText(R.id.tv_content, data.gexingqianming)
         }else{
             var sb:StringBuffer = StringBuffer()
-            if(!data.height.isNullOrEmpty()){
-               sb.append("身高：${data.height}")
+            if(!data.shengao.isNullOrEmpty()){
+               sb.append("身高：${data.shengao}")
             }
             if(!data.tizhong.isNullOrEmpty()){
                 sb.append("体重:${data.tizhong}")
@@ -50,13 +51,13 @@ class DateCardAdapter(mData: ArrayList<DateBean>) : BaseRecyclerAdapter<DateBean
             if(!data.zhiye.isNullOrEmpty()){
                 sb.append("职业:${data.zhiye}")
             }
-            if(!data.xinzuo.isNullOrEmpty()){
-                sb.append("星座:${data.xinzuo}")
+            if(!data.xingzuo.isNullOrEmpty()){
+                sb.append("星座:${data.xingzuo}")
             }
             holder.setText(R.id.tv_content,sb.toString())
         }
 
-        Log.i("DateCardAdapter", "${data.name},${data.egagementtext},${data.gexingqianming},身高：${data.height} 体重:${data.tizhong}职业:${data.zhiye}星座:${data.xinzuo}")
+        Log.i("DateCardAdapter", "${data.name},${data.egagementtext},${data.gexingqianming},身高：${data.shengao} 体重:${data.tizhong}职业:${data.zhiye}星座:${data.xingzuo}")
 
         if (TextUtils.equals("null", data.userlookwhere.toString())) {
             data.userlookwhere=""

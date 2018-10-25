@@ -19,6 +19,7 @@ object Const {
         val USER_HEAD="userHead"
         val USER_NICK="userNick"
         val RONG_TOKEN ="rongToken"
+        val USER_ADDRESS = "address"
         //别人约我
         var SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME="someoneElseMakesAnAppointmentWithMe"
         var IASKSOMEONEELSE="IAskSomeoneElse"  //我约的人

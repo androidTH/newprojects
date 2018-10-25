@@ -329,4 +329,8 @@ object Request {
 
     //更新地理未知
     fun updateUserPosition(iUserid:String,sPosition:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sPosition)
+
+    //发现约会
+    fun findAccountCardListPage(userId:String,sPosition:String,sCity:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sPosition,sCity,pageNum)
+
 }

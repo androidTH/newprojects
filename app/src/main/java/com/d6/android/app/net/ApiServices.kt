@@ -266,6 +266,11 @@ interface ApiServices {
     @POST("backstage/appointment/queryAppointmentPoint")
     fun queryAppointmentPoint():Flowable<Response<IntegralExplain>>
 
+    //同城
     @POST("backstage/account/updateUserPosition")
     fun updateUserPosition(@Query("iUserid") iUserid:String,@Query("sPosition") sPosition:String):Flowable<Response<JsonObject>>
+
+    //发现约会
+    @POST("backstage/account/findAccountCardListPage")
+    fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sPosition") sPosition:String, @Query("sCity") scity:String,@Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FindDate>>>
 }

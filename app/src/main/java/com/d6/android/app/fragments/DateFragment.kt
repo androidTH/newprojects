@@ -8,30 +8,33 @@ import android.view.View
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
-import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.DateCardAdapter
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.dialogs.DateErrorDialog
-import com.d6.android.app.dialogs.DateSendedDialog
 import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.DateBean
+import com.d6.android.app.models.FindDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.widget.gallery.AnimManager
 import com.d6.android.app.widget.gallery.GalleryRecyclerView
+import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_date.*
-import org.jetbrains.anko.bundleOf
+import kotlinx.android.synthetic.main.header_user_info_layout.view.*
+import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.textColor
 
 /**
  * 约会
  */
 class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
+
     override fun onItemClick(view: View?, position: Int) {
         val dateBean = mDates[position]
-        startActivity<UserInfoActivity>("id" to dateBean.accountId)
+//        startActivity<UserInfoActivity>("id" to dateBean.accountId)
     }
 
     private val userId by lazy {
@@ -51,7 +54,9 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
     private var type: Int = 0
     private var cityType: Int = -2
 
-    private val mDates = ArrayList<DateBean>()
+    private var pageNum = 1
+    private var mDates = ArrayList<FindDate>()
+    private var scrollPosition = 0
 
     override fun contentViewId() = R.layout.fragment_date
 
@@ -89,16 +94,29 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 if (p == 1 || p == 0) {
                     city = s
                     outCity = null
+                    tv_city.textColor = resources.getColor(R.color.color_F7AB00)
+                    tv_type.textColor = resources.getColor(R.color.color_black)
+                    tv_type.text = resources.getString(R.string.string_samecity)
                 } else if (p == 2) {
                     city = null
                     outCity = s
+                    tv_city.textColor = resources.getColor(R.color.color_F7AB00)
+                    tv_type.textColor = resources.getColor(R.color.color_black)
+                    tv_type.text = resources.getString(R.string.string_samecity)
                 } else if (p == -2) {//取消选择
                     city = null
                     outCity = null
+                    tv_city.textColor = resources.getColor(R.color.color_black)
+                    tv_type.textColor = resources.getColor(R.color.color_F7AB00)
+                    tv_type.text = resources.getString(R.string.string_samecity)
                 }
                 cityType = p
                 tv_city.text = s
-                getData(1)
+                if(p == -2){
+                    getData(SPUtils.instance().getString(USER_ADDRESS),"")
+                }else{
+                    getData("",s.toString())
+                }
             }
         }
 
@@ -113,44 +131,54 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
         }
 
         btn_like.setOnClickListener {
-            tv_tip.gone()
+//            tv_tip.gone()
+            scrollPosition = mRecyclerView.scrolledPosition + 1
             if (mDates.isNotEmpty()) {
-                val date = mDates[0]
-                sysErr("--->$date")
-                showDialog()
-                sendDateRequest(date)
-            } else {
-                tv_tip.visible()
+//                val date = mDates[0]
+//                sysErr("--->$date")
+//                showDialog()
+//                sendDateRequest(date)
+                mRecyclerView.smoothScrollToPosition(scrollPosition)
+                if((mDates.size - scrollPosition)<=2){
+                    getData()
+                }
+            }
+//            else {
+//                tv_tip.visible()
+//            }
+        }
+
+        fb_heat_like.setOnClickListener {
+            if(mDates.isNotEmpty()){
+                addFollow()
             }
         }
 
         fb_unlike.setOnClickListener {
             //            val dateErrorDialog = DateErrorDialog()
 //            dateErrorDialog.show(childFragmentManager, "d")
-            tv_tip.gone()
+//            tv_tip.gone()
 //            tv_main_card_bg_im_id.gone()
 //            tv_main_card_Bg_tv_id.gone()
             if (mDates.isNotEmpty()) {
-                val date = mDates[0]
-                mDates.remove(date)
-                mRecyclerView.adapter.notifyDataSetChanged()
-                getNext()
+//                val date = mDates[0]
+//                mDates.remove(date)
+//                mRecyclerView.adapter.notifyDataSetChanged()
+//                getNext()
+                scrollPosition = mRecyclerView.scrolledPosition - 1
+                if(scrollPosition >0){
+                    mRecyclerView.smoothScrollToPosition(scrollPosition)
+                }
             } else {
-                tv_tip.visible()
+//                tv_tip.visible()
 //                tv_main_card_bg_im_id.visible()
 //                tv_main_card_Bg_tv_id.visible()
             }
         }
 
         showDialog()
-        getData()
+        getData("","")
         checkLocation()
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
-//        headView.setImageURI(head)
     }
 
     private fun checkLocation(){
@@ -163,8 +191,10 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
         locationClient.setLocationListener {
             if (it != null) {
                 tv_type.text = it.city
+                tv_type.textColor = resources.getColor(R.color.color_F7AB00)
                 locationClient.stopLocation()
-                updateAddress(tv_type.text.toString().trim());
+                updateAddress(tv_type.text.toString().trim())
+                SPUtils.instance().put(USER_ADDRESS, it.city).apply()
             }
         }
     }
@@ -174,46 +204,38 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
         locationClient.startLocation()
     }
 
-    fun getData(type: Int = 0) {
+    fun getData(sPosition:String = "",city:String = "") {
         if (mDates.size == 0) {
             tv_main_card_bg_im_id.visible()
             tv_main_card_Bg_tv_id.visible()
             fb_unlike.gone()
             btn_like.gone()
         }
-        Request.getHomeDateList(userId, sex, type, city, outCity).request(this) { _, data ->
-            if (type == 1) {
-                mDates.clear()
-            }
-            data?.let {
-                mDates.addAll(it)
-            }
-            mRecyclerView.adapter.notifyDataSetChanged()
-            InitRecyclerView()
-            if (mDates.isEmpty()) {
+
+        Request.findAccountCardListPage(userId,sPosition, city,pageNum).request(this) { _, data ->
+
+            if(data?.list?.results == null || data.list.results.isEmpty()){
                 tv_tip.gone()
                 tv_main_card_bg_im_id.visible()
                 tv_main_card_Bg_tv_id.visible()
                 fb_unlike.gone()
                 btn_like.gone()
                 fb_heat_like.gone()
-            } else {
-                if(SPUtils.instance().getBoolean(Const.User.IS_FIRST_SHOW_TIPS, true)){
-                    tv_tip.visibility = View.VISIBLE
-                }else{
-                    tv_tip.visibility = View.GONE
-                }
+            }else{
                 tv_main_card_bg_im_id.gone()
                 tv_main_card_Bg_tv_id.gone()
                 fb_unlike.visible()
                 btn_like.visible()
                 fb_heat_like.visible()
+                mDates.addAll(data.list.results)
             }
+            mRecyclerView.adapter.notifyDataSetChanged()
+            InitRecyclerView()
         }
     }
 
     private fun updateAddress(address:String){
-        Request.updateDateState(userId,address).request(this, success={msg,data->
+        Request.updateUserPosition(userId,address).request(this, success={msg,data->
 
         })
     }
@@ -241,30 +263,38 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
     }
 
     private fun sendDateRequest(dateBean: DateBean) {
-        Request.dateUser(userId, dateBean.accountId).request(this, success = { msg, data ->
-            val dateSendedDialog = DateSendedDialog()//35619 35641  35643    35589
-            dateSendedDialog.arguments = bundleOf("data" to dateBean,"msg" to if(msg!=null)msg else "")
-            dateSendedDialog.show(childFragmentManager, "d")
-            mDates.remove(dateBean)
-            mRecyclerView.adapter.notifyDataSetChanged()
-            //请求下次
-            getNext()
-        }) { code, msg ->
-            val dateErrorDialog = DateErrorDialog()
-            val images = dateBean.userpics?.split(",")
-            val img = if (images != null && images.isNotEmpty()) {
-                images[0]
-            } else {
-                dateBean.picUrl ?: ""
-            }
-            dateErrorDialog.arguments = bundleOf("msg" to msg, "img" to img)
-            dateErrorDialog.show(childFragmentManager, "d")
+//        Request.dateUser(userId, dateBean.accountId).request(this, success = { msg, data ->
+//            val dateSendedDialog = DateSendedDialog()//35619 35641  35643    35589
+//            dateSendedDialog.arguments = bundleOf("data" to dateBean,"msg" to if(msg!=null)msg else "")
+//            dateSendedDialog.show(childFragmentManager, "d")
+//            mDates.remove(dateBean)
+//            mRecyclerView.adapter.notifyDataSetChanged()
+//            //请求下次
+//            getNext()
+//        }) { code, msg ->
+//            val dateErrorDialog = DateErrorDialog()
+//            val images = dateBean.userpics?.split(",")
+//            val img = if (images != null && images.isNotEmpty()) {
+//                images[0]
+//            } else {
+//                dateBean.picUrl ?: ""
+//            }
+//            dateErrorDialog.arguments = bundleOf("msg" to msg, "img" to img)
+//            dateErrorDialog.show(childFragmentManager, "d")
+//        }
+    }
+
+    private fun addFollow(){
+        showDialog()//35578
+        var findDate = mDates.get(scrollPosition)
+        Request.getAddFollow(userId,findDate.accountId.toString()).request(this){ s: String?, jsonObject: JsonObject? ->
+            //toast("$s,$jsonObject")
         }
     }
 
     fun getNext() {
         if (mDates.size <= 2) {
-            getData()
+            getData("","")
         }
     }
 
