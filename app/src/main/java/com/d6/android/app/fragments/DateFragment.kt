@@ -10,6 +10,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.DateCardAdapter
+import com.d6.android.app.adapters.DateWomanCardAdapter
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.extentions.request
@@ -61,8 +62,13 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
     override fun onFirstVisibleToUser() {
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
         mRecyclerView.layoutManager=LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        val cardAdapter = DateCardAdapter(mDates)
-        mRecyclerView.adapter = cardAdapter
+
+        if(TextUtils.equals(sex,"0")){
+            mRecyclerView.adapter =  DateWomanCardAdapter(mDates)
+        }else{
+            mRecyclerView.adapter  = DateCardAdapter(mDates)
+        }
+
         mRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)

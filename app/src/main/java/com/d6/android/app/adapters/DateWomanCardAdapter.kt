@@ -15,28 +15,13 @@ import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.facebook.drawee.view.SimpleDraweeView
 
-class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
+class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_womennewcard) {
 
-    private var mImages = ArrayList<String>()
     private val mTags = ArrayList<UserTag>()
 
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
 
-        val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
         val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
-
-        data.userpics?.let {
-            mImages = it.split(",") as ArrayList<String>
-            if (mImages.isNotEmpty()) {
-                rv_mydate_images.visibility = View.GONE
-            } else {
-                rv_mydate_images.visibility = View.VISIBLE
-                rv_mydate_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                rv_mydate_images.setHasFixedSize(true)
-                mImages.clear()
-                rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
-            }
-        }
 
         rv_mydate_tags.setHasFixedSize(true)
         rv_mydate_tags.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -57,6 +42,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         if (!data.xingzuo.isNullOrEmpty()) {
             mTags.add(UserTag(data.xingzuo ?: "", R.drawable.shape_tag_bg_5))
         }
+
         if (!data.xingquaihao.isNullOrEmpty()) {
             var mHobbies = data.xingquaihao?.replace("#", ",")?.split(",")
             if (mHobbies != null) {
@@ -67,6 +53,14 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }
 
         rv_mydate_tags.adapter = UserTagAdapter(mTags)
+
+        val bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
+        data.userpics?.let {
+            val images = it.split(",")
+            if (images.isNotEmpty()) {
+                bigImgView.setImageURI(images[0])
+            }
+        }
 
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         headView.setImageURI(data.picUrl)
@@ -80,7 +74,6 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             tv_age.text = data.nianling
         }
         tv_age.isSelected = TextUtils.equals("0", data.sex)
-//        holder.setText(R.id.tv_type, array[(data.egagementtype ?: 0)])
         if (!data.egagementtext.isNullOrEmpty()) {
             holder.setText(R.id.tv_content, data.egagementtext)
         } else if (!(data.gexingqianming.isNullOrEmpty())) {

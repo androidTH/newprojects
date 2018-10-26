@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,10 +14,22 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:viewAspectRatio="1.25"
+            android:id="@+id/imageView"
+            android:layout_marginBottom="16dp"
+            fresco:roundedCornerRadius="5dp"
+            fresco:roundTopLeft="true"
+            fresco:roundTopRight="true"
+            fresco:roundBottomLeft="false"
+            fresco:roundBottomRight="false"
+            style="@style/DefaultImageStyle"/>
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/headView"
             style="@style/DefaultCircleHeadStyle"
+            android:layout_below="@+id/imageView"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_marginLeft="20dp"
@@ -29,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_marginTop="20dp"
+            android:layout_below="@+id/imageView"
             android:layout_toRightOf="@+id/headView"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
@@ -88,29 +102,20 @@
             android:id="@+id/tv_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_vistorfollownums"
-            android:layout_toRightOf="@+id/headView"
             android:layout_marginRight="16dp"
+            android:layout_alignTop="@+id/headView"
             android:layout_marginTop="@dimen/margin_5"
-            android:gravity="center_vertical"
-            android:text="--"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="广州"
             android:textColor="@color/textColor99"
             android:textSize="@dimen/textSize" />
-        <ImageView
-            android:id="@+id/iv_discover"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/tv_city"
-            android:layout_marginLeft="30dp"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:layout_marginTop="@dimen/margin_10"
-            android:src="@mipmap/discover_mancard_reference"/>
 
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_discover"
+            android:layout_below="@+id/headView"
             android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
@@ -122,21 +127,10 @@
             android:textColor="@color/color_333333"
             android:textSize="@dimen/textSize" />
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_mydate_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_content"
-            android:layout_marginBottom="6dp"
-            android:layout_marginTop="@dimen/margin_8"
-            android:minHeight="66dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"/>
-
-        <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_mydate_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rv_mydate_images"
+            android:layout_below="@+id/tv_content"
             android:minHeight="30dp"
             android:paddingBottom="16dp"
             android:paddingLeft="16dp"
