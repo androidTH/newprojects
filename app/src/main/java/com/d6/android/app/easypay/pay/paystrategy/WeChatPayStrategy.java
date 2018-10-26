@@ -10,6 +10,7 @@ import com.d6.android.app.easypay.EasyPay;
 import com.d6.android.app.easypay.PayParams;
 import com.d6.android.app.easypay.pay.BaseModel;
 import com.d6.android.app.easypay.pay.PrePayInfo;
+import com.d6.android.app.utils.Const;
 import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -58,16 +59,18 @@ public class WeChatPayStrategy extends BasePayStrategy {
         Gson gson = new Gson();
         BaseModel baseModel = gson.fromJson(mPrePayInfo, BaseModel.class);
         PrePayInfo payInfo = baseModel.getObj();
-        PayReq req = new PayReq();
-        req.appId = payInfo.appid;
-        req.partnerId = payInfo.partnerid;
-        req.prepayId = payInfo.prepayid;
-        req.packageValue = payInfo.packageValue;
-        req.nonceStr = payInfo.noncestr;
-        req.timeStamp = payInfo.timestamp;
-        req.sign = payInfo.sign;
-        //发送支付请求：跳转到微信客户端
-        wxapi.sendReq(req);
+        if(payInfo!=null){
+            PayReq req = new PayReq();
+            req.appId = payInfo.appid.isEmpty()?Const.WXPAY_APP_ID:payInfo.appid;
+            req.partnerId = payInfo.partnerid;
+            req.prepayId = payInfo.prepayid;
+            req.packageValue = payInfo.packageValue;
+            req.nonceStr = payInfo.noncestr;
+            req.timeStamp = payInfo.timestamp;
+            req.sign = payInfo.sign;
+            //发送支付请求：跳转到微信客户端
+            wxapi.sendReq(req);
+        }
     }
 
     private void registPayResultBroadcast() {

@@ -21,13 +21,9 @@ import com.d6.android.app.utils.sysErr
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_my_info.*
-import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.support.v4.dip
-import org.jetbrains.anko.support.v4.startActivityForResult
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 import java.io.File

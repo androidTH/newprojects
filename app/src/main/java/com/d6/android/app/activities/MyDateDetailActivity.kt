@@ -84,8 +84,14 @@ class MyDateDetailActivity : BaseActivity() {
             isAuthUser {
                 myAppointment?.let {
                     val name = it.sAppointUserName ?: ""
-                    checkChatCount(it.iAppointUserid.toString()) {
-                        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
+                    if(it.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                        checkChatCount(it.iUserid.toString()) {
+                            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
+                        }
+                    }else if(it.sAppointmentSignupId.isNotEmpty()){
+                        checkChatCount(it.iAppointUserid.toString()) {
+                            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
+                        }
                     }
                 }
             }

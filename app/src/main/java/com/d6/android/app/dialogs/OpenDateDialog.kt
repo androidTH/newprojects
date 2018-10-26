@@ -84,7 +84,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
                 var openSuccessDialog = OpenDateSuccessDialog()
                 openSuccessDialog.show(it.supportFragmentManager, "d")
             }) { code, msg ->
-                if(code == 0||code == 3){
+                if(code == 3){
                     var openErrorDialog = OpenDateErrorDialog()
                     openErrorDialog.arguments= bundleOf("code" to code)
                     openErrorDialog.show(it.supportFragmentManager, "d")

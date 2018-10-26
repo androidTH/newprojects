@@ -21,7 +21,6 @@ import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_setting.*
-import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 

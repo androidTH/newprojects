@@ -109,7 +109,7 @@ class PointsListDialog : DialogFragment(),RequestManager {
 //        }
         mPRAdapter.setOnItemClickListener { view, position ->
             var pointRule = mPointsRule.get(position)
-            if(mOnPayListerner!=null){
+            if(mOnPayListerner!=null&&pointRule!=null){
                 mOnPayListerner.onPayClick(position, pointRule)
             }
 //            payMoney(pointRule);

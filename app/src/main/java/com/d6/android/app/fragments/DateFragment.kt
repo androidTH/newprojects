@@ -8,6 +8,7 @@ import android.view.View
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
+import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.DateCardAdapter
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.FilterCityDialog
@@ -22,8 +23,6 @@ import com.d6.android.app.widget.gallery.GalleryRecyclerView
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_date.*
-import kotlinx.android.synthetic.main.header_user_info_layout.view.*
-import org.jetbrains.anko.imageResource
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.textColor
 
@@ -34,7 +33,7 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
 
     override fun onItemClick(view: View?, position: Int) {
         val dateBean = mDates[position]
-//        startActivity<UserInfoActivity>("id" to dateBean.accountId)
+        startActivity<UserInfoActivity>("id" to dateBean.accountId.toString())
     }
 
     private val userId by lazy {
@@ -51,7 +50,6 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
 
     private var city: String? = null
     private var outCity: String? = null
-    private var type: Int = 0
     private var cityType: Int = -2
 
     private var pageNum = 1

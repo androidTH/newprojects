@@ -34,7 +34,6 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.fragment_mine_v2.*
-import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.dip
@@ -61,6 +60,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     private val myImageAdapter by lazy {
         MyImageAdapter(mImages)
     }
+
     private val mTags = ArrayList<UserTag>()
     private val userTagAdapter by lazy {
         UserTagAdapter(mTags)

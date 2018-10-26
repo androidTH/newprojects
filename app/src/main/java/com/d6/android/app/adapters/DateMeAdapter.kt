@@ -14,7 +14,6 @@ import com.d6.android.app.models.NewDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
-import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.toast
 
