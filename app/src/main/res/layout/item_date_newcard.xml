@@ -133,7 +133,7 @@
             android:paddingTop="8dp"/>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_tags"
+            android:id="@+id/rv_mydate_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rv_mydate_images"

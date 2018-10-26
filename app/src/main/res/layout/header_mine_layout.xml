@@ -172,7 +172,7 @@
         android:minHeight="30dp"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:paddingTop="8dp">
 
     </android.support.v7.widget.RecyclerView>
@@ -185,18 +185,19 @@
         android:background="@drawable/shape_white_top_8r"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/relayout_zoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_8"
-            android:layout_marginTop="@dimen/margin_15">
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_15"
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/rl_fans_count"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_weight="1"
                 android:layout_centerHorizontal="true"
                 android:paddingLeft="@dimen/margin_15">
                 <TextView
@@ -236,8 +237,9 @@
 
             <RelativeLayout
                 android:id="@+id/rl_follow_count"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_centerHorizontal="true">
                 <TextView
                     android:id="@+id/tv_fllcount"
@@ -276,9 +278,9 @@
 
             <RelativeLayout
                 android:id="@+id/rl_vistors_count"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_weight="1"
                 android:layout_centerHorizontal="true"
                 android:paddingLeft="@dimen/margin_15">
                 <TextView
@@ -360,12 +362,10 @@
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/rl_mypoints_count"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/rl_follow_count"
-                android:layout_marginTop="@dimen/margin_8">
+                android:layout_weight="1"
+                android:layout_centerHorizontal="true">
                 <TextView
                     android:id="@+id/tv_mypointscount"
                     android:layout_width="wrap_content"
@@ -399,7 +399,7 @@
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
             </RelativeLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
