@@ -16,7 +16,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.activity_mydate_details.*
 
 /**
  *粉丝
@@ -49,15 +48,21 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
         holder.setText(R.id.tv_address_name,data.sPlace)
         holder.setText(R.id.tv_mydate_desc,data.sDesc)
         var tv_mydate_status = holder.bind<TextView>(R.id.tv_mydate_status)
+        var tv_date_time = holder.bind<TextView>(R.id.tv_date_time)
+        tv_date_time.visibility = View.GONE
         when (data.iStatus) {
             1 -> {//老  0   发起
-                if(data!!.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(data.iAppointUserid.toString(),userId)){
-                    tv_mydate_status.text="状态：发起"
-                }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(data.iAppointUserid.toString(),userId)){
+               tv_date_time.visibility = View.VISIBLE
+               if(data!!.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(data.iAppointUserid.toString(),userId)){
+                   tv_mydate_status.text="状态：发起"
+                   tv_date_time.text = "截止时间:${converTime(data.dEndtime)}"
+               }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(data.iAppointUserid.toString(),userId)){
                     tv_mydate_status.text="状态：待同意"
-                }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(userId,data.iUserid.toString())){
+                   tv_date_time.text = "截止时间:${converToTime(data.dAppointmentSignupCreatetime)}"
+               }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(userId,data.iUserid.toString())){
                     tv_mydate_status.text ="状态：等待对方同意"
-                }
+                    tv_date_time.text = "截止时间:${converToTime(data.dAppointmentSignupCreatetime)}"
+               }
             }
             2 -> { //老  1   赴约
                 tv_mydate_status.text="同意"

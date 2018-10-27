@@ -172,7 +172,7 @@
         android:minHeight="30dp"
         android:paddingBottom="16dp"
         android:paddingLeft="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:paddingTop="8dp">
 
     </android.support.v7.widget.RecyclerView>

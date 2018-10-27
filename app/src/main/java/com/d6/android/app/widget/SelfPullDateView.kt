@@ -103,19 +103,4 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         fun onDateClick(myAppointment: MyAppointment)
     }
 
-    fun converTime(timestamp: Long): String {
-        val currentSeconds = System.currentTimeMillis()
-        val timeGap = (timestamp -currentSeconds)/1000 // 与现在时间相差秒数
-        var timeStr: String? = null
-        if (timeGap > 24 * 60 * 60) {// 1天以上
-            timeStr = (timeGap / (24 * 60 * 60)).toString() + "天"
-        } else if (timeGap > 60 * 60) {// 1小时-24小时
-            timeStr = (timeGap / (60 * 60)).toString() + "小时"
-        } else if (timeGap > 60) {// 1分钟-59分钟
-            timeStr = (timeGap / 60).toString() + "分钟"
-        } else {// 1秒钟-59秒钟
-            timeStr = "0秒"
-        }
-        return timeStr
-    }
 }
