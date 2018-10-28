@@ -74,11 +74,14 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         holder.setText(R.id.tv_name, data.name)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
 
-        if (TextUtils.equals("0", data.nianling.toString())) {
-            tv_age.text = ""
-        } else {
-            tv_age.text = data.nianling
+        if(!data.nianling.isNullOrEmpty()){
+            if (TextUtils.equals("0", data.nianling.toString())) {
+                tv_age.text = ""
+            } else {
+                tv_age.text = data.nianling
+            }
         }
+
         tv_age.isSelected = TextUtils.equals("0", data.sex)
 //        holder.setText(R.id.tv_type, array[(data.egagementtype ?: 0)])
         if (!data.egagementtext.isNullOrEmpty()) {

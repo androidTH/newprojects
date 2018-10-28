@@ -62,7 +62,20 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             tv_datetype_name.setCompoundDrawables(drawable,null,null,null);
         }
 
-        tv_sub_title.text = "${myAppointment.iAge}岁·${myAppointment.iHeight}cm·${myAppointment.iWeight}kg"
+        var sb = StringBuffer()
+        if(myAppointment.iAge != null){ myAppointment.iAge.toString().isNotEmpty()
+            sb.append("${myAppointment.iAge}岁·")
+        }
+
+        if(myAppointment.iHeight != null){
+            sb.append("${myAppointment.iHeight}cm·")
+        }
+
+        if(myAppointment.iWeight != null){
+            sb.append("${myAppointment.iWeight}kg")
+        }
+
+        tv_sub_title.text = sb.toString()
 
         var time = converTime(myAppointment.dEndtime)
         tv_time_long.text="倒计时:${time}"

@@ -68,7 +68,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         holder.setText(R.id.tv_name, data.name)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
 
-        if(data.nianling.isNotEmpty()){
+        if(!data.nianling.isNullOrEmpty()){
             if (TextUtils.equals("0", data.nianling)) {
                 tv_age.text = ""
             } else {
