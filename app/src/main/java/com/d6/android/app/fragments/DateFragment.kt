@@ -12,6 +12,7 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.DateCardAdapter
 import com.d6.android.app.adapters.DateWomanCardAdapter
 import com.d6.android.app.base.BaseFragment
+import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.DateBean
@@ -19,8 +20,7 @@ import com.d6.android.app.models.FindDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
-import com.d6.android.app.widget.gallery.AnimManager
-import com.d6.android.app.widget.gallery.GalleryRecyclerView
+import com.d6.android.app.widget.gallery.CardScaleHelper
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_date.*
@@ -30,8 +30,7 @@ import org.jetbrains.anko.textColor
 /**
  * 约会
  */
-class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
-
+class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     override fun onItemClick(view: View?, position: Int) {
         val dateBean = mDates[position]
         startActivity<UserInfoActivity>("id" to dateBean.accountId.toString())
@@ -56,39 +55,30 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
     private var pageNum = 1
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
+    lateinit var mCardScaleHelper:CardScaleHelper
 
     override fun contentViewId() = R.layout.fragment_date
 
     override fun onFirstVisibleToUser() {
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
         mRecyclerView.layoutManager=LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-
-        if(TextUtils.equals(sex,"0")){
-            mRecyclerView.adapter =  DateWomanCardAdapter(mDates)
-        }else{
-            mRecyclerView.adapter  = DateCardAdapter(mDates)
-        }
-
+        setAdapter()
         mRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    var position = mRecyclerView.scrolledPosition;
-//                    if ((mDates.size-position) <= 2) {
-//                        getData()
-//                    }
+                    var position = mRecyclerView.verticalScrollbarPosition
+                    if ((mDates.size-position) <= 2) {
+                        pageNum++
+                        if(cityType == -2){
+                            getData(SPUtils.instance().getString(USER_ADDRESS),"")
+                        }else{
+                            getData("",tv_city.text.toString())
+                        }
+                    }
                 }
             }
         })
-
-//        headView.setOnClickListener {
-//            getAuthState()
-//        }
-
-//        tv_my_date.setOnClickListener {
-//            getAuthState()
-//        }
-
         tv_city.setOnClickListener {
             val filterCityDialog = FilterCityDialog()
             filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
@@ -116,6 +106,7 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 }
                 cityType = p
                 tv_city.text = s
+                pageNum =1
                 if(p == -2){
                     getData(SPUtils.instance().getString(USER_ADDRESS),"")
                 }else{
@@ -136,14 +127,14 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
 
         btn_like.setOnClickListener {
 //            tv_tip.gone()
-            scrollPosition = mRecyclerView.scrolledPosition + 1
+            scrollPosition = mCardScaleHelper.currentItemPos + 1
             if (mDates.isNotEmpty()) {
 //                val date = mDates[0]
-//                sysErr("--->$date")
 //                showDialog()
 //                sendDateRequest(date)
                 mRecyclerView.smoothScrollToPosition(scrollPosition)
                 if((mDates.size - scrollPosition)<=2){
+                    pageNum++
                     getData()
                 }
             }
@@ -159,7 +150,7 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
         }
 
         fb_unlike.setOnClickListener {
-            //            val dateErrorDialog = DateErrorDialog()
+            // val dateErrorDialog = DateErrorDialog()
 //            dateErrorDialog.show(childFragmentManager, "d")
 //            tv_tip.gone()
 //            tv_main_card_bg_im_id.gone()
@@ -169,8 +160,8 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
 //                mDates.remove(date)
 //                mRecyclerView.adapter.notifyDataSetChanged()
 //                getNext()
-                scrollPosition = mRecyclerView.scrolledPosition - 1
-                if(scrollPosition >0){
+                scrollPosition = mCardScaleHelper.currentItemPos - 1
+                if(scrollPosition >= 0){
                     mRecyclerView.smoothScrollToPosition(scrollPosition)
                 }
             } else {
@@ -181,8 +172,16 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
         }
 
         showDialog()
-        getData("","")
         checkLocation()
+    }
+
+    fun setAdapter(){
+        if(TextUtils.equals(sex,"0")){
+            mRecyclerView.adapter = DateCardAdapter(mDates)
+        }else{
+            mRecyclerView.adapter =  DateWomanCardAdapter(mDates)
+        }
+        (mRecyclerView.adapter as BaseRecyclerAdapter<*>).setOnItemClickListener(this)
     }
 
     private fun checkLocation(){
@@ -199,6 +198,7 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
                 locationClient.stopLocation()
                 updateAddress(tv_type.text.toString().trim())
                 SPUtils.instance().put(USER_ADDRESS, it.city).apply()
+                getData(it.city,"")
             }
         }
     }
@@ -215,26 +215,49 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
             fb_unlike.gone()
             btn_like.gone()
         }
-
         Request.findAccountCardListPage(userId,sPosition, city,pageNum).request(this) { _, data ->
-
-            if(data?.list?.results == null || data.list.results.isEmpty()){
-                tv_tip.gone()
-                tv_main_card_bg_im_id.visible()
-                tv_main_card_Bg_tv_id.visible()
-                fb_unlike.gone()
-                btn_like.gone()
-                fb_heat_like.gone()
-            }else{
+            if (data?.list?.results == null || data.list.results.isEmpty()) {
+                if(pageNum == 1){
+                    mRecyclerView.visibility = View.GONE
+                    tv_tip.gone()
+                    tv_main_card_bg_im_id.visible()
+                    tv_main_card_Bg_tv_id.visible()
+                    fb_unlike.gone()
+                    btn_like.gone()
+                    fb_heat_like.gone()
+                }else{
+                    mRecyclerView.visibility = View.VISIBLE
+                    tv_main_card_bg_im_id.gone()
+                    tv_main_card_Bg_tv_id.gone()
+                    fb_unlike.visible()
+                    btn_like.visible()
+                    fb_heat_like.visible()
+                }
+            } else {
+                mRecyclerView.visibility = View.VISIBLE
                 tv_main_card_bg_im_id.gone()
                 tv_main_card_Bg_tv_id.gone()
                 fb_unlike.visible()
                 btn_like.visible()
                 fb_heat_like.visible()
+                if(cityType == -2&&pageNum == 1){
+                   mDates.clear()
+                }else if(cityType != -2&&pageNum == 1){
+                    mDates.clear()
+                }
                 mDates.addAll(data.list.results)
+                setRecycler()
             }
-            mRecyclerView.adapter.notifyDataSetChanged()
-            InitRecyclerView()
+        }
+    }
+
+    var flag:Boolean = false
+    fun setRecycler(){
+        if(!flag){
+            flag = true
+            mCardScaleHelper = CardScaleHelper()
+            mCardScaleHelper.attachToRecyclerView(mRecyclerView)
+            mCardScaleHelper.setCurrentItemPos(0)
         }
     }
 
@@ -242,28 +265,6 @@ class DateFragment : BaseFragment(), GalleryRecyclerView.OnItemClickListener {
         Request.updateUserPosition(userId,address).request(this, success={msg,data->
 
         })
-    }
-
-    private fun InitRecyclerView(){
-        mRecyclerView
-                // 设置滑动速度（像素/s）
-                .initFlingSpeed(9000)
-                // 设置页边距和左右图片的可见宽度，单位dp
-                .initPageParams(-10, 40)
-                // 设置切换动画的参数因子
-                .setAnimFactor(0.1f)
-                // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
-                .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)
-                // 设置点击事件
-                .setOnItemClickListener(this)
-                // 设置自动播放
-                .autoPlay(false)
-                // 设置自动播放间隔时间 ms
-                .intervalTime(2000)
-                // 设置初始化的位置
-                .initPosition(0)
-                // 在设置完成之后，必须调用setUp()方法
-                .setUp()
     }
 
     private fun sendDateRequest(dateBean: DateBean) {

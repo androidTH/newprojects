@@ -3,16 +3,16 @@ package com.d6.android.app.adapters
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.models.AddImage
-import com.d6.android.app.models.DateBean
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
+import com.d6.android.app.widget.gallery.CardAdapterHelper
 import com.facebook.drawee.view.SimpleDraweeView
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
@@ -20,13 +20,21 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     private var mImages = ArrayList<String>()
     private val mTags = ArrayList<UserTag>()
 
-    override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
+    private val mCardAdapterHelper = CardAdapterHelper()
+    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+        context = parent!!.context
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_date_newcard, parent, false)
+        mCardAdapterHelper.onCreateViewHolder(parent, view)
+        return ViewHolder(view)
+    }
 
+    override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
+        mCardAdapterHelper.onBindViewHolder(holder.itemView, position, itemCount)
         val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
         val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
 
         data.userpics?.let {
-            mImages = it.split(",") as ArrayList<String>
+            var imglist = it.split(",")
             if (mImages.isNotEmpty()) {
                 rv_mydate_images.visibility = View.GONE
             } else {
@@ -34,6 +42,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 rv_mydate_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 rv_mydate_images.setHasFixedSize(true)
                 mImages.clear()
+                if(imglist.size>=4){
+                    mImages.addAll(imglist.toList().subList(0,4))
+                }else {
+                    mImages.addAll(imglist.toList())
+                }
                 rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
             }
         }
@@ -101,9 +114,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             a = ((data.userlookwhere + data.userhandlookwhere).subSequence(0, 5).toString()) + "..."
         }
         holder.setText(R.id.tv_city, a)
-//        val onClickListener = View.OnClickListener {
-//            mOnItemClickListener?.onItemClick(it, position)
-//        }
-//        holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)
+        val onClickListener = View.OnClickListener {
+            mOnItemClickListener?.onItemClick(it, position)
+        }
+        holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)
     }
 }

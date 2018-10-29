@@ -63,7 +63,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         var sb = StringBuffer()
-        if(myAppointment.iAge != null){ myAppointment.iAge.toString().isNotEmpty()
+        if(myAppointment.iAge != null){
             sb.append("${myAppointment.iAge}岁·")
         }
 
