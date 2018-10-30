@@ -129,18 +129,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
 
         btn_like.setOnClickListener {
+            doNextCard()
 //            tv_tip.gone()
-            scrollPosition = mCardScaleHelper.currentItemPos + 1
-            if (mDates.isNotEmpty()) {
+//            scrollPosition = mCardScaleHelper.currentItemPos + 1
+//            if (mDates.isNotEmpty()) {
 //                val date = mDates[0]
 //                showDialog()
 //                sendDateRequest(date)
-                mRecyclerView.smoothScrollToPosition(scrollPosition)
-                if((mDates.size - scrollPosition)<=2){
-                    pageNum++
-                    getData()
-                }
-            }
 //            else {
 //                tv_tip.visible()
 //            }
@@ -296,6 +291,17 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         })
     }
 
+    fun doNextCard(){
+        scrollPosition = mCardScaleHelper.currentItemPos + 1
+        if (mDates.isNotEmpty()) {
+            mRecyclerView.smoothScrollToPosition(scrollPosition)
+            if((mDates.size - scrollPosition)<=2){
+                pageNum++
+                getData()
+            }
+        }
+    }
+
     private fun sendDateRequest(dateBean: DateBean) {
 //        Request.dateUser(userId, dateBean.accountId).request(this, success = { msg, data ->
 //            val dateSendedDialog = DateSendedDialog()//35619 35641  35643    35589
@@ -324,6 +330,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         var findDate = mDates.get(scrollPosition)
         Request.getAddFollow(userId,findDate.accountId.toString()).request(this){ s: String?, jsonObject: JsonObject? ->
             //toast("$s,$jsonObject")
+            doNextCard()
         }
     }
 
