@@ -7,7 +7,6 @@
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true"
-    app:cardElevation="6dp"
     app:cardMaxElevation="@dimen/margin_5">
 
     <RelativeLayout
@@ -18,7 +17,6 @@
             android:layout_height="wrap_content"
             app:viewAspectRatio="1.25"
             android:id="@+id/imageView"
-            android:layout_marginBottom="16dp"
             style="@style/DefaultImageStyle"/>
 
         <!--fresco:roundedCornerRadius="5dp"-->
@@ -30,8 +28,8 @@
             android:id="@+id/headView"
             style="@style/DefaultCircleHeadStyle"
             android:layout_below="@+id/imageView"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="8dp" />
@@ -41,8 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/imageView"
+            android:layout_marginTop="2dp"
+            android:layout_alignTop="@+id/headView"
             android:layout_toRightOf="@+id/headView"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
@@ -62,8 +60,8 @@
             android:drawableLeft="@drawable/sex_white_selector"
             android:drawablePadding="1dp"
             android:gravity="center_vertical"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="10dp" />
@@ -108,20 +106,19 @@
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:text="广州"
-            android:textColor="@color/textColor99"
-            android:textSize="@dimen/textSize" />
+            android:textColor="@color/color_888888"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headView"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/margin_8"
             android:ellipsize="end"
-            android:lines="2"
             android:maxLines="2"
             android:text="---"
             android:textColor="@color/color_333333"
@@ -132,8 +129,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_content"
             android:minHeight="30dp"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp"/>
+            android:paddingLeft="16dp"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -1,9 +1,7 @@
 package com.d6.android.app.adapters
 
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +9,11 @@ import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.models.AddImage
-import com.d6.android.app.models.DateBean
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.widget.gallery.CardAdapterHelper
 import com.facebook.drawee.view.SimpleDraweeView
+import com.google.android.flexbox.FlexboxLayoutManager
 
 class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_womennewcard) {
 
@@ -35,7 +32,8 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
 
         rv_mydate_tags.setHasFixedSize(true)
-        rv_mydate_tags.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_mydate_tags.layoutManager = FlexboxLayoutManager(context)
+        rv_mydate_tags.isNestedScrollingEnabled = false
 
         mTags.clear()
         if (!data.shengao.isNullOrEmpty()) {
@@ -63,7 +61,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             }
         }
 
-        rv_mydate_tags.adapter = UserTagAdapter(mTags)
+        rv_mydate_tags.adapter = CardTagAdapter(mTags)
 
         val bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
         data.userpics?.let {
@@ -105,9 +103,17 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             a = ((data.userlookwhere + data.userhandlookwhere).subSequence(0, 5).toString()) + "..."
         }
         holder.setText(R.id.tv_city, a)
+
+        val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
+        if(data.iVistorCountAll>=50){
+            tv_vistorfollownums.text="访客·${data.iVistorCountAll} 喜欢·${data.iFansCountAll}人"
+        }else{
+            tv_vistorfollownums.text = "喜欢·${data.iFansCountAll}人"
+        }
         val onClickListener = View.OnClickListener {
             mOnItemClickListener?.onItemClick(it, position)
         }
+
         holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)
     }
 }

@@ -14,6 +14,7 @@ import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.widget.gallery.CardAdapterHelper
 import com.facebook.drawee.view.SimpleDraweeView
+import com.google.android.flexbox.FlexboxLayoutManager
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
 
@@ -52,7 +53,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }
 
         rv_mydate_tags.setHasFixedSize(true)
-        rv_mydate_tags.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_mydate_tags.layoutManager = FlexboxLayoutManager(context)
+        rv_mydate_tags.isNestedScrollingEnabled = false
 
         mTags.clear()
         if (!data.shengao.isNullOrEmpty()) {
@@ -79,13 +81,21 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             }
         }
 
-        rv_mydate_tags.adapter = UserTagAdapter(mTags)
+        rv_mydate_tags.adapter = CardTagAdapter(mTags)
 
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         headView.setImageURI(data.picUrl)
 
         holder.setText(R.id.tv_name, data.name)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
+
+        val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
+
+        if(data.iVistorCountAll>=50){
+            tv_vistorfollownums.text="访客·${data.iVistorCountAll} 喜欢·${data.iFansCountAll}人"
+        }else{
+            tv_vistorfollownums.text = "喜欢·${data.iFansCountAll}人"
+        }
 
         if(!data.nianling.isNullOrEmpty()){
             if (TextUtils.equals("0", data.nianling.toString())) {

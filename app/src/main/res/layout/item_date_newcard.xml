@@ -7,7 +7,6 @@
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true"
-    app:cardElevation="6dp"
     app:cardMaxElevation="@dimen/margin_5">
 
     <RelativeLayout
@@ -116,7 +115,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginBottom="10dp"
             android:ellipsize="end"
-            android:lines="2"
             android:maxLines="2"
             android:text="---"
             android:textColor="@color/color_333333"
