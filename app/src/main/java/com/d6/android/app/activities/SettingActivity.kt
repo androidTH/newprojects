@@ -9,6 +9,7 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -30,6 +31,7 @@ class SettingActivity : TitleActivity() {
     }
 
     private var mData: UserData?=null
+    private val mImages = ArrayList<AddImage>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
@@ -46,7 +48,15 @@ class SettingActivity : TitleActivity() {
 
         rl_my_info.setOnClickListener {
             mData?.let {
-                startActivityForResult<MyInfoActivity>(0, "data" to it)
+                mImages.clear()
+                if (!it.userpics.isNullOrEmpty()) {
+                    val images = it.userpics!!.split(",")
+                    images.forEach {
+                        mImages.add(AddImage(it))
+                    }
+                }
+                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+                startActivityForResult<MyInfoActivity>(0, "data" to it,"images" to mImages)
             }
         }
 

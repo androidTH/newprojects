@@ -240,7 +240,7 @@ interface ApiServices {
 
     //报名约会
     @POST("backstage/appointmentsignup/add")
-    fun signUpdate(@Query("iUserid") userid:Int,@Query("sAppointmentId") sAppointmentId:String,@Query("sDesc") sDesc:String):Flowable<Response<JsonObject>>
+    fun signUpdate(@Query("iUserid") userid:String,@Query("sAppointmentId") sAppointmentId:String,@Query("sDesc") sDesc:String):Flowable<Response<JsonObject>>
 
    //约会详情页
     @POST("backstage/appointment/queryAppointmentDetail")

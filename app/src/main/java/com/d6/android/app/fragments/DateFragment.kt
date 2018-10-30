@@ -1,6 +1,9 @@
 package com.d6.android.app.fragments
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -267,6 +270,32 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         })
     }
 
+    private fun doAnimation(){
+        iv_date_redheart.setImageResource(R.mipmap.animation_redheart)
+        val holder1 = PropertyValuesHolder.ofFloat("scaleX", 0.0f, 3.0f)
+        val holder2 = PropertyValuesHolder.ofFloat("scaleY", 0.0f, 3.0f)
+        val holder3 = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f)
+        val animator = ObjectAnimator.ofPropertyValuesHolder(iv_date_redheart, holder1, holder2, holder3)
+        animator.duration = 500
+        animator.start()
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator) {
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+
+            }
+        })
+    }
+
     private fun sendDateRequest(dateBean: DateBean) {
 //        Request.dateUser(userId, dateBean.accountId).request(this, success = { msg, data ->
 //            val dateSendedDialog = DateSendedDialog()//35619 35641  35643    35589
@@ -290,7 +319,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private fun addFollow(){
-        showDialog()//35578
+//        showDialog()//35578
+        doAnimation()
         var findDate = mDates.get(scrollPosition)
         Request.getAddFollow(userId,findDate.accountId.toString()).request(this){ s: String?, jsonObject: JsonObject? ->
             //toast("$s,$jsonObject")

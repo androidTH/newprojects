@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true"
     app:cardElevation="6dp"
-    app:cardMaxElevation="10dp">
+    app:cardMaxElevation="@dimen/margin_5">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -111,10 +111,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_discover"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_5"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:lines="2"
             android:maxLines="2"
@@ -129,7 +129,8 @@
             android:layout_marginBottom="6dp"
             android:layout_marginTop="@dimen/margin_8"
             android:minHeight="66dp"
-            android:paddingLeft="16dp"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_8"
             android:paddingTop="8dp"/>
 
         <android.support.v7.widget.RecyclerView
