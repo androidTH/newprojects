@@ -63,7 +63,7 @@
         android:layout_toRightOf="@+id/tv_nick"
         android:background="@drawable/ic_sex_bg_selector"
         android:drawableLeft="@drawable/sex_white_selector"
-        android:drawablePadding="4dp"
+        android:drawablePadding="1dp"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:text="0"
@@ -367,6 +367,15 @@
                 android:layout_weight="1"
                 android:layout_centerHorizontal="true">
                 <TextView
+                    android:id="@+id/tv_mypoints_countall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:drawableLeft="@mipmap/mycenter_intergral_icon"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+                <TextView
                     android:id="@+id/tv_mypointscount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -380,15 +389,6 @@
                     android:layout_marginLeft="-5dp"
                     android:textSize="10sp"
                     android:text="2900" />
-                <TextView
-                    android:id="@+id/tv_mypoints_countall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:drawableLeft="@mipmap/mycenter_intergral_icon"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/color_black"
-                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_below="@+id/tv_mypoints_countall"

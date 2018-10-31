@@ -34,7 +34,7 @@ class MyDateListActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "我的约会"
+        setTitleBold("我的约会")
         fansAdapter .setOnItemClickListener { view, position ->
 //            val id = mMyAppointments[position].iAppointUserid
 //            startActivity<UserInfoActivity>("id" to id.toString())

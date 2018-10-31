@@ -1,6 +1,7 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.graphics.Color
 import android.support.annotation.IdRes
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -15,9 +16,12 @@ import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.view_user_trend_view.view.*
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
+import org.jetbrains.anko.support.v4.dip
 
 /**
  * Created on 2017/12/17.
@@ -118,7 +122,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             rv_images.addItemDecoration(SpacesItemDecoration(dip(4),2))
         } else {
             rv_images.layoutManager = GridLayoutManager(context,3)
-            rv_images.addItemDecoration(SpacesItemDecoration(dip(4),3))
+            rv_images.addItemDecoration(SpacesItemDecoration(dip(4),3))//SpacesItemDecoration(dip(4),3)
         }
 
         imageAdapter.notifyDataSetChanged()

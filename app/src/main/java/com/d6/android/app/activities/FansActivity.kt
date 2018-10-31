@@ -6,7 +6,6 @@ import com.d6.android.app.adapters.FansAdapter
 import com.d6.android.app.base.RecyclerActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
-import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils

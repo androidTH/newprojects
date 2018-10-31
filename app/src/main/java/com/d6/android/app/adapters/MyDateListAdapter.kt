@@ -41,8 +41,8 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
 
             img_push_header.setImageURI(data.sPicUrl)
 
-            holder.setText(R.id.tv_pull_name,data.sAppointUserName)
-            holder.setText(R.id.tv_push_name,data.sUserName)
+//            holder.setText(R.id.tv_pull_name,data.sAppointUserName)
+//            holder.setText(R.id.tv_push_name,data.sUserName)
 //        }
 
         holder.setText(R.id.tv_address_name,data.sPlace)
@@ -54,13 +54,13 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
             1 -> {//老  0   发起
                tv_date_time.visibility = View.VISIBLE
                if(data!!.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(data.iAppointUserid.toString(),userId)){
-                   tv_mydate_status.text="状态：发起"
+                   tv_mydate_status.text="发起"
                    tv_date_time.text = "截止时间:${converTime(data.dEndtime)}"
                }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(data.iAppointUserid.toString(),userId)){
-                    tv_mydate_status.text="状态：待同意"
+                    tv_mydate_status.text="待同意"
                    tv_date_time.text = "截止时间:${converToTime(data.dAppointmentSignupCreatetime)}"
                }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(userId,data.iUserid.toString())){
-                    tv_mydate_status.text ="状态：等待对方同意"
+                    tv_mydate_status.text ="等待对方同意"
                     tv_date_time.text = "截止时间:${converToTime(data.dAppointmentSignupCreatetime)}"
                }
             }

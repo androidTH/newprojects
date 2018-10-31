@@ -58,7 +58,7 @@
         android:drawablePadding="4dp"
         android:padding="8dp"
         android:text="0"
-        android:textColor="@color/textColor66"
+        android:textColor="@color/color_888888"
         android:textSize="14sp" />
 
     <View
@@ -69,6 +69,7 @@
         android:layout_alignTop="@+id/tv_appraise"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         android:background="@color/dividing_line_color" />
 
     <TextView
@@ -83,7 +84,7 @@
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:text="0"
-        android:textColor="@color/textColor66"
+        android:textColor="@color/color_888888"
         android:textSize="14sp" />
     <TextView
         android:layout_width="wrap_content"

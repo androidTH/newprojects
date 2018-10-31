@@ -450,7 +450,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 mImages.add(AddImage(it))
             }
         }
-        mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+        mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
         myImageAdapter.notifyDataSetChanged()
     }
 

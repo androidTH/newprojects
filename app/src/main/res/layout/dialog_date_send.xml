@@ -30,36 +30,43 @@
             android:layout_marginTop="25dp"
             android:textColor="@color/color_black"
             android:text="----"/>
-        <TextView
-            android:id="@+id/tv_agree_points"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/color_666666"
-            android:drawableLeft="@mipmap/agreed_small_icon"
-            android:drawablePadding="@dimen/margin_8"
-            android:text="----"/>
-        <TextView
-            android:id="@+id/tv_noagree_points"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/color_666666"
-            android:drawableLeft="@mipmap/refused_small_icon"
-            android:drawablePadding="@dimen/margin_8"
-            android:text="----"/>
-        <TextView
-            android:id="@+id/tv_timeout_points"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/color_666666"
-            android:drawableLeft="@mipmap/timeout_small_icon"
-            android:drawablePadding="@dimen/margin_8"
-            android:text="----"/>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_agree_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/color_666666"
+                android:drawableLeft="@mipmap/agreed_small_icon"
+                android:drawablePadding="@dimen/margin_8"
+                android:text="----"/>
+            <TextView
+                android:id="@+id/tv_noagree_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/color_666666"
+                android:drawableLeft="@mipmap/refused_small_icon"
+                android:drawablePadding="@dimen/margin_8"
+                android:text="----------"/>
+            <TextView
+                android:id="@+id/tv_timeout_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/color_666666"
+                android:drawableLeft="@mipmap/timeout_small_icon"
+                android:drawablePadding="@dimen/margin_8"
+                android:text="----"/>
+        </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,7 +79,6 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:background="@drawable/shape_4r_orange"/>
-
     </LinearLayout>
     <TextView
         android:id="@+id/tv_close"

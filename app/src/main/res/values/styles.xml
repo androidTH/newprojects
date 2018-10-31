@@ -41,6 +41,13 @@
         <item name="failureImageScaleType">fitCenter</item>
     </style>
 
+    <style name="uerInfoaddImageStyle">
+        <item name="failureImage">@color/color_99ffffff</item>
+        <item name="placeholderImage">@color/color_99ffffff</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+    </style>
+
     <style name="ImageView_h">
         <item name="android:background">@android:color/white</item>
         <item name="android:src">@color/dividing_line_color</item>

@@ -14,7 +14,7 @@ class RecommendDateActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommend_date)
-        title = "全部人工推荐"
+        setTitleBold("全部人工推荐")
 
         val fragment = RecommendDateFragment()
         fragment.userVisibleHint = true

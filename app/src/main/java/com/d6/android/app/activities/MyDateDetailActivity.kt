@@ -117,6 +117,8 @@ class MyDateDetailActivity : BaseActivity() {
                             rel_1.visibility = View.GONE
                             rel_2.visibility = View.GONE
                             rel_3.visibility = View.GONE
+
+                            rel0_line.visibility = View.GONE
                             headView0.setImageURI(data.sAppointmentPicUrl)
                             tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
                             tv_days0.text = data.dCreatetime.interval()//约会发布时间
@@ -177,6 +179,8 @@ class MyDateDetailActivity : BaseActivity() {
                         rel_1.visibility = View.VISIBLE
                         rel_2.visibility = View.GONE
                         rel_3.visibility = View.GONE
+                        rel1_line.visibility = View.GONE
+
                         headView0.setImageURI(data.sAppointmentPicUrl)
                         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
                         tv_days0.text = data.dCreatetime.interval()//约会发布时间
@@ -198,6 +202,9 @@ class MyDateDetailActivity : BaseActivity() {
         rel_1.visibility = View.VISIBLE
         rel_2.visibility = View.VISIBLE
         rel_3.visibility = View.GONE
+
+        rel2_line.visibility = View.GONE
+
         headView0.setImageURI(data.sAppointmentPicUrl)
         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
         tv_days0.text = data.dCreatetime.interval()//约会发布时间//stampToTime(data.dCreatetime)

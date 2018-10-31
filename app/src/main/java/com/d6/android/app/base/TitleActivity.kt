@@ -43,5 +43,14 @@ abstract class TitleActivity : BaseActivity() {
 
     override fun setTitle(title: CharSequence?) {
         titleBar.titleView.setText(title)
+        val paint = titleBar.titleView.getPaint()
+        paint.setFakeBoldText(false)
     }
+
+    fun setTitleBold(title: CharSequence?,flag:Boolean=true) {
+        titleBar.titleView.setText(title)
+        val paint = titleBar.titleView.getPaint()
+        paint.setFakeBoldText(flag)
+    }
+
 }

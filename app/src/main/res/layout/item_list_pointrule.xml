@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="200积分"
+        android:textStyle="bold"
         android:textColor="@color/color_333333" />
 
     <TextView
@@ -28,6 +29,5 @@
         android:layout_marginTop="@dimen/margin_5"
         android:text="¥168"
         android:textColor="@color/color_F7AB00"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp"/>
 </LinearLayout>
