@@ -3,6 +3,7 @@ package com.d6.android.app.fragments
 import android.graphics.Color
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.DateAdapter
 import com.d6.android.app.adapters.RecommendAllDateAdapter
@@ -53,7 +54,11 @@ class RecommendDateFragment : RecyclerFragment() {
         dateAdapter.setOnItemClickListener { _, position ->
             activity?.isAuthUser {
                 val date = mSpeedDates[position]
-                startActivity<SpeedDateDetailActivity>("data" to date)
+                if(date.iType == 1){
+                    startActivity<FindDateDetailActivity>("data" to date)
+                }else if(date.iType == 2){
+                    startActivity<SpeedDateDetailActivity>("data" to date)
+                }
             }
         }
         showDialog()

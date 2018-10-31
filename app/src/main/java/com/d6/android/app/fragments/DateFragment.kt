@@ -326,11 +326,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private fun addFollow(){
 //        showDialog()//35578
-        doAnimation()
-        var findDate = mDates.get(scrollPosition)
-        Request.getAddFollow(userId,findDate.accountId.toString()).request(this){ s: String?, jsonObject: JsonObject? ->
-            //toast("$s,$jsonObject")
-            doNextCard()
+        scrollPosition = mCardScaleHelper.currentItemPos
+        if(mDates.size > scrollPosition){
+            doAnimation()
+            var findDate = mDates.get(scrollPosition)
+            Request.getAddFollow(userId,findDate.accountId.toString()).request(this){ s: String?, jsonObject: JsonObject? ->
+                //toast("$s,$jsonObject")
+                doNextCard()
+            }
         }
     }
 

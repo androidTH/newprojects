@@ -74,7 +74,13 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         headView.setImageURI(data.picUrl)
 
-        holder.setText(R.id.tv_name, data.name)
+        if(data.name.length>=8){
+            holder.setText(R.id.tv_name, "${data.name.substring(0,8)}...")
+        }else{
+            holder.setText(R.id.tv_name, data.name)
+        }
+
+        holder.setText(R.id.tv_vip, data.classesname)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
 
         if(!data.nianling.isNullOrEmpty()){

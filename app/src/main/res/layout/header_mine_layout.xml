@@ -388,7 +388,8 @@
                     android:background="@drawable/shape_4r_white"
                     android:layout_marginLeft="-5dp"
                     android:textSize="10sp"
-                    android:text="2900" />
+                    android:visibility="gone"
+                    android:text="" />
 
                 <TextView
                     android:layout_below="@+id/tv_mypoints_countall"

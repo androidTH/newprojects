@@ -87,6 +87,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         headView.setImageURI(data.picUrl)
 
         holder.setText(R.id.tv_name, data.name)
+
+        holder.setText(R.id.tv_vip, data.classesname)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
 
         val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)

@@ -47,6 +47,7 @@ class SpeedDateDetailActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speed_date_detail)
+        title = "速约详情"
 
         titleBar.addRightButton(rightId = R.mipmap.ic_share, onClickListener = View.OnClickListener {
             ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
