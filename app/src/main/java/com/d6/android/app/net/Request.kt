@@ -325,7 +325,7 @@ object Request {
     fun getOrderById(sOrderid:String)=RRetrofit.instance().create(ApiServices::class.java).getOrderById(sOrderid)
 
     //添加查询约会扣除、退回、取消需要的积分接口
-    fun queryAppointmentPoint()=RRetrofit.instance().create(ApiServices::class.java).queryAppointmentPoint()
+    fun queryAppointmentPoint(userId:String)=RRetrofit.instance().create(ApiServices::class.java).queryAppointmentPoint(userId)
 
     //更新地理未知
     fun updateUserPosition(iUserid:String,sPosition:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sPosition)

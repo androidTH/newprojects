@@ -17,6 +17,7 @@ import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_date_send_fail.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
@@ -73,15 +74,19 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
         var code = arguments.get("code")
         if(code == 0){
             tv_date_send_fail.text = getString(R.string.string_senddatefail)
+            getData()
         }else if(code == 3){
             tv_date_send_fail.text = getString(R.string.senddatepointlow)
+            getData()
+        }else if(code == 2){
+            tv_date_send_fail.text = getString(R.string.senddatepointlow)
+            tv_tishi_point.text = arguments.getString("msg")
         }
-        getData()
     }
 
     private fun getData() {
         isBaseActivity{
-                Request.queryAppointmentPoint().request(it, success = {msg,data->
+                Request.queryAppointmentPoint(userId).request(it, success = {msg,data->
                     data?.let {
 //                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
 //                        tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
@@ -89,7 +94,11 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
 //                        tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
                         tv_tishi_point.text = String.format(resources.getString(R.string.string_pointlow),point_nums,it.iAppointPoint)
                     }
-                })
+                }){code,msg->
+                    if(code == 2){
+                        tv_tishi_point.text = msg
+                    }
+                }
             }
     }
 

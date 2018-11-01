@@ -11,6 +11,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -73,7 +74,14 @@ class OpenDateDialog : DialogFragment(),RequestManager {
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
-        queryPoints()
+
+       if(arguments !=null){
+           var it = arguments.getParcelable("explain") as IntegralExplain
+           tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
+           tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
+           tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
+           tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
+        }
     }
 
     private fun getData() {
@@ -94,16 +102,24 @@ class OpenDateDialog : DialogFragment(),RequestManager {
     }
 
     private fun queryPoints(){
-        Request.queryAppointmentPoint().request((activity as BaseActivity), success = {msg,data->
-            data?.let {
-                tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
-                tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
-                tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
-                tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
-            }
-        }){code,msg->
-
-        }
+//        isBaseActivity {
+//            Request.queryAppointmentPoint(userId).request(it, success = {msg,data->
+//                data?.let {
+//                    tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
+//                    tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
+//                    tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
+//                    tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
+//                }
+//            }){code,msg->
+//                if(code == 2){
+//                    toast(msg)
+//                    dismissAllowingStateLoss()
+//                    var openErrorDialog = OpenDateErrorDialog()
+//                    openErrorDialog.arguments= bundleOf("code" to code)
+//                    openErrorDialog.show(it.supportFragmentManager, "d")
+//                }
+//            }
+//        }
     }
 
     private var dialogListener: OnDialogListener? = null

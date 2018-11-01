@@ -58,9 +58,9 @@ class HomeFragment : BaseFragment() {
             activity?.isAuthUser {
                 val date = mSpeedDates[position]
                 if(date.iType == 1){
-                    startActivity<SpeedDateDetailActivity>("data" to date)
-                }else{
                     startActivity<FindDateDetailActivity>("data" to date)
+                }else if(date.iType == 2){
+                    startActivity<SpeedDateDetailActivity>("data" to date)
                 }
             }
         }
