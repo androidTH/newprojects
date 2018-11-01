@@ -20,15 +20,33 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_type"
             android:textColor="@color/white"
+            android:layout_marginTop="10dp"
             android:textSize="11sp"
             android:text="救火"
             android:padding="3dp"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:background="@drawable/shape_4r_33"/>
-        <LinearLayout
-            android:id="@+id/ll_name"
+        <TextView
+            android:id="@+id/tv_auth_state"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_4r_orange_f9b"
+            android:textColor="@color/white"
+            android:paddingTop="@dimen/margin_2"
+            android:paddingBottom="@dimen/margin_2"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_8"
+            android:layout_marginRight="@dimen/margin_8"
+            android:textSize="10sp"
+            android:layout_alignParentRight="true"
+            android:drawablePadding="@dimen/margin_1"
+            android:drawableLeft="@drawable/auth_selector"
+            android:layout_marginTop="100dp"
+            android:text="已认证"/>
+        <RelativeLayout
+            android:id="@+id/ll_name"
+            android:layout_width="match_parent"
             android:layout_below="@+id/imageView"
             android:layout_marginTop="5dp"
             android:layout_height="wrap_content">
@@ -44,19 +62,20 @@
                 android:text="--"
                 android:textColor="@color/color_333333"
                 android:textSize="15sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/textColor99"
-                android:layout_marginLeft="4dp"
-                android:id="@+id/tv_audio_auth"
-                android:gravity="center_vertical"
-                android:visibility="invisible"
-                android:drawablePadding="4dp"
-                android:drawableRight="@mipmap/ic_audio_auth"
-                android:text="|"/>
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="12sp"-->
+                <!--android:textColor="@color/textColor99"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:id="@+id/tv_audio_auth"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:visibility="invisible"-->
+                <!--android:drawablePadding="4dp"-->
+                <!--android:drawableRight="@mipmap/ic_audio_auth"-->
+                <!--android:text="|"/>-->
+
+        </RelativeLayout>
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="wrap_content"

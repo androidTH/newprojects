@@ -13,16 +13,18 @@
         android:layout_width="match_parent"
         android:layout_marginTop="15dp"
         android:layout_height="wrap_content">
+
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/imageView"
+            style="@style/DefaultImageStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/DefaultImageStyle"
-            app:roundedCornerRadius="6dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp"
             app:roundBottomLeft="false"
             app:roundBottomRight="false"
-            android:layout_marginBottom="8dp"
-            app:viewAspectRatio="1.1666"
-            android:id="@+id/imageView"/>
+            app:roundedCornerRadius="6dp"
+            app:viewAspectRatio="1.1666" />
         <TextView
             android:id="@+id/tv_img"
             android:layout_width="wrap_content"

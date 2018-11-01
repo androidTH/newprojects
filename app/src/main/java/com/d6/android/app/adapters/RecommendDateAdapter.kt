@@ -31,26 +31,28 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
         nameView.isSelected = TextUtils.equals(data.sex, "0")
         holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
         holder.setText(R.id.tv_content, data.lookfriendstand)
-//        holder.setText(R.id.tv_type, data.getSpeedStateStr())
         holder.setText(R.id.tv_address,data.city)
-        val tv_audio_auth = holder.bind<TextView>(R.id.tv_audio_auth)
-//        if (TextUtils.equals("1", data.screen)) {
-//            tv_audio_auth.visible()
-//        } else {
-//            tv_audio_auth.gone()
-//        }
-        val endTime = data.createTime.toTime("yyyy-MM-dd")
-        val cTime = if (D6Application.systemTime <= 0) {
-            System.currentTimeMillis()
-        } else {
-            D6Application.systemTime
+        val tv_audio_auth = holder.bind<TextView>(R.id.tv_auth_state)
+        if (TextUtils.equals("1", data.screen)) {
+            tv_audio_auth.isSelected = true
+            tv_audio_auth.text = "视频认证"
+        } else if(TextUtils.equals("0", data.screen)){
+            tv_audio_auth.isSelected = false
+            tv_audio_auth.text = "已认证"
         }
-        val current = cTime.toTime("yyyy-MM-dd")
+//        val endTime = data.createTime.toTime("yyyy-MM-dd")
+//        val cTime = if (D6Application.systemTime <= 0) {
+//            System.currentTimeMillis()
+//        } else {
+//            D6Application.systemTime
+//        }
+//        val current = cTime.toTime("yyyy-MM-dd")
         val typeView = holder.bind<TextView>(R.id.tv_type)
         if(data.iType==1){
             typeView.text = "觅约"
         }else if(data.iType==2){
             typeView.text = "速约"
+            typeView.text =  data.getSpeedStateStr()
         }
 //        typeView.backgroundColor = Color.parseColor("#cc562BFF")
 //        if (current > endTime) {//已过期

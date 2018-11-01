@@ -31,7 +31,6 @@ class RecommendAllDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<My
         nameView.isSelected = TextUtils.equals(data.sex, "0")
         holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
         holder.setText(R.id.tv_content, data.lookfriendstand)
-//        holder.setText(R.id.tv_type, data.getSpeedStateStr())
         holder.setText(R.id.tv_address,data.city)
         val tv_audio_auth = holder.bind<TextView>(R.id.tv_auth_state)
         if (TextUtils.equals("1", data.screen)) {
@@ -47,9 +46,18 @@ class RecommendAllDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<My
         } else {
             D6Application.systemTime
         }
-        val current = cTime.toTime("yyyy-MM-dd")
+
         val typeView = holder.bind<TextView>(R.id.tv_type)
-        typeView.backgroundColor = Color.parseColor("#cc562BFF")
+        if(data.iType==1){
+            typeView.text = "觅约"
+        }else if(data.iType==2){
+            typeView.text = "速约"
+            typeView.text =  data.getSpeedStateStr()
+        }
+
+//        val current = cTime.toTime("yyyy-MM-dd")
+//        val typeView = holder.bind<TextView>(R.id.tv_type)
+//        typeView.backgroundColor = Color.parseColor("#cc562BFF")
 //        if (current > endTime) {//已过期
 //            typeView.text = "已过期"
 //            typeView.backgroundColor = Color.parseColor("#94000000")
