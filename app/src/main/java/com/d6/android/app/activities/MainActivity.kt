@@ -35,13 +35,12 @@ import org.jetbrains.anko.support.v4.startActivity
  * 主页
  */
 class MainActivity : BaseActivity() {
-    private val tabTexts = arrayOf("发现", "约会", "动态","消息", "我的")
+    private val tabTexts = arrayOf( "约会","发现", "动态","消息", "我的")
 
-    private val tabImages = arrayOf(R.drawable.home_main_selector
-            , R.drawable.home_speed_date_selector, R.drawable.home_square_selector
+    private val tabImages = arrayOf(R.drawable.home_speed_date_selector,R.drawable.home_main_selector, R.drawable.home_square_selector
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
-    private val fragmentArray = arrayOf<Class<*>>(DateFragment::class.java
-            , HomeFragment::class.java, SquareMainFragment::class.java,
+    private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,
+            DateFragment::class.java, SquareMainFragment::class.java,
             MessageFragment::class.java,MineV2Fragment::class.java)
     private var unReadMsg:Int?=-1
 
@@ -74,18 +73,6 @@ class MainActivity : BaseActivity() {
             iv_right.text = ""
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
-//                    titleBar.backgroundColor = Color.TRANSPARENT
-                    titleBar.gone()
-                    iv_right.gone()
-                    tv_title1.gone()
-                    tv_title.text = "D6社区"
-
-//                    val fragment0 = supportFragmentManager.findFragmentByTag(tabTexts[0])
-//                    if (fragment0 != null && fragment0 is DateFragment) {
-//                        fragment0.onFirstVisibleToUser()
-//                    }
-                }
-                TextUtils.equals(it, tabTexts[1]) -> {
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
 //                    tv_title.text = "广场"
                     tv_create_date.visible()
@@ -96,6 +83,18 @@ class MainActivity : BaseActivity() {
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
                     tv_title.text = "约会"
+                }
+                TextUtils.equals(it, tabTexts[1]) -> {
+
+                    //titleBar.backgroundColor = Color.TRANSPARENT
+                    titleBar.gone()
+                    iv_right.gone()
+                    tv_title1.gone()
+                    tv_title.text = "D6社区"
+//                    val fragment0 = supportFragmentManager.findFragmentByTag(tabTexts[0])
+//                    if (fragment0 != null && fragment0 is DateFragment) {
+//                        fragment0.onFirstVisibleToUser()
+//                    }
                 }
                 TextUtils.equals(it, tabTexts[2]) -> {
                     tv_create_date.gone()
@@ -191,7 +190,8 @@ class MainActivity : BaseActivity() {
         }
         //默认标题
         tv_title.text = "D6社区"
-        titleBar.gone()
+
+        titleBar.visibility = View.VISIBLE
 
         val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
         if (token.isNotEmpty()) {

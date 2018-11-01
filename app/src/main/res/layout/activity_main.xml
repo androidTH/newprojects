@@ -15,6 +15,7 @@
             android:textSize="20dp"
             android:id="@+id/tv_title"
             android:paddingRight="@dimen/padding_16"
+            android:visibility="gone"
             android:gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
