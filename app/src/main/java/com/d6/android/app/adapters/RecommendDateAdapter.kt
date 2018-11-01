@@ -39,7 +39,7 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
 //        } else {
 //            tv_audio_auth.gone()
 //        }
-//        val endTime = data.createTime.parserTime().toTime("yyyy-MM-dd")
+        val endTime = data.createTime.toTime("yyyy-MM-dd")
         val cTime = if (D6Application.systemTime <= 0) {
             System.currentTimeMillis()
         } else {
@@ -47,7 +47,12 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
         }
         val current = cTime.toTime("yyyy-MM-dd")
         val typeView = holder.bind<TextView>(R.id.tv_type)
-        typeView.backgroundColor = Color.parseColor("#cc562BFF")
+        if(data.iType==1){
+            typeView.text = "觅约"
+        }else if(data.iType==2){
+            typeView.text = "速约"
+        }
+//        typeView.backgroundColor = Color.parseColor("#cc562BFF")
 //        if (current > endTime) {//已过期
 //            typeView.text = "已过期"
 //            typeView.backgroundColor = Color.parseColor("#94000000")

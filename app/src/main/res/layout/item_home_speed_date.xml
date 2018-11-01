@@ -20,17 +20,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_type"
             android:textColor="@color/white"
-            android:textSize="10sp"
+            android:textSize="11sp"
             android:text="救火"
-            android:paddingTop="1dp"
-            android:paddingBottom="1dp"
-            android:paddingLeft="2dp"
-            android:layout_alignRight="@+id/imageView"
-            android:paddingRight="2dp"
-            android:layout_alignTop="@+id/imageView"
+            android:padding="3dp"
+            android:layout_alignParentRight="true"
             android:gravity="center_vertical"
-            android:visibility="gone"
-            android:background="#cc562BFF"/>
+            android:background="@drawable/shape_4r_33"/>
         <LinearLayout
             android:id="@+id/ll_name"
             android:layout_width="wrap_content"
@@ -105,9 +100,4 @@
             android:visibility="gone"
             android:text="报名"/>
     </RelativeLayout>
-    <!--<View style="@style/view_line_h"-->
-        <!--android:layout_marginLeft="12dp"-->
-        <!--android:id="@+id/line"-->
-        <!--android:layout_marginRight="12dp"-->
-        <!--android:layout_gravity="bottom"/>-->
 </FrameLayout>
