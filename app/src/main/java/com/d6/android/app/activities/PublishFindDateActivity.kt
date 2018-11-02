@@ -23,7 +23,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_publish_find_date.*
-import org.jetbrains.anko.db.NULL
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
 
