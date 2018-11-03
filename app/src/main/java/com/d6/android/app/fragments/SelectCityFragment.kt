@@ -194,6 +194,7 @@ class SelectCityFragment : BaseFragment() {
                     mCities.add(City("","全选"))
                 }
                 mCities.addAll(it)
+                mCities.removeAt(0)
                 it.forEach {
                     //isValid 1 热门地市，0 普通地市
                     if (TextUtils.equals(it.isValid, "1")) {

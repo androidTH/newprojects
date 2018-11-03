@@ -46,14 +46,14 @@ class FilterDateTypeDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         tv_all.setOnClickListener {
-            dialogListener?.onClick(5, "全部")
+            dialogListener?.onClick(6, "全部")
             dismissAllowingStateLoss()
         }
 
-//        tv_recommend.setOnClickListener {
-////            dialogListener?.onClick(5, "推荐")
-////            dismissAllowingStateLoss()
-////        }
+        tv_recommend.setOnClickListener {
+            dialogListener?.onClick(5, "其他")
+            dismissAllowingStateLoss()
+        }
 
         tv_2.setOnClickListener {
             dialogListener?.onClick(1, "旅行")
@@ -77,35 +77,41 @@ class FilterDateTypeDialog : DialogFragment() {
 
         bgView.setOnClickListener { dismissAllowingStateLoss() }
 
-        tv_all.text = SpanBuilder("全部\n全部约会类型")
-                .color(context,0,2,R.color.textColor)
-                .size(0,2,15)
-                .build()
+        tv_all.text ="全部"
+//                SpanBuilder("全部\n全部约会类型")
+//                        .color(context,0,2,R.color.textColor)
+//                        .size(0,2,15)
+//                        .build()
 
-//        tv_recommend.text = SpanBuilder("官方推荐\nD6社区的推荐")
+        tv_recommend.text = "其他"
+//        SpanBuilder("官方推荐\nD6社区的推荐")
 //                .color(context,0,4,R.color.textColor)
 //                .size(0,4,15)
 //                .build()
 
-        tv_2.text = SpanBuilder("旅行\n在旅行中遇见最美的你")
-                .color(context,0,2,R.color.textColor)
-                .size(0,2,15)
-                .build()
+        tv_2.text = "旅行"
+//        SpanBuilder("旅行\n在旅行中遇见最美的你")
+//                .color(context,0,2,R.color.textColor)
+//                .size(0,2,15)
+//                .build()
 
-        tv_3.text = SpanBuilder("吃饭\n在旅行中遇见最美的你")
-                .color(context,0,2,R.color.textColor)
-                .size(0,2,15)
-                .build()
+        tv_3.text = "吃饭"
+//                SpanBuilder("吃饭\n在旅行中遇见最美的你")
+//                .color(context,0,2,R.color.textColor)
+//                .size(0,2,15)
+//                .build()
 
-        tv_4.text = SpanBuilder("看电影\n快速响应的约会")
-                .color(context,0,3,R.color.textColor)
-                .size(0,2,15)
-                .build()
+        tv_4.text = "看电影"
+//                SpanBuilder("看电影\n快速响应的约会")
+//                .color(context,0,3,R.color.textColor)
+//                .size(0,2,15)
+//                .build()
 
-        tv_5.text = SpanBuilder("喝酒\n一起来旅行吧")
-                .color(context,0,3,R.color.textColor)
-                .size(0,3,15)
-                .build()
+        tv_5.text ="喝酒"
+//                SpanBuilder("喝酒\n一起来旅行吧")
+//                .color(context,0,3,R.color.textColor)
+//                .size(0,3,15)
+//                .build()
 
     }
 

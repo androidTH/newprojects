@@ -66,7 +66,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         val bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
         data.userpics?.let {
             val images = it.split(",")
-            if (images.isNotEmpty()) {
+            if (images.size>0) {
                 bigImgView.setImageURI(images[0])
             }
         }
@@ -75,7 +75,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         headView.setImageURI(data.picUrl)
 
         if(data.name.length>=8){
-            holder.setText(R.id.tv_name, "${data.name.substring(0,8)}...")
+            holder.setText(R.id.tv_name, "${data.name.substring(0,6)}...")
         }else{
             holder.setText(R.id.tv_name, data.name)
         }

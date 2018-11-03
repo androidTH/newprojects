@@ -30,7 +30,7 @@
                 android:paddingTop="8dp"
                 android:text="全部\n全部约会类型"
                 android:lineSpacingExtra="4dp"
-                android:textColor="@color/textColor99"
+                android:textColor="@color/textColor"
                 android:textSize="12sp" />
 
             <ImageView style="@style/ImageView_h" />
@@ -46,14 +46,13 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="7dp"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:text="官方推荐\nD6社区的推荐"
-                android:textColor="@color/textColor99"
+                android:textColor="@color/textColor"
                 android:lineSpacingExtra="4dp"
                 android:textSize="12sp" />
 
-            <ImageView style="@style/ImageView_h"
-                android:visibility="gone"/>
+            <ImageView style="@style/ImageView_h"/>
 
             <TextView
                 android:id="@+id/tv_2"
@@ -67,7 +66,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="7dp"
                 android:text="征求\n在旅行中遇见最美的你"
-                android:textColor="@color/textColor99"
+                android:textColor="@color/textColor"
                 android:lineSpacingExtra="4dp"
                 android:textSize="12sp"/>
 
@@ -85,7 +84,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="7dp"
                 android:text="救火\n在旅行中遇见最美的你"
-                android:textColor="@color/textColor99"
+                android:textColor="@color/textColor"
                 android:lineSpacingExtra="4dp"
                 android:textSize="12sp" />
 
@@ -103,7 +102,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="7dp"
                 android:text="急约\n快速响应的约会"
-                android:textColor="@color/textColor99"
+                android:textColor="@color/textColor"
                 android:lineSpacingExtra="4dp"
                 android:textSize="12sp" />
 
@@ -121,7 +120,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="7dp"
                 android:text="旅行约\n一起来旅行吧"
-                android:textColor="@color/textColor99"
+                android:textColor="@color/textColor"
                 android:lineSpacingExtra="4dp"
                 android:textSize="12sp" />
 

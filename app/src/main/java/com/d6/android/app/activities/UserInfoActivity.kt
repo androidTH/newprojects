@@ -41,6 +41,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
+
     private var mData: UserData? = null
 
     private var pageNum = 1

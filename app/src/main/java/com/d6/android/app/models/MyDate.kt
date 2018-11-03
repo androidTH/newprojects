@@ -57,7 +57,7 @@ data class MyDate(@SerializedName("ids") val id: String?) : Serializable {
     @SerializedName("iType")
     var iType:Int?=-1  // 1你约  2 速约
     fun getSpeedStateStr(): String {
-        return when (speedstate) {
+        return when (lookstate) {
             "1" -> "救火"
             "2" -> "征求"
             "3" -> "急约"

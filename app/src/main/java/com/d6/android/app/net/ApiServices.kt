@@ -273,4 +273,5 @@ interface ApiServices {
     //发现约会
     @POST("backstage/account/findAccountCardListPage")
     fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sPosition") sPosition:String, @Query("sCity") scity:String,@Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FindDate>>>
+
 }

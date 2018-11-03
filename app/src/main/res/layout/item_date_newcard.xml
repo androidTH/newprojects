@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true"
+    app:cardElevation="0dp"
     app:cardMaxElevation="@dimen/margin_5">
 
     <RelativeLayout
@@ -16,8 +17,8 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/headView"
             style="@style/DefaultCircleHeadStyle"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="8dp" />
@@ -32,7 +33,7 @@
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:textColor="@color/textColor"
-            android:textSize="@dimen/btnTextSize"
+            android:textSize="@dimen/textSize_15"
             android:textStyle="bold"
             android:text="-----"/>
 
@@ -68,7 +69,7 @@
             android:paddingRight="6dp"
             android:text="12"
             android:textColor="@color/white"
-            android:textSize="12dp"
+            android:textSize="11sp"
             android:visibility="visible" />
 
         <TextView
@@ -81,7 +82,7 @@
             android:paddingRight="6dp"
             android:text="------"
             android:textColor="@color/color_888888"
-            android:textSize="12dp" />
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/tv_city"
@@ -94,7 +95,7 @@
             android:gravity="center_vertical"
             android:text="--"
             android:textColor="@color/textColor99"
-            android:textSize="@dimen/textSize" />
+            android:textSize="11sp" />
         <ImageView
             android:id="@+id/iv_discover"
             android:layout_width="25dp"

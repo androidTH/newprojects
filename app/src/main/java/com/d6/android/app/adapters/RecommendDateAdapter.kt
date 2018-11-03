@@ -51,7 +51,7 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
         if(data.iType==1){
             typeView.text = "觅约"
         }else if(data.iType==2){
-            typeView.text = "速约"
+//            typeView.text = "速约"
             typeView.text =  data.getSpeedStateStr()
         }
 //        typeView.backgroundColor = Color.parseColor("#cc562BFF")

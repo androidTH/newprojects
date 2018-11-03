@@ -212,6 +212,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             tv_main_card_Bg_tv_id.visible()
             fb_unlike.gone()
             btn_like.gone()
+            fb_heat_like.gone()
         }
         Request.findAccountCardListPage(userId,sPosition, city,pageNum).request(this) { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {

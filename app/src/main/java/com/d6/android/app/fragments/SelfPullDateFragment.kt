@@ -74,6 +74,7 @@ class SelfPullDateFragment : RecyclerFragment() {
     }
 
     fun refresh() {
+        pageNum = 1
         getData()
     }
 

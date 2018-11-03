@@ -64,7 +64,7 @@
             android:singleLine="true"
             android:id="@+id/et_weChat"
             android:inputType="textEmailAddress"
-            android:digits="1234567890_qwrtyuioplkjhgfdsazxcvbnmASDFGHJKLMNBVCXZQWERTYUIOP@"
+            android:digits="1234567890_qwrtyuioplkjhgfdsaezxcvbnmASDFGHJKLMNBVCXZQWERTYUIOP@"
             android:hint="输入微信号"
             android:background="@drawable/shape_4r_f1f1"
             android:padding="12dp"
