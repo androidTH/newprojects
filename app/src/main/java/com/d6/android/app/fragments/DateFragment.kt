@@ -70,7 +70,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    var position = mRecyclerView.verticalScrollbarPosition
+                    var position = mCardScaleHelper.getCurrentItemPos()
                     if ((mDates.size-position) <= 2) {
                         pageNum++
                         if(cityType == -2){
@@ -179,6 +179,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }else{
             mRecyclerView.adapter =  DateWomanCardAdapter(mDates)
         }
+
         (mRecyclerView.adapter as BaseRecyclerAdapter<*>).setOnItemClickListener(this)
     }
 
@@ -245,6 +246,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     mDates.clear()
                 }
                 mDates.addAll(data.list.results)
+                mRecyclerView.adapter.notifyDataSetChanged()
                 setRecycler()
             }
         }
@@ -294,7 +296,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     fun doNextCard(){
         scrollPosition = mCardScaleHelper.currentItemPos + 1
-        if (mDates.isNotEmpty()) {
+        if (mDates.isNotEmpty()&&(mDates.size-scrollPosition)>=1) {
             mRecyclerView.smoothScrollToPosition(scrollPosition)
             if((mDates.size - scrollPosition)<=2){
                 pageNum++
