@@ -41,7 +41,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             when (t) {
                 is JsonSyntaxException -> msg = Error.PARSER_ERROR
                 is ConnectException -> msg = Error.NET_ERROR
-                is SocketTimeoutException -> msg = Error.NET_ERROR
+//                is SocketTimeoutException -> msg = Error.NET_ERROR
                 is HttpException -> {
                     msg = Error.SERVER_ERROR
                     val tCode = t.code()
