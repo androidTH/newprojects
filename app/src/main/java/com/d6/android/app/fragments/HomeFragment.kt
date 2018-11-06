@@ -7,19 +7,20 @@ import android.text.TextUtils
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.RecommendDateAdapter
-import com.d6.android.app.adapters.SpeedDateAdapter
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
-import com.d6.android.app.models.NewDateBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.isAuthUser
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
+import android.support.v7.widget.LinearSnapHelper
+
+
 
 
 /**
@@ -52,6 +53,8 @@ class HomeFragment : BaseFragment() {
         rvSpeedDate.setHasFixedSize(true)
         rvSpeedDate.isNestedScrollingEnabled = true
         rvSpeedDate.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(rvSpeedDate)
         rvSpeedDate.adapter = speedDateAdapter
 
         speedDateAdapter.setOnItemClickListener { _, position ->

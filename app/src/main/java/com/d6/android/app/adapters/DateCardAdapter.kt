@@ -21,16 +21,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     private var mImages = ArrayList<String>()
     private val mTags = ArrayList<UserTag>()
 
-    private val mCardAdapterHelper = CardAdapterHelper()
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        context = parent!!.context
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_date_newcard, parent, false)
-        mCardAdapterHelper.onCreateViewHolder(parent, view)
-        return ViewHolder(view)
-    }
-
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
-        mCardAdapterHelper.onBindViewHolder(holder.itemView, position, itemCount)
         val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
         val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
 

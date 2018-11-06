@@ -4,7 +4,6 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
@@ -24,6 +23,8 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.widget.gallery.CardScaleHelper
+import com.d6.android.app.widget.gallery.DSVOrientation
+import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_date.*
@@ -65,24 +66,31 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun onFirstVisibleToUser() {
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
-        mRecyclerView.layoutManager=LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        mRecyclerView.setOrientation(DSVOrientation.HORIZONTAL)
         setAdapter()
+        mRecyclerView.setSlideOnFling(false)
+        mRecyclerView.setItemTransitionTimeMillis(150)
+        mRecyclerView.setItemTransformer(ScaleTransformer.Builder()
+                .setMinScale(0.9f)
+                .build())
+
         mRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    var position = mCardScaleHelper.getCurrentItemPos()
-                    if ((mDates.size-position) <= 2) {
-                        pageNum++
-                        if(cityType == -2){
-                            getData(SPUtils.instance().getString(USER_ADDRESS),"")
-                        }else{
-                            getData("",tv_city.text.toString())
-                        }
-                    }
+//                    var position = mCardScaleHelper.getCurrentItemPos()
+//                    if ((mDates.size-position) <= 2) {
+//                        pageNum++
+//                        if(cityType == -2){
+//                            getData(SPUtils.instance().getString(USER_ADDRESS),"")
+//                        }else{
+//                            getData("",tv_city.text.toString())
+//                        }
+//                    }
                 }
             }
         })
+
         tv_city.setOnClickListener {
             val filterCityDialog = FilterCityDialog()
             filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
@@ -127,22 +135,16 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //                tv_type.text = s
 //                getData(1)
 //            }
+            tv_city.textColor = resources.getColor(R.color.color_black)
+            tv_city.text = resources.getString(R.string.string_area)
             pageNum =1
             tv_type.textColor = resources.getColor(R.color.color_F7AB00)
             getData(sameCity,"")
+
         }
 
         btn_like.setOnClickListener {
             doNextCard()
-//            tv_tip.gone()
-//            scrollPosition = mCardScaleHelper.currentItemPos + 1
-//            if (mDates.isNotEmpty()) {
-//                val date = mDates[0]
-//                showDialog()
-//                sendDateRequest(date)
-//            else {
-//                tv_tip.visible()
-//            }
         }
 
         fb_heat_like.setOnClickListener {
@@ -158,18 +160,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //            tv_main_card_bg_im_id.gone()
 //            tv_main_card_Bg_tv_id.gone()
             if (mDates.isNotEmpty()) {
-//                val date = mDates[0]
-//                mDates.remove(date)
-//                mRecyclerView.adapter.notifyDataSetChanged()
-//                getNext()
-                scrollPosition = mCardScaleHelper.currentItemPos - 1
+                scrollPosition = mRecyclerView.currentItem - 1
                 if(scrollPosition >= 0){
                     mRecyclerView.smoothScrollToPosition(scrollPosition)
                 }
-            } else {
-//                tv_tip.visible()
-//                tv_main_card_bg_im_id.visible()
-//                tv_main_card_Bg_tv_id.visible()
             }
         }
 
@@ -184,7 +178,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }else{
             mRecyclerView.adapter =  DateWomanCardAdapter(mDates)
         }
-
         (mRecyclerView.adapter as BaseRecyclerAdapter<*>).setOnItemClickListener(this)
     }
 
@@ -251,18 +244,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 }
                 mDates.addAll(data.list.results)
                 mRecyclerView.adapter.notifyDataSetChanged()
-                setRecycler()
             }
-        }
-    }
-
-    var flag:Boolean = false
-    fun setRecycler(){
-        if(!flag){
-            flag = true
-            mCardScaleHelper = CardScaleHelper()
-            mCardScaleHelper.attachToRecyclerView(mRecyclerView)
-            mCardScaleHelper.setCurrentItemPos(0)
         }
     }
 
@@ -299,7 +281,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     fun doNextCard(){
-        scrollPosition = mCardScaleHelper.currentItemPos + 1
+        scrollPosition = mRecyclerView.currentItem+1
         if (mDates.isNotEmpty()&&(mDates.size-scrollPosition)>=1) {
             mRecyclerView.smoothScrollToPosition(scrollPosition)
             if((mDates.size - scrollPosition)<=2){
@@ -333,7 +315,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private fun addFollow(){
 //        showDialog()//35578
-        scrollPosition = mCardScaleHelper.currentItemPos
+        scrollPosition = mRecyclerView.currentItem
         if(mDates.size > scrollPosition){
             doAnimation()
             var findDate = mDates.get(scrollPosition)

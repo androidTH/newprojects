@@ -47,11 +47,11 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
         if(data.iIsFollow == 0){
             mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
             mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
-            mTvFollow.setText("关注")
+            mTvFollow.setText("喜欢")
         }else{
             mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
             mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-            mTvFollow.setText("已关注")
+            mTvFollow.setText("已喜欢")
         }
 
         mTvFollow.setOnClickListener(this)
@@ -73,7 +73,7 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
         Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-            tv_focus.setText("已关注")
+            tv_focus.setText("已喜欢")
             fans.iIsFollow = 1
         }
     }
@@ -82,7 +82,7 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
         Request.getDelFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_nofans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
-            tv_focus.text ="关注"
+            tv_focus.text ="喜欢"
             fans.iIsFollow = 0
         }
     }
