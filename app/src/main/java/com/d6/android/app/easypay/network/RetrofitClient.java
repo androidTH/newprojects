@@ -62,12 +62,10 @@ public class RetrofitClient implements NetworkClientInterf {
                 if (response.isSuccessful()) {
                     try {
                         String result = response.body().string();
-                        Log.i("sss",result);
                         c.onSuccess(result);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 } else {
                     c.onFailure();
                 }

@@ -37,7 +37,7 @@ class SelfPullDateFragment : RecyclerFragment() {
     private var vipIds: String? = ""
     private var area: String? = ""
     private var areaType: Int? = 1
-    private var dateType: String? ="1"
+    private var dateType: String? =""
 
     private var pageNum = 1
     private val mFindDates = ArrayList<MyAppointment>()

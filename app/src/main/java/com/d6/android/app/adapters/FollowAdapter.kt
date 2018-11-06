@@ -48,7 +48,7 @@ class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
 
         mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
         mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-        mTvFollow.setText("已关注")
+        mTvFollow.setText("喜欢")
 
         mTvFollow.setOnClickListener(this)
         mTvFollow.setTag(data)

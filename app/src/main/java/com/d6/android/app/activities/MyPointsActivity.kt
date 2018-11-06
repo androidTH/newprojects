@@ -52,6 +52,7 @@ import kotlinx.android.synthetic.main.item_mypoints_header.*
 import kotlinx.android.synthetic.main.item_mypoints_header.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 /**
@@ -87,7 +88,11 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
         mPointsAdapter.setHeaderView(mHeaderView)
         mypoints_refreshrecycler.setOnRefreshListener(this)
 
-        mHeaderView.tv_mypointnums.text = myPointNums
+        mHeaderView.tv_mypointnums.text = if(myPointNums.isEmpty()){
+            "0"
+        }else{
+            myPointNums
+        }
 
         tv_mypoints_back.setOnClickListener {
             finish()
@@ -148,14 +153,13 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
                 .build()
         EasyPay.newInstance(params).requestPayInfo(object: OnPayInfoRequestListener {
             override fun onPayInfoRequetStart() {
-
             }
 
             override fun onPayInfoRequstSuccess() {
+
             }
 
             override fun onPayInfoRequestFailure() {
-
             }
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?) {
@@ -163,11 +167,9 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
             }
 
             override fun onPayCancel(payWay: PayWay?) {
-
             }
 
             override fun onPayFailure(payWay: PayWay?, errCode: Int) {
-
             }
         })
     }

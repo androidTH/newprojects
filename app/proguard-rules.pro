@@ -169,6 +169,8 @@
 
  # Application classes that will be serialized/deserialized over Gson
 -keep class com.d6.android.app.models.** {*;}
+-keep class com.d6.android.app.easypay.pay.BaseModel {*;}
+-keep class com.d6.android.app.easypay.pay.PrePayInfo {*;}
 -keep class cn.liaox.cachelib.bean.** { *; }
 
 -keepattributes Exceptions,InnerClasses

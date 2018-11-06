@@ -116,11 +116,11 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 }
             }
         }
-        getData()
     }
 
     override fun onResume() {
         super.onResume()
+        getData()
         getSysLastOne()
         getSquareMsg()
     }

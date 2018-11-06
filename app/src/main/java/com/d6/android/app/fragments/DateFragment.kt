@@ -54,6 +54,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var city: String? = null
     private var outCity: String? = null
     private var cityType: Int = -2
+    private var sameCity=""
 
     private var pageNum = 1
     private var mDates = ArrayList<FindDate>()
@@ -104,14 +105,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     city = null
                     outCity = null
                     tv_city.textColor = resources.getColor(R.color.color_black)
-                    tv_type.textColor = resources.getColor(R.color.color_F7AB00)
+                    tv_type.textColor = resources.getColor(R.color.color_black)
                     tv_type.text = resources.getString(R.string.string_samecity)
                 }
                 cityType = p
                 tv_city.text = s
                 pageNum =1
                 if(p == -2){
-                    getData(SPUtils.instance().getString(USER_ADDRESS),"")
+                    getData("","")
                 }else{
                     getData("",s.toString())
                 }
@@ -126,6 +127,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //                tv_type.text = s
 //                getData(1)
 //            }
+            pageNum =1
+            tv_type.textColor = resources.getColor(R.color.color_F7AB00)
+            getData(sameCity,"")
         }
 
         btn_like.setOnClickListener {
@@ -170,6 +174,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
 
         showDialog()
+        getData()
         checkLocation()
     }
 
@@ -192,14 +197,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         locationClient.setLocationListener {
             if (it != null) {
-                tv_type.text = it.city
-                tv_type.textColor = resources.getColor(R.color.color_F7AB00)
+                sameCity = it.city
                 locationClient.stopLocation()
                 updateAddress(tv_type.text.toString().trim())
                 SPUtils.instance().put(USER_ADDRESS, it.city).apply()
-                getData(it.city,"")
             }
         }
+
     }
 
     private fun startLocation() {
@@ -243,7 +247,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 if(cityType == -2&&pageNum == 1){
                    mDates.clear()
                 }else if(cityType != -2&&pageNum == 1){
-                    mDates.clear()
+                   mDates.clear()
                 }
                 mDates.addAll(data.list.results)
                 mRecyclerView.adapter.notifyDataSetChanged()

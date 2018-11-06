@@ -130,7 +130,7 @@ class MyDateDetailActivity : BaseActivity() {
                             tv_private_chat.visibility = View.GONE
                             tv_giveup_date.visibility = View.GONE
 
-                            setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3)
+                            setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3,true)
 
                         }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(userId,data.iUserid.toString())){
                             tv_date_status.text="状态：等待对方同意"
@@ -139,7 +139,7 @@ class MyDateDetailActivity : BaseActivity() {
                             tv_private_chat.visibility = View.GONE
                             tv_giveup_date.visibility = View.VISIBLE
 
-                            setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3)
+                            setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3,true)
                         }
                     }
                     2 -> { //
@@ -197,10 +197,17 @@ class MyDateDetailActivity : BaseActivity() {
         })
     }
 
-    fun setAgreeDate(data:MyAppointment,updateTime:Long,str:String,len:Int){
+    fun setAgreeDate(data:MyAppointment,updateTime:Long,str:String,len:Int,flag:Boolean =false){
         rel_0.visibility = View.VISIBLE
         rel_1.visibility = View.VISIBLE
-        rel_2.visibility = View.VISIBLE
+        if(flag){
+            rel_2.visibility = View.GONE
+            rel1_line.visibility = View.GONE
+        }else{
+            rel_2.visibility = View.VISIBLE
+            rel1_line.visibility = View.VISIBLE
+        }
+
         rel_3.visibility = View.GONE
 
         rel2_line.visibility = View.GONE

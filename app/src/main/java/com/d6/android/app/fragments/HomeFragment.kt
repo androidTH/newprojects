@@ -169,7 +169,7 @@ class HomeFragment : BaseFragment() {
 //                        it.refresh("",type.toString())
 //                    }
                   var area = if(!TextUtils.isEmpty(city)) city else if(!TextUtils.isEmpty(outCity)) outCity else ""
-                    var dateType = if(type == 6){
+                    var dateType = if(type == 6||type==0){
                         ""
                     }else{
                         type.toString()

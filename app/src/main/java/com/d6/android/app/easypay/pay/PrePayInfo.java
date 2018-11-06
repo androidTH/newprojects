@@ -2,6 +2,8 @@ package com.d6.android.app.easypay.pay;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Author: michaelx
  * Create: 17-3-20.
@@ -13,17 +15,18 @@ import com.google.gson.annotations.SerializedName;
  * <p>
  * Description: 用于微信支付.// TODO 集成时请按照自身需求修改此类
  */
-public class PrePayInfo {
+public class PrePayInfo implements Serializable {
 
-    public String appid;
-    public String partnerid;//商户号
-    public String prepayid;//微信返回的支付交易会话ID
+    private String appid;
+    private String partnerid;//商户号
+    private String prepayid;//微信返回的支付交易会话ID
     @SerializedName("package")
-    public String packageValue;
-    public String noncestr;//随机字符串
-    public String timestamp;
-    public String sign;
-    public String pre_pay_order_status;
+    private String packageValue;
+    private String noncestr;//随机字符串
+    private String timestamp;
+    private String sign;
+    private String pre_pay_order_status;
+    private String sOrderid;
 
     public String getAppid() {
         return appid;
@@ -87,5 +90,13 @@ public class PrePayInfo {
 
     public void setPre_pay_order_status(String pre_pay_order_status) {
         this.pre_pay_order_status = pre_pay_order_status;
+    }
+
+    public String getsOrderid() {
+        return sOrderid == null ? "" : sOrderid;
+    }
+
+    public void setsOrderid(String sOrderid) {
+        this.sOrderid = sOrderid;
     }
 }

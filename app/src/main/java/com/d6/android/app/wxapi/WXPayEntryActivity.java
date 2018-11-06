@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.d6.android.app.utils.Const;
 import com.tencent.mm.opensdk.modelbase.BaseReq;

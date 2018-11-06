@@ -18,6 +18,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import com.d6.android.app.BuildConfig
+import com.d6.android.app.activities.DateAuthStateActivity
 import com.d6.android.app.activities.UnAuthUserActivity
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
@@ -283,7 +284,8 @@ fun File?.getFileSuffix(): String {
 inline fun Activity.isAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7") {
-        this.startActivity<UnAuthUserActivity>()
+//        this.startActivity<UnAuthUserActivity>()
+        this.startActivity<DateAuthStateActivity>()
     } else {
         next()
     }

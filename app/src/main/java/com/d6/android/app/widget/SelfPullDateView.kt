@@ -6,11 +6,14 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.d6.android.app.R
+import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.view_self_release_view.view.*
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.startActivity
 
 /**
  * Created on 2017/12/17.
@@ -36,6 +39,12 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         headView.setImageURI(myAppointment.sAppointmentPicUrl)
         tv_name.text = myAppointment.sAppointUserName
         tv_name.isSelected = myAppointment.iSex == 0
+        headView.setOnClickListener(OnClickListener {
+            val id =myAppointment.iAppointUserid
+            isBaseActivity {
+                it.startActivity<UserInfoActivity>("id" to id.toString())
+            }
+        })
 //        val start = myAppointment.dStarttime.toString()?.parserTime("yyyy-MM-dd")
 //        val end = myAppointment.dEndtime.toString()?.parserTime("yyyy-MM-dd")
 //        val time = String.format("%s-%s",start?.toTime("MM.dd"),end?.toTime("MM.dd"))
@@ -116,4 +125,9 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         fun onDateClick(myAppointment: MyAppointment)
     }
 
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
+        }
+    }
 }

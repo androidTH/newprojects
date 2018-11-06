@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
@@ -16,6 +17,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
+import org.jetbrains.anko.startActivity
 
 /**
  *粉丝
@@ -40,6 +42,20 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
             img_pull_header.setImageURI(data.sAppointmentPicUrl)
 
             img_push_header.setImageURI(data.sPicUrl)
+
+         img_pull_header.setOnClickListener(View.OnClickListener {
+             val id = data.iAppointUserid
+             isBaseActivity {
+                 it.startActivity<UserInfoActivity>("id" to id.toString())
+             }
+         })
+
+        img_push_header.setOnClickListener(View.OnClickListener {
+            val id = data.iUserid
+            isBaseActivity {
+                it.startActivity<UserInfoActivity>("id" to id.toString())
+            }
+        })
 
 //            holder.setText(R.id.tv_pull_name,data.sAppointUserName)
 //            holder.setText(R.id.tv_push_name,data.sUserName)
@@ -127,6 +143,12 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
             tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
             tv_focus.text ="关注"
             fans.iIsFollow = 0
+        }
+    }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
         }
     }
 }

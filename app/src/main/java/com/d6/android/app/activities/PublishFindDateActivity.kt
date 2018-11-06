@@ -205,10 +205,10 @@ class PublishFindDateActivity : BaseActivity() {
             showToast("请选择结束时间")
             return
         }
-        if (mImages.size <= 1) {
-            showToast("请上传至少一张图片")
-            return
-        }
+//        if (mImages.size <= 1) {
+//            showToast("请上传至少一张图片")
+//            return
+//        }
         dialog()
         if (mImages.size > 1) {//有图片
             val temp = mImages.filter { it.type != 1 }
