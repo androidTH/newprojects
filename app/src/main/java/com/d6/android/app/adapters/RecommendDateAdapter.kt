@@ -29,19 +29,33 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
         nameView.text = String.format("%s", data.name) //String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
-        holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
+        if(TextUtils.equals("0",data.sex)){
+            holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
+        }else{
+            holder.setText(R.id.tv_info, String.format("职业:%s 座驾:%s", data.job, data.zuojia))
+        }
+
         holder.setText(R.id.tv_content, data.lookfriendstand)
         holder.setText(R.id.tv_address,data.city)
         val tv_audio_auth = holder.bind<TextView>(R.id.tv_auth_state)
-        if (TextUtils.equals("1", data.screen)) {
-            tv_audio_auth.isSelected = true
-            tv_audio_auth.text = "视频认证"
-        } else if(TextUtils.equals("0", data.screen)){
-            tv_audio_auth.isSelected = false
-            tv_audio_auth.text = "未认证"
-        }else if(TextUtils.equals("3",data.screen)){
-            tv_audio_auth.isSelected = false
-            tv_audio_auth.text = "初级认证"
+        val tv_audio_level = holder.bind<TextView>(R.id.tv_auth_level)
+        if(TextUtils.equals("0",data.sex)){
+            tv_audio_auth.visibility = View.VISIBLE
+            tv_audio_level.visibility = View.GONE
+            if (TextUtils.equals("1", data.screen)) {
+                tv_audio_auth.isSelected = true
+                tv_audio_auth.text = "视频认证"
+            } else if(TextUtils.equals("0", data.screen)){
+                tv_audio_auth.isSelected = false
+                tv_audio_auth.text = "未认证"
+            }else if(TextUtils.equals("3",data.screen)){
+                tv_audio_auth.isSelected = false
+                tv_audio_auth.text = "初级认证"
+            }
+        }else{
+            tv_audio_auth.visibility = View.GONE
+            tv_audio_level.visibility = View.VISIBLE
+            tv_audio_level.text = data.classesname
         }
 //        val endTime = data.createTime.toTime("yyyy-MM-dd")
 //        val cTime = if (D6Application.systemTime <= 0) {

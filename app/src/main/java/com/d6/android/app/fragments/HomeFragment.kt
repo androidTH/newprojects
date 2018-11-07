@@ -19,8 +19,7 @@ import com.d6.android.app.utils.isAuthUser
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.support.v7.widget.LinearSnapHelper
-
-
+import com.d6.android.app.utils.doAuthUser
 
 
 /**
@@ -58,7 +57,7 @@ class HomeFragment : BaseFragment() {
         rvSpeedDate.adapter = speedDateAdapter
 
         speedDateAdapter.setOnItemClickListener { _, position ->
-            activity?.isAuthUser {
+            activity?.doAuthUser {
                 val date = mSpeedDates[position]
                 if(date.iType == 1){
                     startActivity<FindDateDetailActivity>("data" to date)

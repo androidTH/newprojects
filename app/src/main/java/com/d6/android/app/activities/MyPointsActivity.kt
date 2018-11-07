@@ -70,6 +70,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
 
     private var pageNum = 1
     private val mUserPoints = ArrayList<UserPoints>()
+    lateinit var mPointsListDialog:PointsListDialog
 
     private val mPointsAdapter by lazy {
         PointsAdapter(mUserPoints)
@@ -103,12 +104,11 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
         }
 
         mHeaderView.tv_recharge.setOnClickListener {
-            val mPointsListDialog = PointsListDialog()
+            mPointsListDialog = PointsListDialog()
 //            mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
             mPointsListDialog.show(supportFragmentManager, "c")
             mPointsListDialog.setOnPayListener { p, data ->
                  payMoney(data)
-                 mPointsListDialog.dismissAllowingStateLoss()
             }
         }
     }
@@ -163,7 +163,9 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
             }
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?) {
+                mPointsListDialog.dismissAllowingStateLoss()
                 getUserInfo()
+                toast("充值成功")
             }
 
             override fun onPayCancel(payWay: PayWay?) {

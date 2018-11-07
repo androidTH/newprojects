@@ -59,7 +59,9 @@ public class BLBeautifyFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //由于拍照的图片很大，所以要先做一下处理，否则在改变亮度和饱和度时会很卡
-        mBeautifyImage.setImage(BLBitmapUtils.getBitmap(mPath));
+        if(mPath != null){
+            mBeautifyImage.setImage(BLBitmapUtils.getBitmap(mPath));
+        }
     }
 
     public Bitmap getBitmap(){

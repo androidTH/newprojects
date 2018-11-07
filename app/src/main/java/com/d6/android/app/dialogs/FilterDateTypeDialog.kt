@@ -18,6 +18,7 @@ import org.jetbrains.anko.matchParent
  */
 class FilterDateTypeDialog : DialogFragment() {
 
+    private var mShowType:Boolean = true
     private val immersionBar by lazy {
         ImmersionBar.with(this, dialog)
     }
@@ -39,6 +40,10 @@ class FilterDateTypeDialog : DialogFragment() {
         dialog.setCanceledOnTouchOutside(true)
     }
 
+    fun setDateType(showType:Boolean = true){
+        this.mShowType = showType
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater?.inflate(R.layout.dialog_filter_date_type_layout, container, false)
 
@@ -51,27 +56,27 @@ class FilterDateTypeDialog : DialogFragment() {
         }
 
         tv_recommend.setOnClickListener {
-            dialogListener?.onClick(5, "其他")
+            dialogListener?.onClick(5, if(mShowType )"其他" else "觅约")
             dismissAllowingStateLoss()
         }
 
         tv_2.setOnClickListener {
-            dialogListener?.onClick(1, "旅行")
+            dialogListener?.onClick(1, if(mShowType )"旅行" else "救火")
             dismissAllowingStateLoss()
         }
 
         tv_3.setOnClickListener {
-            dialogListener?.onClick(2, "吃饭")
+            dialogListener?.onClick(2,  if(mShowType) "吃饭" else "征求")
             dismissAllowingStateLoss()
         }
 
         tv_4.setOnClickListener {
-            dialogListener?.onClick(3, "看电影")
+            dialogListener?.onClick(3, if(mShowType) "看电影" else "急约")
             dismissAllowingStateLoss()
         }
 
         tv_5.setOnClickListener {
-            dialogListener?.onClick(4, "喝酒")
+            dialogListener?.onClick(4, if(mShowType )"喝酒" else "旅行约")
             dismissAllowingStateLoss()
         }
 
@@ -83,31 +88,31 @@ class FilterDateTypeDialog : DialogFragment() {
 //                        .size(0,2,15)
 //                        .build()
 
-        tv_recommend.text = "其他"
+        tv_recommend.text = if(mShowType )"其他" else "觅约"
 //        SpanBuilder("官方推荐\nD6社区的推荐")
 //                .color(context,0,4,R.color.textColor)
 //                .size(0,4,15)
 //                .build()
 
-        tv_2.text = "旅行"
+        tv_2.text = if(mShowType )"旅行" else "救火"
 //        SpanBuilder("旅行\n在旅行中遇见最美的你")
 //                .color(context,0,2,R.color.textColor)
 //                .size(0,2,15)
 //                .build()
 
-        tv_3.text = "吃饭"
+        tv_3.text = if(mShowType) "吃饭" else "征求"
 //                SpanBuilder("吃饭\n在旅行中遇见最美的你")
 //                .color(context,0,2,R.color.textColor)
 //                .size(0,2,15)
 //                .build()
 
-        tv_4.text = "看电影"
+        tv_4.text = if(mShowType) "看电影" else "急约"
 //                SpanBuilder("看电影\n快速响应的约会")
 //                .color(context,0,3,R.color.textColor)
 //                .size(0,2,15)
 //                .build()
 
-        tv_5.text ="喝酒"
+        tv_5.text = if(mShowType )"喝酒" else "旅行约"
 //                SpanBuilder("喝酒\n一起来旅行吧")
 //                .color(context,0,3,R.color.textColor)
 //                .size(0,3,15)

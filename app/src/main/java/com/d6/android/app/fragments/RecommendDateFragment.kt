@@ -3,6 +3,7 @@ package com.d6.android.app.fragments
 import android.graphics.Color
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.d6.android.app.R
 import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.DateAdapter
@@ -17,7 +18,9 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.utils.sysErr
 import com.gyf.barlibrary.ImmersionBar
+import kotlinx.android.synthetic.main.alayout.view.*
 import kotlinx.android.synthetic.main.fragment_date.*
+import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -50,7 +53,6 @@ class RecommendDateFragment : RecyclerFragment() {
         mSwipeRefreshLayout.setBackgroundColor(Color.WHITE)
 
         mSwipeRefreshLayout.setLayoutManager(getLayoutManager())
-
         dateAdapter.setOnItemClickListener { _, position ->
             activity?.isAuthUser {
                 val date = mSpeedDates[position]
@@ -75,8 +77,28 @@ class RecommendDateFragment : RecyclerFragment() {
         getData()
     }
 
+    fun getData(iLookType:String,splace:String) {
+        pageNum=1
+        Request.findLookAllAboutList(userId,iLookType,splace,pageNum).request(this) { _, data ->
+            if (pageNum == 1) {
+                mSpeedDates.clear()
+            }
+            if (data?.list?.results == null || data.list.results.isEmpty()) {
+                if (pageNum > 1) {
+                    mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                    pageNum--
+                } else {
+                    mSwipeRefreshLayout.setLoadMoreText("暂无数据")
+                }
+            } else {
+                mSpeedDates.addAll(data.list.results)
+            }
+            dateAdapter.notifyDataSetChanged()
+        }
+    }
+
     private fun getData() {
-        Request.findLookAllAboutList(userId, pageNum).request(this) { _, data ->
+        Request.findLookAllAboutList(userId,"","",pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mSpeedDates.clear()
             }

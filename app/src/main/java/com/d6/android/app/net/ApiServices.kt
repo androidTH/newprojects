@@ -260,7 +260,7 @@ interface ApiServices {
 
     //查询全部人工推荐
     @POST("backstage/lookabout/findAllLookAboutList")
-    fun findLookAllAboutList(@Query("iUserid") iUserid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<MyDate>>>
+    fun findLookAllAboutList(@Query("iUserid") iUserid:String, @Query("iLookType") iLookType:String, @Query("sPlace") splace:String, @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<MyDate>>>
 
     //添加查询约会扣除、退回、取消需要的积分接口
     @POST("backstage/appointment/queryAppointmentPoint")

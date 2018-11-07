@@ -2,6 +2,7 @@ package com.d6.android.app.widget
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
@@ -72,16 +73,18 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         var sb = StringBuffer()
-        if(myAppointment.iAge != null){
-            sb.append("${myAppointment.iAge}岁·")
+        if(!myAppointment.iAge.isNullOrEmpty()){
+            sb.append("${myAppointment.iAge}岁")
         }
 
-        if(myAppointment.iHeight != null){
-            sb.append("${myAppointment.iHeight}cm·")
+        if(!myAppointment.iHeight.isNullOrEmpty()){
+            sb.append("·${myAppointment.iHeight}cm")
         }
 
         if(myAppointment.iWeight != null){
-            sb.append("${myAppointment.iWeight}kg")
+            if(!myAppointment.iWeight.equals("0")){
+                sb.append("·${myAppointment.iWeight}kg")
+            }
         }
 
         tv_sub_title.text = sb.toString()

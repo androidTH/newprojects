@@ -291,6 +291,16 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
     }
 }
 
+inline fun Activity.doAuthUser(next: () -> Unit) {
+    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+    if (className == "7") {
+        this.startActivity<UnAuthUserActivity>()
+    } else {
+        next()
+    }
+}
+
+
 /**
  * 是否白银以上
  */

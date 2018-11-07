@@ -286,10 +286,13 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setNoticeIsNoShow(){
+        val view = tabhost.tabWidget.getChildTabViewAt(0).findViewById<View>(R.id.tv_msg_count)
         if(unReadMsg!! > 0){
             iv_mydate_newnotice.visibility = View.VISIBLE
+            view.visibility = View.VISIBLE
         }else{
             iv_mydate_newnotice.visibility = View.GONE
+            view.visibility = View.GONE
         }
     }
 
