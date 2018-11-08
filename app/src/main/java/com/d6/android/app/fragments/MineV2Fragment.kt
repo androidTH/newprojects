@@ -144,7 +144,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         })
 
         tv_more.setOnClickListener {
-            //            startActivity<SettingActivity>()
+            //startActivity<SettingActivity>()
             val mineActionDialog = MineActionDialog()
             mineActionDialog.show(childFragmentManager, "action")
             mineActionDialog.setDialogListener { p, s ->

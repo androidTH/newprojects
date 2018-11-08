@@ -25,7 +25,20 @@ class RecommendAllDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<My
         if(TextUtils.equals("0",data.sex)){
             holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
         }else{
-            holder.setText(R.id.tv_info, String.format("职业:%s 座驾:%s", data.job, data.zuojia))
+            var tv_info = holder.bind<TextView>(R.id.tv_info)
+            var sb = StringBuffer()
+            if(!data.job.isNullOrEmpty()){
+                sb.append("职业:${data.job}")
+            }
+            if(!data.zuojia.isNullOrEmpty()){
+                sb.append("座驾:${data.zuojia}")
+            }
+            if(sb.toString().isNullOrEmpty()){
+                tv_info.visibility = View.GONE
+            }else{
+                tv_info.visibility = View.VISIBLE
+                tv_info.text = sb.toString()
+            }// String.format("职业:%s 座驾:%s", data.job, data.zuojia)
         }
 
         holder.setText(R.id.tv_content, data.lookfriendstand)

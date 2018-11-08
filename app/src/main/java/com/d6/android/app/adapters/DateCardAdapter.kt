@@ -27,7 +27,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
         data.userpics?.let {
             var imglist = it.split(",")
-            if (mImages.isNotEmpty()) {
+            if (imglist.size==0) {
                 rv_mydate_images.visibility = View.GONE
             } else {
                 rv_mydate_images.visibility = View.VISIBLE
