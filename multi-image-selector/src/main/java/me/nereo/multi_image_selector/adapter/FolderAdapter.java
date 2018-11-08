@@ -174,6 +174,9 @@ public class FolderAdapter extends BaseAdapter {
                 size.setText("*"+mContext.getResources().getString(R.string.photo_unit));
             }
             // 显示图片
+            if(data.cover.path.isEmpty()){
+                return;
+            }
             Uri uri = Uri.parse("file://"+data.cover.path);
             ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
                     .setLocalThumbnailPreviewsEnabled(true)
