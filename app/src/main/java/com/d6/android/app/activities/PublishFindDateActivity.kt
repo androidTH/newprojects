@@ -129,6 +129,7 @@ class PublishFindDateActivity : BaseActivity() {
         }
         tv_endTime.setOnClickListener {
             val dialog = DatePickDialog(System.currentTimeMillis())
+            dialog.isCheckedStartTime(startTime.isNotEmpty(),startTime.substring(startTime.length - 2,startTime.length))
             dialog.setOnDateSetListener { year, month, day ->
                 dialog.dismissAllowingStateLoss()
                 endTime = String.format("%s-%02d-%02d",year,month,day)

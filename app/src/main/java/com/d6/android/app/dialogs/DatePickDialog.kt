@@ -18,6 +18,11 @@ import org.jetbrains.anko.support.v4.find
 @SuppressLint("ValidFragment")
 class DatePickDialog(val min: Long = 0, val max: Long = 0) : DialogFragment() {
 
+    @JvmField
+    var isCheckedStartTime:Boolean=false
+    @JvmField
+    var dayofMonth:String =""
+
     private val datePicker by lazy {
         find<DatePicker>(R.id.mDatePicker)
     }
@@ -34,6 +39,11 @@ class DatePickDialog(val min: Long = 0, val max: Long = 0) : DialogFragment() {
         super.onCreate(savedInstanceState)
     }
 
+    fun isCheckedStartTime(flag:Boolean=false,day:String){
+        isCheckedStartTime = flag
+        dayofMonth = day
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater?.inflate(R.layout.activity_date_pick_dialog, container, false)
 
@@ -47,6 +57,12 @@ class DatePickDialog(val min: Long = 0, val max: Long = 0) : DialogFragment() {
             if (min > 0) {
                 datePicker.minDate = min
             }
+        }
+
+        if(isCheckedStartTime){
+            datePicker.init(datePicker.year,datePicker.month,dayofMonth.toInt()+7, DatePicker.OnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+
+            })
         }
 
         cancelView.setOnClickListener {
@@ -75,5 +91,4 @@ class DatePickDialog(val min: Long = 0, val max: Long = 0) : DialogFragment() {
     interface OnDateSetListener {
         fun onSet(year: Int, month: Int, day: Int)
     }
-
 }
