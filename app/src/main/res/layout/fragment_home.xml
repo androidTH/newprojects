@@ -48,7 +48,7 @@
                     android:textSize="12sp"
                     android:gravity="center"
                     android:textColor="@color/color_888888"
-                    android:text="专属客服为您服务"/>
+                    android:text="专属微信客服为您服务"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvSpeedDate"

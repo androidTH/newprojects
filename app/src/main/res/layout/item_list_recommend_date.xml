@@ -50,7 +50,27 @@
             android:layout_alignTop="@id/ll_name"
             android:drawablePadding="@dimen/margin_1"
             android:drawableLeft="@drawable/auth_selector"
+            android:visibility="gone"
             android:text="已认证"/>
+        <TextView
+            android:id="@+id/tv_auth_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_4r_orange_f9b"
+            android:textColor="@color/white"
+            android:paddingTop="@dimen/margin_2"
+            android:paddingBottom="@dimen/margin_2"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_8"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="-30dp"
+            android:layout_marginRight="@dimen/margin_5"
+            android:textSize="10sp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/ll_name"
+            android:drawablePadding="@dimen/margin_1"
+            android:text="已认证"/>
+
         <LinearLayout
             android:id="@+id/ll_name"
             android:layout_width="wrap_content"

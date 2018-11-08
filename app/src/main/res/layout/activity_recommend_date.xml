@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container"
-    tools:context=".activities.RecommendDateActivity">
+    android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_4r_f5f5"
+        android:gravity="center_horizontal">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tv_date_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/margin_25"
+            android:drawableRight="@mipmap/titlemore_icon"
+            android:drawablePadding="@dimen/margin_5"
+            android:text="地区"
+            android:textColor="@color/color_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_datetype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawableRight="@mipmap/titlemore_icon"
+            android:drawablePadding="@dimen/margin_5"
+            android:text="类型"
+            android:textColor="@color/color_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_1"
+        android:background="@color/color_EAEAEA"/>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.RecommendDateActivity">
+    </FrameLayout>
+</LinearLayout>

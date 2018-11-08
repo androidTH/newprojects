@@ -165,7 +165,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/likeme"
+                    android:text="喜欢TA的"
                     android:textColor="@color/color_666666" />
             </LinearLayout>
             <View
@@ -195,7 +195,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Ilike"
+                    android:text="TA喜欢的"
                     android:textColor="@color/color_666666" />
             </LinearLayout>
 

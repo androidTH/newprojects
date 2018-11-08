@@ -32,9 +32,9 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
     @SerializedName("dEndtime") var dEndtime:Long =0  //"dEndtime":1539855678000,//约会截至时间
     @SerializedName("dUpdatetime") var dUpdatetime:Long = 0 //"dUpdatetime":null//约会更新时间
     @SerializedName("iSex") var iSex:Int?=-1
-    @SerializedName("iAge") var iAge:String=""
-    @SerializedName("iHeight") var iHeight:String=""
-    @SerializedName("iWeight") var iWeight:String=""
+    @SerializedName("iAge") var iAge:Int?=-1
+    @SerializedName("iHeight") var iHeight:Int?=-1
+    @SerializedName("iWeight") var iWeight:Int?=-1
     var iPoint:Int?=-1
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
@@ -59,9 +59,9 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
         dEndtime = parcel.readLong()
         dUpdatetime = parcel.readLong()
         iSex = parcel.readValue(Int::class.java.classLoader) as? Int
-        iAge = parcel.readString()
-        iHeight = parcel.readString()
-        iWeight = parcel.readString()
+        iAge = parcel.readInt()
+        iHeight = parcel.readInt()
+        iWeight = parcel.readInt()
         iPoint = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
