@@ -36,6 +36,9 @@
     <string name="senddatepointlow">发起失败,积分余额不足</string>
     <string name="string_samecity">同城</string>
     <string name="string_area">地区</string>
+    <string name="string_siliao">私聊</string>
+    <string name="string_like">喜欢</string>
+    <string name="string_liked">已喜欢</string>
     <string name="dsv_ex_msg_dont_set_lm">You should not set LayoutManager on DiscreteScrollView.class instance. Library uses a special one. Just don\'t call the method.</string>
     <string name="dsv_ex_msg_adapter_wrong_recycler">InfiniteScrollAdapter is supposed to work only with DiscreteScrollView</string>
 

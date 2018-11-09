@@ -1,31 +1,24 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.support.v4.content.ContextCompat
 import android.text.Editable
-import android.text.TextPaint
 import android.text.TextWatcher
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.view.View
 import com.d6.android.app.R
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
-import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
-import com.umeng.socialize.bean.SHARE_MEDIA
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
-import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.activity_bindphone_layout.*
 import org.jetbrains.anko.*
 import org.json.JSONObject
 
@@ -54,23 +47,9 @@ class BindPhoneActivity : TitleActivity() {
 
         title = "绑定手机号"
 
-        btn_sign_in.setOnClickListener {
+        btn_sign_in.setOnClickListener(View.OnClickListener {
             phoneLogin()
-        }
-
-        tv_forget_password.setOnClickListener {
-            startActivity<ForgetPasswordActivity>()
-        }
-
-        action_sign_up.setOnClickListener {
-            startActivity<SignUpActivity>()
-        }
-
-        tv_contact.setOnClickListener {
-            //            val contactUsDialog = ContactUsDialog()
-//            contactUsDialog.show(supportFragmentManager,"")
-            startActivity<ContactUsActivity>()
-        }
+        })
 
         tv_type.setOnClickListener {
             //            val selectTypeDialog = SelectLoginTypeDialog()
@@ -106,14 +85,6 @@ class BindPhoneActivity : TitleActivity() {
 
         })
 
-//        et_phone.setOnFocusChangeListener { view, b ->
-//            if (b) {
-//
-//            } else {
-//
-//            }
-//        }
-
         tv_get_code.setOnClickListener {
             getCode()
         }
@@ -137,22 +108,6 @@ class BindPhoneActivity : TitleActivity() {
             }
 
         })
-
-        tv_wechat_login.setOnClickListener {
-            if (wxApi.isWXAppInstalled) {
-                weChatLogin()
-            } else {
-                toast("请先安装微信")
-            }
-        }
-
-        action_protocols.movementMethod = LinkMovementMethod.getInstance()
-        val s = "注册即表示同意 D6社区用户协议"
-        action_protocols.text = SpanBuilder(s)
-                .click(s.length - 8, s.length, MClickSpan(this))
-                .build()
-
-        SPUtils.instance().put(Const.User.IS_FIRST,false).apply()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -218,40 +173,6 @@ class BindPhoneActivity : TitleActivity() {
         }
     }
 
-    private fun weChatLogin() {
-        shareApi.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, object : UMAuthListener {
-            override fun onComplete(p0: SHARE_MEDIA?, p1: Int, data: MutableMap<String, String>?) {
-                dismissDialog()
-                if (data != null) {
-                    val openId = if (data.containsKey("openid")) data["openid"] else ""
-                    val name = if (data.containsKey("name")) data["name"] else ""
-                    val gender = if (data.containsKey("gender")) data["gender"] else ""
-                    val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else ""
-                    sysErr("------->$gender--->$openId--->$name")
-                    thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "")
-                } else {
-                    toast("拉取微信信息异常！")
-                }
-            }
-
-            override fun onCancel(p0: SHARE_MEDIA?, p1: Int) {
-                toast("取消登录")
-                dismissDialog()
-            }
-
-            override fun onError(p0: SHARE_MEDIA?, p1: Int, p2: Throwable?) {
-                p2?.printStackTrace()
-                toast("微信登录异常！")
-                dismissDialog()
-            }
-
-            override fun onStart(p0: SHARE_MEDIA?) {
-                dialog()
-            }
-
-        })
-    }
-
     private fun phoneLogin() {
         val phone = et_phone.text.toString().trim()
         if (phone.isEmpty()) {
@@ -305,35 +226,6 @@ class BindPhoneActivity : TitleActivity() {
         }
     }
 
-    private fun thirdLogin(openId: String, name: String, url: String, gender: String) {
-        dialog("登录中...")
-        Request.loginV2(0, openId = openId).request(this) { msg, data ->
-            msg?.let {
-                try {
-                    val json = JSONObject(it)
-                    val token = json.optString("token")
-                    SPUtils.instance().put(Const.User.RONG_TOKEN, token)
-                            .apply()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            saveUserInfo(data)
-            data?.let {
-                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
-                RongIM.getInstance().refreshUserInfoCache(info)
-            }
-            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-                startActivity<SetUserInfoActivity>("name" to name, "gender" to gender)
-            } else {
-                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
-                startActivity<MainActivity>()
-            }
-            setResult(Activity.RESULT_OK)
-            finish()
-        }
-    }
-
     private val countDownTimer = object : CountDownTimer(60 * 1000, 1000) {
         override fun onFinish() {
             tv_get_code.text = "重新获取"
@@ -343,17 +235,6 @@ class BindPhoneActivity : TitleActivity() {
 
         override fun onTick(millisUntilFinished: Long) {
             tv_get_code.text = String.format("%ss", millisUntilFinished / 1000)//重新获取(%s)
-        }
-    }
-
-    private class MClickSpan(val context: Context) : ClickableSpan() {
-        override fun onClick(p0: View?) {
-            context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "file:///android_asset/yonghuxieyi.html")
-        }
-
-        override fun updateDrawState(ds: TextPaint?) {
-            ds?.color = ContextCompat.getColor(context, R.color.color_C1C1C6)
-            ds?.isUnderlineText = true
         }
     }
 

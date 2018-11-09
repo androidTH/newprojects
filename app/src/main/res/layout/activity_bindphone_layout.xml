@@ -112,33 +112,6 @@
             android:textColor="@color/red_fc3"
             android:textSize="12dp"
             android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:gravity="right"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tv_forget_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/padding_16"
-                android:paddingBottom="@dimen/padding_16"
-                android:text="忘记密码？"
-                android:textColor="#336699" />
-
-            <TextView
-                android:id="@+id/tv_contact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_12"
-                android:paddingTop="@dimen/padding_16"
-                android:paddingBottom="@dimen/padding_16"
-                android:text="或联系客服"
-                android:textColor="#336699" />
-        </LinearLayout>
     </LinearLayout>
 
     <Button

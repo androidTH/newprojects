@@ -94,7 +94,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .size(dip(8))
                 .build())
 
-        headerView.iv_isfollow.setOnClickListener(View.OnClickListener {
+        tv_like.setOnClickListener(View.OnClickListener {
             if(mData?.iIsFollow != null){
                 if(mData?.iIsFollow == 0){//mData?.iIsFollow
                     addFollow()
@@ -137,7 +137,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         })
 
-        tv_msg.setOnClickListener {
+        tv_siliao.setOnClickListener {
             isAuthUser {
                 mData?.let {
                     val name = it.name ?: ""
@@ -281,9 +281,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                Toast.makeText(this, data.iIsFollow.toString(), Toast.LENGTH_LONG).show()
                 if(data.iIsFollow !=null){
                     if(data.iIsFollow==1){
-                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
+//                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
+                        tv_like.text = resources.getString(R.string.string_liked)
+                        tv_like.backgroundResource = R.drawable.shape_20r_white
+                        tv_like.textColor = resources.getColor(R.color.color_666666)
                     }else{
-                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
+                        tv_like.text= resources.getString(R.string.string_like)
+                        tv_like.backgroundResource = R.drawable.shape_20r_ff6
+                        tv_like.textColor = resources.getColor(R.color.white)
+//                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
                     }
                 }
             }
@@ -351,7 +357,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         dialog()//35578
         Request.getAddFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
 //            toast("$s,$jsonObject")
-            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
+//            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
+            tv_like.text = resources.getString(R.string.string_liked)
+            tv_like.backgroundResource = R.drawable.shape_20r_white
+            tv_like.textColor = resources.getColor(R.color.color_666666)
             mData?.iIsFollow = 1
         }
     }
@@ -361,7 +370,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.getDelFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
 //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
-            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
+//            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
+            tv_like.text= resources.getString(R.string.string_like)
+            tv_like.backgroundResource = R.drawable.shape_20r_ff6
+            tv_like.textColor = resources.getColor(R.color.white)
             mData?.iIsFollow = 0
         }
 //        data.optDouble("wanshanziliao") DateAuthStateActivity
