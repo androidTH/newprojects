@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
+import org.jetbrains.anko.custom.customView
 import org.jetbrains.anko.support.v4.startActivity
 
 
@@ -67,6 +68,8 @@ class MainActivity : BaseActivity() {
         }
         //默认第一个标签
         tabhost.setCurrentTabByTag(tabTexts[0])
+        //获取我都约会未读消息
+        myDateUnMsg()
         tabhost.setOnTabChangedListener {
             titleBar.visible()
             line.visible()
@@ -247,8 +250,6 @@ class MainActivity : BaseActivity() {
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
         getUnReadCount()
-        //获取我都约会未读消息
-        myDateUnMsg()
     }
 
     private fun getUnReadCount() {

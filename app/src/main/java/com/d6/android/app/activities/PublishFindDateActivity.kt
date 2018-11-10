@@ -60,7 +60,7 @@ class PublishFindDateActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_publish_find_date)
-
+        immersionBar.init()
         RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
                 locationClient.setLocationListener {
@@ -254,5 +254,6 @@ class PublishFindDateActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         locationClient.onDestroy()
+        immersionBar.destroy()
     }
 }

@@ -56,7 +56,7 @@ abstract class RecyclerActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.base_recyclerview_layout)
-
+        immersionBar.init()
         rootFl = find(R.id.rootFL)
         mSwipeRefreshLayout.setLayoutManager(layoutManager())
         mSwipeRefreshLayout.setMode(mode())
@@ -149,6 +149,7 @@ abstract class RecyclerActivity : TitleActivity() {
         }
         //同步置空view
         emptyView = null
+        immersionBar.destroy()
         super.onDestroy()
     }
 

@@ -36,6 +36,7 @@ class MyDateDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mydate_details)
+        immersionBar.init()
         titlebar_datedetails.titleView.setText("我的约会")
         myAppointment = (intent.getParcelableExtra("data") as MyAppointment)
         if(myAppointment !=null){
