@@ -84,7 +84,7 @@ class MySquareFragment : RecyclerFragment() {
 
     private fun getData() {
 
-        Request.getMySquares(userId, type, pageNum).request(this) { _, data ->
+        Request.getMySquares(userId,userId ,type, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
             }

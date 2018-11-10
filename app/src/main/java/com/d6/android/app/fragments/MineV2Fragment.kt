@@ -336,7 +336,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this, success = { _, data ->
+        Request.getUserInfo("",userId).request(this,success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             mData = data
             activity?.saveUserInfo(data)
@@ -462,7 +462,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
     private fun getTrendData() {
 
-        Request.getMySquares(userId, 0, pageNum).request(this, success = { _, data ->
+        Request.getMySquares(userId,userId, 0, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             if (pageNum == 1) {
                 mSquares.clear()
