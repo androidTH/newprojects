@@ -190,9 +190,12 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_days1.text = data.dAppointmentSignupUpdatetime.interval()//报名约会时间
                     }
                 }
-
-                tv_point_nums.text="预付${data.iPoint}积分"
-                myAppointment = data;
+                if(data.iPoint == null){
+                    tv_point_nums.visibility = View.GONE
+                }else{
+                    tv_point_nums.text="预付${data.iPoint}积分"
+                }
+                myAppointment = data
             }
         })
     }

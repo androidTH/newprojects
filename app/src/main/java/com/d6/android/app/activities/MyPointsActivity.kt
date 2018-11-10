@@ -12,6 +12,7 @@ import com.d6.android.app.adapters.PointsAdapter
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.RecyclerActivity
+import com.d6.android.app.dialogs.PayResultDialog
 import com.d6.android.app.dialogs.PointsListDialog
 import com.d6.android.app.dialogs.PointsListDialog.*
 import com.d6.android.app.dialogs.TrendCommentsDialog
@@ -89,11 +90,11 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
         mPointsAdapter.setHeaderView(mHeaderView)
         mypoints_refreshrecycler.setOnRefreshListener(this)
 
-        mHeaderView.tv_mypointnums.text = if(myPointNums.isEmpty()){
-            "0"
-        }else{
-            myPointNums
-        }
+//        mHeaderView.tv_mypointnums.text = if(myPointNums.isNullOrEmpty()){
+////            "0"
+////        }else{
+////            myPointNums
+////        }
 
         tv_mypoints_back.setOnClickListener {
             finish()
@@ -111,6 +112,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
                  payMoney(data)
             }
         }
+        getUserInfo()
     }
 
     override fun onResume() {
@@ -165,13 +167,18 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
             override fun onPaySuccess(payWay: PayWay?) {
                 mPointsListDialog.dismissAllowingStateLoss()
                 getUserInfo()
-                toast("充值成功")
+                var payResultDialog = PayResultDialog()
+                payResultDialog.arguments = bundleOf("payresult" to "wx_pay_success")
+                payResultDialog.show(supportFragmentManager,"fd")
             }
 
             override fun onPayCancel(payWay: PayWay?) {
             }
 
             override fun onPayFailure(payWay: PayWay?, errCode: Int) {
+                var payResultDialog = PayResultDialog()
+                payResultDialog.arguments = bundleOf("payresult" to "wx_pay_fail")
+                payResultDialog.show(supportFragmentManager,"fd")
             }
         })
     }

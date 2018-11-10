@@ -37,7 +37,7 @@ import org.jetbrains.anko.support.v4.startActivity
 class MainActivity : BaseActivity() {
     private val tabTexts = arrayOf( "约会","发现", "动态","消息", "我的")
 
-    private val tabImages = arrayOf(R.drawable.home_speed_date_selector,R.drawable.home_main_selector, R.drawable.home_square_selector
+    private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
     private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,
             DateFragment::class.java, SquareMainFragment::class.java,

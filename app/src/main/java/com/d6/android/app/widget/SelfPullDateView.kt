@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
@@ -91,7 +92,12 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        tv_sub_title.text = sb.toString()
+        if(!sb.toString().isNullOrEmpty()){
+            tv_sub_title.text = sb.toString()
+            tv_sub_title.visibility = View.VISIBLE
+        }else{
+            tv_sub_title.visibility = View.GONE
+        }
 
         var time = converTime(myAppointment.dEndtime)
         tv_time_long.text="倒计时:${time}"
