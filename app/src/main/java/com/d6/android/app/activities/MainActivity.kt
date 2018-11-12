@@ -69,7 +69,6 @@ class MainActivity : BaseActivity() {
         //默认第一个标签
         tabhost.setCurrentTabByTag(tabTexts[0])
         //获取我都约会未读消息
-        myDateUnMsg()
         tabhost.setOnTabChangedListener {
             titleBar.visible()
             line.visible()
@@ -86,7 +85,6 @@ class MainActivity : BaseActivity() {
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
                     tv_title.text = "约会"
-                    myDateUnMsg()
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
 
@@ -250,6 +248,9 @@ class MainActivity : BaseActivity() {
         super.onResume()
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
+        if(tabhost.currentTab==0){
+            myDateUnMsg()
+        }
         getUnReadCount()
     }
 
