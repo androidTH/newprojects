@@ -86,6 +86,7 @@ class MainActivity : BaseActivity() {
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
                     tv_title.text = "约会"
+                    myDateUnMsg()
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
 
