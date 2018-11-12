@@ -17,6 +17,7 @@ class WeChatSearchActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_we_chat_search)
+        immersionBar.init()
         title = "微信查询"
 
         btn_submit.setOnClickListener {

@@ -21,6 +21,7 @@ class UnAuthUserActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_un_auth_user)
+        immersionBar.init()
         title = "认证中心"
 
         tv_action.setOnClickListener {

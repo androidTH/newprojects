@@ -19,6 +19,7 @@ class WebViewActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
+        immersionBar.init()
         val t = intent.getStringExtra("title")
         title = t
         initView()

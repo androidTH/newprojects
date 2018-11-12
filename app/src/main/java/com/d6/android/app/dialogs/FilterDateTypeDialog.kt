@@ -56,7 +56,7 @@ class FilterDateTypeDialog : DialogFragment() {
         }
 
         tv_recommend.setOnClickListener {
-            dialogListener?.onClick(5, if(mShowType )"其他" else "觅约")
+            dialogListener?.onClick(5, if(mShowType )"不限" else "觅约")
             dismissAllowingStateLoss()
         }
 
@@ -88,7 +88,7 @@ class FilterDateTypeDialog : DialogFragment() {
 //                        .size(0,2,15)
 //                        .build()
 
-        tv_recommend.text = if(mShowType )"其他" else "觅约"
+        tv_recommend.text = if(mShowType )"不限" else "觅约"
 //        SpanBuilder("官方推荐\nD6社区的推荐")
 //                .color(context,0,4,R.color.textColor)
 //                .size(0,4,15)

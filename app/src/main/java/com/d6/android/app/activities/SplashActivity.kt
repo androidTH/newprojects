@@ -22,6 +22,7 @@ class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        immersionBar.init()
 
         mViewPager.offscreenPageLimit = 3
         mViewPager.adapter = object :FragmentStatePagerAdapter(supportFragmentManager){
@@ -74,5 +75,10 @@ class SplashActivity : BaseActivity() {
                 activity.finish()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        immersionBar.destroy()
     }
 }
