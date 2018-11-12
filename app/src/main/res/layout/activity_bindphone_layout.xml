@@ -127,4 +127,4 @@
         android:text="确定"
         android:textColor="@color/white"
         android:textSize="@dimen/btnTextSize" />
-</LinearLayout>
+</>

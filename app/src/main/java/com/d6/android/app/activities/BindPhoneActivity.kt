@@ -24,7 +24,7 @@ import org.json.JSONObject
 
 /**
  *
- * 登录
+ * 绑定手机号
  */
 class BindPhoneActivity : TitleActivity() {
 
