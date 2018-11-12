@@ -143,6 +143,11 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             startActivity<VistorsActivity>()
         })
 
+
+        headerView.tv_auther_sign.setOnClickListener(View.OnClickListener {
+            startActivity<DateAuthStateActivity>()
+        })
+
         tv_more.setOnClickListener {
             //startActivity<SettingActivity>()
             val mineActionDialog = MineActionDialog()
