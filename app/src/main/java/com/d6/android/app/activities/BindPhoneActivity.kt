@@ -52,17 +52,6 @@ class BindPhoneActivity : TitleActivity() {
         })
 
         tv_type.setOnClickListener {
-            //            val selectTypeDialog = SelectLoginTypeDialog()
-//            selectTypeDialog.show(supportFragmentManager, "")
-//            selectTypeDialog.setDialogListener { p, s ->
-//                type = p
-//                et_phone.hint = if (p == 0) {
-//                    "输入会员账号"
-//                } else {
-//                    "输入手机号"
-//                }
-//                tv_type.text = s
-//            }
             startActivityForResult<ChooseCountryActivity>(1)
         }
 
@@ -198,7 +187,6 @@ class BindPhoneActivity : TitleActivity() {
         } else {
             "$countryCode-$phone"
         }
-        sysErr("------->$p")
         Request.loginV2(1, code, p,devicetoken).request(this) { msg, data ->
             msg?.let {
                 try {
