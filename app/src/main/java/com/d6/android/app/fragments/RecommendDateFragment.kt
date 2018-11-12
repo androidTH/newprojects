@@ -13,10 +13,7 @@ import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.isAuthUser
-import com.d6.android.app.utils.sysErr
+import com.d6.android.app.utils.*
 import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.alayout.view.*
 import kotlinx.android.synthetic.main.fragment_date.*
@@ -43,6 +40,9 @@ class RecommendDateFragment : RecyclerFragment() {
     private var area: String? = ""
     private var areaType: Int? = 1
 
+    private var iLookType:String=""
+    private var sPlace:String=""
+
     override fun setAdapter() = dateAdapter
 
     override fun getLayoutManager(): RecyclerView.LayoutManager {
@@ -54,7 +54,7 @@ class RecommendDateFragment : RecyclerFragment() {
 
         mSwipeRefreshLayout.setLayoutManager(getLayoutManager())
         dateAdapter.setOnItemClickListener { _, position ->
-            activity?.isAuthUser {
+            activity?.doAuthUser {
                 val date = mSpeedDates[position]
                 if(date.iType == 1){
                     startActivity<FindDateDetailActivity>("data" to date)
@@ -77,13 +77,15 @@ class RecommendDateFragment : RecyclerFragment() {
         getData()
     }
 
-    fun getData(iLookType:String,splace:String) {
+    fun getData(ilookType:String,city:String) {
         pageNum=1
-        Request.findLookAllAboutList(userId,iLookType,splace,pageNum).request(this) { _, data ->
+        this.iLookType = ilookType
+        this.sPlace = city
+        Request.findLookAllAboutList(userId,iLookType,sPlace,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mSpeedDates.clear()
             }
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 if (pageNum > 1) {
                     mSwipeRefreshLayout.setLoadMoreText("没有更多了")
                     pageNum--
@@ -119,13 +121,13 @@ class RecommendDateFragment : RecyclerFragment() {
     override fun pullDownRefresh() {
         super.pullDownRefresh()
         pageNum = 1
-        getData()
+        getData(iLookType,sPlace)
     }
 
     override fun loadMore() {
         super.loadMore()
         pageNum++
-        getData()
+        getData(iLookType,sPlace)
     }
 
     override fun onDestroy() {

@@ -34,6 +34,8 @@ interface ApiServices {
 
     @POST("backstage/banner/findByPage")
     fun getBanners(@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("bannerkey") bannerkey: String="home"): Flowable<Response<Page<Banner>>>
+
+    //碎片接口
     @POST("backstage/pieces/find")
     fun getInfo(@Query("piecesMark") piecesMark: String = "1"): Flowable<Response<JsonObject>>
 
@@ -89,7 +91,7 @@ interface ApiServices {
     fun searchWeChatId(@Query("kfName") kfName: String): Flowable<Response<JsonObject>>
 
     @POST("backstage/square/findByPageMySquare")
-    fun getMySquares(@Query("userid") userid: String, @Query("limit") limit: Int, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<Square>>>
+    fun getMySquares(@Query("loginuserid") loginuserid:String,@Query("userid") userid: String, @Query("limit") limit: Int, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<Square>>>
 
     @POST("backstage/upvote/add")
     fun addPraise(@Query("userid") userid: String, @Query("newsId") newsId: String?): Flowable<Response<JsonObject>>

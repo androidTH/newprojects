@@ -15,6 +15,7 @@ class AboutUsMainActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about_us_main)
+        immersionBar.init()
         title = "关于我们"
 
         tv_aboutUs.setOnClickListener {

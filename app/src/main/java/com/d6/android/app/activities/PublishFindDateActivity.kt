@@ -33,7 +33,7 @@ class PublishFindDateActivity : BaseActivity() {
 
     private val mImages = ArrayList<AddImage>()
     private val mDateTypes = ArrayList<DateType>()
-    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","其它")
+    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","不限")
 
     private val addAdapter by lazy {
         AddImageAdapter(mImages)
@@ -60,7 +60,7 @@ class PublishFindDateActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_publish_find_date)
-
+        immersionBar.init()
         RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
                 locationClient.setLocationListener {
@@ -254,5 +254,6 @@ class PublishFindDateActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         locationClient.onDestroy()
+        immersionBar.destroy()
     }
 }

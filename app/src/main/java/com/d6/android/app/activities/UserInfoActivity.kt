@@ -309,7 +309,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun getTrendData() {
 
-        Request.getMySquares(id, 0, pageNum).request(this, success = { _, data ->
+        Request.getMySquares(userId,id, 0, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false//15717
             if (pageNum == 1) {
                 mSquares.clear()

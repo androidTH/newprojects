@@ -55,11 +55,17 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         rv_mydate_tags.adapter = CardTagAdapter(mTags)
 
         val bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
-        data.userpics?.let {
-            val images = it.split(",")
-            if (images.size>0) {
-                bigImgView.setImageURI(images[0])
+        if(!TextUtils.equals(data.userpics,"null")){
+            if(data.userpics.isEmpty()){
+                bigImgView.setImageURI(data.picUrl)
+            }else{
+                var images = data.userpics.split(",")
+                if (images.size>0) {
+                    bigImgView.setImageURI(images[0])
+                }
             }
+        }else{
+            bigImgView.setImageURI(data.picUrl)
         }
 
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)

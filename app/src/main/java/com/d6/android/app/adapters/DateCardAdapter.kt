@@ -24,23 +24,28 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
         val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
-
-        data.userpics?.let {
-            var imglist = it.split(",")
-            if (imglist.size==0) {
+        if(!TextUtils.equals(data.userpics,"null")){
+            if(data.userpics.isEmpty()){
                 rv_mydate_images.visibility = View.GONE
-            } else {
-                rv_mydate_images.visibility = View.VISIBLE
-                rv_mydate_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                rv_mydate_images.setHasFixedSize(true)
-                mImages.clear()
-                if(imglist.size>=4){
-                    mImages.addAll(imglist.toList().subList(0,4))
-                }else {
-                    mImages.addAll(imglist.toList())
+            }else{
+                var imglist = data.userpics.split(",")
+                if (imglist.size==0) {
+                    rv_mydate_images.visibility = View.GONE
+                } else {
+                    rv_mydate_images.visibility = View.VISIBLE
+                    rv_mydate_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    rv_mydate_images.setHasFixedSize(true)
+                    mImages.clear()
+                    if(imglist.size>=4){
+                        mImages.addAll(imglist.toList().subList(0,4))
+                    }else {
+                        mImages.addAll(imglist.toList())
+                    }
+                    rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
                 }
-                rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
             }
+        }else{
+            rv_mydate_images.visibility = View.GONE
         }
 
         rv_mydate_tags.setHasFixedSize(true)

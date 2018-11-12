@@ -23,7 +23,9 @@ class ContactUsActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_us)
+        immersionBar.init()
         title = "联系我们"
+
 
         btn_man.setOnClickListener {
 //            startActivity<QRActivity>("type" to 0)
@@ -69,4 +71,8 @@ class ContactUsActivity : TitleActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        immersionBar.destroy()
+    }
 }

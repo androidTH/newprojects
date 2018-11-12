@@ -79,7 +79,7 @@ class OpenDateSuccessDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-        var str = resources.getString(R.string.string_pointdesc)
+        var str = String.format(resources.getString(R.string.string_pointdesc),arguments.getString("point"))
         tv_point_desc.movementMethod = LinkMovementMethod.getInstance()
         tv_point_desc.text =SpanBuilder(str)
                 .click(str.length - 4, str.length, MClickSpan(context))

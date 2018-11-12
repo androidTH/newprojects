@@ -79,33 +79,36 @@
         android:layout_marginRight="8dp"
         android:layout_marginLeft="@dimen/margin_5"
         app:roundAsCircle="true" />
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="40dp"
+       android:layout_alignTop="@+id/headView"
+       android:layout_toRightOf="@+id/headView"
+       android:gravity="center_vertical"
+       android:orientation="vertical">
+       <TextView
+           android:id="@+id/tv_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginRight="80dp"
+           android:drawableRight="@drawable/sex_selector"
+           android:drawablePadding="@dimen/margin_5"
+           android:singleLine="true"
+           android:textColor="@color/color_333333"
+           android:text="-------" />
+       <TextView
+           android:id="@+id/tv_sub_title"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="2dp"
+           android:layout_marginRight="80dp"
+           android:singleLine="true"
+           android:text="30岁·175·74kg"
+           android:textColor="@color/color_888888"
+           android:textSize="12sp" />
+   </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="8dp"
-        android:layout_below="@+id/ll_content"
-        android:layout_toRightOf="@+id/headView"
-        android:drawableRight="@drawable/sex_selector"
-        android:drawablePadding="@dimen/margin_5"
-        android:singleLine="true"
-        android:textColor="@color/color_333333"
-        android:text="-------" />
 
-    <TextView
-        android:id="@+id/tv_sub_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_name"
-        android:layout_toRightOf="@+id/headView"
-        android:layout_marginBottom="2dp"
-        android:layout_marginRight="80dp"
-        android:singleLine="true"
-        android:text="30岁·175·74kg"
-        android:textColor="@color/color_888888"
-        android:textSize="12sp" />
     <TextView
         android:id="@+id/tv_send_date"
         android:layout_below="@+id/ll_content"

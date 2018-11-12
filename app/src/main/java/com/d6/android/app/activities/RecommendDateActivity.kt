@@ -22,6 +22,7 @@ class RecommendDateActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommend_date)
+        immersionBar.init()
         setTitleBold("全部人工推荐")
 
         tv_date_city.setOnClickListener {
@@ -46,13 +47,20 @@ class RecommendDateActivity : TitleActivity() {
             filterDateTypeDialog.setDateType(false)
             filterDateTypeDialog.show(supportFragmentManager, "ftd")
             filterDateTypeDialog.setDialogListener { p, s ->
-                if(p == 6){
-                   iLookType =""
-                }else{
+                if (p == 6) {
+                    iLookType = ""
+                    tv_datetype.text = "类型"
+                } else {
                     iLookType = p.toString()
+                    tv_datetype.text = s
                 }
-                tv_datetype.text = s
-                fragment.getData(iLookType,tv_date_city.text.toString())
+
+                if(cityType==-2){
+                    fragment.getData(iLookType,"")
+                }else{
+                    fragment.getData(iLookType,tv_date_city.text.toString())
+                }
+
             }
         }
 

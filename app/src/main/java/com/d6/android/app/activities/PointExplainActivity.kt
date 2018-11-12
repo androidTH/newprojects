@@ -11,6 +11,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_pointexplain_layout.*
 
 /**
@@ -26,7 +27,6 @@ class PointExplainActivity : BaseActivity() {
             finish()
         }
 //        getData();
-
         initView()
     }
 
@@ -54,15 +54,37 @@ class PointExplainActivity : BaseActivity() {
             }
         })
 
-        webView.loadUrl("https://shimo.im/docs/iPvLka1TKuwF7YmA/")
+        webView.loadUrl("http://www.d6-zone.com/JyPhone/static/integralexplain.html")
     }
 
     private fun getData() {
+
         Request.getInfo(Const.SCORE_EXPLAIN_CODE).request(this) { _, data ->
             data?.let {
-                var str = data.optString("score_explain")
+                var str = data.optString("description")
 //                tv_title0.text = str
             }
         }
     }
+
+//    "ids": "45",
+//    "piecesMark": "integral_explain",
+//    "title": "积分说明",
+//    "keywork": "积分说明",
+//    "description": "",
+//    "picUrl": "",
+//    "sortId": "",
+//    "userid": "2",
+//    "content": null,
+//    "createTime": 1541846231287,
+//    "beginTime": null,
+//    "endTime": null,
+//    "ext1": "",
+//    "ext2": "",
+//    "ext3": "",
+//    "ext4": "",
+//    "ext5": "",
+//    "ext6": "",
+//    "ext7": "",
+//    "ext8": ""
 }

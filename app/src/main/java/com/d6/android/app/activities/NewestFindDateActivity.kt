@@ -24,8 +24,8 @@ class NewestFindDateActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_newest_find_date)
+        immersionBar.init()
         title = "最新觅约"
-
 
         titleBar.addRightButton(rightId = R.mipmap.ic_add_orange1, onClickListener = View.OnClickListener {
             isAuthUser {
@@ -80,5 +80,10 @@ class NewestFindDateActivity : TitleActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        immersionBar.destroy()
     }
 }

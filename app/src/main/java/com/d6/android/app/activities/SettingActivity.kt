@@ -35,6 +35,7 @@ class SettingActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
+        immersionBar.init()
         title = "设置"
 
         val s = "微信查询  防止假冒客服与您联系！"

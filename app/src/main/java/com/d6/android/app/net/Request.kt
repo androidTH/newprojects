@@ -175,8 +175,8 @@ object Request {
      * 我的广场
      * @param limit 为0的时候查询我发布的,1的时候我点赞的,2的时候我评论的
      */
-    fun getMySquares(userId: String, limit: Int, pageNum: Int) =
-            RRetrofit.instance().create(ApiServices::class.java).getMySquares(userId, limit, pageNum)
+    fun getMySquares(loginuserid:String,userId: String, limit: Int, pageNum: Int) =
+            RRetrofit.instance().create(ApiServices::class.java).getMySquares(loginuserid,userId, limit, pageNum)
 
     fun getSelfReleaseList(userId: String, pageNum: Int, beginTime: String? = null, endTime: String? = null
                            , area: String? = null, outArea: String? = null, arrayUserClassesId: String? = null, pageSize: Int = PAGE_SIZE) =
