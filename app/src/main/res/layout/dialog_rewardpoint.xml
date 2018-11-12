@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="好的"
-            android:textSize="@dimen/sp_15"
+            android:textSize="15sp"
             android:id="@+id/tv_action"
             android:textColor="@color/white"
             android:gravity="center"
