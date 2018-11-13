@@ -6,6 +6,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.OpenDateDialog
 import com.d6.android.app.dialogs.OpenDateErrorDialog
+import com.d6.android.app.dialogs.OpenDatePayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
@@ -39,7 +40,9 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
 //        isBaseActivity {
                 Request.queryAppointmentPoint(userId).request(context as BaseActivity,false, success = { msg, data->
                     val dateDialog = OpenDateDialog()
+//                    val dateDialog = OpenDatePayPointDialog()
                     dateDialog.arguments= bundleOf("data" to myAppointment,"explain" to data!!)
+//                    dateDialog.arguments= bundleOf("data" to myAppointment,"explain" to data!!,"username" to myAppointment.sAppointUserName.toString())
                     dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
                 }){code,msg->
                     if(code == 2){

@@ -16,8 +16,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.dialog_date_send_fail.*
-import org.jetbrains.anko.bundleOf
+import kotlinx.android.synthetic.main.dialog_date_send_failnew.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
@@ -59,7 +58,7 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.dialog_date_send_fail, container, false)
+            inflater?.inflate(R.layout.dialog_date_send_failnew, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,13 +72,13 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
         }
         var code = arguments.get("code")
         if(code == 0){
-            tv_date_send_fail.text = getString(R.string.string_senddatefail)
+//            tv_date_send_fail.text = getString(R.string.string_senddatefail)
             getData()
         }else if(code == 3){
-            tv_date_send_fail.text = getString(R.string.senddatepointlow)
+//            tv_date_send_fail.text = getString(R.string.senddatepointlow)
             getData()
         }else if(code == 2){
-            tv_date_send_fail.text = getString(R.string.senddatepointlow)
+//            tv_date_send_fail.text = getString(R.string.senddatepointlow)
             tv_tishi_point.text = arguments.getString("msg")
         }
     }
@@ -92,7 +91,8 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
 //                        tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
 //                        tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
 //                        tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
-                        tv_tishi_point.text = String.format(resources.getString(R.string.string_pointlow),point_nums,it.iAppointPoint)
+                        tv_mypointnums.text = "${it.iAppointPoint.toString()}积分"
+                        tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),point_nums)
                     }
                 }){code,msg->
                     if(code == 2){

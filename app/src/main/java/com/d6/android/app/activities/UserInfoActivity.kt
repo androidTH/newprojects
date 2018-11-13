@@ -22,7 +22,6 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.JsonObject
-import com.gyf.barlibrary.ImmersionBar
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
