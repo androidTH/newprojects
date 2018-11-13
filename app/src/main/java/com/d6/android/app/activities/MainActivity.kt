@@ -69,7 +69,6 @@ class MainActivity : BaseActivity() {
         //默认第一个标签
         tabhost.setCurrentTabByTag(tabTexts[0])
         //获取我都约会未读消息
-        myDateUnMsg()
         tabhost.setOnTabChangedListener {
             titleBar.visible()
             line.visible()
@@ -249,6 +248,9 @@ class MainActivity : BaseActivity() {
         super.onResume()
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
+        if(tabhost.currentTab==0){
+            myDateUnMsg()
+        }
         getUnReadCount()
     }
 

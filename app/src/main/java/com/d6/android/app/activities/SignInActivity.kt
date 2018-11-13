@@ -224,13 +224,28 @@ class SignInActivity : BaseActivity() {
                 if (data != null) {
                     val openId = if (data.containsKey("openid")) data["openid"] else ""
                     val name = if (data.containsKey("name")) data["name"] else ""
-                    val gender = if (data.containsKey("gender")) data["gender"] else ""
-                    val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else ""
+                    val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
+                    val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
                     sysErr("------->$gender--->$openId--->$name")
                     thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "")
                 } else {
                     toast("拉取微信信息异常！")
                 }
+
+//                {
+//                    "openid":"OPENID",
+//                    "nickname":"NICKNAME",
+//                    "sex":1,
+//                    "province":"PROVINCE",
+//                    "city":"CITY",
+//                    "country":"COUNTRY",
+//                    "headimgurl": "http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0",
+//                    "privilege":[
+//                    "PRIVILEGE1",
+//                    "PRIVILEGE2"
+//                    ],
+//                    "unionid": " o6_bmasdasdsad6_2sgVt7hMZOPfL"
+//                }
             }
 
             override fun onCancel(p0: SHARE_MEDIA?, p1: Int) {
