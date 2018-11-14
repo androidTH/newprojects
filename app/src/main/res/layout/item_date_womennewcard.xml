@@ -83,7 +83,7 @@
             android:text="黄金会员"
             android:textColor="@color/white"
             android:textSize="12dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_vistorfollownums"

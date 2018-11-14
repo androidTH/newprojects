@@ -88,35 +88,35 @@ class FilterDateTypeDialog : DialogFragment() {
 //                        .size(0,2,15)
 //                        .build()
 
-        tv_recommend.text = if(mShowType )"不限" else "觅约"
-//        SpanBuilder("官方推荐\nD6社区的推荐")
-//                .color(context,0,4,R.color.textColor)
-//                .size(0,4,15)
-//                .build()
+        tv_recommend.text = if(mShowType )"不限" else SpanBuilder("觅约\n每日最新会员")
+                .color(context,0,2,R.color.textColor)
+                .size(0,2,12)
+                .build()
 
-        tv_2.text = if(mShowType )"旅行" else "救火"
-//        SpanBuilder("旅行\n在旅行中遇见最美的你")
-//                .color(context,0,2,R.color.textColor)
-//                .size(0,2,15)
-//                .build()
 
-        tv_3.text = if(mShowType) "吃饭" else "征求"
-//                SpanBuilder("吃饭\n在旅行中遇见最美的你")
-//                .color(context,0,2,R.color.textColor)
-//                .size(0,2,15)
-//                .build()
+        tv_2.text = if(mShowType )"旅行" else SpanBuilder("救火\n当天快速匹配")
+                .color(context,0,2,R.color.textColor)
+                .size(0,2,12)
+                .build()
 
-        tv_4.text = if(mShowType) "看电影" else "急约"
-//                SpanBuilder("看电影\n快速响应的约会")
-//                .color(context,0,3,R.color.textColor)
-//                .size(0,2,15)
-//                .build()
 
-        tv_5.text = if(mShowType )"喝酒" else "旅行约"
-//                SpanBuilder("喝酒\n一起来旅行吧")
-//                .color(context,0,3,R.color.textColor)
-//                .size(0,3,15)
-//                .build()
+        tv_3.text = if(mShowType) "吃饭" else SpanBuilder("征求\n精准匹配,寻找合拍的TA")
+                .color(context,0,2,R.color.textColor)
+                .size(0,2,12)
+                .build()
+
+
+        tv_4.text = if(mShowType) "看电影" else SpanBuilder("急约\n近期快速匹配")
+                .color(context,0,2,R.color.textColor)
+                .size(0,2,12)
+                .build()
+
+
+        tv_5.text = if(mShowType )"喝酒" else SpanBuilder("旅行约\n边旅行,边约会")
+                .color(context,0,3,R.color.textColor)
+                .size(0,3,12)
+                .build()
+
 
     }
 

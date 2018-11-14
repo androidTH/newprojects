@@ -154,7 +154,7 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_agree_date.visibility = View.GONE
                         tv_giveup_date.visibility = View.GONE
                         setDateStatus(data)
-                        tv_point_nums.text="消费${data.iPoint}积分"
+                        tv_point_nums.visibility = View.GONE
                     }
                     3 -> { //
                         //tv_action0.text = "对方已关闭约会"
@@ -265,7 +265,7 @@ class MyDateDetailActivity : BaseActivity() {
                     tv_giveup_date.visibility = View.GONE
                     myAppointment.dAppointmentSignupUpdatetime = System.currentTimeMillis()
                     setDateStatus(myAppointment)
-                    tv_point_nums.text="消费${myAppointment.iPoint}积分"
+                    tv_point_nums.visibility = View.GONE
                 } else if (iStatus == 3) {
                     tv_date_status.text = "状态：已拒绝"
                     tv_private_chat.visibility = View.GONE;
