@@ -119,10 +119,10 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
         if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
             rv_images.layoutManager = GridLayoutManager(context,2)
-            rv_images.addItemDecoration(SpacesItemDecoration(dip(4),2))
+            rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))
         } else {
             rv_images.layoutManager = GridLayoutManager(context,3)
-            rv_images.addItemDecoration(SpacesItemDecoration(dip(4),3))//SpacesItemDecoration(dip(4),3)
+            rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
         }
 
         imageAdapter.notifyDataSetChanged()

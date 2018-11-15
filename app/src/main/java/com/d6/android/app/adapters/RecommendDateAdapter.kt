@@ -27,7 +27,7 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
         imageView.setImageURI(data.lookpics)
         val nameView = holder.bind<TextView>(R.id.tv_name)
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
-        nameView.text = String.format("%s", data.name) //String.format("%s%s", data.speedcity, data.speednumber)
+        nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
         if(TextUtils.equals("0",data.sex)){
 

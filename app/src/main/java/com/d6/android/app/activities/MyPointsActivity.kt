@@ -146,7 +146,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
                 .payWay(PayWay.WechatPay)
                 .UserId(userId.toInt())
                 .iPoint(pointRule.iPoint)
-                .goodsPrice(1)// 单位为：分 pointRule.iPrice
+                .goodsPrice(pointRule.iPrice)// 单位为：分 pointRule.iPrice
                 .goodsName("")
                 .goodsIntroduction("")
                 .httpType(HttpType.Post)

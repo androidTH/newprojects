@@ -228,7 +228,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mTags.add(UserTag(it.job ?: "", R.drawable.shape_tag_bg_3))
                 }
                 if (!it.city.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.job ?: "", R.drawable.shape_tag_bg_4))
+                    mTags.add(UserTag(it.city ?: "", R.drawable.shape_tag_bg_4))
                 }
                 if (!it.constellation.isNullOrEmpty()) {
                     mTags.add(UserTag(it.constellation ?: "", R.drawable.shape_tag_bg_5))

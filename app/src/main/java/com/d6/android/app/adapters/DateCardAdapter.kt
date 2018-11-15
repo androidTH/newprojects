@@ -25,7 +25,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
         val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
         if(!TextUtils.equals(data.userpics,"null")){
-            if(data.userpics.isEmpty()){
+            if(TextUtils.isEmpty(data.userpics)){
                 rv_mydate_images.visibility = View.GONE
             }else{
                 var imglist = data.userpics.split(",")

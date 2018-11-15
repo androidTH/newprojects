@@ -24,6 +24,7 @@ import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_publish_find_date.*
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 /**
@@ -234,6 +235,7 @@ class PublishFindDateActivity : BaseActivity() {
             }.request(this) { _, data ->
                 showToast("发布成功")
                 setResult(Activity.RESULT_OK)
+                startActivity<MyDateListActivity>()
                 finish()
             }
 
@@ -242,6 +244,7 @@ class PublishFindDateActivity : BaseActivity() {
             Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this) { _, data ->
                 showToast("发布成功")
                 setResult(Activity.RESULT_OK)
+                startActivity<MyDateListActivity>()
                 finish()
             }
         }
