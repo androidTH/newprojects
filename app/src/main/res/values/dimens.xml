@@ -12,6 +12,7 @@
     <dimen name="textSize_18">18sp</dimen>
     <dimen name="textSize_20">20sp</dimen>
     <dimen name="btnTextSize">16sp</dimen>
+    <dimen name="sp_15">15sp</dimen>
     <dimen name="TextSize_14">14sp</dimen>
     <dimen name="btnTextSize20">20sp</dimen>
     <dimen name="btnTextSize25">25sp</dimen>

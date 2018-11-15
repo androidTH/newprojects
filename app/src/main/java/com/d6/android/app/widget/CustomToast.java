@@ -40,6 +40,8 @@ public class CustomToast {
 
     @ColorInt
     private static final int WARNING_COLOR = Color.parseColor("#FFA900");
+    private static final int TEXT_COLOR_BLACK= Color.parseColor("#333333");
+    private static final int TOAST_BG = Color.parseColor("#FFFFFF");
 
     private static final String TOAST_TYPEFACE = "sans-serif-condensed";
 
@@ -96,6 +98,10 @@ public class CustomToast {
 
     public static Toast success(@NonNull String message, int duration, boolean withIcon) {
         return custom(getLocalContext(), message, getDrawable(getLocalContext(), R.drawable.ic_check_white_48dp), DEFAULT_TEXT_COLOR, SUCCESS_COLOR, duration, withIcon, true);
+    }
+
+    public static Toast success(@NonNull String message,int iconId, int duration, boolean withIcon) {
+        return custom(getLocalContext(), message, getDrawable(getLocalContext(),iconId), TEXT_COLOR_BLACK, TOAST_BG, duration, withIcon, true);
     }
 
     //===========================================使用ApplicationContext 方法=========================

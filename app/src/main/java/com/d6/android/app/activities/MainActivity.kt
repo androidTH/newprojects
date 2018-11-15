@@ -7,10 +7,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import android.support.annotation.NonNull
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.FilterTrendDialog
@@ -19,6 +21,7 @@ import com.d6.android.app.fragments.*
 import com.d6.android.app.models.Response
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
@@ -161,6 +164,7 @@ class MainActivity : BaseActivity() {
 
         tv_date_mydate.setOnClickListener {
             getAuthState()
+            CustomToast.success("登录奖励积分+1",R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
         }
 
         iv_right.setOnClickListener {

@@ -37,6 +37,7 @@
             android:layout_toLeftOf="@+id/tv_more"
             android:layout_marginRight="4dp"
             android:paddingLeft="6dp"
+            android:visibility="gone"
             android:paddingRight="6dp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -50,5 +51,39 @@
             android:paddingLeft="6dp"
             android:paddingRight="6dp"/>
     </RelativeLayout>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_height="50dp">
+       <TextView
+           android:id="@+id/tv_like"
+           android:layout_width="80dp"
+           android:layout_height="wrap_content"
+           android:textColor="@color/white"
+           android:background="@drawable/shape_20r_ff6"
+           android:paddingLeft="@dimen/margin_8"
+           android:paddingTop="@dimen/margin_10"
+           android:paddingBottom="@dimen/margin_10"
+           android:paddingRight="@dimen/margin_10"
+           android:textSize="15sp"
+           android:gravity="center"
+           android:layout_marginRight="@dimen/margin_12"
+           android:text="@string/string_like"/>
+        <TextView
+            android:id="@+id/tv_siliao"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:background="@drawable/shape_20r_orange"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingTop="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_8"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:text="@string/string_siliao"/>
+    </LinearLayout>
 </RelativeLayout>

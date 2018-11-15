@@ -37,7 +37,7 @@ class DateAuthStateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_date_auth_state)
+        setContentView(R.layout.activity_date_auth_new_state)
         immersionBar
                 .fitsSystemWindows(false)
                 .titleBar(tv_back)
