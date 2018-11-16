@@ -39,10 +39,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
     private fun signUpDate(myAppointment:MyAppointment) {
 //        isBaseActivity {
                 Request.queryAppointmentPoint(userId).request(context as BaseActivity,false, success = { msg, data->
-                    val dateDialog = OpenDateDialog()
-//                    val dateDialog = OpenDatePayPointDialog()
-                    dateDialog.arguments= bundleOf("data" to myAppointment,"explain" to data!!)
-//                    dateDialog.arguments= bundleOf("data" to myAppointment,"explain" to data!!,"username" to myAppointment.sAppointUserName.toString())
+//                    val dateDialog = OpenDateDialog()
+                    val dateDialog = OpenDatePayPointDialog()
+//                    dateDialog.arguments= bundleOf("data" to myAppointment,"explain" to data!!)
+                    dateDialog.arguments= bundleOf("data" to myAppointment,"explain" to data!!,"username" to myAppointment.sAppointUserName.toString())
                     dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
                 }){code,msg->
                     if(code == 2){

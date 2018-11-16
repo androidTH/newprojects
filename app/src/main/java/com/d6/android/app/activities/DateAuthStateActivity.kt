@@ -38,13 +38,14 @@ class DateAuthStateActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_date_auth_new_state)
+
         immersionBar
                 .fitsSystemWindows(false)
                 .titleBar(tv_back)
                 .init()
 
         AppUtils.setTvStyle( this, resources.getString(R.string.first_step_info),0 ,10 , tv_base_info);
-        AppUtils.setTvStyle( this, resources.getString(R.string.second_step_info),0 ,10 , tv_contact_info);
+//        AppUtils.setTvStyle( this, resources.getString(R.string.second_step_info),0 ,10 , tv_contact_info);
         AppUtils.setTvStyle( this, resources.getString(R.string.third_step_info),0 ,8 , tv_auth);
 
         tv_back.setOnClickListener {
@@ -110,9 +111,9 @@ class DateAuthStateActivity : BaseActivity() {
                 }
                 qurenzheng = data.optInt("qurenzheng")
                 if (qurenzheng == 0) {
-                    tv_auth_state.text = "未认证"
+                    tv_auth_state.text = "未完成"
                 } else {
-                    tv_auth_state.text = "已认证"
+                    tv_auth_state.text = "已完成"
                     tv_contact_state.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 }
             } else {

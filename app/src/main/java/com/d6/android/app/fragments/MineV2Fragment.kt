@@ -145,7 +145,9 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
 
         headerView.tv_auther_sign.setOnClickListener(View.OnClickListener {
-            startActivity<DateAuthStateActivity>()
+            activity?.isAuthUser{
+                startActivity<DateAuthSucessActivity>()
+            }
         })
 
         tv_more.setOnClickListener {

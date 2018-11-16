@@ -79,7 +79,8 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
             getData()
         }else if(code == 2){
 //            tv_date_send_fail.text = getString(R.string.senddatepointlow)
-            tv_tishi_point.text = arguments.getString("msg")
+//            tv_tishi_point.text = arguments.getString("msg")
+            getData()
         }
     }
 
@@ -96,7 +97,8 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
                     }
                 }){code,msg->
                     if(code == 2){
-                        tv_tishi_point.text = msg
+                        tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),point_nums)
+//                        tv_tishi_point.text = msg
                     }
                 }
             }

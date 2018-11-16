@@ -189,7 +189,7 @@
             android:lineSpacingExtra="8dp"
             android:padding="16dp"
             android:text=""
-            android:textColor="@color/textColor"
+            android:textColor="@color/color_888888"
             android:textSize="16dp" />
 
         <TextView
@@ -203,7 +203,7 @@
             android:gravity="center"
             android:paddingRight="16dp"
             android:text="0%"
-            android:textColor="@color/orange_f6a" />
+            android:textColor="@color/color_888888" />
 
 
         <TextView
@@ -213,8 +213,9 @@
             android:layout_below="@+id/tv_base_info"
             android:background="@color/white"
             android:lineSpacingExtra="8dp"
-            android:padding="16dp"
+            android:padding="13dp"
             android:text=""
+            android:visibility="gone"
             android:textColor="@color/textColor"
             android:textSize="16dp" />
 
@@ -229,6 +230,7 @@
             android:gravity="center"
             android:paddingRight="16dp"
             android:text="未完成"
+            android:visibility="gone"
             android:textColor="@color/orange_f6a" />
 
         <TextView
@@ -238,9 +240,9 @@
             android:layout_below="@+id/tv_contact_info"
             android:background="@color/white"
             android:lineSpacingExtra="8dp"
-            android:padding="16dp"
+            android:padding="13dp"
             android:text=""
-            android:textColor="@color/textColor"
+            android:textColor="@color/color_888888"
             android:textSize="16dp" />
 
         <TextView
@@ -253,7 +255,7 @@
             android:drawableRight="@mipmap/ic_right_arrow"
             android:gravity="center"
             android:paddingRight="16dp"
-            android:text="去认证"
+            android:text="未完成"
             android:textColor="@color/orange_f6a" />
     </RelativeLayout>
 </RelativeLayout>

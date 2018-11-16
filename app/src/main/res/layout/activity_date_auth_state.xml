@@ -122,4 +122,7 @@
     <View
         style="@style/view_line_h"
         android:layout_alignBottom="@+id/tv_auth" />
+
+    <include
+        layout="@layout/activity_date_auth_success" />
 </RelativeLayout>

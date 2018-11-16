@@ -229,6 +229,7 @@
         <activity android:name=".activities.RecommendDateActivity"/>
         <activity android:name=".activities.PointExplainActivity"/>
         <activity android:name=".activities.BindPhoneActivity"/>
+        <activity android:name=".activities.DateAuthSucessActivity"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"
