@@ -56,9 +56,9 @@ class RecommendDateActivity : TitleActivity() {
                 }
 
                 if(cityType==-2){
-                    fragment.getData(iLookType,"")
+                    fragment.getRefreshDate(iLookType,"")
                 }else{
-                    fragment.getData(iLookType,tv_date_city.text.toString())
+                    fragment.getRefreshDate(iLookType,tv_date_city.text.toString())
                 }
 
             }

@@ -14,6 +14,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.gyf.barlibrary.ImmersionBar
 import kotlinx.android.synthetic.main.alayout.view.*
 import kotlinx.android.synthetic.main.fragment_date.*
@@ -44,6 +45,8 @@ class RecommendDateFragment : RecyclerFragment() {
     private var sPlace:String=""
 
     override fun setAdapter() = dateAdapter
+
+    override fun getMode() = SwipeRefreshRecyclerLayout.Mode.Both
 
     override fun getLayoutManager(): RecyclerView.LayoutManager {
         return GridLayoutManager(context, 2)
@@ -77,8 +80,12 @@ class RecommendDateFragment : RecyclerFragment() {
         getData()
     }
 
+    fun getRefreshDate(ilookType:String,city:String){
+        pageNum =1
+        getData(ilookType,city)
+    }
+
     fun getData(ilookType:String,city:String) {
-        pageNum=1
         this.iLookType = ilookType
         this.sPlace = city
         Request.findLookAllAboutList(userId,iLookType,sPlace,pageNum).request(this) { _, data ->
