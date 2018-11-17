@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_recommend_date.*
 class RecommendDateActivity : TitleActivity() {
 
 
-    val fragment = RecommendDateFragment()
+    val fragment = RecommendDateQuickFragment()
     private var iLookType: String = ""
     private var cityType: Int = -2
     private var city: String? = ""
@@ -56,9 +56,9 @@ class RecommendDateActivity : TitleActivity() {
                 }
 
                 if(cityType==-2){
-                    fragment.getRefreshDate(iLookType,"")
+                    fragment.pullRefresh(iLookType,"")
                 }else{
-                    fragment.getRefreshDate(iLookType,tv_date_city.text.toString())
+                    fragment.pullRefresh(iLookType,tv_date_city.text.toString())
                 }
 
             }

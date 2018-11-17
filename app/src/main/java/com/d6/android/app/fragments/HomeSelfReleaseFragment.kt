@@ -2,6 +2,8 @@ package com.d6.android.app.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.d6.android.app.activities.SelfReleaseDetailActivity
 import com.d6.android.app.adapters.SelfReleaseAdapter
 import com.d6.android.app.base.RecyclerFragment
@@ -40,6 +42,10 @@ class HomeSelfReleaseFragment : RecyclerFragment() {
 
     override fun getMode() = SwipeRefreshRecyclerLayout.Mode.None
     override fun setAdapter() = dateAdapter
+
+    override fun getLayoutManager(): RecyclerView.LayoutManager {
+       return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
 
     override fun onFirstVisibleToUser() {
 

@@ -3,28 +3,21 @@ package com.d6.android.app.fragments
 import android.graphics.Color
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.d6.android.app.R
 import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
-import com.d6.android.app.adapters.DateAdapter
 import com.d6.android.app.adapters.RecommendAllDateAdapter
-import com.d6.android.app.adapters.RecommendDateAdapter
 import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import com.gyf.barlibrary.ImmersionBar
-import kotlinx.android.synthetic.main.alayout.view.*
-import kotlinx.android.synthetic.main.fragment_date.*
-import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import org.jetbrains.anko.support.v4.startActivity
+
 
 /**
  * 人工推荐
  */
-class RecommendDateFragment : RecyclerFragment() {
+class RecommendDateFragment : RecyclerFragment(){
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -46,9 +39,7 @@ class RecommendDateFragment : RecyclerFragment() {
 
     override fun setAdapter() = dateAdapter
 
-    override fun getMode() = SwipeRefreshRecyclerLayout.Mode.Both
-
-    override fun getLayoutManager(): RecyclerView.LayoutManager {
+    override fun getLayoutManager(): GridLayoutManager {
         return GridLayoutManager(context, 2)
     }
 
@@ -80,9 +71,9 @@ class RecommendDateFragment : RecyclerFragment() {
         getData()
     }
 
-    fun getRefreshDate(ilookType:String,city:String){
-        pageNum =1
-        getData(ilookType,city)
+    fun pullRefresh(ilookType: String="", city: String="") {
+        pageNum = 1
+        getData(ilookType, city)
     }
 
     fun getData(ilookType:String,city:String) {
@@ -136,9 +127,4 @@ class RecommendDateFragment : RecyclerFragment() {
         pageNum++
         getData(iLookType,sPlace)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
 }

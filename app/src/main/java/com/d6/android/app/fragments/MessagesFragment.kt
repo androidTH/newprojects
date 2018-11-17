@@ -1,5 +1,7 @@
 package com.d6.android.app.fragments
 
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import com.d6.android.app.R
 import com.d6.android.app.activities.SquareMessagesActivity
@@ -37,6 +39,10 @@ class MessagesFragment: RecyclerFragment() {
 
     override fun getMode(): SwipeRefreshRecyclerLayout.Mode {
         return SwipeRefreshRecyclerLayout.Mode.Top
+    }
+
+    override fun getLayoutManager(): RecyclerView.LayoutManager {
+        return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
     override fun setAdapter() = conversationsAdapter

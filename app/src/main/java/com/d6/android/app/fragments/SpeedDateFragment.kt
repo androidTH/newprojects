@@ -1,6 +1,8 @@
 package com.d6.android.app.fragments
 
 import android.graphics.Color
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.DateAdapter
@@ -34,6 +36,10 @@ class SpeedDateFragment : RecyclerFragment() {
     private var typeIds: String? = ""
     private var area: String? = ""
     private var areaType: Int? = 1
+
+    override fun getLayoutManager(): RecyclerView.LayoutManager {
+        return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
 
     override fun setAdapter() = dateAdapter
 

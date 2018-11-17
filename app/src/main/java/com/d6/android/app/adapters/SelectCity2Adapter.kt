@@ -9,6 +9,7 @@ import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.City
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.textColor
 
 /**
@@ -21,16 +22,15 @@ class SelectCity2Adapter(mData: ArrayList<City>) : BaseRecyclerAdapter<City>(mDa
     var cityType:Int = -2//城市区分
     var cityName:String? = ""
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBind(holder: ViewHolder, position: Int, data: City) {
         val tv_name = holder.bind<TextView>(R.id.tv_name)
         tv_name.text = data.name
         if(TextUtils.equals(cityName, data.name)&&cityType == 1){
-            tv_name.textColor = context.getColor(R.color.white)
-            tv_name.background = context.resources.getDrawable(R.drawable.shape_orange_city)
+            tv_name.textColor = context.resources.getColor(R.color.white)
+            tv_name.backgroundResource = R.drawable.shape_orange_city
         }else {
-            tv_name.textColor = context.getColor(R.color.color_333333)
-            tv_name.backgroundColor = context.getColor(R.color.trans_parent)
+            tv_name.textColor = context.resources.getColor(R.color.color_333333)
+            tv_name.backgroundColor = context.resources.getColor(R.color.trans_parent)
         }
     }
 
