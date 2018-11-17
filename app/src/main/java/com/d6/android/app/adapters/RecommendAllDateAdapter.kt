@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
+import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.MyDate
 import com.facebook.drawee.view.SimpleDraweeView
@@ -13,7 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 /**
  *
  */
-class RecommendAllDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDate>(mData, R.layout.item_list_recommend_date) {
+class RecommendAllDateAdapter(mData: ArrayList<MyDate>) : HFRecyclerAdapter<MyDate>(mData, R.layout.item_list_recommend_date) {
     override fun onBind(holder: ViewHolder, position: Int, data: MyDate) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         imageView.setImageURI(data.lookpics)

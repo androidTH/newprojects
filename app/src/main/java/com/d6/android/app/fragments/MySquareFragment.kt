@@ -1,6 +1,8 @@
 package com.d6.android.app.fragments
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.d6.android.app.R
 import com.d6.android.app.activities.SquareTrendDetailActivity
 import com.d6.android.app.activities.TrendDetailActivity
@@ -37,6 +39,10 @@ class MySquareFragment : RecyclerFragment() {
         } else {
             arguments.getInt("type", 0)
         }
+    }
+
+    override fun getLayoutManager(): RecyclerView.LayoutManager {
+        return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
     private val mSquares = ArrayList<Square>()
     private val squareAdapter by lazy {

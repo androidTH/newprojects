@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
+import android.support.v7.widget.RecyclerView
 import com.d6.android.app.R
 import com.d6.android.app.activities.MainActivity
 import com.d6.android.app.activities.ReportActivity
@@ -54,7 +55,12 @@ class SquareFragment : RecyclerFragment() {
             arguments.getString("id")
     }
 
+    override fun getLayoutManager(): RecyclerView.LayoutManager {
+        return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+
     private val mBanners = ArrayList<Banner>()
+
     private val bannerAdapter by lazy {
         BannerAdapter(mBanners)
     }
