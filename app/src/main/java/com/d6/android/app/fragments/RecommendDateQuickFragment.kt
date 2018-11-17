@@ -91,7 +91,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
 
     override fun pullDownRefresh() {
         super.pullDownRefresh()
-        pullRefresh()
+        pullRefresh(iLookType,sPlace)
     }
 
     override fun loadMore() {
