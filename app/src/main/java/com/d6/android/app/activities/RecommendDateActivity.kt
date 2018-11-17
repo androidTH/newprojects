@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.activity_recommend_date.*
  */
 class RecommendDateActivity : TitleActivity() {
 
-
     val fragment = RecommendDateQuickFragment()
     private var iLookType: String = ""
     private var cityType: Int = -2
