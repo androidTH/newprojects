@@ -59,15 +59,12 @@ abstract class RecyclerFragment : BaseFragment() {
     /**
      * @return  默认垂直布局。
      */
-    open fun getLayoutManager(): RecyclerView.LayoutManager {
-        return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-    }
+    abstract fun getLayoutManager(): RecyclerView.LayoutManager
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rootFl = find(R.id.rootFL)
         mSwipeRefreshLayout = find(R.id.swipeRefreshLayout)
-        sysErr("---getLayoutManager()--->" + getLayoutManager())
         mSwipeRefreshLayout.setLayoutManager(getLayoutManager())
         mSwipeRefreshLayout.setOnRefreshListener(object : SwipeRefreshRecyclerLayout.OnRefreshListener {
             override fun onRefresh() {
@@ -88,7 +85,9 @@ abstract class RecyclerFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         try {
-            adapter!!.unregisterAdapterDataObserver(observer)
+            if(emptyView!=null){
+                adapter!!.unregisterAdapterDataObserver(observer)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

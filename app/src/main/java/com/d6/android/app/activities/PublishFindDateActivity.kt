@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
@@ -130,7 +131,9 @@ class PublishFindDateActivity : BaseActivity() {
         }
         tv_endTime.setOnClickListener {
             val dialog = DatePickDialog(System.currentTimeMillis())
-            dialog.isCheckedStartTime(startTime.isNotEmpty(),startTime.substring(startTime.length - 2,startTime.length))
+            if(!TextUtils.isEmpty(startTime)){
+                dialog.isCheckedStartTime(startTime.isNotEmpty(),startTime.substring(startTime.length - 2,startTime.length))
+            }
             dialog.setOnDateSetListener { year, month, day ->
                 dialog.dismissAllowingStateLoss()
                 endTime = String.format("%s-%02d-%02d",year,month,day)

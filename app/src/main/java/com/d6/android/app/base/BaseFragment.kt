@@ -51,7 +51,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
         ProgressDialog(context, R.style.Theme_ProgressDialog)
     }
 
-    public val immersionBar by lazy {
+    val immersionBar by lazy {
         ImmersionBar.with(this).fitsSystemWindows(true)
                 .statusBarDarkFont(false)
     }

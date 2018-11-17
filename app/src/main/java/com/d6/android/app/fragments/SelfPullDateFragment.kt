@@ -2,6 +2,8 @@ package com.d6.android.app.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.d6.android.app.activities.SelfReleaseDetailActivity
 import com.d6.android.app.adapters.SelfPullDateAdapter
 import com.d6.android.app.adapters.SelfReleaseAdapter
@@ -28,6 +30,10 @@ class SelfPullDateFragment : RecyclerFragment() {
             fragment.arguments = b
             return fragment
         }
+    }
+
+    override fun getLayoutManager(): RecyclerView.LayoutManager {
+        return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
     private val userId by lazy {
