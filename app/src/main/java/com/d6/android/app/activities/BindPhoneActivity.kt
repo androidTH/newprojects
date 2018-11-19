@@ -44,8 +44,9 @@ class BindPhoneActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bindphone_layout)
+        immersionBar.init()
 
-        title = "绑定手机号"
+        setTitleBold("绑定手机号",true)
 
         btn_sign_in.setOnClickListener(View.OnClickListener {
             phoneLogin()
@@ -122,8 +123,8 @@ class BindPhoneActivity : TitleActivity() {
 
     private fun phoneFormatOk() {
         tv_get_code.isEnabled = true
-        tv_get_code.textColor = ContextCompat.getColor(this@BindPhoneActivity, R.color.color_F7AB00)
-        tv_get_code.backgroundResource = R.drawable.shape_code_btn_bg
+        tv_get_code.textColor = ContextCompat.getColor(this@BindPhoneActivity, R.color.white)//color_F7AB00
+        tv_get_code.backgroundResource = R.drawable.shape_code_bindphone_bg //
 //        phoneLine.setBackgroundResource(R.color.dividing_line_color)
         phoneLine.backgroundResource = R.color.dividing_line_color
         tv_phone_error.invisible()
@@ -233,5 +234,6 @@ class BindPhoneActivity : TitleActivity() {
         } catch (e: Exception) {
 
         }
+        immersionBar.destroy()
     }
 }

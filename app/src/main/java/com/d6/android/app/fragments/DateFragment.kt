@@ -22,7 +22,6 @@ import com.d6.android.app.models.FindDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
-import com.d6.android.app.widget.gallery.CardScaleHelper
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.google.gson.JsonObject
@@ -60,7 +59,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var pageNum = 1
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
-    lateinit var mCardScaleHelper:CardScaleHelper
 
     override fun contentViewId() = R.layout.fragment_date
 
@@ -282,7 +280,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     fun doNextCard(){
         scrollPosition = mRecyclerView.currentItem+1
-        if (mDates.isNotEmpty()&&(mDates.size-scrollPosition)>=1) {
+        if (mDates.isNotEmpty()&&(mDates.size-scrollPosition)>=2) {
             mRecyclerView.smoothScrollToPosition(scrollPosition)
             if((mDates.size - scrollPosition)<=2){
                 pageNum++

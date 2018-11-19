@@ -26,11 +26,11 @@ class SelectOutCity2Adapter(mData: ArrayList<City>) : BaseRecyclerAdapter<City>(
         val tv_name = holder.bind<TextView>(R.id.tv_name)
         tv_name.text = data.name
         if(TextUtils.equals(cityName, data.name)&&cityType == 2){
-            tv_name.textColor = context.getColor(R.color.white)
+            tv_name.textColor = context.resources.getColor(R.color.white)
             tv_name.background = context.resources.getDrawable(R.drawable.shape_orange_city)
         } else {
-            tv_name.textColor = context.getColor(R.color.color_333333)
-            tv_name.backgroundColor = context.getColor(R.color.trans_parent)
+            tv_name.textColor = context.resources.getColor(R.color.color_333333)
+            tv_name.backgroundColor = context.resources.getColor(R.color.trans_parent)
         }
     }
 

@@ -375,8 +375,9 @@ inline fun BaseActivity.checkChatCount(to: String, crossinline next: () -> Unit)
     val from = SPUtils.instance().getString(Const.User.USER_ID)
     val date = D6Application.systemTime.toYMDTime()
     this.dialog()
-    Request.getTalkDetails(from, to, date).request(this) { _, data ->
+    Request.getTalkDetails(from, to, date).request(this,false ,success = {code, data->
         data?.let {
+            //            next()
             val talkcount = data.optInt("talkcount")
             val userIds = data.optString("touserid")
             if (userIds.isNotEmpty()) {
@@ -384,12 +385,14 @@ inline fun BaseActivity.checkChatCount(to: String, crossinline next: () -> Unit)
                 if (list.size <= talkcount) {
                     next()
                 }else{
-		    this.toast("聊天次数已达上限")
-		}
+                    this.toast("聊天次数已达上限")
+                }
             } else {
                 next()
             }
         }
+    }) { _, msg ->
+        this.toast(msg)
     }
 }
 

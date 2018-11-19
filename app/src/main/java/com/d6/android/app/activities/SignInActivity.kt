@@ -26,6 +26,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.startActivityForResult
 import org.json.JSONObject
 
 /**
@@ -227,6 +228,7 @@ class SignInActivity : BaseActivity() {
                     val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
                     val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
                     sysErr("------->$gender--->$openId--->$name")
+//                    startActivity<BindPhoneActivity>()
                     thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "")
                 } else {
                     toast("拉取微信信息异常！")

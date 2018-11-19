@@ -37,33 +37,8 @@
             android:paddingLeft="16dp"
             android:visibility="visible"
             android:paddingRight="12dp"/>
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:textSize="@dimen/textSize"-->
-            <!--android:layout_toLeftOf="@+id/headView"-->
-            <!--android:textColor="@color/textColor"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_marginRight="8dp"-->
-            <!--android:id="@+id/tv_my_date"-->
-            <!--android:textStyle="bold"-->
-            <!--android:text="我的约会"/>-->
-        <!--<com.facebook.drawee.view.SimpleDraweeView-->
-            <!--android:layout_width="30dp"-->
-            <!--android:layout_height="30dp"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginRight="16dp"-->
-            <!--android:id="@+id/headView"-->
-            <!--style="@style/DefaultCircleHeadStyle"/>-->
     </LinearLayout>
 
-    <!--<com.d6.android.app.widget.gallery.SpeedRecyclerView-->
-        <!--android:id="@+id/mRecyclerView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="30dp"-->
-        <!--android:layout_below="@+id/mTitleBar" />-->
 
     <com.d6.android.app.widget.gallery.DiscreteScrollView
         android:id="@+id/mRecyclerView"

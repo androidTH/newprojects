@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="100积分"
+            android:text="200积分"
             android:textColor="@color/color_F7AB00"
             android:textSize="22sp"
             android:textStyle="bold" />

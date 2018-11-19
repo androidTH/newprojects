@@ -21,7 +21,7 @@
         android:layout_marginRight="@dimen/margin_15"
         android:layout_alignBottom="@+id/iv_top_bg" />
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/iv_top_bg"
         android:layout_marginLeft="50dp"
@@ -29,7 +29,7 @@
         android:lineSpacingExtra="5dp"
         android:text="已完成认证"
         android:textColor="@color/white"
-        android:textSize="@dimen/textSize_20" />
+        android:textSize="@dimen/btnTextSize25" />
 
     <TextView
         android:id="@+id/tv_date_count"
@@ -77,8 +77,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="@dimen/margin_10"
-                android:src="@mipmap/privilege_vipchat_big"/>
+                android:layout_marginTop="@dimen/margin_15"
+                android:src="@mipmap/privilege_date_bigicon"/>
             <TextView
                 android:id="@+id/tv_vipchat"
                 android:layout_toRightOf="@+id/iv_vipchat_big"
@@ -86,8 +86,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:layout_marginTop="@dimen/margin_5"
-                android:textSize="16sp"
-                android:text="一对一私聊"/>
+                android:textSize="15sp"
+                android:text="发起约会"/>
             <TextView
                 android:layout_below="@+id/tv_vipchat"
                 android:layout_toRightOf="@+id/iv_vipchat_big"
@@ -95,8 +95,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_B3FFFFFF"
                 android:layout_marginTop="@dimen/margin_5"
-                android:textSize="14sp"
-                android:text="可以和你喜欢的异性一对一聊天"/>
+                android:textSize="12sp"
+                android:text="认证后可发布约会,等待异性来约你"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -108,8 +108,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="@dimen/margin_10"
-                android:src="@mipmap/privilege_date_bigicon"/>
+                android:layout_marginTop="@dimen/margin_15"
+                android:src="@mipmap/privilege_dynamic_icon"/>
             <TextView
                 android:id="@+id/tv_openchat"
                 android:layout_toRightOf="@+id/iv_openchat_big"
@@ -117,8 +117,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:layout_marginTop="@dimen/margin_5"
-                android:textSize="16sp"
-                android:text="开启约会"/>
+                android:textSize="15sp"
+                android:text="解锁动态"/>
             <TextView
                 android:layout_below="@+id/tv_openchat"
                 android:layout_toRightOf="@+id/iv_openchat_big"
@@ -126,8 +126,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_B3FFFFFF"
                 android:layout_marginTop="@dimen/margin_5"
-                android:textSize="14sp"
-                android:text="认证后将获得更多曝光机会,等待异性来约你"/>
+                android:textSize="12sp"
+                android:text="认证后将获得更多曝光机会，等待异性来约你"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
@@ -139,8 +139,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="@dimen/margin_10"
-                android:src="@mipmap/privilege_dynamic_icon"/>
+                android:layout_marginTop="@dimen/margin_15"
+                android:src="@mipmap/privilege_vipchat_big"/>
             <TextView
                 android:id="@+id/tv_square"
                 android:layout_toRightOf="@+id/iv_square_big"
@@ -148,8 +148,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:layout_marginTop="@dimen/margin_5"
-                android:textSize="16sp"
-                android:text="发布动态"/>
+                android:textSize="15sp"
+                android:text="更多曝光"/>
             <TextView
                 android:layout_below="@+id/tv_square"
                 android:layout_toRightOf="@+id/iv_square_big"
@@ -157,8 +157,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_B3FFFFFF"
                 android:layout_marginTop="@dimen/margin_5"
-                android:textSize="14sp"
-                android:text="认证后将获得更多曝光机会,等待异性来约你"/>
+                android:textSize="12sp"
+                android:text="认证用户将获得更多曝光机会"/>
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

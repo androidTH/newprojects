@@ -175,7 +175,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
         tv_setting.setOnClickListener {
             startActivityForResult<SettingActivity>(5)
-//            startActivityForResult<BindPhoneActivity>(5)
         }
 
         squareAdapter.setOnItemClickListener { view, position ->

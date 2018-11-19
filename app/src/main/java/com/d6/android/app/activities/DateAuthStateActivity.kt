@@ -44,9 +44,9 @@ class DateAuthStateActivity : BaseActivity() {
                 .titleBar(tv_back)
                 .init()
 
-        AppUtils.setTvStyle( this, resources.getString(R.string.first_step_info),0 ,10 , tv_base_info);
+        AppUtils.setTvStyle( this, resources.getString(R.string.first_step_info),0 ,11 , tv_base_info);
 //        AppUtils.setTvStyle( this, resources.getString(R.string.second_step_info),0 ,10 , tv_contact_info);
-        AppUtils.setTvStyle( this, resources.getString(R.string.third_step_info),0 ,8 , tv_auth);
+        AppUtils.setTvStyle( this, resources.getString(R.string.third_step_info),0 ,9 , tv_auth);
 
         tv_back.setOnClickListener {
             finish()
