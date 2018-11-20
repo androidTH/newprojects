@@ -247,8 +247,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 p0?.let {
                     if (p0 > 0) {
 //                        tv_msg_count1.visible()
-                        headerView.tv_msg_count.visible()
-                        headerView.tv_msg_count.text = p0.toString()
+                        headerView.tv_msg_count.visibility = View.VISIBLE
+                        headerView.tv_msg_count.text = "$p0"
                     } else {
 //                        tv_msg_count1.gone()
                         headerView.tv_msg_count.gone()

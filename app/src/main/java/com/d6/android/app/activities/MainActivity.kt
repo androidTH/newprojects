@@ -164,7 +164,6 @@ class MainActivity : BaseActivity() {
 
         tv_date_mydate.setOnClickListener {
             getAuthState()
-            CustomToast.success("登录奖励积分+1",R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
         }
 
         iv_right.setOnClickListener {

@@ -78,7 +78,6 @@ class RongIMConversationClickListener : RongIM.ConversationClickListener{
      * @return 如果用户自己处理了点击后的逻辑处理，则返回 true， 否则返回 false, false 走融云默认处理方式。
      */
     override fun onMessageClick(p0: Context?, p1: View?, p2: Message?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         return false
     }
 }

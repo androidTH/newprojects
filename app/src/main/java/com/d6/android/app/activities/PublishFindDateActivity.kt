@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.widget.Toast
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
@@ -20,6 +21,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.dateTypesDefault
 import com.d6.android.app.utils.Const.dateTypesSelected
+import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -236,7 +238,8 @@ class PublishFindDateActivity : BaseActivity() {
 //                sysErr("------releaseSelfAbout--------->"+it) //city
                 Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
             }.request(this) { _, data ->
-                showToast("发布成功")
+//                showToast("发布成功")
+                CustomToast.success("发布约会奖励积分10",R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
@@ -245,7 +248,8 @@ class PublishFindDateActivity : BaseActivity() {
         } else {
             // area 代替city
             Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this) { _, data ->
-                showToast("发布成功")
+//                showToast("发布成功")
+                CustomToast.success("发布约会奖励积分10",R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
