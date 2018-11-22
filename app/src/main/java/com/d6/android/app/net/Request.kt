@@ -333,4 +333,9 @@ object Request {
     //发现约会
     fun findAccountCardListPage(userId:String,sPosition:String,sCity:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sPosition,sCity,pageNum)
 
+    //绑定手机号
+    fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken)
+
+    //赠送积分
+    fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)
 }

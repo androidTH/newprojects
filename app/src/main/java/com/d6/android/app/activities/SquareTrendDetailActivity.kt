@@ -23,8 +23,10 @@ import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommentDelDialog
+import com.d6.android.app.widget.CustomToast
 import org.jetbrains.anko.bundleOf
 
 
@@ -180,12 +182,13 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
     private fun praise(square: Square) {
         dialog()
-        Request.addPraise(userId, square.id).request(this) { msg, _ ->
+        Request.addPraise(userId, square.id).request(this) { msg, jsonObject ->
             showToast("点赞成功")
             square.isupvote = "1"
             square.appraiseCount = (square.appraiseCount?:0)+1
             headerView.mTrendDetailView.update(square)
             setResult(Activity.RESULT_OK)
+            showTips(jsonObject,"点赞奖励积分","1");
         }
 
     }
@@ -213,7 +216,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             replayUid
         }
         dialog()
-        Request.addComment(userId, id,content,replyUid).request(this){ msg, _->
+        Request.addComment(userId, id,content,replyUid).request(this){ msg, jsonObject->
             et_content.setText("")
             et_content.clearFocus()
             replayUid = ""
@@ -221,6 +224,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             setResult(Activity.RESULT_OK)
             pageNum = 1
             loadData()
+            showTips(jsonObject,"奖励积分","2");
         }
     }
 

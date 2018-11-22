@@ -84,8 +84,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     }
 
     fun pullRefresh(ilookType: String="", city: String="") {
-        pageNum = 1
-        dateAdapter.setEnableLoadMore(false)//这里的作用是防止下拉刷新的时候还可以上拉加载
+           dateAdapter.setEnableLoadMore(false)//这里的作用是防止下拉刷新的时候还可以上拉加载
         getData(ilookType, city)
     }
 

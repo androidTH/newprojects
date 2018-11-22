@@ -163,6 +163,8 @@ class SignInActivity : BaseActivity() {
                 val code = data?.getStringExtra("code")
                 tv_type.text = code
                 countryCode = code ?: ""
+            }else if(requestCode == 2){
+                finish()
             }
         }
     }
@@ -323,7 +325,7 @@ class SignInActivity : BaseActivity() {
 
     private fun thirdLogin(openId: String, name: String, url: String, gender: String) {
         dialog("登录中...")
-        Request.loginV2(0, openId = openId).request(this) { msg, data ->
+        Request.loginV2(0, openId = openId).request(this,false,success={msg,data->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -347,6 +349,8 @@ class SignInActivity : BaseActivity() {
             }
             setResult(Activity.RESULT_OK)
             finish()
+        }) { msg, data ->
+            startActivityForResult<BindPhoneActivity>(2,"openId" to openId)
         }
     }
 
@@ -372,6 +376,7 @@ class SignInActivity : BaseActivity() {
             ds?.isUnderlineText = true
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

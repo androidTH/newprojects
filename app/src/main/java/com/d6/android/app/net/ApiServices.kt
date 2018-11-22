@@ -276,4 +276,11 @@ interface ApiServices {
     @POST("backstage/account/findAccountCardListPage")
     fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sPosition") sPosition:String, @Query("sCity") scity:String,@Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FindDate>>>
 
+    //绑定手机号
+    @POST("backstage/account/bindPhone")
+    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("devicetoken") devicetoken:String):Flowable<Response<UserData>>
+
+    //赠送积分
+    @POST("backstage/new_login/loginForPoint")
+    fun loginForPoint(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
 }

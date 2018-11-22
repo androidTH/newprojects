@@ -112,13 +112,6 @@ class SquareFragment : RecyclerFragment() {
             }
         }
 
-        squareAdapter.setOnCommentClick { p ->
-            val square = mSquares[p]
-            square.id?.let {
-//                startActivityForResult<TrendDetailActivity>(1, "id" to square.id,"data" to square)
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to it)
-            }
-        }
         showDialog()
         getData()
     }

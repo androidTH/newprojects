@@ -13,13 +13,10 @@ import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.isAuthUser
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.support.v7.widget.LinearSnapHelper
-import com.d6.android.app.utils.doAuthUser
+import com.d6.android.app.utils.*
 
 
 /**
@@ -156,6 +153,8 @@ class HomeFragment : BaseFragment() {
                 getFragment()
             }
         }
+
+        loginforPoint()
     }
 
     private fun getFragment(){
@@ -194,6 +193,13 @@ class HomeFragment : BaseFragment() {
 //            mSwipeRefreshLayout.isRefreshing = false
 //        }
 //    }
+
+    private fun loginforPoint(){
+        Request.loginForPoint(userId).request(this,false,success = {msg,data->{
+            showTips(data,"每天登录奖励积分","1")
+        }})
+    }
+
 
     private fun getSpeedData() {
         Request.findLookAboutList(userId).request(this, success = { _, data ->

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.activities.TrendDetailActivity
 import com.d6.android.app.base.BaseActivity
@@ -18,6 +19,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -131,7 +133,7 @@ class CommentTrendDialog : DialogFragment() ,RequestManager,TrendDetailActivity.
         if (activity is BaseActivity) {
             (activity as BaseActivity).dialog()
         }
-        Request.addComment(userId, id,content,null).request(this,success = { msg, _->
+        Request.addComment(userId, id,content,null).request(this,success = { msg, jsonObject->
             isCommenting = false
             et_content.setText("")
             et_content.clearFocus()
@@ -139,6 +141,7 @@ class CommentTrendDialog : DialogFragment() ,RequestManager,TrendDetailActivity.
             toast("评论成功")
             dialogListener?.onClick(0,"")
             dismissAllowingStateLoss()
+            showTips(jsonObject,"奖励积分","2")
         }){_,_->isCommenting = false}
     }
 

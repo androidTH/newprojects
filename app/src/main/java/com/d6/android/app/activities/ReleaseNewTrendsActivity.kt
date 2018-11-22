@@ -278,6 +278,9 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 Request.releaseSquare(userId, tagId, city, it, content)
             }.request(this) { _, data ->
                 showToast("发布成功")
+                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+                    showTips(data,"发布约会奖励积分","10")
+                }
                 setResult(Activity.RESULT_OK)
                 finish()
             }
@@ -289,7 +292,10 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 this.city
             }
             Request.releaseSquare(userId, tagId, city, null, content).request(this) { _, data ->
-                showToast("发布成功")
+                showToast("发布成功$data")
+                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+                    showTips(data,"发布约会奖励积分","10")
+                }
                 setResult(Activity.RESULT_OK)
                 finish()
             }

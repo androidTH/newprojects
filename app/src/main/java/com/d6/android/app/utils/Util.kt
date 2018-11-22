@@ -17,7 +17,9 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.BuildConfig
+import com.d6.android.app.R
 import com.d6.android.app.activities.DateAuthStateActivity
 import com.d6.android.app.activities.UnAuthUserActivity
 import com.d6.android.app.application.D6Application
@@ -28,6 +30,7 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
+import com.d6.android.app.widget.CustomToast
 import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -438,3 +441,12 @@ inline fun BaseActivity.getTrendDetail(id:String,crossinline next:(square:Square
            stamp.toTime("yyyy-MM-dd")
         }
     }
+
+fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
+    jsonObject?.let {
+        var desc = jsonObject.optString("sAddPointDesc")
+        var iAddPoint = jsonObject.optString("iAddPoint")
+        CustomToast.success("$desc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+    }
+//    CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+}

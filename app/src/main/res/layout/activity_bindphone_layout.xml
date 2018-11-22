@@ -115,7 +115,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_sign_in"
+        android:id="@+id/btn_bindphone"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@+id/iv2"

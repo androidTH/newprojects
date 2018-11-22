@@ -238,8 +238,8 @@ class PublishFindDateActivity : BaseActivity() {
 //                sysErr("------releaseSelfAbout--------->"+it) //city
                 Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
             }.request(this) { _, data ->
-//                showToast("发布成功")
-                CustomToast.success("发布约会奖励积分10",R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+                showToast("发布成功")
+                showTips(data,"发布约会奖励积分","10")
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
@@ -248,8 +248,8 @@ class PublishFindDateActivity : BaseActivity() {
         } else {
             // area 代替city
             Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this) { _, data ->
-//                showToast("发布成功")
-                CustomToast.success("发布约会奖励积分10",R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+                showToast("发布成功")
+                showTips(data,"发布约会奖励积分","10")
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()

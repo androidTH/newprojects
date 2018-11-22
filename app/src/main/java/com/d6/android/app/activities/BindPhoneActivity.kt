@@ -14,6 +14,7 @@ import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMShareAPI
 import io.rong.imkit.RongIM
@@ -29,16 +30,17 @@ import org.json.JSONObject
 class BindPhoneActivity : TitleActivity() {
 
     private var countryCode = "+86"
-    private var type = 1
-    private val wxApi by lazy {
-        WXAPIFactory.createWXAPI(this, "wx43d13a711f68131c")
-    }
+
     private val shareApi by lazy {
         UMShareAPI.get(this)
     }
 
     private val devicetoken by lazy{
         SPUtils.instance().getString(Const.User.DEVICETOKEN)
+    }
+
+    private val openId by lazy {
+        intent.getStringExtra("openId")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +50,7 @@ class BindPhoneActivity : TitleActivity() {
 
         setTitleBold("绑定手机号",true)
 
-        btn_sign_in.setOnClickListener(View.OnClickListener {
+        btn_bindphone.setOnClickListener(View.OnClickListener {
             phoneLogin()
         })
 
@@ -64,7 +66,7 @@ class BindPhoneActivity : TitleActivity() {
                 } else {
                     phoneFormatError()
                 }
-                btn_sign_in.isEnabled = !(et_code.text.isNullOrEmpty() || !isPhone)
+                btn_bindphone.isEnabled = !(et_code.text.isNullOrEmpty() || !isPhone)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -81,7 +83,7 @@ class BindPhoneActivity : TitleActivity() {
 
         et_code.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                btn_sign_in.isEnabled = !(s.isNullOrEmpty() || !isPhone(et_phone.text))
+                btn_bindphone.isEnabled = !(s.isNullOrEmpty() || !isPhone(et_phone.text))
                 if (s.isNullOrEmpty()) {
                     tv_code_error.visible()
 //                    codeLine.setBackgroundResource(R.color.red_fc3)
@@ -188,31 +190,34 @@ class BindPhoneActivity : TitleActivity() {
         } else {
             "$countryCode-$phone"
         }
-        Request.loginV2(1, code, p,devicetoken).request(this) { msg, data ->
-            msg?.let {
-                try {
-                    val json = JSONObject(it)
-                    val token = json.optString("token")
-                    SPUtils.instance().put(Const.User.RONG_TOKEN, token)
-                            .apply()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            saveUserInfo(data)
-            data?.let {
-                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
-                RongIM.getInstance().refreshUserInfoCache(info)
-            }
-            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-                startActivity<SetUserInfoActivity>()
-            } else {
-                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
-                startActivity<MainActivity>()
-            }
-            setResult(Activity.RESULT_OK)
-            finish()
-        }
+
+       Request.bindPhone(p,code,openId,devicetoken).request(this,false,success = {msg,data->
+           msg?.let {
+               try {
+                   val json = JSONObject(it)
+                   val token = json.optString("token")
+                   SPUtils.instance().put(Const.User.RONG_TOKEN, token)
+                           .apply()
+               } catch (e: Exception) {
+                   e.printStackTrace()
+               }
+           }
+           saveUserInfo(data)
+           data?.let {
+               val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
+               RongIM.getInstance().refreshUserInfoCache(info)
+           }
+           if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
+               startActivity<SetUserInfoActivity>()
+           } else {
+               SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
+               startActivity<MainActivity>()
+           }
+           setResult(Activity.RESULT_OK)
+           finish()
+       }){code,msg->{
+            CustomToast.showToast(msg)
+       }}
     }
 
     private val countDownTimer = object : CountDownTimer(60 * 1000, 1000) {
