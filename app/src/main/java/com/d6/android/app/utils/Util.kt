@@ -443,10 +443,11 @@ inline fun BaseActivity.getTrendDetail(id:String,crossinline next:(square:Square
     }
 
 fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
-    jsonObject?.let {
-        var desc = jsonObject.optString("sAddPointDesc")
+    if(jsonObject!=null){
+        var pointDesc = jsonObject.optString("sAddPointDesc")
         var iAddPoint = jsonObject.optString("iAddPoint")
-        CustomToast.success("$desc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+        CustomToast.success("$pointDesc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+    }else{
+        CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
     }
-//    CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
 }

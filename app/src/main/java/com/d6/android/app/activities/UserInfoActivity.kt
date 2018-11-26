@@ -145,7 +145,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
 
         tv_siliao.setOnClickListener {
-
             isAuthUser {
                 mData?.let {
                     val name = it.name ?: ""
@@ -423,7 +422,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if(code == 1){
                     var point = data!!.optString("iTalkPoint")
                     var remainPoint = data!!.optString("iRemainPoint")
-                    if(((point as Int))> (remainPoint as Int)){
+                    if(point.toInt() > remainPoint.toInt()){
                         val dateDialog = OpenDatePointNoEnoughDialog()
                         var point = data!!.optString("iTalkPoint")
                         var remainPoint = data!!.optString("iRemainPoint")

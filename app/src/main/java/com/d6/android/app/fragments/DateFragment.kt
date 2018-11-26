@@ -190,7 +190,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             if (it != null) {
                 sameCity = it.city
                 locationClient.stopLocation()
-                updateAddress(tv_type.text.toString().trim())
+                updateAddress(sameCity)
                 SPUtils.instance().put(USER_ADDRESS, it.city).apply()
             }
         }
