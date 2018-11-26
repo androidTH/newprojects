@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/color_666666"
             android:textSize="14sp"
+            android:visibility="gone"
             android:text="快去充值吧！"/>
         <TextView
             android:layout_width="match_parent"

@@ -283,4 +283,16 @@ interface ApiServices {
     //赠送积分
     @POST("backstage/new_login/loginForPoint")
     fun loginForPoint(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
+    //解锁聊天支付多少积分
+    @POST("backstage/rongcloud/getUnlockTalkPoint")
+    fun getUnlockTalkPoint():Flowable<Response<JsonObject>>
+
+    //是否能聊天
+    @POST("backstage/rongcloud/unlockTalk")
+    fun doUnlockTalk(@Query("iUserid") iUserid:String,@Query("iTalkUserId") iTalkUserId:String):Flowable<Response<JsonObject>>
+
+    //是否允许聊天
+    @POST("backstage/rongcloud/getTalkJustify")
+    fun doTalkJustify(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iTalkUserId:String):Flowable<Response<JsonObject>>
 }

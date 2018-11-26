@@ -15,6 +15,8 @@ import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
 import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.OpenDatePayPointDialog
+import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.UserActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
@@ -32,6 +34,9 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import org.jetbrains.anko.*
+import com.google.gson.JsonParser
+
+
 
 /**
  *
@@ -140,14 +145,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
 
         tv_siliao.setOnClickListener {
+
             isAuthUser {
                 mData?.let {
                     val name = it.name ?: ""
-                    checkChatCount(id) {
-                        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                    }
+//                        checkChatCount(id) {
+                            showDatePayPointDialog(name)
+//                    }
                 }
             }
+
+
         }
 
         tv_more.setOnClickListener {
@@ -400,12 +408,46 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10))
             mData?.iIsFollow = 0
         }
-//        data.optDouble("wanshanziliao") DateAuthStateActivity
     }
 
     //添加访客
     private fun addVistor(){
         Request.getAddVistor(id,userId).request(this){s: String?, jsonObject: JsonObject? ->
+        }
+    }
+
+    private fun showDatePayPointDialog(name:String){
+        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
+            if(data!=null){
+                var code = data!!.optInt("code")
+                if(code == 1){
+                    var point = data!!.optString("iTalkPoint")
+                    var remainPoint = data!!.optString("iRemainPoint")
+                    if(((point as Int))> (remainPoint as Int)){
+                        val dateDialog = OpenDatePointNoEnoughDialog()
+                        var point = data!!.optString("iTalkPoint")
+                        var remainPoint = data!!.optString("iRemainPoint")
+                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+                        dateDialog.show(supportFragmentManager, "d")
+                    }else{
+                        val dateDialog = OpenDatePayPointDialog()
+                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
+                        dateDialog.show(supportFragmentManager, "d")
+                    }
+                } else if(code == 0){
+                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+                } else {
+                    val dateDialog = OpenDatePointNoEnoughDialog()
+                    var point = data!!.optString("iTalkPoint")
+                    var remainPoint = data!!.optString("iRemainPoint")
+                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+                    dateDialog.show(supportFragmentManager, "d")
+                }
+            }else{
+                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+            }
+        }) { _, msg ->
+
         }
     }
 

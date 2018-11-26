@@ -16,8 +16,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.dialog_date_send_fail.*
-import org.jetbrains.anko.bundleOf
+import kotlinx.android.synthetic.main.dialog_date_send_failnew.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
@@ -26,7 +25,7 @@ import org.jetbrains.anko.wrapContent
 /**
  * 约会发送
  */
-class OpenDateErrorDialog : DialogFragment(),RequestManager {
+class OpenDatePointNoEnoughDialog : DialogFragment(),RequestManager {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -59,47 +58,42 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.dialog_date_send_fail, container, false)
+            inflater?.inflate(R.layout.dialog_date_send_failnew, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var point = arguments.getString("point")
+        var remainPoint = arguments.getString("remainPoint")
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
         tv_chongzhi.setOnClickListener {
-            context.startActivity<MyPointsActivity>("points" to point_nums)
+            context.startActivity<MyPointsActivity>("points" to remainPoint)
             dismissAllowingStateLoss()
         }
-        var code = arguments.get("code")
-        if(code == 0){
-            tv_date_send_fail.text = getString(R.string.string_senddatefail)
-            getData()
-        }else if(code == 3){
-            tv_date_send_fail.text = getString(R.string.senddatepointlow)
-            getData()
-        }else if(code == 2){
-            tv_date_send_fail.text = getString(R.string.senddatepointlow)
-            tv_tishi_point.text = arguments.getString("msg")
-        }
+        tv_mypointnums.text = "${point}积分"
+        tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),remainPoint)
     }
 
     private fun getData() {
         isBaseActivity{
-            Request.queryAppointmentPoint(userId).request(it, success = {msg,data->
-                data?.let {
-                    //                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
+                Request.queryAppointmentPoint(userId).request(it, false,success = {msg,data->
+                    data?.let {
+//                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
 //                        tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
 //                        tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
 //                        tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
-                    tv_tishi_point.text = String.format(resources.getString(R.string.string_pointlow),point_nums,it.iAppointPoint)
-                }
-            }){code,msg->
-                if(code == 2){
-                    tv_tishi_point.text = msg
+                        tv_mypointnums.text = "${it.iAppointPoint.toString()}积分"
+                        tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),point_nums)
+                    }
+                }){code,msg->
+                    if(code == 2){
+                        tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),point_nums)
+//                        tv_tishi_point.text = msg
+                    }
                 }
             }
-        }
     }
 
     private var dialogListener: OnDialogListener? = null

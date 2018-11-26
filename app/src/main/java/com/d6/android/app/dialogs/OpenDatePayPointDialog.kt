@@ -11,12 +11,13 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.dialog_date_paypoint.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
@@ -32,7 +33,8 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private var myAppointment:MyAppointment?=null
+    private lateinit var chatUserId:String
+    private lateinit var username:String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,14 +63,16 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        myAppointment = if (arguments != null) {
-            arguments.getParcelable("data") as MyAppointment
+        var point = if (arguments != null) {
+            arguments.getString("point")
         } else {
-            MyAppointment()
+            "0"
         }
 
+        var remainPoint = arguments.getString("remainPoint")
+
         tv_payok.setOnClickListener {
-            getData()
+            getData(point,remainPoint)
         }
 
         tv_close.setOnClickListener {
@@ -76,51 +80,25 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
         }
 
        if(arguments !=null){
-           var it = arguments.getParcelable("explain") as IntegralExplain
-           var username = arguments.getString("username")
-           tv_mypointnums.text = "${it.iAppointPoint}积分"
+           username = arguments.getString("username")
+           chatUserId = arguments.getString("chatUserId")
+           tv_mypointnums.text = "${point}积分"
            tv_payinfo.text = "支付后即可与${username}私聊"
         }
     }
 
-    private fun getData() {
+    private fun getData(point:String,remainPoint:String) {
         dismissAllowingStateLoss()
         isBaseActivity {
             //194ecdb4-4809-4b2d-bf32-42a3342964df
-            Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
-                var openSuccessDialog = OpenDateSuccessDialog()
-                var explain = arguments.getParcelable("explain") as IntegralExplain
-                openSuccessDialog.arguments = bundleOf("point" to explain.iAppointPoint.toString() )
-                openSuccessDialog.show(it.supportFragmentManager, "d")
-            }) { code, msg ->
-                if(code == 3){
-                    var openErrorDialog = OpenDateErrorDialog()
-                    openErrorDialog.arguments= bundleOf("code" to code)
-                    openErrorDialog.show(it.supportFragmentManager, "d")
-                }
+            Request.doUnlockTalk(userId, chatUserId).request(it,success = {msg,data->
+                RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, chatUserId, username)
+            }){code,msg->
+                var openErrorDialog = OpenDatePointNoEnoughDialog()
+                openErrorDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+                openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }
         }
-    }
-
-    private fun queryPoints(){
-//        isBaseActivity {
-//            Request.queryAppointmentPoint(userId).request(it, success = {msg,data->
-//                data?.let {
-//                    tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
-//                    tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
-//                    tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
-//                    tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
-//                }
-//            }){code,msg->
-//                if(code == 2){
-//                    toast(msg)
-//                    dismissAllowingStateLoss()
-//                    var openErrorDialog = OpenDateErrorDialog()
-//                    openErrorDialog.arguments= bundleOf("code" to code)
-//                    openErrorDialog.show(it.supportFragmentManager, "d")
-//                }
-//            }
-//        }
     }
 
     private var dialogListener: OnDialogListener? = null

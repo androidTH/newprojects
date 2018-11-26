@@ -338,17 +338,23 @@ class SignInActivity : BaseActivity() {
             }
             saveUserInfo(data)
             data?.let {
-                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
-                RongIM.getInstance().refreshUserInfoCache(info)
+                if(it.accountId.isNullOrEmpty()){
+                    startActivityForResult<BindPhoneActivity>(2,"openId" to openId)
+                }else{
+//                    data?.let {
+                    val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
+                    RongIM.getInstance().refreshUserInfoCache(info)
+//                    }
+                    if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称
+                        startActivity<SetUserInfoActivity>("name" to name, "gender" to gender)
+                    } else {
+                        SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
+                        startActivity<MainActivity>()
+                    }
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
             }
-            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-                startActivity<SetUserInfoActivity>("name" to name, "gender" to gender)
-            } else {
-                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
-                startActivity<MainActivity>()
-            }
-            setResult(Activity.RESULT_OK)
-            finish()
         }) { msg, data ->
             startActivityForResult<BindPhoneActivity>(2,"openId" to openId)
         }
@@ -358,7 +364,7 @@ class SignInActivity : BaseActivity() {
         override fun onFinish() {
             tv_get_code.text = "重新获取"
             tv_get_code.isEnabled = true
-//            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
+//            tv_get_code.textColor  = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
         }
 
         override fun onTick(millisUntilFinished: Long) {

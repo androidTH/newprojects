@@ -37,31 +37,16 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
     }
 
     private fun signUpDate(myAppointment:MyAppointment) {
-//        isBaseActivity {
-                Request.queryAppointmentPoint(userId).request(context as BaseActivity,false, success = { msg, data->
-//                    val dateDialog = OpenDateDialog()
-                    val dateDialog = OpenDatePayPointDialog()
-//                    dateDialog.arguments= bundleOf("data" to myAppointment,"explain" to data!!)
-                    dateDialog.arguments= bundleOf("data" to myAppointment,"explain" to data!!,"username" to myAppointment.sAppointUserName.toString())
-                    dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                }){code,msg->
-                    if(code == 2){
-                        var openErrorDialog = OpenDateErrorDialog()
-                        openErrorDialog.arguments= bundleOf("code" to code,"msg" to msg)
-                        openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                    }
-//                }
-//            val dateDialog = OpenDateDialog()
-//            dateDialog.arguments= bundleOf("data" to myAppointment)
-//            dateDialog.show(it.supportFragmentManager, "d")
-//            it.dialog()
-//            Request.signUpdate(userId,myAppointment.iAppointUserid.toString(),"").request(it,success = { msg, data ->
-//                val dateDialog = OpenDateDialog()
-//                dateDialog.show(it.supportFragmentManager, "d")
-//            }) { code, msg ->
-//                val dateErrorDialog = DateErrorDialog()
-//                dateErrorDialog.show(it.supportFragmentManager, "d")
-//            }
+        Request.queryAppointmentPoint(userId).request(context as BaseActivity, false, success = { msg, data ->
+            val dateDialog = OpenDateDialog()
+            dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
+            dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+        }) { code, msg ->
+            if (code == 2) {
+                var openErrorDialog = OpenDateErrorDialog()
+                openErrorDialog.arguments = bundleOf("code" to code, "msg" to msg)
+                openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            }
         }
     }
 

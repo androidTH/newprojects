@@ -338,4 +338,14 @@ object Request {
 
     //赠送积分
     fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)
+
+
+    //支付多少积分
+    fun getUnlockTalkPoint()=RRetrofit.instance().create(ApiServices::class.java).getUnlockTalkPoint()
+
+    //能否聊天
+    fun doUnlockTalk(iUserid:String,iTalkUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doUnlockTalk(iUserid, iTalkUserId)
+
+    //是否允许聊天
+    fun doTalkJustify(iFromUserid:String,iToUserid:String) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustify(iFromUserid,iToUserid)
 }

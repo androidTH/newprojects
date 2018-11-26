@@ -12,6 +12,7 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.OpenDatePayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
@@ -20,6 +21,8 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_mydate_details.*
 import kotlinx.android.synthetic.main.item_list_date_status.*
+import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.toast
 
 /**
  * 约会详情页
@@ -87,10 +90,12 @@ class MyDateDetailActivity : BaseActivity() {
                     val name = it.sAppointUserName ?: ""
                     if(it.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
                         checkChatCount(it.iUserid.toString()) {
+//                            showDatePayPointDialog(name,it.iUserid.toString())
                             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
                         }
                     }else if(it.sAppointmentSignupId.isNotEmpty()){
                         checkChatCount(it.iAppointUserid.toString()) {
+//                            showDatePayPointDialog(name,it.iAppointUserid.toString())
                             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
                         }
                     }
@@ -98,6 +103,17 @@ class MyDateDetailActivity : BaseActivity() {
             }
         }
 
+    }
+
+    private fun showDatePayPointDialog(name:String,id:String){
+        Request.getUnlockTalkPoint().request(this,false,success = {msg,data->
+            val dateDialog = OpenDatePayPointDialog()
+            var point = data!!.optInt("iTalkPoint")
+            dateDialog.arguments= bundleOf("data" to point.toString(),"username" to name,"chatUserId" to id)
+            dateDialog.show(supportFragmentManager, "d")
+        }) { _, msg ->
+            this.toast(msg)
+        }
     }
 
     private fun getData(sAppointmentSignupId:String,sAppointmentId:String){
