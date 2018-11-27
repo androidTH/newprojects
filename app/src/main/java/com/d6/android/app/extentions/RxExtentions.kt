@@ -42,7 +42,9 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             var code = -1
             var msg = Error.REQUEST_ERROR
             when (t) {
-                is JsonSyntaxException -> msg = Error.PARSER_ERROR
+                is JsonSyntaxException -> {
+                    msg = Error.PARSER_ERROR
+                }
                 is ConnectException -> msg = Error.NET_ERROR
 //                is SocketTimeoutException -> msg = Error.NET_ERROR
                 is HttpException -> {
