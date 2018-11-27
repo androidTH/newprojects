@@ -339,7 +339,7 @@ class SignInActivity : BaseActivity() {
             saveUserInfo(data)
             data?.let {
                 if(it.accountId.isNullOrEmpty()){
-                    startActivityForResult<BindPhoneActivity>(2,"openId" to openId)
+                    startActivityForResult<BindPhoneActivity>(2,"openId" to openId,"name" to name, "gender" to gender)
                 }else{
 //                    data?.let {
                     val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))

@@ -92,10 +92,10 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             holder.setText(R.id.tv_content, data.gexingqianming)
         }
 
-        if (TextUtils.equals("null", data.userlookwhere.toString())) {
+        if (TextUtils.equals("null", data.userlookwhere)) {
             data.userlookwhere = ""
         }
-        if (TextUtils.equals("null", data.userhandlookwhere.toString())) {
+        if (TextUtils.equals("null", data.userhandlookwhere)) {
             data.userhandlookwhere = ""
         }
         var a: String? = ""

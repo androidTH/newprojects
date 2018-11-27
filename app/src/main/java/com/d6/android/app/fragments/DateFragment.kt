@@ -320,13 +320,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             Request.getAddFollow(userId,findDate.accountId.toString()).request(this){ s: String?, jsonObject: JsonObject? ->
                 //toast("$s,$jsonObject")
                 doNextCard()
+                showTips(jsonObject,"","")
             }
-        }
-    }
-
-    fun getNext() {
-        if (mDates.size <= 2) {
-            getData("","")
         }
     }
 

@@ -14,12 +14,14 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.defaultScheduler
 import com.d6.android.app.utils.sysErr
+import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
+import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -27,6 +29,7 @@ import java.net.SocketTimeoutException
 /**
  * Created on 2017/12/27.
  */
+
 inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: RequestManager, showToast: Boolean = true, crossinline success: (msg:String?,t: O?) -> Unit, crossinline error : (code: Int, msg: String) -> Unit) {
     this.defaultScheduler().subscribe(object : DisposableSubscriber<I>() {
         override fun onStart() {
@@ -97,11 +100,19 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             if (t.res == 1) {//成功
                 success(t.resMsg,t.data)
             } else {
-                onError(ResultException(t.res, t.resMsg))
+                if(t.data!=null){
+                    error(t.res, t.data.toString())
+                    if (showToast) {
+                        requestManager.showToast(t.resMsg.toString())
+                    }
+                }else{
+                    onError(ResultException(t.res, t.resMsg))
+                }
             }
         }
     })
 }
+
 inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: RequestManager, showToast: Boolean = true, crossinline success: (msg:String?,t: O?) -> Unit) {
     request(requestManager,showToast,success){_,_->}
 }

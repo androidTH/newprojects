@@ -198,6 +198,8 @@ class HomeFragment : BaseFragment() {
         Request.loginForPoint(userId).request(this,false,success = {msg,data->{
             showTips(data,"每天登录奖励积分","1")
         }}){code,msg->
+            //var mg = JsonObject().getAsJsonObject(msg)
+            //showTips(mg,"","")
         }
     }
 

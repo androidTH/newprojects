@@ -43,6 +43,14 @@ class BindPhoneActivity : TitleActivity() {
         intent.getStringExtra("openId")
     }
 
+    private val name by lazy{
+        intent.getStringExtra("name")
+    }
+
+    private val gender by lazy{
+        intent.getStringExtra("gender")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bindphone_layout)
@@ -208,7 +216,7 @@ class BindPhoneActivity : TitleActivity() {
                RongIM.getInstance().refreshUserInfoCache(info)
            }
            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-               startActivity<SetUserInfoActivity>()
+               startActivity<SetUserInfoActivity>("name" to name, "gender" to gender)
            } else {
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                startActivity<MainActivity>()
