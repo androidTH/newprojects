@@ -383,7 +383,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
 
             mData?.iIsFollow = 1
-            showTips(jsonObject,"喜欢奖励","1")
+            showTips(jsonObject,"","")
         }
     }
 

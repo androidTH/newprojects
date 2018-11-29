@@ -141,7 +141,7 @@ class CommentTrendDialog : DialogFragment() ,RequestManager,TrendDetailActivity.
             toast("评论成功")
             dialogListener?.onClick(0,"")
             dismissAllowingStateLoss()
-            showTips(jsonObject,"奖励积分","2")
+            showTips(jsonObject,"","")
         }){_,_->isCommenting = false}
     }
 

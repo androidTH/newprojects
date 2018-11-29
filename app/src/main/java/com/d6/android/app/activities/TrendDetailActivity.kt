@@ -169,7 +169,7 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_appraise.isSelected = TextUtils.equals(mTrend.isupvote, "1")
             tv_appraise.text = mTrend.appraiseCount.toString()
             setResult(Activity.RESULT_OK)
-            showTips(jsonObject,"点赞奖励积分","1")
+            showTips(jsonObject,"","")
         }
 
     }

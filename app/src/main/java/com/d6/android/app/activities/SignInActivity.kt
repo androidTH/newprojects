@@ -231,7 +231,7 @@ class SignInActivity : BaseActivity() {
                     val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
                     sysErr("------->$gender--->$openId--->$name")
 //                    startActivity<BindPhoneActivity>()
-                    thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "")
+                    thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "",iconUrl?:"")
                 } else {
                     toast("拉取微信信息异常！")
                 }
@@ -296,7 +296,7 @@ class SignInActivity : BaseActivity() {
             "$countryCode-$phone"
         }
         sysErr("------->$p")
-        Request.loginV2(1, code, p,devicetoken).request(this) { msg, data ->
+        Request.loginV2New(1, code, p,devicetoken).request(this) { msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -323,9 +323,9 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-    private fun thirdLogin(openId: String, name: String, url: String, gender: String) {
+    private fun thirdLogin(openId: String, name: String, url: String, gender: String,iconurl:String) {
         dialog("登录中...")
-        Request.loginV2(0, openId = openId).request(this,false,success={msg,data->
+        Request.loginV2New(0, openId = openId).request(this,false,success={msg,data->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -336,17 +336,15 @@ class SignInActivity : BaseActivity() {
                     e.printStackTrace()
                 }
             }
-            saveUserInfo(data)
             data?.let {
                 if(it.accountId.isNullOrEmpty()){
-                    startActivityForResult<BindPhoneActivity>(2,"openId" to openId,"name" to name, "gender" to gender)
+                    startActivityForResult<BindPhoneActivity>(2,"openId" to openId,"name" to name, "gender" to gender,"headerpic" to iconurl)
                 }else{
-//                    data?.let {
+                    saveUserInfo(it)
                     val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
                     RongIM.getInstance().refreshUserInfoCache(info)
-//                    }
                     if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称
-                        startActivity<SetUserInfoActivity>("name" to name, "gender" to gender)
+                        startActivity<SetUserInfoActivity>("name" to name, "gender" to gender,"headerpic" to iconurl)
                     } else {
                         SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                         startActivity<MainActivity>()
@@ -382,7 +380,6 @@ class SignInActivity : BaseActivity() {
             ds?.isUnderlineText = true
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

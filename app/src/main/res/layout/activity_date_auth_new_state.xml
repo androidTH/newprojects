@@ -20,7 +20,7 @@
         android:layout_marginRight="@dimen/margin_15"
         android:layout_alignBottom="@+id/iv_top_bg" />
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/iv_top_bg"
         android:layout_marginLeft="50dp"
@@ -28,6 +28,7 @@
         android:lineSpacingExtra="5dp"
         android:text="您还未完成信息认证"
         android:textColor="@color/white"
+        android:textStyle="bold"
         android:textSize="@dimen/textSize_20" />
 
     <TextView

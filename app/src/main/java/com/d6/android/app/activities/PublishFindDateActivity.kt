@@ -13,6 +13,7 @@ import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
+import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
@@ -210,6 +211,11 @@ class PublishFindDateActivity : BaseActivity() {
         }
         if (endTime.isEmpty()) {
             showToast("请选择结束时间")
+            return
+        }
+
+        if(!isDateOneBigger(endTime,startTime)){
+            showToast("结束时间最少相隔一天")
             return
         }
 //        if (mImages.size <= 1) {

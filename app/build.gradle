@@ -131,6 +131,8 @@ dependencies {
     compile project(':cardlib')
     compile project(':sticker')
     compile project(':library')
+//    compile 'com.zhihu.android:matisse:0.5.2-beta3'
+
     //https://github.com/ongakuer/CircleIndicator
 
 //    compile 'com.github.zcweng:switch-button:0.0.3@aar'

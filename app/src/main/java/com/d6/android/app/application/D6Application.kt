@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.StrictMode
 import android.support.multidex.MultiDex
 import android.text.TextUtils
 import android.view.View

@@ -55,6 +55,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_square_detail)
+        immersionBar.init()
 
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))
         mSwipeRefreshLayout.setMode(SwipeRefreshRecyclerLayout.Mode.Top)
@@ -188,7 +189,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             square.appraiseCount = (square.appraiseCount?:0)+1
             headerView.mTrendDetailView.update(square)
             setResult(Activity.RESULT_OK)
-            showTips(jsonObject,"点赞奖励积分","1");
+            showTips(jsonObject,"","");
         }
 
     }
@@ -224,7 +225,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             setResult(Activity.RESULT_OK)
             pageNum = 1
             loadData()
-            showTips(jsonObject,"奖励积分","2");
+            showTips(jsonObject,"","");
         }
     }
 

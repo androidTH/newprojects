@@ -446,8 +446,10 @@ fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
     if(jsonObject!=null){
         var pointDesc = jsonObject.optString("sAddPointDesc")
         var iAddPoint = jsonObject.optString("iAddPoint")
-        CustomToast.success("$pointDesc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
-    }else{
+        if(!TextUtils.isEmpty(pointDesc)){
+            CustomToast.success("$pointDesc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+        }
+    } else if(!TextUtils.isEmpty(desc)){
         CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
     }
 }

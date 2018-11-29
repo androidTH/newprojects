@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.View
 import android.widget.RadioButton
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -54,6 +56,20 @@ class SetUserInfoActivity : BaseActivity() {
             -1
         }
 
+        val headerpic = if (intent.hasExtra("headerpic")) {
+            intent.getStringExtra("headerpic")
+        } else {
+            ""
+        }
+
+        if(!TextUtils.isEmpty(headerpic)){
+            tv_head_tip.visibility = View.GONE
+            headView.setImageURI(headerpic)
+        }else{
+            tv_head_tip.visibility = View.VISIBLE
+        }
+
+
         headView.setOnClickListener {
             startActivityForResult<SelectPhotoDialog>(0)
         }
@@ -89,7 +105,6 @@ class SetUserInfoActivity : BaseActivity() {
 
         })
         tv_change_head.gone()
-        tv_head_tip.visible()
         val s = "注册成功后性别将不可以修改"
         tv_info.text = SpanBuilder(s)
                 .color(this,s.length-5,s.length-2,R.color.orange_f6a)
