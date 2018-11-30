@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
@@ -76,15 +77,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    var position = mCardScaleHelper.getCurrentItemPos()
-//                    if ((mDates.size-position) <= 2) {
-//                        pageNum++
-//                        if(cityType == -2){
-//                            getData(SPUtils.instance().getString(USER_ADDRESS),"")
-//                        }else{
-//                            getData("",tv_city.text.toString())
-//                        }
-//                    }
+                    scrollPosition = mRecyclerView.currentItem+1
+                    if ((mDates.size-scrollPosition) <= 2) {
+                        pageNum++
+                        if(cityType == -2){
+                            getData()
+                        }else{
+                            getData("",tv_city.text.toString().trim())
+                        }
+                    }
                 }
             }
         })
@@ -98,20 +99,20 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 if (p == 1 || p == 0) {
                     city = s
                     outCity = null
-                    tv_city.textColor = resources.getColor(R.color.color_F7AB00)
-                    tv_type.textColor = resources.getColor(R.color.color_black)
+                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
                     tv_type.text = resources.getString(R.string.string_samecity)
                 } else if (p == 2) {
                     city = null
                     outCity = s
-                    tv_city.textColor = resources.getColor(R.color.color_F7AB00)
-                    tv_type.textColor = resources.getColor(R.color.color_black)
+                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
                     tv_type.text = resources.getString(R.string.string_samecity)
                 } else if (p == -2) {//取消选择
                     city = null
                     outCity = null
-                    tv_city.textColor = resources.getColor(R.color.color_black)
-                    tv_type.textColor = resources.getColor(R.color.color_black)
+                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
+                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
                     tv_type.text = resources.getString(R.string.string_samecity)
                 }
                 cityType = p
@@ -120,7 +121,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 if(p == -2){
                     getData("","")
                 }else{
-                    getData("",s.toString())
+                    getData("",tv_city.text.toString().trim())
                 }
             }
         }
@@ -133,10 +134,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //                tv_type.text = s
 //                getData(1)
 //            }
-            tv_city.textColor = resources.getColor(R.color.color_black)
+            tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
             tv_city.text = resources.getString(R.string.string_area)
-            pageNum =1
-            tv_type.textColor = resources.getColor(R.color.color_F7AB00)
+            pageNum=1
+            tv_type.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
             getData(sameCity,"")
 
         }
@@ -190,8 +191,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             if (it != null) {
                 sameCity = it.city
                 locationClient.stopLocation()
-                updateAddress(sameCity)
-                SPUtils.instance().put(USER_ADDRESS, it.city).apply()
+//                updateAddress(sameCity)
+                SPUtils.instance().put(USER_ADDRESS,sameCity).apply()
             }
         }
 
@@ -280,11 +281,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     fun doNextCard(){
         scrollPosition = mRecyclerView.currentItem+1
-        if (mDates.isNotEmpty()&&(mDates.size-scrollPosition)>=2) {
+        if (mDates.isNotEmpty()&&(mDates.size-scrollPosition)>=1) {
             mRecyclerView.smoothScrollToPosition(scrollPosition)
             if((mDates.size - scrollPosition)<=2){
                 pageNum++
-                getData()
+                if(cityType == -2){
+                  getData()
+                }else{
+                  getData("",tv_city.text.toString().trim())
+                }
             }
         }
     }

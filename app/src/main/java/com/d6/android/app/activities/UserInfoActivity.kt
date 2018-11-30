@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -23,6 +24,7 @@ import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -291,18 +293,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if(data.iIsFollow !=null){
                     if(data.iIsFollow==1){
 //                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
-                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
 
                         tv_like.setCompoundDrawables(null,null,null,null);
                         tv_like.text = resources.getString(R.string.string_liked)
                         tv_like.backgroundResource = R.drawable.shape_20r_white
-                        tv_like.textColor = resources.getColor(R.color.color_666666)
+                        tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
 
-                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
+                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
+                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10))
                     }else{
                         tv_like.text= resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
-                        tv_like.textColor = resources.getColor(R.color.white)
+                        tv_like.textColor = ContextCompat.getColor(context,R.color.white)
 //                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
                     }
                 }
@@ -377,10 +379,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
             tv_like.text = resources.getString(R.string.string_liked)
             tv_like.backgroundResource = R.drawable.shape_20r_white
-            tv_like.textColor = resources.getColor(R.color.color_666666)
+            tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
 
             tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
-            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10))
 
             mData?.iIsFollow = 1
             showTips(jsonObject,"","")
@@ -394,13 +396,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
 
-            var drawable = resources.getDrawable(R.mipmap.icon_like_button)
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.icon_like_button)
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
             tv_like.setCompoundDrawables(drawable,null,null,null);
 
             tv_like.text= resources.getString(R.string.string_like)
             tv_like.backgroundResource = R.drawable.shape_20r_ff6
-            tv_like.textColor = resources.getColor(R.color.white)
+            tv_like.textColor = ContextCompat.getColor(context,R.color.white)
 
 
             tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10))
