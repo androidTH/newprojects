@@ -23,6 +23,7 @@ import org.jetbrains.anko.toast
 import android.view.inputmethod.InputMethodManager
 import com.d6.android.app.dialogs.CommentDelDialog
 import org.jetbrains.anko.bundleOf
+import java.util.*
 
 
 /**
@@ -124,8 +125,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 comment()
             }
         }
-
-
         dialog()
         getData()
     }
@@ -142,6 +141,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 } else {
                     mComments.addAll(it.comments)
                 }
+                Collections.reverse(mComments)
                 squareDetailCommentAdapter.notifyDataSetChanged()
                 mSquare?.comments = mComments
                 updateBean()
@@ -231,7 +231,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             pageNum = 1
             mSquare?.commentCount= mSquare?.commentCount!!.toInt()+1
             getData()
-//            loadData()
             showTips(jsonObject,"","");
         }
     }
@@ -269,6 +268,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 mSquare?.comments=mComments
                 updateBean()
                 squareDetailCommentAdapter.notifyDataSetChanged()
+                mSquare?.let {
+                    headerView.mTrendDetailView.update(it)
+                }
             }
     }
 }
