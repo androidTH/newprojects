@@ -379,7 +379,7 @@ inline fun BaseActivity.checkChatCount(to: String, crossinline next: () -> Unit)
     this.dialog()
     Request.getTalkDetails(from, to, date).request(this,false ,success = {code, data->
         data?.let {
-            //            next()
+            // next()
             val talkcount = data.optInt("talkcount")
             val userIds = data.optString("touserid")
             if (userIds.isNotEmpty()) {

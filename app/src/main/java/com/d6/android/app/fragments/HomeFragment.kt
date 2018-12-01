@@ -1,5 +1,6 @@
 package com.d6.android.app.fragments
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.LinearLayoutManager
@@ -17,8 +18,6 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.support.v7.widget.LinearSnapHelper
 import com.d6.android.app.utils.*
-import com.google.gson.JsonObject
-
 
 /**
  * 主页
@@ -40,7 +39,8 @@ class HomeFragment : BaseFragment() {
 
     override fun contentViewId() = R.layout.fragment_home
 
-    override fun onFirstVisibleToUser() {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
 
         appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
@@ -89,7 +89,7 @@ class HomeFragment : BaseFragment() {
 //        }
 
         tv_speed_date_more.setOnClickListener {
-//            activity?.let {
+            //            activity?.let {
 //                if (it is MainActivity) {
 //                    it.changeTab(1)
 //                }
@@ -103,7 +103,7 @@ class HomeFragment : BaseFragment() {
         }
 
         mSwipeRefreshLayout.setOnRefreshListener {
-//            getBanner()
+            //            getBanner()
             getSpeedData()
             val fragments = childFragmentManager.fragments
             fragments?.forEach {
@@ -150,12 +150,14 @@ class HomeFragment : BaseFragment() {
             filterDateTypeDialog.setDialogListener { p, s ->
                 type = p
                 tv_datetype.text = s
-//                getData(1)
                 getFragment()
             }
         }
-
         loginforPoint()
+    }
+
+    override fun onFirstVisibleToUser() {
+
     }
 
     private fun getFragment(){

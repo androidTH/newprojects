@@ -144,8 +144,6 @@ class MainActivity : BaseActivity() {
                 if (fragment != null && fragment is SquareMainFragment) {
                     fragment.filter(p)
                 }
-
-
             }
             filterTrendDialog.show(supportFragmentManager, "ftd")
         }
@@ -154,7 +152,7 @@ class MainActivity : BaseActivity() {
 
         tv_create_date.setOnClickListener {
             isAuthUser {
-                startActivityForResult<PublishFindDateActivity>(1)
+                startActivityForResult<PublishFindDateActivity>(10)
             }
         }
 
@@ -220,6 +218,9 @@ class MainActivity : BaseActivity() {
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         PushAgent.getInstance(this.applicationContext).addAlias(userId, "D6") { _, _ -> }
         Request.updateDeviceType(userId).request(this, false) { _, _ -> }
+
+        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
+        date_headView.setImageURI(head)
     }
 
     fun judgeDataB() {
@@ -249,8 +250,6 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
-        date_headView.setImageURI(head)
         if(tabhost.currentTab==0){
             myDateUnMsg()
         }
@@ -373,15 +372,14 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 0 && data != null) {//筛选
-                val area = data.getStringExtra("area")
-                val areaType = data.getIntExtra("areaType", -1)
-                val typeIds = data.getStringExtra("typeIds")
-                val vipIds = data.getStringExtra("vipIds")
-                val fragment = supportFragmentManager.findFragmentByTag("速约")
-                if (fragment != null && fragment is SpeedDateFragment) {
-                    fragment.refresh(area, areaType, typeIds, vipIds)
-                }
-
+//                val area = data.getStringExtra("area")
+//                val areaType = data.getIntExtra("areaType", -1)
+//                val typeIds = data.getStringExtra("typeIds")
+//                val vipIds = data.getStringExtra("vipIds")
+//                val fragment = supportFragmentManager.findFragmentByTag("速约")
+//                if (fragment != null && fragment is SpeedDateFragment) {
+//                    fragment.refresh(area, areaType, typeIds, vipIds)
+//                }
             } else if (requestCode == 1) {
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
                 if (fragment != null && fragment is SquareMainFragment) {
