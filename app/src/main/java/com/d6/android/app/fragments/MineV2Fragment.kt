@@ -182,7 +182,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //            (activity as BaseActivity).getTrendDetail(square.id ?: "") {
 //                startActivityForResult<TrendDetailActivity>(18, "data" to it)
 //            }
-            startActivity<SquareTrendDetailActivity>("id" to (square.id?:""))
+            startActivity<SquareTrendDetailActivity>("id" to (square.id?:""),"position" to position)
         }
 
         mSwipeRefreshLayout.mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

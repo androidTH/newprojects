@@ -25,6 +25,7 @@ import java.io.File
 class SetUserInfoActivity : BaseActivity() {
     private var headFilePath: String? = null
     private var sex = -1
+    private var ISNOTEDIT = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +41,12 @@ class SetUserInfoActivity : BaseActivity() {
         sex = if (intent.hasExtra("gender")) {
             val s = intent.getStringExtra("gender")
             when (s) {
-                "男" ->{
+                "1" ->{
                     rb_male.isChecked = true
                     rb_female.isChecked = false
                     1
                 }
-                "女" -> {
+                "0" -> {
                     rb_male.isChecked = false
                     rb_female.isChecked = true
                     0
@@ -56,16 +57,17 @@ class SetUserInfoActivity : BaseActivity() {
             -1
         }
 
-        val headerpic = if (intent.hasExtra("headerpic")) {
+        headFilePath = if (intent.hasExtra("headerpic")) {
             intent.getStringExtra("headerpic")
         } else {
             ""
         }
 
-        if(!TextUtils.isEmpty(headerpic)){
+        if(!TextUtils.isEmpty(headFilePath)){
             tv_head_tip.visibility = View.GONE
-            headView.setImageURI(headerpic)
+            headView.setImageURI(headFilePath)
         }else{
+            ISNOTEDIT = true
             tv_head_tip.visibility = View.VISIBLE
         }
 
@@ -121,6 +123,7 @@ class SetUserInfoActivity : BaseActivity() {
                 headFilePath = data?.getStringExtra("path")
                 headView.setImageURI("file://$headFilePath")
                 tv_change_head.visible()
+                ISNOTEDIT = true
                 tv_head_tip.gone()
                 tv_error.text = ""
             }
@@ -131,10 +134,13 @@ class SetUserInfoActivity : BaseActivity() {
         tv_error.visible()
         tv_error.text = ""
         nickLine.setBackgroundResource(R.color.orange_f6a)
-        if (headFilePath.isNullOrEmpty()) {
-            tv_error.text = "请上传头像"
-            return
+        if(ISNOTEDIT){
+            if (headFilePath.isNullOrEmpty()) {
+                tv_error.text = "请上传头像"
+                return
+            }
         }
+
         if (sex == -1) {
             tv_error.text = "请选择性别"
             return
@@ -152,19 +158,36 @@ class SetUserInfoActivity : BaseActivity() {
         user.name = nick
         user.invitecode = code
         dialog()
-        Request.uploadFile(File(headFilePath)).flatMap {
-            user.picUrl = it
-            Request.updateUserInfo(user)
-        }.request(this) { _, data ->
-            SPUtils.instance()
-                    .put(Const.User.IS_LOGIN,true)
-                    .put(Const.User.USER_NICK, nick)
-                    .put(Const.User.USER_HEAD, user.picUrl)
-                    .put(Const.User.USER_SEX, user.sex)
-                    .apply()
-            startActivity<MainActivity>()
-            setResult(Activity.RESULT_OK)
-            finish()
+        if(ISNOTEDIT){
+            Request.uploadFile(File(headFilePath)).flatMap {
+                user.picUrl = it
+                Request.updateUserInfo(user)
+            }.request(this) { _, data ->
+                SPUtils.instance()
+                        .put(Const.User.IS_LOGIN,true)
+                        .put(Const.User.USER_NICK, nick)
+                        .put(Const.User.USER_HEAD, user.picUrl)
+                        .put(Const.User.USER_SEX, user.sex)
+                        .apply()
+                startActivity<MainActivity>()
+                dismissDialog()
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }else{
+            user.picUrl = headFilePath
+            Request.updateUserInfo(user).request(this, success = {msg,data->
+                SPUtils.instance()
+                        .put(Const.User.IS_LOGIN,true)
+                        .put(Const.User.USER_NICK, nick)
+                        .put(Const.User.USER_HEAD, user.picUrl)
+                        .put(Const.User.USER_SEX, user.sex)
+                        .apply()
+                startActivity<MainActivity>()
+                dismissDialog()
+                setResult(Activity.RESULT_OK)
+                finish()
+            })
         }
     }
 }

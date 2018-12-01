@@ -30,7 +30,7 @@ import java.net.SocketTimeoutException
  * Created on 2017/12/27.
  */
 
-inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: RequestManager, showToast: Boolean = true, crossinline success: (msg:String?,t: O?) -> Unit, crossinline error : (code: Int, msg: String) -> Unit) {
+inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: RequestManager, showToast: Boolean = false, crossinline success: (msg:String?,t: O?) -> Unit, crossinline error : (code: Int, msg: String) -> Unit) {
     this.defaultScheduler().subscribe(object : DisposableSubscriber<I>() {
         override fun onStart() {
             super.onStart()

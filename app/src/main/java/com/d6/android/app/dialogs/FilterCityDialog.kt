@@ -88,9 +88,11 @@ class FilterCityDialog : DialogFragment(), RequestManager {
         hotAdapter.setValue(cityType, cityName)
 
         hotAdapter.setOnItemClickListener { view, position ->
-            val city = mHotCities[position]
-            dialogListener?.onClick(0,city.name)
-            dismissAllowingStateLoss()
+            if(mHotCities.size > position){
+                val city = mHotCities[position]
+                dialogListener?.onClick(0,city.name)
+                dismissAllowingStateLoss()
+            }
         }
 
         rv_guonei.setHasFixedSize(true)

@@ -44,7 +44,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dateAdapter.setOnItemClickListener { adapter, view, position ->
-            activity?.doAuthUser {
+            activity?.isAuthUser {
                 val date = dateAdapter.data[position]
                 if (date.iType == 1) {
                     startActivity<FindDateDetailActivity>("data" to date)

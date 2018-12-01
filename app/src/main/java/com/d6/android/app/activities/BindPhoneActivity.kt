@@ -15,7 +15,6 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMShareAPI
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
@@ -30,10 +29,6 @@ import org.json.JSONObject
 class BindPhoneActivity : TitleActivity() {
 
     private var countryCode = "+86"
-
-    private val shareApi by lazy {
-        UMShareAPI.get(this)
-    }
 
     private val devicetoken by lazy{
         SPUtils.instance().getString(Const.User.DEVICETOKEN)
@@ -116,7 +111,6 @@ class BindPhoneActivity : TitleActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        shareApi.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1) {
                 val code = data?.getStringExtra("code")
@@ -180,11 +174,7 @@ class BindPhoneActivity : TitleActivity() {
     private fun phoneLogin() {
         val phone = et_phone.text.toString().trim()
         if (phone.isEmpty()) {
-//            if (type == 1) {
             toast("请输入手机号")
-//            } else {
-//                toast("请输入会员账号")
-//            }
             return
         }
 
@@ -227,9 +217,9 @@ class BindPhoneActivity : TitleActivity() {
            }
            setResult(Activity.RESULT_OK)
            finish()
-       }){code,msg->{
-            CustomToast.showToast(msg)
-       }}
+       }){code,msg->
+           showToast(msg)
+       }
     }
 
     private val countDownTimer = object : CountDownTimer(60 * 1000, 1000) {

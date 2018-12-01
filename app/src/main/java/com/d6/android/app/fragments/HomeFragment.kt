@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.support.v7.widget.LinearSnapHelper
 import com.d6.android.app.utils.*
+import com.google.gson.JsonObject
 
 
 /**
@@ -54,7 +55,7 @@ class HomeFragment : BaseFragment() {
         rvSpeedDate.adapter = speedDateAdapter
 
         speedDateAdapter.setOnItemClickListener { _, position ->
-            activity?.doAuthUser {
+            activity?.isAuthUser {
                 val date = mSpeedDates[position]
                 if(date.iType == 1){
                     startActivity<FindDateDetailActivity>("data" to date)
@@ -195,11 +196,11 @@ class HomeFragment : BaseFragment() {
 //    }
 
     private fun loginforPoint(){
-        Request.loginForPoint(userId).request(this,false,success = {msg,data->{
+        Request.loginForPoint(userId).request(this,false,success = {msg,data->
             showTips(data,"","")
-        }}){code,msg->
-            //var mg = JsonObject().getAsJsonObject(msg)
-            //showTips(mg,"","")
+        }){code,msg->
+//            var mg = JsonObject().getAsJsonObject(msg)
+//            showTips(mg,"","")
         }
     }
 

@@ -19,14 +19,9 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_square_detail.*
 import kotlinx.android.synthetic.main.header_square_detail.view.*
-import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommentDelDialog
-import com.d6.android.app.widget.CustomToast
 import org.jetbrains.anko.bundleOf
 
 
@@ -38,6 +33,10 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private val id by lazy {
         intent.getStringExtra("id")
     }
+
+    private val position by lazy{
+        intent.getIntExtra("position",-1)
+    }
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -46,6 +45,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private val squareDetailCommentAdapter by lazy {
         SquareDetailCommentAdapter(mComments)
     }
+    private var mSquare:Square?=null
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_square_detail, mSwipeRefreshLayout.mRecyclerView, false)
     }
@@ -131,10 +131,10 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
     private fun getData() {
-
         Request.getSquareDetail(userId, id).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             data?.let {
+                mSquare = it
                 headerView.mTrendDetailView.update(it)
                 mComments.clear()
                 if (it.comments == null || it.comments.isEmpty()) {
@@ -143,6 +143,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     mComments.addAll(it.comments)
                 }
                 squareDetailCommentAdapter.notifyDataSetChanged()
+                mSquare?.comments = mComments
+                updateBean()
             }
         }, error = { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
@@ -188,7 +190,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             square.isupvote = "1"
             square.appraiseCount = (square.appraiseCount?:0)+1
             headerView.mTrendDetailView.update(square)
-            setResult(Activity.RESULT_OK)
+            mSquare?.appraiseCount = square.appraiseCount
+            mSquare?.isupvote = square.isupvote
+            updateBean()
             showTips(jsonObject,"","");
         }
 
@@ -200,8 +204,10 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             showToast("取消点赞")
             square.isupvote = "0"
             square.appraiseCount = if(((square.appraiseCount?:0)-1)<0) 0 else (square.appraiseCount?:0)-1
+            mSquare?.appraiseCount = square.appraiseCount
+            mSquare?.isupvote = square.isupvote
+            updateBean()
             headerView.mTrendDetailView.update(square)
-            setResult(Activity.RESULT_OK)
         }
     }
 
@@ -222,11 +228,21 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             et_content.clearFocus()
             replayUid = ""
             toast("评论成功")
-            setResult(Activity.RESULT_OK)
             pageNum = 1
-            loadData()
+            mSquare?.commentCount= mSquare?.commentCount!!.toInt()+1
+            getData()
+//            loadData()
             showTips(jsonObject,"","");
         }
+    }
+
+    private fun updateBean(){
+        var intent = Intent()
+        var bundle=Bundle()
+        bundle.putSerializable("bean",mSquare)
+        bundle.putInt("position",position)
+        intent.putExtras(bundle)
+        setResult(Activity.RESULT_OK,intent)
     }
 
     override fun onRefresh() {
@@ -249,6 +265,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             Request.delComments(data.id!!.toInt()).request(this) { _, _ ->
                 showToast("删除成功")
                 mComments.remove(data)
+                mSquare?.commentCount= mSquare?.commentCount!!.toInt()-1
+                mSquare?.comments=mComments
+                updateBean()
                 squareDetailCommentAdapter.notifyDataSetChanged()
             }
     }

@@ -286,8 +286,7 @@ fun File?.getFileSuffix(): String {
 
 inline fun Activity.isAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-    if (className == "7") {
-//        this.startActivity<UnAuthUserActivity>()
+    if (className == "7"||className=="22" ) {
         this.startActivity<DateAuthStateActivity>()
     } else {
         next()
