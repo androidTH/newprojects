@@ -85,19 +85,19 @@ class MyDateDetailActivity : BaseActivity() {
         }
 
         tv_private_chat.setOnClickListener {
-            isAuthUser {
+            isNoAuthToChat("5") {
                 myAppointment?.let {
                     val name = it.sAppointUserName ?: ""
                     if(it.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
-                        checkChatCount(it.iUserid.toString()) {
+//                        checkChatCount(it.iUserid.toString()) {
 //                            showDatePayPointDialog(name,it.iUserid.toString())
                             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
-                        }
+//                        }
                     }else if(it.sAppointmentSignupId.isNotEmpty()){
-                        checkChatCount(it.iAppointUserid.toString()) {
+//                        checkChatCount(it.iAppointUserid.toString()) {
 //                            showDatePayPointDialog(name,it.iAppointUserid.toString())
                             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
-                        }
+//                        }
                     }
                 }
             }

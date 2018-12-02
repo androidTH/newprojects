@@ -147,7 +147,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
 
         tv_siliao.setOnClickListener {
-            isAuthUser {
+            isNoAuthToChat("5") {
                 mData?.let {
                     val name = it.name ?: ""
 //                        checkChatCount(id) {
@@ -155,8 +155,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                    }
                 }
             }
-
-
         }
 
         tv_more.setOnClickListener {

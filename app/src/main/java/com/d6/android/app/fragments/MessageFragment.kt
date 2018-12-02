@@ -1,10 +1,8 @@
 package com.d6.android.app.fragments
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import com.d6.android.app.R
 import com.d6.android.app.activities.MessageSettingActivity
@@ -32,7 +30,6 @@ import io.rong.imlib.model.Message
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
 
 private const val ARG_PARAM1 = "param1"
@@ -96,24 +93,24 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 s = info.name
             }
 
-           activity.isAuthUser {
-                if (TextUtils.equals("5", conversation.targetId)) {//客服
-                    val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
-                    RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
-                            ,"5" ,"5", Message.ReceivedStatus(0)
-                            , textMsg,object : RongIMClient.ResultCallback<Message>(){
-                        override fun onSuccess(p0: Message?) {
-
-                        }
-                        override fun onError(p0: RongIMClient.ErrorCode?) {
-
-                        }
-                    })
-                }
-
-               (activity as BaseActivity).checkChatCount(conversation.targetId){
-                    RongIM.getInstance().startConversation(activity,conversation.conversationType,conversation.targetId,s)
-                }
+            if (TextUtils.equals("5", conversation.targetId)) {
+                //客服
+//                    val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
+//                    RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
+//                            ,"5" ,"5", Message.ReceivedStatus(0)
+//                            , textMsg,object : RongIMClient.ResultCallback<Message>(){
+//                        override fun onSuccess(p0: Message?) {
+//
+//                        }
+//                        override fun onError(p0: RongIMClient.ErrorCode?) {
+//
+//                        }
+//                    })
+                RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
+            } else {
+//                activity.isAuthUser {
+                RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
+//                }
             }
         }
     }

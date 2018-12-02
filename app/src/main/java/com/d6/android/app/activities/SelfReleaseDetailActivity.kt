@@ -23,9 +23,9 @@ class SelfReleaseDetailActivity : TitleActivity() {
         fl_action.setOnClickListener {
             isAuthUser {
                 mData.userId?.let {
-                    checkChatCount(it) {
+//                    checkChatCount(it) {
                         RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, mData.userId, mData.name)
-                    }
+//                    }
                 }
             }
         }

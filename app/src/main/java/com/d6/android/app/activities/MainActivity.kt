@@ -21,18 +21,14 @@ import com.d6.android.app.fragments.*
 import com.d6.android.app.models.Response
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
-import org.jetbrains.anko.custom.customView
-import org.jetbrains.anko.support.v4.startActivity
 
 
 /**

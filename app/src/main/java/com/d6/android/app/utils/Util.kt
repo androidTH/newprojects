@@ -36,6 +36,8 @@ import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import org.jetbrains.anko.*
 import java.io.File
 import java.security.MessageDigest
@@ -288,6 +290,15 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7"||className=="22" ) {
         this.startActivity<DateAuthStateActivity>()
+    } else {
+        next()
+    }
+}
+
+inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
+    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+    if (className == "7"||className=="22" ) {
+        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
     } else {
         next()
     }

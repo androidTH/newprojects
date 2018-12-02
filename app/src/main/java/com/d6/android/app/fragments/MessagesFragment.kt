@@ -82,9 +82,9 @@ class MessagesFragment: RecyclerFragment() {
 //                    })
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
             } else {
-                activity.isAuthUser {
+//                activity.isAuthUser {
                     RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
-                }
+//                }
             }
         }
         getData()
