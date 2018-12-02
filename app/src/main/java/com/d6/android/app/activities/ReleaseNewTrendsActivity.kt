@@ -80,7 +80,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             val urls = ArrayList<String>(paths)
             startActivityForResult<MultiImageSelectorActivity>(0
                     , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
-                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c
+                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
                     ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
             )
         }

@@ -2,6 +2,7 @@ package me.nereo.multi_image_selector;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -21,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
+import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -439,7 +442,15 @@ public class MultiImageSelectorFragment extends Fragment {
                 e.printStackTrace();
             }
             if(mTmpFile != null && mTmpFile.exists()) {
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
+                //7.0崩溃问题
+                if (Build.VERSION.SDK_INT < 24) {
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
+                } else {
+                    ContentValues contentValues = new ContentValues(1);
+                    contentValues.put(MediaStore.Images.Media.DATA, mTmpFile.getAbsolutePath());
+                    Uri  uri = getActivity().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                }
                 startActivityForResult(cameraIntent, REQUEST_CAMERA);
             }else{
                 Toast.makeText(getActivity(), "图片错误", Toast.LENGTH_SHORT).show();

@@ -215,7 +215,7 @@ class PublishFindDateActivity : BaseActivity() {
         }
 
         if(!isDateOneBigger(endTime,startTime)){
-            showToast("结束时间最少相隔一天")
+            showToast("发布约会截止日期不能早于开始日期")
             return
         }
 //        if (mImages.size <= 1) {
@@ -245,7 +245,7 @@ class PublishFindDateActivity : BaseActivity() {
                 Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
             }.request(this) { _, data ->
                 showToast("发布成功")
-                showTips(data,"发布约会奖励积分","10")
+                showTips(data,"","")
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
@@ -255,7 +255,7 @@ class PublishFindDateActivity : BaseActivity() {
             // area 代替city
             Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this) { _, data ->
                 showToast("发布成功")
-                showTips(data,"发布约会奖励积分","10")
+                showTips(data,"","")
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()

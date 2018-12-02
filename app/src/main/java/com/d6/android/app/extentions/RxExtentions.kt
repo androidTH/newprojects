@@ -1,6 +1,7 @@
 package com.d6.android.app.extentions
 
 import android.support.v4.app.Fragment
+import android.text.TextUtils
 import com.d6.android.app.activities.SignChooseActivity
 import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.application.D6Application
@@ -40,7 +41,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             t?.printStackTrace()
             requestManager.dismissDialog()
             var code = -1
-            var msg = Error.REQUEST_ERROR
+            var msg = ""
             when (t) {
                 is JsonSyntaxException -> {
                     msg = Error.PARSER_ERROR
@@ -86,9 +87,11 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                     msg = t.message!!
                 }
             }
-            error(code, msg)
-            if (showToast) {
-                requestManager.showToast(msg)
+            if(!TextUtils.isEmpty(msg)){
+                error(code, msg)
+                if (showToast) {
+                    requestManager.showToast(msg)
+                }
             }
         }
 
