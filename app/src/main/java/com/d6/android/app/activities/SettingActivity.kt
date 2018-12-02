@@ -63,17 +63,17 @@ class SettingActivity : TitleActivity() {
 
         tv_online_service.setOnClickListener {
             //            val serviceId = "f67f360c9dde4b3c9eab01a0126f6684"
-            val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
-            RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
-                    ,"5" ,"5", Message.ReceivedStatus(0)
-                    , textMsg,object : RongIMClient.ResultCallback<Message>(){
-                override fun onSuccess(p0: Message?) {
-
-                }
-                override fun onError(p0: RongIMClient.ErrorCode?) {
-
-                }
-            })
+//            val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
+//            RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
+//                    ,"5" ,"5", Message.ReceivedStatus(0)
+//                    , textMsg,object : RongIMClient.ResultCallback<Message>(){
+//                override fun onSuccess(p0: Message?) {
+//
+//                }
+//                override fun onError(p0: RongIMClient.ErrorCode?) {
+//
+//                }
+//            })
 
             val serviceId = "5"
             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, serviceId, "D6客服")
