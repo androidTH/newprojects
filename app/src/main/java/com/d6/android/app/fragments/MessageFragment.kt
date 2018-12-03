@@ -14,10 +14,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.checkChatCount
-import com.d6.android.app.utils.isAuthUser
+import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.badge.Badge
@@ -106,7 +103,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //
 //                        }
 //                    })
-                RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
+                RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
             } else {
 //                activity.isAuthUser {
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)

@@ -65,8 +65,6 @@ class MessagesFragment: RecyclerFragment() {
             if (info != null) {
                 s = info.name
             }
-
-
             if (TextUtils.equals("5", conversation.targetId)) {
                 //客服
 //                    val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
@@ -80,7 +78,7 @@ class MessagesFragment: RecyclerFragment() {
 //
 //                        }
 //                    })
-                RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
+                RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
             } else {
 //                activity.isAuthUser {
                     RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)

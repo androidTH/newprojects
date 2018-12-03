@@ -104,6 +104,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_HEAD, obj.picUrl)
             .put(Const.User.USER_CLASS_ID, obj.userclassesid)
             .put(Const.User.USER_SEX, obj.sex)
+            .put(Const.User.USER_SCREENID, obj.screen)
 //            .put(Const.User.IS_LOGIN, true)
             .apply()
 }
@@ -288,7 +289,8 @@ fun File?.getFileSuffix(): String {
 
 inline fun Activity.isAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-    if (className == "7"||className=="22" ) {
+    val screen = SPUtils.instance().getString(Const.User.USER_SCREENID)
+    if (className == "7"&&screen == "0") {// 22 普通会员
         this.startActivity<DateAuthStateActivity>()
     } else {
         next()
@@ -297,7 +299,7 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
 
 inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-    if (className == "7"||className=="22" ) {
+    if (className == "7") {
         RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
     } else {
         next()

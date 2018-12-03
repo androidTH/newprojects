@@ -38,7 +38,7 @@ class RRetrofit private constructor(){
 //                                .addHeader("Connection","close")
                                 .build()
                         it.proceed(newRequest)
-                    }.connectTimeout(5,TimeUnit.MINUTES)
+                    }.connectTimeout(5,TimeUnit.MINUTES)//connectTimeout(10, TimeUnit.SECONDS)
                     .connectionPool(ConnectionPool(5,1,TimeUnit.SECONDS)).build())
             .build()
 
