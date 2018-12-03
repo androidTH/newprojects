@@ -209,16 +209,24 @@ class BindPhoneActivity : TitleActivity() {
                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                RongIM.getInstance().refreshUserInfoCache(info)
            }
-           if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-               startActivity<SetUserInfoActivity>("name" to name, "gender" to gender,"headerpic" to headerpic)
-           } else {
-               SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
-               startActivity<MainActivity>()
-           }
+           startActivity<SetUserInfoActivity>("name" to name, "gender" to gender,"headerpic" to headerpic)
+//           if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
+//               startActivity<SetUserInfoActivity>("name" to name, "gender" to gender,"headerpic" to headerpic)
+//           } else {
+//               SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
+//               startActivity<MainActivity>()
+//           }
            setResult(Activity.RESULT_OK)
            finish()
        }){code,msg->
-           showToast(msg)
+           if (code == 2) {
+               SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
+               startActivity<MainActivity>()
+               setResult(Activity.RESULT_OK)
+               finish()
+           } else {
+               showToast(msg)
+           }
        }
     }
 

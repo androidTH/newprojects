@@ -354,7 +354,7 @@ class SignInActivity : BaseActivity() {
                 }
             }
         }) { msg, data ->
-            startActivityForResult<BindPhoneActivity>(2,"openId" to openId)
+            startActivityForResult<BindPhoneActivity>(2,"openId" to openId,"name" to name, "gender" to gender,"headerpic" to iconurl)
         }
     }
 
