@@ -138,7 +138,7 @@ class MessagesFragment: RecyclerFragment() {
         val time = SPUtils.instance().getLong(Const.LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSquareMessages(userId, 1,time.toString(),pageSize = 1).request(this,false) { _, data ->
-            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
+//            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
                 headerView.tv_msg_count2.gone()
