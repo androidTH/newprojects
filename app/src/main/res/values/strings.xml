@@ -36,6 +36,7 @@
     <string name="string_senddatefail">发起失败</string>
     <string name="senddatepointlow">发起失败,积分余额不足</string>
     <string name="string_samecity">同城</string>
+    <string name="string_age">年龄</string>
     <string name="string_area">地区</string>
     <string name="string_siliao">私聊</string>
     <string name="string_like">喜欢</string>

@@ -2,41 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
         android:background="@color/white"
-        android:gravity="center_horizontal"
         android:id="@+id/mTitleBar">
         <TextView
             android:id="@+id/tv_city"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableRight="@mipmap/ic_arrow_up_orange"
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="center"
+            android:maxLength="10"
+            android:layout_marginLeft="@dimen/margin_35"
+            android:text="地区"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/textSize"
+            android:textStyle="bold" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:drawableRight="@mipmap/ic_arrow_down"
             android:drawablePadding="@dimen/margin_5"
             android:gravity="center"
             android:maxLength="10"
-            android:paddingLeft="16dp"
-            android:paddingRight="12dp"
-            android:text="地区"
+            android:text="星座"
             android:textColor="@color/color_black"
             android:textSize="@dimen/textSize"
+            android:layout_centerHorizontal="true"
             android:textStyle="bold" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/tv_type"
-            android:text="@string/string_samecity"
+            android:text="@string/string_age"
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/textColor"
-            android:layout_toRightOf="@+id/tv_city"
             android:textSize="@dimen/textSize"
-            android:layout_marginLeft="4dp"
-            android:paddingLeft="16dp"
-            android:visibility="visible"
-            android:paddingRight="12dp"/>
-    </LinearLayout>
+            android:layout_marginRight="@dimen/margin_35"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@mipmap/ic_arrow_down"
+            android:drawablePadding="@dimen/margin_5"/>
+    </RelativeLayout>
 
 
     <com.d6.android.app.widget.gallery.DiscreteScrollView
