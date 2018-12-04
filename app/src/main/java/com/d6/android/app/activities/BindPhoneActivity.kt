@@ -116,6 +116,9 @@ class BindPhoneActivity : TitleActivity() {
                 val code = data?.getStringExtra("code")
                 tv_type.text = code
                 countryCode = code ?: ""
+            }else if(requestCode == 3){
+                setResult(Activity.RESULT_OK)
+                finish()
             }
         }
     }
@@ -194,30 +197,20 @@ class BindPhoneActivity : TitleActivity() {
         }
 
        Request.bindPhone(p,code,openId,devicetoken).request(this,false,success = {msg,data->
-           msg?.let {
-               try {
-                   val json = JSONObject(it)
-                   val token = json.optString("token")
-                   SPUtils.instance().put(Const.User.RONG_TOKEN, token)
-                           .apply()
-               } catch (e: Exception) {
-                   e.printStackTrace()
-               }
-           }
+           saveMsg(msg)
            saveUserInfo(data)
            data?.let {
                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                RongIM.getInstance().refreshUserInfoCache(info)
            }
-           startActivity<SetUserInfoActivity>("name" to name, "gender" to gender,"headerpic" to headerpic)
-//           if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-//               startActivity<SetUserInfoActivity>("name" to name, "gender" to gender,"headerpic" to headerpic)
-//           } else {
-//               SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
-//               startActivity<MainActivity>()
-//           }
-           setResult(Activity.RESULT_OK)
-           finish()
+           if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
+               startActivityForResult<SetUserInfoActivity>(3,"name" to name, "gender" to gender,"headerpic" to headerpic)
+           } else {
+               SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
+               startActivity<MainActivity>()
+               setResult(Activity.RESULT_OK)
+               finish()
+           }
        }){code,msg->
            if (code == 2) {
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
@@ -228,6 +221,19 @@ class BindPhoneActivity : TitleActivity() {
                showToast(msg)
            }
        }
+    }
+
+    private fun saveMsg(msg:String?){
+        msg?.let {
+            try {
+                val json = JSONObject(it)
+                val token = json.optString("token")
+                SPUtils.instance().put(Const.User.RONG_TOKEN, token)
+                        .apply()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private val countDownTimer = object : CountDownTimer(60 * 1000, 1000) {

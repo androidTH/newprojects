@@ -41,12 +41,12 @@ class SetUserInfoActivity : BaseActivity() {
         sex = if (intent.hasExtra("gender")) {
             val s = intent.getStringExtra("gender")
             when (s) {
-                "1" ->{
+                "男" ->{
                     rb_male.isChecked = true
                     rb_female.isChecked = false
                     1
                 }
-                "0" -> {
+                "女" -> {
                     rb_male.isChecked = false
                     rb_female.isChecked = true
                     0
