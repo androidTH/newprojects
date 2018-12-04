@@ -94,25 +94,34 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="5dp"
             android:background="@android:color/transparent"
             android:src="@mipmap/discover_back_button"
             android:layout_gravity="center_vertical"
             android:id="@+id/fb_unlike"/>
         <ImageButton
+            android:id="@+id/fb_find_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/find_chat_button"/>
+        <ImageButton
             android:id="@+id/fb_heat_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_marginLeft="8dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:src="@mipmap/discover_like_button"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="5dp"
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical"
             android:id="@+id/btn_like"

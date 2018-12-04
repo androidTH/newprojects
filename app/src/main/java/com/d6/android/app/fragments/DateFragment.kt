@@ -17,6 +17,8 @@ import com.d6.android.app.adapters.DateWomanCardAdapter
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.dialogs.FilterCityDialog
+import com.d6.android.app.dialogs.OpenDatePayPointDialog
+import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.DateBean
 import com.d6.android.app.models.FindDate
@@ -27,7 +29,10 @@ import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.textColor
 
@@ -149,6 +154,19 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         fb_heat_like.setOnClickListener {
             if(mDates.isNotEmpty()){
                 addFollow()
+            }
+        }
+
+        fb_find_chat.setOnClickListener {
+            activity.isNoAuthToChat("5") {
+                scrollPosition = mRecyclerView.currentItem
+                if(mDates.size > scrollPosition){
+                    var findChat = mDates.get(scrollPosition)
+                    findChat?.let {
+                        val name = it.name
+                        showDatePayPointDialog(name,it.accountId.toString())
+                    }
+                }
             }
         }
 
@@ -327,6 +345,41 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 doNextCard()
                 showTips(jsonObject,"","")
             }
+        }
+    }
+
+    private fun showDatePayPointDialog(name:String,id:String){
+        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
+            if(data!=null){
+                var code = data!!.optInt("code")
+                if(code == 1){
+                    var point = data!!.optString("iTalkPoint")
+                    var remainPoint = data!!.optString("iRemainPoint")
+                    if(point.toInt() > remainPoint.toInt()){
+                        val dateDialog = OpenDatePointNoEnoughDialog()
+                        var point = data!!.optString("iTalkPoint")
+                        var remainPoint = data!!.optString("iRemainPoint")
+                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+                        dateDialog.show(activity.supportFragmentManager, "d")
+                    }else{
+                        val dateDialog = OpenDatePayPointDialog()
+                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
+                        dateDialog.show(activity.supportFragmentManager, "d")
+                    }
+                } else if(code == 0){
+                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+                } else {
+                    val dateDialog = OpenDatePointNoEnoughDialog()
+                    var point = data!!.optString("iTalkPoint")
+                    var remainPoint = data!!.optString("iRemainPoint")
+                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+                    dateDialog.show(activity.supportFragmentManager, "d")
+                }
+            }else{
+                RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+            }
+        }) { _, msg ->
+
         }
     }
 
