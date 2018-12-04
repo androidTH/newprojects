@@ -107,6 +107,7 @@
             android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
+            android:visibility="gone"
             android:src="@mipmap/find_chat_button"/>
         <ImageButton
             android:id="@+id/fb_heat_like"

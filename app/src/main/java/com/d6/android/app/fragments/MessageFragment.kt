@@ -25,8 +25,10 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.message.TextMessage
+import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
+import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivity
 
 private const val ARG_PARAM1 = "param1"
@@ -35,7 +37,7 @@ private const val ARG_PARAM2 = "param2"
 class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListener {
 
     fun mode(): SwipeRefreshRecyclerLayout.Mode {
-        return SwipeRefreshRecyclerLayout.Mode.None
+        return SwipeRefreshRecyclerLayout.Mode.Top
     }
 
     private val mConversations = ArrayList<Conversation>()
@@ -69,6 +71,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         conversationsAdapter.setHeaderView(headerView)
         swiprefreshRecyclerlayout_msg.setAdapter(conversationsAdapter)
         swiprefreshRecyclerlayout_msg.isRefreshing = false
+        swiprefreshRecyclerlayout_msg.setOnRefreshListener(this)
 
         headerView.rl_sys.setOnClickListener{
             startActivity<SystemMessagesActivity>()
@@ -110,10 +113,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
         getData()
         getSysLastOne()
         getSquareMsg()
@@ -140,7 +139,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1,time.toString(),pageSize = 1).request(this) { _, data ->
 //            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data.list!!.results!!.isEmpty()) {
                 //无数据
 //                headerView.tv_msg_count1.gone()
             } else {
@@ -193,7 +192,9 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     override fun onRefresh() {
-       setRefresh(false)
+        getSysLastOne()
+        getSquareMsg()
+        setRefresh(false)
     }
 
     override fun onLoadMore() {
@@ -233,10 +234,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BlankFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
