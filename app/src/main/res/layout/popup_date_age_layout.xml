@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_ages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--android:background="@drawable/popup_bg2"-->
+            <TextView
+                android:id="@+id/tv_allages"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="不限"
+                android:textColor="@color/color_black"
+                android:textSize="15sp" />
+
+            <ImageView style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_age01"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:visibility="visible"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:text="18岁以下"/>
+
+            <ImageView style="@style/ImageView_h"/>
+
+            <TextView
+                android:id="@+id/tv_age02"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:text="18-25岁"/>
+
+            <ImageView style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_age03"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:text="26-30岁" />
+
+            <ImageView style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_age04"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:text="31-40岁"/>
+            <ImageView style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_age05"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:text="40岁以上" />
+        </LinearLayout>
+    </FrameLayout>
+    <!--<View android:layout_weight="1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:background="@color/l_transparent"-->
+        <!--android:id="@+id/bgView"/>-->
+</LinearLayout>

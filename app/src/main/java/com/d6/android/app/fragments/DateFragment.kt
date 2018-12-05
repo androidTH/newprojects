@@ -4,10 +4,14 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
@@ -16,9 +20,7 @@ import com.d6.android.app.adapters.DateCardAdapter
 import com.d6.android.app.adapters.DateWomanCardAdapter
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
-import com.d6.android.app.dialogs.FilterCityDialog
-import com.d6.android.app.dialogs.OpenDatePayPointDialog
-import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.DateBean
 import com.d6.android.app.models.FindDate
@@ -27,10 +29,13 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
+import com.d6.android.app.widget.popup.EasyPopup
+import com.d6.android.app.widget.popup.XGravity
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
+import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
@@ -131,20 +136,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             }
         }
 
-        tv_type.setOnClickListener {
-//            val filterDateTypeDialog = FilterDateTypeDialog()
-//            filterDateTypeDialog.show(childFragmentManager, "ftd")
-//            filterDateTypeDialog.setDialogListener { p, s ->
-//                type = p
-//                tv_type.text = s
-//                getData(1)
-//            }
-            tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
-            tv_city.text = resources.getString(R.string.string_area)
-            pageNum=1
-            tv_type.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-            getData(sameCity,"")
+        tv_xingzuo.setOnClickListener {
+            showConstellations(it)
+        }
 
+        tv_type.setOnClickListener {
+            showAges(it)
+//            pageNum=1
+//            tv_type.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+//            getData(sameCity,"")
         }
 
         btn_like.setOnClickListener {
@@ -187,6 +187,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         showDialog()
         getData()
         checkLocation()
+
+        mPopupAges = AgeSelectedPopup.create(activity)
+                .setDimView(rl_date)
+                .apply()
+
+        mPopupConstellation = ConstellationSelectedPopup.create(activity)
+                .setDimView(rl_date)
+                .apply()
     }
 
     fun setAdapter(){
@@ -233,7 +241,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if(pageNum == 1){
                     mRecyclerView.visibility = View.GONE
-                    tv_tip.gone()
+//                    tv_tip.gone()
                     tv_main_card_bg_im_id.visible()
                     tv_main_card_Bg_tv_id.visible()
                     fb_unlike.gone()
@@ -385,7 +393,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private fun getAuthState() {
         startActivity<MyDateActivity>()
-        tv_tip.visibility = View.GONE
+//        tv_tip.visibility = View.GONE
         SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
     }
 
@@ -400,5 +408,103 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         super.onDestroy()
         immersionBar.destroy()
         locationClient.onDestroy()
+    }
+
+    lateinit var mPopupAges:AgeSelectedPopup
+    lateinit var mPopupConstellation:ConstellationSelectedPopup
+    var ageIndex = -1;
+    var constellationIndex = -1
+
+    private fun showConstellations(view:View){
+        mPopupConstellation.showAsDropDown(view,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
+        mPopupConstellation.setOnPopupItemClick { basePopup, position, string ->
+            constellationIndex = position
+            if(constellationIndex == 0){
+                constellationIndex = -1
+                tv_xingzuo.text = "星座"
+                setSearChUI(1,false)
+            }else{
+                tv_xingzuo.text = string
+                setSearChUI(1,true)
+            }
+        }
+
+        mPopupConstellation.setOnDismissListener {
+            if(constellationIndex == -1){
+                setSearChUI(1,false)
+            }
+        }
+
+        if(mPopupConstellation.isShowing){
+            setSearChUI(1,true)
+        }
+    }
+
+    /**
+     * 年龄弹窗
+     */
+    private fun showAges(view:View){
+        mPopupAges.showAsDropDown(view,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
+        mPopupAges.setOnPopupItemClick { basePopup, position, string ->
+              ageIndex = position
+              if(ageIndex == 0){
+                  ageIndex = -1
+                  tv_type.text = "年龄"
+                  setSearChUI(2,false)
+              }else{
+                  tv_type.text = string
+                  setSearChUI(2,true)
+              }
+        }
+
+        mPopupAges.setOnDismissListener {
+            if(ageIndex == -1){
+                setSearChUI(2,false)
+            }
+        }
+
+        if(mPopupAges.isShowing){
+            setSearChUI(2,true)
+        }
+    }
+
+    private fun setSearChUI(clickIndex:Int,iconFlag:Boolean){
+         if(clickIndex == 0){
+             var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_down)
+             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+
+             tv_city.setCompoundDrawables(null,null,drawable,null)
+             tv_city.textColor = if(iconFlag)ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
+
+             tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
+             tv_xingzuo.textColor = ContextCompat.getColor(context,R.color.color_black)
+         }else if(clickIndex == 1){
+             var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_down)
+             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+
+             tv_xingzuo.setCompoundDrawables(null,null,drawable,null)
+             tv_xingzuo.textColor = if(iconFlag)ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
+
+             tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
+             tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
+         }else if(clickIndex == 2){
+             var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_down)
+             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+
+             tv_type.setCompoundDrawables(null,null,drawable,null)
+             tv_type.textColor = if(iconFlag)ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
+
+             tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
+             tv_xingzuo.textColor = ContextCompat.getColor(context,R.color.color_black)
+         }else{
+             var drawable = ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_down)
+             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+
+             tv_type.setCompoundDrawables(null,null,drawable,null)
+             tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
+
+             tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
+             tv_xingzuo.textColor = ContextCompat.getColor(context,R.color.color_black)
+         }
     }
 }

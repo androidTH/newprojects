@@ -2,28 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
+        android:id="@+id/mTitleBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
-        android:background="@color/white"
-        android:id="@+id/mTitleBar">
+        android:background="@color/white">
+
         <TextView
             android:id="@+id/tv_city"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawableRight="@mipmap/ic_arrow_up_orange"
+            android:layout_marginLeft="@dimen/margin_35"
+            android:drawableRight="@mipmap/ic_arrow_down"
             android:drawablePadding="@dimen/margin_5"
             android:gravity="center"
             android:maxLength="10"
-            android:layout_marginLeft="@dimen/margin_35"
             android:text="地区"
             android:textColor="@color/color_black"
             android:textSize="@dimen/textSize"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_xingzuo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
             android:drawableRight="@mipmap/ic_arrow_down"
             android:drawablePadding="@dimen/margin_5"
             android:gravity="center"
@@ -31,116 +35,115 @@
             android:text="星座"
             android:textColor="@color/color_black"
             android:textSize="@dimen/textSize"
-            android:layout_centerHorizontal="true"
             android:textStyle="bold" />
+
         <TextView
+            android:id="@+id/tv_type"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/tv_type"
-            android:text="@string/string_age"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_35"
+            android:drawableRight="@mipmap/ic_arrow_down"
+            android:drawablePadding="@dimen/margin_5"
             android:gravity="center"
-            android:textStyle="bold"
+            android:text="@string/string_age"
             android:textColor="@color/textColor"
             android:textSize="@dimen/textSize"
-            android:layout_marginRight="@dimen/margin_35"
-            android:layout_alignParentRight="true"
-            android:drawableRight="@mipmap/ic_arrow_down"
-            android:drawablePadding="@dimen/margin_5"/>
+            android:textStyle="bold" />
     </RelativeLayout>
 
-
-    <com.d6.android.app.widget.gallery.DiscreteScrollView
-        android:id="@+id/mRecyclerView"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/mTitleBar" />
-    <!--LinearSnapHelper-->
-
-    <ImageView
-        android:id="@+id/tv_main_card_bg_im_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:src="@mipmap/home_main_card_bg" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_main_card_Bg_tv_id"
-        android:layout_below="@+id/tv_main_card_bg_im_id"
-        android:layout_centerInParent="true"
-        android:padding="@dimen/padding_12"
-        android:visibility="gone"
-        android:text="暂时没有符合条件的人，等会再来看看吧"
-        android:textColor="@color/color_999999"
-        android:textSize="@dimen/textSize" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_tip"
-        android:textSize="@dimen/textSize"
-        android:textColor="@color/white"
-        android:text="只有完善信息和认证之后才会收到别人的邀约哦~"
-        android:paddingTop="18dp"
-        android:layout_alignParentRight="true"
-        android:visibility="gone"
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="-6dp"
+        android:layout_height="0.5dp"
         android:layout_below="@+id/mTitleBar"
-        android:background="@drawable/ic_notice_blue_bg"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mRecyclerView"
-        android:id="@+id/ll_bottom"
-        android:layout_marginTop="@dimen/margin_15"
-        android:layout_centerHorizontal="true">
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="5dp"
-            android:background="@android:color/transparent"
-            android:src="@mipmap/discover_back_button"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/fb_unlike"/>
-        <ImageButton
-            android:id="@+id/fb_find_chat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:visibility="gone"
-            android:src="@mipmap/find_chat_button"/>
-        <ImageButton
-            android:id="@+id/fb_heat_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_gravity="center_vertical"
-            android:background="@android:color/transparent"
-            android:src="@mipmap/discover_like_button"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:background="@android:color/transparent"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/btn_like"
-            android:src="@mipmap/discover_next_button"/>
+        android:background="@color/color_e6e6e6" />
 
-    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_date"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_2"
+        android:layout_below="@+id/mTitleBar">
+
+        <com.d6.android.app.widget.gallery.DiscreteScrollView
+            android:id="@+id/mRecyclerView"
+            android:layout_marginTop="28dp"
+            android:layout_width="match_parent"
+            android:layout_height="420dp" />
+
+        <ImageView
+            android:id="@+id/tv_main_card_bg_im_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/home_main_card_bg"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_main_card_Bg_tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_main_card_bg_im_id"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/padding_12"
+            android:text="暂时没有符合条件的人，等会再来看看吧"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/textSize"
+            android:visibility="gone" />
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mRecyclerView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_15">
+
+            <ImageButton
+                android:id="@+id/fb_unlike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/discover_back_button" />
+
+            <ImageButton
+                android:id="@+id/fb_find_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/find_chat_button"
+                android:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/fb_heat_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/discover_like_button" />
+
+            <ImageButton
+                android:id="@+id/btn_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/discover_next_button" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/iv_date_redheart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 </RelativeLayout>

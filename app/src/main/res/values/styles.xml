@@ -199,4 +199,9 @@
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">@color/color_8888</item>
     </style>
+
+    <style name="TopPopAnim" parent="@android:style/Animation.Translucent">
+        <item name="android:windowEnterAnimation">@anim/dd_menu_in</item>
+        <item name="android:windowExitAnimation">@anim/dd_menu_out</item>
+    </style>
 </resources>
