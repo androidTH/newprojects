@@ -41,16 +41,21 @@ class MyDateDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_mydate_details)
         immersionBar.init()
         titlebar_datedetails.titleView.setText("我的约会")
-        myAppointment = (intent.getParcelableExtra("data") as MyAppointment)
-        if(myAppointment !=null){
-            iAppointUserid = myAppointment!!.iAppointUserid.toString()
-            if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
-                getData(myAppointment!!.sAppointmentSignupId,"")
-            }else{
-                getData("",myAppointment!!.sId.toString());
+        var from= intent.getStringExtra("from")
+        if(TextUtils.equals(from,Const.FROM_MY_DATESUCCESS)){
+            var sId = intent.getStringExtra("sId")
+            getData(sId,"")
+        }else{
+            myAppointment = (intent.getParcelableExtra("data") as MyAppointment)
+            if(myAppointment !=null){
+                iAppointUserid = myAppointment!!.iAppointUserid.toString()
+                if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
+                    getData(myAppointment!!.sAppointmentSignupId,"")
+                }else{
+                    getData("",myAppointment!!.sId.toString());
+                }
             }
         }
-        updateUI()
     }
 
     fun updateUI(){
@@ -241,6 +246,7 @@ class MyDateDetailActivity : BaseActivity() {
                     }
                 }
                 myAppointment = data
+                updateUI()
             }
         })
     }

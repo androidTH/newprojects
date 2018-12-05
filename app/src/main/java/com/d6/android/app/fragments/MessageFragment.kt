@@ -25,10 +25,8 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.message.TextMessage
-import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
-import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.startActivity
 
 private const val ARG_PARAM1 = "param1"

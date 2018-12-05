@@ -19,9 +19,7 @@ import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
-import com.bugtags.library.Bugtags
 import com.d6.android.app.R
-import com.d6.android.app.activities.SignChooseActivity
 import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
@@ -31,8 +29,6 @@ import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.MsgConstant
 import com.umeng.message.PushAgent
-import com.umeng.message.UTrack
-import com.umeng.socialize.Config
 import com.umeng.socialize.PlatformConfig
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
@@ -114,7 +110,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
         }
 
         //在这里初始化
-        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble);
+//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble);
     }
 
     override fun attachBaseContext(base: Context?) {

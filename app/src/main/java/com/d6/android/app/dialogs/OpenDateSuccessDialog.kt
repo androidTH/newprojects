@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyDateDetailActivity
 import com.d6.android.app.activities.MyDateListActivity
 import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
@@ -75,7 +76,9 @@ class OpenDateSuccessDialog : DialogFragment(),RequestManager {
         }
 
         tv_action.setOnClickListener {
-            startActivity<MyDateListActivity>()
+//            startActivity<MyDateListActivity>()
+            var sId = arguments.getString("sId")
+            startActivity<MyDateDetailActivity>("from" to Const.FROM_MY_DATESUCCESS,"sId" to sId)
             dismissAllowingStateLoss()
         }
 
