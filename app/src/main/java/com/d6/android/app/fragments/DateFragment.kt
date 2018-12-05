@@ -476,8 +476,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
              tv_city.setCompoundDrawables(null,null,drawable,null)
              tv_city.textColor = if(iconFlag)ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
 
-             tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
-             tv_xingzuo.textColor = ContextCompat.getColor(context,R.color.color_black)
+//             tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
+//             tv_xingzuo.textColor = ContextCompat.getColor(context,R.color.color_black)
          }else if(clickIndex == 1){
              var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_down)
              drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
@@ -485,8 +485,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
              tv_xingzuo.setCompoundDrawables(null,null,drawable,null)
              tv_xingzuo.textColor = if(iconFlag)ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
 
-             tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
-             tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
+//             tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
+//             tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
          }else if(clickIndex == 2){
              var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_down)
              drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
@@ -494,8 +494,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
              tv_type.setCompoundDrawables(null,null,drawable,null)
              tv_type.textColor = if(iconFlag)ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
 
-             tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
-             tv_xingzuo.textColor = ContextCompat.getColor(context,R.color.color_black)
+//             tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
+//             tv_xingzuo.textColor = ContextCompat.getColor(context,R.color.color_black)
          }else{
              var drawable = ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_down)
              drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
