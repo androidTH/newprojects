@@ -171,7 +171,9 @@ class MyInfoActivity : BaseActivity() {
         tv_weight1.text = userData.weight
 //        tv_age1.setText(userData.age)
         sex = userData.sex ?: "1"
-        tv_sex1.text = if (TextUtils.equals(sex, "1")) "男" else "女"
+        tv_sex1.text = if (TextUtils.equals(sex, "1")) {
+            "男"
+        } else "女"
         tv_job1.setText(userData.job)
         tv_hobbit1.setText(userData.hobbit)
         tv_constellation1.text = userData.constellation

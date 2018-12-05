@@ -7,7 +7,9 @@ import com.d6.android.app.utils.BannerLoader
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.TitleActivity
+import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
@@ -82,13 +84,23 @@ class SpeedDateDetailActivity : TitleActivity() {
             ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
         }
 
-        refreshUI()
+        getSpeedDateDetail(mSpeedDate.id.toString())
     }
 
-    private fun refreshUI() {
+    private fun getSpeedDateDetail(id: String) {
+        dialog()
+        Request.getSpeedDetail(id).request(this){ _, data->
+            data?.let {
+                refreshUI(it)
+//                startActivity<SpeedDateDetailActivity>("data" to it)
+            }
+        }
+    }
+
+    private fun refreshUI(speedDate:MyDate) {
 //        val images = arrayListOf<String>()
         mUrls.clear()
-        mSpeedDate.coverurl?.let {
+        speedDate.coverurl?.let {
             val array = it.split(",")
             if (array.isNotEmpty()) {
                 mUrls.addAll(array)
@@ -96,7 +108,7 @@ class SpeedDateDetailActivity : TitleActivity() {
         }
         //如果内容图片为空
         if (mUrls.isEmpty()) {
-            mSpeedDate.speedpics?.let {
+            speedDate.speedpics?.let {
                 val array = it.split(",")
                 if (array.isNotEmpty()) {
                     mUrls.addAll(array)
@@ -105,47 +117,47 @@ class SpeedDateDetailActivity : TitleActivity() {
         }
         imageView.update(mUrls)
 
-        headView.setImageURI(mSpeedDate.speedpics)
+        headView.setImageURI(speedDate.speedpics)
 //        tv_title.text = String.format("%s%s", mSpeedDate.speedwhere + mSpeedDate.handspeedwhere, mSpeedDate.speednumber)
-        tv_title.text = String.format("%s%s", mSpeedDate.speednumber,"")
-        tv_title.isSelected = TextUtils.equals(mSpeedDate.sex, "0")
-        tv_age.text = mSpeedDate.age
-        if (mSpeedDate.age.isNullOrEmpty()) {
+        tv_title.text = String.format("%s%s", speedDate.speednumber,"")
+        tv_title.isSelected = TextUtils.equals(speedDate.sex, "0")
+        tv_age.text = speedDate.age
+        if (speedDate.age.isNullOrEmpty()) {
             tv_age.gone()
         } else {
             tv_age.visible()
         }
-        tv_height.text = mSpeedDate.height
-        if (mSpeedDate.height.isNullOrEmpty()) {
+        tv_height.text = speedDate.height
+        if (speedDate.height.isNullOrEmpty()) {
             tv_height.gone()
         } else {
             tv_height.visible()
         }
-        tv_weight.text = mSpeedDate.weight
-        if (mSpeedDate.weight.isNullOrEmpty()) {
+        tv_weight.text = speedDate.weight
+        if (speedDate.weight.isNullOrEmpty()) {
             tv_weight.gone()
         } else {
             tv_weight.visible()
         }
 
-        val startT = mSpeedDate.beginTime?.parserTime()
-        val endT = mSpeedDate.endTime?.parserTime()
+        val startT = speedDate.beginTime?.parserTime()
+        val endT = speedDate.endTime?.parserTime()
         tv_deadline_time.text = String.format("速约时间:%s-%s", startT?.toTime("MM.dd") , endT?.toTime("MM.dd"))
-        val l1 = mSpeedDate.speedcity?.length ?: 0
-        val l2 = mSpeedDate.getSpeedStateStr().length
+        val l1 = speedDate.speedcity?.length ?: 0
+        val l2 = speedDate.getSpeedStateStr().length
 //        val l3 = mSpeedDate.handspeedwhere?.length ?: 0
 
 //        tv_content.text = SpanBuilder(String.format("%s%s-%s", mSpeedDate.speedwhere + mSpeedDate.handspeedwhere, mSpeedDate.getSpeedStateStr(), mSpeedDate.speedcontent))
-        tv_content.text = SpanBuilder(String.format("%s%s-%s", mSpeedDate.speedcity, mSpeedDate.getSpeedStateStr(), mSpeedDate.speedcontent))
+        tv_content.text = SpanBuilder(String.format("%s%s-%s", speedDate.speedcity, speedDate.getSpeedStateStr(), speedDate.speedcontent))
                 .color(this, 0, l1 + l2 + 1, R.color.textColor)
                 .build()
-        tv_time.text = mSpeedDate.createTime?.interval()
-        if (TextUtils.equals("1", mSpeedDate.screen)) {
+        tv_time.text = speedDate.createTime?.interval()
+        if (TextUtils.equals("1", speedDate.screen)) {
             tv_audio_auth.visible()
         } else {
             tv_audio_auth.gone()
         }
-        val end = mSpeedDate.endTime.parserTime().toTime("yyyy-MM-dd")
+        val end = speedDate.endTime.parserTime().toTime("yyyy-MM-dd")
         val cTime = if (D6Application.systemTime <= 0) {
             System.currentTimeMillis()
         } else {
