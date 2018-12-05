@@ -39,8 +39,8 @@ class MyDateListActivity : RecyclerActivity() {
 //            val id = mMyAppointments[position].iAppointUserid
 //            startActivity<UserInfoActivity>("id" to id.toString())
             if(mMyAppointments.size>position){
-                var myAppointment = mMyAppointments[position];
-                startActivity<MyDateDetailActivity>("data" to myAppointment)
+                var myAppointment = mMyAppointments[position]
+                startActivity<MyDateDetailActivity>("data" to myAppointment,"from" to Const.FROM_MY_DATELIST)
             }
         }
         addItemDecoration()
