@@ -229,6 +229,9 @@
         <activity android:name=".activities.RecommendDateActivity"/>
         <activity android:name=".activities.PointExplainActivity"/>
         <activity android:name=".activities.BindPhoneActivity"/>
+        <activity android:name=".activities.SexChooseActivity"/>
+        <activity android:name=".activities.ConstellationChooseActivity"
+            android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.DateAuthSucessActivity"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"

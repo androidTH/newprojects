@@ -32,6 +32,10 @@ import java.io.File
  *我的个人信息
  */
 class MyInfoActivity : BaseActivity() {
+
+    private val SEX_REQUEST_CODE = 9
+    private val CONSTELLATION_REQUEST_CODE = 10
+
     private val userData by lazy {
         intent.getSerializableExtra("data") as UserData
     }
@@ -100,6 +104,7 @@ class MyInfoActivity : BaseActivity() {
 //                tv_sex1.text = s
 //            }
 //            sexDialog.show(supportFragmentManager, "sex")
+            startActivityForResult<SexChooseActivity>(SEX_REQUEST_CODE)
         }
 
         tv_birthday1.setOnClickListener {
@@ -138,16 +143,18 @@ class MyInfoActivity : BaseActivity() {
         }
 
         tv_constellation1.setOnClickListener {
-            val selectConstellationDialog = SelectConstellationDialog()
-            userData.constellation?.let {
-                selectConstellationDialog.arguments = bundleOf("data" to it)
-            }
+//            val selectConstellationDialog = SelectConstellationDialog()
+//            userData.constellation?.let {
+//                selectConstellationDialog.arguments = bundleOf("data" to it)
+//            }
+//
+//            selectConstellationDialog.setDialogListener { p, s ->
+//                tv_constellation1.text = s
+//                userData.constellation = s
+//            }
+//            selectConstellationDialog.show(supportFragmentManager,"c")
 
-            selectConstellationDialog.setDialogListener { p, s ->
-                tv_constellation1.text = s
-                userData.constellation = s
-            }
-            selectConstellationDialog.show(supportFragmentManager,"c")
+            startActivityForResult<ConstellationChooseActivity>(CONSTELLATION_REQUEST_CODE)
         }
 
         tv_hobbit1.setOnClickListener({
@@ -213,6 +220,14 @@ class MyInfoActivity : BaseActivity() {
                     headFilePath = param.images[param.index]
                     headView.setImageURI("file://$headFilePath")
                 }
+            }else if(requestCode == SEX_REQUEST_CODE){
+                sex = data!!.getStringExtra("sex")
+                tv_sex1.text = if (TextUtils.equals(sex, "1")) {
+                    "男"
+                } else "女"
+            }else if(requestCode == CONSTELLATION_REQUEST_CODE){
+                tv_constellation1.text = data!!.getStringExtra("xinzuo")
+                userData.constellation = data!!.getStringExtra("xinzuo")
             }
         }
     }

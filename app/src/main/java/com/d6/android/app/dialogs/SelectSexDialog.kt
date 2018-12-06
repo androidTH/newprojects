@@ -12,6 +12,7 @@ import com.d6.android.app.R
 import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.screenWidth
 import kotlinx.android.synthetic.main.dialog_select_sex_layout.*
+import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
 
@@ -29,7 +30,7 @@ class SelectSexDialog : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout((screenWidth()*0.9f).toInt(), wrapContent)
+        dialog.window.setLayout((screenWidth()*1f).toInt(), matchParent)
         dialog.window.setGravity(Gravity.BOTTOM)
         dialog.setCanceledOnTouchOutside(true)
     }

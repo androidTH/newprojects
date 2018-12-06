@@ -1,20 +1,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/white"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_constellation"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:textSize="15sp"
-        android:textColor="@color/color_black"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/margin_15" />
+        android:paddingLeft="@dimen/margin_15"
+        android:textColor="@color/color_black"
+        android:textSize="15sp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="@dimen/margin_15"
-        android:background="@color/color_D8D8D8"/>
+        android:background="@color/color_EFEFEF" />
 </LinearLayout>
