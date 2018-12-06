@@ -117,7 +117,7 @@
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginBottom="6dp"
         android:paddingLeft="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
     <android.support.v7.widget.RecyclerView
@@ -128,6 +128,7 @@
         android:minHeight="30dp"
         android:paddingLeft="16dp"
         android:visibility="visible"
+        android:layout_marginBottom="@dimen/margin_8"
         android:paddingTop="8dp">
     </android.support.v7.widget.RecyclerView>
 
@@ -149,7 +150,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_10"
-        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginLeft="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
         android:drawableLeft="@mipmap/boy_car_whiteicon"
         android:textColor="@color/color_40FFFFFF"
@@ -162,7 +163,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_10"
-        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginLeft="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
         android:drawableLeft="@mipmap/boy_hobby_whiteicon"
         android:textColor="@color/color_40FFFFFF"
