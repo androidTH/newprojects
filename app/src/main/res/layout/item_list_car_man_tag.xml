@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_marginRight="@dimen/margin_30"
-    android:layout_height="30dp">
+    android:layout_width="300dp"
+    android:layout_height="40dp">
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="wrap_content"
@@ -18,5 +17,4 @@
         android:drawablePadding="@dimen/margin_5"
         android:textSize="14sp"
         android:text="身高"/>
-    <!--android:background="@drawable/shape_card_user_tag_bg"-->
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -36,8 +37,6 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import org.jetbrains.anko.*
-import com.google.gson.JsonParser
-
 
 
 /**
@@ -120,7 +119,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }
         headerView.rv_tags.setHasFixedSize(true)
-        headerView.rv_tags.layoutManager = FlexboxLayoutManager(this)
+        headerView.rv_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
         headerView.rv_tags.isNestedScrollingEnabled = false
         headerView.rv_tags.adapter = userTagAdapter
 
@@ -226,27 +225,41 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 headerView.tv_vip.text = String.format("%s", it.classesname)
                 mTags.clear()
                 if(!it.height.isNullOrEmpty()){
-                    mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
+                    mTags.add(UserTag("身高 ${it.height}", R.mipmap.boy_stature_whiteicon))
                 }
                 if(!it.weight.isNullOrEmpty()){
-                    mTags.add(UserTag("体重:${it.weight}",R.drawable.shape_tag_bg_2))
+                    mTags.add(UserTag("体重 ${it.weight}",R.mipmap.boy_weight_whiteicon))
                 }
-//                mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
-//                mTags.add(UserTag("体重:${it.weight}", R.drawable.shape_tag_bg_2))
-                if (!it.job.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.job ?: "", R.drawable.shape_tag_bg_3))
-                }
-                if (!it.city.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.city ?: "", R.drawable.shape_tag_bg_4))
-                }
+
                 if (!it.constellation.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.constellation ?: "", R.drawable.shape_tag_bg_5))
+                    mTags.add(UserTag("星座 ${it.constellation}", R.mipmap.boy_constellation_whiteicon))
                 }
-                if (!it.hobbit.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.hobbit ?: "", R.drawable.shape_tag_bg_6))
+
+                if (!it.city.isNullOrEmpty()) {
+                    mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_whiteicon))
                 }
 
                 userTagAdapter.notifyDataSetChanged()
+
+                if (!it.job.isNullOrEmpty()) {
+                    AppUtils.setUserInfoTvTag(this,"职业 ${it.job}",0,2,headerView.tv_job)
+                }
+
+//                AppUtils.setUserInfoTvTag(this,"座驾 Testla ModelX 迈巴赫",0,2,headerView.tv_zuojia)
+
+                if (!it.hobbit.isNullOrEmpty()) {
+                    var mHobbies = it.hobbit?.replace("#",",")?.split(",")
+                    var sb = StringBuffer()
+                    sb.append("爱好 ")
+                    if (mHobbies != null) {
+                        for(str in mHobbies){
+//                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
+                            sb.append("${str} ")
+                        }
+                        AppUtils.setUserInfoTvTag(this,sb.toString(),0,2,headerView.tv_aihao)
+                    }
+//                    mTags.add(UserTag(it.hobbit ?: "", R.drawable.shape_tag_bg_6))
+                }
 
                 refreshImages(it)
 

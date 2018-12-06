@@ -33,6 +33,26 @@ class AppUtils {
             tv.setText(ss, TextView.BufferType.SPANNABLE)
         }
 
+        fun setTvTag(context: Context,value:CharSequence , start:Int,end :Int, tv: TextView){
+            val ss = SpannableString(value)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_tags_iconleft), start, end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_tags_iconright), end,
+                    value.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            tv.setText(ss, TextView.BufferType.SPANNABLE)
+        }
+
+        fun setUserInfoTvTag(context: Context,value:CharSequence , start:Int,end :Int, tv: TextView){
+            val ss = SpannableString(value)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_userinfotags_iconleft), start, end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_userinfotags_iconright), end,
+                    value.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            tv.setText(ss, TextView.BufferType.SPANNABLE)
+        }
+
         fun init(context: Context) {
             this.context = context.applicationContext
             initFilePath()

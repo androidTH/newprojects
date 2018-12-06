@@ -11,6 +11,7 @@
     <dimen name="padding_35">35dp</dimen>
     <dimen name="request_12">12sp</dimen>
     <dimen name="textSize">14sp</dimen>
+    <dimen name="textSize15">15sp</dimen>
     <dimen name="textSize_12">12sp</dimen>
     <dimen name="textSize_16">16sp</dimen>
     <dimen name="textSize_15">15sp</dimen>
