@@ -55,8 +55,8 @@ public class GsonHelper {
      */
     public static <T> T GsonToBean(String gsonString, Class<T> cls) {
         T t = null;
-        if (gson != null) {
-            t = gson.fromJson(gsonString, cls);
+        if (getGson() != null) {
+            t = getGson().fromJson(gsonString, cls);
         }
         return t;
     }
@@ -94,12 +94,10 @@ public class GsonHelper {
         List<T> list = new ArrayList<T>();
         JsonArray array = new JsonParser().parse(json).getAsJsonArray();
         for(final JsonElement elem : array){
-            list.add(gson.fromJson(elem, cls));
+            list.add(getGson().fromJson(elem, cls));
         }
         return list;
     }
-
-
     /**
      * 转成list中有map的
      *

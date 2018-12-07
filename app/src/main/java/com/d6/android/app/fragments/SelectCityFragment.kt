@@ -181,7 +181,6 @@ class SelectCityFragment : BaseFragment() {
 
         showDialog()
         getData()
-
     }
 
     private fun getData() {

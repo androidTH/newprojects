@@ -55,4 +55,6 @@ object Const {
 
     val FROM_MY_DATELIST = "MyDateListActivity"
     val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
+
+    var selectCategoryType:String=""
 }

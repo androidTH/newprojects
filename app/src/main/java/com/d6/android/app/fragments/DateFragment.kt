@@ -101,39 +101,40 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         })
 
         tv_city.setOnClickListener {
-            val filterCityDialog = FilterCityDialog()
-            filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
-            filterCityDialog.setCityValue(cityType, tv_city.text.toString())
-            filterCityDialog.show(childFragmentManager, "fcd")
-            filterCityDialog.setDialogListener { p, s ->
-                if (p == 1 || p == 0) {
-                    city = s
-                    outCity = null
-                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
-                    tv_type.text = resources.getString(R.string.string_samecity)
-                } else if (p == 2) {
-                    city = null
-                    outCity = s
-                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
-                    tv_type.text = resources.getString(R.string.string_samecity)
-                } else if (p == -2) {//取消选择
-                    city = null
-                    outCity = null
-                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
-                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
-                    tv_type.text = resources.getString(R.string.string_samecity)
-                }
-                cityType = p
-                tv_city.text = s
-                pageNum =1
-                if(p == -2){
-                    getData("","")
-                }else{
-                    getData("",tv_city.text.toString().trim())
-                }
-            }
+//            val filterCityDialog = FilterCityDialog()
+//            filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
+//            filterCityDialog.setCityValue(cityType, tv_city.text.toString())
+//            filterCityDialog.show(childFragmentManager, "fcd")
+//            filterCityDialog.setDialogListener { p, s ->
+//                if (p == 1 || p == 0) {
+//                    city = s
+//                    outCity = null
+//                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+//                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
+//                    tv_type.text = resources.getString(R.string.string_samecity)
+//                } else if (p == 2) {
+//                    city = null
+//                    outCity = s
+//                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+//                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
+//                    tv_type.text = resources.getString(R.string.string_samecity)
+//                } else if (p == -2) {//取消选择
+//                    city = null
+//                    outCity = null
+//                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
+//                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
+//                    tv_type.text = resources.getString(R.string.string_samecity)
+//                }
+//                cityType = p
+//                tv_city.text = s
+//                pageNum =1
+//                if(p == -2){
+//                    getData("","")
+//                }else{
+//                    getData("",tv_city.text.toString().trim())
+//                }
+//            }
+            showArea(it)
         }
 
         tv_xingzuo.setOnClickListener {
@@ -193,6 +194,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 .apply()
 
         mPopupConstellation = ConstellationSelectedPopup.create(activity)
+                .setDimView(rl_date)
+                .apply()
+
+        mPopupArea = AreaSelectedPopup.create(activity)
                 .setDimView(rl_date)
                 .apply()
     }
@@ -412,9 +417,38 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     lateinit var mPopupAges:AgeSelectedPopup
     lateinit var mPopupConstellation:ConstellationSelectedPopup
+    lateinit var mPopupArea:AreaSelectedPopup
     var ageIndex = -1;
     var constellationIndex = -1
+    var areaIndex = -1
 
+    private fun showArea(view:View){
+        mPopupArea.showAsDropDown(view,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
+        mPopupArea.setOnPopupItemClick { basePopup, position, string ->
+            areaIndex = position
+            if(areaIndex == 0){
+                areaIndex = -1
+                tv_city.text = "地区"
+                setSearChUI(0,false)
+            }else{
+                tv_city.text = string
+                setSearChUI(0,true)
+            }
+        }
+
+        mPopupArea.setOnDismissListener {
+            if(areaIndex == -1){
+                setSearChUI(0,false)
+            }
+        }
+
+        if(mPopupArea.isShowing){
+            setSearChUI(0,true)
+        }
+    }
+    /**
+     * 星座
+     */
     private fun showConstellations(view:View){
         mPopupConstellation.showAsDropDown(view,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
         mPopupConstellation.setOnPopupItemClick { basePopup, position, string ->

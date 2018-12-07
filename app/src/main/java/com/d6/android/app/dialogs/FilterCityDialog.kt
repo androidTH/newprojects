@@ -167,6 +167,8 @@ class FilterCityDialog : DialogFragment(), RequestManager {
                 hotAdapter.notifyDataSetChanged()
             }
         }
+
+
     }
 
     private var dialogListener: OnDialogListener? = null

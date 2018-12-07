@@ -35,6 +35,7 @@ class MyInfoActivity : BaseActivity() {
 
     private val SEX_REQUEST_CODE = 9
     private val CONSTELLATION_REQUEST_CODE = 10
+    private val AREA_REQUEST_CODE = 11
 
     private val userData by lazy {
         intent.getSerializableExtra("data") as UserData
@@ -89,6 +90,10 @@ class MyInfoActivity : BaseActivity() {
 
         tv_edit_headview.setOnClickListener {
             startActivityForResult<SelectPhotoDialog>(0)
+        }
+
+        tv_inputaddress.setOnClickListener {
+            startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
         }
 
         tv_sex1.setOnClickListener {
@@ -228,6 +233,10 @@ class MyInfoActivity : BaseActivity() {
             }else if(requestCode == CONSTELLATION_REQUEST_CODE){
                 tv_constellation1.text = data!!.getStringExtra("xinzuo")
                 userData.constellation = data!!.getStringExtra("xinzuo")
+            }else if(requestCode == AREA_REQUEST_CODE){
+                var area = data!!.getStringExtra("area")
+                tv_inputaddress.text = area
+                userData.city = area
             }
         }
     }

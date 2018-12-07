@@ -23,7 +23,7 @@ class ConstellationChooseActivity : BaseActivity() {
         setContentView(R.layout.activity_costellation_layout)
         immersionBar.fitsSystemWindows(true).init()
         tv_back.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         rv_choose_constelation.setHasFixedSize(true)
@@ -34,7 +34,12 @@ class ConstellationChooseActivity : BaseActivity() {
             var intent = Intent()
             intent.putExtra("xinzuo",mAdapter.getItem(position))
             setResult(Activity.RESULT_OK,intent)
-            finish()
+            onBackPressed()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(0, R.anim.dd_menu_out)
     }
 }

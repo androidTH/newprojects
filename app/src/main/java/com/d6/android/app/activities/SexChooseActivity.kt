@@ -17,18 +17,23 @@ class SexChooseActivity : BaseActivity() {
             var intent = Intent()
             intent.putExtra("sex","1")
             setResult(Activity.RESULT_OK,intent)
-            finish()
+            onBackPressed()
         }
 
         tv_woman.setOnClickListener {
             var intent = Intent()
             intent.putExtra("sex","0")
             setResult(Activity.RESULT_OK,intent)
-            finish()
+            onBackPressed()
         }
 
         tv_back.setOnClickListener {
-            finish()
+            onBackPressed()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(0, R.anim.dd_menu_out);
     }
 }

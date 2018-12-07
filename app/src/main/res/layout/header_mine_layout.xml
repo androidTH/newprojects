@@ -171,7 +171,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rv_my_images"
         android:minHeight="30dp"
-        android:paddingBottom="@dimen/margin_10"
+        android:paddingBottom="@dimen/margin_8"
         android:paddingLeft="16dp"
         android:visibility="visible"
         android:paddingTop="8dp"/>
