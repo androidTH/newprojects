@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.MessageSettingActivity
 import com.d6.android.app.activities.SquareMessagesActivity
@@ -139,7 +140,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list!!.results!!.isEmpty()) {
                 //无数据
-//                headerView.tv_msg_count1.gone()
+//                headerView.tv_msg_count1.visibility = View.GONE
             } else {
                 val c = if ((data.count ?: 0) > 99) {
                     "99+"
