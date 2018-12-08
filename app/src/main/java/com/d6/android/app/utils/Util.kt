@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -464,4 +465,23 @@ fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
     } else if(!TextUtils.isEmpty(desc)){
         CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
     }
+}
+
+/**
+ * 获得版本名称
+ *
+ * @return
+ */
+fun getD6VersionName(context: Context): String {
+    var versionName = "1.6.1"
+    try {
+        val info = context.packageManager.getPackageInfo(
+                context.packageName, 0)
+        versionName = info.versionName
+
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    }
+
+    return versionName
 }
