@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_F5F5F5"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_height="@dimen/title_bar_size">
+        <ImageView
+            android:id="@+id/tv_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/icon_close_orange"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_8"
+            android:padding="@dimen/margin_10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:textSize="17sp"
+            android:text="@string/string_sexchoose_title"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_ages"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_man"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_gravity="center_horizontal"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingTop="7dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="8dp"
+            android:text="男"
+            android:textColor="@color/color_black"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_zerohalfe"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:background="@color/color_EFEFEF" />
+
+        <TextView
+            android:id="@+id/tv_woman"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_50"
+            android:layout_gravity="center_horizontal"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:paddingTop="7dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="8dp"
+            android:text="女"
+            android:textColor="@color/color_black"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

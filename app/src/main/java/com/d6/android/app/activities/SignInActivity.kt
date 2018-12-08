@@ -26,6 +26,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.startActivityForResult
 import org.json.JSONObject
 
 /**
@@ -43,7 +44,7 @@ class SignInActivity : BaseActivity() {
         UMShareAPI.get(this)
     }
 
-    private val devicetoken by lazy{
+    private val devicetoken by lazy {
         SPUtils.instance().getString(Const.User.DEVICETOKEN)
     }
 
@@ -151,7 +152,7 @@ class SignInActivity : BaseActivity() {
                 .click(s.length - 8, s.length, MClickSpan(this))
                 .build()
 
-        SPUtils.instance().put(Const.User.IS_FIRST,false).apply()
+        SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -162,6 +163,8 @@ class SignInActivity : BaseActivity() {
                 val code = data?.getStringExtra("code")
                 tv_type.text = code
                 countryCode = code ?: ""
+            } else if (requestCode == 2) {
+                finish()
             }
         }
     }
@@ -227,7 +230,8 @@ class SignInActivity : BaseActivity() {
                     val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
                     val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
                     sysErr("------->$gender--->$openId--->$name")
-                    thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "")
+//                    startActivity<BindPhoneActivity>()
+                    thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "", iconUrl ?: "")
                 } else {
                     toast("拉取微信信息异常！")
                 }
@@ -292,7 +296,7 @@ class SignInActivity : BaseActivity() {
             "$countryCode-$phone"
         }
         sysErr("------->$p")
-        Request.loginV2(1, code, p,devicetoken).request(this) { msg, data ->
+        Request.loginV2New(1, code, p, devicetoken).request(this) { msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -319,32 +323,38 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-    private fun thirdLogin(openId: String, name: String, url: String, gender: String) {
+    private fun thirdLogin(openId: String, name: String, url: String, gender: String, iconurl: String) {
         dialog("登录中...")
-        Request.loginV2(0, openId = openId).request(this) { msg, data ->
-            msg?.let {
-                try {
-                    val json = JSONObject(it)
-                    val token = json.optString("token")
-                    SPUtils.instance().put(Const.User.RONG_TOKEN, token)
-                            .apply()
-                } catch (e: Exception) {
-                    e.printStackTrace()
+        Request.loginV2New(0, openId = openId).request(this, false, success = { msg, data ->
+            data?.let {
+                if (it.accountId.isNullOrEmpty()) {
+                    startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
+                } else {
+                    msg?.let {
+                        try {
+                            val json = JSONObject(it)
+                            val token = json.optString("token")
+                            SPUtils.instance().put(Const.User.RONG_TOKEN, token)
+                                    .apply()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                    saveUserInfo(it)
+                    val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
+                    RongIM.getInstance().refreshUserInfoCache(info)
+                    if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称
+                        startActivity<SetUserInfoActivity>("name" to name, "gender" to gender, "headerpic" to iconurl)
+                    } else {
+                        SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
+                        startActivity<MainActivity>()
+                    }
+                    setResult(Activity.RESULT_OK)
+                    finish()
                 }
             }
-            saveUserInfo(data)
-            data?.let {
-                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
-                RongIM.getInstance().refreshUserInfoCache(info)
-            }
-            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-                startActivity<SetUserInfoActivity>("name" to name, "gender" to gender)
-            } else {
-                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
-                startActivity<MainActivity>()
-            }
-            setResult(Activity.RESULT_OK)
-            finish()
+        }) { msg, data ->
+            startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
         }
     }
 
@@ -352,7 +362,7 @@ class SignInActivity : BaseActivity() {
         override fun onFinish() {
             tv_get_code.text = "重新获取"
             tv_get_code.isEnabled = true
-//            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
+//            tv_get_code.textColor  = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
         }
 
         override fun onTick(millisUntilFinished: Long) {

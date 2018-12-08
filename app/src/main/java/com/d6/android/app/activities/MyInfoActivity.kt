@@ -32,6 +32,11 @@ import java.io.File
  *我的个人信息
  */
 class MyInfoActivity : BaseActivity() {
+
+    private val SEX_REQUEST_CODE = 9
+    private val CONSTELLATION_REQUEST_CODE = 10
+    private val AREA_REQUEST_CODE = 11
+
     private val userData by lazy {
         intent.getSerializableExtra("data") as UserData
     }
@@ -87,6 +92,10 @@ class MyInfoActivity : BaseActivity() {
             startActivityForResult<SelectPhotoDialog>(0)
         }
 
+        tv_inputaddress.setOnClickListener {
+            startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
+        }
+
         tv_sex1.setOnClickListener {
 //            val sexDialog = SelectSexDialog()
 //            val b = Bundle()
@@ -100,6 +109,7 @@ class MyInfoActivity : BaseActivity() {
 //                tv_sex1.text = s
 //            }
 //            sexDialog.show(supportFragmentManager, "sex")
+            startActivityForResult<SexChooseActivity>(SEX_REQUEST_CODE)
         }
 
         tv_birthday1.setOnClickListener {
@@ -138,16 +148,18 @@ class MyInfoActivity : BaseActivity() {
         }
 
         tv_constellation1.setOnClickListener {
-            val selectConstellationDialog = SelectConstellationDialog()
-            userData.constellation?.let {
-                selectConstellationDialog.arguments = bundleOf("data" to it)
-            }
+//            val selectConstellationDialog = SelectConstellationDialog()
+//            userData.constellation?.let {
+//                selectConstellationDialog.arguments = bundleOf("data" to it)
+//            }
+//
+//            selectConstellationDialog.setDialogListener { p, s ->
+//                tv_constellation1.text = s
+//                userData.constellation = s
+//            }
+//            selectConstellationDialog.show(supportFragmentManager,"c")
 
-            selectConstellationDialog.setDialogListener { p, s ->
-                tv_constellation1.text = s
-                userData.constellation = s
-            }
-            selectConstellationDialog.show(supportFragmentManager,"c")
+            startActivityForResult<ConstellationChooseActivity>(CONSTELLATION_REQUEST_CODE)
         }
 
         tv_hobbit1.setOnClickListener({
@@ -171,7 +183,9 @@ class MyInfoActivity : BaseActivity() {
         tv_weight1.text = userData.weight
 //        tv_age1.setText(userData.age)
         sex = userData.sex ?: "1"
-        tv_sex1.text = if (TextUtils.equals(sex, "1")) "男" else "女"
+        tv_sex1.text = if (TextUtils.equals(sex, "1")) {
+            "男"
+        } else "女"
         tv_job1.setText(userData.job)
         tv_hobbit1.setText(userData.hobbit)
         tv_constellation1.text = userData.constellation
@@ -211,6 +225,18 @@ class MyInfoActivity : BaseActivity() {
                     headFilePath = param.images[param.index]
                     headView.setImageURI("file://$headFilePath")
                 }
+            }else if(requestCode == SEX_REQUEST_CODE){
+                sex = data!!.getStringExtra("sex")
+                tv_sex1.text = if (TextUtils.equals(sex, "1")) {
+                    "男"
+                } else "女"
+            }else if(requestCode == CONSTELLATION_REQUEST_CODE){
+                tv_constellation1.text = data!!.getStringExtra("xinzuo")
+                userData.constellation = data!!.getStringExtra("xinzuo")
+            }else if(requestCode == AREA_REQUEST_CODE){
+                var area = data!!.getStringExtra("area")
+                tv_inputaddress.text = area
+                userData.city = area
             }
         }
     }

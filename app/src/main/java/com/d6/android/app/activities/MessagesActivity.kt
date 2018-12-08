@@ -8,6 +8,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.ConversationsAdapter
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.RecyclerActivity
+import com.d6.android.app.dialogs.OpenDatePayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -21,9 +22,10 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.message.TextMessage
-import kotlinx.android.synthetic.main.header_messages.*
 import kotlinx.android.synthetic.main.header_messages.view.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 
 /**
@@ -77,7 +79,6 @@ class MessagesActivity : RecyclerActivity() {
             if (info != null) {
                 s = info.name
             }
-
             isAuthUser {
                 if (TextUtils.equals("5", conversation.targetId)) {//客服
                     val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
@@ -93,9 +94,21 @@ class MessagesActivity : RecyclerActivity() {
                     })
                 }
                 checkChatCount(conversation.targetId){
+//                    showDatePayPointDialog(s, conversation.targetId)
                     RongIM.getInstance().startConversation(this,conversation.conversationType,conversation.targetId,s)
                 }
             }
+        }
+    }
+
+    private fun showDatePayPointDialog(name:String,id:String){
+        Request.getUnlockTalkPoint().request(this,false,success = {msg,data->
+            val dateDialog = OpenDatePayPointDialog()
+            var point = data!!.optInt("data")
+            dateDialog.arguments= bundleOf("data" to point.toString(),"username" to name,"chatUserId" to id)
+            dateDialog.show(supportFragmentManager, "d")
+        }) { _, msg ->
+            this.toast(msg)
         }
     }
 
@@ -126,7 +139,7 @@ class MessagesActivity : RecyclerActivity() {
         val time = SPUtils.instance().getLong(Const.LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1,time.toString(),pageSize = 1).request(this) { _, data ->
-            SPUtils.instance().put(Const.LAST_TIME,D6Application.systemTime).apply()
+//            SPUtils.instance().put(Const.LAST_TIME,D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
 //                headerView.tv_msg_count1.gone()

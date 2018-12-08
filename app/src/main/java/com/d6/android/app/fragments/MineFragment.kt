@@ -159,7 +159,7 @@ class MineFragment : BaseFragment() {
         val time = SPUtils.instance().getLong(Const.LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data.list!!.results!!.isEmpty()) {
                 //无数据
                 tv_msg_count1.gone()
             } else {

@@ -135,6 +135,10 @@ interface ApiServices {
     @POST("backstage/new_login/system_login")
     fun loginV2(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?): Flowable<Response<UserData>>
 
+    @POST("backstage/new_login/system_login_new")
+    fun loginV2New(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?): Flowable<Response<UserData>>
+
+
     @POST("backstage/dataDict/find")
     fun findDataDict(@Query("dataKey") dataKey:String?="quhao"): Flowable<Response<JsonPrimitive>>
 
@@ -276,4 +280,23 @@ interface ApiServices {
     @POST("backstage/account/findAccountCardListPage")
     fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sPosition") sPosition:String, @Query("sCity") scity:String,@Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FindDate>>>
 
+    //绑定手机号
+    @POST("backstage/account/bindPhone")
+    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("devicetoken") devicetoken:String):Flowable<Response<UserData>>
+
+    //赠送积分
+    @POST("backstage/new_login/loginForPoint")
+    fun loginForPoint(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
+    //解锁聊天支付多少积分
+    @POST("backstage/rongcloud/getUnlockTalkPoint")
+    fun getUnlockTalkPoint():Flowable<Response<JsonObject>>
+
+    //是否能聊天
+    @POST("backstage/rongcloud/unlockTalk")
+    fun doUnlockTalk(@Query("iUserid") iUserid:String,@Query("iTalkUserId") iTalkUserId:String):Flowable<Response<JsonObject>>
+
+    //是否允许聊天
+    @POST("backstage/rongcloud/getTalkJustify")
+    fun doTalkJustify(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iTalkUserId:String):Flowable<Response<JsonObject>>
 }

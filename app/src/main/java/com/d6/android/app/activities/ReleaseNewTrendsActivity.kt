@@ -3,12 +3,15 @@ package com.d6.android.app.activities
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import com.amap.api.location.AMapLocationClient
+import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.base.BaseActivity
@@ -52,7 +55,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_release_new_trends)
-
+        immersionBar.init()
 //        RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
 //            if (it) {
 //                startLocation()
@@ -62,7 +65,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
 //        }
         city = ""
         rv_images.setHasFixedSize(true)
-        rv_images.layoutManager = GridLayoutManager(this, 3)
+        rv_images.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
         rv_images.adapter = addAdapter
         rv_images.isNestedScrollingEnabled = false
         rv_images.addItemDecoration(SpacesItemDecoration(dip(6),3))
@@ -76,8 +79,8 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             val paths = mImages.filter { it.type!=1 }.map { it.path }
             val urls = ArrayList<String>(paths)
             startActivityForResult<MultiImageSelectorActivity>(0
-                    ,MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
-                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c
+                    , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
+                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
                     ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
             )
         }
@@ -110,8 +113,10 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         }
 
         tv_release.setOnClickListener {
-            publish()
-            mKeyboardKt.toggleSoftInput(it)
+            isAuthUser {
+                publish()
+                mKeyboardKt.toggleSoftInput(it)
+            }
         }
 
         tv_address.text = city
@@ -210,7 +215,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 0 && data != null) {
-                val result = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+                val result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
                 mImages.clear()
                 result.forEach {
                     val image = AddImage("file://$it")
@@ -278,6 +283,9 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 Request.releaseSquare(userId, tagId, city, it, content)
             }.request(this) { _, data ->
                 showToast("发布成功")
+                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+                    showTips(data,"发布约会奖励积分","10")
+                }
                 setResult(Activity.RESULT_OK)
                 finish()
             }
@@ -290,6 +298,9 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             }
             Request.releaseSquare(userId, tagId, city, null, content).request(this) { _, data ->
                 showToast("发布成功")
+                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+                    showTips(data,"发布约会奖励积分","10")
+                }
                 setResult(Activity.RESULT_OK)
                 finish()
             }

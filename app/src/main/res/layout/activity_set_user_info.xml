@@ -121,7 +121,7 @@
             android:paddingBottom="16dp"
             android:textColor="@color/textColor"
             android:textSize="@dimen/textSize"
-            android:maxLength="6"
+            android:maxLength="50"
             android:singleLine="true"
             android:id="@+id/et_nick"
             android:layout_below="@+id/tv_info"/>

@@ -90,8 +90,9 @@ class OpenDateDialog : DialogFragment(),RequestManager {
             //194ecdb4-4809-4b2d-bf32-42a3342964df
             Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
                 var openSuccessDialog = OpenDateSuccessDialog()
+                var sId = data?.optString("sId")
                 var explain = arguments.getParcelable("explain") as IntegralExplain
-                openSuccessDialog.arguments = bundleOf("point" to explain.iAppointPoint.toString() )
+                openSuccessDialog.arguments = bundleOf("point" to explain.iAppointPoint.toString(),"sId" to sId.toString())
                 openSuccessDialog.show(it.supportFragmentManager, "d")
             }) { code, msg ->
                 if(code == 3){

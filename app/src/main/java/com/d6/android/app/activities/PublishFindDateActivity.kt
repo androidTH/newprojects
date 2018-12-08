@@ -7,11 +7,13 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.widget.Toast
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
+import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
@@ -20,6 +22,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.dateTypesDefault
 import com.d6.android.app.utils.Const.dateTypesSelected
+import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -210,6 +213,11 @@ class PublishFindDateActivity : BaseActivity() {
             showToast("请选择结束时间")
             return
         }
+
+        if(!isDateOneBigger(endTime,startTime)){
+            showToast("发布约会截止日期不能早于开始日期")
+            return
+        }
 //        if (mImages.size <= 1) {
 //            showToast("请上传至少一张图片")
 //            return
@@ -237,6 +245,7 @@ class PublishFindDateActivity : BaseActivity() {
                 Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
             }.request(this) { _, data ->
                 showToast("发布成功")
+                showTips(data,"","")
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
@@ -246,6 +255,7 @@ class PublishFindDateActivity : BaseActivity() {
             // area 代替city
             Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this) { _, data ->
                 showToast("发布成功")
+                showTips(data,"","")
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()

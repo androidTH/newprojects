@@ -1,19 +1,20 @@
 package com.d6.android.app.fragments
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PagerSnapHelper
 import android.support.v7.widget.RecyclerView
 import com.d6.android.app.R
 import com.d6.android.app.activities.MainActivity
-import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.activities.SquareTrendDetailActivity
-import com.d6.android.app.activities.TrendDetailActivity
 import com.d6.android.app.adapters.BannerAdapter
 import com.d6.android.app.adapters.SquareAdapter
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Banner
@@ -21,13 +22,13 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.getTrendDetail
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.header_square_list.view.*
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
+
+
 
 /**
  * Created on 2017/12/17.
@@ -48,6 +49,7 @@ class SquareFragment : RecyclerFragment() {
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
+
     private val classId by lazy {
         if (arguments == null) {
             ""
@@ -88,10 +90,7 @@ class SquareFragment : RecyclerFragment() {
         bannerAdapter.setOnItemClickListener { view, position ->
             val banner = mBanners[position]
             val ids = banner.newsid ?: ""
-            startActivity<SquareTrendDetailActivity>("id" to ids)
-//            (activity as BaseActivity).getTrendDetail(ids){
-//                startActivityForResult<TrendDetailActivity>(1, "data" to it)
-//            }
+            startActivity<SquareTrendDetailActivity>("id" to ids,"position" to position)
         }
 
         mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
@@ -107,18 +106,10 @@ class SquareFragment : RecyclerFragment() {
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
             square.id?.let {
-//                startActivityForResult<TrendDetailActivity>(1, "id" to square.id,"data" to square)
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to it)
+                startActivityForResult<SquareTrendDetailActivity>(1,"id" to it,"position" to position)
             }
         }
 
-        squareAdapter.setOnCommentClick { p ->
-            val square = mSquares[p]
-            square.id?.let {
-//                startActivityForResult<TrendDetailActivity>(1, "id" to square.id,"data" to square)
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to it)
-            }
-        }
         showDialog()
         getData()
     }
@@ -189,7 +180,14 @@ class SquareFragment : RecyclerFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == Activity.RESULT_OK) {//广场详情回来。
-            pullDownRefresh()
+            var bundle = data!!.extras
+            var mSquare = (bundle.getSerializable("bean") as Square)
+            var positon = bundle.getInt("position")
+            mSquares.get(positon).commentCount = mSquare.commentCount
+            mSquares.get(positon).isupvote = mSquare.isupvote
+            mSquares.get(positon).appraiseCount = mSquare.appraiseCount
+            mSquares.get(positon).comments = mSquare.comments
+            squareAdapter.notifyDataSetChanged()
         }
     }
 

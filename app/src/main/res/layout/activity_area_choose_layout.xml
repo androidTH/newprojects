@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_F5F5F5"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_height="@dimen/title_bar_size">
+        <ImageView
+            android:id="@+id/tv_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/icon_close_orange"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_8"
+            android:padding="@dimen/margin_10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:textSize="17sp"
+            android:text="@string/string_areachoose_title"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_EAEAEA" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_menu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/color_F5F5F5" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/white">
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_menu_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            <!--</LinearLayout>-->
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

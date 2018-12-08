@@ -45,8 +45,8 @@ class RecommendDateFragment : RecyclerFragment(){
 
     override fun onFirstVisibleToUser() {
         mSwipeRefreshLayout.setBackgroundColor(Color.WHITE)
-        mSwipeRefreshLayout.setLayoutManager(getLayoutManager())
 
+        mSwipeRefreshLayout.setLayoutManager(getLayoutManager())
         dateAdapter.setOnItemClickListener { _, position ->
             activity?.doAuthUser {
                 val date = mSpeedDates[position]

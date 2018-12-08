@@ -2,27 +2,34 @@ package com.d6.android.app.activities
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
 import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.OpenDatePayPointDialog
+import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.UserActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.AppUtils.Companion.context
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.JsonObject
-import com.gyf.barlibrary.ImmersionBar
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
@@ -30,6 +37,7 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import org.jetbrains.anko.*
+
 
 /**
  *
@@ -94,7 +102,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .size(dip(8))
                 .build())
 
-        headerView.iv_isfollow.setOnClickListener(View.OnClickListener {
+        tv_like.setOnClickListener(View.OnClickListener {
             if(mData?.iIsFollow != null){
                 if(mData?.iIsFollow == 0){//mData?.iIsFollow
                     addFollow()
@@ -111,7 +119,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }
         headerView.rv_tags.setHasFixedSize(true)
-        headerView.rv_tags.layoutManager = FlexboxLayoutManager(this)
+        headerView.rv_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
         headerView.rv_tags.isNestedScrollingEnabled = false
         headerView.rv_tags.adapter = userTagAdapter
 
@@ -137,13 +145,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         })
 
-        tv_msg.setOnClickListener {
-            isAuthUser {
+        tv_siliao.setOnClickListener {
+            isNoAuthToChat("5") {
                 mData?.let {
                     val name = it.name ?: ""
-                    checkChatCount(id) {
-                        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                    }
+//                        checkChatCount(id) {
+                            showDatePayPointDialog(name)
+//                    }
                 }
             }
         }
@@ -165,7 +173,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //            getTrendDetail(square.id?:""){
 //                startActivityForResult<TrendDetailActivity>(18,"data" to it)
 //            }
-            startActivity<SquareTrendDetailActivity>("id" to (square.id?:""))
+            startActivity<SquareTrendDetailActivity>("id" to (square.id?:""),"position" to position)
         }
 
         dialog()
@@ -217,27 +225,41 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 headerView.tv_vip.text = String.format("%s", it.classesname)
                 mTags.clear()
                 if(!it.height.isNullOrEmpty()){
-                    mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
+                    mTags.add(UserTag("身高 ${it.height}", R.mipmap.boy_stature_whiteicon))
                 }
                 if(!it.weight.isNullOrEmpty()){
-                    mTags.add(UserTag("体重:${it.weight}",R.drawable.shape_tag_bg_2))
+                    mTags.add(UserTag("体重 ${it.weight}",R.mipmap.boy_weight_whiteicon))
                 }
-//                mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
-//                mTags.add(UserTag("体重:${it.weight}", R.drawable.shape_tag_bg_2))
-                if (!it.job.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.job ?: "", R.drawable.shape_tag_bg_3))
-                }
-                if (!it.city.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.city ?: "", R.drawable.shape_tag_bg_4))
-                }
+
                 if (!it.constellation.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.constellation ?: "", R.drawable.shape_tag_bg_5))
+                    mTags.add(UserTag("星座 ${it.constellation}", R.mipmap.boy_constellation_whiteicon))
                 }
-                if (!it.hobbit.isNullOrEmpty()) {
-                    mTags.add(UserTag(it.hobbit ?: "", R.drawable.shape_tag_bg_6))
+
+                if (!it.city.isNullOrEmpty()) {
+                    mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_whiteicon))
                 }
 
                 userTagAdapter.notifyDataSetChanged()
+
+                if (!it.job.isNullOrEmpty()) {
+                    AppUtils.setUserInfoTvTag(this,"职业 ${it.job}",0,2,headerView.tv_job)
+                }
+
+//                AppUtils.setUserInfoTvTag(this,"座驾 Testla ModelX 迈巴赫",0,2,headerView.tv_zuojia)
+
+                if (!it.hobbit.isNullOrEmpty()) {
+                    var mHobbies = it.hobbit?.replace("#",",")?.split(",")
+                    var sb = StringBuffer()
+                    sb.append("爱好 ")
+                    if (mHobbies != null) {
+                        for(str in mHobbies){
+//                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
+                            sb.append("${str} ")
+                        }
+                        AppUtils.setUserInfoTvTag(this,sb.toString(),0,2,headerView.tv_aihao)
+                    }
+//                    mTags.add(UserTag(it.hobbit ?: "", R.drawable.shape_tag_bg_6))
+                }
 
                 refreshImages(it)
 
@@ -281,9 +303,20 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                Toast.makeText(this, data.iIsFollow.toString(), Toast.LENGTH_LONG).show()
                 if(data.iIsFollow !=null){
                     if(data.iIsFollow==1){
-                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
+//                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
+
+                        tv_like.setCompoundDrawables(null,null,null,null);
+                        tv_like.text = resources.getString(R.string.string_liked)
+                        tv_like.backgroundResource = R.drawable.shape_20r_white
+                        tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
+
+                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
+                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10))
                     }else{
-                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
+                        tv_like.text= resources.getString(R.string.string_like)
+                        tv_like.backgroundResource = R.drawable.shape_20r_ff6
+                        tv_like.textColor = ContextCompat.getColor(context,R.color.white)
+//                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
                     }
                 }
             }
@@ -351,8 +384,19 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         dialog()//35578
         Request.getAddFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
 //            toast("$s,$jsonObject")
-            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
+//            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
+
+            tv_like.setCompoundDrawables(null,null,null,null);
+
+            tv_like.text = resources.getString(R.string.string_liked)
+            tv_like.backgroundResource = R.drawable.shape_20r_white
+            tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
+
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10))
+
             mData?.iIsFollow = 1
+            showTips(jsonObject,"","")
         }
     }
 
@@ -361,15 +405,61 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.getDelFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
 //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
-            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
+//            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
+
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.icon_like_button)
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+            tv_like.setCompoundDrawables(drawable,null,null,null);
+
+            tv_like.text= resources.getString(R.string.string_like)
+            tv_like.backgroundResource = R.drawable.shape_20r_ff6
+            tv_like.textColor = ContextCompat.getColor(context,R.color.white)
+
+
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10))
             mData?.iIsFollow = 0
         }
-//        data.optDouble("wanshanziliao") DateAuthStateActivity
     }
 
     //添加访客
     private fun addVistor(){
         Request.getAddVistor(id,userId).request(this){s: String?, jsonObject: JsonObject? ->
+        }
+    }
+
+    private fun showDatePayPointDialog(name:String){
+        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
+            if(data!=null){
+                var code = data!!.optInt("code")
+                if(code == 1){
+                    var point = data!!.optString("iTalkPoint")
+                    var remainPoint = data!!.optString("iRemainPoint")
+                    if(point.toInt() > remainPoint.toInt()){
+                        val dateDialog = OpenDatePointNoEnoughDialog()
+                        var point = data!!.optString("iTalkPoint")
+                        var remainPoint = data!!.optString("iRemainPoint")
+                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+                        dateDialog.show(supportFragmentManager, "d")
+                    }else{
+                        val dateDialog = OpenDatePayPointDialog()
+                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
+                        dateDialog.show(supportFragmentManager, "d")
+                    }
+                } else if(code == 0){
+                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+                } else {
+                    val dateDialog = OpenDatePointNoEnoughDialog()
+                    var point = data!!.optString("iTalkPoint")
+                    var remainPoint = data!!.optString("iRemainPoint")
+                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+                    dateDialog.show(supportFragmentManager, "d")
+                }
+            }else{
+                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+            }
+        }) { _, msg ->
+
         }
     }
 

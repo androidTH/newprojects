@@ -20,6 +20,7 @@ object Const {
         val USER_NICK="userNick"
         val RONG_TOKEN ="rongToken"
         val USER_ADDRESS = "address"
+        val USER_SCREENID = "screenID"
         //别人约我
         var SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME="someoneElseMakesAnAppointmentWithMe"
         var IASKSOMEONEELSE="IAskSomeoneElse"  //我约的人
@@ -36,6 +37,7 @@ object Const {
     val UMENG_MESSAGE_SECRET = "0f16af7d3011a5aad7cf82a996b6b94c"
     val SERVICE_WECHAT_CODE = "service_wechat_code"
     val SCORE_EXPLAIN_CODE = "integral_explain"
+
     // APP_ID 替换为你的应用从官方网站申请到的合法appId
     @JvmField
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
@@ -50,4 +52,9 @@ object Const {
 
     var dateTypesSelected = arrayOf(R.mipmap.invitation_travel_seleted,R.mipmap.invitation_meal_seleted,R.mipmap.invitation_film_seleted,
             R.mipmap.invitation_drink_seleted,R.mipmap.invitation_nolimit_seleted)
+
+    val FROM_MY_DATELIST = "MyDateListActivity"
+    val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
+
+    var selectCategoryType:String=""
 }

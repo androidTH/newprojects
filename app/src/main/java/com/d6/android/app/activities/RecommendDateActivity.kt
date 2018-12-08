@@ -6,7 +6,6 @@ import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.dialogs.FilterDateTypeDialog
-import com.d6.android.app.fragments.RecommendDateFragment
 import com.d6.android.app.fragments.RecommendDateQuickFragment
 import kotlinx.android.synthetic.main.activity_recommend_date.*
 
@@ -14,7 +13,6 @@ import kotlinx.android.synthetic.main.activity_recommend_date.*
  * 全部人工推荐
  */
 class RecommendDateActivity : TitleActivity() {
-
 
     val fragment = RecommendDateQuickFragment()
     private var iLookType: String = ""

@@ -12,6 +12,7 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.OpenDatePayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
@@ -20,6 +21,8 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_mydate_details.*
 import kotlinx.android.synthetic.main.item_list_date_status.*
+import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.toast
 
 /**
  * 约会详情页
@@ -38,16 +41,21 @@ class MyDateDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_mydate_details)
         immersionBar.init()
         titlebar_datedetails.titleView.setText("我的约会")
-        myAppointment = (intent.getParcelableExtra("data") as MyAppointment)
-        if(myAppointment !=null){
-            iAppointUserid = myAppointment!!.iAppointUserid.toString()
-            if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
-                getData(myAppointment!!.sAppointmentSignupId,"")
-            }else{
-                getData("",myAppointment!!.sId.toString());
+        var from= intent.getStringExtra("from")
+        if(TextUtils.equals(from,Const.FROM_MY_DATESUCCESS)){
+            var sId = intent.getStringExtra("sId")
+            getData(sId,"")
+        }else{
+            myAppointment = (intent.getParcelableExtra("data") as MyAppointment)
+            if(myAppointment !=null){
+                iAppointUserid = myAppointment!!.iAppointUserid.toString()
+                if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
+                    getData(myAppointment!!.sAppointmentSignupId,"")
+                }else{
+                    getData("",myAppointment!!.sId.toString());
+                }
             }
         }
-        updateUI()
     }
 
     fun updateUI(){
@@ -82,17 +90,19 @@ class MyDateDetailActivity : BaseActivity() {
         }
 
         tv_private_chat.setOnClickListener {
-            isAuthUser {
+            isNoAuthToChat("5") {
                 myAppointment?.let {
                     val name = it.sAppointUserName ?: ""
                     if(it.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
-                        checkChatCount(it.iUserid.toString()) {
+//                        checkChatCount(it.iUserid.toString()) {
+//                            showDatePayPointDialog(name,it.iUserid.toString())
                             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
-                        }
+//                        }
                     }else if(it.sAppointmentSignupId.isNotEmpty()){
-                        checkChatCount(it.iAppointUserid.toString()) {
+//                        checkChatCount(it.iAppointUserid.toString()) {
+//                            showDatePayPointDialog(name,it.iAppointUserid.toString())
                             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
-                        }
+//                        }
                     }
                 }
             }
@@ -100,15 +110,21 @@ class MyDateDetailActivity : BaseActivity() {
 
     }
 
+    private fun showDatePayPointDialog(name:String,id:String){
+        Request.getUnlockTalkPoint().request(this,false,success = {msg,data->
+            val dateDialog = OpenDatePayPointDialog()
+            var point = data!!.optInt("iTalkPoint")
+            dateDialog.arguments= bundleOf("data" to point.toString(),"username" to name,"chatUserId" to id)
+            dateDialog.show(supportFragmentManager, "d")
+        }) { _, msg ->
+            this.toast(msg)
+        }
+    }
+
     private fun getData(sAppointmentSignupId:String,sAppointmentId:String){
 
         Request.getAppointDetails(userId,sAppointmentSignupId, sAppointmentId).request(this,success={msg, data->
             if (data != null) {
-                if(data.iPoint == null){
-                    tv_point_nums.visibility = View.GONE
-                }else{
-                    tv_point_nums.text="预付${data.iPoint}积分"
-                }
                 when (data.iStatus) {
                     1 -> {//
                         if(data!!.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
@@ -116,7 +132,7 @@ class MyDateDetailActivity : BaseActivity() {
                             tv_no_date.visibility = View.GONE
                             tv_agree_date.visibility = View.GONE
                             tv_giveup_date.visibility = View.GONE
-                            tv_date_status.text="状态：发起"
+                            tv_date_status.text="状态：暂无赴约人"
 
                             rel_0.visibility = View.VISIBLE
                             rel_1.visibility = View.GONE
@@ -128,12 +144,16 @@ class MyDateDetailActivity : BaseActivity() {
                             tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
                             tv_days0.text = data.dCreatetime.interval()//约会发布时间
 
+                            tv_point_nums.visibility = View.GONE
+
                         }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
                             tv_date_status.text="状态：待同意"
                             tv_no_date.visibility = View.VISIBLE
                             tv_agree_date.visibility = View.VISIBLE
                             tv_private_chat.visibility = View.GONE
                             tv_giveup_date.visibility = View.GONE
+
+                            tv_point_nums.visibility = View.GONE
 
                             setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3,true)
 
@@ -144,6 +164,7 @@ class MyDateDetailActivity : BaseActivity() {
                             tv_private_chat.visibility = View.GONE
                             tv_giveup_date.visibility = View.VISIBLE
 
+                            tv_point_nums.text="预付${data.iPoint}积分"
                             setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3,true)
                         }
                     }
@@ -153,12 +174,28 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_no_date.visibility = View.GONE
                         tv_agree_date.visibility = View.GONE
                         tv_giveup_date.visibility = View.GONE
-                        setDateStatus(data)
+
                         tv_point_nums.visibility = View.GONE
+//                        if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+//                            tv_point_nums.visibility = View.GONE
+//                        }else{
+//                            tv_point_nums.visibility = View.VISIBLE
+//                            tv_point_nums.text="消费${myAppointment.iPoint}积分"
+//                        }
+                        setDateStatus(data)
                     }
                     3 -> { //
                         //tv_action0.text = "对方已关闭约会"
-                        tv_date_status.text="状态：已拒绝"
+
+                        if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                            tv_date_status.text="状态：已拒绝"
+                            tv_point_nums.visibility = View.GONE
+                        }else{
+                            tv_date_status.text="状态：对方拒绝"
+                            tv_point_nums.visibility = View.VISIBLE
+                            tv_point_nums.text="消费${myAppointment.iPoint}积分"
+                        }
+
                         tv_private_chat.visibility = View.GONE;
                         tv_no_date.visibility = View.GONE
                         tv_agree_date.visibility = View.GONE
@@ -167,13 +204,22 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_point_nums.text="消费${data.iPoint}积分"
                     }
                     4 -> { //
-                        tv_date_status.text="状态：主动取消"
+                        if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                            tv_date_status.text="状态：对方放弃"
+                            tv_point_nums.visibility = View.GONE
+                        }else{
+                            tv_date_status.text="状态：主动取消"
+                            tv_point_nums.visibility = View.VISIBLE
+                            tv_point_nums.text="预付积分已返还"
+                        }
+
                         tv_private_chat.visibility = View.GONE;
                         tv_no_date.visibility = View.GONE
                         tv_agree_date.visibility = View.GONE
                         tv_giveup_date.visibility = View.GONE
 
                         setAgreeDate(data,data.dAppointmentSignupUpdatetime,"主动取消",4)
+
                     }
                     5 -> { //
                         tv_date_status.text="状态：过期自动取消"
@@ -200,6 +246,7 @@ class MyDateDetailActivity : BaseActivity() {
                     }
                 }
                 myAppointment = data
+                updateUI()
             }
         })
     }
@@ -280,6 +327,8 @@ class MyDateDetailActivity : BaseActivity() {
                     tv_no_date.visibility = View.GONE
                     tv_agree_date.visibility = View.GONE
                     tv_giveup_date.visibility = View.GONE
+                    tv_point_nums.visibility = View.VISIBLE
+                    tv_point_nums.text="预付积分已返还"
                     setAgreeDate(myAppointment,System.currentTimeMillis(),"主动取消",4)
                 }
             }

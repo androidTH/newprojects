@@ -24,7 +24,7 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var commentCount: Int? = 0
     @SerializedName("upvote")
     var appraiseCount: Int? = 0
-    val comments: ArrayList<Comment>? = ArrayList()
+    var comments: ArrayList<Comment> = ArrayList()
     var isupvote: String? = ""
     var sex: String? = ""
     var age: String? = ""

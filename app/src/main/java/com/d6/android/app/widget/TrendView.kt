@@ -166,7 +166,11 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
         mComments.clear()
         if (square.comments != null) {
-            mComments.addAll(square.comments)
+            if(square.comments.size>2){
+                mComments.addAll(square.comments.subList(0,2))
+            }else{
+                mComments.addAll(square.comments)
+            }
         }
         commentAdapter.notifyDataSetChanged()
     }

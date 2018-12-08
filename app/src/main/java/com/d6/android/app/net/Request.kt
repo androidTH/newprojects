@@ -220,6 +220,11 @@ object Request {
     fun loginV2(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="") =
             RRetrofit.instance().create(ApiServices::class.java).loginV2(type, vercode, phone, guoneiguowai, openId,devicetoken)
 
+
+    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="") =
+            RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken)
+
+
     fun findDataDict(key: String? = "quhao") =
             RRetrofit.instance().create(ApiServices::class.java).findDataDict(key)
 
@@ -333,4 +338,19 @@ object Request {
     //发现约会
     fun findAccountCardListPage(userId:String,sPosition:String,sCity:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sPosition,sCity,pageNum)
 
+    //绑定手机号
+    fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken)
+
+    //赠送积分
+    fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)
+
+
+    //支付多少积分
+    fun getUnlockTalkPoint()=RRetrofit.instance().create(ApiServices::class.java).getUnlockTalkPoint()
+
+    //能否聊天
+    fun doUnlockTalk(iUserid:String,iTalkUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doUnlockTalk(iUserid, iTalkUserId)
+
+    //是否允许聊天
+    fun doTalkJustify(iFromUserid:String,iToUserid:String) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustify(iFromUserid,iToUserid)
 }

@@ -2,6 +2,7 @@ package com.d6.android.app.adapters
 
 import android.text.TextUtils
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
@@ -13,6 +14,9 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.optString
+import com.d6.android.app.utils.showTips
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.TrendView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -69,8 +73,9 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     private fun praise(square: Square) {
         isBaseActivity {
             it.dialog()
-            Request.addPraise(userId, square.id).request(it) { msg, _ ->
+            Request.addPraise(userId, square.id).request(it) { msg, data ->
                 it.showToast("点赞成功")
+                showTips(data,"","")
                 square.isupvote = "1"
                 square.appraiseCount = (square.appraiseCount?:0) + 1
                 notifyDataSetChanged()

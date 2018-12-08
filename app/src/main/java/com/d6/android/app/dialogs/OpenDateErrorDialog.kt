@@ -86,20 +86,20 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
 
     private fun getData() {
         isBaseActivity{
-                Request.queryAppointmentPoint(userId).request(it, success = {msg,data->
-                    data?.let {
-//                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
+            Request.queryAppointmentPoint(userId).request(it, success = {msg,data->
+                data?.let {
+                    //                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
 //                        tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
 //                        tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
 //                        tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
-                        tv_tishi_point.text = String.format(resources.getString(R.string.string_pointlow),point_nums,it.iAppointPoint)
-                    }
-                }){code,msg->
-                    if(code == 2){
-                        tv_tishi_point.text = msg
-                    }
+                    tv_tishi_point.text = String.format(resources.getString(R.string.string_pointlow),point_nums,it.iAppointPoint)
+                }
+            }){code,msg->
+                if(code == 2){
+                    tv_tishi_point.text = msg
                 }
             }
+        }
     }
 
     private var dialogListener: OnDialogListener? = null

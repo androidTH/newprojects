@@ -162,7 +162,8 @@
         android:layout_marginTop="@dimen/margin_8"
         android:minHeight="66dp"
         android:paddingLeft="16dp"
-        android:paddingTop="8dp"/>
+        android:paddingTop="8dp"
+        android:visibility="visible"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_tags"
@@ -170,18 +171,54 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rv_my_images"
         android:minHeight="30dp"
-        android:paddingBottom="16dp"
+        android:paddingBottom="@dimen/margin_8"
         android:paddingLeft="16dp"
         android:visibility="visible"
-        android:paddingTop="8dp">
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:paddingTop="8dp"/>
+    <TextView
+        android:id="@+id/tv_job"
+        android:layout_below="@+id/rv_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_28"
+        android:layout_marginRight="@dimen/margin_25"
+        android:drawableLeft="@mipmap/boy_profession_whiteicon"
+        android:textColor="@color/color_40FFFFFF"
+        android:textSize="14sp"
+        android:drawablePadding="@dimen/margin_5"
+        android:text="职业 "/>
+    <TextView
+        android:id="@+id/tv_zuojia"
+        android:layout_below="@+id/tv_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_28"
+        android:layout_marginRight="@dimen/margin_25"
+        android:drawableLeft="@mipmap/boy_car_whiteicon"
+        android:textColor="@color/color_40FFFFFF"
+        android:textSize="14sp"
+        android:drawablePadding="@dimen/margin_5"
+        android:text="座驾"/>
+    <TextView
+        android:id="@+id/tv_aihao"
+        android:layout_below="@+id/tv_zuojia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_28"
+        android:layout_marginRight="@dimen/margin_25"
+        android:drawableLeft="@mipmap/boy_hobby_whiteicon"
+        android:textColor="@color/color_40FFFFFF"
+        android:textSize="14sp"
+        android:drawablePadding="@dimen/margin_5"
+        android:text="职业 "/>
     <LinearLayout
         android:id="@+id/fl_add_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rv_tags"
+        android:layout_below="@+id/tv_aihao"
+        android:layout_marginTop="@dimen/margin_15"
         android:background="@drawable/shape_white_top_8r"
         android:orientation="vertical">
 

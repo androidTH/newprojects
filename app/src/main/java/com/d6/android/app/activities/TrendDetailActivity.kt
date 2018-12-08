@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.adapters.ImagePagerAdapter
 import com.d6.android.app.base.BaseActivity
@@ -14,10 +15,8 @@ import com.d6.android.app.dialogs.TrendContentDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.sysErr
-import com.d6.android.app.utils.toTime
+import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import kotlinx.android.synthetic.main.activity_trend_detail.*
 import org.jetbrains.anko.bundleOf
 
@@ -163,13 +162,14 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     private fun praise(square: Square) {
         dialog()
-        Request.addPraise(userId, square.id).request(this) { msg, _ ->
+        Request.addPraise(userId, square.id).request(this) { msg, jsonObject ->
             showToast("点赞成功")
             mTrend.isupvote = "1"
             mTrend.appraiseCount = (mTrend.appraiseCount ?: 0) + 1
             tv_appraise.isSelected = TextUtils.equals(mTrend.isupvote, "1")
             tv_appraise.text = mTrend.appraiseCount.toString()
             setResult(Activity.RESULT_OK)
+            showTips(jsonObject,"","")
         }
 
     }

@@ -95,6 +95,21 @@ fun Long.interval(nowTime: Long = System.currentTimeMillis()): String {
     return desc
 }
 
+fun isDateOneBigger(str1:String,str2:String):Boolean{
+    var  isBigger:Boolean = false;
+    var sdf:SimpleDateFormat  = SimpleDateFormat("yyyy-MM-dd");
+    var dt1:Date
+    var dt2:Date
+    dt1 = sdf.parse(str1)
+    dt2 = sdf.parse(str2)
+    if (dt1.getTime() > dt2.getTime()) {
+        isBigger = true;
+    } else if (dt1.getTime() < dt2.getTime()) {
+        isBigger = false;
+    }
+    return isBigger
+}
+
 fun converTime(timestamp: Long): String {
     val currentSeconds = System.currentTimeMillis()
     val timeGap = (timestamp -currentSeconds)/1000 // 与现在时间相差秒数

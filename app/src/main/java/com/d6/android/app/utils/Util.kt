@@ -17,7 +17,9 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.BuildConfig
+import com.d6.android.app.R
 import com.d6.android.app.activities.DateAuthStateActivity
 import com.d6.android.app.activities.UnAuthUserActivity
 import com.d6.android.app.application.D6Application
@@ -28,11 +30,14 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
+import com.d6.android.app.widget.CustomToast
 import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import org.jetbrains.anko.*
 import java.io.File
 import java.security.MessageDigest
@@ -99,6 +104,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_HEAD, obj.picUrl)
             .put(Const.User.USER_CLASS_ID, obj.userclassesid)
             .put(Const.User.USER_SEX, obj.sex)
+            .put(Const.User.USER_SCREENID, obj.screen)
 //            .put(Const.User.IS_LOGIN, true)
             .apply()
 }
@@ -283,9 +289,18 @@ fun File?.getFileSuffix(): String {
 
 inline fun Activity.isAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-    if (className == "7") {
-//        this.startActivity<UnAuthUserActivity>()
+    val screen = SPUtils.instance().getString(Const.User.USER_SCREENID)
+    if (className == "7"&&screen == "0") {// 22 普通会员
         this.startActivity<DateAuthStateActivity>()
+    } else {
+        next()
+    }
+}
+
+inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
+    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+    if (className == "7") {
+        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
     } else {
         next()
     }
@@ -375,8 +390,9 @@ inline fun BaseActivity.checkChatCount(to: String, crossinline next: () -> Unit)
     val from = SPUtils.instance().getString(Const.User.USER_ID)
     val date = D6Application.systemTime.toYMDTime()
     this.dialog()
-    Request.getTalkDetails(from, to, date).request(this) { _, data ->
+    Request.getTalkDetails(from, to, date).request(this,false ,success = {code, data->
         data?.let {
+            // next()
             val talkcount = data.optInt("talkcount")
             val userIds = data.optString("touserid")
             if (userIds.isNotEmpty()) {
@@ -384,12 +400,14 @@ inline fun BaseActivity.checkChatCount(to: String, crossinline next: () -> Unit)
                 if (list.size <= talkcount) {
                     next()
                 }else{
-		    this.toast("聊天次数已达上限")
-		}
+                    this.toast("聊天次数已达上限")
+                }
             } else {
                 next()
             }
         }
+    }) { _, msg ->
+        this.toast(msg)
     }
 }
 
@@ -435,3 +453,15 @@ inline fun BaseActivity.getTrendDetail(id:String,crossinline next:(square:Square
            stamp.toTime("yyyy-MM-dd")
         }
     }
+
+fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
+    if(jsonObject!=null){
+        var pointDesc = jsonObject.optString("sAddPointDesc")
+        var iAddPoint = jsonObject.optString("iAddPoint")
+        if(!TextUtils.isEmpty(pointDesc)){
+            CustomToast.success("$pointDesc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+        }
+    } else if(!TextUtils.isEmpty(desc)){
+        CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
+    }
+}

@@ -41,7 +41,7 @@ class SystemMessagesActivity : RecyclerActivity() {
 //                    getTrendDetail((msg.url?:"")){
 //                        startActivity<TrendDetailActivity>("data" to it)
 //                    }
-                    startActivity<SquareTrendDetailActivity>("id" to (msg.url?:""))
+                    startActivity<SquareTrendDetailActivity>("id" to (msg.url?:""),"position" to position)
                 msg.urltype == "2" -> //会员
                     startActivity<UserInfoActivity>("id" to (msg.url?:""))
                 msg.urltype == "4" -> {//速约

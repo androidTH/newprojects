@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@color/color_F5F5F5"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"

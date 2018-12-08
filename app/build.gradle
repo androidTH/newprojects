@@ -14,8 +14,8 @@ android {
         applicationId "com.d6.android.app"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 9
-        versionName "1.5"
+        versionCode 12
+        versionName "1.7.0"
         // Enabling multiDex support.
         multiDexEnabled true
         ndk {
@@ -130,6 +130,9 @@ dependencies {
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
     compile project(':cardlib')
     compile project(':sticker')
+    compile project(':library')
+//    compile 'com.zhihu.android:matisse:0.5.2-beta3'
+
     //https://github.com/ongakuer/CircleIndicator
 
 //    compile 'com.github.zcweng:switch-button:0.0.3@aar'
@@ -137,5 +140,5 @@ dependencies {
     //debug 包
     debugCompile 'com.bugtags.library:bugtags-lib:3.0.0'
     //release 包
-    releaseCompile 'com.bugtags.metrics:bugtags-lib:3.0.0'
+//    releaseCompile 'com.bugtags.metrics:bugtags-lib:3.0.0'
 }

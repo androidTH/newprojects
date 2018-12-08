@@ -2,16 +2,13 @@ package com.d6.android.app.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
-import com.d6.android.app.widget.gallery.CardAdapterHelper
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 
@@ -95,10 +92,10 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             holder.setText(R.id.tv_content, data.gexingqianming)
         }
 
-        if (TextUtils.equals("null", data.userlookwhere.toString())) {
+        if (TextUtils.equals("null", data.userlookwhere)) {
             data.userlookwhere = ""
         }
-        if (TextUtils.equals("null", data.userhandlookwhere.toString())) {
+        if (TextUtils.equals("null", data.userhandlookwhere)) {
             data.userhandlookwhere = ""
         }
         var a: String? = ""
