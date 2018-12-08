@@ -138,7 +138,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         val time = SPUtils.instance().getLong(Const.LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1,time.toString(),pageSize = 1).request(this) { _, data ->
-            //            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
+            //SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list!!.results!!.isEmpty()) {
                 //无数据
 //                headerView.tv_msg_count1.gone()
