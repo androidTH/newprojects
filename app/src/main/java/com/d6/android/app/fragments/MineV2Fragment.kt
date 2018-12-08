@@ -24,8 +24,6 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import com.d6.android.app.widget.badge.Badge
-import com.d6.android.app.widget.badge.QBadgeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
