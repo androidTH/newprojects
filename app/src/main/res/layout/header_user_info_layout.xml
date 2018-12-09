@@ -117,7 +117,6 @@
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginBottom="6dp"
         android:paddingLeft="16dp"
-        android:visibility="gone"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
     <android.support.v7.widget.RecyclerView

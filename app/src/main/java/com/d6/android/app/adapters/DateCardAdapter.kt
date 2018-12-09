@@ -24,14 +24,20 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
         val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
+        val nomg_line = holder.bind<View>(R.id.noimg_line)
         if(!TextUtils.equals(data.userpics,"null")){
             if(TextUtils.isEmpty(data.userpics)){
-                rv_mydate_images.visibility = View.GONE
+                mImages.clear()
+                rv_mydate_images.visibility = View.VISIBLE
+                nomg_line.visibility = View.VISIBLE
             }else{
                 var imglist = data.userpics.split(",")
                 if (imglist.size==0) {
-                    rv_mydate_images.visibility = View.GONE
+                    mImages.clear()
+                    rv_mydate_images.visibility = View.VISIBLE
+                    nomg_line.visibility = View.VISIBLE
                 } else {
+                    nomg_line.visibility = View.GONE
                     rv_mydate_images.visibility = View.VISIBLE
                     rv_mydate_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     rv_mydate_images.setHasFixedSize(true)
@@ -45,7 +51,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 }
             }
         }else{
-            rv_mydate_images.visibility = View.GONE
+            mImages.clear()
+            rv_mydate_images.visibility = View.VISIBLE
+            nomg_line.visibility = View.VISIBLE
         }
 
         rv_mydate_tags.setHasFixedSize(true)
@@ -112,7 +120,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         var tv_vistor_count = holder.bind<TextView>(R.id.tv_vistor_count)
         var tv_like_count = holder.bind<TextView>(R.id.tv_like_count)
 
-        if(data.iVistorCountAll>=50){
+        if(data.iVistorCountAll>50){
             ll_like.visibility = View.VISIBLE
             ll_vistor.visibility = View.VISIBLE
             tv_vistor_count.text = "${data.iVistorCountAll}"

@@ -42,14 +42,5 @@ class SelectCityQuickAdapter constructor(data: List<City>?, categoryType: String
         tv_city_name.setTag(typeName+item.name)
         helper.addOnClickListener(R.id.tv_city_name)
         helper.addOnClickListener(R.id.tv_arealocation)
-//        if(TextUtils.equals(getItem(selectPosition)?.title,item.title)){
-//            tv_city_name.textColor = ContextCompat.getColor(mContext, R.color.white)
-//            tv_city_name.backgroundDrawable = ContextCompat.getDrawable(mContext, R.drawable.shape_orange_city)
-//        }else{
-//            tv_city_name.textColor = ContextCompat.getColor(mContext, R.color.color_333333)
-//            tv_city_name.backgroundDrawable = ContextCompat.getDrawable(mContext, R.drawable.shape_f5_city)
-//        }
-//        tv_city_name.textColor = ContextCompat.getColor(mContext, R.color.color_333333)
-//        tv_city_name.backgroundDrawable = ContextCompat.getDrawable(mContext, R.drawable.shape_f5_city)
     }
 }

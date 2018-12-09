@@ -151,16 +151,16 @@
             android:textSize="11sp"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/iv_discover"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_below="@+id/tv_city"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:src="@mipmap/discover_mancard_reference"
-            android:visibility="gone" />
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_discover"-->
+            <!--android:layout_width="25dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_below="@+id/tv_city"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
+            <!--android:layout_marginBottom="@dimen/margin_10"-->
+            <!--android:src="@mipmap/discover_mancard_reference"-->
+            <!--android:visibility="gone" />-->
 
         <TextView
             android:id="@+id/tv_content"
@@ -187,6 +187,18 @@
             android:minHeight="66dp"
             android:paddingLeft="@dimen/margin_20"
             android:paddingRight="@dimen/margin_16" />
+
+        <View
+            android:id="@+id/noimg_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@+id/tv_content"
+            android:layout_marginTop="@dimen/margin_30"
+            android:background="@color/color_DFE1E5"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"/>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_mydate_tags"
