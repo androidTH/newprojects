@@ -5,6 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.d6.android.app.R;
@@ -12,6 +15,8 @@ import com.d6.android.app.adapters.CityOfProvinceAdapter;
 import com.d6.android.app.adapters.ProvinceAdapter;
 import com.d6.android.app.adapters.XinZuoQuickDateAdapter;
 import com.d6.android.app.models.City;
+import com.d6.android.app.models.Province;
+import com.d6.android.app.net.Request;
 import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.popup.BasePopup;
 import com.d6.android.app.widget.test.CategoryBean;
@@ -32,8 +37,8 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
 
     private static final String TAG = AreaSelectedPopup.class.getSimpleName();
     private Context mContext;
-    private List<String> mCities =new ArrayList<>();
-    private List<CategoryBean.DataBean> mHomeList =new  ArrayList<>();
+    private List<Province> mCities =new ArrayList<>();
+    private List<Province> mHomeList =new  ArrayList<>();
     private List<Integer> mShowTitles =new ArrayList<>();
     private int currentItem = 0;
 
@@ -50,7 +55,7 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
     protected AreaSelectedPopup(Context context) {
         mContext = context;
         setContext(context);
-        loadData();
+//        loadData();
     }
 
     @Override
@@ -72,16 +77,13 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
         mRvMenuLeft.setAdapter(mProvinceAdapter = new ProvinceAdapter(mCities));
         mRVMenuRight.setAdapter(mCityOfProvinceAdapter = new CityOfProvinceAdapter(mHomeList));
 
-        mProvinceAdapter.setNewData(mCities);
-        mCityOfProvinceAdapter.setNewData(mHomeList);
-
         mProvinceAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.item_name) {
                     mProvinceAdapter.setSelectItem(position);
                     mProvinceAdapter.notifyDataSetChanged();
-                    ((LinearLayoutManager) mRVMenuRight.getLayoutManager()).scrollToPositionWithOffset(mShowTitles.get(position), 0);
+                    ((LinearLayoutManager) mRVMenuRight.getLayoutManager()).scrollToPositionWithOffset(position, 0);
                 }
             }
         });
@@ -95,6 +97,16 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
                     currentItem = currentPos;
                     mProvinceAdapter.setSelectItem(currentPos);
                     mProvinceAdapter.notifyDataSetChanged();
+                    mRvMenuLeft.getLayoutManager().scrollToPosition(currentPos);
+                }
+            }
+        });
+
+        mCityOfProvinceAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if(view.getId() == R.id.tv_arealocation){
+                    onPopupItemClick(position,((TextView)view).getText().toString().trim());
                 }
             }
         });
@@ -118,11 +130,19 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
         CategoryBean categoryBean = GsonHelper.GsonToBean(json, CategoryBean.class);
         for (int i = 0; i < categoryBean.getData().size(); i++) {
             CategoryBean.DataBean dataBean = categoryBean.getData().get(i);
-            mCities.add(dataBean.getModuleTitle());
-            mShowTitles.add(i);
-            mHomeList.add(dataBean);
+//            mCities.add(dataBean.getModuleTitle());
+//            mShowTitles.add(i);
+//            mHomeList.add(dataBean);
         }
     }
+
+    public void setData(List<Province> cities){
+        this.mCities = cities;
+        this.mHomeList = cities;
+        mProvinceAdapter.setNewData(mCities);
+        mCityOfProvinceAdapter.setNewData(mHomeList);
+    }
+
 
     private void onPopupItemClick(int position,String name){
         if (mOnPopupItemClickListener != null) {

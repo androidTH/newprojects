@@ -6,11 +6,11 @@ import me.yokeyword.indexablerv.IndexableEntity
 /**
  * Created on 2018/1/15.
  */
-data class City(val ids: String?,@SerializedName("paramName")val name: String? = "") : IndexableEntity {
+data class Province(val ids: String?, @SerializedName("paramName")val name: String? = "") : IndexableEntity {
 
     val paramKey: String? = "" //paramKey 1:海外地市 0：国内地市
     val isValid: String? = ""//isValid 1 热门地市，0 普通地市
-    var isSelected: Boolean = false
+    var lstDicts:ArrayList<City> = ArrayList()
 
     override fun setFieldIndexBy(indexField: String?) {
 

@@ -1,4 +1,4 @@
-package com.android.dz.pullrecyclerview.view;
+package com.d6.android.app.widget.dzsticknav;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.dz.pullrecyclerview.R;
+import com.d6.android.app.R;
 
 public class AnimatorView extends RelativeLayout {
 

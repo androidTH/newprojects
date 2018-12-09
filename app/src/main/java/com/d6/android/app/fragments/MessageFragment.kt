@@ -47,12 +47,15 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         QBadgeView(activity);
     }
 
+    private var mUserId = SPUtils.instance().getString(Const.User.USER_ID)
+    private var mTime =  SPUtils.instance().getLong(Const.LAST_TIME)
+
     private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
+        mUserId
     }
 
     private val time by lazy {
-        SPUtils.instance().getLong(Const.LAST_TIME)
+        mTime
     }
 
     private val headerView by lazy {
@@ -154,7 +157,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         } else {
                             mSysMsg.hide(false)
                         }
-                        headerView.tv_content1.text = data.list.results!![0].content
+                        headerView.tv_content1.text = it.results[0].content
                     }
                 }
             }
@@ -177,12 +180,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         if ((data.count ?: 0) > 0) {
                             mSquareMsg.bindTarget(headerView.iv2).setBadgeText(c)
                                     .setGravityOffset(-3F, -2F, true)
-                                    .setOnDragStateChangedListener(Badge.OnDragStateChangedListener() { dragState, badge, targetView ->
+                                     .setOnDragStateChangedListener(Badge.OnDragStateChangedListener() { dragState, badge, targetView ->
                                     })
                         } else {
                             mSquareMsg.hide(false)
                         }
-                        headerView.tv_content2.text = it.results!![0].content
+                        headerView.tv_content2.text = it.results[0].content
                     }
                 }
             }

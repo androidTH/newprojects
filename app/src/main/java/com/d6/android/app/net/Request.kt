@@ -194,6 +194,9 @@ object Request {
     fun getCities(paramKey: String) =
             RRetrofit.instance().create(ApiServices::class.java).getCities(paramKey)
 
+    fun getProvince() =
+            RRetrofit.instance().create(ApiServices::class.java).getProvince()
+
     fun resetPwdFirstStep(phone: String, code: String) =
             RRetrofit.instance().create(ApiServices::class.java).resetPwdFirstStep(phone, code)
 

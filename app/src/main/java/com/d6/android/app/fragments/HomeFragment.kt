@@ -54,6 +54,10 @@ class HomeFragment : BaseFragment() {
         snapHelper.attachToRecyclerView(rvSpeedDate)
         rvSpeedDate.adapter = speedDateAdapter
 
+        dzsticknavlayout.setOnStartActivity {
+            startActivity<RecommendDateActivity>()
+        }
+
         speedDateAdapter.setOnItemClickListener { _, position ->
             activity?.isAuthUser {
                 val date = mSpeedDates[position]

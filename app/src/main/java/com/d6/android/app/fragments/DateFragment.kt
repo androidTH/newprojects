@@ -22,8 +22,10 @@ import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.City
 import com.d6.android.app.models.DateBean
 import com.d6.android.app.models.FindDate
+import com.d6.android.app.models.Province
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
@@ -62,14 +64,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         AMapLocationClient(activity)
     }
 
-    private var city: String? = null
-    private var outCity: String? = null
     private var cityType: Int = -2
-    private var sameCity=""
+    private val sameCity by lazy {
+        SPUtils.instance().getString(USER_ADDRESS);
+    }
 
     private var pageNum = 1
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
+    var province = Province("100010","定位")
 
     override fun contentViewId() = R.layout.fragment_date
 
@@ -200,6 +203,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         mPopupArea = AreaSelectedPopup.create(activity)
                 .setDimView(rl_date)
                 .apply()
+
+        getProvinceData()
     }
 
     fun setAdapter(){
@@ -220,10 +225,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         locationClient.setLocationListener {
             if (it != null) {
-                sameCity = it.city
+//                sameCity = it.city
                 locationClient.stopLocation()
 //                updateAddress(sameCity)
-                SPUtils.instance().put(USER_ADDRESS,sameCity).apply()
+                SPUtils.instance().put(USER_ADDRESS,it.city).apply()
             }
         }
 
@@ -241,6 +246,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             fb_unlike.gone()
             btn_like.gone()
             fb_heat_like.gone()
+            fb_find_chat.gone()
         }
         Request.findAccountCardListPage(userId,sPosition, city,pageNum).request(this) { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {
@@ -252,6 +258,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     fb_unlike.gone()
                     btn_like.gone()
                     fb_heat_like.gone()
+                    fb_find_chat.gone()
                 }else{
                     mRecyclerView.visibility = View.VISIBLE
                     tv_main_card_bg_im_id.gone()
@@ -259,6 +266,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     fb_unlike.visible()
                     btn_like.visible()
                     fb_heat_like.visible()
+                    fb_find_chat.visible()
                 }
             } else {
                 mRecyclerView.visibility = View.VISIBLE
@@ -267,6 +275,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 fb_unlike.visible()
                 btn_like.visible()
                 fb_heat_like.visible()
+                fb_find_chat.visible()
                 if(cityType == -2&&pageNum == 1){
                    mDates.clear()
                 }else if(cityType != -2&&pageNum == 1){
@@ -415,6 +424,20 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         locationClient.onDestroy()
     }
 
+    private fun getProvinceData() {
+        Request.getProvince().request(this) { _, data ->
+            data?.let {
+                mProvinces.clear()
+                var city = City("",sameCity)
+                city.isSelected = true
+                province.lstDicts.add(city)
+                it.add(0,province)
+                mProvinces.addAll(it)
+            }
+        }
+    }
+
+    private var mProvinces = ArrayList<Province>()
     lateinit var mPopupAges:AgeSelectedPopup
     lateinit var mPopupConstellation:ConstellationSelectedPopup
     lateinit var mPopupArea:AreaSelectedPopup
@@ -426,14 +449,16 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         mPopupArea.showAsDropDown(view,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
             areaIndex = position
-            if(areaIndex == 0){
-                areaIndex = -1
-                tv_city.text = "地区"
-                setSearChUI(0,false)
-            }else{
-                tv_city.text = string
-                setSearChUI(0,true)
-            }
+//            if(areaIndex == 0){
+//                areaIndex = -1
+//                tv_city.text = "地区"
+//                setSearChUI(0,false)
+//            }else{
+//                tv_city.text = string
+//                setSearChUI(0,true)
+//            }
+            tv_city.text = string
+            setSearChUI(0,true)
         }
 
         mPopupArea.setOnDismissListener {
@@ -445,6 +470,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if(mPopupArea.isShowing){
             setSearChUI(0,true)
         }
+
+        mPopupArea.setData(mProvinces)
     }
     /**
      * 星座

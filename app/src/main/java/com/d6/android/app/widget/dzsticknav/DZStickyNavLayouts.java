@@ -1,4 +1,4 @@
-package com.android.dz.pullrecyclerview.view;
+package com.d6.android.app.widget.dzsticknav;
 
 import android.content.Context;
 import android.support.v4.view.NestedScrollingParent;
