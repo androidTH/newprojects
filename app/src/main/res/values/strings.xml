@@ -46,5 +46,6 @@
     <string name="string_sexchoose_title">性别选择</string>
     <string name="string_areachoose_title">地区选择</string>
     <string name="string_xinzuochoose_title">星座选择</string>
+    <string name="string_nolocation">定位失败,点击重试</string>
 
 </resources>

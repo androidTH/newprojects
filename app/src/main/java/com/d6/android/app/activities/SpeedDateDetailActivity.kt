@@ -79,7 +79,7 @@ class SpeedDateDetailActivity : TitleActivity() {
         }
 
         btn_contact.setOnClickListener {
-//            val dialog = ContactUsDialog()
+            //            val dialog = ContactUsDialog()
 //            dialog.show(supportFragmentManager, "us")
             ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
         }

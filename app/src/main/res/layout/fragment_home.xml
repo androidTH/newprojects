@@ -50,31 +50,35 @@
                     android:textColor="@color/color_888888"
                     android:text="专属微信客服为您服务"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvSpeedDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_speed_date"/>
-
                 <TextView
                     android:id="@+id/tv_speed_date_more"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_below="@+id/rvSpeedDate"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignTop="@+id/tv_speed_date"
+                    android:layout_alignParentRight="true"
                     android:gravity="center"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:text="查看全部"
                     android:drawableRight="@mipmap/ic_arrow_right_orange"
                     android:textSize="12sp"
                     android:textColor="@color/orange_f6a" />
-
+                <com.d6.android.app.widget.dzsticknav.DZStickyNavLayouts
+                    android:id="@+id/dzsticknavlayout"
+                    android:layout_below="@+id/tv_speed_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvSpeedDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                </com.d6.android.app.widget.dzsticknav.DZStickyNavLayouts>
                 <TextView
                     android:id="@+id/tv_newest_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_speed_date_more"
+                    android:layout_below="@+id/dzsticknavlayout"
                     android:drawableLeft="@mipmap/title_label_icon"
                     android:drawablePadding="8dp"
                     android:paddingBottom="@dimen/padding_12"
