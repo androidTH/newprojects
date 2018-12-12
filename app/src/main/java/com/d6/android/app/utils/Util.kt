@@ -32,6 +32,7 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.CustomToast.showToast
 import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -301,7 +302,8 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
 inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7") {
-        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
+        CustomToast.showToast("联系微信客服开通会员可获得更多聊天机会哦～")
+//        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
     } else {
         next()
     }

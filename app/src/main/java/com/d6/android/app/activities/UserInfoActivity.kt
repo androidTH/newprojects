@@ -15,11 +15,10 @@ import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
+import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.OpenDatePayPointDialog
-import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
-import com.d6.android.app.dialogs.UserActionDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
@@ -36,6 +35,7 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
+import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import org.jetbrains.anko.*
 
 
@@ -61,9 +61,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         MySquareAdapter(mSquares, 0)
     }
     private val mImages = ArrayList<AddImage>()
+
     private val myImageAdapter by lazy {
         MyImageAdapter(mImages)
     }
+
+    private val mDateImages = ArrayList<String>()
+    private val mDateimageAdapter by lazy {
+        SelfReleaselmageAdapter(mDateImages,1)
+    }
+
     private val mTags = ArrayList<UserTag>()
     private val userTagAdapter by lazy {
         UserTagAdapter(mTags)
@@ -197,6 +204,76 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
+    /**
+     * 展示约会信息
+     */
+    private fun setDateInfo(myAppointment:MyAppointment?){
+        headerView.tv_datetype_name.text = Const.dateTypes[myAppointment?.iAppointType!!.toInt()-1]
+        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesImg.size){
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_small)
+            headerView.tv_datetype_name.setCompoundDrawables(drawable,null,null,null)
+            headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))
+        }else{
+            var drawable = ContextCompat.getDrawable(context,Const.dateTypesImg[myAppointment?.iAppointType!!.toInt()-1])
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
+            headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3));
+            headerView.tv_datetype_name.setCompoundDrawables(drawable,null,null,null);
+        }
+
+        var sb = StringBuffer()
+        if(!myAppointment.iAge.toString().isNullOrEmpty()){
+            if(myAppointment.iAge!=null){
+                sb.append("${myAppointment.iAge}岁")
+            }
+        }
+
+        if(!myAppointment.iHeight.toString().isNullOrEmpty()){
+            if(myAppointment.iHeight!!.toInt() > 0 ){
+                sb.append("·${myAppointment.iHeight}cm")
+            }
+        }
+
+        if(!myAppointment.iWeight.toString().isNullOrEmpty()){
+            if(!myAppointment.iWeight.toString().equals("0")){
+                sb.append("·${myAppointment.iWeight}kg")
+            }
+        }
+
+        if(!sb.toString().isNullOrEmpty()){
+            headerView.tv_sub_title.text = sb.toString()
+            headerView.tv_sub_title.visibility = View.VISIBLE
+        }else{
+            headerView.tv_sub_title.visibility = View.GONE
+        }
+
+        var time = converTime(myAppointment.dEndtime)
+        headerView.tv_time_long.text="倒计时:${time}"
+
+        headerView.tv_self_address.text = myAppointment.sPlace
+
+        headerView.tv_content.text = myAppointment.sDesc
+
+        if (myAppointment.sAppointPic.isNullOrEmpty()) {
+            headerView.rv_images.gone()
+        } else {
+            headerView.rv_images.visible()
+        }
+
+        mDateImages.clear()
+        val images = myAppointment.sAppointPic?.split(",")
+        if (images != null) {
+            mDateImages.addAll(images.toList())
+        }
+
+        headerView.rv_images.setHasFixedSize(true)
+        headerView.rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        headerView.rv_images.adapter = mDateimageAdapter
+
+        headerView.tv_send_date.setOnClickListener {
+            signUpDate(myAppointment)
+        }
+    }
+
     private fun getUserInfo() {
 
         Request.getUserInfo(userId,id).request(this, success = { _, data ->
@@ -300,7 +377,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                } else {
 //                    tv_content.visible()
 //                }
-//                Toast.makeText(this, data.iIsFollow.toString(), Toast.LENGTH_LONG).show()
+
+                if(it.appointment!=null){
+                    headerView.date_headView.setImageURI(it.picUrl)
+                    headerView.tv_name.text =it.name
+                    headerView.tv_name.isSelected =TextUtils.equals("0", it.sex)
+                    setDateInfo(it.appointment)
+                }else{
+                    headerView.rl_userinfo_date.visibility = View.GONE
+                }
+
                 if(data.iIsFollow !=null){
                     if(data.iIsFollow==1){
 //                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
@@ -335,7 +421,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun getTrendData() {
-
         Request.getMySquares(userId,id, 0, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false//15717
             if (pageNum == 1) {
@@ -350,8 +435,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
             } else {
                 mSquares.addAll(data.list.results)
+                squareAdapter.notifyDataSetChanged()
             }
-            squareAdapter.notifyDataSetChanged()
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
         }
@@ -460,6 +545,20 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }) { _, msg ->
 
+        }
+    }
+
+    private fun signUpDate(myAppointment:MyAppointment) {
+        Request.queryAppointmentPoint(userId).request(this, false, success = { msg, data ->
+            val dateDialog = OpenDateDialog()
+            dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
+            dateDialog.show(supportFragmentManager, "d")
+        }) { code, msg ->
+            if (code == 2) {
+                var openErrorDialog = OpenDateErrorDialog()
+                openErrorDialog.arguments = bundleOf("code" to code, "msg" to msg)
+                openErrorDialog.show(supportFragmentManager, "d")
+            }
         }
     }
 

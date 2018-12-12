@@ -57,4 +57,8 @@ object Const {
     val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
 
     var selectCategoryType:String=""
+    public var LOCATIONSUCCESS = "location_success"
+    public var LOCATIONFAIL = "location_fail"
+    var PROVINCE_DATA = "province"
+    var LASTLONGTIME = "LastLoginTime"
 }

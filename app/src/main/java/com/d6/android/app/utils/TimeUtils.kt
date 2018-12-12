@@ -141,3 +141,8 @@ fun converToTime(timestamp: Long): String {
     }
     return timeStr
 }
+
+fun getTodayTime(): String {
+    val f = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)
+    return f.format(Date())
+}

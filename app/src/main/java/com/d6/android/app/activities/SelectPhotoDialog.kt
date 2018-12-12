@@ -3,16 +3,21 @@ package com.d6.android.app.activities
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.text.TextUtils
 import android.view.Gravity
 import android.widget.Button
 import com.d6.android.app.R
 import com.d6.android.app.base.DialogActivity
 import com.d6.android.app.utils.AppUtils
+import com.d6.android.app.utils.alertDialog
 import com.d6.android.app.utils.getUrlPath
 import com.tbruyelle.rxpermissions2.RxPermissions
 import org.jetbrains.anko.find
@@ -82,19 +87,19 @@ class SelectPhotoDialog : DialogActivity() {
         return R.anim.popup_out
     }
 
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == 12) {
-//            if (TextUtils.equals(permissions[0],Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-//                //用户不同意，向用户展示该权限作用
-//                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-//                    alertDialog( "请注意", "本应用需要使用访问本地存储权限，否则无法正常使用！", false, "确定", "取消", DialogInterface.OnClickListener { _, _ -> finish() }, DialogInterface.OnClickListener { _, _ -> finish() })
-//                    return
-//                }
-//                finish()
-//            }
-//        }
-//    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 12) {
+            if (TextUtils.equals(permissions[0],Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                //用户不同意，向用户展示该权限作用
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    alertDialog( "请注意", "本应用需要使用访问本地存储权限，否则无法正常使用！", false, "确定", "取消", DialogInterface.OnClickListener { _, _ -> finish() }, DialogInterface.OnClickListener { _, _ -> finish() })
+                    return
+                }
+                finish()
+            }
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

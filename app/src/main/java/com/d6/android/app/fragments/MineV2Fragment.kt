@@ -229,7 +229,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     override fun onResume() {
         super.onResume()
         getUserInfo()
-        getUnReadCount()
+//        getUnReadCount()
         getUserFollowAndFansandVistor()
     }
     override fun onHiddenChanged(hidden: Boolean) {
@@ -245,11 +245,11 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 p0?.let {
                     if (p0 > 0) {
 //                        tv_msg_count1.visible()
-                        headerView.tv_msg_count.visibility = View.VISIBLE
-                        headerView.tv_msg_count.text = "$p0"
+//                        headerView.tv_msg_count.visibility = View.VISIBLE
+//                        headerView.tv_msg_count.text = "$p0"
                     } else {
 //                        tv_msg_count1.gone()
-                        headerView.tv_msg_count.gone()
+//                        headerView.tv_msg_count.gone()
                         getSysLastOne()
                     }
                 }
@@ -270,13 +270,13 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
 //                tv_msg_count1.gone()
-                headerView.tv_msg_count.gone()
+//                headerView.tv_msg_count.gone()
                 getSquareMsg()
             } else {
                 if ((data.count ?:0)> 0) {
 //                    tv_msg_count1.visible()
-                    headerView.tv_msg_count.visible()
-                    headerView.tv_msg_count.text = data.count.toString()
+//                    headerView.tv_msg_count.visible()
+//                    headerView.tv_msg_count.text = data.count.toString()
                 } else {
                     getSquareMsg()
                 }
@@ -295,12 +295,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
 //                tv_msg_count1.gone()
-                headerView.tv_msg_count.gone()
+//                headerView.tv_msg_count.gone()
             } else {
                 if ((data.count ?:0)> 0) {
 //                    tv_msg_count1.visible()
-                    headerView.tv_msg_count.visible()
-                    headerView.tv_msg_count.text = data.count.toString()
+//                    headerView.tv_msg_count.visible()
+//                    headerView.tv_msg_count.text = data.count.toString()
                 }
             }
         }) { _, _ ->

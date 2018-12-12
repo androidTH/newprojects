@@ -26,8 +26,10 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
             tv_arealocation.visibility = View.VISIBLE
             if (TextUtils.isEmpty(data.lstDicts.get(0).name)) {
                 tv_arealocation.text = mContext.getString(R.string.string_nolocation)
+                tv_arealocation.setTag(Const.LOCATIONFAIL)
             } else {
                 tv_arealocation.text = data.lstDicts.get(0).name
+                tv_arealocation.setTag(Const.LOCATIONSUCCESS)
             }
         }
         item_menu_title.text = data.name

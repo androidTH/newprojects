@@ -10,10 +10,8 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.CityOfProvinceAdapter
 import com.d6.android.app.adapters.ProvinceAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.extentions.request
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
-import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.GsonHelper
 import com.d6.android.app.utils.SPUtils
@@ -40,6 +38,10 @@ class AreaChooseActivity : BaseActivity() {
 
     private val mProciceAdapter by lazy {
         ProvinceAdapter(mProvinces)
+    }
+
+    private val cityJson by lazy{
+        SPUtils.instance().getString(Const.PROVINCE_DATA)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,23 +107,22 @@ class AreaChooseActivity : BaseActivity() {
     }
 
     private fun getData() {
-        Request.getProvince().request(this) { _, data ->
-            mProvinces.clear()
-            var city = City("", sameCity)
-            city.isSelected = true
-            province.lstDicts.add(city)
-            data?.let {
-                it.add(0, province)
-                mProvinces.addAll(it)
-                mCities.addAll(it)
-                mProciceAdapter.setNewData(mProvinces)
-                mCityOfProviceAdapter.setNewData(mCities)
-            }
+        var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
+        mProvinces.clear()
+        var city = City("", sameCity)
+        city.isSelected = true
+        province.lstDicts.add(city)
+        data?.let {
+            it.add(0, province)
+            mProvinces.addAll(it)
+            mCities.addAll(it)
+            mProciceAdapter.setNewData(mProvinces)
+            mCityOfProviceAdapter.setNewData(mCities)
         }
     }
 
     fun loadData() {
-        val json = ConvertUtils.toString(getAssets().open("category.json"))
+        val json = ConvertUtils.toString(getAssets().open("province.json"))
         val categoryBean = GsonHelper.GsonToBean(json, CategoryBean::class.java)
         for (i in 0 until categoryBean.data.size) {
             val dataBean = categoryBean.data.get(i)

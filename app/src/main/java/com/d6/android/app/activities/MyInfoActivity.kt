@@ -12,12 +12,10 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
+import com.d6.android.app.models.City
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.BitmapUtils
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.sysErr
+import com.d6.android.app.utils.*
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_my_info.*
@@ -190,6 +188,9 @@ class MyInfoActivity : BaseActivity() {
         tv_hobbit1.setText(userData.hobbit)
         tv_constellation1.text = userData.constellation
         tv_intro1.setText(userData.intro)
+        et_zuojia.setText(userData.zuojia)
+
+        getCities()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -269,6 +270,17 @@ class MyInfoActivity : BaseActivity() {
         myImageAdapter.notifyDataSetChanged()
     }
 
+    private fun getCities() {
+        var provinces = SPUtils.instance().getString(Const.PROVINCE_DATA)
+        if(TextUtils.isEmpty(provinces)){
+            Request.getProvince().request(this) { _, data ->
+                data?.let {
+                    SPUtils.instance().put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it)).apply()
+                }
+            }
+        }
+    }
+
     private fun saveInfo() {
         val nick = tv_nickName.text.toString().trim()
         if (nick.isEmpty()) {
@@ -285,6 +297,7 @@ class MyInfoActivity : BaseActivity() {
 //        val signature = tv_signature1.text.toString().trim()
         val constellation = tv_constellation1.text.toString().trim()
         val intro = tv_intro1.text.toString().trim()
+        var zuojia = et_zuojia.text.toString().trim()
         userData.name = nick
         userData.sex = sex
 //        userData.city = city
@@ -298,6 +311,7 @@ class MyInfoActivity : BaseActivity() {
         userData.constellation = constellation
         userData.intro = intro
         userData.userId = SPUtils.instance().getString(Const.User.USER_ID)
+        userData.zuojia = zuojia
         dialog()
         if (headFilePath == null) {
             Request.updateUserInfo(userData).request(this) { msg, _ ->

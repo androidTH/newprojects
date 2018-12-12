@@ -116,6 +116,7 @@
         android:minHeight="66dp"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginBottom="6dp"
+        android:visibility="visible"
         android:paddingLeft="16dp"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
@@ -281,4 +282,9 @@
         android:layout_height="10dp"
         android:background="@drawable/shape_white_top_8r"
         android:layout_below="@+id/tv_aihao"/>
+   <include
+       android:layout_below="@+id/fl_add_square"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       layout="@layout/layout_userinfo_date" />
 </RelativeLayout>

@@ -3,6 +3,8 @@ package com.d6.android.app.adapters
 import android.graphics.Color
 import android.text.TextUtils
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
@@ -30,9 +32,7 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
         if(TextUtils.equals("0",data.sex)){
-
             holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
-
         }else{
             var tv_info = holder.bind<TextView>(R.id.tv_info)
             var sb = StringBuffer()
@@ -71,6 +71,17 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
             tv_audio_auth.visibility = View.GONE
             tv_audio_level.visibility = View.VISIBLE
             tv_audio_level.text = data.classesname
+        }
+
+
+        var ll_horzmore = holder.bind<LinearLayout>(R.id.ll_horzmore)
+        var rl_datecontent = holder.bind<RelativeLayout>(R.id.rl_datecontent)
+        if(position == (mData.size-1)){
+           ll_horzmore.visibility = View.VISIBLE
+            rl_datecontent.visibility = View.GONE
+        }else{
+            ll_horzmore.visibility = View.GONE
+            rl_datecontent.visibility = View.VISIBLE
         }
 //        val endTime = data.createTime.toTime("yyyy-MM-dd")
 //        val cTime = if (D6Application.systemTime <= 0) {

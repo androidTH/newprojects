@@ -17,7 +17,14 @@ import com.d6.android.app.net.Request
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.support.v7.widget.LinearSnapHelper
+import android.view.Gravity
+import android.view.View
+import com.d6.android.app.dialogs.AreaSelectedPopup
+import com.d6.android.app.models.City
+import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
+import kotlinx.android.synthetic.main.fragment_date.*
 
 /**
  * 主页
@@ -31,6 +38,14 @@ class HomeFragment : BaseFragment() {
     private var cityType: Int = -2
     private var city: String? = ""
     private var outCity: String? = ""
+
+    private val cityJson by lazy{
+        SPUtils.instance().getString(Const.PROVINCE_DATA)
+    }
+
+    private val lastTime by lazy{
+        SPUtils.instance().getString(Const.LASTLONGTIME)
+    }
 
     private val mSpeedDates = ArrayList<MyDate>()
     private val speedDateAdapter by lazy {
@@ -115,37 +130,35 @@ class HomeFragment : BaseFragment() {
                     if (it is SelfPullDateFragment) {
                         it.refresh()
                     }
-//                    else if (it is HomeSelfReleaseFragment) {
-//                        it.refresh()
-//                    }
                 }
             }
         }
 
         showDialog()
-//        getBanner()
         getSpeedData()
 
         tv_date_city.setOnClickListener {
-            val filterCityDialog = FilterCityDialog()
-            filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
-            filterCityDialog.setCityValue(cityType, tv_date_city.text.toString())
-            filterCityDialog.show(childFragmentManager, "fcd")
-            filterCityDialog.setDialogListener { p, s ->
-                if (p == 1 || p == 0) {
-                    city = s
-                    outCity = ""
-                } else if (p == 2) {
-                    city = ""
-                    outCity = s
-                } else if (p == -2) {//取消选择
-                    city = ""
-                    outCity = ""
-                }
-                cityType = p
-                tv_date_city.text = s
-                getFragment()
-            }
+//            val filterCityDialog = FilterCityDialog()
+//            filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
+//            filterCityDialog.setCityValue(cityType, tv_date_city.text.toString())
+//            filterCityDialog.show(childFragmentManager, "fcd")
+//            filterCityDialog.setDialogListener { p, s ->
+//                if (p == 1 || p == 0) {
+//                    city = s
+//                    outCity = ""
+//                } else if (p == 2) {
+//                    city = ""
+//                    outCity = s
+//                } else if (p == -2) {//取消选择
+//                    city = ""
+//                    outCity = ""
+//                }
+//                cityType = p
+//                tv_date_city.text = s
+//                getFragment()
+//            }
+
+            showArea()
         }
 
         tv_datetype.setOnClickListener {
@@ -157,11 +170,46 @@ class HomeFragment : BaseFragment() {
                 getFragment()
             }
         }
+
+        mPopupArea = AreaSelectedPopup.create(activity)
+                .setDimView(mSwipeRefreshLayout)
+                .apply()
         loginforPoint()
+
+        if(!TextUtils.equals(getTodayTime(),lastTime)){
+            CustomToast.showToast("${lastTime}")
+            getProvinceData()
+        }else{
+            var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+            mPopupArea.setData(ProvinceData)
+        }
+
     }
 
     override fun onFirstVisibleToUser() {
 
+    }
+
+    lateinit var mPopupArea: AreaSelectedPopup
+    private fun getProvinceData() {
+        Request.getProvince().request(this) { _, data ->
+            data?.let {
+                mPopupArea.setData(it)
+                SPUtils.instance().put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it)).apply()
+                SPUtils.instance().put(Const.LASTLONGTIME,getTodayTime()).apply()
+            }
+        }
+    }
+
+    private fun showArea(){
+        mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_75))
+        mPopupArea.setOnPopupItemClick { basePopup, position, string ->
+            city = string
+            getFragment()
+        }
+
+        mPopupArea.setOnDismissListener {
+        }
     }
 
     private fun getFragment(){
@@ -169,14 +217,8 @@ class HomeFragment : BaseFragment() {
         fragments?.forEach {
             if (it != null && !it.isDetached) {
                 if (it is SelfPullDateFragment) {
-//                    if(!TextUtils.isEmpty(city)){
-//                        it.refresh(city,type.toString())
-//                    }else if(!TextUtils.isEmpty(outCity)){
-//                        it.refresh(outCity,type.toString())
-//                    }else {
-//                        it.refresh("",type.toString())
-//                    }
-                  var area = if(!TextUtils.isEmpty(city)) city else if(!TextUtils.isEmpty(outCity)) outCity else ""
+//                  var area = if(!TextUtils.isEmpty(city)) city else if(!TextUtils.isEmpty(outCity)) outCity else ""
+                  var area = if(!TextUtils.isEmpty(city)) city else ""
                     var dateType = if(type == 6||type==0){
                         ""
                     }else{
@@ -188,25 +230,13 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-//    private fun getBanner() {
-//        Request.getBanners().request(this, success = { _, data ->
-//            mSwipeRefreshLayout.isRefreshing = false
-//            if (data?.list?.results != null) {
-//                mBanners.clear()
-//                mBanners.addAll(data.list.results)
-//                bannerAdapter.notifyDataSetChanged()
-//            }
-//        }) { _, _ ->
-//            mSwipeRefreshLayout.isRefreshing = false
-//        }
-//    }
-
     private fun loginforPoint(){
         Request.loginForPoint(userId).request(this,false,success = {msg,data->
             showTips(data,"","")
         }){code,msg->
 //            var mg = JsonObject().getAsJsonObject(msg)
 //            showTips(mg,"","")
+
         }
     }
 

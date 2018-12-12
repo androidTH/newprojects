@@ -332,7 +332,27 @@
                 android:layout_alignTop="@+id/tv_constellation"
                 android:gravity="center_vertical"
                 android:textColor="@color/color_666666" />
-
+            <TextView
+                style="@style/mineTextStyle1"
+                android:id="@+id/tv_zuojia"
+                android:text="座驾"
+                android:textColor="@color/color_333333"
+                android:layout_below="@+id/tv_constellation"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_alignRight="@+id/tv_zuojia"
+                android:layout_alignBottom="@+id/tv_zuojia"
+                android:id="@+id/et_zuojia"
+                android:layout_marginLeft="96dp"
+                android:singleLine="true"
+                android:hint="请输入"
+                android:maxLength="8"
+                android:background="@null"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_alignTop="@+id/tv_zuojia"
+                android:gravity="center_vertical"
+                android:textColor="@color/color_666666" />
         </RelativeLayout>
     </ScrollView>
 

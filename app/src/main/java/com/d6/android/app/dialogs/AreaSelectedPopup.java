@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -17,6 +18,7 @@ import com.d6.android.app.adapters.XinZuoQuickDateAdapter;
 import com.d6.android.app.models.City;
 import com.d6.android.app.models.Province;
 import com.d6.android.app.net.Request;
+import com.d6.android.app.utils.Const;
 import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.popup.BasePopup;
 import com.d6.android.app.widget.test.CategoryBean;
@@ -55,7 +57,6 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
     protected AreaSelectedPopup(Context context) {
         mContext = context;
         setContext(context);
-//        loadData();
     }
 
     @Override
@@ -106,7 +107,12 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if(view.getId() == R.id.tv_arealocation){
-                    onPopupItemClick(position,((TextView)view).getText().toString().trim());
+                    TextView mTv = (TextView) view;
+                    if(TextUtils.equals(mTv.getTag().toString(),"location_success")){
+                        onPopupItemClick(-1,mTv.getText().toString().trim());
+                    }else{
+                        onPopupItemClick(-2,mTv.getText().toString().trim());
+                    }
                 }
             }
         });
@@ -118,22 +124,6 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
                 mCityOfProvinceAdapter.notifyDataSetChanged();
             }
         });
-    }
-
-    private void loadData() {
-        String json = null;
-        try {
-            json = ConvertUtils.toString(mContext.getAssets().open("category.json"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        CategoryBean categoryBean = GsonHelper.GsonToBean(json, CategoryBean.class);
-        for (int i = 0; i < categoryBean.getData().size(); i++) {
-            CategoryBean.DataBean dataBean = categoryBean.getData().get(i);
-//            mCities.add(dataBean.getModuleTitle());
-//            mShowTitles.add(i);
-//            mHomeList.add(dataBean);
-        }
     }
 
     public void setData(List<Province> cities){
