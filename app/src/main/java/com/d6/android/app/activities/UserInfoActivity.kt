@@ -153,14 +153,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
 
         tv_siliao.setOnClickListener {
-            isNoAuthToChat("5") {
+//            isNoAuthToChat("5") {
                 mData?.let {
                     val name = it.name ?: ""
 //                        checkChatCount(id) {
                             showDatePayPointDialog(name)
 //                    }
                 }
-            }
+//            }
         }
 
         tv_more.setOnClickListener {

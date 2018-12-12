@@ -170,7 +170,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
 
         fb_find_chat.setOnClickListener {
-            activity.isNoAuthToChat("5") {
+//            activity.isNoAuthToChat("5") {
                 scrollPosition = mRecyclerView.currentItem
                 if(mDates.size > scrollPosition){
                     var findChat = mDates.get(scrollPosition)
@@ -179,7 +179,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         showDatePayPointDialog(name,it.accountId.toString())
                     }
                 }
-            }
+//            }
         }
 
         fb_unlike.setOnClickListener {
