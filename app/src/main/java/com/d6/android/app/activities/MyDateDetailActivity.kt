@@ -46,7 +46,7 @@ class MyDateDetailActivity : BaseActivity() {
             var sId = intent.getStringExtra("sId")
             getData(sId,"")
         }else{
-            myAppointment = (intent.getParcelableExtra("data") as MyAppointment)
+            myAppointment = (intent.getSerializableExtra("data") as MyAppointment)
             if(myAppointment !=null){
                 iAppointUserid = myAppointment!!.iAppointUserid.toString()
                 if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){

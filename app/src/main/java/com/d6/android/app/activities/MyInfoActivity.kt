@@ -189,8 +189,6 @@ class MyInfoActivity : BaseActivity() {
         tv_constellation1.text = userData.constellation
         tv_intro1.setText(userData.intro)
         et_zuojia.setText(userData.zuojia)
-
-        getCities()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -268,17 +266,6 @@ class MyInfoActivity : BaseActivity() {
         }
         mImagesData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
         myImageAdapter.notifyDataSetChanged()
-    }
-
-    private fun getCities() {
-        var provinces = SPUtils.instance().getString(Const.PROVINCE_DATA)
-        if(TextUtils.isEmpty(provinces)){
-            Request.getProvince().request(this) { _, data ->
-                data?.let {
-                    SPUtils.instance().put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it)).apply()
-                }
-            }
-        }
     }
 
     private fun saveInfo() {

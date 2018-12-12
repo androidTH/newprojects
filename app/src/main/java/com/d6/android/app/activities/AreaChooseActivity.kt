@@ -4,14 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
 import com.d6.android.app.adapters.CityOfProvinceAdapter
 import com.d6.android.app.adapters.ProvinceAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.extentions.request
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.GsonHelper
 import com.d6.android.app.utils.SPUtils
@@ -61,10 +64,6 @@ class AreaChooseActivity : BaseActivity() {
         rv_menu_right.layoutManager = LinearLayoutManager(this)
         rv_menu_right.adapter = mCityOfProviceAdapter
 
-        getData()
-
-//        loadData()
-
         mProciceAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.item_name) {
                 mProciceAdapter.selectItem = position
@@ -106,19 +105,44 @@ class AreaChooseActivity : BaseActivity() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        getData()
+    }
+
     private fun getData() {
-        var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
-        mProvinces.clear()
-        var city = City("", sameCity)
+        if(!TextUtils.isEmpty(cityJson)){
+            var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
+            mProvinces.clear()
+            setLocationCity()
+            data?.let {
+                it.add(0, province)
+                mProvinces.addAll(it)
+                mCities.addAll(it)
+                mProciceAdapter.setNewData(mProvinces)
+                mCityOfProviceAdapter.setNewData(mCities)
+            }
+        }else{
+            Request.getProvince().request(this) { _, data ->
+                data?.let {
+                    SPUtils.instance().put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it)).apply()
+                    mProvinces.clear()
+                    setLocationCity()
+                    it.add(0,province)
+                    mProvinces.addAll(it)
+                    mCities.addAll(it)
+                    mProciceAdapter.setNewData(mProvinces)
+                    mCityOfProviceAdapter.setNewData(mCities)
+                }
+            }
+        }
+    }
+
+    //设置定位城市
+    private fun setLocationCity(){
+        var city = City("",sameCity)
         city.isSelected = true
         province.lstDicts.add(city)
-        data?.let {
-            it.add(0, province)
-            mProvinces.addAll(it)
-            mCities.addAll(it)
-            mProciceAdapter.setNewData(mProvinces)
-            mCityOfProviceAdapter.setNewData(mCities)
-        }
     }
 
     fun loadData() {
