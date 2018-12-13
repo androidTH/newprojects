@@ -2,8 +2,10 @@ package com.d6.android.app.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import com.d6.android.app.R
 import com.d6.android.app.activities.SelfReleaseDetailActivity
 import com.d6.android.app.adapters.SelfPullDateAdapter
 import com.d6.android.app.adapters.SelfReleaseAdapter
@@ -58,7 +60,7 @@ class SelfPullDateFragment : RecyclerFragment() {
 
     override fun onFirstVisibleToUser() {
 
-        mSwipeRefreshLayout.setBackgroundColor(Color.WHITE)
+        mSwipeRefreshLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_F5F5F5))
 
         addItemDecoration()
 

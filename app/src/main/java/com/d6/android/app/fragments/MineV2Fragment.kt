@@ -404,14 +404,16 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 if (!it.job.isNullOrEmpty()) {
-//                    mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_whiteicon))
                     AppUtils.setUserInfoTvTag(context,"职业 ${it.job}",0,2,headerView.tv_job)
+                }else{
+                    headerView.tv_job.visibility = View.GONE
                 }
 
-//                mTags.add(UserTag("座驾 迈巴赫", R.mipmap.boy_car_whiteicon))//Testla ModelX
-
-                AppUtils.setUserInfoTvTag(context,"座驾 Testla ModelX 迈巴赫",0,2,headerView.tv_zuojia)
-
+                if (!it.zuojia.isNullOrEmpty()) {
+                    AppUtils.setUserInfoTvTag(context,"座驾${it.zuojia}",0,2,headerView.tv_zuojia)
+                }else{
+                    headerView.tv_zuojia.visibility = View.GONE
+                }
                 if (!it.hobbit.isNullOrEmpty()) {
                     var mHobbies = it.hobbit?.replace("#",",")?.split(",")
                     var sb = StringBuffer()
@@ -424,6 +426,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //                        mTags.add(UserTag(sb.toString(), R.mipmap.boy_hobby_whiteicon))
                         AppUtils.setUserInfoTvTag(context,sb.toString(),0,2,headerView.tv_aihao)
                     }
+                }else{
+                    headerView.tv_aihao.visibility = View.GONE
                 }
 
                 userTagAdapter.notifyDataSetChanged()

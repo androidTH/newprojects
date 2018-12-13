@@ -53,6 +53,10 @@ object Const {
     var dateTypesSelected = arrayOf(R.mipmap.invitation_travel_seleted,R.mipmap.invitation_meal_seleted,R.mipmap.invitation_film_seleted,
             R.mipmap.invitation_drink_seleted,R.mipmap.invitation_nolimit_seleted)
 
+    var dateTypesBig = arrayOf(R.mipmap.invitation_travel_feed,R.mipmap.invitation_meal_feed,R.mipmap.invitation_film_feed,
+            R.mipmap.drink_nolimit_feed,R.mipmap.invitation_nolimit_feed)//invitation_shopping_feed
+
+
     val FROM_MY_DATELIST = "MyDateListActivity"
     val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
 

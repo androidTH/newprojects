@@ -1,7 +1,7 @@
 <com.d6.android.app.widget.CustomSwipeToRefresh xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mSwipeRefreshLayout"
-    android:background="@color/white"
+    android:background="@color/color_F5F5F5"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.design.widget.CoordinatorLayout
@@ -13,6 +13,7 @@
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             app:layout_behavior="com.d6.android.app.utils.MyBehavior"
+            android:background="@color/color_F5F5F5"
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/title_label_icon"
                     android:drawablePadding="8dp"
-                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_8"
                     android:paddingTop="@dimen/padding_12"
                     android:textSize="15sp"
                     android:text="人工推荐"
@@ -75,25 +76,10 @@
                     android:layout_height="wrap_content" />
                 </com.d6.android.app.widget.dzsticknav.DZStickyNavLayouts>
                 <TextView
-                    android:id="@+id/tv_newest_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/dzsticknavlayout"
-                    android:drawableLeft="@mipmap/title_label_icon"
-                    android:drawablePadding="8dp"
-                    android:paddingBottom="@dimen/padding_12"
-                    android:textSize="15sp"
-                    android:paddingTop="@dimen/padding_12"
-                    android:text="自主约会"
-                    android:textStyle="bold" />
-
-                <TextView
                     android:id="@+id/tv_newest_date_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/tv_newest_date"
                     android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/tv_newest_date"
                     android:gravity="center"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -104,21 +90,32 @@
                     android:textColor="@color/orange_f6a" />
 
             </RelativeLayout>
-            <LinearLayout
-                android:layout_width="200dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/shape_4r_f5f5"
-                android:layout_marginBottom="@dimen/margin_5"
-                android:gravity="center_horizontal">
+                android:layout_marginTop="@dimen/margin_13">
+                <TextView
+                    android:id="@+id/tv_newest_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/title_label_icon"
+                    android:layout_centerVertical="true"
+                    android:drawablePadding="8dp"
+                    android:textSize="16sp"
+                    android:text="自主约会"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_date_city"
+                    android:layout_toLeftOf="@+id/tv_datetype"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/margin_25"
-                    android:layout_gravity="center_vertical"
                     android:textColor="@color/color_black"
+                    android:layout_centerVertical="true"
                     android:textSize="14sp"
                     android:drawableRight="@mipmap/titlemore_icon"
                     android:drawablePadding="@dimen/margin_5"
@@ -128,14 +125,16 @@
                     android:id="@+id/tv_datetype"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
                     android:textColor="@color/color_black"
                     android:drawableRight="@mipmap/titlemore_icon"
                     android:drawablePadding="@dimen/margin_5"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:text="类型"/>
-            </LinearLayout>
+            </RelativeLayout>
         </android.support.design.widget.AppBarLayout>
 
 

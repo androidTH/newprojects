@@ -209,15 +209,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
      */
     private fun setDateInfo(myAppointment:MyAppointment?){
         headerView.tv_datetype_name.text = Const.dateTypes[myAppointment?.iAppointType!!.toInt()-1]
-        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesImg.size){
-            var drawable = ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_small)
-            headerView.tv_datetype_name.setCompoundDrawables(drawable,null,null,null)
+        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size){
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_feed)
+            headerView.tv_datetype_name.setCompoundDrawables(null,drawable,null,null)
             headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))
         }else{
-            var drawable = ContextCompat.getDrawable(context,Const.dateTypesImg[myAppointment?.iAppointType!!.toInt()-1])
+            var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment?.iAppointType!!.toInt()-1])
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
             headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3));
-            headerView.tv_datetype_name.setCompoundDrawables(drawable,null,null,null);
+            headerView.tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
         }
 
         var sb = StringBuffer()

@@ -189,6 +189,7 @@ class MyInfoActivity : BaseActivity() {
         tv_constellation1.text = userData.constellation
         tv_intro1.setText(userData.intro)
         et_zuojia.setText(userData.zuojia)
+        tv_inputaddress.text = userData.city
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -235,7 +236,6 @@ class MyInfoActivity : BaseActivity() {
             }else if(requestCode == AREA_REQUEST_CODE){
                 var area = data!!.getStringExtra("area")
                 tv_inputaddress.text = area
-                userData.city = area
             }
         }
     }
@@ -285,10 +285,9 @@ class MyInfoActivity : BaseActivity() {
         val constellation = tv_constellation1.text.toString().trim()
         val intro = tv_intro1.text.toString().trim()
         var zuojia = et_zuojia.text.toString().trim()
+
         userData.name = nick
         userData.sex = sex
-//        userData.city = city
-//        userData.area = area
         userData.hobbit = hobbit
         userData.job = job
 //        userData.age = age
@@ -299,6 +298,7 @@ class MyInfoActivity : BaseActivity() {
         userData.intro = intro
         userData.userId = SPUtils.instance().getString(Const.User.USER_ID)
         userData.zuojia = zuojia
+        userData.city = tv_inputaddress.text.toString().trim()
         dialog()
         if (headFilePath == null) {
             Request.updateUserInfo(userData).request(this) { msg, _ ->

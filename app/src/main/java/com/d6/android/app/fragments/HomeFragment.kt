@@ -177,7 +177,6 @@ class HomeFragment : BaseFragment() {
         loginforPoint()
 
         if(!TextUtils.equals(getTodayTime(),lastTime)){
-            CustomToast.showToast("${lastTime}")
             getProvinceData()
         }else{
             var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)

@@ -1,6 +1,7 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -62,15 +63,15 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()-1]
 
-        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesImg.size){
-            var drawable = context.resources.getDrawable(R.mipmap.invitation_nolimit_small)
-            tv_datetype_name.setCompoundDrawables(drawable,null,null,null)
+        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size){
+            var drawable =ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_feed)
+            tv_datetype_name.setCompoundDrawables(null,drawable,null,null)
             tv_datetype_name.setCompoundDrawablePadding(dip(3))
         }else{
-            var drawable = context.resources.getDrawable(Const.dateTypesImg[myAppointment.iAppointType!!.toInt()-1])
+            var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment.iAppointType!!.toInt()-1])
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
             tv_datetype_name.setCompoundDrawablePadding(dip(3));
-            tv_datetype_name.setCompoundDrawables(drawable,null,null,null);
+            tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
         }
 
         var sb = StringBuffer()
