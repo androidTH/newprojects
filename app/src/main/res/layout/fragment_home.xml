@@ -19,13 +19,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginBottom="@dimen/margin_10"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:id="@+id/mBanner"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:minHeight="120dp" />-->
 
                 <TextView
                     android:id="@+id/tv_speed_date"
@@ -92,11 +87,10 @@
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/shape_4r_f5f5"
-                android:layout_marginTop="@dimen/margin_13">
+                android:background="@drawable/shape_4r_f5f5">
                 <TextView
                     android:id="@+id/tv_newest_date"
                     android:layout_width="wrap_content"
