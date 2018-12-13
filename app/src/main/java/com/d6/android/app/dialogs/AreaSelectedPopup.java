@@ -41,7 +41,6 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
     private Context mContext;
     private List<Province> mCities =new ArrayList<>();
     private List<Province> mHomeList =new  ArrayList<>();
-    private List<Integer> mShowTitles =new ArrayList<>();
     private int currentItem = 0;
 
     private RecyclerView mRvMenuLeft;
@@ -108,7 +107,7 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if(view.getId() == R.id.tv_arealocation){
                     TextView mTv = (TextView) view;
-                    if(TextUtils.equals(mTv.getTag().toString(),"location_success")){
+                    if(TextUtils.equals(mTv.getTag().toString(),Const.LOCATIONSUCCESS)){
                         onPopupItemClick(-1,mTv.getText().toString().trim());
                     }else{
                         onPopupItemClick(-2,mTv.getText().toString().trim());

@@ -33,7 +33,7 @@ class AreaChooseActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ADDRESS);
     }
 
-    var province = Province("100010", "定位")
+    var province = Province(Const.LOCATIONCITYCODE, "定位")
 
     private val mCityOfProviceAdapter by lazy {
         CityOfProvinceAdapter(mCities)

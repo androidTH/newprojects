@@ -11,22 +11,32 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.SPUtils
 
 /**
  * jinjiarui
  */
 class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, BaseViewHolder>(R.layout.item_area_menu_right, data) {
 
+    private val sameCity by lazy{
+        SPUtils.instance().getString(Const.User.USER_ADDRESS);
+    }
+
     override fun convert(helper: BaseViewHolder, data: Province) {
         var item_menu_title = helper.getView<TextView>(R.id.tv_menu_title)
         var rv_menu_right = helper.getView<RecyclerView>(R.id.rv_menu_right)
         var tv_arealocation = helper.getView<TextView>(R.id.tv_arealocation)
         tv_arealocation.visibility = View.GONE
-        if(TextUtils.equals(data.ids,"100010")){
+        if(TextUtils.equals(data.ids, Const.LOCATIONCITYCODE)){
             tv_arealocation.visibility = View.VISIBLE
             if (TextUtils.isEmpty(data.lstDicts.get(0).name)) {
-                tv_arealocation.text = mContext.getString(R.string.string_nolocation)
-                tv_arealocation.setTag(Const.LOCATIONFAIL)
+                if(TextUtils.isEmpty(sameCity)){
+                    tv_arealocation.text = mContext.getString(R.string.string_nolocation)
+                    tv_arealocation.setTag(Const.LOCATIONFAIL)
+                }else{
+                    tv_arealocation.text = sameCity
+                    tv_arealocation.setTag(Const.LOCATIONSUCCESS)
+                }
             } else {
                 tv_arealocation.text = data.lstDicts.get(0).name
                 tv_arealocation.setTag(Const.LOCATIONSUCCESS)

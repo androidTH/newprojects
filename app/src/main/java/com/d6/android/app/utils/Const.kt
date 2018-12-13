@@ -57,8 +57,11 @@ object Const {
     val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
 
     var selectCategoryType:String=""
-    public var LOCATIONSUCCESS = "location_success"
-    public var LOCATIONFAIL = "location_fail"
+    @JvmField
+    var LOCATIONSUCCESS = "location_success"
+    var LOCATIONFAIL = "location_fail"
     var PROVINCE_DATA = "province"
     var LASTLONGTIME = "LastLoginTime"
+    @JvmField
+    var LOCATIONCITYCODE="100010"
 }

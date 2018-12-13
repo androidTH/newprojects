@@ -47,6 +47,7 @@ import org.jetbrains.anko.textColor
  * 约会
  */
 class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
+
     override fun onItemClick(view: View?, position: Int) {
         val dateBean = mDates[position]
         startActivity<UserInfoActivity>("id" to dateBean.accountId.toString())
@@ -64,9 +65,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         AMapLocationClient(activity)
     }
 
-    private val sameCity by lazy {
-        SPUtils.instance().getString(USER_ADDRESS);
-    }
+    private var sameCity = SPUtils.instance().getString(USER_ADDRESS)
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTLONGTIME)
@@ -79,7 +78,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var pageNum = 1
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
-    var province = Province("100010","定位")
+    var province = Province(Const.LOCATIONCITYCODE,"定位")
 
     override fun contentViewId() = R.layout.fragment_date
 
@@ -240,7 +239,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 SPUtils.instance().put(USER_ADDRESS,it.city).apply()
             }
         }
-
     }
 
     private fun startLocation() {
@@ -484,6 +482,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 setSearChUI(0,true)
             }else if(areaIndex == -2){
                 //定位失败
+                startLocation()
             }else {
                 sPosition = ""
                 city = string
