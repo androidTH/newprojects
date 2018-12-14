@@ -48,12 +48,12 @@ data class UserData(val accountId: String? = "") : Serializable {
     var egagementtype: Int? = 0
     var iIsFollow:Int? = 0
     var iPoint:Int? = 0
+    @SerializedName("zuojia")
     var zuojia:String?=""
-    var iDatacompletion:Int?=-1
+    var iDatacompletion:Int=-1
     var appointment:MyAppointment?=null
 
     override fun toString(): String {
-        //                "\"nianling\":\"$age\"," +
 
         return "{\"accountId\":\"$accountId\"," +
                 "\"name\":\"$name\"," +
@@ -63,6 +63,7 @@ data class UserData(val accountId: String? = "") : Serializable {
                 "\"area\":\"$area\"," +
                 "\"xingquaihao\":\"$hobbit\"," +
                 "\"zhiye\":\"$job\"," +
+                "\"zuojia\":\"$zuojia\"," +
                 "\"shengao\":\"$height\"," +
                 "\"tizhong\":\"$weight\"," +
                 "\"gexingqianming\":\"$signature\"," +

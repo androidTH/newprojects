@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
@@ -13,6 +14,9 @@ import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.AppUtils
+import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getTodayTime
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 
@@ -20,19 +24,22 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
     private var mImages = ArrayList<String>()
     private val mTags = ArrayList<UserTag>()
+    private var iDataComplete = SPUtils.instance().getInt(Const.User.USER_DATACOMPLETION)
+
+    private var lastTime = SPUtils.instance().getString(Const.LASTDAYTIME)
 
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
         val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
         val nomg_line = holder.bind<View>(R.id.noimg_line)
-        if(!TextUtils.equals(data.userpics,"null")){
-            if(TextUtils.isEmpty(data.userpics)){
+        if (!TextUtils.equals(data.userpics, "null")) {
+            if (TextUtils.isEmpty(data.userpics)) {
                 mImages.clear()
                 rv_mydate_images.visibility = View.VISIBLE
                 nomg_line.visibility = View.VISIBLE
-            }else{
+            } else {
                 var imglist = data.userpics.split(",")
-                if (imglist.size==0) {
+                if (imglist.size == 0) {
                     mImages.clear()
                     rv_mydate_images.visibility = View.VISIBLE
                     nomg_line.visibility = View.VISIBLE
@@ -42,15 +49,15 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     rv_mydate_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     rv_mydate_images.setHasFixedSize(true)
                     mImages.clear()
-                    if(imglist.size>=4){
-                        mImages.addAll(imglist.toList().subList(0,4))
-                    }else {
+                    if (imglist.size >= 4) {
+                        mImages.addAll(imglist.toList().subList(0, 4))
+                    } else {
                         mImages.addAll(imglist.toList())
                     }
                     rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
                 }
             }
-        }else{
+        } else {
             mImages.clear()
             rv_mydate_images.visibility = View.VISIBLE
             nomg_line.visibility = View.VISIBLE
@@ -73,7 +80,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_icon))
         }
 
-        if(!data.city.isNullOrEmpty()){
+        if (!data.city.isNullOrEmpty()) {
             mTags.add(UserTag(data.city, R.mipmap.boy_area_icon))
         }
 
@@ -81,33 +88,33 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
         var tv_job = holder.bind<TextView>(R.id.tv_job)
         if (!data.zhiye.isNullOrEmpty()) {
-            AppUtils.setTvTag(context,"职业 ${data.zhiye}",0,2,tv_job)
+            AppUtils.setTvTag(context, "职业 ${data.zhiye}", 0, 2, tv_job)
         }
 
         var tv_zuojia = holder.bind<TextView>(R.id.tv_zuojia)
-        if(!data.zuojia.isNullOrEmpty()){
-            AppUtils.setTvTag(context,"座驾 ${data.zuojia}",0,2,tv_zuojia)
+        if (!data.zuojia.isNullOrEmpty()) {
+            AppUtils.setTvTag(context, "座驾 ${data.zuojia}", 0, 2, tv_zuojia)
         }
 
         var tv_aihao = holder.bind<TextView>(R.id.tv_aihao)
         if (!data.xingquaihao.isNullOrEmpty()) {
-            var sb= StringBuffer()
+            var sb = StringBuffer()
             sb.append("爱好 ")
             var mHobbies = data.xingquaihao?.replace("#", ",")?.split(",")
             if (mHobbies != null) {
                 for (str in mHobbies) {
-                     sb.append("${str} ")
+                    sb.append("${str} ")
                 }
-                AppUtils.setTvTag(context,sb.toString(),0,2,tv_aihao)
+                AppUtils.setTvTag(context, sb.toString(), 0, 2, tv_aihao)
             }
         }
 
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         headView.setImageURI(data.picUrl)
 
-        if(data.name.length>=8){
-            holder.setText(R.id.tv_name, "${data.name.substring(0,6)}...")
-        }else{
+        if (data.name.length >= 8) {
+            holder.setText(R.id.tv_name, "${data.name.substring(0, 6)}...")
+        } else {
             holder.setText(R.id.tv_name, data.name)
         }
 
@@ -120,20 +127,20 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         var tv_vistor_count = holder.bind<TextView>(R.id.tv_vistor_count)
         var tv_like_count = holder.bind<TextView>(R.id.tv_like_count)
 
-        if(data.iVistorCountAll>50){
+        if (data.iVistorCountAll > 50) {
             ll_like.visibility = View.VISIBLE
             ll_vistor.visibility = View.VISIBLE
             tv_vistor_count.text = "${data.iVistorCountAll}"
             tv_like_count.text = "${data.iFansCountAll}"
 //            tv_vistorfollownums.text="访客·${data.iVistorCountAll} 喜欢·${data.iFansCountAll}人"
-        }else{
+        } else {
             ll_like.visibility = View.VISIBLE
             ll_vistor.visibility = View.GONE
             tv_like_count.text = "${data.iFansCountAll}"
 //            tv_vistorfollownums.text = "喜欢·${data.iFansCountAll}人"
         }
 
-        if(!data.nianling.isNullOrEmpty()){
+        if (!data.nianling.isNullOrEmpty()) {
             if (TextUtils.equals("0", data.nianling.toString())) {
                 tv_age.text = ""
             } else {
@@ -160,9 +167,24 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             a = ((data.userlookwhere + data.userhandlookwhere).subSequence(0, 5).toString()) + "..."
         }
         holder.setText(R.id.tv_city, a)
+
+        var rl_perfect_userinfo = holder.bind<RelativeLayout>(R.id.rl_perfect_userinfo)
+        if ((!TextUtils.equals(getTodayTime(), lastTime)) && position == 5) {
+            if (iDataComplete < 60) {
+                SPUtils.instance().put(Const.LASTDAYTIME, getTodayTime()).apply()
+                rl_perfect_userinfo.visibility = View.VISIBLE
+            } else {
+                rl_perfect_userinfo.visibility = View.GONE
+            }
+        } else {
+            rl_perfect_userinfo.visibility = View.GONE
+        }
+
         val onClickListener = View.OnClickListener {
+            rl_perfect_userinfo.visibility = View.GONE
             mOnItemClickListener?.onItemClick(it, position)
         }
         holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)
+        holder.bind<TextView>(R.id.tv_perfect_userinfo).setOnClickListener(onClickListener)
     }
 }

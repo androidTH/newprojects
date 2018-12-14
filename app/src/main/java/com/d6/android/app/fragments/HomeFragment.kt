@@ -19,6 +19,7 @@ import org.jetbrains.anko.support.v4.startActivity
 import android.support.v7.widget.LinearSnapHelper
 import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.dialogs.AreaSelectedPopup
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
@@ -69,9 +70,9 @@ class HomeFragment : BaseFragment() {
         snapHelper.attachToRecyclerView(rvSpeedDate)
         rvSpeedDate.adapter = speedDateAdapter
 
-        dzsticknavlayout.setOnStartActivity {
-            startActivity<RecommendDateActivity>()
-        }
+//        dzsticknavlayout.setOnStartActivity {
+//            startActivity<RecommendDateActivity>()
+//        }
 
         speedDateAdapter.setOnItemClickListener { _, position ->
             activity?.isAuthUser {
@@ -232,10 +233,15 @@ class HomeFragment : BaseFragment() {
     private fun loginforPoint(){
         Request.loginForPoint(userId).request(this,false,success = {msg,data->
             showTips(data,"","")
+            if (data != null) {
+                var pointDesc = data.optString("sAddPointDesc")
+                if (!TextUtils.isEmpty(pointDesc)) {
+                    SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
+                }
+            }
         }){code,msg->
 //            var mg = JsonObject().getAsJsonObject(msg)
 //            showTips(mg,"","")
-
         }
     }
 

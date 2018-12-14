@@ -77,7 +77,7 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
         var ll_horzmore = holder.bind<LinearLayout>(R.id.ll_horzmore)
         var rl_datecontent = holder.bind<RelativeLayout>(R.id.rl_datecontent)
         if(position == (mData.size-1)){
-           ll_horzmore.visibility = View.VISIBLE
+           ll_horzmore.visibility = View.GONE
             rl_datecontent.visibility = View.GONE
         }else{
             ll_horzmore.visibility = View.GONE

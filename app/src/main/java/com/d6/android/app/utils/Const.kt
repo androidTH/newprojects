@@ -21,6 +21,7 @@ object Const {
         val RONG_TOKEN ="rongToken"
         val USER_ADDRESS = "address"
         val USER_SCREENID = "screenID"
+        val USER_DATACOMPLETION = "iDatacompletion"
         //别人约我
         var SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME="someoneElseMakesAnAppointmentWithMe"
         var IASKSOMEONEELSE="IAskSomeoneElse"  //我约的人
@@ -66,6 +67,7 @@ object Const {
     var LOCATIONFAIL = "location_fail"
     var PROVINCE_DATA = "province"
     var LASTLONGTIME = "LastLoginTime"
+    var LASTDAYTIME = "LastDayTime"
     @JvmField
     var LOCATIONCITYCODE="100010"
 }

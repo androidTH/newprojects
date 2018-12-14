@@ -4,17 +4,14 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import android.os.Build
-import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
+import com.d6.android.app.activities.MyInfoActivity
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.DateCardAdapter
 import com.d6.android.app.adapters.DateWomanCardAdapter
@@ -22,22 +19,16 @@ import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.City
-import com.d6.android.app.models.DateBean
-import com.d6.android.app.models.FindDate
-import com.d6.android.app.models.Province
+import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
-import com.d6.android.app.widget.popup.EasyPopup
-import com.d6.android.app.widget.popup.XGravity
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
-import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
@@ -49,8 +40,14 @@ import org.jetbrains.anko.textColor
 class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun onItemClick(view: View?, position: Int) {
-        val dateBean = mDates[position]
-        startActivity<UserInfoActivity>("id" to dateBean.accountId.toString())
+        if(view?.id ==R.id.cardView){
+            val dateBean = mDates[position]
+            startActivity<UserInfoActivity>("id" to dateBean.accountId.toString())
+        }else if(view?.id == R.id.tv_perfect_userinfo){
+            mUserInfoData?.let {
+                startActivity<MyInfoActivity>("data" to it, "images" to mImages)
+            }
+        }
     }
 
     private val userId by lazy {
@@ -212,6 +209,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 .apply()
 
         getProvinceData()
+
+        getUserInfo()
     }
 
     fun setAdapter(){
@@ -431,11 +430,33 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         locationClient.onDestroy()
     }
 
+    private val mImages = ArrayList<AddImage>()
+    private var mUserInfoData: UserData? = null
+
+    private fun getUserInfo() {
+        Request.getUserInfo("",userId).request(this, success = { _, data ->
+            mUserInfoData = data
+            activity.saveUserInfo(data)
+            data?.let {
+                mImages.clear()
+                if (!it.userpics.isNullOrEmpty()) {
+                    val images = it.userpics!!.split(",")
+                    images.forEach {
+                        mImages.add(AddImage(it))
+                    }
+                }
+                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+            }
+        }) { _, _ ->
+        }
+    }
+
     private fun getProvinceData() {
         if(!TextUtils.equals(getTodayTime(),lastTime)){
             Request.getProvince().request(this) { _, data ->
                 data?.let {
                     SPUtils.instance().put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it)).apply()
+                    SPUtils.instance().put(Const.LASTLONGTIME,getTodayTime()).apply()
                     setLocationCity()
                     it.add(0,province)
                     mPopupArea.setData(it)

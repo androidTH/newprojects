@@ -107,6 +107,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_CLASS_ID, obj.userclassesid)
             .put(Const.User.USER_SEX, obj.sex)
             .put(Const.User.USER_SCREENID, obj.screen)
+            .put(Const.User.USER_DATACOMPLETION, obj.iDatacompletion)
 //            .put(Const.User.IS_LOGIN, true)
             .apply()
 }
