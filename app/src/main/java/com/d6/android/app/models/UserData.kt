@@ -51,6 +51,8 @@ data class UserData(val accountId: String? = "") : Serializable {
     @SerializedName("zuojia")
     var zuojia:String?=""
     var iDatacompletion:Int=-1
+    var iFansCountAll:Int= -1
+    var iVistorCountAll:Int= -1
     var appointment:MyAppointment?=null
 
     override fun toString(): String {

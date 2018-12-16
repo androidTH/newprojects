@@ -76,5 +76,6 @@ public class RetrofitClient implements NetworkClientInterf {
                 c.onFailure();
             }
         });
+        
     }
 }

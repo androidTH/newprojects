@@ -1,9 +1,11 @@
 package com.d6.android.app.adapters
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -13,6 +15,8 @@ import com.d6.android.app.models.Province
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.SPUtils
+import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.textColor
 
 /**
  * jinjiarui
@@ -26,10 +30,21 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
     override fun convert(helper: BaseViewHolder, data: Province) {
         var item_menu_title = helper.getView<TextView>(R.id.tv_menu_title)
         var rv_menu_right = helper.getView<RecyclerView>(R.id.rv_menu_right)
-        var tv_arealocation = helper.getView<TextView>(R.id.tv_arealocation)
-        tv_arealocation.visibility = View.GONE
+        var ll_noarea = helper.getView<LinearLayout>(R.id.ll_noarea)
+        ll_noarea.visibility = View.GONE
         if(TextUtils.equals(data.ids, Const.LOCATIONCITYCODE)){
-            tv_arealocation.visibility = View.VISIBLE
+            ll_noarea.visibility = View.VISIBLE
+            var tv_arealocation = helper.getView<TextView>(R.id.tv_arealocation)
+            var tv_no_limit_area = helper.getView<TextView>(R.id.tv_no_limit_area)
+            if(TextUtils.equals(Const.NO_LIMIT_ERA,Const.selectCategoryType)){
+                tv_no_limit_area.textColor= ContextCompat.getColor(mContext, R.color.white)
+                tv_no_limit_area.backgroundDrawable = ContextCompat.getDrawable(mContext, R.drawable.shape_orange_city)
+            }else{
+                tv_no_limit_area.textColor = ContextCompat.getColor(mContext, R.color.color_333333)
+                tv_no_limit_area.backgroundDrawable = ContextCompat.getDrawable(mContext, R.drawable.shape_f5_city)
+            }
+            tv_no_limit_area.setTag(Const.NO_LIMIT_ERA)
+
             if (TextUtils.isEmpty(data.lstDicts.get(0).name)) {
                 if(TextUtils.isEmpty(sameCity)){
                     tv_arealocation.text = mContext.getString(R.string.string_nolocation)
@@ -63,6 +78,7 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
         }
 
         helper.addOnClickListener(R.id.tv_arealocation)
+        helper.addOnClickListener(R.id.tv_no_limit_area)
     }
 
     private lateinit var mOnSelected: onSelectCityOfProvinceListenerInterface;

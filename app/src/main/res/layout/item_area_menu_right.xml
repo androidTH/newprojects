@@ -14,24 +14,45 @@
         android:textStyle="bold"
         android:textColor="@color/color_333333"
         android:text="广州" />
-    <TextView
-        android:id="@+id/tv_arealocation"
-        android:layout_width="wrap_content"
-        android:layout_height="33dp"
-        android:background="@drawable/shape_orange_4trans"
-        android:paddingLeft="@dimen/margin_15"
-        android:paddingRight="@dimen/margin_15"
-        android:textColor="@color/color_F7AB00"
-        android:gravity="center_vertical"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:drawablePadding="@dimen/margin_5"
-        android:drawableLeft="@mipmap/comment_addlocal_icon"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_15"
-        android:layout_marginBottom="@dimen/margin_15"
-        android:visibility="gone"
-        android:text="定位"/>
+    <LinearLayout
+        android:id="@+id/ll_noarea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+        <TextView
+            android:id="@+id/tv_no_limit_area"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:background="@drawable/shape_f5_city"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:text="不限地区"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/tv_arealocation"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:background="@drawable/shape_orange_4trans"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15"
+            android:textColor="@color/color_F7AB00"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:drawablePadding="@dimen/margin_5"
+            android:drawableLeft="@mipmap/comment_addlocal_icon"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:text="定位"/>
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_menu_right"
         android:layout_width="match_parent"

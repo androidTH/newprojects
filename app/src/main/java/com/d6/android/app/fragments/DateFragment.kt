@@ -4,6 +4,8 @@ import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.app.Activity
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -32,6 +34,7 @@ import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.textColor
 
 /**
@@ -45,7 +48,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             startActivity<UserInfoActivity>("id" to dateBean.accountId.toString())
         }else if(view?.id == R.id.tv_perfect_userinfo){
             mUserInfoData?.let {
-                startActivity<MyInfoActivity>("data" to it, "images" to mImages)
+                startActivityForResult<MyInfoActivity>(Const.DOUPDATEUSERINFOCODE,"data" to it, "images" to mImages)
             }
         }
     }
@@ -62,7 +65,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         AMapLocationClient(activity)
     }
 
+    private var mShowCardLastTime = SPUtils.instance().getString(Const.LASTDAYTIME)
+
     private var sameCity = SPUtils.instance().getString(USER_ADDRESS)
+    private var UserInfoJson  = SPUtils.instance().getString(Const.USERINFO);
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTLONGTIME)
@@ -75,7 +81,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var pageNum = 1
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
-    var province = Province(Const.LOCATIONCITYCODE,"定位")
+    var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
     override fun contentViewId() = R.layout.fragment_date
 
@@ -96,51 +102,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     scrollPosition = mRecyclerView.currentItem+1
                     if ((mDates.size-scrollPosition) <= 2) {
                         pageNum++
-                        getData(sPosition,city,xingzuo,agemin,agemax)
-//                        if(cityType == -2){
-//                            getData()
-//                        }else{
-//                            getData("",tv_city.text.toString().trim())
-//                        }
+                        getData(city,xingzuo,agemin,agemax)
                     }
                 }
             }
         })
 
         tv_city.setOnClickListener {
-//            val filterCityDialog = FilterCityDialog()
-//            filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
-//            filterCityDialog.setCityValue(cityType, tv_city.text.toString())
-//            filterCityDialog.show(childFragmentManager, "fcd")
-//            filterCityDialog.setDialogListener { p, s ->
-//                if (p == 1 || p == 0) {
-//                    city = s
-//                    outCity = null
-//                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-//                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
-//                    tv_type.text = resources.getString(R.string.string_samecity)
-//                } else if (p == 2) {
-//                    city = null
-//                    outCity = s
-//                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-//                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
-//                    tv_type.text = resources.getString(R.string.string_samecity)
-//                } else if (p == -2) {//取消选择
-//                    city = null
-//                    outCity = null
-//                    tv_city.textColor = ContextCompat.getColor(context,R.color.color_black)
-//                    tv_type.textColor = ContextCompat.getColor(context,R.color.color_black)
-//                    tv_type.text = resources.getString(R.string.string_samecity)
-//                }
-//                cityType = p
-//                tv_city.text = s
-//                pageNum =1
-//                if(p == -2){
-//                    getData("","")
-//                }else{
-//                    getData("",tv_city.text.toString().trim())
-//                }
-//            }
             showArea(it)
         }
 
@@ -150,9 +118,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         tv_type.setOnClickListener {
             showAges(it)
-//            pageNum=1
-//            tv_type.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-//            getData(sameCity,"")
         }
 
         btn_like.setOnClickListener {
@@ -179,11 +144,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
 
         fb_unlike.setOnClickListener {
-            // val dateErrorDialog = DateErrorDialog()
-//            dateErrorDialog.show(childFragmentManager, "d")
-//            tv_tip.gone()
-//            tv_main_card_bg_im_id.gone()
-//            tv_main_card_Bg_tv_id.gone()
             if (mDates.isNotEmpty()) {
                 scrollPosition = mRecyclerView.currentItem - 1
                 if(scrollPosition >= 0){
@@ -193,7 +153,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
 
         showDialog()
-        getData(sPosition,city,xingzuo,agemin,agemax)
+        getData(city,xingzuo,agemin,agemax)
         checkLocation()
 
         mPopupAges = AgeSelectedPopup.create(activity)
@@ -210,7 +170,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         getProvinceData()
 
-        getUserInfo()
+//        getUserInfo()
     }
 
     fun setAdapter(){
@@ -232,9 +192,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         locationClient.setLocationListener {
             if (it != null) {
                 locationClient.stopLocation()
-//                updateAddress(sameCity)
-                lat = it.latitude.toString()
-                lon = it.longitude.toString()
+                mLat = it.latitude.toString()
+                mLon = it.longitude.toString()
                 SPUtils.instance().put(USER_ADDRESS,it.city).apply()
             }
         }
@@ -245,7 +204,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         locationClient.startLocation()
     }
 
-    fun getData(sPosition:String = "",city:String = "",xingzuo:String="",agemin:String="",agemax:String="") {
+    /**
+     * 搜索
+     */
+    fun getData(city:String = "",xingzuo:String="",agemin:String="",agemax:String="",lat:String="",lon:String="") {
         if (mDates.size == 0) {
             tv_main_card_bg_im_id.visible()
             tv_main_card_Bg_tv_id.visible()
@@ -255,7 +217,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             fb_find_chat.gone()
         }
 
-        Request.findAccountCardListPage(userId,sPosition, city,"",xingzuo,agemin,agemax,lat,lon,pageNum).request(this) { _, data ->
+        Request.findAccountCardListPage(userId, city,"",xingzuo,agemin,agemax,lat,lon,pageNum).request(this) { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if(pageNum == 1){
                     mRecyclerView.visibility = View.GONE
@@ -287,6 +249,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                    mDates.clear()
                 }
                 mDates.addAll(data.list.results)
+                if(pageNum == 1){
+                    joinInCard()
+                }
                 mRecyclerView.adapter.notifyDataSetChanged()
             }
         }
@@ -330,36 +295,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             mRecyclerView.smoothScrollToPosition(scrollPosition)
             if((mDates.size - scrollPosition)<=2){
                 pageNum++
-//                if(cityType == -2){
-//                  getData()
-//                }else{
-//                  getData("",tv_city.text.toString().trim())
-//                }
-                getData(sPosition,city,xingzuo,agemin,agemax)
+                getData(city,xingzuo,agemin,agemax)
             }
         }
-    }
-
-    private fun sendDateRequest(dateBean: DateBean) {
-//        Request.dateUser(userId, dateBean.accountId).request(this, success = { msg, data ->
-//            val dateSendedDialog = DateSendedDialog()//35619 35641  35643    35589
-//            dateSendedDialog.arguments = bundleOf("data" to dateBean,"msg" to if(msg!=null)msg else "")
-//            dateSendedDialog.show(childFragmentManager, "d")
-//            mDates.remove(dateBean)
-//            mRecyclerView.adapter.notifyDataSetChanged()
-//            //请求下次
-//            getNext()
-//        }) { code, msg ->
-//            val dateErrorDialog = DateErrorDialog()
-//            val images = dateBean.userpics?.split(",")
-//            val img = if (images != null && images.isNotEmpty()) {
-//                images[0]
-//            } else {
-//                dateBean.picUrl ?: ""
-//            }
-//            dateErrorDialog.arguments = bundleOf("msg" to msg, "img" to img)
-//            dateErrorDialog.show(childFragmentManager, "d")
-//        }
     }
 
     private fun addFollow(){
@@ -413,7 +351,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private fun getAuthState() {
         startActivity<MyDateActivity>()
-//        tv_tip.visibility = View.GONE
         SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
     }
 
@@ -436,7 +373,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private fun getUserInfo() {
         Request.getUserInfo("",userId).request(this, success = { _, data ->
             mUserInfoData = data
-            activity.saveUserInfo(data)
+//            activity.saveUserInfo(data)
             data?.let {
                 mImages.clear()
                 if (!it.userpics.isNullOrEmpty()) {
@@ -447,8 +384,59 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 }
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
             }
-        }) { _, _ ->
+        })
+    }
+
+    /**
+     * 插入用户信息
+     */
+    private fun joinInCard(){
+        if (!TextUtils.equals(getTodayTime(), mShowCardLastTime)) {
+            if(!TextUtils.isEmpty(UserInfoJson)){
+                mUserInfoData = GsonHelper.getGson().fromJson(UserInfoJson,UserData::class.java)
+                mUserInfoData?.let {
+                    showToast("完成度${it.iDatacompletion}")
+                    if(it.iDatacompletion<60){
+                        var mFindDate:FindDate = FindDate(it.accountId)
+                        setFindDate(mFindDate,it)
+                        mDates.add(4,mFindDate)
+                        if(TextUtils.equals(sex,"0")){
+                            (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion
+                        }else{
+                            (mRecyclerView.adapter as DateWomanCardAdapter).iDateComlete = it.iDatacompletion
+                        }
+                    }
+                }
+            }
+            SPUtils.instance().put(Const.LASTDAYTIME, getTodayTime()).apply()
         }
+    }
+
+    private fun setFindDate(mFindDate:FindDate,it:UserData){
+        mFindDate.name = it.name.toString()
+        mFindDate.classesname = it.classesname.toString()
+        mFindDate.nianling = it.age.toString()
+        mFindDate.sex = it.sex.toString()
+        mFindDate.gexingqianming = it.intro.toString()
+        mFindDate.picUrl = it.picUrl.toString()
+        mFindDate.userpics = it.userpics.toString()
+        mFindDate.shengao=it.height.toString()
+        mFindDate.tizhong = it.weight.toString()
+        mFindDate.xingzuo = it.constellation.toString()
+        mFindDate.city = it.city.toString()
+        mFindDate.zhiye = it.job.toString()
+        mFindDate.zuojia = it.zuojia.toString()
+        mFindDate.xingquaihao = it.hobbit.toString()
+        mFindDate.iVistorCountAll = it.iVistorCountAll
+        mFindDate.iFansCountAll= it.iFansCountAll
+        mImages.clear()
+        if (!it.userpics.isNullOrEmpty()) {
+            val images = it.userpics!!.split(",")
+            images.forEach {
+                mImages.add(AddImage(it))
+            }
+        }
+        mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
     }
 
     private fun getProvinceData() {
@@ -477,7 +465,23 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         province.lstDicts.add(city)
     }
 
-    private var mProvinces = ArrayList<Province>()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Const.DOUPDATEUSERINFOCODE && resultCode == Activity.RESULT_OK) {
+            var bundle = data?.extras
+            mUserInfoData = (bundle?.getSerializable("userinfo") as UserData)
+            mUserInfoData?.let {
+                if(TextUtils.equals(sex,"0")){
+                    (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion
+                }else{
+                    (mRecyclerView.adapter as DateWomanCardAdapter).iDateComlete = it.iDatacompletion
+                }
+                setFindDate(mDates.get(4),it)
+            }
+            mRecyclerView.adapter.notifyItemChanged(4)
+        }
+    }
+
     lateinit var mPopupAges:AgeSelectedPopup
     lateinit var mPopupConstellation:ConstellationSelectedPopup
     lateinit var mPopupArea:AreaSelectedPopup
@@ -488,30 +492,36 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     var agemax:String=""
     var areaIndex = -3
     var city:String=""
-    var sPosition:String=""
-    var lat:String=""
-    var lon:String=""
+    var mLat:String=""
+    var mLon:String=""
 
     private fun showArea(view:View){
         mPopupArea.showAsDropDown(view,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
             areaIndex = position
+            var lat=""
+            var lon=""
             if(areaIndex == -1){
                 tv_city.text = "同城"
-                sPosition = string
-                city = ""
+                city = string
+                lat = mLat
+                lon = mLon
                 setSearChUI(0,true)
             }else if(areaIndex == -2){
                 //定位失败
                 startLocation()
+            }else if(areaIndex == -3){
+                city = ""
+                tv_city.text = "地区"
             }else {
-                sPosition = ""
                 city = string
                 tv_city.text = string
+                lat =""
+                lon = ""
                 setSearChUI(0,true)
             }
             pageNum=1
-            getData(sPosition,city,xingzuo,agemin,agemax)
+            getData(city,xingzuo,agemin,agemax,lat,lon)
         }
 
         mPopupArea.setOnDismissListener {
@@ -542,7 +552,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 setSearChUI(1,true)
             }
             pageNum=1
-            getData(sPosition,city,xingzuo,agemin,agemax)
+            getData(city,xingzuo,agemin,agemax)
         }
 
         mPopupConstellation.setOnDismissListener {
@@ -590,7 +600,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                   }
               }
             pageNum=1
-            getData(sPosition,city,xingzuo,agemin,agemax)
+            getData(city,xingzuo,agemin,agemax)
         }
 
         mPopupAges.setOnDismissListener {

@@ -131,7 +131,15 @@ dependencies {
     compile project(':cardlib')
     compile project(':sticker')
     compile project(':library')
-//    compile 'com.zhihu.android:matisse:0.5.2-beta3'
+
+    //下拉刷新库
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-4'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-4'
+
+    compile 'com.qianwen:update-app:3.5.2'
+//
+//    //没有使用特殊Header，可以不加这行
+//    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 
     //https://github.com/ongakuer/CircleIndicator
 

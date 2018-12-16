@@ -370,11 +370,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
-//                if (TextUtils.equals("0", it.sex)) {
-//                    headerView.tv_vip.invisible()
-//                } else {
-//                    headerView.tv_vip.visible()
-//                }
 
                 if(TextUtils.equals("0",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
                     headerView.tv_auther_sign.visibility = View.VISIBLE

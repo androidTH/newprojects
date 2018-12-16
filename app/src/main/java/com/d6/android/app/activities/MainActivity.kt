@@ -18,6 +18,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.FilterTrendDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
+import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.Response
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -35,6 +36,11 @@ import org.jetbrains.anko.collections.forEachWithIndex
  * 主页
  */
 class MainActivity : BaseActivity() {
+
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
     private val tabTexts = arrayOf( "约会","发现", "动态","消息", "我的")
 
     private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
@@ -217,6 +223,8 @@ class MainActivity : BaseActivity() {
 
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
+
+        getUserInfo()
     }
 
     fun judgeDataB() {
@@ -250,6 +258,18 @@ class MainActivity : BaseActivity() {
             myDateUnMsg()
         }
         getUnReadCount()
+    }
+
+    /**
+     * 保存用户信息
+     */
+    private fun getUserInfo() {
+        Request.getUserInfo("",userId).request(this, success = { _, data ->
+            data?.let {
+                SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
+                SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()
+            }
+        })
     }
 
     private fun getUnReadCount() {
@@ -310,7 +330,7 @@ class MainActivity : BaseActivity() {
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
                 view?.gone()
                 getSquareMsg()

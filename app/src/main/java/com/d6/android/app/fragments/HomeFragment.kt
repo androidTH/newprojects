@@ -237,6 +237,7 @@ class HomeFragment : BaseFragment() {
                 var pointDesc = data.optString("sAddPointDesc")
                 if (!TextUtils.isEmpty(pointDesc)) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
+                    SPUtils.instance().put(Const.LASTDAYTIME,"").apply()
                 }
             }
         }){code,msg->

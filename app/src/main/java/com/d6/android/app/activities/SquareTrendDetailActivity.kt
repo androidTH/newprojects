@@ -59,7 +59,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         immersionBar.init()
 
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))
-        mSwipeRefreshLayout.setMode(SwipeRefreshRecyclerLayout.Mode.Top)
+        mSwipeRefreshLayout.setMode(SwipeRefreshRecyclerLayout.Mode.Both)
         squareDetailCommentAdapter.setHeaderView(headerView)
         mSwipeRefreshLayout.setAdapter(squareDetailCommentAdapter)
         mSwipeRefreshLayout.setOnRefreshListener(this)

@@ -45,14 +45,14 @@
             android:text="已认证"
             android:textColor="@color/white"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_auth_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="113dp"
+            android:layout_marginTop="103dp"
             android:background="@drawable/shape_4r_righttop_33"
             android:drawablePadding="@dimen/margin_1"
             android:paddingLeft="@dimen/margin_5"
@@ -62,7 +62,7 @@
             android:text="黄金会员"
             android:textColor="@color/white"
             android:textSize="10sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <RelativeLayout
             android:id="@+id/ll_name"

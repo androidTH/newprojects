@@ -339,9 +339,9 @@ object Request {
     fun updateUserPosition(iUserid:String,sPosition:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sPosition)
 
     //发现约会
-    fun findAccountCardListPage(userId:String,sPosition:String,sCity:String,
+    fun findAccountCardListPage(userId:String,sCity:String,
                                 sex:String,xingzuo:String,agemin:String,agemax:String,lat:String,lon:String
-                                ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sPosition,sCity,sex,xingzuo,agemin,agemax,lat,lon,pageNum)
+                                ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,xingzuo,agemin,agemax,lat,lon,pageNum)
 
     //绑定手机号
     fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken)

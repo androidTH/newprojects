@@ -112,6 +112,11 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
                     }else{
                         onPopupItemClick(-2,mTv.getText().toString().trim());
                     }
+                }else if(view.getId() == R.id.tv_no_limit_area){
+                    TextView mTv = (TextView) view;
+                    Const.selectCategoryType = mTv.getTag().toString();
+                    onPopupItemClick(-3,mTv.getText().toString().trim());
+                    mCityOfProvinceAdapter.notifyDataSetChanged();
                 }
             }
         });

@@ -40,7 +40,7 @@ interface ApiServices {
     fun getInfo(@Query("piecesMark") piecesMark: String = "1"): Flowable<Response<JsonObject>>
 
     @POST("backstage/account/update")
-    fun updateUserInfo(@Body userData: UserData): Flowable<Response<JsonObject>>
+    fun updateUserInfo(@Body userData: UserData): Flowable<Response<UserData>>
 
     @POST("backstage/squareclasses/find")
     fun getSquareTags(): Flowable<Response<ArrayList<SquareTag>>>
@@ -281,7 +281,7 @@ interface ApiServices {
 
     //发现约会
     @POST("backstage/account/findAccountCardListPage")
-    fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sPosition") sPosition:String, @Query("sCity") scity:String,
+    fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sCity") scity:String,
                                 @Query("sex") sex:String,@Query("xingzuo") xingzuo:String, @Query("agemin") agemin:String, @Query("agemax") agemax:String,
                                 @Query("lat") lat:String, @Query("lon") lon:String,
                                 @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FindDate>>>

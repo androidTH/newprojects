@@ -301,9 +301,13 @@ class MyInfoActivity : BaseActivity() {
         userData.city = tv_inputaddress.text.toString().trim()
         dialog()
         if (headFilePath == null) {
-            Request.updateUserInfo(userData).request(this) { msg, _ ->
+            Request.updateUserInfo(userData).request(this) { msg, data ->
                 showToast(msg.toString())
-                setResult(Activity.RESULT_OK)
+                var updateIntent = Intent()
+                var bd= Bundle()
+                bd.putSerializable("userinfo",data)
+                updateIntent.putExtras(bd)
+                setResult(Activity.RESULT_OK,updateIntent)
                 finish()
             }
         } else {

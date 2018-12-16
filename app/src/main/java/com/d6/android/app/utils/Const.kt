@@ -61,6 +61,7 @@ object Const {
     val FROM_MY_DATELIST = "MyDateListActivity"
     val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
 
+    @JvmField
     var selectCategoryType:String=""
     @JvmField
     var LOCATIONSUCCESS = "location_success"
@@ -68,6 +69,12 @@ object Const {
     var PROVINCE_DATA = "province"
     var LASTLONGTIME = "LastLoginTime"
     var LASTDAYTIME = "LastDayTime"
+    var NO_LIMIT_ERA = "不限/定位不限地区"
     @JvmField
     var LOCATIONCITYCODE="100010"
+
+    @JvmField
+    val DOUPDATEUSERINFOCODE = 1000
+
+    val USERINFO = "UserInfo"
 }
