@@ -1,6 +1,7 @@
 package com.d6.android.app.easypay.network;
 
 import com.d6.android.app.easypay.pay.BaseModel;
+import com.umeng.socialize.sina.message.BaseResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -33,5 +34,4 @@ public interface PrePayInfoService {
     //创建订单
     @POST("backstage/order/add")
     Call<ResponseBody> postPrePayInfo(@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iPoint") int iPoint);
-
 }

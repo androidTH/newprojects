@@ -488,3 +488,20 @@ fun getD6VersionName(context: Context): String {
 
     return versionName
 }
+
+/**
+ * 日期匹配星座
+ */
+ fun getConstellations(time:String):String{
+    val astrologyArray = arrayOf("魔羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "魔羯座")
+   //星座分割时间
+    var date= intArrayOf(20,19,21,20,21,22,23,23,23,24,23,22)
+    var data = time.split("-")
+    var month = Integer.parseInt(data[1])
+    var compareDay = date[month - 1]
+    if (Integer.parseInt(data[2]) >= compareDay) {
+        return astrologyArray[month]
+    } else {
+        return astrologyArray[month - 1]
+    }
+}

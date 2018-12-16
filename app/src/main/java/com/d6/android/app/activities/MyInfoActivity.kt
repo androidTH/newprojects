@@ -19,6 +19,7 @@ import com.d6.android.app.utils.*
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_my_info.*
+import okhttp3.internal.Util
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
@@ -118,6 +119,8 @@ class MyInfoActivity : BaseActivity() {
                 val t = String.format("%04d-%02d-%02d",year,month,day)
                 tv_birthday1.text = t
                 userData.birthday = String.format("%04d-%02d-%02d",year,month,day)
+
+                tv_constellation1.text = getConstellations("$year-$month-$day")
             }
         }
 

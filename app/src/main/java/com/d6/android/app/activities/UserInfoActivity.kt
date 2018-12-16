@@ -2,7 +2,6 @@ package com.d6.android.app.activities
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -25,7 +24,6 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.JsonObject
@@ -257,17 +255,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             headerView.rv_images.gone()
         } else {
             headerView.rv_images.visible()
-        }
+            mDateImages.clear()
+            val images = myAppointment.sAppointPic?.split(",")
+            if (images != null) {
+                mDateImages.addAll(images.toList())
+            }
 
-        mDateImages.clear()
-        val images = myAppointment.sAppointPic?.split(",")
-        if (images != null) {
-            mDateImages.addAll(images.toList())
+            headerView.rv_images.setHasFixedSize(true)
+            headerView.rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            headerView.rv_images.adapter = mDateimageAdapter
         }
-
-        headerView.rv_images.setHasFixedSize(true)
-        headerView.rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        headerView.rv_images.adapter = mDateimageAdapter
 
         headerView.tv_send_date.setOnClickListener {
             signUpDate(myAppointment)
@@ -320,9 +317,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (!it.job.isNullOrEmpty()) {
                     AppUtils.setUserInfoTvTag(this,"职业 ${it.job}",0,2,headerView.tv_job)
+                }else{
+                    headerView.tv_job.visibility = View.GONE
                 }
 
-//                AppUtils.setUserInfoTvTag(this,"座驾 Testla ModelX 迈巴赫",0,2,headerView.tv_zuojia)
+                if (!it.zuojia.isNullOrEmpty()) {
+                    AppUtils.setUserInfoTvTag(this,"座驾 ${it.zuojia}",0,2,headerView.tv_zuojia)
+                }else{
+                    headerView.tv_zuojia.visibility = View.GONE
+                }
 
                 if (!it.hobbit.isNullOrEmpty()) {
                     var mHobbies = it.hobbit?.replace("#",",")?.split(",")
@@ -336,6 +339,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         AppUtils.setUserInfoTvTag(this,sb.toString(),0,2,headerView.tv_aihao)
                     }
 //                    mTags.add(UserTag(it.hobbit ?: "", R.drawable.shape_tag_bg_6))
+                }else{
+                    headerView.tv_aihao.visibility = View.GONE
                 }
 
                 refreshImages(it)

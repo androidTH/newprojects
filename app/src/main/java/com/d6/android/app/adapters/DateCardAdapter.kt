@@ -97,11 +97,15 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             var tv_job = holder.bind<TextView>(R.id.tv_job)
             if (!data.zhiye.isNullOrEmpty()) {
                 AppUtils.setTvTag(context, "职业 ${data.zhiye}", 0, 2, tv_job)
+            }else{
+                tv_job.visibility = View.GONE
             }
 
             var tv_zuojia = holder.bind<TextView>(R.id.tv_zuojia)
             if (!data.zuojia.isNullOrEmpty()) {
                 AppUtils.setTvTag(context, "座驾 ${data.zuojia}", 0, 2, tv_zuojia)
+            }else{
+                tv_zuojia.visibility = View.GONE
             }
 
             var tv_aihao = holder.bind<TextView>(R.id.tv_aihao)
@@ -115,6 +119,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     }
                     AppUtils.setTvTag(context, sb.toString(), 0, 2, tv_aihao)
                 }
+            }else{
+                tv_aihao.visibility = View.GONE
             }
 
             val headView = holder.bind<SimpleDraweeView>(R.id.headView)
@@ -161,6 +167,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 holder.setText(R.id.tv_content, data.egagementtext)
             } else if (!(data.gexingqianming.isNullOrEmpty())) {
                 holder.setText(R.id.tv_content, data.gexingqianming)
+            }else if(!data.ziwojieshao.isNullOrEmpty()){
+                holder.setText(R.id.tv_content, data.ziwojieshao)
             }
         }
 
