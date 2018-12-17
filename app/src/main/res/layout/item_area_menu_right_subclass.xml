@@ -16,8 +16,8 @@
         android:text="合肥"
         android:paddingTop="@dimen/margin_5"
         android:paddingBottom="@dimen/margin_5"
-        android:paddingLeft="@dimen/padding_15"
-        android:paddingRight="@dimen/padding_15"
+        android:paddingLeft="@dimen/padding_10"
+        android:paddingRight="@dimen/padding_10"
         android:maxLines="1"
         android:ellipsize="end"
         android:textSize="13sp" />

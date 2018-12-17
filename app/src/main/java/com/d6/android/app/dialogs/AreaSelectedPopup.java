@@ -14,21 +14,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.d6.android.app.R;
 import com.d6.android.app.adapters.CityOfProvinceAdapter;
 import com.d6.android.app.adapters.ProvinceAdapter;
-import com.d6.android.app.adapters.XinZuoQuickDateAdapter;
-import com.d6.android.app.models.City;
 import com.d6.android.app.models.Province;
-import com.d6.android.app.net.Request;
 import com.d6.android.app.utils.Const;
-import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.popup.BasePopup;
-import com.d6.android.app.widget.test.CategoryBean;
-import com.d6.android.app.widget.test.ConvertUtils;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

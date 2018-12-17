@@ -25,6 +25,7 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
+import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.google.gson.JsonObject
@@ -75,7 +76,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private val cityJson by lazy{
-        SPUtils.instance().getString(Const.PROVINCE_DATA)
+//        SPUtils.instance().getString(Const.PROVINCE_DATA)
+        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATA)
     }
 
     private var pageNum = 1
@@ -395,7 +397,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             if(!TextUtils.isEmpty(UserInfoJson)){
                 mUserInfoData = GsonHelper.getGson().fromJson(UserInfoJson,UserData::class.java)
                 mUserInfoData?.let {
-                    showToast("完成度${it.iDatacompletion}")
+//                    showToast("完成度${it.iDatacompletion}")
                     if(it.iDatacompletion<60){
                         var mFindDate:FindDate = FindDate(it.accountId)
                         setFindDate(mFindDate,it)
@@ -440,21 +442,29 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private fun getProvinceData() {
-        if(!TextUtils.equals(getTodayTime(),lastTime)){
-            Request.getProvince().request(this) { _, data ->
-                data?.let {
-                    SPUtils.instance().put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it)).apply()
-                    SPUtils.instance().put(Const.LASTLONGTIME,getTodayTime()).apply()
-                    setLocationCity()
-                    it.add(0,province)
-                    mPopupArea.setData(it)
-                }
+        if (cityJson.isNullOrEmpty()) {
+            getServiceProvinceData()
+        } else {
+            if(!TextUtils.equals(getTodayTime(),lastTime)){
+                getServiceProvinceData()
+            }else{
+                var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                setLocationCity()
+                ProvinceData?.add(0,province)
+                mPopupArea.setData(ProvinceData)
             }
-        }else{
-            var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-            setLocationCity()
-            ProvinceData?.add(0,province)
-            mPopupArea.setData(ProvinceData)
+        }
+    }
+
+    private fun getServiceProvinceData(){
+        Request.getProvince().request(this) { _, data ->
+            data?.let {
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTLONGTIME,getTodayTime()).apply()
+                setLocationCity()
+                it.add(0,province)
+                mPopupArea.setData(it)
+            }
         }
     }
 

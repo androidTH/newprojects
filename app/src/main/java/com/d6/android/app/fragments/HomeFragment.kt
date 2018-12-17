@@ -25,6 +25,7 @@ import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.diskcache.DiskFileUtils
 import kotlinx.android.synthetic.main.fragment_date.*
 
 /**
@@ -41,7 +42,8 @@ class HomeFragment : BaseFragment() {
     private var outCity: String? = ""
 
     private val cityJson by lazy{
-        SPUtils.instance().getString(Const.PROVINCE_DATA)
+//        SPUtils.instance().getString(Const.PROVINCE_DATA)
+        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATA)
     }
 
     private val lastTime by lazy{
@@ -176,30 +178,37 @@ class HomeFragment : BaseFragment() {
                 .setDimView(mSwipeRefreshLayout)
                 .apply()
         loginforPoint()
-
-        if(!TextUtils.equals(getTodayTime(),lastTime)){
-            getProvinceData()
-        }else{
-            var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-            mPopupArea.setData(ProvinceData)
-        }
-
+        getProvinceData()
     }
 
     override fun onFirstVisibleToUser() {
 
     }
 
-    lateinit var mPopupArea: AreaSelectedPopup
     private fun getProvinceData() {
-        Request.getProvince().request(this) { _, data ->
-            data?.let {
-                mPopupArea.setData(it)
-                SPUtils.instance().put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it)).apply()
-                SPUtils.instance().put(Const.LASTLONGTIME,getTodayTime()).apply()
+        if (cityJson.isNullOrEmpty()) {
+            getServiceProvinceData()
+        } else {
+            if (!TextUtils.equals(getTodayTime(), lastTime)) {
+                getServiceProvinceData()
+            } else {
+                var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                mPopupArea.setData(ProvinceData)
             }
         }
     }
+
+    private fun getServiceProvinceData(){
+        Request.getProvince().request(this) { _, data ->
+            data?.let {
+                mPopupArea.setData(it)
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTLONGTIME, getTodayTime()).apply()
+            }
+        }
+    }
+
+    lateinit var mPopupArea: AreaSelectedPopup
 
     private fun showArea(){
         mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_75))

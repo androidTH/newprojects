@@ -33,6 +33,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
+import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
 import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -42,6 +43,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import org.jetbrains.anko.*
 import java.io.File
+import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -504,4 +506,16 @@ fun getD6VersionName(context: Context): String {
     } else {
         return astrologyArray[month - 1]
     }
+}
+
+fun getDiskLruCacheHelper(context: Context): DiskLruCacheHelper? {
+    var mDiskLruCacheHelper: DiskLruCacheHelper?=null
+    try {
+        mDiskLruCacheHelper = DiskLruCacheHelper(context)
+        mDiskLruCacheHelper = mDiskLruCacheHelper
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
+
+    return mDiskLruCacheHelper
 }

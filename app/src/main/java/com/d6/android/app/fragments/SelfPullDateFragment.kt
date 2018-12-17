@@ -62,7 +62,7 @@ class SelfPullDateFragment : RecyclerFragment() {
 
         mSwipeRefreshLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_F5F5F5))
 
-        addItemDecoration()
+//        addItemDecoration()
 
         dateAdapter.setOnItemClickListener { _, position ->
             val data = mFindDates[position]

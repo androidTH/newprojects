@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
@@ -82,6 +83,7 @@ class MainActivity : BaseActivity() {
                 TextUtils.equals(it, tabTexts[0]) -> {
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
 //                    tv_title.text = "广场"
+                    tv_title.visible()
                     tv_create_date.visible()
                     tv_date_mydate.visible()
                     date_headView.visible()
@@ -89,6 +91,7 @@ class MainActivity : BaseActivity() {
                     iv_right.gone()
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
+                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
                     tv_title.text = "约会"
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
@@ -107,6 +110,7 @@ class MainActivity : BaseActivity() {
                     tv_create_date.gone()
                     tv_date_mydate.gone()
                     date_headView.gone()
+                    tv_title.gone()
                     iv_mydate_newnotice.gone()
                     iv_right.visible()
                     tv_title1.visible()
@@ -194,8 +198,8 @@ class MainActivity : BaseActivity() {
             }
         }
         //默认标题
-        tv_title.text = "D6社区"
-
+        tv_title.text = "约会"
+        tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
         titleBar.visibility = View.VISIBLE
 
         val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)

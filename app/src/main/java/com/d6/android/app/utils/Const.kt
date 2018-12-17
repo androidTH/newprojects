@@ -66,7 +66,7 @@ object Const {
     @JvmField
     var LOCATIONSUCCESS = "location_success"
     var LOCATIONFAIL = "location_fail"
-    var PROVINCE_DATA = "province"
+    var PROVINCE_DATA = "province" //省份
     var LASTLONGTIME = "LastLoginTime"
     var LASTDAYTIME = "LastDayTime"
     var NO_LIMIT_ERA = "不限/定位不限地区"

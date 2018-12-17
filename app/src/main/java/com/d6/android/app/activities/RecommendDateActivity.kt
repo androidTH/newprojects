@@ -16,6 +16,7 @@ import com.d6.android.app.utils.GsonHelper
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getTodayTime
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.diskcache.DiskFileUtils
 import kotlinx.android.synthetic.main.activity_recommend_date.*
 
 /**
@@ -33,7 +34,7 @@ class RecommendDateActivity : TitleActivity() {
     }
 
     private val cityJson by lazy{
-        SPUtils.instance().getString(Const.PROVINCE_DATA)
+        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATA)
     }
 
     lateinit var mPopupArea: AreaSelectedPopup
@@ -107,7 +108,7 @@ class RecommendDateActivity : TitleActivity() {
         Request.getProvince().request(this) { _, data ->
             data?.let {
                 mPopupArea.setData(it)
-                SPUtils.instance().put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it)).apply()
+                DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
                 SPUtils.instance().put(Const.LASTLONGTIME, getTodayTime()).apply()
             }
         }

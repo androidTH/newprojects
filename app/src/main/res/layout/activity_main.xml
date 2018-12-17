@@ -12,10 +12,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/padding_16"
-            android:textSize="20dp"
+            android:textSize="17sp"
             android:id="@+id/tv_title"
             android:paddingRight="@dimen/padding_16"
-            android:visibility="gone"
+            android:textStyle="bold"
             android:gravity="center"/>
         <TextView
             android:layout_width="wrap_content"

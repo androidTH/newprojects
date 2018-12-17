@@ -9,7 +9,6 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.models.City
 import com.d6.android.app.utils.Const
-import com.d6.android.app.widget.test.CategoryBean
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.textColor
 
