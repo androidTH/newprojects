@@ -13,6 +13,7 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.models.MyAppointment
+import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.view_self_release_view.view.*
 import org.jetbrains.anko.dip
@@ -124,6 +125,12 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
                 it.onDateClick(myAppointment)
             }
         }
+        tv_date_more.setOnClickListener {
+            deleteAction?.let {
+                it.onDelete(myAppointment)
+            }
+        }
+
     }
 
     public fun sendDateListener(action:(myAppointment: MyAppointment)->Unit) {
@@ -133,10 +140,24 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
     }
+
+    fun setDeleteClick(action:(myAppointment: MyAppointment)->Unit){
+        this.deleteAction = object :DeleteClick {
+            override fun onDelete(myAppointment: MyAppointment) {
+                action(myAppointment)
+            }
+        }
+    }
+
     private var mSendDateClick:sendDateClickListener?=null
+    private var deleteAction: DeleteClick?=null
 
     interface sendDateClickListener{
         fun onDateClick(myAppointment: MyAppointment)
+    }
+
+    interface DeleteClick{
+        fun onDelete(myAppointment: MyAppointment)
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {

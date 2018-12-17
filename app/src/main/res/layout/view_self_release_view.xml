@@ -135,6 +135,13 @@
             android:text="武汉"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_date_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:drawableLeft="@mipmap/icon_discuss_more_feed"
+            android:paddingRight="@dimen/margin_5"/>
     </LinearLayout>
 
     <TextView

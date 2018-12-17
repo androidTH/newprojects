@@ -36,6 +36,7 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
 
     private RecyclerView mRvMenuLeft;
     private RecyclerView mRVMenuRight;
+    private TextView mTvMenuTopTitle;
 
     private ProvinceAdapter mProvinceAdapter;
     private CityOfProvinceAdapter mCityOfProvinceAdapter;
@@ -60,6 +61,7 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
     protected void initViews(View view, AreaSelectedPopup basePopup) {
         mRvMenuLeft = view.findViewById(R.id.rv_menu);
         mRVMenuRight = view.findViewById(R.id.rv_menu_right);
+        mTvMenuTopTitle = view.findViewById(R.id.tv_menu_toptitle);
         mRvMenuLeft.setHasFixedSize(true);
         mRvMenuLeft.setLayoutManager(new LinearLayoutManager(mContext));
         mRVMenuRight.setHasFixedSize(true);
@@ -73,6 +75,7 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 if (view.getId() == R.id.item_name) {
                     mProvinceAdapter.setSelectItem(position);
+                    mTvMenuTopTitle.setText(mCities.get(position).getName());
                     mProvinceAdapter.notifyDataSetChanged();
                     ((LinearLayoutManager) mRVMenuRight.getLayoutManager()).scrollToPositionWithOffset(position, 0);
                 }
@@ -87,6 +90,7 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
                 if (currentPos != currentItem && currentPos >= 0) {
                     currentItem = currentPos;
                     mProvinceAdapter.setSelectItem(currentPos);
+                    mTvMenuTopTitle.setText(mCities.get(currentPos).getName());
                     mProvinceAdapter.notifyDataSetChanged();
                     mRvMenuLeft.getLayoutManager().scrollToPosition(currentPos);
                 }
@@ -126,6 +130,8 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
         this.mHomeList = cities;
         mProvinceAdapter.setNewData(mCities);
         mCityOfProvinceAdapter.setNewData(mHomeList);
+
+        mTvMenuTopTitle.setText(mCities.get(0).getName());
     }
 
 

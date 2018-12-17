@@ -21,11 +21,9 @@ import org.jetbrains.anko.wrapContent
  */
 class SquareActionDialog : DialogFragment() {
 
-    private val mSquare by lazy {
-        if (arguments!=null && arguments.containsKey("data")) {
-            arguments.getSerializable("data") as Square
-        } else {
-            Square()
+    private val userId by lazy {
+        if (arguments!=null && arguments.containsKey("id")) {
+            arguments.getString("id")
         }
     }
 
@@ -48,7 +46,7 @@ class SquareActionDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val uid = SPUtils.instance().getString(Const.User.USER_ID)
-        if (TextUtils.equals(mSquare.userid, uid)) {//是自己。
+        if (TextUtils.equals(uid, userId.toString())) {//是自己。
             tv_report_squre.gone()
             tv_delete_square.visible()
         } else {

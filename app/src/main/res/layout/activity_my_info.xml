@@ -332,6 +332,9 @@
                 android:layout_alignTop="@+id/tv_constellation"
                 android:gravity="center_vertical"
                 android:textColor="@color/color_666666" />
+            <View style="@style/view_line_h"
+                android:layout_alignBottom="@+id/tv_constellation"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
             <TextView
                 style="@style/mineTextStyle1"
                 android:id="@+id/tv_zuojia"
@@ -347,7 +350,7 @@
                 android:layout_marginLeft="96dp"
                 android:singleLine="true"
                 android:hint="请输入"
-                android:maxLength="8"
+                android:maxLength="25"
                 android:background="@null"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_alignTop="@+id/tv_zuojia"

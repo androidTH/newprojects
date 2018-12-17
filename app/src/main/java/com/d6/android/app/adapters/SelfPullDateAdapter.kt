@@ -1,12 +1,14 @@
 package com.d6.android.app.adapters
 
 import com.d6.android.app.R
+import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.OpenDateDialog
 import com.d6.android.app.dialogs.OpenDateErrorDialog
 import com.d6.android.app.dialogs.OpenDatePayPointDialog
+import com.d6.android.app.dialogs.SquareActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
@@ -16,6 +18,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.widget.SelfPullDateView
 import kotlinx.android.synthetic.main.dialog_date_send.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -34,6 +37,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         view.sendDateListener {
              signUpDate(it)
         }
+
+        view.setDeleteClick {
+            doReport(it.iAppointUserid.toString())
+        }
     }
 
     private fun signUpDate(myAppointment:MyAppointment) {
@@ -48,6 +55,23 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }
         }
+    }
+
+    private fun doReport(userid:String){
+        val squareActionDialog = SquareActionDialog()
+        squareActionDialog.arguments = bundleOf("id" to userid)
+        squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
+        squareActionDialog.setDialogListener { p, s ->
+            if (p == 0) {
+                mData?.let {
+                    startActivity(userId, "3")
+                }
+            }
+        }
+    }
+
+    private fun startActivity(id:String,tipType:String){
+        context.startActivity<ReportActivity>("id" to id, "tiptype" to tipType)
     }
 
 

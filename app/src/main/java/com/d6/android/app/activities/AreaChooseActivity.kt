@@ -67,6 +67,7 @@ class AreaChooseActivity : BaseActivity() {
         mProciceAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.item_name) {
                 mProciceAdapter.selectItem = position
+                tv_menu_toptitle.text = mProvinces.get(position).name
                 mProciceAdapter.notifyDataSetChanged()
                 (rv_menu_right.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 0)
             }
@@ -79,6 +80,7 @@ class AreaChooseActivity : BaseActivity() {
                 if (currentPos != currentItem && currentPos >= 0) {
                     currentItem = currentPos
                     mProciceAdapter.selectItem = currentItem
+                    tv_menu_toptitle.text = mProvinces.get(currentPos).name
                     mProciceAdapter.notifyDataSetChanged()
                     rv_menu.getLayoutManager().scrollToPosition(currentPos)
                 }
@@ -121,6 +123,7 @@ class AreaChooseActivity : BaseActivity() {
                 mCities.addAll(it)
                 mProciceAdapter.setNewData(mProvinces)
                 mCityOfProviceAdapter.setNewData(mCities)
+                tv_menu_toptitle.text = mProvinces.get(0).name
             }
         }else{
             Request.getProvince().request(this) { _, data ->
@@ -133,6 +136,7 @@ class AreaChooseActivity : BaseActivity() {
                     mCities.addAll(it)
                     mProciceAdapter.setNewData(mProvinces)
                     mCityOfProviceAdapter.setNewData(mCities)
+                    tv_menu_toptitle.text = mProvinces.get(0).name
                 }
             }
         }

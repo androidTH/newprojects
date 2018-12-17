@@ -22,7 +22,6 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:background="@color/white">
-
             <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="match_parent">-->
@@ -33,6 +32,17 @@
                     android:paddingLeft="@dimen/margin_3"
                     android:paddingRight="@dimen/margin_3"/>
             <!--</LinearLayout>-->
+            <TextView
+                android:id="@+id/tv_menu_toptitle"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_8"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold"
+                android:textColor="@color/color_333333"
+                android:text="广州" />
         </RelativeLayout>
     </LinearLayout>
 

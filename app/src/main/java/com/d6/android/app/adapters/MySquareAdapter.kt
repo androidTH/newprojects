@@ -49,7 +49,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 
         trendView.setDeleteClick {
             val squareActionDialog = SquareActionDialog()
-            squareActionDialog.arguments = bundleOf("data" to it)
+            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
             squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
             squareActionDialog.setDialogListener { p, s ->
                 if (p == 1) {
