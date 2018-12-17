@@ -141,26 +141,6 @@ class HomeFragment : BaseFragment() {
         getSpeedData()
 
         tv_date_city.setOnClickListener {
-//            val filterCityDialog = FilterCityDialog()
-//            filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
-//            filterCityDialog.setCityValue(cityType, tv_date_city.text.toString())
-//            filterCityDialog.show(childFragmentManager, "fcd")
-//            filterCityDialog.setDialogListener { p, s ->
-//                if (p == 1 || p == 0) {
-//                    city = s
-//                    outCity = ""
-//                } else if (p == 2) {
-//                    city = ""
-//                    outCity = s
-//                } else if (p == -2) {//取消选择
-//                    city = ""
-//                    outCity = ""
-//                }
-//                cityType = p
-//                tv_date_city.text = s
-//                getFragment()
-//            }
-
             showArea()
         }
 
@@ -246,7 +226,7 @@ class HomeFragment : BaseFragment() {
                 var pointDesc = data.optString("sAddPointDesc")
                 if (!TextUtils.isEmpty(pointDesc)) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
-                    SPUtils.instance().put(Const.LASTDAYTIME,"").apply()
+                    SPUtils.instance().put(Const.LASTLONGTIME,"").apply()
                 }
             }
         }){code,msg->

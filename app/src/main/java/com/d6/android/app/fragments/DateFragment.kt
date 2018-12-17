@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -69,7 +70,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var mShowCardLastTime = SPUtils.instance().getString(Const.LASTDAYTIME)
 
     private var sameCity = SPUtils.instance().getString(USER_ADDRESS)
-    private var UserInfoJson  = SPUtils.instance().getString(Const.USERINFO);
+    private var UserInfoJson  = SPUtils.instance().getString(Const.USERINFO)
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTLONGTIME)
@@ -87,8 +88,12 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun contentViewId() = R.layout.fragment_date
 
-    override fun onFirstVisibleToUser() {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
+    }
+
+    override fun onFirstVisibleToUser() {
         mRecyclerView.setOrientation(DSVOrientation.HORIZONTAL)
         setAdapter()
         mRecyclerView.setSlideOnFling(false)

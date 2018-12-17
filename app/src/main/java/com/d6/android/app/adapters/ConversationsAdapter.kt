@@ -52,7 +52,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         tv_unread.text = count.toString() + ""
 
         if(count > 0){
-            mBadegeUser.bindTarget(headView).setBadgeText(count.toString()).setGravityOffset(-3F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
+            mBadegeUser.bindTarget(headView).setBadgeText(count.toString()).setGravityOffset(0F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
                 dragState, badge, targetView ->
             })
         }else{

@@ -5,10 +5,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import com.d6.android.app.R
@@ -72,15 +75,17 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         ColorDrawable(Color.WHITE).mutate()
     }
 
-    override fun onFirstVisibleToUser() {
-
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         immersionBar
                 .fitsSystemWindows(false)
                 .statusBarAlpha(0f)
                 .titleBar(rl_title)
                 .keyboardEnable(true)
                 .init()
+    }
 
+    override fun onFirstVisibleToUser() {
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(context))
         squareAdapter.setHeaderView(headerView)
         mSwipeRefreshLayout.setAdapter(squareAdapter)
@@ -162,14 +167,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
             }
         }
-
-//        tv_msg.setOnClickListener {
-//            startActivity<MessagesActivity>()
-//        }
-
-//        headerView.rl_msg.setOnClickListener {
-//            startActivity<MessagesActivity>()
-//        }
 
         tv_setting.setOnClickListener {
             startActivityForResult<SettingActivity>(5)

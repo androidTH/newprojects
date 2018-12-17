@@ -1,6 +1,7 @@
 package com.d6.android.app.fragments
 
 import android.graphics.Color
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
@@ -44,8 +45,14 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
 //    private val immersionBar by lazy {
 //        ImmersionBar.with(this)
 //    }
-    override fun onFirstVisibleToUser() {
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
+    }
+
+    override fun onFirstVisibleToUser() {
+
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mRecyclerView.setHasFixedSize(true)
         val adapter = SquareTagAdapter(mSquareTags)

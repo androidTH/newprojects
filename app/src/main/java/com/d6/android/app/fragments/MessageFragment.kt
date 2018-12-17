@@ -1,5 +1,6 @@
 package com.d6.android.app.fragments
 
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.d6.android.app.R
@@ -66,8 +67,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         return R.layout.message_fragment
     }
 
-    override fun onFirstVisibleToUser() {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
+    }
+
+    override fun onFirstVisibleToUser() {
         swiprefreshRecyclerlayout_msg.setLayoutManager(LinearLayoutManager(context))
         swiprefreshRecyclerlayout_msg.mRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))
         swiprefreshRecyclerlayout_msg.setMode(mode())
