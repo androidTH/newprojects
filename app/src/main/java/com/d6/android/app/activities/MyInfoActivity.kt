@@ -1,11 +1,13 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
+import android.widget.DatePicker
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.base.BaseActivity
@@ -26,6 +28,7 @@ import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 import java.io.File
+import java.util.*
 
 /**
  *我的个人信息
@@ -116,12 +119,25 @@ class MyInfoActivity : BaseActivity() {
             datePickDialog.show(supportFragmentManager,"date")
             datePickDialog.setOnDateSetListener { year, month, day ->
                 datePickDialog.dismissAllowingStateLoss()
-                val t = String.format("%04d-%02d-%02d",year,month,day)
-                tv_birthday1.text = t
-                userData.birthday = String.format("%04d-%02d-%02d",year,month,day)
+                val t = String.format("%04d-%02d-%02d", year, month, day)
 
+                tv_birthday1.text = t
+                userData.birthday = String.format("%04d-%02d-%02d", year, month, day)
                 tv_constellation1.text = getConstellations("$year-$month-$day")
             }
+
+//            val calendar = Calendar.getInstance()
+//            val dialog = DatePickerDialog(this@MyInfoActivity,
+//                    DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+//                        calendar.set(Calendar.YEAR, year)
+//                        calendar.set(Calendar.MONTH, month)
+//                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+////                            mTvBirthDay.setText(year.toString() + "-" + month + "-" + dayOfMonth)
+//                    },
+//                    calendar.get(Calendar.YEAR),
+//                    calendar.get(Calendar.MONTH),
+//                    calendar.get(Calendar.DAY_OF_MONTH))
+//            dialog.show()
         }
 
         tv_height1.setOnClickListener {

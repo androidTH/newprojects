@@ -51,8 +51,8 @@ class DatePickDialog(val min: Long = 0, val max: Long = 0) : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (max > 0) {
-                datePicker.maxDate = max
+            if (max >= 0) {
+                datePicker.maxDate = System.currentTimeMillis()
             }
             if (min > 0) {
                 datePicker.minDate = min

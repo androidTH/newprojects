@@ -27,7 +27,7 @@ import java.util.*
 
 
 /**
- * 广场详情
+ * 动态详情
  */
 class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.OnRefreshListener {
 
@@ -118,12 +118,12 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         })
 
         btn_send.setOnClickListener {
-            isAuthUser {
+//            isAuthUser {
                 val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 //显示软键盘
                 imm.hideSoftInputFromWindow(et_content.windowToken, 0)
                 comment()
-            }
+//            }
         }
         dialog()
         getData()
@@ -223,7 +223,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             replayUid
         }
         dialog()
-        Request.addComment(userId, id,content,replyUid).request(this){ msg, jsonObject->
+        Request.addComment(userId, id,content,replyUid).request(this,false,success={msg,jsonObject->
             et_content.setText("")
             et_content.clearFocus()
             replayUid = ""
@@ -232,6 +232,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             mSquare?.commentCount= mSquare?.commentCount!!.toInt()+1
             getData()
             showTips(jsonObject,"","");
+        }){code,msg->
+            showToast(msg)
         }
     }
 

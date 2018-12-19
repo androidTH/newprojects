@@ -340,7 +340,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         dateDialog.show(activity.supportFragmentManager, "d")
                     }
                 } else if(code == 0){
-                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+                    showToast(msg.toString())
+//                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
                 } else {
                     val dateDialog = OpenDatePointNoEnoughDialog()
                     var point = data!!.optString("iTalkPoint")
@@ -351,8 +352,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             }else{
                 RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
             }
-        }) { _, msg ->
-
+        }) { code, msg ->
+            if(code == 0){
+                showToast(msg)
+            }
         }
     }
 

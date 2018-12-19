@@ -116,9 +116,9 @@ class AreaChooseActivity : BaseActivity() {
         if(!TextUtils.isEmpty(cityJson)){
             var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
             mProvinces.clear()
-//            setLocationCity()
+            setLocationCity()
             data?.let {
-//                it.add(0, province)
+                it.add(0, province)
                 mProvinces.addAll(it)
                 mCities.addAll(it)
                 mProciceAdapter.setNewData(mProvinces)
@@ -130,8 +130,8 @@ class AreaChooseActivity : BaseActivity() {
                 data?.let {
                     DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
                     mProvinces.clear()
-//                    setLocationCity()
-//                    it.add(0,province)
+                    setLocationCity()
+                    it.add(0,province)
                     mProvinces.addAll(it)
                     mCities.addAll(it)
                     mProciceAdapter.setNewData(mProvinces)
@@ -146,6 +146,7 @@ class AreaChooseActivity : BaseActivity() {
     private fun setLocationCity(){
         var city = City("",locationCity)
         city.isSelected = true
+        city.isValid ="2"
         province.lstDicts.add(city)
     }
 

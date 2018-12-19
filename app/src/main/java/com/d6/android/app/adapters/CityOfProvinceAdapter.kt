@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
+import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
@@ -43,6 +44,12 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
                 tv_no_limit_area.textColor = ContextCompat.getColor(mContext, R.color.color_333333)
                 tv_no_limit_area.backgroundDrawable = ContextCompat.getDrawable(mContext, R.drawable.shape_f5_city)
             }
+            var city = data.lstDicts.get(0);
+            if(city.isValid != "2"){
+                tv_no_limit_area.visibility = View.VISIBLE
+            }else{
+                tv_no_limit_area.visibility = View.GONE
+            }
             tv_no_limit_area.setTag(Const.NO_LIMIT_ERA)
 
             if (TextUtils.isEmpty(data.lstDicts.get(0).name)) {
@@ -54,8 +61,13 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
                     tv_arealocation.setTag(Const.LOCATIONSUCCESS)
                 }
             } else {
-                tv_arealocation.text = data.lstDicts.get(0).name
-                tv_arealocation.setTag(Const.LOCATIONSUCCESS)
+                var loc_city = data.lstDicts.get(0).name
+                if(TextUtils.equals(loc_city,"不限地区")){
+                    tv_arealocation.visibility = View.GONE
+                }else{
+                    tv_arealocation.text = data.lstDicts.get(0).name
+                    tv_arealocation.setTag(Const.LOCATIONSUCCESS)
+                }
             }
         }
         item_menu_title.text = data.name

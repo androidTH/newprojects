@@ -123,7 +123,7 @@ class PublishFindDateActivity : BaseActivity() {
         }
 
         tv_startTime.setOnClickListener {
-            val dialog = DatePickDialog(System.currentTimeMillis())
+            val dialog = DatePickDialog(System.currentTimeMillis(),-1)
             dialog.setOnDateSetListener { year, month, day ->
                 dialog.dismissAllowingStateLoss()
                 startTime = String.format("%s-%02d-%02d",year,month,day)
@@ -132,7 +132,7 @@ class PublishFindDateActivity : BaseActivity() {
             dialog.show(supportFragmentManager,"start")
         }
         tv_endTime.setOnClickListener {
-            val dialog = DatePickDialog(System.currentTimeMillis())
+            val dialog = DatePickDialog(System.currentTimeMillis(),-1)
             if(!TextUtils.isEmpty(startTime)){
                 dialog.isCheckedStartTime(startTime.isNotEmpty(),startTime.substring(startTime.length - 2,startTime.length))
             }

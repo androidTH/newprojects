@@ -537,7 +537,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         dateDialog.show(supportFragmentManager, "d")
                     }
                 } else if(code == 0){
-                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+                    showToast(msg.toString())
+//                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
                 } else {
                     val dateDialog = OpenDatePointNoEnoughDialog()
                     var point = data!!.optString("iTalkPoint")
@@ -548,8 +549,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }else{
                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
             }
-        }) { _, msg ->
-
+        }) { code, msg ->
+             if(code == 0){
+                 showToast(msg)
+             }
         }
     }
 

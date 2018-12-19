@@ -52,11 +52,20 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         tv_unread.text = count.toString() + ""
 
         if(count > 0){
-            mBadegeUser.bindTarget(headView).setBadgeText(count.toString()).setGravityOffset(0F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
-                dragState, badge, targetView ->
-            })
+            if(mBadegeUser == null){
+                mBadegeUser = QBadgeView(context).bindTarget(headView)
+            }
+            mBadegeUser?.let {
+                it.badgeText = count.toString()
+                  it.setGravityOffset(0F,-2F, true)
+                          .setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
+                    dragState, badge, targetView ->
+                })
+            }
         }else{
-            mBadegeUser.hide(false)
+            mBadegeUser?.let {
+                it.hide(false)
+            }
         }
 
         holder.bind<View>(R.id.rl_main).setOnClickListener {
@@ -80,7 +89,5 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         }
     }
 
-    private val mBadegeUser by lazy{
-        QBadgeView(context)
-    }
+    var mBadegeUser:Badge?=null
 }

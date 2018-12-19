@@ -37,12 +37,11 @@ class HomeFragment : BaseFragment() {
     }
 
     private var type: Int = 0
-    private var cityType: Int = -2
     private var city: String? = ""
-    private var outCity: String? = ""
+
+    var province = Province(Const.LOCATIONCITYCODE,"不限")
 
     private val cityJson by lazy{
-//        SPUtils.instance().getString(Const.PROVINCE_DATA)
         DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATA)
     }
 
@@ -173,6 +172,8 @@ class HomeFragment : BaseFragment() {
                 getServiceProvinceData()
             } else {
                 var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                setLocationCity()
+                ProvinceData!!.add(0,province)
                 mPopupArea.setData(ProvinceData)
             }
         }
@@ -181,11 +182,20 @@ class HomeFragment : BaseFragment() {
     private fun getServiceProvinceData(){
         Request.getProvince().request(this) { _, data ->
             data?.let {
-                mPopupArea.setData(it)
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
+                setLocationCity()
+                it.add(0,province)
+                mPopupArea.setData(it)
                 SPUtils.instance().put(Const.LASTLONGTIME, getTodayTime()).apply()
             }
         }
+    }
+
+    //设置定位城市
+    private fun setLocationCity(){
+        var city = City("","不限地区")
+        city.isSelected = true
+        province.lstDicts.add(city)
     }
 
     lateinit var mPopupArea: AreaSelectedPopup
@@ -193,7 +203,11 @@ class HomeFragment : BaseFragment() {
     private fun showArea(){
         mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_75))
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
-            city = string
+            if(position == -3){
+               city = ""
+            }else{
+               city = string
+            }
             getFragment()
         }
 

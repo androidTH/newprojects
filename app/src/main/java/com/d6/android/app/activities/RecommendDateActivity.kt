@@ -9,6 +9,7 @@ import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.RecommendDateQuickFragment
+import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
@@ -26,8 +27,9 @@ class RecommendDateActivity : TitleActivity() {
 
     val fragment = RecommendDateQuickFragment()
     private var iLookType: String = ""
-    private var cityType: Int = -2
     private var city: String = ""
+
+    var province = Province(Const.LOCATIONCITYCODE,"不限")
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTLONGTIME)
@@ -46,21 +48,6 @@ class RecommendDateActivity : TitleActivity() {
         setTitleBold("全部人工推荐")
 
         tv_date_city.setOnClickListener {
-//            val filterCityDialog = FilterCityDialog()
-//            filterCityDialog.hidleCancel(TextUtils.isEmpty(city))
-//            filterCityDialog.setCityValue(cityType, tv_date_city.text.toString())
-//            filterCityDialog.show(supportFragmentManager, "fcd")
-//            filterCityDialog.setDialogListener { p, s ->
-//                if (p == 1 || p == 0|| p==2) {
-//                    city = s
-//                } else if (p == -2) {//取消选择
-//                    city = ""
-//                }
-//                cityType = p
-//                tv_date_city.text = s
-//
-//            }
-
             showArea()
         }
 
@@ -76,14 +63,7 @@ class RecommendDateActivity : TitleActivity() {
                     iLookType = p.toString()
                     tv_datetype.text = s
                 }
-
                 fragment.pullRefresh(iLookType,city)
-//                if(cityType==-2){
-//                    fragment.pullRefresh(iLookType,"")
-//                }else{
-//                    fragment.pullRefresh(iLookType,tv_date_city.text.toString())
-//                }
-
             }
         }
 
@@ -100,6 +80,8 @@ class RecommendDateActivity : TitleActivity() {
             getProvinceData()
         }else{
             var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+            setLocationCity()
+            ProvinceData?.add(0,province)
             mPopupArea.setData(ProvinceData)
         }
     }
@@ -107,18 +89,33 @@ class RecommendDateActivity : TitleActivity() {
     private fun getProvinceData() {
         Request.getProvince().request(this) { _, data ->
             data?.let {
-                mPopupArea.setData(it)
                 DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
+                setLocationCity()
+                it.add(0,province)
+                mPopupArea.setData(it)
                 SPUtils.instance().put(Const.LASTLONGTIME, getTodayTime()).apply()
             }
         }
     }
 
+    //设置不限
+    private fun setLocationCity(){
+        var city = City("","不限地区")
+        city.isSelected = true
+        province.lstDicts.add(city)
+    }
+
+
     private fun showArea(){
         mPopupArea.showAsDropDown(ll_toolbar,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
-            city = string
-            tv_date_city.text = string
+            if(position == -3){
+                city = ""
+                tv_date_city.text = "地区"
+            }else{
+                city = string
+                tv_date_city.text = string
+            }
             fragment.getData(iLookType,city)
         }
 

@@ -40,23 +40,15 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         ConversationsAdapter(mConversations)
     }
 
-    private val mSquareMsg by lazy {
-        QBadgeView(activity);
-    }
+    private var mSquareMsg:Badge? = null
 
-    private val mSysMsg by lazy {
-        QBadgeView(activity);
-    }
+    private var mBadgeSys:Badge? = null
 
     private var mUserId = SPUtils.instance().getString(Const.User.USER_ID)
-    private var mTime =  SPUtils.instance().getLong(Const.LAST_TIME)
+    private var time = SPUtils.instance().getLong(Const.LAST_TIME)
 
     private val userId by lazy {
         mUserId
-    }
-
-    private val time by lazy {
-        mTime
     }
 
     private val headerView by lazy {
@@ -82,10 +74,18 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         swiprefreshRecyclerlayout_msg.setOnRefreshListener(this)
 
         headerView.rl_sys.setOnClickListener {
+            mBadgeSys?.let {
+                it.hide(false)
+            }
+            time = SPUtils.instance().getLong(Const.LAST_TIME)
             startActivity<SystemMessagesActivity>()
         }
 
         headerView.rl_square.setOnClickListener {
+            mSquareMsg?.let {
+                it.hide(false)
+            }
+            time = SPUtils.instance().getLong(Const.LAST_TIME)
             startActivity<SquareMessagesActivity>()
         }
 
@@ -120,6 +120,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
 //                }
             }
+            time = SPUtils.instance().getLong(Const.LAST_TIME)
+            conversationsAdapter.mBadegeUser?.let {
+                it.hide(false)
+            }
         }
         getData()
         getSysLastOne()
@@ -148,21 +152,27 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     private fun getSysLastOne() {
         Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this) { _, data ->
             if (data != null) {
-                data.list?.let {
-                    if (it.results != null) {
-                        val c = if ((data.count ?: 0) > 99) {
+                if(data.list != null){
+                    if (data.list.results != null) {
+                        var c = if ((data.count ?: 0) > 99) {
                             "99+"
                         } else {
                             data.count.toString()
                         }
                         if ((data.count ?: 0) > 0) {
-                            mSysMsg.bindTarget(headerView.iv1).setBadgeText(c).setGravityOffset(0F, -2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener() { dragState, badge, targetView ->
-
-                            })
+                            if(mBadgeSys==null){
+                                mBadgeSys = QBadgeView(activity).bindTarget(headerView.iv1)
+                            }
+                            mBadgeSys?.let {
+                                it.badgeText = c
+                                it.setOnDragStateChangedListener { dragState, badge, targetView ->  }
+                            }
                         } else {
-                            mSysMsg.hide(false)
+                            mBadgeSys?.let {
+                                it.hide(false)
+                            }
                         }
-                        headerView.tv_content1.text = it.results[0].content
+                        headerView.tv_content1.text = data.list.results[0].content
                     }
                 }
             }
@@ -177,24 +187,30 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             if (data != null) {
                 data.list?.let {
                     if(it.results!=null){
-                        val c = if ((data.count ?: 0) > 99) {
+                        var c = if ((data.count ?: 0) > 99) {
                             "99+"
                         } else {
                             data.count.toString()
                         }
                         if ((data.count ?: 0) > 0) {
-                            mSquareMsg.bindTarget(headerView.iv2).setBadgeText(c)
-                                    .setGravityOffset(-3F, -2F, true)
-                                     .setOnDragStateChangedListener(Badge.OnDragStateChangedListener() { dragState, badge, targetView ->
-                                    })
+                            if(mSquareMsg == null){
+                                mSquareMsg = QBadgeView(activity).bindTarget(headerView.iv2)
+                            }
+                           mSquareMsg?.let {
+                               it.badgeText = c
+                               it.setGravityOffset(-3F, -2F, true)
+                                       .setOnDragStateChangedListener(Badge.OnDragStateChangedListener() { dragState, badge, targetView ->
+                                       })
+                           }
                         } else {
-                            mSquareMsg.hide(false)
+                            mSquareMsg?.let {
+                                it.hide(false)
+                            }
                         }
                         headerView.tv_content2.text = it.results[0].content
                     }
                 }
             }
-            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
         }
     }
 
@@ -210,6 +226,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
     private fun setRefresh(flag: Boolean) {
         swiprefreshRecyclerlayout_msg.isRefreshing = flag
+        SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
