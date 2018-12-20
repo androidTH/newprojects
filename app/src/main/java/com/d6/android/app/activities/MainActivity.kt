@@ -280,8 +280,11 @@ class MainActivity : BaseActivity() {
         RongIM.getInstance().getUnreadCount(object : RongIMClient.ResultCallback<Int>() {
             override fun onSuccess(p0: Int?) {
                 p0?.let {
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                    if (fragment != null && fragment is MessageFragment) {
+                        fragment.getChatMsg()
+                    }
                     val view1 = tabhost.tabWidget.getChildTabViewAt(3)
-                    System.err.println("-------------->$view1")
                     if (view1 != null) {
                         val view = view1.find<View>(R.id.tv_msg_count)
                         if (p0 > 0) {

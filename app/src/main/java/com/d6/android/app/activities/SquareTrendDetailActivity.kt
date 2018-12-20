@@ -63,6 +63,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         squareDetailCommentAdapter.setHeaderView(headerView)
         mSwipeRefreshLayout.setAdapter(squareDetailCommentAdapter)
         mSwipeRefreshLayout.setOnRefreshListener(this)
+
         headerView.mTrendDetailView.setPraiseClick {
             if (TextUtils.equals("1", it.isupvote)) {
                 cancelPraise(it)
@@ -78,7 +79,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 //            }
             val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             //显示软键盘
-            imm.showSoftInputFromInputMethod(et_content.windowToken, 0)
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             et_content.requestFocus()
         }
 

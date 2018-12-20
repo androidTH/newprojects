@@ -8,6 +8,8 @@ import com.d6.android.app.R
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.utils.RongUtils
+import com.d6.android.app.utils.showTips
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.badge.Badge
 import com.d6.android.app.widget.badge.QBadgeView
 import com.facebook.drawee.view.SimpleDraweeView
@@ -43,28 +45,21 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             tv_content.text = ""
         }
 
-        val tv_unread = holder.bind<TextView>(R.id.tv_unread)
+//        val tv_unread = holder.bind<TextView>(R.id.tv_unread)
         var count = data.unreadMessageCount
         if (count > 99) {
             count = 99
         }
 //        tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
-        tv_unread.text = count.toString() + ""
-
+//        tv_unread.text = count.toString() + ""
         if(count > 0){
             if(mBadegeUser == null){
                 mBadegeUser = QBadgeView(context).bindTarget(headView)
             }
             mBadegeUser?.let {
-                it.badgeText = count.toString()
-                  it.setGravityOffset(0F,-2F, true)
-                          .setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
-                    dragState, badge, targetView ->
-                })
-            }
-        }else{
-            mBadegeUser?.let {
-                it.hide(false)
+                it.setBadgeText(count.toString())
+                it.setGravityOffset(0F,-2F, true)
+                it.setOnDragStateChangedListener { dragState, badge, targetView ->  }
             }
         }
 

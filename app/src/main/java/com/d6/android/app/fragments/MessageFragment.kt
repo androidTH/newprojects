@@ -215,9 +215,14 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     override fun onRefresh() {
+        getData()
         getSysLastOne()
         getSquareMsg()
         setRefresh(false)
+    }
+
+    fun getChatMsg(){
+        getData()
     }
 
     override fun onLoadMore() {
