@@ -342,6 +342,10 @@ class MainActivity : BaseActivity() {
                 view?.gone()
                 getSquareMsg()
             } else {
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                if (fragment != null && fragment is MessageFragment) {
+                    fragment.setSysMsg(data)
+                }
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
                 } else {
@@ -363,6 +367,10 @@ class MainActivity : BaseActivity() {
                 //无数据
                 view?.gone()
             } else {
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                if (fragment != null && fragment is MessageFragment) {
+                    fragment.setSquareMsg(data)
+                }
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
                 }

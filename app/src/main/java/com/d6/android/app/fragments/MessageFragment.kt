@@ -11,6 +11,9 @@ import com.d6.android.app.adapters.ConversationsAdapter
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.Page
+import com.d6.android.app.models.SquareMessage
+import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeItemLayout
@@ -77,7 +80,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             mBadgeSys?.let {
                 it.hide(false)
             }
-            time = SPUtils.instance().getLong(Const.LAST_TIME)
+            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
             startActivity<SystemMessagesActivity>()
         }
 
@@ -85,7 +88,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             mSquareMsg?.let {
                 it.hide(false)
             }
-            time = SPUtils.instance().getLong(Const.LAST_TIME)
+            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
             startActivity<SquareMessagesActivity>()
         }
 
@@ -120,14 +123,14 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
 //                }
             }
-            time = SPUtils.instance().getLong(Const.LAST_TIME)
+            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
             conversationsAdapter.mBadegeUser?.let {
                 it.hide(false)
             }
         }
         getData()
-        getSysLastOne()
-        getSquareMsg()
+        getSysLastOne(time.toString())
+        getSquareMsg(time.toString())
     }
 
     private fun getData() {
@@ -149,89 +152,105 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     /**
      * 系统消息
      */
-    private fun getSysLastOne() {
-        Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this) { _, data ->
-            if (data != null) {
-                if(data.list != null){
-                    if (data.list.results != null) {
-                        var c = if ((data.count ?: 0) > 99) {
-                            "99+"
-                        } else {
-                            data.count.toString()
-                        }
-                        if ((data.count ?: 0) > 0) {
-                            if(mBadgeSys==null){
-                                mBadgeSys = QBadgeView(activity).bindTarget(headerView.iv1)
-                            }
-                            mBadgeSys?.let {
-                                it.badgeText = c
-                                it.setOnDragStateChangedListener { dragState, badge, targetView ->  }
-                            }
-                        } else {
-                            mBadgeSys?.let {
-                                it.hide(false)
-                            }
-                        }
-                        headerView.tv_content1.text = data.list.results[0].content
-                    }
-                }
-            }
+    private fun getSysLastOne(lastTime:String) {
+        Request.getSystemMessages(userId, 1, lastTime, pageSize = 1).request(this) { _, data ->
+             data?.let {
+                 setSysMsg(data)
+             }
         }
     }
 
     /**
      * 广场消息
      */
-    private fun getSquareMsg() {
-        Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this) { _, data ->
-            if (data != null) {
-                data.list?.let {
-                    if(it.results!=null){
-                        var c = if ((data.count ?: 0) > 99) {
-                            "99+"
-                        } else {
-                            data.count.toString()
-                        }
-                        if ((data.count ?: 0) > 0) {
-                            if(mSquareMsg == null){
-                                mSquareMsg = QBadgeView(activity).bindTarget(headerView.iv2)
-                            }
-                           mSquareMsg?.let {
-                               it.badgeText = c
-                               it.setGravityOffset(-3F, -2F, true)
-                                       .setOnDragStateChangedListener(Badge.OnDragStateChangedListener() { dragState, badge, targetView ->
-                                       })
-                           }
-                        } else {
-                            mSquareMsg?.let {
-                                it.hide(false)
-                            }
-                        }
-                        headerView.tv_content2.text = it.results[0].content
+    private fun getSquareMsg(lastTime:String) {
+        Request.getSquareMessages(userId, 1, lastTime, pageSize = 1).request(this) { _, data ->
+            setSquareMsg(data)
+        }
+    }
+
+    override fun onRefresh() {
+        time = SPUtils.instance().getLong(Const.LAST_TIME)
+        getData()
+        getSysLastOne(time.toString())
+        getSquareMsg(time.toString())
+        setRefresh(false)
+    }
+
+    //获得聊天消息
+    fun getChatMsg(){
+        getData()
+    }
+
+    fun setSysMsg(data:Page<SysMessage>){
+        if (data != null) {
+            if(data.list != null){
+                if (data.list.results != null) {
+                    var c = if ((data.count ?: 0) > 99) {
+                        "99+"
+                    } else {
+                        data.count.toString()
                     }
+                    if ((data.count ?: 0) > 0) {
+                        if(mBadgeSys==null){
+                            mBadgeSys = QBadgeView(activity).bindTarget(headerView.iv1)
+                        }
+                        mBadgeSys?.let {
+                            it.badgeText = c
+                            it.setOnDragStateChangedListener { dragState, badge, targetView ->  }
+                        }
+                    } else {
+                        mBadgeSys?.let {
+                            it.hide(false)
+                        }
+                    }
+                    headerView.tv_content1.text = data.list.results[0].content
                 }
             }
         }
     }
 
-    override fun onRefresh() {
-        getData()
-        getSysLastOne()
-        getSquareMsg()
-        setRefresh(false)
+    //获得广场消息
+    fun setSquareMsg(data:Page<SquareMessage>?){
+        if (data != null) {
+            data.list?.let {
+                if(it.results!=null){
+                    var c = if ((data.count ?: 0) > 99) {
+                        "99+"
+                    } else {
+                        data.count.toString()
+                    }
+                    if ((data.count ?: 0) > 0) {
+                        if(mSquareMsg == null){
+                            mSquareMsg = QBadgeView(activity).bindTarget(headerView.iv2)
+                        }
+                        mSquareMsg?.let {
+                            it.badgeText = c
+                            it.setGravityOffset(-3F, -2F, true)
+                                    .setOnDragStateChangedListener(Badge.OnDragStateChangedListener() { dragState, badge, targetView ->
+                                    })
+                        }
+                    } else {
+                        mSquareMsg?.let {
+                            it.hide(false)
+                        }
+                    }
+                    headerView.tv_content2.text = it.results[0].content
+                }
+            }
+        }
     }
 
-    fun getChatMsg(){
-        getData()
+    /**
+     * 刷新
+     */
+    private fun setRefresh(flag: Boolean) {
+        swiprefreshRecyclerlayout_msg.isRefreshing = flag
+        SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
     }
 
     override fun onLoadMore() {
 
-    }
-
-    private fun setRefresh(flag: Boolean) {
-        swiprefreshRecyclerlayout_msg.isRefreshing = flag
-        SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
