@@ -333,7 +333,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getSysLastOne() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
@@ -359,7 +359,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)

@@ -48,7 +48,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     private var mBadgeSys:Badge? = null
 
     private var mUserId = SPUtils.instance().getString(Const.User.USER_ID)
-    private var time = SPUtils.instance().getLong(Const.LAST_TIME)
+    private var SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
+    private var SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
 
     private val userId by lazy {
         mUserId
@@ -80,7 +81,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             mBadgeSys?.let {
                 it.hide(false)
             }
-            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
+            SPUtils.instance().put(Const.SYSMSG_LAST_TIME, D6Application.systemTime).apply()
             startActivity<SystemMessagesActivity>()
         }
 
@@ -88,7 +89,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             mSquareMsg?.let {
                 it.hide(false)
             }
-            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
+            SPUtils.instance().put(Const.SQUAREMSG_LAST_TIME, D6Application.systemTime).apply()
             startActivity<SquareMessagesActivity>()
         }
 
@@ -123,14 +124,15 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
 //                }
             }
-            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
+//            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
+//            SPUtils.instance().put(Const.SYSMSG_LAST_TIME, D6Application.systemTime).apply()
             conversationsAdapter.mBadegeUser?.let {
                 it.hide(false)
             }
         }
         getData()
-        getSysLastOne(time.toString())
-        getSquareMsg(time.toString())
+        getSysLastOne(SysMsg_time.toString())
+        getSquareMsg(SquareMsg_time.toString())
     }
 
     private fun getData() {
@@ -170,10 +172,11 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     override fun onRefresh() {
-        time = SPUtils.instance().getLong(Const.LAST_TIME)
+        SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
+        SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         getData()
-        getSysLastOne(time.toString())
-        getSquareMsg(time.toString())
+        getSysLastOne(SysMsg_time.toString())
+        getSquareMsg(SquareMsg_time.toString())
         setRefresh(false)
     }
 
@@ -246,7 +249,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
      */
     private fun setRefresh(flag: Boolean) {
         swiprefreshRecyclerlayout_msg.isRefreshing = flag
-        SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
+        SPUtils.instance().put(Const.SQUAREMSG_LAST_TIME, D6Application.systemTime).apply()
+        SPUtils.instance().put(Const.SYSMSG_LAST_TIME, D6Application.systemTime).apply()
     }
 
     override fun onLoadMore() {

@@ -261,7 +261,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
 
     private fun getSysLastOne() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {
@@ -286,7 +286,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     }
 
     private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {

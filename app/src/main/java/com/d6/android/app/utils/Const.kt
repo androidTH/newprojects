@@ -31,7 +31,8 @@ object Const {
         var  USERPOINTS_NUMS = "UserPointNums"
 }
 
-    val LAST_TIME = "lastTime"
+    val SQUAREMSG_LAST_TIME = "Square_lastTime" //广场消息时间
+    val SYSMSG_LAST_TIME = "SysMsylastTime"//系统消息时间
     val NEW_MESSAGE = "com.d6.app.new_msg"
     val BUGTAGS_KEY = "e3ed18af47d9993fbfbc5dc02194079e"
     val UMENG_APPKEY = "5a5b309af29d9835ae000262"
