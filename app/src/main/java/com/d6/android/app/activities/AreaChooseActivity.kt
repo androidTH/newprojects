@@ -29,9 +29,8 @@ class AreaChooseActivity : BaseActivity() {
 //    private var mHomeList = ArrayList<CategoryBean.DataBean>()
     private var currentItem: Int = 0
 
-    private val locationCity by lazy{
-        SPUtils.instance().getString(USER_ADDRESS)
-    }
+    private val locationCity=SPUtils.instance().getString(USER_ADDRESS)
+
 
     var province = Province(Const.LOCATIONCITYCODE, "定位")
 

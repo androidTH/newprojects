@@ -118,7 +118,7 @@ interface ApiServices {
     fun getCities(@Query("paramKey") paramKey: String): Flowable<Response<ArrayList<City>>>
 
     @POST("backstage/sysDict/findautoNew")
-    fun getProvince(): Flowable<Response<ArrayList<Province>>>
+    fun getProvince(@Query("isShow") isShow:Int): Flowable<Response<ArrayList<Province>>>
 
     @POST("backstage/comments/findByPageguangchangxiaoxi")
     fun getSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int, @Query("createTime") createTime: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<SquareMessage>>>

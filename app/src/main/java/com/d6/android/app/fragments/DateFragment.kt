@@ -73,12 +73,12 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var UserInfoJson  = SPUtils.instance().getString(Const.USERINFO)
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTLONGTIME)
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
     }
 
     private val cityJson by lazy{
 //        SPUtils.instance().getString(Const.PROVINCE_DATA)
-        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATA)
+        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
     }
 
     private var pageNum = 1
@@ -465,10 +465,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private fun getServiceProvinceData(){
-        Request.getProvince().request(this) { _, data ->
+        Request.getProvince(2).request(this) { _, data ->
             data?.let {
-                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
-                SPUtils.instance().put(Const.LASTLONGTIME,getTodayTime()).apply()
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
                 setLocationCity()
                 it.add(0,province)
                 mPopupArea.setData(it)

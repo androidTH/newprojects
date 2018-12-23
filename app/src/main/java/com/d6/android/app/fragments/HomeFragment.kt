@@ -46,7 +46,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTLONGTIME)
+        SPUtils.instance().getString(Const.LASTLONGTIMEOFProvince)
     }
 
     private val mSpeedDates = ArrayList<MyDate>()
@@ -186,7 +186,7 @@ class HomeFragment : BaseFragment() {
                 setLocationCity()
                 it.add(0,province)
                 mPopupArea.setData(it)
-                SPUtils.instance().put(Const.LASTLONGTIME, getTodayTime()).apply()
+                SPUtils.instance().put(Const.LASTLONGTIMEOFProvince, getTodayTime()).apply()
             }
         }
     }
@@ -240,7 +240,8 @@ class HomeFragment : BaseFragment() {
                 var pointDesc = data.optString("sAddPointDesc")
                 if (!TextUtils.isEmpty(pointDesc)) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
-                    SPUtils.instance().put(Const.LASTLONGTIME,"").apply()
+                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
+                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
                 }
             }
         }){code,msg->

@@ -32,7 +32,7 @@ class RecommendDateActivity : TitleActivity() {
     var province = Province(Const.LOCATIONCITYCODE,"不限")
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTLONGTIME)
+        SPUtils.instance().getString(Const.LASTLONGTIMEOFProvince)
     }
 
     private val cityJson by lazy{
@@ -93,7 +93,7 @@ class RecommendDateActivity : TitleActivity() {
                 setLocationCity()
                 it.add(0,province)
                 mPopupArea.setData(it)
-                SPUtils.instance().put(Const.LASTLONGTIME, getTodayTime()).apply()
+                SPUtils.instance().put(Const.LASTLONGTIMEOFProvince, getTodayTime()).apply()
             }
         }
     }
