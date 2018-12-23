@@ -23,6 +23,7 @@ import com.d6.android.app.widget.badge.QBadgeView
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
+import io.rong.imlib.model.CSCustomServiceInfo
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
@@ -118,14 +119,17 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //
 //                        }
 //                    })
+//                val builder = CSCustomServiceInfo.Builder()
+//                builder.province("D6客服")
+//                builder.loginName("D6客服")
+//                builder.city("北京")
+//                RongIM.getInstance().startCustomerServiceChat(activity, "KEFU146001495753714", "在线客服", builder.build())
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
             } else {
 //                activity.isAuthUser {
-                RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, s)
+                RongIM.getInstance().startPrivateChat(context,conversation.targetId, s)
 //                }
             }
-//            SPUtils.instance().put(Const.LAST_TIME, D6Application.systemTime).apply()
-//            SPUtils.instance().put(Const.SYSMSG_LAST_TIME, D6Application.systemTime).apply()
             conversationsAdapter.mBadegeUser?.let {
                 it.hide(false)
             }

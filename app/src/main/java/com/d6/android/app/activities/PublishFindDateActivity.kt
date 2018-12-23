@@ -119,7 +119,8 @@ class PublishFindDateActivity : BaseActivity() {
         addAdapter.notifyDataSetChanged()
 
         tv_area.setOnClickListener {
-            startActivityForResult<FilterCityActivity>(4,"type" to 0)
+//            startActivityForResult<FilterCityActivity>(4,"type" to 0)
+            startActivityForResult<AreaChooseActivity>(4)
         }
 
         tv_startTime.setOnClickListener {
@@ -165,8 +166,8 @@ class PublishFindDateActivity : BaseActivity() {
                 mImages.add(size - 1, image)
                 addAdapter.notifyDataSetChanged()
             }else if (requestCode == 4 && data!=null) {
-                areaType = data.getIntExtra("type",0)
-                area = data.getStringExtra("data")
+//                areaType = data.getIntExtra("type",0)
+                area = data.getStringExtra("area")
                 tv_area.text = area
             }
         }
@@ -182,21 +183,26 @@ class PublishFindDateActivity : BaseActivity() {
             showToast("请选择约会类型")
         }
 
-        if (areaType == -1) {//city.isNotEmpty() &&
+//        if (areaType == -1) {//city.isNotEmpty() &&
+//            showToast("请选择城市所属地区")
+//            return
+//        }
+
+        if(area.isNullOrEmpty()){
             showToast("请选择城市所属地区")
             return
         }
-        val outArea = if (areaType == 0) {//海外
-            area
-        } else {
-            null
-        }
-
-        val inArae = if (areaType == 1) {//国内
-            area
-        } else {
-            null
-        }
+//        val outArea = if (areaType == 0) {//海外
+//            area
+//        } else {
+//            null
+//        }
+//
+//        val inArae = if (areaType == 1) {//国内
+//            area
+//        } else {
+//            null
+//        }
 
         val content = et_content.text.toString().trim()
         if (content.isEmpty()) {

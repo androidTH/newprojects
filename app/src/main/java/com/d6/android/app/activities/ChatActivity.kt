@@ -35,9 +35,7 @@ class ChatActivity : TitleActivity() {
         } else {
             info.name
         }
-
         enterActivity()
-
     }
 
     private fun enterActivity() {
