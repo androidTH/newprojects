@@ -93,13 +93,13 @@ class SquareFragment : RecyclerFragment() {
             startActivity<SquareTrendDetailActivity>("id" to ids,"position" to position)
         }
 
-        mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
-                .colorResId(R.color.color_ECECEC)
-                .size(dip(1))
-                .visibilityProvider { position, parent ->
-                    position==0
-                }
-                .build())
+//        mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
+//                .colorResId(R.color.color_ECECEC)
+//                .size(dip(1))
+//                .visibilityProvider { position, parent ->
+//                    position==0
+//                }
+//                .build())
 
         squareAdapter.setHeaderView(headerView)
 

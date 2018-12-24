@@ -132,7 +132,21 @@
             android:textColor="@color/orange_f6a"
             android:id="@+id/tv_all_comment"/>
     </LinearLayout>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:id="@+id/tv_redflower"
+        android:text="0"
+        android:textColor="@color/textColor99"
+        android:layout_toLeftOf="@+id/tv_appraise"
+        android:drawableLeft="@mipmap/feed_flowers_seleted"
+        android:drawablePadding="4dp"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginRight="@dimen/margin_16"
+        android:paddingLeft="8dp"
+        android:layout_below="@+id/ll_comments"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -184,4 +198,8 @@
         <!--android:visibility="gone"-->
         <!--android:textColor="@color/color_369"-->
         <!--android:text="#心动故事#"/>-->
+    <View style="@style/view_line_h"
+        android:id="@+id/comment_line"
+        android:layout_below="@+id/tv_appraise"
+        android:layout_marginTop="@dimen/margin_10"/>
 </RelativeLayout>

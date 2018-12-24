@@ -315,50 +315,6 @@
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
             </RelativeLayout>
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/rl_msg"-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_below="@+id/rl_fans_count"-->
-                <!--android:layout_marginTop="@dimen/margin_8"-->
-                <!--android:visibility="gone"-->
-                <!--android:paddingLeft="@dimen/margin_15">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_msg_count"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toRightOf="@+id/tv_msg_countall"-->
-                    <!--android:layout_marginLeft="-5dp"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:paddingLeft="4dp"-->
-                    <!--android:paddingRight="4dp"-->
-                    <!--android:paddingTop="1dp"-->
-                    <!--android:paddingBottom="1dp"-->
-                    <!--android:background="@drawable/shape_4r_orange"-->
-                    <!--android:textSize="10sp"-->
-                    <!--android:visibility="visible"-->
-                    <!--android:text="14" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_msg_countall"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:drawableLeft="@mipmap/mycenter_notice_icon"-->
-                    <!--android:textColor="@color/color_black"-->
-                    <!--android:textSize="16sp" />-->
-                <!--<TextView-->
-                    <!--android:layout_below="@+id/tv_msg_countall"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="消息"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:textColor="@color/color_666666" />-->
-            <!--</RelativeLayout>-->
             <RelativeLayout
                 android:id="@+id/rl_mypoints_count"
                 android:layout_width="wrap_content"
@@ -370,7 +326,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:drawableLeft="@mipmap/mycenter_intergral_icon"
+                    android:drawableLeft="@mipmap/mycenter_wallet_icon"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/color_black"
                     android:textSize="16sp" />
@@ -394,7 +350,7 @@
                     android:layout_below="@+id/tv_mypoints_countall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="积分"
+                    android:text="钱包"
                     android:textSize="12sp"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
