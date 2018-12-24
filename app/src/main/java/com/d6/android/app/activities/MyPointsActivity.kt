@@ -59,7 +59,7 @@ import org.jetbrains.anko.toast
 /**
  * 我的积分
  */
-class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshListener{
+class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshListener {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -71,7 +71,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
 
     private var pageNum = 1
     private val mUserPoints = ArrayList<UserPoints>()
-    lateinit var mPointsListDialog:PointsListDialog
+    lateinit var mPointsListDialog: PointsListDialog
 
     private val mPointsAdapter by lazy {
         PointsAdapter(mUserPoints)
@@ -90,12 +90,6 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
         mPointsAdapter.setHeaderView(mHeaderView)
         mypoints_refreshrecycler.setOnRefreshListener(this)
 
-//        mHeaderView.tv_mypointnums.text = if(myPointNums.isNullOrEmpty()){
-////            "0"
-////        }else{
-////            myPointNums
-////        }
-
         tv_mypoints_back.setOnClickListener {
             finish()
         }
@@ -109,13 +103,12 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
 //            mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
             mPointsListDialog.show(supportFragmentManager, "c")
             mPointsListDialog.setOnPayListener { p, data ->
-                 payMoney(data)
+                payMoney(data)
             }
         }
-       mHeaderView.tv_privilege.setOnClickListener {
+        mHeaderView.tv_privilege.setOnClickListener {
 
-       }
-
+        }
         getUserInfo()
     }
 
@@ -125,7 +118,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     private fun getData() {
-        Request.getUserPoints(userId, pageNum).request(this, success = {_,data->
+        Request.getUserPoints(userId, pageNum).request(this, success = { _, data ->
             if (pageNum == 1) {
                 mUserPoints.clear()
             }
@@ -157,7 +150,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
                 .httpClientType(NetworkClientType.Retrofit)
                 .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
                 .build()
-        EasyPay.newInstance(params).requestPayInfo(object: OnPayInfoRequestListener {
+        EasyPay.newInstance(params).requestPayInfo(object : OnPayInfoRequestListener {
             override fun onPayInfoRequetStart() {
             }
 
@@ -173,7 +166,7 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
                 getUserInfo()
                 var payResultDialog = PayResultDialog()
                 payResultDialog.arguments = bundleOf("payresult" to "wx_pay_success")
-                payResultDialog.show(supportFragmentManager,"fd")
+                payResultDialog.show(supportFragmentManager, "fd")
             }
 
             override fun onPayCancel(payWay: PayWay?) {
@@ -182,21 +175,21 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
             override fun onPayFailure(payWay: PayWay?, errCode: Int) {
                 var payResultDialog = PayResultDialog()
                 payResultDialog.arguments = bundleOf("payresult" to "wx_pay_fail")
-                payResultDialog.show(supportFragmentManager,"fd")
+                payResultDialog.show(supportFragmentManager, "fd")
             }
         })
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this, success = { _, data ->
+        Request.getUserInfo("", userId).request(this, success = { _, data ->
             data?.let {
                 mHeaderView.tv_mypointnums.text = it.iPoint.toString()
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
                 mHeaderView.iv_wallet_headView.setImageURI(it.picUrl)
                 mHeaderView.tv_wallet_username.text = it.name
-                if(TextUtils.equals(it.sex,"0")){
-                   mHeaderView.ll_huiyuan_info.visibility = View.GONE
-                }else{
+                if (TextUtils.equals(it.sex, "0")) {
+                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
+                } else {
                     mHeaderView.ll_huiyuan_info.visibility = View.VISIBLE
                 }
             }

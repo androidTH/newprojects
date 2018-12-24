@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_45">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/string_sendredflower_title"
+            android:textColor="@color/color_333333"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_sendflower_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:src="@mipmap/icon_close_orange" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_EFEFEF" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_sendflower_headView"
+        style="@style/DefaultCircleHeadStyle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_15" />
+
+    <TextView
+        android:id="@+id/tv_sendflower_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_8"
+        android:text="小小的梦想"
+        android:textColor="@color/color_333333"
+        android:textSize="15sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_send_redflower"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_20" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_20"
+        android:background="@drawable/shape_6r_f7">
+
+        <EditText
+            android:id="@+id/et_sendflower_input"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_45"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:background="@null"
+            android:drawableRight="@mipmap/feed_flowers_seleted"
+            android:hint="1-1000"
+            android:inputType="number"
+            android:paddingLeft="@dimen/margin_3"
+            android:paddingRight="@dimen/margin_10"
+            android:textColor="@color/color_333333"
+            android:textColorHint="@color/color_999999"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_10"
+        android:text="1朵小红花=1元"
+        android:textColor="@color/color_888888"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_wx_pay_flower"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_20"
+        android:background="@drawable/shape_4r_54"
+        android:gravity="center"
+        android:text="微信支付"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+</LinearLayout>

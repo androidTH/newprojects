@@ -51,6 +51,7 @@
     <dimen name="radius_10">10dp</dimen>
     <dimen name="height_40">40dp</dimen>
     <dimen name="height_50">50dp</dimen>
+    <dimen name="height_45">45dp</dimen>
     <dimen name="height_30">30dp</dimen>
     <dimen name="height_1">1dp</dimen>
     <dimen name="height_75">75dp</dimen>
