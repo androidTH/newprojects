@@ -51,6 +51,7 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
         }
 
         holder.setText(R.id.tv_content, data.lookfriendstand)
+
         holder.setText(R.id.tv_address,data.city)
         val tv_audio_auth = holder.bind<TextView>(R.id.tv_auth_state)
         val tv_audio_level = holder.bind<TextView>(R.id.tv_auth_level)

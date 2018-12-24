@@ -137,14 +137,21 @@
         android:paddingLeft="16dp"
         android:visibility="visible"
         android:paddingTop="8dp"/>
+    <RelativeLayout
+        android:id="@+id/rl_threetags"
+        android:layout_below="@+id/rv_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_15">
+
     <TextView
         android:id="@+id/tv_job"
-        android:layout_below="@+id/rv_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
         android:drawableLeft="@mipmap/boy_profession_whiteicon"
+        android:layout_marginBottom="@dimen/margin_10"
         android:textColor="@color/color_40FFFFFF"
         android:textSize="14sp"
         android:drawablePadding="@dimen/margin_5"
@@ -154,9 +161,9 @@
         android:layout_below="@+id/tv_job"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
+        android:layout_marginBottom="@dimen/margin_10"
         android:drawableLeft="@mipmap/boy_car_whiteicon"
         android:textColor="@color/color_40FFFFFF"
         android:textSize="14sp"
@@ -167,7 +174,6 @@
         android:layout_below="@+id/tv_zuojia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
         android:drawableLeft="@mipmap/boy_hobby_whiteicon"
@@ -175,12 +181,12 @@
         android:textSize="14sp"
         android:drawablePadding="@dimen/margin_5"
         android:text="职业 "/>
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/fl_add_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_aihao"
-        android:layout_marginTop="@dimen/margin_15"
+        android:layout_below="@+id/rl_threetags"
         android:background="@drawable/shape_white_top_8r"
         android:orientation="vertical">
 
@@ -315,50 +321,6 @@
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/color_666666" />
             </RelativeLayout>
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/rl_msg"-->
-                <!--android:layout_width="100dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_below="@+id/rl_fans_count"-->
-                <!--android:layout_marginTop="@dimen/margin_8"-->
-                <!--android:visibility="gone"-->
-                <!--android:paddingLeft="@dimen/margin_15">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_msg_count"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_toRightOf="@+id/tv_msg_countall"-->
-                    <!--android:layout_marginLeft="-5dp"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--android:paddingLeft="4dp"-->
-                    <!--android:paddingRight="4dp"-->
-                    <!--android:paddingTop="1dp"-->
-                    <!--android:paddingBottom="1dp"-->
-                    <!--android:background="@drawable/shape_4r_orange"-->
-                    <!--android:textSize="10sp"-->
-                    <!--android:visibility="visible"-->
-                    <!--android:text="14" />-->
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_msg_countall"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:drawableLeft="@mipmap/mycenter_notice_icon"-->
-                    <!--android:textColor="@color/color_black"-->
-                    <!--android:textSize="16sp" />-->
-                <!--<TextView-->
-                    <!--android:layout_below="@+id/tv_msg_countall"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:text="消息"-->
-                    <!--android:textSize="12sp"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:textColor="@color/color_666666" />-->
-            <!--</RelativeLayout>-->
             <RelativeLayout
                 android:id="@+id/rl_mypoints_count"
                 android:layout_width="wrap_content"
