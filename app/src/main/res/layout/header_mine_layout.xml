@@ -137,14 +137,21 @@
         android:paddingLeft="16dp"
         android:visibility="visible"
         android:paddingTop="8dp"/>
+    <RelativeLayout
+        android:id="@+id/rl_threetags"
+        android:layout_below="@+id/rv_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_15">
+
     <TextView
         android:id="@+id/tv_job"
-        android:layout_below="@+id/rv_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
         android:drawableLeft="@mipmap/boy_profession_whiteicon"
+        android:layout_marginBottom="@dimen/margin_10"
         android:textColor="@color/color_40FFFFFF"
         android:textSize="14sp"
         android:drawablePadding="@dimen/margin_5"
@@ -154,9 +161,9 @@
         android:layout_below="@+id/tv_job"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
+        android:layout_marginBottom="@dimen/margin_10"
         android:drawableLeft="@mipmap/boy_car_whiteicon"
         android:textColor="@color/color_40FFFFFF"
         android:textSize="14sp"
@@ -167,7 +174,6 @@
         android:layout_below="@+id/tv_zuojia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
         android:drawableLeft="@mipmap/boy_hobby_whiteicon"
@@ -175,12 +181,12 @@
         android:textSize="14sp"
         android:drawablePadding="@dimen/margin_5"
         android:text="职业 "/>
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/fl_add_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_aihao"
-        android:layout_marginTop="@dimen/margin_15"
+        android:layout_below="@+id/rl_threetags"
         android:background="@drawable/shape_white_top_8r"
         android:orientation="vertical">
 

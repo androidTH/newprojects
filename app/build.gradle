@@ -14,8 +14,8 @@ android {
         applicationId "com.d6.android.app"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 14
-        versionName "1.7.0"
+        versionCode 15
+        versionName "1.7.1"
         // Enabling multiDex support.
         multiDexEnabled true
         ndk {
@@ -146,7 +146,7 @@ dependencies {
 //    compile 'com.github.zcweng:switch-button:0.0.3@aar'
     //完全版
     //debug 包
-    debugCompile 'com.bugtags.library:bugtags-lib:3.0.0'
+//    debugCompile 'com.bugtags.library:bugtags-lib:3.0.0'
     //release 包
 //    releaseCompile 'com.bugtags.metrics:bugtags-lib:3.0.0'
 }

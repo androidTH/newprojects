@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="230dp"
     android:layout_marginLeft="8dp"
     android:background="@drawable/shape_date_white"
     android:padding="@dimen/margin_10">
@@ -101,7 +101,7 @@
             android:layout_height="25dp"
             android:layout_below="@+id/tv_info"
             android:gravity="center_vertical"
-            android:text="地址"
+            android:text="-----"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
 
@@ -112,6 +112,7 @@
             android:layout_below="@+id/tv_address"
             android:ellipsize="end"
             android:gravity="center_vertical"
+            android:text="----"
             android:maxLines="1"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
