@@ -112,6 +112,10 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
                  payMoney(data)
             }
         }
+       mHeaderView.tv_privilege.setOnClickListener {
+
+       }
+
         getUserInfo()
     }
 
@@ -188,6 +192,13 @@ class MyPointsActivity : BaseActivity(),SwipeRefreshRecyclerLayout.OnRefreshList
             data?.let {
                 mHeaderView.tv_mypointnums.text = it.iPoint.toString()
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
+                mHeaderView.iv_wallet_headView.setImageURI(it.picUrl)
+                mHeaderView.tv_wallet_username.text = it.name
+                if(TextUtils.equals(it.sex,"0")){
+                   mHeaderView.ll_huiyuan_info.visibility = View.GONE
+                }else{
+                    mHeaderView.ll_huiyuan_info.visibility = View.VISIBLE
+                }
             }
         })
     }

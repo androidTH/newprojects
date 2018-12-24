@@ -24,6 +24,7 @@
     <string name="hobbit_string">最长可输入3个爱好，每个爱好最长5个字,点击+号可添加另一个</string>
     <string name="date_wenan">想要TA的联系方式,点击联系客服,将此页面分享给会员客服嗷</string>
     <string name="string_mypoints">我的积分</string>
+    <string name="string_wallet">钱包</string>
     <string name="str_points_pay_success">积分充值成功</string>
     <string name="str_points_pay_fail">充值失败，请重新支付</string>
     <string name="likeme">喜欢我的</string>

@@ -225,8 +225,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@color/color_black"
-                    android:textSize="16sp"
+                    android:textColor="@color/color_F7AB00"
+                    android:textSize="18sp"
                     android:layout_centerHorizontal="true"
                     android:text="9"/>
 
@@ -268,8 +268,8 @@
                     android:gravity="center"
                     android:text="30"
                     android:layout_centerHorizontal="true"
-                    android:textColor="@color/color_black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/color_F7AB00"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_below="@+id/tv_follow_count"
@@ -310,8 +310,8 @@
                     android:gravity="center"
                     android:layout_centerHorizontal="true"
                     android:text="99"
-                    android:textColor="@color/color_black"
-                    android:textSize="16sp" />
+                    android:textColor="@color/color_F7AB00"
+                    android:textSize="18sp"/>
                 <TextView
                     android:layout_below="@+id/tv_vistor_count"
                     android:layout_width="wrap_content"
@@ -332,25 +332,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:drawableLeft="@mipmap/mycenter_wallet_icon"
+                    android:drawableRight="@mipmap/mycenter_wallet_icon"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/color_black"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/tv_mypointscount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
                     android:layout_toRightOf="@+id/tv_mypoints_countall"
                     android:textColor="@color/color_F7AB00"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
                     android:paddingTop="1dp"
                     android:paddingBottom="1dp"
-                    android:background="@drawable/shape_4r_white"
+                    android:background="@drawable/shape_reddot"
                     android:layout_marginLeft="-5dp"
                     android:textSize="10sp"
-                    android:visibility="gone"
-                    android:text="" />
+                    android:visibility="visible" />
 
                 <TextView
                     android:layout_below="@+id/tv_mypoints_countall"

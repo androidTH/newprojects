@@ -118,7 +118,6 @@ class SettingActivity : TitleActivity() {
     }
 
     private fun getUserInfo() {
-
         Request.getUserInfo("",userId).request(this, success = { _, data ->
             this.mData = data
             mSwipeRefreshLayout.isRefreshing = false

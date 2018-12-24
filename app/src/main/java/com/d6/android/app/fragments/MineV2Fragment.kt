@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -360,8 +361,9 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 headerView.tv_sex.text = it.age
                 if(it.iPoint!!.toInt() > 0){
+//                    headerView.iv_mypoints_countall.setImageDrawable(ContextCompat.getDrawable(context,R.mipmap.mycenter_wallet_icon))
                     headerView.tv_mypointscount.visibility = View.VISIBLE
-                    headerView.tv_mypointscount.text = it.iPoint.toString()
+//                    headerView.tv_mypointscount.text = it.iPoint.toString()
                 }else{
                     headerView.tv_mypointscount.visibility = View.GONE
                 }
