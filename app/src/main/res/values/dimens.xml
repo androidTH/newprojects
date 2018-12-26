@@ -35,6 +35,7 @@
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_25">25dp</dimen>
     <dimen name="margin_22">22dp</dimen>
+    <dimen name="margin_26">26dp</dimen>
     <dimen name="margin_28">28dp</dimen>
     <dimen name="margin_30">30dp</dimen>
     <dimen name="margin_35">35dp</dimen>
