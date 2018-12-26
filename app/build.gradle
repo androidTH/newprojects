@@ -14,8 +14,8 @@ android {
         applicationId "com.d6.android.app"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 15
-        versionName "1.7.1"
+        versionCode 16
+        versionName "1.7.2"
         // Enabling multiDex support.
         multiDexEnabled true
         ndk {
