@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/margin_20"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -45,8 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_8"
-        android:text="小小的梦想"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginBottom="@dimen/margin_18"
+        android:text="-----"
         android:textColor="@color/color_333333"
         android:textSize="15sp" />
 

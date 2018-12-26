@@ -44,6 +44,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                 context.startActivity<UserInfoActivity>("id" to id)
             }
         }
+        tv_redflower.setOnClickListener {
+            square?.let {
+                sendFlowerClick?.onSendFlowerClick(it)
+            }
+        }
     }
 
     fun update(square: Square) {
@@ -115,9 +120,23 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
     }
+
+    fun setOnSendFlowerClick(sendFlowerClick:(square:Square)->Unit){
+        this.sendFlowerClick = object :DoSendFlowerClick{
+            override fun onSendFlowerClick(square: Square) {
+                sendFlowerClick(square)
+            }
+        }
+    }
+
     private var action:Action?=null
+    private var sendFlowerClick:DoSendFlowerClick?=null
 
     interface Action{
         fun onPraiseClick(square: Square)
+    }
+
+    interface DoSendFlowerClick{
+        fun onSendFlowerClick(square:Square)
     }
 }

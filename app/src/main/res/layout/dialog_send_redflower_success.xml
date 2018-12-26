@@ -28,6 +28,7 @@
             android:gravity="center"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/tv_sendflower_nums"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
@@ -63,32 +64,32 @@
             android:layout_marginTop="@dimen/margin_30"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/tv_like"
+                android:id="@+id/tv_sendflower_success_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:background="@drawable/shape_20r_ff6"
-                android:paddingTop="@dimen/margin_10"
-                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_8"
+                android:paddingBottom="@dimen/margin_8"
                 android:paddingRight="30dp"
                 android:paddingLeft="30dp"
                 android:textSize="15sp"
                 android:gravity="center"
-                android:layout_marginRight="@dimen/margin_12"
+                android:layout_marginRight="@dimen/margin_8"
                 android:layout_alignParentBottom="true"
                 android:drawableLeft="@mipmap/icon_like_button"
                 android:drawablePadding="@dimen/margin_5"
                 android:text="@string/string_like"/>
             <TextView
-                android:id="@+id/tv_siliao"
+                android:id="@+id/tv_sendflower_success_siliao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tv_like"
+                android:layout_toRightOf="@+id/tv_sendflower_success_like"
                 android:textColor="@color/white"
-                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_8"
                 android:background="@drawable/shape_20r_orange"
-                android:paddingTop="@dimen/margin_10"
-                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_8"
+                android:paddingBottom="@dimen/margin_8"
                 android:paddingRight="30dp"
                 android:paddingLeft="30dp"
                 android:textSize="15sp"
@@ -105,7 +106,7 @@
         style="@style/DefaultCircleHeadStyle"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_20"
         android:layout_centerHorizontal="true"/>
     <TextView
         android:id="@+id/tv_close"

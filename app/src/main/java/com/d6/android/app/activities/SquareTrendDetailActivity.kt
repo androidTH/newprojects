@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.header_square_detail.view.*
 import org.jetbrains.anko.toast
 import android.view.inputmethod.InputMethodManager
 import com.d6.android.app.dialogs.CommentDelDialog
+import com.d6.android.app.dialogs.SendRedFlowerDialog
 import org.jetbrains.anko.bundleOf
 import java.util.*
 
@@ -71,6 +72,13 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 praise(it)
             }
         }
+
+        headerView.mTrendDetailView.setOnSendFlowerClick {
+            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+            dialogSendRedFlowerDialog.arguments = bundleOf("userId" to it.userid.toString())
+            dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
+        }
+
         squareDetailCommentAdapter.setOnItemClickListener { _, position ->
             val comment = mComments[position]
             replayUid = comment.userId?:""

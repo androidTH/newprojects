@@ -274,8 +274,8 @@ class MyDateDetailActivity : BaseActivity() {
         tv_name1.text =  getSpannable("${data.sUserName}:发起邀约",4)
         tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
 
-        headView2.setImageURI(data.sPicUrl)
-        tv_name2.text = getSpannable("${data.sUserName}:${str}",len)
+        headView2.setImageURI(data.sAppointmentPicUrl)
+        tv_name2.text = getSpannable("${data.sAppointUserName}:${str}",len)
         tv_days2.text = updateTime.interval() //同意约会时间
     }
 

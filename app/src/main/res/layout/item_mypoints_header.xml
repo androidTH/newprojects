@@ -147,7 +147,7 @@
             android:textSize="15dp" />
 
         <TextView
-            android:id="@+id/tv_money"
+            android:id="@+id/tv_cash_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_20r_stroke_white"

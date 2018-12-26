@@ -9,7 +9,6 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.RecommendDateAdapter
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
@@ -18,15 +17,11 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.support.v7.widget.LinearSnapHelper
 import android.view.Gravity
-import android.view.View
-import android.widget.Toast
 import com.d6.android.app.dialogs.AreaSelectedPopup
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
-import kotlinx.android.synthetic.main.fragment_date.*
 
 /**
  * 主页
@@ -72,6 +67,11 @@ class HomeFragment : BaseFragment() {
         rvSpeedDate.adapter = speedDateAdapter
 
 //        dzsticknavlayout.setOnStartActivity {
+//            startActivity<RecommendDateActivity>()
+//        }
+
+
+//        scroll_view.setOnReleaseListener {
 //            startActivity<RecommendDateActivity>()
 //        }
 

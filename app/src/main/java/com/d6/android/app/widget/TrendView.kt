@@ -75,6 +75,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                         deleteAction?.onDelete(it)
                     }
                 }
+                tv_redflower.setOnClickListener {
+                    square?.let {
+                        SendFlowerAction?.onSendFlowerClick(it)
+                    }
+                }
+
             }
 
     /**
@@ -178,6 +184,15 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     fun hide(@IdRes viewIdRes: Int) {
         find<View>(viewIdRes).gone()
     }
+
+    fun sendFlowerClick(flowerAction:(square:Square)->Unit){
+        this.SendFlowerAction = object :SendFlowerClickListener{
+            override fun onSendFlowerClick(square: Square) {
+                flowerAction(square)
+            }
+        }
+    }
+
     fun setPraiseClick(action:(square:Square)->Unit){
         this.action = object : PraiseClickListener{
             override fun onPraiseClick(square: Square) {
@@ -204,6 +219,11 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private var action:PraiseClickListener?=null
     private var deleteAction:DeleteClick?=null
     private var onItemClick:OnItemClick?=null
+    private var SendFlowerAction:SendFlowerClickListener?=null
+
+    interface SendFlowerClickListener{
+        fun onSendFlowerClick(square: Square)
+    }
 
     interface PraiseClickListener{
         fun onPraiseClick(square: Square)

@@ -65,12 +65,16 @@
     <color name="color_F9B724">#F9B724</color>
     <color name="color_0D000000">#0D000000</color>
     <color name="color_FF6452">#FF6452</color>
+    <color name="color_33FF6452">#33FF6452</color>
     <color name="color_40FFFFFF">#40FFFFFF</color>
     <color name="color_A9A9A9">#A9A9A9</color>
     <color name="color_E6F7AB00">#E6F7AB00</color>
+    <color name="color_80F7AB00">#80F7AB00</color>
     <color name="color_FF4000">#FF4000</color>
     <color name="color_FE6E17">#FE6E17</color>
     <color name="color_F7F7F7">#F7F7F7</color>
     <color name="color_54CC54">#54CC54</color>
+    <color name="color_1AFA5D5D">#1AFA5D5D</color>
+    <color name="color_FA5D5D">#FA5D5D</color>
 
 </resources>

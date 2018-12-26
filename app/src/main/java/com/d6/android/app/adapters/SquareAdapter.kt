@@ -2,21 +2,19 @@ package com.d6.android.app.adapters
 
 import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.dialogs.SendRedFlowerDialog
 import com.d6.android.app.dialogs.SquareActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.optString
 import com.d6.android.app.utils.showTips
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.TrendView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -63,6 +61,12 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
                 }
             }
         }
+
+        trendView.sendFlowerClick {
+            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+            dialogSendRedFlowerDialog.arguments= bundleOf("userId" to it.userid.toString())
+            dialogSendRedFlowerDialog.show((context as BaseActivity).supportFragmentManager,"sendflower")
+        }
     }
 
     //举报
@@ -108,6 +112,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     }
 
     private var clickListener: OnItemClickListener? = null
+
     fun setOnCommentClick(l: (p: Int) -> Unit) {
         clickListener = object : OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {

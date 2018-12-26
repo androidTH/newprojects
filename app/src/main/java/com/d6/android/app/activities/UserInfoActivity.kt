@@ -272,7 +272,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun getUserInfo() {
-
         Request.getUserInfo(userId,id).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             this.mData = data

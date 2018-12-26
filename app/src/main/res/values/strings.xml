@@ -51,5 +51,6 @@
     <string name="string_red_flower">小红花</string>
     <string name="string_sendredflower_title">送TA小红花，回复率更高哦</string>
     <string name="string_sendflower_success">对方已经收到你送的小红花了\n么么哒</string>
+    <string name="string_cash_money">可提现金额：¥%1$s</string>
 
 </resources>
