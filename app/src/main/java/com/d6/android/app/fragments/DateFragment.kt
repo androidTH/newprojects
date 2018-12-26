@@ -26,6 +26,7 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
