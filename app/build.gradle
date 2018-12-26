@@ -15,7 +15,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 15
-        versionName "1.7.1"
+        versionName "1.8.0"
         // Enabling multiDex support.
         multiDexEnabled true
         ndk {
@@ -137,6 +137,9 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-4'
 
     compile 'com.qianwen:update-app:3.5.2'
+
+    implementation 'com.umeng.sdk:push-xiaomi:1.0.0'
+
 //
 //    //没有使用特殊Header，可以不加这行
 //    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'

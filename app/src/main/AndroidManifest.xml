@@ -257,7 +257,10 @@
                 <action android:name="io.rong.push.intent.THIRD_PARTY_PUSH_STATE" />
             </intent-filter>
         </receiver>
-
+        <activity
+            android:name=".activities.MipushActivity"
+            android:launchMode="singleTask"
+            android:exported="true" />
     </application>
 
 </manifest>

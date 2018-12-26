@@ -38,6 +38,7 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
+import org.android.agoo.xiaomi.MiPushRegistar
 import org.jetbrains.anko.toast
 
 
@@ -101,6 +102,8 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
                 sysErr("------------onFailure-------------->$s--->$s1")
             }
         })
+
+        MiPushRegistar.register(this, Const.XIAOMIAPPID, Const.XIAOMIAPPKEY)
 //        mPushAgent.isPushCheck = true
         if (applicationInfo.packageName == getCurProcessName(applicationContext)) {
 
