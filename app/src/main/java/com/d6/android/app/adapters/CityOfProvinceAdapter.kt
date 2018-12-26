@@ -83,7 +83,14 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
                 if (mOnSelected != null) {
 //                    mSelectCityQuickAdapter.selectPosition = position
                     Const.selectCategoryType = view.getTag().toString()
-                    mOnSelected.onSelectedCityListener(position, mSelectCityQuickAdapter.data.get(position).name.toString())
+                    var city = mSelectCityQuickAdapter.data.get(position);
+                    var name = if(!city.pParamName.isNullOrEmpty()){
+                        city.pParamName
+                    }else{
+                        city.name
+                    }
+                    mOnSelected.onSelectedCityListener(position, name.toString())
+
                     mSelectCityQuickAdapter.notifyDataSetChanged()
                 }
             }

@@ -53,6 +53,7 @@ class MyInfoActivity : BaseActivity() {
 
     private var sex: String = "1"
     private var headFilePath: String? = null
+    private var calendar = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_info)
@@ -119,11 +120,15 @@ class MyInfoActivity : BaseActivity() {
             datePickDialog.show(supportFragmentManager,"date")
             datePickDialog.setOnDateSetListener { year, month, day ->
                 datePickDialog.dismissAllowingStateLoss()
-                val t = String.format("%04d-%02d-%02d", year, month, day)
-
-                tv_birthday1.text = t
-                userData.birthday = String.format("%04d-%02d-%02d", year, month, day)
-                tv_constellation1.text = getConstellations("$year-$month-$day")
+                val mYear = calendar.get(Calendar.YEAR)
+                if(mYear-year<=18){
+                     showToast("生日选择不能小于18岁")
+                }else{
+                    val t = String.format("%04d-%02d-%02d", year, month, day)
+                    tv_birthday1.text = t
+                    userData.birthday = String.format("%04d-%02d-%02d", year, month, day)
+                    tv_constellation1.text = getConstellations("$year-$month-$day")
+                }
             }
 
 //            val calendar = Calendar.getInstance()
