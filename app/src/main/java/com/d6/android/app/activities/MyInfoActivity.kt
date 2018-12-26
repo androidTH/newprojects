@@ -100,18 +100,6 @@ class MyInfoActivity : BaseActivity() {
         }
 
         tv_sex1.setOnClickListener {
-//            val sexDialog = SelectSexDialog()
-//            val b = Bundle()
-//            if (sex.isNullOrEmpty()) {
-//                sex = "1"
-//            }
-//            b.putInt("sex", sex.toInt())
-//            sexDialog.arguments = b
-//            sexDialog.setDialogListener { p, s ->
-//                sex = p.toString()
-//                tv_sex1.text = s
-//            }
-//            sexDialog.show(supportFragmentManager, "sex")
             startActivityForResult<SexChooseActivity>(SEX_REQUEST_CODE)
         }
 
@@ -121,8 +109,8 @@ class MyInfoActivity : BaseActivity() {
             datePickDialog.setOnDateSetListener { year, month, day ->
                 datePickDialog.dismissAllowingStateLoss()
                 val mYear = calendar.get(Calendar.YEAR)
-                if(mYear-year<=18){
-                     showToast("生日选择不能小于18岁")
+                if(mYear-year<16){
+                     showToast("生日选择不能小于16岁")
                 }else{
                     val t = String.format("%04d-%02d-%02d", year, month, day)
                     tv_birthday1.text = t
