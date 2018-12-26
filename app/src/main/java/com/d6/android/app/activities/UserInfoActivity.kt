@@ -294,7 +294,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     if(it.toInt()<=0){
                         headerView.tv_sex.text = ""
                     }else{
-                        headerView.tv_sex.text = it.age
+                        headerView.tv_sex.text = it
                     }
                 }
 
