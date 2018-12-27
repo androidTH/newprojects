@@ -18,6 +18,10 @@ import com.d6.android.app.rong.CustomMessage;
 import com.d6.android.app.rong.bean.ImgTxtMessage;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -142,10 +146,14 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
         } else {
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         }
-
         TextView textView = holder.mTvMsgContent;
-        ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);
         textView.setText(content.getContent());
-        holder.mTvReceivedFlowerNums.setText(msg.getNums());
+        try {
+            JSONObject jsonObject =new JSONObject(content.getExtra());
+            String num = jsonObject.getString("b");
+            holder.mTvReceivedFlowerNums.setText(num);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
