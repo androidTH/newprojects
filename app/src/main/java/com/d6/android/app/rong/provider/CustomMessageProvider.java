@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.rong.CustomMessage;
+import com.d6.android.app.rong.bean.ImgTxtMessage;
+import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import io.rong.imkit.RongContext;
@@ -33,10 +35,11 @@ import io.rong.imlib.model.Message;
 
 @ProviderTag(messageContent = CustomMessage.class, showReadState = true)
 public class CustomMessageProvider extends IContainerItemProvider.MessageProvider<CustomMessage>{
-    private static final String TAG = "TestMessageItemProvider";
+    private static final String TAG = "CustomMessageProvider";
 
     private static class ViewHolder {
         TextView mTvMsgContent;
+        TextView mTvReceivedFlowerNums;
         boolean longClick;
         SimpleDraweeView simpleDraweeView;
         LinearLayout mLl_CustomMsg_Body;
@@ -47,9 +50,10 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
         View view = LayoutInflater.from(context).inflate(R.layout.item_rong_custommsg, null);
 
         CustomMessageProvider.ViewHolder holder = new CustomMessageProvider.ViewHolder();
-        holder.mTvMsgContent = (TextView) view.findViewById(R.id.tv_rongcustommsg_content);
+        holder.mTvMsgContent = view.findViewById(R.id.tv_rongcustommsg_content);
         holder.mLl_CustomMsg_Body = view.findViewById(R.id.ll_custommsg_body);
-        holder.simpleDraweeView = view.findViewById(R.id.iv_rong_custommsg_pic);
+        holder.mTvReceivedFlowerNums = view.findViewById(R.id.tv_receivedflower_nums);
+//        holder.simpleDraweeView = view.findViewById(R.id.iv_rong_custommsg_pic);
         view.setTag(holder);
         return view;
     }
@@ -139,8 +143,9 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         }
 
-        final TextView textView = holder.mTvMsgContent;
+        TextView textView = holder.mTvMsgContent;
+        ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);
         textView.setText(content.getContent());
-        holder.simpleDraweeView.setImageURI(content.getExtra());
+        holder.mTvReceivedFlowerNums.setText(msg.getNums());
     }
 }

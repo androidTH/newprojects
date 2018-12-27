@@ -23,9 +23,9 @@ import io.rong.imlib.model.UserInfo;
  * Created by Beyond on 2016/12/5.
  */
 
-@MessageTag(value = "RCD:TstMsg", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
+@MessageTag(value = "app:CustomTxtImgMsg", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
 public class CustomMessage extends MessageContent {
-    private final static String TAG = "TestMessage";
+    private final static String TAG = "CustomMessage";
 
     private String content;
     protected String extra;
@@ -88,10 +88,10 @@ public class CustomMessage extends MessageContent {
     public CustomMessage() {
     }
 
-    public static CustomMessage obtain(String text,String url) {
+    public static CustomMessage obtain(String text,String json) {
         CustomMessage model = new CustomMessage();
         model.setContent(text);
-        model.extra = url;
+        model.extra = json;
         return model;
     }
 

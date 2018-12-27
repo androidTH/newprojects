@@ -8,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 
 import com.d6.android.app.R;
 import com.d6.android.app.rong.CustomMessage;
+import com.d6.android.app.rong.bean.ImgTxtMessage;
+import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.CustomToast;
 
 import io.rong.imkit.RongExtension;
@@ -34,7 +36,7 @@ public class FlowerPluginModule implements IPluginModule {
 
     @Override
     public Drawable obtainDrawable(Context context) {
-        return ContextCompat.getDrawable(context, R.mipmap.chat_flowers_big);
+        return ContextCompat.getDrawable(context, R.drawable.send_redflowers);
     }
 
     @Override
@@ -46,8 +48,9 @@ public class FlowerPluginModule implements IPluginModule {
     public void onClick(Fragment fragment, RongExtension rongExtension) {
         this.conversationType = rongExtension.getConversationType();
         this.targetId = rongExtension.getTargetId();
+        ImgTxtMessage custommsg= new ImgTxtMessage("送你200朵小红花","200");
 //        RichContentMessage richContentMessage = RichContentMessage.obtain("送花", "xxx送你3朵小红花", "https://www.rongcloud.cn/images/logo.png");
-        CustomMessage richContentMessage = CustomMessage.obtain("xxx送你3朵小红花","https://www.rongcloud.cn/images/logo.png");
+        CustomMessage richContentMessage = CustomMessage.obtain("送你200朵小红花",GsonHelper.getGson().toJson(custommsg));
         //Conversation.ConversationType.PRIVATE 为会话类型。
         Message myMessage = Message.obtain(targetId, conversationType, richContentMessage);
         RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {

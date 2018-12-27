@@ -201,7 +201,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ImagePagerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/translucent"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />

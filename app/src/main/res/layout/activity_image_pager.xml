@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/photo_drag_relaivelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black">
@@ -40,4 +40,4 @@
            android:id="@+id/tv_delete"
            android:layout_alignParentRight="true"/>
    </RelativeLayout>
-</RelativeLayout>
+</com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout>

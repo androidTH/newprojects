@@ -22,6 +22,7 @@ import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_setting.*
+import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
@@ -132,7 +133,13 @@ class SettingActivity : TitleActivity() {
 //                    tv_vip.visible()
 //                }
                 tv_sex.isSelected = TextUtils.equals("0",it.sex)
-                tv_sex.text = it.age
+                it.age?.let {
+                    if(it.toInt()<=0){
+                        tv_sex.text =""
+                    }else{
+                        tv_sex.text = it
+                    }
+                }
                 headView.setImageURI(it.picUrl)
                 tv_nick.text = it.name
                 tv_signature.text = it.intro

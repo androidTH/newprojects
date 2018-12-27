@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.view.ViewPager
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.ImagePagerAdapter
 import com.d6.android.app.base.BaseActivity
@@ -12,6 +13,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.visible
+import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import kotlinx.android.synthetic.main.activity_image_pager.*
 import org.jetbrains.anko.bundleOf
 import java.lang.StringBuilder
@@ -26,7 +28,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_pager)
         tv_close.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         tv_delete.setOnClickListener {
@@ -35,6 +37,24 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 delete(it[p])
             }
         }
+
+        photo_drag_relaivelayout.setDragListener(PhotoDragHelper().setOnDragListener(object : PhotoDragHelper.OnDragListener{
+
+            override fun getDragView(): View {
+                return photo_drag_relaivelayout
+            }
+
+            override fun onAlpha(alpha: Float) {
+                photo_drag_relaivelayout.setAlpha(alpha)
+            }
+
+            override fun onAnimationEnd(mSlop: Boolean) {
+                if (mSlop) {
+                    finish()
+                    overridePendingTransition(0, 0)
+                }
+            }
+        }))
 
         initData()
     }
@@ -92,6 +112,11 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onPageScrollStateChanged(state: Int) {
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(0, R.anim.imgpager_menu_out);
     }
 
     override fun onDestroy() {
