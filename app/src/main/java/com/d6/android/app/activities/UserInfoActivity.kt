@@ -151,14 +151,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
 
         tv_siliao.setOnClickListener {
-//            isNoAuthToChat("5") {
                 mData?.let {
                     val name = it.name ?: ""
-//                        checkChatCount(id) {
-                            showDatePayPointDialog(name)
-//                    }
+                    showDatePayPointDialog(name)
                 }
-//            }
+        }
+
+        iv_sendflower.setOnClickListener {
+            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+            mData?.let {
+                dialogSendRedFlowerDialog.arguments = bundleOf("userId" to it.accountId.toString())
+            }
+            dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
         }
 
         tv_more.setOnClickListener {
@@ -408,7 +412,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
 
                         tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
-                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10))
+                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
                     }else{
                         tv_like.text= resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
@@ -489,7 +493,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
 
             tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
-            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
 
             mData?.iIsFollow = 1
             showTips(jsonObject,"","")

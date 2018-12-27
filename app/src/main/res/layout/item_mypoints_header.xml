@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@mipmap/icon_wallet_bg">
 
     <RelativeLayout
         android:id="@+id/rl_user_info"

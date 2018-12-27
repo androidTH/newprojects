@@ -48,6 +48,22 @@
             android:textColor="@color/orange_f6a"
             android:id="@+id/tv_all_comment"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_redflower"
+        android:text="0"
+        android:textColor="@color/color_888888"
+        android:layout_toLeftOf="@+id/tv_appraise"
+        android:drawableLeft="@mipmap/feed_flowers_seleted"
+        android:drawablePadding="4dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginRight="@dimen/margin_16"
+        android:padding="8dp"
+        android:layout_below="@+id/ll_comments"/>
+
     <TextView
         android:id="@+id/tv_appraise"
         android:layout_width="wrap_content"

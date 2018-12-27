@@ -24,6 +24,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
+import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.umeng.commonsdk.UMConfigure
@@ -108,7 +109,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
         if (applicationInfo.packageName == getCurProcessName(applicationContext)) {
 
             RongIM.init(this)
-//            RongPlugin.init(this)
+            RongPlugin.init(this)
             RongIM.getInstance().setMessageAttachedUserInfo(true)
             initCacheLib()
             setInputProvider()

@@ -34,7 +34,7 @@ public class FlowerPluginModule implements IPluginModule {
 
     @Override
     public Drawable obtainDrawable(Context context) {
-        return ContextCompat.getDrawable(context, R.mipmap.ic_community_story);
+        return ContextCompat.getDrawable(context, R.mipmap.chat_flowers_big);
     }
 
     @Override

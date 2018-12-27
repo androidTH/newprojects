@@ -57,6 +57,7 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         android:background="@mipmap/icon_footwhitemask"
+        android:paddingBottom="@dimen/margin_30"
         android:layout_height="100dp">
        <TextView
            android:id="@+id/tv_like"
@@ -71,7 +72,6 @@
            android:layout_marginBottom="20dp"
            android:textSize="15sp"
            android:gravity="center"
-           android:layout_marginRight="@dimen/margin_12"
            android:layout_alignParentBottom="true"
            android:drawableLeft="@mipmap/icon_like_button"
            android:drawablePadding="@dimen/margin_5"
@@ -95,5 +95,16 @@
             android:drawableLeft="@mipmap/chat_button_icon"
             android:drawablePadding="@dimen/margin_5"
             android:text="@string/string_siliao"/>
+        <ImageView
+            android:id="@+id/iv_sendflower"
+            android:layout_width="@dimen/margin_30"
+            android:layout_height="@dimen/margin_30"
+            android:layout_toRightOf="@+id/tv_siliao"
+            android:layout_marginBottom="@dimen/margin_25"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/shape_20r_white"
+            android:src="@mipmap/window_flowers_big"/>
     </RelativeLayout>
 </RelativeLayout>
