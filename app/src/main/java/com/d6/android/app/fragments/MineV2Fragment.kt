@@ -359,7 +359,14 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
-                headerView.tv_sex.text = it.age
+                it.age?.let {
+                    if(it.toInt()<=0){
+                        headerView.tv_sex.text = ""
+                    }else{
+                        headerView.tv_sex.text = it
+                    }
+                }
+
                 if(it.iPoint!!.toInt() > 0){
 //                    headerView.iv_mypoints_countall.setImageDrawable(ContextCompat.getDrawable(context,R.mipmap.mycenter_wallet_icon))
                     headerView.tv_mypointscount.visibility = View.VISIBLE

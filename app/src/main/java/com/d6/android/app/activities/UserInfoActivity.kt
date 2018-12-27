@@ -289,7 +289,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
-                headerView.tv_sex.text = it.age
+                it.age?.let {
+                    if(it.toInt()<=0){
+                        headerView.tv_sex.text = ""
+                    }else{
+                        headerView.tv_sex.text = it
+                    }
+                }
+
                 if (TextUtils.equals("0", it.sex)) {
                     headerView.tv_vip.invisible()
                 } else {
