@@ -7,6 +7,7 @@ import android.text.ClipboardManager;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,16 +146,20 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
             TextView textView = holder.mTvMsgContent;
             textView.setText(content.getContent());
-            ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);
-            holder.mTvReceivedFlowerNums.setText(msg.getNums());
+            if(!TextUtils.isEmpty(content.getExtra())){
+                ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);
+                holder.mTvReceivedFlowerNums.setText(msg.getNums());
+            }
         } else {
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
             TextView textView = holder.mTvMsgContent;
             textView.setText(content.getContent());
             try {
-                JSONObject jsonObject =new JSONObject(content.getExtra());
-                String num = jsonObject.getString("b");
-                holder.mTvReceivedFlowerNums.setText(num);
+                if(!TextUtils.isEmpty(content.getExtra())){
+                    JSONObject jsonObject =new JSONObject(content.getExtra());
+                    String num = jsonObject.getString("b");
+                    holder.mTvReceivedFlowerNums.setText(num);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
