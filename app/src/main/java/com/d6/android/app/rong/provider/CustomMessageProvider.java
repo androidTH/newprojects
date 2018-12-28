@@ -143,17 +143,21 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
 
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
+            TextView textView = holder.mTvMsgContent;
+            textView.setText(content.getContent());
+            ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);
+            holder.mTvReceivedFlowerNums.setText(msg.getNums());
         } else {
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
-        }
-        TextView textView = holder.mTvMsgContent;
-        textView.setText(content.getContent());
-        try {
-            JSONObject jsonObject =new JSONObject(content.getExtra());
-            String num = jsonObject.getString("b");
-            holder.mTvReceivedFlowerNums.setText(num);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            TextView textView = holder.mTvMsgContent;
+            textView.setText(content.getContent());
+            try {
+                JSONObject jsonObject =new JSONObject(content.getExtra());
+                String num = jsonObject.getString("b");
+                holder.mTvReceivedFlowerNums.setText(num);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

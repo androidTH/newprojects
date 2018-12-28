@@ -27,6 +27,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_pager)
+        immersionBar.fitsSystemWindows(true).init()
         tv_close.setOnClickListener {
             onBackPressed()
         }
@@ -41,7 +42,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         photo_drag_relaivelayout.setDragListener(PhotoDragHelper().setOnDragListener(object : PhotoDragHelper.OnDragListener{
 
             override fun getDragView(): View {
-                return photo_drag_relaivelayout
+                return mImageViewPager
             }
 
             override fun onAlpha(alpha: Float) {
@@ -128,6 +129,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             e.printStackTrace()
         }
         super.onDestroy()
+        immersionBar.destroy()
     }
 
     companion object {
