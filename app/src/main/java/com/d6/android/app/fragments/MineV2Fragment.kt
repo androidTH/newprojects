@@ -20,6 +20,7 @@ import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
 import com.d6.android.app.adapters.UserTagAdapter
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.MineActionDialog
 import com.d6.android.app.extentions.request

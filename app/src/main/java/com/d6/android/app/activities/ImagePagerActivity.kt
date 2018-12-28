@@ -51,8 +51,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
             override fun onAnimationEnd(mSlop: Boolean) {
                 if (mSlop) {
-                    finish()
-                    overridePendingTransition(0, 0)
+                    onBackPressed()
                 }
             }
         }))
@@ -98,7 +97,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             user.userpics = imgs.toString()
             Request.updateUserInfo(user).request(this){_,_->
                 setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to user)))
-                finish()
+                onBackPressed()
             }
         }
     }
@@ -117,7 +116,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(0, R.anim.imgpager_menu_out);
+        finish()
+        overridePendingTransition(R.anim.img_fade_in, R.anim.img_fade_out)
     }
 
     override fun onDestroy() {

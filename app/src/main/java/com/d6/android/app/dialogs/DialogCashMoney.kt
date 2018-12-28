@@ -72,8 +72,11 @@ class DialogCashMoney : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-        val filters = arrayOf<InputFilter>(CashierInputFilter())
-        et_cash_input.filters = filters
+        tv_bindwx.setOnClickListener {
+
+        }
+//        val filters = arrayOf<InputFilter>(CashierInputFilter())
+//        et_cash_input.filters = filters
         et_cash_input.addTextChangedListener(object:TextWatcher{
 
             override fun afterTextChanged(s: Editable?) {

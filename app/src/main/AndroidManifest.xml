@@ -202,7 +202,7 @@
         <activity
             android:name=".activities.ImagePagerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/translucent"/>
+            android:theme="@style/imageactivity"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
@@ -233,6 +233,7 @@
         <activity android:name=".activities.MyDateDetailActivity"/>
         <activity android:name=".activities.RecommendDateActivity"/>
         <activity android:name=".activities.PointExplainActivity"/>
+        <activity android:name=".activities.PrivilegeDescActivity"/>
         <activity android:name=".activities.BindPhoneActivity"/>
         <activity android:name=".activities.SexChooseActivity"
             android:theme="@style/chooseAnim"/>
@@ -262,6 +263,7 @@
             android:name=".activities.MipushActivity"
             android:launchMode="singleTask"
             android:exported="true" />
+
     </application>
 
 </manifest>

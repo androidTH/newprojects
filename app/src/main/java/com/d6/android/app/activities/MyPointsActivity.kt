@@ -83,8 +83,9 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 payMoney(data)
             }
         }
-        mHeaderView.tv_privilege.setOnClickListener {
 
+        mHeaderView.tv_privilege.setOnClickListener {
+            startActivity<PrivilegeDescActivity>()
         }
 
         mHeaderView.tv_cash_money.setOnClickListener {
