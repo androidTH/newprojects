@@ -1,11 +1,13 @@
 package com.d6.android.app.dialogs
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -22,12 +24,13 @@ import kotlinx.android.synthetic.main.dialog_cash_widthdrawal.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
 
 /**
  * 约会发送出错
  */
-class DialogCashMoney : DialogFragment(),RequestManager {
+class DialogCashMoney : DialogFragment(), RequestManager {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -44,7 +47,7 @@ class DialogCashMoney : DialogFragment(),RequestManager {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout((screenWidth() * 0.8f).toInt()+dip(30), wrapContent)
+        dialog.window.setLayout((screenWidth() * 0.8f).toInt() + dip(30), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
         dialog.setCanceledOnTouchOutside(true)
     }
@@ -61,11 +64,24 @@ class DialogCashMoney : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var mUserInfo:UserData = (arguments.get("data") as UserData)
+        var mUserInfo: UserData = (arguments.get("data") as UserData)
         var cashmoney = arguments.getString("cashmoney")
 
-        iv_cash_headView.setImageURI(mUserInfo.picUrl)
-        tv_cash_money.text = String.format(getString(R.string.string_cash_money),cashmoney)
+        if (TextUtils.isEmpty(mUserInfo.wxid)) {
+            iv_cash_headView.setImageURI(Uri.parse("res://" + context.getPackageName() + "/" + R.mipmap.unbound_wechat_icon))
+            tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_oc)
+            tv_bindwx.textColor = ContextCompat.getColor(context, R.color.white)
+            tv_bindwx.text = "绑定微信"
+            tv_wx_username.text="未绑定微信"
+        } else {
+            iv_cash_headView.setImageURI(mUserInfo.picUrl)
+            tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_88)
+            tv_bindwx.textColor = ContextCompat.getColor(context, R.color.color_888888)
+            tv_bindwx.text = "更换微信"
+            tv_wx_username.text="微信：${mUserInfo.wxid}"
+        }
+
+        tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
 
         tv_close.setOnClickListener {
             KeyboardktUtils().hideKeyboard(it)
@@ -73,17 +89,21 @@ class DialogCashMoney : DialogFragment(),RequestManager {
         }
 
         tv_bindwx.setOnClickListener {
+            if (TextUtils.isEmpty(mUserInfo.wxid)) {
 
+            } else {
+
+            }
         }
 //        val filters = arrayOf<InputFilter>(CashierInputFilter())
 //        et_cash_input.filters = filters
-        et_cash_input.addTextChangedListener(object:TextWatcher{
+        et_cash_input.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
-                if(s.isNullOrEmpty()){
-                    tv_cashok.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_4r_80_orange)
-                }else{
-                    tv_cashok.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_orange)
+                if (s.isNullOrEmpty()) {
+                    tv_cashok.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_4r_80_orange)
+                } else {
+                    tv_cashok.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_orange)
                 }
             }
 
@@ -96,12 +116,16 @@ class DialogCashMoney : DialogFragment(),RequestManager {
         })
 
         tv_cashok.setOnClickListener {
-             var money = et_cash_input.text.toString().toFloat()
-             if(money<=cashmoney.toFloat()){
+            var money = et_cash_input.text.toString().toFloat()
+            if (money <= cashmoney.toFloat()) {
+                  if(money>=20){
 
-             }else{
-                 showToast("提现金额必须小于可提金额！")
-             }
+                  }else{
+                      showToast("最低提现金额不能小于20元！")
+                  }
+            } else {
+                showToast("提现金额必须小于可提金额！")
+            }
         }
     }
 
