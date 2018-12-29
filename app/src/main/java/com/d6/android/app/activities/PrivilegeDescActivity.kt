@@ -1,7 +1,10 @@
 package com.d6.android.app.activities
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.ClipboardManager
@@ -16,6 +19,8 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.activity_privilegedesc_layout.*
 import org.jetbrains.anko.toast
+
+
 
 /**
  * 积分说明
@@ -38,11 +43,32 @@ class PrivilegeDescActivity : BaseActivity() {
         tv_copy_wechat.setOnClickListener {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             cm.text = wechatnumber
-            toast("微信号已复制到剪切板")
+            toast("已复制客服微信号")
+        }
+
+        tv_wechat_service.setOnClickListener {
+            getWechatApi()
+            val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            cm.text = wechatnumber
         }
 
         getData()
         initView()
+    }
+
+    private fun getWechatApi() {
+        try {
+            val intent = Intent()
+            val cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
+            intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.setComponent(cmp)
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            // TODO: handle exception
+            showToast("检查到您手机没有安装微信，请安装后使用该功能")
+        }
+
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -80,11 +106,11 @@ class PrivilegeDescActivity : BaseActivity() {
                 val womanWeChat = data.optString("ext1")
                 val manWeChat = data.optString("ext2")
                 if(TextUtils.equals(sex,"0")){
-                    wechatnumber ="客服微信号：${womanWeChat}"
+                    wechatnumber = womanWeChat
                 }else{
-                    wechatnumber = "客服微信号：${manWeChat}"
+                    wechatnumber = manWeChat
                 }
-                tv_wechat_number.text = wechatnumber
+                tv_wechat_number.text = "客服微信号：${wechatnumber}"
             }
         }
     }
