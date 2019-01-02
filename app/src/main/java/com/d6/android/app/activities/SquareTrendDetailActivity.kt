@@ -75,7 +75,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         headerView.mTrendDetailView.setOnSendFlowerClick {
             var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-            dialogSendRedFlowerDialog.arguments = bundleOf("userId" to it.userid.toString())
+            dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 1,"userId" to it.userid.toString(),"squareId" to it.id.toString())
             dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
         }
 

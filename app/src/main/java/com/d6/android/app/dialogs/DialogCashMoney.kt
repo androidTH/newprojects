@@ -1,5 +1,6 @@
 package com.d6.android.app.dialogs
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -14,17 +15,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.UserData
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CashierInputFilter
+import com.d6.android.app.widget.CustomToast
+import com.umeng.socialize.UMAuthListener
+import com.umeng.socialize.UMShareAPI
+import com.umeng.socialize.bean.SHARE_MEDIA
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_cash_widthdrawal.*
+import kotlinx.android.synthetic.main.item_mypoints_header.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -90,7 +100,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
 
         tv_bindwx.setOnClickListener {
             if (TextUtils.isEmpty(mUserInfo.wxid)) {
-
+                weChatLogin()
             } else {
 
             }
@@ -136,6 +146,70 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             override fun onClick(position: Int, data: String?) {
                 l(position, data)
             }
+        }
+    }
+
+
+    private val shareApi by lazy {
+        UMShareAPI.get(context)
+    }
+
+    private fun weChatLogin() {
+        isBaseActivity {
+            shareApi.getPlatformInfo(it, SHARE_MEDIA.WEIXIN, object : UMAuthListener {
+                override fun onComplete(p0: SHARE_MEDIA?, p1: Int, data: MutableMap<String, String>?) {
+                    if (data != null) {
+                        val openId = if (data.containsKey("openid")) data["openid"] else ""
+                        val name = if (data.containsKey("name")) data["name"] else ""
+                        val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
+                        val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
+                        bindwxId(openId)
+                    } else {
+                        toast("拉取微信信息异常！")
+                    }
+                }
+
+                override fun onCancel(p0: SHARE_MEDIA?, p1: Int) {
+                    toast("取消")
+                    dismissDialog()
+                }
+
+                override fun onError(p0: SHARE_MEDIA?, p1: Int, p2: Throwable?) {
+                    p2?.printStackTrace()
+                    dismissDialog()
+                }
+
+                override fun onStart(p0: SHARE_MEDIA?) {
+                    it.dialog()
+                }
+            })
+        }
+    }
+
+    private fun bindwxId(wxid:String?){
+        dismissDialog()
+        Request.doBindWxId(userId,wxid.toString()).request(this,false,success={msg,data->
+            getUserInfo()
+        }){code,msg->
+            CustomToast.showToast(msg)
+        }
+    }
+
+    private fun getUserInfo() {
+        Request.getUserInfo("", userId).request(this, success = { _, data ->
+            data?.let {
+                iv_cash_headView.setImageURI(it.picUrl)
+                tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_88)
+                tv_bindwx.textColor = ContextCompat.getColor(context, R.color.color_888888)
+                tv_bindwx.text = "更换微信"
+                tv_wx_username.text="微信：${it.wxid}"
+            }
+        })
+    }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
         }
     }
 

@@ -74,7 +74,7 @@ public final class EasyPay {
     public void toPay(@NonNull OnPayResultListener onPayResultListener) {
         mOnPayResultListener = onPayResultListener;
         if (!NetworkUtils.hasInternet(mPayParams.getActivity().getApplicationContext())) {
-            sendPayResult(COMMON_NETWORK_NOT_AVAILABLE_ERR);
+            sendPayResult(COMMON_NETWORK_NOT_AVAILABLE_ERR,"");
         }
     }
 
@@ -87,8 +87,8 @@ public final class EasyPay {
         PayWay way = mPayParams.getPayWay();
         EasyPay.PayCallBack callBack = new PayCallBack() {
             @Override
-            public void onPayCallBack(int code) {
-                sendPayResult(code);
+            public void onPayCallBack(int code,String orderId) {
+                sendPayResult(code,orderId);
             }
         };
 
@@ -136,7 +136,7 @@ public final class EasyPay {
             @Override
             public void onFailure() {
                 mOnPayInfoRequestListener.onPayInfoRequestFailure();
-                sendPayResult(COMMON_REQUEST_TIME_OUT_ERR);
+                sendPayResult(COMMON_REQUEST_TIME_OUT_ERR,"");
             }
         };
 
@@ -159,16 +159,16 @@ public final class EasyPay {
      *
      * @param code
      */
-    private void sendPayResult(int code) {
+    private void sendPayResult(int code,String orderId) {
         if (mPayParams == null) return;
 
         switch (code) {
             case COMMON_PAY_OK:
-                mOnPayResultListener.onPaySuccess(mPayParams.getPayWay());
+                mOnPayResultListener.onPaySuccess(mPayParams.getPayWay(),orderId);
                 break;
 
             case COMMON_USER_CACELED_ERR:
-                mOnPayResultListener.onPayCancel(mPayParams.getPayWay());
+                mOnPayResultListener.onPayCancel(mPayParams.getPayWay(),orderId);
                 break;
 
             default:
@@ -187,7 +187,7 @@ public final class EasyPay {
     }
 
     public interface PayCallBack {
-        void onPayCallBack(int code);
+        void onPayCallBack(int code,String orderId);
     }
 
 }

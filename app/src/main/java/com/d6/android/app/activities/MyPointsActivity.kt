@@ -91,7 +91,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         mHeaderView.tv_cash_money.setOnClickListener {
             var dialogCashMoney = DialogCashMoney()
             mUserInfo?.let {
-                dialogCashMoney.arguments = bundleOf("data" to it,"cashmoney" to "50")
+                dialogCashMoney.arguments = bundleOf("data" to it,"cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
             }
             dialogCashMoney.show(supportFragmentManager,"cashmoney")
         }
@@ -136,6 +136,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .httpType(HttpType.Post)
                 .httpClientType(NetworkClientType.Retrofit)
                 .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
+                .setType(0)
                 .build()
         EasyPay.newInstance(params).requestPayInfo(object : OnPayInfoRequestListener {
             override fun onPayInfoRequetStart() {
@@ -148,15 +149,11 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             override fun onPayInfoRequestFailure() {
             }
         }).toPay(object : OnPayResultListener {
-            override fun onPaySuccess(payWay: PayWay?) {
-                mPointsListDialog.dismissAllowingStateLoss()
-                getUserInfo()
-                var payResultDialog = PayResultDialog()
-                payResultDialog.arguments = bundleOf("payresult" to "wx_pay_success")
-                payResultDialog.show(supportFragmentManager, "fd")
+            override fun onPaySuccess(payWay: PayWay?,orderId:String) {
+                getOrderStatus(orderId)
             }
 
-            override fun onPayCancel(payWay: PayWay?) {
+            override fun onPayCancel(payWay: PayWay?,orderId:String) {
             }
 
             override fun onPayFailure(payWay: PayWay?, errCode: Int) {
@@ -167,6 +164,21 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
     }
 
+    /**
+     * 获取支付状态
+     */
+    private fun getOrderStatus(orderId:String){
+        Request.getOrderById(orderId).request(this,false,success={msg,data->
+            mPointsListDialog.dismissAllowingStateLoss()
+            getUserInfo()
+            var payResultDialog = PayResultDialog()
+            payResultDialog.arguments = bundleOf("payresult" to "wx_pay_success")
+            payResultDialog.show(supportFragmentManager, "fd")
+        }){code,msg->
+            showToast(msg)
+        }
+    }
+
     private fun getUserInfo() {
         Request.getUserInfo("", userId).request(this, success = { _, data ->
             data?.let {
@@ -175,6 +187,9 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
                 mHeaderView.iv_wallet_headView.setImageURI(it.picUrl)
                 mHeaderView.tv_wallet_username.text = it.name
+
+                mHeaderView.tv_redflowernums.text = it.iFlowerCount.toString()
+
                 if (TextUtils.equals(it.sex, "0")) {
                     mHeaderView.ll_huiyuan_info.visibility = View.GONE
                 } else {

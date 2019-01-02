@@ -72,7 +72,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         isBaseActivity {
             var dialogSendRedFlowerDialog = SendRedFlowerDialog()
             mData?.let {
-                dialogSendRedFlowerDialog.arguments = bundleOf("userId" to square.userid.toString())
+                dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 1,"userId" to square.userid.toString(),"squareId" to square.id.toString())
             }
             dialogSendRedFlowerDialog.show(it.supportFragmentManager,"sendflower")
         }

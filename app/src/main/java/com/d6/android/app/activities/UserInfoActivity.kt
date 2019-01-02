@@ -160,7 +160,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         iv_sendflower.setOnClickListener {
             var dialogSendRedFlowerDialog = SendRedFlowerDialog()
             mData?.let {
-                dialogSendRedFlowerDialog.arguments = bundleOf("userId" to it.accountId.toString())
+                dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 2,"userId" to it.accountId.toString())
             }
             dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
         }

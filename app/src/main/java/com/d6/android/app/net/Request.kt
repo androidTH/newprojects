@@ -358,4 +358,12 @@ object Request {
 
     //是否允许聊天
     fun doTalkJustify(iFromUserid:String,iToUserid:String) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustify(iFromUserid,iToUserid)
+    //获取小红花列表
+    fun getUserFlower()=RRetrofit.instance().create(ApiServices::class.java).getUserFlowerRule()
+
+    //绑定微信号
+    fun doBindWxId(iUserid: String,wxid:String)=RRetrofit.instance().create(ApiServices::class.java).doBindWxId(iUserid,wxid)
+
+    //大赏用户红花
+    fun sendFlowerByOrderId(iUserid:String,iReceiveUserid:String,sOrderid:String,sResourceid:String)=RRetrofit.instance().create(ApiServices::class.java).sendFlowerByOrderId(iUserid,iReceiveUserid,sOrderid,sResourceid)
 }

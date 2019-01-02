@@ -149,6 +149,13 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         } else {
             ""
         }
+
+        tv_redflower.text=if((square.iFlowerCount?:0)>0){
+            square.iFlowerCount.toString()
+        }else{
+            ""
+        }
+
 //        if (!square.classesName.isNullOrEmpty()) {
 //            tv_tag.text = String.format("#%s#",square.classesName)
 //        } else {

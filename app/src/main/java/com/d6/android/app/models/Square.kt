@@ -28,4 +28,5 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var isupvote: String? = ""
     var sex: String? = ""
     var age: String? = ""
+    var iFlowerCount:Int?=0
 }

@@ -152,6 +152,12 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             ""
         }
 
+        tv_redflower.text = if((square.iFlowerCount ?:0)> 0){
+            square.iFlowerCount.toString()
+        }else{
+            ""
+        }
+
         if(TextUtils.equals(square.userid,userId)){
             tv_redflower.visibility = View.GONE
         }else{

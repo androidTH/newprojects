@@ -34,4 +34,8 @@ public interface PrePayInfoService {
     //创建订单
     @POST("backstage/order/add")
     Call<ResponseBody> postPrePayInfo(@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iPoint") int iPoint);
+
+    @POST("backstage/order/addFlower")
+    Call<ResponseBody> postBuyFlower(@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iFlowerCount") int iFlowerCount);
+
 }

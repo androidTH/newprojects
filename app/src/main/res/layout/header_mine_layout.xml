@@ -350,7 +350,7 @@
                     android:background="@drawable/shape_reddot"
                     android:layout_marginLeft="-5dp"
                     android:textSize="10sp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:layout_below="@+id/tv_mypoints_countall"

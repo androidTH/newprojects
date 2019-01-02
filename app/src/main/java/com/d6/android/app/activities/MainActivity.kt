@@ -13,14 +13,11 @@ import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.FilterTrendDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
-import com.d6.android.app.models.AddImage
-import com.d6.android.app.models.Response
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.umeng.message.PushAgent
@@ -72,13 +69,14 @@ class MainActivity : BaseActivity() {
             val spec = tabhost.newTabSpec(it).setIndicator(addTab(i))
             tabhost.addTab(spec, fragmentArray[i], null)
         }
+
         //默认第一个标签
         tabhost.setCurrentTabByTag(tabTexts[0])
-        //获取我都约会未读消息
         tabhost.setOnTabChangedListener {
             titleBar.visible()
             line.visible()
             iv_right.text = ""
+            tv_refresh_square.visibility = View.GONE
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
@@ -120,6 +118,10 @@ class MainActivity : BaseActivity() {
                     iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_add_orange, 0)
 //                    iv_right.text = "发布"
                     tv_title1.text = "动态"
+//                    tabhost.tabWidget.getChildTabViewAt(2).setOnClickListener {
+//                        showToast("dddd")
+//                    }
+                    tv_refresh_square.visibility = View.VISIBLE
                 }
 
                 TextUtils.equals(it, tabTexts[3]) -> {
@@ -168,6 +170,13 @@ class MainActivity : BaseActivity() {
 
         tv_date_mydate.setOnClickListener {
             getAuthState()
+        }
+
+        tv_refresh_square.setOnClickListener {
+            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
+            if (fragment != null && fragment is SquareMainFragment) {
+                fragment.refresh()
+            }
         }
 
         iv_right.setOnClickListener {

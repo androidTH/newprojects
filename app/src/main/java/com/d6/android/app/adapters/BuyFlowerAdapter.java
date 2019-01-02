@@ -7,6 +7,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.d6.android.app.R;
+import com.d6.android.app.models.FlowerRule;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
  * desc   :
  * version:
  */
-public class BuyFlowerAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
+public class BuyFlowerAdapter extends BaseQuickAdapter<FlowerRule,BaseViewHolder> {
 
     public int getSelectedIndex() {
         return selectedIndex;
@@ -28,11 +29,11 @@ public class BuyFlowerAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
 
     private int selectedIndex = -1;
 
-    public BuyFlowerAdapter(int layoutResId, @Nullable List<String> data) {
+    public BuyFlowerAdapter(int layoutResId, @Nullable List<FlowerRule> data) {
         super(layoutResId, data);
     }
 
-    public BuyFlowerAdapter(@Nullable List<String> data) {
+    public BuyFlowerAdapter(@Nullable List<FlowerRule> data) {
         this(R.layout.item_red_flower,data);
     }
 
@@ -41,13 +42,13 @@ public class BuyFlowerAdapter extends BaseQuickAdapter<String,BaseViewHolder> {
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String item) {
+    protected void convert(BaseViewHolder helper, FlowerRule item) {
          View view = helper.getView(R.id.ll_flower_item);
          if(selectedIndex == helper.getAdapterPosition()){
              view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_1stroke_1a));
          }else{
              view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_white_ef));
          }
-         helper.setText(R.id.tv_flowernums,item);
+         helper.setText(R.id.tv_flowernums,item.getIFlowerCount().toString());
     }
 }

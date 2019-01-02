@@ -231,7 +231,7 @@ interface ApiServices {
 
     //获取订单支付状态
     @POST("backstage/order/getOrderById")
-    fun getOrderById(@Query("sOrderid") sOrderid:String?):Flowable<JsonObject>
+    fun getOrderById(@Query("sOrderid") sOrderid:String?):Flowable<Response<JsonObject>>
 
     //发布约会
     @POST("backstage/appointment/add")
@@ -305,4 +305,16 @@ interface ApiServices {
     //是否允许聊天
     @POST("backstage/rongcloud/getTalkJustify")
     fun doTalkJustify(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iTalkUserId:String):Flowable<Response<JsonObject>>
+
+    //送小红花列表
+    @POST("backstage/userflowerrule/find")
+    fun getUserFlowerRule():Flowable<Response<ArrayList<FlowerRule>>>
+
+    //绑定微信
+    @POST("backstage/account/bindWxid")
+    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String):Flowable<Response<JsonObject>>
+
+    //大赏小红花
+    @POST("backstage/userflowerrule/sendFlowerByOrderId")
+    fun sendFlowerByOrderId(@Query("iUserid") iUserid:String,@Query("iReceiveUserid") iReceiveUserid:String,@Query("sOrderid") sOrderid:String,@Query("sResourceid") sResourceid:String):Flowable<Response<JsonObject>>
 }

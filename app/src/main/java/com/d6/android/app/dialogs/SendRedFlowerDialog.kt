@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.GridLayoutManager
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,16 @@ import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.adapters.BuyFlowerAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.easypay.EasyPay
+import com.d6.android.app.easypay.PayParams
+import com.d6.android.app.easypay.callback.OnPayInfoRequestListener
+import com.d6.android.app.easypay.callback.OnPayResultListener
+import com.d6.android.app.easypay.enums.HttpType
+import com.d6.android.app.easypay.enums.NetworkClientType
+import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Comment
+import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
@@ -33,6 +42,7 @@ class SendRedFlowerDialog : DialogFragment() {
     }
 
     private var mBuyFlowerAdapter: BuyFlowerAdapter?=null
+    private var mSquareId:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,29 +61,46 @@ class SendRedFlowerDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var mToFromType = arguments.getInt("ToFromType")
+        if(mToFromType==1){//大赏动态
+            mSquareId = arguments.getString("squareId")
+        }else{
+            mSquareId = ""
+        }
         var id =  arguments.getString("userId")
+
         iv_sendflower_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
         tv_wx_pay_flower.setOnClickListener {
-            dismissAllowingStateLoss()
-            doBuyRedFlower(id)
+            var flowerCount = et_sendflower_input.text.toString().toInt()
+            if(flowerCount>0){
+                buyRedFlowerPay(flowerCount,id)
+            }else{
+                CustomToast.showToast("请选中或输入送花的个数")
+            }
         }
-
-        var data = arrayListOf<String>("1","10","50","100","200","520")
 
         rv_send_redflower.setHasFixedSize(true)
         rv_send_redflower.layoutManager = GridLayoutManager(context,3)
-        mBuyFlowerAdapter = BuyFlowerAdapter(data.toList())
+        mBuyFlowerAdapter = BuyFlowerAdapter(null)
         rv_send_redflower.addItemDecoration(RxRecyclerViewDividerTool(DisplayUtil.dpToPx(15)))
         rv_send_redflower.adapter = mBuyFlowerAdapter
 
         mBuyFlowerAdapter?.setOnItemClickListener() { adapter, view, position ->
-                 mBuyFlowerAdapter?.selectedIndex = position
-                 mBuyFlowerAdapter?.notifyDataSetChanged()
+                 mBuyFlowerAdapter?.let {
+                     if(it.selectedIndex == position){
+                         it.selectedIndex= -1
+                     }else{
+                         it.selectedIndex = position
+                         et_sendflower_input.setText(it.data.get(position).iFlowerCount.toString())
+                     }
+                     it.notifyDataSetChanged()
+                 }
         }
         getUserInfo(id)
+        getFlowerList()
     }
 
     private fun getUserInfo(id: String) {
@@ -85,10 +112,72 @@ class SendRedFlowerDialog : DialogFragment() {
         })
     }
 
-    private fun doBuyRedFlower(id:String){
+    private fun getFlowerList(){
+        Request.getUserFlower().request((context as BaseActivity),false,success = {msg,data->
+            mBuyFlowerAdapter?.let {
+                it.setNewData(data)
+            }
+        })
+    }
+
+    private fun BuyRedFlowerSuccess(id:String,flowerCount:String){
         val dialogSendFlowerSuccess = DialogSendFlowerSuccess()
-            dialogSendFlowerSuccess.arguments = bundleOf("userId" to id,"nums" to "30")
+            dialogSendFlowerSuccess.arguments = bundleOf("userId" to id,"nums" to flowerCount)
             dialogSendFlowerSuccess.show((context as BaseActivity).supportFragmentManager, "sendflower")
+    }
+
+    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String){
+        val params = PayParams.Builder((context as BaseActivity))
+                .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
+                .payWay(PayWay.WechatPay)
+                .UserId(userId.toInt())
+                .iFlowerCount(flowerCount)
+                .goodsPrice(flowerCount)// 单位为：分 pointRule.iPrice
+                .goodsName("小红花")
+                .goodsIntroduction("")
+                .httpType(HttpType.Post)
+                .httpClientType(NetworkClientType.Retrofit)
+                .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
+                .setType(1)
+                .build()
+        EasyPay.newInstance(params).requestPayInfo(object : OnPayInfoRequestListener {
+            override fun onPayInfoRequetStart() {
+            }
+
+            override fun onPayInfoRequstSuccess() {
+
+            }
+
+            override fun onPayInfoRequestFailure() {
+            }
+        }).toPay(object : OnPayResultListener {
+            override fun onPaySuccess(payWay: PayWay?,orderId:String) {
+                Log.i("redflowerorderId",orderId)
+                checkOrderStatus(receiverUserId,orderId,flowerCount.toString())
+            }
+
+            override fun onPayCancel(payWay: PayWay?,orderId:String) {
+            }
+
+            override fun onPayFailure(payWay: PayWay?, errCode: Int) {
+
+            }
+        })
+    }
+
+    /**
+     * 检查订单的状态
+     */
+    private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String){
+        if(context!=null){
+            Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
+                Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),false,success={msg,data->
+                    BuyRedFlowerSuccess(receiverUserId,flowerCount)
+                })
+            }){code,msg->
+                CustomToast.showToast(msg)
+            }
+        }
     }
 
     private var dialogListener: OnDialogListener? = null

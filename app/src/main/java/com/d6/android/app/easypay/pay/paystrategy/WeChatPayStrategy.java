@@ -34,6 +34,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 public class WeChatPayStrategy extends BasePayStrategy {
     private LocalBroadcastManager mBroadcastManager;
     private Context mContext;
+    private String sOrderId;
 
     public static final String WECHAT_PAY_RESULT_ACTION = "com.tencent.mm.opensdk.WECHAT_PAY_RESULT_ACTION";
     public static final String WECHAT_PAY_RESULT_EXTRA = "com.tencent.mm.opensdk.WECHAT_PAY_RESULT_EXTRA";
@@ -47,12 +48,12 @@ public class WeChatPayStrategy extends BasePayStrategy {
     public void doPay() {
         IWXAPI wxapi = WXAPIFactory.createWXAPI(mContext.getApplicationContext(), mPayParams.getWeChatAppID(), true);
         if (!wxapi.isWXAppInstalled()) {
-            super.mOnPayResultListener.onPayCallBack(EasyPay.WECHAT_NOT_INSTALLED_ERR);
+            super.mOnPayResultListener.onPayCallBack(EasyPay.WECHAT_NOT_INSTALLED_ERR,"");
             return;
         }
 
         if (!wxapi.isWXAppSupportAPI()) {
-            super.mOnPayResultListener.onPayCallBack(EasyPay.WECHAT_UNSUPPORT_ERR);
+            super.mOnPayResultListener.onPayCallBack(EasyPay.WECHAT_UNSUPPORT_ERR,"");
             return;
         }
         wxapi.registerApp(mPayParams.getWeChatAppID());
@@ -71,6 +72,7 @@ public class WeChatPayStrategy extends BasePayStrategy {
             req.nonceStr = payInfo.getNoncestr();
             req.timeStamp = payInfo.getTimestamp();
             req.sign = payInfo.getSign();
+            sOrderId = payInfo.getsOrderid();
             //发送支付请求：跳转到微信客户端
             wxapi.sendReq(req);
         }
@@ -94,7 +96,7 @@ public class WeChatPayStrategy extends BasePayStrategy {
         @Override
         public void onReceive(Context context, Intent intent) {
             int result = intent.getIntExtra(WECHAT_PAY_RESULT_EXTRA, -100);
-            mOnPayResultListener.onPayCallBack(result);
+            mOnPayResultListener.onPayCallBack(result,sOrderId);
             unRegistPayResultBroadcast();
         }
     };

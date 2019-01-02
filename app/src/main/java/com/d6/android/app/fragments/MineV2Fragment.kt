@@ -368,10 +368,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     }
                 }
 
-                if(it.iPoint!!.toInt() > 0){
-//                    headerView.iv_mypoints_countall.setImageDrawable(ContextCompat.getDrawable(context,R.mipmap.mycenter_wallet_icon))
+                if(it.iPointNew!!.toInt()> 0){
                     headerView.tv_mypointscount.visibility = View.VISIBLE
-//                    headerView.tv_mypointscount.text = it.iPoint.toString()
                 }else{
                     headerView.tv_mypointscount.visibility = View.GONE
                 }
