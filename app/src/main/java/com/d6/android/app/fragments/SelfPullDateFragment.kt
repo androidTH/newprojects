@@ -73,6 +73,7 @@ class SelfPullDateFragment : RecyclerFragment() {
         getData()
     }
 
+
     fun refreshByPublishNew() {
         this.area = ""
         this.areaType = 1
@@ -93,13 +94,13 @@ class SelfPullDateFragment : RecyclerFragment() {
         getData()
     }
 
-    fun refresh(area: String?, areaType: Int, levelIds: String?) {
-        this.area = area
-        this.areaType = areaType
-        this.vipIds = levelIds
-        pageNum = 1
-        getData()
-    }
+//    fun refresh(area: String?, areaType: Int, levelIds: String?) {
+//        this.area = area
+//        this.areaType = areaType
+//        this.vipIds = levelIds
+//        pageNum = 1
+//        getData()
+//    }
 
     private fun getData() {
 //        val classesId = if (vipIds.isNullOrEmpty()) {

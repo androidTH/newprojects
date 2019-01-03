@@ -76,7 +76,9 @@ class MainActivity : BaseActivity() {
             titleBar.visible()
             line.visible()
             iv_right.text = ""
-            tv_refresh_square.visibility = View.GONE
+            tv_square_tab.visibility = View.GONE
+            tv_date_tab.visibility = View.INVISIBLE
+            tv_find_tab.visibility = View.INVISIBLE
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
@@ -91,6 +93,7 @@ class MainActivity : BaseActivity() {
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
                     tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
                     tv_title.text = "约会"
+                    tv_date_tab.visibility = View.VISIBLE
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
 
@@ -103,6 +106,7 @@ class MainActivity : BaseActivity() {
 //                    if (fragment0 != null && fragment0 is DateFragment) {
 //                        fragment0.onFirstVisibleToUser()
 //                    }
+                    tv_find_tab.visibility = View.VISIBLE
                 }
                 TextUtils.equals(it, tabTexts[2]) -> {
                     tv_create_date.gone()
@@ -121,7 +125,7 @@ class MainActivity : BaseActivity() {
 //                    tabhost.tabWidget.getChildTabViewAt(2).setOnClickListener {
 //                        showToast("dddd")
 //                    }
-                    tv_refresh_square.visibility = View.VISIBLE
+                    tv_square_tab.visibility = View.VISIBLE
                 }
 
                 TextUtils.equals(it, tabTexts[3]) -> {
@@ -172,12 +176,27 @@ class MainActivity : BaseActivity() {
             getAuthState()
         }
 
-        tv_refresh_square.setOnClickListener {
+        tv_date_tab.setOnClickListener {
+            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+            if (fragment != null && fragment is HomeFragment) {
+                fragment.refresh()
+            }
+        }
+
+        tv_find_tab.setOnClickListener {
+            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
+            if (fragment != null && fragment is DateFragment) {
+                fragment.refresh()
+            }
+        }
+
+        tv_square_tab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
             if (fragment != null && fragment is SquareMainFragment) {
                 fragment.refresh()
             }
         }
+
 
         iv_right.setOnClickListener {
             //            when (tabhost.currentTab) {

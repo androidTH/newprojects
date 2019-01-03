@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import com.amap.api.location.AMapLocationClient
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
 import com.d6.android.app.activities.MyInfoActivity
@@ -180,6 +181,19 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         getProvinceData()
 
 //        getUserInfo()
+    }
+
+    fun refresh(){
+        showDialog()
+        pageNum = 1
+//        city = ""
+//        xingzuo = ""
+//        agemin = ""
+//        agemax = ""
+        getData(city,xingzuo,agemin,agemax)
+        if(mDates.size>0){
+            mRecyclerView.smoothScrollToPosition(0)
+        }
     }
 
     fun setAdapter(){
@@ -381,23 +395,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private val mImages = ArrayList<AddImage>()
     private var mUserInfoData: UserData? = null
-
-    private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this, success = { _, data ->
-            mUserInfoData = data
-//            activity.saveUserInfo(data)
-            data?.let {
-                mImages.clear()
-                if (!it.userpics.isNullOrEmpty()) {
-                    val images = it.userpics!!.split(",")
-                    images.forEach {
-                        mImages.add(AddImage(it))
-                    }
-                }
-                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
-            }
-        })
-    }
 
     /**
      * 插入用户信息

@@ -126,15 +126,19 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         })
 
         tv_cashok.setOnClickListener {
-            var money = et_cash_input.text.toString().toFloat()
-            if (money <= cashmoney.toFloat()) {
-                  if(money>=20){
+            if(!TextUtils.isEmpty(mUserInfo.wxid)){
+                var money = et_cash_input.text.toString().toFloat()
+                if (money <= cashmoney.toFloat()) {
+                    if(money>=20){
 
-                  }else{
-                      showToast("最低提现金额不能小于20元！")
-                  }
-            } else {
-                showToast("提现金额必须小于可提金额！")
+                    }else{
+                        showToast("最低提现金额不能小于20元！")
+                    }
+                } else {
+                    showToast("提现金额必须小于可提金额！")
+                }
+            }else{
+                showToast("请绑定微信才能提现!")
             }
         }
     }

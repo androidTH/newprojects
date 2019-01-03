@@ -191,6 +191,14 @@ class HomeFragment : BaseFragment() {
         }
     }
 
+    fun refresh(){
+        showDialog()
+        city = ""
+        type = 0
+        getSpeedData()
+        getFragment()
+    }
+
     //设置定位城市
     private fun setLocationCity(){
         var city = City("","不限地区")
