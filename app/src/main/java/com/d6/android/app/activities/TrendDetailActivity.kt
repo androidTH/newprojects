@@ -16,7 +16,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import kotlinx.android.synthetic.main.activity_trend_detail.*
 import org.jetbrains.anko.bundleOf
 
@@ -115,7 +115,7 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         tv_content.setOnClickListener {
-//            val line = tv_content.lineCount
+            //            val line = tv_content.lineCount
             //ellipsisCount>0说明没有显示全部，存在省略部分。
 //            val count = tv_content.layout.getEllipsisCount(line-1)
 //            sysErr("----------->$count")
@@ -140,6 +140,23 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             sysErr("-----rl_root-${rl_root.bottom}------------")
             onLayoutChangedListener?.onChanged()
         }
+
+        rl_root.setDragListener(PhotoDragHelper().setOnDragListener(object : PhotoDragHelper.OnDragListener {
+
+            override fun getDragView(): View {
+                return mViewPager
+            }
+
+            override fun onAlpha(alpha: Float) {
+                rl_root.setAlpha(alpha)
+            }
+
+            override fun onAnimationEnd(mSlop: Boolean) {
+                if (mSlop) {
+                    onBackPressed()
+                }
+            }
+        }))
     }
 
     private fun whenComment() {
@@ -169,7 +186,7 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_appraise.isSelected = TextUtils.equals(mTrend.isupvote, "1")
             tv_appraise.text = mTrend.appraiseCount.toString()
             setResult(Activity.RESULT_OK)
-            showTips(jsonObject,"","")
+            showTips(jsonObject, "", "")
         }
 
     }
@@ -197,11 +214,19 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
         super.onDestroy()
     }
-    private var onLayoutChangedListener:OnLayoutChangedListener?=null
+
+    private var onLayoutChangedListener: OnLayoutChangedListener? = null
     fun setOnLayoutChangedListener(listener: OnLayoutChangedListener?) {
         this.onLayoutChangedListener = listener
     }
-    public interface OnLayoutChangedListener{
+
+    public interface OnLayoutChangedListener {
         fun onChanged()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.img_fade_in, R.anim.img_fade_out)
     }
 }

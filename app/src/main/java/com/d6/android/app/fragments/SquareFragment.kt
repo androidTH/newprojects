@@ -6,14 +6,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PagerSnapHelper
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.MainActivity
 import com.d6.android.app.activities.SquareTrendDetailActivity
 import com.d6.android.app.adapters.BannerAdapter
+import com.d6.android.app.adapters.NetWorkImageHolder
 import com.d6.android.app.adapters.SquareAdapter
 import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.extentions.request
@@ -22,13 +22,10 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import kotlinx.android.synthetic.main.header_square_list.view.*
-import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
-
-
 
 /**
  * Created on 2017/12/17.
@@ -61,7 +58,7 @@ class SquareFragment : RecyclerFragment() {
         return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    private val mBanners = ArrayList<Banner>()
+    private var mBanners = ArrayList<Banner>()
 
     private val bannerAdapter by lazy {
         BannerAdapter(mBanners)
@@ -80,18 +77,19 @@ class SquareFragment : RecyclerFragment() {
 
     override fun onFirstVisibleToUser() {
 
-        headerView.mBanner.setHasFixedSize(true)
-        headerView.mBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        headerView.mBanner.adapter = bannerAdapter
-        val helper = PagerSnapHelper()
-        helper.attachToRecyclerView(headerView.mBanner)
-        headerView.mBanner.isNestedScrollingEnabled = false
+//        headerView.mBanner.setHasFixedSize(true)
+//        headerView.mBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//        headerView.mBanner.adapter = bannerAdapter
+//        val helper = PagerSnapHelper()
+//        helper.attachToRecyclerView(headerView.mBanner)
+//        headerView.mBanner.isNestedScrollingEnabled = false
 
-        bannerAdapter.setOnItemClickListener { view, position ->
-            val banner = mBanners[position]
-            val ids = banner.newsid ?: ""
-            startActivity<SquareTrendDetailActivity>("id" to ids,"position" to position)
-        }
+
+//        bannerAdapter.setOnItemClickListener { view, position ->
+//            val banner = mBanners[position]
+//            val ids = banner.newsid ?: ""
+//            startActivity<SquareTrendDetailActivity>("id" to ids,"position" to position)
+//        }
 
 //        mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
 //                .colorResId(R.color.color_ECECEC)
@@ -136,7 +134,22 @@ class SquareFragment : RecyclerFragment() {
             if (data?.list?.results != null) {
                 mBanners.clear()
                 mBanners.addAll(data.list.results)
-                bannerAdapter.notifyDataSetChanged()
+                headerView.mBanner.setPages(
+                        object : CBViewHolderCreator {
+                            override fun createHolder(itemView: View): NetWorkImageHolder {
+                                return NetWorkImageHolder(itemView)
+                            }
+
+                            override fun getLayoutId(): Int {
+                                return R.layout.item_banner
+                            }
+                        },mBanners).setPageIndicator(intArrayOf(R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused))
+                        .setOnItemClickListener {
+                            val banner = mBanners[it]
+                            val ids = banner.newsid ?: ""
+                            startActivity<SquareTrendDetailActivity>("id" to ids, "position" to it)
+                        }
+//                bannerAdapter.notifyDataSetChanged()
                 showDialog()
                 getSquareList()
             }
@@ -153,6 +166,16 @@ class SquareFragment : RecyclerFragment() {
             getSquareList()
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        headerView.mBanner.startTurning()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        headerView.mBanner.stopTurning()
     }
 
     private fun getSquareList() {

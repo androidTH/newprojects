@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         app:viewAspectRatio="2.065"
-        app:roundedCornerRadius="4dp"
         style="@style/DefaultImageStyle"/>
+    <!--app:roundedCornerRadius="4dp"-->
+
 </LinearLayout>

@@ -212,7 +212,8 @@
         <activity android:name=".activities.SplashActivity" />
         <activity android:name=".activities.SetUserInfoActivity" />
         <activity android:name=".activities.ChooseCountryActivity" />
-        <activity android:name=".activities.TrendDetailActivity" />
+        <activity android:name=".activities.TrendDetailActivity"
+            android:theme="@style/imageactivity"/>
         <activity android:name=".activities.SettingActivity" />
         <activity android:name=".activities.ReportActivity" />
         <activity

@@ -88,7 +88,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_88)
             tv_bindwx.textColor = ContextCompat.getColor(context, R.color.color_888888)
             tv_bindwx.text = "更换微信"
-            tv_wx_username.text="微信：${mUserInfo.wxid}"
+            tv_wx_username.text="微信：${mUserInfo.name}"
         }
 
         tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)

@@ -139,6 +139,7 @@ dependencies {
     compile 'com.qianwen:update-app:3.5.2'
 
     implementation 'com.umeng.sdk:push-xiaomi:1.0.0'
+//    implementation 'com.bigkoo:ConvenientBanner:2.1.4'
 
 //
 //    //没有使用特殊Header，可以不加这行
