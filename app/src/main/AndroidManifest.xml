@@ -229,7 +229,12 @@
         <activity android:name=".activities.VistorsActivity"/>
         <activity android:name=".activities.MyPointsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.MyPointsActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.MyDateListActivity"/>
         <activity android:name=".activities.MyDateDetailActivity"/>
         <activity android:name=".activities.RecommendDateActivity"/>

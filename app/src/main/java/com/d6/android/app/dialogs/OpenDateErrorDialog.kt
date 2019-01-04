@@ -68,7 +68,7 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
         }
 
         tv_chongzhi.setOnClickListener {
-            context.startActivity<MyPointsActivity>("points" to point_nums)
+            context.startActivity<MyPointsActivity>()
             dismissAllowingStateLoss()
         }
         var code = arguments.get("code")

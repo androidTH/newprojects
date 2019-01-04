@@ -62,7 +62,7 @@ class SendRedFlowerDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var mToFromType = arguments.getInt("ToFromType")
-        if(mToFromType==1){//大赏动态
+        if(mToFromType==1){//打赏动态
             mSquareId = arguments.getString("squareId")
         }else{
             mSquareId = ""
@@ -171,7 +171,7 @@ class SendRedFlowerDialog : DialogFragment() {
     private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String){
         if(context!=null){
             Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
-                Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),false,success={msg,data->
+                Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
                     BuyRedFlowerSuccess(receiverUserId,flowerCount)
                 })
             }){code,msg->

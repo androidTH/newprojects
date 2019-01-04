@@ -114,11 +114,11 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             if(!TextUtils.isEmpty(mUserInfo.wxname)){
                 var money = et_cash_input.text.toString().toFloat()
                 if (money <= cashmoney.toFloat()) {
-//                    if(money>=20){
+                    if(money>=20){
                         doCashMoney(et_cash_input.text.toString())
-//                    }else{
-//                        showToast("最低提现金额不能小于20元！")
-//                    }
+                    }else{
+                        showToast("最低提现金额不能小于20元！")
+                    }
                 } else {
                     showToast("提现金额必须小于可提金额！")
                 }
@@ -204,9 +204,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                     tv_wx_username.text="微信：${it.wxname}"
                 }
             }
-        }){code,msg->
-
-        }
+        })
     }
 
     /**

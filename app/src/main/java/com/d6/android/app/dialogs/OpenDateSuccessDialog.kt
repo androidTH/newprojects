@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateDetailActivity
-import com.d6.android.app.activities.MyDateListActivity
 import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.interfaces.RequestManager
@@ -133,7 +132,7 @@ class OpenDateSuccessDialog : DialogFragment(),RequestManager {
         }
 
         override fun onClick(p0: View?) {
-            context.startActivity<MyPointsActivity>("points" to point_nums)
+            context.startActivity<MyPointsActivity>()
         }
 
         override fun updateDrawState(ds: TextPaint?) {

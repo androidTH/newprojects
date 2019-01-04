@@ -18,7 +18,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_8"
         android:gravity="center"
         android:orientation="horizontal">
         <TextView
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:textColor="@color/color_black"
+            android:layout_marginBottom="@dimen/margin_2"
             android:text="---"/>
         <TextView
             android:layout_width="wrap_content"
@@ -43,8 +44,8 @@
             <!--android:layout_height="20dp"-->
             <!--android:src="@mipmap/feed_flowers_seleted"/>-->
         <ImageView
-            android:layout_width="@dimen/margin_35"
-            android:layout_height="@dimen/margin_35"
+            android:layout_width="@dimen/margin_30"
+            android:layout_height="@dimen/margin_30"
             android:src="@mipmap/feed_flowers_seleted"/>
     </LinearLayout>
 

@@ -15,14 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
+import com.d6.android.app.activities.MyPointsActivity;
 import com.d6.android.app.rong.CustomMessage;
 import com.d6.android.app.rong.bean.ImgTxtMessage;
 import com.d6.android.app.utils.GsonHelper;
+import com.d6.android.app.widget.CustomToast;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -80,7 +83,9 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
 
     @Override
     public void onItemClick(View view, int position, CustomMessage content, UIMessage message) {
-
+        Intent intent = new Intent();
+        intent.setAction("com.d6.android.app.activities.MyPointsActivity");
+        view.getContext().startActivity(intent);
     }
 
     @Override
@@ -157,7 +162,7 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
-                    String num = jsonObject.getString("b");
+                    String num = jsonObject.getString("nums");
                     holder.mTvReceivedFlowerNums.setText(num);
                 }
             } catch (JSONException e) {

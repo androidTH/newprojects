@@ -40,10 +40,6 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val myPointNums by lazy {
-        intent.getStringExtra("points")
-    }
-
     private var mUserInfo: UserData? =null
 
     private var pageNum = 1
