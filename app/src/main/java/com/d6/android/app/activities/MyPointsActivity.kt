@@ -146,10 +146,12 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?,orderId:String) {
-                getOrderStatus(orderId)
+                if(!TextUtils.isEmpty(orderId)){
+                    getOrderStatus(orderId)
+                }
             }
 
-            override fun onPayCancel(payWay: PayWay?,orderId:String) {
+            override fun onPayCancel(payWay: PayWay?) {
             }
 
             override fun onPayFailure(payWay: PayWay?, errCode: Int) {

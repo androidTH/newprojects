@@ -15,18 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
-import com.d6.android.app.activities.MyPointsActivity;
 import com.d6.android.app.rong.CustomMessage;
 import com.d6.android.app.rong.bean.ImgTxtMessage;
 import com.d6.android.app.utils.GsonHelper;
-import com.d6.android.app.widget.CustomToast;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Locale;
-
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;

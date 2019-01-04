@@ -34,7 +34,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 public class WeChatPayStrategy extends BasePayStrategy {
     private LocalBroadcastManager mBroadcastManager;
     private Context mContext;
-    private String sOrderId;
+    private String sOrderId="";
 
     public static final String WECHAT_PAY_RESULT_ACTION = "com.tencent.mm.opensdk.WECHAT_PAY_RESULT_ACTION";
     public static final String WECHAT_PAY_RESULT_EXTRA = "com.tencent.mm.opensdk.WECHAT_PAY_RESULT_EXTRA";

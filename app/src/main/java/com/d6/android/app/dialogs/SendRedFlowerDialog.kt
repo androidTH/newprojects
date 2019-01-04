@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.GridLayoutManager
+import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -74,11 +75,14 @@ class SendRedFlowerDialog : DialogFragment() {
         }
 
         tv_wx_pay_flower.setOnClickListener {
-            var flowerCount = et_sendflower_input.text.toString().toInt()
-            if(flowerCount>0){
-                buyRedFlowerPay(flowerCount,id)
-            }else{
-                CustomToast.showToast("请选中或输入送花的个数")
+            var flowerCount= et_sendflower_input.text.toString()
+            if(!TextUtils.isEmpty(flowerCount)){
+                var mSendFlowerCount = flowerCount.toInt()
+                if(mSendFlowerCount>0){
+                    buyRedFlowerPay(mSendFlowerCount,id)
+                }else{
+                    CustomToast.showToast("请选中或输入送花的个数")
+                }
             }
         }
 
@@ -153,10 +157,12 @@ class SendRedFlowerDialog : DialogFragment() {
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?,orderId:String) {
                 Log.i("redflowerorderId",orderId)
-                checkOrderStatus(receiverUserId,orderId,flowerCount.toString())
+                if(!TextUtils.isEmpty(orderId)){
+                    checkOrderStatus(receiverUserId,orderId,flowerCount.toString())
+                }
             }
 
-            override fun onPayCancel(payWay: PayWay?,orderId:String) {
+            override fun onPayCancel(payWay: PayWay?) {
             }
 
             override fun onPayFailure(payWay: PayWay?, errCode: Int) {

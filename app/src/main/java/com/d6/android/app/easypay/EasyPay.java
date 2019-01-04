@@ -168,7 +168,7 @@ public final class EasyPay {
                 break;
 
             case COMMON_USER_CACELED_ERR:
-                mOnPayResultListener.onPayCancel(mPayParams.getPayWay(),orderId);
+                mOnPayResultListener.onPayCancel(mPayParams.getPayWay());
                 break;
 
             default:
