@@ -344,7 +344,7 @@ object Request {
                                 ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,xingzuo,agemin,agemax,lat,lon,pageNum)
 
     //绑定手机号
-    fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken)
+    fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken,sWxName,sWxpic)
 
     //赠送积分
     fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)
@@ -362,8 +362,11 @@ object Request {
     fun getUserFlower()=RRetrofit.instance().create(ApiServices::class.java).getUserFlowerRule()
 
     //绑定微信号
-    fun doBindWxId(iUserid: String,wxid:String)=RRetrofit.instance().create(ApiServices::class.java).doBindWxId(iUserid,wxid)
+    fun doBindWxId(iUserid: String,wxid:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).doBindWxId(iUserid,wxid,sWxName,sWxpic)
 
     //大赏用户红花
     fun sendFlowerByOrderId(iUserid:String,iReceiveUserid:String,sOrderid:String,sResourceid:String)=RRetrofit.instance().create(ApiServices::class.java).sendFlowerByOrderId(iUserid,iReceiveUserid,sOrderid,sResourceid)
+
+    //提现
+    fun doCashMoney(iUserid:String,iFlowerCount:String)=RRetrofit.instance().create(ApiServices::class.java).doCashMoney(iUserid,iFlowerCount)
 }

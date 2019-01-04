@@ -77,20 +77,6 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         var mUserInfo: UserData = (arguments.get("data") as UserData)
         var cashmoney = arguments.getString("cashmoney")
 
-        if (TextUtils.isEmpty(mUserInfo.wxid)) {
-            iv_cash_headView.setImageURI(Uri.parse("res://" + context.getPackageName() + "/" + R.mipmap.unbound_wechat_icon))
-            tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_oc)
-            tv_bindwx.textColor = ContextCompat.getColor(context, R.color.white)
-            tv_bindwx.text = "绑定微信"
-            tv_wx_username.text="未绑定微信"
-        } else {
-            iv_cash_headView.setImageURI(mUserInfo.picUrl)
-            tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_88)
-            tv_bindwx.textColor = ContextCompat.getColor(context, R.color.color_888888)
-            tv_bindwx.text = "更换微信"
-            tv_wx_username.text="微信：${mUserInfo.name}"
-        }
-
         tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
 
         tv_close.setOnClickListener {
@@ -99,14 +85,13 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         }
 
         tv_bindwx.setOnClickListener {
-            if (TextUtils.isEmpty(mUserInfo.wxid)) {
+            if (mUserInfo.wxname.isNullOrEmpty()) {
                 weChatLogin()
             } else {
-
+                weChatLogin()
             }
         }
-//        val filters = arrayOf<InputFilter>(CashierInputFilter())
-//        et_cash_input.filters = filters
+
         et_cash_input.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable?) {
@@ -126,20 +111,23 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         })
 
         tv_cashok.setOnClickListener {
-            if(!TextUtils.isEmpty(mUserInfo.wxid)){
+            if(!TextUtils.isEmpty(mUserInfo.wxname)){
                 var money = et_cash_input.text.toString().toFloat()
                 if (money <= cashmoney.toFloat()) {
-                    if(money>=20){
-
-                    }else{
-                        showToast("最低提现金额不能小于20元！")
-                    }
+//                    if(money>=20){
+                        doCashMoney(et_cash_input.text.toString())
+//                    }else{
+//                        showToast("最低提现金额不能小于20元！")
+//                    }
                 } else {
                     showToast("提现金额必须小于可提金额！")
                 }
             }else{
                 showToast("请绑定微信才能提现!")
             }
+        }
+        isBaseActivity{
+            getUserInfo()
         }
     }
 
@@ -153,7 +141,6 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         }
     }
 
-
     private val shareApi by lazy {
         UMShareAPI.get(context)
     }
@@ -164,10 +151,10 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                 override fun onComplete(p0: SHARE_MEDIA?, p1: Int, data: MutableMap<String, String>?) {
                     if (data != null) {
                         val openId = if (data.containsKey("openid")) data["openid"] else ""
-                        val name = if (data.containsKey("name")) data["name"] else ""
+                        val name= if (data.containsKey("name")) data["name"] else ""
                         val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
                         val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
-                        bindwxId(openId)
+                        bindwxId(openId,name.toString(),iconUrl.toString())
                     } else {
                         toast("拉取微信信息异常！")
                     }
@@ -175,12 +162,12 @@ class DialogCashMoney : DialogFragment(), RequestManager {
 
                 override fun onCancel(p0: SHARE_MEDIA?, p1: Int) {
                     toast("取消")
-                    dismissDialog()
+                    it.dismissDialog()
                 }
 
                 override fun onError(p0: SHARE_MEDIA?, p1: Int, p2: Throwable?) {
                     p2?.printStackTrace()
-                    dismissDialog()
+                    it.dismissDialog()
                 }
 
                 override fun onStart(p0: SHARE_MEDIA?) {
@@ -190,25 +177,50 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         }
     }
 
-    private fun bindwxId(wxid:String?){
-        dismissDialog()
-        Request.doBindWxId(userId,wxid.toString()).request(this,false,success={msg,data->
+    private fun bindwxId(wxid:String?,swxname:String,swxpic:String){
+        (context as BaseActivity).dismissDialog()
+        Request.doBindWxId(userId,wxid.toString(),swxname,swxpic).request(this,false,success={msg,data->
             getUserInfo()
         }){code,msg->
             CustomToast.showToast(msg)
+            (context as BaseActivity).dismissDialog()
         }
     }
 
     private fun getUserInfo() {
         Request.getUserInfo("", userId).request(this, success = { _, data ->
             data?.let {
-                iv_cash_headView.setImageURI(it.picUrl)
-                tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_88)
-                tv_bindwx.textColor = ContextCompat.getColor(context, R.color.color_888888)
-                tv_bindwx.text = "更换微信"
-                tv_wx_username.text="微信：${it.wxid}"
+                if (it.wxname.isNullOrEmpty()) {
+                    iv_cash_headView.setImageURI(Uri.parse("res://" + context.getPackageName() + "/" + R.mipmap.unbound_wechat_icon))
+                    tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_oc)
+                    tv_bindwx.textColor = ContextCompat.getColor(context, R.color.white)
+                    tv_bindwx.text = "绑定微信"
+                    tv_wx_username.text="未绑定微信"
+                } else {
+                    iv_cash_headView.setImageURI(it.wxpic)
+                    tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_88)
+                    tv_bindwx.textColor = ContextCompat.getColor(context, R.color.color_888888)
+                    tv_bindwx.text = "更换微信"
+                    tv_wx_username.text="微信：${it.wxname}"
+                }
             }
-        })
+        }){code,msg->
+
+        }
+    }
+
+    /**
+     * 提现
+     */
+    private fun doCashMoney(money:String){
+        isBaseActivity {
+            Request.doCashMoney(userId,money).request(this,false,success={msg,data->
+                it.dismissDialog()
+            }){code,msg->
+               showToast(msg)
+                it.dismissDialog()
+            }
+        }
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
@@ -226,7 +238,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
     }
 
     override fun dismissDialog() {
-
+        (context as BaseActivity).dismissDialog()
     }
 
     override fun onDestroy() {

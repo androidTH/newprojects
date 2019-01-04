@@ -368,12 +368,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     }
                 }
 
-                if(it.iPointNew!!.toInt()> 0){
-                    headerView.tv_mypointscount.visibility = View.VISIBLE
-                }else{
-                    headerView.tv_mypointscount.visibility = View.GONE
-                }
-
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
 
                 if(TextUtils.equals("0",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
@@ -452,6 +446,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     headerView.tv_fcount.visibility = View.VISIBLE
                 }else {
                     headerView.tv_fcount.visibility = View.GONE
+                }
+
+                if(it.iPointNew!!.toInt()> 0){
+                    headerView.tv_mypointscount.visibility = View.VISIBLE
+                }else{
+                    headerView.tv_mypointscount.visibility = View.GONE
                 }
 
 //                if(data.iFollowCount!! > 0){

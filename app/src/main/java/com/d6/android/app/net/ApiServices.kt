@@ -288,7 +288,7 @@ interface ApiServices {
 
     //绑定手机号
     @POST("backstage/account/bindPhone")
-    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("devicetoken") devicetoken:String):Flowable<Response<UserData>>
+    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String):Flowable<Response<UserData>>
 
     //赠送积分
     @POST("backstage/new_login/loginForPoint")
@@ -312,9 +312,13 @@ interface ApiServices {
 
     //绑定微信
     @POST("backstage/account/bindWxid")
-    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String):Flowable<Response<JsonObject>>
+    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String,@Query("sWxName") sWxName:String,@Query("sWxpic") sWxpic:String):Flowable<Response<JsonObject>>
 
     //大赏小红花
     @POST("backstage/userflowerrule/sendFlowerByOrderId")
     fun sendFlowerByOrderId(@Query("iUserid") iUserid:String,@Query("iReceiveUserid") iReceiveUserid:String,@Query("sOrderid") sOrderid:String,@Query("sResourceid") sResourceid:String):Flowable<Response<JsonObject>>
+
+    //提现接口
+    @POST("backstage/userflowerrule/withDrawFlower")
+    fun doCashMoney(@Query("iUserid") iUserid:String,@Query("iFlowerCount")iFlowerCount:String):Flowable<Response<JsonObject>>
 }

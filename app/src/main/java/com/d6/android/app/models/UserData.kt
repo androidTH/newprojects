@@ -56,7 +56,8 @@ data class UserData(val accountId: String? = "") : Serializable {
     var appointment:MyAppointment?=null
     var wxid:String?=""
     var iFlowerCount:Int?=-1
-    var iPointNew:Int?=-1
+    var wxname:String?=""
+    var wxpic:String?=""
 
     override fun toString(): String {
 
