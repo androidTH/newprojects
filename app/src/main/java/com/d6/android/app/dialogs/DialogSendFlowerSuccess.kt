@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.eventbus.LikeMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Square
@@ -21,8 +22,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
-import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.dialog_send_redflower_success.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
@@ -143,6 +144,7 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
 
             mUserInfo?.iIsFollow = 1
             showTips(jsonObject,"","")
+            EventBus.getDefault().post(LikeMsgEvent(1))
         }
     }
 
@@ -164,6 +166,7 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
             tv_sendflower_success_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_8),resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_8))
             tv_sendflower_success_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_8),resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_8))
             mUserInfo?.iIsFollow = 0
+            EventBus.getDefault().post(LikeMsgEvent(0))
         }
     }
 

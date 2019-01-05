@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
@@ -18,6 +17,7 @@ import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
+import com.d6.android.app.eventbus.LikeMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
@@ -34,6 +34,9 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
 
 
@@ -88,6 +91,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .statusBarDarkFont(false)
                 .keyboardEnable(true)
                 .init()
+        EventBus.getDefault().register(this)
 
         tv_back.setOnClickListener {
             finish()
@@ -404,8 +408,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if(data.iIsFollow !=null){
                     if(data.iIsFollow==1){
-//                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
-
                         tv_like.setCompoundDrawables(null,null,null,null);
                         tv_like.text = resources.getString(R.string.string_liked)
                         tv_like.backgroundResource = R.drawable.shape_20r_white
@@ -417,7 +419,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         tv_like.text= resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
                         tv_like.textColor = ContextCompat.getColor(context,R.color.white)
-//                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
                     }
                 }
             }
@@ -580,11 +581,27 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event:LikeMsgEvent){
+        if(event.type==1){
+            tv_like.setCompoundDrawables(null,null,null,null);
+            tv_like.text = resources.getString(R.string.string_liked)
+            tv_like.backgroundResource = R.drawable.shape_20r_white
+            tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
+
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
+        }else{
+            tv_like.text= resources.getString(R.string.string_like)
+            tv_like.backgroundResource = R.drawable.shape_20r_ff6
+            tv_like.textColor = ContextCompat.getColor(context,R.color.white)
+        }
+    }
+
     override fun onRefresh() {
         pageNum = 1
         getUserInfo()
     }
-
 
     override fun showToast(msg: String) {
     }
@@ -592,5 +609,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     override fun onLoadMore() {
         pageNum++
         getTrendData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }

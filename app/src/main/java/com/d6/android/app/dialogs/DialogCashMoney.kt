@@ -1,13 +1,11 @@
 package com.d6.android.app.dialogs
 
-import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.text.Editable
-import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.Gravity
@@ -21,7 +19,6 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CashierInputFilter
 import com.d6.android.app.widget.CustomToast
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
@@ -29,12 +26,10 @@ import com.umeng.socialize.bean.SHARE_MEDIA
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_cash_widthdrawal.*
-import kotlinx.android.synthetic.main.item_mypoints_header.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -126,8 +121,17 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                 showToast("请绑定微信才能提现!")
             }
         }
-        isBaseActivity{
-            getUserInfo()
+
+        if(mUserInfo.wxname.isNullOrEmpty()){
+            isBaseActivity{
+                getUserInfo()
+            }
+        }else{
+            iv_cash_headView.setImageURI(mUserInfo.wxpic)
+            tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_88)
+            tv_bindwx.textColor = ContextCompat.getColor(context, R.color.color_888888)
+            tv_bindwx.text = "更换微信"
+            tv_wx_username.text="微信：${mUserInfo.wxname}"
         }
     }
 

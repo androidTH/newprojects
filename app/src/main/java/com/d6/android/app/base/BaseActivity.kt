@@ -23,6 +23,7 @@ import android.view.MotionEvent
 import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
 import com.gyf.barlibrary.ImmersionBar
+import org.greenrobot.eventbus.EventBus
 
 
 /**
@@ -116,7 +117,6 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         dismissDialog()
     }
 
