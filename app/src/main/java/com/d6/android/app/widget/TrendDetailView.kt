@@ -120,6 +120,14 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    fun updateFlowerCount(square: Square){
+        tv_redflower.text = if((square.iFlowerCount?:0)>0){
+            square.iFlowerCount.toString()
+        }else{
+            ""
+        }
+    }
+
     fun setPraiseClick(action:(square:Square)->Unit){
         this.action = object : Action{
             override fun onPraiseClick(square: Square) {

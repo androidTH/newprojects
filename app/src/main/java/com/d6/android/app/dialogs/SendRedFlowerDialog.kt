@@ -19,6 +19,7 @@ import com.d6.android.app.easypay.callback.OnPayResultListener
 import com.d6.android.app.easypay.enums.HttpType
 import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
+import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Comment
 import com.d6.android.app.net.API
@@ -27,10 +28,12 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import com.d6.android.app.widget.badge.DisplayUtil
+import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.dialog_send_redflower.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -44,6 +47,7 @@ class SendRedFlowerDialog : DialogFragment() {
 
     private var mBuyFlowerAdapter: BuyFlowerAdapter?=null
     private var mSquareId:String = ""
+    private var mToFromType = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +66,7 @@ class SendRedFlowerDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var mToFromType = arguments.getInt("ToFromType")
+        mToFromType = arguments.getInt("ToFromType")
         if(mToFromType==1){//打赏动态
             mSquareId = arguments.getString("squareId")
         }else{
@@ -179,6 +183,9 @@ class SendRedFlowerDialog : DialogFragment() {
             Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
                 Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
                     BuyRedFlowerSuccess(receiverUserId,flowerCount)
+                    if(mToFromType == 1){
+                        EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
+                    }
                 })
             }){code,msg->
                 CustomToast.showToast(msg)

@@ -210,6 +210,7 @@ class SquareFragment : RecyclerFragment() {
             mSquares.get(positon).isupvote = mSquare.isupvote
             mSquares.get(positon).appraiseCount = mSquare.appraiseCount
             mSquares.get(positon).comments = mSquare.comments
+            mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
             squareAdapter.notifyDataSetChanged()
         }
     }

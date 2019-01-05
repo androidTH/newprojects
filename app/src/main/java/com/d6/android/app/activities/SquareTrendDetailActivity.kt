@@ -23,6 +23,10 @@ import org.jetbrains.anko.toast
 import android.view.inputmethod.InputMethodManager
 import com.d6.android.app.dialogs.CommentDelDialog
 import com.d6.android.app.dialogs.SendRedFlowerDialog
+import com.d6.android.app.eventbus.FlowerMsgEvent
+import io.rong.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.bundleOf
 import java.util.*
 
@@ -58,6 +62,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_square_detail)
         immersionBar.init()
+        EventBus.getDefault().register(this@SquareTrendDetailActivity)
 
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))
         mSwipeRefreshLayout.setMode(SwipeRefreshRecyclerLayout.Mode.Both)
@@ -283,5 +288,19 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     headerView.mTrendDetailView.update(it)
                 }
             }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(flowerEvent: FlowerMsgEvent){
+            mSquare?.let {
+                it.iFlowerCount = it.iFlowerCount!!.toInt() + flowerEvent.count
+                updateBean()
+                headerView.mTrendDetailView.updateFlowerCount(it)
+            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this@SquareTrendDetailActivity)
     }
 }
