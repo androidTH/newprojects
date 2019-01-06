@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.d6.android.app"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 16
         versionName "1.8.0"
@@ -166,4 +166,5 @@ dependencies {
 
     //    releaseCompile 'com.bugtags.metrics:bugtags-lib:3.0.0'
     implementation files('libs/MiPush_SDK_Client_3_6_12.jar')
+    implementation 'com.huawei.android.hms:push:2.6.1.301'
 }

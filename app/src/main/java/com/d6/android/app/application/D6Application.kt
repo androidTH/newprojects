@@ -106,8 +106,9 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 //        MiPushRegistar.register(this, Const.XIAOMIAPPID, Const.XIAOMIAPPKEY)
 //        mPushAgent.isPushCheck = true
         if (applicationInfo.packageName == getCurProcessName(applicationContext)) {
-
+//            RongPushClient.registerHWPush(this);
             RongPushClient.registerMiPush(this, Const.XIAOMIAPPID, Const.XIAOMIAPPKEY)
+
             RongIM.init(this)
             RongPlugin.init(this)
             RongIM.getInstance().setMessageAttachedUserInfo(true)

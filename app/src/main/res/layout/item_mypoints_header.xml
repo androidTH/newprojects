@@ -48,6 +48,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:layout_marginLeft="@dimen/margin_10"
+                android:visibility="gone"
                 android:background="@drawable/shape_3r_stroke_orange"
                 android:text="查看特权"/>
         </LinearLayout>

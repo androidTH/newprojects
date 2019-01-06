@@ -21,4 +21,9 @@ public class D6NotificationReceiver extends PushMessageReceiver {
     public boolean onNotificationMessageClicked(Context context, PushNotificationMessage pushNotificationMessage) {
         return false;
     }
+
+//    @Override
+//    public void onThirdPartyPushState(String pushType, String action, long resultCode) {
+//        super.onThirdPartyPushState(pushType, action, resultCode);
+//    }
 }
