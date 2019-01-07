@@ -150,20 +150,18 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             ""
         }
 
-        if((square.iFlowerCount?:0)>0){
-            tv_redflower.text=square.iFlowerCount.toString()
-            tv_redflower.isSelected = true
+        tv_redflower.text = if((square.iFlowerCount?:0)>0){
+           square.iFlowerCount.toString()
         }else{
-            tv_redflower.text=""
-            tv_redflower.isSelected = false
+            ""
         }
 
-//        if (!square.classesName.isNullOrEmpty()) {
-//            tv_tag.text = String.format("#%s#",square.classesName)
-//        } else {
-//            tv_tag.text = ""
-//        }
-//
+        //iIsSendFlower 大于0送过花，等于0没送过
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+            true
+        } else {
+            false
+        }
         square.commentCount?.let {
             if (it > 0) {
                 ll_comments.visible()

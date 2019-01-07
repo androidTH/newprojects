@@ -64,7 +64,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
 
         trendView.sendFlowerClick {
             var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-            dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 1,"userId" to it.userid.toString(),"squareId" to it.id.toString())
+            dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 2,"userId" to it.userid.toString(),"square" to it)
             dialogSendRedFlowerDialog.show((context as BaseActivity).supportFragmentManager,"sendflower")
         }
     }

@@ -105,6 +105,12 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             ""
         }
 
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+            true
+        } else {
+            false
+        }
+
         if (!square.classesName.isNullOrEmpty()) {
             tv_tag.text = String.format("#%s#",square.classesName)
         } else {
@@ -125,6 +131,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             square.iFlowerCount.toString()
         }else{
             ""
+        }
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+            true
+        } else {
+            false
         }
     }
 

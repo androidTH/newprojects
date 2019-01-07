@@ -294,6 +294,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     fun onEvent(flowerEvent: FlowerMsgEvent){
             mSquare?.let {
                 it.iFlowerCount = it.iFlowerCount!!.toInt() + flowerEvent.count
+                it.iIsSendFlower=1
                 updateBean()
                 headerView.mTrendDetailView.updateFlowerCount(it)
             }

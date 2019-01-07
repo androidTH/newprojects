@@ -16,6 +16,7 @@ import com.d6.android.app.adapters.BannerAdapter
 import com.d6.android.app.adapters.NetWorkImageHolder
 import com.d6.android.app.adapters.SquareAdapter
 import com.d6.android.app.base.RecyclerFragment
+import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Banner
 import com.d6.android.app.models.Square
@@ -23,7 +24,10 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.header_square_list.view.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 
@@ -99,8 +103,10 @@ class SquareFragment : RecyclerFragment() {
 //                }
 //                .build())
 
-        squareAdapter.setHeaderView(headerView)
 
+        EventBus.getDefault().register(this)
+
+        squareAdapter.setHeaderView(headerView)
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
             square.id?.let {
@@ -133,7 +139,7 @@ class SquareFragment : RecyclerFragment() {
         Request.getBanners().request(this, success = { _, data ->
             if (data?.list?.results != null) {
                 mBanners.clear()
-                mBanners.addAll(data.list.results)
+                mBanners.addAll(elements = data.list.results)
                 headerView.mBanner.setPages(
                         object : CBViewHolderCreator {
                             override fun createHolder(itemView: View): NetWorkImageHolder {
@@ -211,6 +217,17 @@ class SquareFragment : RecyclerFragment() {
             mSquares.get(positon).appraiseCount = mSquare.appraiseCount
             mSquares.get(positon).comments = mSquare.comments
             mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
+            mSquares.get(positon).iIsSendFlower = mSquare.iIsSendFlower
+            squareAdapter.notifyDataSetChanged()
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(flowerEvent: FlowerMsgEvent){
+        if(flowerEvent.getmSquare()!=null){
+            var index = mSquares.indexOf(flowerEvent.getmSquare())
+            mSquares.get(index).iFlowerCount = flowerEvent.getmSquare().iFlowerCount
+            mSquares.get(index).iIsSendFlower = 1
             squareAdapter.notifyDataSetChanged()
         }
     }
@@ -225,5 +242,10 @@ class SquareFragment : RecyclerFragment() {
         super.loadMore()
         pageNum++
         getData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }

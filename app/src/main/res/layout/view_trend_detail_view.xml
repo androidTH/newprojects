@@ -83,7 +83,7 @@
         android:text="0"
         android:textColor="@color/textColor99"
         android:layout_toLeftOf="@+id/tv_appraise"
-        android:drawableLeft="@mipmap/feed_flowers_seleted"
+        android:drawableLeft="@drawable/ic_redflower_selector"
         android:drawablePadding="4dp"
         android:layout_marginTop="8dp"
         android:textSize="14sp"

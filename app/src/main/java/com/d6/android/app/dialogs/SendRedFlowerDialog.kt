@@ -25,6 +25,7 @@ import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Comment
+import com.d6.android.app.models.Square
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -52,6 +53,7 @@ class SendRedFlowerDialog : DialogFragment() {
     private var mSquareId:String = ""
     private var mToFromType = 0
     private var mFlowerCount:String=""
+    private var mSquare:Square? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +75,11 @@ class SendRedFlowerDialog : DialogFragment() {
         mToFromType = arguments.getInt("ToFromType")
         if(mToFromType==1){//打赏动态
             mSquareId = arguments.getString("squareId")
+        }else if(mToFromType==2){
+            mSquare = (arguments.getSerializable("square") as Square)
+            mSquare?.let {
+                mSquareId = it.id.toString()
+            }
         }else{
             mSquareId = ""
         }
@@ -204,11 +211,16 @@ class SendRedFlowerDialog : DialogFragment() {
      */
     private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String){
         if(context!=null){
+            BuyRedFlowerSuccess(receiverUserId,flowerCount)
             Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
                 Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
-                    BuyRedFlowerSuccess(receiverUserId,flowerCount)
                     if(mToFromType == 1){
                         EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
+                    }else if(mToFromType == 2){
+                        mSquare?.let {
+                            it.iFlowerCount = flowerCount.toInt()+it.iFlowerCount!!.toInt()
+                            EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt(),mSquare))
+                        }
                     }
                 })
             }){code,msg->

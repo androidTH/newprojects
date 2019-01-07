@@ -1,5 +1,7 @@
 package com.d6.android.app.eventbus;
 
+import com.d6.android.app.models.Square;
+
 /**
  * author : jinjiarui
  * time   : 2019/01/05
@@ -11,6 +13,11 @@ public class FlowerMsgEvent {
         this.count = count;
     }
 
+    public FlowerMsgEvent(int count, Square mSquare) {
+        this.count = count;
+        this.mSquare = mSquare;
+    }
+
     public int getCount() {
         return count;
     }
@@ -20,5 +27,13 @@ public class FlowerMsgEvent {
     }
 
     private int count;
+    private Square mSquare;
 
+    public Square getmSquare() {
+        return mSquare;
+    }
+
+    public void setmSquare(Square mSquare) {
+        this.mSquare = mSquare;
+    }
 }
