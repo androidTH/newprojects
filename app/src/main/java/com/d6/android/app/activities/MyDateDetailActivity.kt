@@ -193,7 +193,7 @@ class MyDateDetailActivity : BaseActivity() {
                         }else{
                             tv_date_status.text="状态：对方拒绝"
                             tv_point_nums.visibility = View.VISIBLE
-                            tv_point_nums.text="消费${myAppointment.iPoint}积分"
+                            tv_point_nums.text="返还${myAppointment.iPoint}积分"
                         }
 
                         tv_private_chat.visibility = View.GONE;
@@ -201,7 +201,7 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_agree_date.visibility = View.GONE
                         tv_giveup_date.visibility = View.GONE
                         setAgreeDate(data,data.dAppointmentSignupUpdatetime,"已拒绝",3)
-                        tv_point_nums.text="消费${data.iPoint}积分"
+                        tv_point_nums.text="返还${data.iPoint}积分"
                     }
                     4 -> { //
                         if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){

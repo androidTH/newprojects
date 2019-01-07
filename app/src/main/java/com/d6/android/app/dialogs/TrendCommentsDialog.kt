@@ -148,7 +148,7 @@ class TrendCommentsDialog : DialogFragment(),RequestManager,SwipeRefreshRecycler
     }
 
     private fun loadData() {
-        Request.getCommentList(mTrend.id?:"", pageNum).request(this, success = { _, data ->
+        Request.getCommentList(userId,mTrend.id?:"", pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             if (pageNum == 1) {
                 mComments.clear()

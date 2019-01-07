@@ -176,7 +176,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
     private fun loadData() {
-        Request.getCommentList(id, pageNum).request(this, success = { _, data ->
+        Request.getCommentList(userId,id, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             if (pageNum == 1) {
                 mComments.clear()

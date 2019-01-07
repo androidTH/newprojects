@@ -135,16 +135,6 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         }
     }
 
-    private var dialogListener: OnDialogListener? = null
-
-    fun setDialogListener(l: (p: Int, s: String?) -> Unit) {
-        dialogListener = object : OnDialogListener {
-            override fun onClick(position: Int, data: String?) {
-                l(position, data)
-            }
-        }
-    }
-
     private val shareApi by lazy {
         UMShareAPI.get(context)
     }
@@ -187,7 +177,6 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             getUserInfo()
         }){code,msg->
             CustomToast.showToast(msg)
-            (context as BaseActivity).dismissDialog()
         }
     }
 
@@ -216,10 +205,13 @@ class DialogCashMoney : DialogFragment(), RequestManager {
      */
     private fun doCashMoney(money:String){
         isBaseActivity {
+            it.dialog()
             Request.doCashMoney(userId,money).request(this,false,success={msg,data->
                 it.dismissDialog()
+                dialogListener?.onClick(1,money)
+                dismissAllowingStateLoss()
             }){code,msg->
-               showToast(msg)
+                showToast(msg)
                 it.dismissDialog()
             }
         }
@@ -228,6 +220,16 @@ class DialogCashMoney : DialogFragment(), RequestManager {
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
         if (context != null && context is BaseActivity) {
             next(context as BaseActivity)
+        }
+    }
+
+    private var dialogListener: OnDialogListener? = null
+
+    fun setDialogListener(l: (p: Int, s: String?) -> Unit) {
+        dialogListener = object : OnDialogListener {
+            override fun onClick(position: Int, data: String?) {
+                l(position, data)
+            }
         }
     }
 

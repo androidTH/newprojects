@@ -58,7 +58,7 @@ interface ApiServices {
     fun getSquareDetail(@Query("userid") userId: String, @Query("ids") ids: String?, @Query("limit") limit: Int = Request.PAGE_SIZE): Flowable<Response<Square>>
 
     @POST("backstage/comments/findByPage")
-    fun getCommentList(@Query("newsId") newsId: String, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<Comment>>>
+    fun getCommentList(@Query("userid") userId: String,@Query("newsId") newsId: String, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<Comment>>>
 
     @POST("backstage/opinions/add")
     fun feedback(@Query("userid") accountId: String, @Query("content") content: String): Flowable<Response<JsonObject>>

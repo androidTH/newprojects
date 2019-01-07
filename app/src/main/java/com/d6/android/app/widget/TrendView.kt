@@ -150,10 +150,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             ""
         }
 
-        tv_redflower.text=if((square.iFlowerCount?:0)>0){
-            square.iFlowerCount.toString()
+        if((square.iFlowerCount?:0)>0){
+            tv_redflower.text=square.iFlowerCount.toString()
+            tv_redflower.isSelected = true
         }else{
-            ""
+            tv_redflower.text=""
+            tv_redflower.isSelected = false
         }
 
 //        if (!square.classesName.isNullOrEmpty()) {

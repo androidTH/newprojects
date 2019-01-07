@@ -110,8 +110,8 @@ object Request {
     /**
      * 广场评论
      */
-    fun getCommentList(id: String, pageNum: Int) =
-            RRetrofit.instance().create(ApiServices::class.java).getCommentList(id, pageNum)
+    fun getCommentList(userId: String,id: String, pageNum: Int) =
+            RRetrofit.instance().create(ApiServices::class.java).getCommentList(userId,id, pageNum)
 
     /**
      * 获取个人信息

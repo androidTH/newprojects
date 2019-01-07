@@ -3,7 +3,10 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.GridLayoutManager
+import android.text.Editable
+import android.text.Spannable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -48,6 +51,7 @@ class SendRedFlowerDialog : DialogFragment() {
     private var mBuyFlowerAdapter: BuyFlowerAdapter?=null
     private var mSquareId:String = ""
     private var mToFromType = 0
+    private var mFlowerCount:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +83,8 @@ class SendRedFlowerDialog : DialogFragment() {
         }
 
         tv_wx_pay_flower.setOnClickListener {
-            var flowerCount= et_sendflower_input.text.toString()
+//            var flowerCount= et_sendflower_input.text.toString()
+            var flowerCount= mFlowerCount
             if(!TextUtils.isEmpty(flowerCount)){
                 var mSendFlowerCount = flowerCount.toInt()
                 if(mSendFlowerCount>0){
@@ -89,6 +94,24 @@ class SendRedFlowerDialog : DialogFragment() {
                 }
             }
         }
+
+        et_sendflower_input.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence, start: Int,count: Int, after: Int){
+
+             }
+             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int){
+                 if(s.isNotEmpty()){
+                     mBuyFlowerAdapter?.let {
+                         it.selectedIndex = -1
+                         it.notifyDataSetChanged()
+                     }
+                     mFlowerCount = s.toString()
+                 }
+             }
+             override fun afterTextChanged(s: Editable){
+
+            }
+        })
 
         rv_send_redflower.setHasFixedSize(true)
         rv_send_redflower.layoutManager = GridLayoutManager(context,3)
@@ -102,7 +125,8 @@ class SendRedFlowerDialog : DialogFragment() {
                          it.selectedIndex= -1
                      }else{
                          it.selectedIndex = position
-                         et_sendflower_input.setText(it.data.get(position).iFlowerCount.toString())
+                         mFlowerCount = it.data.get(position).iFlowerCount.toString()
+//                         et_sendflower_input.setText(it.data.get(position).iFlowerCount.toString())
                      }
                      it.notifyDataSetChanged()
                  }
