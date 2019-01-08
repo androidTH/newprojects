@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.GridLayoutManager
 import android.text.Editable
-import android.text.Spannable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
@@ -24,7 +23,6 @@ import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
@@ -35,9 +33,7 @@ import com.d6.android.app.widget.badge.DisplayUtil
 import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.dialog_send_redflower.*
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.dip
 import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -75,7 +71,7 @@ class SendRedFlowerDialog : DialogFragment() {
         mToFromType = arguments.getInt("ToFromType")
         if(mToFromType==1){//打赏动态
             mSquareId = arguments.getString("squareId")
-        }else if(mToFromType==2){
+        }else if(mToFromType==2||mToFromType==4){
             mSquare = (arguments.getSerializable("square") as Square)
             mSquare?.let {
                 mSquareId = it.id.toString()
@@ -109,8 +105,8 @@ class SendRedFlowerDialog : DialogFragment() {
              override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int){
                  if(s.isNotEmpty()){
                      mBuyFlowerAdapter?.let {
-                         it.selectedIndex = -1
-                         it.notifyDataSetChanged()
+                             it.selectedIndex = -1
+                             it.notifyDataSetChanged()
                      }
                      mFlowerCount = s.toString()
                  }
@@ -133,8 +129,8 @@ class SendRedFlowerDialog : DialogFragment() {
                      }else{
                          it.selectedIndex = position
                          mFlowerCount = it.data.get(position).iFlowerCount.toString()
-//                         et_sendflower_input.setText(it.data.get(position).iFlowerCount.toString())
                      }
+                     et_sendflower_input.setText("")
                      it.notifyDataSetChanged()
                  }
         }
@@ -221,6 +217,8 @@ class SendRedFlowerDialog : DialogFragment() {
                             it.iFlowerCount = flowerCount.toInt()+it.iFlowerCount!!.toInt()
                             EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt(),mSquare))
                         }
+                    }else if(mToFromType == 4){
+                        dialogListener?.onClick(1,flowerCount)
                     }
                 })
             }){code,msg->

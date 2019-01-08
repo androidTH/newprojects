@@ -68,11 +68,12 @@ class DialogCashMoney : DialogFragment(), RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        var mUserInfo: UserData = (arguments.get("data") as UserData)
         var cashmoney = arguments.getString("cashmoney")
 
         tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
+
+        var userJson = SPUtils.instance().getString(Const.USERINFO)
+        var mUserInfo = GsonHelper.getGson().fromJson(userJson,UserData::class.java)
 
         tv_close.setOnClickListener {
             KeyboardktUtils().hideKeyboard(it)
@@ -196,6 +197,8 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                     tv_bindwx.text = "更换微信"
                     tv_wx_username.text="微信：${it.wxname}"
                 }
+
+                SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
             }
         })
     }
@@ -208,6 +211,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             it.dialog()
             Request.doCashMoney(userId,money).request(this,false,success={msg,data->
                 it.dismissDialog()
+                showToast("提现成功")
                 dialogListener?.onClick(1,money)
                 dismissAllowingStateLoss()
             }){code,msg->

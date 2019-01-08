@@ -25,7 +25,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.rong.imkit.RongIM
@@ -38,8 +37,6 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
-
-
 /**
  *
  */
@@ -165,7 +162,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             mData?.let {
                 it.accountId?.let {
                     var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-                    dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 2,"userId" to it)
+                    dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 3,"userId" to it)
                     dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
                 }
             }

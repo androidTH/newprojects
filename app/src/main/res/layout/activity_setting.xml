@@ -108,15 +108,25 @@
                     android:layout_centerInParent="true"
                     android:src="@mipmap/ic_more_gray" />
             </RelativeLayout>
-
-
-            <TextView
-                style="@style/mineTextStyle"
-                android:layout_marginTop="8dp"
-                android:drawableLeft="@mipmap/my_blacklist_icon"
-                android:drawablePadding="@dimen/margin_16"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:text="黑名单" />
+                android:layout_marginTop="8dp">
+                <TextView
+                    style="@style/mineTextStyle"
+                    android:drawableLeft="@mipmap/my_chatsetting_icon"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:text="私聊设置" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_35"
+                    android:textColor="@color/color_888888"
+                    android:text="直接私聊" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -217,6 +227,13 @@
                     android:background="@color/color_EFEFEF" />
             </RelativeLayout>
 
+            <TextView
+                style="@style/mineTextStyle"
+                android:layout_marginTop="8dp"
+                android:drawableLeft="@mipmap/my_blacklist_icon"
+                android:drawablePadding="@dimen/margin_16"
+                android:visibility="gone"
+                android:text="黑名单" />
 
             <TextView
                 android:id="@+id/btn_sign_out"

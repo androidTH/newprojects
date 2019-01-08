@@ -164,6 +164,12 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             tv_redflower.visibility = View.VISIBLE
         }
 
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+            true
+        } else {
+            false
+        }
+
 //        if (!square.classesName.isNullOrEmpty()) {
 //            tv_tag.text = String.format("#%s#",square.classesName)
 //        } else {

@@ -87,7 +87,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         mHeaderView.tv_cash_money.setOnClickListener {
             var dialogCashMoney = DialogCashMoney()
             mUserInfo?.let {
-                dialogCashMoney.arguments = bundleOf("data" to it,"cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
+                dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
             }
             dialogCashMoney.show(supportFragmentManager,"cashmoney")
             dialogCashMoney.setDialogListener { p, s ->
@@ -197,8 +197,9 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 } else {
                     mHeaderView.ll_huiyuan_info.visibility = View.VISIBLE
                 }
+                mUserInfo = data
+                SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
             }
-            mUserInfo = data
         })
     }
 

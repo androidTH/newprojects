@@ -52,7 +52,7 @@ public class FlowerPluginModule implements IPluginModule {
         this.targetId = rongExtension.getTargetId();
         SendRedFlowerDialog dialogSendRedFlowerDialog =new  SendRedFlowerDialog();
         Bundle bundle = new Bundle();
-        bundle.putInt("ToFromType", 2);
+        bundle.putInt("ToFromType", 3);
         bundle.putString("userId",targetId);
         dialogSendRedFlowerDialog.setArguments(bundle);
         dialogSendRedFlowerDialog.show(fragment.getFragmentManager(),"sendflower");

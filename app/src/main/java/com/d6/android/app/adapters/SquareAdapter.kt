@@ -69,6 +69,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
         }
     }
 
+
     //举报
     private fun startActivity(id:String,tipType:String){
         context.startActivity<ReportActivity>("id" to id, "tiptype" to tipType)
