@@ -33,7 +33,7 @@ import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
 
 /**
- * 约会发送出错
+ * 提现
  */
 class DialogCashMoney : DialogFragment(), RequestManager {
 
@@ -108,15 +108,18 @@ class DialogCashMoney : DialogFragment(), RequestManager {
 
         tv_cashok.setOnClickListener {
             if(!TextUtils.isEmpty(mUserInfo.wxname)){
-                var money = et_cash_input.text.toString().toFloat()
-                if (money <= cashmoney.toFloat()) {
-                    if(money>=20){
-                        doCashMoney(et_cash_input.text.toString())
-                    }else{
-                        showToast("最低提现金额不能小于20元！")
+                var money = et_cash_input.text.toString().trim()
+                if(!TextUtils.isEmpty(money)){
+                    var mCashMoney = money.toInt()
+                    if (mCashMoney <= cashmoney.toFloat()) {
+                        if(mCashMoney>= 20){
+                            doCashMoney(et_cash_input.text.toString())
+                        }else{
+                            showToast("最低提现金额不能小于20元！")
+                        }
+                    } else {
+                        showToast("提现金额必须小于可提金额！")
                     }
-                } else {
-                    showToast("提现金额必须小于可提金额！")
                 }
             }else{
                 showToast("请绑定微信才能提现!")

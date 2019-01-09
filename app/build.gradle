@@ -143,6 +143,7 @@ dependencies {
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-4'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-4'
     compile 'com.qianwen:update-app:3.5.2'
+    compile 'com.qianwen:okhttp-utils:3.8.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     //    implementation 'com.umeng.sdk:push-xiaomi:1.0.0'

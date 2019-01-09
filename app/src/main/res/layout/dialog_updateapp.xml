@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_white_8r"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_update_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:gravity="center_horizontal"
+            android:text="发现新版"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:visibility="invisible" />
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv_updateinfo"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="@dimen/margin_15" />-->
+        <TextView
+            android:id="@+id/tv_update_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:lineSpacingExtra="@dimen/margin_5"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp"
+            android:layout_margin="@dimen/margin_25"
+            android:text="1.全新动态页面设计，更清晰明了\n2.全新个人中心\n3.新增赠送小红花给喜欢的人\n4.新增私聊设置，多种私聊设置"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_DFE1E5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_update_no"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="不再提示"
+                android:textStyle="bold"
+                android:textColor="@color/color_888888"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_DFE1E5" />
+
+            <TextView
+                android:id="@+id/tv_update_next"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="下次再说"
+                android:textStyle="bold"
+                android:textColor="@color/color_888888"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_DFE1E5" />
+
+            <TextView
+                android:id="@+id/tv_update_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:gravity="center"
+                android:text="更新"
+                android:textStyle="bold"
+                android:textColor="@color/color_F7AB00"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_updateapp_sdv"
+        android:layout_width="75dp"
+        android:layout_height="90dp"
+        app:placeholderImage="@mipmap/update_app_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_20"/>
+</RelativeLayout>
