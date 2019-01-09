@@ -175,9 +175,13 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         }
     }
 
+    /**
+     * 绑定微信号
+     */
     private fun bindwxId(wxid:String?,swxname:String,swxpic:String){
         (context as BaseActivity).dismissDialog()
         Request.doBindWxId(userId,wxid.toString(),swxname,swxpic).request(this,false,success={msg,data->
+            CustomToast.showToast(msg.toString())
             getUserInfo()
         }){code,msg->
             CustomToast.showToast(msg)
