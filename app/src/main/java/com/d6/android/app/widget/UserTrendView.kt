@@ -158,23 +158,17 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             ""
         }
 
-        if(TextUtils.equals(square.userid,userId)){
-            tv_redflower.visibility = View.GONE
-        }else{
-            tv_redflower.visibility = View.VISIBLE
-        }
+//        if(TextUtils.equals(square.userid,userId)){
+//            tv_redflower.visibility = View.GONE
+//        }else{
+//            tv_redflower.visibility = View.VISIBLE
+//        }
 
         tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
             true
         } else {
             false
         }
-
-//        if (!square.classesName.isNullOrEmpty()) {
-//            tv_tag.text = String.format("#%s#",square.classesName)
-//        } else {
-//            tv_tag.text = ""
-//        }
 
         square.commentCount?.let {
             if (it > 0) {
