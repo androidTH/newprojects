@@ -126,8 +126,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             val headView = holder.bind<SimpleDraweeView>(R.id.headView)
             headView.setImageURI(data.picUrl)
 
-            if (data.name.length >= 8) {
-                holder.setText(R.id.tv_name, "${data.name.substring(0, 6)}...")
+            if (data.name.length >= 5) {
+                holder.setText(R.id.tv_name, "${data.name.substring(0, 4)}...")
             } else {
                 holder.setText(R.id.tv_name, data.name)
             }

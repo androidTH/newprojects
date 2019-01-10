@@ -21,12 +21,6 @@ import org.jetbrains.anko.wrapContent
  */
 class SquareActionDialog : DialogFragment() {
 
-    private val userId by lazy {
-        if (arguments!=null && arguments.containsKey("id")) {
-            arguments.getString("id")
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.Dialog)
@@ -44,6 +38,7 @@ class SquareActionDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var userId = arguments.getString("id")
 
         val uid = SPUtils.instance().getString(Const.User.USER_ID)
         if (TextUtils.equals(uid, userId.toString())) {//是自己。

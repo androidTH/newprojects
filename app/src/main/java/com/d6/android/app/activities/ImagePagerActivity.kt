@@ -129,7 +129,6 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             e.printStackTrace()
         }
         super.onDestroy()
-        immersionBar.destroy()
     }
 
     companion object {

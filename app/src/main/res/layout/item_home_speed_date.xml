@@ -88,10 +88,12 @@
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/ll_name"
             android:gravity="center_vertical"
             android:text="28 180CM 80KG"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
 
@@ -102,6 +104,8 @@
             android:layout_below="@+id/tv_info"
             android:gravity="center_vertical"
             android:text="-----"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
 

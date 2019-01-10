@@ -466,7 +466,6 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         try {
-            immersionBar.destroy()
             unregisterReceiver(broadcast)
         } catch (e: Exception) {
 

@@ -102,15 +102,16 @@
         android:text="0"
         android:textColor="@color/color_888888"
         android:textSize="14sp" />
+
     <TextView
+        android:id="@+id/tv_my_square_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/ll_comments"
+        android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/margin_5"
         android:layout_marginTop="@dimen/margin_8"
-        android:background="@mipmap/discuss_more_gray"
-        android:id="@+id/tv_my_square_delete" />
+        android:background="@mipmap/discuss_more_gray" />
     <TextView
         android:id="@+id/tv_sub_title"
         android:layout_width="wrap_content"

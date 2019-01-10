@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
 import com.d6.android.app.base.TitleActivity
@@ -24,6 +25,8 @@ import android.view.inputmethod.InputMethodManager
 import com.d6.android.app.dialogs.CommentDelDialog
 import com.d6.android.app.dialogs.SendRedFlowerDialog
 import com.d6.android.app.eventbus.FlowerMsgEvent
+import com.share.utils.ShareUtils
+import com.umeng.socialize.bean.SHARE_MEDIA
 import io.rong.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -62,6 +65,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_square_detail)
         immersionBar.init()
+//        titleBar.addRightButton(rightId = R.mipmap.discuss_more_gray, onClickListener = View.OnClickListener {
+//        })
         EventBus.getDefault().register(this@SquareTrendDetailActivity)
 
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))

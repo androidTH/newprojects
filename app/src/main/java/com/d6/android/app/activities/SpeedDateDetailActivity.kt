@@ -49,6 +49,7 @@ class SpeedDateDetailActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speed_date_detail)
+        immersionBar.init()
         title = "速约详情"
 
         titleBar.addRightButton(rightId = R.mipmap.ic_share, onClickListener = View.OnClickListener {

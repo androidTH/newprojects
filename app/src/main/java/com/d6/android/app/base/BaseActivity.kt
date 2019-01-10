@@ -118,8 +118,6 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
             e.printStackTrace()
         }
         dismissDialog()
-
-        immersionBar.destroy()
     }
 
     fun dialog(msg: String = "加载中...", canCancel: Boolean = true) {
