@@ -44,6 +44,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private val id by lazy {
         intent.getStringExtra("id")
     }
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -306,9 +307,21 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (TextUtils.equals("0", it.sex)) {
                     headerView.tv_vip.invisible()
+                    if(TextUtils.equals("0",it.screen) || it.screen.isNullOrEmpty()){
+//                        headerView.tv_other_auther_sign.visibility = View.GONE
+                        headerView.img_other_auther.visibility = View.GONE
+                    }else{
+                        headerView.img_other_auther.visibility = View.VISIBLE
+                    }
                 } else {
                     headerView.tv_vip.visible()
+
                 }
+
+                headerView.img_other_auther.setOnClickListener {
+                    toast(getString(R.string.string_auth))
+                }
+
                 headerView.tv_vip.text = String.format("%s", it.classesname)
                 mTags.clear()
                 if(!it.height.isNullOrEmpty()){

@@ -29,7 +29,18 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="64dp"
         android:layout_marginRight="6dp" />
-
+    <ImageView
+        android:id="@+id/img_other_auther"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/tv_signature"
+        android:layout_marginRight="@dimen/margin_5"
+        android:layout_marginTop="-5dp"
+        android:layout_toLeftOf="@+id/tv_signature"
+        android:background="@drawable/shape_auther_bg"
+        android:padding="3dp"
+        android:visibility="visible"
+        android:src="@mipmap/memberorder_icon_white" />
     <TextView
         android:id="@+id/tv_nick"
         android:layout_width="wrap_content"
@@ -50,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tv_nick"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/margin_2"
         android:layout_toRightOf="@+id/tv_nick"
         android:background="@drawable/ic_sex_bg_selector"
         android:drawableLeft="@drawable/sex_white_selector"
@@ -82,9 +94,26 @@
         android:layout_toRightOf="@+id/headView"
         android:ellipsize="end"
         android:maxLines="3"
-        android:paddingBottom="16dp"
+        android:layout_marginBottom="@dimen/margin_3"
         android:text="-"
         android:textColor="@color/white"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/tv_other_auther_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_below="@+id/tv_signature"
+        android:layout_toRightOf="@+id/headView"
+        android:background="@drawable/shape_auther_sign_gray"
+        android:drawableLeft="@mipmap/memberorder_icon_gold"
+        android:drawablePadding="@dimen/margin_5"
+        android:gravity="center"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
+        android:text="@string/user_no_auther"
+        android:textColor="@color/color_F7AB00"
+        android:visibility="invisible"
         android:textSize="12dp" />
 
     <ImageView
@@ -100,7 +129,7 @@
         android:id="@+id/rv_my_images"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_signature"
+        android:layout_below="@+id/tv_other_auther_sign"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginBottom="6dp"
         android:minHeight="66dp"
