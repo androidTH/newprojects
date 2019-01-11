@@ -64,7 +64,7 @@ class ChatActivity : TitleActivity() ,RongIM.OnSendMessageListener{
         } else {
             info.name
         }
-        relative_tips.visibility = View.VISIBLE
+        relative_tips.visibility = View.GONE
 
         tv_openchat_apply.setOnClickListener {
 
@@ -79,7 +79,7 @@ class ChatActivity : TitleActivity() ,RongIM.OnSendMessageListener{
         tv_openchat_apply.visibility = View.GONE
         tv_openchat_points.visibility = View.VISIBLE
         linear_openchat_agree.visibility = View.GONE
-        tv_chat_nopeople.visibility = View.VISIBLE
+        tv_chat_nopeople.visibility = View.GONE
         tv_openchat_no.setOnClickListener {
 
         }
