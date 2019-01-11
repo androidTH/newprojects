@@ -2,9 +2,6 @@
 <resources>
     <string name="rc_name">RongCloud</string>
 
-    <string name="rc_voice_dialog_swipe">Slide up to cancel</string>
-    <string name="rc_voice_dialog_cancel_send">Release to cancel</string>
-    <string name="rc_voice_dialog_time_short">Audio recorder short</string>
     <string name="rc_voice_rec">Slide up to cancel</string>
     <string name="rc_voice_cancel">Release to cancel</string>
     <string name="rc_voice_short">Message too short</string>
@@ -52,9 +49,12 @@
     <string name="rc_dialog_item_message_delete">Delete</string>
     <string name="rc_dialog_item_message_copy">Copy</string>
     <string name="rc_dialog_item_message_recall">Recall</string>
+    <string name="rc_dialog_item_message_more">More&#8230;</string>
     <string name="rc_recall_failed">Recall failed</string>
-    <string name="rc_you_recalled_a_message">You recalled a message</string>
-    <string name="rc_recalled_a_message">&#160;recalled a message</string>
+    <string name="rc_you_recalled_a_message">You have recalled a message</string>
+    <string name="rc_admin_recalled_a_message">Admin have recalled a message</string>
+    <string name="rc_recalled_a_message">&#160; has recalled a message</string>
+    <string name="rc_exceeded_max_limit">Exceeded the maximum limit</string>
 
     <string name="rc_message_unread_count">"···"</string>
     <string name="rc_input_voice">Hold to Talk</string>
@@ -74,8 +74,6 @@
     <string name="rc_dialog_ok">OK</string>
     <string name="rc_input_send">Send</string>
 
-    <string name="rc_plugins_location">Location</string>
-    <string name="rc_plugins_image">Image</string>
     <string name="rc_plugins_camera">Camera</string>
     <string name="rc_plugins_files">File</string>
 
@@ -147,7 +145,7 @@
 
     <!-- LargePictureActivity -->
     <string name="rc_save_picture">Save Photo</string>
-    <string name="rc_save_picture_at">Picture saved at %s</string>
+    <string name="rc_save_picture_at">Picture saved success</string>
     <string name="rc_src_file_not_found">Source file not found.</string>
 
     <string name="rc_blacklist_prompt">You have been added to blacklist</string>
@@ -163,6 +161,8 @@
     <string name="rc_android.permission.RECORD_AUDIO">Microphone</string>
     <string name="rc_android.permission.READ_EXTERNAL_STORAGE">Storage</string>
     <string name="rc_android.permission.WRITE_EXTERNAL_STORAGE">Storage</string>
+    <string name="rc_android.permission.READ_PHONE_STATE">Phone</string>
+    <string name="rc_android.permission.PROCESS_OUTGOING_CALLS">Phone</string>
 
     <string name="rc_ac_file_download_preview">File Preview</string>
     <string name="rc_ac_file_manager_category_title">Search according to type</string>
@@ -182,7 +182,7 @@
     <string name="rc_ad_file_size">Size:%1$s</string>
     <string name="rc_ac_file_download_btn">Start downloading</string>
     <string name="rc_ac_file_download_progress_tv">Downloading...(%1$s/%2$s)</string>
-    <string name="rc_ac_file_download_open_file_btn">Open with other app</string>
+    <string name="rc_ac_file_download_open_file_btn">Open File</string>
     <string name="rc_ac_file_send_preview">Send File</string>
     <string name="rc_ad_send_file_no_select_file">Send</string>
     <string name="rc_ad_send_file_select_file">Send(%1$s/20)</string>
@@ -199,11 +199,15 @@
     <string name="rc_ac_file_preview_downloaded">Have downloaded</string>
     <string name="rc_ac_file_preview_download_error">Download failed</string>
     <string name="rc_ac_file_preview_download_cancel">Download has been canceled</string>
+    <string name="rc_ac_file_download_progress_pause">Canceled(%1$s/%2$s)</string>
+    <string name="rc_ac_file_preview_download_resume">Continue download</string>
     <string name="rc_ac_file_preview_deleted">File has expired or has already been cleared</string>
     <string name="rc_fr_file_list_most_selected_files">You can only choose 20 files</string>
     <string name="rc_ac_file_download_request_permission">You have to grant permissions in setting</string>
+    <string name="rc_fr_file_size_limit">File size can not exceed %1$d%2$s</string>
     <string name="rc_ac_file_download_request_permission_sure">OK</string>
     <string name="rc_ac_file_download_request_permission_cancel">Cancel</string>
+    <string name="rc_ac_file_url_error">File URL error!</string>
     <string name="rc_read_receipt_status">%d read</string>
 
     <string name="rc_item_quit_groups">" quited the group"</string>
@@ -216,16 +220,22 @@
     <string name="rc_item_created_group">%1$s created the group</string>
     <string name="rc_item_invitation">%1$s invited %2$s to join the group</string>
     <string name="rc_item_etc"> and etc </string>
-    <string name="rc_item_remove_group_member">%1$s removed %2$s from the group chat</string>
+    <string name="rc_item_remove_group_member">%1$s removed %2$s from the group</string>
     <string name="rc_item_change_group_name">%1$s changed the group name to %2$s</string>
     <string name="rc_item_you">You</string>
     <string name="rc_item_divided_string">、</string>
     <string name="rc_item_group_notification_summary">[Group Notification]</string>
-    <string name="rc_item_remove_self">%1$s are removed from the group by %2$s</string>
+    <string name="rc_item_remove_self">%1$s were removed from the group by %2$s</string>
 
     <string name="rc_real_time_location_summary">Location sharing...</string>
     <string name="rc_real_time_location_sharing">Location sharing...</string>
 
     <string name="rc_dialog_button_clear">Clear</string>
     <string name="rc_user_recalled_message">%s recalled one message</string>
+    <string name="rc_recall_failed_for_network_unavailable">Recall failed. Please check your network</string>
+    <string name="rc_new_message_divider_content">Above is the historical messages</string>
+
+    <string name="rc_toast_message_destruct">The message has auto-destructed,can\'t continue to view</string>
+    <string name="rc_receive_new_message">You have received a new message</string>
+    <string name="rc_notification_error_ssl_cert_invalid">The web certificate you have visited is not valid。Visit anyway?</string>
 </resources>

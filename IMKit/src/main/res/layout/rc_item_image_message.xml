@@ -8,7 +8,7 @@
         android:id="@id/rc_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:RCMinShortSideSize="140dp"
+        app:RCMinShortSideSize="120dp"
         app:RCMask="true"
         android:scaleType="centerCrop"/>
 

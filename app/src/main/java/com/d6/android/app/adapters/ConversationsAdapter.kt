@@ -39,7 +39,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         if (data.latestMessage != null) {
             val provider = RongContext.getInstance().getMessageTemplate(data.latestMessage.javaClass)
             if (provider != null) {
-                tv_content.text = provider.getContentSummary(data.latestMessage)
+                tv_content.text = provider.getContentSummary(context,data.latestMessage)
             }
         } else {
             tv_content.text = ""
