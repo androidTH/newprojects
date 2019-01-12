@@ -19,6 +19,7 @@ import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
+import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.net.Request
@@ -95,7 +96,6 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
             override fun onSuccess(deviceToken: String) {
                 SPUtils.instance().put(Const.User.DEVICETOKEN, deviceToken)
                 //注册成功会返回device token ArblO5X82GPZtR8dvWGOMXlPXpdJsOcOdTAoti6gm_ew
-                sysErr("------deviceToken---------->" + deviceToken)
             }
 
             override fun onFailure(s: String, s1: String) {
@@ -116,7 +116,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
         }
 
         //在这里初始化
-//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
+        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
     }
 
     override fun attachBaseContext(base: Context?) {

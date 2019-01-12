@@ -82,4 +82,6 @@ object Const {
     val DOUPDATEUSERINFOCODE = 1000
 
     val USERINFO = "UserInfo"
+
+    val CustomerServiceId="5"
 }

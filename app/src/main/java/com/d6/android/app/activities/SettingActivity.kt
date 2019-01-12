@@ -106,6 +106,10 @@ class SettingActivity : TitleActivity() {
             startActivity<WeChatSearchActivity>()
         }
 
+        tv_private_chat_type.setOnClickListener {
+
+        }
+
         btn_sign_out.setOnClickListener {
             SPUtils.instance().remove(Const.User.USER_ID)
                     .remove(Const.User.IS_LOGIN)

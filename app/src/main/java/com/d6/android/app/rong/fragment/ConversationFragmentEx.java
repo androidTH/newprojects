@@ -1,5 +1,6 @@
 package com.d6.android.app.rong.fragment;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.fragment.ConversationFragment;
+import io.rong.imkit.widget.adapter.MessageListAdapter;
 
 /**
  * 会话 Fragment 继承自ConversationFragment
@@ -19,6 +21,7 @@ import io.rong.imkit.fragment.ConversationFragment;
  * 如果不需要重写 onResendItemClick 和 onReadReceiptStateClick ,可以不必定义此类,直接集成 ConversationFragment 就可以了
  */
 public class ConversationFragmentEx extends ConversationFragment {
+
     private OnShowAnnounceListener onShowAnnounceListener;
     private String mTargetId = "";
     private RongExtension rongExtension;
@@ -26,10 +29,20 @@ public class ConversationFragmentEx extends ConversationFragment {
     private ImageView mMyEmoticonToggle;
     private ImageView mMyPluginToggle;
     private ImageView mMyVoiceToggle;
+    private boolean IsNotInput = false;
+    private String hitmsg ="";
+
+    public ConversationFragmentEx(){
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getArguments()!=null){
+            IsNotInput = getArguments().getBoolean("flag");
+            hitmsg = getArguments().getString("hitmsg");
+        }
     }
 
     @Override
@@ -40,12 +53,7 @@ public class ConversationFragmentEx extends ConversationFragment {
         mMyEmoticonToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_emoticon_toggle);
         mMyPluginToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_plugin_toggle);
         mMyVoiceToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_voice_toggle);
-
-//        mMyEditText.setEnabled(false);
-//        mMyEmoticonToggle.setEnabled(false);
-//        mMyPluginToggle.setEnabled(false);
-//        mMyVoiceToggle.setEnabled(false);
-//        mMyEditText.setHint("对方同意后可开启私聊");
+        doIsNotSendMsg(IsNotInput,hitmsg);
         return v;
     }
 
@@ -55,6 +63,11 @@ public class ConversationFragmentEx extends ConversationFragment {
         if (uri != null) {
             mTargetId = uri.getQueryParameter("targetId");
         }
+    }
+
+    @Override
+    public MessageListAdapter onResolveAdapter(Context context) {
+        return super.onResolveAdapter(context);
     }
 
     @Override
@@ -116,5 +129,22 @@ public class ConversationFragmentEx extends ConversationFragment {
 
     @Override
     public void onEmoticonToggleClick(View v, ViewGroup extensionBoard) {
+
+    }
+
+    public void doIsNotSendMsg(boolean flag,String hitmsg){
+        if(flag){
+            mMyEditText.setEnabled(false);
+            mMyEmoticonToggle.setEnabled(false);
+            mMyPluginToggle.setEnabled(false);
+            mMyVoiceToggle.setEnabled(false);
+            mMyEditText.setHint(hitmsg);
+        }else{
+            mMyEditText.setEnabled(true);
+            mMyEmoticonToggle.setEnabled(true);
+            mMyPluginToggle.setEnabled(true);
+            mMyVoiceToggle.setEnabled(true);
+            mMyEditText.setHint("");
+        }
     }
 }

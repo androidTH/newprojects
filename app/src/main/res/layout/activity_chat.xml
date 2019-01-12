@@ -3,102 +3,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/rong_content"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/relative_tips"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:layout_marginTop="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_10"
-        android:background="@drawable/shape_white">
-
-        <TextView
-            android:id="@+id/tv_openchat_tips_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_15"
+        <RelativeLayout
+            android:id="@+id/relative_tips"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_10"
-            android:text="开启私聊"
-            android:textColor="@color/color_333333"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_openchat_tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_openchat_tips_title"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginTop="@dimen/margin_5"
-            android:text="对方申请和你私聊"
-            android:textColor="@color/color_888888"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_openchat_apply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_25"
-            android:background="@drawable/shape_20r_orange"
-            android:paddingLeft="@dimen/margin_13"
-            android:paddingTop="@dimen/margin_5"
-            android:paddingRight="@dimen/margin_13"
-            android:paddingBottom="@dimen/margin_5"
-            android:text="申请私聊"
-            android:textColor="@color/white"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_openchat_points"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_10"
-            android:background="@drawable/shape_20r_orange"
-            android:paddingLeft="@dimen/margin_8"
-            android:paddingTop="@dimen/margin_5"
-            android:paddingRight="@dimen/margin_8"
-            android:paddingBottom="@dimen/margin_5"
-            android:text="支付积分"
-            android:textColor="@color/white" />
-
-        <LinearLayout
-            android:id="@+id/linear_openchat_agree"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_15"
-            android:gravity="center_vertical"
+            android:background="@drawable/shape_white"
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/tv_openchat_no"
+                android:id="@+id/tv_openchat_tips_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10"
-                android:text="拒绝"
-                android:textColor="@color/color_666666"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_10"
+                android:textColor="@color/color_333333"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_openchat_agree"
+                android:id="@+id/tv_openchat_tips"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginRight="@dimen/margin_5"
-                android:padding="@dimen/dp_10"
-                android:text="同意"
-                android:textColor="@color/color_F7AB00"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </RelativeLayout>
+                android:layout_below="@+id/tv_openchat_tips_title"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textColor="@color/color_888888"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_openchat_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_10"
+                android:background="@drawable/shape_20r_orange"
+                android:paddingLeft="@dimen/margin_8"
+                android:paddingTop="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_8"
+                android:paddingBottom="@dimen/margin_5"
+                android:text="@string/string_paypoints"
+                android:visibility="gone"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/tv_openchat_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_25"
+                android:background="@drawable/shape_20r_orange"
+                android:paddingLeft="@dimen/margin_13"
+                android:paddingTop="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_13"
+                android:paddingBottom="@dimen/margin_5"
+                android:text="@string/string_apply_openchat"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/linear_openchat_agree"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_15"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_openchat_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_10"
+                    android:text="拒绝"
+                    android:textColor="@color/color_666666"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_openchat_agree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_5"
+                    android:padding="@dimen/dp_10"
+                    android:text="同意"
+                    android:textColor="@color/color_F7AB00"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/rong_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_chat_nopeople"
@@ -113,7 +119,7 @@
         android:paddingRight="@dimen/margin_5"
         android:paddingBottom="@dimen/margin_2"
         android:text="拒绝了你的约会"
-        android:visibility="visible"
         android:textColor="@color/white"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone" />
 </RelativeLayout>
