@@ -542,41 +542,42 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun showDatePayPointDialog(name:String){
-        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
-            if(data!=null){
-                var code = data!!.optInt("code")
-                if(code == 1){
-                    var point = data!!.optString("iTalkPoint")
-                    var remainPoint = data!!.optString("iRemainPoint")
-                    if(point.toInt() > remainPoint.toInt()){
-                        val dateDialog = OpenDatePointNoEnoughDialog()
-                        var point = data!!.optString("iTalkPoint")
-                        var remainPoint = data!!.optString("iRemainPoint")
-                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-                        dateDialog.show(supportFragmentManager, "d")
-                    }else{
-                        val dateDialog = OpenDatePayPointDialog()
-                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
-                        dateDialog.show(supportFragmentManager, "d")
-                    }
-                } else if(code == 0){
-                    showToast(msg.toString())
-//                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                } else {
-                    val dateDialog = OpenDatePointNoEnoughDialog()
-                    var point = data!!.optString("iTalkPoint")
-                    var remainPoint = data!!.optString("iRemainPoint")
-                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-                    dateDialog.show(supportFragmentManager, "d")
-                }
-            }else{
-                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-            }
-        }) { code, msg ->
-             if(code == 0){
-                 showToast(msg)
-             }
-        }
+        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+//        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
+//            if(data!=null){
+//                var code = data!!.optInt("code")
+//                if(code == 1){
+//                    var point = data!!.optString("iTalkPoint")
+//                    var remainPoint = data!!.optString("iRemainPoint")
+//                    if(point.toInt() > remainPoint.toInt()){
+//                        val dateDialog = OpenDatePointNoEnoughDialog()
+//                        var point = data!!.optString("iTalkPoint")
+//                        var remainPoint = data!!.optString("iRemainPoint")
+//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+//                        dateDialog.show(supportFragmentManager, "d")
+//                    }else{
+//                        val dateDialog = OpenDatePayPointDialog()
+//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
+//                        dateDialog.show(supportFragmentManager, "d")
+//                    }
+//                } else if(code == 0){
+//                    showToast(msg.toString())
+////                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+//                } else {
+//                    val dateDialog = OpenDatePointNoEnoughDialog()
+//                    var point = data!!.optString("iTalkPoint")
+//                    var remainPoint = data!!.optString("iRemainPoint")
+//                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+//                    dateDialog.show(supportFragmentManager, "d")
+//                }
+//            }else{
+//                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+//            }
+//        }) { code, msg ->
+//             if(code == 0){
+//                 showToast(msg)
+//             }
+//        }
     }
 
     private fun signUpDate(myAppointment:MyAppointment) {

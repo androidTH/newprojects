@@ -171,45 +171,46 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
     }
 
     private fun showDatePayPointDialog(id:String,name:String){
-        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
-            if(data!=null){
-                var code = data!!.optInt("code")
-                if(code == 1){
-                    var point = data!!.optString("iTalkPoint")
-                    var remainPoint = data!!.optString("iRemainPoint")
-                    if(point.toInt() > remainPoint.toInt()){
-                        dismissAllowingStateLoss()
-                        val dateDialog = OpenDatePointNoEnoughDialog()
-                        var point = data!!.optString("iTalkPoint")
-                        var remainPoint = data!!.optString("iRemainPoint")
-                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-                        dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                    }else{
-                        dismissAllowingStateLoss()
-                        val dateDialog = OpenDatePayPointDialog()
-                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
-                        dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                    }
-                } else if(code == 0){
-                    showToast(msg.toString())
-//                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                } else {
-                    dismissAllowingStateLoss()
-                    val dateDialog = OpenDatePointNoEnoughDialog()
-                    var point = data!!.optString("iTalkPoint")
-                    var remainPoint = data!!.optString("iRemainPoint")
-                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-                    dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                }
-            }else{
-                dismissAllowingStateLoss()
-                RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, id, name)
-            }
-        }) { code, msg ->
-            if(code == 0){
-                showToast(msg)
-            }
-        }
+        RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, id, name)
+//        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
+//            if(data!=null){
+//                var code = data!!.optInt("code")
+//                if(code == 1){
+//                    var point = data!!.optString("iTalkPoint")
+//                    var remainPoint = data!!.optString("iRemainPoint")
+//                    if(point.toInt() > remainPoint.toInt()){
+//                        dismissAllowingStateLoss()
+//                        val dateDialog = OpenDatePointNoEnoughDialog()
+//                        var point = data!!.optString("iTalkPoint")
+//                        var remainPoint = data!!.optString("iRemainPoint")
+//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+//                        dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+//                    }else{
+//                        dismissAllowingStateLoss()
+//                        val dateDialog = OpenDatePayPointDialog()
+//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
+//                        dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+//                    }
+//                } else if(code == 0){
+//                    showToast(msg.toString())
+////                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+//                } else {
+//                    dismissAllowingStateLoss()
+//                    val dateDialog = OpenDatePointNoEnoughDialog()
+//                    var point = data!!.optString("iTalkPoint")
+//                    var remainPoint = data!!.optString("iRemainPoint")
+//                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+//                    dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+//                }
+//            }else{
+//                dismissAllowingStateLoss()
+//                RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, id, name)
+//            }
+//        }) { code, msg ->
+//            if(code == 0){
+//                showToast(msg)
+//            }
+//        }
     }
 
     override fun showToast(msg: String) {
