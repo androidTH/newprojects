@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
+import com.d6.android.app.dialogs.DialogPrivateChat
 import com.d6.android.app.dialogs.OpenDatePayPointDialog
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.extentions.request
@@ -58,6 +59,8 @@ class ChatActivity : TitleActivity() ,RongIM.OnSendMessageListener{
 
         titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
             startActivity<UserInfoActivity>("id" to mTargetId)
+//            var mDialogPrivateChat=DialogPrivateChat()
+//            mDialogPrivateChat.show(supportFragmentManager,"DialogPrivateChat")
         })
 
         val info = RongUserInfoManager.getInstance().getUserInfo(mTargetId)

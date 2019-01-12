@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.d6.android.app.rong.adapter.MessageListAdapterEx;
+
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
@@ -67,7 +69,8 @@ public class ConversationFragmentEx extends ConversationFragment {
 
     @Override
     public MessageListAdapter onResolveAdapter(Context context) {
-        return super.onResolveAdapter(context);
+        return new MessageListAdapterEx(context);
+//        return super.onResolveAdapter(context);
     }
 
     @Override
