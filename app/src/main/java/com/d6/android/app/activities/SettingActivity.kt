@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.DialogUpdateApp
+import com.d6.android.app.dialogs.SelectChatTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.UserData
@@ -107,7 +108,11 @@ class SettingActivity : TitleActivity() {
         }
 
         tv_private_chat_type.setOnClickListener {
-
+             var mSelectChatTypeDialog = SelectChatTypeDialog()
+             mSelectChatTypeDialog.show(supportFragmentManager,"SelectChatTypeDialog")
+             mSelectChatTypeDialog.setDialogListener { p, s ->
+                 tv_private_chat_type.text = s.toString()
+             }
         }
 
         btn_sign_out.setOnClickListener {

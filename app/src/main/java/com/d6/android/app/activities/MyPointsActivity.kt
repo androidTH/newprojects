@@ -24,6 +24,7 @@ import com.d6.android.app.models.UserPoints
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_mypoints.*
 import kotlinx.android.synthetic.main.item_mypoints_header.view.*
@@ -72,11 +73,16 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_recharge.setOnClickListener {
-            mPointsListDialog = PointsListDialog()
-//            mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
-            mPointsListDialog.show(supportFragmentManager, "c")
-            mPointsListDialog.setOnPayListener { p, data ->
-                payMoney(data)
+            val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+            if (!TextUtils.equals(className,"7")) {
+                mPointsListDialog = PointsListDialog()
+//              mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
+                mPointsListDialog.show(supportFragmentManager, "c")
+                mPointsListDialog.setOnPayListener { p, data ->
+                    payMoney(data)
+                }
+            }else{
+                CustomToast.showToast("请联系微信客服开通会员后进行充值～")
             }
         }
 

@@ -105,21 +105,4 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_chat_nopeople"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/height_80"
-        android:background="@drawable/shape_3r_black_33"
-        android:paddingLeft="@dimen/margin_5"
-        android:paddingTop="@dimen/margin_2"
-        android:paddingRight="@dimen/margin_5"
-        android:paddingBottom="@dimen/margin_2"
-        android:text="拒绝了你的约会"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        android:visibility="gone" />
 </RelativeLayout>

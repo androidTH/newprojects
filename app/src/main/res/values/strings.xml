@@ -64,5 +64,8 @@
     <string name="string_other_agreee_openchat">对方同意后可开启私聊</string>
     <string name="string_already_applay">已申请</string>
     <string name="string_privatechat_set">私聊设置</string>
+    <string name="string_linechat">直接私聊</string>
+    <string name="string_agree_openchat">同意后私聊</string>
+    <string name="string_chat_setting">私聊设置</string>
 
 </resources>

@@ -9,21 +9,10 @@ import android.support.v4.content.ContextCompat;
 
 import com.d6.android.app.R;
 import com.d6.android.app.dialogs.SendRedFlowerDialog;
-import com.d6.android.app.rong.CustomMessage;
-import com.d6.android.app.rong.bean.ImgTxtMessage;
-import com.d6.android.app.utils.GsonHelper;
-import com.d6.android.app.widget.CustomToast;
 
 import io.rong.imkit.RongExtension;
-import io.rong.imkit.RongIM;
 import io.rong.imkit.plugin.IPluginModule;
-import io.rong.imkit.widget.provider.TextMessageItemProvider;
-import io.rong.imlib.IRongCallback;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
-import io.rong.message.RichContentMessage;
-import io.rong.message.TextMessage;
 
 /**
  * author : jinjiarui

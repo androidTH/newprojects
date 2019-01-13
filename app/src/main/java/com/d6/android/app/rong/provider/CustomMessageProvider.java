@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
-import com.d6.android.app.rong.CustomMessage;
+import com.d6.android.app.rong.bean.CustomMessage;
 import com.d6.android.app.rong.bean.ImgTxtMessage;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -44,7 +44,7 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
         TextView mTvMsgContent;
         TextView mTvReceivedFlowerNums;
         boolean longClick;
-        SimpleDraweeView simpleDraweeView;
+//        SimpleDraweeView simpleDraweeView;
         LinearLayout mLl_CustomMsg_Body;
     }
 

@@ -5,10 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.d6.android.app.rong.bean.CustomMessage;
+import com.d6.android.app.rong.bean.TipsMessage;
+import com.d6.android.app.widget.CustomToast;
+
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
 import io.rong.imlib.model.Conversation;
-import io.rong.push.RongPushClient;
 
 /**
  * author : jinjiarui
@@ -32,10 +35,9 @@ public class MessageListAdapterEx extends MessageListAdapter {
     @Override
     protected void bindView(View v, int position, UIMessage data) {
         super.bindView(v, position, data);
-        TextView mTvTips = v.findViewById(io.rong.imkit.R.id.rc_apply_chat_tips);
-        if(data.getConversationType() == Conversation.ConversationType.PRIVATE){
+//      TextView mTvTips = v.findViewById(io.rong.imkit.R.id.rc_apply_chat_tips);
+        if(data.getContent() instanceof TipsMessage){
 
         }
-        mTvTips.setVisibility(View.GONE);
     }
 }

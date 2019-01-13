@@ -12,6 +12,7 @@ import android.os.Looper
 import android.os.StrictMode
 import android.support.multidex.MultiDex
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,6 +26,7 @@ import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
+import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.umeng.commonsdk.UMConfigure
@@ -215,6 +217,12 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null && message.conversationType == Conversation.ConversationType.PRIVATE) {
             sendBroadcast(Intent(Const.NEW_MESSAGE))
+//            message?.let {
+//                if (it.content is TipsMessage) {
+//                    var mTipsMessage = (it.content as TipsMessage)
+//                    sendBroadcast(Intent(Const.PRIVATECHAT_APPLY).putExtra("extra",mTipsMessage.extra))
+//                }
+//            }
         }
         return false
     }

@@ -1,9 +1,11 @@
 package com.d6.android.app.rong.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +13,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.d6.android.app.rong.adapter.MessageListAdapterEx;
+import com.d6.android.app.rong.bean.TipsMessage;
+import com.d6.android.app.utils.Const;
+import com.d6.android.app.widget.CustomToast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
+import io.rong.imlib.model.Message;
 
 /**
  * 会话 Fragment 继承自ConversationFragment
@@ -69,8 +78,23 @@ public class ConversationFragmentEx extends ConversationFragment {
 
     @Override
     public MessageListAdapter onResolveAdapter(Context context) {
-        return new MessageListAdapterEx(context);
-//        return super.onResolveAdapter(context);
+//        return new MessageListAdapterEx(context);
+        return super.onResolveAdapter(context);
+    }
+
+    @Override
+    public void onEventMainThread(Message msg) {
+        super.onEventMainThread(msg);
+        if(msg.getContent() instanceof TipsMessage){
+            if(msg.getMessageDirection() == Message.MessageDirection.RECEIVE){
+                TipsMessage mTipsMessage = (TipsMessage) msg.getContent();
+//                getActivity().sendBroadcast(new Intent("com.d6.app.privatechat_apply_msg").
+//                        putExtra("extra", mTipsMessage.getExtra()));
+                if (onShowAnnounceListener != null) {
+                    onShowAnnounceListener.onShowAnnounceView(mTipsMessage.getExtra(), mTipsMessage.getExtra());
+                }
+            }
+        }
     }
 
     @Override

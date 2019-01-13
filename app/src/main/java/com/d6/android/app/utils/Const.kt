@@ -84,4 +84,6 @@ object Const {
     val USERINFO = "UserInfo"
 
     val CustomerServiceId="5"
+
+    val PRIVATECHAT_APPLY = "com.d6.app.privatechat_apply_msg"
 }

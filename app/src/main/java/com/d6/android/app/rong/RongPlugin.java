@@ -2,8 +2,11 @@ package com.d6.android.app.rong;
 
 import android.content.Context;
 
+import com.d6.android.app.rong.bean.CustomMessage;
+import com.d6.android.app.rong.bean.TipsMessage;
 import com.d6.android.app.rong.plugin.D6ExtensionModule;
 import com.d6.android.app.rong.provider.CustomMessageProvider;
+import com.d6.android.app.rong.provider.TipsMessageProvider;
 
 import java.util.List;
 
@@ -58,8 +61,9 @@ public class RongPlugin {
                 RongExtensionManager.getInstance().registerExtensionModule(new D6ExtensionModule());
             }
         }
-
         RongIM.registerMessageType(CustomMessage.class);
+        RongIM.registerMessageType(TipsMessage.class);
         RongIM.registerMessageTemplate(new CustomMessageProvider());
+        RongIM.registerMessageTemplate(new TipsMessageProvider());
     }
 }
