@@ -306,6 +306,7 @@ interface ApiServices {
     @POST("backstage/rongcloud/getTalkJustify")
     fun doTalkJustify(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iTalkUserId:String):Flowable<Response<JsonObject>>
 
+    /*1.8.0接口*/
     //送小红花列表
     @POST("backstage/userflowerrule/find")
     fun getUserFlowerRule():Flowable<Response<ArrayList<FlowerRule>>>
@@ -321,4 +322,26 @@ interface ApiServices {
     //提现接口
     @POST("backstage/userflowerrule/withDrawFlower")
     fun doCashMoney(@Query("iUserid") iUserid:String,@Query("iFlowerCount")iFlowerCount:String):Flowable<Response<JsonObject>>
+
+     /*1.8.5接口*/
+
+    //修改聊天设置接口
+    @POST("backstage/account/updateTalkSetting")
+    fun updateTalkSetting(@Query("iUserid") iUserid:String,@Query("iTalkSetting") iTalkSetting:Int):Flowable<Response<JsonObject>>
+
+    //新的私聊接口
+    @POST("backstage/rongcloud/getTalkJustifyNew")
+    fun doTalkJustifyNew(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+
+    //申请私聊接口
+    @POST("backstage/talkapply/apply")
+    fun doApplyPrivateChat(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+
+    //同意或拒绝私聊接口
+    @POST("backstage/talkapply/update")
+    fun doUpdatePrivateChatStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("iStatus") iStatus:String):Flowable<Response<JsonObject>>
+
+    //获取与当前用户的私聊状态
+    @POST("backstage/talkapply/getApplyStatus")
+    fun getApplyStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
 }

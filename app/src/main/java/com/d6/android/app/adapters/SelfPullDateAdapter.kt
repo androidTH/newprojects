@@ -7,7 +7,6 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.OpenDateDialog
 import com.d6.android.app.dialogs.OpenDateErrorDialog
-import com.d6.android.app.dialogs.OpenDatePayPointDialog
 import com.d6.android.app.dialogs.SquareActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.IntegralExplain
@@ -16,10 +15,8 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.widget.SelfPullDateView
-import kotlinx.android.synthetic.main.dialog_date_send.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.toast
 
 /**
  *

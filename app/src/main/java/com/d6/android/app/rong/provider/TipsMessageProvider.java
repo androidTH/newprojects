@@ -75,9 +75,9 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
             textView.setText(content.getContent());
             if(!TextUtils.isEmpty(content.getExtra())){
                 TipsTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),TipsTxtMessage.class);
-                if(TextUtils.equals(msg.getType(),"0")){
+                if(TextUtils.equals(msg.getType(),"1")){
                     holder.mTvMsgContent.setVisibility(View.VISIBLE);
-                }else if(TextUtils.equals(msg.getType(),"1")||TextUtils.equals(msg.getType(),"2")){
+                }else if(TextUtils.equals(msg.getType(),"2")||TextUtils.equals(msg.getType(),"3")){
                     holder.mTvMsgContent.setVisibility(View.VISIBLE);
                 }
             }
@@ -87,10 +87,10 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
-                    String type = jsonObject.getString("type");
-                    if(TextUtils.equals(type,"0")){
+                    String type = jsonObject.getString("status");
+                    if(TextUtils.equals(type,"1")){
                         holder.mTvMsgContent.setVisibility(View.VISIBLE);
-                    }else if(TextUtils.equals(type,"1")||TextUtils.equals(type,"2")){
+                    }else if(TextUtils.equals(type,"2")||TextUtils.equals(type,"3")){
                         holder.mTvMsgContent.setVisibility(View.VISIBLE);
                     }
                 }

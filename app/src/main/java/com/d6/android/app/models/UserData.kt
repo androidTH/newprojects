@@ -58,6 +58,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iFlowerCount:Int?=-1
     var wxname:String?=""
     var wxpic:String?=""
+    var iTalkSetting:Int?=-1 //1、直接私聊  2、同意后私聊
 
     override fun toString(): String {
 

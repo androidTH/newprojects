@@ -14,7 +14,7 @@ import org.jetbrains.anko.wrapContent
 
 
 /**
- * 选择身高弹窗
+ * 设置私聊类型
  */
 class SelectChatTypeDialog : DialogFragment() {
     private val height = ArrayList<String>()
@@ -41,12 +41,12 @@ class SelectChatTypeDialog : DialogFragment() {
         }
 
         tv_line_chat.setOnClickListener {
-            dialogListener?.onClick(0, resources.getString(R.string.string_linechat))
+            dialogListener?.onClick(1, resources.getString(R.string.string_linechat))
             dismissAllowingStateLoss()
         }
 
         tv_agree_chat.setOnClickListener {
-            dialogListener?.onClick(0, resources.getString(R.string.string_agree_openchat))
+            dialogListener?.onClick(2, resources.getString(R.string.string_agree_openchat))
             dismissAllowingStateLoss()
         }
     }

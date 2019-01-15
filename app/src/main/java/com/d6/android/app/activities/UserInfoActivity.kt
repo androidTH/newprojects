@@ -155,7 +155,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         tv_siliao.setOnClickListener {
                 mData?.let {
                     val name = it.name ?: ""
-                    showDatePayPointDialog(name)
+                    showDatePayPointDialog(name,it.iTalkSetting!!.toInt())
                 }
         }
 
@@ -541,7 +541,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
-    private fun showDatePayPointDialog(name:String){
+    private fun showDatePayPointDialog(name:String,privateChatType:Int){
+        var bundle=Bundle()
+        bundle.putInt("chatType",privateChatType)
         RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
 //        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
 //            if(data!=null){

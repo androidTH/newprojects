@@ -95,13 +95,13 @@ class MyDateDetailActivity : BaseActivity() {
                     val name = it.sAppointUserName ?: ""
                     if(it.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
 //                        checkChatCount(it.iUserid.toString()) {
-//                            showDatePayPointDialog(name,it.iUserid.toString())
-                            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
+                            showDatePayPointDialog(name,it.iUserid.toString())
+//                            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
 //                        }
                     }else if(it.sAppointmentSignupId.isNotEmpty()){
 //                        checkChatCount(it.iAppointUserid.toString()) {
-//                            showDatePayPointDialog(name,it.iAppointUserid.toString())
-                            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
+                            showDatePayPointDialog(name,it.iAppointUserid.toString())
+                            //RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
 //                        }
                     }
                 }
@@ -114,7 +114,7 @@ class MyDateDetailActivity : BaseActivity() {
         Request.getUnlockTalkPoint().request(this,false,success = {msg,data->
             val dateDialog = OpenDatePayPointDialog()
             var point = data!!.optInt("iTalkPoint")
-            dateDialog.arguments= bundleOf("data" to point.toString(),"username" to name,"chatUserId" to id)
+            dateDialog.arguments= bundleOf("data" to point.toString(),"username" to name,"chatUserId" to id,"type" to "0")
             dateDialog.show(supportFragmentManager, "d")
         }) { _, msg ->
             this.toast(msg)

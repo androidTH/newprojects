@@ -112,6 +112,7 @@ class SettingActivity : TitleActivity() {
              mSelectChatTypeDialog.show(supportFragmentManager,"SelectChatTypeDialog")
              mSelectChatTypeDialog.setDialogListener { p, s ->
                  tv_private_chat_type.text = s.toString()
+                 setPrivateChatType(p)
              }
         }
 
@@ -172,9 +173,23 @@ class SettingActivity : TitleActivity() {
                 }else{
                     img_auther.visibility = View.VISIBLE
                 }
+
+                if(it.iTalkSetting==1){
+                    tv_private_chat_type.text=resources.getString(R.string.string_linechat)
+                }else if(it.iTalkSetting==2){
+                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
+                }
             }
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
+        }
+    }
+
+    private fun setPrivateChatType(status:Int){
+        Request.updateTalkSetting(userId,status).request(this,false,success={msg,data->
+
+        }){code,msg->
+            showToast(msg)
         }
     }
 

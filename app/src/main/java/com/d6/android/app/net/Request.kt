@@ -11,6 +11,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
+import retrofit2.http.POST
 import retrofit2.http.Query
 import java.io.File
 
@@ -369,4 +370,19 @@ object Request {
 
     //提现
     fun doCashMoney(iUserid:String,iFlowerCount:String)=RRetrofit.instance().create(ApiServices::class.java).doCashMoney(iUserid,iFlowerCount)
+
+    //修改聊天设置接口
+    fun updateTalkSetting(iUserid:String,iTalkSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateTalkSetting(iUserid,iTalkSetting)
+
+    //新的私聊接口
+    fun doTalkJustifyNew(iFromUserid:String,iToUserid:String) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustifyNew(iFromUserid,iToUserid)
+
+    //申请私聊接口
+    fun doApplyPrivateChat(iFromUserid:String, iToUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doApplyPrivateChat(iFromUserid,iToUserId)
+
+    //同意或拒绝私聊接口
+    fun doUpdatePrivateChatStatus(iFromUserid:String,iToUserid:String,iStatus:String)=RRetrofit.instance().create(ApiServices::class.java).doUpdatePrivateChatStatus(iFromUserid,iToUserid,iStatus)
+
+     //获取与当前用户的私聊状态
+    fun getApplyStatus(iFromUserid:String,iToUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid)
 }
