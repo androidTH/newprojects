@@ -20,7 +20,7 @@ import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 /**
- * 约会发送出错
+ * 私聊设置
  */
 class DialogPrivateChat : DialogFragment(),RequestManager {
 
@@ -56,12 +56,10 @@ class DialogPrivateChat : DialogFragment(),RequestManager {
         }
 
         tv_go_set.setOnClickListener {
+            dismissAllowingStateLoss()
             startActivity<SettingActivity>()
         }
-    }
-
-    private fun getData() {
-
+        SPUtils.instance().put(Const.IS_FIRST_SHOW_TIPS,true).apply()
     }
 
     private var dialogListener: OnDialogListener? = null

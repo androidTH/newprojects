@@ -86,4 +86,7 @@ object Const {
     val CustomerServiceId="5"
 
     val PRIVATECHAT_APPLY = "com.d6.app.privatechat_apply_msg"
+
+    @JvmField
+    val IS_FIRST_SHOW_TIPS = "is_first_show_tips"
 }

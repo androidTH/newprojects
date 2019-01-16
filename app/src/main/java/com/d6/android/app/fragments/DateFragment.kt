@@ -186,10 +186,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     fun refresh(){
         showDialog()
         pageNum = 1
-//        city = ""
-//        xingzuo = ""
-//        agemin = ""
-//        agemax = ""
         getData(city,xingzuo,agemin,agemax)
         if(mDates.size>0){
             mRecyclerView.smoothScrollToPosition(0)
