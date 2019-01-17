@@ -89,4 +89,7 @@ object Const {
 
     @JvmField
     val IS_FIRST_SHOW_TIPS = "is_first_show_tips"
+
+    @JvmField
+    val YOUMENG_MSG_NOTIFION = "com.d6.app.youmeng_msg_notifion"
 }

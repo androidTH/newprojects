@@ -18,7 +18,7 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
 
     override fun dismissNotification(context: Context?, msg: UMessage?) {
         super.dismissNotification(context, msg)
-        Toast.makeText(context, "dismission+${msg!!.extra["type"]}", Toast.LENGTH_LONG).show()
+//        Toast.makeText(context, "dismission+${msg!!.extra["type"]}", Toast.LENGTH_LONG).show()
     }
 
     override fun launchApp(context: Context, msg: UMessage?) {

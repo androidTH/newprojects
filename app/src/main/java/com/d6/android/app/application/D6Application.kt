@@ -91,6 +91,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 //        Config.DEBUG = true
         val mPushAgent = PushAgent.getInstance(this)
         mPushAgent.notificationPlaySound = MsgConstant.NOTIFICATION_PLAY_SERVER
+        mPushAgent.setMessageHandler(CustomNotification())
         mPushAgent.setNotificationClickHandler(CustomNotificationHandler())
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {
@@ -216,7 +217,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null && message.conversationType == Conversation.ConversationType.PRIVATE) {
-            sendBroadcast(Intent(Const.NEW_MESSAGE))
+//            sendBroadcast(Intent(Const.NEW_MESSAGE))
 //            message?.let {
 //                if (it.content is TipsMessage) {
 //                    var mTipsMessage = (it.content as TipsMessage)

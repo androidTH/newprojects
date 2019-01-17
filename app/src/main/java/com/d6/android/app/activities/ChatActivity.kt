@@ -188,19 +188,7 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
                 if(code == 1){//已申请私聊且对方已同意
                     if(TextUtils.equals("1",sex)){
                         sendCount = it.optInt("iTalkCount")
-                        relative_tips.visibility = View.VISIBLE
-                        tv_openchat_points.visibility = View.VISIBLE
-                        if(sendCount>=3){
-                            tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                            tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
-                            IsAgreeChat = false
-                            fragment?.doIsNotSendMsg(!IsAgreeChat,resources.getString(R.string.string_other_agreee_openchat))
-                        }else{
-                            IsAgreeChat = true
-                            tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
-                            tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
-                            fragment?.doIsNotSendMsg(!IsAgreeChat,"")
-                        }
+                        setIsNotShowPoints()
                     }else{
                         relative_tips.visibility = View.GONE
                     }
@@ -237,11 +225,8 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
                     }
                 }else if(code == 5){//对方的私聊设置为直接私聊
                      if(TextUtils.equals("1",sex)){
-                         IsAgreeChat = true
-                         relative_tips.visibility = View.VISIBLE
-                         tv_openchat_points.visibility = View.VISIBLE
-                         tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg),0)
-                         tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
+                         sendCount = it.optInt("iTalkCount")
+                         setIsNotShowPoints()
                      }else{
                          IsAgreeChat = false
                          relative_tips.visibility = View.GONE
@@ -259,6 +244,25 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
                 }
             }
         })
+    }
+
+    /**
+     * 男用户超过三次支付积分的判断
+     */
+    private fun setIsNotShowPoints(){
+        relative_tips.visibility = View.VISIBLE
+        tv_openchat_points.visibility = View.VISIBLE
+        if(sendCount>=3){
+            tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
+            tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
+            IsAgreeChat = false
+            fragment?.doIsNotSendMsg(!IsAgreeChat,resources.getString(R.string.string_other_agreee_openchat))
+        }else{
+            IsAgreeChat = true
+            tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
+            tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
+            fragment?.doIsNotSendMsg(!IsAgreeChat,"")
+        }
     }
 
     /**

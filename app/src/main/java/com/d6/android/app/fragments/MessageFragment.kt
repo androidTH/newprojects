@@ -130,9 +130,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 RongIM.getInstance().startPrivateChat(context,conversation.targetId, s)
 //                }
             }
-            conversationsAdapter.mBadegeUser?.let {
-                it.hide(false)
-            }
+            conversation.unreadMessageCount = 0
+            conversationsAdapter.notifyDataSetChanged()
         }
         getData()
         getSysLastOne(SysMsg_time.toString())

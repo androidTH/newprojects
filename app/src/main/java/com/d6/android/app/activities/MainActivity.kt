@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.NonNull
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.KeyEvent
@@ -22,6 +21,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
+import io.rong.imkit.manager.IUnReadMessageObserver
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
@@ -33,7 +33,7 @@ import org.jetbrains.anko.collections.forEachWithIndex
 /**
  * 主页
  */
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -52,7 +52,7 @@ class MainActivity : BaseActivity() {
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
-                    getUnReadCount()
+                    getSysLastOne()
                 }
             }
         }
@@ -62,7 +62,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         immersionBar.init()
-        registerReceiver(broadcast, IntentFilter(Const.NEW_MESSAGE))
+        registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
         tabhost.setup(this, supportFragmentManager, R.id.container)
         tabhost.tabWidget.dividerDrawable = null
         tabTexts.forEachWithIndex { i, it ->
@@ -257,6 +257,8 @@ class MainActivity : BaseActivity() {
         date_headView.setImageURI(head)
 
         getUserInfo()
+
+        UnReadMessageCountChangedObserver()
     }
 
     fun judgeDataB() {
@@ -278,10 +280,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getAuthState() {
-//        startActivity<MyDateActivity>()
         startActivity<MyDateListActivity>()
-//        tv_tip.visibility = View.GONE
-//        SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
     }
 
     override fun onResume() {
@@ -289,7 +288,7 @@ class MainActivity : BaseActivity() {
         if(tabhost.currentTab==0){
             myDateUnMsg()
         }
-        getUnReadCount()
+        getSysLastOne()
     }
 
     /**
@@ -302,6 +301,11 @@ class MainActivity : BaseActivity() {
                 SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()
             }
         })
+    }
+
+    private fun UnReadMessageCountChangedObserver(){
+//        var ConversationTypes = {Conversation.ConversationType.PRIVATE;Conversation.ConversationType.SYSTEM;Conversation.ConversationType.PUBLIC_SERVICE}
+        RongIM.getInstance().addUnReadMessageCountChangedObserver(this,Conversation.ConversationType.PRIVATE)
     }
 
     private fun getUnReadCount() {
@@ -401,6 +405,8 @@ class MainActivity : BaseActivity() {
                 }
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
+                }else{
+                    view?.gone()
                 }
             }
         }) { _, _ ->
@@ -444,6 +450,25 @@ class MainActivity : BaseActivity() {
                 if (fragment != null && fragment is SquareMainFragment) {
                     fragment.refresh()
                 }
+            }
+        }
+    }
+
+    override fun onCountChanged(p0: Int) {
+        val view1 = tabhost.tabWidget.getChildTabViewAt(3)
+        if(p0>0){
+            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+            if (fragment != null && fragment is MessageFragment) {
+                fragment.getChatMsg()
+            }
+            if (view1 != null) {
+                val view = view1.find<View>(R.id.tv_msg_count)
+                view?.visible()
+            }
+        }else{
+            if (view1 != null) {
+                val view = view1.find<View>(R.id.tv_msg_count)
+                view?.gone()
             }
         }
     }
