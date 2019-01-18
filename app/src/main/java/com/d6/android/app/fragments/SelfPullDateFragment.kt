@@ -1,23 +1,18 @@
 package com.d6.android.app.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.d6.android.app.R
-import com.d6.android.app.activities.SelfReleaseDetailActivity
 import com.d6.android.app.adapters.SelfPullDateAdapter
-import com.d6.android.app.adapters.SelfReleaseAdapter
 import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
-import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * 自主发布约会

@@ -57,6 +57,9 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
+    /**
+     * 会话类型
+     */
     private val mConversationType: Conversation.ConversationType by lazy {
         Conversation.ConversationType.valueOf(intent.data.lastPathSegment.toUpperCase(Locale.US))
     }

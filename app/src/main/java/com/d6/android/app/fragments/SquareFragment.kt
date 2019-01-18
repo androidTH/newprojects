@@ -7,7 +7,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.LinearSmoothScroller
 import android.support.v7.widget.RecyclerView
+import android.util.DisplayMetrics
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.MainActivity
@@ -117,6 +119,7 @@ class SquareFragment : RecyclerFragment() {
         showDialog()
         getData()
     }
+
     //筛选
     fun filter(type: Int) {
         this.type = type
@@ -200,9 +203,6 @@ class SquareFragment : RecyclerFragment() {
                 mSquares.addAll(data.list.results)
             }
             squareAdapter.notifyDataSetChanged()
-            if (pageNum == 1) {
-                mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
-            }
         }
     }
 
@@ -235,6 +235,9 @@ class SquareFragment : RecyclerFragment() {
     public override fun pullDownRefresh() {
         super.pullDownRefresh()
         pageNum = 1
+        if (pageNum == 1) {
+            mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
+        }
         getData()
     }
 
