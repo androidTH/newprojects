@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.DateAuthStateActivity
+import com.d6.android.app.activities.UnAuthUserActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.eventbus.LikeMsgEvent
 import com.d6.android.app.extentions.request
@@ -27,6 +30,7 @@ import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.backgroundResource
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
@@ -87,7 +91,7 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
 
         tv_sendflower_success_siliao.setOnClickListener {
             mUserInfo?.let {
-                showDatePayPointDialog(id, it.name.toString())
+                showDatePayPointDialog(id, it.name.toString(),it.userclassesid)
             }
         }
         getUserInfo(id)
@@ -170,8 +174,12 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
         }
     }
 
-    private fun showDatePayPointDialog(id:String,name:String){
-        RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, id, name)
+    private fun showDatePayPointDialog(id:String,name:String,userclassId:String?){
+        if(TextUtils.equals("7",userclassId)){
+            startActivity<DateAuthStateActivity>()
+        }else{
+            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+        }
 //        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
 //            if(data!=null){
 //                var code = data!!.optInt("code")

@@ -322,6 +322,15 @@ inline fun Activity.doAuthUser(next: () -> Unit) {
 }
 
 
+inline fun Activity.checkUserAuthUser(userclassId:String,next: () -> Unit) {
+    if (userclassId == "7") {
+        this.startActivity<UnAuthUserActivity>()
+    } else {
+        next()
+    }
+}
+
+
 /**
  * 是否白银以上
  */

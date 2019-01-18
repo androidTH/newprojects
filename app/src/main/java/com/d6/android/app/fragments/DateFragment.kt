@@ -14,9 +14,7 @@ import android.view.View
 import com.amap.api.location.AMapLocationClient
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
-import com.d6.android.app.activities.MyDateActivity
-import com.d6.android.app.activities.MyInfoActivity
-import com.d6.android.app.activities.UserInfoActivity
+import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.DateCardAdapter
 import com.d6.android.app.adapters.DateWomanCardAdapter
 import com.d6.android.app.base.BaseActivity
@@ -73,7 +71,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var mShowCardLastTime = SPUtils.instance().getString(Const.LASTDAYTIME)
 
     private var sameCity = SPUtils.instance().getString(USER_ADDRESS)
-    private var UserInfoJson  = SPUtils.instance().getString(Const.USERINFO)
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
@@ -179,8 +176,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 .apply()
 
         getProvinceData()
-
-//        getUserInfo()
     }
 
     fun refresh(){
@@ -334,42 +329,16 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private fun showDatePayPointDialog(name:String,id:String){
-        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-//        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
-//            if(data!=null){
-//                var code = data!!.optInt("code")
-//                if(code == 1){
-//                    var point = data!!.optString("iTalkPoint")
-//                    var remainPoint = data!!.optString("iRemainPoint")
-//                    if(point.toInt() > remainPoint.toInt()){
-//                        val dateDialog = OpenDatePointNoEnoughDialog()
-//                        var point = data!!.optString("iTalkPoint")
-//                        var remainPoint = data!!.optString("iRemainPoint")
-//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-//                        dateDialog.show(activity.supportFragmentManager, "d")
-//                    }else{
-//                        val dateDialog = OpenDatePayPointDialog()
-//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
-//                        dateDialog.show(activity.supportFragmentManager, "d")
-//                    }
-//                } else if(code == 0){
-//                    showToast(msg.toString())
-////                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-//                } else {
-//                    val dateDialog = OpenDatePointNoEnoughDialog()
-//                    var point = data!!.optString("iTalkPoint")
-//                    var remainPoint = data!!.optString("iRemainPoint")
-//                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-//                    dateDialog.show(activity.supportFragmentManager, "d")
-//                }
-//            }else{
-//                RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-//            }
-//        }) { code, msg ->
-//            if(code == 0){
-//                showToast(msg)
-//            }
-//        }
+        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
+            jsonObjetct?.let {
+                var code = it.optInt("code")
+                if(code!=7){
+                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+                }else{
+                    startActivity<DateAuthStateActivity>()
+                }
+            }
+        })
     }
 
     private fun getAuthState() {
@@ -397,7 +366,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
      * 插入用户信息
      */
     private fun joinInCard(){
-        if (!TextUtils.equals(getTodayTime(), mShowCardLastTime)) {
+        if (TextUtils.equals(getTodayTime(), mShowCardLastTime)) {
+            var UserInfoJson  = SPUtils.instance().getString(Const.USERINFO)
             if(!TextUtils.isEmpty(UserInfoJson)){
                 mUserInfoData = GsonHelper.getGson().fromJson(UserInfoJson,UserData::class.java)
                 mUserInfoData?.let {
@@ -493,6 +463,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 setFindDate(mDates.get(4),it)
             }
             mRecyclerView.adapter.notifyItemChanged(4)
+            SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(mUserInfoData)).apply()
         }
     }
 

@@ -3,10 +3,9 @@ package com.d6.android.app.fragments
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import com.d6.android.app.R
-import com.d6.android.app.activities.MessageSettingActivity
-import com.d6.android.app.activities.SquareMessagesActivity
-import com.d6.android.app.activities.SystemMessagesActivity
+import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.ConversationsAdapter
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseFragment
@@ -127,8 +126,18 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
             } else {
 //                activity.isAuthUser {
-                RongIM.getInstance().startPrivateChat(context,conversation.targetId, s)
+//                RongIM.getInstance().startPrivateChat(context,conversation.targetId, s)
 //                }
+                Request.getApplyStatus(userId, conversation.targetId).request(this, false, success = { msg, jsonObjetct ->
+                    jsonObjetct?.let {
+                        var code = it.optInt("code")
+                        if (code != 7) {
+                            RongIM.getInstance().startPrivateChat(context, conversation.targetId, s)
+                        } else {
+                            startActivity<DateAuthStateActivity>()
+                        }
+                    }
+                })
             }
             conversation.unreadMessageCount = 0
             conversationsAdapter.notifyDataSetChanged()

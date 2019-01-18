@@ -288,7 +288,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         if(tabhost.currentTab==0){
             myDateUnMsg()
         }
-        getSysLastOne()
+        getUnReadCount()
     }
 
     /**

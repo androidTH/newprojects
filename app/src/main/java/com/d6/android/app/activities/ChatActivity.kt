@@ -21,6 +21,7 @@ import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.rong.fragment.ConversationFragmentEx
 import com.d6.android.app.utils.*
+import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.IRongCallback
@@ -347,7 +348,10 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
 
         val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
         if (token == "default") {
+            PushAgent.getInstance(applicationContext).deleteAlias(userId, "D6", { _, _ ->
 
+            })
+            startActivity<SignInActivity>()
         } else {
             if (RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
                 enterFragment(mConversationType, mTargetId)

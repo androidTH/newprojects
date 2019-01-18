@@ -24,6 +24,7 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
@@ -155,7 +156,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         tv_siliao.setOnClickListener {
                 mData?.let {
                     val name = it.name ?: ""
-                    showDatePayPointDialog(name,it.iTalkSetting!!.toInt())
+                    showDatePayPointDialog(name,it.userclassesid)
                 }
         }
 
@@ -314,8 +315,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         headerView.img_other_auther.visibility = View.VISIBLE
                     }
                 } else {
-                    headerView.tv_vip.visible()
-
+                    headerView.tv_vip.gone()
                 }
 
                 headerView.img_other_auther.setOnClickListener {
@@ -541,10 +541,22 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
-    private fun showDatePayPointDialog(name:String,privateChatType:Int){
-        var bundle=Bundle()
-        bundle.putInt("chatType",privateChatType)
-        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+    private fun showDatePayPointDialog(name:String,userclassId:String?){
+        if(TextUtils.equals("7",userclassId)){
+            startActivity<UnAuthUserActivity>()
+        }else{
+            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+        }
+//        Request.getApplyStatus(userId,"").request(this,false,success={msg,jsonObjetct->
+//            jsonObjetct?.let {
+//                var code = it.optInt("code")
+//                if(code!=7){
+//                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+//                }else{
+//                    startActivity<UnAuthUserActivity>()
+//                }
+//            }
+//        })
 //        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
 //            if(data!=null){
 //                var code = data!!.optInt("code")
