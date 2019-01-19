@@ -191,6 +191,9 @@ class SquareFragment : RecyclerFragment() {
         Request.getSquareList(userId, classId, pageNum, 2,sex = type).request(this) { _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
+                if (activity is MainActivity) {
+                    (activity as MainActivity).setBottomBarNormal(2)
+                }
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
@@ -203,6 +206,7 @@ class SquareFragment : RecyclerFragment() {
                 mSquares.addAll(data.list.results)
             }
             squareAdapter.notifyDataSetChanged()
+
         }
     }
 

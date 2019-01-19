@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.d6.android.app.R
+import com.d6.android.app.activities.MainActivity
 import com.d6.android.app.adapters.SelfPullDateAdapter
 import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.extentions.request
@@ -98,24 +99,13 @@ class SelfPullDateFragment : RecyclerFragment() {
 //    }
 
     private fun getData() {
-//        val classesId = if (vipIds.isNullOrEmpty()) {
-//            null
-//        } else {
-//            vipIds
-//        }
-//        val areaStr = if (areaType == 0 && !area.isNullOrEmpty()) {
-//            area
-//        } else {
-//            null
-//        }
-//        val outArea = if (areaType == 1 && !area.isNullOrEmpty()) {
-//            area
-//        } else {
-//            null
-//        }
         Request.findAppointmentList(userId,dateType,area,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFindDates.clear()
+                if (activity is MainActivity) {
+                    (activity as MainActivity).setBottomBarNormal(0)
+                }
+                mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {

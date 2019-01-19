@@ -11,10 +11,11 @@
         <RelativeLayout
             android:id="@+id/relative_tips"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_10"
             android:background="@drawable/shape_white"
             android:visibility="gone">
 
@@ -29,7 +30,7 @@
 
             <TextView
                 android:id="@+id/tv_openchat_tips"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_openchat_tips_title"
                 android:layout_marginLeft="@dimen/margin_15"

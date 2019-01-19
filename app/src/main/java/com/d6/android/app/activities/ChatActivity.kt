@@ -285,7 +285,9 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
                     sendCount = iTalkCount
                     tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
                     tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
+                    Log.i(TAG, "${sendCount}发送消息数量")
                 }
+                Log.i(TAG, "${sendCount}发送消息数量${code}")
             }
         }) { code, msg ->
             if (code == 0) {

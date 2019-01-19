@@ -181,10 +181,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     fun refresh(){
         showDialog()
         pageNum = 1
-        getData(city,xingzuo,agemin,agemax)
-        if(mDates.size>0){
-            mRecyclerView.smoothScrollToPosition(0)
+        if(pageNum ==1){
+            mDates.clear()
         }
+        getData(city,xingzuo,agemin,agemax)
     }
 
     fun setAdapter(){
@@ -230,7 +230,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             fb_heat_like.gone()
             fb_find_chat.gone()
         }
-
         Request.findAccountCardListPage(userId, city,"",xingzuo,agemin,agemax,lat,lon,pageNum).request(this) { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if(pageNum == 1){
@@ -261,6 +260,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 fb_find_chat.visible()
                 if(pageNum == 1){
                    mDates.clear()
+                    if (activity is MainActivity) {
+                        (activity as MainActivity).setBottomBarNormal(1)
+                    }
                 }
                 mDates.addAll(data.list.results)
                 if(pageNum == 1){
@@ -366,7 +368,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
      * 插入用户信息
      */
     private fun joinInCard(){
-        if (TextUtils.equals(getTodayTime(), mShowCardLastTime)) {
+        if (!TextUtils.equals(getTodayTime(), mShowCardLastTime)) {
             var UserInfoJson  = SPUtils.instance().getString(Const.USERINFO)
             if(!TextUtils.isEmpty(UserInfoJson)){
                 mUserInfoData = GsonHelper.getGson().fromJson(UserInfoJson,UserData::class.java)

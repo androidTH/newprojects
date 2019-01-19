@@ -177,6 +177,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
 
         tv_date_tab.setOnClickListener {
+            var  view = tabhost.tabWidget.getChildTabViewAt(0)
+            val textView = view.find<TextView>(R.id.img)
+//          //设置图标
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_main_refresh, 0, 0)
+
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
             if (fragment != null && fragment is HomeFragment) {
                 fragment.refresh()
@@ -184,6 +189,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
 
         tv_find_tab.setOnClickListener {
+            var  view = tabhost.tabWidget.getChildTabViewAt(1)
+            val textView = view.find<TextView>(R.id.img)
+//          //设置图标
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_main_refresh, 0, 0)
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
             if (fragment != null && fragment is DateFragment) {
                 fragment.refresh()
@@ -191,6 +200,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
 
         tv_square_tab.setOnClickListener {
+            var  view = tabhost.tabWidget.getChildTabViewAt(2)
+            val textView = view.find<TextView>(R.id.img)
+//          //设置图标
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_main_refresh, 0, 0)
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
             if (fragment != null && fragment is SquareMainFragment) {
                 fragment.refresh()
@@ -199,19 +212,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
 
         iv_right.setOnClickListener {
-            //            when (tabhost.currentTab) {
-//                1 -> {
-//                    isAuthUser {
-//                        startActivityForResult<ReleaseNewTrendsActivity>(1)
-//                    }
-//                }
-//                2 -> {
-////                    isAuthUser {
-////                        startActivityForResult<FilterActivity>(0)
-////                    }
-//                    startActivity<MessageSettingActivity>()
-//                }
-//            }
             when (tabhost.currentTab) {
                 1 -> {
                     isAuthUser {
@@ -289,6 +289,18 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             myDateUnMsg()
         }
         getUnReadCount()
+    }
+
+    fun setBottomBarNormal(tabIndex:Int){
+        var  view = tabhost.tabWidget.getChildTabViewAt(tabIndex)
+        val textView = view.find<TextView>(R.id.img)
+        if(tabIndex == 2){
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, tabImages[2], 0, 0)
+        }else if(tabIndex == 1){
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, tabImages[1], 0, 0)
+        }else if(tabIndex == 0){
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, tabImages[0], 0, 0)
+        }
     }
 
     /**
