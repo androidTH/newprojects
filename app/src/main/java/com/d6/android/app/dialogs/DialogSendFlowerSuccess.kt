@@ -27,13 +27,10 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.dialog_send_redflower_success.*
 import org.greenrobot.eventbus.EventBus
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.textColor
-import org.jetbrains.anko.wrapContent
 
 /**
  * 约会发送出错
@@ -91,7 +88,7 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
 
         tv_sendflower_success_siliao.setOnClickListener {
             mUserInfo?.let {
-                showDatePayPointDialog(id, it.name.toString(),it.userclassesid)
+                showDatePayPointDialog(id, it.name.toString())
             }
         }
         getUserInfo(id)
@@ -174,12 +171,22 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
         }
     }
 
-    private fun showDatePayPointDialog(id:String,name:String,userclassId:String?){
-        if(TextUtils.equals("7",userclassId)){
-            startActivity<DateAuthStateActivity>()
-        }else{
-            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-        }
+    private fun showDatePayPointDialog(id:String,name:String){
+        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
+            jsonObjetct?.let {
+                var code = it.optInt("code")
+                if(code!=7){
+                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+                }else{
+                    startActivity<DateAuthStateActivity>()
+                }
+            }
+        })
+//        if(TextUtils.equals("7",userclassId)){
+//            startActivity<DateAuthStateActivity>()
+//        }else{
+//            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//        }
 //        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
 //            if(data!=null){
 //                var code = data!!.optInt("code")

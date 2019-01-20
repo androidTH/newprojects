@@ -340,11 +340,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         })
     }
 
-    private fun getAuthState() {
-        startActivity<MyDateActivity>()
-        SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
-    }
-
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {

@@ -92,4 +92,7 @@ object Const {
 
     @JvmField
     val YOUMENG_MSG_NOTIFION = "com.d6.app.youmeng_msg_notifion"
+
+    @JvmField
+    val Pic_Size_wh400 = "?imageView2/0/w/400/h/400"
 }

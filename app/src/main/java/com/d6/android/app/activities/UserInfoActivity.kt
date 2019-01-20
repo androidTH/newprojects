@@ -156,7 +156,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         tv_siliao.setOnClickListener {
                 mData?.let {
                     val name = it.name ?: ""
-                    showDatePayPointDialog(name,it.userclassesid)
+                    showDatePayPointDialog(name)
                 }
         }
 
@@ -541,22 +541,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
-    private fun showDatePayPointDialog(name:String,userclassId:String?){
-        if(TextUtils.equals("7",userclassId)){
-            startActivity<UnAuthUserActivity>()
-        }else{
-            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-        }
-//        Request.getApplyStatus(userId,"").request(this,false,success={msg,jsonObjetct->
-//            jsonObjetct?.let {
-//                var code = it.optInt("code")
-//                if(code!=7){
-//                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-//                }else{
-//                    startActivity<UnAuthUserActivity>()
-//                }
-//            }
-//        })
+    private fun showDatePayPointDialog(name:String){
+        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
+            jsonObjetct?.let {
+                var code = it.optInt("code")
+                if(code!=7){
+                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+                }else{
+                    startActivity<DateAuthStateActivity>()
+                }
+            }
+        })
 //        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
 //            if(data!=null){
 //                var code = data!!.optInt("code")

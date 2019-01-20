@@ -1,9 +1,13 @@
 package com.d6.android.app.net
 
+import cn.liaox.cachelib.CacheDBLib
 import com.d6.android.app.net.json.JsonConverterFactory
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.NetworkUtils
 import com.d6.android.app.utils.SPUtils
+import okhttp3.CacheControl
 import okhttp3.ConnectionPool
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 //import okhttp3.logging.HttpLoggingInterceptor

@@ -315,7 +315,7 @@ inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
 inline fun Activity.doAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7") {
-        this.startActivity<UnAuthUserActivity>()
+        this.startActivity<DateAuthStateActivity>()
     } else {
         next()
     }

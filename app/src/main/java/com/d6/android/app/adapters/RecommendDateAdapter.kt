@@ -12,10 +12,7 @@ import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.NewDateBean
-import com.d6.android.app.utils.gone
-import com.d6.android.app.utils.parserTime
-import com.d6.android.app.utils.toTime
-import com.d6.android.app.utils.visible
+import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.backgroundResource
@@ -26,7 +23,7 @@ import org.jetbrains.anko.backgroundResource
 class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDate>(mData, R.layout.item_home_speed_date) {
     override fun onBind(holder: ViewHolder, position: Int, data: MyDate) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
-        imageView.setImageURI(data.lookpics)
+        imageView.setImageURI(data.lookpics + Const.Pic_Size_wh400)
         val nameView = holder.bind<TextView>(R.id.tv_name)
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)
@@ -98,17 +95,5 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
 //            typeView.text = "速约"
             typeView.text =  data.getSpeedStateStr()
         }
-//        typeView.backgroundColor = Color.parseColor("#cc562BFF")
-//        if (current > endTime) {//已过期
-//            typeView.text = "已过期"
-//            typeView.backgroundColor = Color.parseColor("#94000000")
-//        }
-
-//        val line = holder.bind<View>(R.id.line)
-//        if (position == mData.size - 1) {
-//            line.gone()
-//        } else {
-//            line.visible()
-//        }
     }
 }
