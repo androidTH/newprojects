@@ -90,21 +90,10 @@ class SelfPullDateFragment : RecyclerFragment() {
         getData()
     }
 
-//    fun refresh(area: String?, areaType: Int, levelIds: String?) {
-//        this.area = area
-//        this.areaType = areaType
-//        this.vipIds = levelIds
-//        pageNum = 1
-//        getData()
-//    }
-
     private fun getData() {
         Request.findAppointmentList(userId,dateType,area,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFindDates.clear()
-                if (activity is MainActivity) {
-                    (activity as MainActivity).setBottomBarNormal(0)
-                }
                 mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {

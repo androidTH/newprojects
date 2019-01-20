@@ -96,7 +96,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                     tv_date_tab.visibility = View.VISIBLE
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
-
                     //titleBar.backgroundColor = Color.TRANSPARENT
                     titleBar.gone()
                     iv_right.gone()
@@ -177,11 +176,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
 
         tv_date_tab.setOnClickListener {
-            var  view = tabhost.tabWidget.getChildTabViewAt(0)
-            val textView = view.find<TextView>(R.id.img)
-//          //设置图标
-            textView.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_main_refresh, 0, 0)
-
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
             if (fragment != null && fragment is HomeFragment) {
                 fragment.refresh()
@@ -189,10 +183,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
 
         tv_find_tab.setOnClickListener {
-            var  view = tabhost.tabWidget.getChildTabViewAt(1)
-            val textView = view.find<TextView>(R.id.img)
-//          //设置图标
-            textView.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_main_refresh, 0, 0)
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
             if (fragment != null && fragment is DateFragment) {
                 fragment.refresh()
@@ -200,10 +190,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
 
         tv_square_tab.setOnClickListener {
-            var  view = tabhost.tabWidget.getChildTabViewAt(2)
-            val textView = view.find<TextView>(R.id.img)
-//          //设置图标
-            textView.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.icon_main_refresh, 0, 0)
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
             if (fragment != null && fragment is SquareMainFragment) {
                 fragment.refresh()

@@ -260,9 +260,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 fb_find_chat.visible()
                 if(pageNum == 1){
                    mDates.clear()
-                    if (activity is MainActivity) {
-                        (activity as MainActivity).setBottomBarNormal(1)
-                    }
                 }
                 mDates.addAll(data.list.results)
                 if(pageNum == 1){

@@ -47,8 +47,8 @@ class SquareFragment : RecyclerFragment() {
             return fragment
         }
     }
-
     private var pageNum = 1
+    private var isfresh = true
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -66,14 +66,11 @@ class SquareFragment : RecyclerFragment() {
 
     private var mBanners = ArrayList<Banner>()
 
-    private val bannerAdapter by lazy {
-        BannerAdapter(mBanners)
-    }
-
     private val mSquares = ArrayList<Square>()
     private val squareAdapter by lazy {
         SquareAdapter(mSquares)
     }
+
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_square_list,mSwipeRefreshLayout.mRecyclerView,false)
     }
@@ -82,32 +79,7 @@ class SquareFragment : RecyclerFragment() {
     override fun setAdapter() = squareAdapter
 
     override fun onFirstVisibleToUser() {
-
-//        headerView.mBanner.setHasFixedSize(true)
-//        headerView.mBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        headerView.mBanner.adapter = bannerAdapter
-//        val helper = PagerSnapHelper()
-//        helper.attachToRecyclerView(headerView.mBanner)
-//        headerView.mBanner.isNestedScrollingEnabled = false
-
-
-//        bannerAdapter.setOnItemClickListener { view, position ->
-//            val banner = mBanners[position]
-//            val ids = banner.newsid ?: ""
-//            startActivity<SquareTrendDetailActivity>("id" to ids,"position" to position)
-//        }
-
-//        mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
-//                .colorResId(R.color.color_ECECEC)
-//                .size(dip(1))
-//                .visibilityProvider { position, parent ->
-//                    position==0
-//                }
-//                .build())
-
-
         EventBus.getDefault().register(this)
-
         squareAdapter.setHeaderView(headerView)
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
@@ -115,7 +87,6 @@ class SquareFragment : RecyclerFragment() {
                 startActivityForResult<SquareTrendDetailActivity>(1,"id" to it,"position" to position)
             }
         }
-
         showDialog()
         getData()
     }
@@ -135,11 +106,12 @@ class SquareFragment : RecyclerFragment() {
             this.type = 2
 
         }
-        pullDownRefresh()
+        isfresh = false
+        initFirstPageData()
     }
 
     private fun getBanner() {
-        Request.getBanners().request(this, success = { _, data ->
+        Request.getBanners().request(this,success = { _, data ->
             if (data?.list?.results != null) {
                 mBanners.clear()
                 mBanners.addAll(elements = data.list.results)
@@ -158,8 +130,9 @@ class SquareFragment : RecyclerFragment() {
                             val ids = banner.newsid ?: ""
                             startActivity<SquareTrendDetailActivity>("id" to ids, "position" to it)
                         }
-//                bannerAdapter.notifyDataSetChanged()
-                showDialog()
+                if(isfresh){
+                    showDialog()
+                }
                 getSquareList()
             }
         }) { _, _ ->
@@ -174,7 +147,6 @@ class SquareFragment : RecyclerFragment() {
         } else {
             getSquareList()
         }
-
     }
 
     override fun onResume() {
@@ -191,9 +163,6 @@ class SquareFragment : RecyclerFragment() {
         Request.getSquareList(userId, classId, pageNum, 2,sex = type).request(this) { _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
-                if (activity is MainActivity) {
-                    (activity as MainActivity).setBottomBarNormal(2)
-                }
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
@@ -206,7 +175,6 @@ class SquareFragment : RecyclerFragment() {
                 mSquares.addAll(data.list.results)
             }
             squareAdapter.notifyDataSetChanged()
-
         }
     }
 
@@ -236,13 +204,18 @@ class SquareFragment : RecyclerFragment() {
         }
     }
 
-    public override fun pullDownRefresh() {
-        super.pullDownRefresh()
+    private fun initFirstPageData(){
         pageNum = 1
         if (pageNum == 1) {
             mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
         }
         getData()
+    }
+
+    public override fun pullDownRefresh() {
+        super.pullDownRefresh()
+        isfresh = true
+        initFirstPageData()
     }
 
     override fun loadMore() {
