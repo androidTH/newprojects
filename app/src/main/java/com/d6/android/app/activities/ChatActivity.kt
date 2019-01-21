@@ -68,45 +68,10 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
         Conversation.ConversationType.valueOf(intent.data.lastPathSegment.toUpperCase(Locale.US))
     }
 
-    private val broadcast by lazy {
-        object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-//               var extra = intent?.getStringExtra("extra")
-//                if (!TextUtils.isEmpty(extra)) {
-//                    var jsonObject = JSONObject(extra)
-//                    var type = jsonObject.optString("b")
-//                    Log.i("ddd","${type}===${extra}")
-//                    if(TextUtils.equals("0",type)){
-//                        relative_tips.visibility = View.VISIBLE
-//                        linear_openchat_agree.visibility = View.VISIBLE
-//                        tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-//                        tv_openchat_tips.text = getString(R.string.string_other_apply_openchat)
-//                    }else if(TextUtils.equals("1",type)){
-//                        relative_tips.visibility = View.VISIBLE
-//                        tv_openchat_points.visibility = View.VISIBLE
-//                        linear_openchat_agree.visibility = View.GONE
-//                        tv_openchat_apply.visibility = View.GONE
-//                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
-//                        tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
-//                        IsAgreeChat = true
-//                        fragment?.doIsNotSendMsg(false,"")
-//                    }else if(TextUtils.equals("2",type)){
-//                        relative_tips.visibility = View.VISIBLE
-//                        tv_openchat_apply.visibility = View.VISIBLE
-//                        tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-//                        tv_openchat_tips.text = resources.getString(R.string.string_other_agreee_openchat)
-//                        IsAgreeChat = false
-//                    }
-//                }
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         immersionBar.init()
-        registerReceiver(broadcast, IntentFilter(Const.PRIVATECHAT_APPLY))
 
         titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
             startActivity<UserInfoActivity>("id" to mTargetId)
@@ -497,6 +462,5 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
     override fun onDestroy() {
         super.onDestroy()
         RongIM.getInstance().setSendMessageListener(null)
-        unregisterReceiver(broadcast)
     }
 }

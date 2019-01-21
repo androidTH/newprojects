@@ -186,9 +186,10 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             nomg_line.visibility = View.VISIBLE
         }
 
-        rv_mydate_images.setHasFixedSize(true)
-        rv_mydate_images.layoutManager = GridLayoutManager(context, 2)
-        rv_mydate_images.isNestedScrollingEnabled = false
+        val rv_local_user_tags = holder.bind<RecyclerView>(R.id.rv_mydate_man_pecfect_tags)
+        rv_local_user_tags.setHasFixedSize(true)
+        rv_local_user_tags.layoutManager = GridLayoutManager(context, 2)
+        rv_local_user_tags.isNestedScrollingEnabled = false
 
         mTags.clear()
         if (!data.shengao.isNullOrEmpty()) {
@@ -207,7 +208,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_icon))
         }
 
-        rv_mydate_images.adapter = CardManTagAdapter(mTags)
+        rv_local_user_tags.adapter = CardManTagAdapter(mTags)
 
         var tv_job = holder.bind<TextView>(R.id.tv_man_pecfect_job)
         if (!data.zhiye.isNullOrEmpty()) {
@@ -241,7 +242,14 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             holder.setText(R.id.tv_man_perfect_name, data.name)
         }
 
-        holder.setText(R.id.tv_man_perfect_vip, data.classesname)
+        val tv_man_perferctvip = holder.bind<TextView>(R.id.tv_man_perfect_vip)
+        if(data.classesname.isNotEmpty()){
+            tv_man_perferctvip.text = data.classesname
+            tv_man_perferctvip.visibility = View.VISIBLE
+        }else{
+            tv_man_perferctvip.visibility = View.GONE
+        }
+
         val tv_age = holder.bind<TextView>(R.id.tv_man_pecfect_age)
 
         var ll_vistor = holder.bind<LinearLayout>(R.id.ll_man_pecfert_vistor)
