@@ -119,11 +119,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             if (TextUtils.equals("null", data.userhandlookwhere)) {
                 data.userhandlookwhere = ""
             }
-            var a: String? = ""
-            if ((data.userlookwhere + data.userhandlookwhere).length > 5) {
-                a = ((data.userlookwhere + data.userhandlookwhere).subSequence(0, 5).toString()) + "..."
-            }
-            holder.setText(R.id.tv_city, a)
+            holder.setText(R.id.tv_city, data.city)
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
             if (data.iVistorCountAll >= 50) {
@@ -158,7 +154,6 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
      */
     fun showUserPerfect(holder: ViewHolder, position: Int, data: FindDate) {
         val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_man_pecfect_images)
-        val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_man_pecfect_tags)
         val nomg_line = holder.bind<View>(R.id.noimg_line)
         if (!TextUtils.equals(data.userpics, "null")) {
             if (TextUtils.isEmpty(data.userpics)) {
@@ -191,9 +186,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             nomg_line.visibility = View.VISIBLE
         }
 
-        rv_mydate_tags.setHasFixedSize(true)
-        rv_mydate_tags.layoutManager = GridLayoutManager(context, 2)
-        rv_mydate_tags.isNestedScrollingEnabled = false
+        rv_mydate_images.setHasFixedSize(true)
+        rv_mydate_images.layoutManager = GridLayoutManager(context, 2)
+        rv_mydate_images.isNestedScrollingEnabled = false
 
         mTags.clear()
         if (!data.shengao.isNullOrEmpty()) {
@@ -212,7 +207,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_icon))
         }
 
-        rv_mydate_tags.adapter = CardManTagAdapter(mTags)
+        rv_mydate_images.adapter = CardManTagAdapter(mTags)
 
         var tv_job = holder.bind<TextView>(R.id.tv_man_pecfect_job)
         if (!data.zhiye.isNullOrEmpty()) {

@@ -19,7 +19,7 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
 
     override fun convert(helper: BaseViewHolder, data: MyDate) {
         val imageView = helper.getView<SimpleDraweeView>(R.id.imageView)
-        imageView.setImageURI(data.lookpics+ Const.Pic_Size_wh400)
+        imageView.setImageURI(data.lookpics)
         val nameView = helper.getView<TextView>(R.id.tv_name)
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)

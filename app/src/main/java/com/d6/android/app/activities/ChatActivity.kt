@@ -29,6 +29,7 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.coroutines.experimental.channels.Send
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
@@ -40,6 +41,7 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
 
     private var TAG = "ChatActivity"
     private var sendCount: Int = 0
+    private var SendMsgTotal:Int = 3
 
     private var IsAgreeChat:Boolean = false
 
@@ -175,6 +177,16 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
             if(TextUtils.equals("2",iStatus)){
                 fragment?.let {
                     it.doIsNotSendMsg(false,"")
+                    if(TextUtils.equals("1",sex)){
+                        relative_tips.visibility = View.VISIBLE
+                        tv_openchat_points.visibility = View.VISIBLE
+                        tv_openchat_apply.visibility = View.GONE
+                        IsAgreeChat = true
+                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
+                        tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
+                    }else{
+                        relative_tips.visibility = View.GONE
+                    }
                 }
             }
         }){code,msg->
@@ -263,6 +275,7 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
             fragment?.doIsNotSendMsg(!IsAgreeChat,resources.getString(R.string.string_other_agreee_openchat))
         }else{
             IsAgreeChat = true
+            sendCount = SendMsgTotal - sendCount
             tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
             tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
             fragment?.doIsNotSendMsg(!IsAgreeChat,"")
@@ -282,12 +295,12 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
                     fragment?.doIsNotSendMsg(true,resources.getString(R.string.string_pay_points_openchat))
                 } else if (code == 1) {//发送3次聊天消息以内，允许继续发送消息
                     var iTalkCount = data.optInt("iTalkCount")
-                    sendCount = iTalkCount
+                    sendCount = SendMsgTotal - iTalkCount
                     tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
                     tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
-                    Log.i(TAG, "${sendCount}发送消息数量")
+                    Log.i(TAG, "${SendMsgTotal}发送消息数量")
                 }
-                Log.i(TAG, "${sendCount}发送消息数量${code}")
+                Log.i(TAG, "${SendMsgTotal}发送消息数量${code}")
             }
         }) { code, msg ->
             if (code == 0) {
@@ -414,7 +427,7 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
                         tv_openchat_points.visibility = View.VISIBLE
                         linear_openchat_agree.visibility = View.GONE
                         tv_openchat_apply.visibility = View.GONE
-                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
+                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
                         tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
                         IsAgreeChat = true
                     }else{

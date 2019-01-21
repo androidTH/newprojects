@@ -100,7 +100,7 @@ class MyInfoActivity : BaseActivity() {
         }
 
         tv_sex1.setOnClickListener {
-            startActivityForResult<SexChooseActivity>(SEX_REQUEST_CODE)
+//            startActivityForResult<SexChooseActivity>(SEX_REQUEST_CODE)
         }
 
         tv_birthday1.setOnClickListener {
