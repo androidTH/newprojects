@@ -29,6 +29,7 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.coroutines.experimental.channels.Send
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -118,6 +119,10 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
             info.name
         }
 
+        if(TextUtils.equals("--",mTitle)){
+            getOtherUser()
+        }
+
         var myInfo = RongUserInfoManager.getInstance().getUserInfo(userId)
 
         var myName = if (myInfo == null || myInfo.name.isNullOrEmpty()) {
@@ -180,7 +185,7 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
                     if(TextUtils.equals("1",sex)){
                         relative_tips.visibility = View.VISIBLE
                         tv_openchat_points.visibility = View.VISIBLE
-                        tv_openchat_apply.visibility = View.GONE
+                        linear_openchat_agree.visibility = View.GONE
                         IsAgreeChat = true
                         tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
                         tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
@@ -194,6 +199,13 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
         }
     }
 
+    private fun getOtherUser(){
+        Request.getUserInfo(userId,mTargetId).request(this, success = { _, data ->
+               data?.let {
+                   title = it.name
+               }
+        })
+    }
     /**
      * 获取私聊状态
      */
