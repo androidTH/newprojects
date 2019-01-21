@@ -16,7 +16,7 @@
             android:layout_marginTop="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/shape_white"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_openchat_tips_title"

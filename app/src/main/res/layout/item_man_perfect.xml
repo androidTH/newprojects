@@ -127,30 +127,6 @@
 
     </RelativeLayout>
 
-    <!--<TextView-->
-        <!--android:id="@+id/tv_city"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/ll_vistorfollownums"-->
-        <!--android:layout_marginTop="@dimen/margin_5"-->
-        <!--android:layout_marginRight="16dp"-->
-        <!--android:layout_toRightOf="@+id/man_perfect_headView"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:text="&#45;&#45;"-->
-        <!--android:textColor="@color/textColor99"-->
-        <!--android:textSize="11sp"-->
-        <!--android:visibility="gone" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/iv_discover"-->
-    <!--android:layout_width="25dp"-->
-    <!--android:layout_height="25dp"-->
-    <!--android:layout_below="@+id/tv_city"-->
-    <!--android:layout_marginLeft="30dp"-->
-    <!--android:layout_marginTop="@dimen/margin_10"-->
-    <!--android:layout_marginBottom="@dimen/margin_10"-->
-    <!--android:src="@mipmap/discover_mancard_reference"-->
-    <!--android:visibility="gone" />-->
 
     <TextView
         android:id="@+id/tv_man_pecfect_content"
@@ -175,6 +151,7 @@
         android:layout_marginTop="@dimen/margin_5"
         android:layout_marginBottom="6dp"
         android:minHeight="66dp"
+        android:visibility="visible"
         android:paddingLeft="@dimen/margin_20"
         android:paddingRight="@dimen/margin_16" />
 
@@ -192,9 +169,10 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_mydate_man_pecfect_tags"
+        android:layout_below="@+id/tv_man_pecfect_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rv_mydate_man_pecfect_images"
+        android:layout_marginTop="@dimen/padding_70"
         android:paddingLeft="@dimen/margin_12" />
 
     <TextView

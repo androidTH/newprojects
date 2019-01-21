@@ -360,7 +360,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
      * 插入用户信息
      */
     private fun joinInCard(){
-        if (!TextUtils.equals(getTodayTime(), mShowCardLastTime)) {
+        if (TextUtils.equals(getTodayTime(), mShowCardLastTime)) {
             var UserInfoJson  = SPUtils.instance().getString(Const.USERINFO)
             if(!TextUtils.isEmpty(UserInfoJson)){
                 mUserInfoData = GsonHelper.getGson().fromJson(UserInfoJson,UserData::class.java)
