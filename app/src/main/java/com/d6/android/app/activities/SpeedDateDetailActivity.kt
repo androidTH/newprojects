@@ -72,9 +72,9 @@ class SpeedDateDetailActivity : TitleActivity() {
             isAuthUser {
                 mSpeedDate.userId?.let {id->
                     val name = mSpeedDate.name ?: ""
-                    checkChatCount(id){
+//                    checkChatCount(id){
                         RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                    }
+//                    }
                 }
             }
         }

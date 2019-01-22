@@ -80,7 +80,8 @@ class MessagesActivity : RecyclerActivity() {
                 s = info.name
             }
             isAuthUser {
-                if (TextUtils.equals("5", conversation.targetId)) {//客服
+                if (TextUtils.equals("5", conversation.targetId)) {
+                    //客服
                     val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
                     RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
                             ,"5" ,"5",Message.ReceivedStatus(0)

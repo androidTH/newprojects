@@ -76,7 +76,7 @@ class HomeFragment : BaseFragment() {
 //        }
 
         speedDateAdapter.setOnItemClickListener { _, position ->
-            activity?.isAuthUser {
+            activity.isCheckOnLineAuthUser(this,userId) {
                 val date = mSpeedDates[position]
                 if(date.iType == 1){
                     startActivity<FindDateDetailActivity>("data" to date)

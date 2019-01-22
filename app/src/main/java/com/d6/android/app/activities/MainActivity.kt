@@ -129,7 +129,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
                 TextUtils.equals(it, tabTexts[3]) -> {
                     titleBar.gone()
-                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+//                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 //                    iv_right.imageResource = R.mipmap.ic_msg_setting
                     tv_title.text = "消息"
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_msg_setting, 0)
@@ -162,7 +162,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 //        tv_create_date.gone()
 
         tv_create_date.setOnClickListener {
-            isAuthUser {
+//            isAuthUser {
+//                startActivityForResult<PublishFindDateActivity>(10)
+//            }
+
+            isCheckOnLineAuthUser(this,userId){
                 startActivityForResult<PublishFindDateActivity>(10)
             }
         }
@@ -200,12 +204,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         iv_right.setOnClickListener {
             when (tabhost.currentTab) {
                 1 -> {
-                    isAuthUser {
+                    isCheckOnLineAuthUser(this,userId) {
                         startActivityForResult<FilterActivity>(0)
                     }
                 }
                 2 -> {
-                    isAuthUser {
+                    isCheckOnLineAuthUser(this,userId) {
                         startActivityForResult<ReleaseNewTrendsActivity>(1)
                     }
                 }

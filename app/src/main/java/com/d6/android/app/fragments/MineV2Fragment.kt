@@ -145,12 +145,14 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         })
 
         headerView.rl_vistors_count.setOnClickListener(View.OnClickListener {
-            startActivity<VistorsActivity>()
+            activity.isCheckOnLineAuthUser(this,userId){
+                startActivity<VistorsActivity>()
+            }
         })
 
 
         headerView.tv_auther_sign.setOnClickListener(View.OnClickListener {
-            activity?.isAuthUser{
+            activity.isCheckOnLineAuthUser(this,userId){
                 startActivity<DateAuthSucessActivity>()
             }
         })

@@ -91,15 +91,16 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_cash_money.setOnClickListener {
-            var dialogCashMoney = DialogCashMoney()
-            mUserInfo?.let {
-                dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
-            }
-            dialogCashMoney.show(supportFragmentManager,"cashmoney")
-            dialogCashMoney.setDialogListener { p, s ->
-                getUserInfo()
-                getData()
-//                mHeaderView.tv_redflowernums.text = (mUserInfo!!.iFlowerCount!!.toInt() - s.toString().toInt()).toString()
+            isCheckOnLineAuthUser(this,userId){
+                var dialogCashMoney = DialogCashMoney()
+                mUserInfo?.let {
+                    dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
+                }
+                dialogCashMoney.show(supportFragmentManager,"cashmoney")
+                dialogCashMoney.setDialogListener { p, s ->
+                    getUserInfo()
+                    getData()
+                }
             }
         }
         getUserInfo()

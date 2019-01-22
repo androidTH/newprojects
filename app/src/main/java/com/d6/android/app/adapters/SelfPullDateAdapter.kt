@@ -1,6 +1,7 @@
 package com.d6.android.app.adapters
 
 import com.d6.android.app.R
+import com.d6.android.app.activities.PublishFindDateActivity
 import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
@@ -9,11 +10,11 @@ import com.d6.android.app.dialogs.OpenDateDialog
 import com.d6.android.app.dialogs.OpenDateErrorDialog
 import com.d6.android.app.dialogs.SquareActionDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.widget.SelfPullDateView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -32,7 +33,12 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         val view = holder.bind<SelfPullDateView>(R.id.srv_view)
         view.update(data)
         view.sendDateListener {
-             signUpDate(it)
+            var appointment = it
+            isBaseActivity {
+                it.isAuthUser {
+                    signUpDate(appointment)
+                }
+            }
         }
 
         view.setDeleteClick {

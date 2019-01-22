@@ -116,15 +116,21 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         })
 
         tv_city.setOnClickListener {
-            showArea(it)
+            activity.isCheckOnLineAuthUser(this,userId){
+                showArea(it)
+            }
         }
 
         tv_xingzuo.setOnClickListener {
-            showConstellations(it)
+            activity.isCheckOnLineAuthUser(this,userId){
+                showConstellations(it)
+            }
         }
 
         tv_type.setOnClickListener {
-            showAges(it)
+            activity.isCheckOnLineAuthUser(this,userId){
+                showAges(it)
+            }
         }
 
         btn_like.setOnClickListener {
