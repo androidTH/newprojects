@@ -95,4 +95,5 @@ object Const {
 
     @JvmField
     val Pic_Size_wh400 = "?imageView2/0/w/400/h/400"
+    val Pic_Size_wh300 = "?imageView2/0/w/300/h/300"
 }

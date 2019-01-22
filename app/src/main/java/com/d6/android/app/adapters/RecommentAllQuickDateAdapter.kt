@@ -1,6 +1,7 @@
 package com.d6.android.app.adapters
 
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 
@@ -19,7 +20,10 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
 
     override fun convert(helper: BaseViewHolder, data: MyDate) {
         val imageView = helper.getView<SimpleDraweeView>(R.id.imageView)
-        imageView.setImageURI(data.lookpics)
+        data.lookpics?.let {
+            var picurl = data.lookpics.replace("?imageMogr2/auto-orient/thumbnail/600x600/quality/100",Const.Pic_Size_wh300)
+            imageView.setImageURI(picurl)
+        }
         val nameView = helper.getView<TextView>(R.id.tv_name)
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)

@@ -60,6 +60,11 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
         pullDownRefresh()
     }
 
+    public fun getFindRecommend(ilookType: String="", city: String=""){
+        pageNum = 1
+        pullRefresh(ilookType,city)
+    }
+
     fun getData(ilookType: String, city: String) {
         this.iLookType = ilookType
         this.sPlace = city
@@ -71,9 +76,6 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
                 dateAdapter.setEnableLoadMore(true)
             }
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
-                if (pageNum > 1) {
-                    pageNum--
-                }
                 dateAdapter.loadMoreEnd(false)
             } else {
                 dateAdapter.addData(data.list.results)
@@ -84,12 +86,13 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     }
 
     fun pullRefresh(ilookType: String="", city: String="") {
-           dateAdapter.setEnableLoadMore(false)//这里的作用是防止下拉刷新的时候还可以上拉加载
+        dateAdapter.setEnableLoadMore(false)//这里的作用是防止下拉刷新的时候还可以上拉加载
         getData(ilookType, city)
     }
 
     override fun pullDownRefresh() {
         super.pullDownRefresh()
+        pageNum =1
         pullRefresh(iLookType,sPlace)
     }
 
