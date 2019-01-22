@@ -63,7 +63,7 @@ class RecommendDateActivity : TitleActivity() {
                     iLookType = p.toString()
                     tv_datetype.text = s
                 }
-                fragment.pullRefresh(iLookType,city)
+                fragment.getFindRecommend(iLookType,city)
             }
         }
 
@@ -116,7 +116,7 @@ class RecommendDateActivity : TitleActivity() {
                 city = string
                 tv_date_city.text = string
             }
-            fragment.getData(iLookType,city)
+            fragment.getFindRecommend(iLookType,city)
         }
 
         mPopupArea.setOnDismissListener {

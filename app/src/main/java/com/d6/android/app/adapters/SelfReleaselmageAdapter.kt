@@ -19,6 +19,9 @@ class SelfReleaselmageAdapter(mData: ArrayList<String>, val type:Int = 0) : HFRe
     private var square: Square? = null
     override fun onBind(holder: ViewHolder, position: Int, data: String) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
+        if(data.isNotEmpty()){
+
+        }
         imageView.setImageURI(data)
         Log.i("SelfReleaselmageAdapter", "图片大小${data}")
         imageView.setOnClickListener {
