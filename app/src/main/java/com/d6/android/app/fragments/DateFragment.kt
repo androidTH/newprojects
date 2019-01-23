@@ -334,16 +334,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private fun showDatePayPointDialog(name:String,id:String){
-        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
-            jsonObjetct?.let {
-                var code = it.optInt("code")
-                if(code!=7){
-                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-                }else{
-                    startActivity<DateAuthStateActivity>()
-                }
-            }
-        })
+        activity.isCheckOnLineAuthUser(this,userId){
+            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+        }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

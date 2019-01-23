@@ -303,7 +303,7 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
 }
 
 inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String, crossinline next: () -> Unit) {
-    Request.getUserInfo("",userId).request(requestManager,false,success = {msg,data->
+    Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
             data?.let {
                 if(it.screen=="0"&&it.userclassesid=="7"){
                     this.startActivity<DateAuthStateActivity>()

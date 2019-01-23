@@ -156,7 +156,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
                 CacheDbManager.getInstance().load(userId, UserBean::class.java, object : NetworkCache<UserBean>() {
                     override fun get(key: String, cls: Class<UserBean>): Flowable<UserBean> {
-                        return Request.getUserInfo("",key).ioScheduler().flatMap {
+                        return Request.getUserInfoDetail(key).ioScheduler().flatMap {
                             val data = it.data
                             if (it.res == 1) {
                                 val userBean = UserBean()

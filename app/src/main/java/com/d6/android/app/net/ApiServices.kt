@@ -32,6 +32,9 @@ interface ApiServices {
     @POST("backstage/account/find")
     fun getUserInfo(@Query("loginuserid") loginuserid:String,@Query("userid") accountId: String): Flowable<Response<UserData>>
 
+    @POST("backstage/account/findAccountDetail")
+    fun getUserInfoDetail(@Query("iUserid") accountId:String): Flowable<Response<UserData>>
+
     @POST("backstage/banner/findByPage")
     fun getBanners(@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("bannerkey") bannerkey: String="home"): Flowable<Response<Page<Banner>>>
 

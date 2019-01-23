@@ -385,4 +385,7 @@ object Request {
 
      //获取与当前用户的私聊状态
     fun getApplyStatus(iFromUserid:String,iToUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid)
+
+    //获取用户信息接口
+    fun getUserInfoDetail(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserInfoDetail(iUserid)
 }
