@@ -30,4 +30,5 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var age: String? = ""
     var iFlowerCount:Int?=0
     var iIsSendFlower:Int?=0 //iIsSendFlower 大于0送过花，等于0没送过
+    var sSourceSquarePics:String?=""
 }

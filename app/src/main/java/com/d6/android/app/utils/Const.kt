@@ -20,6 +20,7 @@ object Const {
         val USER_NICK="userNick"
         val RONG_TOKEN ="rongToken"
         val USER_ADDRESS = "address"
+        val USER_PROVINCE = "province"
         val USER_SCREENID = "screenID"
         val USER_DATACOMPLETION = "iDatacompletion"
         //别人约我
@@ -96,4 +97,9 @@ object Const {
     @JvmField
     val Pic_Size_wh400 = "?imageView2/0/w/400/h/400"
     val Pic_Size_wh300 = "?imageView2/0/w/300/h/300"
+    val Pic_Size_wh500 = "?imageView2/0/w/500/h/500"
+    @JvmField
+    val Pic_Thumbnail_Size_wh300  = "?imageMogr2/auto-orient/thumbnail/300x300/quality/100"
+    @JvmField
+    val Pic_Thumbnail_Size_wh600  = "?imageMogr2/auto-orient/thumbnail/600x600/quality/100"
 }

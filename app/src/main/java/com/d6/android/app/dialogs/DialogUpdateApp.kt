@@ -1,44 +1,30 @@
 package com.d6.android.app.dialogs
 
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.content.ContextCompat
-import android.text.Editable
-import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.UserData
-import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
-import com.umeng.socialize.UMAuthListener
-import com.umeng.socialize.UMShareAPI
-import com.umeng.socialize.bean.SHARE_MEDIA
 import com.vector.update_app.UpdateAppBean
-import com.vector.update_app.UpdateAppManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.dialog_cash_widthdrawal.*
 import kotlinx.android.synthetic.main.dialog_updateapp.*
-import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
 
 /**
- * 约会发送出错
+ * 更新dialog
  */
 class DialogUpdateApp : DialogFragment(), RequestManager {
+
+    private var updateType:Int = 2
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -85,8 +71,22 @@ class DialogUpdateApp : DialogFragment(), RequestManager {
         tv_update_ok.setOnClickListener {
             dialogListener?.onClick(1,"update")
         }
-        tv_update_title.visibility = View.INVISIBLE
-        iv_updateapp_sdv.visibility=View.VISIBLE
+
+        if(updateType == 1){
+            tv_update_no.visibility = View.GONE
+            tv_update_next.visibility = View.GONE
+            iv_updateapp_sdv.visibility=View.GONE
+            view_01.visibility = View.GONE
+            view_02.visibility = View.GONE
+            tv_update_title.visibility = View.VISIBLE
+        }else if(updateType == 2){
+            view_01.visibility = View.VISIBLE
+            view_02.visibility = View.VISIBLE
+            tv_update_no.visibility = View.VISIBLE
+            tv_update_next.visibility = View.VISIBLE
+            iv_updateapp_sdv.visibility=View.VISIBLE
+            tv_update_title.visibility = View.INVISIBLE
+        }
     }
 
 

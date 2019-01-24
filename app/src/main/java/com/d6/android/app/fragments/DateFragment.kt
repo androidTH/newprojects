@@ -26,6 +26,7 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
+import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.d6.android.app.widget.gallery.DSVOrientation
@@ -35,7 +36,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.textColor
@@ -69,8 +69,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private var mShowCardLastTime = SPUtils.instance().getString(Const.LASTDAYTIME)
-
-    private var sameCity = SPUtils.instance().getString(USER_ADDRESS)
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
@@ -116,19 +114,19 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         })
 
         tv_city.setOnClickListener {
-            activity.isCheckOnLineAuthUser(this,userId){
+            activity.isAuthUser {
                 showArea(it)
             }
         }
 
         tv_xingzuo.setOnClickListener {
-            activity.isCheckOnLineAuthUser(this,userId){
+            activity.isAuthUser{
                 showConstellations(it)
             }
         }
 
         tv_type.setOnClickListener {
-            activity.isCheckOnLineAuthUser(this,userId){
+            activity.isAuthUser{
                 showAges(it)
             }
         }
@@ -214,6 +212,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 locationClient.stopLocation()
                 mLat = it.latitude.toString()
                 mLon = it.longitude.toString()
+                SPUtils.instance().put(USER_PROVINCE,it.province).apply()
                 SPUtils.instance().put(USER_ADDRESS,it.city).apply()
             }
         }
@@ -274,12 +273,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 mRecyclerView.adapter.notifyDataSetChanged()
             }
         }
-    }
-
-    private fun updateAddress(address:String){
-        Request.updateUserPosition(userId,address).request(this, success={msg,data->
-
-        })
     }
 
     private fun doAnimation(){
@@ -437,7 +430,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     //设置定位城市
     private fun setLocationCity(){
-        var city = City("",sameCity)
+        var sameCity = SPUtils.instance().getString(USER_PROVINCE)
+        var city = City("",sameCity.replace("市",""))
         city.isSelected = true
         province.lstDicts.add(city)
     }

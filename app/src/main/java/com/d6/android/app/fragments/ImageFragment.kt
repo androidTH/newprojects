@@ -3,6 +3,7 @@ package com.d6.android.app.fragments
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseFragment

@@ -111,6 +111,8 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 holder.setText(R.id.tv_content, data.gexingqianming)
             }else if(!data.ziwojieshao.isNullOrEmpty()){
                 holder.setText(R.id.tv_content, data.ziwojieshao)
+            }else{
+                holder.setText(R.id.tv_content,"")
             }
 
             if (TextUtils.equals("null", data.userlookwhere)) {

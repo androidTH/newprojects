@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
@@ -137,7 +138,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
         }
         imageAdapter.notifyDataSetChanged()
-
         tv_appraise.isSelected = TextUtils.equals(square.isupvote,"1")
         tv_comment.text = if ((square.commentCount?:0) > 0) {
             square.commentCount.toString()

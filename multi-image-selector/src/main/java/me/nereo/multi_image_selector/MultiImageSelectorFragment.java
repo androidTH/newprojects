@@ -658,12 +658,13 @@ public class MultiImageSelectorFragment extends Fragment {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                ActivityCompat.requestPermissions(BaseActivity.this, new String[]{permission},
-//                                        requestCode);
-                                getActivity().finish();
+                                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                        EXTERNAL_CAMERA_REQUEST_CODE);
+                                dialog.dismiss();
                             }
                         })
 //                        .setNegativeButton("取消", null)
+                        .setCancelable(false)
                         .create()
                         .show();
             }else{
@@ -705,4 +706,5 @@ public class MultiImageSelectorFragment extends Fragment {
         }
 
     }
+
 }

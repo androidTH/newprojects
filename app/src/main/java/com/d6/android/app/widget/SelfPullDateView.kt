@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
@@ -119,6 +120,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (images != null) {
             mImages.addAll(images.toList())
         }
+//        Log.i("fff",myAppointment.sSourceAppointPic)
         imageAdapter.notifyDataSetChanged()
         tv_send_date.setOnClickListener {
             mSendDateClick?.let {

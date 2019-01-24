@@ -63,6 +63,7 @@
                 android:textSize="15sp" />
 
             <View
+                android:id="@+id/view_01"
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
                 android:background="@color/color_DFE1E5" />
@@ -80,6 +81,7 @@
                 android:textSize="15sp" />
 
             <View
+                android:id="@+id/view_02"
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
                 android:background="@color/color_DFE1E5" />
