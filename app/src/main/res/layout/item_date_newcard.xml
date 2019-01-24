@@ -18,18 +18,18 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/headView"
             style="@style/DefaultCircleHeadStyle"
-            android:layout_width="77dp"
-            android:layout_height="79dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="@dimen/margin_15"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="@dimen/margin_15" />
+            android:layout_marginRight="@dimen/margin_10" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/headView"
-            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_3"
             android:layout_marginRight="8dp"
             android:layout_toRightOf="@+id/headView"
             android:drawablePadding="8dp"
@@ -52,7 +52,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="0"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="10dp" />
 
