@@ -70,18 +70,23 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             rv_mydate_tags.adapter = CardTagAdapter(mTags)
 
+            val tv_indexofpics = holder.bind<TextView>(R.id.tv_indexofpics)
             val bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
             if (!TextUtils.equals(data.userpics, "null")) {
                 if (TextUtils.isEmpty(data.userpics)) {
                     bigImgView.setImageURI(data.picUrl)
+                    tv_indexofpics.visibility = View.GONE
                 } else {
                     var images = data.userpics.split(",")
                     if (images.size > 0) {
                         bigImgView.setImageURI(images[0])
                     }
+                    tv_indexofpics.visibility = View.VISIBLE
+                    tv_indexofpics.setText("1/${images.size}")
                 }
             } else {
                 bigImgView.setImageURI(data.picUrl)
+                tv_indexofpics.visibility = View.GONE
             }
 
             val headView = holder.bind<SimpleDraweeView>(R.id.headView)
@@ -111,6 +116,8 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 holder.setText(R.id.tv_content, data.gexingqianming)
             }else if(!data.ziwojieshao.isNullOrEmpty()){
                 holder.setText(R.id.tv_content, data.ziwojieshao)
+            }else{
+                holder.setText(R.id.tv_content,"")
             }
 
             if (TextUtils.equals("null", data.userlookwhere)) {

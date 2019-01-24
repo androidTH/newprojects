@@ -24,7 +24,6 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
@@ -359,12 +358,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     sb.append("爱好 ")
                     if (mHobbies != null) {
                         for(str in mHobbies){
-//                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
                             sb.append("${str} ")
                         }
                         AppUtils.setUserInfoTvTag(this,sb.toString(),0,2,headerView.tv_aihao)
                     }
-//                    mTags.add(UserTag(it.hobbit ?: "", R.drawable.shape_tag_bg_6))
                 }else{
                     headerView.tv_aihao.visibility = View.GONE
                 }
@@ -373,41 +370,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 squareAdapter.setUserInfo(mData!!)
                 getTrendData()
-//                headView.setImageURI(it.picUrl)
-//                tv_name.text = it.name
-//                tv_name.isSelected = TextUtils.equals("0",it.sex)
-//                tv_signature.text = it.signature
-//                tv_age.text = it.age
-//                tv_height.text = it.height
-//                tv_weight.text = it.weight
-//                tv_job.text = it.job
-//
-//                tv_city.text = it.city
-//                if (it.city.isNullOrEmpty()) {
-//                    tv_city.invisible()
-//                } else {
-//                    tv_city.visible()
-//                }
-//                tv_hobbit.text = it.hobbit
-//                if (it.hobbit.isNullOrEmpty()) {
-//                    tv_hobbit.invisible()
-//                } else {
-//                    tv_hobbit.visible()
-//                }
-//                tv_constellation.text = it.constellation
-//                if (it.constellation.isNullOrEmpty()) {
-//                    tv_constellation.invisible()
-//                } else {
-//                    tv_constellation.visible()
-//                }
-//
-//                tv5.text = if (TextUtils.equals(it.sex,"1")) "自我介绍" else "要求"
-//                tv_content.text = it.intro
-//                if (it.intro.isNullOrEmpty()) {
-//                    tv_content.invisible()
-//                } else {
-//                    tv_content.visible()
-//                }
 
                 if(it.appointment!=null){
                     headerView.date_headView.setImageURI(it.picUrl)
