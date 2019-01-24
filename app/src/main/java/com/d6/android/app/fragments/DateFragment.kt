@@ -493,6 +493,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 setSearChUI(0,true)
             }
             pageNum=1
+            if(pageNum ==1){
+                mDates.clear()
+            }
             getData(city,xingzuo,agemin,agemax,lat,lon)
         }
 
@@ -524,6 +527,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 setSearChUI(1,true)
             }
             pageNum=1
+            if(pageNum ==1){
+                mDates.clear()
+            }
             getData(city,xingzuo,agemin,agemax)
         }
 
@@ -572,6 +578,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                   }
               }
             pageNum=1
+            if(pageNum ==1){
+                mDates.clear()
+            }
             getData(city,xingzuo,agemin,agemax)
         }
 
