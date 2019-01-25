@@ -15,6 +15,7 @@ import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
+import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.DateType
@@ -147,23 +148,39 @@ class PublishFindDateActivity : BaseActivity() {
         }
 
         tv_sure.setOnClickListener {
-            Request.getAppointmentAuth(userId).request(this,false,success={msg,data->
-                publish()
-            }){code,msg->
-                 if(code == 0){
-                     startActivity<DateAuthStateActivity>()
-                 }else if(code==2){
-                     publish()
-                 }else if(code==3){
-                     val jsonObject = JSONObject.parseObject(msg)
-                     var point = jsonObject.getIntValue("iAddPoint")
-                     var remainPoint = jsonObject.getString("iRemainPoint")
-                     var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-                     val dateDialog = OpenDatePointNoEnoughDialog()
-
-                     dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
-                     dateDialog.show(supportFragmentManager, "d")
-                 }
+            if(publish()){
+                Request.getAppointmentAuth(userId).request(this,false,success={msg,data->
+                    CreateDate(et_content.text.toString().trim())
+                }){code,msg->
+                    if(code == 0){
+                        startActivity<DateAuthStateActivity>()
+                    }else if(code==2){
+                        if(msg.isNotEmpty()){
+                            val jsonObject = JSONObject.parseObject(msg)
+                            var point = jsonObject.getString("iAddPoint")
+                            var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                            val dateDialog = VistorPayPointDialog()
+                            dateDialog.arguments= bundleOf("point" to point,"pointdesc" to sAddPointDesc,"type" to  1)
+                            dateDialog.show(supportFragmentManager, "vistor")
+                            dateDialog.setDialogListener { p, s ->
+                                if(p == 1){
+                                    dialog()
+                                    CreateDate(et_content.text.toString().trim())
+                                }
+                            }
+                        }
+                    }else if(code==3){
+                        if(msg!="null"){
+                            val jsonObject = JSONObject.parseObject(msg)
+                            var point = jsonObject.getIntValue("iAddPoint")
+                            var remainPoint = jsonObject.getString("iRemainPoint")
+                            var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                            val dateDialog = OpenDatePointNoEnoughDialog()
+                            dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
+                            dateDialog.show(supportFragmentManager, "d")
+                        }
+                    }
+                }
             }
         }
 
@@ -191,104 +208,91 @@ class PublishFindDateActivity : BaseActivity() {
         }
     }
 
-    private fun publish() {
-//        val city = tv_city.text.toString().trim()
-//        if (city.isEmpty()) {
-//            showToast("请输入城市")
-//            return
-//        }
+    private fun publish():Boolean {
         if(selectedDateType == null){
             showToast("请选择约会类型")
         }
-
-//        if (areaType == -1) {//city.isNotEmpty() &&
-//            showToast("请选择城市所属地区")
-//            return
-//        }
-
         if(area.isNullOrEmpty()){
             showToast("请选择城市所属地区")
-            return
+            return false
         }
-//        val outArea = if (areaType == 0) {//海外
-//            area
-//        } else {
-//            null
-//        }
-//
-//        val inArae = if (areaType == 1) {//国内
-//            area
-//        } else {
-//            null
-//        }
 
-        val content = et_content.text.toString().trim()
+        var content = et_content.text.toString().trim()
         if (content.isEmpty()) {
             showToast("请输入内容")
-            return
+            return false
         }
 
         if (startTime.isEmpty()) {
             showToast("请选择开始时间")
-            return
+            return false
         }
         if (endTime.isEmpty()) {
             showToast("请选择结束时间")
-            return
+            return false
         }
 
         if(!isDateOneBigger(endTime,startTime)){
             showToast("发布约会截止日期不能早于开始日期")
-            return
+            return false
         }
-//        if (mImages.size <= 1) {
-//            showToast("请上传至少一张图片")
-//            return
-//        }
         dialog()
-        if (mImages.size > 1) {//有图片
-            val temp = mImages.filter { it.type != 1 }
-            Flowable.fromIterable(temp).subscribeOn(Schedulers.io()).flatMap {
-                //压缩
-                val b = BitmapUtils.compressImageFile(it.path)
-                Flowable.just(b)
-            }.flatMap {
-                Request.uploadFile(it)
-            }.toList().toFlowable().flatMap {
-                val sb = StringBuilder()
-                it.forEach {
-                    sb.append(it).append(",")
-                }
-                if (sb.isNotEmpty()) {
-                    sb.deleteCharAt(sb.length - 1)
-                }
-                Flowable.just(sb.toString())
-            }.flatMap {
-//                sysErr("------releaseSelfAbout--------->"+it) //city
-                Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
-            }.request(this,false,success= { _, data ->
-                showToast("发布成功")
+        return true
+    }
+
+    private fun CreateDateOfPics(content:String){
+        val temp = mImages.filter { it.type != 1 }
+        Flowable.fromIterable(temp).subscribeOn(Schedulers.io()).flatMap {
+            //压缩
+            val b = BitmapUtils.compressImageFile(it.path)
+            Flowable.just(b)
+        }.flatMap {
+            Request.uploadFile(it)
+        }.toList().toFlowable().flatMap {
+            val sb = StringBuilder()
+            it.forEach {
+                sb.append(it).append(",")
+            }
+            if (sb.isNotEmpty()) {
+                sb.deleteCharAt(sb.length - 1)
+            }
+            Flowable.just(sb.toString())
+        }.flatMap {
+            //                sysErr("------releaseSelfAbout--------->"+it) //city
+            Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
+        }.request(this,false,success= { _, data ->
+            showToast("发布成功")
+            if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                 showTips(data,"","")
+            }
+            setResult(Activity.RESULT_OK)
+            startActivity<MyDateListActivity>()
+            finish()
+        }){code,msg->
+            if(code==0){
+                showToast(msg)
+            }
+        }
+    }
+
+
+
+
+    private fun CreateDate(content:String){
+        if (mImages.size > 1) {//有图片
+            CreateDateOfPics(content)
+        } else {
+            Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this,false,success= { _, data ->
+                showToast("发布成功")
+                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+                    showTips(data,"","")
+                }
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
             }){code,msg->
                 if(code==0){
                     showToast(msg)
-                }
-            }
-
-        } else {
-            // area 代替city
-            Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this,false,success= { _, data ->
-                showToast("发布成功")
-                showTips(data,"","")
-                setResult(Activity.RESULT_OK)
-                startActivity<MyDateListActivity>()
-                finish()
-            }){code,msg->
-                if(code==0){
-                   showToast(msg)
                 }
             }
         }

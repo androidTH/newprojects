@@ -158,25 +158,27 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             }){code,msg->
                 if(code==2){
                     //积分充足
-                    if(!msg.isNullOrEmpty()){
+                    if(msg.isNotEmpty()){
                         val jsonObject = JSONObject.parseObject(msg)
-//                        var point = jsonObject.getString("iAddPoint")
-//                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-                        showToast(msg)
+                        var point = jsonObject.getString("iAddPoint")
+                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
                         val dateDialog = VistorPayPointDialog()
-                        dateDialog.arguments= bundleOf("point" to "1","pointdesc" to msg)
-                        dateDialog.show(activity.supportFragmentManager, "vistor")
+                        dateDialog.arguments= bundleOf("point" to point,"pointdesc" to sAddPointDesc,"type" to  0)
+                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistor")
                     }
-                }else if(code==3){//积分不足
-                    if(!TextUtils.equals("null",msg)){
+                }else if(code==3){
+                    //积分不足
+                    if(msg.isNotEmpty()){
                         val jsonObject = JSONObject.parseObject(msg)
                         var point = jsonObject.getIntValue("iAddPoint")
                         var remainPoint = jsonObject.getString("iRemainPoint")
                         var sAddPointDesc = jsonObject.getString("sAddPointDesc")
                         val dateDialog = OpenDatePointNoEnoughDialog()
                         dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to msg)
-                        dateDialog.show(activity.supportFragmentManager, "vistors")
+                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistors")
                     }
+                }else{
+                    showToast(msg)
                 }
             }
         })

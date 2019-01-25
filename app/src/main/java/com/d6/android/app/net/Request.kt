@@ -42,7 +42,9 @@ object Request {
                     }
                 }, BackpressureStrategy.DROP).subscribeOn(Schedulers.io())
             } else {
-                Flowable.error { ResultException(it.resMsg) }
+                Flowable.error {
+                    ResultException(it.resMsg)
+                }
             }
         }
     }

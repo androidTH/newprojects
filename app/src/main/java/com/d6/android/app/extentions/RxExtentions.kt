@@ -105,11 +105,10 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
 
         override fun onNext(t: I) {
             requestManager.dismissDialog()
-            sysErr(t.toString()+"----data---->"+t.data)
             if (t.res == 1) {//成功
                 success(t.resMsg,t.data)
             } else {
-                if(t.data!=null){
+                if(t.data!=null&&t.data!="null"){
                     error(t.res, t.data.toString())
                     if (showToast) {
                         requestManager.showToast(t.resMsg.toString())

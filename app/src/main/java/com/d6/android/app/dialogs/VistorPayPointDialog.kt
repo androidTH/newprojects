@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.activities.VistorsActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
@@ -18,6 +19,7 @@ import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_vistor_paypoint.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -28,13 +30,12 @@ import org.jetbrains.anko.wrapContent
  */
 class VistorPayPointDialog : DialogFragment(),RequestManager {
 
+
+    private var type:Int = 0
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
-
-    private lateinit var chatUserId:String
-    private lateinit var username:String;
-    private var mType:String="0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +72,7 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
 
         var sAddPointDesc = arguments.getString("pointdesc")
 
+        type = arguments.getInt("type")
         tv_vistor_pay_point.text = point
         tv_vistor_pointdesc.text = sAddPointDesc
 
@@ -84,14 +86,17 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
     }
 
     private fun getData(point:String,remainPoint:String) {
-        dismissAllowingStateLoss()
-        isBaseActivity {
-            //194ecdb4-4809-4b2d-bf32-42a3342964df
-            Request.getVistorPayPoint(userId).request(it,false,success={msg,data->
+        Request.getVistorPayPoint(userId).request((context as BaseActivity),false,success={msg,data->
+            if (type == 0) {
                 startActivity<VistorsActivity>()
-            }){code,msg->
-               showToast(msg)
+            } else if (type == 1) {
+                if (dialogListener != null) {
+                    dialogListener?.onClick(type, "success")
+                }
             }
+            dismissAllowingStateLoss()
+        }){code,msg->
+            showToast(msg)
         }
     }
 

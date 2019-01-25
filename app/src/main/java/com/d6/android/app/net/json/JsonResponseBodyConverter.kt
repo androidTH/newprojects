@@ -57,6 +57,7 @@ class JsonResponseBodyConverter<T>(private val mGson: Gson, private val adapter:
                 else -> {
                     val resultData = Response<Any>(code)
                     resultData.resMsg = json.optString("resMsg")
+                    resultData.data = json.optString("obj")
                     return resultData as T
                 }
             }
