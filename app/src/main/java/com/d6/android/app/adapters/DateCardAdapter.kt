@@ -164,11 +164,25 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
             tv_age.isSelected = TextUtils.equals("0", data.sex)
             if (!data.egagementtext.isNullOrEmpty()) {
-                holder.setText(R.id.tv_content, data.egagementtext)
+                if(!TextUtils.equals("null",data.egagementtext)){
+                    holder.setText(R.id.tv_content, data.egagementtext)
+                }else{
+                    holder.setText(R.id.tv_content, "")
+                }
             } else if (!(data.gexingqianming.isNullOrEmpty())) {
-                holder.setText(R.id.tv_content, data.gexingqianming)
+                if(!TextUtils.equals("null",data.gexingqianming)){
+                    holder.setText(R.id.tv_content, data.gexingqianming)
+                }else{
+                    holder.setText(R.id.tv_content, "")
+                }
             }else if(!data.ziwojieshao.isNullOrEmpty()){
-                holder.setText(R.id.tv_content, data.ziwojieshao)
+                if(!TextUtils.equals("null",data.ziwojieshao)){
+                    holder.setText(R.id.tv_content, data.ziwojieshao)
+                }else{
+                    holder.setText(R.id.tv_content, "")
+                }
+            }else{
+                holder.setText(R.id.tv_content,"")
             }
         }
 

@@ -305,10 +305,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 }
 
-                if (TextUtils.equals("0", it.screen) || it.screen.isNullOrEmpty()) {
-                    headerView.img_other_auther.visibility = View.GONE
+                if (TextUtils.equals("0", it.sex)) {
+                    headerView.tv_vip.visibility = View.INVISIBLE
+                    if(TextUtils.equals("0",it.screen) || it.screen.isNullOrEmpty()){
+                        headerView.img_other_auther.visibility = View.GONE
+                    }else{
+                        headerView.img_other_auther.visibility = View.VISIBLE
+                    }
                 } else {
-                    headerView.img_other_auther.visibility = View.VISIBLE
+                    headerView.tv_vip.visibility = View.VISIBLE
                 }
 
                 headerView.img_other_auther.setOnClickListener {
@@ -498,19 +503,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun showDatePayPointDialog(name:String){
-        isCheckOnLineAuthUser(this,userId){
-            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-        }
-//        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
-//            jsonObjetct?.let {
-//                var code = it.optInt("code")
-//                if(code!=7){
-//                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-//                }else{
-//                    startActivity<DateAuthStateActivity>()
-//                }
-//            }
-//        })
+        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
+            jsonObjetct?.let {
+                var code = it.optInt("code")
+                if(code!=7){
+                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+                }else{
+                    startActivity<DateAuthStateActivity>()
+                }
+            }
+        })
 //        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
 //            if(data!=null){
 //                var code = data!!.optInt("code")
