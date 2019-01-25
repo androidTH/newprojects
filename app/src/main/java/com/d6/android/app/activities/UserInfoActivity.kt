@@ -190,6 +190,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         dialog()
+        if(TextUtils.equals(userId,id)){
+            rl_doaction.visibility = View.GONE
+        }else{
+            rl_doaction.visibility = View.VISIBLE
+        }
         getUserInfo()
         addVistor()
         getUserFollowAndFansandVistor()

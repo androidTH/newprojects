@@ -52,6 +52,7 @@
             android:paddingRight="6dp"/>
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/rl_doaction"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
