@@ -174,7 +174,7 @@
             android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="---"
+            android:text=""
             android:textColor="@color/color_333333"
             android:textSize="@dimen/textSize15" />
 

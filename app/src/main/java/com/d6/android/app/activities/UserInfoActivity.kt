@@ -306,7 +306,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
                 if (TextUtils.equals("0", it.sex)) {
-                    headerView.tv_vip.invisible()
+                    headerView.tv_vip.visibility = View.INVISIBLE
                     if(TextUtils.equals("0",it.screen) || it.screen.isNullOrEmpty()){
                         headerView.img_other_auther.visibility = View.GONE
                     }else{
