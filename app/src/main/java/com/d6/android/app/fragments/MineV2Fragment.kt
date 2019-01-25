@@ -10,11 +10,13 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
+import com.alibaba.fastjson.JSONObject
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.MyImageAdapter
@@ -23,6 +25,9 @@ import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.MineActionDialog
+import com.d6.android.app.dialogs.OpenDatePayPointDialog
+import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
+import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
@@ -36,9 +41,11 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
+import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -124,6 +131,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         headerView.rv_tags.isNestedScrollingEnabled = false
         headerView.rv_tags.adapter = userTagAdapter
         headerView.rel_add_square.setOnClickListener {
+            //发布动态
             startActivityForResult<ReleaseNewTrendsActivity>(3)
         }
 
@@ -145,8 +153,31 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         })
 
         headerView.rl_vistors_count.setOnClickListener(View.OnClickListener {
-            activity.isCheckOnLineAuthUser(this,userId){
+            Request.getVistorAuth(userId).request(this,false,success={msg,data->
                 startActivity<VistorsActivity>()
+            }){code,msg->
+                if(code==2){
+                    //积分充足
+                    if(!msg.isNullOrEmpty()){
+                        val jsonObject = JSONObject.parseObject(msg)
+//                        var point = jsonObject.getString("iAddPoint")
+//                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                        showToast(msg)
+                        val dateDialog = VistorPayPointDialog()
+                        dateDialog.arguments= bundleOf("point" to "1","pointdesc" to msg)
+                        dateDialog.show(activity.supportFragmentManager, "vistor")
+                    }
+                }else if(code==3){//积分不足
+                    if(!TextUtils.equals("null",msg)){
+                        val jsonObject = JSONObject.parseObject(msg)
+                        var point = jsonObject.getIntValue("iAddPoint")
+                        var remainPoint = jsonObject.getString("iRemainPoint")
+                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                        val dateDialog = OpenDatePointNoEnoughDialog()
+                        dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to msg)
+                        dateDialog.show(activity.supportFragmentManager, "vistors")
+                    }
+                }
             }
         })
 

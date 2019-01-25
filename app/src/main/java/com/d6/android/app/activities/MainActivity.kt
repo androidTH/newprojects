@@ -162,10 +162,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 //        tv_create_date.gone()
 
         tv_create_date.setOnClickListener {
-//            isAuthUser {
-//                startActivityForResult<PublishFindDateActivity>(10)
-//            }
-
             isCheckOnLineAuthUser(this,userId){
                 startActivityForResult<PublishFindDateActivity>(10)
             }

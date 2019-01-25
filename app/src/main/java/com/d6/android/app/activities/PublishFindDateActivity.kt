@@ -7,14 +7,14 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
-import android.widget.Toast
+import com.alibaba.fastjson.JSONObject
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
-import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.DateType
@@ -26,6 +26,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_publish_find_date.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -146,7 +147,24 @@ class PublishFindDateActivity : BaseActivity() {
         }
 
         tv_sure.setOnClickListener {
-            publish()
+            Request.getAppointmentAuth(userId).request(this,false,success={msg,data->
+                publish()
+            }){code,msg->
+                 if(code == 0){
+                     startActivity<DateAuthStateActivity>()
+                 }else if(code==2){
+                     publish()
+                 }else if(code==3){
+                     val jsonObject = JSONObject.parseObject(msg)
+                     var point = jsonObject.getIntValue("iAddPoint")
+                     var remainPoint = jsonObject.getString("iRemainPoint")
+                     var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                     val dateDialog = OpenDatePointNoEnoughDialog()
+
+                     dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
+                     dateDialog.show(supportFragmentManager, "d")
+                 }
+            }
         }
 
         tv_back.setOnClickListener {
@@ -248,22 +266,30 @@ class PublishFindDateActivity : BaseActivity() {
             }.flatMap {
 //                sysErr("------releaseSelfAbout--------->"+it) //city
                 Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
-            }.request(this) { _, data ->
+            }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 showTips(data,"","")
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
+            }){code,msg->
+                if(code==0){
+                    showToast(msg)
+                }
             }
 
         } else {
             // area 代替city
-            Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this) { _, data ->
+            Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this,false,success= { _, data ->
                 showToast("发布成功")
                 showTips(data,"","")
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
+            }){code,msg->
+                if(code==0){
+                   showToast(msg)
+                }
             }
         }
     }

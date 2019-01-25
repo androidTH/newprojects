@@ -305,16 +305,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 }
 
-                if (TextUtils.equals("0", it.sex)) {
-                    headerView.tv_vip.invisible()
-                    if(TextUtils.equals("0",it.screen) || it.screen.isNullOrEmpty()){
-//                        headerView.tv_other_auther_sign.visibility = View.GONE
-                        headerView.img_other_auther.visibility = View.GONE
-                    }else{
-                        headerView.img_other_auther.visibility = View.VISIBLE
-                    }
+                if (TextUtils.equals("0", it.screen) || it.screen.isNullOrEmpty()) {
+                    headerView.img_other_auther.visibility = View.GONE
                 } else {
-                    headerView.tv_vip.gone()
+                    headerView.img_other_auther.visibility = View.VISIBLE
                 }
 
                 headerView.img_other_auther.setOnClickListener {

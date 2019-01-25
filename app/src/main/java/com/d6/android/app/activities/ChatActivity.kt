@@ -391,7 +391,6 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
             if (!TextUtils.isEmpty(announceMsg)) {
                 var jsonObject = JSONObject(announceMsg)
                 var type = jsonObject.optString("status")
-                Log.i("ddd","${type}===${announceMsg}")
                 if(TextUtils.equals("1",type)){
                     relative_tips.visibility = View.VISIBLE
                     linear_openchat_agree.visibility = View.VISIBLE

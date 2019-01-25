@@ -347,4 +347,17 @@ interface ApiServices {
     //获取与当前用户的私聊状态
     @POST("backstage/talkapply/getApplyStatus")
     fun getApplyStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+
+    /* 1.8.2接口*/
+    //判断是否允许发布约会接口
+    @POST("backstage/appointment/addAppointmentAuth")
+    fun getAppointmentAuth(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
+    //判断是否有查看访客权限
+    @POST("backstage/vistor/getVistorAuth")
+    fun getVistorAuth(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
+    //支付查看访客积分
+    @POST("backstage/vistor/vistorPayPoint")
+    fun getVistorPayPoint(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
 }
