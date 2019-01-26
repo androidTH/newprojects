@@ -68,7 +68,6 @@
         android:paddingRight="6dp"
         android:textColor="@color/white"
         android:textSize="12dp" />
-
     <TextView
         android:id="@+id/tv_vip"
         android:layout_width="wrap_content"
