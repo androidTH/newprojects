@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -17,6 +18,7 @@ import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.startActivity
@@ -28,10 +30,6 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     private var userId = SPUtils.instance().getString(Const.User.USER_ID)//35598
 
     var iDateComlete: Int = 0
-
-    private val imageAdapter by lazy {
-        DatelmageAdapter(mImages,1)
-    }
 
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         val rl_man_card = holder.bind<RelativeLayout>(R.id.rl_man_card)
@@ -49,13 +47,13 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             if (!TextUtils.equals(data.userpics, "null")) {
                 if (TextUtils.isEmpty(data.userpics)) {
                     mImages.clear()
-                    rv_mydate_images.visibility = View.VISIBLE
+                    rv_mydate_images.visibility = View.INVISIBLE
                     nomg_line.visibility = View.VISIBLE
                 } else {
                     var imglist = data.userpics.split(",")
                     if (imglist.size == 0) {
                         mImages.clear()
-                        rv_mydate_images.visibility = View.VISIBLE
+                        rv_mydate_images.visibility = View.INVISIBLE
                         nomg_line.visibility = View.VISIBLE
                     } else {
                         nomg_line.visibility = View.GONE
@@ -68,20 +66,21 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                         } else {
                             mImages.addAll(imglist.toList())
                         }
+
+                        rv_mydate_images.adapter = DatelmageAdapter(mImages,1)
+                        (rv_mydate_images.adapter as DatelmageAdapter).setOnItemClickListener { adapter, view, p ->
+//                            var index=  mData.indexOf(data)
+//                            var mFindDate=  mData.get(index)
+                            var mShowPics = data.userpics.split(",")
+//                            CustomToast.showToast("${data.name}=${position}=${mFindDate.name}")
+                            context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mShowPics, ImagePagerActivity.CURRENT_POSITION to p)
+                        }
                     }
                 }
             } else {
                 mImages.clear()
-                rv_mydate_images.visibility = View.VISIBLE
+                rv_mydate_images.visibility = View.INVISIBLE
                 nomg_line.visibility = View.VISIBLE
-            }
-
-            rv_mydate_images.adapter = imageAdapter
-            imageAdapter.notifyDataSetChanged()
-            imageAdapter.setOnItemClickListener { adapter, view, p ->
-                var  mFindDate=  mData.get(position-1)
-                var mShowPics = mFindDate.userpics.split(",")
-                context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mShowPics, ImagePagerActivity.CURRENT_POSITION to p)
             }
 
             rv_mydate_tags.setHasFixedSize(true)
