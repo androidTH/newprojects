@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -16,6 +17,7 @@ import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 
@@ -99,17 +101,23 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             }
 
 //          holder.setText(R.id.tv_vip, data.classesname)
-            val tv_age = holder.bind<TextView>(R.id.tv_age)
+            val tv_woman_age = holder.bind<TextView>(R.id.tv_womang_age)
 
             if (!data.nianling.isNullOrEmpty()) {
                 if (TextUtils.equals("0", data.nianling)) {
-                    tv_age.text = ""
+                    tv_woman_age.text = ""
                 } else {
-                    tv_age.text = data.nianling
+                    Log.i("ffff","${data.name}+${data.nianling}")
+                    tv_woman_age.text = data.nianling
                 }
             }
 
-            tv_age.isSelected = TextUtils.equals("0", data.sex)
+            if(data.nianling.isNullOrEmpty()){
+                tv_woman_age.text = ""
+            }
+
+            tv_woman_age.isSelected = TextUtils.equals("0", data.sex)
+
             if (!data.egagementtext.isNullOrEmpty()) {
                 if(!TextUtils.equals("null",data.egagementtext)){
                     holder.setText(R.id.tv_content, data.egagementtext)

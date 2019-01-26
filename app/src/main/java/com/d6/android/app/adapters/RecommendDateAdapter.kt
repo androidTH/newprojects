@@ -59,35 +59,18 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
                 tv_audio_auth.isSelected = true
                 tv_audio_auth.text = "视频认证"
             } else if(TextUtils.equals("0", data.screen)){
-                tv_audio_auth.isSelected = false
-                tv_audio_auth.text = "未认证"
+                tv_audio_auth.visibility = View.GONE
+//                tv_audio_auth.isSelected = false
+//                tv_audio_auth.text = "未认证"
             }else if(TextUtils.equals("3",data.screen)){
                 tv_audio_auth.isSelected = false
-                tv_audio_auth.text = "初级认证"
+                tv_audio_auth.text = "已认证"
             }
         }else{
             tv_audio_auth.visibility = View.GONE
             tv_audio_level.visibility = View.VISIBLE
             tv_audio_level.text = data.classesname
         }
-
-
-//        var ll_horzmore = holder.bind<LinearLayout>(R.id.ll_horzmore)
-//        var rl_datecontent = holder.bind<RelativeLayout>(R.id.rl_datecontent)
-//        if(position == (mData.size-1)){
-//           ll_horzmore.visibility = View.GONE
-//            rl_datecontent.visibility = View.GONE
-//        }else{
-//            ll_horzmore.visibility = View.GONE
-//            rl_datecontent.visibility = View.VISIBLE
-//        }
-//        val endTime = data.createTime.toTime("yyyy-MM-dd")
-//        val cTime = if (D6Application.systemTime <= 0) {
-//            System.currentTimeMillis()
-//        } else {
-//            D6Application.systemTime
-//        }
-//        val current = cTime.toTime("yyyy-MM-dd")
         val typeView = holder.bind<TextView>(R.id.tv_type)
         if(data.iType==1){
             typeView.text = "觅约"
