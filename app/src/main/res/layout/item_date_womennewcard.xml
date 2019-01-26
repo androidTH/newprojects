@@ -63,7 +63,7 @@
             android:text=""/>
 
         <TextView
-            android:id="@+id/tv_age"
+            android:id="@+id/tv_womang_age"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
             android:layout_alignTop="@+id/headView"
@@ -82,7 +82,7 @@
             android:id="@+id/tv_vip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_age"
+            android:layout_toRightOf="@+id/tv_womang_age"
             android:layout_alignTop="@+id/headView"
             android:layout_marginTop="@dimen/margin_5"
             android:layout_marginLeft="8dp"

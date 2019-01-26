@@ -21,7 +21,7 @@ class SelfReleaselmageAdapter(mData: ArrayList<String>, val type:Int = 0) : HFRe
         Log.i("SelfReleaselmageAdapter", "图片大小${data}")
         imageView.setOnClickListener {
             if (type == 1) {
-                context.startActivity<ImagePagerActivity>(TrendDetailActivity.URLS to mData, TrendDetailActivity.CURRENT_POSITION to position)
+                context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mData, ImagePagerActivity.CURRENT_POSITION to position)
             } else {
                 context.startActivity<TrendDetailActivity>(TrendDetailActivity.URLS to mData, TrendDetailActivity.CURRENT_POSITION to position,
                         "data" to (square ?: Square()))

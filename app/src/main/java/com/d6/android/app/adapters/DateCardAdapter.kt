@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.FindDate
@@ -18,14 +19,19 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
+import org.jetbrains.anko.startActivity
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
 
-    private var mImages = ArrayList<String>()
+    private val mImages = ArrayList<String>()
     private val mTags = ArrayList<UserTag>()
     private var userId = SPUtils.instance().getString(Const.User.USER_ID)//35598
 
     var iDateComlete: Int = 0
+
+    private val imageAdapter by lazy {
+        DatelmageAdapter(mImages,1)
+    }
 
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         val rl_man_card = holder.bind<RelativeLayout>(R.id.rl_man_card)
@@ -62,13 +68,20 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                         } else {
                             mImages.addAll(imglist.toList())
                         }
-                        rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
                     }
                 }
             } else {
                 mImages.clear()
                 rv_mydate_images.visibility = View.VISIBLE
                 nomg_line.visibility = View.VISIBLE
+            }
+
+            rv_mydate_images.adapter = imageAdapter
+            imageAdapter.notifyDataSetChanged()
+            imageAdapter.setOnItemClickListener { adapter, view, p ->
+                var  mFindDate=  mData.get(position-1)
+                var mShowPics = mFindDate.userpics.split(",")
+                context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mShowPics, ImagePagerActivity.CURRENT_POSITION to p)
             }
 
             rv_mydate_tags.setHasFixedSize(true)

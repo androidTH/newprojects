@@ -58,11 +58,12 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
                 tv_audio_auth.isSelected = true
                 tv_audio_auth.text = "视频认证"
             } else if(TextUtils.equals("0", data.screen)){
-                tv_audio_auth.isSelected = false
-                tv_audio_auth.text = "未认证"
+//                tv_audio_auth.isSelected = false
+//                tv_audio_auth.text = "未认证"
+                tv_audio_auth.visibility = View.GONE
             }else if(TextUtils.equals("3",data.screen)){
                 tv_audio_auth.isSelected = false
-                tv_audio_auth.text = "初级认证"
+                tv_audio_auth.text = "已认证"
             }
         }else{
             tv_audio_auth.visibility = View.GONE
