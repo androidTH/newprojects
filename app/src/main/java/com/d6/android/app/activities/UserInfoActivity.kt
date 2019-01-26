@@ -319,6 +319,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 } else {
                     headerView.tv_vip.visibility = View.VISIBLE
+                    headerView.img_other_auther.visibility = View.GONE
                 }
 
                 headerView.img_other_auther.setOnClickListener {
