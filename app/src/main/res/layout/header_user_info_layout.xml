@@ -33,10 +33,9 @@
         android:id="@+id/img_other_auther"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:layout_below="@+id/tv_signature"
-        android:layout_marginRight="@dimen/margin_5"
-        android:layout_marginTop="-5dp"
-        android:layout_toLeftOf="@+id/tv_signature"
+        android:layout_below="@+id/headView"
+        android:layout_marginTop="-20dp"
+        android:layout_marginLeft="64dp"
         android:background="@drawable/shape_auther_bg"
         android:padding="3dp"
         android:visibility="visible"
@@ -70,7 +69,6 @@
         android:paddingRight="6dp"
         android:textColor="@color/white"
         android:textSize="12dp" />
-
     <TextView
         android:id="@+id/tv_vip"
         android:layout_width="wrap_content"
@@ -80,6 +78,7 @@
         android:background="@drawable/shape_4r_orange"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
+        android:layout_marginTop="@dimen/margin_2"
         android:text="--"
         android:textColor="@color/white"
         android:textSize="12dp"
