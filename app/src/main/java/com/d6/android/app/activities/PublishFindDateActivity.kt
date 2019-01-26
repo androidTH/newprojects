@@ -211,6 +211,7 @@ class PublishFindDateActivity : BaseActivity() {
     private fun publish():Boolean {
         if(selectedDateType == null){
             showToast("请选择约会类型")
+            return false
         }
         if(area.isNullOrEmpty()){
             showToast("请选择城市所属地区")
