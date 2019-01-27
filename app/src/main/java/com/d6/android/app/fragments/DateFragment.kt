@@ -409,20 +409,20 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 getServiceProvinceData()
             }else{
                 var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-                setLocationCity()
-                ProvinceData?.add(0,province)
+//                setLocationCity()
+//                ProvinceData?.add(0,province)
                 mPopupArea.setData(ProvinceData)
             }
         }
     }
 
     private fun getServiceProvinceData(){
-        Request.getProvince(2).request(this) { _, data ->
+        Request.getProvinceAll().request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
-                setLocationCity()
-                it.add(0,province)
+//                setLocationCity()
+//                it.add(0,province)
                 mPopupArea.setData(it)
             }
         }

@@ -16,9 +16,11 @@ import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.PROVINCE_DATA
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.GsonHelper
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getTodayTime
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import kotlinx.android.synthetic.main.activity_area_choose_layout.*
 
@@ -32,6 +34,10 @@ class AreaChooseActivity : BaseActivity() {
     private val locationCity=SPUtils.instance().getString(USER_ADDRESS)
 
     var province = Province(Const.LOCATIONCITYCODE, "定位")
+
+    private val lastTime by lazy{
+        SPUtils.instance().getString(Const.LASTLONGTIMEOFProvince)
+    }
 
     private val mCityOfProviceAdapter by lazy {
         CityOfProvinceAdapter(mCities)
@@ -111,25 +117,17 @@ class AreaChooseActivity : BaseActivity() {
     }
 
     private fun getData() {
-        if(!TextUtils.isEmpty(cityJson)){
-            var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
-            mProvinces.clear()
-            setLocationCity()
-            data?.let {
-                it.add(0, province)
-                mProvinces.addAll(it)
-                mCities.addAll(it)
-                mProciceAdapter.setNewData(mProvinces)
-                mCityOfProviceAdapter.setNewData(mCities)
-                tv_menu_toptitle.text = mProvinces.get(0).name
-            }
-        }else{
-            Request.getProvince().request(this) { _, data ->
+        if (cityJson.isNullOrEmpty()) {
+            getServiceProvinceData()
+        } else {
+            if (!TextUtils.equals(getTodayTime(), lastTime)) {
+                getServiceProvinceData()
+            } else {
+                var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
+                mProvinces.clear()
+                setLocationCity()
                 data?.let {
-                    DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
-                    mProvinces.clear()
-                    setLocationCity()
-                    it.add(0,province)
+                    it.add(0, province)
                     mProvinces.addAll(it)
                     mCities.addAll(it)
                     mProciceAdapter.setNewData(mProvinces)
@@ -140,25 +138,29 @@ class AreaChooseActivity : BaseActivity() {
         }
     }
 
+    private fun getServiceProvinceData(){
+        Request.getProvince().request(this) { _, data ->
+            data?.let {
+                DiskFileUtils.getDiskLruCacheHelper(this).put(PROVINCE_DATA, GsonHelper.getGson().toJson(it))
+                mProvinces.clear()
+                setLocationCity()
+                it.add(0,province)
+                mProvinces.addAll(it)
+                mCities.addAll(it)
+                mProciceAdapter.setNewData(mProvinces)
+                mCityOfProviceAdapter.setNewData(mCities)
+                tv_menu_toptitle.text = mProvinces.get(0).name
+                SPUtils.instance().put(Const.LASTLONGTIMEOFProvince, getTodayTime()).apply()
+            }
+        }
+    }
+
     //设置定位城市
     private fun setLocationCity(){
         var city = City("",locationCity)
         city.isSelected = true
         city.isValid ="2"
         province.lstDicts.add(city)
-    }
-
-    fun loadData() {
-//        val json = ConvertUtils.toString(getAssets().open("province.json"))
-//        val categoryBean = GsonHelper.GsonToBean(json, CategoryBean::class.java)
-//        for (i in 0 until categoryBean.data.size) {
-//            val dataBean = categoryBean.data.get(i)
-//               mProvinces.add(dataBean.moduleTitle)
-//            mShowTitles.add(i)
-//            mHomeList.add(dataBean)
-//        }
-//        mProciceAdapter.setNewData(mCities)
-//        mCityOfProviceAdapter.setNewData(mHomeList)
     }
 
     override fun onBackPressed() {

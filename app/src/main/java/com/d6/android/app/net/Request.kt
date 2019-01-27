@@ -200,6 +200,9 @@ object Request {
     fun getProvince(isShow:Int=1) =
             RRetrofit.instance().create(ApiServices::class.java).getProvince(isShow)
 
+    fun getProvinceAll() =
+            RRetrofit.instance().create(ApiServices::class.java).getProvinceAll()
+
     fun resetPwdFirstStep(phone: String, code: String) =
             RRetrofit.instance().create(ApiServices::class.java).resetPwdFirstStep(phone, code)
 

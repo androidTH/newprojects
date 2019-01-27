@@ -21,6 +21,7 @@ import com.d6.android.app.dialogs.AreaSelectedPopup
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 
 /**
@@ -37,11 +38,11 @@ class HomeFragment : BaseFragment() {
     var province = Province(Const.LOCATIONCITYCODE,"不限")
 
     private val cityJson by lazy{
-        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATA)
+        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
     }
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTLONGTIMEOFProvince)
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
     }
 
     private val mSpeedDates = ArrayList<MyDate>()
@@ -140,16 +141,20 @@ class HomeFragment : BaseFragment() {
         getSpeedData()
 
         tv_date_city.setOnClickListener {
-            showArea()
+            activity.isAuthUser(){
+                showArea()
+            }
         }
 
         tv_datetype.setOnClickListener {
-            val filterDateTypeDialog = FilterDateTypeDialog()
-            filterDateTypeDialog.show(childFragmentManager, "ftd")
-            filterDateTypeDialog.setDialogListener { p, s ->
-                type = p
-                tv_datetype.text = s
-                getFragment()
+            activity.isCheckOnLineAuthUser(this,userId){
+                val filterDateTypeDialog = FilterDateTypeDialog()
+                filterDateTypeDialog.show(childFragmentManager, "ftd")
+                filterDateTypeDialog.setDialogListener { p, s ->
+                    type = p
+                    tv_datetype.text = s
+                    getFragment()
+                }
             }
         }
 
@@ -180,13 +185,13 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun getServiceProvinceData(){
-        Request.getProvince().request(this) { _, data ->
+        Request.getProvinceAll().request(this) { _, data ->
             data?.let {
-                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATA, GsonHelper.getGson().toJson(it))
                 setLocationCity()
                 it.add(0,province)
                 mPopupArea.setData(it)
-                SPUtils.instance().put(Const.LASTLONGTIMEOFProvince, getTodayTime()).apply()
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
             }
         }
     }

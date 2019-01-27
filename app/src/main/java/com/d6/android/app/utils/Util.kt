@@ -306,6 +306,8 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
     Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
             data?.let {
                 if(it.screen=="0"&&it.userclassesid=="7"){
+//                    SPUtils.instance().put(Const.User.USER_CLASS_ID,it.userclassesid).apply()
+//                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
                     this.startActivity<DateAuthStateActivity>()
                 }else{
                     next()
