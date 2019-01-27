@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
@@ -362,8 +363,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     var sb = StringBuffer()
                     sb.append("爱好 ")
                     if (mHobbies != null) {
+                        //,,
                         for(str in mHobbies){
-                            sb.append("${str} ")
+                            if(!TextUtils.isEmpty(str)){
+                                sb.append("${str} ")
+                            }
+                        }
+                        if(sb.toString().trim().length<=2){
+                            headerView.tv_aihao.visibility = View.GONE
                         }
                         AppUtils.setUserInfoTvTag(this,sb.toString(),0,2,headerView.tv_aihao)
                     }
@@ -371,7 +378,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.tv_aihao.visibility = View.GONE
                 }
 
-                refreshImages(it)
+                if(!TextUtils.equals("null",it.userpics)){
+                    refreshImages(it)
+                }
 
                 squareAdapter.setUserInfo(mData!!)
                 getTrendData()
@@ -407,9 +416,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private fun refreshImages(userData: UserData) {
         mImages.clear()
         if (!userData.userpics.isNullOrEmpty()) {
-            val images = userData.userpics!!.split(",")
-            images.forEach {
-                mImages.add(AddImage(it))
+            userData.userpics?.let {
+                val images = it.split(",")
+                images.forEach {
+                    mImages.add(AddImage(it))
+                }
             }
         }
         myImageAdapter.notifyDataSetChanged()

@@ -65,7 +65,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 var mHobbies = data.xingquaihao?.replace("#", ",")?.split(",")
                 if (mHobbies != null) {
                     for (str in mHobbies) {
-                        mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
+                        if (!TextUtils.isEmpty(str)) {
+                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
+                        }
                     }
                 }
             }

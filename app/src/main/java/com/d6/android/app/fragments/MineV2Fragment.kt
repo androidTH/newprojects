@@ -508,10 +508,14 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
     private fun refreshImages(userData: UserData) {
         mImages.clear()
-        if (!userData.userpics.isNullOrEmpty()) {
-            val images = userData.userpics!!.split(",")
-            images.forEach {
-                mImages.add(AddImage(it))
+        if(!TextUtils.equals("null",userData.userpics)){
+            if (!userData.userpics.isNullOrEmpty()) {
+                userData.userpics?.let {
+                    val images = it.split(",")
+                    images.forEach {
+                        mImages.add(AddImage(it))
+                    }
+                }
             }
         }
         mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))

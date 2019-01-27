@@ -35,7 +35,7 @@
             android:paddingTop="@dimen/margin_3"
             android:paddingBottom="@dimen/margin_3"
             android:textSize="12sp"
-            android:text="1/5" />
+            android:text="" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/headView"
@@ -127,13 +127,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headView"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/margin_10"
             android:layout_marginRight="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="@dimen/margin_8"
+            android:layout_marginLeft="@dimen/margin_12"
+            android:layout_marginBottom="@dimen/margin_5"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text=""
             android:textColor="@color/color_333333"
             android:textSize="@dimen/textSize" />
         <android.support.v7.widget.RecyclerView
@@ -141,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_content"
-            android:layout_marginBottom="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_10"
             android:paddingLeft="10dp"/>
     </RelativeLayout>
 

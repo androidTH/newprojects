@@ -182,14 +182,15 @@
 
         <TextView
             android:id="@+id/tv_aihao"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_zuojia"
             android:layout_marginLeft="@dimen/margin_28"
             android:layout_marginRight="@dimen/margin_25"
             android:drawableLeft="@mipmap/boy_hobby_whiteicon"
             android:drawablePadding="@dimen/margin_5"
-            android:maxLength="20"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="爱好 "
             android:textColor="@color/color_40FFFFFF"
             android:textSize="14sp" />
