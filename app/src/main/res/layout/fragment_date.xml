@@ -67,7 +67,7 @@
 
         <com.d6.android.app.widget.gallery.DiscreteScrollView
             android:id="@+id/mRecyclerView"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="@dimen/margin_20"
             android:layout_width="match_parent"
             android:layout_height="460dp" />
 
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/mRecyclerView"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_15">
+            android:layout_marginTop="@dimen/margin_10">
 
             <ImageButton
                 android:id="@+id/fb_unlike"

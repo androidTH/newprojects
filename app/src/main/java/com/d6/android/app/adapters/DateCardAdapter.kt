@@ -10,6 +10,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.activities.ImagePagerActivity
+import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.FindDate
@@ -21,6 +22,7 @@ import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.support.v4.startActivity
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
 
@@ -70,9 +72,10 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                         (rv_mydate_images.adapter as DatelmageAdapter).setOnItemClickListener { adapter, view, p ->
 //                            var index=  mData.indexOf(data)
 //                            var mFindDate=  mData.get(index)
-                            var mShowPics = data.userpics.split(",")
+                            context.startActivity<UserInfoActivity>("id" to data.accountId.toString())
+//                            var mShowPics = data.userpics.split(",")
 //                            CustomToast.showToast("${data.name}=${position}=${mFindDate.name}")
-                            context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mShowPics, ImagePagerActivity.CURRENT_POSITION to p)
+//                            context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mShowPics, ImagePagerActivity.CURRENT_POSITION to p)
                         }
                     }
                 }

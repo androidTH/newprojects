@@ -75,7 +75,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private val cityJson by lazy{
-//        SPUtils.instance().getString(Const.PROVINCE_DATA)
         DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
     }
 
