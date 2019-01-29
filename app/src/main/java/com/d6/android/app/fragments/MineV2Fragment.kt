@@ -174,7 +174,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                         var remainPoint = jsonObject.getString("iRemainPoint")
                         var sAddPointDesc = jsonObject.getString("sAddPointDesc")
                         val dateDialog = OpenDatePointNoEnoughDialog()
-                        dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to msg)
+                        showToast(sAddPointDesc)
+                        dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
                         dateDialog.show((context as BaseActivity).supportFragmentManager, "vistors")
                     }
                 }else{

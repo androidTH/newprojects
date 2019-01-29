@@ -107,19 +107,6 @@ class MyDateDetailActivity : BaseActivity() {
                 }
             }
         }
-
-    }
-
-    private fun showDatePayPointDialog(name:String,id:String){
-        Request.getUnlockTalkPoint().request(this,false,success = {msg,data->
-            val dateDialog = OpenDatePayPointDialog()
-            var point = data!!.optInt("iTalkPoint")
-            var remainPoint = data!!.optString("iRemainPoint")
-            dateDialog.arguments= bundleOf("point" to point.toString(),"username" to name,"chatUserId" to id,"type" to "0")
-            dateDialog.show(supportFragmentManager, "d")
-        }) { _, msg ->
-            this.toast(msg)
-        }
     }
 
     private fun getData(sAppointmentSignupId:String,sAppointmentId:String){

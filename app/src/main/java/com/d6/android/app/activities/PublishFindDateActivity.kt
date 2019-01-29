@@ -14,6 +14,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.OpenDateErrorDialog
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
@@ -172,12 +173,16 @@ class PublishFindDateActivity : BaseActivity() {
                     }else if(code==3){
                         if(msg!="null"){
                             val jsonObject = JSONObject.parseObject(msg)
-                            var point = jsonObject.getIntValue("iAddPoint")
-                            var remainPoint = jsonObject.getString("iRemainPoint")
+//                            var point = jsonObject.getIntValue("iAddPoint")
+//                            var remainPoint = jsonObject.getString("iRemainPoint")
                             var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-                            val dateDialog = OpenDatePointNoEnoughDialog()
-                            dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
-                            dateDialog.show(supportFragmentManager, "d")
+//                            val dateDialog = OpenDatePointNoEnoughDialog()
+//                            dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
+//                            dateDialog.show(supportFragmentManager, "d")
+
+                            var openErrorDialog = OpenDateErrorDialog()
+                            openErrorDialog.arguments = bundleOf("code" to 2, "msg" to sAddPointDesc)
+                            openErrorDialog.show(supportFragmentManager, "publishfindDateActivity")
                         }
                     }
                 }
