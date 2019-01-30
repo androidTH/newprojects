@@ -77,7 +77,14 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
         tv_vistor_pointdesc.text = sAddPointDesc
 
         tv_payok.setOnClickListener {
-            getData(point,"")
+            if(type==0){
+                getData(point,"")
+            }else if (type == 1) {
+                dismissAllowingStateLoss()
+                if (dialogListener != null) {
+                    dialogListener?.onClick(type, "success")
+                }
+            }
         }
 
         tv_close.setOnClickListener {
@@ -89,10 +96,6 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
         Request.getVistorPayPoint(userId).request((context as BaseActivity),false,success={msg,data->
             if (type == 0) {
                 startActivity<VistorsActivity>()
-            } else if (type == 1) {
-                if (dialogListener != null) {
-                    dialogListener?.onClick(type, "success")
-                }
             }
             dismissAllowingStateLoss()
         }){code,msg->

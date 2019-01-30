@@ -67,15 +67,6 @@ class HomeFragment : BaseFragment() {
         snapHelper.attachToRecyclerView(rvSpeedDate)
         rvSpeedDate.adapter = speedDateAdapter
 
-//        dzsticknavlayout.setOnStartActivity {
-//            startActivity<RecommendDateActivity>()
-//        }
-
-
-//        scroll_view.setOnReleaseListener {
-//            startActivity<RecommendDateActivity>()
-//        }
-
         speedDateAdapter.setOnItemClickListener { _, position ->
             activity.isCheckOnLineAuthUser(this,userId) {
                 val date = mSpeedDates[position]
@@ -102,21 +93,8 @@ class HomeFragment : BaseFragment() {
             override fun getPageTitle(position: Int) = titles[position]
 
         }
-//        mTabLayout.setViewPager(mViewPager)
-
-//        bannerAdapter.setOnItemClickListener { view, position ->
-//            val banner = mBanners[position]
-//            val ids = banner.newsid ?: ""
-//            startActivity<SquareTrendDetailActivity>("id" to ids)
-//        }
 
         tv_speed_date_more.setOnClickListener {
-            //            activity?.let {
-//                if (it is MainActivity) {
-//                    it.changeTab(1)
-//                }
-//            }
-//            startActivity<SpeedDateActivity>()
             startActivity<RecommendDateActivity>()
         }
 

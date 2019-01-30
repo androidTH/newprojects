@@ -11,21 +11,33 @@
     android:paddingTop="@dimen/padding_16"
     android:paddingRight="@dimen/margin_5"
     android:paddingBottom="@dimen/margin_5">
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/headView"
-        style="@style/DefaultHeadStyle"
+    <RelativeLayout
+        android:id="@+id/rl_date_headView"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginLeft="@dimen/margin_5"
-        android:layout_marginRight="8dp"
-        app:roundAsCircle="true" />
+        android:layout_marginRight="8dp">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/headView"
+            style="@style/DefaultHeadStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:roundAsCircle="true" />
+        <ImageView
+            android:id="@+id/img_date_auther"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_15"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/video_small_authentication"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/headView"
-        android:layout_toRightOf="@+id/headView"
+        android:layout_alignTop="@+id/rl_date_headView"
+        android:layout_toRightOf="@+id/rl_date_headView"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -69,7 +81,7 @@
         android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/headView"
+        android:layout_below="@+id/rl_date_headView"
         android:layout_marginTop="@dimen/margin_10"
         android:layout_marginBottom="@dimen/margin_5"
         android:orientation="vertical">
@@ -96,8 +108,6 @@
             android:text="-----------------"
             android:textColor="@color/color_333333"
             android:textSize="15sp" />
-        <!--android:ellipsize="end"-->
-        <!--android:maxLines="3"-->
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"

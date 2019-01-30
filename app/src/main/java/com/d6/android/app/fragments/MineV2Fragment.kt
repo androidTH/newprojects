@@ -24,10 +24,7 @@ import com.d6.android.app.adapters.MySquareAdapter
 import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.dialogs.MineActionDialog
-import com.d6.android.app.dialogs.OpenDatePayPointDialog
-import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
-import com.d6.android.app.dialogs.VistorPayPointDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
@@ -46,6 +43,7 @@ import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.imageURI
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -139,7 +137,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             startActivity<MyPointsActivity>("points" to headerView.tv_mypointscount.text)
         }
 
-        headerView.headView.setOnClickListener {
+        headerView.headview.setOnClickListener {
             mData?.let {
                 startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
             }
@@ -170,13 +168,14 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     //积分不足
                     if(msg.isNotEmpty()){
                         val jsonObject = JSONObject.parseObject(msg)
-                        var point = jsonObject.getIntValue("iAddPoint")
-                        var remainPoint = jsonObject.getString("iRemainPoint")
                         var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-                        val dateDialog = OpenDatePointNoEnoughDialog()
-                        showToast(sAddPointDesc)
-                        dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
-                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistors")
+//                        val dateDialog = OpenDatePointNoEnoughDialog()
+//                        dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
+//                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistors")
+
+                        var openErrorDialog = OpenDateErrorDialog()
+                        openErrorDialog.arguments = bundleOf("code" to 1000, "msg" to sAddPointDesc)
+                        openErrorDialog.show((context as BaseActivity).supportFragmentManager, "publishfindDateActivity")
                     }
                 }else{
                     showToast(msg)
@@ -264,62 +263,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     override fun onResume() {
         super.onResume()
         getUserInfo()
-//        getUnReadCount()
         getUserFollowAndFansandVistor()
     }
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             immersionBar.init()
-        }
-    }
-
-    private fun getUnReadCount() {
-        RongIM.getInstance().getUnreadCount(object : RongIMClient.ResultCallback<Int>() {
-            override fun onSuccess(p0: Int?) {
-                p0?.let {
-                    if (p0 > 0) {
-//                        tv_msg_count1.visible()
-//                        headerView.tv_msg_count.visibility = View.VISIBLE
-//                        headerView.tv_msg_count.text = "$p0"
-                    } else {
-//                        tv_msg_count1.gone()
-//                        headerView.tv_msg_count.gone()
-                        getSysLastOne()
-                    }
-                }
-            }
-
-            override fun onError(p0: RongIMClient.ErrorCode?) {
-
-            }
-
-        }, Conversation.ConversationType.PRIVATE)
-    }
-
-
-    private fun getSysLastOne() {
-        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
-                //无数据
-//                tv_msg_count1.gone()
-//                headerView.tv_msg_count.gone()
-                getSquareMsg()
-            } else {
-                if ((data.count ?:0)> 0) {
-//                    tv_msg_count1.visible()
-//                    headerView.tv_msg_count.visible()
-//                    headerView.tv_msg_count.text = data.count.toString()
-                } else {
-                    getSquareMsg()
-                }
-
-            }
-
-        }) { _, _ ->
-            getSquareMsg()
         }
     }
 
@@ -386,7 +335,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 RongIM.getInstance().refreshUserInfoCache(info)
                 updateCache(it)
                 headerView.iv_bg.showBlur(it.picUrl)
-                headerView.headView.setImageURI(it.picUrl)
+                headerView.headview.setImageURI(it.picUrl)
                 headerView.tv_nick.text = it.name
                 tv_title_nick.text = it.name
                 if(!TextUtils.isEmpty(it.intro)){
@@ -405,14 +354,26 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
-
-                if(TextUtils.equals("0",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
+                if(TextUtils.equals("0",mData!!.screen)|| mData!!.screen.isNullOrEmpty()){
+                    if(TextUtils.equals("7",mData!!.userclassesid)){
+                        headerView.tv_auther_sign.visibility = View.VISIBLE
+                    }else{
+                        headerView.tv_auther_sign.visibility = View.GONE
+                    }
+                    headerView.img_auther.visibility = View.GONE
+                }else if(TextUtils.equals("1",mData!!.screen)){
+                    headerView.img_auther.setImageResource(R.mipmap.girl_center_videoborder)
+                    headerView.img_auther.visibility = View.VISIBLE
+                    headerView.tv_auther_sign.visibility = View.GONE
+                }else if(TextUtils.equals("3",mData!!.screen)){
+                    headerView.tv_auther_sign.visibility = View.GONE
+                    headerView.img_auther.visibility = View.GONE
+                    headerView.img_auther.setImageResource(R.mipmap.small_authentication)
+                }else{
                     headerView.tv_auther_sign.visibility = View.VISIBLE
                     headerView.img_auther.visibility = View.GONE
-                }else{
-                    headerView.tv_auther_sign.visibility = View.GONE
-                    headerView.img_auther.visibility = View.VISIBLE
                 }
+
                 headerView.tv_vip.text = String.format("%s", it.classesname)
 
                 mTags.clear()

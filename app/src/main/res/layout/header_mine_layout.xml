@@ -19,36 +19,36 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="-10dp"
         android:background="#33000000" />
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/headView"
-        style="@style/DefaultCircleHeadStyle"
+    <RelativeLayout
+        android:id="@+id/rl_headview"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="64dp" />
+        android:layout_marginTop="64dp"
+        android:layout_marginRight="6dp">
 
-    <ImageView
-        android:id="@+id/img_auther"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_below="@+id/tv_signature"
-        android:layout_marginRight="@dimen/margin_8"
-        android:layout_marginTop="-10dp"
-        android:layout_toLeftOf="@+id/tv_signature"
-        android:background="@drawable/shape_auther_bg"
-        android:padding="3dp"
-        android:src="@mipmap/memberorder_icon_white" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/headview"
+            style="@style/DefaultCircleHeadStyle"
+            android:layout_width="64dp"
+            android:layout_height="64dp"/>
+        <ImageView
+            android:id="@+id/img_auther"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_16"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/small_authentication"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_nick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/headView"
+        android:layout_alignTop="@+id/rl_headview"
         android:layout_marginRight="8dp"
         android:layout_marginTop="6dp"
-        android:layout_toRightOf="@+id/headView"
+        android:layout_toRightOf="@+id/rl_headview"
         android:maxWidth="88dp"
         android:singleLine="true"
         android:textColor="@color/white"
@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_nick"
         android:layout_marginTop="12dp"
-        android:layout_toRightOf="@+id/headView"
+        android:layout_toRightOf="@+id/rl_headview"
         android:ellipsize="end"
         android:maxLines="3"
         android:paddingBottom="@dimen/margin_5"
@@ -104,16 +104,16 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_below="@+id/tv_signature"
-        android:layout_toRightOf="@+id/headView"
+        android:layout_toRightOf="@+id/rl_headview"
         android:background="@drawable/shape_auther_sign_gray"
-        android:drawableLeft="@mipmap/memberorder_icon_gold"
+        android:drawableLeft="@mipmap/video_small_authentication_icon"
         android:drawablePadding="@dimen/margin_5"
         android:gravity="center"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
         android:text="@string/user_no_auther"
-        android:textColor="@color/color_F7AB00"
-        android:textSize="12dp" />
+        android:textColor="@color/white"
+        android:textSize="11dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_my_images"

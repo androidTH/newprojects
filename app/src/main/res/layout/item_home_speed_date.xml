@@ -14,40 +14,41 @@
             android:id="@+id/imageView"
             android:layout_width="120dp"
             android:layout_height="120dp" />
-
+<!--android:background="@drawable/shape_4r_56"-->
         <TextView
             android:id="@+id/tv_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/shape_4r_56"
+            android:background="@drawable/shape_4r_orange"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_3"
             android:gravity="center_vertical"
-            android:paddingLeft="6dp"
+            android:paddingLeft="@dimen/margin_5"
             android:paddingTop="3dp"
-            android:paddingRight="6dp"
+            android:paddingRight="@dimen/margin_5"
             android:paddingBottom="3dp"
             android:text="救火"
             android:textColor="@color/white"
-            android:textSize="11sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_auth_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/shape_4r_orange"
             android:layout_marginRight="@dimen/margin_5"
             android:layout_marginTop="100dp"
-            android:drawableLeft="@drawable/auth_selector"
-            android:drawablePadding="@dimen/margin_3"
+            android:background="@drawable/shape_10r_8e"
+            android:drawableLeft="@mipmap/small_authentication"
+            android:drawablePadding="@dimen/margin_2"
+            android:textColor="@color/white"
             android:paddingLeft="@dimen/margin_5"
             android:paddingTop="@dimen/margin_2"
             android:paddingRight="@dimen/margin_5"
             android:paddingBottom="@dimen/margin_2"
-            android:text="已认证"
-            android:textColor="@color/white"
             android:textSize="10sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_auth_level"
@@ -55,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="100dp"
-            android:background="@drawable/shape_4r_orange"
+            android:background="@drawable/shape_10r_8e"
             android:layout_marginRight="@dimen/margin_5"
             android:drawablePadding="@dimen/margin_1"
             android:paddingLeft="@dimen/margin_5"
@@ -65,7 +66,7 @@
             android:text="黄金会员"
             android:textColor="@color/white"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/ll_name"

@@ -1,6 +1,7 @@
 package com.d6.android.app.adapters
 
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import android.widget.LinearLayout
@@ -56,15 +57,17 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
             tv_audio_auth.visibility = View.VISIBLE
             tv_audio_level.visibility = View.GONE
             if (TextUtils.equals("1", data.screen)) {
-                tv_audio_auth.isSelected = true
                 tv_audio_auth.text = "视频认证"
+                var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.video_small_authentication_icon)
+                drawable.setBounds(0,0,  drawable.getMinimumWidth(), drawable.getMinimumHeight())//这句一定要加
+                tv_audio_auth.setCompoundDrawables(drawable,null,null,null);
             } else if(TextUtils.equals("0", data.screen)){
                 tv_audio_auth.visibility = View.GONE
-//                tv_audio_auth.isSelected = false
-//                tv_audio_auth.text = "未认证"
             }else if(TextUtils.equals("3",data.screen)){
-                tv_audio_auth.isSelected = false
                 tv_audio_auth.text = "已认证"
+                var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.small_authentication_icon)
+                drawable.setBounds(0, 0,  drawable.getMinimumWidth(), drawable.getMinimumHeight())//这句一定要加
+                tv_audio_auth.setCompoundDrawables(drawable,null,null,null);
             }
         }else{
             tv_audio_auth.visibility = View.GONE

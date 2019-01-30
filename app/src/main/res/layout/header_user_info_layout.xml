@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
@@ -21,34 +22,39 @@
         android:layout_marginBottom="-8dp"
         android:background="#33000000" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/headView"
-        style="@style/DefaultCircleHeadStyle"
+    <RelativeLayout
+        android:id="@+id/rl_headView"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="64dp"
-        android:layout_marginRight="6dp" />
-    <ImageView
-        android:id="@+id/img_other_auther"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_below="@+id/headView"
-        android:layout_marginTop="-20dp"
-        android:layout_marginLeft="64dp"
-        android:background="@drawable/shape_auther_bg"
-        android:padding="3dp"
-        android:visibility="visible"
-        android:src="@mipmap/memberorder_icon_white" />
+        android:layout_marginRight="6dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/headView"
+            style="@style/DefaultCircleHeadStyle"
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
+        <!--android:background="@drawable/shape_auther_bg"-->
+        <ImageView
+            android:id="@+id/img_other_auther"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_15"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/girl_center_videoborder"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/tv_nick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/headView"
+        android:layout_alignTop="@+id/rl_headView"
         android:layout_marginLeft="@dimen/margin_8"
         android:layout_marginTop="4dp"
-        android:layout_marginRight="8dp"
-        android:layout_toRightOf="@+id/headView"
+        android:layout_marginRight="@dimen/margin_5"
+        android:layout_toRightOf="@+id/rl_headView"
         android:maxWidth="88dp"
         android:singleLine="true"
         android:textColor="@color/white"
@@ -89,7 +95,7 @@
         android:layout_below="@+id/tv_nick"
         android:layout_marginLeft="@dimen/margin_8"
         android:layout_marginTop="@dimen/margin_8"
-        android:layout_toRightOf="@+id/headView"
+        android:layout_toRightOf="@+id/rl_headView"
         android:ellipsize="end"
         android:maxLines="3"
         android:layout_marginBottom="@dimen/margin_3"
@@ -102,15 +108,15 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_below="@+id/tv_signature"
-        android:layout_toRightOf="@+id/headView"
+        android:layout_toRightOf="@+id/rl_headView"
         android:background="@drawable/shape_auther_sign_gray"
-        android:drawableLeft="@mipmap/memberorder_icon_gold"
+        android:drawableLeft="@mipmap/authentication_videoicon"
         android:drawablePadding="@dimen/margin_5"
         android:gravity="center"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
         android:text="@string/user_no_auther"
-        android:textColor="@color/color_F7AB00"
+        android:textColor="@color/white"
         android:visibility="invisible"
         android:textSize="12dp" />
 

@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -10,8 +11,10 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.models.MyDate
+import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.facebook.drawee.view.SimpleDraweeView
+import kotlinx.android.synthetic.main.activity_user_info_v2.*
 
 /**
  * jinjiarui
@@ -55,15 +58,17 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
             tv_audio_auth.visibility = View.VISIBLE
             tv_audio_level.visibility = View.GONE
             if (TextUtils.equals("1", data.screen)) {
-                tv_audio_auth.isSelected = true
                 tv_audio_auth.text = "视频认证"
+                var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.video_small_authentication_icon)
+                drawable.setBounds(0, 0,drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+                tv_audio_auth.setCompoundDrawables(drawable,null,null,null);
             } else if(TextUtils.equals("0", data.screen)){
-//                tv_audio_auth.isSelected = false
-//                tv_audio_auth.text = "未认证"
                 tv_audio_auth.visibility = View.GONE
             }else if(TextUtils.equals("3",data.screen)){
-                tv_audio_auth.isSelected = false
                 tv_audio_auth.text = "已认证"
+                var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.small_authentication_icon)
+                drawable.setBounds(0,0, drawable.getMinimumWidth(), drawable.getMinimumHeight())//这句一定要加
+                tv_audio_auth.setCompoundDrawables(drawable,null,null,null);
             }
         }else{
             tv_audio_auth.visibility = View.GONE

@@ -81,6 +81,9 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
         }else if(code == 2){
             tv_date_send_fail.text = getString(R.string.senddatepointlow)
             tv_tishi_point.text = arguments.getString("msg")
+        }else{
+            tv_date_send_fail.text = getString(R.string.vistorpointlow)
+            tv_tishi_point.text = arguments.getString("msg")
         }
     }
 

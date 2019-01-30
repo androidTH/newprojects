@@ -132,7 +132,6 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
                 it.onDelete(myAppointment)
             }
         }
-
     }
 
     public fun sendDateListener(action:(myAppointment: MyAppointment)->Unit) {

@@ -313,18 +313,31 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (TextUtils.equals("0", it.sex)) {
                     headerView.tv_vip.visibility = View.INVISIBLE
-                    if(TextUtils.equals("0",it.screen) || it.screen.isNullOrEmpty()){
+                    if(TextUtils.equals("0",it.screen)||TextUtils.equals("3",it.screen) || it.screen.isNullOrEmpty()){
                         headerView.img_other_auther.visibility = View.GONE
-                    }else{
+                        headerView.img_date_auther.visibility = View.GONE
+                        if(TextUtils.equals("3",it.screen)){
+                            headerView.tv_other_auther_sign.visibility = View.GONE
+                        }else{
+                            headerView.tv_other_auther_sign.visibility = View.VISIBLE
+                        }
+                    }else if(TextUtils.equals("1", data.screen)){
                         headerView.img_other_auther.visibility = View.VISIBLE
+                        headerView.img_date_auther.visibility = View.VISIBLE
+                        headerView.tv_other_auther_sign.visibility = View.GONE
                     }
                 } else {
                     headerView.img_other_auther.visibility = View.GONE
+                    headerView.img_date_auther.visibility = View.GONE
                     headerView.tv_vip.visibility = View.VISIBLE
                 }
 
                 headerView.img_other_auther.setOnClickListener {
                     toast(getString(R.string.string_auth))
+                }
+
+                headerView.tv_other_auther_sign.setOnClickListener {
+                    startActivity<DateAuthStateActivity>()
                 }
 
                 headerView.tv_vip.text = String.format("%s", it.classesname)
