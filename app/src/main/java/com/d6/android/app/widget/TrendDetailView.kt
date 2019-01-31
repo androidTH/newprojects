@@ -44,6 +44,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                 context.startActivity<UserInfoActivity>("id" to id)
             }
         }
+        tv_redflower.setOnClickListener {
+            square?.let {
+                sendFlowerClick?.onSendFlowerClick(it)
+            }
+        }
     }
 
     fun update(square: Square) {
@@ -93,6 +98,19 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         } else {
             ""
         }
+
+        tv_redflower.text = if((square.iFlowerCount?:0)>0){
+            square.iFlowerCount.toString()
+        }else{
+            ""
+        }
+
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+            true
+        } else {
+            false
+        }
+
         if (!square.classesName.isNullOrEmpty()) {
             tv_tag.text = String.format("#%s#",square.classesName)
         } else {
@@ -108,6 +126,19 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    fun updateFlowerCount(square: Square){
+        tv_redflower.text = if((square.iFlowerCount?:0)>0){
+            square.iFlowerCount.toString()
+        }else{
+            ""
+        }
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+            true
+        } else {
+            false
+        }
+    }
+
     fun setPraiseClick(action:(square:Square)->Unit){
         this.action = object : Action{
             override fun onPraiseClick(square: Square) {
@@ -115,9 +146,23 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
     }
+
+    fun setOnSendFlowerClick(sendFlowerClick:(square:Square)->Unit){
+        this.sendFlowerClick = object :DoSendFlowerClick{
+            override fun onSendFlowerClick(square: Square) {
+                sendFlowerClick(square)
+            }
+        }
+    }
+
     private var action:Action?=null
+    private var sendFlowerClick:DoSendFlowerClick?=null
 
     interface Action{
         fun onPraiseClick(square: Square)
+    }
+
+    interface DoSendFlowerClick{
+        fun onSendFlowerClick(square:Square)
     }
 }

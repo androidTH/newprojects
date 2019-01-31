@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.net.API
+import com.d6.android.app.utils.getD6VersionName
 import kotlinx.android.synthetic.main.activity_about_us_main.*
 import org.jetbrains.anko.startActivity
 
@@ -32,5 +33,7 @@ class AboutUsMainActivity : TitleActivity() {
             val business = API.STATIC_BASE_URL+"shangwuhezuo?header=0"
             startActivity<WebViewActivity>("title" to "商务合作","url" to business)
         }
+
+        tv_versionname.text = getD6VersionName(this)
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
@@ -75,6 +76,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                         deleteAction?.onDelete(it)
                     }
                 }
+                tv_redflower.setOnClickListener {
+                    square?.let {
+                        SendFlowerAction?.onSendFlowerClick(it)
+                    }
+                }
+
             }
 
     /**
@@ -131,7 +138,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
         }
         imageAdapter.notifyDataSetChanged()
-
         tv_appraise.isSelected = TextUtils.equals(square.isupvote,"1")
         tv_comment.text = if ((square.commentCount?:0) > 0) {
             square.commentCount.toString()
@@ -143,12 +149,19 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         } else {
             ""
         }
-//        if (!square.classesName.isNullOrEmpty()) {
-//            tv_tag.text = String.format("#%s#",square.classesName)
-//        } else {
-//            tv_tag.text = ""
-//        }
-//
+
+        tv_redflower.text = if((square.iFlowerCount?:0)>0){
+           square.iFlowerCount.toString()
+        }else{
+            ""
+        }
+
+        //iIsSendFlower 大于0送过花，等于0没送过
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+            true
+        } else {
+            false
+        }
         square.commentCount?.let {
             if (it > 0) {
                 ll_comments.visible()
@@ -178,6 +191,15 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     fun hide(@IdRes viewIdRes: Int) {
         find<View>(viewIdRes).gone()
     }
+
+    fun sendFlowerClick(flowerAction:(square:Square)->Unit){
+        this.SendFlowerAction = object :SendFlowerClickListener{
+            override fun onSendFlowerClick(square: Square) {
+                flowerAction(square)
+            }
+        }
+    }
+
     fun setPraiseClick(action:(square:Square)->Unit){
         this.action = object : PraiseClickListener{
             override fun onPraiseClick(square: Square) {
@@ -204,6 +226,11 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private var action:PraiseClickListener?=null
     private var deleteAction:DeleteClick?=null
     private var onItemClick:OnItemClick?=null
+    private var SendFlowerAction:SendFlowerClickListener?=null
+
+    interface SendFlowerClickListener{
+        fun onSendFlowerClick(square: Square)
+    }
 
     interface PraiseClickListener{
         fun onPraiseClick(square: Square)

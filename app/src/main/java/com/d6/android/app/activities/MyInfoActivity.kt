@@ -1,32 +1,34 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
+import android.widget.DatePicker
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
+import com.d6.android.app.models.City
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.BitmapUtils
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.sysErr
+import com.d6.android.app.utils.*
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_my_info.*
+import okhttp3.internal.Util
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 import java.io.File
+import java.util.*
 
 /**
  *我的个人信息
@@ -51,6 +53,7 @@ class MyInfoActivity : BaseActivity() {
 
     private var sex: String = "1"
     private var headFilePath: String? = null
+    private var calendar = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_info)
@@ -97,19 +100,7 @@ class MyInfoActivity : BaseActivity() {
         }
 
         tv_sex1.setOnClickListener {
-//            val sexDialog = SelectSexDialog()
-//            val b = Bundle()
-//            if (sex.isNullOrEmpty()) {
-//                sex = "1"
-//            }
-//            b.putInt("sex", sex.toInt())
-//            sexDialog.arguments = b
-//            sexDialog.setDialogListener { p, s ->
-//                sex = p.toString()
-//                tv_sex1.text = s
-//            }
-//            sexDialog.show(supportFragmentManager, "sex")
-            startActivityForResult<SexChooseActivity>(SEX_REQUEST_CODE)
+//            startActivityForResult<SexChooseActivity>(SEX_REQUEST_CODE)
         }
 
         tv_birthday1.setOnClickListener {
@@ -117,10 +108,29 @@ class MyInfoActivity : BaseActivity() {
             datePickDialog.show(supportFragmentManager,"date")
             datePickDialog.setOnDateSetListener { year, month, day ->
                 datePickDialog.dismissAllowingStateLoss()
-                val t = String.format("%04d-%02d-%02d",year,month,day)
-                tv_birthday1.text = t
-                userData.birthday = String.format("%04d-%02d-%02d",year,month,day)
+                val mYear = calendar.get(Calendar.YEAR)
+                if(mYear-year<16){
+                     showToast("生日选择不能小于16岁")
+                }else{
+                    val t = String.format("%04d-%02d-%02d", year, month, day)
+                    tv_birthday1.text = t
+                    userData.birthday = String.format("%04d-%02d-%02d", year, month, day)
+                    tv_constellation1.text = getConstellations("$year-$month-$day")
+                }
             }
+
+//            val calendar = Calendar.getInstance()
+//            val dialog = DatePickerDialog(this@MyInfoActivity,
+//                    DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+//                        calendar.set(Calendar.YEAR, year)
+//                        calendar.set(Calendar.MONTH, month)
+//                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+////                            mTvBirthDay.setText(year.toString() + "-" + month + "-" + dayOfMonth)
+//                    },
+//                    calendar.get(Calendar.YEAR),
+//                    calendar.get(Calendar.MONTH),
+//                    calendar.get(Calendar.DAY_OF_MONTH))
+//            dialog.show()
         }
 
         tv_height1.setOnClickListener {
@@ -190,6 +200,8 @@ class MyInfoActivity : BaseActivity() {
         tv_hobbit1.setText(userData.hobbit)
         tv_constellation1.text = userData.constellation
         tv_intro1.setText(userData.intro)
+        et_zuojia.setText(userData.zuojia)
+        tv_inputaddress.text = userData.city
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -236,7 +248,6 @@ class MyInfoActivity : BaseActivity() {
             }else if(requestCode == AREA_REQUEST_CODE){
                 var area = data!!.getStringExtra("area")
                 tv_inputaddress.text = area
-                userData.city = area
             }
         }
     }
@@ -285,10 +296,10 @@ class MyInfoActivity : BaseActivity() {
 //        val signature = tv_signature1.text.toString().trim()
         val constellation = tv_constellation1.text.toString().trim()
         val intro = tv_intro1.text.toString().trim()
+        var zuojia = et_zuojia.text.toString().trim()
+
         userData.name = nick
         userData.sex = sex
-//        userData.city = city
-//        userData.area = area
         userData.hobbit = hobbit
         userData.job = job
 //        userData.age = age
@@ -298,11 +309,17 @@ class MyInfoActivity : BaseActivity() {
         userData.constellation = constellation
         userData.intro = intro
         userData.userId = SPUtils.instance().getString(Const.User.USER_ID)
+        userData.zuojia = zuojia
+        userData.city = tv_inputaddress.text.toString().trim()
         dialog()
         if (headFilePath == null) {
-            Request.updateUserInfo(userData).request(this) { msg, _ ->
+            Request.updateUserInfo(userData).request(this) { msg, data ->
                 showToast(msg.toString())
-                setResult(Activity.RESULT_OK)
+                var updateIntent = Intent()
+                var bd= Bundle()
+                bd.putSerializable("userinfo",data)
+                updateIntent.putExtras(bd)
+                setResult(Activity.RESULT_OK,updateIntent)
                 finish()
             }
         } else {

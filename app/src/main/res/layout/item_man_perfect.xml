@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/man_perfect_headView"
+        style="@style/DefaultCircleHeadStyle"
+        android:layout_width="77dp"
+        android:layout_height="79dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="@dimen/margin_15" />
+
+    <TextView
+        android:id="@+id/tv_man_perfect_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/man_perfect_headView"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/man_perfect_headView"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="-----"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/textSize_15"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_man_pecfect_age"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_alignTop="@+id/man_perfect_headView"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_toRightOf="@+id/tv_man_perfect_name"
+        android:background="@drawable/ic_sex_circle_bg_selector"
+        android:drawableLeft="@drawable/sex_white_selector"
+        android:drawablePadding="1dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="0"
+        android:textColor="@color/white"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/tv_man_perfect_vip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/man_perfect_headView"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_toRightOf="@+id/tv_man_pecfect_age"
+        android:background="@drawable/shape_4r_orange"
+        android:drawableLeft="@mipmap/memberorder_icon_white"
+        android:drawablePadding="@dimen/margin_2"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:text="白银"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/ll_vistorfollownums"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_man_perfect_name"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_toRightOf="@+id/man_perfect_headView"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_man_pecfert_vistor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_10"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_vistor_man_pecfert_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textColor="@color/color_888888"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_vistor_man_pecfert_count"
+                android:text="访客"
+                android:textColor="@color/color_888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_man_pecfert_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_toEndOf="@+id/ll_man_pecfert_vistor"
+            android:layout_toRightOf="@+id/ll_man_pecfert_vistor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_like_man_pecfert_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8"
+                android:textColor="@color/color_888888"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_like_man_pecfert_count"
+                android:layout_alignLeft="@+id/tv_like_man_pecfert_count"
+                android:text="喜欢"
+                android:textColor="@color/color_888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_man_pecfect_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/man_perfect_headView"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="---"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/textSize15" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_mydate_man_pecfect_images"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_below="@+id/tv_man_pecfect_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginBottom="6dp"
+        android:minHeight="66dp"
+        android:visibility="visible"
+        android:paddingLeft="@dimen/margin_20"
+        android:paddingRight="@dimen/margin_16" />
+
+    <View
+        android:id="@+id/noimg_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/tv_man_pecfect_content"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_30"
+        android:layout_marginRight="@dimen/margin_15"
+        android:background="@color/color_DFE1E5"
+        android:visibility="gone" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_mydate_man_pecfect_tags"
+        android:layout_below="@+id/tv_man_pecfect_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_70"
+        android:paddingLeft="@dimen/margin_12" />
+
+    <TextView
+        android:id="@+id/tv_man_pecfect_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rv_mydate_man_pecfect_tags"
+        android:layout_marginLeft="@dimen/margin_22"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginRight="@dimen/margin_25"
+        android:drawableLeft="@mipmap/boy_profession_icon"
+        android:drawablePadding="@dimen/margin_5"
+        android:text="职业 "
+        android:textColor="@color/color_999999"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_man_pecfect_zuojia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_man_pecfect_job"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_25"
+        android:drawableLeft="@mipmap/boy_car_icon"
+        android:drawablePadding="@dimen/margin_5"
+        android:text="座驾"
+        android:textColor="@color/color_999999"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_man_pecfect_aihao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_man_pecfect_zuojia"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_25"
+        android:drawableLeft="@mipmap/boy_hobby_icon"
+        android:drawablePadding="@dimen/margin_5"
+        android:text="职业 "
+        android:textColor="@color/color_999999"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_perfect_manuserinfo"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_orange_e6"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_30"
+            android:text="你的资料太少了,被人无情的跳过"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv01"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="完善你的资料,可获得更多异性青睐哦"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_perfect_userinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv02"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_15"
+            android:background="@drawable/shape_20r_white"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5"
+            android:text="去完善"
+            android:textColor="@color/color_F7AB00" />
+    </RelativeLayout>
+</RelativeLayout>

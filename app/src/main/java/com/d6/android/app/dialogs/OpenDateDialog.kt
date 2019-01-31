@@ -62,7 +62,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myAppointment = if (arguments != null) {
-            arguments.getParcelable("data") as MyAppointment
+            arguments.getSerializable("data") as MyAppointment
         } else {
             MyAppointment()
         }

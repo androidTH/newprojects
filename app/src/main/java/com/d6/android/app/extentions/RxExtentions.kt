@@ -46,7 +46,9 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 is JsonSyntaxException -> {
                     msg = Error.PARSER_ERROR
                 }
-                is ConnectException -> msg = Error.NET_ERROR
+                is ConnectException -> {
+                    msg = Error.NET_ERROR
+                }
 //                is SocketTimeoutException -> msg = Error.NET_ERROR
                 is HttpException -> {
                     msg = Error.SERVER_ERROR
@@ -70,6 +72,8 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                                 }
                             }
                         }
+                    }else if(tCode == 404){
+                        msg = Error.SERVER_404ERROR
                     }else if (tCode == -3) {//账号已禁用
                         if (requestManager is BaseActivity) {
                             val confirmDialog = ConfirmDialog()
@@ -101,11 +105,10 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
 
         override fun onNext(t: I) {
             requestManager.dismissDialog()
-            sysErr(t.toString()+"----data---->"+t.data)
             if (t.res == 1) {//成功
                 success(t.resMsg,t.data)
             } else {
-                if(t.data!=null){
+                if(t.data!=null&&t.data!="null"){
                     error(t.res, t.data.toString())
                     if (showToast) {
                         requestManager.showToast(t.resMsg.toString())

@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.activities.ImagePagerActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.utils.screenWidth

@@ -20,7 +20,6 @@ data class FindDate(var accountId:String?="") :Parcelable {
         var email:String=""
         var createTime:String=""
         var updateTime= null
-        var lastlogintime = null
         var apptoken=null
         var deviceToken = null
         var logintype = null

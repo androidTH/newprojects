@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
@@ -31,6 +32,8 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.CustomToast.showToast
+import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
 import com.google.gson.JsonObject
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -40,6 +43,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import org.jetbrains.anko.*
 import java.io.File
+import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -105,6 +109,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_CLASS_ID, obj.userclassesid)
             .put(Const.User.USER_SEX, obj.sex)
             .put(Const.User.USER_SCREENID, obj.screen)
+            .put(Const.User.USER_DATACOMPLETION, obj.iDatacompletion)
 //            .put(Const.User.IS_LOGIN, true)
             .apply()
 }
@@ -297,10 +302,25 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
     }
 }
 
+inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String, crossinline next: () -> Unit) {
+    Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
+            data?.let {
+                if(it.screen=="0"&&it.userclassesid=="7"){
+//                    SPUtils.instance().put(Const.User.USER_CLASS_ID,it.userclassesid).apply()
+//                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
+                    this.startActivity<DateAuthStateActivity>()
+                }else{
+                    next()
+                }
+            }
+    })
+}
+
 inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7") {
-        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
+        CustomToast.showToast("联系微信客服开通会员可获得更多聊天机会哦～")
+//        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
     } else {
         next()
     }
@@ -309,6 +329,15 @@ inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
 inline fun Activity.doAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7") {
+        this.startActivity<DateAuthStateActivity>()
+    } else {
+        next()
+    }
+}
+
+
+inline fun Activity.checkUserAuthUser(userclassId:String,next: () -> Unit) {
+    if (userclassId == "7") {
         this.startActivity<UnAuthUserActivity>()
     } else {
         next()
@@ -464,4 +493,52 @@ fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
     } else if(!TextUtils.isEmpty(desc)){
         CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
     }
+}
+
+/**
+ * 获得版本名称
+ *
+ * @return
+ */
+fun getD6VersionName(context: Context): String {
+    var versionName = "1.6.1"
+    try {
+        val info = context.packageManager.getPackageInfo(
+                context.packageName, 0)
+        versionName = info.versionName
+
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    }
+
+    return versionName
+}
+
+/**
+ * 日期匹配星座
+ */
+ fun getConstellations(time:String):String{
+    val astrologyArray = arrayOf("魔羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "魔羯座")
+   //星座分割时间
+    var date= intArrayOf(20,19,21,20,21,22,23,23,23,24,23,22)
+    var data = time.split("-")
+    var month = Integer.parseInt(data[1])
+    var compareDay = date[month - 1]
+    if (Integer.parseInt(data[2]) >= compareDay) {
+        return astrologyArray[month]
+    } else {
+        return astrologyArray[month - 1]
+    }
+}
+
+fun getDiskLruCacheHelper(context: Context): DiskLruCacheHelper? {
+    var mDiskLruCacheHelper: DiskLruCacheHelper?=null
+    try {
+        mDiskLruCacheHelper = DiskLruCacheHelper(context)
+        mDiskLruCacheHelper = mDiskLruCacheHelper
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
+
+    return mDiskLruCacheHelper
 }

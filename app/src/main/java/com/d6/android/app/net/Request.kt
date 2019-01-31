@@ -11,6 +11,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
+import retrofit2.http.POST
 import retrofit2.http.Query
 import java.io.File
 
@@ -41,7 +42,9 @@ object Request {
                     }
                 }, BackpressureStrategy.DROP).subscribeOn(Schedulers.io())
             } else {
-                Flowable.error { ResultException(it.resMsg) }
+                Flowable.error {
+                    ResultException(it.resMsg)
+                }
             }
         }
     }
@@ -110,8 +113,8 @@ object Request {
     /**
      * 广场评论
      */
-    fun getCommentList(id: String, pageNum: Int) =
-            RRetrofit.instance().create(ApiServices::class.java).getCommentList(id, pageNum)
+    fun getCommentList(userId: String,id: String, pageNum: Int) =
+            RRetrofit.instance().create(ApiServices::class.java).getCommentList(userId,id, pageNum)
 
     /**
      * 获取个人信息
@@ -193,6 +196,12 @@ object Request {
 
     fun getCities(paramKey: String) =
             RRetrofit.instance().create(ApiServices::class.java).getCities(paramKey)
+
+    fun getProvince(isShow:Int=1) =
+            RRetrofit.instance().create(ApiServices::class.java).getProvince(isShow)
+
+    fun getProvinceAll() =
+            RRetrofit.instance().create(ApiServices::class.java).getProvinceAll()
 
     fun resetPwdFirstStep(phone: String, code: String) =
             RRetrofit.instance().create(ApiServices::class.java).resetPwdFirstStep(phone, code)
@@ -336,10 +345,12 @@ object Request {
     fun updateUserPosition(iUserid:String,sPosition:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sPosition)
 
     //发现约会
-    fun findAccountCardListPage(userId:String,sPosition:String,sCity:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sPosition,sCity,pageNum)
+    fun findAccountCardListPage(userId:String,sCity:String,
+                                sex:String,xingzuo:String,agemin:String,agemax:String,lat:String,lon:String
+                                ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,xingzuo,agemin,agemax,lat,lon,pageNum)
 
     //绑定手机号
-    fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken)
+    fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken,sWxName,sWxpic)
 
     //赠送积分
     fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)
@@ -353,4 +364,42 @@ object Request {
 
     //是否允许聊天
     fun doTalkJustify(iFromUserid:String,iToUserid:String) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustify(iFromUserid,iToUserid)
+    //获取小红花列表
+    fun getUserFlower()=RRetrofit.instance().create(ApiServices::class.java).getUserFlowerRule()
+
+    //绑定微信号
+    fun doBindWxId(iUserid: String,wxid:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).doBindWxId(iUserid,wxid,sWxName,sWxpic)
+
+    //大赏用户红花
+    fun sendFlowerByOrderId(iUserid:String,iReceiveUserid:String,sOrderid:String,sResourceid:String)=RRetrofit.instance().create(ApiServices::class.java).sendFlowerByOrderId(iUserid,iReceiveUserid,sOrderid,sResourceid)
+
+    //提现
+    fun doCashMoney(iUserid:String,iFlowerCount:String)=RRetrofit.instance().create(ApiServices::class.java).doCashMoney(iUserid,iFlowerCount)
+
+    //修改聊天设置接口
+    fun updateTalkSetting(iUserid:String,iTalkSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateTalkSetting(iUserid,iTalkSetting)
+
+    //新的私聊接口
+    fun doTalkJustifyNew(iFromUserid:String,iToUserid:String) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustifyNew(iFromUserid,iToUserid)
+
+    //申请私聊接口
+    fun doApplyPrivateChat(iFromUserid:String, iToUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doApplyPrivateChat(iFromUserid,iToUserId)
+
+    //同意或拒绝私聊接口
+    fun doUpdatePrivateChatStatus(iFromUserid:String,iToUserid:String,iStatus:String)=RRetrofit.instance().create(ApiServices::class.java).doUpdatePrivateChatStatus(iFromUserid,iToUserid,iStatus)
+
+     //获取与当前用户的私聊状态
+    fun getApplyStatus(iFromUserid:String,iToUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid)
+
+    //获取用户信息接口
+    fun getUserInfoDetail(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserInfoDetail(iUserid)
+
+    //判断是否允许发布约会接口
+    fun getAppointmentAuth(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAppointmentAuth(iUserid)
+
+    //判断是否有查看访客权限
+    fun getVistorAuth(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorAuth(iUserid)
+
+    ///支付查看访客积分
+    fun getVistorPayPoint(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorPayPoint(iUserid)
 }

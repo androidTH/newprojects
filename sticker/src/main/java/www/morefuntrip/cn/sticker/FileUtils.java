@@ -90,7 +90,6 @@ public class FileUtils {
 		return null;
    	}
 
-
 	public static long getFileSize(File file) throws Exception {
 		long size = 0;
 		if (file.exists()) {
@@ -102,10 +101,4 @@ public class FileUtils {
 		}
 		return size;
 	}
-
-
-
-
-
-
 }

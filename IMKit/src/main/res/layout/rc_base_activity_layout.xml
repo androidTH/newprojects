@@ -16,17 +16,16 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_centerVertical="true"
-            android:paddingLeft="12dp"
             android:background="@drawable/rc_selector_title_back_press"
             android:drawableLeft="@drawable/rc_back_icon"
             android:singleLine="true" />
 
-        <!--<View-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="24dp"-->
-            <!--android:layout_marginBottom="12dp"-->
-            <!--android:layout_marginTop="12dp"-->
-            <!--android:background="#0083e0" />-->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:background="#0083e0" />
 
         <TextView
             android:id="@+id/rc_action_bar_title"
@@ -36,8 +35,18 @@
             android:layout_weight="1"
             android:gravity="center_vertical|left"
             android:singleLine="true"
-            android:textColor="#333333"
+            android:textColor="#ffffff"
             android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/rc_search"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:src="@drawable/rc_search_icon" />
 
         <Button
             android:id="@+id/rc_action_bar_ok"
@@ -47,9 +56,9 @@
             android:background="@android:color/transparent"
             android:paddingRight="10dp"
             android:text="@string/rc_action_bar_ok"
-            android:textColor="#333333"
-            android:textSize="16sp"
-            android:visibility="visible" />
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ViewFlipper

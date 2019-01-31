@@ -32,6 +32,9 @@ interface ApiServices {
     @POST("backstage/account/find")
     fun getUserInfo(@Query("loginuserid") loginuserid:String,@Query("userid") accountId: String): Flowable<Response<UserData>>
 
+    @POST("backstage/account/findAccountDetail")
+    fun getUserInfoDetail(@Query("iUserid") accountId:String): Flowable<Response<UserData>>
+
     @POST("backstage/banner/findByPage")
     fun getBanners(@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("bannerkey") bannerkey: String="home"): Flowable<Response<Page<Banner>>>
 
@@ -40,7 +43,7 @@ interface ApiServices {
     fun getInfo(@Query("piecesMark") piecesMark: String = "1"): Flowable<Response<JsonObject>>
 
     @POST("backstage/account/update")
-    fun updateUserInfo(@Body userData: UserData): Flowable<Response<JsonObject>>
+    fun updateUserInfo(@Body userData: UserData): Flowable<Response<UserData>>
 
     @POST("backstage/squareclasses/find")
     fun getSquareTags(): Flowable<Response<ArrayList<SquareTag>>>
@@ -58,7 +61,7 @@ interface ApiServices {
     fun getSquareDetail(@Query("userid") userId: String, @Query("ids") ids: String?, @Query("limit") limit: Int = Request.PAGE_SIZE): Flowable<Response<Square>>
 
     @POST("backstage/comments/findByPage")
-    fun getCommentList(@Query("newsId") newsId: String, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<Comment>>>
+    fun getCommentList(@Query("userid") userId: String,@Query("newsId") newsId: String, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<Comment>>>
 
     @POST("backstage/opinions/add")
     fun feedback(@Query("userid") accountId: String, @Query("content") content: String): Flowable<Response<JsonObject>>
@@ -116,6 +119,12 @@ interface ApiServices {
 
     @POST("backstage/sysDict/findauto")
     fun getCities(@Query("paramKey") paramKey: String): Flowable<Response<ArrayList<City>>>
+
+    @POST("backstage/sysDict/findautoNew")
+    fun getProvince(@Query("isShow") isShow:Int): Flowable<Response<ArrayList<Province>>>
+
+    @POST("backstage/sysDict/findautoAll")
+    fun getProvinceAll(): Flowable<Response<ArrayList<Province>>>
 
     @POST("backstage/comments/findByPageguangchangxiaoxi")
     fun getSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int, @Query("createTime") createTime: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<SquareMessage>>>
@@ -228,7 +237,7 @@ interface ApiServices {
 
     //获取订单支付状态
     @POST("backstage/order/getOrderById")
-    fun getOrderById(@Query("sOrderid") sOrderid:String?):Flowable<JsonObject>
+    fun getOrderById(@Query("sOrderid") sOrderid:String?):Flowable<Response<JsonObject>>
 
     //发布约会
     @POST("backstage/appointment/add")
@@ -278,11 +287,14 @@ interface ApiServices {
 
     //发现约会
     @POST("backstage/account/findAccountCardListPage")
-    fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sPosition") sPosition:String, @Query("sCity") scity:String,@Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FindDate>>>
+    fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sCity") scity:String,
+                                @Query("sex") sex:String,@Query("xingzuo") xingzuo:String, @Query("agemin") agemin:String, @Query("agemax") agemax:String,
+                                @Query("lat") lat:String, @Query("lon") lon:String,
+                                @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FindDate>>>
 
     //绑定手机号
     @POST("backstage/account/bindPhone")
-    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("devicetoken") devicetoken:String):Flowable<Response<UserData>>
+    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String):Flowable<Response<UserData>>
 
     //赠送积分
     @POST("backstage/new_login/loginForPoint")
@@ -299,4 +311,56 @@ interface ApiServices {
     //是否允许聊天
     @POST("backstage/rongcloud/getTalkJustify")
     fun doTalkJustify(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iTalkUserId:String):Flowable<Response<JsonObject>>
+
+    /*1.8.0接口*/
+    //送小红花列表
+    @POST("backstage/userflowerrule/find")
+    fun getUserFlowerRule():Flowable<Response<ArrayList<FlowerRule>>>
+
+    //绑定微信
+    @POST("backstage/account/bindWxid")
+    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String,@Query("sWxName") sWxName:String,@Query("sWxpic") sWxpic:String):Flowable<Response<JsonObject>>
+
+    //大赏小红花
+    @POST("backstage/userflowerrule/sendFlowerByOrderId")
+    fun sendFlowerByOrderId(@Query("iUserid") iUserid:String,@Query("iReceiveUserid") iReceiveUserid:String,@Query("sOrderid") sOrderid:String,@Query("sResourceid") sResourceid:String):Flowable<Response<JsonObject>>
+
+    //提现接口
+    @POST("backstage/userflowerrule/withDrawFlower")
+    fun doCashMoney(@Query("iUserid") iUserid:String,@Query("iFlowerCount")iFlowerCount:String):Flowable<Response<JsonObject>>
+
+     /*1.8.5接口*/
+
+    //修改聊天设置接口
+    @POST("backstage/account/updateTalkSetting")
+    fun updateTalkSetting(@Query("iUserid") iUserid:String,@Query("iTalkSetting") iTalkSetting:Int):Flowable<Response<JsonObject>>
+
+    //新的私聊接口
+    @POST("backstage/rongcloud/getTalkJustifyNew")
+    fun doTalkJustifyNew(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+
+    //申请私聊接口
+    @POST("backstage/talkapply/apply")
+    fun doApplyPrivateChat(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+
+    //同意或拒绝私聊接口
+    @POST("backstage/talkapply/update")
+    fun doUpdatePrivateChatStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("iStatus") iStatus:String):Flowable<Response<JsonObject>>
+
+    //获取与当前用户的私聊状态
+    @POST("backstage/talkapply/getApplyStatus")
+    fun getApplyStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+
+    /* 1.8.2接口*/
+    //判断是否允许发布约会接口
+    @POST("backstage/appointment/addAppointmentAuth")
+    fun getAppointmentAuth(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
+    //判断是否有查看访客权限
+    @POST("backstage/vistor/getVistorAuth")
+    fun getVistorAuth(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
+    //支付查看访客积分
+    @POST("backstage/vistor/vistorPayPoint")
+    fun getVistorPayPoint(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
 }

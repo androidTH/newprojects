@@ -30,7 +30,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/margin_15"
-        android:text="+1000"
+        android:text=""
         android:textSize="18sp"
         android:textColor="@color/color_68BFFF"/>
     <View

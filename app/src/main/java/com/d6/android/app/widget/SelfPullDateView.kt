@@ -1,9 +1,11 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
@@ -12,6 +14,7 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.models.MyAppointment
+import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.view_self_release_view.view.*
 import org.jetbrains.anko.dip
@@ -62,15 +65,15 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()-1]
 
-        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesImg.size){
-            var drawable = context.resources.getDrawable(R.mipmap.invitation_nolimit_small)
-            tv_datetype_name.setCompoundDrawables(drawable,null,null,null)
+        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size){
+            var drawable =ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_feed)
+            tv_datetype_name.setCompoundDrawables(null,drawable,null,null)
             tv_datetype_name.setCompoundDrawablePadding(dip(3))
         }else{
-            var drawable = context.resources.getDrawable(Const.dateTypesImg[myAppointment.iAppointType!!.toInt()-1])
+            var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment.iAppointType!!.toInt()-1])
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
             tv_datetype_name.setCompoundDrawablePadding(dip(3));
-            tv_datetype_name.setCompoundDrawables(drawable,null,null,null);
+            tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
         }
 
         var sb = StringBuffer()
@@ -117,10 +120,16 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         if (images != null) {
             mImages.addAll(images.toList())
         }
+//        Log.i("fff",myAppointment.sSourceAppointPic)
         imageAdapter.notifyDataSetChanged()
         tv_send_date.setOnClickListener {
             mSendDateClick?.let {
                 it.onDateClick(myAppointment)
+            }
+        }
+        tv_date_more.setOnClickListener {
+            deleteAction?.let {
+                it.onDelete(myAppointment)
             }
         }
     }
@@ -132,10 +141,24 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
     }
+
+    fun setDeleteClick(action:(myAppointment: MyAppointment)->Unit){
+        this.deleteAction = object :DeleteClick {
+            override fun onDelete(myAppointment: MyAppointment) {
+                action(myAppointment)
+            }
+        }
+    }
+
     private var mSendDateClick:sendDateClickListener?=null
+    private var deleteAction: DeleteClick?=null
 
     interface sendDateClickListener{
         fun onDateClick(myAppointment: MyAppointment)
+    }
+
+    interface DeleteClick{
+        fun onDelete(myAppointment: MyAppointment)
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {

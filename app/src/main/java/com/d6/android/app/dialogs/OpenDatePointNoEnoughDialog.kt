@@ -69,7 +69,7 @@ class OpenDatePointNoEnoughDialog : DialogFragment(),RequestManager {
         }
 
         tv_chongzhi.setOnClickListener {
-            context.startActivity<MyPointsActivity>("points" to remainPoint)
+            context.startActivity<MyPointsActivity>()
             dismissAllowingStateLoss()
         }
         tv_mypointnums.text = "${point}积分"

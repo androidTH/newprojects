@@ -57,6 +57,7 @@ class FindDateDetailActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_find_date_detail)
+        immersionBar.init()
         title = "觅约详情"
 
         titleBar.addRightButton(rightId = R.mipmap.ic_share, onClickListener = View.OnClickListener {

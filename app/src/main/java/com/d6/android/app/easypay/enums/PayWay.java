@@ -18,5 +18,4 @@ public enum PayWay {
     public String toString() {
         return String.valueOf(payway);
     }
-
 }

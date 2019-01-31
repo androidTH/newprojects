@@ -20,7 +20,9 @@ object Const {
         val USER_NICK="userNick"
         val RONG_TOKEN ="rongToken"
         val USER_ADDRESS = "address"
+        val USER_PROVINCE = "province"
         val USER_SCREENID = "screenID"
+        val USER_DATACOMPLETION = "iDatacompletion"
         //别人约我
         var SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME="someoneElseMakesAnAppointmentWithMe"
         var IASKSOMEONEELSE="IAskSomeoneElse"  //我约的人
@@ -30,11 +32,14 @@ object Const {
         var  USERPOINTS_NUMS = "UserPointNums"
 }
 
-    val LAST_TIME = "lastTime"
+    val SQUAREMSG_LAST_TIME = "Square_lastTime" //广场消息时间
+    val SYSMSG_LAST_TIME = "SysMsylastTime"//系统消息时间
     val NEW_MESSAGE = "com.d6.app.new_msg"
     val BUGTAGS_KEY = "e3ed18af47d9993fbfbc5dc02194079e"
     val UMENG_APPKEY = "5a5b309af29d9835ae000262"
     val UMENG_MESSAGE_SECRET = "0f16af7d3011a5aad7cf82a996b6b94c"
+    val XIAOMIAPPID="2882303761517748078"
+    val XIAOMIAPPKEY = "5141774885078"
     val SERVICE_WECHAT_CODE = "service_wechat_code"
     val SCORE_EXPLAIN_CODE = "integral_explain"
 
@@ -53,8 +58,48 @@ object Const {
     var dateTypesSelected = arrayOf(R.mipmap.invitation_travel_seleted,R.mipmap.invitation_meal_seleted,R.mipmap.invitation_film_seleted,
             R.mipmap.invitation_drink_seleted,R.mipmap.invitation_nolimit_seleted)
 
+    var dateTypesBig = arrayOf(R.mipmap.invitation_travel_feed,R.mipmap.invitation_meal_feed,R.mipmap.invitation_film_feed,
+            R.mipmap.drink_nolimit_feed,R.mipmap.invitation_nolimit_feed)//invitation_shopping_feed
+
+
     val FROM_MY_DATELIST = "MyDateListActivity"
     val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
 
+    @JvmField
     var selectCategoryType:String=""
+    @JvmField
+    var LOCATIONSUCCESS = "location_success"
+    var LOCATIONFAIL = "location_fail"
+    var PROVINCE_DATA = "province" //省份
+    var PROVINCE_DATAOFFIND = "provinceOfFind" //省份
+    var LASTLONGTIMEOFProvince = "LastLoginTimeOfProvince"//查询省份的时间设置
+    var LASTTIMEOFPROVINCEINFIND = "LastTimeOfProvinceInFind"//发现中的查询省份时间
+    var LASTDAYTIME = "LastDayTime"
+    var NO_LIMIT_ERA = "不限/定位不限地区"
+    @JvmField
+    var LOCATIONCITYCODE="100010"
+
+    @JvmField
+    val DOUPDATEUSERINFOCODE = 1000
+
+    val USERINFO = "UserInfo"
+
+    val CustomerServiceId="5"
+
+    val PRIVATECHAT_APPLY = "com.d6.app.privatechat_apply_msg"
+
+    @JvmField
+    val IS_FIRST_SHOW_TIPS = "is_first_show_tips"
+
+    @JvmField
+    val YOUMENG_MSG_NOTIFION = "com.d6.app.youmeng_msg_notifion"
+
+    @JvmField
+    val Pic_Size_wh400 = "?imageView2/0/w/400/h/400"
+    val Pic_Size_wh300 = "?imageView2/0/w/300/h/300"
+    val Pic_Size_wh500 = "?imageView2/0/w/500/h/500"
+    @JvmField
+    val Pic_Thumbnail_Size_wh300  = "?imageMogr2/auto-orient/thumbnail/300x300/quality/100"
+    @JvmField
+    val Pic_Thumbnail_Size_wh600  = "?imageMogr2/auto-orient/thumbnail/600x600/quality/100"
 }

@@ -113,7 +113,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         }
 
         tv_release.setOnClickListener {
-            isAuthUser {
+            isCheckOnLineAuthUser(this,userId){
                 publish()
                 mKeyboardKt.toggleSoftInput(it)
             }

@@ -6,29 +6,32 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PagerSnapHelper
+import android.support.v7.widget.LinearSmoothScroller
 import android.support.v7.widget.RecyclerView
+import android.util.DisplayMetrics
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.MainActivity
 import com.d6.android.app.activities.SquareTrendDetailActivity
 import com.d6.android.app.adapters.BannerAdapter
+import com.d6.android.app.adapters.NetWorkImageHolder
 import com.d6.android.app.adapters.SquareAdapter
 import com.d6.android.app.base.RecyclerFragment
+import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Banner
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.header_square_list.view.*
-import org.jetbrains.anko.support.v4.dip
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
-
-
 
 /**
  * Created on 2017/12/17.
@@ -44,8 +47,8 @@ class SquareFragment : RecyclerFragment() {
             return fragment
         }
     }
-
     private var pageNum = 1
+    private var isfresh = true
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -61,16 +64,13 @@ class SquareFragment : RecyclerFragment() {
         return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    private val mBanners = ArrayList<Banner>()
-
-    private val bannerAdapter by lazy {
-        BannerAdapter(mBanners)
-    }
+    private var mBanners = ArrayList<Banner>()
 
     private val mSquares = ArrayList<Square>()
     private val squareAdapter by lazy {
         SquareAdapter(mSquares)
     }
+
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_square_list,mSwipeRefreshLayout.mRecyclerView,false)
     }
@@ -79,40 +79,18 @@ class SquareFragment : RecyclerFragment() {
     override fun setAdapter() = squareAdapter
 
     override fun onFirstVisibleToUser() {
-
-        headerView.mBanner.setHasFixedSize(true)
-        headerView.mBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        headerView.mBanner.adapter = bannerAdapter
-        val helper = PagerSnapHelper()
-        helper.attachToRecyclerView(headerView.mBanner)
-        headerView.mBanner.isNestedScrollingEnabled = false
-
-        bannerAdapter.setOnItemClickListener { view, position ->
-            val banner = mBanners[position]
-            val ids = banner.newsid ?: ""
-            startActivity<SquareTrendDetailActivity>("id" to ids,"position" to position)
-        }
-
-        mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
-                .colorResId(R.color.color_ECECEC)
-                .size(dip(1))
-                .visibilityProvider { position, parent ->
-                    position==0
-                }
-                .build())
-
+        EventBus.getDefault().register(this)
         squareAdapter.setHeaderView(headerView)
-
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
             square.id?.let {
                 startActivityForResult<SquareTrendDetailActivity>(1,"id" to it,"position" to position)
             }
         }
-
         showDialog()
         getData()
     }
+
     //筛选
     fun filter(type: Int) {
         this.type = type
@@ -128,16 +106,33 @@ class SquareFragment : RecyclerFragment() {
             this.type = 2
 
         }
-        pullDownRefresh()
+        isfresh = false
+        initFirstPageData()
     }
 
     private fun getBanner() {
-        Request.getBanners().request(this, success = { _, data ->
+        Request.getBanners().request(this,success = { _, data ->
             if (data?.list?.results != null) {
                 mBanners.clear()
-                mBanners.addAll(data.list.results)
-                bannerAdapter.notifyDataSetChanged()
-                showDialog()
+                mBanners.addAll(elements = data.list.results)
+                headerView.mBanner.setPages(
+                        object : CBViewHolderCreator {
+                            override fun createHolder(itemView: View): NetWorkImageHolder {
+                                return NetWorkImageHolder(itemView)
+                            }
+
+                            override fun getLayoutId(): Int {
+                                return R.layout.item_banner
+                            }
+                        },mBanners).setPageIndicator(intArrayOf(R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused))
+                        .setOnItemClickListener {
+                            val banner = mBanners[it]
+                            val ids = banner.newsid ?: ""
+                            startActivity<SquareTrendDetailActivity>("id" to ids, "position" to it)
+                        }
+                if(isfresh){
+                    showDialog()
+                }
                 getSquareList()
             }
         }) { _, _ ->
@@ -152,7 +147,16 @@ class SquareFragment : RecyclerFragment() {
         } else {
             getSquareList()
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        headerView.mBanner.startTurning()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        headerView.mBanner.stopTurning()
     }
 
     private fun getSquareList() {
@@ -171,9 +175,6 @@ class SquareFragment : RecyclerFragment() {
                 mSquares.addAll(data.list.results)
             }
             squareAdapter.notifyDataSetChanged()
-            if (pageNum == 1) {
-                mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
-            }
         }
     }
 
@@ -187,19 +188,44 @@ class SquareFragment : RecyclerFragment() {
             mSquares.get(positon).isupvote = mSquare.isupvote
             mSquares.get(positon).appraiseCount = mSquare.appraiseCount
             mSquares.get(positon).comments = mSquare.comments
+            mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
+            mSquares.get(positon).iIsSendFlower = mSquare.iIsSendFlower
             squareAdapter.notifyDataSetChanged()
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(flowerEvent: FlowerMsgEvent){
+        if(flowerEvent.getmSquare()!=null){
+            var index = mSquares.indexOf(flowerEvent.getmSquare())
+            mSquares.get(index).iFlowerCount = flowerEvent.getmSquare().iFlowerCount
+            mSquares.get(index).iIsSendFlower = 1
+            squareAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun initFirstPageData(){
+        pageNum = 1
+        if (pageNum == 1) {
+            mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
+        }
+        getData()
+    }
+
     public override fun pullDownRefresh() {
         super.pullDownRefresh()
-        pageNum = 1
-        getData()
+        isfresh = true
+        initFirstPageData()
     }
 
     override fun loadMore() {
         super.loadMore()
         pageNum++
         getData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }

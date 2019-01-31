@@ -28,11 +28,13 @@ public class PayParams {
     private int mGoodsPrice;
     private int iUserid;
     private int iPoint;
+    private int iFlowerCount;
     private String mGoodsName;
     private String mGoodsIntroduction;
     private HttpType mHttpType = HttpType.Post;
     private NetworkClientType mNetworkClientType = NetworkClientType.OkHttp;
     private String mApiUrl;
+    private int Type;//0代表积分 1代表小红花
 
     public Activity getActivity() {
         return mActivity;
@@ -122,6 +124,22 @@ public class PayParams {
         this.mApiUrl = mApiUrl;
     }
 
+    public int getiFlowerCount() {
+        return iFlowerCount;
+    }
+
+    public void setiFlowerCount(int iFlowerCount) {
+        this.iFlowerCount = iFlowerCount;
+    }
+
+    public int getType() {
+        return Type;
+    }
+
+    public void setType(int type) {
+        Type = type;
+    }
+
     public static class Builder {
         Activity mActivity;
         String wechatAppId;
@@ -129,11 +147,13 @@ public class PayParams {
         int goodsPrice;
         int iUserid;
         int iPoint;
+        int iFlowerCount;
         String goodsName;
         String goodsIntroduction;
         HttpType httpType;
         NetworkClientType mNetworkClientType;
         String apiUrl;
+        int mType;
 
 
         public Builder(Activity activity) {
@@ -190,6 +210,15 @@ public class PayParams {
             return this;
         }
 
+        public PayParams.Builder iFlowerCount(Integer flowerCount) {
+            iFlowerCount =  flowerCount;
+            return this;
+        }
+        public PayParams.Builder setType(Integer type) {
+            mType = type;
+            return this;
+        }
+
         public PayParams build() {
             PayParams params = new PayParams();
 
@@ -204,6 +233,8 @@ public class PayParams {
             params.setHttpType(httpType);
             params.setNetworkClientType(mNetworkClientType);
             params.setApiUrl(apiUrl);
+            params.setiFlowerCount(iFlowerCount);
+            params.setType(mType);
 
             return params;
         }

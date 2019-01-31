@@ -5,6 +5,7 @@
     <item type="id" name="rc_txt"/>
     <item type="id" name="rc_msg"/>
     <item type="id" name="rc_img"/>
+    <item type="id" name="rc_divider"/>
     <item type="id" name="rc_content" />
     <item type="id" name="rc_layout" />
     <item type="id" name="rc_progress"/>
@@ -55,4 +56,5 @@
     <item type="id" name="rc_conversation_status" />
     <item type="id" name="rc_edit_text" />
     <item type="id" name="rc_layout_msg_list" />
+    <item type="id" name="rc_apply_chat_tips" />
 </resources>

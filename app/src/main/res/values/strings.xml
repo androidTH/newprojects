@@ -19,11 +19,12 @@
     <string name="third_step_info">第二步: 人工认证\n微信人工认证,保证用户资料真实有效</string>
     <string name="auth_tips">认证是为了保证用户的信息真实性，提供优质服务，目前仅提供微信人工认证服务（女生免费）</string>
     <string name="wx_fast_login">微信快捷登录</string>
-    <string name="user_no_auther">未认证,认证后获得更多特权</string>
+    <string name="user_no_auther">认证后更容易获得青睐·点击认证</string>
     <string name="mine_edit_info">编辑资料</string>
     <string name="hobbit_string">最长可输入3个爱好，每个爱好最长5个字,点击+号可添加另一个</string>
     <string name="date_wenan">想要TA的联系方式,点击联系客服,将此页面分享给会员客服嗷</string>
     <string name="string_mypoints">我的积分</string>
+    <string name="string_wallet">钱包</string>
     <string name="str_points_pay_success">积分充值成功</string>
     <string name="str_points_pay_fail">充值失败，请重新支付</string>
     <string name="likeme">喜欢我的</string>
@@ -31,10 +32,11 @@
     <string name="open_date_string">发起约会</string>
     <string name="send_date_string">你发起的约会将通知对方,对方同意之后就可以开启甜蜜之旅,点击"我的约会",可查看约会状态</string>
     <string name="string_pointdesc">本次约会预付%1$s积分,查看我的积分</string>
-    <string name="string_pointlow">你当前积分为%1$s积分,发起约会需要消耗%2$s积分。点击"充值"可获得更多积分,为了不过错心仪的TA。</string>
+    <string name="string_pointlow">你当前积分为%1$s积分,发起约会需要消耗%2$s积分。点击"充值"可获得更多积分,为了不错过心仪的TA。</string>
     <string name="string_balance">积分不足,你的剩余积分%1$s</string>
     <string name="string_senddatefail">发起失败</string>
     <string name="senddatepointlow">发起失败,积分余额不足</string>
+    <string name="vistorpointlow">查看访客失败,积分余额不足</string>
     <string name="string_samecity">同城</string>
     <string name="string_age">年龄</string>
     <string name="string_area">地区</string>
@@ -46,5 +48,25 @@
     <string name="string_sexchoose_title">性别选择</string>
     <string name="string_areachoose_title">地区选择</string>
     <string name="string_xinzuochoose_title">星座选择</string>
+    <string name="string_nolocation">定位失败,点击重试</string>
+    <string name="string_red_flower">小红花</string>
+    <string name="string_sendredflower_title">送TA小红花，回复率更高哦</string>
+    <string name="string_sendflower_success">对方已经收到你送的小红花了\n么么哒</string>
+    <string name="string_cash_money">可提现金额：¥%1$s</string>
+    <string name="string_openchat_pay_points">你已发出3条信息,已达上限,支付积分畅聊</string>
+    <string name="string_openchat_pay_nopoints">免费3条,支付积分即可无限畅聊</string>
+    <string name="string_openchat_sendcount_msg">剩余发送消息%1$s</string>
+    <string name="string_auth">已认证</string>
+    <string name="string_openchat">开启私聊</string>
+    <string name="string_paypoints">支付积分</string>
+    <string name="string_apply_openchat">申请私聊</string>
+    <string name="string_other_apply_openchat">对方申请和你私聊</string>
+    <string name="string_pay_points_openchat">支付积分可开启私聊</string>
+    <string name="string_other_agreee_openchat">对方同意后可开启私聊</string>
+    <string name="string_already_applay">已申请</string>
+    <string name="string_privatechat_set">私聊设置</string>
+    <string name="string_linechat">直接私聊</string>
+    <string name="string_agree_openchat">同意后私聊</string>
+    <string name="string_chat_setting">私聊设置</string>
 
 </resources>

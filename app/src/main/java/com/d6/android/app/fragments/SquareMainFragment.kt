@@ -1,26 +1,19 @@
 package com.d6.android.app.fragments
 
 import android.graphics.Color
+import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
-import android.view.View
 import com.d6.android.app.R
-import com.d6.android.app.activities.MainActivity
-import com.d6.android.app.activities.ReleaseNewTrendsActivity
 import com.d6.android.app.adapters.SquareTagAdapter
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.extentions.request
 import com.d6.android.app.models.SquareTag
-import com.d6.android.app.net.Request
-import com.d6.android.app.utils.sysErr
-import com.gyf.barlibrary.ImmersionBar
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.fragment_square_main.*
 import org.jetbrains.anko.support.v4.dip
-import org.jetbrains.anko.support.v4.startActivityForResult
 
 /**
  * 动态
@@ -41,11 +34,14 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
     private val mSquareTags = ArrayList<SquareTag>()
 
     override fun contentViewId() = R.layout.fragment_square_main
-//    private val immersionBar by lazy {
-//        ImmersionBar.with(this)
-//    }
-    override fun onFirstVisibleToUser() {
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
+    }
+
+    override fun onFirstVisibleToUser() {
+
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         mRecyclerView.setHasFixedSize(true)
         val adapter = SquareTagAdapter(mSquareTags)

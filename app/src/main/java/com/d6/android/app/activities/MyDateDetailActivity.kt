@@ -46,7 +46,7 @@ class MyDateDetailActivity : BaseActivity() {
             var sId = intent.getStringExtra("sId")
             getData(sId,"")
         }else{
-            myAppointment = (intent.getParcelableExtra("data") as MyAppointment)
+            myAppointment = (intent.getSerializableExtra("data") as MyAppointment)
             if(myAppointment !=null){
                 iAppointUserid = myAppointment!!.iAppointUserid.toString()
                 if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
@@ -106,18 +106,6 @@ class MyDateDetailActivity : BaseActivity() {
                     }
                 }
             }
-        }
-
-    }
-
-    private fun showDatePayPointDialog(name:String,id:String){
-        Request.getUnlockTalkPoint().request(this,false,success = {msg,data->
-            val dateDialog = OpenDatePayPointDialog()
-            var point = data!!.optInt("iTalkPoint")
-            dateDialog.arguments= bundleOf("data" to point.toString(),"username" to name,"chatUserId" to id)
-            dateDialog.show(supportFragmentManager, "d")
-        }) { _, msg ->
-            this.toast(msg)
         }
     }
 
@@ -193,7 +181,7 @@ class MyDateDetailActivity : BaseActivity() {
                         }else{
                             tv_date_status.text="状态：对方拒绝"
                             tv_point_nums.visibility = View.VISIBLE
-                            tv_point_nums.text="消费${myAppointment.iPoint}积分"
+                            tv_point_nums.text="返还${myAppointment.iPoint}积分"
                         }
 
                         tv_private_chat.visibility = View.GONE;
@@ -201,7 +189,7 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_agree_date.visibility = View.GONE
                         tv_giveup_date.visibility = View.GONE
                         setAgreeDate(data,data.dAppointmentSignupUpdatetime,"已拒绝",3)
-                        tv_point_nums.text="消费${data.iPoint}积分"
+                        tv_point_nums.text="返还${data.iPoint}积分"
                     }
                     4 -> { //
                         if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
@@ -274,8 +262,8 @@ class MyDateDetailActivity : BaseActivity() {
         tv_name1.text =  getSpannable("${data.sUserName}:发起邀约",4)
         tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
 
-        headView2.setImageURI(data.sPicUrl)
-        tv_name2.text = getSpannable("${data.sUserName}:${str}",len)
+        headView2.setImageURI(data.sAppointmentPicUrl)
+        tv_name2.text = getSpannable("${data.sAppointUserName}:${str}",len)
         tv_days2.text = updateTime.interval() //同意约会时间
     }
 
@@ -320,10 +308,10 @@ class MyDateDetailActivity : BaseActivity() {
                     tv_agree_date.visibility = View.GONE
                     tv_giveup_date.visibility = View.GONE
                     setAgreeDate(myAppointment,System.currentTimeMillis(),"已拒绝",3)
-                    tv_point_nums.text="消费${myAppointment.iPoint}积分"
+                    tv_point_nums.text="返还${myAppointment.iPoint}积分"
                 }else if(iStatus == 4){
                     tv_date_status.text="状态：主动取消"
-                    tv_private_chat.visibility = View.GONE;
+                    tv_private_chat.visibility = View.GONE
                     tv_no_date.visibility = View.GONE
                     tv_agree_date.visibility = View.GONE
                     tv_giveup_date.visibility = View.GONE

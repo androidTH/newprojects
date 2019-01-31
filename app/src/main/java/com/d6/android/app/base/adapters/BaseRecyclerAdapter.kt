@@ -56,6 +56,10 @@ abstract class BaseRecyclerAdapter<T>(var mData: ArrayList<T>, layoutId: Int) : 
         }
     }
 
+    override fun onViewRecycled(holder: ViewHolder?) {
+        super.onViewRecycled(holder)
+    }
+
     interface OnItemClickListener {
         fun onItemClick(view: View?, position: Int)
     }

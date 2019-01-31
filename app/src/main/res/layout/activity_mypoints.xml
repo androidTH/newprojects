@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:textSize="18dp"
             android:id="@+id/tv_title"
-            android:text="@string/string_mypoints"
+            android:text="@string/string_wallet"
             android:textColor="@color/color_black"
             android:textStyle="bold"
             android:gravity="center"/>

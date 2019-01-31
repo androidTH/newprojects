@@ -34,10 +34,16 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
     private val imageAdapter by lazy {
         SquareImageAdapter(mImages)
     }
+
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
     private val mComments = ArrayList<Comment>()
     private val commentAdapter by lazy {
         SquareCommentAdapter(mComments)
     }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.view_user_trend_view, this, true)
         rv_images.setHasFixedSize(true)
@@ -75,6 +81,12 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             square?.let {
                 deleteAction?.onDelete(it)
             }
+        }
+
+        tv_redflower.setOnClickListener {
+               square?.let {
+                   sendFlowerAction?.onSendFlowerClicker(it)
+               }
         }
     }
 
@@ -139,11 +151,24 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         } else {
             ""
         }
-//        if (!square.classesName.isNullOrEmpty()) {
-//            tv_tag.text = String.format("#%s#",square.classesName)
-//        } else {
-//            tv_tag.text = ""
+
+        tv_redflower.text = if((square.iFlowerCount ?:0)> 0){
+            square.iFlowerCount.toString()
+        }else{
+            ""
+        }
+
+//        if(TextUtils.equals(square.userid,userId)){
+//            tv_redflower.visibility = View.GONE
+//        }else{
+//            tv_redflower.visibility = View.VISIBLE
 //        }
+
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+            true
+        } else {
+            false
+        }
 
         square.commentCount?.let {
             if (it > 0) {
@@ -170,6 +195,15 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
     fun hide(@IdRes viewIdRes: Int) {
         find<View>(viewIdRes).gone()
     }
+
+    fun setFlowerClick(flower:(square:Square)->Unit){
+        this.sendFlowerAction = object : SendFlowerClickListener{
+            override fun onSendFlowerClicker(square: Square) {
+                flower(square)
+            }
+        }
+    }
+
     fun setPraiseClick(action:(square:Square)->Unit){
         this.action = object : PraiseClickListener{
             override fun onPraiseClick(square: Square) {
@@ -184,6 +218,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             }
         }
     }
+
     fun setDeleteClick(action:(square:Square)->Unit){
         this.deleteAction = object : DeleteClick{
             override fun onDelete(square: Square) {
@@ -191,9 +226,16 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             }
         }
     }
+
     private var action:PraiseClickListener?=null
     private var deleteAction:DeleteClick?=null
     private var onItemClick:OnItemClick?=null
+    private var sendFlowerAction:SendFlowerClickListener?=null
+
+    interface SendFlowerClickListener{
+        fun onSendFlowerClicker(square:Square)
+    }
+
     interface PraiseClickListener{
         fun onPraiseClick(square: Square)
     }
@@ -204,6 +246,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
     interface OnItemClick{
         fun onClick(view: View,square: Square)
     }
+
     private var textClickedListener: CustomLinkMovementMethod.TextClickedListener? = null
     fun setOnCommentClick(l:()->Unit) {
         textClickedListener = CustomLinkMovementMethod.TextClickedListener { l() }

@@ -1,2 +1,2 @@
-include ':app', ':IMLib', ':IMKit', ':cachelib', ':umeng_sdk', ':push', ':multi-image-selector',
+include ':app', ':IMLib', ':IMKit', ':cachelib', ':umeng_sdk', ':multi-image-selector',
         ':cardlib', ':sticker',"library"

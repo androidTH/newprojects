@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
 import com.d6.android.app.base.TitleActivity
@@ -22,12 +23,19 @@ import kotlinx.android.synthetic.main.header_square_detail.view.*
 import org.jetbrains.anko.toast
 import android.view.inputmethod.InputMethodManager
 import com.d6.android.app.dialogs.CommentDelDialog
+import com.d6.android.app.dialogs.SendRedFlowerDialog
+import com.d6.android.app.eventbus.FlowerMsgEvent
+import com.share.utils.ShareUtils
+import com.umeng.socialize.bean.SHARE_MEDIA
+import io.rong.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.bundleOf
 import java.util.*
 
 
 /**
- * 广场详情
+ * 动态详情
  */
 class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.OnRefreshListener {
 
@@ -57,12 +65,16 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_square_detail)
         immersionBar.init()
+//        titleBar.addRightButton(rightId = R.mipmap.discuss_more_gray, onClickListener = View.OnClickListener {
+//        })
+        EventBus.getDefault().register(this@SquareTrendDetailActivity)
 
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))
-        mSwipeRefreshLayout.setMode(SwipeRefreshRecyclerLayout.Mode.Top)
+        mSwipeRefreshLayout.setMode(SwipeRefreshRecyclerLayout.Mode.Both)
         squareDetailCommentAdapter.setHeaderView(headerView)
         mSwipeRefreshLayout.setAdapter(squareDetailCommentAdapter)
         mSwipeRefreshLayout.setOnRefreshListener(this)
+
         headerView.mTrendDetailView.setPraiseClick {
             if (TextUtils.equals("1", it.isupvote)) {
                 cancelPraise(it)
@@ -70,6 +82,13 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 praise(it)
             }
         }
+
+        headerView.mTrendDetailView.setOnSendFlowerClick {
+            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+            dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 1,"userId" to it.userid.toString(),"squareId" to it.id.toString())
+            dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
+        }
+
         squareDetailCommentAdapter.setOnItemClickListener { _, position ->
             val comment = mComments[position]
             replayUid = comment.userId?:""
@@ -78,7 +97,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 //            }
             val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             //显示软键盘
-            imm.showSoftInputFromInputMethod(et_content.windowToken, 0)
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             et_content.requestFocus()
         }
 
@@ -118,12 +137,12 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         })
 
         btn_send.setOnClickListener {
-            isAuthUser {
+//            isAuthUser {
                 val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 //显示软键盘
                 imm.hideSoftInputFromWindow(et_content.windowToken, 0)
                 comment()
-            }
+//            }
         }
         dialog()
         getData()
@@ -162,7 +181,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
     private fun loadData() {
-        Request.getCommentList(id, pageNum).request(this, success = { _, data ->
+        Request.getCommentList(userId,id, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             if (pageNum == 1) {
                 mComments.clear()
@@ -223,7 +242,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             replayUid
         }
         dialog()
-        Request.addComment(userId, id,content,replyUid).request(this){ msg, jsonObject->
+        Request.addComment(userId, id,content,replyUid).request(this,false,success={msg,jsonObject->
             et_content.setText("")
             et_content.clearFocus()
             replayUid = ""
@@ -232,6 +251,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             mSquare?.commentCount= mSquare?.commentCount!!.toInt()+1
             getData()
             showTips(jsonObject,"","");
+        }){code,msg->
+            showToast(msg)
         }
     }
 
@@ -272,5 +293,20 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     headerView.mTrendDetailView.update(it)
                 }
             }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(flowerEvent: FlowerMsgEvent){
+            mSquare?.let {
+                it.iFlowerCount = it.iFlowerCount!!.toInt() + flowerEvent.count
+                it.iIsSendFlower=1
+                updateBean()
+                headerView.mTrendDetailView.updateFlowerCount(it)
+            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this@SquareTrendDetailActivity)
     }
 }

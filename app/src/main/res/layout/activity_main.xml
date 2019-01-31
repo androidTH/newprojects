@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
@@ -12,10 +11,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/padding_16"
-            android:textSize="20dp"
+            android:textSize="17sp"
             android:id="@+id/tv_title"
             android:paddingRight="@dimen/padding_16"
-            android:visibility="gone"
+            android:textStyle="bold"
             android:gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
@@ -25,6 +24,7 @@
             android:textSize="20dp"
             android:id="@+id/tv_title1"
             android:visibility="gone"
+            android:drawablePadding="@dimen/margin_3"
             android:drawableRight="@mipmap/ic_arrow_down"
             android:text=""
             android:gravity="center_vertical|left"/>
@@ -84,18 +84,23 @@
             android:text="发起约会" />
     </RelativeLayout>
     <View style="@style/view_line_h"
+        android:layout_below="@+id/titleBar"
         android:id="@+id/line"/>
     <FrameLayout
         android:id="@+id/container"
+        android:layout_below="@+id/titleBar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"/>
 
-    <View style="@style/view_line_h" />
+    <View
+        android:layout_above="@android:id/tabhost"
+        style="@style/view_line_h" />
 
     <com.d6.android.app.widget.FragmentTabHost
         android:id="@android:id/tabhost"
         android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
         android:layout_height="55dp"
         android:paddingTop="@dimen/margin_5"
         android:background="@color/white">
@@ -106,4 +111,43 @@
             android:layout_height="0dp"
             android:layout_weight="0"/>
     </com.d6.android.app.widget.FragmentTabHost>
-</LinearLayout>
+    <TextView
+        android:id="@+id/tv_date_tab"
+        android:layout_alignParentBottom="true"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:textSize="14dp"
+        android:drawablePadding="2dp"
+        android:visibility="visible"
+        android:background="@color/trans_parent"
+        android:layout_marginLeft="@dimen/margin_18"
+        android:textColor="@color/orange_f6a"
+        android:gravity="center_horizontal"/>
+    <TextView
+        android:id="@+id/tv_find_tab"
+        android:layout_toRightOf="@+id/tv_date_tab"
+        android:layout_alignParentBottom="true"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:textSize="14dp"
+        android:drawablePadding="2dp"
+        android:visibility="invisible"
+        android:background="@color/trans_parent"
+        android:textColor="@color/orange_f6a"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:id="@+id/tv_square_tab"
+        android:textSize="14dp"
+        android:layout_centerHorizontal="true"
+        android:drawablePadding="2dp"
+        android:visibility="gone"
+        android:background="@color/trans_parent"
+        android:textColor="@color/orange_f6a"
+        android:gravity="center_horizontal"/>
+
+</RelativeLayout>

@@ -49,7 +49,9 @@ class AppUtils {
                     Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             ss.setSpan(TextAppearanceSpan(context, R.style.tv_userinfotags_iconright), end,
                     value.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            if(value.length>=20){
 
+            }
             tv.setText(ss, TextView.BufferType.SPANNABLE)
         }
 

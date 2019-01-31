@@ -80,7 +80,8 @@ class MessagesActivity : RecyclerActivity() {
                 s = info.name
             }
             isAuthUser {
-                if (TextUtils.equals("5", conversation.targetId)) {//客服
+                if (TextUtils.equals("5", conversation.targetId)) {
+                    //客服
                     val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
                     RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
                             ,"5" ,"5",Message.ReceivedStatus(0)
@@ -136,10 +137,10 @@ class MessagesActivity : RecyclerActivity() {
     }
 
     private fun getSysLastOne() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1,time.toString(),pageSize = 1).request(this) { _, data ->
-//            SPUtils.instance().put(Const.LAST_TIME,D6Application.systemTime).apply()
+            SPUtils.instance().put(Const.SYSMSG_LAST_TIME,D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
 //                headerView.tv_msg_count1.gone()
@@ -164,10 +165,10 @@ class MessagesActivity : RecyclerActivity() {
     }
 
     private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSquareMessages(userId, 1,time.toString(),pageSize = 1).request(this) { _, data ->
-            SPUtils.instance().put(Const.LAST_TIME,D6Application.systemTime).apply()
+            SPUtils.instance().put(Const.SQUAREMSG_LAST_TIME,D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
 //                headerView.tv_msg_count2.gone()

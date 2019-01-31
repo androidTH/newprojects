@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,7 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
 
     private lateinit var chatUserId:String
     private lateinit var username:String;
+    private var mType:String="0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +72,7 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
         }
 
         var remainPoint = arguments.getString("remainPoint")
+        mType = arguments.getString("type")
 
         tv_payok.setOnClickListener {
             getData(point,remainPoint)
@@ -92,7 +95,13 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
         isBaseActivity {
             //194ecdb4-4809-4b2d-bf32-42a3342964df
             Request.doUnlockTalk(userId, chatUserId).request(it,success = {msg,data->
-                RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, chatUserId, username)
+                if(TextUtils.equals("0",mType)){
+                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, chatUserId, username)
+                } else if (TextUtils.equals("1", mType)) {
+                    dialogListener?.let {
+                        it.onClick(0, "payok")
+                    }
+                }
             }){code,msg->
                 var openErrorDialog = OpenDatePointNoEnoughDialog()
                 openErrorDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)

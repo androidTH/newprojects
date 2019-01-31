@@ -14,7 +14,7 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
      @SerializedName("sId") var sId:String?=""
      @SerializedName("sPointdesc") var sPointdesc:String?=""
      @SerializedName("iPoint") var iPoint:Int?=0
-     @SerializedName("iPointtype") var iPointtype:Int?=1 // 1、充值  2、消费
+     @SerializedName("iPointtype") var iPointtype:Int?=1 // 1、充值  2、消费  3、充值购买小红花 4、提现小红花 5、收到小红花 6、赠送小红花
      @SerializedName("dCreatetime") var dCreatetime:Long?=0
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {

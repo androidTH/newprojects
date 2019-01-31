@@ -84,6 +84,7 @@ public class MultiImageSelectorFragment extends Fragment {
     private static final int REQUEST_CAMERA = 100;
     //请求存储权限
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 10;
+    private static final int EXTERNAL_CAMERA_REQUEST_CODE = 11;
 
 
     // 结果数据
@@ -190,6 +191,7 @@ public class MultiImageSelectorFragment extends Fragment {
 //                            getActivity().getSupportLoaderManager().restartLoader(LOADER_ALL, null, mLoaderCallback);
                             mCategoryText.setText(R.string.folder_all);
                             if (mIsShowCamera) {
+                                checkCameraPermissions();
                                 mImageAdapter.setShowCamera(true);
                             } else {
                                 mImageAdapter.setShowCamera(false);
@@ -233,9 +235,6 @@ public class MultiImageSelectorFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
-
         View view = getView();
         // 选择图片数量
         mDesireImageCount = getArguments().getInt(EXTRA_SELECT_COUNT);
@@ -326,7 +325,10 @@ public class MultiImageSelectorFragment extends Fragment {
                 if (mImageAdapter.isShowCamera()) {
                     // 如果显示照相机，则第一个Grid显示为照相机，处理特殊逻辑
                     if (position == 0) {
-                        showCameraAction();
+
+                            showCameraAction();
+
+
                     } else {
                         // 正常操作
                         Image image = mImageAdapter.getImage(position-1);
@@ -340,9 +342,10 @@ public class MultiImageSelectorFragment extends Fragment {
             }
         });
         mFolderAdapter = new FolderAdapter(getActivity());
-
+        if(mIsShowCamera){
+            checkCameraPermissions();
+        }
         checkLocationPermissions();
-
     }
 
     @Override
@@ -351,9 +354,7 @@ public class MultiImageSelectorFragment extends Fragment {
         // 相机拍照完成后，返回图片路径
         if(requestCode == REQUEST_CAMERA){
             if(resultCode == Activity.RESULT_OK) {
-
                 if (mTmpFile != null) {
-
                     if (mode == MODE_MULTI){
                         checkLocationPermissions();
                     }
@@ -412,6 +413,32 @@ public class MultiImageSelectorFragment extends Fragment {
                             }
                         });
                         builder.create().show();
+//                        return;
+//                    }
+
+//                    Toast.makeText(getActivity().getApplicationContext(), "没有sd卡操作权限，请先授权！", Toast.LENGTH_SHORT).show();
+//                    getActivity().finish();
+                }
+            }
+        }else if(requestCode == EXTERNAL_CAMERA_REQUEST_CODE){
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                if (getActivity()!=null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("请注意");
+                    builder.setMessage("本应用需要使用访问相机拍照权限，否则无法正常使用！");
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+                    builder.create().show();
 //                        return;
 //                    }
 
@@ -623,10 +650,33 @@ public class MultiImageSelectorFragment extends Fragment {
         void onCameraShot(File imageFile);
     }
 
+    private void checkCameraPermissions(){
+        if(getActivity()!=null){
+            if(ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.CAMERA)!=PackageManager.PERMISSION_GRANTED){
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(String.format("请授予应用%s权限,否则无法正常工作！请于\"设置\"－\"应用\"-\"权限\"中配置权限。", "访问相机权限"))
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                        EXTERNAL_CAMERA_REQUEST_CODE);
+                                dialog.dismiss();
+                            }
+                        })
+//                        .setNegativeButton("取消", null)
+                        .setCancelable(false)
+                        .create()
+                        .show();
+            }else{
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        EXTERNAL_CAMERA_REQUEST_CODE);
+            }
+        }
+    }
+
     private void checkLocationPermissions(){
 //        System.err.println("checkLocationPermissions");
         if (getActivity()!=null) {
-
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
 //                System.err.println("12312312323");
@@ -656,4 +706,5 @@ public class MultiImageSelectorFragment extends Fragment {
         }
 
     }
+
 }

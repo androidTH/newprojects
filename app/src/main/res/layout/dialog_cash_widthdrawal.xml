@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="@dimen/margin_12"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_white_8r"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_user_info"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_45"
+            android:layout_marginTop="@dimen/margin_5">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/iv_cash_headView"
+                style="@style/DefaultCircleHeadStyle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_10" />
+
+            <TextView
+                android:id="@+id/tv_cash_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/iv_cash_headView"
+                android:text="金额将提现到微信钱包"
+                android:textColor="@color/color_888888"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_wx_username"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/iv_cash_headView"
+                android:layout_marginTop="@dimen/margin_2"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_bindwx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:background="@drawable/shape_6r_oc"
+                android:paddingTop="@dimen/margin_5"
+                android:paddingBottom="@dimen/margin_5"
+                android:paddingLeft="@dimen/margin_8"
+                android:paddingRight="@dimen/margin_8"
+                android:text="绑定微信"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_cash_money"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_333333"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_8"
+            android:text="可提现金额：¥"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_3"
+            android:text="1朵小红花=1元"
+            android:textColor="@color/color_888888"
+            android:layout_marginLeft="@dimen/margin_8"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/et_cash_input"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_45"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_15"
+            android:background="@drawable/shape_6r_ef"
+            android:hint="请输入提现金额"
+            android:inputType="number"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_10"
+            android:textColor="@color/color_333333"
+            android:textColorHint="@color/color_999999"
+            android:textSize="17sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:text="提现将收取20%的手续费，最低提现金额20元"
+            android:textColor="@color/color_888888"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:textSize="12sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_20"
+            android:text="提现"
+            android:textSize="@dimen/btnTextSize"
+            android:id="@+id/tv_cashok"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingTop="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_10"
+            android:background="@drawable/shape_4r_80_orange"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="40dp"
+        android:background="@mipmap/ic_close_orange2" />
+</RelativeLayout>

@@ -2,15 +2,11 @@ package com.d6.android.app.utils
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Toast
 import com.d6.android.app.activities.MyDateActivity
 import com.d6.android.app.base.BaseActivity
-
-import com.umeng.analytics.MobclickAgent
 import com.umeng.message.UmengNotificationClickHandler
-import com.umeng.message.common.UmLog
 import com.umeng.message.entity.UMessage
 import org.jetbrains.anko.startActivity
 
@@ -22,7 +18,7 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
 
     override fun dismissNotification(context: Context?, msg: UMessage?) {
         super.dismissNotification(context, msg)
-        Toast.makeText(context, "dismission+${msg!!.extra["type"]}", Toast.LENGTH_LONG).show()
+//        Toast.makeText(context, "dismission+${msg!!.extra["type"]}", Toast.LENGTH_LONG).show()
     }
 
     override fun launchApp(context: Context, msg: UMessage?) {

@@ -45,13 +45,12 @@
             android:id="@+id/tv_mydate_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingRight="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:textColor="@color/color_black"
-            android:maxLines="2"
             android:textSize="16sp"
             android:gravity="center_vertical"
-            android:text="内容"/>
+            android:text="-----"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_mydate_imgs"
             android:layout_width="match_parent"

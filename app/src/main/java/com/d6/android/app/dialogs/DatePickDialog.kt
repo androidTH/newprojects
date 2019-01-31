@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.widget.CustomToast
 import org.jetbrains.anko.support.v4.find
 
 /**
@@ -51,8 +52,8 @@ class DatePickDialog(val min: Long = 0, val max: Long = 0) : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (max > 0) {
-                datePicker.maxDate = max
+            if (max >= 0) {
+                datePicker.maxDate = (System.currentTimeMillis())
             }
             if (min > 0) {
                 datePicker.minDate = min

@@ -21,14 +21,6 @@ import org.jetbrains.anko.wrapContent
  */
 class SquareActionDialog : DialogFragment() {
 
-    private val mSquare by lazy {
-        if (arguments!=null && arguments.containsKey("data")) {
-            arguments.getSerializable("data") as Square
-        } else {
-            Square()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.Dialog)
@@ -46,9 +38,10 @@ class SquareActionDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var userId = arguments.getString("id")
 
         val uid = SPUtils.instance().getString(Const.User.USER_ID)
-        if (TextUtils.equals(mSquare.userid, uid)) {//是自己。
+        if (TextUtils.equals(uid, userId.toString())) {//是自己。
             tv_report_squre.gone()
             tv_delete_square.visible()
         } else {

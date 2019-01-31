@@ -2,7 +2,6 @@ package com.d6.android.app.activities
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -10,25 +9,23 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
+import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.OpenDatePayPointDialog
-import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
-import com.d6.android.app.dialogs.UserActionDialog
+import com.d6.android.app.dialogs.*
+import com.d6.android.app.eventbus.LikeMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.rong.imkit.RongIM
@@ -36,9 +33,11 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
+import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
-
-
 /**
  *
  */
@@ -46,6 +45,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private val id by lazy {
         intent.getStringExtra("id")
     }
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -61,9 +61,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         MySquareAdapter(mSquares, 0)
     }
     private val mImages = ArrayList<AddImage>()
+
     private val myImageAdapter by lazy {
         MyImageAdapter(mImages)
     }
+
+    private val mDateImages = ArrayList<String>()
+    private val mDateimageAdapter by lazy {
+        SelfReleaselmageAdapter(mDateImages,1)
+    }
+
     private val mTags = ArrayList<UserTag>()
     private val userTagAdapter by lazy {
         UserTagAdapter(mTags)
@@ -83,6 +90,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .statusBarDarkFont(false)
                 .keyboardEnable(true)
                 .init()
+        EventBus.getDefault().register(this)
 
         tv_back.setOnClickListener {
             finish()
@@ -146,12 +154,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
 
         tv_siliao.setOnClickListener {
-            isNoAuthToChat("5") {
                 mData?.let {
                     val name = it.name ?: ""
-//                        checkChatCount(id) {
-                            showDatePayPointDialog(name)
-//                    }
+                    showDatePayPointDialog(name)
+                }
+        }
+
+        iv_sendflower.setOnClickListener {
+            mData?.let {
+                it.accountId?.let {
+                    var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+                    dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 3,"userId" to it)
+                    dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
                 }
             }
         }
@@ -177,6 +191,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         dialog()
+        if(TextUtils.equals(userId,id)){
+            rl_doaction.visibility = View.GONE
+        }else{
+            rl_doaction.visibility = View.VISIBLE
+        }
         getUserInfo()
         addVistor()
         getUserFollowAndFansandVistor()
@@ -197,8 +216,76 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
-    private fun getUserInfo() {
+    /**
+     * 展示约会信息
+     */
+    private fun setDateInfo(myAppointment:MyAppointment?){
+        headerView.tv_datetype_name.text = Const.dateTypes[myAppointment?.iAppointType!!.toInt()-1]
+        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size){
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_feed)
+            headerView.tv_datetype_name.setCompoundDrawables(null,drawable,null,null)
+            headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))
+        }else{
+            var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment?.iAppointType!!.toInt()-1])
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
+            headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3));
+            headerView.tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
+        }
 
+        var sb = StringBuffer()
+        if(!myAppointment.iAge.toString().isNullOrEmpty()){
+            if(myAppointment.iAge!=null){
+                sb.append("${myAppointment.iAge}岁")
+            }
+        }
+
+        if(!myAppointment.iHeight.toString().isNullOrEmpty()){
+            if(myAppointment.iHeight!!.toInt() > 0 ){
+                sb.append("·${myAppointment.iHeight}cm")
+            }
+        }
+
+        if(!myAppointment.iWeight.toString().isNullOrEmpty()){
+            if(!myAppointment.iWeight.toString().equals("0")){
+                sb.append("·${myAppointment.iWeight}kg")
+            }
+        }
+
+        if(!sb.toString().isNullOrEmpty()){
+            headerView.tv_sub_title.text = sb.toString()
+            headerView.tv_sub_title.visibility = View.VISIBLE
+        }else{
+            headerView.tv_sub_title.visibility = View.GONE
+        }
+
+        var time = converTime(myAppointment.dEndtime)
+        headerView.tv_time_long.text="倒计时:${time}"
+
+        headerView.tv_self_address.text = myAppointment.sPlace
+
+        headerView.tv_content.text = myAppointment.sDesc
+
+        if (myAppointment.sAppointPic.isNullOrEmpty()) {
+            headerView.rv_images.gone()
+        } else {
+            headerView.rv_images.visible()
+            mDateImages.clear()
+            val images = myAppointment.sAppointPic?.split(",")
+            if (images != null) {
+                mDateImages.addAll(images.toList())
+            }
+
+            headerView.rv_images.setHasFixedSize(true)
+            headerView.rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            headerView.rv_images.adapter = mDateimageAdapter
+        }
+
+        headerView.tv_send_date.setOnClickListener {
+            signUpDate(myAppointment)
+        }
+    }
+
+    private fun getUserInfo() {
         Request.getUserInfo(userId,id).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             this.mData = data
@@ -216,12 +303,43 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
-                headerView.tv_sex.text = it.age
-                if (TextUtils.equals("0", it.sex)) {
-                    headerView.tv_vip.invisible()
-                } else {
-                    headerView.tv_vip.visible()
+                it.age?.let {
+                    if(it.toInt()<=0){
+                        headerView.tv_sex.text = ""
+                    }else{
+                        headerView.tv_sex.text = it
+                    }
                 }
+
+                if (TextUtils.equals("0", it.sex)) {
+                    headerView.tv_vip.visibility = View.INVISIBLE
+                    if(TextUtils.equals("0",it.screen)||TextUtils.equals("3",it.screen) || it.screen.isNullOrEmpty()){
+                        headerView.img_other_auther.visibility = View.GONE
+                        headerView.img_date_auther.visibility = View.GONE
+                        if(TextUtils.equals("3",it.screen)){
+                            headerView.tv_other_auther_sign.visibility = View.GONE
+                        }else{
+                            headerView.tv_other_auther_sign.visibility = View.VISIBLE
+                        }
+                    }else if(TextUtils.equals("1", data.screen)){
+                        headerView.img_other_auther.visibility = View.VISIBLE
+                        headerView.img_date_auther.visibility = View.VISIBLE
+                        headerView.tv_other_auther_sign.visibility = View.GONE
+                    }
+                } else {
+                    headerView.img_other_auther.visibility = View.GONE
+                    headerView.img_date_auther.visibility = View.GONE
+                    headerView.tv_vip.visibility = View.VISIBLE
+                }
+
+                headerView.img_other_auther.setOnClickListener {
+                    toast(getString(R.string.string_auth))
+                }
+
+                headerView.tv_other_auther_sign.setOnClickListener {
+                    startActivity<DateAuthStateActivity>()
+                }
+
                 headerView.tv_vip.text = String.format("%s", it.classesname)
                 mTags.clear()
                 if(!it.height.isNullOrEmpty()){
@@ -243,80 +361,65 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (!it.job.isNullOrEmpty()) {
                     AppUtils.setUserInfoTvTag(this,"职业 ${it.job}",0,2,headerView.tv_job)
+                }else{
+                    headerView.tv_job.visibility = View.GONE
                 }
 
-//                AppUtils.setUserInfoTvTag(this,"座驾 Testla ModelX 迈巴赫",0,2,headerView.tv_zuojia)
+                if (!it.zuojia.isNullOrEmpty()) {
+                    AppUtils.setUserInfoTvTag(this,"座驾 ${it.zuojia}",0,2,headerView.tv_zuojia)
+                }else{
+                    headerView.tv_zuojia.visibility = View.GONE
+                }
 
                 if (!it.hobbit.isNullOrEmpty()) {
                     var mHobbies = it.hobbit?.replace("#",",")?.split(",")
                     var sb = StringBuffer()
                     sb.append("爱好 ")
                     if (mHobbies != null) {
+                        //,,
                         for(str in mHobbies){
-//                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
-                            sb.append("${str} ")
+                            if(!TextUtils.isEmpty(str)){
+                                sb.append("${str} ")
+                            }
+                        }
+                        if(sb.toString().trim().length<=2){
+                            headerView.tv_aihao.visibility = View.GONE
                         }
                         AppUtils.setUserInfoTvTag(this,sb.toString(),0,2,headerView.tv_aihao)
                     }
-//                    mTags.add(UserTag(it.hobbit ?: "", R.drawable.shape_tag_bg_6))
+                }else{
+                    headerView.tv_aihao.visibility = View.GONE
                 }
 
-                refreshImages(it)
+                if(!TextUtils.equals("null",it.userpics)){
+                    refreshImages(it)
+                }
 
                 squareAdapter.setUserInfo(mData!!)
                 getTrendData()
-//                headView.setImageURI(it.picUrl)
-//                tv_name.text = it.name
-//                tv_name.isSelected = TextUtils.equals("0",it.sex)
-//                tv_signature.text = it.signature
-//                tv_age.text = it.age
-//                tv_height.text = it.height
-//                tv_weight.text = it.weight
-//                tv_job.text = it.job
-//
-//                tv_city.text = it.city
-//                if (it.city.isNullOrEmpty()) {
-//                    tv_city.invisible()
-//                } else {
-//                    tv_city.visible()
-//                }
-//                tv_hobbit.text = it.hobbit
-//                if (it.hobbit.isNullOrEmpty()) {
-//                    tv_hobbit.invisible()
-//                } else {
-//                    tv_hobbit.visible()
-//                }
-//                tv_constellation.text = it.constellation
-//                if (it.constellation.isNullOrEmpty()) {
-//                    tv_constellation.invisible()
-//                } else {
-//                    tv_constellation.visible()
-//                }
-//
-//                tv5.text = if (TextUtils.equals(it.sex,"1")) "自我介绍" else "要求"
-//                tv_content.text = it.intro
-//                if (it.intro.isNullOrEmpty()) {
-//                    tv_content.invisible()
-//                } else {
-//                    tv_content.visible()
-//                }
-//                Toast.makeText(this, data.iIsFollow.toString(), Toast.LENGTH_LONG).show()
+
+                if(it.appointment!=null){
+                    headerView.date_headView.setImageURI(it.picUrl)
+                    headerView.tv_name.text =it.name
+                    headerView.tv_name.isSelected =TextUtils.equals("0", it.sex)
+                    setDateInfo(it.appointment)
+                }else{
+                    headerView.rl_userinfo_date.visibility = View.GONE
+                }
+
                 if(data.iIsFollow !=null){
                     if(data.iIsFollow==1){
-//                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
-
                         tv_like.setCompoundDrawables(null,null,null,null);
                         tv_like.text = resources.getString(R.string.string_liked)
                         tv_like.backgroundResource = R.drawable.shape_20r_white
                         tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
 
                         tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
-                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10))
+                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
                     }else{
                         tv_like.text= resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
                         tv_like.textColor = ContextCompat.getColor(context,R.color.white)
-//                        headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
                     }
                 }
             }
@@ -326,16 +429,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private fun refreshImages(userData: UserData) {
         mImages.clear()
         if (!userData.userpics.isNullOrEmpty()) {
-            val images = userData.userpics!!.split(",")
-            images.forEach {
-                mImages.add(AddImage(it))
+            userData.userpics?.let {
+                val images = it.split(",")
+                images.forEach {
+                    mImages.add(AddImage(it))
+                }
             }
         }
         myImageAdapter.notifyDataSetChanged()
     }
 
     private fun getTrendData() {
-
         Request.getMySquares(userId,id, 0, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false//15717
             if (pageNum == 1) {
@@ -350,8 +454,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
             } else {
                 mSquares.addAll(data.list.results)
+                squareAdapter.notifyDataSetChanged()
             }
-            squareAdapter.notifyDataSetChanged()
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
         }
@@ -393,7 +497,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
 
             tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
-            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_75),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
 
             mData?.iIsFollow = 1
             showTips(jsonObject,"","")
@@ -429,37 +533,81 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun showDatePayPointDialog(name:String){
-        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
-            if(data!=null){
-                var code = data!!.optInt("code")
-                if(code == 1){
-                    var point = data!!.optString("iTalkPoint")
-                    var remainPoint = data!!.optString("iRemainPoint")
-                    if(point.toInt() > remainPoint.toInt()){
-                        val dateDialog = OpenDatePointNoEnoughDialog()
-                        var point = data!!.optString("iTalkPoint")
-                        var remainPoint = data!!.optString("iRemainPoint")
-                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-                        dateDialog.show(supportFragmentManager, "d")
-                    }else{
-                        val dateDialog = OpenDatePayPointDialog()
-                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
-                        dateDialog.show(supportFragmentManager, "d")
-                    }
-                } else if(code == 0){
+        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
+            jsonObjetct?.let {
+                var code = it.optInt("code")
+                if(code!=7){
                     RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                } else {
-                    val dateDialog = OpenDatePointNoEnoughDialog()
-                    var point = data!!.optString("iTalkPoint")
-                    var remainPoint = data!!.optString("iRemainPoint")
-                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-                    dateDialog.show(supportFragmentManager, "d")
+                }else{
+                    startActivity<DateAuthStateActivity>()
                 }
-            }else{
-                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
             }
-        }) { _, msg ->
+        })
+//        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
+//            if(data!=null){
+//                var code = data!!.optInt("code")
+//                if(code == 1){
+//                    var point = data!!.optString("iTalkPoint")
+//                    var remainPoint = data!!.optString("iRemainPoint")
+//                    if(point.toInt() > remainPoint.toInt()){
+//                        val dateDialog = OpenDatePointNoEnoughDialog()
+//                        var point = data!!.optString("iTalkPoint")
+//                        var remainPoint = data!!.optString("iRemainPoint")
+//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+//                        dateDialog.show(supportFragmentManager, "d")
+//                    }else{
+//                        val dateDialog = OpenDatePayPointDialog()
+//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
+//                        dateDialog.show(supportFragmentManager, "d")
+//                    }
+//                } else if(code == 0){
+//                    showToast(msg.toString())
+////                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+//                } else {
+//                    val dateDialog = OpenDatePointNoEnoughDialog()
+//                    var point = data!!.optString("iTalkPoint")
+//                    var remainPoint = data!!.optString("iRemainPoint")
+//                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+//                    dateDialog.show(supportFragmentManager, "d")
+//                }
+//            }else{
+//                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+//            }
+//        }) { code, msg ->
+//             if(code == 0){
+//                 showToast(msg)
+//             }
+//        }
+    }
 
+    private fun signUpDate(myAppointment:MyAppointment) {
+        Request.queryAppointmentPoint(userId).request(this, false, success = { msg, data ->
+            val dateDialog = OpenDateDialog()
+            dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
+            dateDialog.show(supportFragmentManager, "d")
+        }) { code, msg ->
+            if (code == 2) {
+                var openErrorDialog = OpenDateErrorDialog()
+                openErrorDialog.arguments = bundleOf("code" to code, "msg" to msg)
+                openErrorDialog.show(supportFragmentManager, "d")
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event:LikeMsgEvent){
+        if(event.type==1){
+            tv_like.setCompoundDrawables(null,null,null,null);
+            tv_like.text = resources.getString(R.string.string_liked)
+            tv_like.backgroundResource = R.drawable.shape_20r_white
+            tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
+
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
+        }else{
+            tv_like.text= resources.getString(R.string.string_like)
+            tv_like.backgroundResource = R.drawable.shape_20r_ff6
+            tv_like.textColor = ContextCompat.getColor(context,R.color.white)
         }
     }
 
@@ -468,12 +616,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         getUserInfo()
     }
 
-
     override fun showToast(msg: String) {
     }
 
     override fun onLoadMore() {
         pageNum++
         getTrendData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 }

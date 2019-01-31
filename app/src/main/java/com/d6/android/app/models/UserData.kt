@@ -48,9 +48,19 @@ data class UserData(val accountId: String? = "") : Serializable {
     var egagementtype: Int? = 0
     var iIsFollow:Int? = 0
     var iPoint:Int? = 0
+    @SerializedName("zuojia")
+    var zuojia:String?=""
+    var iDatacompletion:Int=-1
+    var iFansCountAll:Int= -1
+    var iVistorCountAll:Int= -1
+    var appointment:MyAppointment?=null
+    var wxid:String?=""
+    var iFlowerCount:Int?=-1
+    var wxname:String?=""
+    var wxpic:String?=""
+    var iTalkSetting:Int?=-1 //1、直接私聊  2、同意后私聊
 
     override fun toString(): String {
-        //                "\"nianling\":\"$age\"," +
 
         return "{\"accountId\":\"$accountId\"," +
                 "\"name\":\"$name\"," +
@@ -60,6 +70,7 @@ data class UserData(val accountId: String? = "") : Serializable {
                 "\"area\":\"$area\"," +
                 "\"xingquaihao\":\"$hobbit\"," +
                 "\"zhiye\":\"$job\"," +
+                "\"zuojia\":\"$zuojia\"," +
                 "\"shengao\":\"$height\"," +
                 "\"tizhong\":\"$weight\"," +
                 "\"gexingqianming\":\"$signature\"," +

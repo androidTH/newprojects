@@ -5,28 +5,32 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.support.v7.widget.GridLayoutManager
+import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
+import com.alibaba.fastjson.JSONObject
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
 import com.d6.android.app.adapters.UserTagAdapter
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.dialogs.MineActionDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import com.d6.android.app.widget.badge.Badge
-import com.d6.android.app.widget.badge.QBadgeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
@@ -34,9 +38,12 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
+import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.imageURI
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -75,15 +82,17 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         ColorDrawable(Color.WHITE).mutate()
     }
 
-    override fun onFirstVisibleToUser() {
-
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         immersionBar
                 .fitsSystemWindows(false)
                 .statusBarAlpha(0f)
                 .titleBar(rl_title)
                 .keyboardEnable(true)
                 .init()
+    }
 
+    override fun onFirstVisibleToUser() {
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(context))
         squareAdapter.setHeaderView(headerView)
         mSwipeRefreshLayout.setAdapter(squareAdapter)
@@ -120,6 +129,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         headerView.rv_tags.isNestedScrollingEnabled = false
         headerView.rv_tags.adapter = userTagAdapter
         headerView.rel_add_square.setOnClickListener {
+            //发布动态
             startActivityForResult<ReleaseNewTrendsActivity>(3)
         }
 
@@ -127,7 +137,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             startActivity<MyPointsActivity>("points" to headerView.tv_mypointscount.text)
         }
 
-        headerView.headView.setOnClickListener {
+        headerView.headview.setOnClickListener {
             mData?.let {
                 startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
             }
@@ -141,12 +151,41 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         })
 
         headerView.rl_vistors_count.setOnClickListener(View.OnClickListener {
-            startActivity<VistorsActivity>()
+            Request.getVistorAuth(userId).request(this,false,success={msg,data->
+                startActivity<VistorsActivity>()
+            }){code,msg->
+                if(code==2){
+                    //积分充足
+                    if(msg.isNotEmpty()){
+                        val jsonObject = JSONObject.parseObject(msg)
+                        var point = jsonObject.getString("iAddPoint")
+                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                        val dateDialog = VistorPayPointDialog()
+                        dateDialog.arguments= bundleOf("point" to point,"pointdesc" to sAddPointDesc,"type" to  0)
+                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistor")
+                    }
+                }else if(code==3){
+                    //积分不足
+                    if(msg.isNotEmpty()){
+                        val jsonObject = JSONObject.parseObject(msg)
+                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+//                        val dateDialog = OpenDatePointNoEnoughDialog()
+//                        dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
+//                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistors")
+
+                        var openErrorDialog = OpenDateErrorDialog()
+                        openErrorDialog.arguments = bundleOf("code" to 1000, "msg" to sAddPointDesc)
+                        openErrorDialog.show((context as BaseActivity).supportFragmentManager, "publishfindDateActivity")
+                    }
+                }else{
+                    showToast(msg)
+                }
+            }
         })
 
 
         headerView.tv_auther_sign.setOnClickListener(View.OnClickListener {
-            activity?.isAuthUser{
+            activity.isCheckOnLineAuthUser(this,userId){
                 startActivity<DateAuthSucessActivity>()
             }
         })
@@ -165,14 +204,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
             }
         }
-
-//        tv_msg.setOnClickListener {
-//            startActivity<MessagesActivity>()
-//        }
-
-//        headerView.rl_msg.setOnClickListener {
-//            startActivity<MessagesActivity>()
-//        }
 
         tv_setting.setOnClickListener {
             startActivityForResult<SettingActivity>(5)
@@ -232,7 +263,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     override fun onResume() {
         super.onResume()
         getUserInfo()
-        getUnReadCount()
         getUserFollowAndFansandVistor()
     }
     override fun onHiddenChanged(hidden: Boolean) {
@@ -242,68 +272,19 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         }
     }
 
-    private fun getUnReadCount() {
-        RongIM.getInstance().getUnreadCount(object : RongIMClient.ResultCallback<Int>() {
-            override fun onSuccess(p0: Int?) {
-                p0?.let {
-                    if (p0 > 0) {
-//                        tv_msg_count1.visible()
-                        headerView.tv_msg_count.visibility = View.VISIBLE
-                        headerView.tv_msg_count.text = "$p0"
-                    } else {
-//                        tv_msg_count1.gone()
-                        headerView.tv_msg_count.gone()
-                        getSysLastOne()
-                    }
-                }
-            }
-
-            override fun onError(p0: RongIMClient.ErrorCode?) {
-
-            }
-
-        }, Conversation.ConversationType.PRIVATE)
-    }
-
-
-    private fun getSysLastOne() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
-                //无数据
-//                tv_msg_count1.gone()
-                headerView.tv_msg_count.gone()
-                getSquareMsg()
-            } else {
-                if ((data.count ?:0)> 0) {
-//                    tv_msg_count1.visible()
-                    headerView.tv_msg_count.visible()
-                    headerView.tv_msg_count.text = data.count.toString()
-                } else {
-                    getSquareMsg()
-                }
-
-            }
-
-        }) { _, _ ->
-            getSquareMsg()
-        }
-    }
-
     private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
 //                tv_msg_count1.gone()
-                headerView.tv_msg_count.gone()
+//                headerView.tv_msg_count.gone()
             } else {
                 if ((data.count ?:0)> 0) {
 //                    tv_msg_count1.visible()
-                    headerView.tv_msg_count.visible()
-                    headerView.tv_msg_count.text = data.count.toString()
+//                    headerView.tv_msg_count.visible()
+//                    headerView.tv_msg_count.text = data.count.toString()
                 }
             }
         }) { _, _ ->
@@ -354,7 +335,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 RongIM.getInstance().refreshUserInfoCache(info)
                 updateCache(it)
                 headerView.iv_bg.showBlur(it.picUrl)
-                headerView.headView.setImageURI(it.picUrl)
+                headerView.headview.setImageURI(it.picUrl)
                 headerView.tv_nick.text = it.name
                 tv_title_nick.text = it.name
                 if(!TextUtils.isEmpty(it.intro)){
@@ -364,28 +345,35 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
-                headerView.tv_sex.text = it.age
-                if(it.iPoint!!.toInt() > 0){
-                    headerView.tv_mypointscount.visibility = View.VISIBLE
-                    headerView.tv_mypointscount.text = it.iPoint.toString()
-                }else{
-                    headerView.tv_mypointscount.visibility = View.GONE
+                it.age?.let {
+                    if(it.toInt()<=0){
+                        headerView.tv_sex.text = ""
+                    }else{
+                        headerView.tv_sex.text = it
+                    }
                 }
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
-//                if (TextUtils.equals("0", it.sex)) {
-//                    headerView.tv_vip.invisible()
-//                } else {
-//                    headerView.tv_vip.visible()
-//                }
-
-                if(TextUtils.equals("0",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
+                if(TextUtils.equals("0",mData!!.screen)|| mData!!.screen.isNullOrEmpty()){
+                    if(TextUtils.equals("7",mData!!.userclassesid)){
+                        headerView.tv_auther_sign.visibility = View.VISIBLE
+                    }else{
+                        headerView.tv_auther_sign.visibility = View.GONE
+                    }
+                    headerView.img_auther.visibility = View.GONE
+                }else if(TextUtils.equals("1",mData!!.screen)){
+                    headerView.img_auther.setImageResource(R.mipmap.girl_center_videoborder)
+                    headerView.img_auther.visibility = View.VISIBLE
+                    headerView.tv_auther_sign.visibility = View.GONE
+                }else if(TextUtils.equals("3",mData!!.screen)){
+                    headerView.tv_auther_sign.visibility = View.GONE
+                    headerView.img_auther.visibility = View.GONE
+                    headerView.img_auther.setImageResource(R.mipmap.small_authentication)
+                }else{
                     headerView.tv_auther_sign.visibility = View.VISIBLE
                     headerView.img_auther.visibility = View.GONE
-                }else{
-                    headerView.tv_auther_sign.visibility = View.GONE
-                    headerView.img_auther.visibility = View.VISIBLE
                 }
+
                 headerView.tv_vip.text = String.format("%s", it.classesname)
 
                 mTags.clear()
@@ -407,14 +395,16 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 if (!it.job.isNullOrEmpty()) {
-//                    mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_whiteicon))
                     AppUtils.setUserInfoTvTag(context,"职业 ${it.job}",0,2,headerView.tv_job)
+                }else{
+                    headerView.tv_job.visibility = View.GONE
                 }
 
-//                mTags.add(UserTag("座驾 迈巴赫", R.mipmap.boy_car_whiteicon))//Testla ModelX
-
-                AppUtils.setUserInfoTvTag(context,"座驾 Testla ModelX 迈巴赫",0,2,headerView.tv_zuojia)
-
+                if (!it.zuojia.isNullOrEmpty()) {
+                    AppUtils.setUserInfoTvTag(context,"座驾${it.zuojia}",0,2,headerView.tv_zuojia)
+                }else{
+                    headerView.tv_zuojia.visibility = View.GONE
+                }
                 if (!it.hobbit.isNullOrEmpty()) {
                     var mHobbies = it.hobbit?.replace("#",",")?.split(",")
                     var sb = StringBuffer()
@@ -427,6 +417,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //                        mTags.add(UserTag(sb.toString(), R.mipmap.boy_hobby_whiteicon))
                         AppUtils.setUserInfoTvTag(context,sb.toString(),0,2,headerView.tv_aihao)
                     }
+                }else{
+                    headerView.tv_aihao.visibility = View.GONE
                 }
 
                 userTagAdapter.notifyDataSetChanged()
@@ -453,6 +445,12 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     headerView.tv_fcount.visibility = View.GONE
                 }
 
+                if(it.iPointNew!!.toInt()> 0){
+                    headerView.tv_mypointscount.visibility = View.VISIBLE
+                }else{
+                    headerView.tv_mypointscount.visibility = View.GONE
+                }
+
 //                if(data.iFollowCount!! > 0){
 //                    headerView.tv_fllcount.text = "+${data.iFollowCount.toString()}"
 //                    headerView.tv_fllcount.visibility = View.VISIBLE
@@ -472,10 +470,14 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
     private fun refreshImages(userData: UserData) {
         mImages.clear()
-        if (!userData.userpics.isNullOrEmpty()) {
-            val images = userData.userpics!!.split(",")
-            images.forEach {
-                mImages.add(AddImage(it))
+        if(!TextUtils.equals("null",userData.userpics)){
+            if (!userData.userpics.isNullOrEmpty()) {
+                userData.userpics?.let {
+                    val images = it.split(",")
+                    images.forEach {
+                        mImages.add(AddImage(it))
+                    }
+                }
             }
         }
         mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))

@@ -9,7 +9,6 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.RecommendDateAdapter
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.dialogs.FilterCityDialog
 import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
@@ -17,7 +16,13 @@ import com.d6.android.app.net.Request
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.support.v7.widget.LinearSnapHelper
+import android.view.Gravity
+import com.d6.android.app.dialogs.AreaSelectedPopup
+import com.d6.android.app.models.City
+import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.diskcache.DiskFileUtils
 
 /**
  * 主页
@@ -28,9 +33,17 @@ class HomeFragment : BaseFragment() {
     }
 
     private var type: Int = 0
-    private var cityType: Int = -2
     private var city: String? = ""
-    private var outCity: String? = ""
+
+    var province = Province(Const.LOCATIONCITYCODE,"不限")
+
+    private val cityJson by lazy{
+        DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
+    }
+
+    private val lastTime by lazy{
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
+    }
 
     private val mSpeedDates = ArrayList<MyDate>()
     private val speedDateAdapter by lazy {
@@ -55,7 +68,7 @@ class HomeFragment : BaseFragment() {
         rvSpeedDate.adapter = speedDateAdapter
 
         speedDateAdapter.setOnItemClickListener { _, position ->
-            activity?.isAuthUser {
+            activity.isCheckOnLineAuthUser(this,userId) {
                 val date = mSpeedDates[position]
                 if(date.iType == 1){
                     startActivity<FindDateDetailActivity>("data" to date)
@@ -80,21 +93,8 @@ class HomeFragment : BaseFragment() {
             override fun getPageTitle(position: Int) = titles[position]
 
         }
-//        mTabLayout.setViewPager(mViewPager)
-
-//        bannerAdapter.setOnItemClickListener { view, position ->
-//            val banner = mBanners[position]
-//            val ids = banner.newsid ?: ""
-//            startActivity<SquareTrendDetailActivity>("id" to ids)
-//        }
 
         tv_speed_date_more.setOnClickListener {
-            //            activity?.let {
-//                if (it is MainActivity) {
-//                    it.changeTab(1)
-//                }
-//            }
-//            startActivity<SpeedDateActivity>()
             startActivity<RecommendDateActivity>()
         }
 
@@ -111,53 +111,99 @@ class HomeFragment : BaseFragment() {
                     if (it is SelfPullDateFragment) {
                         it.refresh()
                     }
-//                    else if (it is HomeSelfReleaseFragment) {
-//                        it.refresh()
-//                    }
                 }
             }
         }
 
         showDialog()
-//        getBanner()
         getSpeedData()
 
         tv_date_city.setOnClickListener {
-            val filterCityDialog = FilterCityDialog()
-            filterCityDialog.hidleCancel(TextUtils.isEmpty(city) && TextUtils.isEmpty(outCity))
-            filterCityDialog.setCityValue(cityType, tv_date_city.text.toString())
-            filterCityDialog.show(childFragmentManager, "fcd")
-            filterCityDialog.setDialogListener { p, s ->
-                if (p == 1 || p == 0) {
-                    city = s
-                    outCity = ""
-                } else if (p == 2) {
-                    city = ""
-                    outCity = s
-                } else if (p == -2) {//取消选择
-                    city = ""
-                    outCity = ""
-                }
-                cityType = p
-                tv_date_city.text = s
-                getFragment()
+            activity.isAuthUser(){
+                showArea()
             }
         }
 
         tv_datetype.setOnClickListener {
-            val filterDateTypeDialog = FilterDateTypeDialog()
-            filterDateTypeDialog.show(childFragmentManager, "ftd")
-            filterDateTypeDialog.setDialogListener { p, s ->
-                type = p
-                tv_datetype.text = s
-                getFragment()
+            activity.isCheckOnLineAuthUser(this,userId){
+                val filterDateTypeDialog = FilterDateTypeDialog()
+                filterDateTypeDialog.show(childFragmentManager, "ftd")
+                filterDateTypeDialog.setDialogListener { p, s ->
+                    type = p
+                    tv_datetype.text = s
+                    getFragment()
+                }
             }
         }
+
+        mPopupArea = AreaSelectedPopup.create(activity)
+                .setDimView(mSwipeRefreshLayout)
+                .apply()
         loginforPoint()
+        getProvinceData()
     }
 
     override fun onFirstVisibleToUser() {
 
+    }
+
+    private fun getProvinceData() {
+        if (cityJson.isNullOrEmpty()) {
+            getServiceProvinceData()
+        } else {
+            if (!TextUtils.equals(getTodayTime(), lastTime)) {
+                getServiceProvinceData()
+            } else {
+                var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                setLocationCity()
+                ProvinceData!!.add(0,province)
+                mPopupArea.setData(ProvinceData)
+            }
+        }
+    }
+
+    private fun getServiceProvinceData(){
+        Request.getProvinceAll().request(this) { _, data ->
+            data?.let {
+                setLocationCity()
+                it.add(0,province)
+                mPopupArea.setData(it)
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
+            }
+        }
+    }
+
+    fun refresh(){
+        showDialog()
+        city = ""
+        type = 0
+        getSpeedData()
+        getFragment()
+    }
+
+    //设置定位城市
+    private fun setLocationCity(){
+        var city = City("","不限地区")
+        city.isSelected = true
+        province.lstDicts.add(city)
+    }
+
+    lateinit var mPopupArea: AreaSelectedPopup
+
+    private fun showArea(){
+        mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_75))
+        mPopupArea.setOnPopupItemClick { basePopup, position, string ->
+            if(position == -3){
+               city = ""
+            }else{
+               city = string
+            }
+            getFragment()
+        }
+
+        mPopupArea.setOnDismissListener {
+        }
     }
 
     private fun getFragment(){
@@ -165,14 +211,8 @@ class HomeFragment : BaseFragment() {
         fragments?.forEach {
             if (it != null && !it.isDetached) {
                 if (it is SelfPullDateFragment) {
-//                    if(!TextUtils.isEmpty(city)){
-//                        it.refresh(city,type.toString())
-//                    }else if(!TextUtils.isEmpty(outCity)){
-//                        it.refresh(outCity,type.toString())
-//                    }else {
-//                        it.refresh("",type.toString())
-//                    }
-                  var area = if(!TextUtils.isEmpty(city)) city else if(!TextUtils.isEmpty(outCity)) outCity else ""
+//                  var area = if(!TextUtils.isEmpty(city)) city else if(!TextUtils.isEmpty(outCity)) outCity else ""
+                  var area = if(!TextUtils.isEmpty(city)) city else ""
                     var dateType = if(type == 6||type==0){
                         ""
                     }else{
@@ -184,22 +224,17 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-//    private fun getBanner() {
-//        Request.getBanners().request(this, success = { _, data ->
-//            mSwipeRefreshLayout.isRefreshing = false
-//            if (data?.list?.results != null) {
-//                mBanners.clear()
-//                mBanners.addAll(data.list.results)
-//                bannerAdapter.notifyDataSetChanged()
-//            }
-//        }) { _, _ ->
-//            mSwipeRefreshLayout.isRefreshing = false
-//        }
-//    }
-
     private fun loginforPoint(){
         Request.loginForPoint(userId).request(this,false,success = {msg,data->
             showTips(data,"","")
+            if (data != null) {
+                var pointDesc = data.optString("sAddPointDesc")
+                if (!TextUtils.isEmpty(pointDesc)) {
+                    SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
+                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
+                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+                }
+            }
         }){code,msg->
 //            var mg = JsonObject().getAsJsonObject(msg)
 //            showTips(mg,"","")

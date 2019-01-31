@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.StrictMode
 import android.support.multidex.MultiDex
 import android.text.TextUtils
 import android.view.View
@@ -19,11 +18,11 @@ import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
-import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
+import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.umeng.commonsdk.UMConfigure
@@ -38,6 +37,7 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
+import io.rong.push.RongPushClient
 import org.jetbrains.anko.toast
 
 
@@ -87,6 +87,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 //        Config.DEBUG = true
         val mPushAgent = PushAgent.getInstance(this)
         mPushAgent.notificationPlaySound = MsgConstant.NOTIFICATION_PLAY_SERVER
+        mPushAgent.setMessageHandler(CustomNotification())
         mPushAgent.setNotificationClickHandler(CustomNotificationHandler())
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {
@@ -94,24 +95,27 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
             override fun onSuccess(deviceToken: String) {
                 SPUtils.instance().put(Const.User.DEVICETOKEN, deviceToken)
                 //注册成功会返回device token ArblO5X82GPZtR8dvWGOMXlPXpdJsOcOdTAoti6gm_ew
-                sysErr("------deviceToken---------->" + deviceToken)
             }
 
             override fun onFailure(s: String, s1: String) {
-                sysErr("------------onFailure-------------->$s--->$s1")
             }
         })
+
+//        MiPushRegistar.register(this, Const.XIAOMIAPPID, Const.XIAOMIAPPKEY)
 //        mPushAgent.isPushCheck = true
         if (applicationInfo.packageName == getCurProcessName(applicationContext)) {
+//            RongPushClient.registerHWPush(this);
+            RongPushClient.registerMiPush(this, Const.XIAOMIAPPID, Const.XIAOMIAPPKEY)
 
             RongIM.init(this)
+            RongPlugin.init(this)
             RongIM.getInstance().setMessageAttachedUserInfo(true)
             initCacheLib()
             setInputProvider()
         }
 
         //在这里初始化
-        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble);
+//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
     }
 
     override fun attachBaseContext(base: Context?) {
@@ -151,7 +155,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
                 CacheDbManager.getInstance().load(userId, UserBean::class.java, object : NetworkCache<UserBean>() {
                     override fun get(key: String, cls: Class<UserBean>): Flowable<UserBean> {
-                        return Request.getUserInfo("",key).ioScheduler().flatMap {
+                        return Request.getUserInfoDetail(key).ioScheduler().flatMap {
                             val data = it.data
                             if (it.res == 1) {
                                 val userBean = UserBean()
@@ -209,7 +213,13 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null && message.conversationType == Conversation.ConversationType.PRIVATE) {
-            sendBroadcast(Intent(Const.NEW_MESSAGE))
+//            sendBroadcast(Intent(Const.NEW_MESSAGE))
+//            message?.let {
+//                if (it.content is TipsMessage) {
+//                    var mTipsMessage = (it.content as TipsMessage)
+//                    sendBroadcast(Intent(Const.PRIVATECHAT_APPLY).putExtra("extra",mTipsMessage.extra))
+//                }
+//            }
         }
         return false
     }

@@ -6,6 +6,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.dialogs.SendRedFlowerDialog
 import com.d6.android.app.dialogs.SquareActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
@@ -47,9 +48,13 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
             mOnItemClickListener?.onItemClick(v,position)
         }
 
+        trendView.setFlowerClick {
+            sendFlower(it)
+        }
+
         trendView.setDeleteClick {
             val squareActionDialog = SquareActionDialog()
-            squareActionDialog.arguments = bundleOf("data" to it)
+            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
             squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
             squareActionDialog.setDialogListener { p, s ->
                 if (p == 1) {
@@ -60,7 +65,26 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
     }
 
     fun setUserInfo(data: UserData){
-           this.mUserData = data;
+           this.mUserData = data
+    }
+
+    private fun sendFlower(square:Square){
+        isBaseActivity {
+            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+            mData?.let {
+                dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 4,"userId" to square.userid.toString(),"square" to square)
+            }
+            dialogSendRedFlowerDialog.show(it.supportFragmentManager,"sendflower")
+
+            dialogSendRedFlowerDialog.setDialogListener { p, s ->
+                mData?.let {
+                    var index = it.indexOf(square)
+                    it.get(index).iFlowerCount = s.toString().toInt()+square.iFlowerCount!!.toInt()
+                    it.get(index).iIsSendFlower = 1
+                    notifyItemChanged(index+1)
+                }
+            }
+        }
     }
 
     private fun delete(square: Square){

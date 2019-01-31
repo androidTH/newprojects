@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding_16">
+    android:paddingTop="@dimen/padding_16"
+    android:paddingLeft="@dimen/padding_16"
+    android:paddingRight="@dimen/padding_16"
+    android:paddingBottom="@dimen/margin_5">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/headView"
@@ -72,6 +75,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:id="@+id/tv_redflower"
+        android:text="0"
+        android:textColor="@color/textColor99"
+        android:layout_toLeftOf="@+id/tv_appraise"
+        android:drawableLeft="@drawable/ic_redflower_selector"
+        android:drawablePadding="4dp"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginRight="@dimen/margin_16"
+        android:paddingLeft="8dp"
+        android:layout_below="@+id/ll_content"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -125,7 +144,6 @@
     <View style="@style/view_line_h"
         android:id="@+id/comment_line"
         android:layout_below="@+id/tv_appraise"
-        android:layout_toRightOf="@+id/headView"
+        android:layout_marginTop="@dimen/margin_5"
         android:visibility="gone"/>
-
 </RelativeLayout>

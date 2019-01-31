@@ -196,7 +196,7 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
 
-       Request.bindPhone(p,code,openId,devicetoken).request(this,false,success = {msg,data->
+       Request.bindPhone(p,code,openId,devicetoken,name,headerpic).request(this,false,success = {msg,data->
            saveMsg(msg)
            saveUserInfo(data)
            data?.let {

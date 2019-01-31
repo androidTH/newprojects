@@ -49,6 +49,7 @@ class SpeedDateDetailActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speed_date_detail)
+        immersionBar.init()
         title = "速约详情"
 
         titleBar.addRightButton(rightId = R.mipmap.ic_share, onClickListener = View.OnClickListener {
@@ -71,15 +72,15 @@ class SpeedDateDetailActivity : TitleActivity() {
             isAuthUser {
                 mSpeedDate.userId?.let {id->
                     val name = mSpeedDate.name ?: ""
-                    checkChatCount(id){
+//                    checkChatCount(id){
                         RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                    }
+//                    }
                 }
             }
         }
 
         btn_contact.setOnClickListener {
-//            val dialog = ContactUsDialog()
+            //            val dialog = ContactUsDialog()
 //            dialog.show(supportFragmentManager, "us")
             ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
         }

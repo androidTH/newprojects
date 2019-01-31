@@ -7,7 +7,7 @@ import com.d6.android.app.easypay.enums.PayWay;
  */
 
 public interface OnPayResultListener {
-    void onPaySuccess(PayWay payWay);
+    void onPaySuccess(PayWay payWay,String orderId);
 
     void onPayCancel(PayWay payWay);
 

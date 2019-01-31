@@ -3,6 +3,7 @@ package com.d6.android.app.models
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  *     author : jinjiarui
@@ -10,7 +11,7 @@ import com.google.gson.annotations.SerializedName
  *     desc   :
  *     version:
  */
-data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {//约会的id
+data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializable {//约会的id
     @SerializedName("sAppointmentSignupId") var sAppointmentSignupId=""  //报名约会数据的id
     @SerializedName("sDesc") var sDesc:String?=""
     @SerializedName("iUserid") var iUserid:Int?=-1//报名约会的用户id
@@ -36,77 +37,6 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""):Parcelable {
     @SerializedName("iHeight") var iHeight:Int?=-1
     @SerializedName("iWeight") var iWeight:Int?=-1
     var iPoint:Int?=-1
-
-    constructor(parcel: Parcel) : this(parcel.readString()) {
-        sAppointmentSignupId = parcel.readString()
-        sDesc = parcel.readString()
-        iUserid = parcel.readValue(Int::class.java.classLoader) as? Int
-        sUserName = parcel.readString()
-        sPicUrl = parcel.readString()
-        iAppointType = parcel.readValue(Int::class.java.classLoader) as? Int
-        iStatus = parcel.readValue(Int::class.java.classLoader) as? Int
-        iAppointUserid = parcel.readValue(Int::class.java.classLoader) as? Int
-        sAppointUserName = parcel.readString()
-        sAppointmentPicUrl = parcel.readString()
-        dAppointmentSignupCreatetime = parcel.readLong()
-        dAppointmentSignupUpdatetime = parcel.readLong()
-        iIsread = parcel.readValue(Int::class.java.classLoader) as? Int
-        sPlace = parcel.readString()
-        sAppointPic = parcel.readString()
-        sRefuseDesc = parcel.readString()
-        dCreatetime = parcel.readLong()
-        dStarttime = parcel.readLong()
-        dEndtime = parcel.readLong()
-        dUpdatetime = parcel.readLong()
-        iSex = parcel.readValue(Int::class.java.classLoader) as? Int
-        iAge = parcel.readInt()
-        iHeight = parcel.readInt()
-        iWeight = parcel.readInt()
-        iPoint = parcel.readValue(Int::class.java.classLoader) as? Int
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(sId)
-        parcel.writeString(sAppointmentSignupId)
-        parcel.writeString(sDesc)
-        parcel.writeValue(iUserid)
-        parcel.writeString(sUserName)
-        parcel.writeString(sPicUrl)
-        parcel.writeValue(iAppointType)
-        parcel.writeValue(iStatus)
-        parcel.writeValue(iAppointUserid)
-        parcel.writeString(sAppointUserName)
-        parcel.writeString(sAppointmentPicUrl)
-        parcel.writeLong(dAppointmentSignupCreatetime)
-        parcel.writeLong(dAppointmentSignupUpdatetime)
-        parcel.writeValue(iIsread)
-        parcel.writeString(sPlace)
-        parcel.writeString(sAppointPic)
-        parcel.writeString(sRefuseDesc)
-        parcel.writeLong(dCreatetime)
-        parcel.writeLong(dStarttime)
-        parcel.writeLong(dEndtime)
-        parcel.writeLong(dUpdatetime)
-        parcel.writeValue(iSex)
-        parcel.writeValue(iAge)
-        parcel.writeValue(iHeight)
-        parcel.writeValue(iWeight)
-        parcel.writeValue(iPoint)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<MyAppointment> {
-        override fun createFromParcel(parcel: Parcel): MyAppointment {
-            return MyAppointment(parcel)
-        }
-
-        override fun newArray(size: Int): Array<MyAppointment?> {
-            return arrayOfNulls(size)
-        }
-    }
-
-
+//    @SerializedName("sSourceAppointPic")
+//    var sSourceAppointPic:String?=""
 }

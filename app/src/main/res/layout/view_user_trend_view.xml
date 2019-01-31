@@ -48,6 +48,22 @@
             android:textColor="@color/orange_f6a"
             android:id="@+id/tv_all_comment"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_redflower"
+        android:text="0"
+        android:textColor="@color/color_888888"
+        android:layout_toLeftOf="@+id/tv_appraise"
+        android:drawableLeft="@drawable/ic_redflower_selector"
+        android:drawablePadding="4dp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginRight="@dimen/margin_16"
+        android:padding="8dp"
+        android:layout_below="@+id/ll_comments"/>
+
     <TextView
         android:id="@+id/tv_appraise"
         android:layout_width="wrap_content"
@@ -86,15 +102,16 @@
         android:text="0"
         android:textColor="@color/color_888888"
         android:textSize="14sp" />
+
     <TextView
+        android:id="@+id/tv_my_square_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/ll_comments"
+        android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/margin_5"
         android:layout_marginTop="@dimen/margin_8"
-        android:background="@mipmap/discuss_more_gray"
-        android:id="@+id/tv_my_square_delete" />
+        android:background="@mipmap/discuss_more_gray" />
     <TextView
         android:id="@+id/tv_sub_title"
         android:layout_width="wrap_content"

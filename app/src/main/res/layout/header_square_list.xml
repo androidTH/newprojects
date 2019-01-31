@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:layout_height="wrap_content">
-    <android.support.v7.widget.RecyclerView
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/mBanner"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:minHeight="90dp" />-->
+    <com.d6.android.app.widget.convenientbanner.ConvenientBanner
         android:id="@+id/mBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="90dp" />
+        android:minHeight="90dp"
+        app:canLoop="true"
+        app:autoTurningTime="3000"/>
 </FrameLayout>

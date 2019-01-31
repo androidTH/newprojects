@@ -7,22 +7,21 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.NonNull
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.FilterTrendDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
-import com.d6.android.app.models.Response
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
+import io.rong.imkit.manager.IUnReadMessageObserver
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
@@ -34,7 +33,12 @@ import org.jetbrains.anko.collections.forEachWithIndex
 /**
  * 主页
  */
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), IUnReadMessageObserver{
+
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
     private val tabTexts = arrayOf( "约会","发现", "动态","消息", "我的")
 
     private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
@@ -48,7 +52,7 @@ class MainActivity : BaseActivity() {
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
-                    getUnReadCount()
+                    getSysLastOne()
                 }
             }
         }
@@ -58,24 +62,28 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         immersionBar.init()
-        registerReceiver(broadcast, IntentFilter(Const.NEW_MESSAGE))
+        registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
         tabhost.setup(this, supportFragmentManager, R.id.container)
         tabhost.tabWidget.dividerDrawable = null
         tabTexts.forEachWithIndex { i, it ->
             val spec = tabhost.newTabSpec(it).setIndicator(addTab(i))
             tabhost.addTab(spec, fragmentArray[i], null)
         }
+
         //默认第一个标签
         tabhost.setCurrentTabByTag(tabTexts[0])
-        //获取我都约会未读消息
         tabhost.setOnTabChangedListener {
             titleBar.visible()
             line.visible()
             iv_right.text = ""
+            tv_square_tab.visibility = View.GONE
+            tv_date_tab.visibility = View.INVISIBLE
+            tv_find_tab.visibility = View.INVISIBLE
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
 //                    tv_title.text = "广场"
+                    tv_title.visible()
                     tv_create_date.visible()
                     tv_date_mydate.visible()
                     date_headView.visible()
@@ -83,10 +91,11 @@ class MainActivity : BaseActivity() {
                     iv_right.gone()
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
+                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
                     tv_title.text = "约会"
+                    tv_date_tab.visibility = View.VISIBLE
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
-
                     //titleBar.backgroundColor = Color.TRANSPARENT
                     titleBar.gone()
                     iv_right.gone()
@@ -96,11 +105,13 @@ class MainActivity : BaseActivity() {
 //                    if (fragment0 != null && fragment0 is DateFragment) {
 //                        fragment0.onFirstVisibleToUser()
 //                    }
+                    tv_find_tab.visibility = View.VISIBLE
                 }
                 TextUtils.equals(it, tabTexts[2]) -> {
                     tv_create_date.gone()
                     tv_date_mydate.gone()
                     date_headView.gone()
+                    tv_title.gone()
                     iv_mydate_newnotice.gone()
                     iv_right.visible()
                     tv_title1.visible()
@@ -110,11 +121,15 @@ class MainActivity : BaseActivity() {
                     iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_add_orange, 0)
 //                    iv_right.text = "发布"
                     tv_title1.text = "动态"
+//                    tabhost.tabWidget.getChildTabViewAt(2).setOnClickListener {
+//                        showToast("dddd")
+//                    }
+                    tv_square_tab.visibility = View.VISIBLE
                 }
 
                 TextUtils.equals(it, tabTexts[3]) -> {
                     titleBar.gone()
-                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+//                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 //                    iv_right.imageResource = R.mipmap.ic_msg_setting
                     tv_title.text = "消息"
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_msg_setting, 0)
@@ -147,7 +162,7 @@ class MainActivity : BaseActivity() {
 //        tv_create_date.gone()
 
         tv_create_date.setOnClickListener {
-            isAuthUser {
+            isCheckOnLineAuthUser(this,userId){
                 startActivityForResult<PublishFindDateActivity>(10)
             }
         }
@@ -160,36 +175,45 @@ class MainActivity : BaseActivity() {
             getAuthState()
         }
 
+        tv_date_tab.setOnClickListener {
+            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+            if (fragment != null && fragment is HomeFragment) {
+                fragment.refresh()
+            }
+        }
+
+        tv_find_tab.setOnClickListener {
+            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
+            if (fragment != null && fragment is DateFragment) {
+                fragment.refresh()
+            }
+        }
+
+        tv_square_tab.setOnClickListener {
+            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
+            if (fragment != null && fragment is SquareMainFragment) {
+                fragment.refresh()
+            }
+        }
+
+
         iv_right.setOnClickListener {
-            //            when (tabhost.currentTab) {
-//                1 -> {
-//                    isAuthUser {
-//                        startActivityForResult<ReleaseNewTrendsActivity>(1)
-//                    }
-//                }
-//                2 -> {
-////                    isAuthUser {
-////                        startActivityForResult<FilterActivity>(0)
-////                    }
-//                    startActivity<MessageSettingActivity>()
-//                }
-//            }
             when (tabhost.currentTab) {
                 1 -> {
-                    isAuthUser {
+                    isCheckOnLineAuthUser(this,userId) {
                         startActivityForResult<FilterActivity>(0)
                     }
                 }
                 2 -> {
-                    isAuthUser {
+                    isCheckOnLineAuthUser(this,userId) {
                         startActivityForResult<ReleaseNewTrendsActivity>(1)
                     }
                 }
             }
         }
         //默认标题
-        tv_title.text = "D6社区"
-
+        tv_title.text = "约会"
+        tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
         titleBar.visibility = View.VISIBLE
 
         val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
@@ -217,6 +241,10 @@ class MainActivity : BaseActivity() {
 
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
+
+        getUserInfo()
+
+        UnReadMessageCountChangedObserver()
     }
 
     fun judgeDataB() {
@@ -238,10 +266,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getAuthState() {
-//        startActivity<MyDateActivity>()
         startActivity<MyDateListActivity>()
-//        tv_tip.visibility = View.GONE
-//        SPUtils.instance().put(Const.User.IS_FIRST_SHOW_TIPS,false).apply()
     }
 
     override fun onResume() {
@@ -252,12 +277,44 @@ class MainActivity : BaseActivity() {
         getUnReadCount()
     }
 
+    fun setBottomBarNormal(tabIndex:Int){
+        var  view = tabhost.tabWidget.getChildTabViewAt(tabIndex)
+        val textView = view.find<TextView>(R.id.img)
+        if(tabIndex == 2){
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, tabImages[2], 0, 0)
+        }else if(tabIndex == 1){
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, tabImages[1], 0, 0)
+        }else if(tabIndex == 0){
+            textView.setCompoundDrawablesWithIntrinsicBounds(0, tabImages[0], 0, 0)
+        }
+    }
+
+    /**
+     * 保存用户信息
+     */
+    private fun getUserInfo() {
+        Request.getUserInfo("",userId).request(this, success = { _, data ->
+            data?.let {
+                SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
+                SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()
+            }
+        })
+    }
+
+    private fun UnReadMessageCountChangedObserver(){
+//        var ConversationTypes = {Conversation.ConversationType.PRIVATE;Conversation.ConversationType.SYSTEM;Conversation.ConversationType.PUBLIC_SERVICE}
+        RongIM.getInstance().addUnReadMessageCountChangedObserver(this,Conversation.ConversationType.PRIVATE)
+    }
+
     private fun getUnReadCount() {
         RongIM.getInstance().getUnreadCount(object : RongIMClient.ResultCallback<Int>() {
             override fun onSuccess(p0: Int?) {
                 p0?.let {
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                    if (fragment != null && fragment is MessageFragment) {
+                        fragment.getChatMsg()
+                    }
                     val view1 = tabhost.tabWidget.getChildTabViewAt(3)
-                    System.err.println("-------------->$view1")
                     if (view1 != null) {
                         val view = view1.find<View>(R.id.tv_msg_count)
                         if (p0 > 0) {
@@ -306,15 +363,19 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getSysLastOne() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
                 view?.gone()
                 getSquareMsg()
             } else {
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                if (fragment != null && fragment is MessageFragment) {
+                    fragment.setSysMsg(data)
+                }
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
                 } else {
@@ -328,7 +389,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.LAST_TIME)
+        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
@@ -336,8 +397,14 @@ class MainActivity : BaseActivity() {
                 //无数据
                 view?.gone()
             } else {
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                if (fragment != null && fragment is MessageFragment) {
+                    fragment.setSquareMsg(data)
+                }
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
+                }else{
+                    view?.gone()
                 }
             }
         }) { _, _ ->
@@ -385,6 +452,25 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    override fun onCountChanged(p0: Int) {
+        val view1 = tabhost.tabWidget.getChildTabViewAt(3)
+        if(p0>0){
+            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+            if (fragment != null && fragment is MessageFragment) {
+                fragment.getChatMsg()
+            }
+            if (view1 != null) {
+                val view = view1.find<View>(R.id.tv_msg_count)
+                view?.visible()
+            }
+        }else{
+            if (view1 != null) {
+                val view = view1.find<View>(R.id.tv_msg_count)
+                view?.gone()
+            }
+        }
+    }
+
     private var mExitTime: Long = 0
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -403,7 +489,6 @@ class MainActivity : BaseActivity() {
 
     override fun onDestroy() {
         try {
-            immersionBar.destroy()
             unregisterReceiver(broadcast)
         } catch (e: Exception) {
 

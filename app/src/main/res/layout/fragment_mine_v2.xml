@@ -33,20 +33,6 @@
             android:visibility="invisible"
             android:paddingRight="6dp"/>
         <TextView
-            android:id="@+id/tv_msg_count1"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_alignRight="@+id/tv_msg"
-            android:layout_alignTop="@+id/tv_msg"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="14dp"
-            android:background="@mipmap/mycenter_top_newnotice"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:visibility="invisible" />
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/title_bar_size"
             android:id="@+id/tv_setting"

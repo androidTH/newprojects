@@ -44,16 +44,6 @@ class LauncherActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        if (!this.isTaskRoot()) {
-//            var intent = getIntent()
-//            if (intent != null) {
-//                var action = intent.getAction()
-//                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
-//                    finish()
-//                    return;
-//                }
-//            }
-//        }
         setContentView(R.layout.activity_launcher)
         immersionBar.init()
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)

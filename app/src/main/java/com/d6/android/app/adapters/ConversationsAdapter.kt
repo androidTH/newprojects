@@ -1,21 +1,17 @@
 package com.d6.android.app.adapters
 
 import android.annotation.SuppressLint
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.utils.RongUtils
-import com.d6.android.app.widget.badge.Badge
-import com.d6.android.app.widget.badge.QBadgeView
 import com.facebook.drawee.view.SimpleDraweeView
 import io.rong.imkit.RongContext
 import io.rong.imkit.utils.RongDateUtils
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
-import kotlinx.android.synthetic.main.header_messages.view.*
 import org.jetbrains.anko.toast
 
 
@@ -37,27 +33,19 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         if (data.latestMessage != null) {
             val provider = RongContext.getInstance().getMessageTemplate(data.latestMessage.javaClass)
             if (provider != null) {
-                tv_content.text = provider.getContentSummary(data.latestMessage)
+                tv_content.text = provider.getContentSummary(context,data.latestMessage)
             }
         } else {
             tv_content.text = ""
         }
 
-        val tv_unread = holder.bind<TextView>(R.id.tv_unread)
+        val tv_unread = holder.bind<TextView>(R.id.tv_unreadnum)
         var count = data.unreadMessageCount
         if (count > 99) {
             count = 99
         }
-//        tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
+        tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
         tv_unread.text = count.toString() + ""
-
-        if(count > 0){
-            mBadegeUser.bindTarget(headView).setBadgeText(count.toString()).setGravityOffset(-3F,-2F, true).setOnDragStateChangedListener(Badge.OnDragStateChangedListener(){
-                dragState, badge, targetView ->
-            })
-        }else{
-            mBadegeUser.hide(false)
-        }
 
         holder.bind<View>(R.id.rl_main).setOnClickListener {
             if (mOnItemClickListener!=null){
@@ -78,9 +66,5 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                 }
             })
         }
-    }
-
-    private val mBadegeUser by lazy{
-        QBadgeView(context)
     }
 }

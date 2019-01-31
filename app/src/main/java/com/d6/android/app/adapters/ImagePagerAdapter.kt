@@ -1,10 +1,13 @@
 package com.d6.android.app.adapters
 
+import android.net.Uri
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.util.Log
 
 import com.d6.android.app.fragments.ImageFragment
+import com.d6.android.app.utils.Const
 
 import java.util.ArrayList
 
@@ -21,7 +24,13 @@ class ImagePagerAdapter(fm: FragmentManager, urls: List<String>?) : FragmentPage
     }
 
     override fun getItem(position: Int): Fragment {
-        return ImageFragment.newInstance(urls[position], isBlur)
+        var url = urls[position]
+        Log.i("ImagePagerAdapter", "图片默认${url}")
+        if(url.contains(Const.Pic_Thumbnail_Size_wh300)){
+            url = url.replace(Const.Pic_Thumbnail_Size_wh300,Const.Pic_Thumbnail_Size_wh600)
+        }
+        Log.i("ImagePagerAdapter", "图片大小${url}")
+        return ImageFragment.newInstance(url, isBlur)
     }
 
     override fun getCount(): Int {
