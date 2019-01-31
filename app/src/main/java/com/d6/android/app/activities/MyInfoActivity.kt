@@ -85,6 +85,7 @@ class MyInfoActivity : BaseActivity() {
         }
 
         tv_back.setOnClickListener {
+            mKeyboardKt.hideKeyboard(it)
             finish()
         }
         tv_save.setOnClickListener {
