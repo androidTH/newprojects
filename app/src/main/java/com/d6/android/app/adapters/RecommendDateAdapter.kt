@@ -64,6 +64,7 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
             } else if(TextUtils.equals("0", data.screen)){
                 tv_audio_auth.visibility = View.GONE
             }else if(TextUtils.equals("3",data.screen)){
+                tv_audio_auth.visibility = View.GONE
                 tv_audio_auth.text = "已认证"
                 var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.small_authentication_icon)
                 drawable.setBounds(0, 0,  drawable.getMinimumWidth(), drawable.getMinimumHeight())//这句一定要加

@@ -59,7 +59,7 @@
             android:id="@+id/tv_auth_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_4r_orange"
+            android:background="@drawable/shape_10r_8e"
             android:layout_marginRight="@dimen/margin_8"
             android:layout_marginTop="-30dp"
             android:textColor="@color/white"

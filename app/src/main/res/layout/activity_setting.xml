@@ -67,7 +67,6 @@
                     android:layout_toRightOf="@+id/tv_nick"
                     android:background="@drawable/ic_sex_bg_selector"
                     android:drawableLeft="@drawable/sex_white_selector"
-                    android:drawablePadding="4dp"
                     android:paddingLeft="6dp"
                     android:paddingRight="6dp"
                     android:textColor="@color/white"
@@ -127,7 +126,7 @@
                     android:layout_marginRight="@dimen/margin_35"
                     android:textColor="@color/color_888888"
                     android:padding="@dimen/margin_13"
-                    android:text="直接私聊" />
+                    android:text="" />
             </RelativeLayout>
 
             <RelativeLayout

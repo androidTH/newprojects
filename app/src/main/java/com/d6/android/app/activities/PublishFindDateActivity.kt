@@ -15,7 +15,6 @@ import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.OpenDateErrorDialog
-import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage

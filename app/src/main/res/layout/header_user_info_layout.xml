@@ -43,7 +43,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:src="@mipmap/girl_center_videoborder"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <TextView
@@ -111,14 +111,14 @@
         android:layout_toRightOf="@+id/rl_headView"
         android:background="@drawable/shape_auther_sign_gray"
         android:drawableLeft="@mipmap/authentication_videoicon"
-        android:drawablePadding="@dimen/margin_5"
+        android:drawablePadding="@dimen/margin_3"
         android:gravity="center"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
         android:text="@string/user_no_auther"
         android:textColor="@color/white"
         android:visibility="invisible"
-        android:textSize="12dp" />
+        android:textSize="11sp" />
 
     <ImageView
         android:id="@+id/iv_isfollow"
@@ -133,7 +133,7 @@
         android:id="@+id/rv_my_images"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_other_auther_sign"
+        android:layout_below="@+id/rl_headView"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginBottom="6dp"
         android:minHeight="66dp"
