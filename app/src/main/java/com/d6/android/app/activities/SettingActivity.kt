@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.DialogUpdateApp
@@ -20,19 +19,16 @@ import com.d6.android.app.net.http.UpdateAppHttpUtil
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
-import com.umeng.message.UTrack
 import com.vector.update_app.UpdateAppBean
 import com.vector.update_app.UpdateAppManager
 import com.vector.update_app.UpdateCallback
-import com.vector.update_app.utils.AppUpdateUtils
 import io.rong.imkit.RongIM
-import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
-import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
-import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_setting.*
-import kotlinx.android.synthetic.main.header_mine_layout.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -167,7 +163,7 @@ class SettingActivity : TitleActivity() {
                 tv_nick.text = it.name
                 tv_signature.text = it.intro
 
-                if(TextUtils.equals("0",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
+                if(TextUtils.equals("0",mData!!.screen)||TextUtils.equals("3",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
                     img_auther.visibility = View.GONE
                 }else{
                     img_auther.visibility = View.VISIBLE
@@ -182,6 +178,10 @@ class SettingActivity : TitleActivity() {
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     private fun setPrivateChatType(status:Int,chatType:String?){

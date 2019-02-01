@@ -139,11 +139,6 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
         }
     }
 
-    override fun onVisibleToUser() {
-        super.onVisibleToUser()
-
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         try {

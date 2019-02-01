@@ -8,6 +8,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import kotlinx.android.synthetic.main.activity_feed_back.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.toast
 
 /**

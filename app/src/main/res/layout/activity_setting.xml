@@ -35,15 +35,14 @@
 
                 <ImageView
                     android:id="@+id/img_auther"
-                    android:layout_width="15dp"
+                    android:layout_width="22dp"
                     android:layout_height="15dp"
                     android:layout_below="@+id/tv_vip"
-                    android:layout_marginRight="@dimen/margin_5"
-                    android:layout_marginTop="-8dp"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_marginTop="-3dp"
                     android:layout_toLeftOf="@+id/tv_signature"
                     android:background="@drawable/shape_auther_bg"
-                    android:padding="3dp"
-                    android:src="@mipmap/memberorder_icon_white" />
+                    android:src="@mipmap/video_small_authentication" />
 
                 <TextView
                     android:id="@+id/tv_nick"
