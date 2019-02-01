@@ -111,8 +111,7 @@ class SettingActivity : TitleActivity() {
              var mSelectChatTypeDialog = SelectChatTypeDialog()
              mSelectChatTypeDialog.show(supportFragmentManager,"SelectChatTypeDialog")
              mSelectChatTypeDialog.setDialogListener { p, s ->
-                 tv_private_chat_type.text = s.toString()
-                 setPrivateChatType(p)
+                 setPrivateChatType(p,s)
              }
         }
 
@@ -185,13 +184,14 @@ class SettingActivity : TitleActivity() {
         }
     }
 
-    private fun setPrivateChatType(status:Int){
+    private fun setPrivateChatType(status:Int,chatType:String?){
         Request.updateTalkSetting(userId,status).request(this,false,success={msg,data->
-
+            tv_private_chat_type.text =chatType.toString()
         }){code,msg->
             showToast(msg)
         }
     }
+
 
     private var updateurl ="https://raw.githubusercontent.com/WVector/AppUpdateDemo/master/json/json.txt"
 
