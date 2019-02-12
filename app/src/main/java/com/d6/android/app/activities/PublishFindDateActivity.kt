@@ -23,6 +23,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.dateTypesDefault
 import com.d6.android.app.utils.Const.dateTypesSelected
+import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -39,7 +40,7 @@ class PublishFindDateActivity : BaseActivity() {
 
     private val mImages = ArrayList<AddImage>()
     private val mDateTypes = ArrayList<DateType>()
-    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","不限")
+    var dateTypes = arrayOf("旅行", "吃饭", "电影", "喝酒", "不限")
 
     private val addAdapter by lazy {
         AddImageAdapter(mImages)
@@ -56,8 +57,8 @@ class PublishFindDateActivity : BaseActivity() {
     private var city: String? = null
     private var areaType = -1
     private var area = ""
-    private var startTime:String = ""
-    private var endTime:String = ""
+    private var startTime: String = ""
+    private var endTime: String = ""
     private var selectedDateType: DateType? = null;
     private val locationClient by lazy {
         AMapLocationClient(applicationContext)
@@ -70,7 +71,7 @@ class PublishFindDateActivity : BaseActivity() {
         RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
                 locationClient.setLocationListener {
-                    sysErr("--location--->"+it)
+                    sysErr("--location--->" + it)
                     if (it != null) {
                         city = it.city
                         tv_city.setText(city)
@@ -83,11 +84,11 @@ class PublishFindDateActivity : BaseActivity() {
             }
         }
 
-        for (i in 0..4){
-          var dt = DateType((i+1))
-            dt.dateTypeName =dateTypes[i]
+        for (i in 0..4) {
+            var dt = DateType((i + 1))
+            dt.dateTypeName = dateTypes[i]
             dt.imgUrl = "res:///${dateTypesDefault[i]}"
-            dt.selectedimgUrl ="res:///${dateTypesSelected[i]}"
+            dt.selectedimgUrl = "res:///${dateTypesSelected[i]}"
             dt.isSelected = false
             mDateTypes.add(dt)
         }
@@ -98,7 +99,7 @@ class PublishFindDateActivity : BaseActivity() {
         rv_datetype.adapter = mDateTypeAdapter
 
         mDateTypeAdapter.setOnItemClickListener { view, position ->
-            for (i in 0..(mDateTypes.size-1)){
+            for (i in 0..(mDateTypes.size - 1)) {
                 var dt = mDateTypes.get(i)
                 dt.isSelected = i == position
             }
@@ -121,67 +122,69 @@ class PublishFindDateActivity : BaseActivity() {
         addAdapter.notifyDataSetChanged()
 
         tv_area.setOnClickListener {
-//            startActivityForResult<FilterCityActivity>(4,"type" to 0)
+            //            startActivityForResult<FilterCityActivity>(4,"type" to 0)
             startActivityForResult<AreaChooseActivity>(4)
         }
 
         tv_startTime.setOnClickListener {
-            val dialog = DatePickDialog(System.currentTimeMillis(),-1)
+            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
             dialog.setOnDateSetListener { year, month, day ->
                 dialog.dismissAllowingStateLoss()
-                startTime = String.format("%s-%02d-%02d",year,month,day)
+                startTime = String.format("%s-%02d-%02d", year, month, day)
                 tv_startTime.text = startTime
             }
-            dialog.show(supportFragmentManager,"start")
+            dialog.show(supportFragmentManager, "start")
         }
         tv_endTime.setOnClickListener {
-            val dialog = DatePickDialog(System.currentTimeMillis(),-1)
-            if(!TextUtils.isEmpty(startTime)){
-                dialog.isCheckedStartTime(startTime.isNotEmpty(),startTime.substring(startTime.length - 2,startTime.length))
+            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
+            if (!TextUtils.isEmpty(startTime)) {
+                dialog.isCheckedStartTime(startTime.isNotEmpty(), startTime.substring(startTime.length - 2, startTime.length))
             }
             dialog.setOnDateSetListener { year, month, day ->
                 dialog.dismissAllowingStateLoss()
-                endTime = String.format("%s-%02d-%02d",year,month,day)
+                endTime = String.format("%s-%02d-%02d", year, month, day)
                 tv_endTime.text = endTime
             }
-            dialog.show(supportFragmentManager,"end")
+            dialog.show(supportFragmentManager, "end")
         }
 
         tv_sure.setOnClickListener {
-            if(publish()){
-                Request.getAppointmentAuth(userId).request(this,false,success={msg,data->
-                    CreateDate(et_content.text.toString().trim())
-                }){code,msg->
-                    if(code == 0){
-                        startActivity<DateAuthStateActivity>()
-                    }else if(code==2){
-                        if(msg.isNotEmpty()){
-                            val jsonObject = JSONObject.parseObject(msg)
-                            var point = jsonObject.getString("iAddPoint")
-                            var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-                            val dateDialog = VistorPayPointDialog()
-                            dateDialog.arguments= bundleOf("point" to point,"pointdesc" to sAddPointDesc,"type" to  1)
-                            dateDialog.show(supportFragmentManager, "vistor")
-                            dateDialog.setDialogListener { p, s ->
-                                if(p == 1){
-                                    dialog()
-                                    CreateDate(et_content.text.toString().trim())
+            if (!isFastClick()) {
+                if (publish()) {
+                    Request.getAppointmentAuth(userId).request(this, false, success = { msg, data ->
+                        CreateDate(et_content.text.toString().trim())
+                    }) { code, msg ->
+                        if (code == 0) {
+                            startActivity<DateAuthStateActivity>()
+                        } else if (code == 2) {
+                            if (msg.isNotEmpty()) {
+                                val jsonObject = JSONObject.parseObject(msg)
+                                var point = jsonObject.getString("iAddPoint")
+                                var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                                val dateDialog = VistorPayPointDialog()
+                                dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 1)
+                                dateDialog.show(supportFragmentManager, "vistor")
+                                dateDialog.setDialogListener { p, s ->
+                                    if (p == 1) {
+                                        dialog()
+                                        CreateDate(et_content.text.toString().trim())
+                                    }
                                 }
                             }
-                        }
-                    }else if(code==3){
-                        if(msg!="null"){
-                            val jsonObject = JSONObject.parseObject(msg)
+                        } else if (code == 3) {
+                            if (msg != "null") {
+                                val jsonObject = JSONObject.parseObject(msg)
 //                            var point = jsonObject.getIntValue("iAddPoint")
 //                            var remainPoint = jsonObject.getString("iRemainPoint")
-                            var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                                var sAddPointDesc = jsonObject.getString("sAddPointDesc")
 //                            val dateDialog = OpenDatePointNoEnoughDialog()
 //                            dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
 //                            dateDialog.show(supportFragmentManager, "d")
 
-                            var openErrorDialog = OpenDateErrorDialog()
-                            openErrorDialog.arguments = bundleOf("code" to 2, "msg" to sAddPointDesc)
-                            openErrorDialog.show(supportFragmentManager, "publishfindDateActivity")
+                                var openErrorDialog = OpenDateErrorDialog()
+                                openErrorDialog.arguments = bundleOf("code" to 2, "msg" to sAddPointDesc)
+                                openErrorDialog.show(supportFragmentManager, "publishfindDateActivity")
+                            }
                         }
                     }
                 }
@@ -204,7 +207,7 @@ class PublishFindDateActivity : BaseActivity() {
                 image.path = path
                 mImages.add(size - 1, image)
                 addAdapter.notifyDataSetChanged()
-            }else if (requestCode == 4 && data!=null) {
+            } else if (requestCode == 4 && data != null) {
 //                areaType = data.getIntExtra("type",0)
                 area = data.getStringExtra("area")
                 tv_area.text = area
@@ -212,12 +215,12 @@ class PublishFindDateActivity : BaseActivity() {
         }
     }
 
-    private fun publish():Boolean {
-        if(selectedDateType == null){
+    private fun publish(): Boolean {
+        if (selectedDateType == null) {
             showToast("请选择约会类型")
             return false
         }
-        if(area.isNullOrEmpty()){
+        if (area.isNullOrEmpty()) {
             showToast("请选择城市所属地区")
             return false
         }
@@ -237,7 +240,7 @@ class PublishFindDateActivity : BaseActivity() {
             return false
         }
 
-        if(!isDateOneBigger(endTime,startTime)){
+        if (!isDateOneBigger(endTime, startTime)) {
             showToast("发布约会截止日期不能早于开始日期")
             return false
         }
@@ -245,7 +248,7 @@ class PublishFindDateActivity : BaseActivity() {
         return true
     }
 
-    private fun CreateDateOfPics(content:String){
+    private fun CreateDateOfPics(content: String) {
         val temp = mImages.filter { it.type != 1 }
         Flowable.fromIterable(temp).subscribeOn(Schedulers.io()).flatMap {
             //压缩
@@ -264,39 +267,37 @@ class PublishFindDateActivity : BaseActivity() {
             Flowable.just(sb.toString())
         }.flatMap {
             //                sysErr("------releaseSelfAbout--------->"+it) //city
-            Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime ,it)
-        }.request(this,false,success= { _, data ->
+            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, it)
+        }.request(this, false, success = { _, data ->
             showToast("发布成功")
-            if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
-                showTips(data,"","")
+            if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
+                showTips(data, "", "")
             }
             setResult(Activity.RESULT_OK)
             startActivity<MyDateListActivity>()
             finish()
-        }){code,msg->
-            if(code==0){
+        }) { code, msg ->
+            if (code == 0) {
                 showToast(msg)
             }
         }
     }
 
 
-
-
-    private fun CreateDate(content:String){
+    private fun CreateDate(content: String) {
         if (mImages.size > 1) {//有图片
             CreateDateOfPics(content)
         } else {
-            Request.releasePullDate(userId, area,content, selectedDateType?.type,startTime,endTime,"").request(this,false,success= { _, data ->
+            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "").request(this, false, success = { _, data ->
                 showToast("发布成功")
-                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
-                    showTips(data,"","")
+                if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
+                    showTips(data, "", "")
                 }
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()
-            }){code,msg->
-                if(code==0){
+            }) { code, msg ->
+                if (code == 0) {
                     showToast(msg)
                 }
             }
@@ -307,6 +308,7 @@ class PublishFindDateActivity : BaseActivity() {
         locationClient.stopLocation()
         locationClient.startLocation()
     }
+
     override fun onDestroy() {
         super.onDestroy()
         locationClient.onDestroy()

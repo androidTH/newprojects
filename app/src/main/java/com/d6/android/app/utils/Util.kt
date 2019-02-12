@@ -542,3 +542,19 @@ fun getDiskLruCacheHelper(context: Context): DiskLruCacheHelper? {
 
     return mDiskLruCacheHelper
 }
+
+private val MIN_DELAY_TIME= 1000  // 两次点击间隔不能少于1000ms
+private var lastClickTime:Long = 0
+
+/**
+ * 防止多次点击
+ */
+fun isFastClick():Boolean {
+    var flag = true
+    var currentClickTime = System.currentTimeMillis()
+    if ((currentClickTime - lastClickTime) >= MIN_DELAY_TIME) {
+        flag = false
+    }
+    lastClickTime = currentClickTime
+    return flag
+}
