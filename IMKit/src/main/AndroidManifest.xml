@@ -27,11 +27,21 @@
 
     <application>
 
-        <activity android:name="io.rong.imkit.plugin.location.AMapLocationActivity" />
+        <activity android:name="io.rong.imkit.plugin.location.AMapLocationActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name="io.rong.imkit.plugin.location.AMapRealTimeActivity2D"
+            android:screenOrientation="portrait"/>
 
         <activity android:name="io.rong.imkit.plugin.location.AMapPreviewActivity" />
 
         <activity android:name="io.rong.imkit.plugin.location.AMapRealTimeActivity" />
+
+        <activity
+            android:name="io.rong.imkit.plugin.location.AMapLocationActivity2D"
+            android:screenOrientation="portrait" />
+
+        <activity android:name="io.rong.imkit.plugin.location.AMapPreviewActivity2D" />
 
         <activity
             android:name="io.rong.imkit.plugin.image.PictureSelectorActivity"
@@ -86,20 +96,6 @@
             android:name=".activity.CSLeaveMessageActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"/>
-
-        <!-- 此部分代码需要移植到您的 app 下的 manifest，并且 authorities 指定您的包名。例如：com.android.FileProvider -->
-        <!-- 否则使用拍照功能时，会崩溃 -->
-        <!--<provider-->
-        <!--android:name="android.support.v4.content.FileProvider"-->
-        <!--android:authorities="包名.FileProvider"-->
-        <!--android:grantUriPermissions="true"-->
-        <!--android:exported="false">-->
-        <!--<meta-data-->
-        <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-        <!--android:resource="@xml/rc_file_path"/>-->
-        <!--</provider>-->
-
-        <activity android:name="io.rong.imkit.plugin.location.AMapRealTimeActivity2D" />
     </application>
 
 </manifest>
