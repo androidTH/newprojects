@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
@@ -301,6 +303,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }else{
                     headerView.tv_signature.text = "本宝宝还没想到好的自我介绍~"
                 }
+
+                headerView.rl_prompt.visibility = View.VISIBLE
+
+//                var lp = RelativeLayout.LayoutParams(headerView.rl_headView.layoutParams)
+//                lp?.let {
+//                     lp.topMargin = resources.getDimensionPixelOffset(R.dimen.height_64)
+//                     lp.leftMargin = resources.getDimensionPixelOffset(R.dimen.margin16dp)
+//                     lp.rightMargin = resources.getDimensionPixelOffset(R.dimen.margin_6)
+//                }
+//
+//                headerView.rl_headView.layoutParams = lp
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 it.age?.let {

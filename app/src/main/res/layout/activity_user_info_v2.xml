@@ -1,109 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+        android:id="@+id/mSwipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/mSwipeRefreshLayout"/>
+        android:layout_height="match_parent" />
+
     <RelativeLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/title_bar_size"
-            android:drawableLeft="@mipmap/navigation_back_white" />
+            android:drawableLeft="@mipmap/navigation_back_white"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp" />
+
         <TextView
+            android:id="@+id/tv_title_nick"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_bar_size"
             android:gravity="center"
-            android:textSize="20dp"
-            android:textColor="@color/textColor"
-            android:paddingRight="80dp"
             android:paddingLeft="80dp"
-            android:id="@+id/tv_title_nick" />
+            android:paddingRight="80dp"
+            android:textColor="@color/textColor"
+            android:textSize="20dp" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/title_bar_size"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:gravity="center"
-            android:drawableRight="@mipmap/ic_my_msg"
             android:id="@+id/tv_msg"
-            android:layout_toLeftOf="@+id/tv_more"
-            android:layout_marginRight="4dp"
-            android:paddingLeft="6dp"
-            android:visibility="gone"
-            android:paddingRight="6dp"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/title_bar_size"
-            android:id="@+id/tv_more"
-            android:gravity="center_vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:drawableRight="@mipmap/ic_more_white"
-            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:layout_toLeftOf="@+id/tv_more"
+            android:drawableRight="@mipmap/ic_my_msg"
+            android:gravity="center"
             android:paddingLeft="6dp"
-            android:paddingRight="6dp"/>
+            android:paddingTop="8dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_more"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/title_bar_size"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@mipmap/ic_more_white"
+            android:gravity="center_vertical"
+            android:paddingLeft="6dp"
+            android:paddingTop="8dp"
+            android:paddingRight="6dp"
+            android:paddingBottom="8dp" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_doaction"
         android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
         android:gravity="center_horizontal"
-        android:paddingBottom="@dimen/margin_10"
-        android:layout_height="100dp">
-       <TextView
-           android:id="@+id/tv_like"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textColor="@color/white"
-           android:background="@drawable/shape_20r_ff6"
-           android:paddingTop="@dimen/margin_10"
-           android:paddingBottom="@dimen/margin_10"
-           android:paddingRight="30dp"
-           android:paddingLeft="30dp"
-           android:layout_marginBottom="20dp"
-           android:textSize="15sp"
-           android:gravity="center"
-           android:layout_alignParentBottom="true"
-           android:drawableLeft="@mipmap/icon_like_button"
-           android:drawablePadding="@dimen/margin_5"
-           android:text="@string/string_like"/>
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/margin_10">
+
+        <TextView
+            android:id="@+id/tv_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/shape_20r_ff6"
+            android:drawableLeft="@mipmap/icon_like_button"
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingTop="@dimen/margin_10"
+            android:paddingRight="30dp"
+            android:paddingBottom="@dimen/margin_10"
+            android:text="@string/string_like"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/tv_siliao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_like"
-            android:textColor="@color/white"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:background="@drawable/shape_20r_orange"
-            android:layout_marginBottom="20dp"
-            android:paddingTop="@dimen/margin_10"
-            android:paddingBottom="@dimen/margin_10"
-            android:paddingRight="30dp"
-            android:paddingLeft="30dp"
-            android:textSize="15sp"
-            android:gravity="center"
             android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginBottom="20dp"
+            android:layout_toRightOf="@+id/tv_like"
+            android:background="@drawable/shape_20r_orange"
             android:drawableLeft="@mipmap/chat_button_icon"
             android:drawablePadding="@dimen/margin_5"
-            android:text="@string/string_siliao"/>
+            android:gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingTop="@dimen/margin_10"
+            android:paddingRight="30dp"
+            android:paddingBottom="@dimen/margin_10"
+            android:text="@string/string_siliao"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
         <ImageView
             android:id="@+id/iv_sendflower"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_toRightOf="@+id/tv_siliao"
-            android:layout_marginBottom="@dimen/margin_8"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_15"
-            android:layout_alignParentBottom="true"
-            android:src="@mipmap/flowers_button_seleted"/>
+            android:layout_marginBottom="@dimen/margin_8"
+            android:layout_toRightOf="@+id/tv_siliao"
+            android:src="@mipmap/flowers_button_seleted" />
     </RelativeLayout>
 </RelativeLayout>

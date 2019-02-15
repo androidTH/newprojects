@@ -39,6 +39,7 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
 import io.rong.push.RongPushClient
+import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.toast
 
 
@@ -102,11 +103,10 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
             }
         })
 
-//        MiPushRegistar.register(this, Const.XIAOMIAPPID, Const.XIAOMIAPPKEY)
-//        mPushAgent.isPushCheck = true
         if (applicationInfo.packageName == getCurProcessName(applicationContext)) {
 //            RongPushClient.registerHWPush(this);
-            RongPushClient.registerMiPush(this, Const.XIAOMIAPPID, Const.XIAOMIAPPKEY)
+            var config = PushConfig.Builder().enableMiPush(Const.XIAOMIAPPID, Const.XIAOMIAPPKEY).build()
+            RongPushClient.setPushConfig(config)
 
             RongIM.init(this)
             RongPlugin.init(this)
