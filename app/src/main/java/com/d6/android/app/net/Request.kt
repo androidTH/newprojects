@@ -400,6 +400,9 @@ object Request {
     //判断是否有查看访客权限
     fun getVistorAuth(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorAuth(iUserid)
 
-    ///支付查看访客积分
+    //支付查看访客积分
     fun getVistorPayPoint(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorPayPoint(iUserid)
+
+    //更新版本
+    fun getByVersion(sVersion:String,iType:String)=RRetrofit.instance().create(ApiServices::class.java).getByVersion(sVersion,iType)
 }

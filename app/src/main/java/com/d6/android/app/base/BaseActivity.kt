@@ -134,18 +134,17 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         dialog.setMessage(msg)
         if (!dialog.isShowing) {
             val activity = dialog.getOwnerActivity()
-            if(activity!= null&&!activity.isFinishing()){
-                dialog.show()
-            }
+            dialog.show()
         }
     }
 
     override fun dismissDialog() {
         if (dialog.isShowing) {
             val activity = dialog.getOwnerActivity()
-            if(activity!= null&&!activity.isFinishing()){
-                dialog.dismiss()
-            }
+//            if(activity!= null&&!activity.isFinishing()){
+//                dialog.dismiss()
+//            }
+            dialog.dismiss()
         }
     }
 

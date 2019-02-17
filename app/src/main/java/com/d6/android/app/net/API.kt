@@ -16,4 +16,5 @@ object API {
      */
 //    const val BASE_URL = "http://www.d6-zone.com/JyPhone/"
 //    const val STATIC_BASE_URL = "http://www.d6-zone.com/JyD6/#/"
+
 }

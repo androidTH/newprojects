@@ -40,6 +40,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
+
 /**
  *
  */
@@ -70,7 +71,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private val mDateImages = ArrayList<String>()
     private val mDateimageAdapter by lazy {
-        SelfReleaselmageAdapter(mDateImages,1)
+        SelfReleaselmageAdapter(mDateImages, 1)
     }
 
     private val mTags = ArrayList<UserTag>()
@@ -113,10 +114,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .build())
 
         tv_like.setOnClickListener(View.OnClickListener {
-            if(mData?.iIsFollow != null){
-                if(mData?.iIsFollow == 0){//mData?.iIsFollow
+            if (mData?.iIsFollow != null) {
+                if (mData?.iIsFollow == 0) {//mData?.iIsFollow
                     addFollow()
-                }else{
+                } else {
                     delFollow()
                 }
             }
@@ -124,8 +125,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         myImageAdapter.setOnItemClickListener { _, position ->
             val data = mImages[position]
             if (data.type != 1) {
-                val urls = mImages.filter { it.type !=1  }.map { it.imgUrl }
-                startActivityForResult<ImagePagerActivity>(22,ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position)
+                val urls = mImages.filter { it.type != 1 }.map { it.imgUrl }
+                startActivityForResult<ImagePagerActivity>(22, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position)
             }
         }
         headerView.rv_tags.setHasFixedSize(true)
@@ -156,18 +157,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
 
         tv_siliao.setOnClickListener {
-                mData?.let {
-                    val name = it.name ?: ""
-                    showDatePayPointDialog(name)
-                }
+            mData?.let {
+                val name = it.name ?: ""
+                showDatePayPointDialog(name)
+            }
         }
 
         iv_sendflower.setOnClickListener {
             mData?.let {
                 it.accountId?.let {
                     var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-                    dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 3,"userId" to it)
-                    dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
+                    dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 3, "userId" to it)
+                    dialogSendRedFlowerDialog.show(supportFragmentManager, "sendflower")
                 }
             }
         }
@@ -189,13 +190,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //            getTrendDetail(square.id?:""){
 //                startActivityForResult<TrendDetailActivity>(18,"data" to it)
 //            }
-            startActivity<SquareTrendDetailActivity>("id" to (square.id?:""),"position" to position)
+            startActivity<SquareTrendDetailActivity>("id" to (square.id
+                    ?: ""), "position" to position)
         }
 
         dialog()
-        if(TextUtils.equals(userId,id)){
+        if (TextUtils.equals(userId, id)) {
             rl_doaction.visibility = View.GONE
-        }else{
+        } else {
             rl_doaction.visibility = View.VISIBLE
         }
         getUserInfo()
@@ -203,10 +205,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         getUserFollowAndFansandVistor()
     }
 
-    private fun setTitleBgAlpha(alpha:Int) {
+    private fun setTitleBgAlpha(alpha: Int) {
         colorDrawable.alpha = alpha
         rl_title.backgroundDrawable = colorDrawable
-        tv_title_nick.alpha = alpha/255f
+        tv_title_nick.alpha = alpha / 255f
         if (alpha > 128) {
             tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_chat_orange, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_orange, 0)
@@ -221,47 +223,47 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     /**
      * 展示约会信息
      */
-    private fun setDateInfo(myAppointment:MyAppointment?){
-        headerView.tv_datetype_name.text = Const.dateTypes[myAppointment?.iAppointType!!.toInt()-1]
-        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size){
-            var drawable = ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_feed)
-            headerView.tv_datetype_name.setCompoundDrawables(null,drawable,null,null)
+    private fun setDateInfo(myAppointment: MyAppointment?) {
+        headerView.tv_datetype_name.text = Const.dateTypes[myAppointment?.iAppointType!!.toInt() - 1]
+        if (myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size) {
+            var drawable = ContextCompat.getDrawable(context, R.mipmap.invitation_nolimit_feed)
+            headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null)
             headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))
-        }else{
-            var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment?.iAppointType!!.toInt()-1])
+        } else {
+            var drawable = ContextCompat.getDrawable(context, Const.dateTypesBig[myAppointment?.iAppointType!!.toInt() - 1])
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
             headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3));
-            headerView.tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
+            headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null);
         }
 
         var sb = StringBuffer()
-        if(!myAppointment.iAge.toString().isNullOrEmpty()){
-            if(myAppointment.iAge!=null){
+        if (!myAppointment.iAge.toString().isNullOrEmpty()) {
+            if (myAppointment.iAge != null) {
                 sb.append("${myAppointment.iAge}岁")
             }
         }
 
-        if(!myAppointment.iHeight.toString().isNullOrEmpty()){
-            if(myAppointment.iHeight!!.toInt() > 0 ){
+        if (!myAppointment.iHeight.toString().isNullOrEmpty()) {
+            if (myAppointment.iHeight!!.toInt() > 0) {
                 sb.append("·${myAppointment.iHeight}cm")
             }
         }
 
-        if(!myAppointment.iWeight.toString().isNullOrEmpty()){
-            if(!myAppointment.iWeight.toString().equals("0")){
+        if (!myAppointment.iWeight.toString().isNullOrEmpty()) {
+            if (!myAppointment.iWeight.toString().equals("0")) {
                 sb.append("·${myAppointment.iWeight}kg")
             }
         }
 
-        if(!sb.toString().isNullOrEmpty()){
+        if (!sb.toString().isNullOrEmpty()) {
             headerView.tv_sub_title.text = sb.toString()
             headerView.tv_sub_title.visibility = View.VISIBLE
-        }else{
+        } else {
             headerView.tv_sub_title.visibility = View.GONE
         }
 
         var time = converTime(myAppointment.dEndtime)
-        headerView.tv_time_long.text="倒计时:${time}"
+        headerView.tv_time_long.text = "倒计时:${time}"
 
         headerView.tv_self_address.text = myAppointment.sPlace
 
@@ -288,7 +290,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo(userId,id).request(this, success = { _, data ->
+        Request.getUserInfo(userId, id).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             this.mData = data
             data?.let {
@@ -298,43 +300,46 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 headerView.iv_bg.showBlur(it.picUrl)
                 headerView.headView.setImageURI(it.picUrl)
                 headerView.tv_nick.text = it.name
-                if(!TextUtils.isEmpty(it.intro)){
+                if (!TextUtils.isEmpty(it.intro)) {
                     headerView.tv_signature.text = it.intro
-                }else{
+                } else {
                     headerView.tv_signature.text = "本宝宝还没想到好的自我介绍~"
                 }
-
-                headerView.rl_prompt.visibility = View.VISIBLE
-
-//                var lp = RelativeLayout.LayoutParams(headerView.rl_headView.layoutParams)
-//                lp?.let {
-//                     lp.topMargin = resources.getDimensionPixelOffset(R.dimen.height_64)
-//                     lp.leftMargin = resources.getDimensionPixelOffset(R.dimen.margin16dp)
-//                     lp.rightMargin = resources.getDimensionPixelOffset(R.dimen.margin_6)
-//                }
-//
-//                headerView.rl_headView.layoutParams = lp
+                it.isValid?.let {
+                    if (TextUtils.equals("1", it)) {
+                        headerView.rl_prompt.visibility = View.GONE
+                        var lp = RelativeLayout.LayoutParams(headerView.rl_headView.layoutParams)
+                        lp?.let {
+                            lp.topMargin = resources.getDimensionPixelOffset(R.dimen.height_75)
+                            lp.leftMargin = resources.getDimensionPixelOffset(R.dimen.margin16dp)
+                            lp.rightMargin = resources.getDimensionPixelOffset(R.dimen.margin_6)
+                        }
+                        headerView.rl_headView.layoutParams = lp
+                    } else {
+                        headerView.rl_prompt.visibility = View.VISIBLE
+                    }
+                }
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 it.age?.let {
-                    if(it.toInt()<=0){
+                    if (it.toInt() <= 0) {
                         headerView.tv_sex.text = ""
-                    }else{
+                    } else {
                         headerView.tv_sex.text = it
                     }
                 }
 
                 if (TextUtils.equals("0", it.sex)) {
                     headerView.tv_vip.visibility = View.INVISIBLE
-                    if(TextUtils.equals("0",it.screen)||TextUtils.equals("3",it.screen) || it.screen.isNullOrEmpty()){
+                    if (TextUtils.equals("0", it.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
                         headerView.img_other_auther.visibility = View.GONE
                         headerView.img_date_auther.visibility = View.GONE
-                        if(TextUtils.equals("3",it.screen)){
+                        if (TextUtils.equals("3", it.screen)) {
                             headerView.tv_other_auther_sign.visibility = View.GONE
-                        }else{
+                        } else {
                             headerView.tv_other_auther_sign.visibility = View.VISIBLE
                         }
-                    }else if(TextUtils.equals("1", data.screen)){
+                    } else if (TextUtils.equals("1", data.screen)) {
                         headerView.img_other_auther.visibility = View.VISIBLE
                         headerView.img_date_auther.visibility = View.VISIBLE
                         headerView.tv_other_auther_sign.visibility = View.GONE
@@ -355,11 +360,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 headerView.tv_vip.text = String.format("%s", it.classesname)
                 mTags.clear()
-                if(!it.height.isNullOrEmpty()){
+                if (!it.height.isNullOrEmpty()) {
                     mTags.add(UserTag("身高 ${it.height}", R.mipmap.boy_stature_whiteicon))
                 }
-                if(!it.weight.isNullOrEmpty()){
-                    mTags.add(UserTag("体重 ${it.weight}",R.mipmap.boy_weight_whiteicon))
+                if (!it.weight.isNullOrEmpty()) {
+                    mTags.add(UserTag("体重 ${it.weight}", R.mipmap.boy_weight_whiteicon))
                 }
 
                 if (!it.constellation.isNullOrEmpty()) {
@@ -373,66 +378,66 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 userTagAdapter.notifyDataSetChanged()
 
                 if (!it.job.isNullOrEmpty()) {
-                    AppUtils.setUserInfoTvTag(this,"职业 ${it.job}",0,2,headerView.tv_job)
-                }else{
+                    AppUtils.setUserInfoTvTag(this, "职业 ${it.job}", 0, 2, headerView.tv_job)
+                } else {
                     headerView.tv_job.visibility = View.GONE
                 }
 
                 if (!it.zuojia.isNullOrEmpty()) {
-                    AppUtils.setUserInfoTvTag(this,"座驾 ${it.zuojia}",0,2,headerView.tv_zuojia)
-                }else{
+                    AppUtils.setUserInfoTvTag(this, "座驾 ${it.zuojia}", 0, 2, headerView.tv_zuojia)
+                } else {
                     headerView.tv_zuojia.visibility = View.GONE
                 }
 
                 if (!it.hobbit.isNullOrEmpty()) {
-                    var mHobbies = it.hobbit?.replace("#",",")?.split(",")
+                    var mHobbies = it.hobbit?.replace("#", ",")?.split(",")
                     var sb = StringBuffer()
                     sb.append("爱好 ")
                     if (mHobbies != null) {
                         //,,
-                        for(str in mHobbies){
-                            if(!TextUtils.isEmpty(str)){
+                        for (str in mHobbies) {
+                            if (!TextUtils.isEmpty(str)) {
                                 sb.append("${str} ")
                             }
                         }
-                        if(sb.toString().trim().length<=2){
+                        if (sb.toString().trim().length <= 2) {
                             headerView.tv_aihao.visibility = View.GONE
                         }
-                        AppUtils.setUserInfoTvTag(this,sb.toString(),0,2,headerView.tv_aihao)
+                        AppUtils.setUserInfoTvTag(this, sb.toString(), 0, 2, headerView.tv_aihao)
                     }
-                }else{
+                } else {
                     headerView.tv_aihao.visibility = View.GONE
                 }
 
-                if(!TextUtils.equals("null",it.userpics)){
+                if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
                 }
 
                 squareAdapter.setUserInfo(mData!!)
                 getTrendData()
 
-                if(it.appointment!=null){
+                if (it.appointment != null) {
                     headerView.date_headView.setImageURI(it.picUrl)
-                    headerView.tv_name.text =it.name
-                    headerView.tv_name.isSelected =TextUtils.equals("0", it.sex)
+                    headerView.tv_name.text = it.name
+                    headerView.tv_name.isSelected = TextUtils.equals("0", it.sex)
                     setDateInfo(it.appointment)
-                }else{
+                } else {
                     headerView.rl_userinfo_date.visibility = View.GONE
                 }
 
-                if(data.iIsFollow !=null){
-                    if(data.iIsFollow==1){
-                        tv_like.setCompoundDrawables(null,null,null,null);
+                if (data.iIsFollow != null) {
+                    if (data.iIsFollow == 1) {
+                        tv_like.setCompoundDrawables(null, null, null, null);
                         tv_like.text = resources.getString(R.string.string_liked)
                         tv_like.backgroundResource = R.drawable.shape_20r_white
-                        tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
+                        tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
-                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
-                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
-                    }else{
-                        tv_like.text= resources.getString(R.string.string_like)
+                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10))
+                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
+                    } else {
+                        tv_like.text = resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
-                        tv_like.textColor = ContextCompat.getColor(context,R.color.white)
+                        tv_like.textColor = ContextCompat.getColor(context, R.color.white)
                     }
                 }
             }
@@ -453,7 +458,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun getTrendData() {
-        Request.getMySquares(userId,id, 0, pageNum).request(this, success = { _, data ->
+        Request.getMySquares(userId, id, 0, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false//15717
             if (pageNum == 1) {
                 mSquares.clear()
@@ -480,14 +485,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun addBlackList() {
         dialog()
-        Request.addBlackList(userId,id).request(this){_,_->
+        Request.addBlackList(userId, id).request(this) { _, _ ->
             toast("已加入黑名单")
         }
     }
 
     //关注粉丝访客
-    fun getUserFollowAndFansandVistor(){
-        Request.getUserFollowAndFansandVistor(id).request(this,success = {s:String?,data: FollowFansVistor?->
+    fun getUserFollowAndFansandVistor() {
+        Request.getUserFollowAndFansandVistor(id).request(this, success = { s: String?, data: FollowFansVistor? ->
             //            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
                 headerView.tv_user_fans_count.text = data.iFansCountAll.toString()
@@ -497,61 +502,61 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
     }
 
-    private fun addFollow(){
+    private fun addFollow() {
         dialog()//35578
-        Request.getAddFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
-//            toast("$s,$jsonObject")
+        Request.getAddFollow(userId, id).request(this) { s: String?, jsonObject: JsonObject? ->
+            //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
 
-            tv_like.setCompoundDrawables(null,null,null,null);
+            tv_like.setCompoundDrawables(null, null, null, null);
 
             tv_like.text = resources.getString(R.string.string_liked)
             tv_like.backgroundResource = R.drawable.shape_20r_white
-            tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
+            tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
-            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
 
             mData?.iIsFollow = 1
-            showTips(jsonObject,"","")
+            showTips(jsonObject, "", "")
         }
     }
 
-    private fun delFollow(){
+    private fun delFollow() {
         dialog()
-        Request.getDelFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
-//            data.optDouble("wanshanziliao")
+        Request.getDelFollow(userId, id).request(this) { s: String?, jsonObject: JsonObject? ->
+            //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
 
-            var drawable = ContextCompat.getDrawable(context,R.mipmap.icon_like_button)
+            var drawable = ContextCompat.getDrawable(context, R.mipmap.icon_like_button)
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-            tv_like.setCompoundDrawables(drawable,null,null,null);
+            tv_like.setCompoundDrawables(drawable, null, null, null);
 
-            tv_like.text= resources.getString(R.string.string_like)
+            tv_like.text = resources.getString(R.string.string_like)
             tv_like.backgroundResource = R.drawable.shape_20r_ff6
-            tv_like.textColor = ContextCompat.getColor(context,R.color.white)
+            tv_like.textColor = ContextCompat.getColor(context, R.color.white)
 
 
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10))
-            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_30),resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10))
             mData?.iIsFollow = 0
         }
     }
 
     //添加访客
-    private fun addVistor(){
-        Request.getAddVistor(id,userId).request(this){s: String?, jsonObject: JsonObject? ->
+    private fun addVistor() {
+        Request.getAddVistor(id, userId).request(this) { s: String?, jsonObject: JsonObject? ->
         }
     }
 
-    private fun showDatePayPointDialog(name:String){
-        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
+    private fun showDatePayPointDialog(name: String) {
+        Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
             jsonObjetct?.let {
                 var code = it.optInt("code")
-                if(code!=7){
+                if (code != 7) {
                     RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                }else{
+                } else {
                     startActivity<DateAuthStateActivity>()
                 }
             }
@@ -593,7 +598,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //        }
     }
 
-    private fun signUpDate(myAppointment:MyAppointment) {
+    private fun signUpDate(myAppointment: MyAppointment) {
         Request.queryAppointmentPoint(userId).request(this, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
@@ -608,19 +613,19 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event:LikeMsgEvent){
-        if(event.type==1){
-            tv_like.setCompoundDrawables(null,null,null,null);
+    fun onEvent(event: LikeMsgEvent) {
+        if (event.type == 1) {
+            tv_like.setCompoundDrawables(null, null, null, null);
             tv_like.text = resources.getString(R.string.string_liked)
             tv_like.backgroundResource = R.drawable.shape_20r_white
-            tv_like.textColor = ContextCompat.getColor(context,R.color.color_666666)
+            tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_10))
-            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10),resources.getDimensionPixelSize(R.dimen.padding_60),resources.getDimensionPixelSize(R.dimen.margin_10))
-        }else{
-            tv_like.text= resources.getString(R.string.string_like)
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
+        } else {
+            tv_like.text = resources.getString(R.string.string_like)
             tv_like.backgroundResource = R.drawable.shape_20r_ff6
-            tv_like.textColor = ContextCompat.getColor(context,R.color.white)
+            tv_like.textColor = ContextCompat.getColor(context, R.color.white)
         }
     }
 

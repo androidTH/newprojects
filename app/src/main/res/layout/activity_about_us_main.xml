@@ -20,6 +20,7 @@
         android:text="商务合作"/>
     <ImageView style="@style/ImageView_h"/>
     <RelativeLayout
+        android:id="@+id/rl_checkversion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

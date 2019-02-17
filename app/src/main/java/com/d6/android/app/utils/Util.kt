@@ -26,15 +26,21 @@ import com.d6.android.app.activities.UnAuthUserActivity
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.DateErrorDialog
+import com.d6.android.app.dialogs.DialogUpdateApp
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
+import com.d6.android.app.models.VersionBean
 import com.d6.android.app.net.Request
+import com.d6.android.app.net.http.UpdateAppHttpUtil
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
 import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
 import com.google.gson.JsonObject
+import com.vector.update_app.UpdateAppBean
+import com.vector.update_app.UpdateAppManager
+import com.vector.update_app.UpdateCallback
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,6 +48,8 @@ import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import org.jetbrains.anko.*
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.security.MessageDigest
@@ -557,4 +565,119 @@ fun isFastClick():Boolean {
     }
     lastClickTime = currentClickTime
     return flag
+}
+
+fun diyUpdate(activity: BaseActivity) {
+    val path = Environment.getExternalStorageDirectory().absolutePath
+
+    val params = HashMap<String, String>()
+
+//        params["appKey"] = "ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f"
+    params["sVersion"] = "1.7.2"//AppUpdateUtils.getVersionName(this)
+    params["iType"] = "2"
+//        params["key2"] = "value3"
+
+    UpdateAppManager.Builder()
+            //必须设置，当前Activity
+            .setActivity(activity)
+            //必须设置，实现httpManager接口的对象
+            .setHttpManager(UpdateAppHttpUtil())
+            //必须设置，更新地址
+            .setUpdateUrl(Const.UpdateAppUrl)
+            //以下设置，都是可选
+            //设置请求方式，默认get
+            .setPost(true)
+            //添加自定义参数，默认version=1.0.0（app的versionName）；apkKey=唯一表示（在AndroidManifest.xml配置）
+            .setParams(params)
+            //设置apk下砸路径，默认是在下载到sd卡下/Download/1.0.0/test.apk
+            .setTargetPath(path)
+            .build()
+            //检测是否有新版本
+            .checkNewApp(object : UpdateCallback() {
+                /**
+                 * 解析json,自定义协议
+                 *
+                 * @param json 服务器返回的json
+                 * @return UpdateAppBean
+                 */
+                override fun parseJson(json: String): UpdateAppBean {
+                    val updateAppBean = UpdateAppBean()
+                    try {
+                        val jsonObject = JSONObject(json)
+                        val code = jsonObject.optInt("res", -1)
+                        if (code == 1) {
+                            var obj = jsonObject.optString("obj")
+                            var versionBean = GsonHelper.GsonToBean(obj, VersionBean::class.java)
+                            updateAppBean
+                                    //（必须）是否更新Yes,No
+                                    .setUpdate("Yes")//jsonObject.optString("update")
+                                    //（必须）新版本号
+                                    .setNewVersion(versionBean.sVersion)
+                                    //（必须）下载地址jsonObject.optString("apk_file_url")
+                                    .setApkFileUrl("http://test-1251233192.coscd.myqcloud.com/1_1.apk")//http://test-1251233192.coscd.myqcloud.com/1_1.apk
+                                    //（必须）更新内容
+                                    .setUpdateLog(versionBean.sDesc)
+                                    //大小，不设置不显示大小，可以不设置
+//                                        .setTargetSize(jsonObject.optString("target_size"))
+                                    //是否强制更新，可以不设置
+                                    .setConstraint(if (versionBean.iUpgradetype == 1) true else false)
+//                                        .newMd5 = jsonObject.optString("new_md5")
+                        } else {
+                            var msg = jsonObject.optString("resMsg")
+                            showToast(msg)
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+
+                    return updateAppBean
+                }
+
+                /**
+                 * 有新版本
+                 *
+                 * @param updateApp        新版本信息
+                 * @param updateAppManager app更新管理器
+                 */
+                public override fun hasNewApp(updateApp: UpdateAppBean, updateAppManager: UpdateAppManager) {
+                    var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
+                    if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
+                        //自定义对话框
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
+                        }
+                    } else if (updateApp.isConstraint) {
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show(activity.supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
+                        }
+                    }
+                }
+
+                /**
+                 * 网络请求之前
+                 */
+                public override fun onBefore() {
+                    activity.dialog()
+                }
+
+                /**
+                 * 网路请求之后
+                 */
+                public override fun onAfter() {
+                    activity.dismissDialog()
+                }
+
+                /**
+                 * 没有新版本
+                 */
+                public override fun noNewApp(error: String?) {
+                    showToast("已是新版本")
+                }
+            })
 }

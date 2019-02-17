@@ -363,4 +363,8 @@ interface ApiServices {
     //支付查看访客积分
     @POST("backstage/vistor/vistorPayPoint")
     fun getVistorPayPoint(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
+    /*1.9.0接口*/
+    @POST("backstage/version/getByVersion")
+    fun getByVersion(@Query("sVersion") sVersion:String,@Query("iType") iType:String):Flowable<Response<VersionBean>>
 }

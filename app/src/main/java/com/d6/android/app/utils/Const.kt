@@ -1,6 +1,7 @@
 package com.d6.android.app.utils
 
 import com.d6.android.app.R
+import com.d6.android.app.net.API
 
 /**
  *
@@ -74,6 +75,7 @@ object Const {
     var PROVINCE_DATAOFFIND = "provinceOfFind" //省份
     var LASTLONGTIMEOFProvince = "LastLoginTimeOfProvince"//查询省份的时间设置
     var LASTTIMEOFPROVINCEINFIND = "LastTimeOfProvinceInFind"//发现中的查询省份时间
+    var IGNORE_VERSION ="ignore_version" //忽略版本
     var LASTDAYTIME = "LastDayTime"
     var NO_LIMIT_ERA = "不限/定位不限地区"
     @JvmField
@@ -102,4 +104,7 @@ object Const {
     val Pic_Thumbnail_Size_wh300  = "?imageMogr2/auto-orient/thumbnail/300x300/quality/100"
     @JvmField
     val Pic_Thumbnail_Size_wh600  = "?imageMogr2/auto-orient/thumbnail/600x600/quality/100"
+
+    val UpdateAppUrl = API.BASE_URL+"backstage/version/getByVersion"
+
 }
