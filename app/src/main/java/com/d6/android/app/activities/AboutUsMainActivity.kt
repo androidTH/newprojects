@@ -1,33 +1,21 @@
 package com.d6.android.app.activities
 
 import android.os.Bundle
-import android.os.Environment
-import android.text.TextUtils
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
-import com.d6.android.app.dialogs.DialogUpdateApp
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.VersionBean
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
-import com.d6.android.app.net.http.UpdateAppHttpUtil
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.Const.UpdateAppUrl
-import com.vector.update_app.UpdateAppBean
-import com.vector.update_app.UpdateAppManager
-import com.vector.update_app.UpdateCallback
 import com.vector.update_app.utils.AppUpdateUtils
 import kotlinx.android.synthetic.main.activity_about_us_main.*
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
-import org.json.JSONException
-import org.json.JSONObject
-import java.util.HashMap
-
 /**
  * 关于我们
  */
 class AboutUsMainActivity : TitleActivity() {
+
+    private var TAG:String? = AboutUsMainActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +39,7 @@ class AboutUsMainActivity : TitleActivity() {
         }
 
         rl_checkversion.setOnClickListener {
-            diyUpdate(this)
+            diyUpdate(this,TAG)
 //               checkVersion()
         }
 
@@ -62,7 +50,7 @@ class AboutUsMainActivity : TitleActivity() {
     private fun checkVersion() {
         Request.getByVersion(AppUpdateUtils.getVersionName(this), "2").request(this, false, success = { msg, data ->
             data?.let {
-                diyUpdate(this)
+                diyUpdate(this,TAG)
             }
         }) { code, msg ->
             showToast("已是最新版本")

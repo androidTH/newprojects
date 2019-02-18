@@ -41,6 +41,7 @@ import com.google.gson.JsonObject
 import com.vector.update_app.UpdateAppBean
 import com.vector.update_app.UpdateAppManager
 import com.vector.update_app.UpdateCallback
+import com.vector.update_app.utils.AppUpdateUtils
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -567,13 +568,13 @@ fun isFastClick():Boolean {
     return flag
 }
 
-fun diyUpdate(activity: BaseActivity) {
+fun diyUpdate(activity: BaseActivity,from:String?) {
     val path = Environment.getExternalStorageDirectory().absolutePath
 
     val params = HashMap<String, String>()
 
 //        params["appKey"] = "ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f"
-    params["sVersion"] = "1.7.2"//AppUpdateUtils.getVersionName(this)
+    params["sVersion"] = AppUpdateUtils.getVersionName(activity)//AppUpdateUtils.getVersionName(this)
     params["iType"] = "2"
 //        params["key2"] = "value3"
 
@@ -608,13 +609,18 @@ fun diyUpdate(activity: BaseActivity) {
                         if (code == 1) {
                             var obj = jsonObject.optString("obj")
                             var versionBean = GsonHelper.GsonToBean(obj, VersionBean::class.java)
+                            var isNoUpdate = if(!TextUtils.equals(versionBean.sVersion,versionBean.sNewVersion)){
+                                "Yes"
+                            }else{
+                                "No"
+                            }
                             updateAppBean
-                                    //（必须）是否更新Yes,No
-                                    .setUpdate("Yes")//jsonObject.optString("update")
+                                    //（必须是否更新Yes,No
+                                    .setUpdate(isNoUpdate)//jsonObject.optString("update")
                                     //（必须）新版本号
-                                    .setNewVersion(versionBean.sVersion)
-                                    //（必须）下载地址jsonObject.optString("apk_file_url")
-                                    .setApkFileUrl("http://test-1251233192.coscd.myqcloud.com/1_1.apk")//http://test-1251233192.coscd.myqcloud.com/1_1.apk
+                                    .setNewVersion(versionBean.sNewVersion)
+                                    //（必须）下载地址jsonObject.optString("apk_file_url") "http://test-1251233192.coscd.myqcloud.com/1_1.apk"
+                                    .setApkFileUrl(versionBean.sDownloadPath)//http://test-1251233192.coscd.myqcloud.com/1_1.apk
                                     //（必须）更新内容
                                     .setUpdateLog(versionBean.sDesc)
                                     //大小，不设置不显示大小，可以不设置
@@ -677,7 +683,9 @@ fun diyUpdate(activity: BaseActivity) {
                  * 没有新版本
                  */
                 public override fun noNewApp(error: String?) {
-                    showToast("已是新版本")
+                    if(TextUtils.equals(from,activity::class.java.simpleName)){
+                        showToast("已是最新版本")
+                    }
                 }
             })
 }

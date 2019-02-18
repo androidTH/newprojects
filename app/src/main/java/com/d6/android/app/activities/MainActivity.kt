@@ -246,7 +246,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
         UnReadMessageCountChangedObserver()
 
-//        diyUpdate(this)
+        diyUpdate(this,"")
     }
 
     fun judgeDataB() {

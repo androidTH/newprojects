@@ -15,12 +15,16 @@ data class VersionBean(@SerializedName("sId")var sId:String) :Parcelable{
     @SerializedName("iType") var iType:String=""
     @SerializedName("iUpgradetype") var iUpgradetype:Int=-1  //1、强制更新  2、提示更新
     @SerializedName("sDesc") var sDesc:String=""
+    @SerializedName("sDownloadPath") var sDownloadPath:String=""
+    @SerializedName("sNewVersion") var sNewVersion:String=""
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         sVersion = parcel.readString()
         iType = parcel.readString()
         iUpgradetype = parcel.readInt()
         sDesc = parcel.readString()
+        sDownloadPath = parcel.readString()
+        sNewVersion = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -29,6 +33,8 @@ data class VersionBean(@SerializedName("sId")var sId:String) :Parcelable{
         parcel.writeString(iType)
         parcel.writeInt(iUpgradetype)
         parcel.writeString(sDesc)
+        parcel.writeString(sDownloadPath)
+        parcel.writeString(sNewVersion)
     }
 
     override fun describeContents(): Int {
