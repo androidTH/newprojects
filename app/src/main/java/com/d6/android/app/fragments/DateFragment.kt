@@ -87,7 +87,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
+        immersionBar.statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
     }
 
     override fun onFirstVisibleToUser() {
@@ -317,7 +317,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if(mDates.size > scrollPosition){
             doAnimation()
             var findDate = mDates.get(scrollPosition)
-            Request.getAddFollow(userId,findDate.accountId.toString()).request(this){ s: String?, jsonObject: JsonObject? ->
+            Request.getAddFollow(userId,findDate.accountId.toString()).request(this,true){ s: String?, jsonObject: JsonObject? ->
                 //toast("$s,$jsonObject")
                 doNextCard()
                 showTips(jsonObject,"","")

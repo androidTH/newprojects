@@ -179,7 +179,7 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     private fun praise(square: Square) {
         dialog()
-        Request.addPraise(userId, square.id).request(this) { msg, jsonObject ->
+        Request.addPraise(userId, square.id).request(this,true) { msg, jsonObject ->
             showToast("点赞成功")
             mTrend.isupvote = "1"
             mTrend.appraiseCount = (mTrend.appraiseCount ?: 0) + 1

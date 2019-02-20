@@ -129,7 +129,7 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
     }
 
     private fun addFollow(fans:Fans,tv_focus:TextView){
-        Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
+        Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity),true){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
             tv_focus.setText("已关注")

@@ -27,6 +27,7 @@ class ReportActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed_back)
+        immersionBar.init()
         title = "举报"
 //        et_content.setHint("写下你的")
         btn_submit.setOnClickListener {

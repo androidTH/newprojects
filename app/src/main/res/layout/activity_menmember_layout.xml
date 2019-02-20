@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="积分说明"
+            android:text="会员说明"
             android:textColor="@color/color_black"
             android:textSize="18dp"
             android:textStyle="bold" />

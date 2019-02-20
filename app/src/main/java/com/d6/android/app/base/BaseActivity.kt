@@ -40,8 +40,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
 
     val immersionBar by lazy {
         ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimaryDark)
-                .statusBarDarkFont(false)
+                .statusBarColor(R.color.trans_parent).statusBarDarkFont(true)
     }
 
     val mKeyboardKt by lazy{

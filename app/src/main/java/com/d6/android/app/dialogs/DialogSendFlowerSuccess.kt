@@ -130,7 +130,7 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
     }
 
     private fun addFollow(id:String){
-        Request.getAddFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
+        Request.getAddFollow(userId, id).request(this,true){ s: String?, jsonObject: JsonObject? ->
             //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
 

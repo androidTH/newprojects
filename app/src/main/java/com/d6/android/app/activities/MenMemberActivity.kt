@@ -15,13 +15,13 @@ import kotlinx.android.synthetic.main.activity_contact_us.*
 import kotlinx.android.synthetic.main.activity_pointexplain_layout.*
 
 /**
- * 积分说明
+ * 男性会员说明
  */
-class PointExplainActivity : BaseActivity() {
+class MenMemberActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pointexplain_layout)
+        setContentView(R.layout.activity_menmember_layout)
         immersionBar.init()
         tv_back.setOnClickListener {
             mKeyboardKt.hideKeyboard(it)

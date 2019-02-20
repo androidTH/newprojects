@@ -37,7 +37,7 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
+        immersionBar.statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
     }
 
     override fun onFirstVisibleToUser() {

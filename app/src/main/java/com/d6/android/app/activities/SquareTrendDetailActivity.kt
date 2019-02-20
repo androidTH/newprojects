@@ -204,7 +204,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
     private fun praise(square: Square) {
         dialog()
-        Request.addPraise(userId, square.id).request(this) { msg, jsonObject ->
+        Request.addPraise(userId, square.id).request(this,true) { msg, jsonObject ->
             showToast("点赞成功")
             square.isupvote = "1"
             square.appraiseCount = (square.appraiseCount?:0)+1

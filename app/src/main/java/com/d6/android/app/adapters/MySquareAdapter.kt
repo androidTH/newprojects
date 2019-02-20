@@ -101,7 +101,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
     private fun praise(square: Square, count: Int) {
         isBaseActivity {
             it.dialog(canCancel = false)
-            Request.addPraise(userId, square.id).request(it) { _, _ ->
+            Request.addPraise(userId, square.id).request(it,true) { _, _ ->
                 it.showToast("点赞成功")
                 square.isupvote = "1"
                 square.appraiseCount = count + 1

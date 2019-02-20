@@ -22,6 +22,7 @@ import android.widget.Toast
 import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
 import com.d6.android.app.activities.DateAuthStateActivity
+import com.d6.android.app.activities.MenMemberActivity
 import com.d6.android.app.activities.UnAuthUserActivity
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
@@ -305,7 +306,12 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     val screen = SPUtils.instance().getString(Const.User.USER_SCREENID)
     if (className == "7"&&screen == "0") {// 22 普通会员
-        this.startActivity<DateAuthStateActivity>()
+        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+        if(TextUtils.equals("1",sex)){
+            this.startActivity<MenMemberActivity>()
+        }else{
+            this.startActivity<DateAuthStateActivity>()
+        }
     } else {
         next()
     }
@@ -317,7 +323,11 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
                 if(it.screen=="0"&&it.userclassesid=="7"){
 //                    SPUtils.instance().put(Const.User.USER_CLASS_ID,it.userclassesid).apply()
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
-                    this.startActivity<DateAuthStateActivity>()
+                    if(TextUtils.equals("1",it.sex)){//1是男
+                        this.startActivity<MenMemberActivity>()
+                    }else{
+                        this.startActivity<DateAuthStateActivity>()
+                    }
                 }else{
                     next()
                 }

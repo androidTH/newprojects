@@ -78,7 +78,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     private fun praise(square: Square) {
         isBaseActivity {
             it.dialog()
-            Request.addPraise(userId, square.id).request(it) { msg, data ->
+            Request.addPraise(userId, square.id).request(it,true) { msg, data ->
                 it.showToast("点赞成功")
                 showTips(data,"","")
                 square.isupvote = "1"
