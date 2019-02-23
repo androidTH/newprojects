@@ -11,6 +11,7 @@ class MessageSettingActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message_setting)
+        immersionBar.init()
         title = "设置"
         val manager = NotificationManagerCompat.from(this)
         val isOpened = manager.areNotificationsEnabled()

@@ -54,7 +54,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
 
         appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
             mSwipeRefreshLayout.isEnabled = verticalOffset >= 0

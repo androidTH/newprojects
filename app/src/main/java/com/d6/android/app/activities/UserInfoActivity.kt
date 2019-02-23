@@ -27,6 +27,7 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
@@ -504,7 +505,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun addFollow() {
         dialog()//35578
-        Request.getAddFollow(userId, id).request(this,true) { s: String?, jsonObject: JsonObject? ->
+        Request.getAddFollow(userId, id).request(this,false,success ={ s: String?, jsonObject: JsonObject? ->
             //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
 
@@ -519,12 +520,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
             mData?.iIsFollow = 1
             showTips(jsonObject, "", "")
+        }){code,msg->
+            CustomToast.showToast(msg)
         }
     }
 
     private fun delFollow() {
         dialog()
-        Request.getDelFollow(userId, id).request(this) { s: String?, jsonObject: JsonObject? ->
+        Request.getDelFollow(userId, id).request(this,true) { s: String?, jsonObject: JsonObject? ->
             //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button

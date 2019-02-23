@@ -85,11 +85,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun contentViewId() = R.layout.fragment_date
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
-    }
-
     override fun onFirstVisibleToUser() {
         mRecyclerView.setOrientation(DSVOrientation.HORIZONTAL)
         setAdapter()
@@ -315,10 +310,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //        showDialog()//35578
         scrollPosition = mRecyclerView.currentItem
         if(mDates.size > scrollPosition){
-            doAnimation()
             var findDate = mDates.get(scrollPosition)
             Request.getAddFollow(userId,findDate.accountId.toString()).request(this,true){ s: String?, jsonObject: JsonObject? ->
                 //toast("$s,$jsonObject")
+                doAnimation()
                 doNextCard()
                 showTips(jsonObject,"","")
             }

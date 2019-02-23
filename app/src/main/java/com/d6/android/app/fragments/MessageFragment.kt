@@ -63,11 +63,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         return R.layout.message_fragment
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
-    }
-
     override fun onFirstVisibleToUser() {
         swiprefreshRecyclerlayout_msg.setLayoutManager(LinearLayoutManager(context))
         swiprefreshRecyclerlayout_msg.mRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))

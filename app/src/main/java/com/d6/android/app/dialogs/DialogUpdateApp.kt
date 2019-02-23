@@ -65,7 +65,7 @@ class DialogUpdateApp : DialogFragment(), RequestManager, DialogInterface.OnKeyL
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var updateAppBean = (arguments.getSerializable("data") as UpdateAppBean)
-        tv_update_content.text = updateAppBean.updateLog
+        tv_update_content.text = updateAppBean.updateLog.replace("\\r\\n", "\r\n")
 
         tv_update_next.setOnClickListener {
             dismissAllowingStateLoss()

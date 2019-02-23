@@ -1,8 +1,10 @@
 package com.d6.android.app.activities
 
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
@@ -11,6 +13,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.visible
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.fragment_splash.*
 import org.jetbrains.anko.bundleOf
@@ -31,6 +34,8 @@ class SplashActivity : BaseActivity() {
             }
             override fun getCount() = 3
         }
+
+
     }
 
     class SplashFragment :BaseFragment(){

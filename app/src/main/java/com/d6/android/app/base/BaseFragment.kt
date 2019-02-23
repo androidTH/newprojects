@@ -51,11 +51,13 @@ abstract class BaseFragment : Fragment() ,RequestManager{
 
     val immersionBar by lazy {
         ImmersionBar.with(this).fitsSystemWindows(true)
-                .statusBarDarkFont(false)
+                .statusBarColor(R.color.trans_parent)
+                .statusBarDarkFont(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        immersionBar.init()
         initPrepare()
     }
 

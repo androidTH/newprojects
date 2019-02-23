@@ -584,7 +584,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
     val params = HashMap<String, String>()
 
 //        params["appKey"] = "ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f"
-    params["sVersion"] = AppUpdateUtils.getVersionName(activity)//AppUpdateUtils.getVersionName(this)
+    params["sVersion"] ="1.7.2" //AppUpdateUtils.getVersionName(activity)//AppUpdateUtils.getVersionName(this)
     params["iType"] = "2"
 //        params["key2"] = "value3"
 
@@ -657,7 +657,14 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                  */
                 public override fun hasNewApp(updateApp: UpdateAppBean, updateAppManager: UpdateAppManager) {
                     var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
-                    if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
+                    if(TextUtils.equals(activity::class.java.simpleName,from)){
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
+                        }
+                    }else if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
                         //自定义对话框
                         var mDialogUpdateApp = DialogUpdateApp()
                         mDialogUpdateApp.arguments = bundleOf("data" to updateApp)

@@ -14,6 +14,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.UserTrendView
 import org.jetbrains.anko.bundleOf
 
@@ -101,11 +102,13 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
     private fun praise(square: Square, count: Int) {
         isBaseActivity {
             it.dialog(canCancel = false)
-            Request.addPraise(userId, square.id).request(it,true) { _, _ ->
+            Request.addPraise(userId, square.id).request(it,false,success={_, _ ->
                 it.showToast("点赞成功")
                 square.isupvote = "1"
                 square.appraiseCount = count + 1
-                notifyDataSetChanged()
+                notifyDataSetChanged()}
+            ){code,msg->
+                CustomToast.showToast(msg)
             }
         }
     }

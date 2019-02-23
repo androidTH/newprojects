@@ -1,10 +1,9 @@
 package com.d6.android.app.activities
 
+import android.Manifest
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -19,6 +18,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.manager.IUnReadMessageObserver
@@ -247,6 +247,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         UnReadMessageCountChangedObserver()
 
         diyUpdate(this,"")
+
+        getPermission()
     }
 
     fun judgeDataB() {
@@ -496,5 +498,26 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
         }
         super.onDestroy()
+    }
+
+    /**
+     * 权限检查
+     */
+    fun getPermission() {
+        RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe {
+            if (it) {//有权限
+
+            } else {
+            }
+        }
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 12) {
+            if (TextUtils.equals(permissions[0],Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                alertDialog( "请注意", "本应用需要使用访问本地存储权限，否则无法正常使用！", false, "确定", "取消", DialogInterface.OnClickListener { _, _ -> finish() }, DialogInterface.OnClickListener { _, _ -> finish() })
+                return
+            }
+        }
     }
 }

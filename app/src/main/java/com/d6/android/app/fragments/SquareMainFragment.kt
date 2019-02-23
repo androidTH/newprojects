@@ -35,11 +35,6 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
 
     override fun contentViewId() = R.layout.fragment_square_main
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
-    }
-
     override fun onFirstVisibleToUser() {
 
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
