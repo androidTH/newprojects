@@ -434,7 +434,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Const.DOUPDATEUSERINFOCODE && resultCode == Activity.RESULT_OK) {
             var bundle = data?.extras
-            mUserInfoData = (bundle?.getSerializable("userinfo") as UserData)
+            mUserInfoData = (bundle?.getSerializable("userinfo") as? UserData)
             mUserInfoData?.let {
                 if(TextUtils.equals(sex,"0")){
                     (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion

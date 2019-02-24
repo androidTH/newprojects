@@ -386,7 +386,6 @@ public class MultiImageSelectorFragment extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 //        System.err.println("--onRequestPermissionsResult--");
         if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -421,7 +420,7 @@ public class MultiImageSelectorFragment extends Fragment {
                 }
             }
         }else if(requestCode == EXTERNAL_CAMERA_REQUEST_CODE){
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED){
+            if (grantResults[0]!= PackageManager.PERMISSION_GRANTED){
                 if (getActivity()!=null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("请注意");
@@ -447,6 +446,7 @@ public class MultiImageSelectorFragment extends Fragment {
                 }
             }
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     /**

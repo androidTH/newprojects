@@ -184,13 +184,15 @@ class SquareFragment : RecyclerFragment() {
             var bundle = data!!.extras
             var mSquare = (bundle.getSerializable("bean") as Square)
             var positon = bundle.getInt("position")
-            mSquares.get(positon).commentCount = mSquare.commentCount
-            mSquares.get(positon).isupvote = mSquare.isupvote
-            mSquares.get(positon).appraiseCount = mSquare.appraiseCount
-            mSquares.get(positon).comments = mSquare.comments
-            mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
-            mSquares.get(positon).iIsSendFlower = mSquare.iIsSendFlower
-            squareAdapter.notifyDataSetChanged()
+            if(mSquares!=null&&mSquares.size>positon){
+                mSquares.get(positon).commentCount = mSquare.commentCount
+                mSquares.get(positon).isupvote = mSquare.isupvote
+                mSquares.get(positon).appraiseCount = mSquare.appraiseCount
+                mSquares.get(positon).comments = mSquare.comments
+                mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
+                mSquares.get(positon).iIsSendFlower = mSquare.iIsSendFlower
+                squareAdapter.notifyDataSetChanged()
+            }
         }
     }
 
@@ -198,9 +200,11 @@ class SquareFragment : RecyclerFragment() {
     fun onEvent(flowerEvent: FlowerMsgEvent){
         if(flowerEvent.getmSquare()!=null){
             var index = mSquares.indexOf(flowerEvent.getmSquare())
-            mSquares.get(index).iFlowerCount = flowerEvent.getmSquare().iFlowerCount
-            mSquares.get(index).iIsSendFlower = 1
-            squareAdapter.notifyDataSetChanged()
+            if(mSquares!=null&&mSquares.size>index){
+                mSquares.get(index).iFlowerCount = flowerEvent.getmSquare().iFlowerCount
+                mSquares.get(index).iIsSendFlower = 1
+                squareAdapter.notifyDataSetChanged()
+            }
         }
     }
 
