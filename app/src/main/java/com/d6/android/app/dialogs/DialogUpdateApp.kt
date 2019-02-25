@@ -14,6 +14,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.vector.update_app.UpdateAppBean
 import io.reactivex.disposables.CompositeDisposable
@@ -78,6 +79,7 @@ class DialogUpdateApp : DialogFragment(), RequestManager, DialogInterface.OnKeyL
 
         tv_update_ok.setOnClickListener {
             dismissAllowingStateLoss()
+            toast(getString(R.string.string_downloadapp))
             dialogListener?.onClick(1,"update")
         }
 
