@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center"
-        android:text="屏蔽" />
+        android:text="加入黑名单" />
     <View style="@style/view_line_h"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"/>
