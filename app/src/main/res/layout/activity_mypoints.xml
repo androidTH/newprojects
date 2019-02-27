@@ -39,7 +39,7 @@
             android:textColor="@color/color_888888"
             android:drawableLeft="@mipmap/icon_integral_info"
             android:drawablePadding="@dimen/margin_4"
-            android:text="积分说明" />
+            android:text="@string/string_points_desc" />
     </RelativeLayout>
 
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout

@@ -5,14 +5,10 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.utils.getFileSuffix
 import com.d6.android.app.utils.ioScheduler
 import com.d6.android.app.utils.sysErr
-import com.google.gson.JsonObject
 import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Retrofit
-import retrofit2.http.POST
-import retrofit2.http.Query
 import java.io.File
 
 

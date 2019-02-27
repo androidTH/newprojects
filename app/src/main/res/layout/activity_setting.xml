@@ -228,6 +228,7 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/tv_blacklist"
                 style="@style/mineTextStyle"
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@mipmap/my_blacklist_icon"

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
@@ -529,7 +530,6 @@ fun getD6VersionName(context: Context): String {
     } catch (e: PackageManager.NameNotFoundException) {
         e.printStackTrace()
     }
-
     return versionName
 }
 
@@ -584,9 +584,8 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
     val params = HashMap<String, String>()
 
 //        params["appKey"] = "ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f"
-    params["sVersion"] ="1.7.2" //AppUpdateUtils.getVersionName(activity)//AppUpdateUtils.getVersionName(this)
+    params["sVersion"] =AppUpdateUtils.getVersionName(activity) //AppUpdateUtils.getVersionName(activity)//AppUpdateUtils.getVersionName(this)
     params["iType"] = "2"
-//        params["key2"] = "value3"
 
     UpdateAppManager.Builder()
             //必须设置，当前Activity
@@ -640,7 +639,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
 //                                        .newMd5 = jsonObject.optString("new_md5")
                         } else {
                             var msg = jsonObject.optString("resMsg")
-                            showToast(msg)
+//                            showToast(msg)
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()

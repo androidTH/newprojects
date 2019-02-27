@@ -20,7 +20,6 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
 import java.lang.Exception
 import android.view.MotionEvent
-import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
 import com.gyf.barlibrary.ImmersionBar
 
@@ -92,13 +91,13 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     override fun onResume() {
         super.onResume()
         MobclickAgent.onResume(this)
-        Bugtags.onResume(this)
+//        Bugtags.onResume(this)
     }
 
     override fun onPause() {
         super.onPause()
         MobclickAgent.onPause(this)
-        Bugtags.onPause(this)
+//        Bugtags.onPause(this)
     }
 
     override fun onDestroy() {
@@ -118,7 +117,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         dismissDialog()
     }
 
-    fun dialog(msg: String = "加载中...", canCancel: Boolean = true) {
+    fun dialog(msg: String = "加载中...", canCancel: Boolean = true,visibility:Boolean = true) {
         if (!canCancel) {
             dialog.setOnCancelListener {
                 if (this.finishWhenCancelDialog()) {
@@ -130,7 +129,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
             dialog.setOnCancelListener(null)
         }
         dialog.setCanceledOnTouchOutside(canCancel)
-        dialog.setMessage(msg)
+        dialog.setMessage(msg,visibility = visibility)
         if (!dialog.isShowing) {
             val activity = dialog.getOwnerActivity()
             dialog.show()
@@ -149,7 +148,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         //注：回调 3
-        Bugtags.onDispatchTouchEvent(this, event)
+//        Bugtags.onDispatchTouchEvent(this, event)
         return super.dispatchTouchEvent(event)
     }
 

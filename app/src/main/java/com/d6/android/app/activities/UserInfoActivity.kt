@@ -331,7 +331,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
                 if (TextUtils.equals("0", it.sex)) {
-                    headerView.tv_vip.visibility = View.INVISIBLE
                     if (TextUtils.equals("0", it.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
                         headerView.img_other_auther.visibility = View.GONE
                         headerView.img_date_auther.visibility = View.GONE
@@ -348,7 +347,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 } else {
                     headerView.img_other_auther.visibility = View.GONE
                     headerView.img_date_auther.visibility = View.GONE
-                    headerView.tv_vip.visibility = View.VISIBLE
                 }
 
                 headerView.img_other_auther.setOnClickListener {

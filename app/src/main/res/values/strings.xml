@@ -69,5 +69,6 @@
     <string name="string_agree_openchat">同意后私聊</string>
     <string name="string_chat_setting">私聊设置</string>
     <string name="string_downloadapp">后台已开始下载，下载完成后即可安装</string>
+    <string name="string_points_desc">积分说明</string>
 
 </resources>
