@@ -100,12 +100,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         headView.setImageURI(square.picUrl)
         tv_name.text = square.name
         tv_sex.isSelected = TextUtils.equals("0",square.sex)
-        if(TextUtils.equals(square.sex, "1")){
-            tv_vip.text = square.userclassesname
-            tv_vip.visibility = View.VISIBLE
-        }else{
-            tv_vip.visibility = View.GONE
-        }
+        tv_vip.text = square.userclassesname
+//        if(TextUtils.equals(square.sex, "1")){
+//            tv_vip.visibility = View.VISIBLE
+//        }else{
+//            tv_vip.visibility = View.GONE
+//        }
 
         val sub = if (square.city.isNullOrEmpty()) {
             square.updatetime.toTime("MM.dd")

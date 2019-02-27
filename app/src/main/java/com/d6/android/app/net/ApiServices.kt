@@ -1,9 +1,11 @@
 package com.d6.android.app.net
 
 import com.d6.android.app.models.*
+import com.d6.android.app.utils.AppUtils
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.qiniu.android.utils.Json
+import com.vector.update_app.utils.AppUpdateUtils
 import io.reactivex.Flowable
 import org.intellij.lang.annotations.Flow
 import retrofit2.http.Body
@@ -14,11 +16,12 @@ import retrofit2.http.Query
  * Created on 2017/12/27.
  */
 interface ApiServices {
+
     @POST("backstage/login/system_login")
-    fun login(@Query("phone") phone: String?, @Query("loginName") account: String?, @Query("password") pwd: String, @Query("logintype") loginType: Int): Flowable<Response<UserData>>
+    fun login(@Query("phone") phone: String?, @Query("loginName") account: String?, @Query("password") pwd: String, @Query("logintype") loginType: Int,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)): Flowable<Response<UserData>>
 
     @POST("backstage/account/add")
-    fun register(@Query("phone") phone: String, @Query("password") pwd: String, @Query("vercode") code: String, @Query("guoneiguowai") phoneType: String,@Query("sex")sex:Int): Flowable<Response<JsonObject>>
+    fun register(@Query("phone") phone: String, @Query("password") pwd: String, @Query("vercode") code: String, @Query("guoneiguowai") phoneType: String, @Query("sex")sex:Int): Flowable<Response<JsonObject>>
 
     @POST("backstage/login/getVerifyCode")
     fun sendSMSCode(@Query("phone") phone: String, @Query("vercodetype") vercodetype: Int, @Query("guoneiguowai") guoneiguowai: Int): Flowable<Response<JsonObject>>
@@ -271,7 +274,7 @@ interface ApiServices {
 
     //人工推荐
     @POST("backstage/lookabout/findLookAboutList")
-    fun findLookAboutList(@Query("iUserid") iUserid:String):Flowable<Response<ArrayList<MyDate>>>
+    fun findLookAboutList(@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<ArrayList<MyDate>>>
 
     //查询全部人工推荐
     @POST("backstage/lookabout/findAllLookAboutList")
@@ -279,11 +282,11 @@ interface ApiServices {
 
     //添加查询约会扣除、退回、取消需要的积分接口
     @POST("backstage/appointment/queryAppointmentPoint")
-    fun queryAppointmentPoint(@Query("iUserid") iUserid:String):Flowable<Response<IntegralExplain>>
+    fun queryAppointmentPoint(@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<IntegralExplain>>
 
     //同城
     @POST("backstage/account/updateUserPosition")
-    fun updateUserPosition(@Query("iUserid") iUserid:String,@Query("sPosition") sPosition:String):Flowable<Response<JsonObject>>
+    fun updateUserPosition(@Query("iUserid") iUserid:String,@Query("sPosition") sPosition:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //发现约会
     @POST("backstage/account/findAccountCardListPage")
@@ -298,11 +301,11 @@ interface ApiServices {
 
     //赠送积分
     @POST("backstage/new_login/loginForPoint")
-    fun loginForPoint(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+    fun loginForPoint(@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //解锁聊天支付多少积分
     @POST("backstage/rongcloud/getUnlockTalkPoint")
-    fun getUnlockTalkPoint():Flowable<Response<JsonObject>>
+    fun getUnlockTalkPoint(@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //是否能聊天
     @POST("backstage/rongcloud/unlockTalk")
@@ -315,7 +318,7 @@ interface ApiServices {
     /*1.8.0接口*/
     //送小红花列表
     @POST("backstage/userflowerrule/find")
-    fun getUserFlowerRule():Flowable<Response<ArrayList<FlowerRule>>>
+    fun getUserFlowerRule(@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<ArrayList<FlowerRule>>>
 
     //绑定微信
     @POST("backstage/account/bindWxid")
@@ -327,42 +330,41 @@ interface ApiServices {
 
     //提现接口
     @POST("backstage/userflowerrule/withDrawFlower")
-    fun doCashMoney(@Query("iUserid") iUserid:String,@Query("iFlowerCount")iFlowerCount:String):Flowable<Response<JsonObject>>
+    fun doCashMoney(@Query("iUserid") iUserid:String,@Query("iFlowerCount")iFlowerCount:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
      /*1.8.5接口*/
-
     //修改聊天设置接口
     @POST("backstage/account/updateTalkSetting")
-    fun updateTalkSetting(@Query("iUserid") iUserid:String,@Query("iTalkSetting") iTalkSetting:Int):Flowable<Response<JsonObject>>
+    fun updateTalkSetting(@Query("iUserid") iUserid:String,@Query("iTalkSetting") iTalkSetting:Int,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //新的私聊接口
     @POST("backstage/rongcloud/getTalkJustifyNew")
-    fun doTalkJustifyNew(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+    fun doTalkJustifyNew(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //申请私聊接口
     @POST("backstage/talkapply/apply")
-    fun doApplyPrivateChat(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+    fun doApplyPrivateChat(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //同意或拒绝私聊接口
     @POST("backstage/talkapply/update")
-    fun doUpdatePrivateChatStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("iStatus") iStatus:String):Flowable<Response<JsonObject>>
+    fun doUpdatePrivateChatStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("iStatus") iStatus:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //获取与当前用户的私聊状态
     @POST("backstage/talkapply/getApplyStatus")
-    fun getApplyStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String):Flowable<Response<JsonObject>>
+    fun getApplyStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     /* 1.8.2接口*/
     //判断是否允许发布约会接口
     @POST("backstage/appointment/addAppointmentAuth")
-    fun getAppointmentAuth(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+    fun getAppointmentAuth(@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //判断是否有查看访客权限
     @POST("backstage/vistor/getVistorAuth")
-    fun getVistorAuth(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+    fun getVistorAuth(@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //支付查看访客积分
     @POST("backstage/vistor/vistorPayPoint")
-    fun getVistorPayPoint(@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+    fun getVistorPayPoint(@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     /*1.9.0接口*/
     @POST("backstage/version/getByVersion")
