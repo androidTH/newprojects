@@ -6,14 +6,16 @@
     <RelativeLayout
         android:id="@+id/rl_user_info"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_45">
+        android:layout_height="@dimen/margin_45"
+        android:background="@color/color_1AF9B724">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_20"
-            android:layout_marginRight="@dimen/margin_20"
-            android:text="添加到黑名单里的用户,将不能给你发送私聊消息,邀约,评论你的动态"
-            android:textColor="@color/color_888888"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="添加到黑名单的用户，将不能给您发送私聊信息、邀约、评论你的动态。"
+            android:textColor="@color/color_F9B724"
             android:textSize="12sp" />
     </RelativeLayout>
 </RelativeLayout>

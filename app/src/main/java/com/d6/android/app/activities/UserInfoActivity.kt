@@ -483,9 +483,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun addBlackList() {
-        dialog()
-        Request.addBlackList(userId, id).request(this) { _, _ ->
-            toast("已加入黑名单")
+        var mDialogAddBlackList = DialogAddBlackList()
+        mDialogAddBlackList.show(supportFragmentManager, "addBlacklist")
+        mDialogAddBlackList.setDialogListener { p, s ->
+            dialog()
+            Request.addBlackList(userId, id).request(this) { _, _ ->
+                CustomToast.showToast(getString(R.string.string_blacklist_toast))
+            }
         }
     }
 

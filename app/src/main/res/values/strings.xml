@@ -70,5 +70,8 @@
     <string name="string_chat_setting">私聊设置</string>
     <string name="string_downloadapp">后台已开始下载，下载完成后即可安装</string>
     <string name="string_points_desc">积分说明</string>
+    <string name="string_ok">确认</string>
+    <string name="string_cancel">取消</string>
+    <string name="string_blacklist_toast">已加入黑名单,可前往“设置-黑名单”中查看</string>
 
 </resources>

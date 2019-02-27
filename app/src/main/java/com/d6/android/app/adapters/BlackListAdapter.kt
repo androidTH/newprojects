@@ -11,6 +11,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 
@@ -36,14 +37,13 @@ class BlackListAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.
         tv_sex.text = data.nianling
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
         val sex = SPUtils.instance().getString(Const.User.USER_SEX)
-        if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
+//        if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
             tv_vip.text = String.format("%s", data.userclassesname)
-            tv_vip.visibility =View.GONE
-        } else {
-            tv_vip.text = String.format("%s", data.userclassesname)
-            tv_vip.visibility = View.VISIBLE
-        }
-
+            tv_vip.visibility =View.VISIBLE
+//        } else {
+//            tv_vip.text = String.format("%s", data.userclassesname)
+//            tv_vip.visibility = View.VISIBLE
+//        }
         var mTvRemove = holder.bind<TextView>(R.id.tv_remove)
         mTvRemove.setOnClickListener(this)
         mTvRemove.setTag(data)
@@ -62,19 +62,21 @@ class BlackListAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.
         if (context is BaseActivity) {
             (context as BaseActivity).dialog("",canCancel = false,visibility = false)
         }
-        Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
-             mData.remove(fans)
-             notifyDataSetChanged()
-        }
+        Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity),false,success={ s: String?, jsonObject: JsonObject? ->
+            mData.remove(fans)
+            notifyDataSetChanged()
+            CustomToast.showToast("已从黑名单中移除")
+        })
     }
 
     private fun delFollow(fans:Fans){
         if (context is BaseActivity) {
             (context as BaseActivity).dialog("",canCancel = false,visibility = false)
         }
-        Request.getDelFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
+        Request.getDelFollow(userId, fans.iUserid.toString()).request((context as BaseActivity),false, success={ s: String?, jsonObject: JsonObject? ->
             mData.remove(fans)
             notifyDataSetChanged()
-        }
+            CustomToast.showToast("已从黑名单中移除")
+        })
     }
 }

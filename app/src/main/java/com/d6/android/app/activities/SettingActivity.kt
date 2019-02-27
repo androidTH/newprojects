@@ -57,7 +57,6 @@ class SettingActivity : TitleActivity() {
 
         tv_contact_us.setOnClickListener {
             startActivity<ContactUsActivity>()
-//            diyUpdate()//版本更新
         }
 
         rl_my_info.setOnClickListener {
