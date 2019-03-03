@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.d6.android.app.R
 import com.d6.android.app.adapters.BlackListAdapter
-import com.d6.android.app.adapters.FansAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Fans
-import com.d6.android.app.models.UserPoints
+import com.d6.android.app.models.BlackListBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_blacklist.*
+import org.jetbrains.anko.startActivity
 
 /**
  * 黑名单列表
@@ -24,11 +23,10 @@ class BlackListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLi
     }
 
     private var pageNum = 1
-    private val mUserPoints = ArrayList<UserPoints>()
 
-    private val mfans = ArrayList<Fans>()
-    private val blackAdapter by lazy {
-        BlackListAdapter(mfans)
+    private val mBlackList = ArrayList<BlackListBean>()
+    private val mBlackListAdapter by lazy {
+        BlackListAdapter(mBlackList)
     }
 
     private val mHeaderView by lazy {
@@ -40,12 +38,17 @@ class BlackListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLi
         setContentView(R.layout.activity_blacklist)
         immersionBar.fitsSystemWindows(true).statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
         blacklist_refreshrecycler.setLayoutManager(LinearLayoutManager(this))
-        blacklist_refreshrecycler.setAdapter(blackAdapter)
-        blackAdapter.setHeaderView(mHeaderView)
+        blacklist_refreshrecycler.setAdapter(mBlackListAdapter)
+        mBlackListAdapter.setHeaderView(mHeaderView)
         blacklist_refreshrecycler.setOnRefreshListener(this)
 
         tv_blacklist_back.setOnClickListener {
             finish()
+        }
+
+        mBlackListAdapter.setOnItemClickListener { view, position ->
+            val id = mBlackList[position].iBlackUserid
+            startActivity<UserInfoActivity>("id" to id.toString())
         }
 
         getData()
@@ -53,9 +56,9 @@ class BlackListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLi
 
     private fun getData() {
         dialog("加载中...")
-        Request.getFindMyFans(userId, pageNum).request(this) { _, data ->
+        Request.getFindMyBlackList(userId, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
-                mfans.clear()
+                mBlackList.clear()
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
@@ -65,9 +68,9 @@ class BlackListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLi
                     blacklist_refreshrecycler.setLoadMoreText("暂无数据")
                 }
             } else {
-                mfans.addAll(data.list.results)
+                mBlackList.addAll(data.list.results)
             }
-            blackAdapter.notifyDataSetChanged()
+            mBlackListAdapter.notifyDataSetChanged()
             blacklist_refreshrecycler.isRefreshing = false
         }
     }

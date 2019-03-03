@@ -20,6 +20,7 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.google.gson.JsonObject
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -172,16 +173,34 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
     }
 
     private fun showDatePayPointDialog(id:String,name:String){
-        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
-            jsonObjetct?.let {
-                var code = it.optInt("code")
-                if(code!=7){
-                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-                }else{
-                    startActivity<DateAuthStateActivity>()
+        (activity as BaseActivity).isAuthUser{
+            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
+                jsonObjetct?.let {
+                    var code = it.optInt("code")
+                    if (code != 7) {
+                        if(code == 8){
+                            CustomToast.showToast(getString(R.string.string_addblacklist))
+                        }else{
+                            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+                        }
+                    }
                 }
-            }
-        })
+            })
+        }
+//        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
+//            jsonObjetct?.let {
+//                var code = it.optInt("code")
+//                if(code!=7){
+//                    if(code == 8){
+//                        CustomToast.showToast(getString(R.string.string_addblacklist))
+//                    }else {
+//                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//                    }
+//                }else{
+//                    startActivity<DateAuthStateActivity>()
+//                }
+//            }
+//        })
 //        if(TextUtils.equals("7",userclassId)){
 //            startActivity<DateAuthStateActivity>()
 //        }else{

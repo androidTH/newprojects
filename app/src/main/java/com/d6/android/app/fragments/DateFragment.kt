@@ -322,7 +322,19 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private fun showDatePayPointDialog(name:String,id:String){
         activity.isCheckOnLineAuthUser(this,userId){
-            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
+                jsonObjetct?.let {
+                    var code = it.optInt("code")
+                    if (code != 7) {
+                        if(code == 8){
+                            CustomToast.showToast(getString(R.string.string_addblacklist))
+                        }else{
+                            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+                        }
+                    }
+                }
+            })
+//            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
         }
     }
 

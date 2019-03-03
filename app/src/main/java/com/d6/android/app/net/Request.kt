@@ -5,10 +5,13 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.utils.getFileSuffix
 import com.d6.android.app.utils.ioScheduler
 import com.d6.android.app.utils.sysErr
+import com.google.gson.JsonPrimitive
 import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import retrofit2.http.POST
+import retrofit2.http.Query
 import java.io.File
 
 
@@ -401,4 +404,10 @@ object Request {
 
     //更新版本
     fun getByVersion(sVersion:String,iType:String)=RRetrofit.instance().create(ApiServices::class.java).getByVersion(sVersion,iType)
+
+    //获取粉丝列表
+    fun getFindMyBlackList(iUserId: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindMyBlacklist(iUserId,pageNum)
+
+    //移除黑名单
+    fun removeBlackList(sId:String?)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(sId.toString())
 }

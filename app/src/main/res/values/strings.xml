@@ -73,5 +73,6 @@
     <string name="string_ok">确认</string>
     <string name="string_cancel">取消</string>
     <string name="string_blacklist_toast">已加入黑名单,可前往“设置-黑名单”中查看</string>
+    <string name="string_addblacklist">操作失败，您已经被对方拉到黑名单</string>
 
 </resources>

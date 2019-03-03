@@ -154,9 +154,6 @@ interface ApiServices {
     @POST("backstage/dataDict/find")
     fun findDataDict(@Query("dataKey") dataKey:String?="quhao"): Flowable<Response<JsonPrimitive>>
 
-    @POST("backstage/black/add")
-    fun addBlackList(@Query("userid") userid:String,@Query("blackuserid") blackuserid:String): Flowable<Response<JsonPrimitive>>
-
     @POST("backstage/tip/add")
     fun report(@Query("userid") userid:String,@Query("tipuserid") tipuserid:String,@Query("content") content:String,@Query("tiptype") tiptype:String): Flowable<Response<JsonPrimitive>>
 
@@ -369,4 +366,16 @@ interface ApiServices {
     /*1.9.0接口*/
     @POST("backstage/version/getByVersion")
     fun getByVersion(@Query("sVersion") sVersion:String,@Query("iType") iType:String):Flowable<Response<VersionBean>>
+
+    /*1.9.1接口*/
+    @POST("backstage/blacklist/add")
+    fun addBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String): Flowable<Response<JsonPrimitive>>
+
+    //获取黑名单列表
+    @POST("backstage/blacklist/find")
+    fun getFindMyBlacklist(@Query("iUserid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<BlackListBean>>>
+
+    //移除黑名单
+    @POST("backstage/blacklist/del")
+    fun removeBlackList(@Query("sId") sId:String): Flowable<Response<JsonPrimitive>>
 }
