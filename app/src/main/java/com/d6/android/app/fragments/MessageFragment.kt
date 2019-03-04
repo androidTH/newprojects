@@ -15,6 +15,7 @@ import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.badge.Badge
@@ -121,7 +122,19 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
             } else {
                 activity.isCheckOnLineAuthUser(this,userId){
-                    RongIM.getInstance().startPrivateChat(context, conversation.targetId, s)
+                    Request.getApplyStatus(userId, conversation.targetId).request(this, false, success = { msg, jsonObjetct ->
+                        jsonObjetct?.let {
+                            var code = it.optInt("code")
+                            if (code != 7) {
+                                if(code == 8){
+                                    CustomToast.showToast(getString(R.string.string_addblacklist))
+                                }else{
+                                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
+                                }
+                            }
+                        }
+                    })
+//                    RongIM.getInstance().startPrivateChat(context, conversation.targetId, s)
                 }
             }
             conversation.unreadMessageCount = 0
