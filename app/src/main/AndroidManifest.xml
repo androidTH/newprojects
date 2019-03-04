@@ -35,6 +35,7 @@
 
     <uses-permission android:name="com.d6.android.app.permission.MIPUSH_RECEIVE" />
 
+     <!--华为推送-->
     <!--如果是安卓8.0，应用编译配置的targetSdkVersion>=26，请务必添加以下权限 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 

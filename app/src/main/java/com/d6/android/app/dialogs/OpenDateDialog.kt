@@ -15,6 +15,7 @@ import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_date_send.*
@@ -99,6 +100,8 @@ class OpenDateDialog : DialogFragment(),RequestManager {
                     var openErrorDialog = OpenDateErrorDialog()
                     openErrorDialog.arguments= bundleOf("code" to code)
                     openErrorDialog.show(it.supportFragmentManager, "d")
+                }else{
+                    CustomToast.showToast(msg)
                 }
             }
         }

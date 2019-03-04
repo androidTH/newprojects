@@ -3,6 +3,7 @@ package com.d6.android.app.rong;
 import android.content.Context;
 
 import io.rong.push.PushType;
+import io.rong.push.RongPushClient;
 import io.rong.push.notification.PushMessageReceiver;
 import io.rong.push.notification.PushNotificationMessage;
 
@@ -23,8 +24,11 @@ public class D6NotificationReceiver extends PushMessageReceiver {
         return false;
     }
 
-//    @Override
-//    public void onThirdPartyPushState(String pushType, String action, long resultCode) {
-//        super.onThirdPartyPushState(pushType, action, resultCode);
-//    }
+    @Override
+    public void onThirdPartyPushState(PushType pushType, String action, long resultCode) {
+        super.onThirdPartyPushState(pushType, action, resultCode);
+        if(pushType== PushType.HUAWEI){
+//            RongPushClient.resolveHWPushError();
+        }
+    }
 }
