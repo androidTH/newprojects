@@ -21,6 +21,7 @@ import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.rong.fragment.ConversationFragmentEx
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
@@ -227,6 +228,11 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
                 }else if(code == 6){//以前聊过天的允许私聊(包括付过积分，约会过的，送过花的)
                     relative_tips.visibility = View.GONE
                     IsAgreeChat = false
+                }else if(code ==8){
+                    CustomToast.showToast(getString(R.string.string_addblacklist))
+                    fragment?.let {
+                        it.doIsNotSendMsg(true, getString(R.string.string_addblacklist_toast))
+                    }
                 }else{
                     relative_tips.visibility = View.GONE
                     tv_openchat_points.visibility = View.VISIBLE

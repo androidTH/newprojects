@@ -178,11 +178,7 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
                 jsonObjetct?.let {
                     var code = it.optInt("code")
                     if (code != 7) {
-                        if(code == 8){
-                            CustomToast.showToast(getString(R.string.string_addblacklist))
-                        }else{
-                            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-                        }
+                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
                     }
                 }
             })
