@@ -66,6 +66,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="d6app" android:host="com.d6.android.app" android:pathPrefix="/openwith"/>
             </intent-filter>
         </activity>
         <activity
