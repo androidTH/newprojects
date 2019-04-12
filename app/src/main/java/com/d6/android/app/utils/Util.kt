@@ -305,43 +305,33 @@ fun File?.getFileSuffix(): String {
 
 inline fun Activity.isAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-    val screen = SPUtils.instance().getString(Const.User.USER_SCREENID)
-//    if (className == "7"&&screen == "0") {// 22 普通会员
+//    val screen = SPUtils.instance().getString(Const.User.USER_SCREENID)
+    if (className == "7") {// 22 普通会员
         var sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if(TextUtils.equals("1",sex)){
-            if(className=="7"){
-                this.startActivity<MenMemberActivity>()
-            }else {
-                next()
-            }
+              this.startActivity<MenMemberActivity>()
         }else{
-            if (className == "7"&&screen == "0"){
-                this.startActivity<DateAuthStateActivity>()
-            }else{
-                next()
-            }
+             this.startActivity<DateAuthStateActivity>()
         }
+    }else{
+        next()
+    }
 }
 
 inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String, crossinline next: () -> Unit) {
     Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
             data?.let {
-//                if(it.screen=="0"&&it.userclassesid=="7"){
+                if (it.userclassesid == "7") {
 //                    SPUtils.instance().put(Const.User.USER_CLASS_ID,it.userclassesid).apply()
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
-                    if(TextUtils.equals("1",it.sex)){//1是男
-                        if(it.userclassesid == "7"){
-                            this.startActivity<MenMemberActivity>()
-                        }else{
-                            next();
-                        }
-                    }else{
-                        if(it.screen=="0"&&it.userclassesid=="7"){
-                            this.startActivity<DateAuthStateActivity>()
-                        }else{
-                           next();
-                        }
+                    if (TextUtils.equals("1", it.sex)) {//1是男
+                        this.startActivity<MenMemberActivity>()
+                    } else {
+                        this.startActivity<DateAuthStateActivity>()
                     }
+                }else{
+                    next();
+                }
             }
     })
 }
