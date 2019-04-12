@@ -1,8 +1,10 @@
 package com.d6.android.app.net
 
+import android.util.Log
 import cn.liaox.cachelib.CacheDBLib
 import com.d6.android.app.net.json.JsonConverterFactory
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.JsonUtil
 import com.d6.android.app.utils.NetworkUtils
 import com.d6.android.app.utils.SPUtils
 import okhttp3.CacheControl
@@ -24,12 +26,23 @@ class RRetrofit private constructor(){
 //        logger.level = HttpLoggingInterceptor.Level.BASIC
 //    }
 
+    val loggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message ->
+        if (message.startsWith("<-- 200 OK")) {
+            Log.d("HttpLoggingInterceptor", "--------------------------------------------------------------------")
+
+        }
+        Log.d("HttpLoggingInterceptor", JsonUtil.decodeUnicode(message))
+        if (message.startsWith("<-- END HTTP")) {
+            Log.d("HttpLoggingInterceptor", "----------------------------------------------------------")
+        }
+    })
+
     private val retrofit : Retrofit = Retrofit.Builder()
             .baseUrl(API.BASE_URL)
             .addConverterFactory(JsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
+                    .addInterceptor(loggingInterceptor.apply { level = HttpLoggingInterceptor.Level.BODY })
                     .addNetworkInterceptor {
                         val token = SPUtils.instance().getString(Const.User.USER_TOKEN)
                         val userId = SPUtils.instance().getString(Const.User.USER_ID)

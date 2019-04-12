@@ -562,6 +562,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     var code = it.optInt("code")
                     if (code != 7) {
                         RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+                    }else if(code == 7){
+                        startActivity<MenMemberActivity>()
                     }
                 }
             })
