@@ -31,6 +31,10 @@ class SpeedDateDetailActivity : TitleActivity() {
 
     private val mUrls =ArrayList<String>()
 
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
     private val shareListener by lazy {
         object : UMShareListener {
             override fun onResult(p0: SHARE_MEDIA?) {
@@ -82,7 +86,10 @@ class SpeedDateDetailActivity : TitleActivity() {
         btn_contact.setOnClickListener {
             //            val dialog = ContactUsDialog()
 //            dialog.show(supportFragmentManager, "us")
-            ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+            isCheckOnLineAuthUser(this,userId) {
+                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+
+            }
         }
 
         getSpeedDateDetail(mSpeedDate.id.toString())

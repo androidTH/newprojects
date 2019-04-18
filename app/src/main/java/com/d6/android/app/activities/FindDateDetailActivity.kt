@@ -36,6 +36,10 @@ class FindDateDetailActivity : TitleActivity() {
         FindDateImagesAdapter(mUrls)
     }
 
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
     private val shareListener by lazy {
         object : UMShareListener {
             override fun onResult(p0: SHARE_MEDIA?) {
@@ -73,7 +77,9 @@ class FindDateDetailActivity : TitleActivity() {
         helper.attachToRecyclerView(rv_images)
 
         tv_contact.setOnClickListener {
-            ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+            isCheckOnLineAuthUser(this,userId) {
+                ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+            }
         }
         refreshUI()
     }

@@ -30,6 +30,7 @@ class SetUserInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_user_info)
+        immersionBar.init()
 
         val name = if (intent.hasExtra("name")) {
             intent.getStringExtra("name")
@@ -147,10 +148,16 @@ class SetUserInfoActivity : BaseActivity() {
         }
         val nick = et_nick.text.toString().trim()
         if (nick.isEmpty()) {
-            tv_error.text = "昵称不能为空"
+            tv_error.text = "请输入昵称"
             nickLine.setBackgroundResource(R.color.red_fc3)
             return
         }
+
+        if(checkLimitEx(nick)){
+            tv_error.text = "昵称中不能包含特殊符号或表情"
+            return
+        }
+
         val code = et_code.text.toString().trim()
         val accountId = SPUtils.instance().getString(Const.User.USER_ID)
         val user = UserData(accountId)

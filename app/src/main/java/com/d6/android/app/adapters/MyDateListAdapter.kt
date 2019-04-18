@@ -4,8 +4,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyDateDetailActivity
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
@@ -15,6 +17,7 @@ import com.d6.android.app.models.Fans
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.startActivity
@@ -36,6 +39,7 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
 //            ll_imgs.visibility = View.GONE
 //        }else{
 //            ll_imgs.visibility = View.VISIBLE
+            var linear_item_date = holder.bind<LinearLayout>(R.id.linear_item_date);
             var img_pull_header = holder.bind<SimpleDraweeView>(R.id.iv_pull_persion)
             var img_push_header = holder.bind<SimpleDraweeView>(R.id.iv_push_persion)
 
@@ -53,9 +57,17 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
         img_push_header.setOnClickListener(View.OnClickListener {
             val id = data.iUserid
             isBaseActivity {
-                it.startActivity<UserInfoActivity>("id" to id.toString())
+                if(!TextUtils.isEmpty(id.toString())){
+                    if(it.toString().isNotEmpty()){
+                        it.startActivity<UserInfoActivity>("id" to id.toString())
+                    }
+                }
             }
         })
+
+        linear_item_date.setOnClickListener {
+            context.startActivity<MyDateDetailActivity>("data" to data,"from" to Const.FROM_MY_DATELIST)
+        }
 
 //            holder.setText(R.id.tv_pull_name,data.sAppointUserName)
 //            holder.setText(R.id.tv_push_name,data.sUserName)
@@ -116,6 +128,7 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
                 mImages.addAll(images.toList())
             }
             rv_mydate_imgs.adapter = SelfReleaselmageAdapter(mImages,1)
+
         }
     }
 

@@ -62,19 +62,17 @@ class HomeFragment : BaseFragment() {
         rvSpeedDate.setHasFixedSize(true)
         rvSpeedDate.isNestedScrollingEnabled = true
         rvSpeedDate.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
-        val snapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(rvSpeedDate)
+//        val snapHelper = LinearSnapHelper()
+//        snapHelper.attachToRecyclerView(rvSpeedDate)
         rvSpeedDate.adapter = speedDateAdapter
 
         speedDateAdapter.setOnItemClickListener { _, position ->
-            activity.isCheckOnLineAuthUser(this,userId) {
                 val date = mSpeedDates[position]
                 if(date.iType == 1){
                     startActivity<FindDateDetailActivity>("data" to date)
                 }else if(date.iType == 2){
                     startActivity<SpeedDateDetailActivity>("data" to date)
                 }
-            }
         }
 
         mViewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
@@ -164,11 +162,11 @@ class HomeFragment : BaseFragment() {
     private fun getServiceProvinceData(){
         Request.getProvinceAll().request(this) { _, data ->
             data?.let {
+                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
                 setLocationCity()
                 it.add(0,province)
                 mPopupArea.setData(it)
-                DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
-                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
             }
         }
     }

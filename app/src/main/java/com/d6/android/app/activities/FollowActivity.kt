@@ -29,7 +29,7 @@ class FollowActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "关注"
+        title = "我喜欢的"
         followAdapter.setOnItemClickListener { view, position ->
             val id = mMessages[position].iUserid
             startActivity<UserInfoActivity>("id" to id.toString())

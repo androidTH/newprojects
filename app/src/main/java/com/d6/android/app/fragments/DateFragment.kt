@@ -207,7 +207,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 mLat = it.latitude.toString()
                 mLon = it.longitude.toString()
                 SPUtils.instance().put(USER_PROVINCE,it.province).apply()
-                SPUtils.instance().put(USER_ADDRESS,it.city).apply()
+                SPUtils.instance().put(USER_ADDRESS,it.province).apply() //it.city
             }
         }
     }
@@ -411,8 +411,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 getServiceProvinceData()
             }else{
                 var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-//                setLocationCity()
-//                ProvinceData?.add(0,province)
+                setLocationCity()
+                ProvinceData?.add(0,province)
                 mPopupArea.setData(ProvinceData)
             }
         }
@@ -423,8 +423,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
-//                setLocationCity()
-//                it.add(0,province)
+                setLocationCity()
+                it.add(0,province)
                 mPopupArea.setData(it)
             }
         }

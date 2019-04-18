@@ -24,18 +24,18 @@ class MyDateListActivity : RecyclerActivity() {
     }
     private var pageNum = 1
     private val mMyAppointments = ArrayList<MyAppointment>()
-    private val fansAdapter by lazy {
+    private val myDateAdapter by lazy {
         MyDateListAdapter(mMyAppointments)
     }
 
     override fun adapter(): RecyclerView.Adapter<*> {
-        return fansAdapter
+        return myDateAdapter
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitleBold("我的约会")
-        fansAdapter .setOnItemClickListener { view, position ->
+        myDateAdapter.setOnItemClickListener { view, position ->
 //            val id = mMyAppointments[position].iAppointUserid
 //            startActivity<UserInfoActivity>("id" to id.toString())
             if(mMyAppointments.size>position){
@@ -63,7 +63,7 @@ class MyDateListActivity : RecyclerActivity() {
             } else {
                 mMyAppointments.addAll(data.list.results)
             }
-            fansAdapter.notifyDataSetChanged()
+            myDateAdapter.notifyDataSetChanged()
         }
     }
 

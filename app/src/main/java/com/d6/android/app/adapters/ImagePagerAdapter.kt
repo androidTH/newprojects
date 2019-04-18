@@ -28,6 +28,8 @@ class ImagePagerAdapter(fm: FragmentManager, urls: List<String>?) : FragmentPage
         Log.i("ImagePagerAdapter", "图片默认${url}")
         if(url.contains(Const.Pic_Thumbnail_Size_wh300)){
             url = url.replace(Const.Pic_Thumbnail_Size_wh300,Const.Pic_Thumbnail_Size_wh600)
+        }else if(url.contains(Const.Pic_Thumbnail_Size_wh400)){
+           url = url.replace(Const.Pic_Thumbnail_Size_wh300,Const.Pic_Thumbnail_Size_wh600)
         }
         Log.i("ImagePagerAdapter", "图片大小${url}")
         return ImageFragment.newInstance(url, isBlur)

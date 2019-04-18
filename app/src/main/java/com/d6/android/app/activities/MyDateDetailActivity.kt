@@ -22,6 +22,7 @@ import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_mydate_details.*
 import kotlinx.android.synthetic.main.item_list_date_status.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 /**
@@ -134,6 +135,10 @@ class MyDateDetailActivity : BaseActivity() {
 
                             tv_point_nums.visibility = View.GONE
 
+                            headView0.setOnClickListener {
+                                startUserInfo(data!!.iAppointUserid.toString())
+                            }
+
                         }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
                             tv_date_status.text="状态：待同意"
                             tv_no_date.visibility = View.VISIBLE
@@ -225,12 +230,17 @@ class MyDateDetailActivity : BaseActivity() {
                         headView0.setImageURI(data.sAppointmentPicUrl)
                         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
                         tv_days0.text = data.dCreatetime.interval()//约会发布时间
+                        headView0.setOnClickListener {
+                            startUserInfo(data!!.iAppointUserid.toString())
+                        }
 
                         headView1.setImageURI(data.sAppointmentPicUrl)
                         tv_name1.text =  getSpannable("${data.sAppointUserName}:过期自动取消",6)
                         tv_days1.text = data.dAppointmentSignupUpdatetime.interval()//报名约会时间
-
                         tv_point_nums.text="已返还${data.iPoint}积分"
+                        headView1.setOnClickListener {
+                            startUserInfo(data!!.iAppointUserid.toString())
+                        }
                     }
                 }
                 myAppointment = data
@@ -257,14 +267,23 @@ class MyDateDetailActivity : BaseActivity() {
         headView0.setImageURI(data.sAppointmentPicUrl)
         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
         tv_days0.text = data.dCreatetime.interval()//约会发布时间//stampToTime(data.dCreatetime)
+        headView0.setOnClickListener {
+            startUserInfo(data!!.iAppointUserid.toString())
+        }
 
         headView1.setImageURI(data.sPicUrl)
         tv_name1.text =  getSpannable("${data.sUserName}:发起邀约",4)
         tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
+        headView1.setOnClickListener {
+            startUserInfo(data.iUserid.toString())
+        }
 
         headView2.setImageURI(data.sAppointmentPicUrl)
         tv_name2.text = getSpannable("${data.sAppointUserName}:${str}",len)
         tv_days2.text = updateTime.interval() //同意约会时间
+        headView2.setOnClickListener {
+            startUserInfo(data.iAppointUserid.toString())
+        }
     }
 
     fun setDateStatus(data:MyAppointment){
@@ -275,18 +294,30 @@ class MyDateDetailActivity : BaseActivity() {
         headView0.setImageURI(data.sAppointmentPicUrl)
         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4);
         tv_days0.text = data.dCreatetime.interval() //约会发布时间
+        headView0.setOnClickListener {
+            startUserInfo(data!!.iAppointUserid.toString())
+        }
 
         headView1.setImageURI(data.sPicUrl)
         tv_name1.text = getSpannable("${data.sUserName}:发起邀约",4)
         tv_days1.text = data.dAppointmentSignupCreatetime.interval()//报名约会时间
+        headView1.setOnClickListener {
+            startUserInfo(data!!.iUserid.toString())
+        }
 
         headView2.setImageURI(data.sAppointmentPicUrl)
         tv_name2.text = getSpannable("${data.sAppointUserName}:同意",2)
         tv_days2.text = data.dAppointmentSignupUpdatetime.interval() //同意约会时间
+        headView2.setOnClickListener {
+            startUserInfo(data!!.iAppointUserid.toString())
+        }
 
         headView3.setImageURI(data.sPicUrl)
         tv_name3.text = getSpannable("${data.sUserName}:赴约",2)
         tv_days3.text = data.dAppointmentSignupUpdatetime.interval()
+        headView3.setOnClickListener {
+            startUserInfo(data!!.iUserid.toString())
+        }
     }
 
     fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int){
@@ -338,5 +369,9 @@ class MyDateDetailActivity : BaseActivity() {
             ds?.color = ContextCompat.getColor(context, R.color.color_333333)
             ds?.isUnderlineText = false
         }
+    }
+
+    fun startUserInfo(mTargetId:String){
+        startActivity<UserInfoActivity>("id" to mTargetId)
     }
 }

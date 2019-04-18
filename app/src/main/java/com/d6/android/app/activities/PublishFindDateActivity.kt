@@ -151,7 +151,7 @@ class PublishFindDateActivity : BaseActivity() {
         tv_sure.setOnClickListener {
             if (!isFastClick()) {
                 if (publish()) {
-                    Request.getAppointmentAuth(userId).request(this, false, success = { msg, data ->
+                    Request.getAppointmentAuth(userId).request(this, true, success = { msg, data ->
                         CreateDate(et_content.text.toString().trim())
                     }) { code, msg ->
                         if (code == 0) {

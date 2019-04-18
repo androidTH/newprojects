@@ -19,10 +19,10 @@
     <string name="third_step_info">第二步: 人工认证\n微信人工认证,保证用户资料真实有效</string>
     <string name="auth_tips">认证是为了保证用户的信息真实性，提供优质服务，目前仅提供微信人工认证服务（女生免费）</string>
     <string name="wx_fast_login">微信快捷登录</string>
-    <string name="user_no_auther">认证后更容易获得青睐·点击认证</string>
+    <string name="user_no_auther">点击认证</string>
     <string name="mine_edit_info">编辑资料</string>
     <string name="hobbit_string">最长可输入3个爱好，每个爱好最长5个字,点击+号可添加另一个</string>
-    <string name="date_wenan">想要TA的联系方式,点击联系客服,将此页面分享给会员客服嗷</string>
+    <string name="date_wenan">想要TA的联系方式,点击联系客服,将此页面分享给客服嗷</string>
     <string name="string_mypoints">我的积分</string>
     <string name="string_wallet">钱包</string>
     <string name="str_points_pay_success">积分充值成功</string>

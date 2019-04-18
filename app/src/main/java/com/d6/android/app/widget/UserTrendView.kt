@@ -115,13 +115,13 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         tv_content.text = square.content
 
-        if (square.imgUrl.isNullOrEmpty()) {
+        if (square.sSourceSquarePics.isNullOrEmpty()) {
             rv_images.gone()
         } else {
             rv_images.visible()
         }
         mImages.clear()
-        val images = square.imgUrl?.split(",")
+        val images = square.sSourceSquarePics?.split(",")
         if (images != null) {
             mImages.addAll(images.toList())
         }

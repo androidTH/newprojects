@@ -578,6 +578,17 @@ fun isFastClick():Boolean {
     return flag
 }
 
+/**
+ * 检测特殊符号和表情
+ */
+fun checkLimitEx(str:String):Boolean{
+    var limitEx ="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@①#￥%……&*（）——+|{}【】‘；：”“’。，、？]"
+
+    var pattern = Pattern.compile(limitEx)
+    var m = pattern.matcher(str)
+    return m.find()
+}
+
 fun diyUpdate(activity: BaseActivity,from:String?) {
     val path = Environment.getExternalStorageDirectory().absolutePath
 
