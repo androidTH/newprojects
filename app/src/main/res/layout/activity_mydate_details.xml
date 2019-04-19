@@ -115,7 +115,6 @@
             android:layout_below="@+id/tv_date_status"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_5"
-            android:text=""
             android:textColor="@color/color_888888"
             android:textSize="14sp" />
 

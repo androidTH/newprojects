@@ -114,7 +114,7 @@ class SquareFragment : RecyclerFragment() {
         Request.getBanners().request(this,success = { _, data ->
             if (data?.list?.results != null) {
                 mBanners.clear()
-                mBanners.addAll(elements = data.list.results)
+                mBanners.addAll(elements = data.list.results!!)
                 headerView.mBanner.setPages(
                         object : CBViewHolderCreator {
                             override fun createHolder(itemView: View): NetWorkImageHolder {

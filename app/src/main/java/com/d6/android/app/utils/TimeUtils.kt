@@ -9,6 +9,7 @@ import java.util.*
 /**
 时间戳转换默认格式yyyy-MM-dd
  */
+var timeFormat = "yyyy年MM月dd日"
 
 fun Long?.toYMDTime(): String {
     if (this == null) {

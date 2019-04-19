@@ -9,6 +9,7 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
@@ -121,6 +122,9 @@ class MyDateDetailActivity : BaseActivity() {
                             tv_no_date.visibility = View.GONE
                             tv_agree_date.visibility = View.GONE
                             tv_giveup_date.visibility = View.GONE
+
+                            var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
+                            param.addRule(RelativeLayout.CENTER_VERTICAL);
                             tv_date_status.text="状态：暂无赴约人"
 
                             rel_0.visibility = View.VISIBLE
@@ -139,7 +143,10 @@ class MyDateDetailActivity : BaseActivity() {
                                 startUserInfo(data!!.iAppointUserid.toString())
                             }
 
+
                         }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                            var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
+                            param.addRule(RelativeLayout.CENTER_VERTICAL);
                             tv_date_status.text="状态：待同意"
                             tv_no_date.visibility = View.VISIBLE
                             tv_agree_date.visibility = View.VISIBLE
@@ -162,6 +169,8 @@ class MyDateDetailActivity : BaseActivity() {
                         }
                     }
                     2 -> { //
+                        var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
+                        param.addRule(RelativeLayout.CENTER_VERTICAL);
                         tv_date_status.text="状态:私聊"
                         tv_private_chat.visibility = View.VISIBLE
                         tv_no_date.visibility = View.GONE
@@ -181,6 +190,8 @@ class MyDateDetailActivity : BaseActivity() {
                         //tv_action0.text = "对方已关闭约会"
 
                         if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                            var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
+                            param.addRule(RelativeLayout.CENTER_VERTICAL);
                             tv_date_status.text="状态：已拒绝"
                             tv_point_nums.visibility = View.GONE
                         }else{
@@ -324,6 +335,8 @@ class MyDateDetailActivity : BaseActivity() {
         Request.updateDateStatus(sAppointmentSignupId,iStatus,"").request(this, success = {msg, data->
             run {
                 if (iStatus == 2) {
+                    var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
+                    param.addRule(RelativeLayout.CENTER_VERTICAL);
                     tv_date_status.text = "状态:赴约"
                     tv_no_date.visibility = View.GONE
                     tv_agree_date.visibility = View.GONE

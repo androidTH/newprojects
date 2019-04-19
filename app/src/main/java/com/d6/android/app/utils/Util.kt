@@ -586,6 +586,25 @@ fun checkLimitEx(str:String):Boolean{
 
     var pattern = Pattern.compile(limitEx)
     var m = pattern.matcher(str)
+    if(m.find()){
+        return true
+    }
+
+    if(checkLimitEmoji(str)){
+        return true
+    }
+
+    return false;
+}
+
+/**
+ * 检测Emoji表情
+ */
+fun checkLimitEmoji(str:String):Boolean{
+//    var p = Pattern.compile("[^\\u0000-\\uFFFF]");
+    //过滤Emoji表情和颜文字
+    var p = Pattern.compile("[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff]|[\\ud83e\\udd00-\\ud83e\\uddff]|[\\u2300-\\u23ff]|[\\u2500-\\u25ff]|[\\u2100-\\u21ff]|[\\u0000-\\u00ff]|[\\u2b00-\\u2bff]|[\\u2d06]|[\\u3030]");
+    var m = p.matcher(str)
     return m.find()
 }
 

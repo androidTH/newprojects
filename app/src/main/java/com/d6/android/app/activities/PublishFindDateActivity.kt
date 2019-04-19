@@ -155,7 +155,12 @@ class PublishFindDateActivity : BaseActivity() {
                         CreateDate(et_content.text.toString().trim())
                     }) { code, msg ->
                         if (code == 0) {
-                            startActivity<DateAuthStateActivity>()
+                            var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+                            if(TextUtils.equals("1",sex)){
+                                startActivity<MenMemberActivity>()
+                            }else{
+                                startActivity<DateAuthStateActivity>()
+                            }
                         } else if (code == 2) {
                             if (msg.isNotEmpty()) {
                                 val jsonObject = JSONObject.parseObject(msg)

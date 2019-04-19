@@ -108,9 +108,9 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 //        }
 
         val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime.toTime("MM.dd")
+            square.updatetime.toTime(timeFormat)
         } else {
-            String.format("%s | %s",square.updatetime.toTime("MM.dd"),square.city)
+            String.format("%s | %s",square.updatetime.toTime(timeFormat),square.city)
         }
         tv_sub_title.text = sub
 

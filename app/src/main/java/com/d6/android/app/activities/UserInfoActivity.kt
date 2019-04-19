@@ -410,6 +410,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
+                }else{
+                    headerView.rv_my_images.visibility = View.GONE
                 }
 
                 squareAdapter.setUserInfo(mData!!)
@@ -452,6 +454,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mImages.add(AddImage(it))
                 }
             }
+        }else{
+            headerView.rv_my_images.visibility = View.GONE
         }
         myImageAdapter.notifyDataSetChanged()
     }
