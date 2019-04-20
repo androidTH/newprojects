@@ -222,8 +222,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
      */
     fun getData(city:String = "",xingzuo:String="",agemin:String="",agemax:String="",lat:String="",lon:String="") {
         if (mDates.size == 0) {
-            tv_main_card_bg_im_id.visible()
-            tv_main_card_Bg_tv_id.visible()
+            tv_main_card_bg_im_id.gone()
+            tv_main_card_Bg_tv_id.gone()
             fb_unlike.gone()
             btn_like.gone()
             fb_heat_like.gone()

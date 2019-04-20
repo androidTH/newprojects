@@ -294,7 +294,7 @@ interface ApiServices {
 
     //绑定手机号
     @POST("backstage/account/bindPhone")
-    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String):Flowable<Response<UserData>>
+    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("sUnionid") sUnionid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String):Flowable<Response<UserData>>
 
     //赠送积分
     @POST("backstage/new_login/loginForPoint")
@@ -378,4 +378,8 @@ interface ApiServices {
     //移除黑名单
     @POST("backstage/blacklist/del")
     fun removeBlackList(@Query("sId") sId:String): Flowable<Response<JsonPrimitive>>
+
+    /*1.9.2接口*/
+    @POST("backstage/account/updateUnionId")
+    fun updateUnionId(@Query("iUserid") iUserid:String,@Query("sUnionid")sUnionid:String):Flowable<Response<JsonObject>>
 }

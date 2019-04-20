@@ -330,7 +330,7 @@ class SignInActivity : BaseActivity() {
         Request.loginV2New(0, openId = openId,sUnionid=unionid).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
-                    startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
+                    startActivityForResult<BindPhoneActivity>(2, "openId" to openId,"unionId" to unionid, "name" to name, "gender" to gender, "headerpic" to iconurl)
                 } else {
                     msg?.let {
                         try {

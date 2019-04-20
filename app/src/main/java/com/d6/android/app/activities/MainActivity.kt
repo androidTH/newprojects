@@ -249,9 +249,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         diyUpdate(this,"")
 
         getPermission()
-
-        val mLoginOutTipDialog = LoginOutTipDialog()
-        mLoginOutTipDialog.show(supportFragmentManager, "action")
     }
 
     fun judgeDataB() {
@@ -304,6 +301,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             data?.let {
                 SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
                 SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()
+                if(it.sUnionid.isNullOrEmpty()){
+                    val mLoginOutTipDialog = LoginOutTipDialog()
+                    mLoginOutTipDialog.show(supportFragmentManager, "action")
+                }
             }
         })
     }

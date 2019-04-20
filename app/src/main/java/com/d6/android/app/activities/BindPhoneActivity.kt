@@ -38,6 +38,10 @@ class BindPhoneActivity : TitleActivity() {
         intent.getStringExtra("openId")
     }
 
+    private val unionId by lazy {
+        intent.getStringExtra("unionId")
+    }
+
     private val name by lazy{
         intent.getStringExtra("name")
     }
@@ -196,7 +200,7 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
 
-       Request.bindPhone(p,code,openId,devicetoken,name,headerpic).request(this,false,success = {msg,data->
+       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic).request(this,false,success = {msg,data->
            saveMsg(msg)
            saveUserInfo(data)
            data?.let {

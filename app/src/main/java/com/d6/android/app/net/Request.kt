@@ -349,7 +349,7 @@ object Request {
                                 ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,xingzuo,agemin,agemax,lat,lon,pageNum)
 
     //绑定手机号
-    fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken,sWxName,sWxpic)
+    fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic)
 
     //赠送积分
     fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)
@@ -410,4 +410,7 @@ object Request {
 
     //移除黑名单
     fun removeBlackList(sId:String?)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(sId.toString())
+
+    //更新微信登录的unionId
+    fun updateUnionId(iUserid:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).updateUnionId(iUserid,sUnionid)
 }

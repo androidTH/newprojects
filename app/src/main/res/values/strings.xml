@@ -18,7 +18,7 @@
     <string name="second_step_info">第二步:填写联系方式\n绝对保密，取得你同意后对方才能看到</string>
     <string name="third_step_info">第二步: 人工认证\n微信人工认证,保证用户资料真实有效</string>
     <string name="auth_tips">认证是为了保证用户的信息真实性，提供优质服务，目前仅提供微信人工认证服务（女生免费）</string>
-    <string name="loginout_tips">你的微信授权信息已过期，需重新授权 去授权</string>
+    <string name="loginout_tips">你的微信授权信息已过期，需重新授权去授权</string>
     <string name="wx_fast_login">微信快捷登录</string>
     <string name="user_no_auther">点击认证</string>
     <string name="mine_edit_info">编辑资料</string>

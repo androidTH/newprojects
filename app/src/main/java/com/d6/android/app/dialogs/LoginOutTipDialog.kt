@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMAuthListener
@@ -21,10 +24,9 @@ import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 /**
- * 约会认证提示
+ * 登录过期dialog
  */
 class LoginOutTipDialog : DialogFragment(),RequestManager {
-
 
     private val wxApi by lazy {
         WXAPIFactory.createWXAPI(context, "wx43d13a711f68131c")
@@ -38,6 +40,10 @@ class LoginOutTipDialog : DialogFragment(),RequestManager {
         SPUtils.instance().getString(Const.User.DEVICETOKEN)
     }
 
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.FadeDialog)
@@ -49,7 +55,7 @@ class LoginOutTipDialog : DialogFragment(),RequestManager {
         super.onActivityCreated(savedInstanceState)
         dialog.window.setLayout((screenWidth() * 0.9f).toInt(), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
-        dialog.setCanceledOnTouchOutside(true)
+        dialog.setCanceledOnTouchOutside(false)
     }
 
     override fun show(manager: FragmentManager?, tag: String?) {
@@ -74,38 +80,51 @@ class LoginOutTipDialog : DialogFragment(),RequestManager {
     }
 
     private fun weChatLogin() {
-        shareApi.getPlatformInfo(activity, SHARE_MEDIA.WEIXIN, object : UMAuthListener {
-            override fun onComplete(p0: SHARE_MEDIA?, p1: Int, data: MutableMap<String, String>?) {
-                dismissDialog()
-                if (data != null) {
-                    val openId = if (data.containsKey("openid")) data["openid"] else ""
-                    val unionId = if (data.containsKey("unionid")) data["unionid"] else ""
-                    val name = if (data.containsKey("name")) data["name"] else ""
-                    val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
-                    val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
-//                    startActivity<BindPhoneActivity>()
-//                    toast("unionId="+unionId)
-                    dismissAllowingStateLoss()
-//                    thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "", iconUrl ?: "")
-                } else {
-                    toast("拉取微信信息异常！")
+        isBaseActivity {
+            shareApi.getPlatformInfo(activity, SHARE_MEDIA.WEIXIN, object : UMAuthListener {
+                override fun onComplete(p0: SHARE_MEDIA?, p1: Int, data: MutableMap<String, String>?) {
+                    if (data != null) {
+                        val openId = if (data.containsKey("openid")) data["openid"] else ""
+                        val unionId = if (data.containsKey("unionid")) data["unionid"] else ""
+                        val name = if (data.containsKey("name")) data["name"] else ""
+                        val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
+                        val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
+                        updateUnionId(unionId.toString())
+                    } else {
+                        toast("拉取微信信息异常！")
+                    }
                 }
-            }
 
-            override fun onCancel(p0: SHARE_MEDIA?, p1: Int) {
-                toast("取消登录")
-            }
+                override fun onCancel(p0: SHARE_MEDIA?, p1: Int) {
+                    toast("取消登录")
+                    it.dismissDialog()
+                }
 
-            override fun onError(p0: SHARE_MEDIA?, p1: Int, p2: Throwable?) {
-                p2?.printStackTrace()
-                toast("微信登录异常！")
-            }
+                override fun onError(p0: SHARE_MEDIA?, p1: Int, p2: Throwable?) {
+                    p2?.printStackTrace()
+                    toast("微信登录异常！")
+                    it.dismissDialog()
+                }
 
-            override fun onStart(p0: SHARE_MEDIA?) {
-            }
+                override fun onStart(p0: SHARE_MEDIA?) {
+                }
 
+            })
+        }
+    }
+
+    private fun updateUnionId(unionId:String){
+        Request.updateUnionId(userId,unionId).request(this,false,success={code,data->
+            dismissAllowingStateLoss()
         })
     }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
+        }
+    }
+
 
     private var dialogListener: OnDialogListener? = null
 

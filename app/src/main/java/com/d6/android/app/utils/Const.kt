@@ -98,11 +98,16 @@ object Const {
 
     @JvmField
     val Pic_Size_wh400 = "?imageView2/0/w/400/h/400"
+    @JvmField
     val Pic_Size_wh300 = "?imageView2/0/w/300/h/300"
+    @JvmField
     val Pic_Size_wh500 = "?imageView2/0/w/500/h/500"
 
     @JvmField
+    val Pic_Thumbnail_Size_wh200  = "?imageMogr2/auto-orient/thumbnail/200x200/quality/100"
+    @JvmField
     val Pic_Thumbnail_Size_wh300  = "?imageMogr2/auto-orient/thumbnail/300x300/quality/100"
+    @JvmField
     val Pic_Thumbnail_Size_wh400  = "?imageMogr2/auto-orient/thumbnail/400x400/quality/100"
     @JvmField
     val Pic_Thumbnail_Size_wh600  = "?imageMogr2/auto-orient/thumbnail/600x600/quality/100"

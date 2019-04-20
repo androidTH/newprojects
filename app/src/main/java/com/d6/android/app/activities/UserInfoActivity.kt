@@ -186,6 +186,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             userActionDialog.show(supportFragmentManager, "user")
         }
 
+        headerView.headView.setOnClickListener {
+            mData?.let {
+                it.picUrl?.let {
+                    var url = it.replace(Const.Pic_Thumbnail_Size_wh200,Const.Pic_Thumbnail_Size_wh600)
+                    val urls = ArrayList<String>()
+                    urls.add(url.toString())
+                    startActivityForResult<ImagePagerActivity>(22, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to 0)
+                }
+            }
+        }
+
         squareAdapter.setOnItemClickListener { view, position ->
             val square = mSquares[position]
 //            getTrendDetail(square.id?:""){
