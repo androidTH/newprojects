@@ -148,7 +148,7 @@ interface ApiServices {
     fun loginV2(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?): Flowable<Response<UserData>>
 
     @POST("backstage/new_login/system_login_new")
-    fun loginV2New(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?): Flowable<Response<UserData>>
+    fun loginV2New(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?,@Query("sUnionid") sUnionid:String?): Flowable<Response<UserData>>
 
 
     @POST("backstage/dataDict/find")
@@ -319,7 +319,7 @@ interface ApiServices {
 
     //绑定微信
     @POST("backstage/account/bindWxid")
-    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String,@Query("sWxName") sWxName:String,@Query("sWxpic") sWxpic:String):Flowable<Response<JsonObject>>
+    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String,@Query("sWxName") sWxName:String,@Query("sWxpic") sWxpic:String,@Query("sUnionid")sUnionid:String?=""):Flowable<Response<JsonObject>>
 
     //大赏小红花
     @POST("backstage/userflowerrule/sendFlowerByOrderId")

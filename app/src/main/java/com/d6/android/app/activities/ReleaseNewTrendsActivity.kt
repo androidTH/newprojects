@@ -15,6 +15,8 @@ import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.CommonTipDialog
+import com.d6.android.app.dialogs.DateContactAuthDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.net.Request
@@ -24,10 +26,7 @@ import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
-import org.jetbrains.anko.backgroundResource
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
@@ -281,28 +280,40 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                     this.city
                 }
                 Request.releaseSquare(userId, tagId, city, it, content)
-            }.request(this) { _, data ->
+            }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
                 setResult(Activity.RESULT_OK)
                 finish()
+            }){code,resMsg->
+                if(code == 2){
+                    val commonTiphDialog = CommonTipDialog()
+                    commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
+                    commonTiphDialog.show(supportFragmentManager, "resMsg")
+                }
             }
-
         } else {
             val city = if (cityType == 0) {
                 ""
             } else {
                 this.city
             }
-            Request.releaseSquare(userId, tagId, city, null, content).request(this) { _, data ->
+            Request.releaseSquare(userId, tagId, city, null, content).request(this,false,success={
+                _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
                 setResult(Activity.RESULT_OK)
                 finish()
+            }){code,resMsg->
+               if(code == 2){
+                   val commonTiphDialog = CommonTipDialog()
+                   commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
+                   commonTiphDialog.show(supportFragmentManager, "resMsg")
+               }
             }
         }
     }

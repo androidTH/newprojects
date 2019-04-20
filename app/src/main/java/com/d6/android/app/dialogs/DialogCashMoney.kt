@@ -149,10 +149,11 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                 override fun onComplete(p0: SHARE_MEDIA?, p1: Int, data: MutableMap<String, String>?) {
                     if (data != null) {
                         val openId = if (data.containsKey("openid")) data["openid"] else ""
+                        val unionid = if (data.containsKey("unionid")) data["unionid"] else ""
                         val name= if (data.containsKey("name")) data["name"] else ""
                         val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
                         val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
-                        bindwxId(openId,name.toString(),iconUrl.toString())
+                        bindwxId(openId,unionid,name.toString(),iconUrl.toString())
                     } else {
                         toast("拉取微信信息异常！")
                     }
@@ -178,9 +179,9 @@ class DialogCashMoney : DialogFragment(), RequestManager {
     /**
      * 绑定微信号
      */
-    private fun bindwxId(wxid:String?,swxname:String,swxpic:String){
+    private fun bindwxId(wxid:String?,unionid:String?,swxname:String,swxpic:String){
         (context as BaseActivity).dismissDialog()
-        Request.doBindWxId(userId,wxid.toString(),swxname,swxpic).request(this,false,success={msg,data->
+        Request.doBindWxId(userId,wxid.toString(),swxname,swxpic,unionid.toString()).request(this,false,success={msg,data->
             CustomToast.showToast(msg.toString())
             getUserInfo()
         }){code,msg->

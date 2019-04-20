@@ -13,7 +13,9 @@ import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.CommentDelDialog
 import com.d6.android.app.dialogs.FilterTrendDialog
+import com.d6.android.app.dialogs.LoginOutTipDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
 import com.d6.android.app.net.Request
@@ -247,6 +249,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         diyUpdate(this,"")
 
         getPermission()
+
+        val mLoginOutTipDialog = LoginOutTipDialog()
+        mLoginOutTipDialog.show(supportFragmentManager, "action")
     }
 
     fun judgeDataB() {

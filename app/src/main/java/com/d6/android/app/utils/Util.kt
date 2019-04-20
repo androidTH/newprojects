@@ -336,14 +336,16 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
     })
 }
 
-inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
-    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-    if (className == "7") {
-        CustomToast.showToast("联系微信客服开通会员可获得更多聊天机会哦～")
-//        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
-    } else {
-        next()
-    }
+inline fun Activity.isNoAuthToChat(requestManager: RequestManager, userId:String,crossinline next: () -> Unit) {
+    Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
+        data?.let {
+            if (it.userclassesid == "7") {
+                CustomToast.showToast("联系微信客服开通会员可获得更多聊天机会哦～")
+            }else{
+                next()
+            }
+        }
+    })
 }
 
 inline fun Activity.doAuthUser(next: () -> Unit) {

@@ -37,6 +37,7 @@ class SignInActivity : BaseActivity() {
 
     private var countryCode = "+86"
     private var type = 1
+
     private val wxApi by lazy {
         WXAPIFactory.createWXAPI(this, "wx43d13a711f68131c")
     }
@@ -226,12 +227,13 @@ class SignInActivity : BaseActivity() {
                 dismissDialog()
                 if (data != null) {
                     val openId = if (data.containsKey("openid")) data["openid"] else ""
+                    val unionId = if (data.containsKey("unionid")) data["unionid"] else ""
                     val name = if (data.containsKey("name")) data["name"] else ""
                     val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
                     val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
                     sysErr("------->$gender--->$openId--->$name")
 //                    startActivity<BindPhoneActivity>()
-                    thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "", iconUrl ?: "")
+                    thirdLogin(openId ?: "",unionId ?:"", name ?: "", iconUrl ?: "", gender ?: "", iconUrl ?: "")
                 } else {
                     toast("拉取微信信息异常！")
                 }
@@ -323,9 +325,9 @@ class SignInActivity : BaseActivity() {
         }
     }
 
-    private fun thirdLogin(openId: String, name: String, url: String, gender: String, iconurl: String) {
+    private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
         dialog("登录中...")
-        Request.loginV2New(0, openId = openId).request(this, false, success = { msg, data ->
+        Request.loginV2New(0, openId = openId,sUnionid=unionid).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
                     startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)

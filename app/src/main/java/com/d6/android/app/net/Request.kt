@@ -229,8 +229,8 @@ object Request {
             RRetrofit.instance().create(ApiServices::class.java).loginV2(type, vercode, phone, guoneiguowai, openId,devicetoken)
 
 
-    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="") =
-            RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken)
+    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="",sUnionid:String?="") =
+            RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken,sUnionid)
 
 
     fun findDataDict(key: String? = "quhao") =
@@ -367,7 +367,7 @@ object Request {
     fun getUserFlower()=RRetrofit.instance().create(ApiServices::class.java).getUserFlowerRule()
 
     //绑定微信号
-    fun doBindWxId(iUserid: String,wxid:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).doBindWxId(iUserid,wxid,sWxName,sWxpic)
+    fun doBindWxId(iUserid: String,wxid:String,sWxName:String,sWxpic:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).doBindWxId(iUserid,wxid,sWxName,sWxpic,sUnionid)
 
     //大赏用户红花
     fun sendFlowerByOrderId(iUserid:String,iReceiveUserid:String,sOrderid:String,sResourceid:String)=RRetrofit.instance().create(ApiServices::class.java).sendFlowerByOrderId(iUserid,iReceiveUserid,sOrderid,sResourceid)

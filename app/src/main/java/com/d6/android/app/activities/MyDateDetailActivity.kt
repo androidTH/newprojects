@@ -92,7 +92,7 @@ class MyDateDetailActivity : BaseActivity() {
         }
 
         tv_private_chat.setOnClickListener {
-            isNoAuthToChat("5") {
+            isNoAuthToChat(this,userId) {
                 myAppointment?.let {
                     val name = it.sAppointUserName ?: ""
                     if(it.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){

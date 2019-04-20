@@ -1,6 +1,7 @@
 package com.d6.android.app.activities
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
@@ -28,8 +29,10 @@ import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_mypoints.*
 import kotlinx.android.synthetic.main.item_mypoints_header.view.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textColor
 
 
 /**
@@ -64,6 +67,15 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         mPointsAdapter.setHeaderView(mHeaderView)
         mypoints_refreshrecycler.setOnRefreshListener(this)
 
+        mPointsAdapter.setOnItemClickListener { view, position ->
+            var mUserPoints = mUserPoints.get(position)
+            mUserPoints.sResourceId.let {
+                if(!it.isNullOrEmpty()){
+                    startActivity<SquareTrendDetailActivity>("id" to it.toString())
+                }
+            }
+        }
+
         tv_mypoints_back.setOnClickListener {
             finish()
         }
@@ -92,6 +104,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         mHeaderView.tv_cash_money.setOnClickListener {
             isCheckOnLineAuthUser(this,userId){
+                if(!TextUtils.equals("0",mHeaderView.tv_redflowernums.text.toString())){
                 var dialogCashMoney = DialogCashMoney()
                 mUserInfo?.let {
                     dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
@@ -100,6 +113,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 dialogCashMoney.setDialogListener { p, s ->
                     getUserInfo()
                     getData()
+                }
                 }
             }
         }
@@ -198,6 +212,14 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 mHeaderView.tv_wallet_username.text = it.name
 
                 mHeaderView.tv_redflowernums.text = it.iFlowerCount.toString()
+
+                if(TextUtils.equals("0",it.iFlowerCount.toString())){
+                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_fe6)
+                    mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.color_96FFFFFF)
+                }else{
+                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_white)
+                    mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.white)
+                }
 
                 if (TextUtils.equals(it.sex, "0")) {
                     mHeaderView.ll_huiyuan_info.visibility = View.GONE
