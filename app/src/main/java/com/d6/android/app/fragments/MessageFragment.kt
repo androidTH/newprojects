@@ -161,7 +161,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
      * 系统消息
      */
     private fun getSysLastOne(lastTime:String) {
-        Request.getSystemMessages(userId, 1, lastTime, pageSize = 1).request(this) { _, data ->
+        Request.getSystemMessages(userId, 1, pageSize = 1).request(this) { _, data ->
              data?.let {
                  setSysMsg(data)
              }
@@ -172,7 +172,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
      * 广场消息
      */
     private fun getSquareMsg(lastTime:String) {
-        Request.getSquareMessages(userId, 1, lastTime, pageSize = 1).request(this) { _, data ->
+        Request.getNewSquareMessages(userId, 1, pageSize = 1).request(this) { _, data ->
             setSquareMsg(data)
         }
     }

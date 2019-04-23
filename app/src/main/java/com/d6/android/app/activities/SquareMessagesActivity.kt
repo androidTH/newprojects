@@ -23,10 +23,10 @@ class SquareMessagesActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "广场消息"
+        title = "动态消息"
         adapter.setOnItemClickListener { view, position ->
             val squareMessage = mMessages[position]
-            startActivity<SquareTrendDetailActivity>("id" to squareMessage.newsId,"position" to position)
+            startActivity<SquareTrendDetailActivity>("id" to squareMessage.url,"position" to position)
         }
         addItemDecoration()
         dialog()
@@ -35,7 +35,7 @@ class SquareMessagesActivity : RecyclerActivity() {
 
     private fun getData() {
 
-        Request.getSquareMessages(userId, pageNum).request(this) { _, data ->
+        Request.getNewSquareMessages(userId, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mMessages.clear()
             }

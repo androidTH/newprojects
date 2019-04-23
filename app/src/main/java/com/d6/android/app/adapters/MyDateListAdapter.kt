@@ -57,10 +57,8 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
         img_push_header.setOnClickListener(View.OnClickListener {
             val id = data.iUserid
             isBaseActivity {
-                if(!TextUtils.isEmpty(id.toString())){
-                    if(it.toString().isNotEmpty()){
-                        it.startActivity<UserInfoActivity>("id" to id.toString())
-                    }
+                if (id!=null) {
+                    it.startActivity<UserInfoActivity>("id" to id.toString())
                 }
             }
         })

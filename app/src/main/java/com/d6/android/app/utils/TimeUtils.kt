@@ -91,7 +91,7 @@ fun Long.interval(nowTime: Long = System.currentTimeMillis()): String {
         delaySeconds < secondsOfSixDay ->"5天前"
         delaySeconds < secondsOfSevenDay ->"6天前"
         delaySeconds < secondsOfEightDay ->"7天前"
-        else -> this.toTime("yyyy-MM-dd")
+        else -> this.toTime(timeFormat)
     }
     return desc
 }

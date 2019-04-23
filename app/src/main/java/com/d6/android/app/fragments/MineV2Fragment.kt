@@ -272,26 +272,6 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         }
     }
 
-    private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
-                //无数据
-//                tv_msg_count1.gone()
-//                headerView.tv_msg_count.gone()
-            } else {
-                if ((data.count ?:0)> 0) {
-//                    tv_msg_count1.visible()
-//                    headerView.tv_msg_count.visible()
-//                    headerView.tv_msg_count.text = data.count.toString()
-                }
-            }
-        }) { _, _ ->
-
-        }
-    }
-
     private fun updateCache(data: UserData) {
         val userBean = UserBean()
         userBean.userId = data.accountId

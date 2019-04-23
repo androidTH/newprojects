@@ -17,4 +17,8 @@ data class SquareMessage(@SerializedName("ids")val id:String?="") {
     val userPic: String? = ""
     val createTime: Long? = 0
     val count: Int? = 0
+    var title:String?=""
+    var userid:String?=""
+    var url:String=""
+    var urltype:String=""
 }

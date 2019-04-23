@@ -167,7 +167,7 @@ class MessagesActivity : RecyclerActivity() {
     private fun getSquareMsg() {
         val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSquareMessages(userId, 1,time.toString(),pageSize = 1).request(this) { _, data ->
+        Request.getNewSquareMessages(userId, 1,pageSize = 1).request(this) { _, data ->
             SPUtils.instance().put(Const.SQUAREMSG_LAST_TIME,D6Application.systemTime).apply()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据

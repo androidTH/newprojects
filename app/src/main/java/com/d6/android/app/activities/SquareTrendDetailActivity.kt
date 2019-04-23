@@ -149,25 +149,27 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
     private fun getData() {
-        Request.getSquareDetail(userId, id).request(this, success = { _, data ->
-            mSwipeRefreshLayout.isRefreshing = false
-            data?.let {
-                mSquare = it
-                headerView.mTrendDetailView.update(it)
-                mComments.clear()
-                if (it.comments == null || it.comments.isEmpty()) {
-                    mSwipeRefreshLayout.setLoadMoreText("暂无评论")
-                } else {
-                    mComments.addAll(it.comments)
+        if (id.isNotEmpty()) {
+            Request.getSquareDetail(userId, id).request(this, success = { _, data ->
+                mSwipeRefreshLayout.isRefreshing = false
+                data?.let {
+                    mSquare = it
+                    headerView.mTrendDetailView.update(it)
+                    mComments.clear()
+                    if (it.comments == null || it.comments.isEmpty()) {
+                        mSwipeRefreshLayout.setLoadMoreText("暂无评论")
+                    } else {
+                        mComments.addAll(it.comments)
+                    }
+                    Collections.reverse(mComments)
+                    squareDetailCommentAdapter.notifyDataSetChanged()
+                    mSquare?.comments = mComments
+                    updateBean()
                 }
-                Collections.reverse(mComments)
-                squareDetailCommentAdapter.notifyDataSetChanged()
-                mSquare?.comments = mComments
-                updateBean()
-            }
-        }, error = { _, _ ->
-            mSwipeRefreshLayout.isRefreshing = false
-        })
+            }, error = { _, _ ->
+                mSwipeRefreshLayout.isRefreshing = false
+            })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

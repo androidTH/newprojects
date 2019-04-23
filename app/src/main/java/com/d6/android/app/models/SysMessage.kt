@@ -17,4 +17,5 @@ data class SysMessage(val ids: Int = 0) : Serializable {
     val url: String? = ""
     val userid: String? = ""
     val arrayuserids:String?=""
+    var iIsRead:Int?=-1
 }

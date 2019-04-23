@@ -211,6 +211,12 @@ object Request {
     fun getSquareMessages(userId: String, pageNum: Int, time: String? = null, pageSize: Int = PAGE_SIZE) =
             RRetrofit.instance().create(ApiServices::class.java).getSquareMessages(userId, pageNum, time, pageSize)
 
+    /**
+     * 获取广场消息
+     */
+    fun getNewSquareMessages(userId: String, pageNum: Int,pageSize: Int = PAGE_SIZE) =
+            RRetrofit.instance().create(ApiServices::class.java).getNewSquareMessages(userId, pageNum, pageSize)
+
     fun getSystemMessages(userId: String, pageNum: Int, time: String? = null, pageSize: Int = PAGE_SIZE) =
             RRetrofit.instance().create(ApiServices::class.java).getSystemMsgs(userId, pageNum, time, pageSize)
 

@@ -132,6 +132,13 @@ interface ApiServices {
     @POST("backstage/comments/findByPageguangchangxiaoxi")
     fun getSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int, @Query("createTime") createTime: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<SquareMessage>>>
 
+    /**
+     * 广场动态消息
+     */
+    @POST("backstage/imessage/findSquareMessageByPage")
+    fun getNewSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int,@Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<SquareMessage>>>
+
+
     @POST("backstage/rongcloud/gettalkdetails")
     fun getTalkDetails(@Query("fromuserid") fromuserid: String, @Query("touserid") touserid: String, @Query("checkdate") checkdate: String): Flowable<Response<JsonObject>>
 

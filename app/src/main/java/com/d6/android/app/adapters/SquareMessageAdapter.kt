@@ -15,10 +15,11 @@ class SquareMessageAdapter(mData:ArrayList<SquareMessage>): HFRecyclerAdapter<Sq
 
     override fun onBind(holder: ViewHolder, position: Int, data: SquareMessage) {
         holder.setText(R.id.tv_content,data.content)
-        holder.setText(R.id.tv_name,data.name)
+        holder.setText(R.id.tv_name,data.title)
         holder.setText(R.id.tv_time,data.createTime?.interval())
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         headView.setImageURI(data.userPic)
+
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         val textContent = holder.bind<TextView>(R.id.tv_square_content)
         textContent.text = data.squareContent
@@ -26,16 +27,15 @@ class SquareMessageAdapter(mData:ArrayList<SquareMessage>): HFRecyclerAdapter<Sq
         sysErr(data.toString()+"--------url----->"+data.replypicUrl.isNullOrEmpty())
         if (data.replypicUrl.isNullOrEmpty()) {
             imageView.invisible()
-            textContent.visible()
+            textContent.gone()
         } else {
             val imgs = data.replypicUrl?:""
             val urls = imgs.split(",")
             if (urls.isNotEmpty()) {
                 imageView.setImageURI(urls[0])
             }
-
             imageView.visible()
-            textContent.invisible()
+            textContent.gone()
         }
     }
 }

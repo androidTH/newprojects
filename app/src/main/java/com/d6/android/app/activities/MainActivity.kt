@@ -373,7 +373,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     private fun getSysLastOne() {
         val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
+        Request.getSystemMessages(userId, 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
@@ -399,7 +399,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     private fun getSquareMsg() {
         val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
+        Request.getNewSquareMessages(userId, 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
