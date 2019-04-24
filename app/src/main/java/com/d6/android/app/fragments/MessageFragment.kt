@@ -1,9 +1,7 @@
 package com.d6.android.app.fragments
 
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
-import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.ConversationsAdapter
@@ -15,7 +13,6 @@ import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.badge.Badge

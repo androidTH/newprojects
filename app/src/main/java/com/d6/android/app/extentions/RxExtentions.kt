@@ -1,6 +1,7 @@
 package com.d6.android.app.extentions
 
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat.startActivity
 import android.text.TextUtils
 import com.d6.android.app.activities.SignChooseActivity
 import com.d6.android.app.activities.SignInActivity
@@ -89,6 +90,11 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 is ResultException -> {
                     code = t.code
                     msg = t.message!!
+                    if(code == 200){
+                        if (requestManager is BaseActivity) {
+                            requestManager.startActivity<SignInActivity>()
+                        }
+                    }
                 }
             }
             if(!TextUtils.isEmpty(msg)){

@@ -441,15 +441,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     if (data.iIsFollow == 1) {
                         tv_like.setCompoundDrawables(null, null, null, null);
                         tv_like.text = resources.getString(R.string.string_liked)
-                        tv_like.backgroundResource = R.drawable.shape_20r_white
+                        tv_like.backgroundResource = R.drawable.shade_20r_white
                         tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
-                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10))
+                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
                         tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
                     } else {
                         tv_like.text = resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
                         tv_like.textColor = ContextCompat.getColor(context, R.color.white)
+
+                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
+
                     }
                 }
             }
@@ -529,10 +532,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_like.setCompoundDrawables(null, null, null, null);
 
             tv_like.text = resources.getString(R.string.string_liked)
-            tv_like.backgroundResource = R.drawable.shape_20r_white
+            tv_like.backgroundResource = R.drawable.shade_20r_white
             tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
 
             mData?.iIsFollow = 1
@@ -558,7 +561,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_like.textColor = ContextCompat.getColor(context, R.color.white)
 
 
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10))
             mData?.iIsFollow = 0
         }
@@ -639,15 +642,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         if (event.type == 1) {
             tv_like.setCompoundDrawables(null, null, null, null);
             tv_like.text = resources.getString(R.string.string_liked)
-            tv_like.backgroundResource = R.drawable.shape_20r_white
+            tv_like.backgroundResource = R.drawable.shade_20r_white
             tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
         } else {
             tv_like.text = resources.getString(R.string.string_like)
             tv_like.backgroundResource = R.drawable.shape_20r_ff6
             tv_like.textColor = ContextCompat.getColor(context, R.color.white)
+
+            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
         }
     }
 

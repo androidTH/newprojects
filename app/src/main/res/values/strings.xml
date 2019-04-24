@@ -77,5 +77,8 @@
     <string name="string_addblacklist">操作失败，您已经被对方拉到黑名单</string>
     <string name="string_addblacklist_toast">您已被对方拉到黑名单</string>
     <string name="string_contact_customer_service">联系客服</string>
+    <string name="string_nosys">未开启系统通知</string>
+    <string name="string_nosys_tips">开启系统通知，不再错过来自异性的问候</string>
+    <string name="string_choose">多选</string>
 
 </resources>

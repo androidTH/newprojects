@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,6 +18,18 @@
         android:textColor="@color/textColor99"
         android:padding="@dimen/activity_horizontal_margin"
         android:text="--"/>
+
+    <!--<com.d6.android.app.widget.switchbutton.SwitchButton-->
+        <!--android:id="@+id/sw_friend_notfaction"-->
+        <!--style="@style/SwitchButtonStyle"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="8dp"-->
+        <!--app:kswAnimationDuration="300"-->
+        <!--app:kswBackDrawable="@drawable/ios_back_drawable"-->
+        <!--app:kswBackMeasureRatio="1.7"-->
+        <!--app:kswThumbDrawable="@drawable/shape_switchthum"/>-->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

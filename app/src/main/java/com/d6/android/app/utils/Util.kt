@@ -36,6 +36,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.models.VersionBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.http.UpdateAppHttpUtil
+import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
 import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
@@ -584,7 +585,7 @@ fun isFastClick():Boolean {
  * 检测特殊符号和表情
  */
 fun checkLimitEx(str:String):Boolean{
-    var limitEx ="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@①#￥%……&*（）——+|{}【】‘；：”“’。，、？]"
+    var limitEx ="[`~!@#\$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"
 
     var pattern = Pattern.compile(limitEx)
     var m = pattern.matcher(str)
@@ -592,22 +593,11 @@ fun checkLimitEx(str:String):Boolean{
         return true
     }
 
-    if(checkLimitEmoji(str)){
+    if(containsEmoji(str)){
         return true
     }
 
     return false;
-}
-
-/**
- * 检测Emoji表情
- */
-fun checkLimitEmoji(str:String):Boolean{
-//    var p = Pattern.compile("[^\\u0000-\\uFFFF]");
-    //过滤Emoji表情和颜文字
-    var p = Pattern.compile("[\\ud83c\\udc00-\\ud83c\\udfff]|[\\ud83d\\udc00-\\ud83d\\udfff]|[\\u2600-\\u27ff]|[\\ud83e\\udd00-\\ud83e\\uddff]|[\\u2300-\\u23ff]|[\\u2500-\\u25ff]|[\\u2100-\\u21ff]|[\\u0000-\\u00ff]|[\\u2b00-\\u2bff]|[\\u2d06]|[\\u3030]");
-    var m = p.matcher(str)
-    return m.find()
 }
 
 fun diyUpdate(activity: BaseActivity,from:String?) {

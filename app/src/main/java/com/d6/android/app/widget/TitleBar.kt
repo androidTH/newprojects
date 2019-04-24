@@ -66,7 +66,6 @@ class TitleBar : FrameLayout {
         leftView.compoundDrawablePadding = dip(4)
         leftView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.back, 0, 0, 0)
         //添加TitleView
-        titleView
         titleView.setPadding(dip(4), 0, dip(4), 0)
         val param1 = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
         param1.bottomMargin = dip(4)

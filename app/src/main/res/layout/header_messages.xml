@@ -1,11 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/color_F7AB00"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_nosys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="@string/string_nosys"/>
+        <TextView
+            android:layout_below="@+id/tv_nosys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="@string/string_nosys_tips"/>
+       <ImageView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+           android:padding="@dimen/margin_5"
+           android:src="@mipmap/close_tint_button"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_F5A900"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_20"
+            android:background="@drawable/shape_20r_white"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingRight="@dimen/margin_8"
+            android:paddingLeft="@dimen/margin_8"
+            android:textSize="11sp"
+            android:text="去开启"/>
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_sys"
         android:layout_width="match_parent"

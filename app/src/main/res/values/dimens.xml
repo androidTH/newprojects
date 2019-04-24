@@ -68,4 +68,11 @@
     <dimen name="height_400">400dp</dimen>
     <dimen name="height_500">500dp</dimen>
     <dimen name="convenientbanner_margin">10dp</dimen>
+
+
+    <dimen name="ksw_md_thumb_ripple_size">42dp</dimen>
+    <dimen name="ksw_md_thumb_solid_inset">11dp</dimen>
+    <dimen name="ksw_md_thumb_shadow_inset">11dp</dimen>
+    <dimen name="ksw_md_thumb_shadow_inset_top">11dp</dimen>
+    <dimen name="ksw_md_thumb_shadow_inset_bottom">10dp</dimen>
 </resources>

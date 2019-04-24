@@ -10,6 +10,7 @@ import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.interval
 import com.d6.android.app.utils.toDefaultTime
 
 /**
@@ -24,7 +25,7 @@ class SystemMessageAdapter(mData: ArrayList<SysMessage>) : HFRecyclerAdapter<Sys
     override fun onBind(holder: ViewHolder, position: Int, data: SysMessage) {
         holder.setText(R.id.tv_title, data.title)
         holder.setText(R.id.tv_content, data.content)
-        holder.setText(R.id.tv_time, data.createTime?.toDefaultTime())
+        holder.setText(R.id.tv_time, data.createTime?.interval())//toDefaultTime()
         holder.bind<View>(R.id.ll_main).setOnClickListener {
             mOnItemClickListener?.onItemClick(it,position)
         }
