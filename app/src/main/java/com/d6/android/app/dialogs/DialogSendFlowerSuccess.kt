@@ -114,6 +114,8 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
                         tv_sendflower_success_like.text= resources.getString(R.string.string_like)
                         tv_sendflower_success_like.backgroundResource = R.drawable.shape_20r_ff6
                         tv_sendflower_success_like.textColor = ContextCompat.getColor(AppUtils.context,R.color.white)
+
+                        tv_sendflower_success_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_12),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_12))
                     }
                 }
             }

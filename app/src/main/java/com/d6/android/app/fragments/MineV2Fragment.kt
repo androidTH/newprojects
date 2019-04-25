@@ -86,6 +86,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         super.onActivityCreated(savedInstanceState)
         immersionBar
                 .fitsSystemWindows(false)
+                .statusBarColor(R.color.trans_parent)
                 .statusBarAlpha(0f)
                 .titleBar(rl_title)
                 .keyboardEnable(true)

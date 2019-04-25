@@ -11,7 +11,10 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
-        android:padding="16dp">
+        android:paddingTop="@dimen/margin_8"
+        android:paddingLeft="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_15"
+        android:paddingBottom="@dimen/margin_15">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,30 +22,28 @@
             android:gravity="center"
             android:textColor="@color/textColor"
             android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"/>
-
+            android:textStyle="bold"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/loginout_tips"
-            android:gravity="center"
+            android:gravity="left"
             android:textColor="@color/textColor"
             android:textSize="15dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_16"
             android:layout_marginRight="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_15"
             android:text="重新登录"
             android:id="@+id/tv_action"
             android:textSize="@dimen/btnTextSize"
             android:textColor="@color/white"
             android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:paddingTop="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_10"
             android:background="@drawable/shape_4r_orange"/>
     </LinearLayout>
 </RelativeLayout>

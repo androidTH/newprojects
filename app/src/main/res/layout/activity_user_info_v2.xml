@@ -69,10 +69,10 @@
 
         <ImageView
             android:id="@+id/iv_sendflower"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/margin_8"
+            android:paddingBottom="@dimen/margin_13"
             android:src="@mipmap/flowers_button_seleted" />
 
         <TextView
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="@dimen/margin_18"
             android:layout_toRightOf="@+id/iv_sendflower"
             android:background="@drawable/shape_20r_orange"
             android:drawableLeft="@mipmap/chat_button_icon"
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="@dimen/margin_18"
             android:layout_marginLeft="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_5"
             android:background="@drawable/shape_20r_ff6"

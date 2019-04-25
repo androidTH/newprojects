@@ -57,9 +57,9 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         headView.setImageURI(square.picUrl)
         tv_name.text = square.name
         val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime.toTime(timeFormat)
+            square.updatetime?.interval()
         } else {
-            String.format("%s | %s",square.updatetime.toTime(timeFormat),square.city)
+            String.format("%s | %s",square.updatetime?.interval(),square.city)
         }
         tv_sub_title.text = sub
         tv_content.text = square.content

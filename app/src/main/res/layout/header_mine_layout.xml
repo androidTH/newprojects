@@ -93,7 +93,7 @@
         android:layout_marginTop="12dp"
         android:layout_toRightOf="@+id/rl_headview"
         android:ellipsize="end"
-        android:maxLines="3"
+        android:maxLines="2"
         android:paddingBottom="@dimen/margin_5"
         android:text="-"
         android:textColor="@color/white"

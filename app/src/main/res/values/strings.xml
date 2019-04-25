@@ -20,10 +20,10 @@
     <string name="auth_tips">认证是为了保证用户的信息真实性，提供优质服务，目前仅提供微信人工认证服务（女生免费）</string>
     <string name="loginout_tips">你的微信授权信息已过期，需重新授权去授权</string>
     <string name="wx_fast_login">微信快捷登录</string>
-    <string name="user_no_auther">点击认证</string>
+    <string name="user_no_auther">认证后更容易获得青睐·点击认证</string>
     <string name="mine_edit_info">编辑资料</string>
     <string name="hobbit_string">最长可输入3个爱好，每个爱好最长5个字,点击+号可添加另一个</string>
-    <string name="date_wenan">想要TA的联系方式,点击联系客服,将此页面分享给客服嗷</string>
+    <string name="date_wenan">想要TA的联系方式,点击联系客服,将此页面分享给客服哦</string>
     <string name="string_mypoints">我的积分</string>
     <string name="string_wallet">钱包</string>
     <string name="str_points_pay_success">积分充值成功</string>
@@ -55,7 +55,7 @@
     <string name="string_sendflower_success">对方已经收到你送的小红花了\n么么哒</string>
     <string name="string_cash_money">可提现金额：¥%1$s</string>
     <string name="string_openchat_pay_points">你已发出3条信息,已达上限,支付积分畅聊</string>
-    <string name="string_openchat_pay_nopoints">免费3条,支付积分即可无限畅聊</string>
+    <string name="string_openchat_pay_nopoints">可免费发3条消息,支付积分即可畅聊</string>
     <string name="string_openchat_sendcount_msg">剩余发送消息%1$s</string>
     <string name="string_auth">已认证</string>
     <string name="string_openchat">开启私聊</string>
@@ -80,5 +80,7 @@
     <string name="string_nosys">未开启系统通知</string>
     <string name="string_nosys_tips">开启系统通知，不再错过来自异性的问候</string>
     <string name="string_choose">多选</string>
+    <string name="string_joinblack">加入黑名单</string>
+    <string name="string_report_us">举报</string>
 
 </resources>

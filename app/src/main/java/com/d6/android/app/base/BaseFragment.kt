@@ -51,7 +51,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
 
     val immersionBar by lazy {
         ImmersionBar.with(this).fitsSystemWindows(true)
-                .statusBarColor(R.color.trans_parent)
+                .statusBarColor(R.color.white)
                 .statusBarDarkFont(true)
     }
 

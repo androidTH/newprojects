@@ -189,7 +189,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         headerView.headView.setOnClickListener {
             mData?.let {
                 it.picUrl?.let {
-                    var url = it.replace(Const.Pic_Thumbnail_Size_wh200,Const.Pic_Thumbnail_Size_wh600)
+                    var url = it.replace(Const.Pic_Thumbnail_Size_wh200,Const.Pic_Thumbnail_Size_wh800)
                     val urls = ArrayList<String>()
                     urls.add(url.toString())
                     startActivityForResult<ImagePagerActivity>(22, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to 0)
@@ -348,7 +348,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         if (TextUtils.equals("3", it.screen)) {
                             headerView.tv_other_auther_sign.visibility = View.GONE
                         } else {
-                            headerView.tv_other_auther_sign.visibility = View.VISIBLE
+                            headerView.tv_other_auther_sign.visibility = View.GONE
                         }
                     } else if (TextUtils.equals("1", data.screen)) {
                         headerView.img_other_auther.visibility = View.VISIBLE
@@ -364,9 +364,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     toast(getString(R.string.string_auth))
                 }
 
-                headerView.tv_other_auther_sign.setOnClickListener {
-                    startActivity<DateAuthStateActivity>()
-                }
+//                headerView.tv_other_auther_sign.setOnClickListener {
+//                    startActivity<DateAuthStateActivity>()
+//                }
 
                 headerView.tv_vip.text = String.format("%s", it.classesname)
                 mTags.clear()

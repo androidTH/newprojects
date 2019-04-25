@@ -207,7 +207,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 mLat = it.latitude.toString()
                 mLon = it.longitude.toString()
                 SPUtils.instance().put(USER_PROVINCE,it.province).apply()
-                SPUtils.instance().put(USER_ADDRESS,it.province).apply() //it.city
+                SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
             }
         }
     }

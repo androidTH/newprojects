@@ -13,7 +13,6 @@ import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.CommentDelDialog
 import com.d6.android.app.dialogs.FilterTrendDialog
 import com.d6.android.app.dialogs.LoginOutTipDialog
 import com.d6.android.app.extentions.request
@@ -164,7 +163,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 //        tv_create_date.gone()
 
         tv_create_date.setOnClickListener {
-            startActivityForResult<PublishFindDateActivity>(10)
+            isCheckOnLineAuthUser(this,userId){
+                startActivityForResult<PublishFindDateActivity>(10)
+            }
         }
 
         date_headView.setOnClickListener {

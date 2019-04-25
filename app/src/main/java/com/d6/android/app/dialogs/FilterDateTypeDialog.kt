@@ -55,6 +55,12 @@ class FilterDateTypeDialog : DialogFragment() {
             dismissAllowingStateLoss()
         }
 
+        if(mShowType){
+            tv_all.visibility = View.GONE
+        }else{
+            tv_all.visibility = View.VISIBLE
+        }
+
         tv_recommend.setOnClickListener {
             dialogListener?.onClick(5, if(mShowType )"不限" else "觅约")
             dismissAllowingStateLoss()

@@ -111,6 +111,7 @@ object Const {
     val Pic_Thumbnail_Size_wh400  = "?imageMogr2/auto-orient/thumbnail/400x400/quality/100"
     @JvmField
     val Pic_Thumbnail_Size_wh600  = "?imageMogr2/auto-orient/thumbnail/600x600/quality/100"
+    val Pic_Thumbnail_Size_wh800  = "?imageMogr2/auto-orient/thumbnail/800x800/quality/100"
 
     val UpdateAppUrl = API.BASE_URL+"backstage/version/getByVersion"
 

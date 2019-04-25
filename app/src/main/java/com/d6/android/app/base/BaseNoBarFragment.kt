@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.widget.ProgressDialog
-import com.gyf.barlibrary.ImmersionBar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.support.v4.toast

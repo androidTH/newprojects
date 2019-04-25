@@ -61,7 +61,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypoints)
-        immersionBar.fitsSystemWindows(true).statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
+        immersionBar.fitsSystemWindows(true).statusBarDarkFont(true).init()
         mypoints_refreshrecycler.setLayoutManager(LinearLayoutManager(this))
         mypoints_refreshrecycler.setAdapter(mPointsAdapter)
         mPointsAdapter.setHeaderView(mHeaderView)

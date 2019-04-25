@@ -3,7 +3,6 @@ package com.d6.android.app.activities
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,12 +10,10 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import com.amap.api.location.AMapLocationClient
-import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommonTipDialog
-import com.d6.android.app.dialogs.DateContactAuthDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.net.Request

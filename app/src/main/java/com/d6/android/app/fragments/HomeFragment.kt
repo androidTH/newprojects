@@ -1,8 +1,10 @@
 package com.d6.android.app.fragments
 
+import android.Manifest
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import com.d6.android.app.R
@@ -15,14 +17,16 @@ import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
-import android.support.v7.widget.LinearSnapHelper
 import android.view.Gravity
+import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.dialogs.AreaSelectedPopup
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.utils.Const.User.USER_ADDRESS
+import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.diskcache.DiskFileUtils
+import com.tbruyelle.rxpermissions2.RxPermissions
 
 /**
  * 主页
@@ -35,7 +39,7 @@ class HomeFragment : BaseFragment() {
     private var type: Int = 0
     private var city: String? = ""
 
-    var province = Province(Const.LOCATIONCITYCODE,"不限")
+    var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
     private val cityJson by lazy{
         DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
@@ -137,11 +141,39 @@ class HomeFragment : BaseFragment() {
                 .setDimView(mSwipeRefreshLayout)
                 .apply()
         loginforPoint()
+        checkLocation()
         getProvinceData()
     }
 
     override fun onFirstVisibleToUser() {
 
+    }
+
+
+    private val locationClient by lazy {
+        AMapLocationClient(activity)
+    }
+
+    private fun startLocation() {
+        locationClient.stopLocation()
+        locationClient.startLocation()
+    }
+
+
+    private fun checkLocation(){
+        RxPermissions(activity).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
+            if (it) {
+                startLocation()
+            }
+        }
+
+        locationClient.setLocationListener {
+            if (it != null) {
+                locationClient.stopLocation()
+                SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
+                SPUtils.instance().put(USER_PROVINCE,it.province).apply()
+            }
+        }
     }
 
     private fun getProvinceData() {
@@ -181,7 +213,9 @@ class HomeFragment : BaseFragment() {
 
     //设置定位城市
     private fun setLocationCity(){
-        var city = City("","不限地区")
+//        var city = City("","不限地区")
+        var sameCity = SPUtils.instance().getString(USER_PROVINCE)
+        var city = City("",sameCity.replace("市",""))
         city.isSelected = true
         province.lstDicts.add(city)
     }
@@ -191,10 +225,22 @@ class HomeFragment : BaseFragment() {
     private fun showArea(){
         mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_75))
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
-            if(position == -3){
-               city = ""
-            }else{
-               city = string
+
+            if(position == -1){
+                tv_date_city.text = "同城"
+                city = string
+//                setSearChUI(0,true)
+            }else if(position == -2){
+                //定位失败
+                checkLocation()
+            }else if(position == -3){
+                city = ""
+                tv_date_city.text = "地区"
+//                setSearChUI(0,false)
+            }else {
+                city = string
+                tv_date_city.text = string
+//                setSearChUI(0,true)
             }
             getFragment()
         }
@@ -237,6 +283,21 @@ class HomeFragment : BaseFragment() {
 //            showTips(mg,"","")
         }
     }
+
+
+//    private fun setSearChUI(clickIndex:Int,iconFlag:Boolean){
+//        if(clickIndex == 0){
+//            var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.titlemore_icon)
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+//            tv_date_city.setCompoundDrawables(null,null,drawable,null)
+//            tv_date_city.textColor = if(iconFlag) ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
+//        }else if(clickIndex == 1){
+//            var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.titlemore_icon)
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+//            tv_datetype.setCompoundDrawables(null,null,drawable,null)
+//            tv_datetype.textColor = if(iconFlag) ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
+//        }
+//    }
 
 
     private fun getSpeedData() {

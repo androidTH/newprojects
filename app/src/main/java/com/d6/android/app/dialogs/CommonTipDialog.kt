@@ -10,9 +10,10 @@ import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.utils.*
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.dialog_common_tip_layout.*
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -50,7 +51,9 @@ class CommonTipDialog : DialogFragment(),RequestManager {
         super.onViewCreated(view, savedInstanceState)
 
         tv_common_contact.setOnClickListener {
-            WXAPIFactory.createWXAPI(context,"wx43d13a711f68131c").openWXApp()
+            val serviceId = "5"
+            RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, serviceId, "D6客服")
+            dismissAllowingStateLoss()
         }
 
         tv_common_cancel.setOnClickListener {
