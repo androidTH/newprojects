@@ -29,7 +29,7 @@ class RecommendDateActivity : TitleActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    var province = Province(Const.LOCATIONCITYCODE,"不限")
+    var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
@@ -84,8 +84,8 @@ class RecommendDateActivity : TitleActivity() {
             getProvinceData()
         }else{
             var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-//            setLocationCity()
-//            ProvinceData?.add(0,province)
+            setLocationCity()
+            ProvinceData?.add(0,province)
             mPopupArea.setData(ProvinceData)
         }
     }
@@ -94,8 +94,8 @@ class RecommendDateActivity : TitleActivity() {
         Request.getProvinceAll().request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
-//                setLocationCity()
-//                it.add(0,province)
+                setLocationCity()
+                it.add(0,province)
                 mPopupArea.setData(it)
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND, getTodayTime()).apply()
             }
@@ -104,7 +104,10 @@ class RecommendDateActivity : TitleActivity() {
 
     //设置不限
     private fun setLocationCity(){
-        var city = City("","不限地区")
+//        var city = City("","不限地区")
+        var sameCity = SPUtils.instance().getString(Const.User.USER_PROVINCE)
+        var city = City("",sameCity.replace("市",""))
+        city.isSelected = true
         city.isSelected = true
         province.lstDicts.add(city)
     }

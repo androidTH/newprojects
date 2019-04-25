@@ -19,8 +19,8 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/headView"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:padding="3dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginLeft="3.5dp"
@@ -54,7 +54,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/headView"
                 android:text=""
@@ -66,7 +66,7 @@
                 android:id="@+id/tv_name"/>
             <TextView
                 android:layout_width="match_parent"
-                android:textSize="@dimen/textSize"
+                android:textSize="12sp"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:layout_marginRight="8dp"

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
@@ -12,6 +13,7 @@ import android.text.TextWatcher
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
+import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommonTipDialog
 import com.d6.android.app.extentions.request
@@ -47,6 +49,9 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     }
 
     private var cityType = 1
+
+    private var mList = ArrayList<String>()
+    private var mNoticeFriendsQuickAdapter = NoticeFriendsQuickAdapter(mList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -205,6 +210,21 @@ class ReleaseNewTrendsActivity : BaseActivity(){
 
             }
         })
+
+//        rv_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+//        mList.add("测试-1")
+//        mList.add("测试-2")
+//        mList.add("测试-3")
+//        mList.add("测试-4")
+//        mList.add("测试-5")
+//        mList.add("测试-6")
+//        mNoticeFriendsQuickAdapter.setNewData(mList)
+//        rv_friends.adapter = mNoticeFriendsQuickAdapter
+//        mNoticeFriendsQuickAdapter.setOnItemChildClickListener { adapter, view, position ->
+//            if(view.id==R.id.iv_clear){
+//              toast("ddd")
+//            }
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

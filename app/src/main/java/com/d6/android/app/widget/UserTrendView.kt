@@ -107,9 +107,9 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //        tv_name.text = square.name
 //        tv_name.isSelected = TextUtils.equals("0",square.sex)
         val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime.toTime("MM.dd")
+            square.updatetime?.interval()
         } else {
-            String.format("%s | %s",square.updatetime.toTime("MM.dd"),square.city)
+            String.format("%s | %s",square.updatetime?.interval(),square.city)
         }
         tv_sub_title.text = sub
 

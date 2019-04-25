@@ -29,6 +29,10 @@
             android:id="@+id/iv_msg_right"
             android:drawableLeft="@mipmap/ic_msg_setting"/>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_EAEAEA" />
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/swiprefreshRecyclerlayout_msg"
         android:layout_width="match_parent"

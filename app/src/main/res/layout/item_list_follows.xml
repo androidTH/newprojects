@@ -33,16 +33,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/tv_nick"
-            android:layout_marginRight="@dimen/margin_8"
             android:layout_toRightOf="@+id/tv_nick"
             android:background="@drawable/ic_sex_bg_selector"
             android:drawableLeft="@drawable/sex_white_selector"
-            android:drawablePadding="4dp"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:paddingTop="0.5dp"
+            android:paddingBottom="0.5dp"
+            android:textSize="10sp"
+            android:drawablePadding="1dp"
+            android:layout_marginRight="@dimen/margin_5"
             android:text="0"
-            android:textColor="@color/white"
-            android:textSize="12dp" />
+            android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/tv_vip"
@@ -55,9 +57,11 @@
             android:drawablePadding="@dimen/margin_2"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
             android:text="12"
             android:textColor="@color/white"
-            android:textSize="12dp"
+            android:textSize="10sp"
             android:visibility="visible" />
     </LinearLayout>
 
