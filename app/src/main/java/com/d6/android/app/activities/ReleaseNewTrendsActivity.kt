@@ -100,8 +100,8 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 locationClient.stopLocation()
                 if (cityType == 0) {
                     tv_address.text = ""
-//                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
-                    tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,R.mipmap.ic_add1,0)
+//                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)//R.mipmap.ic_add1
+                    tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//R.mipmap.ic_add1
 //                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.textColor99))
                 } else {
                     tv_address.text = city
@@ -131,7 +131,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 tv_address.text = ""
 //                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,R.mipmap.ic_add1,0)
+                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//R.mipmap.ic_add1
 
             }
         }
@@ -143,7 +143,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 tv_address.text = ""
 //                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,R.mipmap.ic_add1,0)
+                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//comment_addlocal_icon
 
             } else {
                 cityType = 1
@@ -163,7 +163,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                         tv_address.text = ""
 //                        tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,R.mipmap.ic_add1,0)
+                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)
                     }
                 }
             }

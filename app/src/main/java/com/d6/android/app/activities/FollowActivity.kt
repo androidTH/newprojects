@@ -11,6 +11,7 @@ import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.qamaster.android.ui.ScreenshotEditorActivity.startActivity
 import org.jetbrains.anko.startActivity
 
 class FollowActivity : RecyclerActivity() {

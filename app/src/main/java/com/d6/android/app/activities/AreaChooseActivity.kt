@@ -120,7 +120,7 @@ class AreaChooseActivity : BaseActivity() {
         if (cityJson.isNullOrEmpty()) {
             getServiceProvinceData()
         } else {
-            if (!TextUtils.equals(getTodayTime(), lastTime)) {
+            if (TextUtils.equals(getTodayTime(), lastTime)) {
                 getServiceProvinceData()
             } else {
                 var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)

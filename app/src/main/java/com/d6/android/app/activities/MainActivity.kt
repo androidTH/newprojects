@@ -17,8 +17,10 @@ import com.d6.android.app.dialogs.FilterTrendDialog
 import com.d6.android.app.dialogs.LoginOutTipDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
+import com.d6.android.app.models.FollowFansVistor
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.ThreadUtils.runOnUiThread
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
@@ -279,6 +281,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         if(tabhost.currentTab==0){
             myDateUnMsg()
         }
+        getUserInfoUnMsg()
         getUnReadCount()
     }
 
@@ -351,6 +354,19 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                 unReadMsg = data.unreadCount
                 setNoticeIsNoShow()
             }
+        })
+    }
+
+    private fun getUserInfoUnMsg(){
+        Request.getUserFollowAndFansandVistor(userId).request(this,success = {s:String?,data: FollowFansVistor?->
+            data?.let {
+                val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_count)
+                if(data.iFansCount!! > 0||it.iPointNew!!.toInt()> 0||data.iVistorCount!! > 0){
+                        view.visibility = View.VISIBLE
+                    }else{
+                        view.visibility = View.GONE
+                    }
+                }
         })
     }
 
