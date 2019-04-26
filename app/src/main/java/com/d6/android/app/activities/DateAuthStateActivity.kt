@@ -41,6 +41,7 @@ class DateAuthStateActivity : BaseActivity() {
 
         immersionBar
                 .fitsSystemWindows(false)
+                .statusBarColor(R.color.trans_parent)
                 .titleBar(tv_back)
                 .init()
 

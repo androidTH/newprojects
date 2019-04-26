@@ -189,9 +189,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         headerView.headView.setOnClickListener {
             mData?.let {
                 it.picUrl?.let {
-                    var url = it.replace(Const.Pic_Thumbnail_Size_wh200,Const.Pic_Thumbnail_Size_wh800)
+                    var url = it.replace(Const.Pic_Thumbnail_Size_wh200,"")
                     val urls = ArrayList<String>()
-                    urls.add(url.toString())
+                    urls.add(url)
                     startActivityForResult<ImagePagerActivity>(22, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to 0)
                 }
             }
@@ -383,6 +383,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (!it.city.isNullOrEmpty()) {
                     mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_whiteicon))
+                }
+
+                if(mTags.size==0){
+                    headerView.rv_tags.visibility = View.GONE
+                }else{
+                    headerView.rv_tags.visibility = View.VISIBLE
                 }
 
                 userTagAdapter.notifyDataSetChanged()

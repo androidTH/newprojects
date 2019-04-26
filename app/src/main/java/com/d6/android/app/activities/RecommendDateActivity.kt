@@ -45,7 +45,7 @@ class RecommendDateActivity : TitleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommend_date)
         immersionBar.init()
-        setTitleBold("全部人工推荐")
+        setTitleBold("人工推荐")
 
         tv_date_city.setOnClickListener {
             isAuthUser{

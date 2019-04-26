@@ -403,6 +403,11 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 userTagAdapter.notifyDataSetChanged()
+                if(mTags.size==0){
+                   headerView.rv_tags.visibility = View.GONE
+                }else{
+                    headerView.rv_tags.visibility = View.VISIBLE
+                }
                 refreshImages(it)
                 getTrendData()
             }

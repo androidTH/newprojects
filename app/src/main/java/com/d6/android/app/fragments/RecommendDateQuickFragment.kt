@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.d6.android.app.R
 import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.RecommentAllQuickDateAdapter
@@ -90,6 +91,8 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
             }
             dateAdapter.notifyDataSetChanged()
         }
+
+        dateAdapter.emptyView = layoutInflater.inflate(R.layout.no_empty_layout,null)
     }
 
     fun pullRefresh(ilookType: String="", city: String="") {

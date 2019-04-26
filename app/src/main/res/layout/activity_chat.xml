@@ -30,13 +30,14 @@
 
             <TextView
                 android:id="@+id/tv_openchat_tips"
-                android:layout_width="230dp"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_openchat_tips_title"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginTop="@dimen/margin_5"
                 android:textColor="@color/color_888888"
                 android:text="@string/string_apply_openchat"
+                android:lines="2"
                 android:textSize="12sp" />
 
             <TextView

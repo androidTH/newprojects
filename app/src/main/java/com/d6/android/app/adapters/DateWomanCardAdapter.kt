@@ -152,9 +152,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
             if (data.iVistorCountAll >= 50) {
-                tv_vistorfollownums.text = "访客·${data.iVistorCountAll} 喜欢·${data.iFansCountAll}人"
+                tv_vistorfollownums.text = "访客·${data.iVistorCountAll} 喜欢TA的·${data.iFansCountAll}人"
             } else {
-                tv_vistorfollownums.text = "喜欢·${data.iFansCountAll}人"
+                tv_vistorfollownums.text = "喜欢TA的·${data.iFansCountAll}人"
             }
         }
 

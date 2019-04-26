@@ -4,13 +4,13 @@
     <item android:state_selected="true">
         <shape>
             <corners android:radius="10dp"/>
-            <solid android:color="@color/pink_fe7"/>
+            <solid android:color="@color/pink_ff7070"/>
         </shape>
     </item>
     <item >
         <shape>
             <corners android:radius="10dp"/>
-            <solid android:color="@color/color_24c"/>
+            <solid android:color="@color/color_68BFFF"/>
         </shape>
     </item>
 </selector>

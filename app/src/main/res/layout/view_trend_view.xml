@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tv_name"
-        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_3"
         android:drawableRight="@drawable/sex_selector"
         android:id="@+id/tv_sex"/>
      <TextView
@@ -135,7 +135,7 @@
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:id="@+id/tv_redflower"
         android:text="0"
         android:textColor="@color/textColor99"
@@ -147,11 +147,12 @@
         android:gravity="center"
         android:layout_marginRight="@dimen/margin_16"
         android:paddingLeft="8dp"
+        android:paddingTop="5dp"
         android:layout_below="@+id/ll_comments"/>
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:id="@+id/tv_appraise"
         android:text="0"
         android:textColor="@color/textColor99"
@@ -162,7 +163,7 @@
         android:textSize="14sp"
         android:gravity="center"
         android:layout_marginRight="@dimen/margin_16"
-        android:paddingLeft="8dp"
+        android:paddingLeft="5dp"
         android:layout_below="@+id/ll_comments"/>
     <View android:layout_width="1px"
         android:layout_height="wrap_content"
@@ -183,7 +184,7 @@
         android:drawablePadding="4dp"
         android:textColor="@color/textColor99"
         android:paddingLeft="8dp"
-        android:paddingTop="8dp"
+        android:paddingTop="12dp"
         android:paddingBottom="8dp"
         android:textSize="14sp"
         android:layout_below="@+id/ll_comments"/>

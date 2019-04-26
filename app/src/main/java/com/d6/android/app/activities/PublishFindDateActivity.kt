@@ -200,6 +200,9 @@ class PublishFindDateActivity : BaseActivity() {
             mKeyboardKt.hideKeyboard(it)
             finish()
         }
+
+        startTime = getTodayTime()
+        tv_startTime.text = startTime
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

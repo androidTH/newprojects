@@ -31,19 +31,21 @@
     <TextView
         android:id="@+id/tv_man_pecfect_age"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/man_perfect_headView"
         android:layout_marginTop="@dimen/margin_5"
         android:layout_toRightOf="@+id/tv_man_perfect_name"
         android:background="@drawable/ic_sex_circle_bg_selector"
         android:drawableLeft="@drawable/sex_white_selector"
-        android:drawablePadding="1dp"
         android:gravity="center_vertical"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:text="0"
+        android:drawablePadding="1dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="0.5dp"
+        android:paddingBottom="0.5dp"
+        android:text=""
         android:textColor="@color/white"
-        android:textSize="10dp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/tv_man_perfect_vip"

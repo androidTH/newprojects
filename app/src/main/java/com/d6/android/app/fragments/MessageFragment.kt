@@ -241,7 +241,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                             it.hide(false)
                         }
                     }
-                    headerView.tv_content2.text = it.results[0].content
+                    var squaremsg = it.results[0];
+                    if(squaremsg.content.isNullOrEmpty()){
+                        headerView.tv_content2.text = squaremsg.title
+                    }else{
+                        headerView.tv_content2.text = squaremsg.content
+                    }
                 }
             }
         }

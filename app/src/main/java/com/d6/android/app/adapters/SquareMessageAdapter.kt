@@ -2,11 +2,14 @@ package com.d6.android.app.adapters
 
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.activities.UserInfoActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
+import org.jetbrains.anko.startActivity
 
 /**
  *
@@ -36,6 +39,21 @@ class SquareMessageAdapter(mData:ArrayList<SquareMessage>): HFRecyclerAdapter<Sq
             }
             imageView.visible()
             textContent.gone()
+        }
+
+        headView.setOnClickListener {
+            val id = data.userid
+            isBaseActivity {
+                if (id!=null) {
+                    it.startActivity<UserInfoActivity>("id" to id.toString())
+                }
+            }
+        }
+    }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
         }
     }
 }
