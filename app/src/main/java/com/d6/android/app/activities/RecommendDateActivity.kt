@@ -48,13 +48,10 @@ class RecommendDateActivity : TitleActivity() {
         setTitleBold("人工推荐")
 
         tv_date_city.setOnClickListener {
-            isAuthUser{
                 showArea()
-            }
         }
 
         tv_datetype.setOnClickListener {
-            isCheckOnLineAuthUser(this,userId) {
                 val filterDateTypeDialog = FilterDateTypeDialog()
                 filterDateTypeDialog.setDateType(false)
                 filterDateTypeDialog.show(supportFragmentManager, "ftd")
@@ -68,7 +65,6 @@ class RecommendDateActivity : TitleActivity() {
                     }
                     fragment.getFindRecommend(iLookType,city)
                 }
-            }
         }
 
         fragment.userVisibleHint = true
@@ -106,7 +102,7 @@ class RecommendDateActivity : TitleActivity() {
     private fun setLocationCity(){
 //        var city = City("","不限地区")
         var sameCity = SPUtils.instance().getString(Const.User.USER_PROVINCE)
-        var city = City("",sameCity.replace("市",""))
+        var city = City("", getReplace(sameCity))
         city.isSelected = true
         city.isSelected = true
         province.lstDicts.add(city)

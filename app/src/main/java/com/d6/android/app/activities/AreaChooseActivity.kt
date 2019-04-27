@@ -15,12 +15,9 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.PROVINCE_DATA
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
-import com.d6.android.app.utils.GsonHelper
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.getTodayTime
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import kotlinx.android.synthetic.main.activity_area_choose_layout.*
 
@@ -31,7 +28,7 @@ class AreaChooseActivity : BaseActivity() {
 //    private var mHomeList = ArrayList<CategoryBean.DataBean>()
     private var currentItem: Int = 0
 
-    private val locationCity=SPUtils.instance().getString(USER_ADDRESS)
+    private val locationCity= getReplace(SPUtils.instance().getString(USER_ADDRESS))
 
     var province = Province(Const.LOCATIONCITYCODE, "定位")
 

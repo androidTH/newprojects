@@ -120,13 +120,13 @@ class HomeFragment : BaseFragment() {
         getSpeedData()
 
         tv_date_city.setOnClickListener {
-            activity.isAuthUser(){
+//            activity.isAuthUser(){
                 showArea()
-            }
+//            }
         }
 
         tv_datetype.setOnClickListener {
-            activity.isCheckOnLineAuthUser(this,userId){
+//            activity.isCheckOnLineAuthUser(this,userId){
                 val filterDateTypeDialog = FilterDateTypeDialog()
                 filterDateTypeDialog.show(childFragmentManager, "ftd")
                 filterDateTypeDialog.setDialogListener { p, s ->
@@ -134,7 +134,7 @@ class HomeFragment : BaseFragment() {
                     tv_datetype.text = s
                     getFragment()
                 }
-            }
+//            }
         }
 
         mPopupArea = AreaSelectedPopup.create(activity)
@@ -213,9 +213,8 @@ class HomeFragment : BaseFragment() {
 
     //设置定位城市
     private fun setLocationCity(){
-//        var city = City("","不限地区")
         var sameCity = SPUtils.instance().getString(USER_PROVINCE)
-        var city = City("",sameCity.replace("市",""))
+        var city = City("", getReplace(sameCity))
         city.isSelected = true
         province.lstDicts.add(city)
     }

@@ -306,7 +306,6 @@ fun File?.getFileSuffix(): String {
 
 inline fun Activity.isAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-//    val screen = SPUtils.instance().getString(Const.User.USER_SCREENID)
     if (className == "7") {// 22 普通会员
         var sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if(TextUtils.equals("1",sex)){
@@ -323,7 +322,7 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
     Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
             data?.let {
                 if (it.userclassesid == "7") {
-//                    SPUtils.instance().put(Const.User.USER_CLASS_ID,it.userclassesid).apply()
+                    saveUserInfo(it)
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
                     if (TextUtils.equals("1", it.sex)) {//1是男
                         this.startActivity<MenMemberActivity>()
@@ -726,4 +725,8 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                     }
                 }
             })
+}
+
+fun getReplace(str:String):String{
+    return str.replace("省","").replace("市","")
 }

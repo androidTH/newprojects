@@ -82,5 +82,6 @@
     <string name="string_choose">多选</string>
     <string name="string_joinblack">加入黑名单</string>
     <string name="string_report_us">举报</string>
+    <string name="string_comment_tips">说点好听的</string>
 
 </resources>

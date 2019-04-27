@@ -118,16 +118,16 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                RongIM.getInstance().startCustomerServiceChat(activity, "KEFU146001495753714", "在线客服", builder.build())
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
             } else {
-                activity.isCheckOnLineAuthUser(this,userId){
-                    Request.getApplyStatus(userId, conversation.targetId).request(this, false, success = { msg, jsonObjetct ->
-                        jsonObjetct?.let {
-                            var code = it.optInt("code")
-                            if (code != 7) {
-                                RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
-                            }
-                        }
-                    })
-//                    RongIM.getInstance().startPrivateChat(context, conversation.targetId, s)
+                activity.isAuthUser{
+                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
+//                    Request.getApplyStatus(userId, conversation.targetId).request(this, false, success = { msg, jsonObjetct ->
+//                        jsonObjetct?.let {
+//                            var code = it.optInt("code")
+//                            if (code != 7) {
+//                                RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
+//                            }
+//                        }
+//                    })
                 }
             }
             conversation.unreadMessageCount = 0

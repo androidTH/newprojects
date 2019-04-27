@@ -305,6 +305,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             data?.let {
                 SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
                 SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()
+                saveUserInfo(it)
                 if(!it.wxid.isNullOrEmpty()){
                     if(it.sUnionid.isNullOrEmpty()){
                         val mLoginOutTipDialog = LoginOutTipDialog()

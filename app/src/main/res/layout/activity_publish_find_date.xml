@@ -173,7 +173,7 @@
                 android:textColorHint="@color/color_888888"
                 android:maxLength="140"
                 android:padding="@dimen/padding_16"
-                android:hint="聪明的你会目标明确、清晰。让他/她主动关注你......"/>
+                android:hint="约会三要素：时间、地点、做什么…"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_images"
                 android:layout_width="match_parent"

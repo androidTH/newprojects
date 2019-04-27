@@ -388,5 +388,5 @@ interface ApiServices {
 
     /*1.9.2接口*/
     @POST("backstage/account/updateUnionId")
-    fun updateUnionId(@Query("iUserid") iUserid:String,@Query("sUnionid")sUnionid:String):Flowable<Response<JsonObject>>
+    fun updateUnionId(@Query("iUserid") iUserid:String,@Query("sOpenId")sOpenId:String,@Query("sUnionid")sUnionid:String):Flowable<Response<JsonObject>>
 }

@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -41,6 +42,9 @@ import io.rong.imlib.model.UserInfo
 import io.rong.push.RongPushClient
 import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.toast
+import java.lang.Exception
+import java.lang.reflect.Field
+import java.lang.reflect.Method
 
 
 /**
@@ -82,6 +86,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
     override fun onCreate() {
         super.onCreate()
+        disableAPIDialog()
 //        UMConfigure.setLogEnabled(true)
 //        Bugout.init(this, "ed3b07b4f9f09c390b7dd863e153a276", "d6")
         UMConfigure.init(this, Const.UMENG_APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
@@ -248,5 +253,23 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
         loginActivityIntent.setClass(this, SignInActivity::class.java)
         loginActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(loginActivityIntent)
+    }
+
+    /**
+     * 去除安卓9.0系统上弹窗
+     */
+    private fun disableAPIDialog(){
+        if (Build.VERSION.SDK_INT < 28)return
+        try {
+            var clazz = Class.forName("android.app.ActivityThread")
+            var currentActivityThread = clazz.getDeclaredMethod("currentActivityThread")
+            currentActivityThread.setAccessible(true)
+            var activityThread = currentActivityThread.invoke(null)
+            var mHiddenApiWarningShown = clazz.getDeclaredField("mHiddenApiWarningShown")
+            mHiddenApiWarningShown.setAccessible(true)
+            mHiddenApiWarningShown.setBoolean(activityThread, true)
+        } catch (e:Exception) {
+            e.printStackTrace()
+        }
     }
 }

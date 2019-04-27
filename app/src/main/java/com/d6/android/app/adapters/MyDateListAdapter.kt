@@ -121,7 +121,7 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
             rv_mydate_imgs.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             mImages.clear()
             rv_mydate_imgs.visible()
-            val images = data.sAppointPic?.split(",")
+            val images = data.sSourceAppointPic?.split(",")
             if (images != null) {
                 mImages.addAll(images.toList())
             }

@@ -91,6 +91,11 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         squareDetailCommentAdapter.setOnItemClickListener { _, position ->
             val comment = mComments[position]
+
+            if(!TextUtils.equals(replayUid,comment.userId)){
+                et_content.setText("")
+                et_content.hint = "回复:"+comment.name
+            }
             replayUid = comment.userId?:""
 //            isAuthUser {
 //                startActivityForResult<CommentActivity>(0, "id" to id, "uid" to cUid)
@@ -247,6 +252,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         Request.addComment(userId, id,content,replyUid).request(this,false,success={msg,jsonObject->
             et_content.setText("")
             et_content.clearFocus()
+            et_content.hint=getString(R.string.string_comment_tips)
             replayUid = ""
             toast("评论成功")
             pageNum = 1

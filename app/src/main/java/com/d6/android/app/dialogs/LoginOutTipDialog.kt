@@ -89,7 +89,7 @@ class LoginOutTipDialog : DialogFragment(),RequestManager {
                         val name = if (data.containsKey("name")) data["name"] else ""
                         val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
                         val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
-                        updateUnionId(unionId.toString())
+                        updateUnionId(openId.toString(),unionId.toString())
                     } else {
                         toast("拉取微信信息异常！")
                     }
@@ -113,10 +113,14 @@ class LoginOutTipDialog : DialogFragment(),RequestManager {
         }
     }
 
-    private fun updateUnionId(unionId:String){
-        Request.updateUnionId(userId,unionId).request(this,false,success={code,data->
+    private fun updateUnionId(sOpenId:String,unionId:String){
+        Request.updateUnionId(userId,sOpenId,unionId).request(this,false,success={code,data->
             dismissAllowingStateLoss()
-        })
+        }){code,msg->
+            if(code == 0){
+                showToast(msg)
+            }
+        }
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {

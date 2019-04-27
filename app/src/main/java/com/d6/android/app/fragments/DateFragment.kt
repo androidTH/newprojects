@@ -108,19 +108,19 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         })
 
         tv_city.setOnClickListener {
-            activity.isAuthUser {
+            activity.isCheckOnLineAuthUser(this,userId){
                 showArea(it)
             }
         }
 
         tv_xingzuo.setOnClickListener {
-            activity.isAuthUser{
+            activity.isCheckOnLineAuthUser(this,userId){
                 showConstellations(it)
             }
         }
 
         tv_type.setOnClickListener {
-            activity.isAuthUser{
+            activity.isCheckOnLineAuthUser(this,userId){
                 showAges(it)
             }
         }
@@ -433,7 +433,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     //设置定位城市
     private fun setLocationCity(){
         var sameCity = SPUtils.instance().getString(USER_PROVINCE)
-        var city = City("",sameCity.replace("市",""))
+        var city = City("", getReplace(sameCity))
         city.isSelected = true
         province.lstDicts.add(city)
     }

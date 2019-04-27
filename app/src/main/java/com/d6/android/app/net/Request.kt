@@ -418,5 +418,5 @@ object Request {
     fun removeBlackList(sId:String?)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(sId.toString())
 
     //更新微信登录的unionId
-    fun updateUnionId(iUserid:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).updateUnionId(iUserid,sUnionid)
+    fun updateUnionId(iUserid:String,sOpenId:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).updateUnionId(iUserid,sOpenId,sUnionid)
 }

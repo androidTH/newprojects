@@ -16,7 +16,7 @@
             android:id="@+id/et_content"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:hint="输入评论"
+            android:hint="@string/string_comment_tips"
             android:padding="8dp"
             android:textColorHint="@color/white"
             android:textColor="@color/textColor"

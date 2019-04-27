@@ -16,6 +16,7 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getReplace
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.textColor
 
@@ -25,7 +26,7 @@ import org.jetbrains.anko.textColor
 class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, BaseViewHolder>(R.layout.item_area_menu_right, data) {
 
     private val sameCity by lazy{
-        SPUtils.instance().getString(USER_PROVINCE)
+        getReplace(SPUtils.instance().getString(USER_PROVINCE))
     }
 
     override fun convert(helper: BaseViewHolder, data: Province) {

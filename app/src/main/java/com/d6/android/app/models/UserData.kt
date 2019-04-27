@@ -67,7 +67,7 @@ data class UserData(val accountId: String? = "") : Serializable {
         return "{\"accountId\":\"$accountId\"," +
                 "\"name\":\"$name\"," +
                 "\"picUrl\":\"$picUrl\"," +
-                "\"sex\":\"$sex\"," +
+//                "\"sex\":\"$sex\"," +
                 "\"city\":\"$city\"," +
                 "\"area\":\"$area\"," +
                 "\"xingquaihao\":\"$hobbit\"," +

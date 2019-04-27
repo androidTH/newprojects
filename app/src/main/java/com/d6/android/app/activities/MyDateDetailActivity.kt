@@ -70,7 +70,7 @@ class MyDateDetailActivity : BaseActivity() {
                 rv_mydate_detailsimgs.gone()
             }else{
                 rv_mydate_detailsimgs.visible()
-                val images = it.sAppointPic?.split(",")
+                val images = it.sSourceAppointPic?.split(",")
                 if (images != null) {
                     mImages.addAll(images.toList())
                 }
