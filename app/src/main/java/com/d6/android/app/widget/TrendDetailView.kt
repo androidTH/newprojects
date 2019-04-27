@@ -33,6 +33,12 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         rv_images.adapter = imageAdapter
 //        rv_images.addItemDecoration(SpacesItemDecoration(dip(4),3))
 
+        root_commentlayout.setOnClickListener {
+            square?.let {
+                actiToggleSoftClick?.onToggleSoftInput(it)
+            }
+        }
+
         tv_appraise.setOnClickListener {
             square?.let {
                 action?.onPraiseClick(it)
@@ -47,6 +53,12 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         tv_redflower.setOnClickListener {
             square?.let {
                 sendFlowerClick?.onSendFlowerClick(it)
+            }
+        }
+
+        tv_comment.setOnClickListener {
+            square?.let {
+                actionCommentClick?.onCommentClick(it)
             }
         }
     }
@@ -155,7 +167,25 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    fun setOnCommentClick(action:(square:Square)->Unit){
+        this.actionCommentClick = object : DoCommentClick{
+            override fun onCommentClick(square: Square) {
+                action(square)
+            }
+        }
+    }
+
+    fun setOnSoftInputClick(action:(square:Square)->Unit){
+        this.actiToggleSoftClick = object : onToggleSoftInput{
+            override fun onToggleSoftInput(square: Square) {
+                action(square)
+            }
+        }
+    }
+
     private var action:Action?=null
+    private var actionCommentClick:DoCommentClick?=null
+    private var actiToggleSoftClick:onToggleSoftInput?=null
     private var sendFlowerClick:DoSendFlowerClick?=null
 
     interface Action{
@@ -164,5 +194,13 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     interface DoSendFlowerClick{
         fun onSendFlowerClick(square:Square)
+    }
+
+    interface DoCommentClick{
+        fun onCommentClick(square: Square)
+    }
+
+    interface  onToggleSoftInput{
+        fun onToggleSoftInput(square: Square)
     }
 }

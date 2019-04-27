@@ -10,6 +10,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.RecommentAllQuickDateAdapter
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.ReRecyclerFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
@@ -58,11 +59,11 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
         if(TextUtils.isEmpty(mUserId)){
             mUserId = SPUtils.instance().getString(Const.User.USER_ID)
         }
+        pullDownRefresh()
     }
 
     override fun onFirstVisibleToUser() {
-        showDialog()
-        pullDownRefresh()
+//
     }
 
     fun getFindRecommend(ilookType: String="", city: String=""){

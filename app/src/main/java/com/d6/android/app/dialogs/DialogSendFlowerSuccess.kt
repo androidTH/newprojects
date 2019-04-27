@@ -176,14 +176,15 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
 
     private fun showDatePayPointDialog(id:String,name:String){
         (activity as BaseActivity).isAuthUser{
-            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
-                jsonObjetct?.let {
-                    var code = it.optInt("code")
-                    if (code != 7) {
-                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-                    }
-                }
-            })
+            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
+//                jsonObjetct?.let {
+//                    var code = it.optInt("code")
+//                    if (code != 7) {
+//                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//                    }
+//                }
+//            })
         }
 //        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
 //            jsonObjetct?.let {

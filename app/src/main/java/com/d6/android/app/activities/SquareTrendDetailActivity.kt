@@ -60,6 +60,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
     private var replayUid = ""
+    //回复内容
+    private var replayContent=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,21 +91,31 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
         }
 
+        headerView.mTrendDetailView.setOnCommentClick {
+            showSoftInput()
+            replayUid=""
+            et_content.setText("")
+            et_content.hint = resources.getString(R.string.string_comment_tips)
+        }
+
+        headerView.mTrendDetailView.setOnSoftInputClick{
+            hideSoftInput()
+        }
+
         squareDetailCommentAdapter.setOnItemClickListener { _, position ->
             val comment = mComments[position]
 
-            if(!TextUtils.equals(replayUid,comment.userId)){
+            if(!TextUtils.equals(replayContent,comment.content)){
                 et_content.setText("")
-                et_content.hint = "回复:"+comment.name
+                et_content.hint = resources.getString(R.string.string_replaycomment,comment.name)
             }
+            replayContent = comment.content.toString()
+
             replayUid = comment.userId?:""
 //            isAuthUser {
 //                startActivityForResult<CommentActivity>(0, "id" to id, "uid" to cUid)
 //            }
-            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            //显示软键盘
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-            et_content.requestFocus()
+            showSoftInput()
         }
 
         squareDetailCommentAdapter.setDeleteClick {
@@ -142,15 +154,24 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         })
 
         btn_send.setOnClickListener {
-//            isAuthUser {
-                val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                //显示软键盘
-                imm.hideSoftInputFromWindow(et_content.windowToken, 0)
-                comment()
-//            }
+            hideSoftInput()
+            comment()
         }
         dialog()
         getData()
+    }
+
+    private fun showSoftInput() {
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        //显示软键盘
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
+        et_content.requestFocus()
+    }
+
+    private fun hideSoftInput() {
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        //显示软键盘
+        imm.hideSoftInputFromWindow(et_content.windowToken, 0)
     }
 
     private fun getData() {

@@ -131,10 +131,6 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         }
         dialog.setCanceledOnTouchOutside(canCancel)
         dialog.setMessage(msg,visibility = visibility)
-//        if (!dialog.isShowing) {
-//            val activity = dialog.getOwnerActivity()
-//            dialog.show()
-//        }
     }
 
     override fun dismissDialog() {

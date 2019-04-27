@@ -581,16 +581,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun showDatePayPointDialog(name: String) {
         isAuthUser{
-            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
-                jsonObjetct?.let {
-                    var code = it.optInt("code")
-                    if (code != 7) {
-                        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-                    }else if(code == 7){
-                        startActivity<MenMemberActivity>()
-                    }
-                }
-            })
+            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
+//            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
+//                jsonObjetct?.let {
+//                    var code = it.optInt("code")
+//                    if (code != 7) {
+//                    }else if(code == 7){
+//                        startActivity<MenMemberActivity>()
+//                    }
+//                }
+//            })
         }
 //        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
 //            if(data!=null){
