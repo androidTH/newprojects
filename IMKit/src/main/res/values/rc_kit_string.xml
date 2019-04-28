@@ -98,7 +98,7 @@
     <string name="rc_notice_download_fail">下载失败!</string>
     <string name="rc_notice_select_one_picture_at_last">请至少选择一张图片</string>
 
-    <string name="rc_message_unknown">当前版本暂不支持查看此消息</string>
+    <string name="rc_message_unknown">【当前版本暂不支持查看此消息，请升级新版App后查看】</string>
     <string name="rc_new_messages">条新消息</string>
     <string name="rc_info_not_in_discussion">你不在该讨论组</string>
     <string name="rc_info_not_in_group">你不在该群</string>
