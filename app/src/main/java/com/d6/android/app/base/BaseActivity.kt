@@ -20,6 +20,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
 import java.lang.Exception
 import android.view.MotionEvent
+import com.bugtags.library.Bugtags
 //import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
 import com.gyf.barlibrary.ImmersionBar
