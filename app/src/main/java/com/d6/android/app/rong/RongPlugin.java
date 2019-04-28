@@ -6,6 +6,7 @@ import com.d6.android.app.rong.bean.CustomMessage;
 import com.d6.android.app.rong.bean.TipsMessage;
 import com.d6.android.app.rong.plugin.D6ExtensionModule;
 import com.d6.android.app.rong.provider.CustomMessageProvider;
+import com.d6.android.app.rong.provider.CustomUnKnowMessageProvider;
 import com.d6.android.app.rong.provider.TipsMessageProvider;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import io.rong.imkit.DefaultExtensionModule;
 import io.rong.imkit.IExtensionModule;
 import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.model.UnknownMessage;
 
 /**
  * author : jinjiarui
@@ -63,7 +65,9 @@ public class RongPlugin {
         }
         RongIM.registerMessageType(CustomMessage.class);
         RongIM.registerMessageType(TipsMessage.class);
+        RongIM.registerMessageType(UnknownMessage.class);
         RongIM.registerMessageTemplate(new CustomMessageProvider());
         RongIM.registerMessageTemplate(new TipsMessageProvider());
+        RongIM.registerMessageTemplate(new CustomUnKnowMessageProvider());
     }
 }
