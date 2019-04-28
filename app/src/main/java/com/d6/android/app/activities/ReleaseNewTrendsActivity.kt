@@ -211,20 +211,20 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             }
         })
 
-//        rv_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-//        mList.add("测试-1")
-//        mList.add("测试-2")
-//        mList.add("测试-3")
-//        mList.add("测试-4")
-//        mList.add("测试-5")
-//        mList.add("测试-6")
-//        mNoticeFriendsQuickAdapter.setNewData(mList)
-//        rv_friends.adapter = mNoticeFriendsQuickAdapter
-//        mNoticeFriendsQuickAdapter.setOnItemChildClickListener { adapter, view, position ->
-//            if(view.id==R.id.iv_clear){
-//              toast("ddd")
-//            }
-//        }
+        rv_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        mList.add("测试-1")
+        mList.add("测试-2")
+        mList.add("测试-3")
+        mList.add("测试-4")
+        mList.add("测试-5")
+        mList.add("测试-6")
+        mNoticeFriendsQuickAdapter.setNewData(mList)
+        rv_friends.adapter = mNoticeFriendsQuickAdapter
+        mNoticeFriendsQuickAdapter.setOnItemChildClickListener { adapter, view, position ->
+            if(view.id==R.id.iv_clear){
+              toast("ddd")
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

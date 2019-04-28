@@ -21,6 +21,7 @@ import io.rong.imkit.emoticon.AndroidEmoji;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
+import io.rong.imkit.widget.provider.UnknownMessageItemProvider;
 import io.rong.imlib.model.Message;
 
 /**
@@ -33,6 +34,7 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
     private static class ViewHolder {
         TextView mTvMsgContent;
     }
+
 
     @Override
     public View newView(Context context, ViewGroup group) {

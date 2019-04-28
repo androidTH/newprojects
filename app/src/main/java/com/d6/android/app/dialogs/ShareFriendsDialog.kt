@@ -60,6 +60,7 @@ class ShareFriendsDialog : DialogFragment() {
 
                 }
         }
+
         tv_joinblack.setOnClickListener {
             dialogListener?.onClick(2,"")//2代表加入黑名单
             dismissAllowingStateLoss()
@@ -67,6 +68,14 @@ class ShareFriendsDialog : DialogFragment() {
 
         tv_report_user.setOnClickListener {
             dialogListener?.onClick(0,"")//0代表举报
+            dismissAllowingStateLoss()
+        }
+
+        tv_deldate.setOnClickListener {
+
+        }
+
+        tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()
         }
     }

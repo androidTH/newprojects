@@ -21,10 +21,10 @@
             android:layout_width="wrap_content"
             android:layout_centerInParent="true"
             android:layout_height="match_parent"
-            android:textSize="18dp"
             android:id="@+id/tv_title"
             android:text="@string/open_date_string"
             android:textColor="@color/color_black"
+            android:textSize="17sp"
             android:textStyle="bold"
             android:gravity="center"/>
         <TextView
@@ -180,44 +180,42 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:background="@color/white"
-                android:layout_marginBottom="@dimen/margin_5"
+                android:paddingBottom="@dimen/margin_8"
                 android:layout_height="wrap_content"/>
-
-            <!--android:paddingBottom="@dimen/margin_8"-->
-            <!--<View-->
-                <!--android:layout_marginLeft="@dimen/margin_15"-->
-                <!--android:layout_marginRight="@dimen/margin_15"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:background="@color/color_EFEFEF"-->
-                <!--android:layout_height="0.5dp"/>-->
-          <!--<LinearLayout-->
-              <!--android:layout_width="match_parent"-->
-              <!--android:layout_height="wrap_content"-->
-              <!--android:background="@color/white"-->
-              <!--android:layout_marginBottom="@dimen/margin_8"-->
-              <!--android:orientation="horizontal">-->
-              <!--<TextView-->
-                  <!--android:layout_width="wrap_content"-->
-                  <!--android:layout_height="25dp"-->
-                  <!--android:gravity="center_vertical"-->
-                  <!--android:layout_marginLeft="@dimen/margin_15"-->
-                  <!--android:layout_marginTop="@dimen/margin_8"-->
-                  <!--android:drawablePadding="@dimen/margin_5"-->
-                  <!--android:drawableLeft="@mipmap/notice_friends_icon"-->
-                  <!--android:hint="通知好友"-->
-                  <!--android:textColor="@color/color_F7AB00"-->
-                  <!--android:background="@drawable/shape_6r_f5"-->
-                  <!--android:paddingLeft="@dimen/margin_8"-->
-                  <!--android:textSize="10sp"-->
-                  <!--android:paddingRight="@dimen/margin_8"/>-->
-              <!--<android.support.v7.widget.RecyclerView-->
-                  <!--android:layout_width="match_parent"-->
-                  <!--android:orientation="horizontal"-->
-                  <!--android:layout_marginTop="@dimen/margin_8"-->
-                  <!--android:layout_marginRight="@dimen/margin_10"-->
-                  <!--android:layout_marginLeft="@dimen/margin_10"-->
-                  <!--android:layout_height="35dp"/>-->
-          <!--</LinearLayout>-->
+            <View
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_width="match_parent"
+                android:background="@color/color_EFEFEF"
+                android:layout_height="0.5dp"/>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:layout_marginBottom="@dimen/margin_8"
+              android:orientation="horizontal">
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="25dp"
+                  android:gravity="center_vertical"
+                  android:layout_marginLeft="@dimen/margin_15"
+                  android:layout_marginTop="@dimen/margin_8"
+                  android:drawablePadding="@dimen/margin_5"
+                  android:drawableLeft="@mipmap/notice_friends_icon"
+                  android:hint="通知好友"
+                  android:textColor="@color/color_F7AB00"
+                  android:background="@drawable/shape_6r_f5"
+                  android:paddingLeft="@dimen/margin_8"
+                  android:textSize="10sp"
+                  android:paddingRight="@dimen/margin_8"/>
+              <android.support.v7.widget.RecyclerView
+                  android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_marginTop="@dimen/margin_8"
+                  android:layout_marginRight="@dimen/margin_10"
+                  android:layout_marginLeft="@dimen/margin_10"
+                  android:layout_height="35dp"/>
+          </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"

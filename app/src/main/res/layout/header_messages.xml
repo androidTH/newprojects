@@ -5,10 +5,11 @@
     android:background="@color/white"
     android:orientation="vertical">
     <RelativeLayout
+        android:id="@+id/rl_msg_tips"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/color_F7AB00"
-        android:visibility="gone">
+        android:visibility="visible">
         <TextView
             android:id="@+id/tv_nosys"
             android:layout_width="wrap_content"
@@ -28,12 +29,14 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:text="@string/string_nosys_tips"/>
        <ImageView
+           android:id="@+id/iv_msgtip_close"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_alignParentRight="true"
            android:padding="@dimen/margin_5"
            android:src="@mipmap/close_tint_button"/>
         <TextView
+            android:id="@+id/tv_openmsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_F5A900"

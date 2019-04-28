@@ -84,4 +84,6 @@
     <string name="string_report_us">举报</string>
     <string name="string_comment_tips">说点好听的</string>
     <string name="string_replaycomment">回复%1$s:</string>
+    <string name="string_sharefriends_cancel">取&#12288;消</string>
+    <string name="string_delete">删除</string>
 </resources>

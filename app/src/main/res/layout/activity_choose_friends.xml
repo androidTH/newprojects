@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="@dimen/margin_8"
+            android:layout_marginLeft="@dimen/margin_5"
             android:src="@mipmap/window_close_orangebutton"/>
         <TextView
             android:layout_width="wrap_content"
@@ -22,7 +23,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_centerInParent="true"
             android:textStyle="bold"
-            android:textSize="16sp"
+            android:textColor="@color/color_black"
+            android:textSize="17sp"
             android:text="选择好友"/>
         <TextView
             android:id="@+id/tv_choose"

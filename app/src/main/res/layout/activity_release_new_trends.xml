@@ -20,8 +20,9 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="发布动态"
+            android:textStyle="bold"
             android:textColor="@color/color_black"
-            android:textSize="18dp"/>
+            android:textSize="17sp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,38 +87,38 @@
                     android:paddingLeft="@dimen/margin_8"
                     android:paddingRight="@dimen/margin_8"
                     android:id="@+id/tv_address"/>
-                <!--<View-->
-                    <!--android:layout_below="@+id/tv_address"-->
-                    <!--android:layout_marginLeft="@dimen/margin_15"-->
-                    <!--android:layout_marginRight="@dimen/margin_15"-->
-                    <!--android:layout_marginTop="@dimen/margin_13"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:background="@color/color_EFEFEF"-->
-                    <!--android:layout_height="0.5dp"/>-->
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_noticeuser"-->
-                    <!--android:layout_below="@+id/tv_address"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="25dp"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:layout_marginTop="@dimen/margin_30"-->
-                    <!--android:layout_marginRight="@dimen/margin_5"-->
-                    <!--android:drawablePadding="@dimen/margin_5"-->
-                    <!--android:drawableLeft="@mipmap/notice_friends_icon"-->
-                    <!--android:hint="通知好友"-->
-                    <!--android:textColor="@color/color_F7AB00"-->
-                    <!--android:background="@drawable/shape_6r_f5"-->
-                    <!--android:paddingLeft="@dimen/margin_8"-->
-                    <!--android:paddingRight="@dimen/margin_8"/>-->
-                <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:id="@+id/rv_friends"-->
-                    <!--android:layout_toRightOf="@+id/tv_noticeuser"-->
-                    <!--android:layout_below="@+id/tv_address"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="@dimen/height_40"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:layout_marginTop="@dimen/margin_15"-->
-                    <!--android:layout_marginRight="@dimen/margin_10" />-->
+                <View
+                    android:layout_below="@+id/tv_address"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_13"
+                    android:layout_width="match_parent"
+                    android:background="@color/color_EFEFEF"
+                    android:layout_height="0.5dp"/>
+                <TextView
+                    android:id="@+id/tv_noticeuser"
+                    android:layout_below="@+id/tv_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/margin_30"
+                    android:layout_marginRight="@dimen/margin_5"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:drawableLeft="@mipmap/notice_friends_icon"
+                    android:hint="通知好友"
+                    android:textColor="@color/color_F7AB00"
+                    android:background="@drawable/shape_6r_f5"
+                    android:paddingLeft="@dimen/margin_8"
+                    android:paddingRight="@dimen/margin_8"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_friends"
+                    android:layout_toRightOf="@+id/tv_noticeuser"
+                    android:layout_below="@+id/tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_40"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_10" />
             </RelativeLayout>
             <TextView
                 android:layout_width="wrap_content"

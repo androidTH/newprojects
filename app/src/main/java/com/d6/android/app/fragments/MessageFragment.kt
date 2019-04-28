@@ -2,6 +2,7 @@ package com.d6.android.app.fragments
 
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.ConversationsAdapter
@@ -88,6 +89,18 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
         iv_msg_right.setOnClickListener {
             startActivity<MessageSettingActivity>()
+        }
+
+        tv_topsearch.setOnClickListener {
+            startActivity<ChooseFriendsActivity>()
+        }
+
+        headerView.iv_msgtip_close.setOnClickListener {
+            headerView.rl_msg_tips.visibility = View.GONE
+        }
+
+        headerView.tv_openmsg.setOnClickListener {
+            headerView.rl_msg_tips.visibility = View.GONE
         }
 
         conversationsAdapter.setOnItemClickListener { _, position ->

@@ -5,35 +5,17 @@
     android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:background="@color/white"
     android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tv_share"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:gravity="center"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="分享给"
-            android:textColor="@color/color_black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_sure"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:text="确定"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/textSize" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_share"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="分享给"
+        android:textColor="@color/color_black"
+        android:textSize="15sp"
+        android:textStyle="bold" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_chooseuser"
         android:layout_width="match_parent"
@@ -70,5 +52,30 @@
             android:textSize="12sp"
             android:textColor="@color/color_666666"
             android:id="@+id/tv_joinblack"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_delete"
+            android:drawableTop="@mipmap/deleted_button"
+            android:drawablePadding="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:textColor="@color/color_666666"
+            android:id="@+id/tv_deldate"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="@string/string_sharefriends_cancel"
+        android:background="@color/color_F5F5F5"
+        android:textColor="@color/color_333333"
+        android:textStyle="bold"
+        android:textSize="15sp" />
 </LinearLayout>

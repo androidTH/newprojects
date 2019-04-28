@@ -62,32 +62,32 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
     }
 
     private fun doReport(userid:String){
-        val squareActionDialog = SquareActionDialog()
-        squareActionDialog.arguments = bundleOf("id" to userid)
-        squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
-        squareActionDialog.setDialogListener { p, s ->
-            if (p == 0) {
-                mData?.let {
-                    startActivity(userId, "3")
-                }
-            }
-        }
-//        val squareActionDialog = ShareFriendsDialog()
+//        val squareActionDialog = SquareActionDialog()
 //        squareActionDialog.arguments = bundleOf("id" to userid)
 //        squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
 //        squareActionDialog.setDialogListener { p, s ->
-//           if (p == 0) {
+//            if (p == 0) {
 //                mData?.let {
 //                    startActivity(userId, "3")
 //                }
-//            }else if(p==2){
-//               isBaseActivity {
-//                   Request.addBlackList(userId, userid).request(it) { _, _ ->
-//                       CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
-//                   }
-//               }
-//           }
+//            }
 //        }
+        val squareActionDialog = ShareFriendsDialog()
+        squareActionDialog.arguments = bundleOf("id" to userid)
+        squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
+        squareActionDialog.setDialogListener { p, s ->
+           if (p == 0) {
+                mData?.let {
+                    startActivity(userId, "3")
+                }
+            }else if(p==2){
+               isBaseActivity {
+                   Request.addBlackList(userId, userid).request(it) { _, _ ->
+                       CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
+                   }
+               }
+           }
+        }
     }
 
     private fun startActivity(id:String,tipType:String){
