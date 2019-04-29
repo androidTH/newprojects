@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_like_count"
                     android:layout_alignLeft="@+id/tv_like_count"
-                    android:text="喜欢TA的"
+                    android:text="喜欢TA"
                     android:textColor="@color/color_888888"
                     android:textSize="12sp" />
             </LinearLayout>

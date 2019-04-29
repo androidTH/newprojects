@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_chat_women_card"
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rc_ic_bubble_left"
+    android:orientation="vertical"
+    android:paddingLeft="9dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/chat_speeddate_imageView"
+        android:layout_width="260dp"
+        android:layout_height="260dp" />
+
+    <TextView
+        android:id="@+id/tv_chat_speeddate_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginRight="@dimen/margin_5"
+        android:background="@drawable/shape_4r_orange"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/margin_5"
+        android:paddingTop="3dp"
+        android:paddingRight="@dimen/margin_5"
+        android:paddingBottom="3dp"
+        android:text="救火"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_chat_speeddate_authstate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="240dp"
+        android:layout_marginRight="@dimen/margin_5"
+        android:background="@drawable/shape_10r_8e"
+        android:drawableLeft="@mipmap/small_authentication"
+        android:drawablePadding="@dimen/margin_2"
+        android:paddingLeft="@dimen/margin_5"
+        android:paddingTop="@dimen/margin_2"
+        android:paddingRight="@dimen/margin_5"
+        android:paddingBottom="@dimen/margin_2"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_chat_speeddate_authlevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="@dimen/margin_5"
+        android:background="@drawable/shape_10r_8e"
+        android:drawablePadding="@dimen/margin_1"
+        android:paddingLeft="@dimen/margin_5"
+        android:paddingTop="@dimen/margin_2"
+        android:paddingRight="@dimen/margin_5"
+        android:paddingBottom="@dimen/margin_2"
+        android:text="黄金会员"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/ll_chat_speeddate_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chat_speeddate_imageView"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tv_chat_speeddate_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/sex_selector"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:maxWidth="150dp"
+            android:singleLine="true"
+            android:text="--"
+            android:textColor="@color/color_black"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_chat_speeddate_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_chat_speeddate_name"
+        android:layout_marginTop="@dimen/margin_3"
+        android:layout_marginBottom="@dimen/margin_5"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:text="28·180CM·80KG"
+        android:textColor="@color/color_888888"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_chat_speeddate_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_chat_speeddate_info"
+        android:layout_marginBottom="@dimen/margin_5"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:text="----"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_chat_speeddate_address"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/tv_chat_speeddate_content"
+        android:drawableLeft="@mipmap/date_area_icon"
+        android:drawablePadding="@dimen/margin_5"
+        android:gravity="center_vertical"
+        android:text="-----"
+        android:textColor="@color/color_999999"
+        android:textSize="12sp" />
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/tv_chat_speeddate_address"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@color/color_EFEFEF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/view_line"
+        android:layout_marginTop="@dimen/margin_5"
+        android:drawableLeft="@mipmap/card_gf_icon"
+        android:drawablePadding="@dimen/margin_5"
+        android:gravity="center_vertical"
+        android:text="官方发布"
+        android:textColor="@color/color_999999"
+        android:textSize="11sp" />
+</RelativeLayout>

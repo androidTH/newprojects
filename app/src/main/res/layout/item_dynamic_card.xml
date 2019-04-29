@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_chat_women_card"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rc_ic_bubble_left"
+    android:orientation="vertical"
+    android:paddingLeft="9dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/dynamic_headView"
+        style="@style/DefaultHeadStyle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:roundAsCircle="true" />
+    <ImageView
+        android:id="@+id/img_auther"
+        android:layout_width="22dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/tv_dynamic_vip"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_35"
+        android:layout_marginTop="@dimen/margin_5"
+        android:src="@mipmap/video_small_authentication" />
+    <!--android:background="@drawable/shape_auther_bg"-->
+
+    <TextView
+        android:id="@+id/tv_dynamic_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="6dp"
+        android:layout_toRightOf="@+id/dynamic_headView"
+        android:drawablePadding="8dp"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:text="-----------"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_dynamic_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_3"
+        android:layout_toRightOf="@+id/tv_dynamic_name"
+        android:drawableRight="@drawable/sex_selector" />
+
+    <TextView
+        android:id="@+id/tv_dynamic_vip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_toRightOf="@+id/tv_dynamic_sex"
+        android:background="@drawable/shape_4r_white"
+        android:paddingLeft="5dp"
+        android:paddingTop="@dimen/margin_3"
+        android:paddingRight="5dp"
+        android:paddingBottom="@dimen/margin_3"
+        android:text="白鹦"
+        android:textColor="@color/orange_f6a"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/tv_dynamic_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_dynamic_name"
+        android:layout_alignBottom="@+id/dynamic_headView"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="2dp"
+        android:singleLine="true"
+        android:text="--"
+        android:textColor="@color/color_888888"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_dynamic_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dynamic_headView"
+        android:layout_alignLeft="@+id/dynamic_headView"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_dynamic_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-----------------"
+            android:textColor="@color/color_333333"
+            android:textSize="14sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_dynamic_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_chat_dynamic"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/ll_dynamic_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_dynamic_redflower"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="@dimen/margin_16"
+            android:layout_toLeftOf="@+id/tv_dynamic_appraise"
+            android:drawableLeft="@drawable/ic_redflower_selector"
+            android:drawablePadding="4dp"
+            android:gravity="left|center"
+            android:paddingLeft="8dp"
+            android:paddingTop="5dp"
+            android:text="445"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_dynamic_appraise"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="@dimen/margin_16"
+            android:layout_toLeftOf="@+id/tv_dynamic_comment"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_praise_selector"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:text="445"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_dynamic_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_weight="1"
+            android:drawableLeft="@mipmap/ic_comment"
+            android:drawablePadding="4dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="8dp"
+            android:gravity="left|center"
+            android:text="0"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/ll_chat_dynamic"
+        android:background="@color/color_EFEFEF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/view_line"
+        android:layout_marginTop="@dimen/margin_5"
+        android:drawableLeft="@mipmap/card_dynamic_icon"
+        android:drawablePadding="@dimen/margin_5"
+        android:gravity="center_vertical"
+        android:text="最新动态"
+        android:textColor="@color/color_999999"
+        android:textSize="11sp" />
+</RelativeLayout>
