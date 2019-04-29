@@ -37,4 +37,14 @@
             android:layout_marginRight="@dimen/margin_15"
             android:text=""/>
     </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_gravity="center_horizontal"
+        android:textSize="14sp"
+        android:textColor="@color/color_888888"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="@dimen/margin_5"
+        android:text="@string/string_aboutd6"/>
 </LinearLayout>

@@ -37,7 +37,7 @@ public class CustomUnKnowMessageProvider extends UnknownMessageItemProvider {
 
     public void bindView(View v, int position, MessageContent content, UIMessage message) {
         ViewHolder viewHolder = (ViewHolder) v.getTag();
-        viewHolder.contentTextView.setText(R.string.rc_message_unknown);
+        viewHolder.contentTextView.setText(R.string.string_unknowmessage);
         viewHolder.contentTextView.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(message.getTargetId());
         if (userInfo != null) {
@@ -46,7 +46,7 @@ public class CustomUnKnowMessageProvider extends UnknownMessageItemProvider {
     }
 
     public Spannable getContentSummary(MessageContent data) {
-        return new SpannableString(RongContext.getInstance().getResources().getString(R.string.rc_message_unknown));
+        return new SpannableString(RongContext.getInstance().getResources().getString(R.string.string_unknowmessage));
     }
 
     public void onItemClick(View view, int position, MessageContent content, UIMessage message) {
@@ -55,7 +55,7 @@ public class CustomUnKnowMessageProvider extends UnknownMessageItemProvider {
     public View newView(Context context, ViewGroup group) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_rongunknowmsg, (ViewGroup) null);
         ViewHolder viewHolder = new ViewHolder();
-        viewHolder.contentTextView = (TextView) view.findViewById(R.id.tv_unknowmsg);
+        viewHolder.contentTextView =view.findViewById(R.id.tv_unknowmsg);
         viewHolder.mHeaderView = view.findViewById(R.id.leftheader);
         viewHolder.contentTextView.setMovementMethod(LinkMovementMethod.getInstance());
         view.setTag(viewHolder);
