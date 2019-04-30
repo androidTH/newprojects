@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.widget.LoadDialog
 import com.d6.android.app.widget.ProgressDialog
 import com.gyf.barlibrary.ImmersionBar
 import io.reactivex.disposables.CompositeDisposable
@@ -148,6 +149,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
         if (dialog.isShowing) {
             dialog.dismiss()
         }
+        LoadDialog.dismiss(context)
     }
 
     override fun onBind(disposable: Disposable) {

@@ -72,7 +72,8 @@ class ShareFriendsDialog : DialogFragment() {
         }
 
         tv_deldate.setOnClickListener {
-
+            dialogListener?.onClick(1,"")//1代表删除
+            dismissAllowingStateLoss()
         }
 
         tv_cancel.setOnClickListener {

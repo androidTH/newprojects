@@ -22,6 +22,8 @@ class DialogShareFriendsQuickAdapter(data: List<String>) : BaseQuickAdapter<Stri
             mHeadView.setImageURI("res:///"+R.mipmap.share_more_icon)
             mUserName.text="更多"
             mUserName.textColor = ContextCompat.getColor(mContext,R.color.color_F7AB00)
+            var paint = mUserName.paint
+            paint.setFakeBoldText(true)
         }
     }
 }

@@ -134,14 +134,15 @@
         android:background="@color/color_EFEFEF" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_below="@+id/view_line"
         android:layout_marginTop="@dimen/margin_5"
-        android:drawableLeft="@mipmap/card_gf_icon"
+        android:drawableLeft="@mipmap/card_white_gf_icon"
+        android:background="@drawable/shape_4r_left_right_orange"
         android:drawablePadding="@dimen/margin_5"
         android:gravity="center_vertical"
         android:text="官方发布"
-        android:textColor="@color/color_999999"
+        android:textColor="@color/white"
         android:textSize="11sp" />
 </RelativeLayout>

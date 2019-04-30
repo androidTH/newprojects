@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
@@ -51,6 +52,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
+import kotlinx.android.synthetic.main.activity_square_detail.*
 import org.jetbrains.anko.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -729,4 +731,16 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
 
 fun getReplace(str:String):String{
     return str.replace("省","").replace("市","")
+}
+
+fun hideSoftKeyboard(view:View) {
+    var manager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+}
+
+fun showSoftInput(view:View) {
+    val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    //显示软键盘
+    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
+    view.requestFocus()
 }

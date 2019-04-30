@@ -44,18 +44,21 @@
         android:background="@color/color_EAEAEA"/>
 
     <EditText
+        android:id="@+id/et_searchfriends"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginRight="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_8"
         android:layout_marginBottom="@dimen/margin_8"
+        android:singleLine="true"
         android:textColorHint="@color/color_888888"
         android:hint="搜索"
         android:textSize="14sp"
         android:textColor="@color/color_black"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
+        android:imeOptions="actionSearch"
         android:background="@drawable/shape_10r_white"/>
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/swipeRefreshLayout"

@@ -11,8 +11,8 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/chat_men_headView"
         style="@style/DefaultCircleHeadStyle"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="20dp"
         android:layout_marginRight="@dimen/margin_10" />
@@ -22,7 +22,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/chat_men_headView"
-        android:layout_marginTop="@dimen/margin_3"
         android:layout_marginRight="8dp"
         android:layout_toRightOf="@+id/chat_men_headView"
         android:drawablePadding="8dp"
@@ -55,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_chat_men_name"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="@dimen/margin_5"
         android:layout_marginTop="@dimen/margin_5"
         android:layout_toRightOf="@+id/tv_chat_men_age"
         android:background="@drawable/shape_4r_orange"
@@ -75,6 +74,7 @@
         android:layout_below="@+id/tv_chat_men_age"
         android:layout_marginTop="@dimen/margin_10"
         android:layout_toRightOf="@+id/chat_men_headView"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -157,7 +157,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
         android:ellipsize="end"
-        android:maxLines="3"
+        android:maxLines="2"
         android:textColor="@color/color_333333"
         android:textSize="14sp" />
 

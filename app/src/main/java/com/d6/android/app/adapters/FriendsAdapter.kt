@@ -4,11 +4,14 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.activities.UserInfoActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.Fans
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
+import org.jetbrains.anko.startActivity
 
 /**
  *粉丝
@@ -48,5 +51,18 @@ class FriendsAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.la
         }else{
             mTvFriends.visibility = View.VISIBLE
         }
+
+        headView.setOnClickListener {
+            isBaseActivity {
+                it.startActivity<UserInfoActivity>("id" to data.iUserid.toString())
+            }
+        }
     }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
+        }
+    }
+
 }

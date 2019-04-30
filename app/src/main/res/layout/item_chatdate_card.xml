@@ -10,8 +10,8 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/chat_date_headView"
         style="@style/DefaultHeadStyle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         app:roundAsCircle="true" />
@@ -19,7 +19,7 @@
         android:id="@+id/img_chat_date_auther"
         android:layout_width="22dp"
         android:layout_height="15dp"
-        android:layout_below="@+id/tv_chat_date_vip"
+        android:layout_below="@+id/tv_chat_date_name"
         android:layout_marginRight="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_35"
         android:layout_marginTop="@dimen/margin_5"
@@ -32,6 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginRight="6dp"
+        android:layout_marginLeft="@dimen/margin_10"
         android:layout_toRightOf="@+id/chat_date_headView"
         android:drawablePadding="8dp"
         android:singleLine="true"
@@ -43,16 +44,17 @@
         android:id="@+id/tv_chat_date_sex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_3"
-        android:layout_toRightOf="@+id/tv_chat_date_name"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_below="@+id/tv_chat_date_name"
+        android:layout_toRightOf="@+id/chat_date_headView"
         android:drawableRight="@drawable/sex_selector" />
 
     <TextView
         android:id="@+id/tv_chat_date_vip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginLeft="@dimen/margin_5"
+        android:layout_below="@+id/tv_chat_date_name"
         android:layout_toRightOf="@+id/tv_chat_date_sex"
         android:background="@drawable/shape_4r_white"
         android:paddingLeft="5dp"
@@ -63,18 +65,6 @@
         android:textColor="@color/orange_f6a"
         android:textSize="8sp" />
 
-    <TextView
-        android:id="@+id/tv_chat_date_sub_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_chat_date_name"
-        android:layout_alignBottom="@+id/chat_date_headView"
-        android:layout_marginRight="80dp"
-        android:layout_marginBottom="2dp"
-        android:singleLine="true"
-        android:text="--"
-        android:textColor="@color/color_888888"
-        android:textSize="12sp" />
 
     <LinearLayout
         android:id="@+id/ll_chat_date_content"

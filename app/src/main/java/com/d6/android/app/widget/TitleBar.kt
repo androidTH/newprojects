@@ -31,7 +31,7 @@ class TitleBar : FrameLayout {
     constructor(context: Context,attributeSet: AttributeSet,defStyleAttr:Int):super(context,attributeSet,defStyleAttr)
     private var hasLeft = true
     val leftView: TextView by lazy {
-        textView {
+        textView {titleView
             textSize = 14f
             textColor = ContextCompat.getColor(context, R.color.textColor)
             maxLines = 1

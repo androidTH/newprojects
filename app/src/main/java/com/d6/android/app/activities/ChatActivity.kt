@@ -1,37 +1,27 @@
 package com.d6.android.app.activities
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import com.d6.android.app.R
-import com.d6.android.app.base.TitleActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.DialogPrivateChat
 import com.d6.android.app.dialogs.OpenDatePayPointDialog
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
-import com.d6.android.app.rong.bean.TipsMessage
-import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.rong.fragment.ConversationFragmentEx
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
-import io.rong.imlib.IRongCallback
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.activity_user_info_v2.*
-import kotlinx.coroutines.experimental.channels.Send
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
@@ -39,7 +29,7 @@ import java.util.*
 
 
 //聊天
-class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
+class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
     private var TAG = "ChatActivity"
     private var sendCount: Int = 0
@@ -74,28 +64,42 @@ class ChatActivity : TitleActivity(), RongIM.OnSendMessageListener {
         setContentView(R.layout.activity_chat)
         immersionBar.init()
 
-        titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
+//        titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
+//            startActivity<UserInfoActivity>("id" to mTargetId)
+//        })
+
+        iv_back_close.setOnClickListener {
+            onBackPressed()
+        }
+
+
+        ll_userinfo.setOnClickListener {
             startActivity<UserInfoActivity>("id" to mTargetId)
-        })
+        }
+
+        iv_chat_more.setOnClickListener {
+            startActivity<UserInfoActivity>("id" to mTargetId)
+        }
 
         val info = RongUserInfoManager.getInstance().getUserInfo(mTargetId)
-        title = if (info == null || info.name.isNullOrEmpty()) {
-            mTitle
+        if (info == null || info.name.isNullOrEmpty()) {
+            tv_chattitle.text = mTitle
         } else {
-            info.name
+            tv_chattitle.text = info.name
         }
 
         if(TextUtils.equals("--",mTitle)){
             getOtherUser()
         }
 
-        var myInfo = RongUserInfoManager.getInstance().getUserInfo(userId)
+//        var myInfo = RongUserInfoManager.getInstance().getUserInfo(userId)
+//        var myName = if (myInfo == null || myInfo.name.isNullOrEmpty()) {
+//            ""
+//        } else {
+//            myInfo.name
+//        }
 
-        var myName = if (myInfo == null || myInfo.name.isNullOrEmpty()) {
-            ""
-        } else {
-            myInfo.name
-        }
+        RongUtils.setUserInfo(mTargetId,null,chat_headView)
 
         tv_openchat_apply.setOnClickListener {
             tv_openchat_apply.isEnabled = false

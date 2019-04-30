@@ -86,6 +86,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                        CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
                    }
                }
+           }else if(p==1){
+               isBaseActivity {
+                   //删除的方法
+               }
            }
         }
     }

@@ -92,14 +92,14 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         }
 
         headerView.mTrendDetailView.setOnCommentClick {
-            showSoftInput()
+            showSoftInput(et_content)
             replayUid=""
             et_content.setText("")
             et_content.hint = resources.getString(R.string.string_comment_tips)
         }
 
         headerView.mTrendDetailView.setOnSoftInputClick{
-            hideSoftInput()
+            hideSoftKeyboard(et_content)
         }
 
         squareDetailCommentAdapter.setOnItemClickListener { _, position ->
@@ -115,7 +115,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 //            isAuthUser {
 //                startActivityForResult<CommentActivity>(0, "id" to id, "uid" to cUid)
 //            }
-            showSoftInput()
+//            showSoftInput()
+
+            showSoftInput(et_content)
         }
 
         squareDetailCommentAdapter.setDeleteClick {
@@ -154,25 +156,19 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         })
 
         btn_send.setOnClickListener {
-            hideSoftInput()
+            hideSoftKeyboard(et_content)
             comment()
         }
         dialog()
         getData()
     }
 
-    private fun showSoftInput() {
-        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        //显示软键盘
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
-        et_content.requestFocus()
-    }
-
-    private fun hideSoftInput() {
-        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        //显示软键盘
-        imm.hideSoftInputFromWindow(et_content.windowToken, 0)
-    }
+//    private fun showSoftInput() {
+//        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        //显示软键盘
+//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
+//        et_content.requestFocus()
+//    }
 
     private fun getData() {
         if (id.isNotEmpty()) {

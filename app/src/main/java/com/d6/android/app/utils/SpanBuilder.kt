@@ -38,4 +38,6 @@ class SpanBuilder(content: String) {
     fun build() : SpannableStringBuilder{
         return spannableString
     }
+
+
 }

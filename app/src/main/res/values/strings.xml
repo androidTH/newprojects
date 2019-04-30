@@ -88,4 +88,5 @@
     <string name="string_delete">删除</string>
     <string name="string_aboutd6">Copyright@2004-2019\n北京礼遇科技有限公司所有</string>
     <string name="string_unknowmessage">【当前版本暂不支持查看此消息,请升级新版App后查看】</string>
+    <string name="layout_dialog_loading">正在加载...</string>
 </resources>

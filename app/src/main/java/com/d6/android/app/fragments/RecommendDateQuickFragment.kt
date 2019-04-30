@@ -16,6 +16,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.LoadDialog
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -46,24 +47,23 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dateAdapter.setOnItemClickListener { adapter, view, position ->
-//            activity.isCheckOnLineAuthUser(this,mUserId) {
                 val date = dateAdapter.data[position]
                 if (date.iType == 1) {
                     startActivity<FindDateDetailActivity>("data" to date)
                 } else if (date.iType == 2) {
                     startActivity<SpeedDateDetailActivity>("data" to date)
                 }
-//            }
         }
 
         if(TextUtils.isEmpty(mUserId)){
             mUserId = SPUtils.instance().getString(Const.User.USER_ID)
         }
-        pullDownRefresh()
+
     }
 
     override fun onFirstVisibleToUser() {
-//
+//        LoadDialog.show(context)
+        pullDownRefresh()
     }
 
     fun getFindRecommend(ilookType: String="", city: String=""){

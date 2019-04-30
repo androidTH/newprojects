@@ -10,8 +10,8 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/headView"
         style="@style/DefaultHeadStyle"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:roundAsCircle="true" />
     <TextView
         android:layout_width="wrap_content"

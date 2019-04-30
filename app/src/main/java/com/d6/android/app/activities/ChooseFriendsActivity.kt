@@ -4,18 +4,20 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.inputmethod.EditorInfo
 import com.d6.android.app.R
 import com.d6.android.app.adapters.FriendsAdapter
-import com.d6.android.app.adapters.VistorAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.hideSoftKeyboard
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_choose_friends.*
+import org.jetbrains.anko.toast
 
 class ChooseFriendsActivity : BaseActivity() {
     private val userId by lazy {
@@ -52,13 +54,21 @@ class ChooseFriendsActivity : BaseActivity() {
                 tv_choose.text=getString(R.string.string_choose)
             }
             friendsAdapter.notifyDataSetChanged()
-
         }
         initRecyclerView()
         dialog()
         getData()
         iv_back_close.setOnClickListener {
             finish()
+        }
+
+        et_searchfriends.setOnEditorActionListener { v, actionId, event ->
+            if(actionId == EditorInfo.IME_ACTION_SEARCH){
+                 toast(et_searchfriends.text)
+                 hideSoftKeyboard(et_searchfriends)
+                 true
+            }
+             false
         }
     }
 
@@ -88,7 +98,6 @@ class ChooseFriendsActivity : BaseActivity() {
     }
 
     private fun getData() {
-
         Request.getFindVistors(userId, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mVistors.clear()
@@ -103,6 +112,7 @@ class ChooseFriendsActivity : BaseActivity() {
             } else {
                 mVistors.addAll(data.list.results)
             }
+            swipeRefreshLayout.isRefreshing = false
             friendsAdapter.notifyDataSetChanged()
         }
     }

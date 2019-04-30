@@ -26,6 +26,7 @@
             android:visibility="gone"
             android:drawablePadding="@dimen/margin_3"
             android:drawableRight="@mipmap/ic_arrow_down"
+            android:textStyle="bold"
             android:text=""
             android:gravity="center_vertical|left"/>
 
