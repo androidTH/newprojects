@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.DialogPrivateChat
-import com.d6.android.app.dialogs.OpenDatePayPointDialog
-import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.fragment.ConversationFragmentEx
@@ -78,7 +76,15 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         }
 
         iv_chat_more.setOnClickListener {
-            startActivity<UserInfoActivity>("id" to mTargetId)
+            val userActionDialog = UserActionDialog()
+            userActionDialog.setDialogListener { p, s ->
+                if (p == 0) {//举报
+                    startActivity<ReportActivity>("id" to mTargetId, "tiptype" to "1")
+                } else if (p == 1) {
+                    addBlackList()
+                }
+            }
+            userActionDialog.show(supportFragmentManager, "user")
         }
 
         val info = RongUserInfoManager.getInstance().getUserInfo(mTargetId)
@@ -466,6 +472,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             }
         }
         return false
+    }
+
+    private fun addBlackList() {
+        var mDialogAddBlackList = DialogAddBlackList()
+        mDialogAddBlackList.show(supportFragmentManager, "addBlacklist")
+        mDialogAddBlackList.setDialogListener { p, s ->
+            dialog()
+            Request.addBlackList(userId, mTargetId).request(this) { _, _ ->
+                CustomToast.showToast(getString(R.string.string_blacklist_toast))
+            }
+        }
     }
 
     override fun onDestroy() {

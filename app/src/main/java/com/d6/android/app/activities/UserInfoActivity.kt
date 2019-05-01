@@ -9,9 +9,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
@@ -368,7 +366,40 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                    startActivity<DateAuthStateActivity>()
 //                }
 
-                headerView.tv_vip.text = String.format("%s", it.classesname)
+//                headerView.tv_vip.text = String.format("%s", it.classesname+it.userclassesid)
+                // 25钻石 24黄金 23白银 22普通  28中级
+                if (TextUtils.equals("0", it.sex)) {//女性
+                    //27入门 28中级  29优质
+//                   tv_vip.text = String.format("%s", it.classesname)
+                    if(TextUtils.equals(it.userclassesid,"27")){
+                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_primary))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_primary_member)
+                    }else if(TextUtils.equals(it.userclassesid,"28")){
+                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_middle))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_middle_member)
+                    }else if(TextUtils.equals(it.userclassesid,"29")){
+                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_private_member)
+                    }
+                } else {
+                    if(TextUtils.equals(it.userclassesid.toString(),"22")){
+                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_ordinary_member)
+                    }else if(TextUtils.equals(it.userclassesid,"23")){
+                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_silver_member)
+                    }else if(TextUtils.equals(it.userclassesid,"24")){
+                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_gold_member)
+                    }else if(TextUtils.equals(it.userclassesid,"25")){
+                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_diamonds_member)
+                    }else if(TextUtils.equals(it.userclassesid,"26")){
+                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_private_member)
+                    }
+                }
+
                 mTags.clear()
                 if (!it.height.isNullOrEmpty()) {
                     mTags.add(UserTag("身高 ${it.height}", R.mipmap.boy_stature_whiteicon))

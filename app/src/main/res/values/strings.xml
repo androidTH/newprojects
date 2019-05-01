@@ -89,4 +89,14 @@
     <string name="string_aboutd6">Copyright@2004-2019\n北京礼遇科技有限公司所有</string>
     <string name="string_unknowmessage">【当前版本暂不支持查看此消息,请升级新版App后查看】</string>
     <string name="layout_dialog_loading">正在加载...</string>
+    <!--男性-->
+    <string name="string_ordinary">普通</string>
+    <string name="string_silver">白银</string>
+    <string name="string_gold">黄金</string>
+    <string name="string_diamonds">钻石</string>
+    <string name="string_private">私人定制</string>
+     <!--女性-->
+    <string name="string_middle">中级</string>
+    <string name="string_primary">初级</string>
+    <string name="string_senior">高级</string>
 </resources>

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
@@ -18,14 +19,18 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommonTipDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
+import com.d6.android.app.models.Fans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CHOOSE_Friends
+import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.startActivityForResult
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
@@ -49,21 +54,16 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     }
 
     private var cityType = 1
-
-    private var mList = ArrayList<String>()
-    private var mNoticeFriendsQuickAdapter = NoticeFriendsQuickAdapter(mList)
+    private val mNoticeFriendsQuickAdapter by lazy{
+         NoticeFriendsQuickAdapter(mChooseFriends)
+    }
+    private var REQUEST_CHOOSECODE:Int=10
+    private  var mChooseFriends = ArrayList<Fans>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_release_new_trends)
         immersionBar.init()
-//        RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
-//            if (it) {
-//                startLocation()
-//            } else {
-//
-//            }
-//        }
         city = ""
         rv_images.setHasFixedSize(true)
         rv_images.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
@@ -211,18 +211,15 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             }
         })
 
+        tv_noticeuser.setOnClickListener {
+            startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, CHOOSE_Friends to mChooseFriends)
+        }
+
         rv_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-        mList.add("测试-1")
-        mList.add("测试-2")
-        mList.add("测试-3")
-        mList.add("测试-4")
-        mList.add("测试-5")
-        mList.add("测试-6")
-        mNoticeFriendsQuickAdapter.setNewData(mList)
         rv_friends.adapter = mNoticeFriendsQuickAdapter
         mNoticeFriendsQuickAdapter.setOnItemChildClickListener { adapter, view, position ->
             if(view.id==R.id.iv_clear){
-              toast("ddd")
+               toast("ddd")
             }
         }
     }
@@ -260,6 +257,10 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 }
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 addAdapter.notifyDataSetChanged()
+            }else if(requestCode == REQUEST_CHOOSECODE && data!=null){
+                  mChooseFriends = data!!.getParcelableArrayListExtra(CHOOSE_Friends)
+                  Log.i("ffffff","requset="+requestCode+"size="+mChooseFriends.size)
+                  mNoticeFriendsQuickAdapter.setNewData(mChooseFriends)
             }
         }
     }

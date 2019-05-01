@@ -84,5 +84,25 @@
     <color name="color_99000000">#99000000</color>
     <color name="color_F5A900">#F5A900</color>
     <color name="color_CEB241">#CEB241</color>
-
+    <!--普通-->
+    <color name="color_FFA651">#FFA651</color>
+    <color name="color_FFC792">#FFC792</color>
+    <!--白银-->
+    <color name="color_817897">#817897</color>
+    <color name="color_BDB5CA">#BDB5CA</color>
+    <!--黄金-->
+    <color name="color_FFAF2E">#FFAF2E</color>
+    <color name="color_FFD675">#FFD675</color>
+    <!--钻石-->
+    <color name="color_8170D2">#8170D2</color>
+    <color name="color_A294EC">#A294EC</color>
+    <!--私人定制-->
+    <color name="color_323432">#323432</color>
+    <color name="color_696D72">#696D72</color>
+    <!--初级-->
+    <color name="color_F367C2">#F367C2</color>
+    <color name="color_FC93C9">#FC93C9</color>
+    <!--中级-->
+    <color name="color_8950EC">#8950EC</color>
+    <color name="color_B594EC">#B594EC</color>
 </resources>

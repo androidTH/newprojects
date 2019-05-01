@@ -17,7 +17,7 @@ data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
     @SerializedName("sUserName")var sUserName:String?=""
     @SerializedName("sSex")var sSex:String?=""
     @SerializedName("sPicUrl")var sPicUrl:String?=""
-    @SerializedName("userclassesid") var userclassesid:String?=""
+    @SerializedName("userclassesid") var userclassesid:String?=""//24黄金 23白银 22普通 28中级 
     @SerializedName("nianling")var nianling:String?=""
     @SerializedName("ziwojieshao")var gexingqianming:String?=""
     @SerializedName("iIsFollow")var iIsFollow:Int?=0

@@ -1,6 +1,13 @@
 package com.d6.android.app.utils
 
+import android.annotation.TargetApi
+import android.app.AppOpsManager
+import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.text.SpannableString
 import android.text.Spanned
@@ -11,6 +18,9 @@ import com.d6.android.app.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import java.io.File
+import android.os.Build.VERSION_CODES.KITKAT
+import android.provider.Settings
+
 
 /**
  *
@@ -78,6 +88,4 @@ class AppUtils {
             }
         }
     }
-
-
 }

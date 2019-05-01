@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_toRightOf="@+id/tv_sex"
-                    android:background="@drawable/shape_4r_orange"
+                    android:background="@drawable/shape_10r_ordinary_member"
                     android:drawableLeft="@mipmap/memberorder_icon_white"
                     android:drawablePadding="@dimen/margin_2"
                     android:paddingLeft="5dp"

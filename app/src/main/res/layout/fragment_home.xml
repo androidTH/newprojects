@@ -45,7 +45,7 @@
                     android:layout_toRightOf="@+id/tv_speed_date"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="专属微信客服为您服务"
+                    android:text="专属客服为你服务"
                     android:textColor="@color/color_888888"
                     android:textSize="12sp" />
 

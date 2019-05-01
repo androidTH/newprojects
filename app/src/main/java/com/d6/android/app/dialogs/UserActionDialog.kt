@@ -35,12 +35,12 @@ class UserActionDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tv_action.setOnClickListener {
+        tv_report_user.setOnClickListener {
             dialogListener?.onClick(0,"")
             dismissAllowingStateLoss()
         }
 
-        tv_action1.setOnClickListener {
+        tv_joinblack.setOnClickListener {
             dialogListener?.onClick(1,"")
             dismissAllowingStateLoss()
         }

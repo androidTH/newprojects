@@ -1,9 +1,13 @@
 package com.d6.android.app.utils
 
+import android.annotation.TargetApi
 import android.app.Activity
+import android.app.AppOpsManager
+import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -13,6 +17,7 @@ import android.os.Environment
 import android.os.StatFs
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -743,4 +748,100 @@ fun showSoftInput(view:View) {
     //显示软键盘
     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
     view.requestFocus()
+}
+
+private val CHECK_OP_NO_THROW = "checkOpNoThrow"
+private val OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION"
+
+@TargetApi(Build.VERSION_CODES.KITKAT)
+fun isNotificationEnabled(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        ///< 8.0手机以上
+        if ((context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).getImportance() === NotificationManager.IMPORTANCE_NONE) {
+            return false
+        }
+    }
+
+    val mAppOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+    val appInfo = context.applicationInfo
+    val pkg = context.applicationContext.packageName
+    val uid = appInfo.uid
+
+    var appOpsClass: Class<*>? = null
+    try {
+        appOpsClass = Class.forName(AppOpsManager::class.java!!.getName())
+        val checkOpNoThrowMethod = appOpsClass!!.getMethod(CHECK_OP_NO_THROW, Integer.TYPE, Integer.TYPE,
+                String::class.java)
+        val opPostNotificationValue = appOpsClass.getDeclaredField(OP_POST_NOTIFICATION)
+
+        val value = opPostNotificationValue.get(Int::class.java) as Int
+        return checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg) as Int === AppOpsManager.MODE_ALLOWED
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return false
+}
+
+/**
+ * 跳到通知页
+ */
+fun requestNotify(context: Context){
+
+    var appInfo = context.getApplicationInfo()
+    var pkg = context.getApplicationContext().getPackageName()
+    var uid = appInfo.uid
+
+//        val intent: Intent = Intent()
+//        try {
+//            intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+//
+//            //8.0及以后版本使用这两个extra.  >=API 26
+//
+//            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+//            intent.putExtra(Settings.EXTRA_CHANNEL_ID, uid)
+//
+//            //5.0-7.1 使用这两个extra.  <= API 25, >=API 21
+//            intent.putExtra("app_package", context.packageName)
+//            intent.putExtra("app_uid", uid)
+//
+//            context.startActivity(intent)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//
+//            //其他低版本或者异常情况，走该节点。进入APP设置界面
+//            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+//            intent.putExtra("package", context.packageName)
+//            //val uri = Uri.fromParts("package", packageName, null)
+//            //intent.data = uri
+//            context.startActivity(intent)
+//        }
+
+    try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val intent: Intent = Intent()
+            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            //这种方案适用于 API 26, 即8.0（含8.0）以上可以用
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, pkg)
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, uid)
+            //这种方案适用于 API21——25，即 5.0——7.1 之间的版本可以使用
+            intent.putExtra("app_package", pkg)
+            intent.putExtra("app_uid", uid)
+            context.startActivity(intent)
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            val intent: Intent = Intent()
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            intent.setData(Uri.parse("package:" + context.getPackageName()))
+            context.startActivity(intent)
+//                context.startActivityForResult(intent, AppConst.REQUEST_SETTING_NOTIFICATION);
+        } else {
+            var intent =  Intent(Settings.ACTION_SETTINGS)
+            context.startActivity(intent)
+//                context.startActivityForResult(intent, AppConst.REQUEST_SETTING_NOTIFICATION);
+        }
+    } catch (e:Exception) {
+        var intent = Intent(Settings.ACTION_SETTINGS)
+        context.startActivity(intent)
+//            context.startActivityForResult(intent, AppConst.REQUEST_SETTING_NOTIFICATION);
+    }
 }

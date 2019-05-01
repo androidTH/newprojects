@@ -32,6 +32,7 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * 自主发布
@@ -199,6 +200,10 @@ class PublishFindDateActivity : BaseActivity() {
         tv_back.setOnClickListener {
             mKeyboardKt.hideKeyboard(it)
             finish()
+        }
+
+        tv_notififriends.setOnClickListener {
+            startActivity<ChooseFriendsActivity>()
         }
 
         startTime = getTodayTime()

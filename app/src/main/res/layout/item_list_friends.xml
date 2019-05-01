@@ -84,6 +84,7 @@
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:visibility="gone"
         android:background="@mipmap/friends_seleted" />
     <!--android:background="@drawable/shape_10r_fans"-->
     <!--android:textColor="@color/color_DFE1E5"-->

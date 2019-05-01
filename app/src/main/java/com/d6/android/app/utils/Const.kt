@@ -115,4 +115,12 @@ object Const {
 
     val UpdateAppUrl = API.BASE_URL+"backstage/version/getByVersion"
 
+    @JvmField
+    val PUSH_ISNOTSHOW="push_isnotshow"
+    @JvmField
+    var CHOOSE_Friends="choosefriends"
+
+
+
+
 }

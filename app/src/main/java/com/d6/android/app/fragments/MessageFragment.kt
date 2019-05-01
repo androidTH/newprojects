@@ -14,6 +14,7 @@ import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.badge.Badge
@@ -26,6 +27,7 @@ import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * 消息列表页
@@ -92,15 +94,16 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         }
 
         tv_topsearch.setOnClickListener {
-            startActivity<ChooseFriendsActivity>()
+            startActivity<SearchFriendsActivity>()
         }
 
         headerView.iv_msgtip_close.setOnClickListener {
             headerView.rl_msg_tips.visibility = View.GONE
+            SPUtils.instance().put(PUSH_ISNOTSHOW,System.currentTimeMillis()).apply()
         }
 
         headerView.tv_openmsg.setOnClickListener {
-            headerView.rl_msg_tips.visibility = View.GONE
+            requestNotify(context)
         }
 
         conversationsAdapter.setOnItemClickListener { _, position ->
@@ -149,6 +152,27 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         getData()
         getSysLastOne(SysMsg_time.toString())
         getSquareMsg(SquareMsg_time.toString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkPushIsNotShow()
+    }
+
+    private fun checkPushIsNotShow() {
+        if (isNotificationEnabled(context)) {
+            headerView.rl_msg_tips.visibility = View.GONE
+        } else {
+            if (getSevenDays(SPUtils.instance().getLong(PUSH_ISNOTSHOW, System.currentTimeMillis()))) {
+                if (isNotificationEnabled(context)) {
+                    headerView.rl_msg_tips.visibility = View.GONE
+                } else {
+                    headerView.rl_msg_tips.visibility = View.VISIBLE
+                }
+            } else {
+                headerView.rl_msg_tips.visibility = View.GONE
+            }
+        }
     }
 
     private fun getData() {
