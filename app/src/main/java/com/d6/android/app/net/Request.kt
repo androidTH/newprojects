@@ -184,8 +184,8 @@ object Request {
                            , area: String? = null, outArea: String? = null, arrayUserClassesId: String? = null, pageSize: Int = PAGE_SIZE) =
             RRetrofit.instance().create(ApiServices::class.java).getSelfReleaseList(pageNum, beginTime, endTime, area, outArea, arrayUserClassesId, pageSize)
 
-    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String) =
-            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content)
+    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String) =
+            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser)
 
     fun releaseSelfAbout(userId: String, outArea: String?, area: String?, city: String?, beginTime: String?, endTime: String?, content: String, imgUrl: String?) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSelfAbout(userId, content, outArea, area, city, beginTime, endTime, imgUrl)
@@ -314,8 +314,8 @@ object Request {
     fun getUserPoints(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getUserPoints(userid , pageNum)
 
     //发布约会
-    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?)=RRetrofit.instance().
-            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic)
+    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?,sAppointUser:String)=RRetrofit.instance().
+            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic,sAppointUser)
     //自主约会
     fun findAppointmentList(userid: String,iAppointType:String?, sPlace:String?,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAppointmentList(userid,iAppointType ,sPlace,pageNum)
 
@@ -420,7 +420,6 @@ object Request {
     //更新微信登录的unionId
     fun updateUnionId(iUserid:String,sOpenId:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).updateUnionId(iUserid,sOpenId,sUnionid)
 
-
     //把某人移除黑名单
     fun removeBlackList(userId: String,id:String)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(userId,id)
 
@@ -432,10 +431,4 @@ object Request {
 
     //客服查询用户
     fun findAllUserFriends(iUserId:String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAllUserFriends(iUserId,sUserName,pageNum)
-
-    //发布动态接口添加接收人字段
-    fun sendSquareToFriends(iUserId:String,sAppointUser:String)=RRetrofit.instance().create(ApiServices::class.java).sendSquareToFriends(iUserId,sAppointUser)
-
-    //发布约会接口添加接收人字段
-    fun sendAppointmentToFriends(iUserId:String,sAppointUser:String)=RRetrofit.instance().create(ApiServices::class.java).sendAppointmentToFriends(iUserId,sAppointUser)
 }

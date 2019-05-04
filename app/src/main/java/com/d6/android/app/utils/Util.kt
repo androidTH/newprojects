@@ -37,6 +37,7 @@ import com.d6.android.app.dialogs.DateErrorDialog
 import com.d6.android.app.dialogs.DialogUpdateApp
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.models.FriendBean
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.models.VersionBean
@@ -67,6 +68,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 /**
  * 打印日志
@@ -129,7 +131,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_SEX, obj.sex)
             .put(Const.User.USER_SCREENID, obj.screen)
             .put(Const.User.USER_DATACOMPLETION, obj.iDatacompletion)
-            .put(Const.User.USER_MESSAGESETTING, obj.iMessageSetting!!.toInt())
+            .put(Const.User.USER_MESSAGESETTING,"${obj.iMessageSetting}")
 //            .put(Const.User.IS_LOGIN, true)
             .apply()
 }
@@ -781,6 +783,17 @@ fun isNotificationEnabled(context: Context): Boolean {
         e.printStackTrace()
     }
     return false
+}
+
+fun getShareUserId(mChooseFriends:ArrayList<FriendBean>):String{
+    if(mChooseFriends!=null&&mChooseFriends.size>0){
+        var sb = StringBuilder()
+        for(bean in mChooseFriends){
+            sb.append("${bean.iUserid}").append(",")
+        }
+        return sb.deleteCharAt(sb.length-1).toString()
+    }
+    return ""
 }
 
 /**

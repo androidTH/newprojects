@@ -300,7 +300,8 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 } else {
                     this.city
                 }
-                Request.releaseSquare(userId, tagId, city, it, content)
+                var userIds = getShareUserId(mChooseFriends)
+                Request.releaseSquare(userId, tagId, city, it, content,userIds)
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -321,7 +322,9 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             } else {
                 this.city
             }
-            Request.releaseSquare(userId, tagId, city, null, content).request(this,false,success={
+            var userIds = getShareUserId(mChooseFriends)
+            Log.i("notificeMyFriends",userIds)
+            Request.releaseSquare(userId, tagId, city, null, content,userIds).request(this,false,success={
                 _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){

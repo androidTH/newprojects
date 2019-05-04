@@ -2,6 +2,7 @@ package com.d6.android.app.activities
 
 import android.os.Bundle
 import android.support.v4.app.NotificationManagerCompat
+import android.text.TextUtils
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
@@ -28,8 +29,8 @@ class MessageSettingActivity : TitleActivity() {
 //        val manager = NotificationManagerCompat.from(this)
 //        val isOpened = manager.areNotificationsEnabled()
 //        tv_state.text = if (isOpened) "已开启" else "已关闭"
-        var messageSetting = SPUtils.instance().getInt(USER_MESSAGESETTING)
-        sw_friend_notfaction.isChecked = if(messageSetting==1){
+        var messageSetting = SPUtils.instance().getString(USER_MESSAGESETTING)
+        sw_friend_notfaction.isChecked = if(TextUtils.equals(messageSetting,"1")){
             true
         }else{
             false
@@ -46,6 +47,7 @@ class MessageSettingActivity : TitleActivity() {
     private fun updateMessageSet(messageState:Int){
         Request.updateMessageSetting(userId,messageState).request(this,false,success={msg,nojson->
             toast(msg.toString())
+            SPUtils.instance().put(USER_MESSAGESETTING,"${messageState}")
         })
     }
 }

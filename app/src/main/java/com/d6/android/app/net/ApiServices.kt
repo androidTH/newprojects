@@ -110,7 +110,7 @@ interface ApiServices {
                            , @Query("guoneiarea") guoneiarea: String? = null, @Query("guowaiarea") guowaiarea: String? = null, @Query("arrayuserclassesid") arrayUserClassesId: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<MyDate>>>
 
     @POST("backstage/square/add")
-    fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String): Flowable<Response<JsonObject>>
+    fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String,@Query("sAppointUser")sAppointUser:String): Flowable<Response<JsonObject>>
 
     @POST("backstage/selfabout/add")
     fun releaseSelfAbout(@Query("userid") userid: String, @Query("content") content: String?, @Query("handlookwhere") handlookwhere: String?
@@ -250,7 +250,7 @@ interface ApiServices {
     @POST("backstage/appointment/add")
     fun releasePullDate(@Query("iUserid") userid: String, @Query("sPlace") sPlace: String?, @Query("sDesc") sDesc: String?
                          , @Query("iAppointType") iAppointType: Int?, @Query("dStarttime") beginTime: String?
-                         , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?): Flowable<Response<JsonObject>>
+                         , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?,@Query("sAppointUser")sAppointUser:String): Flowable<Response<JsonObject>>
 
     //自主约会
     @POST("backstage/appointment/findAppointmentListByPage")
@@ -406,12 +406,4 @@ interface ApiServices {
    //查询用户接口
    @POST("backstage/account/findAllByPage")
    fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FriendBean>>>
-
-   //发布动态接口添加接收人字段
-   @POST("backstage/square/add")
-   fun sendSquareToFriends(@Query("iUserid")userid:String,@Query("sAppointUser")sAppointUser:String):Flowable<Response<JsonPrimitive>>
-
-   //发布约会接口添加接收人字段
-   @POST("backstage/appointment/add")
-   fun sendAppointmentToFriends(@Query("iUserid")userid:String,@Query("sAppointUser")sAppointUser:String):Flowable<Response<JsonPrimitive>>
 }

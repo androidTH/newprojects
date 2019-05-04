@@ -68,6 +68,8 @@ class PublishFindDateActivity : BaseActivity() {
 
     private  var mChooseFriends = ArrayList<FriendBean>()
 
+    private var shareUserId:String=""
+
     private val mDateFriendsQuickAdapter by lazy{
         NoticeFriendsQuickAdapter(mChooseFriends)
     }
@@ -305,8 +307,8 @@ class PublishFindDateActivity : BaseActivity() {
             }
             Flowable.just(sb.toString())
         }.flatMap {
-            //                sysErr("------releaseSelfAbout--------->"+it) //city
-            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, it)
+            var userIds = getShareUserId(mChooseFriends)
+            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, it,userIds)
         }.request(this, false, success = { _, data ->
             showToast("发布成功")
             if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
@@ -327,7 +329,9 @@ class PublishFindDateActivity : BaseActivity() {
         if (mImages.size > 1) {//有图片
             CreateDateOfPics(content)
         } else {
-            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "").request(this, false, success = { _, data ->
+            var userIds = getShareUserId(mChooseFriends)
+            Log.i("notificeMyFriends",userIds)
+            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "",userIds).request(this, false, success = { _, data ->
                 showToast("发布成功")
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                     showTips(data, "", "")

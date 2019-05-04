@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_choose_friends.*
 import kotlinx.android.synthetic.main.dialog_sharefriends_layout.*
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 
@@ -56,23 +57,31 @@ class ShareFriendsDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         var userId = arguments.getString("id")
         if (TextUtils.equals(mUserId, userId)) {
-           tv_report_user.visibility = View.GONE
-           tv_joinblack.visibility = View.GONE
-           tv_deldate.visibility = View.VISIBLE
-        }else{
+            tv_deldate.visibility = View.VISIBLE
+            rv_chooseuser.visibility = View.VISIBLE
+            tv_share.visibility = View.VISIBLE
+            tv_report_user.visibility = View.GONE
+            tv_joinblack.visibility = View.GONE
+
+            rv_chooseuser.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+            rv_chooseuser.adapter = mDialogShareFriendsQuickAdapter
+            getUserFriends()
+        } else {
             tv_report_user.visibility = View.VISIBLE
             tv_joinblack.visibility = View.GONE
             tv_deldate.visibility = View.GONE
+            rv_chooseuser.visibility = View.GONE
+            tv_share.visibility = View.GONE
         }
-        rv_chooseuser.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-        rv_chooseuser.adapter = mDialogShareFriendsQuickAdapter
-        mDialogShareFriendsQuickAdapter.setOnItemClickListener { adapter, view, position ->
-                if(position == 5){
-                    startActivity<ChooseFriendsActivity>()
-                    dismissAllowingStateLoss()
-                }else{
 
-                }
+        mDialogShareFriendsQuickAdapter.setOnItemClickListener { adapter, view, position ->
+            if (position == 5) {
+                startActivity<ChooseFriendsActivity>()
+                dismissAllowingStateLoss()
+            } else {
+               toast("分享")
+               dismissAllowingStateLoss()
+            }
         }
 
         tv_joinblack.setOnClickListener {
@@ -93,7 +102,6 @@ class ShareFriendsDialog : DialogFragment() {
         tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()
         }
-        getUserFriends()
     }
 
     private fun getUserFriends() {
