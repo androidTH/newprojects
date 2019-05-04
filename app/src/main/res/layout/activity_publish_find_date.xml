@@ -203,11 +203,11 @@
                   android:layout_marginTop="@dimen/margin_8"
                   android:drawablePadding="@dimen/margin_5"
                   android:drawableLeft="@mipmap/notice_friends_icon"
-                  android:hint="通知好友"
-                  android:textColor="@color/color_F7AB00"
                   android:background="@drawable/shape_6r_f5"
+                  android:textSize="12sp"
+                  android:text="@string/string_notificefriends"
+                  android:textColor="@color/color_888888"
                   android:paddingLeft="@dimen/margin_8"
-                  android:textSize="10sp"
                   android:paddingRight="@dimen/margin_8"/>
               <android.support.v7.widget.RecyclerView
                   android:id="@+id/rv_date_friends"

@@ -46,8 +46,7 @@ class MessageSettingActivity : TitleActivity() {
 
     private fun updateMessageSet(messageState:Int){
         Request.updateMessageSetting(userId,messageState).request(this,false,success={msg,nojson->
-            toast(msg.toString())
-            SPUtils.instance().put(USER_MESSAGESETTING,"${messageState}")
+            SPUtils.instance().put(USER_MESSAGESETTING,"${messageState}").apply()
         })
     }
 }
