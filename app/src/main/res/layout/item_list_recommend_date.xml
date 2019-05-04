@@ -41,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:background="@drawable/shape_10r_8e"
             android:paddingTop="@dimen/margin_2"
             android:paddingBottom="@dimen/margin_2"
             android:paddingLeft="@dimen/margin_5"
@@ -51,9 +50,11 @@
             android:textSize="10sp"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/ll_name"
-            android:drawablePadding="@dimen/margin_1"
-            android:drawableLeft="@mipmap/authentication_videoicon"
-            android:text="已认证"/>
+            android:drawablePadding="@dimen/margin_1" />
+        <!--android:background="@drawable/shape_10r_8e"-->
+        <!--android:drawableLeft="@mipmap/authentication_videoicon"-->
+        <!--android:drawableLeft="@mipmap/authentication_videoicon"-->
+
 
         <TextView
             android:id="@+id/tv_auth_level"

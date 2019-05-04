@@ -24,25 +24,30 @@
                 android:background="@color/white"
                 android:padding="@dimen/padding_16">
 
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/headView"
-                    style="@style/DefaultCircleHeadStyle"
+                <RelativeLayout
+                    android:id="@+id/rl_headView"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginLeft="4dp"
-                    android:layout_marginRight="6dp"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginRight="6dp">
 
-                <ImageView
-                    android:id="@+id/img_auther"
-                    android:layout_width="22dp"
-                    android:layout_height="15dp"
-                    android:layout_below="@+id/tv_vip"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:layout_marginTop="-3dp"
-                    android:layout_toLeftOf="@+id/tv_signature"
-                    android:background="@drawable/shape_auther_bg"
-                    android:src="@mipmap/video_small_authentication" />
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/headView"
+                        style="@style/DefaultCircleHeadStyle"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"/>
+
+                    <ImageView
+                        android:id="@+id/img_auther"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/margin_15"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/video_small" />
+                </RelativeLayout>
+
+                <!--android:background="@drawable/shape_auther_bg"-->
 
                 <TextView
                     android:id="@+id/tv_nick"
@@ -50,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="@dimen/margin_5"
-                    android:layout_toRightOf="@+id/headView"
+                    android:layout_toRightOf="@+id/rl_headView"
                     android:maxWidth="88dp"
                     android:singleLine="true"
                     android:textColor="@color/textColor"
@@ -80,7 +85,6 @@
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_toRightOf="@+id/tv_sex"
                     android:background="@drawable/shape_10r_ordinary_member"
-                    android:drawableLeft="@mipmap/memberorder_icon_white"
                     android:drawablePadding="@dimen/margin_2"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
@@ -96,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_vip"
                     android:layout_marginTop="@dimen/margin_8"
-                    android:layout_toRightOf="@+id/headView"
+                    android:layout_toRightOf="@+id/rl_headView"
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:text=""

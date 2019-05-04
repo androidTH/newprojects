@@ -20,6 +20,7 @@ import com.d6.android.app.dialogs.CommonTipDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.Fans
+import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHOOSE_Friends
@@ -58,7 +59,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
          NoticeFriendsQuickAdapter(mChooseFriends)
     }
     private var REQUEST_CHOOSECODE:Int=10
-    private  var mChooseFriends = ArrayList<Fans>()
+    private  var mChooseFriends = ArrayList<FriendBean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -219,7 +220,10 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         rv_friends.adapter = mNoticeFriendsQuickAdapter
         mNoticeFriendsQuickAdapter.setOnItemChildClickListener { adapter, view, position ->
             if(view.id==R.id.iv_clear){
-               toast("ddd")
+                if(mChooseFriends.size>position){
+                    mChooseFriends.removeAt(position)
+                    mNoticeFriendsQuickAdapter.notifyDataSetChanged()
+                }
             }
         }
     }
@@ -259,7 +263,6 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 addAdapter.notifyDataSetChanged()
             }else if(requestCode == REQUEST_CHOOSECODE && data!=null){
                   mChooseFriends = data!!.getParcelableArrayListExtra(CHOOSE_Friends)
-                  Log.i("ffffff","requset="+requestCode+"size="+mChooseFriends.size)
                   mNoticeFriendsQuickAdapter.setNewData(mChooseFriends)
             }
         }

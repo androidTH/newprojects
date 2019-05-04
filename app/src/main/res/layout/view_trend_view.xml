@@ -41,8 +41,6 @@
          android:layout_marginTop="@dimen/margin_5"
          android:layout_marginLeft="6dp"
          android:layout_toRightOf="@+id/tv_sex"
-         android:background="@drawable/shape_4r_white"
-         android:text="白鹦"
          android:paddingTop="@dimen/margin_3"
          android:paddingBottom="@dimen/margin_3"
          android:paddingLeft="5dp"
@@ -50,9 +48,11 @@
          android:textColor="@color/orange_f6a"
          android:textSize="8sp"
          android:id="@+id/tv_vip"/>
+    <!--android:background="@drawable/shape_4r_white"-->
+
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/margin_25"
         android:layout_alignParentRight="true"
         android:paddingRight="@dimen/margin_10"
         android:paddingLeft="@dimen/margin_15"

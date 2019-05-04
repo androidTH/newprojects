@@ -50,6 +50,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
+    private var isInBlackList=0
+
     /**
      * 会话类型
      */
@@ -67,6 +69,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //        })
 
         iv_back_close.setOnClickListener {
+            hideSoftKeyboard(it)
             onBackPressed()
         }
 
@@ -77,11 +80,16 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
         iv_chat_more.setOnClickListener {
             val userActionDialog = UserActionDialog()
+            userActionDialog.arguments= bundleOf("isInBlackList" to isInBlackList)
             userActionDialog.setDialogListener { p, s ->
                 if (p == 0) {//举报
                     startActivity<ReportActivity>("id" to mTargetId, "tiptype" to "1")
                 } else if (p == 1) {
-                    addBlackList()
+                    if(isInBlackList==1){
+                        removeBlackList()
+                    }else{
+                        addBlackList()
+                    }
                 }
             }
             userActionDialog.show(supportFragmentManager, "user")
@@ -94,16 +102,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             tv_chattitle.text = info.name
         }
 
-        if(TextUtils.equals("--",mTitle)){
-            getOtherUser()
-        }
-
-//        var myInfo = RongUserInfoManager.getInstance().getUserInfo(userId)
-//        var myName = if (myInfo == null || myInfo.name.isNullOrEmpty()) {
-//            ""
-//        } else {
-//            myInfo.name
+//        if(TextUtils.equals("--",mTitle)){
+//            getOtherUser()
 //        }
+
+        getOtherUser()
 
         RongUtils.setUserInfo(mTargetId,null,chat_headView)
 
@@ -178,7 +181,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private fun getOtherUser(){
         Request.getUserInfo(userId,mTargetId).request(this, success = { _, data ->
                data?.let {
-                   title = it.name
+                   if(TextUtils.equals("--",mTitle)){
+                       title = it.name
+                   }
+                   isInBlackList = it.iIsInBlackList!!.toInt()
                }
         })
     }
@@ -481,7 +487,15 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             dialog()
             Request.addBlackList(userId, mTargetId).request(this) { _, _ ->
                 CustomToast.showToast(getString(R.string.string_blacklist_toast))
+                isInBlackList = 1
             }
+        }
+    }
+
+    private fun removeBlackList(){
+        Request.removeBlackList(userId,mTargetId).request(this){msg,jsonPrimitive->
+            CustomToast.showToast(msg.toString())
+            isInBlackList = 0
         }
     }
 

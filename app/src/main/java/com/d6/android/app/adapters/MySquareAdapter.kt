@@ -3,11 +3,12 @@ package com.d6.android.app.adapters
 import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
+import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.SendRedFlowerDialog
-import com.d6.android.app.dialogs.SquareActionDialog
+import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
@@ -17,6 +18,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.UserTrendView
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 
 /**
  *动态
@@ -54,11 +56,24 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         }
 
         trendView.setDeleteClick {
-            val squareActionDialog = SquareActionDialog()
-            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
-            squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
-            squareActionDialog.setDialogListener { p, s ->
-                if (p == 1) {
+//            val squareActionDialog = SquareActionDialog()
+//            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
+//            squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
+//            squareActionDialog.setDialogListener { p, s ->
+//                if (p == 1) {
+//                    delete(data)
+//                }
+//            }
+
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("id" to it.userid.toString())
+            shareDialog.show((context as BaseActivity).supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
+                    mUserData?.let {
+                        context.startActivity<ReportActivity>("id" to it.userId.toString(), "tiptype" to 2)
+                    }
+                } else if (p == 1) {
                     delete(data)
                 }
             }

@@ -174,11 +174,24 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         tv_more.setOnClickListener {
             val userActionDialog = UserActionDialog()
+            mData?.let {
+                it.iIsInBlackList?.let {
+                   userActionDialog.arguments= bundleOf("isInBlackList" to it)
+                }
+            }
             userActionDialog.setDialogListener { p, s ->
                 if (p == 0) {//举报
                     report()
                 } else if (p == 1) {
-                    addBlackList()
+                    mData?.let {
+                        it.iIsInBlackList?.let {
+                            if(it==1){
+                                removeBlackList()
+                            }else{
+                                addBlackList()
+                            }
+                        }
+                    }
                 }
             }
             userActionDialog.show(supportFragmentManager, "user")
@@ -343,6 +356,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     if (TextUtils.equals("0", it.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
                         headerView.img_other_auther.visibility = View.GONE
                         headerView.img_date_auther.visibility = View.GONE
+                        headerView.img_other_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.renzheng_big)
+                        headerView.img_date_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.renzheng_small)
                         if (TextUtils.equals("3", it.screen)) {
                             headerView.tv_other_auther_sign.visibility = View.GONE
                         } else {
@@ -352,6 +367,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         headerView.img_other_auther.visibility = View.VISIBLE
                         headerView.img_date_auther.visibility = View.VISIBLE
                         headerView.tv_other_auther_sign.visibility = View.GONE
+
+                        headerView.img_other_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_big)
+                        headerView.img_date_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_small)
                     }
                 } else {
                     headerView.img_other_auther.visibility = View.GONE
@@ -372,31 +390,31 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     //27入门 28中级  29优质
 //                   tv_vip.text = String.format("%s", it.classesname)
                     if(TextUtils.equals(it.userclassesid,"27")){
-                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_primary))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_primary_member)
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_primary))
+                        headerView.tv_vip.backgroundDrawable =  ContextCompat.getDrawable(this,R.mipmap.gril_cj)
                     }else if(TextUtils.equals(it.userclassesid,"28")){
-                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_middle))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_middle_member)
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_middle))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_zj)
                     }else if(TextUtils.equals(it.userclassesid,"29")){
-                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_private_member)
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_gj)
                     }
                 } else {
                     if(TextUtils.equals(it.userclassesid.toString(),"22")){
-                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_ordinary_member)
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_ordinary)
                     }else if(TextUtils.equals(it.userclassesid,"23")){
-                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_silver_member)
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_silver)
                     }else if(TextUtils.equals(it.userclassesid,"24")){
-                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_gold_member)
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_gold)
                     }else if(TextUtils.equals(it.userclassesid,"25")){
-                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_diamonds_member)
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_zs)
                     }else if(TextUtils.equals(it.userclassesid,"26")){
-                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_private_member)
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
                     }
                 }
 
@@ -544,9 +562,19 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             dialog()
             Request.addBlackList(userId, id).request(this) { _, _ ->
                 CustomToast.showToast(getString(R.string.string_blacklist_toast))
+                mData?.iIsInBlackList = 1
             }
         }
     }
+
+    //移除黑名单
+    private fun removeBlackList(){
+        Request.removeBlackList(userId,id).request(this){msg,jsonPrimitive->
+            CustomToast.showToast(msg.toString())
+            mData?.iIsInBlackList = 0
+        }
+    }
+
 
     //关注粉丝访客
     fun getUserFollowAndFansandVistor() {

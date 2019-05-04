@@ -132,6 +132,20 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
                 it.onDelete(myAppointment)
             }
         }
+
+//            if (TextUtils.equals("0", myAppointment.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
+//                img_other_auther.visibility = View.GONE
+//                img_date_auther.visibility = View.GONE
+//                if (TextUtils.equals("3", it.screen)) {
+//                    tv_other_auther_sign.visibility = View.GONE
+//                } else {
+//                    tv_other_auther_sign.visibility = View.GONE
+//                }
+//            } else if (TextUtils.equals("1", data.screen)) {
+//                img_other_auther.visibility = View.VISIBLE
+//                img_date_auther.visibility = View.VISIBLE
+//                tv_other_auther_sign.visibility = View.GONE
+//            }
     }
 
     public fun sendDateListener(action:(myAppointment: MyAppointment)->Unit) {

@@ -129,6 +129,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_SEX, obj.sex)
             .put(Const.User.USER_SCREENID, obj.screen)
             .put(Const.User.USER_DATACOMPLETION, obj.iDatacompletion)
+            .put(Const.User.USER_MESSAGESETTING, obj.iMessageSetting!!.toInt())
 //            .put(Const.User.IS_LOGIN, true)
             .apply()
 }

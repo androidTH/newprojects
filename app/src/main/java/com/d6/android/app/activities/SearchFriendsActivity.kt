@@ -10,6 +10,7 @@ import com.d6.android.app.adapters.SearchFriendsAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
+import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
@@ -26,9 +27,9 @@ class SearchFriendsActivity : BaseActivity() {
     }
 
     private var pageNum = 1
-    private val mChooseFriends = ArrayList<Fans>()
+    private val mFriends = ArrayList<FriendBean>()
     private val friendsAdapter by lazy {
-        SearchFriendsAdapter(mChooseFriends)
+        SearchFriendsAdapter(mFriends)
     }
 
     fun adapter(): RecyclerView.Adapter<*> {
@@ -40,19 +41,21 @@ class SearchFriendsActivity : BaseActivity() {
         setContentView(R.layout.activity_search_friends)
         immersionBar.init()
         friendsAdapter.setOnItemClickListener { view, position ->
-            val mVistor =  mChooseFriends[position]
-            startActivity<UserInfoActivity>("id" to mVistor.iUserid.toString())
+            val mFriends =  mFriends[position]
+            startActivity<UserInfoActivity>("id" to mFriends.iUserid.toString())
         }
         initRecyclerView()
         dialog()
         getData()
         iv_back_close.setOnClickListener {
+            hideSoftKeyboard(it)
             finish()
         }
 
         et_searchfriends.setOnEditorActionListener { v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                 toast(et_searchfriends.text)
+//                 toast(et_searchfriends.text)
+                 searchFriends(et_searchfriends.text.toString());
                  hideSoftKeyboard(et_searchfriends)
                  true
             }
@@ -85,10 +88,11 @@ class SearchFriendsActivity : BaseActivity() {
         swipeRefreshLayout.addItemDecoration(item)
     }
 
-    private fun getData() {
-        Request.getFindVistors(userId, pageNum).request(this) { _, data ->
+    private fun searchFriends(sUserName:String){
+        pageNum =1
+        Request.findAllUserFriends(userId,sUserName,pageNum).request(this){_,data->
             if (pageNum == 1) {
-                mChooseFriends.clear()
+                mFriends.clear()
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
@@ -98,7 +102,27 @@ class SearchFriendsActivity : BaseActivity() {
                     swipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {
-                mChooseFriends.addAll(data.list.results)
+                mFriends.addAll(data.list.results)
+            }
+            swipeRefreshLayout.isRefreshing = false
+            friendsAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun getData() {
+        Request.findUserFriends(userId, pageNum).request(this) { _, data ->
+            if (pageNum == 1) {
+                mFriends.clear()
+            }
+            if (data?.list?.results == null || data.list.results.isEmpty()) {
+                if (pageNum > 1) {
+                    swipeRefreshLayout.setLoadMoreText("没有更多了")
+                    pageNum--
+                } else {
+                    swipeRefreshLayout.setLoadMoreText("暂无数据")
+                }
+            } else {
+                mFriends.addAll(data.list.results)
             }
             swipeRefreshLayout.isRefreshing = false
             friendsAdapter.notifyDataSetChanged()

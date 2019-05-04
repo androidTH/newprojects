@@ -5,19 +5,36 @@
     android:padding="@dimen/margin_8"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.facebook.drawee.view.SimpleDraweeView
+
+
+    <RelativeLayout
+        android:id="@+id/rl_friends_headView"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        style="@style/DefaultHeadStyle"
         android:layout_marginRight="8dp"
-        android:layout_centerVertical="true"
-        android:id="@+id/user_headView"
-        app:roundedCornerRadius="26dp"/>
+        android:layout_centerVertical="true">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/user_headView"
+            style="@style/DefaultCircleHeadStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:roundAsCircle="true"/>
+        <ImageView
+            android:id="@+id/img_friends_auther"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_15"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/video_small"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/linear_userinfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/user_headView"
+        android:layout_toRightOf="@+id/rl_friends_headView"
         android:layout_marginTop="@dimen/margin_5"
         android:orientation="horizontal">
         <TextView
@@ -54,8 +71,6 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/tv_nick"
             android:layout_toRightOf="@+id/tv_sex"
-            android:background="@drawable/shape_4r_orange"
-            android:drawableLeft="@mipmap/memberorder_icon_white"
             android:drawablePadding="@dimen/margin_2"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -63,6 +78,9 @@
             android:paddingTop="1dp"
             android:textColor="@color/white"
             android:textSize="10sp"/>
+
+        <!--android:background="@drawable/shape_4r_orange"-->
+        <!--android:drawableLeft="@mipmap/memberorder_icon_white"-->
     </LinearLayout>
 
     <TextView

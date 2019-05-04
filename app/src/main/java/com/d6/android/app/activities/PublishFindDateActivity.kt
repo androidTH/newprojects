@@ -7,18 +7,21 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import com.alibaba.fastjson.JSONObject
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
+import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.OpenDateErrorDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.DateType
+import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.dateTypesDefault
@@ -61,6 +64,14 @@ class PublishFindDateActivity : BaseActivity() {
     private var startTime: String = ""
     private var endTime: String = ""
     private var selectedDateType: DateType? = null;
+    private var REQUEST_CHOOSECODE:Int=10
+
+    private  var mChooseFriends = ArrayList<FriendBean>()
+
+    private val mDateFriendsQuickAdapter by lazy{
+        NoticeFriendsQuickAdapter(mChooseFriends)
+    }
+
     private val locationClient by lazy {
         AMapLocationClient(applicationContext)
     }
@@ -203,11 +214,22 @@ class PublishFindDateActivity : BaseActivity() {
         }
 
         tv_notififriends.setOnClickListener {
-            startActivity<ChooseFriendsActivity>()
+            startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, Const.CHOOSE_Friends to mChooseFriends)
         }
 
         startTime = getTodayTime()
         tv_startTime.text = startTime
+
+        rv_date_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        rv_date_friends.adapter = mDateFriendsQuickAdapter
+        mDateFriendsQuickAdapter.setOnItemChildClickListener { adapter, view, position ->
+            if(view.id==R.id.iv_clear){
+                if(mChooseFriends.size>position){
+                    mChooseFriends.removeAt(position)
+                    mDateFriendsQuickAdapter.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -224,6 +246,10 @@ class PublishFindDateActivity : BaseActivity() {
 //                areaType = data.getIntExtra("type",0)
                 area = data.getStringExtra("area")
                 tv_area.text = area
+            }else if(requestCode == REQUEST_CHOOSECODE && data!=null){
+                mChooseFriends = data!!.getParcelableArrayListExtra(Const.CHOOSE_Friends)
+                Log.i("ffffff","requset="+requestCode+"size="+mChooseFriends.size)
+                mDateFriendsQuickAdapter.setNewData(mChooseFriends)
             }
         }
     }

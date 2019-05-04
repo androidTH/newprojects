@@ -8,6 +8,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.SendRedFlowerDialog
+import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.dialogs.SquareActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
@@ -47,16 +48,29 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
         }
 
         trendView.setDeleteClick {
-            val squareActionDialog = SquareActionDialog()
-            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
-            squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
-            squareActionDialog.setDialogListener { p, s ->
+//            val squareActionDialog = SquareActionDialog()
+//            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
+//            squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
+//            squareActionDialog.setDialogListener { p, s ->
+//                if (p == 0) {
+//                    mData?.let {
+//                        startActivity(data.id!!, "2")
+//                    }
+//                } else if (p == 1) {
+////                    startActivityForResult<SettingActivity>(5)
+//                    delete(data)
+//                }
+//            }
+
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("id" to it.userid.toString())
+            shareDialog.show((context as BaseActivity).supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
                     mData?.let {
                         startActivity(data.id!!, "2")
                     }
                 } else if (p == 1) {
-//                    startActivityForResult<SettingActivity>(5)
                     delete(data)
                 }
             }

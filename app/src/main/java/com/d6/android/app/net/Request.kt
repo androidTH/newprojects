@@ -419,4 +419,23 @@ object Request {
 
     //更新微信登录的unionId
     fun updateUnionId(iUserid:String,sOpenId:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).updateUnionId(iUserid,sOpenId,sUnionid)
+
+
+    //把某人移除黑名单
+    fun removeBlackList(userId: String,id:String)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(userId,id)
+
+    //查询好友列表
+    fun findUserFriends(iUserId: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findUserFriends(iUserId,pageNum)
+
+    //消息设置接口
+    fun updateMessageSetting(iUserId:String,iMessageSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateMessageSetting(iUserId,iMessageSetting)
+
+    //客服查询用户
+    fun findAllUserFriends(iUserId:String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAllUserFriends(iUserId,sUserName,pageNum)
+
+    //发布动态接口添加接收人字段
+    fun sendSquareToFriends(iUserId:String,sAppointUser:String)=RRetrofit.instance().create(ApiServices::class.java).sendSquareToFriends(iUserId,sAppointUser)
+
+    //发布约会接口添加接收人字段
+    fun sendAppointmentToFriends(iUserId:String,sAppointUser:String)=RRetrofit.instance().create(ApiServices::class.java).sendAppointmentToFriends(iUserId,sAppointUser)
 }

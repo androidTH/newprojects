@@ -37,15 +37,31 @@
             android:textSize="12sp"
             android:text="" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/headView"
-            style="@style/DefaultCircleHeadStyle"
+        <RelativeLayout
+            android:id="@+id/rl_date_womenheadView"
             android:layout_below="@+id/imageView"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="8dp" >
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/headView"
+                style="@style/DefaultCircleHeadStyle"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:roundAsCircle="true"/>
+
+            <ImageView
+                android:id="@+id/img_date_womenauther"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_15"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/video_small"
+                android:visibility="visible"/>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_name"
@@ -53,8 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_marginTop="2dp"
-            android:layout_alignTop="@+id/headView"
-            android:layout_toRightOf="@+id/headView"
+            android:layout_alignTop="@+id/rl_date_womenheadView"
+            android:layout_toRightOf="@+id/rl_date_womenheadView"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:textColor="@color/textColor"
@@ -66,7 +82,7 @@
             android:id="@+id/tv_womang_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/headView"
+            android:layout_alignTop="@+id/rl_date_womenheadView"
             android:layout_marginTop="@dimen/margin_5"
             android:layout_toRightOf="@+id/tv_name"
             android:background="@drawable/ic_sex_circle_bg_selector"
@@ -86,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_womang_age"
-            android:layout_alignTop="@+id/headView"
+            android:layout_alignTop="@+id/rl_date_womenheadView"
             android:layout_marginTop="@dimen/margin_5"
             android:layout_marginLeft="8dp"
             android:background="@drawable/shape_4r_orange"
@@ -104,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_name"
-            android:layout_toRightOf="@+id/headView"
+            android:layout_toRightOf="@+id/rl_date_womenheadView"
             android:layout_marginTop="@dimen/margin_5"
             android:paddingRight="6dp"
             android:text="------"
@@ -116,7 +132,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            android:layout_alignTop="@+id/headView"
+            android:layout_alignTop="@+id/rl_date_womenheadView"
             android:layout_marginTop="@dimen/margin_5"
             android:layout_alignParentRight="true"
             android:gravity="right"
@@ -129,7 +145,7 @@
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/headView"
+            android:layout_below="@+id/rl_date_womenheadView"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="@dimen/margin_12"

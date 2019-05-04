@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:padding="@dimen/activity_horizontal_margin"
+        android:visibility="gone"
         android:text="接受消息通知" />
 
     <TextView
@@ -19,13 +20,13 @@
         android:background="@color/white"
         android:padding="@dimen/activity_horizontal_margin"
         android:text="--"
+        android:visibility="gone"
         android:textColor="@color/textColor99" />
 
     <RelativeLayout
         android:id="@+id/rl_sysmsg"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@id/tv_state"
         android:layout_marginTop="@dimen/margin_10"
         android:background="@color/white">
 
@@ -60,6 +61,7 @@
         android:layout_below="@+id/rl_sysmsg"
         android:layout_alignParentRight="true"
         android:padding="@dimen/activity_horizontal_margin"
+        android:visibility="gone"
         android:text="如果您要关闭或开启消息通知.请在设备设置中找到应用程序更改"
         android:textColor="@color/textColor99" />
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
@@ -13,6 +14,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
+import org.jetbrains.anko.backgroundDrawable
 
 /**
  *粉丝
@@ -21,6 +23,10 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
@@ -35,13 +41,30 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
-        val sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
             tv_vip.text = String.format("%s", data.userclassesname)
             tv_vip.visibility =View.GONE
         } else {
-            tv_vip.text = String.format("%s", data.userclassesname)
+//            tv_vip.text = String.format("%s", data.userclassesname)
             tv_vip.visibility = View.VISIBLE
+
+            if (TextUtils.equals(data.userclassesid, "27")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
+            } else if (TextUtils.equals(data.userclassesid, "28")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_zj)
+            } else if (TextUtils.equals(data.userclassesid, "29")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_gj)
+            } else if (TextUtils.equals(data.userclassesid.toString(), "22")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
+            } else if (TextUtils.equals(data.userclassesid, "23")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_silver)
+            } else if (TextUtils.equals(data.userclassesid, "24")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_gold)
+            } else if (TextUtils.equals(data.userclassesid, "25")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
+            } else if (TextUtils.equals(data.userclassesid, "26")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+            }
         }
 
         var mTvFollow = holder.bind<TextView>(R.id.tv_follow)

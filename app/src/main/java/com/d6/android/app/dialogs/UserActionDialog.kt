@@ -34,7 +34,12 @@ class UserActionDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        var isInBlackList = arguments.getInt("isInBlackList",0)
+        if(isInBlackList == 1){
+            tv_joinblack.text = getString(R.string.string_removeblacklist)
+        }else{
+            tv_joinblack.text = resources.getString(R.string.string_joinblack)
+        }
         tv_report_user.setOnClickListener {
             dialogListener?.onClick(0,"")
             dismissAllowingStateLoss()

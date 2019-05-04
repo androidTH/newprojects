@@ -52,17 +52,17 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/tv_nick"
             android:layout_toRightOf="@+id/tv_sex"
-            android:background="@drawable/shape_4r_orange"
-            android:drawableLeft="@mipmap/memberorder_icon_white"
             android:drawablePadding="@dimen/margin_2"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
-            android:text="12"
             android:textColor="@color/white"
             android:textSize="10sp"
             android:visibility="visible" />
+
+        <!--android:background="@drawable/shape_4r_orange"-->
+        <!--android:drawableLeft="@mipmap/memberorder_icon_white"-->
     </LinearLayout>
 
     <TextView

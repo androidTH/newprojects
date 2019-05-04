@@ -41,6 +41,8 @@ class SquareActionDialog : DialogFragment() {
         var userId = arguments.getString("id")
 
         val uid = SPUtils.instance().getString(Const.User.USER_ID)
+
+
         if (TextUtils.equals(uid, userId.toString())) {//是自己。
             tv_report_squre.gone()
             tv_delete_square.visible()

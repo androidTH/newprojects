@@ -5,11 +5,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
-import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
@@ -18,11 +18,9 @@ import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.startActivity
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
 
@@ -139,6 +137,20 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
             val headView = holder.bind<SimpleDraweeView>(R.id.headView)
             headView.setImageURI(data.picUrl)
+
+            val img_date_menauther = holder.bind<ImageView>(R.id.img_date_menauther)
+
+            if(TextUtils.equals("0",data!!.screen)|| data!!.screen.isNullOrEmpty()){
+                img_date_menauther.visibility = View.GONE
+            }else if(TextUtils.equals("1",data!!.screen)){
+                img_date_menauther.setImageResource(R.mipmap.video_small)
+            }else if(TextUtils.equals("3",data!!.screen)){
+                img_date_menauther.visibility = View.GONE
+                img_date_menauther.setImageResource(R.mipmap.renzheng_small)
+            }else{
+                img_date_menauther.visibility = View.VISIBLE
+            }
+
 
             if (data.name.length >= 5) {
                 holder.setText(R.id.tv_name, "${data.name.substring(0, 4)}...")

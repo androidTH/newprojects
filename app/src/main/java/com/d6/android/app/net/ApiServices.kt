@@ -389,4 +389,29 @@ interface ApiServices {
     /*1.9.2接口*/
     @POST("backstage/account/updateUnionId")
     fun updateUnionId(@Query("iUserid") iUserid:String,@Query("sOpenId")sOpenId:String,@Query("sUnionid")sUnionid:String):Flowable<Response<JsonObject>>
+
+
+   /* 2.0接口*/
+   @POST("backstage/blacklist/remove")
+   fun removeBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String): Flowable<Response<JsonPrimitive>>
+
+    //查询好友列表
+   @POST("backstage/userfriend/findByPage")
+   fun findUserFriends(@Query("iUserid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FriendBean>>>
+
+   //动态消息设置
+   @POST("backstage/account/updateMessageSetting")
+   fun updateMessageSetting(@Query("iUserid") userid:String,@Query("iMessageSetting") iMessageSetting:Int):Flowable<Response<JsonPrimitive>>
+
+   //查询用户接口
+   @POST("backstage/account/findAllByPage")
+   fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FriendBean>>>
+
+   //发布动态接口添加接收人字段
+   @POST("backstage/square/add")
+   fun sendSquareToFriends(@Query("iUserid")userid:String,@Query("sAppointUser")sAppointUser:String):Flowable<Response<JsonPrimitive>>
+
+   //发布约会接口添加接收人字段
+   @POST("backstage/appointment/add")
+   fun sendAppointmentToFriends(@Query("iUserid")userid:String,@Query("sAppointUser")sAppointUser:String):Flowable<Response<JsonPrimitive>>
 }

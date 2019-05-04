@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -100,6 +101,20 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 holder.setText(R.id.tv_name, "${data.name.substring(0, 6)}...")
             } else {
                 holder.setText(R.id.tv_name, data.name)
+            }
+
+
+            val img_date_womenauther = holder.bind<ImageView>(R.id.img_date_womenauther)
+
+            if(TextUtils.equals("0",data!!.screen)|| data!!.screen.isNullOrEmpty()){
+                img_date_womenauther.visibility = View.GONE
+            }else if(TextUtils.equals("1",data!!.screen)){
+                img_date_womenauther.setImageResource(R.mipmap.video_small)
+            }else if(TextUtils.equals("3",data!!.screen)){
+                img_date_womenauther.visibility = View.GONE
+                img_date_womenauther.setImageResource(R.mipmap.renzheng_small)
+            }else{
+                img_date_womenauther.visibility = View.VISIBLE
             }
 
 //          holder.setText(R.id.tv_vip, data.classesname)

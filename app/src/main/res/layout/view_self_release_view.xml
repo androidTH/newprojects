@@ -24,12 +24,12 @@
             android:layout_height="40dp"
             app:roundAsCircle="true" />
         <ImageView
-            android:id="@+id/img_date_auther"
+            android:id="@+id/img_self_auther"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/margin_15"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/video_small_authentication"
+            android:src="@mipmap/video_small"
             android:visibility="gone"/>
     </RelativeLayout>
 
