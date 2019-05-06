@@ -123,8 +123,6 @@ object Const {
     val PUSH_ISNOTSHOW="push_isnotshow"
     @JvmField
     var CHOOSE_Friends="choosefriends"
-
-
-
-
+    @JvmField
+    var DIALOG_SHOW_MAX=9
 }

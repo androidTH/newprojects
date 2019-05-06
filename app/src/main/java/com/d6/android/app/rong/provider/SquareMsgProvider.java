@@ -174,7 +174,7 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
     @Override
     public void bindView(final View v, int position, final SquareMsgContent content, final UIMessage data) {
         SquareMsgProvider.ViewHolder holder = (SquareMsgProvider.ViewHolder) v.getTag();
-        holder.mRlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+//        holder.mRlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {
             Log.i(TAG,"内容="+content.getExtra());
             SquareMessage mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), SquareMessage.class);

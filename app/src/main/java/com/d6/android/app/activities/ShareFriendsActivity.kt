@@ -1,6 +1,5 @@
 package com.d6.android.app.activities
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -10,21 +9,17 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.FriendsAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Fans
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.Const.CHOOSE_Friends
-import com.d6.android.app.utils.NetworkUtils
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.hideSoftKeyboard
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_choose_friends.*
 import org.jetbrains.anko.toast
-import java.lang.Exception
 
-class ChooseFriendsActivity : BaseActivity() {
+class ShareFriendsActivity : BaseActivity() {
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -51,12 +46,8 @@ class ChooseFriendsActivity : BaseActivity() {
                 mFriend.iIsChecked = 0
                 mChooseFriends.remove(mFriend)
             } else {
-                if (mChooseFriends.size > 4) {
-                    toast("最多选择5个用户")
-                } else {
-                    mFriend.iIsChecked = 1
-                    mChooseFriends.add(mFriend)
-                }
+                mFriend.iIsChecked = 1
+                mChooseFriends.add(mFriend)
             }
             if (mChooseFriends.size > 0) {
                 tv_choose.text = "确定(" + mChooseFriends.size + ")"
@@ -67,9 +58,6 @@ class ChooseFriendsActivity : BaseActivity() {
         }
 
         tv_choose.setOnClickListener {
-            var intent = Intent()
-            intent.putParcelableArrayListExtra(CHOOSE_Friends, mChooseFriends)
-            setResult(RESULT_OK, intent)
             finish()
         }
 
@@ -86,12 +74,6 @@ class ChooseFriendsActivity : BaseActivity() {
             }
             false
         }
-        try {
-            mChooseFriends = intent.getParcelableArrayListExtra<FriendBean>(CHOOSE_Friends)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
         initRecyclerView()
         dialog()
         getData()
@@ -136,6 +118,13 @@ class ChooseFriendsActivity : BaseActivity() {
                 }
             } else {
                 mFriends.addAll(data.list.results)
+            }
+            if (mChooseFriends.size > 0) {
+                for (bean in mFriends) {
+                    if (mChooseFriends.contains(bean)) {
+                        bean.iIsChecked = 1
+                    }
+                }
             }
             swipeRefreshLayout.isRefreshing = false
             friendsAdapter.notifyDataSetChanged()

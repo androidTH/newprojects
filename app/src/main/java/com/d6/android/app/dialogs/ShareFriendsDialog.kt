@@ -10,12 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.activities.ChooseFriendsActivity
+import com.d6.android.app.activities.ShareFriendsActivity
 import com.d6.android.app.adapters.DialogShareFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.DIALOG_SHOW_MAX
 import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.SPUtils
 import kotlinx.android.synthetic.main.activity_choose_friends.*
@@ -75,8 +77,8 @@ class ShareFriendsDialog : DialogFragment() {
         }
 
         mDialogShareFriendsQuickAdapter.setOnItemClickListener { adapter, view, position ->
-            if (position == 5) {
-                startActivity<ChooseFriendsActivity>()
+            if (position == DIALOG_SHOW_MAX) {
+                startActivity<ShareFriendsActivity>()
                 dismissAllowingStateLoss()
             } else {
                toast("分享")

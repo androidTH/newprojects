@@ -20,10 +20,10 @@ class ChatImageAdapter(mData: ArrayList<String>, val type:Int = 0) : HFRecyclerA
         imageView.setImageURI(data)
         imageView.setOnClickListener {
             if (type == 1) {
-                context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mData, ImagePagerActivity.CURRENT_POSITION to position)
+//                context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mData, ImagePagerActivity.CURRENT_POSITION to position)
             } else {
-                context.startActivity<TrendDetailActivity>(TrendDetailActivity.URLS to mData, TrendDetailActivity.CURRENT_POSITION to position,
-                        "data" to (square ?: Square()))
+//                context.startActivity<TrendDetailActivity>(TrendDetailActivity.URLS to mData, TrendDetailActivity.CURRENT_POSITION to position,
+//                        "data" to (square ?: Square()))
             }
         }
     }

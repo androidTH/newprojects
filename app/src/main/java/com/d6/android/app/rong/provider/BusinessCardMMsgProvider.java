@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.d6.android.app.R;
 import com.d6.android.app.activities.UserInfoActivity;
+import com.d6.android.app.adapters.CardManTagAdapter;
 import com.d6.android.app.adapters.CardTagAdapter;
 import com.d6.android.app.adapters.ChatDatelmageAdapter;
 import com.d6.android.app.adapters.DatelmageAdapter;
@@ -54,7 +55,7 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
     private List<String> mImages = new ArrayList<String>();
 
     private ArrayList<UserTag> mTags = new ArrayList<>();
-    private UserTagAdapter mUserTag = new UserTagAdapter(mTags);
+    private CardManTagAdapter mUserTag = new CardManTagAdapter(mTags);
 
     @Override
     public View newView(Context context, ViewGroup group) {

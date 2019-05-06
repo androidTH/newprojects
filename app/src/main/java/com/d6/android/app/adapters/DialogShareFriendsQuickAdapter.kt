@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.models.FriendBean
+import com.d6.android.app.utils.Const.DIALOG_SHOW_MAX
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.textColor
 
@@ -16,15 +17,16 @@ class DialogShareFriendsQuickAdapter(data: List<FriendBean>) : BaseQuickAdapter<
 
     override fun convert(helper: BaseViewHolder, data: FriendBean) {
         val mHeadView = helper.getView<SimpleDraweeView>(R.id.headView)
-        mHeadView.setImageURI(data.sPicUrl)
         var mUserName = helper.getView<TextView>(R.id.tv_share_name)
         mUserName.text = data.sUserName
-        if(getData().size > 9){
+        if(getData().size > DIALOG_SHOW_MAX){
             mHeadView.setImageURI("res:///"+R.mipmap.share_more_icon)
             mUserName.text="更多"
             mUserName.textColor = ContextCompat.getColor(mContext,R.color.color_F7AB00)
             var paint = mUserName.paint
             paint.setFakeBoldText(true)
+        }else{
+            mHeadView.setImageURI(data.sPicUrl)
         }
     }
 }
