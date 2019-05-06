@@ -2,11 +2,21 @@ package com.d6.android.app.rong;
 
 import android.content.Context;
 
+import com.d6.android.app.rong.bean.AppointmentMsgContent;
+import com.d6.android.app.rong.bean.BusinessCardFMsgContent;
+import com.d6.android.app.rong.bean.CommentMsgContent;
 import com.d6.android.app.rong.bean.CustomMessage;
+import com.d6.android.app.rong.bean.SpeedDateMsgContent;
+import com.d6.android.app.rong.bean.SquareMsgContent;
 import com.d6.android.app.rong.bean.TipsMessage;
 import com.d6.android.app.rong.plugin.D6ExtensionModule;
+import com.d6.android.app.rong.provider.AppointmentMsgProvider;
+import com.d6.android.app.rong.provider.BusinessCardFMsgProvider;
+import com.d6.android.app.rong.provider.CommentMsgProvider;
 import com.d6.android.app.rong.provider.CustomMessageProvider;
 import com.d6.android.app.rong.provider.CustomUnKnowMessageProvider;
+import com.d6.android.app.rong.provider.SpeedDateMsgProvider;
+import com.d6.android.app.rong.provider.SquareMsgProvider;
 import com.d6.android.app.rong.provider.TipsMessageProvider;
 
 import java.util.List;
@@ -66,8 +76,19 @@ public class RongPlugin {
         RongIM.registerMessageType(CustomMessage.class);
         RongIM.registerMessageType(TipsMessage.class);
         RongIM.registerMessageType(UnknownMessage.class);
+        RongIM.registerMessageType(SquareMsgContent.class);
+        RongIM.registerMessageType(CommentMsgContent.class);
+        RongIM.registerMessageType(AppointmentMsgContent.class);
+        RongIM.registerMessageType(SpeedDateMsgContent.class);
+        RongIM.registerMessageType(BusinessCardFMsgContent.class);
+
         RongIM.registerMessageTemplate(new CustomMessageProvider());
         RongIM.registerMessageTemplate(new TipsMessageProvider());
         RongIM.registerMessageTemplate(new CustomUnKnowMessageProvider());
+        RongIM.registerMessageTemplate(new SquareMsgProvider());//动态消息
+        RongIM.registerMessageTemplate(new CommentMsgProvider());//评论消息
+        RongIM.registerMessageTemplate(new AppointmentMsgProvider());//约会消息
+        RongIM.registerMessageTemplate(new SpeedDateMsgProvider());//急约
+        RongIM.registerMessageTemplate(new BusinessCardFMsgProvider());//急约
     }
 }

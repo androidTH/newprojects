@@ -375,6 +375,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
                 } else if (TextUtils.equals(it.userclassesid, "26")) {
                     headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+                }else{
+                    headerView.tv_vip.visibility = View.GONE
                 }
 
                 mTags.clear()

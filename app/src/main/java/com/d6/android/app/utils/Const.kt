@@ -49,7 +49,9 @@ object Const {
     @JvmField
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
 
+    @JvmField
     var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","不限")
+    @JvmField
     var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,
             R.mipmap.invitation_drink_small,R.mipmap.invitation_nolimit_small)
     //正式 f509c00b16c12f2d7c3306d3383e7655 测试 f509c00b16c12f2d7c3306d3383e7655
@@ -88,6 +90,7 @@ object Const {
     val USERINFO = "UserInfo"
 
     val CustomerServiceId="5"
+    val CustomerServiceWomenId="98314"
 
     val PRIVATECHAT_APPLY = "com.d6.app.privatechat_apply_msg"
 

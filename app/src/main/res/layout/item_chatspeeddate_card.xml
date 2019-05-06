@@ -36,8 +36,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="240dp"
         android:layout_marginRight="@dimen/margin_5"
-        android:background="@drawable/shape_10r_8e"
-        android:drawableLeft="@mipmap/small_authentication"
         android:drawablePadding="@dimen/margin_2"
         android:paddingLeft="@dimen/margin_5"
         android:paddingTop="@dimen/margin_2"
@@ -52,10 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="240dp"
         android:layout_marginRight="@dimen/margin_5"
-        android:background="@drawable/shape_10r_8e"
-        android:drawablePadding="@dimen/margin_1"
+        android:drawablePadding="@dimen/margin_2"
         android:paddingLeft="@dimen/margin_5"
         android:paddingTop="@dimen/margin_2"
         android:paddingRight="@dimen/margin_5"
@@ -63,7 +60,7 @@
         android:text="黄金会员"
         android:textColor="@color/white"
         android:textSize="10sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <RelativeLayout
         android:id="@+id/ll_chat_speeddate_name"
@@ -135,7 +132,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/view_line"
         android:layout_marginTop="@dimen/margin_5"
         android:drawableLeft="@mipmap/card_white_gf_icon"
@@ -144,5 +141,6 @@
         android:gravity="center_vertical"
         android:text="官方发布"
         android:textColor="@color/white"
+        android:padding="@dimen/margin_5"
         android:textSize="11sp" />
 </RelativeLayout>

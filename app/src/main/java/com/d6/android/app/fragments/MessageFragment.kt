@@ -115,7 +115,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 s = info.name
             }
 
-            if (TextUtils.equals(Const.CustomerServiceId, conversation.targetId)) {
+            if (TextUtils.equals(Const.CustomerServiceId, conversation.targetId)||TextUtils.equals(Const.CustomerServiceWomenId, conversation.targetId)) {
                 //客服
 //                    val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
 //                    RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
@@ -153,6 +153,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         getData()
         getSysLastOne(SysMsg_time.toString())
         getSquareMsg(SquareMsg_time.toString())
+
+        if(TextUtils.equals(Const.CustomerServiceId,userId)||TextUtils.equals(Const.CustomerServiceWomenId,userId)){
+            tv_topsearch.visibility = View.VISIBLE
+        }else{
+            tv_topsearch.visibility = View.GONE
+        }
     }
 
     override fun onResume() {

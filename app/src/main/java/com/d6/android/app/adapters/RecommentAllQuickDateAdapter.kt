@@ -77,7 +77,19 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
         }else{
             tv_audio_auth.visibility = View.GONE
             tv_audio_level.visibility = View.VISIBLE
-            tv_audio_level.text = data.classesname
+//            tv_audio_level.text = data.classesname
+
+            if (data.classesname.toString().startsWith("普通")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
+            } else if (data.classesname.toString().startsWith("白银")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
+            } else if (data.classesname.toString().startsWith("黄金")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
+            } else if (data.classesname.toString().startsWith( "钻石")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
+            } else if (data.classesname.toString().startsWith("私人")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
+            }
         }
 //        val endTime = data.createTime.parserTime().toTime("yyyy-MM-dd")
         val cTime = if (D6Application.systemTime <= 0) {

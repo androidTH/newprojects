@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rl_chat_women_card"
-    android:layout_width="300dp"
+    android:id="@+id/rl_chat_dynamic_card"
+    android:layout_width="250dp"
     android:layout_height="wrap_content"
     android:background="@drawable/rc_ic_bubble_left"
     android:orientation="vertical"
@@ -13,19 +13,18 @@
         style="@style/DefaultHeadStyle"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="@dimen/margin_10"
         android:layout_marginBottom="8dp"
         app:roundAsCircle="true" />
     <ImageView
         android:id="@+id/img_auther"
-        android:layout_width="22dp"
+        android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_below="@+id/tv_dynamic_name"
         android:layout_marginTop="@dimen/margin_5"
         android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginLeft="@dimen/margin_30"
+        android:layout_marginLeft="@dimen/margin_25"
         android:src="@mipmap/video_small_authentication" />
-    <!--android:background="@drawable/shape_auther_bg"-->
 
     <TextView
         android:id="@+id/tv_dynamic_name"
@@ -33,9 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginRight="6dp"
-        android:layout_marginLeft="@dimen/margin_10"
         android:layout_toRightOf="@+id/dynamic_headView"
-        android:drawablePadding="8dp"
         android:singleLine="true"
         android:textStyle="bold"
         android:text="-----------"
@@ -45,7 +42,6 @@
         android:id="@+id/tv_dynamic_sex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10"
         android:layout_toRightOf="@+id/dynamic_headView"
         android:layout_below="@+id/tv_dynamic_name"
         android:drawableRight="@drawable/sex_selector" />
@@ -54,19 +50,14 @@
         android:id="@+id/tv_dynamic_vip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_1"
         android:layout_marginLeft="@dimen/margin_5"
         android:layout_below="@+id/tv_dynamic_name"
         android:layout_toRightOf="@+id/tv_dynamic_sex"
-        android:background="@drawable/shape_4r_white"
-        android:paddingLeft="5dp"
-        android:paddingTop="@dimen/margin_3"
-        android:paddingRight="5dp"
-        android:paddingBottom="@dimen/margin_3"
-        android:text="白鹦"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
         android:textColor="@color/orange_f6a"
         android:textSize="8sp" />
-
-
 
     <LinearLayout
         android:id="@+id/ll_dynamic_content"
@@ -157,7 +148,7 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/view_line"
         android:layout_marginTop="@dimen/margin_5"
         android:drawableLeft="@mipmap/card_dynamic_icon"

@@ -27,6 +27,7 @@
         android:paddingRight="@dimen/margin_8"
         android:paddingBottom="@dimen/margin_3"
         android:textColor="@color/white"
+        android:visibility="gone"
         android:textSize="12sp" />
 
     <com.facebook.drawee.view.SimpleDraweeView

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rl_chat_women_card"
+    android:id="@+id/rl_chat_date_card"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:background="@drawable/rc_ic_bubble_left"
@@ -12,18 +12,18 @@
         style="@style/DefaultHeadStyle"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="@dimen/margin_10"
         android:layout_marginBottom="8dp"
         app:roundAsCircle="true" />
     <ImageView
         android:id="@+id/img_chat_date_auther"
-        android:layout_width="22dp"
+        android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_below="@+id/tv_chat_date_name"
         android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginLeft="@dimen/margin_35"
+        android:layout_marginLeft="@dimen/margin_25"
         android:layout_marginTop="@dimen/margin_5"
-        android:src="@mipmap/video_small_authentication" />
+        android:src="@mipmap/video_small" />
     <!--android:background="@drawable/shape_auther_bg"-->
 
     <TextView
@@ -32,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginRight="6dp"
-        android:layout_marginLeft="@dimen/margin_10"
         android:layout_toRightOf="@+id/chat_date_headView"
         android:drawablePadding="8dp"
         android:singleLine="true"
@@ -44,27 +43,30 @@
         android:id="@+id/tv_chat_date_sex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10"
         android:layout_below="@+id/tv_chat_date_name"
         android:layout_toRightOf="@+id/chat_date_headView"
-        android:drawableRight="@drawable/sex_selector" />
+        android:background="@drawable/ic_sex_bg_selector"
+        android:drawableLeft="@drawable/sex_white_selector"
+        android:layout_marginTop="@dimen/margin_3"
+        android:drawablePadding="1dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="0.5dp"
+        android:paddingBottom="0.5dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"/>
 
     <TextView
         android:id="@+id/tv_chat_date_vip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_1"
         android:layout_marginLeft="@dimen/margin_5"
         android:layout_below="@+id/tv_chat_date_name"
         android:layout_toRightOf="@+id/tv_chat_date_sex"
-        android:background="@drawable/shape_4r_white"
-        android:paddingLeft="5dp"
-        android:paddingTop="@dimen/margin_3"
-        android:paddingRight="5dp"
-        android:paddingBottom="@dimen/margin_3"
-        android:text="白鹦"
-        android:textColor="@color/orange_f6a"
-        android:textSize="8sp" />
-
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:textColor="@color/orange_f6a"/>
 
     <LinearLayout
         android:id="@+id/ll_chat_date_content"
@@ -92,16 +94,15 @@
     <LinearLayout
         android:id="@+id/ll_chat_date"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/height_40"
         android:layout_below="@+id/ll_chat_date_content"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_chat_date_redflower"
+            android:id="@+id/tv_chat_datetype"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/margin_15"
             android:drawableLeft="@mipmap/invitation_shopping_small"
             android:drawablePadding="@dimen/margin_5"
             android:gravity="left|center"
@@ -110,7 +111,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_chat_date_appraise"
+            android:id="@+id/tv_chat_date_time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -123,7 +124,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_self_address"
+            android:id="@+id/tv_chat_date_address"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -146,10 +147,9 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/view_line"
         android:layout_marginTop="@dimen/margin_5"
-        android:layout_marginLeft="@dimen/margin_10"
         android:drawableLeft="@mipmap/card_date_icon"
         android:drawablePadding="@dimen/margin_5"
         android:gravity="center_vertical"

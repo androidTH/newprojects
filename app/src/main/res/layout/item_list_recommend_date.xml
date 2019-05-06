@@ -60,7 +60,6 @@
             android:id="@+id/tv_auth_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_10r_8e"
             android:layout_marginRight="@dimen/margin_8"
             android:layout_marginTop="-30dp"
             android:textColor="@color/white"
@@ -72,8 +71,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@id/ll_name"
             android:drawablePadding="@dimen/margin_1"
-            android:visibility="gone"
-            android:text="已认证"/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/ll_name"
