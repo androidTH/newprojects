@@ -155,9 +155,9 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
     public void bindView(final View v, int position, final SpeedDateMsgContent content, final UIMessage data) {
         SpeedDateMsgProvider.ViewHolder holder = (SpeedDateMsgProvider.ViewHolder) v.getTag();
         if(data.getMessageDirection() == Message.MessageDirection.SEND){
-            holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_right);
+            holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_right);
         }else{
-            holder.mLLChatSpeedDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+            holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_left);
         }
 //        holder.mRlChatSpeedDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {

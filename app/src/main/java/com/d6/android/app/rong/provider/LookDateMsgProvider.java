@@ -158,9 +158,9 @@ public class LookDateMsgProvider extends IContainerItemProvider.MessageProvider<
     public void bindView(final View v, int position, final LookDateMsgContent content, final UIMessage data) {
         LookDateMsgProvider.ViewHolder holder = (LookDateMsgProvider.ViewHolder) v.getTag();
         if(data.getMessageDirection() == Message.MessageDirection.SEND){
-            holder.mLlChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_right);
+            holder.mLlChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_right);
         }else{
-            holder.mLlChatSpeedDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+            holder.mLlChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_left);
         }
 //        holder.mRlChatSpeedDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {

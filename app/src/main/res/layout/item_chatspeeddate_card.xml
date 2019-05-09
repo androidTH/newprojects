@@ -4,14 +4,15 @@
     android:id="@+id/ll_chat_speed_card"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/rc_ic_bubble_left"
-    android:orientation="vertical"
-    android:paddingLeft="13dp">
+    android:background="@drawable/ic_bubble_date_right"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_img"
         android:layout_width="@dimen/width_210"
-        android:layout_height="@dimen/width_210">
+        android:layout_height="@dimen/width_210"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/chat_speeddate_imageView"
@@ -77,6 +78,8 @@
         android:layout_marginTop="@dimen/margin_10"
         android:drawableRight="@drawable/sex_selector"
         android:drawablePadding="6dp"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
         android:gravity="center_vertical"
         android:maxWidth="@dimen/width_210"
         android:singleLine="true"
@@ -95,6 +98,8 @@
         android:gravity="center_vertical"
         android:maxLines="2"
         android:text="28·180CM·80KG"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
         android:textColor="@color/color_888888"
         android:textSize="12sp" />
 
@@ -106,6 +111,8 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:text="28·180CM·80KG"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
         android:textColor="@color/color_333333"
         android:textSize="14sp" />
 
@@ -116,6 +123,7 @@
         android:layout_marginBottom="@dimen/margin_10"
         android:drawableLeft="@mipmap/date_area_icon"
         android:drawablePadding="@dimen/margin_5"
+        android:paddingLeft="@dimen/margin_10"
         android:text="-----"
         android:textColor="@color/color_999999"
         android:textSize="12sp" />
@@ -129,11 +137,10 @@
         android:drawableLeft="@mipmap/card_white_gf_icon"
         android:drawablePadding="@dimen/margin_5"
         android:gravity="center_vertical"
-        android:padding="@dimen/margin_5"
+        android:paddingTop="@dimen/margin_5"
+        android:paddingBottom="@dimen/margin_5"
+        android:paddingLeft="@dimen/margin_10"
         android:text="急约"
         android:textColor="@color/white"
         android:textSize="11sp" />
-
-    <!--android:background="@drawable/shape_4r_left_right_orange"-->
-
 </LinearLayout>
