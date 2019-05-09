@@ -266,7 +266,7 @@ interface ApiServices {
 
    //约会详情页
     @POST("backstage/appointment/queryAppointmentDetail")
-    fun getAppoinmentIdDetail(@Query("iUserid") iUserid:String,@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("sAppointmentId") sAppointmentId:String):Flowable<Response<MyAppointment>>
+    fun getAppoinmentIdDetail(@Query("iUserid") iUserid:String,@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("sAppointmentId") sAppointmentId:String,@Query("iShareUserid") iShareUserid:String):Flowable<Response<MyAppointment>>
 
     //约会状态
     @POST("backstage/appointmentsignup/updateAppointment")
@@ -397,7 +397,7 @@ interface ApiServices {
 
     //查询好友列表
    @POST("backstage/userfriend/findByPage")
-   fun findUserFriends(@Query("iUserid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FriendBean>>>
+   fun findUserFriends(@Query("iUserid")userid:String,@Query("sUserName") sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FriendBean>>>
 
    //动态消息设置
    @POST("backstage/account/updateMessageSetting")
@@ -406,4 +406,12 @@ interface ApiServices {
    //查询用户接口
    @POST("backstage/account/findAllByPage")
    fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FriendBean>>>
+
+   //我的好友个数
+   @POST("backstage/userfriend/findFriendCount")
+   fun findFriendCount(@Query("iUserid")userid:String):Flowable<Response<JsonObject>>
+
+   //分享的接口
+   @POST("backstage/share/shareMessage")
+   fun shareMessage(@Query("iUserid")userid:String,@Query("iType") iType:Int,@Query("sResourceId") sResourceId:String,@Query("sAppointUser")sAppointUser:String):Flowable<Response<JsonPrimitive>>
 }

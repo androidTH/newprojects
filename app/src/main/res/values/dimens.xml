@@ -68,6 +68,7 @@
     <dimen name="height_330">330dp</dimen>
     <dimen name="height_400">400dp</dimen>
     <dimen name="height_500">500dp</dimen>
+    <dimen name="width_210">210dp</dimen>
     <dimen name="convenientbanner_margin">10dp</dimen>
 
 

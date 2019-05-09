@@ -3,6 +3,7 @@ package com.d6.android.app.rong.provider;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.ClipboardManager;
 import android.text.Selection;
@@ -14,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.models.MyDate;
+import com.d6.android.app.rong.bean.LookDateMsgContent;
 import com.d6.android.app.rong.bean.SpeedDateMsgContent;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -36,12 +39,12 @@ import io.rong.imlib.model.Message;
  * Created by Beyond on 2016/12/5.
  */
 
-@ProviderTag(messageContent = SpeedDateMsgContent.class, showReadState = true)
-public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider<SpeedDateMsgContent>{
-    private static final String TAG = SpeedDateMsgProvider.class.getName();
+@ProviderTag(messageContent = LookDateMsgContent.class, showReadState = true)
+public class LookDateMsgProvider extends IContainerItemProvider.MessageProvider<LookDateMsgContent>{
+    private static final String TAG = LookDateMsgProvider.class.getName();
 
     private static class ViewHolder {
-        LinearLayout mLLChatSpeedDateCard;
+        LinearLayout mLlChatSpeedDateCard;
         SimpleDraweeView chat_speeddate_imageView;
         TextView tv_chat_speeddate_type;
         TextView tv_chat_speeddate_authlevel;
@@ -56,8 +59,8 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
     @Override
     public View newView(Context context, ViewGroup group) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_chatspeeddate_card, null);
-        SpeedDateMsgProvider.ViewHolder holder = new SpeedDateMsgProvider.ViewHolder();
-        holder.mLLChatSpeedDateCard = view.findViewById(R.id.ll_chat_speed_card);
+        LookDateMsgProvider.ViewHolder holder = new LookDateMsgProvider.ViewHolder();
+        holder.mLlChatSpeedDateCard = view.findViewById(R.id.ll_chat_speed_card);
         holder.chat_speeddate_imageView = view.findViewById(R.id.chat_speeddate_imageView);
         holder.tv_chat_speeddate_type = view.findViewById(R.id.tv_chat_speeddate_type);
         holder.tv_chat_speeddate_authlevel = view.findViewById(R.id.tv_chat_speeddate_authlevel);
@@ -71,7 +74,7 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
     }
 
     @Override
-    public Spannable getContentSummary(SpeedDateMsgContent data) {
+    public Spannable getContentSummary(LookDateMsgContent data) {
         if (data == null)
             return null;
 
@@ -86,20 +89,20 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
     }
 
     @Override
-    public void onItemClick(View view, int position, SpeedDateMsgContent content, UIMessage message) {
+    public void onItemClick(View view, int position, LookDateMsgContent content, UIMessage message) {
         MyDate date = GsonHelper.getGson().fromJson(content.getExtra(), MyDate.class);
         if(date!=null){
             Intent intent = new Intent();
-            intent.setAction("com.d6.android.app.activities.SpeedDateDetailActivity");
+            intent.setAction("com.d6.android.app.activities.FindDateDetailActivity");
             intent.putExtra("data",date);
             view.getContext().startActivity(intent);
         }
     }
 
     @Override
-    public void onItemLongClick(final View view, int position, final SpeedDateMsgContent content, final UIMessage message) {
+    public void onItemLongClick(final View view, int position, final LookDateMsgContent content, final UIMessage message) {
 
-        SpeedDateMsgProvider.ViewHolder holder = (SpeedDateMsgProvider.ViewHolder) view.getTag();
+        LookDateMsgProvider.ViewHolder holder = (LookDateMsgProvider.ViewHolder) view.getTag();
         holder.longClick = true;
         if (view instanceof TextView) {
             CharSequence text = ((TextView) view).getText();
@@ -141,7 +144,7 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
                 if (which == 0) {
                     @SuppressWarnings("deprecation")
                     ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    clipboard.setText(((SpeedDateMsgContent) content).getContent());
+                    clipboard.setText(((LookDateMsgContent) content).getContent());
                 } else if (which == 1) {
                     RongIM.getInstance().deleteMessages(new int[] {message.getMessageId()}, null);
                 } else if (which == 2) {
@@ -152,18 +155,21 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
     }
 
     @Override
-    public void bindView(final View v, int position, final SpeedDateMsgContent content, final UIMessage data) {
-        SpeedDateMsgProvider.ViewHolder holder = (SpeedDateMsgProvider.ViewHolder) v.getTag();
+    public void bindView(final View v, int position, final LookDateMsgContent content, final UIMessage data) {
+        LookDateMsgProvider.ViewHolder holder = (LookDateMsgProvider.ViewHolder) v.getTag();
         if(data.getMessageDirection() == Message.MessageDirection.SEND){
-            holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_right);
+            holder.mLlChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_right);
         }else{
-            holder.mLLChatSpeedDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+            holder.mLlChatSpeedDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         }
 //        holder.mRlChatSpeedDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {
-             Log.i(TAG,"约会内容speed="+content.getExtra());
+             Log.i(TAG,"约会内容look="+content.getExtra());
              MyDate date = GsonHelper.getGson().fromJson(content.getExtra(), MyDate.class);
-             holder.chat_speeddate_imageView.setImageURI(date.getSpeedpics());
+             if(date==null){
+                 return;
+             }
+             holder.chat_speeddate_imageView.setImageURI(date.getLookpics());
              holder.tv_chat_speeddate_name.setText(String.valueOf(date.getLooknumber()));
              holder.tv_chat_speeddate_name.setSelected(TextUtils.equals("0",date.getSex()));
 
@@ -184,8 +190,7 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
                 }
                 holder.tv_chat_speeddate_info.setText(sb.toString());
             }
-
-            holder.tv_chat_speeddate_type.setText(date.getSpeedStateStr());
+            holder.tv_chat_speeddate_type.setText("觅约");
             if(TextUtils.equals("0",date.getSex())){
                 holder.tv_chat_speeddate_authstate.setVisibility(View.VISIBLE);
                 holder.tv_chat_speeddate_authlevel.setVisibility(View.GONE);

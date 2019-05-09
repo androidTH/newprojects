@@ -7,6 +7,7 @@ import com.d6.android.app.utils.BannerLoader
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.TitleActivity
+import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
@@ -17,6 +18,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_speed_date_detail.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 
@@ -56,8 +58,18 @@ class SpeedDateDetailActivity : TitleActivity() {
         immersionBar.init()
         title = "速约详情"
 
-        titleBar.addRightButton(rightId = R.mipmap.ic_share, onClickListener = View.OnClickListener {
-            ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+        titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
+//            ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("from" to "Recommend_speedDate","id" to mSpeedDate.userId.toString(),"sResourceId" to mSpeedDate.id.toString())
+            shareDialog.show(supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
+                    startActivity<ReportActivity>("id" to mSpeedDate.userId.toString(), "tiptype" to 1)
+                }else if(p==3){
+                    ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+                }
+            }
         })
 
         imageView.layoutParams.height = ((screenWidth() - 2 * dip(12)) / 1.506f).toInt()
@@ -173,11 +185,11 @@ class SpeedDateDetailActivity : TitleActivity() {
         }
         val current = cTime.toTime("yyyy-MM-dd")
         if (current > end) {//已过期
-            titleBar.hideAllRightButton()
+//            titleBar.hideAllRightButton()
             btn_contact.isEnabled = false
             btn_contact.text = "已过期"
         } else {
-            titleBar.hideRightButton(0,false)
+//            titleBar.hideRightButton(0,false)
             btn_contact.isEnabled = true
             btn_contact.text = "联系客服"
         }

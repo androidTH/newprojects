@@ -68,6 +68,8 @@ object Const {
 
     val FROM_MY_DATELIST = "MyDateListActivity"
     val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
+    @JvmField
+    val FROM_MY_CHATDATE = "OpenDateSuccessChat"
 
     @JvmField
     var selectCategoryType:String=""

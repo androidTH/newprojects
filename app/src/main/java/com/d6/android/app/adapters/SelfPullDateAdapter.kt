@@ -43,7 +43,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
 
         view.setDeleteClick {
-            doReport(it.iAppointUserid.toString())
+            doReport(it.iAppointUserid.toString(),it.sId.toString())
         }
     }
 
@@ -61,19 +61,9 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
     }
 
-    private fun doReport(userid:String){
-//        val squareActionDialog = SquareActionDialog()
-//        squareActionDialog.arguments = bundleOf("id" to userid)
-//        squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
-//        squareActionDialog.setDialogListener { p, s ->
-//            if (p == 0) {
-//                mData?.let {
-//                    startActivity(userId, "3")
-//                }
-//            }
-//        }
+    private fun doReport(userid:String,sDateId:String){
         val squareActionDialog = ShareFriendsDialog()
-        squareActionDialog.arguments = bundleOf("id" to userid)
+        squareActionDialog.arguments = bundleOf("from" to "selfPullDate","id" to userid,"sResourceId" to sDateId)
         squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
         squareActionDialog.setDialogListener { p, s ->
            if (p == 0) {

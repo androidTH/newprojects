@@ -48,6 +48,7 @@ import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
 import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
 import com.google.gson.JsonObject
+import com.umeng.analytics.MobclickAgent
 import com.vector.update_app.UpdateAppBean
 import com.vector.update_app.UpdateAppManager
 import com.vector.update_app.UpdateCallback
@@ -858,4 +859,34 @@ fun requestNotify(context: Context){
         context.startActivity(intent)
 //            context.startActivityForResult(intent, AppConst.REQUEST_SETTING_NOTIFICATION);
     }
+}
+
+/**
+ * 分享到聊天
+ */
+fun shareChat(activity: BaseActivity,type:String,sex:String,userId:String){
+    var map = HashMap<String,String>()
+    map.put("content_type",type)
+    map.put("sex",if(TextUtils.equals("0",sex)) "women" else "man")
+    if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
+        map.put("is_service","Y")
+    }else{
+        map.put("is_service","n")
+    }
+    MobclickAgent.onEvent(activity,"share_chat_id",map)
+}
+
+/**
+ * 发布时同步到聊天
+ */
+fun syncChat(activity: BaseActivity,type:String,sex:String,userId:String){
+    var map = HashMap<String,String>()
+    map.put("content_type",type)
+    map.put("sex",if(TextUtils.equals("0",sex)) "women" else "man")
+    if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
+        map.put("is_service","Y")
+    }else{
+        map.put("is_service","n")
+    }
+    MobclickAgent.onEvent(activity,"sync_chat_id",map)
 }

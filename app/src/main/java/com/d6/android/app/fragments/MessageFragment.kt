@@ -15,7 +15,6 @@ import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.badge.Badge
@@ -23,12 +22,10 @@ import com.d6.android.app.widget.badge.QBadgeView
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
-import io.rong.imlib.model.CSCustomServiceInfo
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
 import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.support.v4.toast
 
 /**
  * 消息列表页

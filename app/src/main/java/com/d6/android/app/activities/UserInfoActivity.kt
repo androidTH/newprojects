@@ -173,16 +173,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         tv_more.setOnClickListener {
-            val userActionDialog = UserActionDialog()
+            val shareDialog = ShareFriendsDialog()
             mData?.let {
                 it.iIsInBlackList?.let {
-                   userActionDialog.arguments= bundleOf("isInBlackList" to it)
+                    shareDialog.arguments = bundleOf("from" to "userInfo","id" to id,"isInBlackList" to it,"sResourceId" to id)
                 }
             }
-            userActionDialog.setDialogListener { p, s ->
-                if (p == 0) {//举报
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
                     report()
-                } else if (p == 1) {
+                } else if (p == 2) {
                     mData?.let {
                         it.iIsInBlackList?.let {
                             if(it==1){
@@ -192,9 +192,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                             }
                         }
                     }
+                }else if(p==1){
+
                 }
             }
-            userActionDialog.show(supportFragmentManager, "user")
+            shareDialog.show(supportFragmentManager, "user")
         }
 
         headerView.headView.setOnClickListener {
@@ -220,8 +222,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         dialog()
         if (TextUtils.equals(userId, id)) {
             rl_doaction.visibility = View.GONE
+            tv_more.visibility =View.GONE
         } else {
             rl_doaction.visibility = View.VISIBLE
+            tv_more.visibility =View.VISIBLE
         }
         getUserInfo()
         addVistor()

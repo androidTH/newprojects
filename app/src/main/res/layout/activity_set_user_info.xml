@@ -146,9 +146,10 @@
             android:singleLine="true"
             android:layout_marginBottom="60dp"
             android:id="@+id/et_code"
+            android:visibility="gone"
             android:layout_below="@+id/et_nick"/>
         <View style="@style/view_line_h"
-            android:layout_alignBottom="@+id/et_code"
+            android:layout_alignBottom="@+id/nickLine"
             android:layout_marginLeft="66dp"
             android:layout_marginRight="66dp"
             android:background="@color/orange_f6a"/>
@@ -171,7 +172,8 @@
             android:text="进入D6"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_below="@+id/et_code"
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/nickLine"
             android:textSize="@dimen/btnTextSize"
             android:layout_marginBottom="60dp"
             android:enabled="true"

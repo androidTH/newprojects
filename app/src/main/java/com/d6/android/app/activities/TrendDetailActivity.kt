@@ -10,6 +10,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.ImagePagerAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommentTrendDialog
+import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.dialogs.TrendCommentsDialog
 import com.d6.android.app.dialogs.TrendContentDialog
 import com.d6.android.app.extentions.request
@@ -19,6 +20,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import kotlinx.android.synthetic.main.activity_trend_detail.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 
 /**
  * 评论详情页
@@ -136,6 +138,19 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             trendCommentsDialog.show(supportFragmentManager, "c")
         }
 
+        iv_dynamic_more.setOnClickListener {
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("from" to "square","id" to mTrend.userid.toString(),"sResourceId" to mTrend.id.toString())
+            shareDialog.show(supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
+                    startActivity<ReportActivity>("id" to mTrend.id.toString(), "tiptype" to 2)
+                } else if (p == 1) {
+                    delSquare()
+                }
+            }
+        }
+
         rl_root.viewTreeObserver.addOnGlobalLayoutListener {
             sysErr("-----rl_root-${rl_root.bottom}------------")
             onLayoutChangedListener?.onChanged()
@@ -201,6 +216,14 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_appraise.text = mTrend.appraiseCount.toString()
             tv_appraise.isSelected = TextUtils.equals(mTrend.isupvote, "1")
             setResult(Activity.RESULT_OK)
+        }
+    }
+
+    fun delSquare(){
+        dialog(canCancel = false)
+        Request.deleteSquare(userId, mTrend.id).request(this) { _, _ ->
+            showToast("删除成功")
+            finish()
         }
     }
 

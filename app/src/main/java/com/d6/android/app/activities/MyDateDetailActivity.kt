@@ -18,6 +18,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.FROM_MY_CHATDATE
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_mydate_details.*
@@ -37,6 +38,7 @@ class MyDateDetailActivity : BaseActivity() {
     private lateinit var myAppointment:MyAppointment
     private val mImages = ArrayList<String>()
     private var iAppointUserid:String =""
+    private var iShareUserId:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,17 @@ class MyDateDetailActivity : BaseActivity() {
         if(TextUtils.equals(from,Const.FROM_MY_DATESUCCESS)){
             var sId = intent.getStringExtra("sId")
             getData(sId,"")
+        }else if(TextUtils.equals(from,FROM_MY_CHATDATE)){
+            myAppointment = (intent.getSerializableExtra("data") as MyAppointment)
+            iShareUserId = intent.getStringExtra("iShareUserId")
+            if(myAppointment !=null){
+                iAppointUserid = myAppointment!!.iAppointUserid.toString()
+                if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
+                    getData(myAppointment!!.sAppointmentSignupId,"")
+                }else{
+                    getData("",myAppointment!!.sId.toString())
+                }
+            }
         }else{
             myAppointment = (intent.getSerializableExtra("data") as MyAppointment)
             if(myAppointment !=null){
@@ -54,7 +67,7 @@ class MyDateDetailActivity : BaseActivity() {
                 if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
                     getData(myAppointment!!.sAppointmentSignupId,"")
                 }else{
-                    getData("",myAppointment!!.sId.toString());
+                    getData("",myAppointment!!.sId.toString())
                 }
             }
         }
@@ -113,37 +126,12 @@ class MyDateDetailActivity : BaseActivity() {
 
     private fun getData(sAppointmentSignupId:String,sAppointmentId:String){
 
-        Request.getAppointDetails(userId,sAppointmentSignupId, sAppointmentId).request(this,success={msg, data->
+        Request.getAppointDetails(userId,sAppointmentSignupId, sAppointmentId,iShareUserId).request(this,success={msg, data->
             if (data != null) {
                 when (data.iStatus) {
                     1 -> {//
-                        if(data!!.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
-                            tv_private_chat.visibility = View.GONE;
-                            tv_no_date.visibility = View.GONE
-                            tv_agree_date.visibility = View.GONE
-                            tv_giveup_date.visibility = View.GONE
-
-                            var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
-                            param.addRule(RelativeLayout.CENTER_VERTICAL);
-                            tv_date_status.text="状态：暂无赴约人"
-
-                            rel_0.visibility = View.VISIBLE
-                            rel_1.visibility = View.GONE
-                            rel_2.visibility = View.GONE
-                            rel_3.visibility = View.GONE
-
-                            rel0_line.visibility = View.GONE
-                            headView0.setImageURI(data.sAppointmentPicUrl)
-                            tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
-                            tv_days0.text = data.dCreatetime.interval()//约会发布时间
-
-                            tv_point_nums.visibility = View.GONE
-
-                            headView0.setOnClickListener {
-                                startUserInfo(data!!.iAppointUserid.toString())
-                            }
-
-
+                        if(data.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+                            noPeopleJoinDate(data)
                         }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
                             var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
                             param.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -166,6 +154,8 @@ class MyDateDetailActivity : BaseActivity() {
 
                             tv_point_nums.text="预付${data.iPoint}积分"
                             setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3,true)
+                        }else if(data.iAppointStatus==2){
+                            noPeopleJoinDate(data)
                         }
                     }
                     2 -> { //
@@ -365,6 +355,37 @@ class MyDateDetailActivity : BaseActivity() {
                 }
             }
         })
+    }
+
+    private fun noPeopleJoinDate(data:MyAppointment){
+        tv_private_chat.visibility = View.GONE;
+        tv_no_date.visibility = View.GONE
+        tv_agree_date.visibility = View.GONE
+        tv_giveup_date.visibility = View.GONE
+
+        var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
+        param.addRule(RelativeLayout.CENTER_VERTICAL)
+        if(data.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+            tv_date_status.text="状态：暂无赴约人"
+        }else{
+            tv_date_status.text="状态：对方未赴约"
+        }
+
+        rel_0.visibility = View.VISIBLE
+        rel_1.visibility = View.GONE
+        rel_2.visibility = View.GONE
+        rel_3.visibility = View.GONE
+
+        rel0_line.visibility = View.GONE
+        headView0.setImageURI(data.sAppointmentPicUrl)
+        tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
+        tv_days0.text = data.dCreatetime.interval()//约会发布时间
+
+        tv_point_nums.visibility = View.GONE
+
+        headView0.setOnClickListener {
+            startUserInfo(data!!.iAppointUserid.toString())
+        }
     }
 
     fun getSpannable(str:String,len:Int):SpannableStringBuilder{

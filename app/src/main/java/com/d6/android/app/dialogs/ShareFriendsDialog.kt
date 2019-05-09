@@ -20,11 +20,12 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.Const.DIALOG_SHOW_MAX
 import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.SPUtils
-import kotlinx.android.synthetic.main.activity_choose_friends.*
+import com.d6.android.app.utils.shareChat
 import kotlinx.android.synthetic.main.dialog_sharefriends_layout.*
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.wrapContent
 
 
@@ -39,6 +40,12 @@ class ShareFriendsDialog : DialogFragment() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
+    private var iType = 0 //1、约会 2、动态 3、速约 4、觅约 5、个人主页
+    private var sResourceId = ""
     private var  mDialogShareFriendsQuickAdapter = DialogShareFriendsQuickAdapter(mList)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,31 +65,80 @@ class ShareFriendsDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var userId = arguments.getString("id")
+        var fromType = arguments.getString("from")
+        initRecycler()
         if (TextUtils.equals(mUserId, userId)) {
-            tv_deldate.visibility = View.VISIBLE
             rv_chooseuser.visibility = View.VISIBLE
             tv_share.visibility = View.VISIBLE
+
             tv_report_user.visibility = View.GONE
             tv_joinblack.visibility = View.GONE
+            tv_sharewx.visibility = View.GONE
 
-            rv_chooseuser.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-            rv_chooseuser.adapter = mDialogShareFriendsQuickAdapter
+            if(TextUtils.equals(fromType,"userInfo")){
+                ll_action.visibility = View.GONE
+            }else if(TextUtils.equals(fromType,"square")){
+                sResourceId = arguments.getString("sResourceId")
+                iType = 2
+            }else{
+                tv_deldate.visibility = View.VISIBLE
+            }
             getUserFriends()
         } else {
             tv_report_user.visibility = View.VISIBLE
-            tv_joinblack.visibility = View.GONE
             tv_deldate.visibility = View.GONE
-            rv_chooseuser.visibility = View.GONE
-            tv_share.visibility = View.GONE
+            tv_sharewx.visibility = View.GONE
+
+            var fromType = arguments.getString("from")
+            if(TextUtils.equals(fromType,"userInfo")){
+                tv_joinblack.visibility = View.VISIBLE
+                var isInBlackList = arguments.getInt("isInBlackList", 0)
+                if (isInBlackList == 1) {
+                    tv_joinblack.text = getString(R.string.string_removeblacklist)
+                } else {
+                    tv_joinblack.text = resources.getString(R.string.string_joinblack)
+                }
+                iType = 5
+                sResourceId = arguments.getString("sResourceId")
+                showFriends()
+            }else if(TextUtils.equals(fromType,"Recommend_speedDate")||TextUtils.equals(fromType,"Recommend_findDate")){
+                tv_sharewx.visibility = View.VISIBLE
+                showFriends()
+                sResourceId = arguments.getString("sResourceId")
+                iType = if(TextUtils.equals(fromType,"Recommend_speedDate")){
+                    3
+                }else{
+                    4
+                }
+            }else if(TextUtils.equals(fromType,"selfPullDate")){
+                showFriends()
+                tv_sharewx.visibility = View.VISIBLE
+                sResourceId = arguments.getString("sResourceId")
+                iType = 1
+            }else if(TextUtils.equals(fromType,"square")){
+                showFriends()
+                sResourceId = arguments.getString("sResourceId")
+                iType = 2
+            }else{
+                tv_share.visibility = View.GONE
+                rv_chooseuser.visibility = View.GONE
+                tv_joinblack.visibility = View.GONE
+            }
         }
 
         mDialogShareFriendsQuickAdapter.setOnItemClickListener { adapter, view, position ->
             if (position == DIALOG_SHOW_MAX) {
-                startActivity<ShareFriendsActivity>()
+                startActivity<ShareFriendsActivity>("iType" to iType,"sResourceId" to sResourceId)
                 dismissAllowingStateLoss()
             } else {
-               toast("分享")
-               dismissAllowingStateLoss()
+               shareChat((context as BaseActivity),"dynamic",sex,mUserId)
+               isBaseActivity {
+                   var friendBean = mDialogShareFriendsQuickAdapter.getItem(position)
+                   Request.shareMessage(mUserId,iType,sResourceId,friendBean?.iUserid.toString()).request(it,true,success = {msg,data->
+                       it.toast(msg.toString())
+                       dismissAllowingStateLoss()
+                   })
+               }
             }
         }
 
@@ -101,16 +157,33 @@ class ShareFriendsDialog : DialogFragment() {
             dismissAllowingStateLoss()
         }
 
+        tv_sharewx.setOnClickListener {
+            dialogListener?.onClick(3,"")//1代表删除
+            dismissAllowingStateLoss()
+        }
+
         tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()
         }
     }
 
+    private fun initRecycler(){
+        rv_chooseuser.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        rv_chooseuser.adapter = mDialogShareFriendsQuickAdapter
+    }
+
+    private fun showFriends(){
+        tv_share.visibility = View.VISIBLE
+        rv_chooseuser.visibility = View.VISIBLE
+        getUserFriends()
+    }
+
     private fun getUserFriends() {
         isBaseActivity {
-            Request.findUserFriends(mUserId, 1).request(it) { _, data ->
+            Request.findUserFriends(mUserId, "",1).request(it) { _, data ->
                 if (data?.list?.results == null || data.list.results.isEmpty()) {
                     rv_chooseuser.visibility = View.GONE
+                    tv_share.visibility = View.GONE
                 } else {
                     mList.addAll(data.list.results)
                 }

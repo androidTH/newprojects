@@ -19,12 +19,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_chooseuser"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="@dimen/margin_10"
         android:orientation="vertical">
     </android.support.v7.widget.RecyclerView>
     <View style="@style/view_line_h" />
     <LinearLayout
+        android:id="@+id/ll_action"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:gravity="center_vertical"
@@ -62,9 +63,21 @@
             android:drawableTop="@mipmap/deleted_button"
             android:drawablePadding="@dimen/margin_5"
             android:gravity="center_horizontal"
+            android:layout_marginRight="@dimen/margin_20"
             android:textSize="12sp"
             android:textColor="@color/color_666666"
             android:id="@+id/tv_deldate"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微信分享"
+            android:drawableTop="@mipmap/wechat_button"
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:textColor="@color/color_666666"
+            android:id="@+id/tv_sharewx"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tv_cancel"

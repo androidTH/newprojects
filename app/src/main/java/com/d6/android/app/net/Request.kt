@@ -326,7 +326,7 @@ object Request {
     fun signUpdate(userid:String,sAppointmentId:String,sDesc:String)=RRetrofit.instance().create(ApiServices::class.java).signUpdate(userid, sAppointmentId,sDesc)
 
     //约会详情页
-    fun getAppointDetails(userId:String,sAppointmentSignupId:String,sAppointmentId:String)=RRetrofit.instance().create(ApiServices::class.java).getAppoinmentIdDetail(userId,sAppointmentSignupId,sAppointmentId)
+    fun getAppointDetails(userId:String,sAppointmentSignupId:String,sAppointmentId:String,iShareUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAppoinmentIdDetail(userId,sAppointmentSignupId,sAppointmentId,iShareUserid)
 
     //更新约会状态
     fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int,sRefuseDesc:String)=RRetrofit.instance().create(ApiServices::class.java).updateDateStatus(sAppointmentSignupId,iStatus,sRefuseDesc)
@@ -424,11 +424,16 @@ object Request {
     fun removeBlackList(userId: String,id:String)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(userId,id)
 
     //查询好友列表
-    fun findUserFriends(iUserId: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findUserFriends(iUserId,pageNum)
+    fun findUserFriends(iUserId: String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findUserFriends(iUserId,sUserName,pageNum)
 
     //消息设置接口
     fun updateMessageSetting(iUserId:String,iMessageSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateMessageSetting(iUserId,iMessageSetting)
 
     //客服查询用户
     fun findAllUserFriends(iUserId:String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAllUserFriends(iUserId,sUserName,pageNum)
+
+    //查询好友个数
+    fun findFriendCount(iUserId:String)=RRetrofit.instance().create(ApiServices::class.java).findFriendCount(iUserId)
+
+    fun shareMessage(userid:String,iType:Int,sResourceId:String,sAppointUser:String)=RRetrofit.instance().create(ApiServices::class.java).shareMessage(userid,iType,sResourceId,sAppointUser)
 }

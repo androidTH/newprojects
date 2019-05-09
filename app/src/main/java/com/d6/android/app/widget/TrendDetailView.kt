@@ -61,6 +61,13 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                 actionCommentClick?.onCommentClick(it)
             }
         }
+
+        tv_delete.setOnClickListener {
+            square?.let {
+                mDeleteClick?.onDelete(it)
+            }
+        }
+
     }
 
     fun update(square: Square) {
@@ -183,10 +190,19 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    fun setDeletClick(action:(square:Square)->Unit) {
+        this.mDeleteClick = object : DeleteClick {
+            override fun onDelete(square: Square) {
+                action(square)
+            }
+        }
+    }
+
     private var action:Action?=null
     private var actionCommentClick:DoCommentClick?=null
     private var actiToggleSoftClick:onToggleSoftInput?=null
     private var sendFlowerClick:DoSendFlowerClick?=null
+    private var mDeleteClick:DeleteClick?=null
 
     interface Action{
         fun onPraiseClick(square: Square)
@@ -202,5 +218,9 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     interface  onToggleSoftInput{
         fun onToggleSoftInput(square: Square)
+    }
+
+    interface DeleteClick{
+        fun onDelete(square: Square)
     }
 }

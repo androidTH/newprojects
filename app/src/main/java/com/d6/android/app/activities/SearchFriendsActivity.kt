@@ -21,6 +21,10 @@ import kotlinx.android.synthetic.main.activity_search_friends.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
+
+/**
+ * 客服查找
+ */
 class SearchFriendsActivity : BaseActivity() {
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -28,6 +32,7 @@ class SearchFriendsActivity : BaseActivity() {
 
     private var pageNum = 1
     private val mFriends = ArrayList<FriendBean>()
+    private var sUserName="";
     private val friendsAdapter by lazy {
         SearchFriendsAdapter(mFriends)
     }
@@ -46,7 +51,7 @@ class SearchFriendsActivity : BaseActivity() {
         }
         initRecyclerView()
         dialog()
-        getData()
+        pullDownRefresh()
         iv_back_close.setOnClickListener {
             hideSoftKeyboard(it)
             finish()
@@ -54,8 +59,8 @@ class SearchFriendsActivity : BaseActivity() {
 
         et_searchfriends.setOnEditorActionListener { v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH){
-//                 toast(et_searchfriends.text)
-                 searchFriends(et_searchfriends.text.toString());
+                 sUserName = et_searchfriends.text.toString().trim()
+                 pullDownRefresh()
                  hideSoftKeyboard(et_searchfriends)
                  true
             }
@@ -88,29 +93,29 @@ class SearchFriendsActivity : BaseActivity() {
         swipeRefreshLayout.addItemDecoration(item)
     }
 
-    private fun searchFriends(sUserName:String){
-        pageNum =1
-        Request.findAllUserFriends(userId,sUserName,pageNum).request(this){_,data->
-            if (pageNum == 1) {
-                mFriends.clear()
-            }
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
-                if (pageNum > 1) {
-                    swipeRefreshLayout.setLoadMoreText("没有更多了")
-                    pageNum--
-                } else {
-                    swipeRefreshLayout.setLoadMoreText("暂无数据")
-                }
-            } else {
-                mFriends.addAll(data.list.results)
-            }
-            swipeRefreshLayout.isRefreshing = false
-            friendsAdapter.notifyDataSetChanged()
-        }
-    }
+//    private fun searchFriends(sUserName:String){
+//        pageNum =1
+//        Request.findAllUserFriends(userId,sUserName,pageNum).request(this){_,data->
+//            if (pageNum == 1) {
+//                mFriends.clear()
+//            }
+//            if (data?.list?.results == null || data.list.results.isEmpty()) {
+//                if (pageNum > 1) {
+//                    swipeRefreshLayout.setLoadMoreText("没有更多了")
+//                    pageNum--
+//                } else {
+//                    swipeRefreshLayout.setLoadMoreText("暂无数据")
+//                }
+//            } else {
+//                mFriends.addAll(data.list.results)
+//            }
+//            swipeRefreshLayout.isRefreshing = false
+//            friendsAdapter.notifyDataSetChanged()
+//        }
+//    }
 
-    private fun getData() {
-        Request.findUserFriends(userId, pageNum).request(this) { _, data ->
+    private fun getData(uname:String) {
+        Request.findAllUserFriends(userId,uname,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFriends.clear()
             }
@@ -131,11 +136,11 @@ class SearchFriendsActivity : BaseActivity() {
 
      fun pullDownRefresh() {
         pageNum = 1
-        getData()
+        getData(sUserName)
     }
 
      fun loadMore() {
         pageNum++
-        getData()
+        getData(sUserName)
     }
 }

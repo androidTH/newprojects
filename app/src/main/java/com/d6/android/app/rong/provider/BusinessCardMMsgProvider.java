@@ -1,8 +1,10 @@
 package com.d6.android.app.rong.provider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
@@ -13,21 +15,22 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.d6.android.app.R;
-import com.d6.android.app.activities.UserInfoActivity;
 import com.d6.android.app.adapters.CardManTagAdapter;
-import com.d6.android.app.adapters.CardTagAdapter;
 import com.d6.android.app.adapters.ChatDatelmageAdapter;
 import com.d6.android.app.adapters.DatelmageAdapter;
-import com.d6.android.app.adapters.UserTagAdapter;
 import com.d6.android.app.models.UserData;
 import com.d6.android.app.models.UserTag;
 import com.d6.android.app.rong.bean.BusinessCardMMsgContent;
 import com.d6.android.app.utils.GsonHelper;
+import com.d6.android.app.widget.RxRecyclerViewDividerTool;
+import com.d6.android.app.widget.badge.DisplayUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
@@ -61,20 +64,22 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
     public View newView(Context context, ViewGroup group) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_business_men_card, null);
         ViewHolder holder = new BusinessCardMMsgProvider.ViewHolder();
-        holder.mRlChatmenCard = view.findViewById(R.id.rl_chat_men_card);
+        holder.mllChatmenCard = view.findViewById(R.id.ll_chat_men_card);
         holder.chat_men_headView = view.findViewById(R.id.chat_men_headView);
         holder.noimg_chat_men_line = view.findViewById(R.id.noimg_chat_men_line);
+        holder.chat_men_img_auther = view.findViewById(R.id.chat_men_img_auther);
 
         holder.tv_chat_men_name = view.findViewById(R.id.tv_chat_men_name);
-        holder.tv_chat_men_age = view.findViewById(R.id.tv_chat_womang_age);
+        holder.tv_chat_men_age = view.findViewById(R.id.tv_chat_men_age);
         holder.tv_chat_men_vip = view.findViewById(R.id.tv_chat_men_vip);
         holder.tv_chat_men_content = view.findViewById(R.id.tv_chat_men_content);
-
-        holder.rv_chat_men_images.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        holder.rv_chat_men_images.setHasFixedSize(true);
         holder.rv_chat_men_images = view.findViewById(R.id.rv_chat_men_images);
-
         holder.rv_chat_men_tags = view.findViewById(R.id.rv_chat_men_tags);
+
+        holder.rv_chat_men_images.setHasFixedSize(true);
+        holder.rv_chat_men_images.setLayoutManager(new GridLayoutManager(context,3));
+        holder.rv_chat_men_images.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context,8)));
+
         holder.rv_chat_men_tags.setHasFixedSize(true);
         holder.rv_chat_men_tags.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         holder.rv_chat_men_tags.setNestedScrollingEnabled(false);
@@ -85,7 +90,11 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
     @Override
     public void bindView(final View v, int position, final BusinessCardMMsgContent content, final UIMessage data) {
         ViewHolder holder = (BusinessCardMMsgProvider.ViewHolder) v.getTag();
-//        holder.mRlChatDynamicCommentCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        if(data.getMessageDirection() == Message.MessageDirection.SEND){
+            holder.mllChatmenCard.setBackgroundResource(R.drawable.ic_bubble_right);
+        }else{
+            holder.mllChatmenCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        }
         if (!TextUtils.isEmpty(content.getExtra())) {
             UserData mUserData = GsonHelper.getGson().fromJson(content.getExtra(), UserData.class);
 
@@ -93,6 +102,18 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
             holder.tv_chat_men_name.setText(mUserData.getName());
             holder.tv_chat_men_age.setText(mUserData.getAge());
             holder.tv_chat_men_age.setSelected(TextUtils.equals("0", mUserData.getSex()));
+
+            if (TextUtils.equals("0", mUserData.getSex())) {
+                if (TextUtils.equals("0", mUserData.getScreen()) || TextUtils.equals("3", mUserData.getScreen()) ||TextUtils.isEmpty(mUserData.getScreen())) {
+                    holder.chat_men_img_auther.setVisibility(View.GONE);
+                    holder.chat_men_img_auther.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.renzheng_small));
+                } else if (TextUtils.equals("1", mUserData.getScreen())) {
+                    holder.chat_men_img_auther.setVisibility(View.VISIBLE);
+                    holder.chat_men_img_auther.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.video_small));
+                }
+            } else {
+                holder.chat_men_img_auther.setVisibility(View.GONE);
+            }
 
             if (TextUtils.equals("0", mUserData.getSex())) {//女性
                 //27入门 28中级  29优质
@@ -143,13 +164,13 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
             if (!TextUtils.equals(mUserData.getUserpics(), "null")) {
                 if (TextUtils.isEmpty(mUserData.getUserpics())) {
                     mImages.clear();
-                    holder.rv_chat_men_images.setVisibility(View.INVISIBLE);
+                    holder.rv_chat_men_images.setVisibility(View.GONE);
                     holder.noimg_chat_men_line.setVisibility(View.VISIBLE);
                 } else {
                     String[] imglist = mUserData.getUserpics().split(",");
                     if (imglist.length == 0) {
                         mImages.clear();
-                        holder.rv_chat_men_images.setVisibility(View.INVISIBLE);
+                        holder.rv_chat_men_images.setVisibility(View.GONE);
                         holder.noimg_chat_men_line.setVisibility(View.VISIBLE);
                     } else {
                         holder.noimg_chat_men_line.setVisibility(View.GONE);
@@ -171,33 +192,33 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                 }
             } else {
                 mImages.clear();
-                holder.rv_chat_men_images.setVisibility(View.INVISIBLE);
+                holder.rv_chat_men_images.setVisibility(View.GONE);
                 holder.noimg_chat_men_line.setVisibility(View.VISIBLE);
             }
 
             mTags.clear();
             if (!TextUtils.isEmpty(mUserData.getHeight())) {
-                mTags.add(new UserTag("身高" + mUserData.getHeight(), R.mipmap.boy_stature_icon));
+                mTags.add(new UserTag("身高 " + mUserData.getHeight(), R.mipmap.boy_stature_icon));
             }
 
             if (!TextUtils.isEmpty(mUserData.getWeight())) {
-                mTags.add(new UserTag("体重" + mUserData.getWeight(), R.mipmap.boy_weight_grayicon));
+                mTags.add(new UserTag("体重 " + mUserData.getWeight(), R.mipmap.boy_weight_grayicon));
             }
 
             if (!TextUtils.isEmpty(mUserData.getJob())) {
-                mTags.add(new UserTag("职业" + mUserData.getJob(), R.mipmap.boy_profession_icon));
+                mTags.add(new UserTag("职业 " + mUserData.getJob(), R.mipmap.boy_profession_icon));
             }
 
             if (!TextUtils.isEmpty(mUserData.getConstellation())) {
-                mTags.add(new UserTag("星座" + mUserData.getConstellation(), R.mipmap.boy_constellation_icon));
+                mTags.add(new UserTag("星座 " + mUserData.getConstellation(), R.mipmap.boy_constellation_icon));
             }
 
             if (!TextUtils.isEmpty(mUserData.getCity())) {
-                mTags.add(new UserTag("地区" + mUserData.getCity(), R.mipmap.boy_area_icon));
+                mTags.add(new UserTag("地区 " + mUserData.getCity(), R.mipmap.boy_area_icon));
             }
 
             if (!TextUtils.isEmpty(mUserData.getZuojia())) {
-                mTags.add(new UserTag("座驾" + mUserData.getZuojia(), R.mipmap.boy_car_icon));
+                mTags.add(new UserTag("座驾 " + mUserData.getZuojia(), R.mipmap.boy_car_icon));
             }
 
             if (!TextUtils.isEmpty(mUserData.getHobbit())) {
@@ -205,7 +226,7 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                 StringBuilder sb = new StringBuilder();
                 sb.append("爱好 ");
                 sb.append(mHobbies);
-                mTags.add(new UserTag("爱好" + sb.toString(), R.mipmap.boy_hobby_icon));
+                mTags.add(new UserTag(sb.toString(), R.mipmap.boy_hobby_icon));
             }
 
             if (mTags.size() == 0) {
@@ -234,9 +255,13 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
 
     @Override
     public void onItemClick(View view, int position, BusinessCardMMsgContent content, UIMessage message) {
-//        Intent intent = new Intent();
-//        intent.setAction("com.d6.android.app.activities.MyPointsActivity");
-//        view.getContext().startActivity(intent);
+        UserData mUserData = GsonHelper.getGson().fromJson(content.getExtra(), UserData.class);
+        if(mUserData!=null){
+            Intent intent = new Intent();
+            intent.setAction("com.d6.android.app.activities.UserInfoActivity");
+            intent.putExtra("id",mUserData.getAccountId());
+            view.getContext().startActivity(intent);
+        }
     }
 
     @Override
@@ -295,8 +320,9 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
     }
 
     private static class ViewHolder {
-        RelativeLayout mRlChatmenCard;
+        LinearLayout mllChatmenCard;
         SimpleDraweeView chat_men_headView;
+        ImageView chat_men_img_auther;
         TextView tv_chat_men_name;
         TextView tv_chat_men_age;
         TextView tv_chat_men_vip;

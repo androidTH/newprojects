@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import com.alibaba.fastjson.JSONObject
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.dialogs.DatePickDialog
@@ -24,12 +25,16 @@ import com.d6.android.app.models.DateType
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CustomerServiceId
+import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.utils.Const.dateTypesDefault
 import com.d6.android.app.utils.Const.dateTypesSelected
 import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.umeng.analytics.MobclickAgent
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_choose_friends.*
 import kotlinx.android.synthetic.main.activity_publish_find_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
@@ -58,6 +63,10 @@ class PublishFindDateActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
     private var city: String? = null
     private var areaType = -1
     private var area = ""
@@ -67,8 +76,6 @@ class PublishFindDateActivity : BaseActivity() {
     private var REQUEST_CHOOSECODE:Int=10
 
     private  var mChooseFriends = ArrayList<FriendBean>()
-
-    private var shareUserId:String=""
 
     private val mDateFriendsQuickAdapter by lazy{
         NoticeFriendsQuickAdapter(mChooseFriends)
@@ -169,7 +176,6 @@ class PublishFindDateActivity : BaseActivity() {
                         CreateDate(et_content.text.toString().trim())
                     }) { code, msg ->
                         if (code == 0) {
-                            var sex = SPUtils.instance().getString(Const.User.USER_SEX)
                             if(TextUtils.equals("1",sex)){
                                 startActivity<MenMemberActivity>()
                             }else{
@@ -232,6 +238,8 @@ class PublishFindDateActivity : BaseActivity() {
                 }
             }
         }
+
+        getLocalFriendsCount()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -314,12 +322,35 @@ class PublishFindDateActivity : BaseActivity() {
             if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                 showTips(data, "", "")
             }
+            syncChat(this,"date",sex,userId)
             setResult(Activity.RESULT_OK)
             startActivity<MyDateListActivity>()
             finish()
         }) { code, msg ->
             if (code == 0) {
                 showToast(msg)
+            }
+        }
+    }
+
+    private fun getLocalFriendsCount(){
+//        Request.findFriendCount(userId).request(this,false,success = {msg,json->
+//            json?.let {
+////                var count = it.optInt("obj")
+//                Log.i("sssssssss","${json}")
+//                if(count>0){
+//                    ll_friends.visibility = View.VISIBLE
+//                }else{
+//                    ll_friends.visibility = View.GONE
+//                }
+//            }
+//        })
+
+        Request.findUserFriends(userId,"",1).request(this) { _, data ->
+            if(data?.list?.results!=null){
+                ll_friends.visibility = View.VISIBLE
+            }else{
+                ll_friends.visibility = View.GONE
             }
         }
     }
@@ -336,6 +367,7 @@ class PublishFindDateActivity : BaseActivity() {
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                     showTips(data, "", "")
                 }
+                syncChat(this,"date",sex,userId)
                 setResult(Activity.RESULT_OK)
                 startActivity<MyDateListActivity>()
                 finish()

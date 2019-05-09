@@ -189,6 +189,7 @@
                 android:background="@color/color_EFEFEF"
                 android:layout_height="0.5dp"/>
           <LinearLayout
+              android:id="@+id/ll_friends"
               android:layout_width="match_parent"
               android:layout_height="@dimen/height_40"
               android:background="@color/white"

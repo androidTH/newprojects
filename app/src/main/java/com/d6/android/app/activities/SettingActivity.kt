@@ -155,7 +155,7 @@ class SettingActivity : TitleActivity() {
                 // 25钻石 24黄金 23白银 22普通  28中级
                 if (TextUtils.equals("0", it.sex)) {//女性
                     //27入门 28中级  29优质
-                    tv_vip.text = String.format("%s", it.classesname)
+//                    tv_vip.text = String.format("%s", it.classesname)
                     if(TextUtils.equals(it.userclassesid,"27")){
 //                        tv_vip.text = String.format("%s",getString(R.string.string_primary))
                         tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_cj)

@@ -1,6 +1,7 @@
 package com.d6.android.app.rong.provider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -9,9 +10,12 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -48,9 +52,10 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
     private static final String TAG = BusinessCardFMsgProvider.class.getName();
 
     private static class ViewHolder {
-        RelativeLayout mRlChatWomenCard;
+        LinearLayout mllChatWomenCard;
         SimpleDraweeView chat_imageView;
         SimpleDraweeView chat_headView;
+        ImageView chat_img_auther;
         TextView tv_chat_name;
         TextView tv_chat_womang_age;
         TextView tv_chat_vip;
@@ -64,9 +69,10 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
     public View newView(Context context, ViewGroup group) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_business_women_card, null);
         ViewHolder holder = new BusinessCardFMsgProvider.ViewHolder();
-        holder.mRlChatWomenCard = view.findViewById(R.id.rl_chat_women_card);
+        holder.mllChatWomenCard = view.findViewById(R.id.ll_chat_women_card);
         holder.chat_imageView = view.findViewById(R.id.chat_imageView);
         holder.chat_headView = view.findViewById(R.id.chat_headView);
+        holder.chat_img_auther = view.findViewById(R.id.chat_img_auther);
         holder.tv_chat_name = view.findViewById(R.id.tv_chat_name);
         holder.tv_chat_womang_age = view.findViewById(R.id.tv_chat_womang_age);
         holder.tv_chat_vip = view.findViewById(R.id.tv_chat_vip);
@@ -98,9 +104,13 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
 
     @Override
     public void onItemClick(View view, int position, BusinessCardFMsgContent content, UIMessage message) {
-//        Intent intent = new Intent();
-//        intent.setAction("com.d6.android.app.activities.MyPointsActivity");
-//        view.getContext().startActivity(intent);
+        UserData mUserData = GsonHelper.getGson().fromJson(content.getExtra(), UserData.class);
+        if(mUserData!=null){
+            Intent intent = new Intent();
+            intent.setAction("com.d6.android.app.activities.UserInfoActivity");
+            intent.putExtra("id",mUserData.getAccountId());
+            view.getContext().startActivity(intent);
+        }
     }
 
     @Override
@@ -161,8 +171,13 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
     @Override
     public void bindView(final View v, int position, final BusinessCardFMsgContent content, final UIMessage data) {
         ViewHolder holder = (BusinessCardFMsgProvider.ViewHolder) v.getTag();
-//        holder.mRlChatDynamicCommentCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        if(data.getMessageDirection() == Message.MessageDirection.SEND){
+            holder.mllChatWomenCard.setBackgroundResource(R.drawable.ic_bubble_right);
+        }else{
+            holder.mllChatWomenCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        }
         if (!TextUtils.isEmpty(content.getExtra())) {
+            Log.i(TAG,"用户内容"+content.getExtra());
             UserData mUserData = GsonHelper.getGson().fromJson(content.getExtra(), UserData.class);
             if (!TextUtils.equals(mUserData.getUserpics(), "null")) {
                 if (TextUtils.isEmpty(mUserData.getUserpics())) {
@@ -176,6 +191,41 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
             } else {
                 holder.chat_imageView.setImageURI(mUserData.getPicUrl());
             }
+
+            if (!TextUtils.isEmpty(mUserData.getEgagementtext())) {
+                if(!TextUtils.equals("null",mUserData.getEgagementtext())){
+                    holder.tv_chat_content.setText(mUserData.getEgagementtext());
+                }else{
+                    holder.tv_chat_content.setVisibility(View.GONE);
+                }
+            } else if (!(TextUtils.isEmpty(mUserData.getSignature()))) {
+                if(!TextUtils.equals("null",mUserData.getSignature())){
+                    holder.tv_chat_content.setText(mUserData.getSignature());
+                }else{
+                    holder.tv_chat_content.setVisibility(View.GONE);
+                }
+            }else if(!TextUtils.isEmpty(mUserData.getIntro())){
+                if(!TextUtils.equals("null",mUserData.getIntro())){
+                    holder.tv_chat_content.setText(mUserData.getIntro());
+                }else{
+                    holder.tv_chat_content.setVisibility(View.GONE);
+                }
+            }else{
+                holder.tv_chat_content.setVisibility(View.GONE);
+            }
+
+            if (TextUtils.equals("0", mUserData.getSex())) {
+                if (TextUtils.equals("0", mUserData.getScreen()) || TextUtils.equals("3", mUserData.getScreen()) ||TextUtils.isEmpty(mUserData.getScreen())) {
+                    holder.chat_img_auther.setVisibility(View.GONE);
+                    holder.chat_img_auther.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.renzheng_small));
+                } else if (TextUtils.equals("1", mUserData.getScreen())) {
+                    holder.chat_img_auther.setVisibility(View.VISIBLE);
+                    holder.chat_img_auther.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.video_small));
+                }
+            } else {
+                holder.chat_img_auther.setVisibility(View.GONE);
+            }
+
             holder.chat_headView.setImageURI(mUserData.getPicUrl());
             holder.tv_chat_name.setText(mUserData.getName());
             holder.tv_chat_womang_age.setText(mUserData.getAge());

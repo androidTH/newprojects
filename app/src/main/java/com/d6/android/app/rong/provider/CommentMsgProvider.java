@@ -1,15 +1,18 @@
 package com.d6.android.app.rong.provider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.text.ClipboardManager;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +21,10 @@ import com.d6.android.app.rong.bean.CommentMessage;
 import com.d6.android.app.rong.bean.CommentMsgContent;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;
@@ -33,27 +40,56 @@ import io.rong.imlib.model.Message;
  */
 
 @ProviderTag(messageContent = CommentMsgContent.class, showReadState = true)
-public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<CommentMsgContent>{
-    private static final String TAG = CommentMsgProvider.class.getName();
-
-    private static class ViewHolder {
-        RelativeLayout mRlChatDynamicCommentCard;
-        SimpleDraweeView mRightImagView;
-        TextView tv_chat_comment_title;
-        TextView tv_chat_comment_content;
-        boolean longClick;
-    }
+public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<CommentMsgContent> {
+    private static final String TAG = CommentMsgProvider.class.getSimpleName();
 
     @Override
     public View newView(Context context, ViewGroup group) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_comment_card, null);
         CommentMsgProvider.ViewHolder holder = new CommentMsgProvider.ViewHolder();
-        holder.mRlChatDynamicCommentCard = view.findViewById(R.id.rl_chat_comment_card);
+        holder.mLlChatDynamicCommentCard = view.findViewById(R.id.rl_chat_comment_card);
         holder.tv_chat_comment_title = view.findViewById(R.id.tv_chat_comment_title);
         holder.tv_chat_comment_content = view.findViewById(R.id.tv_chat_comment_content);
         holder.mRightImagView = view.findViewById(R.id.chat_comment_imageView);
         view.setTag(holder);
         return view;
+    }
+
+    @Override
+    public void bindView(final View v, int position, final CommentMsgContent content, final UIMessage data) {
+        ViewHolder holder = (CommentMsgProvider.ViewHolder) v.getTag();
+        if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+            holder.mLlChatDynamicCommentCard.setBackgroundResource(R.drawable.ic_bubble_right);
+        } else {
+            holder.mLlChatDynamicCommentCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        }
+//        holder.mRlChatDynamicCommentCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        if (!TextUtils.isEmpty(content.getExtra())) {
+            Log.i(TAG, "评论内容" + content.getExtra());
+            CommentMessage mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), CommentMessage.class);
+
+//            JSONObject jsonObject = null;
+//            try {
+//                jsonObject = new JSONObject(content.getExtra());
+//                String  commentUserName= jsonObject.getString("commentUserName");
+//                String commentContent = jsonObject.getString("content");
+            holder.tv_chat_comment_title.setText(mCommentMsg.getCommentUserName() + " 评论了你的动态");
+            holder.tv_chat_comment_content.setText(mCommentMsg.getContent());
+            if (TextUtils.isEmpty(mCommentMsg.getCoverUrl())) {
+                holder.mRightImagView.setVisibility(View.GONE);
+            } else {
+                holder.mRightImagView.setVisibility(View.VISIBLE);
+                String[] imgs = mCommentMsg.getCoverUrl().split(",");
+                if (imgs != null && imgs.length > 0) {
+                    holder.mRightImagView.setImageURI(imgs[0]);
+                }
+            }
+
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            holder.mRightImagView.setImageURI(mCommentMsg.getPicUrl());
+        }
     }
 
     @Override
@@ -73,9 +109,13 @@ public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<C
 
     @Override
     public void onItemClick(View view, int position, CommentMsgContent content, UIMessage message) {
-//        Intent intent = new Intent();
-//        intent.setAction("com.d6.android.app.activities.MyPointsActivity");
-//        view.getContext().startActivity(intent);
+        CommentMessage mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), CommentMessage.class);
+        if (mCommentMsg != null) {
+            Intent intent = new Intent();
+            intent.setAction("com.d6.android.app.activities.SquareTrendDetailActivity");
+            intent.putExtra("id", mCommentMsg.getNewsId());
+            view.getContext().startActivity(intent);
+        }
     }
 
     @Override
@@ -112,9 +152,9 @@ public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<C
                 && !message.getConversationType().equals(Conversation.ConversationType.PUBLIC_SERVICE)
                 && !message.getConversationType().equals(Conversation.ConversationType.SYSTEM)
                 && !message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
-            items = new String[] {view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_recall)};
+            items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_recall)};
         } else {
-            items = new String[] {view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
+            items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
         }
 
         OptionsPopupDialog.newInstance(view.getContext(), items).setOptionsPopupDialogListener(new OptionsPopupDialog.OnOptionsItemClickedListener() {
@@ -125,7 +165,7 @@ public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<C
                     ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                     clipboard.setText(((CommentMsgContent) content).getContent());
                 } else if (which == 1) {
-                    RongIM.getInstance().deleteMessages(new int[] {message.getMessageId()}, null);
+                    RongIM.getInstance().deleteMessages(new int[]{message.getMessageId()}, null);
                 } else if (which == 2) {
                     RongIM.getInstance().recallMessage(message.getMessage(), getPushContent(view.getContext(), message));
                 }
@@ -133,16 +173,11 @@ public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<C
         }).show();
     }
 
-    @Override
-    public void bindView(final View v, int position, final CommentMsgContent content, final UIMessage data) {
-        CommentMsgProvider.ViewHolder holder = (CommentMsgProvider.ViewHolder) v.getTag();
-        holder.mRlChatDynamicCommentCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
-        if (!TextUtils.isEmpty(content.getExtra())) {
-            CommentMessage mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), CommentMessage.class);
-            TextView mtvTitle = holder.tv_chat_comment_title;
-            mtvTitle.setText(mCommentMsg.getTitle());
-            holder.tv_chat_comment_content.setText(mCommentMsg.getContent());
-            holder.mRightImagView.setImageURI(mCommentMsg.getPicUrl());
-        }
+    private static class ViewHolder {
+        LinearLayout mLlChatDynamicCommentCard;
+        SimpleDraweeView mRightImagView;
+        TextView tv_chat_comment_title;
+        TextView tv_chat_comment_content;
+        boolean longClick;
     }
 }

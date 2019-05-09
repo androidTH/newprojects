@@ -22,8 +22,10 @@ import kotlinx.android.synthetic.main.activity_square_detail.*
 import kotlinx.android.synthetic.main.header_square_detail.view.*
 import org.jetbrains.anko.toast
 import android.view.inputmethod.InputMethodManager
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommentDelDialog
 import com.d6.android.app.dialogs.SendRedFlowerDialog
+import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.share.utils.ShareUtils
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -31,6 +33,7 @@ import io.rong.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 
@@ -100,6 +103,19 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         headerView.mTrendDetailView.setOnSoftInputClick{
             hideSoftKeyboard(et_content)
+        }
+
+        headerView.mTrendDetailView.setDeletClick {
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("from" to "square","id" to it.userid.toString(),"sResourceId" to it.id.toString())
+            shareDialog.show(supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
+                    startActivity<ReportActivity>("id" to id, "tiptype" to 2)
+                } else if (p == 1) {
+                    delSquare()
+                }
+            }
         }
 
         squareDetailCommentAdapter.setOnItemClickListener { _, position ->
@@ -328,6 +344,17 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 updateBean()
                 headerView.mTrendDetailView.updateFlowerCount(it)
             }
+    }
+
+    /**
+     * 删除动态
+     */
+    fun delSquare(){
+        dialog(canCancel = false)
+        Request.deleteSquare(userId, id).request(this) { _, _ ->
+            showToast("删除成功")
+            finish()
+        }
     }
 
     override fun onDestroy() {

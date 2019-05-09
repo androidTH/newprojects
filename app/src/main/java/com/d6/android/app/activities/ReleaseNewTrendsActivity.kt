@@ -11,6 +11,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
@@ -26,12 +27,12 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.umeng.analytics.MobclickAgent
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.startActivityForResult
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
@@ -52,6 +53,10 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     private var city: String? = null
     private val locationClient by lazy {
         AMapLocationClient(applicationContext)
+    }
+
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
     private var cityType = 1
@@ -226,6 +231,8 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 }
             }
         }
+
+        getLocalFriendsCount()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -307,6 +314,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
+                syncChat(this,"dynamic",sex,userId)
                 setResult(Activity.RESULT_OK)
                 finish()
             }){code,resMsg->
@@ -330,6 +338,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
+                syncChat(this,"dynamic",sex,userId)
                 setResult(Activity.RESULT_OK)
                 finish()
             }){code,resMsg->
@@ -338,6 +347,32 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                    commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
                    commonTiphDialog.show(supportFragmentManager, "resMsg")
                }
+            }
+        }
+    }
+
+    private fun getLocalFriendsCount(){
+//        Request.findFriendCount(userId).request(this,false,success = {msg,json->
+//            json?.let {
+//                var count = it.optInt("obj")
+//                if(count>0){
+//                    tv_noticeuser.visibility = View.VISIBLE
+//                    rv_friends.visibility = View.VISIBLE
+//                }else{
+//                    rv_friends.visibility = View.GONE
+//                }
+//            }
+//        })
+
+        Request.findUserFriends(userId,"",1).request(this) { _, data ->
+            if(data?.list?.results!=null){
+                tv_noticeuser.visibility = View.VISIBLE
+                rv_friends.visibility = View.VISIBLE
+                view_bottomline.visibility = View.VISIBLE
+            }else {
+                rv_friends.visibility = View.GONE
+                tv_noticeuser.visibility = View.GONE
+                view_bottomline.visibility = View.GONE
             }
         }
     }

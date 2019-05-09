@@ -1,9 +1,11 @@
 package com.d6.android.app.rong.provider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +31,7 @@ import com.d6.android.app.rong.bean.CommentMessage;
 import com.d6.android.app.rong.bean.CommentMsgContent;
 import com.d6.android.app.utils.Const;
 import com.d6.android.app.utils.GsonHelper;
+import com.d6.android.app.widget.RxRecyclerViewDividerTool;
 import com.d6.android.app.widget.badge.DisplayUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -44,6 +48,7 @@ import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 
+import static com.d6.android.app.utils.Const.FROM_MY_CHATDATE;
 import static com.d6.android.app.utils.TimeUtilsKt.converTime;
 
 /**
@@ -55,10 +60,11 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
     private static final String TAG = AppointmentMsgProvider.class.getName();
 
     ArrayList<String> mImages =new ArrayList<String>();
+
     private ChatImageAdapter mImageAdapter = new ChatImageAdapter(mImages,1);
 
     private static class ViewHolder {
-        RelativeLayout mRlChatDateCard;
+        LinearLayout mLlChatDateCard;
         SimpleDraweeView mHeaderView;
         ImageView img_chat_date_auther;
         TextView  tv_chat_date_name;
@@ -77,7 +83,7 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
     public View newView(Context context, ViewGroup group) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_chatdate_card, null);
         ViewHolder holder = new ViewHolder();
-        holder.mRlChatDateCard = view.findViewById(R.id.rl_chat_date_card);
+        holder.mLlChatDateCard = view.findViewById(R.id.ll_chat_date_card);
         holder.mHeaderView = view.findViewById(R.id.chat_date_headView);
         holder.img_chat_date_auther = view.findViewById(R.id.img_chat_date_auther);
         holder.tv_chat_date_name = view.findViewById(R.id.tv_chat_date_name);
@@ -90,7 +96,10 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
         holder.tv_chat_date_address = view.findViewById(R.id.tv_chat_date_address);
 
         holder.rv_chat_date_images.setHasFixedSize(true);
-        holder.rv_chat_date_images.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        holder.rv_chat_date_images.setLayoutManager(new GridLayoutManager(context,3));
+        holder.rv_chat_date_images.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context,8)));//SpacesItemDecoration(dip(4),3)
+
+//        holder.rv_chat_date_images.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         view.setTag(holder);
         return view;
     }
@@ -112,9 +121,17 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
 
     @Override
     public void onItemClick(View view, int position, AppointmentMsgContent content, UIMessage message) {
-//        Intent intent = new Intent();
-//        intent.setAction("com.d6.android.app.activities.MyPointsActivity");
-//        view.getContext().startActivity(intent);
+        MyAppointment appointment = GsonHelper.getGson().fromJson(content.getExtra(), MyAppointment.class);
+        if(appointment!=null){
+            Intent intent = new Intent();
+            intent.setAction("com.d6.android.app.activities.MyDateDetailActivity");
+            intent.putExtra("from",FROM_MY_CHATDATE);
+//            if(message.getMessageDirection() == Message.MessageDirection.SEND){
+            intent.putExtra("iShareUserId",message.getTargetId());
+//            }
+            intent.putExtra("data",appointment);
+            view.getContext().startActivity(intent);
+        }
     }
 
     @Override
@@ -175,10 +192,15 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
     @Override
     public void bindView(final View v, int position, final AppointmentMsgContent content, final UIMessage data) {
         ViewHolder holder = (AppointmentMsgProvider.ViewHolder) v.getTag();
-        holder.mRlChatDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        if(data.getMessageDirection() == Message.MessageDirection.SEND){
+            holder.mLlChatDateCard.setBackgroundResource(R.drawable.ic_bubble_right);
+        }else{
+            holder.mLlChatDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        }
+
         if (!TextUtils.isEmpty(content.getExtra())) {
             Log.i(TAG,"内容="+content.getExtra());
-            MyAppointment appointmentMsg = GsonHelper.getGson().fromJson(content.getExtra(), MyAppointment.class);
+            final MyAppointment appointmentMsg = GsonHelper.getGson().fromJson(content.getExtra(), MyAppointment.class);
             holder.mHeaderView.setImageURI(appointmentMsg.getSAppointmentPicUrl());
             holder.tv_chat_date_name.setText(appointmentMsg.getSAppointUserName());
             holder.tv_chat_date_sex.setSelected(appointmentMsg.getISex()==0);

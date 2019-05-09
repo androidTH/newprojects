@@ -48,22 +48,8 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
         }
 
         trendView.setDeleteClick {
-//            val squareActionDialog = SquareActionDialog()
-//            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
-//            squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
-//            squareActionDialog.setDialogListener { p, s ->
-//                if (p == 0) {
-//                    mData?.let {
-//                        startActivity(data.id!!, "2")
-//                    }
-//                } else if (p == 1) {
-////                    startActivityForResult<SettingActivity>(5)
-//                    delete(data)
-//                }
-//            }
-
             val shareDialog = ShareFriendsDialog()
-            shareDialog.arguments = bundleOf("id" to it.userid.toString())
+            shareDialog.arguments = bundleOf("from" to "square","id" to it.userid.toString(),"sResourceId" to it.id.toString())
             shareDialog.show((context as BaseActivity).supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {

@@ -32,6 +32,7 @@ class ChooseFriendsActivity : BaseActivity() {
     private var pageNum = 1
     private var mFriends = ArrayList<FriendBean>()
     private var mChooseFriends = ArrayList<FriendBean>()
+    private var sUserName=""
 
     private val friendsAdapter by lazy {
         FriendsAdapter(mFriends)
@@ -80,7 +81,8 @@ class ChooseFriendsActivity : BaseActivity() {
 
         et_searchfriends.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                toast(et_searchfriends.text)
+                sUserName = et_searchfriends.text.toString().trim();
+                pullDownRefresh()
                 hideSoftKeyboard(et_searchfriends)
                 true
             }
@@ -94,7 +96,7 @@ class ChooseFriendsActivity : BaseActivity() {
 
         initRecyclerView()
         dialog()
-        getData()
+        pullDownRefresh()
     }
 
     private fun initRecyclerView() {
@@ -122,8 +124,8 @@ class ChooseFriendsActivity : BaseActivity() {
         swipeRefreshLayout.addItemDecoration(item)
     }
 
-    private fun getData() {
-        Request.findUserFriends(userId, pageNum).request(this) { _, data ->
+    private fun getData(uname:String) {
+        Request.findUserFriends(userId,uname,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFriends.clear()
             }
@@ -144,11 +146,11 @@ class ChooseFriendsActivity : BaseActivity() {
 
     fun pullDownRefresh() {
         pageNum = 1
-        getData()
+        getData(sUserName)
     }
 
     fun loadMore() {
         pageNum++
-        getData()
+        getData(sUserName)
     }
 }
