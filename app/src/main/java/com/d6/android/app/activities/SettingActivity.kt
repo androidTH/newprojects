@@ -90,8 +90,9 @@ class SettingActivity : TitleActivity() {
 //                }
 //            })
 
-            val serviceId = "5"
-            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, serviceId, "D6客服")
+            chatService(this)
+//            val serviceId = "5"
+//            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, serviceId, "D6客服")
         }
 
         tv_feedback.setOnClickListener {
@@ -104,14 +105,6 @@ class SettingActivity : TitleActivity() {
 
         tv_search_weChat.setOnClickListener {
             startActivity<WeChatSearchActivity>()
-        }
-
-        tv_private_chat_type.setOnClickListener {
-             var mSelectChatTypeDialog = SelectChatTypeDialog()
-             mSelectChatTypeDialog.show(supportFragmentManager,"SelectChatTypeDialog")
-             mSelectChatTypeDialog.setDialogListener { p, s ->
-                 setPrivateChatType(p,s)
-             }
         }
 
         btn_sign_out.setOnClickListener {
@@ -202,11 +195,11 @@ class SettingActivity : TitleActivity() {
                     img_auther.visibility = View.VISIBLE
                 }
 
-                if(it.iTalkSetting==1){
-                    tv_private_chat_type.text=resources.getString(R.string.string_linechat)
-                }else if(it.iTalkSetting==2){
-                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
-                }
+//                if(it.iTalkSetting==1){
+//                    tv_private_chat_type.text=resources.getString(R.string.string_linechat)
+//                }else if(it.iTalkSetting==2){
+//                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
+//                }
             }
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
@@ -215,13 +208,5 @@ class SettingActivity : TitleActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-    }
-
-    private fun setPrivateChatType(status:Int,chatType:String?){
-        Request.updateTalkSetting(userId,status).request(this,false,success={msg,data->
-            tv_private_chat_type.text =chatType.toString()
-        }){code,msg->
-            showToast(msg)
-        }
     }
 }

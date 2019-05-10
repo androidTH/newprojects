@@ -15,6 +15,8 @@ import com.d6.android.app.utils.*
 import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_find_date_detail.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
@@ -84,7 +86,8 @@ class FindDateDetailActivity : TitleActivity() {
 
         tv_contact.setOnClickListener {
             isCheckOnLineAuthUser(this,userId) {
-                ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+                chatService(this)
+//                ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
             }
         }
         refreshUI()

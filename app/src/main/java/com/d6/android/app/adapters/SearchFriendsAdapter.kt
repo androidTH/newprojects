@@ -31,7 +31,7 @@ class SearchFriendsAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<Frien
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
         headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        tv_userinfo.text = data.gexingqianming
+        tv_userinfo.text = data.ziwojieshao
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling

@@ -389,7 +389,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                }
 
 //                headerView.tv_vip.text = String.format("%s", it.classesname+it.userclassesid)
-                // 25钻石 24黄金 23白银 22普通  28中级
+                //22普通 23白银 24黄金 25钻石 26私人  7游客
                 if (TextUtils.equals("0", it.sex)) {//女性
                     //27入门 28中级  29优质
 //                   tv_vip.text = String.format("%s", it.classesname)

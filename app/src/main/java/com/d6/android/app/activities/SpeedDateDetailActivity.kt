@@ -12,6 +12,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CustomerServiceId
 import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -99,8 +100,8 @@ class SpeedDateDetailActivity : TitleActivity() {
             //            val dialog = ContactUsDialog()
 //            dialog.show(supportFragmentManager, "us")
             isCheckOnLineAuthUser(this,userId) {
-                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
-
+                chatService(this)
+//                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
             }
         }
 

@@ -13,6 +13,8 @@ import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.OpenDateDialog
+import com.d6.android.app.dialogs.OpenDateErrorDialog
 import com.d6.android.app.dialogs.OpenDatePayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
@@ -39,6 +41,7 @@ class MyDateDetailActivity : BaseActivity() {
     private val mImages = ArrayList<String>()
     private var iAppointUserid:String =""
     private var iShareUserId:String=""
+    private var mDateState = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +100,13 @@ class MyDateDetailActivity : BaseActivity() {
         }
 
         tv_agree_date.setOnClickListener {
-            updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
+            if(mDateState == -1){
+                updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
+            }else if(mDateState == 2){
+                isAuthUser {
+                    signUpDate(myAppointment)
+                }
+            }
         }
 
         tv_giveup_date.setOnClickListener {
@@ -131,7 +140,7 @@ class MyDateDetailActivity : BaseActivity() {
                 when (data.iStatus) {
                     1 -> {//
                         if(data.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
-                            noPeopleJoinDate(data)
+                            noPeopleJoinDate(data,-1)
                         }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
                             var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
                             param.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -155,7 +164,7 @@ class MyDateDetailActivity : BaseActivity() {
                             tv_point_nums.text="预付${data.iPoint}积分"
                             setAgreeDate(data,data.dAppointmentSignupCreatetime,"待同意",3,true)
                         }else if(data.iAppointStatus==2){
-                            noPeopleJoinDate(data)
+                            noPeopleJoinDate(data,data.iAppointStatus)
                         }
                     }
                     2 -> { //
@@ -357,20 +366,34 @@ class MyDateDetailActivity : BaseActivity() {
         })
     }
 
-    private fun noPeopleJoinDate(data:MyAppointment){
+    private fun noPeopleJoinDate(data:MyAppointment,iAppointStatus:Int?){
         tv_private_chat.visibility = View.GONE;
         tv_no_date.visibility = View.GONE
         tv_agree_date.visibility = View.GONE
         tv_giveup_date.visibility = View.GONE
 
-        var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
-        param.addRule(RelativeLayout.CENTER_VERTICAL)
-        if(data.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,userId)){
+        if(iAppointStatus==-1){
+            var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
+            param.addRule(RelativeLayout.CENTER_VERTICAL)
             tv_date_status.text="状态：暂无赴约人"
-        }else{
-            tv_date_status.text="状态：对方未赴约"
-        }
+            tv_point_nums.visibility = View.GONE
+        }else if(iAppointStatus==2){
+            if(data.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,iShareUserId)){
+                tv_date_status.text="状态：待邀约"
+                tv_point_nums.text="预付${data.iPoint}积分"
 
+                tv_point_nums.visibility = View.VISIBLE
+                tv_agree_date.visibility = View.VISIBLE
+
+                tv_agree_date.text = "约"
+                mDateState = 2
+            }else{
+                var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
+                param.addRule(RelativeLayout.CENTER_VERTICAL)
+                tv_point_nums.visibility = View.GONE
+                tv_date_status.text="状态：对方未赴约"
+            }
+        }
         rel_0.visibility = View.VISIBLE
         rel_1.visibility = View.GONE
         rel_2.visibility = View.GONE
@@ -381,10 +404,23 @@ class MyDateDetailActivity : BaseActivity() {
         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
         tv_days0.text = data.dCreatetime.interval()//约会发布时间
 
-        tv_point_nums.visibility = View.GONE
 
         headView0.setOnClickListener {
             startUserInfo(data!!.iAppointUserid.toString())
+        }
+    }
+
+    private fun signUpDate(myAppointment:MyAppointment) {
+        Request.queryAppointmentPoint(userId).request(this, false, success = { msg, data ->
+            val dateDialog = OpenDateDialog()
+            dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
+            dateDialog.show((this).supportFragmentManager, "d")
+        }) { code, msg ->
+            if (code == 2) {
+                var openErrorDialog = OpenDateErrorDialog()
+                openErrorDialog.arguments = bundleOf("code" to code, "msg" to msg)
+                openErrorDialog.show(supportFragmentManager, "d")
+            }
         }
     }
 

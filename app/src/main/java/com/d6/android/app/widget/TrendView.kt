@@ -123,6 +123,16 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
         }
 
+        if(TextUtils.equals("3",square.screen)){
+            img_auther.visibility=View.GONE
+            img_auther.setImageResource(R.mipmap.renzheng_small)
+        }else if(TextUtils.equals("1",square.screen)){
+            img_auther.visibility=View.VISIBLE
+            img_auther.setImageResource(R.mipmap.video_small)
+        }else{
+            img_auther.visibility=View.GONE
+        }
+
 //        if(TextUtils.equals(square.sex, "1")){
 //            tv_vip.visibility = View.VISIBLE
 //        }else{

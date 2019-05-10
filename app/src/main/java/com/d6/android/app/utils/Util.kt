@@ -135,6 +135,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_MESSAGESETTING,"${obj.iMessageSetting}")
 //            .put(Const.User.IS_LOGIN, true)
             .apply()
+
 }
 
 fun View?.visible() {
@@ -889,4 +890,15 @@ fun syncChat(activity: BaseActivity,type:String,sex:String,userId:String){
         map.put("is_service","n")
     }
     MobclickAgent.onEvent(activity,"sync_chat_id",map)
+}
+
+fun chatService(activity: BaseActivity){
+    var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+    if(TextUtils.equals("0",sex)){
+        //男客服号
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceWomenId, "D6客服")
+    }else{
+        //女客服号
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceId, "D6客服")
+    }
 }

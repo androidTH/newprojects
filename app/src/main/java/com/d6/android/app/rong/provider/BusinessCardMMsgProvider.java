@@ -22,17 +22,13 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.d6.android.app.R;
-import com.d6.android.app.adapters.CardManTagAdapter;
+import com.d6.android.app.adapters.CardChatManTagAdapter;
 import com.d6.android.app.adapters.ChatDatelmageAdapter;
-import com.d6.android.app.adapters.DatelmageAdapter;
 import com.d6.android.app.models.UserData;
 import com.d6.android.app.models.UserTag;
 import com.d6.android.app.rong.bean.BusinessCardMMsgContent;
 import com.d6.android.app.utils.GsonHelper;
-import com.d6.android.app.widget.RxRecyclerViewDividerTool;
-import com.d6.android.app.widget.badge.DisplayUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +54,7 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
     private List<String> mImages = new ArrayList<String>();
 
     private ArrayList<UserTag> mTags = new ArrayList<>();
-    private CardManTagAdapter mUserTag = new CardManTagAdapter(mTags);
+    private CardChatManTagAdapter mUserTag = new CardChatManTagAdapter(mTags);
 
     @Override
     public View newView(Context context, ViewGroup group) {
@@ -77,8 +73,8 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
         holder.rv_chat_men_tags = view.findViewById(R.id.rv_chat_men_tags);
 
         holder.rv_chat_men_images.setHasFixedSize(true);
-        holder.rv_chat_men_images.setLayoutManager(new GridLayoutManager(context,3));
-        holder.rv_chat_men_images.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context,8)));
+        holder.rv_chat_men_images.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+//        holder.rv_chat_men_images.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context,15)));
 
         holder.rv_chat_men_tags.setHasFixedSize(true);
         holder.rv_chat_men_tags.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -183,7 +179,7 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                         }
 
                         holder.rv_chat_men_images.setAdapter(new ChatDatelmageAdapter((ArrayList) mImages, 1));
-                        ((DatelmageAdapter) holder.rv_chat_men_images.getAdapter()).setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                        ((ChatDatelmageAdapter) holder.rv_chat_men_images.getAdapter()).setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                             }
