@@ -90,7 +90,10 @@ class SettingActivity : TitleActivity() {
 //                }
 //            })
 
-            chatService(this)
+            pushCustomerMessage(this, getLocalUserId(),5,"",next = {
+                chatService(this)
+            })
+//            chatService(this)
 //            val serviceId = "5"
 //            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, serviceId, "D6客服")
         }

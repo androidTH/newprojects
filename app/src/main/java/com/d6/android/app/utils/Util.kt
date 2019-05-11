@@ -106,6 +106,10 @@ fun Fragment.screenHeight(): Int = context.screenHeight()
 
 fun View.screenHeight(): Int = context.screenHeight()
 
+
+fun getLocalUserId():String{
+    return SPUtils.instance().getString(Const.User.USER_ID)
+}
 fun Activity.callPhone(phone: String?) {
 //    val isAllow = permission(Manifest.permission.CALL_PHONE,"拨号权限",15)
 //    if (isAllow) {
@@ -895,10 +899,24 @@ fun syncChat(activity: BaseActivity,type:String,sex:String,userId:String){
 fun chatService(activity: BaseActivity){
     var sex = SPUtils.instance().getString(Const.User.USER_SEX)
     if(TextUtils.equals("0",sex)){
-        //男客服号
-        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceWomenId, "D6客服")
-    }else{
         //女客服号
         RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceId, "D6客服")
+    }else{
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceWomenId, "D6客服")
+    }
+}
+
+inline fun Activity.pushCustomerMessage(requestManager: RequestManager, userId:String,iType:Int,sSourceId:String, crossinline next: () -> Unit) {
+    Request.pushCustomerMessage(userId,iType,sSourceId).request(requestManager,false,success = {msg,data->
+        data?.let {
+              Log.i("pushCustomerMessage","消息内容="+it)
+              next()
+//            if (it.userclassesid == "7") {
+//
+//            }else{
+//            }
+        }
+    }){code,msg->
+        toast(msg)
     }
 }

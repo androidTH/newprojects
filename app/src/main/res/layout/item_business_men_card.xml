@@ -159,7 +159,6 @@
         android:id="@+id/tv_chat_men_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/chat_men_headView"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"

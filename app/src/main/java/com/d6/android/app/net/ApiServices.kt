@@ -414,4 +414,7 @@ interface ApiServices {
    //分享的接口
    @POST("backstage/share/shareMessage")
    fun shareMessage(@Query("iUserid")userid:String,@Query("iType") iType:Int,@Query("sResourceId") sResourceId:String,@Query("sAppointUser")sAppointUser:String):Flowable<Response<JsonPrimitive>>
+
+   @POST("backstage/push/pushCustomerMessage")
+   fun pushCustomerMessage(@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String):Flowable<Response<JsonPrimitive>>
 }

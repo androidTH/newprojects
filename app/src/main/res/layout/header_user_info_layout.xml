@@ -64,8 +64,8 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/margin_15"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/video_big"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/renzheng_big"
             android:visibility="visible"/>
     </RelativeLayout>
 

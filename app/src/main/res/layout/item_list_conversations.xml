@@ -27,6 +27,15 @@
                 android:layout_marginBottom="12dp"
                 style="@style/DefaultHeadStyle"
                 app:roundedCornerRadius="26dp" />
+
+            <ImageView
+                android:id="@+id/iv_header_servicesign"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="@dimen/margin_25"
+                android:layout_marginTop="@dimen/height_40"
+                android:src="@drawable/official_icon" />
+
             <com.d6.android.app.widget.DragPointView
                 android:id="@+id/tv_unreadnum"
                 android:layout_toRightOf="@+id/headView"

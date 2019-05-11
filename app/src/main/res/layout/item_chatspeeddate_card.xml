@@ -105,7 +105,7 @@
 
     <TextView
         android:id="@+id/tv_chat_speeddate_content"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/width_210"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_5"
         android:ellipsize="end"
@@ -113,6 +113,7 @@
         android:text="28·180CM·80KG"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
+        android:maxLines="2"
         android:textColor="@color/color_333333"
         android:textSize="14sp" />
 

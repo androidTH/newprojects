@@ -66,7 +66,7 @@ class SpeedDateDetailActivity : TitleActivity() {
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
-                    startActivity<ReportActivity>("id" to mSpeedDate.userId.toString(), "tiptype" to 1)
+                    startActivity<ReportActivity>("id" to mSpeedDate.userId.toString(), "tiptype" to 5)
                 }else if(p==3){
                     ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
                 }
@@ -99,8 +99,10 @@ class SpeedDateDetailActivity : TitleActivity() {
         btn_contact.setOnClickListener {
             //            val dialog = ContactUsDialog()
 //            dialog.show(supportFragmentManager, "us")
-            isCheckOnLineAuthUser(this,userId) {
-                chatService(this)
+            isAuthUser() {
+                pushCustomerMessage(this, getLocalUserId(),4,mSpeedDate.id.toString()){
+                    chatService(this)
+                }
 //                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
             }
         }

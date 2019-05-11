@@ -159,7 +159,6 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
         }else{
             holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_left);
         }
-//        holder.mRlChatSpeedDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {
              Log.i(TAG,"约会内容speed="+content.getExtra());
              MyDate date = GsonHelper.getGson().fromJson(content.getExtra(), MyDate.class);
@@ -214,7 +213,7 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
             }
 
             holder.tv_chat_speeddate_content.setText(date.getLookfriendstand());
-            holder.tv_chat_speeddate_address.setText(date.getCity());
+            holder.tv_chat_speeddate_address.setText(date.getSpeedcity());
         }
     }
 }

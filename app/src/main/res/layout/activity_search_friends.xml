@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_EAEAEA"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
     <RelativeLayout
@@ -32,23 +32,31 @@
         android:layout_height="@dimen/height_1"
         android:background="@color/color_EAEAEA"/>
 
-    <EditText
-        android:id="@+id/et_searchfriends"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginRight="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_8"
-        android:layout_marginBottom="@dimen/margin_8"
-        android:singleLine="true"
-        android:textColorHint="@color/color_888888"
-        android:hint="搜索"
-        android:textSize="14sp"
-        android:textColor="@color/color_black"
-        android:paddingLeft="@dimen/margin_10"
-        android:paddingRight="@dimen/margin_10"
-        android:imeOptions="actionSearch"
-        android:background="@drawable/shape_10r_white"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_15"
+        android:paddingTop="@dimen/margin_8"
+        android:paddingBottom="@dimen/margin_8"
+        android:background="@color/color_EAEAEA">
+        <EditText
+            android:id="@+id/et_searchfriends"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:drawableLeft="@mipmap/search_gray_input"
+            android:drawablePadding="@dimen/margin_5"
+            android:singleLine="true"
+            android:textColorHint="@color/color_888888"
+            android:hint="搜索"
+            android:textSize="14sp"
+            android:textColor="@color/color_black"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_10"
+            android:imeOptions="actionSearch"
+            android:background="@drawable/shape_10r_white"/>
+    </RelativeLayout>
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"

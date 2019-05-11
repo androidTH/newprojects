@@ -69,7 +69,7 @@ class FindDateDetailActivity : TitleActivity() {
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
-                    startActivity<ReportActivity>("id" to mData.userId.toString(), "tiptype" to 1)
+                    startActivity<ReportActivity>("id" to mData.userId.toString(), "tiptype" to 4)
                 }else if(p==3){
                     ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
                 }
@@ -85,10 +85,15 @@ class FindDateDetailActivity : TitleActivity() {
         helper.attachToRecyclerView(rv_images)
 
         tv_contact.setOnClickListener {
-            isCheckOnLineAuthUser(this,userId) {
-                chatService(this)
-//                ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+            isAuthUser() {
+                pushCustomerMessage(this, getLocalUserId(), 3, mData.id.toString()) {
+                    chatService(this)
+                }
             }
+//            isCheckOnLineAuthUser(this,userId) {
+//                chatService(this)
+//                ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+//            }
         }
         refreshUI()
     }

@@ -12,6 +12,7 @@ object Const {
         val IS_LOGIN="isLogin"
         val IS_FIRST="isFirst"
         val IS_FIRST_SHOW_TIPS="isFirstShowTips"
+        @JvmField
         val USER_ID="userId"
         val USER_SEX="userSex"
         val USER_PHONE="userPhone"
@@ -91,7 +92,9 @@ object Const {
 
     val USERINFO = "UserInfo"
 
+    @JvmField
     val CustomerServiceId="5"
+    @JvmField
     val CustomerServiceWomenId="98314"
 
     val PRIVATECHAT_APPLY = "com.d6.app.privatechat_apply_msg"

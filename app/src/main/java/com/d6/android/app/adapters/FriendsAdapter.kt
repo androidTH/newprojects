@@ -11,7 +11,6 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.FriendBean
-import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
@@ -29,14 +28,19 @@ class FriendsAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<FriendBean>
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
         headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        tv_userinfo.text = data.ziwojieshao
+        if(!data.ziwojieshao.isNullOrEmpty()){
+            tv_userinfo.text = data.ziwojieshao
+            tv_userinfo.visibility = View.VISIBLE
+        }else{
+            tv_userinfo.visibility = View.GONE
+        }
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling
 
         var img_friends_auther = holder.bind<ImageView>(R.id.img_friends_auther)
         if(TextUtils.equals("3",data.screen)){
-            img_friends_auther.visibility=View.GONE
+            img_friends_auther.visibility=View.VISIBLE
             img_friends_auther.setImageResource(R.mipmap.renzheng_small)
         }else if(TextUtils.equals("1",data.screen)){
             img_friends_auther.visibility=View.VISIBLE

@@ -116,7 +116,7 @@ class ChooseFriendsActivity : BaseActivity() {
         })
     }
 
-    protected fun addItemDecoration(colorId: Int = R.color.dividing_line_color, size: Int = 1) {
+    protected fun addItemDecoration(colorId: Int = R.color.color_D8D8D8, size: Int = 1) {
         val item = HorizontalDividerItemDecoration.Builder(this)
                 .size(size)
                 .color(ContextCompat.getColor(this, colorId))

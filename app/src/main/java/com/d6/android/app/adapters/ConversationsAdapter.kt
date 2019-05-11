@@ -1,11 +1,14 @@
 package com.d6.android.app.adapters
 
 import android.annotation.SuppressLint
+import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.RongUtils
 import com.facebook.drawee.view.SimpleDraweeView
 import io.rong.imkit.RongContext
@@ -37,6 +40,13 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             }
         } else {
             tv_content.text = ""
+        }
+
+        var img_servicesign = holder.bind<ImageView>(R.id.iv_header_servicesign)
+        if(TextUtils.equals(Const.CustomerServiceId, data.targetId)|| TextUtils.equals(Const.CustomerServiceWomenId, data.targetId)){
+            img_servicesign.visibility = View.VISIBLE
+        }else{
+            img_servicesign.visibility = View.GONE
         }
 
         val tv_unread = holder.bind<TextView>(R.id.tv_unreadnum)

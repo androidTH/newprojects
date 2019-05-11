@@ -435,5 +435,9 @@ object Request {
     //查询好友个数
     fun findFriendCount(iUserId:String)=RRetrofit.instance().create(ApiServices::class.java).findFriendCount(iUserId)
 
+    //分享给好友
     fun shareMessage(userid:String,iType:Int,sResourceId:String,sAppointUser:String)=RRetrofit.instance().create(ApiServices::class.java).shareMessage(userid,iType,sResourceId,sAppointUser)
+
+    //推送消息
+    fun pushCustomerMessage(iUserid:String,iType:Int,sResourceId:String)=RRetrofit.instance().create(ApiServices::class.java).pushCustomerMessage(iUserid,iType,sResourceId)
 }

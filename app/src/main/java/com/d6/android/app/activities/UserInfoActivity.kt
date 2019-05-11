@@ -356,7 +356,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 }
 
-                if (TextUtils.equals("0", it.sex)) {
+//                if (TextUtils.equals("0", it.sex)) {
                     if (TextUtils.equals("0", it.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
                         headerView.img_other_auther.visibility = View.GONE
                         headerView.img_date_auther.visibility = View.GONE
@@ -375,10 +375,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         headerView.img_other_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_big)
                         headerView.img_date_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_small)
                     }
-                } else {
-                    headerView.img_other_auther.visibility = View.GONE
-                    headerView.img_date_auther.visibility = View.GONE
-                }
+//                } else {
+//                    headerView.img_other_auther.visibility = View.GONE
+//                    headerView.img_date_auther.visibility = View.GONE
+//                }
 
                 headerView.img_other_auther.setOnClickListener {
                     toast(getString(R.string.string_auth))

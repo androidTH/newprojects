@@ -61,13 +61,17 @@ class MenMemberActivity : BaseActivity() {
                 if(request!=null){
                    var url = request.url.toString()
                    if(TextUtils.equals("d6://openwechat",url)){
-                       var intent = Intent()
-                       var cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
-                       intent.setAction(Intent.ACTION_MAIN)
-                       intent.addCategory(Intent.CATEGORY_LAUNCHER)
-                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                       intent.setComponent(cmp)
-                       startActivity(intent)
+//                       var intent = Intent()
+//                       var cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
+//                       intent.setAction(Intent.ACTION_MAIN)
+//                       intent.addCategory(Intent.CATEGORY_LAUNCHER)
+//                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                       intent.setComponent(cmp)
+//                       startActivity(intent)
+                       var localUserId =getLocalUserId()
+                       pushCustomerMessage(this@MenMemberActivity,localUserId,1,"",next = {
+                             chatService(this@MenMemberActivity)
+                       })
                    }else{
                        val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                        cm.text = request.url.toString().split("d6://copywechat/")[1]

@@ -25,22 +25,16 @@ import com.d6.android.app.models.DateType
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.Const.CustomerServiceId
-import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.utils.Const.dateTypesDefault
 import com.d6.android.app.utils.Const.dateTypesSelected
-import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
-import com.umeng.analytics.MobclickAgent
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_choose_friends.*
 import kotlinx.android.synthetic.main.activity_publish_find_date.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * 自主发布

@@ -1,17 +1,19 @@
 package com.d6.android.app.rong.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import com.d6.android.app.rong.bean.CustomMessage;
-import com.d6.android.app.rong.bean.TipsMessage;
-import com.d6.android.app.widget.CustomToast;
-
+import com.d6.android.app.R;
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
-import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+
+import static com.d6.android.app.utils.Const.CustomerServiceId;
+import static com.d6.android.app.utils.Const.CustomerServiceWomenId;
 
 /**
  * author : jinjiarui
@@ -20,6 +22,7 @@ import io.rong.imlib.model.Conversation;
  * version:
  */
 public class MessageListAdapterEx extends MessageListAdapter {
+    private static String TAG = MessageListAdapterEx.class.getSimpleName();
 
     private Context mContext;
     public MessageListAdapterEx(Context context) {
@@ -29,15 +32,45 @@ public class MessageListAdapterEx extends MessageListAdapter {
 
     @Override
     protected View newView(Context context, int position, ViewGroup group) {
-        return super.newView(context, position, group);
+        View result = super.newView(context, position, group);
+        ViewHolderEx holder = new ViewHolderEx();
+        holder.mIvHeaderLeftSign = result.findViewById(R.id.iv_header_leftsign);
+        holder.mIvHeaderRightSign = result.findViewById(R.id.iv_header_rightsign);
+        result.setTag(R.id.viewholderex,holder);
+        return result;
     }
 
     @Override
     protected void bindView(View v, int position, UIMessage data) {
         super.bindView(v, position, data);
-//      TextView mTvTips = v.findViewById(io.rong.imkit.R.id.rc_apply_chat_tips);
-        if(data.getContent() instanceof TipsMessage){
+        ViewHolderEx holder= (ViewHolderEx) v.getTag(R.id.viewholderex);
+        if(TextUtils.equals(CustomerServiceId,data.getTargetId())||TextUtils.equals(CustomerServiceWomenId,data.getTargetId())){
+            if(data.getMessageDirection() == Message.MessageDirection.RECEIVE){
+                holder.mIvHeaderLeftSign.setVisibility(View.VISIBLE);
+                holder.mIvHeaderRightSign.setVisibility(View.GONE);
+            }else{
+                holder.mIvHeaderLeftSign.setVisibility(View.GONE);
+                holder.mIvHeaderRightSign.setVisibility(View.GONE);
+            }
+        }else if(TextUtils.equals(CustomerServiceId,data.getSenderUserId())||TextUtils.equals(CustomerServiceWomenId,data.getSenderUserId())){
+            if(data.getMessageDirection() == Message.MessageDirection.SEND){
+                holder.mIvHeaderLeftSign.setVisibility(View.GONE);
+                holder.mIvHeaderRightSign.setVisibility(View.VISIBLE);
+            }else{
+                holder.mIvHeaderLeftSign.setVisibility(View.GONE);
+                holder.mIvHeaderRightSign.setVisibility(View.GONE);
+            }
+        }else{
+            holder.mIvHeaderLeftSign.setVisibility(View.GONE);
+            holder.mIvHeaderRightSign.setVisibility(View.GONE);
+        }
+    }
 
+    protected class ViewHolderEx extends MessageListAdapter.ViewHolder {
+        ImageView mIvHeaderLeftSign;
+        ImageView mIvHeaderRightSign;
+        public ViewHolderEx(){
+            super();
         }
     }
 }

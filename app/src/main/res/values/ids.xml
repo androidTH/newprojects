@@ -2,4 +2,5 @@
 <resources>
     <item name="view_tag" type="id"/>
     <item name="cb_item_tag" type="id"></item>
+    <item type="id" name="viewholderex"></item>
 </resources>

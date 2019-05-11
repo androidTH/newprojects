@@ -31,14 +31,20 @@ class SearchFriendsAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<Frien
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
         headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        tv_userinfo.text = data.ziwojieshao
+        if(!data.ziwojieshao.isNullOrEmpty()){
+            tv_userinfo.text = data.ziwojieshao
+            tv_userinfo.visibility = View.VISIBLE
+        }else{
+            tv_userinfo.visibility = View.GONE
+        }
+
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
         var img_friends_auther = holder.bind<ImageView>(R.id.img_friends_auther)
         if(TextUtils.equals("3",data.screen)){
-            img_friends_auther.visibility=View.GONE
+            img_friends_auther.visibility=View.VISIBLE
             img_friends_auther.setImageResource(R.mipmap.renzheng_small)
         }else if(TextUtils.equals("1",data.screen)){
             img_friends_auther.visibility=View.VISIBLE
