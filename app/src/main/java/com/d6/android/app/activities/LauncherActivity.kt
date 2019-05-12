@@ -1,27 +1,22 @@
 package com.d6.android.app.activities
 
-import android.Manifest
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.MediaStore
-import android.support.v4.app.ActivityCompat
-import android.text.TextUtils
-import android.widget.Toast
+import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.alertDialog
 import com.d6.android.app.utils.defaultScheduler
-import com.gyf.barlibrary.ImmersionBar
-import com.tbruyelle.rxpermissions2.RxPermissions
+import com.fm.openinstall.OpenInstall
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import org.jetbrains.anko.startActivity
 import java.util.concurrent.TimeUnit
+import com.fm.openinstall.model.AppData
+import com.fm.openinstall.listener.AppWakeUpAdapter
+
+
 
 class LauncherActivity : BaseActivity() {
 
@@ -56,6 +51,7 @@ class LauncherActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
         immersionBar.init()
+        OpenInstall.getWakeUp(intent, wakeUpAdapter);
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
     }
 
@@ -65,6 +61,21 @@ class LauncherActivity : BaseActivity() {
             diposable.dispose()
         } catch (e: Exception) {
 //            e.printStackTrace()
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        OpenInstall.getWakeUp(intent, wakeUpAdapter);
+    }
+
+    var wakeUpAdapter: AppWakeUpAdapter = object : AppWakeUpAdapter() {
+        override fun onWakeUp(appData: AppData) {
+            //获取渠道数据
+            val channelCode = appData.getChannel()
+            //获取绑定数据
+            val bindData = appData.getData()
+            Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString())
         }
     }
 }

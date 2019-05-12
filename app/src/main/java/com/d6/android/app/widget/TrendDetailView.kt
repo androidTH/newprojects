@@ -1,10 +1,12 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
@@ -12,6 +14,7 @@ import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.view_trend_detail_view.view.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 
@@ -75,6 +78,37 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         imageAdapter.bindSquare(square)
         headView.setImageURI(square.picUrl)
         tv_name.text = square.name
+        tv_sex.isSelected = if(TextUtils.equals("0",square.sex)) true else false
+
+        if(TextUtils.equals("3",square.screen)){
+            img_auther.visibility= View.GONE
+            img_auther.setImageResource(R.mipmap.renzheng_small)
+        }else if(TextUtils.equals("1",square.screen)){
+            img_auther.visibility= View.VISIBLE
+            img_auther.setImageResource(R.mipmap.video_small)
+        }else{
+            img_auther.visibility= View.GONE
+        }
+
+        if (square.userclassesname.toString().startsWith("入门")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
+        } else if (square.userclassesname.toString().startsWith("中级")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_zj)
+        } else if (square.userclassesname.toString().startsWith("优质")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_gj)
+        } else if (square.userclassesname.toString().startsWith("普通")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
+        } else if (square.userclassesname.toString().startsWith("白银")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_silver)
+        } else if (square.userclassesname.toString().startsWith("黄金")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_gold)
+        } else if (square.userclassesname.toString().startsWith( "钻石")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
+        } else if (square.userclassesname.toString().startsWith("私人")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+        }
+
+
         val sub = if (square.city.isNullOrEmpty()) {
             square.updatetime?.interval()
         } else {

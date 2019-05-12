@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
@@ -161,6 +162,8 @@ class SettingActivity : TitleActivity() {
                     }else if(TextUtils.equals(it.userclassesid,"29")){
 //                        tv_vip.text = String.format("%s",getString(R.string.string_senior))
                         tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_gj)
+                    }else{
+                        tv_vip.visibility = View.GONE
                     }
                 } else {
                     if(TextUtils.equals(it.userclassesid.toString(),"22")){
@@ -178,6 +181,8 @@ class SettingActivity : TitleActivity() {
                     }else if(TextUtils.equals(it.userclassesid,"26")){
 //                        tv_vip.text = String.format("%s",getString(R.string.string_private))
                         tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
+                    }else{
+                        tv_vip.visibility = View.GONE
                     }
                 }
                 tv_sex.isSelected = TextUtils.equals("0",it.sex)

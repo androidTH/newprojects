@@ -28,9 +28,9 @@ class MessageSettingActivity : TitleActivity() {
         setContentView(R.layout.activity_message_setting)
         immersionBar.init()
         setTitleBold("消息设置")
-//        val manager = NotificationManagerCompat.from(this)
-//        val isOpened = manager.areNotificationsEnabled()
-//        tv_state.text = if (isOpened) "已开启" else "已关闭"
+        val manager = NotificationManagerCompat.from(this)
+        val isOpened = manager.areNotificationsEnabled()
+        tv_state.text = if (isOpened) "已开启" else "已关闭"
         var messageSetting = SPUtils.instance().getString(USER_MESSAGESETTING)
         sw_friend_notfaction.isChecked = if(TextUtils.equals(messageSetting,"2")){
             true

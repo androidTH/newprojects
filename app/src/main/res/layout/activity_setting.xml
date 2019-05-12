@@ -84,7 +84,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_8"
                     android:layout_toRightOf="@+id/tv_sex"
-                    android:background="@drawable/shape_10r_ordinary_member"
                     android:drawablePadding="@dimen/margin_2"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"

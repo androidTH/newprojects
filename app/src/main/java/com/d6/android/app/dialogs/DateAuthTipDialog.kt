@@ -64,7 +64,7 @@ class DateAuthTipDialog : DialogFragment(),RequestManager {
         tv_action.setOnClickListener {
             var localUserId =getLocalUserId()
             isBaseActivity {
-                it.pushCustomerMessage(this,localUserId,2,"",next = {
+                it.pushCustomerMessage(this,localUserId,2,localUserId,next = {
                      chatService(it)
                 })
             }

@@ -467,14 +467,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     override fun onSent(p0: Message?, p1: RongIM.SentMessageErrorCode?): Boolean {
         p0?.let {
             if (!TextUtils.equals(mTargetId, Const.CustomerServiceId)||!TextUtils.equals(mTargetId, Const.CustomerServiceWomenId)) {
-                if (TextUtils.equals("1", sex)) {
+//                if (TextUtils.equals("1", sex)) {
                     if (IsAgreeChat) {
                         if(p1==null){
                             checkTalkJustify()
                         }
                         Log.i(TAG, "${p1}用户Id${it.senderUserId}")
                     }
-                }
+//                }
             }
         }
         return false

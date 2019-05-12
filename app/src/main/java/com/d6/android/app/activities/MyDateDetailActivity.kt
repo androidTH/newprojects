@@ -13,14 +13,14 @@ import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.OpenDateDialog
-import com.d6.android.app.dialogs.OpenDateErrorDialog
-import com.d6.android.app.dialogs.OpenDatePayPointDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.FROM_MY_CHATDATE
+import com.d6.android.app.widget.CustomToast
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_mydate_details.*
@@ -42,12 +42,24 @@ class MyDateDetailActivity : BaseActivity() {
     private var iAppointUserid:String =""
     private var iShareUserId:String=""
     private var mDateState = -1
+    private var explainAppoint = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mydate_details)
         immersionBar.init()
         titlebar_datedetails.titleView.setText("我的约会")
+        titlebar_datedetails.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("from" to "myDateDetail","id" to userId,"sResourceId" to myAppointment!!.sId.toString())
+            shareDialog.show(supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
+                    startActivity<ReportActivity>("id" to myAppointment!!.sId.toString(), "tiptype" to 4)
+                }
+            }
+        })
+
         var from= intent.getStringExtra("from")
         if(TextUtils.equals(from,Const.FROM_MY_DATESUCCESS)){
             var sId = intent.getStringExtra("sId")
@@ -412,9 +424,13 @@ class MyDateDetailActivity : BaseActivity() {
 
     private fun signUpDate(myAppointment:MyAppointment) {
         Request.queryAppointmentPoint(userId).request(this, false, success = { msg, data ->
+            explainAppoint = data?.iAppointPoint.toString()
             val dateDialog = OpenDateDialog()
-            dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
+            dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!,"fromType" to "MydateDetail")
             dateDialog.show((this).supportFragmentManager, "d")
+            dateDialog.setDialogListener { p, s ->
+                getData()
+            }
         }) { code, msg ->
             if (code == 2) {
                 var openErrorDialog = OpenDateErrorDialog()
@@ -429,6 +445,32 @@ class MyDateDetailActivity : BaseActivity() {
                 .click(str.length - len, str.length, MClickSpan(this))
                 .build()
     }
+
+    private fun getData() {
+            //194ecdb4-4809-4b2d-bf32-42a3342964df
+            Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(this,success = { msg, data ->
+                var openSuccessDialog = OpenDateSuccessDialog()
+                var sId = data?.optString("sId")
+                openSuccessDialog.arguments = bundleOf("point" to explainAppoint,"sId" to sId.toString(),"fromType" to "MydateDetail")
+                openSuccessDialog.show(supportFragmentManager, "d")
+                openSuccessDialog.setDialogListener { p, s ->
+                    if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
+                        getData(myAppointment!!.sAppointmentSignupId,"")
+                    }else{
+                        getData("",myAppointment!!.sId.toString())
+                    }
+                }
+            }) { code, msg ->
+                if(code == 3){
+                    var openErrorDialog = OpenDateErrorDialog()
+                    openErrorDialog.arguments= bundleOf("code" to code)
+                    openErrorDialog.show(supportFragmentManager, "d")
+                }else{
+                    CustomToast.showToast(msg)
+                }
+            }
+    }
+
     private class MClickSpan(val context: Context) : ClickableSpan() {
 
         override fun onClick(p0: View?) {

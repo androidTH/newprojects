@@ -25,6 +25,7 @@
 
     <RelativeLayout
         android:id="@+id/rl_sysmsg"
+        android:layout_below="@+id/tv_state"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="@dimen/margin_10"

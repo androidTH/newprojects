@@ -27,6 +27,7 @@ import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
+import com.fm.openinstall.OpenInstall
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.MsgConstant
@@ -122,6 +123,8 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
         //在这里初始化
         Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
+
+        OpenInstall.init(this)
     }
 
     override fun attachBaseContext(base: Context?) {

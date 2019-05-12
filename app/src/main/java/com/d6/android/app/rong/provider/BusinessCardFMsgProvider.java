@@ -228,7 +228,12 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
 
             holder.chat_headView.setImageURI(mUserData.getPicUrl());
             holder.tv_chat_name.setText(mUserData.getName());
-            holder.tv_chat_womang_age.setText(mUserData.getAge());
+            if(!TextUtils.isEmpty(mUserData.getAge())){
+                holder.tv_chat_womang_age.setText(mUserData.getAge());
+            }else{
+                holder.tv_chat_womang_age.setText("");
+            }
+
             holder.tv_chat_womang_age.setSelected(TextUtils.equals("0",mUserData.getSex()));
 
             if (TextUtils.equals("0", mUserData.getSex())) {//女性

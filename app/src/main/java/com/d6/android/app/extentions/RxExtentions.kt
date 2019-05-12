@@ -75,7 +75,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                         }
                     }else if(tCode == 404){
                         msg = Error.SERVER_404ERROR
-                    }else if (tCode == -3) {//账号已禁用
+                    } else if (tCode == -3) {//账号已禁用
                         if (requestManager is BaseActivity) {
                             val confirmDialog = ConfirmDialog()
                             confirmDialog.arguments = bundleOf("msg" to "对不起，您的账号已被禁用，如有疑问，请联系D6客服。")
@@ -113,7 +113,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             requestManager.dismissDialog()
             if (t.res == 1) {//成功
                 success(t.resMsg,t.data)
-            } else {
+            }else {
                 if(t.data!=null&&t.data!="null"){
                     error(t.res, t.data.toString())
                     if (showToast) {

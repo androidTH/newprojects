@@ -26,7 +26,6 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.startActivityForResult
 import org.json.JSONObject
 
 /**

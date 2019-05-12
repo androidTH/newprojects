@@ -145,7 +145,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 }
             }
             conversation.unreadMessageCount = 0
-            conversationsAdapter.notifyDataSetChanged()
+//            conversationsAdapter.notifyDataSetChanged()
         }
         getData()
         getSysLastOne(SysMsg_time.toString())

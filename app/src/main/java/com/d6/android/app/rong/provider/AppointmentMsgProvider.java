@@ -204,7 +204,13 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
             holder.mHeaderView.setImageURI(appointmentMsg.getSAppointmentPicUrl());
             holder.tv_chat_date_name.setText(appointmentMsg.getSAppointUserName());
             holder.tv_chat_date_sex.setSelected(appointmentMsg.getISex()==0);
-            holder.tv_chat_date_sex.setText(String.valueOf(appointmentMsg.getIAge()));
+
+            if(appointmentMsg.getIAge()<=0){
+                holder.tv_chat_date_sex.setText("");
+            }else{
+                holder.tv_chat_date_sex.setText(String.valueOf(appointmentMsg.getIAge()));
+            }
+
             holder.tv_chat_date_content.setText(appointmentMsg.getSDesc());
 
             if(0==appointmentMsg.getISex()){

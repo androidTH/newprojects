@@ -105,21 +105,21 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         tv_sex.isSelected = TextUtils.equals("0",square.sex)
 //        tv_vip.text = square.userclassesname
 
-        if (square.userclassesname.toString().startsWith("入门")) {
+        if (square.userclassesid.equals("27")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
-        } else if (square.userclassesname.toString().startsWith("中级")) {
+        } else if (square.userclassesid.equals("28")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_zj)
-        } else if (square.userclassesname.toString().startsWith("优质")) {
+        } else if (square.userclassesid.equals("29")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_gj)
-        } else if (square.userclassesname.toString().startsWith("普通")) {
+        } else if (square.userclassesid.equals("22")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
-        } else if (square.userclassesname.toString().startsWith("白银")) {
+        } else if (square.userclassesid.equals("23")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_silver)
-        } else if (square.userclassesname.toString().startsWith("黄金")) {
+        } else if (square.userclassesid.equals("24")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_gold)
-        } else if (square.userclassesname.toString().startsWith( "钻石")) {
+        } else if (square.userclassesid.equals("25")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
-        } else if (square.userclassesname.toString().startsWith("私人")) {
+        } else if (square.userclassesid.equals("26")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
         }
 

@@ -5,75 +5,91 @@
     android:padding="12dp"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.facebook.drawee.view.SimpleDraweeView
+
+    <RelativeLayout
+        android:id="@+id/rl_friends_headView"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        style="@style/DefaultHeadStyle"
-        android:layout_marginRight="8dp"
-        android:id="@+id/user_headView"
-        app:roundedCornerRadius="26dp"/>
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/user_headView"
+            style="@style/DefaultCircleHeadStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:roundAsCircle="true" />
+
+        <ImageView
+            android:id="@+id/img_blacklist_auther"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_15"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone" />
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/linear_userinfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/user_headView"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="--"
-            android:textSize="15sp"
-            android:layout_marginBottom="6dp"
-            android:textColor="@color/color_black"
-            android:singleLine="true"
-            android:layout_marginRight="@dimen/margin_8"
-            android:id="@+id/tv_name"/>
-
-        <TextView
-            android:id="@+id/tv_sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tv_nick"
-            android:layout_marginRight="@dimen/margin_8"
-            android:layout_toRightOf="@+id/tv_nick"
-            android:background="@drawable/ic_sex_bg_selector"
-            android:drawableLeft="@drawable/sex_white_selector"
-            android:drawablePadding="4dp"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textSize="12dp" />
-
-        <TextView
-            android:id="@+id/tv_vip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tv_nick"
-            android:layout_toRightOf="@+id/tv_sex"
-            android:background="@drawable/shape_4r_orange"
-            android:drawableLeft="@mipmap/memberorder_icon_white"
-            android:drawablePadding="@dimen/margin_2"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
-            android:text="12"
-            android:textColor="@color/white"
-            android:textSize="12dp"/>
-    </LinearLayout>
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_userinfo"
-        android:layout_alignLeft="@+id/linear_userinfo"
+        android:layout_toRightOf="@+id/rl_friends_headView"
         android:layout_marginRight="88dp"
-        android:text="介绍"
-        android:textColor="@color/color_777777"
-        android:layout_below="@+id/linear_userinfo"
-        android:layout_marginTop="@dimen/margin_5"
-        android:textSize="12sp"
-        android:layout_marginBottom="6dp"/>
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_3"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textSize="15sp"
+                android:textColor="@color/color_black"
+                android:singleLine="true"
+                android:layout_marginRight="@dimen/margin_8"
+                android:id="@+id/tv_name"/>
+
+            <TextView
+                android:id="@+id/tv_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_sex_bg_selector"
+                android:drawableLeft="@drawable/sex_white_selector"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:paddingTop="0.5dp"
+                android:paddingBottom="0.5dp"
+                android:textSize="10sp"
+                android:drawablePadding="1dp"
+                android:layout_marginRight="@dimen/margin_5"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_vip"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_16"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+        <!--android:background="@drawable/shape_4r_orange"-->
+        <!--android:drawableLeft="@mipmap/memberorder_icon_white"-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_userinfo"
+            android:text="介绍"
+            android:textColor="@color/color_777777"
+            android:textSize="12sp"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginBottom="6dp"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_remove"
         android:layout_width="wrap_content"

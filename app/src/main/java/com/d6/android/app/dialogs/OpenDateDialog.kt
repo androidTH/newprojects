@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
     }
 
     private var myAppointment:MyAppointment?=null
+    private var fromType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +69,14 @@ class OpenDateDialog : DialogFragment(),RequestManager {
         } else {
             MyAppointment()
         }
-
+        fromType = arguments.getString("fromType","")
         tv_action.setOnClickListener {
-            getData()
+            if(TextUtils.isEmpty(fromType)){
+                getData()
+            }else{
+                dialogListener?.onClick(1,myAppointment?.sId.toString())
+                dismissAllowingStateLoss()
+            }
         }
 
         tv_close.setOnClickListener {

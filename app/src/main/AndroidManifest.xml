@@ -50,6 +50,10 @@
             android:name="com.amap.api.v2.apikey"
             android:value="808bc15cea5a1648a2c84a08fff73267" />
 
+        <meta-data
+            android:name="com.openinstall.APP_KEY"
+            android:value="b5zf76"/>
+
         <!-- <meta-data -->
         <!-- android:name="UMENG_APPKEY" -->
         <!-- android:value="5a5b309af29d9835ae000262" /> -->
@@ -72,6 +76,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="d6app" android:host="com.d6.android.app" android:pathPrefix="/openwith"/>
+                <data android:scheme="b5zf76"/>
             </intent-filter>
         </activity>
         <activity

@@ -13,6 +13,7 @@ import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.utils.*
 import com.share.utils.ShareUtils
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
 import io.rong.imkit.RongIM
@@ -33,10 +34,6 @@ class FindDateDetailActivity : TitleActivity() {
     private val mUrls = ArrayList<String>()
     private val imgAdapter by lazy {
         FindDateImagesAdapter(mUrls)
-    }
-
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
     }
 
     private val shareListener by lazy {

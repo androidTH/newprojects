@@ -14,6 +14,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_set_user_info.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -178,6 +179,7 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
                         .apply()
+                OpenInstall.reportRegister()
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
@@ -192,6 +194,7 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
                         .apply()
+                OpenInstall.reportRegister()
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)

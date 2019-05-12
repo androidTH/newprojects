@@ -21,6 +21,8 @@ import com.d6.android.app.utils.Const.DIALOG_SHOW_MAX
 import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.shareChat
+import com.d6.android.app.widget.CustomToast
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.dialog_sharefriends_layout.*
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.startActivity
@@ -42,6 +44,10 @@ class ShareFriendsDialog : DialogFragment() {
 
     private val sex by lazy{
         SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
+    private val wxApi by lazy {
+        WXAPIFactory.createWXAPI(context, "wx43d13a711f68131c")
     }
 
     private var iType = 0 //1、约会 2、动态 3、速约 4、觅约 5、个人主页
@@ -80,6 +86,9 @@ class ShareFriendsDialog : DialogFragment() {
             }else if(TextUtils.equals(fromType,"square")){
                 sResourceId = arguments.getString("sResourceId")
                 iType = 2
+            }else if(TextUtils.equals(fromType,"myDateDetail")){
+                sResourceId = arguments.getString("sResourceId")
+                iType = 1
             }else{
                 tv_deldate.visibility = View.VISIBLE
             }
@@ -158,8 +167,12 @@ class ShareFriendsDialog : DialogFragment() {
         }
 
         tv_sharewx.setOnClickListener {
-            dialogListener?.onClick(3,"")//1代表删除
-            dismissAllowingStateLoss()
+            if (wxApi.isWXAppInstalled){
+                dialogListener?.onClick(3,"")//1代表删除
+                dismissAllowingStateLoss()
+            }else{
+                CustomToast.showToast("请先安装微信!")
+            }
         }
 
         tv_cancel.setOnClickListener {

@@ -40,7 +40,7 @@ class FriendsAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<FriendBean>
 
         var img_friends_auther = holder.bind<ImageView>(R.id.img_friends_auther)
         if(TextUtils.equals("3",data.screen)){
-            img_friends_auther.visibility=View.VISIBLE
+            img_friends_auther.visibility=View.GONE
             img_friends_auther.setImageResource(R.mipmap.renzheng_small)
         }else if(TextUtils.equals("1",data.screen)){
             img_friends_auther.visibility=View.VISIBLE

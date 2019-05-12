@@ -81,8 +81,12 @@ class DateAuthStateActivity : BaseActivity() {
 //            if (qurenzheng > 0) {
 //                return@setOnClickListener
 //            }
-            val dateAuthTipDialog = DateAuthTipDialog()
-            dateAuthTipDialog.show(supportFragmentManager, "t")
+            var localUserId =getLocalUserId()
+            pushCustomerMessage(this,localUserId,2,localUserId,next = {
+                chatService(this)
+            })
+//            val dateAuthTipDialog = DateAuthTipDialog()
+//            dateAuthTipDialog.show(supportFragmentManager, "t")
         }
 
     }

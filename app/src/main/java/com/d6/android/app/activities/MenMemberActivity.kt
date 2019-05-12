@@ -69,7 +69,7 @@ class MenMemberActivity : BaseActivity() {
 //                       intent.setComponent(cmp)
 //                       startActivity(intent)
                        var localUserId =getLocalUserId()
-                       pushCustomerMessage(this@MenMemberActivity,localUserId,1,"",next = {
+                       pushCustomerMessage(this@MenMemberActivity,localUserId,1,localUserId,next = {
                              chatService(this@MenMemberActivity)
                        })
                    }else{

@@ -14,8 +14,6 @@ import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
-import com.umeng.socialize.UMShareAPI
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_bindphone_layout.*

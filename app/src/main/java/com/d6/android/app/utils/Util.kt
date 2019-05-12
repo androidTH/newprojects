@@ -908,14 +908,7 @@ fun chatService(activity: BaseActivity){
 
 inline fun Activity.pushCustomerMessage(requestManager: RequestManager, userId:String,iType:Int,sSourceId:String, crossinline next: () -> Unit) {
     Request.pushCustomerMessage(userId,iType,sSourceId).request(requestManager,false,success = {msg,data->
-        data?.let {
-              Log.i("pushCustomerMessage","消息内容="+it)
-              next()
-//            if (it.userclassesid == "7") {
-//
-//            }else{
-//            }
-        }
+        next()
     }){code,msg->
         toast(msg)
     }
