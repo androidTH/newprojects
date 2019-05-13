@@ -117,7 +117,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             relative_tips.visibility = View.VISIBLE
             tv_openchat_apply.visibility = View.VISIBLE
             tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-            tv_openchat_tips.text = resources.getString(R.string.string_other_agreee_openchat)
+            tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
         }
 
         tv_openchat_points.setOnClickListener {
@@ -215,7 +215,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     relative_tips.visibility = View.VISIBLE
                     tv_openchat_apply.visibility = View.VISIBLE
                     tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips.text = resources.getString(R.string.string_other_agreee_openchat)
+                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
                     fragment?.doIsNotSendMsg( true, resources.getString(R.string.string_other_agreee_openchat))
                 }else if(code == 3){//对方发出申请私聊等待我确认
                     relative_tips.visibility = View.VISIBLE
@@ -229,7 +229,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     relative_tips.visibility = View.VISIBLE
                     tv_openchat_apply.visibility = View.VISIBLE
                     tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips.text = resources.getString(R.string.string_other_agreee_openchat)
+                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
                     fragment?.let {
                         it.doIsNotSendMsg(true, resources.getString(R.string.string_other_agreee_openchat))
                     }
@@ -442,7 +442,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     relative_tips.visibility = View.VISIBLE
                     tv_openchat_apply.visibility = View.VISIBLE
                     tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips.text = resources.getString(R.string.string_other_agreee_openchat)
+                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
                     IsAgreeChat = false
                     if(!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)){
                         var mDialogPrivateChat = DialogPrivateChat()

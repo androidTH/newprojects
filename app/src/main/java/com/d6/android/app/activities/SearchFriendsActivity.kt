@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SearchFriendsAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Fans
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
@@ -19,7 +19,6 @@ import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_search_friends.*
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
 
 
 /**
@@ -117,6 +116,8 @@ class SearchFriendsActivity : BaseActivity() {
     private fun getData(uname:String) {
         Request.findAllUserFriends(userId,uname,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
+                rl_friends_empty.visibility = View.GONE
+                swipeRefreshLayout.visibility = View.VISIBLE
                 mFriends.clear()
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
@@ -124,6 +125,10 @@ class SearchFriendsActivity : BaseActivity() {
                     swipeRefreshLayout.setLoadMoreText("没有更多了")
                     pageNum--
                 } else {
+                    if(pageNum==1){
+                        rl_friends_empty.visibility = View.VISIBLE
+                        swipeRefreshLayout.visibility = View.GONE
+                    }
                     swipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {

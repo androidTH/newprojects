@@ -100,10 +100,10 @@ class SpeedDateDetailActivity : TitleActivity() {
             //            val dialog = ContactUsDialog()
 //            dialog.show(supportFragmentManager, "us")
             isAuthUser() {
-                pushCustomerMessage(this, getLocalUserId(),4,mSpeedDate.id.toString()){
-                    chatService(this)
-                }
-//                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+//                pushCustomerMessage(this, getLocalUserId(),4,mSpeedDate.id.toString()){
+//                    chatService(this)
+//                }
+                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
             }
         }
 

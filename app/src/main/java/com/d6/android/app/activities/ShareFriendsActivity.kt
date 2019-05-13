@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.d6.android.app.R
 import com.d6.android.app.adapters.FriendsAdapter
@@ -124,6 +125,8 @@ class ShareFriendsActivity : BaseActivity() {
     private fun getData(username:String) {
         Request.findUserFriends(mLocalUserId,username,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
+                rl_friends_empty.visibility = View.GONE
+                swipeRefreshLayout.visibility = View.VISIBLE
                 mFriends.clear()
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
@@ -131,6 +134,10 @@ class ShareFriendsActivity : BaseActivity() {
                     swipeRefreshLayout.setLoadMoreText("没有更多了")
                     pageNum--
                 } else {
+                    if(pageNum==1){
+                        rl_friends_empty.visibility = View.VISIBLE
+                        swipeRefreshLayout.visibility = View.GONE
+                    }
                     swipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {

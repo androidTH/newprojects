@@ -83,14 +83,11 @@ class FindDateDetailActivity : TitleActivity() {
 
         tv_contact.setOnClickListener {
             isAuthUser() {
-                pushCustomerMessage(this, getLocalUserId(), 3, mData.id.toString()) {
-                    chatService(this)
-                }
+//                pushCustomerMessage(this, getLocalUserId(), 3, mData.id.toString()) {
+//                    chatService(this)
+//                }
+             ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
             }
-//            isCheckOnLineAuthUser(this,userId) {
-//                chatService(this)
-//                ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
-//            }
         }
         refreshUI()
     }

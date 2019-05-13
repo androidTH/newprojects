@@ -41,7 +41,6 @@ class MyDateDetailActivity : BaseActivity() {
     private val mImages = ArrayList<String>()
     private var iAppointUserid:String =""
     private var iShareUserId:String=""
-    private var mDateState = -1
     private var explainAppoint = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,12 +111,12 @@ class MyDateDetailActivity : BaseActivity() {
         }
 
         tv_agree_date.setOnClickListener {
-            if(mDateState == -1){
-                updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
-            }else if(mDateState == 2){
-                isAuthUser {
-                    signUpDate(myAppointment)
-                }
+            updateDateStatus(myAppointment!!.sAppointmentSignupId,2)
+        }
+
+        tv_send_date.setOnClickListener {
+            isAuthUser {
+                signUpDate(myAppointment)
             }
         }
 
@@ -383,6 +382,7 @@ class MyDateDetailActivity : BaseActivity() {
         tv_no_date.visibility = View.GONE
         tv_agree_date.visibility = View.GONE
         tv_giveup_date.visibility = View.GONE
+        tv_send_date.visibility = View.GONE
 
         if(iAppointStatus==-1){
             var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
@@ -393,12 +393,10 @@ class MyDateDetailActivity : BaseActivity() {
             if(data.sAppointmentSignupId.isNullOrEmpty()&&TextUtils.equals(iAppointUserid,iShareUserId)){
                 tv_date_status.text="状态：待邀约"
                 tv_point_nums.text="预付${data.iPoint}积分"
-
                 tv_point_nums.visibility = View.VISIBLE
-                tv_agree_date.visibility = View.VISIBLE
 
-                tv_agree_date.text = "约"
-                mDateState = 2
+                tv_send_date.visibility = View.VISIBLE
+
             }else{
                 var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
                 param.addRule(RelativeLayout.CENTER_VERTICAL)

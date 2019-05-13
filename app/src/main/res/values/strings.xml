@@ -58,12 +58,13 @@
     <string name="string_openchat_pay_nopoints">可免费发3条消息,支付积分即可畅聊</string>
     <string name="string_openchat_sendcount_msg">剩余发送消息%1$s</string>
     <string name="string_auth">已认证</string>
-    <string name="string_openchat">开启私聊</string>
+    <string name="string_openchat">申请私聊</string>
     <string name="string_paypoints">支付积分</string>
-    <string name="string_apply_openchat">申请私聊</string>
+    <string name="string_apply_openchat">申请</string>
     <string name="string_other_apply_openchat">对方申请和你私聊</string>
     <string name="string_pay_points_openchat">支付积分可开启私聊</string>
     <string name="string_other_agreee_openchat">对方同意后可开启私聊</string>
+    <string name="string_apply_agree_openchat">申请和对方私聊</string>
     <string name="string_already_applay">已申请</string>
     <string name="string_privatechat_set">私聊设置</string>
     <string name="string_linechat">直接私聊</string>
