@@ -204,8 +204,13 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     mSquare?.comments = mComments
                     updateBean()
                 }
-            }, error = { _, _ ->
-                mSwipeRefreshLayout.isRefreshing = false
+            }, error = { code, msg ->
+                if(code == 2){
+                   toast("动态不存在。")
+                   finish()
+                }else{
+                    mSwipeRefreshLayout.isRefreshing = false
+                }
             })
         }
     }
