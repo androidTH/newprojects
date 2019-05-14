@@ -158,11 +158,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="gone"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="@dimen/margin_8"
             android:textSize="@dimen/textSize"
             android:textColor="@color/red_fc3"
             android:id="@+id/tv_error"
-            android:layout_above="@+id/btn_sign_in"
+            android:layout_below="@+id/et_nick"
             android:text=""/>
         <Button
             android:id="@+id/btn_sign_in"
@@ -172,7 +172,7 @@
             android:text="进入D6"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:layout_below="@+id/nickLine"
             android:textSize="@dimen/btnTextSize"
             android:layout_marginBottom="60dp"

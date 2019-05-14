@@ -32,16 +32,16 @@ class MessageSettingActivity : TitleActivity() {
         val isOpened = manager.areNotificationsEnabled()
         tv_state.text = if (isOpened) "已开启" else "已关闭"
         var messageSetting = SPUtils.instance().getString(USER_MESSAGESETTING)
-        sw_friend_notfaction.isChecked = if(TextUtils.equals(messageSetting,"2")){
+        sw_friend_notfaction.isChecked = if(TextUtils.equals(messageSetting,"1")){
             true
         }else{
             false
         }
         sw_friend_notfaction.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-                updateMessageSet(2)
-            }else{
                 updateMessageSet(1)
+            }else{
+                updateMessageSet(2)
             }
         }
 

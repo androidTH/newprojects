@@ -16,11 +16,8 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.DIALOG_SHOW_MAX
-import com.d6.android.app.utils.OnDialogListener
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.shareChat
 import com.d6.android.app.widget.CustomToast
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.dialog_sharefriends_layout.*
@@ -169,7 +166,9 @@ class ShareFriendsDialog : DialogFragment() {
 
         tv_sharewx.setOnClickListener {
             if (wxApi.isWXAppInstalled){
-                dialogListener?.onClick(3,"")//1代表删除
+                (context as BaseActivity).isAuthUser{
+                    dialogListener?.onClick(3,"")//1代表删除
+                }
                 dismissAllowingStateLoss()
             }else{
                 CustomToast.showToast("请先安装微信!")

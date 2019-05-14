@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.d6.android.app.R
@@ -30,6 +31,7 @@ class ShareFriendsActivity : BaseActivity() {
     private var sUserName=""
     private var mFriends = ArrayList<FriendBean>()
     private var mChooseFriends = ArrayList<FriendBean>()
+    private var mSelectionState = "1" //0 代表多选 1代表单选
 
     private val iType by lazy{
         intent.getIntExtra("iType",0)
@@ -52,30 +54,45 @@ class ShareFriendsActivity : BaseActivity() {
         setContentView(R.layout.activity_choose_friends)
         immersionBar.init()
         friendsAdapter.setOnItemClickListener { view, position ->
-            val mFriend = mFriends[position]
-            if (mChooseFriends.contains(mFriend)) {
-                mFriend.iIsChecked = 0
-                mChooseFriends.remove(mFriend)
-            } else {
-                if (mChooseFriends.size > 4) {
-                    toast("最多选择5个用户")
+            if(TextUtils.equals(mSelectionState,"1")){
+                val mFriend = mFriends[position]
+                mChooseFriends.add(mFriend)
+                shareFriends()
+            }else{
+                val mFriend = mFriends[position]
+                if (mChooseFriends.contains(mFriend)) {
+                    mFriend.iIsChecked = 0
+                    mChooseFriends.remove(mFriend)
                 } else {
-                    mFriend.iIsChecked = 1
-                    mChooseFriends.add(mFriend)
+                    if (mChooseFriends.size > 4) {
+                        toast("最多选择5个用户")
+                    } else {
+                        mFriend.iIsChecked = 1
+                        mChooseFriends.add(mFriend)
+                    }
                 }
+                if (mChooseFriends.size > 0) {
+                    tv_choose.text = "确定(" + mChooseFriends.size + ")"
+                }
+                friendsAdapter.notifyItemChanged(position)
             }
-            if (mChooseFriends.size > 0) {
-                tv_choose.text = "确定(" + mChooseFriends.size + ")"
-            } else {
-                tv_choose.text = getString(R.string.string_choose)
-            }
-            friendsAdapter.notifyDataSetChanged()
         }
 
         tv_choose.setOnClickListener {
-            if(mChooseFriends!=null){
-                shareFriends()
+            if(TextUtils.equals(mSelectionState,"1")){
+                tv_choose.text = "确定"
+                mSelectionState = "0"
+            }else{
+                if (mChooseFriends != null) {
+                    shareFriends()
+                }
             }
+        }
+
+        if(TextUtils.equals(mSelectionState,"1")){
+            tv_choose.text = "多选"
+        }else{
+            tv_choose.text = "确定"
         }
 
         iv_back_close.setOnClickListener {
@@ -112,6 +129,7 @@ class ShareFriendsActivity : BaseActivity() {
                 loadMore()
             }
         })
+        swipeRefreshLayout.mRecyclerView.itemAnimator.changeDuration = 0
     }
 
     protected fun addItemDecoration(colorId: Int = R.color.color_D8D8D8, size: Int = 1) {
@@ -169,6 +187,7 @@ class ShareFriendsActivity : BaseActivity() {
         var userIds = getShareUserId(mChooseFriends)
         Request.shareMessage(mLocalUserId,iType,sResourceId,userIds).request(this,true,success = {msg,data->
             toast(msg.toString())
+            mChooseFriends.clear()
             finish()
         })
     }

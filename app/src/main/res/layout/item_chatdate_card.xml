@@ -99,7 +99,7 @@
 
     <LinearLayout
         android:id="@+id/ll_chat_date"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/width_210"
         android:layout_height="@dimen/height_40"
         android:orientation="horizontal">
 

@@ -64,6 +64,8 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
                 tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
             } else if (TextUtils.equals(data.userclassesid, "26")) {
                 tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+            }else if (TextUtils.equals(data.userclassesid, "7")) {
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.youke_icon)
             }
         }
 

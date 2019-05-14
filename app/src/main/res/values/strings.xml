@@ -100,6 +100,7 @@
     <string name="string_middle">中级</string>
     <string name="string_primary">初级</string>
     <string name="string_senior">高级</string>
-    <string name="string_removeblacklist">移除黑名单</string>
+    <string name="string_removeblacklist">移出黑名单</string>
     <string name="string_notificefriends">通知好友</string>
+    <string name="string_contacts">最近联系人</string>
 </resources>

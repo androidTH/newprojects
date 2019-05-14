@@ -21,6 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
             android:src="@mipmap/oval"/>
     </RelativeLayout>
 </LinearLayout>

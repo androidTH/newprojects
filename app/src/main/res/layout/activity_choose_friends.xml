@@ -25,7 +25,7 @@
             android:textStyle="bold"
             android:textColor="@color/color_black"
             android:textSize="17sp"
-            android:text="选择好友"/>
+            android:text="@string/string_contacts"/>
         <TextView
             android:id="@+id/tv_choose"
             android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
             android:textColor="@color/color_F7AB00"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_15"
-            android:text="多选"/>
+            android:text="确定"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -78,23 +78,24 @@
         android:id="@+id/rl_friends_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
         <ImageView
             android:id="@+id/tv_main_card_bg_im_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@mipmap/home_main_card_bg" />
-
+            android:src="@mipmap/wuhuaoyou_pic" />
         <TextView
             android:id="@+id/tv_main_card_Bg_tv_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
             android:layout_below="@+id/tv_main_card_bg_im_id"
             android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="@dimen/margin_5"
             android:padding="@dimen/padding_12"
-            android:text="暂时没有符合条件的人，等会再来看看吧"
+            android:text="暂无好友\n暂时没有符合条件的人，等会再来看看吧"
             android:textColor="@color/color_999999"
             android:textSize="@dimen/textSize"/>
     </RelativeLayout>

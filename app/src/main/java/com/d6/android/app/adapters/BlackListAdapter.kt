@@ -76,6 +76,8 @@ class BlackListAdapter(mData:ArrayList<BlackListBean>): HFRecyclerAdapter<BlackL
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
         } else if (TextUtils.equals(data.userclassesid, "26")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+        }else if (TextUtils.equals(data.userclassesid, "7")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.youke_icon)
         }
 
 //        tv_vip.text = String.format("%s", data.userclassesname)

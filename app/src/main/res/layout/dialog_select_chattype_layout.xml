@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_10"
-            android:text="对方发出申请你同意可私聊"
+            android:text="对方可直接和你私聊"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
     </LinearLayout>

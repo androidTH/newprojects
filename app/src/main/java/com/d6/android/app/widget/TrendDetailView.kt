@@ -106,6 +106,8 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
         } else if (square.userclassesname.toString().startsWith("私人")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+        }else if (square.userclassesname.toString().startsWith("游客")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.youke_icon)
         }
 
 

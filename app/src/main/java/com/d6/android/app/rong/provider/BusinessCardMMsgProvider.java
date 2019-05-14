@@ -12,6 +12,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +63,6 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
         ViewHolder holder = new BusinessCardMMsgProvider.ViewHolder();
         holder.mllChatmenCard = view.findViewById(R.id.ll_chat_men_card);
         holder.chat_men_headView = view.findViewById(R.id.chat_men_headView);
-        holder.noimg_chat_men_line = view.findViewById(R.id.noimg_chat_men_line);
         holder.chat_men_img_auther = view.findViewById(R.id.chat_men_img_auther);
 
         holder.tv_chat_men_name = view.findViewById(R.id.tv_chat_men_name);
@@ -93,7 +93,7 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
         }
         if (!TextUtils.isEmpty(content.getExtra())) {
             UserData mUserData = GsonHelper.getGson().fromJson(content.getExtra(), UserData.class);
-
+            Log.i(TAG,"内容:"+content.getExtra());
             holder.chat_men_headView.setImageURI(mUserData.getPicUrl());
             holder.tv_chat_men_name.setText(mUserData.getName());
             holder.tv_chat_men_age.setText(mUserData.getAge());
@@ -119,6 +119,8 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                     holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.gril_zj));
                 } else if (TextUtils.equals(mUserData.getUserclassesid(), "29")) {
                     holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.gril_gj));
+                }else if(TextUtils.equals(mUserData.getUserclassesid(),"7")){
+                    holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.youke_icon));
                 }
             } else {
                 if (TextUtils.equals(mUserData.getUserclassesid(), "22")) {
@@ -131,29 +133,32 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                     holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_zs));
                 } else if (TextUtils.equals(mUserData.getUserclassesid(), "26")) {
                     holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_private));
+                }else if(TextUtils.equals(mUserData.getUserclassesid(),"7")){
+                    holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.youke_icon));
                 }
             }
 
+            holder.tv_chat_men_content.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(mUserData.getEgagementtext())) {
                 if (!TextUtils.equals("null", mUserData.getEgagementtext())) {
                     holder.tv_chat_men_content.setText(mUserData.getEgagementtext());
                 } else {
-                    holder.tv_chat_men_content.setText("");
+                    holder.tv_chat_men_content.setVisibility(View.GONE);
                 }
             } else if (!(TextUtils.isEmpty(mUserData.getSignature()))) {
                 if (!TextUtils.equals("null", mUserData.getSignature())) {
                     holder.tv_chat_men_content.setText(mUserData.getSignature());
                 } else {
-                    holder.tv_chat_men_content.setText("");
+                    holder.tv_chat_men_content.setVisibility(View.GONE);
                 }
             } else if (!(TextUtils.isEmpty(mUserData.getIntro()))) {
                 if (!TextUtils.equals("null", mUserData.getIntro())) {
                     holder.tv_chat_men_content.setText(mUserData.getIntro());
                 } else {
-                    holder.tv_chat_men_content.setText("");
+                    holder.tv_chat_men_content.setVisibility(View.GONE);
                 }
             } else {
-                holder.tv_chat_men_content.setText("");
+                holder.tv_chat_men_content.setVisibility(View.GONE);
             }
 
 
@@ -161,15 +166,12 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                 if (TextUtils.isEmpty(mUserData.getUserpics())) {
                     mImages.clear();
                     holder.rv_chat_men_images.setVisibility(View.GONE);
-                    holder.noimg_chat_men_line.setVisibility(View.VISIBLE);
                 } else {
                     String[] imglist = mUserData.getUserpics().split(",");
                     if (imglist.length == 0) {
                         mImages.clear();
                         holder.rv_chat_men_images.setVisibility(View.GONE);
-                        holder.noimg_chat_men_line.setVisibility(View.VISIBLE);
                     } else {
-                        holder.noimg_chat_men_line.setVisibility(View.GONE);
                         holder.rv_chat_men_images.setVisibility(View.VISIBLE);
                         mImages.clear();
                         if (imglist.length >= 4) {
@@ -189,7 +191,6 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
             } else {
                 mImages.clear();
                 holder.rv_chat_men_images.setVisibility(View.GONE);
-                holder.noimg_chat_men_line.setVisibility(View.VISIBLE);
             }
 
             mTags.clear();
@@ -325,7 +326,6 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
         TextView tv_chat_men_content;
         RecyclerView rv_chat_men_images;
         RecyclerView rv_chat_men_tags;
-        View noimg_chat_men_line;
         boolean longClick;
     }
 }

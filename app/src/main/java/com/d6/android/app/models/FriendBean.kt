@@ -88,4 +88,13 @@ data class FriendBean(@SerializedName("sId")var sId:String?=""):Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        var ob =other as FriendBean
+        if(this.iUserid==ob.iUserid){
+            return true
+        }else{
+            return false
+        }
+    }
 }

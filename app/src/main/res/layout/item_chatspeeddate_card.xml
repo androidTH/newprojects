@@ -9,8 +9,8 @@
 
     <RelativeLayout
         android:id="@+id/rl_img"
-        android:layout_width="@dimen/width_210"
-        android:layout_height="@dimen/width_210"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10">
 
@@ -18,8 +18,8 @@
             android:id="@+id/chat_speeddate_imageView"
             style="@style/DefaultImageStyle"
             app:viewAspectRatio="1"
-            android:layout_width="@dimen/width_210"
-            android:layout_height="@dimen/width_210" />
+            android:layout_width="230dp"
+            android:layout_height="230dp"/>
 
         <!--<TextView-->
             <!--android:id="@+id/tv_chat_speeddate_type"-->
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="185dp"
+            android:layout_marginTop="205dp"
             android:layout_marginRight="@dimen/margin_5"
             android:drawablePadding="@dimen/margin_2"
             android:paddingLeft="@dimen/margin_5"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="185dp"
+            android:layout_marginTop="205dp"
             android:layout_marginRight="@dimen/margin_5"
             android:drawablePadding="@dimen/margin_2"
             android:paddingLeft="@dimen/margin_5"

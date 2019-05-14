@@ -97,14 +97,16 @@
                     android:id="@+id/tv_signature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_vip"
-                    android:layout_marginTop="@dimen/margin_8"
+                    android:layout_below="@+id/tv_nick"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginRight="8dp"
                     android:layout_toRightOf="@+id/rl_headView"
                     android:ellipsize="end"
-                    android:maxLines="3"
+                    android:maxLines="1"
                     android:text=""
                     android:textColor="@color/textColor"
-                    android:textSize="12dp" /><!--自我介绍-->
+                    android:textSize="12dp" />
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

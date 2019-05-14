@@ -176,17 +176,6 @@
         android:minHeight="66dp"
         android:paddingRight="@dimen/margin_16" />
 
-    <View
-        android:id="@+id/noimg_chat_men_line"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/tv_chat_men_content"
-        android:layout_marginTop="@dimen/margin_15"
-        android:layout_marginBottom="@dimen/margin_25"
-        android:layout_marginRight="@dimen/margin_15"
-        android:background="@color/color_DFE1E5"
-        android:visibility="gone" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_chat_men_tags"
         android:layout_width="match_parent"

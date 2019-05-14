@@ -181,8 +181,10 @@ class SettingActivity : TitleActivity() {
                     }else if(TextUtils.equals(it.userclassesid,"26")){
 //                        tv_vip.text = String.format("%s",getString(R.string.string_private))
                         tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
+                    }else if(TextUtils.equals(it.userclassesid,"7")){
+                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
                     }else{
-                        tv_vip.visibility = View.GONE
+                        tv_vip.backgroundDrawable = null
                     }
                 }
                 tv_sex.isSelected = TextUtils.equals("0",it.sex)

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.d6.android.app.R
@@ -33,6 +34,7 @@ class ChooseFriendsActivity : BaseActivity() {
     private var mFriends = ArrayList<FriendBean>()
     private var mChooseFriends = ArrayList<FriendBean>()
     private var sUserName=""
+    private var mSelectionState = "0" //0 代表多选 1代表单选
 
     private val friendsAdapter by lazy {
         FriendsAdapter(mFriends)
@@ -64,7 +66,7 @@ class ChooseFriendsActivity : BaseActivity() {
             } else {
                 tv_choose.text = getString(R.string.string_choose)
             }
-            friendsAdapter.notifyDataSetChanged()
+            friendsAdapter.notifyItemChanged(position)
         }
 
         tv_choose.setOnClickListener {
@@ -88,6 +90,13 @@ class ChooseFriendsActivity : BaseActivity() {
             }
             false
         }
+
+        if(TextUtils.equals("0",mSelectionState)){
+            tv_choose.text = "确定"
+        }else{
+            tv_choose.text = "多选"
+        }
+
         try {
             mChooseFriends = intent.getParcelableArrayListExtra<FriendBean>(CHOOSE_Friends)
         } catch (e: Exception) {
@@ -114,6 +123,7 @@ class ChooseFriendsActivity : BaseActivity() {
                 loadMore()
             }
         })
+        swipeRefreshLayout.mRecyclerView.itemAnimator.changeDuration = 0
     }
 
     protected fun addItemDecoration(colorId: Int = R.color.color_D8D8D8, size: Int = 1) {
@@ -144,6 +154,13 @@ class ChooseFriendsActivity : BaseActivity() {
                 }
             } else {
                 mFriends.addAll(data.list.results)
+            }
+            if (mChooseFriends.size > 0) {
+                for (bean in mFriends) {
+                    if (mChooseFriends.contains(bean)) {
+                        bean.iIsChecked = 1
+                    }
+                }
             }
             swipeRefreshLayout.isRefreshing = false
             friendsAdapter.notifyDataSetChanged()

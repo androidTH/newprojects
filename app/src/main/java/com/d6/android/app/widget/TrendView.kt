@@ -121,6 +121,8 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
         } else if (square.userclassesid.equals("26")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+        }else if(TextUtils.equals(square.userclassesid,"7")){
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
         }
 
         if(TextUtils.equals("3",square.screen)){

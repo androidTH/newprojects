@@ -402,6 +402,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }else if(TextUtils.equals(it.userclassesid,"29")){
 //                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
                         headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_gj)
+                    }else if(TextUtils.equals(it.userclassesid,"7")){
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
                     }
                 } else {
                     if(TextUtils.equals(it.userclassesid.toString(),"22")){
@@ -419,6 +421,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }else if(TextUtils.equals(it.userclassesid,"26")){
 //                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
                         headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
+                    }else if(TextUtils.equals(it.userclassesid,"7")){
+                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
                     }
                 }
 
