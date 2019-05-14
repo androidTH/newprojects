@@ -68,7 +68,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         squareActionDialog.setDialogListener { p, s ->
            if (p == 0) {
                 mData?.let {
-                    startActivity(userId, "3")
+                    startActivity(sDateId, "3")
                 }
             }else if(p==2){
                isBaseActivity {

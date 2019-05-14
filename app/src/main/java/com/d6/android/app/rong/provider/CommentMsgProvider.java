@@ -17,13 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
-import com.d6.android.app.rong.bean.CommentMessage;
+import com.d6.android.app.models.Comment;
 import com.d6.android.app.rong.bean.CommentMsgContent;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -66,7 +63,7 @@ public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<C
 //        holder.mRlChatDynamicCommentCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {
             Log.i(TAG, "评论内容" + content.getExtra());
-            CommentMessage mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), CommentMessage.class);
+            Comment mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), Comment.class);
 
 //            JSONObject jsonObject = null;
 //            try {
@@ -109,7 +106,7 @@ public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<C
 
     @Override
     public void onItemClick(View view, int position, CommentMsgContent content, UIMessage message) {
-        CommentMessage mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), CommentMessage.class);
+        Comment mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), Comment.class);
         if (mCommentMsg != null) {
             Intent intent = new Intent();
             intent.setAction("com.d6.android.app.activities.SquareTrendDetailActivity");

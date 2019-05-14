@@ -24,11 +24,8 @@ import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.adapters.ChatImageAdapter;
-import com.d6.android.app.adapters.SelfReleaselmageAdapter;
 import com.d6.android.app.models.MyAppointment;
 import com.d6.android.app.rong.bean.AppointmentMsgContent;
-import com.d6.android.app.rong.bean.CommentMessage;
-import com.d6.android.app.rong.bean.CommentMsgContent;
 import com.d6.android.app.utils.Const;
 import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.RxRecyclerViewDividerTool;

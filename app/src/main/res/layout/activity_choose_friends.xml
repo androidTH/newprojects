@@ -33,7 +33,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_centerInParent="true"
             android:textSize="15sp"
-            android:textColor="@color/color_F7AB00"
+            android:textColor="@color/color_CDCDCD"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_15"
             android:text="确定"/>
@@ -95,7 +95,7 @@
             android:gravity="center_horizontal"
             android:lineSpacingExtra="@dimen/margin_5"
             android:padding="@dimen/padding_12"
-            android:text="暂无好友\n暂时没有符合条件的人，等会再来看看吧"
+            android:text="暂无好友\n暂时没有符合条件的联系人，等会再来看看吧"
             android:textColor="@color/color_999999"
             android:textSize="@dimen/textSize"/>
     </RelativeLayout>

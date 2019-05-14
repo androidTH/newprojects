@@ -126,8 +126,13 @@ class ShareFriendsDialog : DialogFragment() {
                 showFriends()
                 sResourceId = arguments.getString("sResourceId")
                 iType = 2
+            }else if(TextUtils.equals(fromType,"mysquare")){
+                showFriends()
+                sResourceId = arguments.getString("sResourceId")
+                iType = 2
             }else{
                 tv_share.visibility = View.GONE
+                tv_share_tips.visibility = View.GONE
                 rv_chooseuser.visibility = View.GONE
                 tv_joinblack.visibility = View.GONE
             }

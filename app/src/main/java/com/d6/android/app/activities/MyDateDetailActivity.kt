@@ -54,7 +54,7 @@ class MyDateDetailActivity : BaseActivity() {
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
-                    startActivity<ReportActivity>("id" to myAppointment!!.sId.toString(), "tiptype" to 4)
+                    startActivity<ReportActivity>("id" to myAppointment!!.sId.toString(), "tiptype" to "3")
                 }
             }
         })

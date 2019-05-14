@@ -22,6 +22,7 @@ import com.d6.android.app.utils.hideSoftKeyboard
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_choose_friends.*
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 import java.lang.Exception
 
@@ -63,8 +64,10 @@ class ChooseFriendsActivity : BaseActivity() {
             }
             if (mChooseFriends.size > 0) {
                 tv_choose.text = "确定(" + mChooseFriends.size + ")"
+                tv_choose.textColor = ContextCompat.getColor(this,R.color.color_F7AB00)
             } else {
-                tv_choose.text = getString(R.string.string_choose)
+                tv_choose.text = "确定"
+                tv_choose.textColor = ContextCompat.getColor(this,R.color.color_CDCDCD)
             }
             friendsAdapter.notifyItemChanged(position)
         }
@@ -91,16 +94,22 @@ class ChooseFriendsActivity : BaseActivity() {
             false
         }
 
-        if(TextUtils.equals("0",mSelectionState)){
-            tv_choose.text = "确定"
-        }else{
-            tv_choose.text = "多选"
-        }
-
         try {
             mChooseFriends = intent.getParcelableArrayListExtra<FriendBean>(CHOOSE_Friends)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+
+        if(TextUtils.equals("0",mSelectionState)){
+            tv_choose.text = "确定"
+            if(mChooseFriends!=null){
+                if(mChooseFriends.size>0){
+                    tv_choose.text = "确定(" + mChooseFriends.size + ")"
+                    tv_choose.textColor = ContextCompat.getColor(this,R.color.color_F7AB00)
+                }
+            }
+        }else{
+            tv_choose.text = "多选"
         }
 
         initRecyclerView()

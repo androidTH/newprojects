@@ -22,6 +22,7 @@ import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.util.*
 
@@ -186,7 +187,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                    }
                    isInBlackList = it.iIsInBlackList!!.toInt()
                }
-        })
+        }){code,msg->
+            if(code==2){
+               toast(msg)
+               finish()
+            }
+        }
     }
     /**
      * 获取私聊状态

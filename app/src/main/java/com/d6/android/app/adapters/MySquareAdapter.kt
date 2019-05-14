@@ -66,12 +66,13 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 //            }
 
             val shareDialog = ShareFriendsDialog()
-            shareDialog.arguments = bundleOf("id" to it.userid.toString())
+            shareDialog.arguments = bundleOf("from" to "mysquare","id" to it.userid.toString(),"sResourceId" to it.id.toString())
+            var squareId = it.id.toString()
             shareDialog.show((context as BaseActivity).supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
                     mUserData?.let {
-                        context.startActivity<ReportActivity>("id" to it.userId.toString(), "tiptype" to 2)
+                        context.startActivity<ReportActivity>("id" to squareId, "tiptype" to "2")
                     }
                 } else if (p == 1) {
                     delete(data)

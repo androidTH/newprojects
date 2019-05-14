@@ -256,7 +256,8 @@
         <activity android:name=".activities.TrendDetailActivity"
             android:theme="@style/imageactivity"/>
         <activity android:name=".activities.SettingActivity" />
-        <activity android:name=".activities.ReportActivity" />
+        <activity android:name=".activities.ReportActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".activities.SpeedDateActivity"
             android:label="@string/title_activity_speed_date"

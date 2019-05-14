@@ -519,7 +519,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 }
             }
-        }) { _, _ -> mSwipeRefreshLayout.isRefreshing = false }
+        }) { code, msg ->
+            if(code==2){
+                toast(msg)
+                finish()
+            }
+            mSwipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun refreshImages(userData: UserData) {

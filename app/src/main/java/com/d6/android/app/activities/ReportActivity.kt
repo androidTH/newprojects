@@ -7,6 +7,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.extentions.request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.hideSoftKeyboard
 import kotlinx.android.synthetic.main.activity_feed_back.*
 import org.jetbrains.anko.toast
 
@@ -44,7 +45,13 @@ class ReportActivity : TitleActivity() {
         dialog()
         Request.report(userId,id,content,tiptype).request(this){msg,_->
             toast(msg.toString())
+            hideSoftKeyboard(et_content)
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        hideSoftKeyboard(et_content)
     }
 }

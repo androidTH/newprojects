@@ -20,6 +20,7 @@ import com.d6.android.app.utils.hideSoftKeyboard
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_choose_friends.*
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 
 class ShareFriendsActivity : BaseActivity() {
@@ -73,6 +74,10 @@ class ShareFriendsActivity : BaseActivity() {
                 }
                 if (mChooseFriends.size > 0) {
                     tv_choose.text = "确定(" + mChooseFriends.size + ")"
+                    tv_choose.textColor = ContextCompat.getColor(this,R.color.color_F7AB00)
+                }else {
+                    tv_choose.text = "确定"
+                    tv_choose.textColor = ContextCompat.getColor(this,R.color.color_CDCDCD)
                 }
                 friendsAdapter.notifyItemChanged(position)
             }
@@ -81,6 +86,7 @@ class ShareFriendsActivity : BaseActivity() {
         tv_choose.setOnClickListener {
             if(TextUtils.equals(mSelectionState,"1")){
                 tv_choose.text = "确定"
+                tv_choose.textColor = ContextCompat.getColor(this,R.color.color_CDCDCD)
                 mSelectionState = "0"
             }else{
                 if (mChooseFriends != null) {

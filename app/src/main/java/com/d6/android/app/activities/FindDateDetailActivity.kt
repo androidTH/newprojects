@@ -66,7 +66,7 @@ class FindDateDetailActivity : TitleActivity() {
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
-                    startActivity<ReportActivity>("id" to mData.userId.toString(), "tiptype" to 4)
+                    startActivity<ReportActivity>("id" to mData.id.toString(), "tiptype" to "4")
                 }else if(p==3){
                     ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
                 }

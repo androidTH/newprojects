@@ -144,7 +144,7 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
-                    startActivity<ReportActivity>("id" to mTrend.id.toString(), "tiptype" to 2)
+                    startActivity<ReportActivity>("id" to mTrend.id.toString(), "tiptype" to "2")
                 } else if (p == 1) {
                     delSquare()
                 }

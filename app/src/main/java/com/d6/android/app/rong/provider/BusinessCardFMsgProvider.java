@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
@@ -24,15 +23,11 @@ import com.d6.android.app.adapters.CardTagAdapter;
 import com.d6.android.app.models.UserData;
 import com.d6.android.app.models.UserTag;
 import com.d6.android.app.rong.bean.BusinessCardFMsgContent;
-import com.d6.android.app.rong.bean.CommentMessage;
-import com.d6.android.app.rong.bean.CommentMsgContent;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;

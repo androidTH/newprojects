@@ -23,23 +23,15 @@ import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.adapters.ChatImageAdapter;
-import com.d6.android.app.adapters.SelfReleaselmageAdapter;
-import com.d6.android.app.rong.bean.CustomMessage;
-import com.d6.android.app.rong.bean.ImgTxtMessage;
-import com.d6.android.app.rong.bean.SquareMessage;
+import com.d6.android.app.models.Square;
 import com.d6.android.app.rong.bean.SquareMsgContent;
 import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.RxRecyclerViewDividerTool;
 import com.d6.android.app.widget.badge.DisplayUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;
@@ -117,11 +109,11 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
 
     @Override
     public void onItemClick(View view, int position, SquareMsgContent content, UIMessage message) {
-        SquareMessage mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), SquareMessage.class);
+        Square mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), Square.class);
         if(mSquareMsg!=null){
             Intent intent = new Intent();
             intent.setAction("com.d6.android.app.activities.SquareTrendDetailActivity");
-            intent.putExtra("id",mSquareMsg.getIds());
+            intent.putExtra("id",mSquareMsg.getId());
             view.getContext().startActivity(intent);
         }
     }
@@ -192,7 +184,7 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
 //        holder.mRlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {
             Log.i(TAG,"内容="+content.getExtra());
-            SquareMessage mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), SquareMessage.class);
+            Square mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), Square.class);
             holder.mHeaderView.setImageURI(mSquareMsg.getPicUrl());
             holder.mTvDynamicName.setText(mSquareMsg.getName());
             if(TextUtils.equals("0",mSquareMsg.getSex())){
@@ -235,18 +227,18 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
                 holder.mTvDynamicVip.setVisibility(View.GONE);
             }
 
-            holder.mTvDynamicRedflower.setText(String.valueOf(mSquareMsg.getiFlowerCount()));
+            holder.mTvDynamicRedflower.setText(String.valueOf(mSquareMsg.getIFlowerCount()));
             holder.mTvDynamicAppraise.setText(String.valueOf(mSquareMsg.getAppraiseCount()));
-            holder.mTvDynamicComment.setText(String.valueOf(mSquareMsg.getCommentcount()));
+            holder.mTvDynamicComment.setText(String.valueOf(mSquareMsg.getCommentCount()));
 
-            if (mSquareMsg.getCoverurl()==null||mSquareMsg.getCoverurl().length()==0) {
+            if (mSquareMsg.getImgUrl()==null||mSquareMsg.getImgUrl().length()==0) {
                 holder.mRvDynamicImages.setVisibility(View.GONE);
             } else {
                 holder.mRvDynamicImages.setVisibility(View.VISIBLE);
             }
 
             mImages.clear();
-            String[] images = mSquareMsg.getCoverurl().split(",");
+            String[] images = mSquareMsg.getImgUrl().split(",");
             if (images != null&&images.length>=1) {
                 if(images.length>3){
                     mImages.addAll(Arrays.asList(images).subList(0,3));
