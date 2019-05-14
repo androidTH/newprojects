@@ -167,14 +167,18 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         if (isNotificationEnabled(context)) {
             headerView.rl_msg_tips.visibility = View.GONE
         } else {
-            if (getSevenDays(SPUtils.instance().getLong(PUSH_ISNOTSHOW, System.currentTimeMillis()))) {
-                if (isNotificationEnabled(context)) {
-                    headerView.rl_msg_tips.visibility = View.GONE
+            if(SPUtils.instance().getLong(PUSH_ISNOTSHOW,System.currentTimeMillis())!=System.currentTimeMillis()){
+                if (getSevenDays(SPUtils.instance().getLong(PUSH_ISNOTSHOW, System.currentTimeMillis()))) {
+                    if (isNotificationEnabled(context)) {
+                        headerView.rl_msg_tips.visibility = View.GONE
+                    } else {
+                        headerView.rl_msg_tips.visibility = View.VISIBLE
+                    }
                 } else {
-                    headerView.rl_msg_tips.visibility = View.VISIBLE
+                    headerView.rl_msg_tips.visibility = View.GONE
                 }
-            } else {
-                headerView.rl_msg_tips.visibility = View.GONE
+            }else{
+                headerView.rl_msg_tips.visibility = View.VISIBLE
             }
         }
     }

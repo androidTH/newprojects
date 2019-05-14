@@ -50,10 +50,6 @@
          android:layout_marginTop="@dimen/margin_5"
          android:layout_marginLeft="6dp"
          android:layout_toRightOf="@+id/tv_sex"
-         android:paddingTop="@dimen/margin_3"
-         android:paddingBottom="@dimen/margin_3"
-         android:paddingLeft="5dp"
-         android:paddingRight="5dp"
          android:textColor="@color/orange_f6a"
          android:textSize="8sp"
          android:id="@+id/tv_vip"/>

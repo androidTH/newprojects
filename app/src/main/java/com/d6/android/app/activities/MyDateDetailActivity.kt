@@ -50,7 +50,7 @@ class MyDateDetailActivity : BaseActivity() {
         titlebar_datedetails.titleView.setText("我的约会")
         titlebar_datedetails.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
             val shareDialog = ShareFriendsDialog()
-            shareDialog.arguments = bundleOf("from" to "myDateDetail","id" to userId,"sResourceId" to myAppointment!!.sId.toString())
+            shareDialog.arguments = bundleOf("from" to "myDateDetail","id" to iAppointUserid,"sResourceId" to myAppointment!!.sId.toString())
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
@@ -85,6 +85,8 @@ class MyDateDetailActivity : BaseActivity() {
                 }
             }
         }
+
+        getLocalFriendsCount()
     }
 
     fun updateUI(){
@@ -265,6 +267,7 @@ class MyDateDetailActivity : BaseActivity() {
                     }
                 }
                 myAppointment = data
+                iAppointUserid = myAppointment.iAppointUserid.toString()
                 updateUI()
             }
         })
@@ -467,6 +470,16 @@ class MyDateDetailActivity : BaseActivity() {
                     CustomToast.showToast(msg)
                 }
             }
+    }
+
+    private fun getLocalFriendsCount(){
+        Request.findUserFriends(userId,"",1).request(this) { _, data ->
+            if(data?.list?.results!=null){
+                titlebar_datedetails.hideRightButton(0,false)
+            }else {
+                titlebar_datedetails.hideRightButton(0,true)
+            }
+        }
     }
 
     private class MClickSpan(val context: Context) : ClickableSpan() {

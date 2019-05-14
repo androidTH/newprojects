@@ -117,7 +117,7 @@ class ShareFriendsDialog : DialogFragment() {
                 }else{
                     4
                 }
-            }else if(TextUtils.equals(fromType,"selfPullDate")){
+            }else if(TextUtils.equals(fromType,"selfPullDate")||TextUtils.equals(fromType,"myDateDetail")){
                 showFriends()
                 tv_sharewx.visibility = View.GONE
                 sResourceId = arguments.getString("sResourceId")
