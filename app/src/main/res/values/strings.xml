@@ -18,7 +18,7 @@
     <string name="second_step_info">第二步:填写联系方式\n绝对保密，取得你同意后对方才能看到</string>
     <string name="third_step_info">第二步: 人工认证\n客服人工认证,保证用户资料真实有效</string>
     <string name="auth_tips">认证是为了保证用户的信息真实性，提供优质服务，目前仅提供微信人工认证服务（女生免费）</string>
-    <string name="loginout_tips">你的微信授权信息已过期，需重新授权去授权</string>
+    <string name="loginout_tips">你的微信授权信息已过期，请重新授权</string>
     <string name="wx_fast_login">微信快捷登录</string>
     <string name="user_no_auther">认证后更容易获得青睐·点击认证</string>
     <string name="mine_edit_info">编辑资料</string>
@@ -64,6 +64,7 @@
     <string name="string_other_apply_openchat">对方申请和你私聊</string>
     <string name="string_pay_points_openchat">支付积分可开启私聊</string>
     <string name="string_other_agreee_openchat">对方同意后可开启私聊</string>
+    <string name="string_otherapply_agreee_openchat">%1$s申请和你私聊</string>
     <string name="string_apply_agree_openchat">申请和对方私聊</string>
     <string name="string_already_applay">已申请</string>
     <string name="string_privatechat_set">私聊设置</string>
@@ -103,4 +104,5 @@
     <string name="string_removeblacklist">移出黑名单</string>
     <string name="string_notificefriends">通知好友</string>
     <string name="string_contacts">最近联系人</string>
+    <string name="string_searchfriends">搜索</string>
 </resources>

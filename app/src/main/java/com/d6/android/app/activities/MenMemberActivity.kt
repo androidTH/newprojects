@@ -91,6 +91,8 @@ class MenMemberActivity : BaseActivity() {
                 super.onPageStarted(view, url, favicon)
             }
         })
-        webView.loadUrl(BASE_URL+"static/member/index.html")
+
+        //http://47.105.50.76/JyPhone/static/member/index_new.html
+        webView.loadUrl(BASE_URL+"static/member/index_new.html")
     }
 }

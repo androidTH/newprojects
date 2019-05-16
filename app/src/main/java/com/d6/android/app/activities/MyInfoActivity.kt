@@ -288,10 +288,10 @@ class MyInfoActivity : BaseActivity() {
             return
         }
 
-        if(checkLimitEx(nick)){
-            showToast("昵称中不能包含特殊符号或表情")
-            return
-        }
+//        if(checkLimitEx(nick)){
+//            showToast("昵称中不能包含特殊符号或表情")
+//            return
+//        }
 
 //        val city = tv_city1.text.toString().trim()
 //        val area = tv_area1.text.toString().trim()

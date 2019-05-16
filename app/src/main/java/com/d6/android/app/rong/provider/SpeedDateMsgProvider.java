@@ -37,21 +37,8 @@ import io.rong.imlib.model.Message;
  */
 
 @ProviderTag(messageContent = SpeedDateMsgContent.class, showReadState = true)
-public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider<SpeedDateMsgContent>{
+public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider<SpeedDateMsgContent> {
     private static final String TAG = SpeedDateMsgProvider.class.getName();
-
-    private static class ViewHolder {
-        LinearLayout mLLChatSpeedDateCard;
-        SimpleDraweeView chat_speeddate_imageView;
-        TextView tv_chat_speeddate_type;
-        TextView tv_chat_speeddate_authlevel;
-        TextView tv_chat_speeddate_authstate;
-        TextView tv_chat_speeddate_name;
-        TextView tv_chat_speeddate_info;
-        TextView tv_chat_speeddate_content;
-        TextView tv_chat_speeddate_address;
-        boolean longClick;
-    }
 
     @Override
     public View newView(Context context, ViewGroup group) {
@@ -68,6 +55,78 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
         holder.tv_chat_speeddate_address = view.findViewById(R.id.tv_chat_speeddate_address);
         view.setTag(holder);
         return view;
+    }
+
+    @Override
+    public void bindView(final View v, int position, final SpeedDateMsgContent content, final UIMessage data) {
+        SpeedDateMsgProvider.ViewHolder holder = (SpeedDateMsgProvider.ViewHolder) v.getTag();
+        if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+            holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_right);
+        } else {
+            holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_left);
+        }
+        if (!TextUtils.isEmpty(content.getExtra())) {
+            Log.i(TAG, "约会内容speed=" + content.getExtra());
+            try {
+                MyDate date = GsonHelper.getGson().fromJson(content.getExtra(), MyDate.class);
+                holder.chat_speeddate_imageView.setImageURI(date.getSpeedpics());
+                holder.tv_chat_speeddate_name.setText(String.valueOf(date.getLooknumber()));
+                holder.tv_chat_speeddate_name.setSelected(TextUtils.equals("0", date.getSex()));
+
+                if (TextUtils.equals("0", date.getSex())) {
+                    holder.tv_chat_speeddate_info.setText(String.format("%s岁·%s·%s", date.getAge(), date.getHeight(), date.getWeight()));
+                } else {
+                    StringBuilder sb = new StringBuilder();
+                    if (!TextUtils.isEmpty(date.getJob())) {
+                        sb.append("职业:" + date.getJob());
+                    }
+                    if (!TextUtils.isEmpty(date.getZuojia())) {
+                        sb.append("座驾:" + date.getZuojia());
+                    }
+                    if (TextUtils.isEmpty(sb.toString())) {
+                        holder.tv_chat_speeddate_info.setVisibility(View.GONE);
+                    } else {
+                        holder.tv_chat_speeddate_info.setVisibility(View.VISIBLE);
+                    }
+                    holder.tv_chat_speeddate_info.setText(sb.toString());
+                }
+
+                holder.tv_chat_speeddate_type.setText(date.getSpeedStateStr());
+                if (TextUtils.equals("0", date.getSex())) {
+                    holder.tv_chat_speeddate_authstate.setVisibility(View.VISIBLE);
+                    holder.tv_chat_speeddate_authlevel.setVisibility(View.GONE);
+                    if (TextUtils.equals("1", date.getScreen())) {
+                        holder.tv_chat_speeddate_authstate.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.video_big));
+                    } else if (TextUtils.equals("0", date.getScreen())) {
+                        holder.tv_chat_speeddate_authstate.setVisibility(View.GONE);
+                    } else if (TextUtils.equals("3", date.getScreen())) {
+                        holder.tv_chat_speeddate_authstate.setVisibility(View.GONE);
+                        holder.tv_chat_speeddate_authstate.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.renzheng_big));
+                    }
+                } else {
+                    holder.tv_chat_speeddate_authstate.setVisibility(View.GONE);
+                    holder.tv_chat_speeddate_authlevel.setVisibility(View.VISIBLE);
+                    if (date.getClassesname().startsWith("普通")) {
+                        holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_ordinary));
+                    } else if (date.getClassesname().startsWith("白银")) {
+                        holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_silver));
+                    } else if (date.getClassesname().startsWith("黄金")) {
+                        holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_gold));
+                    } else if (date.getClassesname().startsWith("钻石")) {
+                        holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_zs));
+                    } else if (date.getClassesname().startsWith("私人")) {
+                        holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_private));
+                    } else if (date.getClassesname().startsWith("游客")) {
+                        holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.youke_icon));
+                    }
+                }
+
+                holder.tv_chat_speeddate_content.setText(date.getLookfriendstand());
+                holder.tv_chat_speeddate_address.setText(date.getSpeedcity());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -88,10 +147,10 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
     @Override
     public void onItemClick(View view, int position, SpeedDateMsgContent content, UIMessage message) {
         MyDate date = GsonHelper.getGson().fromJson(content.getExtra(), MyDate.class);
-        if(date!=null){
+        if (date != null) {
             Intent intent = new Intent();
             intent.setAction("com.d6.android.app.activities.SpeedDateDetailActivity");
-            intent.putExtra("data",date);
+            intent.putExtra("data", date);
             view.getContext().startActivity(intent);
         }
     }
@@ -130,9 +189,9 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
                 && !message.getConversationType().equals(Conversation.ConversationType.PUBLIC_SERVICE)
                 && !message.getConversationType().equals(Conversation.ConversationType.SYSTEM)
                 && !message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
-            items = new String[] {view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_recall)};
+            items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_recall)};
         } else {
-            items = new String[] {view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
+            items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
         }
 
         OptionsPopupDialog.newInstance(view.getContext(), items).setOptionsPopupDialogListener(new OptionsPopupDialog.OnOptionsItemClickedListener() {
@@ -143,7 +202,7 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
                     ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                     clipboard.setText(((SpeedDateMsgContent) content).getContent());
                 } else if (which == 1) {
-                    RongIM.getInstance().deleteMessages(new int[] {message.getMessageId()}, null);
+                    RongIM.getInstance().deleteMessages(new int[]{message.getMessageId()}, null);
                 } else if (which == 2) {
                     RongIM.getInstance().recallMessage(message.getMessage(), getPushContent(view.getContext(), message));
                 }
@@ -151,71 +210,16 @@ public class SpeedDateMsgProvider extends IContainerItemProvider.MessageProvider
         }).show();
     }
 
-    @Override
-    public void bindView(final View v, int position, final SpeedDateMsgContent content, final UIMessage data) {
-        SpeedDateMsgProvider.ViewHolder holder = (SpeedDateMsgProvider.ViewHolder) v.getTag();
-        if(data.getMessageDirection() == Message.MessageDirection.SEND){
-            holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_right);
-        }else{
-            holder.mLLChatSpeedDateCard.setBackgroundResource(R.drawable.ic_bubble_date_left);
-        }
-        if (!TextUtils.isEmpty(content.getExtra())) {
-             Log.i(TAG,"约会内容speed="+content.getExtra());
-             MyDate date = GsonHelper.getGson().fromJson(content.getExtra(), MyDate.class);
-             holder.chat_speeddate_imageView.setImageURI(date.getSpeedpics());
-             holder.tv_chat_speeddate_name.setText(String.valueOf(date.getLooknumber()));
-             holder.tv_chat_speeddate_name.setSelected(TextUtils.equals("0",date.getSex()));
-
-            if(TextUtils.equals("0",date.getSex())){
-                holder.tv_chat_speeddate_info.setText(String.format("%s岁·%s·%s", date.getAge(), date.getHeight(), date.getWeight()));
-            }else{
-                StringBuilder sb =new StringBuilder();
-                if(!TextUtils.isEmpty(date.getJob())){
-                    sb.append("职业:"+date.getJob());
-                }
-                if(!TextUtils.isEmpty(date.getZuojia())){
-                    sb.append("座驾:"+date.getZuojia());
-                }
-                if(TextUtils.isEmpty(sb.toString())){
-                    holder.tv_chat_speeddate_info.setVisibility(View.GONE);
-                }else{
-                    holder.tv_chat_speeddate_info.setVisibility(View.VISIBLE);
-                }
-                holder.tv_chat_speeddate_info.setText(sb.toString());
-            }
-
-            holder.tv_chat_speeddate_type.setText(date.getSpeedStateStr());
-            if(TextUtils.equals("0",date.getSex())){
-                holder.tv_chat_speeddate_authstate.setVisibility(View.VISIBLE);
-                holder.tv_chat_speeddate_authlevel.setVisibility(View.GONE);
-                if (TextUtils.equals("1", date.getScreen())) {
-                    holder.tv_chat_speeddate_authstate.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.video_big));
-                } else if(TextUtils.equals("0", date.getScreen())){
-                    holder.tv_chat_speeddate_authstate.setVisibility(View.GONE);
-                }else if(TextUtils.equals("3",date.getScreen())){
-                    holder.tv_chat_speeddate_authstate.setVisibility(View.GONE);
-                    holder.tv_chat_speeddate_authstate.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.renzheng_big));
-                }
-            }else{
-                holder.tv_chat_speeddate_authstate.setVisibility(View.GONE);
-                holder.tv_chat_speeddate_authlevel.setVisibility(View.VISIBLE);
-                if (date.getClassesname().startsWith("普通")) {
-                    holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.vip_ordinary));
-                } else if (date.getClassesname().startsWith("白银")) {
-                    holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_silver));
-                } else if (date.getClassesname().startsWith("黄金")) {
-                    holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_gold));
-                } else if (date.getClassesname().startsWith( "钻石")) {
-                    holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_zs));
-                } else if (date.getClassesname().startsWith("私人")) {
-                    holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.vip_private));
-                }else if (date.getClassesname().startsWith("游客")) {
-                    holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.youke_icon));
-                }
-            }
-
-            holder.tv_chat_speeddate_content.setText(date.getLookfriendstand());
-            holder.tv_chat_speeddate_address.setText(date.getSpeedcity());
-        }
+    private static class ViewHolder {
+        LinearLayout mLLChatSpeedDateCard;
+        SimpleDraweeView chat_speeddate_imageView;
+        TextView tv_chat_speeddate_type;
+        TextView tv_chat_speeddate_authlevel;
+        TextView tv_chat_speeddate_authstate;
+        TextView tv_chat_speeddate_name;
+        TextView tv_chat_speeddate_info;
+        TextView tv_chat_speeddate_content;
+        TextView tv_chat_speeddate_address;
+        boolean longClick;
     }
 }

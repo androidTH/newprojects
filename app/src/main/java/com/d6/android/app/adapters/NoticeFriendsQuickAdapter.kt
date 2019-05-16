@@ -18,5 +18,6 @@ class NoticeFriendsQuickAdapter(data: List<FriendBean>) : BaseQuickAdapter<Frien
         mHeadView.setImageURI(data.sPicUrl)
 //        val mIvClear = helper.getView<ImageView>(R.id.iv_clear)
         helper.addOnClickListener(R.id.iv_clear)
+        helper.addOnClickListener(R.id.ll_clear)
     }
 }

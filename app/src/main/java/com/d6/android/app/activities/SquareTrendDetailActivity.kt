@@ -173,7 +173,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         btn_send.setOnClickListener {
             hideSoftKeyboard(et_content)
-            comment()
+            if (!isFastClick()) {
+                comment()
+            }
         }
         dialog()
         getData()

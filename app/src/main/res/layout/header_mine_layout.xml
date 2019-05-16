@@ -114,6 +114,7 @@
         android:paddingRight="@dimen/margin_10"
         android:text="@string/user_no_auther"
         android:textColor="@color/white"
+        android:visibility="gone"
         android:textSize="11dp" />
 
     <android.support.v7.widget.RecyclerView

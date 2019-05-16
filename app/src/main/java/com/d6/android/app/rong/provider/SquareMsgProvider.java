@@ -32,6 +32,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;
@@ -47,25 +48,11 @@ import io.rong.imlib.model.Message;
  */
 
 @ProviderTag(messageContent = SquareMsgContent.class, showReadState = true)
-public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<SquareMsgContent>{
+public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<SquareMsgContent> {
     private static final String TAG = SquareMsgProvider.class.getName();
 
-    ArrayList<String> mImages =new ArrayList<>();
-    private ChatImageAdapter mImageAdapter = new ChatImageAdapter(mImages,1);
-    private static class ViewHolder {
-        LinearLayout mLlChatDynamicCard;
-        SimpleDraweeView mHeaderView;
-        ImageView mImgAuther;
-        TextView mTvDynamicName;
-        TextView mTvDynamicSex;
-        TextView mTvDynamicVip;
-        TextView mTvDynamicContent;
-        RecyclerView mRvDynamicImages;
-        TextView mTvDynamicRedflower;
-        TextView mTvDynamicAppraise;
-        TextView mTvDynamicComment;
-        boolean longClick;
-    }
+    ArrayList<String> mImages = new ArrayList<>();
+    private ChatImageAdapter mImageAdapter = new ChatImageAdapter(mImages, 1);
 
     @Override
     public View newView(Context context, ViewGroup group) {
@@ -86,10 +73,91 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
         holder.mRvDynamicImages.setHasFixedSize(true);
 //        holder.mRvDynamicImages.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
-        holder.mRvDynamicImages.setLayoutManager(new GridLayoutManager(context,3));
-        holder.mRvDynamicImages.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context,8)));//SpacesItemDecoration(dip(4),3)
+        holder.mRvDynamicImages.setLayoutManager(new GridLayoutManager(context, 3));
+        holder.mRvDynamicImages.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context, 8)));//SpacesItemDecoration(dip(4),3)
         view.setTag(holder);
         return view;
+    }
+
+    @Override
+    public void bindView(final View v, int position, final SquareMsgContent content, final UIMessage data) {
+        SquareMsgProvider.ViewHolder holder = (SquareMsgProvider.ViewHolder) v.getTag();
+        if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+            holder.mLlChatDynamicCard.setBackgroundResource(R.drawable.ic_bubble_right);
+        } else {
+            holder.mLlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        }
+//        holder.mRlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        if (!TextUtils.isEmpty(content.getExtra())) {
+            Log.i(TAG, "内容=" + content.getExtra());
+            try {
+                Square mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), Square.class);
+                holder.mHeaderView.setImageURI(mSquareMsg.getPicUrl());
+                holder.mTvDynamicName.setText(mSquareMsg.getName());
+                if (TextUtils.equals("0", mSquareMsg.getSex())) {
+                    holder.mTvDynamicSex.setSelected(true);
+                    if (TextUtils.equals("0", "0")) {
+                        holder.mImgAuther.setVisibility(View.GONE);
+                    } else if (TextUtils.equals("1", "1")) {
+                        holder.mImgAuther.setVisibility(View.VISIBLE);
+                        holder.mImgAuther.setImageResource(R.mipmap.video_small);
+                    } else if (TextUtils.equals("3", "3")) {
+                        holder.mImgAuther.setVisibility(View.GONE);
+                        holder.mImgAuther.setImageResource(R.mipmap.renzheng_small);
+                    }
+                } else {
+                    holder.mTvDynamicSex.setSelected(false);
+                    holder.mImgAuther.setVisibility(View.GONE);
+                }
+
+                holder.mTvDynamicSex.setText(mSquareMsg.getAge());
+                holder.mTvDynamicContent.setText(mSquareMsg.getContent());
+                if (mSquareMsg.getUserclassesname().startsWith("入门")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.gril_cj));
+                } else if (mSquareMsg.getUserclassesname().startsWith("中级")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.gril_zj));
+                } else if (mSquareMsg.getUserclassesname().startsWith("优质")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.gril_gj));
+                } else if (mSquareMsg.getUserclassesname().startsWith("普通")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_ordinary));
+                } else if (mSquareMsg.getUserclassesname().startsWith("白银")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_silver));
+                } else if (mSquareMsg.getUserclassesname().startsWith("黄金")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_gold));
+                } else if (mSquareMsg.getUserclassesname().startsWith("钻石")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_zs));
+                } else if (mSquareMsg.getUserclassesname().startsWith("私人")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_private));
+                } else if (mSquareMsg.getUserclassesname().startsWith("游客")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.youke_icon));
+                } else {
+                    holder.mTvDynamicVip.setVisibility(View.GONE);
+                }
+
+                holder.mTvDynamicRedflower.setText(String.valueOf(mSquareMsg.getIFlowerCount()));
+                holder.mTvDynamicAppraise.setText(String.valueOf(mSquareMsg.getAppraiseCount()));
+                holder.mTvDynamicComment.setText(String.valueOf(mSquareMsg.getCommentCount()));
+
+                if (mSquareMsg.getImgUrl() == null || mSquareMsg.getImgUrl().length() == 0) {
+                    holder.mRvDynamicImages.setVisibility(View.GONE);
+                } else {
+                    holder.mRvDynamicImages.setVisibility(View.VISIBLE);
+                }
+
+                mImages.clear();
+                String[] images = mSquareMsg.getImgUrl().split(",");
+                if (images != null && images.length >= 1) {
+                    if (images.length > 3) {
+                        mImages.addAll(Arrays.asList(images).subList(0, 3));
+                    } else {
+                        mImages.addAll(Arrays.asList(images));
+                    }
+                    holder.mRvDynamicImages.setAdapter(mImageAdapter);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -110,10 +178,10 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
     @Override
     public void onItemClick(View view, int position, SquareMsgContent content, UIMessage message) {
         Square mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), Square.class);
-        if(mSquareMsg!=null){
+        if (mSquareMsg != null) {
             Intent intent = new Intent();
             intent.setAction("com.d6.android.app.activities.SquareTrendDetailActivity");
-            intent.putExtra("id",mSquareMsg.getId());
+            intent.putExtra("id", mSquareMsg.getId());
             view.getContext().startActivity(intent);
         }
     }
@@ -152,9 +220,9 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
                 && !message.getConversationType().equals(Conversation.ConversationType.PUBLIC_SERVICE)
                 && !message.getConversationType().equals(Conversation.ConversationType.SYSTEM)
                 && !message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
-            items = new String[] {view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_recall)};
+            items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_recall)};
         } else {
-            items = new String[] {view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
+            items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
         }
 
         OptionsPopupDialog.newInstance(view.getContext(), items).setOptionsPopupDialogListener(new OptionsPopupDialog.OnOptionsItemClickedListener() {
@@ -165,7 +233,7 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
                     ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                     clipboard.setText(((SquareMsgContent) content).getContent());
                 } else if (which == 1) {
-                    RongIM.getInstance().deleteMessages(new int[] {message.getMessageId()}, null);
+                    RongIM.getInstance().deleteMessages(new int[]{message.getMessageId()}, null);
                 } else if (which == 2) {
                     RongIM.getInstance().recallMessage(message.getMessage(), getPushContent(view.getContext(), message));
                 }
@@ -173,80 +241,18 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
         }).show();
     }
 
-    @Override
-    public void bindView(final View v, int position, final SquareMsgContent content, final UIMessage data) {
-        SquareMsgProvider.ViewHolder holder = (SquareMsgProvider.ViewHolder) v.getTag();
-        if(data.getMessageDirection() == Message.MessageDirection.SEND){
-            holder.mLlChatDynamicCard.setBackgroundResource(R.drawable.ic_bubble_right);
-        }else{
-            holder.mLlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
-        }
-//        holder.mRlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
-        if (!TextUtils.isEmpty(content.getExtra())) {
-            Log.i(TAG,"内容="+content.getExtra());
-            Square mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), Square.class);
-            holder.mHeaderView.setImageURI(mSquareMsg.getPicUrl());
-            holder.mTvDynamicName.setText(mSquareMsg.getName());
-            if(TextUtils.equals("0",mSquareMsg.getSex())){
-                holder.mTvDynamicSex.setSelected(true);
-                if(TextUtils.equals("0","0")){
-                    holder.mImgAuther.setVisibility(View.GONE);
-                }else if (TextUtils.equals("1", "1")) {
-                    holder.mImgAuther.setVisibility(View.VISIBLE);
-                    holder.mImgAuther.setImageResource(R.mipmap.video_small);
-                } else if (TextUtils.equals("3", "3")) {
-                    holder.mImgAuther.setVisibility(View.GONE);
-                    holder.mImgAuther.setImageResource(R.mipmap.renzheng_small);
-                }
-            }else{
-                holder.mTvDynamicSex.setSelected(false);
-                holder.mImgAuther.setVisibility(View.GONE);
-            }
-
-            holder.mTvDynamicSex.setText(mSquareMsg.getAge());
-            holder.mTvDynamicContent.setText(mSquareMsg.getContent());
-            if (mSquareMsg.getUserclassesname().startsWith("入门")) {
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.gril_cj));
-            } else if (mSquareMsg.getUserclassesname().startsWith("中级")) {
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.gril_zj));
-            } else if (mSquareMsg.getUserclassesname().startsWith("优质")) {
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.gril_gj));
-            } else if (mSquareMsg.getUserclassesname().startsWith("普通")) {
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.vip_ordinary));
-            } else if (mSquareMsg.getUserclassesname().startsWith("白银")) {
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.vip_silver));
-            } else if (mSquareMsg.getUserclassesname().startsWith("黄金")) {
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.vip_gold));
-            } else if (mSquareMsg.getUserclassesname().startsWith( "钻石")) {
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.vip_zs));
-            } else if (mSquareMsg.getUserclassesname().startsWith("私人")) {
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.vip_private));
-            }else if(mSquareMsg.getUserclassesname().startsWith("游客")){
-                holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.youke_icon));
-            }else{
-                holder.mTvDynamicVip.setVisibility(View.GONE);
-            }
-
-            holder.mTvDynamicRedflower.setText(String.valueOf(mSquareMsg.getIFlowerCount()));
-            holder.mTvDynamicAppraise.setText(String.valueOf(mSquareMsg.getAppraiseCount()));
-            holder.mTvDynamicComment.setText(String.valueOf(mSquareMsg.getCommentCount()));
-
-            if (mSquareMsg.getImgUrl()==null||mSquareMsg.getImgUrl().length()==0) {
-                holder.mRvDynamicImages.setVisibility(View.GONE);
-            } else {
-                holder.mRvDynamicImages.setVisibility(View.VISIBLE);
-            }
-
-            mImages.clear();
-            String[] images = mSquareMsg.getImgUrl().split(",");
-            if (images != null&&images.length>=1) {
-                if(images.length>3){
-                    mImages.addAll(Arrays.asList(images).subList(0,3));
-                }else{
-                    mImages.addAll(Arrays.asList(images));
-                }
-                holder.mRvDynamicImages.setAdapter(mImageAdapter);
-            }
-        }
+    private static class ViewHolder {
+        LinearLayout mLlChatDynamicCard;
+        SimpleDraweeView mHeaderView;
+        ImageView mImgAuther;
+        TextView mTvDynamicName;
+        TextView mTvDynamicSex;
+        TextView mTvDynamicVip;
+        TextView mTvDynamicContent;
+        RecyclerView mRvDynamicImages;
+        TextView mTvDynamicRedflower;
+        TextView mTvDynamicAppraise;
+        TextView mTvDynamicComment;
+        boolean longClick;
     }
 }

@@ -37,7 +37,7 @@
             android:layout_marginLeft="@dimen/margin_16"
             android:layout_marginRight="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_15"
-            android:text="重新登录"
+            android:text="去授权"
             android:id="@+id/tv_action"
             android:textSize="@dimen/btnTextSize"
             android:textColor="@color/white"

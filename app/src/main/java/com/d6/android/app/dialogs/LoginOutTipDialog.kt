@@ -120,6 +120,7 @@ class LoginOutTipDialog : DialogFragment(),RequestManager {
             if(code == 0){
                 showToast(msg)
             }
+            dismissAllowingStateLoss()
         }
     }
 

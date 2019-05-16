@@ -230,7 +230,7 @@ class SignInActivity : BaseActivity() {
                     val name = if (data.containsKey("name")) data["name"] else ""
                     val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
                     val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
-                    sysErr("------->$gender--->$openId--->$name")
+                    sysErr("------->$gender--->$openId--->$name--->$unionId")
 //                    startActivity<BindPhoneActivity>()
                     thirdLogin(openId ?: "",unionId ?:"", name ?: "", iconUrl ?: "", gender ?: "", iconUrl ?: "")
                 } else {

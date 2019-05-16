@@ -156,10 +156,10 @@ class SetUserInfoActivity : BaseActivity() {
             return
         }
 
-        if(checkLimitEx(nick)){
-            tv_error.text = "昵称中不能包含特殊符号或表情"
-            return
-        }
+//        if(checkLimitEx(nick)){
+//            tv_error.text = "昵称中不能包含特殊符号或表情"
+//            return
+//        }
 
         val code = et_code.text.toString().trim()
         val accountId = SPUtils.instance().getString(Const.User.USER_ID)

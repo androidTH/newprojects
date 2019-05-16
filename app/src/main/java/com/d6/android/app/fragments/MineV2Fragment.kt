@@ -340,7 +340,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
                 if (TextUtils.equals("0", mData!!.screen) || mData!!.screen.isNullOrEmpty()) {
                     if (TextUtils.equals("7", mData!!.userclassesid)) {
-                        headerView.tv_auther_sign.visibility = View.VISIBLE
+                        headerView.tv_auther_sign.visibility = View.GONE
                     } else {
                         headerView.tv_auther_sign.visibility = View.GONE
                     }
@@ -354,7 +354,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                     headerView.img_auther.visibility = View.GONE
                     headerView.img_auther.setImageResource(R.mipmap.renzheng_big)
                 } else {
-                    headerView.tv_auther_sign.visibility = View.VISIBLE
+                    headerView.tv_auther_sign.visibility = View.GONE
                     headerView.img_auther.visibility = View.GONE
                 }
 

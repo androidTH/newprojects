@@ -27,10 +27,12 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
+import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imkit.utilities.OptionsPopupDialog;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Beyond on 2016/12/5.
@@ -60,28 +62,45 @@ public class CommentMsgProvider extends IContainerItemProvider.MessageProvider<C
         } else {
             holder.mLlChatDynamicCommentCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         }
-//        holder.mRlChatDynamicCommentCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {
             Log.i(TAG, "评论内容" + content.getExtra());
-            Comment mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), Comment.class);
+            try {
+                Comment mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), Comment.class);
 
 //            JSONObject jsonObject = null;
 //            try {
 //                jsonObject = new JSONObject(content.getExtra());
 //                String  commentUserName= jsonObject.getString("commentUserName");
 //                String commentContent = jsonObject.getString("content");
-            holder.tv_chat_comment_title.setText(mCommentMsg.getCommentUserName() + " 评论了你的动态");
-            holder.tv_chat_comment_content.setText(mCommentMsg.getContent());
-            if (TextUtils.isEmpty(mCommentMsg.getCoverUrl())) {
-                holder.mRightImagView.setVisibility(View.GONE);
-            } else {
-                holder.mRightImagView.setVisibility(View.VISIBLE);
-                String[] imgs = mCommentMsg.getCoverUrl().split(",");
-                if (imgs != null && imgs.length > 0) {
-                    holder.mRightImagView.setImageURI(imgs[0]);
+                if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+//                UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+//                userInfo.getName()
+                    if (TextUtils.isEmpty(mCommentMsg.getReplyUserName())) {
+                        if (!TextUtils.isEmpty(mCommentMsg.getSuqareUserName())) {
+                            holder.tv_chat_comment_title.setText("你评论了" + mCommentMsg.getSuqareUserName() + "的动态");
+                        } else {
+                            UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+                            holder.tv_chat_comment_title.setText("你评论了" + userInfo.getName() + "的动态");
+                        }
+                    } else {
+                        holder.tv_chat_comment_title.setText("你回复了" + mCommentMsg.getReplyUserName() + "的评论");
+                    }
+                } else {
+                    holder.tv_chat_comment_title.setText(mCommentMsg.getCommentUserName() + " 评论了你的动态");
                 }
+                holder.tv_chat_comment_content.setText(mCommentMsg.getContent());
+                if (TextUtils.isEmpty(mCommentMsg.getCoverUrl())) {
+                    holder.mRightImagView.setVisibility(View.GONE);
+                } else {
+                    holder.mRightImagView.setVisibility(View.VISIBLE);
+                    String[] imgs = mCommentMsg.getCoverUrl().split(",");
+                    if (imgs != null && imgs.length > 0) {
+                        holder.mRightImagView.setImageURI(imgs[0]);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
 //            } catch (JSONException e) {
 //                e.printStackTrace();
 //            }

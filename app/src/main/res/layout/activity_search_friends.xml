@@ -49,7 +49,7 @@
             android:drawablePadding="@dimen/margin_5"
             android:singleLine="true"
             android:textColorHint="@color/color_888888"
-            android:hint="搜索"
+            android:hint="@string/string_searchfriends"
             android:textSize="14sp"
             android:textColor="@color/color_black"
             android:paddingLeft="@dimen/margin_10"

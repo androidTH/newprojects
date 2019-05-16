@@ -20,4 +20,6 @@ data class Comment(@SerializedName("ids") val id: String? = ""):Serializable {
     val replyName: String? = ""
     val commentUserName:String?=""
     val coverUrl:String?=""
+    val suqareUserName:String?=""
+    val replyUserName:String?="" //回复某人的评论
 }

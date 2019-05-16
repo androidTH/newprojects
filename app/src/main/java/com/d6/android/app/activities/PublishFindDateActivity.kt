@@ -225,7 +225,7 @@ class PublishFindDateActivity : BaseActivity() {
         rv_date_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         rv_date_friends.adapter = mDateFriendsQuickAdapter
         mDateFriendsQuickAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if(view.id==R.id.iv_clear){
+            if(view.id==R.id.iv_clear||view.id==R.id.ll_clear){
                 if(mChooseFriends.size>position){
                     mChooseFriends.removeAt(position)
                     mDateFriendsQuickAdapter.notifyDataSetChanged()

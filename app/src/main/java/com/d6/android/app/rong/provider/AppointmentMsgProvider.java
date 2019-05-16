@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.Selection;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
@@ -53,28 +51,12 @@ import static com.d6.android.app.utils.TimeUtilsKt.converTime;
  */
 
 @ProviderTag(messageContent = AppointmentMsgContent.class, showReadState = true)
-public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvider<AppointmentMsgContent>{
+public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvider<AppointmentMsgContent> {
     private static final String TAG = AppointmentMsgProvider.class.getName();
 
-    ArrayList<String> mImages =new ArrayList<String>();
+    ArrayList<String> mImages = new ArrayList<String>();
 
-    private ChatImageAdapter mImageAdapter = new ChatImageAdapter(mImages,1);
-
-    private static class ViewHolder {
-        LinearLayout mLlChatDateCard;
-        SimpleDraweeView mHeaderView;
-        ImageView img_chat_date_auther;
-        TextView  tv_chat_date_name;
-        TextView  tv_chat_date_sex;
-        TextView  tv_chat_date_vip;
-        TextView tv_chat_date_content;
-        RecyclerView rv_chat_date_images;
-        TextView tv_chat_datetype;
-        TextView tv_chat_date_time;
-        TextView tv_chat_date_address;
-
-        boolean longClick;
-    }
+    private ChatImageAdapter mImageAdapter = new ChatImageAdapter(mImages, 1);
 
     @Override
     public View newView(Context context, ViewGroup group) {
@@ -93,12 +75,83 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
         holder.tv_chat_date_address = view.findViewById(R.id.tv_chat_date_address);
 
         holder.rv_chat_date_images.setHasFixedSize(true);
-        holder.rv_chat_date_images.setLayoutManager(new GridLayoutManager(context,3));
-        holder.rv_chat_date_images.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context,8)));//SpacesItemDecoration(dip(4),3)
+        holder.rv_chat_date_images.setLayoutManager(new GridLayoutManager(context, 3));
+        holder.rv_chat_date_images.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context, 8)));//SpacesItemDecoration(dip(4),3)
 
 //        holder.rv_chat_date_images.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         view.setTag(holder);
         return view;
+    }
+
+    @Override
+    public void bindView(final View v, int position, final AppointmentMsgContent content, final UIMessage data) {
+        ViewHolder holder = (AppointmentMsgProvider.ViewHolder) v.getTag();
+        if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+            holder.mLlChatDateCard.setBackgroundResource(R.drawable.ic_bubble_right);
+        } else {
+            holder.mLlChatDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+        }
+
+        if (!TextUtils.isEmpty(content.getExtra())) {
+            Log.i(TAG, "内容=" + content.getExtra());
+            try {
+                final MyAppointment appointmentMsg = GsonHelper.getGson().fromJson(content.getExtra(), MyAppointment.class);
+                holder.mHeaderView.setImageURI(appointmentMsg.getSAppointmentPicUrl());
+                holder.tv_chat_date_name.setText(appointmentMsg.getSAppointUserName());
+                holder.tv_chat_date_sex.setSelected(appointmentMsg.getISex() == 0);
+
+                if (appointmentMsg.getIAge() <= 0) {
+                    holder.tv_chat_date_sex.setText("");
+                } else {
+                    holder.tv_chat_date_sex.setText(String.valueOf(appointmentMsg.getIAge()));
+                }
+
+                holder.tv_chat_date_content.setText(appointmentMsg.getSDesc());
+
+                if (0 == appointmentMsg.getISex()) {
+                    holder.img_chat_date_auther.setVisibility(View.VISIBLE);
+                    if (TextUtils.equals("0", "0")) {
+                        holder.img_chat_date_auther.setVisibility(View.GONE);
+                    } else if (TextUtils.equals("1", "1")) {
+                        holder.img_chat_date_auther.setVisibility(View.VISIBLE);
+                        holder.img_chat_date_auther.setImageResource(R.mipmap.video_small);
+                    } else if (TextUtils.equals("3", "3")) {
+                        holder.img_chat_date_auther.setVisibility(View.GONE);
+                        holder.img_chat_date_auther.setImageResource(R.mipmap.renzheng_small);
+                    }
+                } else {
+                    holder.img_chat_date_auther.setVisibility(View.GONE);
+                }
+
+                holder.tv_chat_datetype.setText(Const.dateTypes[appointmentMsg.getIAppointType() - 1]);
+
+                if (appointmentMsg.getIAppointType() == Const.dateTypesImg.length) {
+                    Drawable drawable = ContextCompat.getDrawable(v.getContext(), R.mipmap.invitation_nolimit_small);
+                    holder.tv_chat_datetype.setCompoundDrawables(drawable, null, null, null);
+                } else {
+                    Drawable drawable = ContextCompat.getDrawable(v.getContext(), Const.dateTypesImg[appointmentMsg.getIAppointType() - 1]);
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
+                    holder.tv_chat_datetype.setCompoundDrawables(drawable, null, null, null);
+                }
+
+                holder.tv_chat_date_time.setText("倒计时·" + converTime(appointmentMsg.getDEndtime()));
+                holder.tv_chat_date_address.setText(appointmentMsg.getSPlace());
+                if (appointmentMsg.getSAppointPic() == null || appointmentMsg.getSAppointPic().length() == 0) {
+                    holder.rv_chat_date_images.setVisibility(View.GONE);
+                } else {
+                    holder.rv_chat_date_images.setVisibility(View.VISIBLE);
+                }
+
+                mImages.clear();
+                if (!TextUtils.isEmpty(appointmentMsg.getSAppointPic())) {
+                    String[] images = appointmentMsg.getSAppointPic().split(",");
+                    mImages.addAll(Arrays.asList(images));
+                    holder.rv_chat_date_images.setAdapter(mImageAdapter);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -119,14 +172,14 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
     @Override
     public void onItemClick(View view, int position, AppointmentMsgContent content, UIMessage message) {
         MyAppointment appointment = GsonHelper.getGson().fromJson(content.getExtra(), MyAppointment.class);
-        if(appointment!=null){
+        if (appointment != null) {
             Intent intent = new Intent();
             intent.setAction("com.d6.android.app.activities.MyDateDetailActivity");
-            intent.putExtra("from",FROM_MY_CHATDATE);
+            intent.putExtra("from", FROM_MY_CHATDATE);
 //            if(message.getMessageDirection() == Message.MessageDirection.SEND){
-            intent.putExtra("iShareUserId",message.getTargetId());
+            intent.putExtra("iShareUserId", message.getTargetId());
 //            }
-            intent.putExtra("data",appointment);
+            intent.putExtra("data", appointment);
             view.getContext().startActivity(intent);
         }
     }
@@ -165,9 +218,9 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
                 && !message.getConversationType().equals(Conversation.ConversationType.PUBLIC_SERVICE)
                 && !message.getConversationType().equals(Conversation.ConversationType.SYSTEM)
                 && !message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
-            items = new String[] {view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_recall)};
+            items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_recall)};
         } else {
-            items = new String[] {view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
+            items = new String[]{view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_copy), view.getContext().getResources().getString(io.rong.imkit.R.string.rc_dialog_item_message_delete)};
         }
 
         OptionsPopupDialog.newInstance(view.getContext(), items).setOptionsPopupDialogListener(new OptionsPopupDialog.OnOptionsItemClickedListener() {
@@ -178,7 +231,7 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
                     ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                     clipboard.setText(((AppointmentMsgContent) content).getContent());
                 } else if (which == 1) {
-                    RongIM.getInstance().deleteMessages(new int[] {message.getMessageId()}, null);
+                    RongIM.getInstance().deleteMessages(new int[]{message.getMessageId()}, null);
                 } else if (which == 2) {
                     RongIM.getInstance().recallMessage(message.getMessage(), getPushContent(view.getContext(), message));
                 }
@@ -186,70 +239,19 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
         }).show();
     }
 
-    @Override
-    public void bindView(final View v, int position, final AppointmentMsgContent content, final UIMessage data) {
-        ViewHolder holder = (AppointmentMsgProvider.ViewHolder) v.getTag();
-        if(data.getMessageDirection() == Message.MessageDirection.SEND){
-            holder.mLlChatDateCard.setBackgroundResource(R.drawable.ic_bubble_right);
-        }else{
-            holder.mLlChatDateCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
-        }
+    private static class ViewHolder {
+        LinearLayout mLlChatDateCard;
+        SimpleDraweeView mHeaderView;
+        ImageView img_chat_date_auther;
+        TextView tv_chat_date_name;
+        TextView tv_chat_date_sex;
+        TextView tv_chat_date_vip;
+        TextView tv_chat_date_content;
+        RecyclerView rv_chat_date_images;
+        TextView tv_chat_datetype;
+        TextView tv_chat_date_time;
+        TextView tv_chat_date_address;
 
-        if (!TextUtils.isEmpty(content.getExtra())) {
-            Log.i(TAG,"内容="+content.getExtra());
-            final MyAppointment appointmentMsg = GsonHelper.getGson().fromJson(content.getExtra(), MyAppointment.class);
-            holder.mHeaderView.setImageURI(appointmentMsg.getSAppointmentPicUrl());
-            holder.tv_chat_date_name.setText(appointmentMsg.getSAppointUserName());
-            holder.tv_chat_date_sex.setSelected(appointmentMsg.getISex()==0);
-
-            if(appointmentMsg.getIAge()<=0){
-                holder.tv_chat_date_sex.setText("");
-            }else{
-                holder.tv_chat_date_sex.setText(String.valueOf(appointmentMsg.getIAge()));
-            }
-
-            holder.tv_chat_date_content.setText(appointmentMsg.getSDesc());
-
-            if(0==appointmentMsg.getISex()){
-                holder.img_chat_date_auther.setVisibility(View.VISIBLE);
-                if(TextUtils.equals("0","0")){
-                    holder.img_chat_date_auther.setVisibility(View.GONE);
-                }else if (TextUtils.equals("1", "1")) {
-                    holder.img_chat_date_auther.setVisibility(View.VISIBLE);
-                    holder.img_chat_date_auther.setImageResource(R.mipmap.video_small);
-                } else if (TextUtils.equals("3", "3")) {
-                    holder.img_chat_date_auther.setVisibility(View.GONE);
-                    holder.img_chat_date_auther.setImageResource(R.mipmap.renzheng_small);
-                }
-            }else{
-                holder.img_chat_date_auther.setVisibility(View.GONE);
-            }
-
-            holder.tv_chat_datetype.setText(Const.dateTypes[appointmentMsg.getIAppointType()-1]);
-
-            if(appointmentMsg.getIAppointType() == Const.dateTypesImg.length){
-                Drawable drawable = ContextCompat.getDrawable(v.getContext(),R.mipmap.invitation_nolimit_small);
-                holder.tv_chat_datetype.setCompoundDrawables(drawable,null,null,null);
-            }else{
-                Drawable drawable = ContextCompat.getDrawable(v.getContext(),Const.dateTypesImg[appointmentMsg.getIAppointType()-1]);
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
-                holder.tv_chat_datetype.setCompoundDrawables(drawable,null,null,null);
-            }
-
-            holder.tv_chat_date_time.setText("倒计时·"+converTime(appointmentMsg.getDEndtime()));
-            holder.tv_chat_date_address.setText(appointmentMsg.getSPlace());
-            if (appointmentMsg.getSAppointPic()==null||appointmentMsg.getSAppointPic().length()==0) {
-                holder.rv_chat_date_images.setVisibility(View.GONE);
-            } else {
-                holder.rv_chat_date_images.setVisibility(View.VISIBLE);
-            }
-
-            mImages.clear();
-            if (!TextUtils.isEmpty(appointmentMsg.getSAppointPic())) {
-                String[] images = appointmentMsg.getSAppointPic().split(",");
-                mImages.addAll(Arrays.asList(images));
-                holder.rv_chat_date_images.setAdapter(mImageAdapter);
-            }
-        }
+        boolean longClick;
     }
 }

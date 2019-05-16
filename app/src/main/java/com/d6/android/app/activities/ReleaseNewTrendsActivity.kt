@@ -224,7 +224,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         rv_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         rv_friends.adapter = mNoticeFriendsQuickAdapter
         mNoticeFriendsQuickAdapter.setOnItemChildClickListener { adapter, view, position ->
-            if(view.id==R.id.iv_clear){
+            if(view.id==R.id.iv_clear||view.id==R.id.ll_clear){
                 if(mChooseFriends.size>position){
                     mChooseFriends.removeAt(position)
                     mNoticeFriendsQuickAdapter.notifyDataSetChanged()
