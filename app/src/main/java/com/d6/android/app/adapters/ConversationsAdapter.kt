@@ -15,6 +15,7 @@ import com.d6.android.app.utils.RongUtils
 import com.facebook.drawee.view.SimpleDraweeView
 import io.rong.imkit.RongContext
 import io.rong.imkit.model.ConversationProviderTag
+import io.rong.imkit.model.UIConversation
 import io.rong.imkit.utils.RongDateUtils
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
