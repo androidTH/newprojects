@@ -306,7 +306,7 @@ class MyInfoActivity : BaseActivity() {
         var zuojia = et_zuojia.text.toString().trim()
 
         userData.name = nick
-//        userData.sex = sex
+        userData.sex = ""
         userData.hobbit = hobbit
         userData.job = job
 //        userData.age = age

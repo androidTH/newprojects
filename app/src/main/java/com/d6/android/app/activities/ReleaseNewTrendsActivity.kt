@@ -50,7 +50,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         AddImageV2Adapter(mImages)
     }
 
-    private var city: String? = null
+    private var city:String=""
     private val locationClient by lazy {
         AMapLocationClient(applicationContext)
     }
@@ -70,7 +70,6 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_release_new_trends)
         immersionBar.init()
-        city = ""
         rv_images.setHasFixedSize(true)
         rv_images.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
         rv_images.adapter = addAdapter
@@ -102,10 +101,10 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         locationClient.setLocationListener {
             sysErr("--location--->$it")
             if (it != null) {
-                city = it.city
+                city = it.city.replace("省","").replace("市","").trim()
                 locationClient.stopLocation()
                 if (cityType == 0) {
-                    tv_address.text = ""
+                    tv_address.text = "添加地址"
 //                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)//R.mipmap.ic_add1
                     tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//R.mipmap.ic_add1
 //                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.textColor99))
@@ -134,7 +133,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             } else {
                 cityType=0
                 toast("没有定位权限")
-                tv_address.text = ""
+                tv_address.text = "添加地址"
 //                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
                 tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//R.mipmap.ic_add1
@@ -146,7 +145,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             if (cityType == 1) {//当前显示定位
                 cityType = 0
                 city = ""
-                tv_address.text = ""
+                tv_address.text = "添加地址"
 //                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
                 tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//comment_addlocal_icon

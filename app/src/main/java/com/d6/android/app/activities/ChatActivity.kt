@@ -158,7 +158,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
      */
     private fun doUpdatePrivateChatStatus(iStatus:String){
         Request.doUpdatePrivateChatStatus(mTargetId,userId,iStatus).request(this,false,success={msg,jsonObject->
-            relative_tips.visibility = View.GONE
             if(TextUtils.equals("2",iStatus)){
                 fragment?.let {
                     it.doIsNotSendMsg(false,"")
@@ -173,6 +172,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                         relative_tips.visibility = View.GONE
                     }
                 }
+            }else{
+                linear_openchat_agree.visibility = View.GONE
+                getApplyStatus()
             }
         }){code,msg->
             showToast(msg)
@@ -225,7 +227,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     fragment?.let {
                         it.doIsNotSendMsg( true, String.format(resources.getString(R.string.string_otherapply_agreee_openchat),tv_chattitle.text))
                     }
-                }else if(code == 4){//双方均未发出私聊申请
+                }else if(code == 4){//双方均未发出私聊申请切双方私聊设置为同意后私聊
                     relative_tips.visibility = View.VISIBLE
                     tv_openchat_apply.visibility = View.VISIBLE
                     tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
@@ -423,6 +425,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     relative_tips.visibility = View.VISIBLE
                     linear_openchat_agree.visibility = View.VISIBLE
                     tv_openchat_apply.visibility = View.GONE
+                    tv_openchat_points.visibility = View.GONE
                     tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
                     tv_openchat_tips.text = getString(R.string.string_other_apply_openchat)
                 }else if(TextUtils.equals("2",type)){//同意
@@ -447,6 +450,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 }else if(TextUtils.equals("3",type)){//拒绝
                     relative_tips.visibility = View.VISIBLE
                     tv_openchat_apply.visibility = View.VISIBLE
+                    tv_openchat_apply.isEnabled = true
+                    tv_openchat_apply.text = resources.getText(R.string.string_apply_openchat)
                     tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
                     tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
                     IsAgreeChat = false

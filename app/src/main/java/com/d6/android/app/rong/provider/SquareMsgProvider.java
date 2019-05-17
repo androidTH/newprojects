@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.Selection;
@@ -18,14 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.adapters.ChatImageAdapter;
 import com.d6.android.app.models.Square;
 import com.d6.android.app.rong.bean.SquareMsgContent;
+import com.d6.android.app.utils.Const;
 import com.d6.android.app.utils.GsonHelper;
+import com.d6.android.app.utils.SPUtils;
 import com.d6.android.app.widget.RxRecyclerViewDividerTool;
 import com.d6.android.app.widget.badge.DisplayUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -38,10 +38,13 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
+import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imkit.utilities.OptionsPopupDialog;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Beyond on 2016/12/5.
@@ -84,12 +87,15 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
         SquareMsgProvider.ViewHolder holder = (SquareMsgProvider.ViewHolder) v.getTag();
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             holder.mLlChatDynamicCard.setBackgroundResource(R.drawable.ic_bubble_right);
+//            UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+//            strDir="你给"+userInfo.getName()+"分享了一条动态";
         } else {
             holder.mLlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+//            UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+//            strDir=userInfo.getName()+"给你分享了一条动态";
         }
-//        holder.mRlChatDynamicCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
         if (!TextUtils.isEmpty(content.getExtra())) {
-            Log.i(TAG, "内容=" + content.getExtra());
+            Log.i(TAG, data.getTargetId()+"id内容=" + content.getExtra());
             try {
                 Square mSquareMsg = GsonHelper.getGson().fromJson(content.getExtra(), Square.class);
                 holder.mHeaderView.setImageURI(mSquareMsg.getPicUrl());
@@ -170,9 +176,26 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
             if (content.length() > 100) {
                 content = content.substring(0, 100);
             }
+//            UserInfo userInfo = data.getUserInfo();
+//            if(userInfo!=null){
+//                return new SpannableString(AndroidEmoji.ensure(userInfo.getName()+content));
+//            }
             return new SpannableString(AndroidEmoji.ensure(content));
         }
         return null;
+    }
+
+    private String strDir="";
+
+    @Override
+    public Spannable getSummary(UIMessage data) {
+        UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+        if(data.getMessageDirection() == Message.MessageDirection.SEND){
+            strDir = "发送方"+userInfo.getName();
+        }else{
+            strDir = "接收方"+userInfo.getName();
+        }
+        return super.getSummary(data);
     }
 
     @Override

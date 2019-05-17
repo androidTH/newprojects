@@ -98,5 +98,6 @@ public class RongPlugin {
         RongIM.registerMessageTemplate(new LookDateMsgProvider());//密约
         RongIM.registerMessageTemplate(new BusinessCardFMsgProvider());//急约
         RongIM.registerMessageTemplate(new BusinessCardMMsgProvider());//急约
+
     }
 }

@@ -66,7 +66,16 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@mipmap/renzheng_big"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/img_official"
+            android:layout_width="23dp"
+            android:layout_height="13dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_5"
+            android:background="@mipmap/official_iconnew"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <TextView

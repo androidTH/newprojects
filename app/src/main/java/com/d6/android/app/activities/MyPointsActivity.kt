@@ -111,6 +111,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
                 dialogCashMoney.show(supportFragmentManager,"cashmoney")
                 dialogCashMoney.setDialogListener { p, s ->
+//                    var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
+//                    mHeaderView.tv_redflowernums.text = redflowerNums.toString()
                     getUserInfo()
                     getData()
                 }

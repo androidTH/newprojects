@@ -900,9 +900,9 @@ fun chatService(activity: BaseActivity){
     var sex = SPUtils.instance().getString(Const.User.USER_SEX)
     if(TextUtils.equals("0",sex)){
         //女客服号
-        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceId, "D6客服")
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceWomenId, "D6男生客服")
     }else{
-        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceWomenId, "D6客服")
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceId, "D6女生客服")
     }
 }
 

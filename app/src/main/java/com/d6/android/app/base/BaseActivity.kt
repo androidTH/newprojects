@@ -22,6 +22,7 @@ import java.lang.Exception
 import android.view.MotionEvent
 import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
+import com.d6.android.app.widget.LoadDialog
 import com.gyf.barlibrary.ImmersionBar
 
 
@@ -34,10 +35,6 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     lateinit var ACTION_CLOSE_ALL: String
     val compositeDisposable = CompositeDisposable()
     //改用lazy初始，第一次使用时才会初始化
-    private val dialog: ProgressDialog by lazy {
-        ProgressDialog(this, R.style.Theme_ProgressDialog)
-    }
-
     val immersionBar by lazy {
         ImmersionBar.with(this)
                 .statusBarColor(R.color.white).statusBarDarkFont(true)
@@ -119,28 +116,11 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     }
 
     fun dialog(msg: String = "加载中...", canCancel: Boolean = true,visibility:Boolean = true) {
-        if (!canCancel) {
-            dialog.setOnCancelListener {
-                if (this.finishWhenCancelDialog()) {
-                    finish()
-                }
-            }
-        } else {
-            //这里设置如果是可以取消的监听器置null了。可以自己在页面上重新设置想要的操作。这里不知道具体需求。
-            dialog.setOnCancelListener(null)
-        }
-        dialog.setCanceledOnTouchOutside(canCancel)
-        dialog.setMessage(msg,visibility = visibility)
+        LoadDialog.show(this,msg,canCancel)
     }
 
     override fun dismissDialog() {
-        if (dialog.isShowing) {
-//            val activity = dialog.getOwnerActivity()
-//            if(activity!= null&&!activity.isFinishing()){
-//                dialog.dismiss()
-//            }
-            dialog.dismiss()
-        }
+        LoadDialog.dismiss(this)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

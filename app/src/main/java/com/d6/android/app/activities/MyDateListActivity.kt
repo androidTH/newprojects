@@ -44,7 +44,6 @@ class MyDateListActivity : RecyclerActivity() {
             }
         }
         addItemDecoration()
-        dialog()
         getData()
     }
 

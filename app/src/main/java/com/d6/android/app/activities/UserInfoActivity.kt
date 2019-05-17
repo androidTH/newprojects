@@ -25,6 +25,8 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
+import com.d6.android.app.utils.Const.CustomerServiceId
+import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.gson.JsonObject
@@ -357,6 +359,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
 //                if (TextUtils.equals("0", it.sex)) {
+                if(TextUtils.equals(id,CustomerServiceId)||TextUtils.equals(id,CustomerServiceWomenId)){
+                    headerView.img_other_auther.visibility = View.GONE
+                    headerView.img_date_auther.visibility = View.GONE
+                    headerView.img_official.visibility = View.VISIBLE
+                }else{
                     if (TextUtils.equals("0", it.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
                         headerView.img_other_auther.visibility = View.GONE
                         headerView.img_date_auther.visibility = View.GONE
@@ -375,6 +382,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         headerView.img_other_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_big)
                         headerView.img_date_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_small)
                     }
+                }
+
 //                } else {
 //                    headerView.img_other_auther.visibility = View.GONE
 //                    headerView.img_date_auther.visibility = View.GONE

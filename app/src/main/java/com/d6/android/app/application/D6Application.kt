@@ -12,6 +12,7 @@ import android.os.Handler
 import android.os.Looper
 import android.support.multidex.MultiDex
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,6 +26,7 @@ import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
+import com.d6.android.app.rong.bean.SquareMsgContent
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
@@ -36,11 +38,13 @@ import com.umeng.socialize.PlatformConfig
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
+import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
 import io.rong.push.RongPushClient
+import io.rong.push.notification.RongNotificationInterface
 import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.toast
 import java.lang.Exception
@@ -117,6 +121,15 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
             RongIM.init(this)
             RongPlugin.init(this)
             RongIM.getInstance().setMessageAttachedUserInfo(true)
+//            RongIMClient.getInstance().setPushContentShowStatus(false, object : RongIMClient.OperationCallback() {
+//                override fun onSuccess() {
+//
+//                }
+//
+//                override fun onError(errorCode: RongIMClient.ErrorCode) {
+//
+//                }
+//            })
             initCacheLib()
             setInputProvider()
         }
@@ -222,7 +235,18 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null && message.conversationType == Conversation.ConversationType.PRIVATE) {
-//            sendBroadcast(Intent(Const.NEW_MESSAGE))
+            if(message.content is SquareMsgContent){
+                if(message.messageDirection == Message.MessageDirection.RECEIVE){
+                    val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.senderUserId)
+                    (message.content as SquareMsgContent).content = "${userInfo.name}给你发送了一条动态"
+                    Log.i("onReceived","接受消息:${userInfo.name}给你发送了一条动态")
+                }else if(message.messageDirection == Message.MessageDirection.SEND){
+                    val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.targetId)
+                    (message.content as SquareMsgContent).content = "sssss发送了一条动态"
+                    Log.i("onReceived","发送消息:你给${userInfo.name}发送了一条动态")
+                }
+            }
+            sendBroadcast(Intent(Const.NEW_MESSAGE))
 //            message?.let {
 //                if (it.content is TipsMessage) {
 //                    var mTipsMessage = (it.content as TipsMessage)

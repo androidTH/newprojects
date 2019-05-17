@@ -338,24 +338,30 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
-                if (TextUtils.equals("0", mData!!.screen) || mData!!.screen.isNullOrEmpty()) {
-                    if (TextUtils.equals("7", mData!!.userclassesid)) {
+                if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
+                    headerView.tv_auther_sign.visibility = View.GONE
+                    headerView.img_auther.visibility = View.GONE
+                    headerView.img_mine_official.visibility = View.VISIBLE
+                }else{
+                    if (TextUtils.equals("0", mData!!.screen) || mData!!.screen.isNullOrEmpty()) {
+                        if (TextUtils.equals("7", mData!!.userclassesid)) {
+                            headerView.tv_auther_sign.visibility = View.GONE
+                        } else {
+                            headerView.tv_auther_sign.visibility = View.GONE
+                        }
+                        headerView.img_auther.visibility = View.GONE
+                    } else if (TextUtils.equals("1", mData!!.screen)) {
+                        headerView.img_auther.setImageResource(R.mipmap.video_big)
+                        headerView.img_auther.visibility = View.VISIBLE
                         headerView.tv_auther_sign.visibility = View.GONE
+                    } else if (TextUtils.equals("3", mData!!.screen)) {
+                        headerView.tv_auther_sign.visibility = View.GONE
+                        headerView.img_auther.visibility = View.GONE
+                        headerView.img_auther.setImageResource(R.mipmap.renzheng_big)
                     } else {
                         headerView.tv_auther_sign.visibility = View.GONE
+                        headerView.img_auther.visibility = View.GONE
                     }
-                    headerView.img_auther.visibility = View.GONE
-                } else if (TextUtils.equals("1", mData!!.screen)) {
-                    headerView.img_auther.setImageResource(R.mipmap.video_big)
-                    headerView.img_auther.visibility = View.VISIBLE
-                    headerView.tv_auther_sign.visibility = View.GONE
-                } else if (TextUtils.equals("3", mData!!.screen)) {
-                    headerView.tv_auther_sign.visibility = View.GONE
-                    headerView.img_auther.visibility = View.GONE
-                    headerView.img_auther.setImageResource(R.mipmap.renzheng_big)
-                } else {
-                    headerView.tv_auther_sign.visibility = View.GONE
-                    headerView.img_auther.visibility = View.GONE
                 }
 
                 //27入门 28中级  29优质

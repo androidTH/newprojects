@@ -61,11 +61,22 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
     }
 
+    private val rongBroadcast by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    getUnReadCount()
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         immersionBar.init()
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
+        registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
         tabhost.setup(this, supportFragmentManager, R.id.container)
         tabhost.tabWidget.dividerDrawable = null
         tabTexts.forEachWithIndex { i, it ->
@@ -391,7 +402,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun getSysLastOne() {
-        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
+//        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
@@ -518,6 +529,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     override fun onDestroy() {
         try {
             unregisterReceiver(broadcast)
+            unregisterReceiver(rongBroadcast)
         } catch (e: Exception) {
 
         }

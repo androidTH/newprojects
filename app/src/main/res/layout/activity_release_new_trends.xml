@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@color/color_F5F5F5"
@@ -71,8 +72,9 @@
                 android:layout_width="match_parent"
                 android:background="@color/white"
                 android:paddingLeft="15dp"
-                android:paddingBottom="@dimen/margin_15"
                 android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_8"
+                android:paddingTop="@dimen/margin_8"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
@@ -81,18 +83,17 @@
                     android:drawablePadding="@dimen/margin_5"
                     android:drawableLeft="@mipmap/comment_addlocal_icon"
                     android:drawableRight="@mipmap/comment_local_del"
-                    android:hint="添加地点"
+                    android:text="添加地点"
                     android:textColor="@color/color_888888"
                     android:background="@drawable/shape_6r_f5"
-                    android:paddingLeft="@dimen/margin_8"
-                    android:paddingRight="@dimen/margin_8"
+                    android:paddingLeft="@dimen/margin_6"
+                    android:paddingRight="@dimen/margin_6"
                     android:id="@+id/tv_address"/>
                 <View
                     android:id="@+id/view_bottomline"
                     android:layout_below="@+id/tv_address"
-                    android:layout_marginLeft="@dimen/margin_15"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:layout_marginTop="@dimen/margin_13"
+                    android:layout_marginTop="@dimen/margin_8"
                     android:layout_width="match_parent"
                     android:background="@color/color_EFEFEF"
                     android:layout_height="0.5dp"/>
@@ -102,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="@dimen/margin_30"
+                    android:layout_marginTop="@dimen/margin_16"
                     android:layout_marginRight="@dimen/margin_5"
                     android:drawablePadding="@dimen/margin_5"
                     android:drawableLeft="@mipmap/notice_friends_icon"
@@ -119,7 +120,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/height_40"
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/margin_15"
                     android:layout_marginRight="@dimen/margin_10" />
             </RelativeLayout>
             <TextView

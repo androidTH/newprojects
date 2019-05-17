@@ -2,16 +2,19 @@ package com.d6.android.app.adapters
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.rong.provider.SquareMsgProvider
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.RongUtils
 import com.facebook.drawee.view.SimpleDraweeView
 import io.rong.imkit.RongContext
+import io.rong.imkit.model.ConversationProviderTag
 import io.rong.imkit.utils.RongDateUtils
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
@@ -41,6 +44,16 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         } else {
             tv_content.text = ""
         }
+
+//        var tag = RongContext.getInstance().getConversationProviderTag(data.conversationType.getName())
+
+//        if(tag.portraitPosition==1){
+//          Log.i("ddddd","发送方")
+//        }else if(tag.portraitPosition==2){
+//            Log.i("ddddd","接收方")
+//        }else{
+//            Log.i("ddddd","接收方")
+//        }
 
         var img_servicesign = holder.bind<ImageView>(R.id.iv_header_servicesign)
         if(TextUtils.equals(Const.CustomerServiceId, data.targetId)|| TextUtils.equals(Const.CustomerServiceWomenId, data.targetId)){

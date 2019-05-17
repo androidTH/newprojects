@@ -38,7 +38,17 @@
             android:layout_height="@dimen/margin_15"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             android:src="@mipmap/video_big"/>
+        <ImageView
+            android:id="@+id/img_mine_official"
+            android:layout_width="23dp"
+            android:layout_height="13dp"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@mipmap/official_iconnew"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <TextView

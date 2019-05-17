@@ -129,8 +129,6 @@ class SettingActivity : TitleActivity() {
         tv_blacklist.setOnClickListener {
             startActivity<BlackListActivity>()
         }
-
-        dialog()
         getUserInfo()
     }
 

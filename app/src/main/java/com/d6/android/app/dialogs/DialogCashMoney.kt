@@ -113,7 +113,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                     var mCashMoney = money.toInt()
                     if (mCashMoney <= cashmoney.toFloat()) {
                         if(mCashMoney>= 20){
-                            doCashMoney(et_cash_input.text.toString())
+                            doCashMoney(money)
                         }else{
                             showToast("最低提现金额不能小于20元！")
                         }
