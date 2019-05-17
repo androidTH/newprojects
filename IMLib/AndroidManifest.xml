@@ -51,7 +51,7 @@
             <intent-filter>
                 <action android:name="io.rong.push.intent.action.HEART_BEAT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />

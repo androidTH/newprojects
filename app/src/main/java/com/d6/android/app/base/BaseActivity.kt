@@ -125,7 +125,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         //注：回调 3
-//        Bugtags.onDispatchTouchEvent(this, event)
+        Bugtags.onDispatchTouchEvent(this, event)
         return super.dispatchTouchEvent(event)
     }
 
