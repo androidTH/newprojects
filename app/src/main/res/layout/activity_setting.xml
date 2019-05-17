@@ -28,84 +28,92 @@
                     android:id="@+id/rl_headView"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:layout_marginTop="4dp"
                     android:layout_marginLeft="4dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginRight="6dp">
 
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/headView"
                         style="@style/DefaultCircleHeadStyle"
                         android:layout_width="56dp"
-                        android:layout_height="56dp"/>
+                        android:layout_height="56dp" />
 
                     <ImageView
                         android:id="@+id/img_auther"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/margin_15"
-                        android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
                         android:src="@mipmap/video_small" />
                 </RelativeLayout>
 
-                <!--android:background="@drawable/shape_auther_bg"-->
-
-                <TextView
-                    android:id="@+id/tv_nick"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_45"
                     android:layout_toRightOf="@+id/rl_headView"
-                    android:maxWidth="88dp"
-                    android:singleLine="true"
-                    android:textColor="@color/textColor"
-                    android:textSize="@dimen/textSize" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_sex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:layout_marginRight="5dp"
-                    android:layout_toRightOf="@+id/tv_nick"
-                    android:background="@drawable/ic_sex_bg_selector"
-                    android:drawableLeft="@drawable/sex_white_selector"
-                    android:drawablePadding="1dp"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp"
-                    android:paddingTop="0.5dp"
-                    android:paddingBottom="0.5dp"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_vip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:layout_toRightOf="@+id/tv_sex"
-                    android:drawablePadding="@dimen/margin_2"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:paddingBottom="1dp"
-                    android:paddingTop="1dp"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:visibility="visible" />
+                        <TextView
+                            android:id="@+id/tv_nick"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:maxWidth="130dp"
+                            android:singleLine="true"
+                            android:textColor="@color/textColor"
+                            android:textSize="@dimen/textSize" />
 
-                <TextView
-                    android:id="@+id/tv_signature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_nick"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:layout_marginRight="8dp"
-                    android:layout_toRightOf="@+id/rl_headView"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textColor="@color/textColor"
-                    android:textSize="12dp" />
+                        <TextView
+                            android:id="@+id/tv_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_toRightOf="@+id/tv_nick"
+                            android:background="@drawable/ic_sex_bg_selector"
+                            android:drawableLeft="@drawable/sex_white_selector"
+                            android:drawablePadding="1dp"
+                            android:paddingLeft="3dp"
+                            android:paddingTop="0.5dp"
+                            android:paddingRight="3dp"
+                            android:paddingBottom="0.5dp"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_vip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/tv_sex"
+                            android:drawablePadding="@dimen/margin_2"
+                            android:paddingLeft="5dp"
+                            android:paddingTop="1dp"
+                            android:paddingRight="5dp"
+                            android:paddingBottom="1dp"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_signature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:layout_marginRight="8dp"
+                        android:layout_toRightOf="@+id/rl_headView"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textColor="@color/textColor"
+                        android:textSize="12dp" />
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="wrap_content"

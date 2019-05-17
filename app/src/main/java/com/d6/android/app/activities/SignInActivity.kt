@@ -223,7 +223,6 @@ class SignInActivity : BaseActivity() {
     private fun weChatLogin() {
         shareApi.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, object : UMAuthListener {
             override fun onComplete(p0: SHARE_MEDIA?, p1: Int, data: MutableMap<String, String>?) {
-                dismissDialog()
                 if (data != null) {
                     val openId = if (data.containsKey("openid")) data["openid"] else ""
                     val unionId = if (data.containsKey("unionid")) data["unionid"] else ""
@@ -325,7 +324,6 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
-        dialog("登录中...")
         Request.loginV2New(0, openId = openId,sUnionid=unionid).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {

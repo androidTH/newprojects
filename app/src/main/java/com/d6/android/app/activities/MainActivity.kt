@@ -20,7 +20,6 @@ import com.d6.android.app.fragments.*
 import com.d6.android.app.models.FollowFansVistor
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.ThreadUtils.runOnUiThread
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM

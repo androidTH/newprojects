@@ -235,17 +235,17 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null && message.conversationType == Conversation.ConversationType.PRIVATE) {
-            if(message.content is SquareMsgContent){
-                if(message.messageDirection == Message.MessageDirection.RECEIVE){
-                    val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.senderUserId)
-                    (message.content as SquareMsgContent).content = "${userInfo.name}给你发送了一条动态"
-                    Log.i("onReceived","接受消息:${userInfo.name}给你发送了一条动态")
-                }else if(message.messageDirection == Message.MessageDirection.SEND){
-                    val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.targetId)
-                    (message.content as SquareMsgContent).content = "sssss发送了一条动态"
-                    Log.i("onReceived","发送消息:你给${userInfo.name}发送了一条动态")
-                }
-            }
+//            if(message.content is SquareMsgContent){
+//                if(message.messageDirection == Message.MessageDirection.RECEIVE){
+//                    val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.senderUserId)
+//                    (message.content as SquareMsgContent).content = "${userInfo.name}给你发送了一条动态"
+//                    Log.i("onReceived","接受消息:${userInfo.name}给你发送了一条动态")
+//                }else if(message.messageDirection == Message.MessageDirection.SEND){
+//                    val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.targetId)
+//                    (message.content as SquareMsgContent).content = "sssss发送了一条动态"
+//                    Log.i("onReceived","发送消息:你给${userInfo.name}发送了一条动态")
+//                }
+//            }
             sendBroadcast(Intent(Const.NEW_MESSAGE))
 //            message?.let {
 //                if (it.content is TipsMessage) {

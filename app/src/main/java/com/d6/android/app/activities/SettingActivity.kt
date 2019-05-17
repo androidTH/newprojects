@@ -195,7 +195,12 @@ class SettingActivity : TitleActivity() {
                 }
                 headView.setImageURI(it.picUrl)
                 tv_nick.text = it.name
-                tv_signature.text = it.intro
+
+                if (!TextUtils.isEmpty(it.intro)) {
+                    tv_signature.text = it.intro
+                } else {
+                    tv_signature.text = getString(R.string.string_info)
+                }
 
                 if(TextUtils.equals("0",mData!!.screen)||TextUtils.equals("3",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
                     img_auther.visibility = View.GONE

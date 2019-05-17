@@ -102,7 +102,7 @@ object BitmapUtils {
             inputStream = FileInputStream(file)
             val option = BitmapFactory.Options()
             option.inSampleSize = sampleSize
-            option.inPreferredConfig = Bitmap.Config.RGB_565
+            option.inPreferredConfig = Bitmap.Config.ARGB_8888
             option.inJustDecodeBounds = false
             bitmap = BitmapFactory.decodeStream(inputStream, null, option)
             val degree = readPictureDegree(filePath)

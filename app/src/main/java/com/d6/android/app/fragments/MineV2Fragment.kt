@@ -10,10 +10,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import com.alibaba.fastjson.JSONObject
@@ -30,21 +27,16 @@ import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.rong.imkit.RongIM
-import io.rong.imlib.RongIMClient
-import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
-import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.imageURI
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -325,7 +317,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 if (!TextUtils.isEmpty(it.intro)) {
                     headerView.tv_signature.text = it.intro
                 } else {
-                    headerView.tv_signature.text = "一个好的自我介绍更受异性青睐~"
+                    headerView.tv_signature.text = getString(R.string.string_info)
                 }
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
