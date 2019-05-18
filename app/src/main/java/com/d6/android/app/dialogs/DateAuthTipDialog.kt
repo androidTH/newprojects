@@ -85,7 +85,6 @@ class DateAuthTipDialog : DialogFragment(),RequestManager {
     }
     private var weChat=""
     private fun getData() {
-
         Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
             data?.let {
                 val sex = SPUtils.instance().getString(Const.User.USER_SEX)

@@ -28,9 +28,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
-import com.d6.android.app.activities.DateAuthStateActivity
-import com.d6.android.app.activities.MenMemberActivity
-import com.d6.android.app.activities.UnAuthUserActivity
+import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.DateErrorDialog
@@ -328,6 +326,21 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
               this.startActivity<MenMemberActivity>()
         }else{
              this.startActivity<DateAuthStateActivity>()
+        }
+    }else{
+        next()
+    }
+}
+
+inline fun Activity.isVipUser(next: () -> Unit) {
+    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+    if (className != "7") {// 22 普通会员
+        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+        if(TextUtils.equals("1",sex)){
+//            this.startActivity<AuthWomenStateActivity>()
+            this.startActivity<AuthMenStateActivity>()
+        }else{
+            this.startActivity<AuthWomenStateActivity>()
         }
     }else{
         next()

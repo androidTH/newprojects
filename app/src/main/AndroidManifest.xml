@@ -263,6 +263,9 @@
             android:label="@string/title_activity_speed_date"
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.DateAuthStateActivity" />
+        <activity android:name=".activities.AuthMenStateActivity" />
+        <activity android:name=".activities.AuthWomenStateActivity" />
+        <activity android:name=".activities.MemberActivity" />
         <activity android:name=".activities.MyDateActivity" />
         <activity android:name=".activities.EditImageActivity"></activity>
         <activity android:name=".activities.BLBeautifyImageActivity"/>

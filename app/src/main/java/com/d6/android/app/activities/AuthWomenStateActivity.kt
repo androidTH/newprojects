@@ -14,7 +14,8 @@ import com.d6.android.app.utils.*
 import com.gyf.barlibrary.ImmersionBar
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
-import kotlinx.android.synthetic.main.activity_date_auth_state.*
+import kotlinx.android.synthetic.main.activity_auth_women_state.*
+import kotlinx.android.synthetic.main.layout_auth_top.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.bundleOf
 
@@ -22,11 +23,11 @@ import org.jetbrains.anko.bundleOf
 /**
  * 约会认证情况
  */
-class DateAuthStateActivity : BaseActivity() {
+class AuthWomenStateActivity : BaseActivity() {
 
     @JvmField
-    public var phoneNum:String? = ""
-//    private val immersionBar by lazy {
+    public var phoneNum: String? = ""
+    //    private val immersionBar by lazy {
 //        ImmersionBar.with(this)
 //    }
     private val userId by lazy {
@@ -37,7 +38,7 @@ class DateAuthStateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_date_auth_new_state)
+        setContentView(R.layout.activity_auth_women_state)
 
         immersionBar
                 .fitsSystemWindows(false)
@@ -45,9 +46,9 @@ class DateAuthStateActivity : BaseActivity() {
                 .titleBar(tv_back)
                 .init()
 
-        AppUtils.setTvStyle( this, resources.getString(R.string.first_step_info),0 ,11 , tv_base_info);
+        AppUtils.setTvStyle(this, resources.getString(R.string.first_step_info), 0, 11, tv_base_info);
 //        AppUtils.setTvStyle( this, resources.getString(R.string.second_step_info),0 ,10 , tv_contact_info);
-        AppUtils.setTvStyle( this, resources.getString(R.string.third_step_info),0 ,9 , tv_auth);
+        AppUtils.setTvStyle(this, resources.getString(R.string.third_step_info), 0, 9, tv_auth);
 
         tv_back.setOnClickListener {
             finish()
@@ -55,8 +56,8 @@ class DateAuthStateActivity : BaseActivity() {
 
         //第一步认证
         tv_base_info.setOnClickListener {
-//            if (wanshanziliao < 10) {
-                getUserInfo()
+            //            if (wanshanziliao < 10) {
+            getUserInfo()
 //            } else {
 ////                startActivity<MyDateActivity>()
 //            }
@@ -65,11 +66,11 @@ class DateAuthStateActivity : BaseActivity() {
 
         //第二步认证
         tv_contact_info.setOnClickListener {
-//            if (lianxifangshi > 0) {
+            //            if (lianxifangshi > 0) {
 //                return@setOnClickListener
 //            }
             val dateContactAuthDialog = DateContactAuthDialog()
-            dateContactAuthDialog.arguments =bundleOf("w" to (phoneNum ?: ""))
+            dateContactAuthDialog.arguments = bundleOf("w" to (phoneNum ?: ""))
             dateContactAuthDialog.show(supportFragmentManager, "c")
             dateContactAuthDialog.setDialogListener { p, s ->
                 phoneNum = s
@@ -78,22 +79,28 @@ class DateAuthStateActivity : BaseActivity() {
 
         //第三步认证
         tv_auth.setOnClickListener {
-//            if (qurenzheng > 0) {
+            //            if (qurenzheng > 0) {
 //                return@setOnClickListener
 //            }
-            var localUserId =getLocalUserId()
-            pushCustomerMessage(this,localUserId,2,localUserId,next = {
+            var localUserId = getLocalUserId()
+            pushCustomerMessage(this, localUserId, 2, localUserId, next = {
                 chatService(this)
             })
 //            val dateAuthTipDialog = DateAuthTipDialog()
 //            dateAuthTipDialog.show(supportFragmentManager, "t")
         }
 
+        tv_zxkf_women.setOnClickListener {
+            pushCustomerMessage(this, getLocalUserId(), 5, "", next = {
+                chatService(this)
+            })
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
-        getData()
+        //getData()
     }
 
     private var lianxifangshi = 0
@@ -130,13 +137,13 @@ class DateAuthStateActivity : BaseActivity() {
 
     private fun getDateCount() {
         Request.getDateSuccessCount().request(this) { _, data ->
-            tv_date_count.text = String.format("目前已有%s人在D6约会成功", data?.asString ?: "1000")
+//            tv_date_count.text = String.format("目前已有%s人在D6约会成功", data?.asString ?: "1000")
         }
     }
 
     private fun getUserInfo() {
         dialog()
-        Request.getUserInfo("",userId).request(this, success = { _, data ->
+        Request.getUserInfo("", userId).request(this, success = { _, data ->
             saveUserInfo(data)
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
@@ -149,7 +156,7 @@ class DateAuthStateActivity : BaseActivity() {
                     }
                 }
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
-                startActivity<MyInfoActivity>("data" to it,"images" to mImages)
+                startActivity<MyInfoActivity>("data" to it, "images" to mImages)
             }
         }) { _, _ ->
         }

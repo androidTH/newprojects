@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F6F7FA"
+    tools:context=".activities.AuthMenStateActivity">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/height_75">
+
+            <include
+                android:id="@+id/auth_top"
+                layout="@layout/layout_auth_top" />
+
+            <RelativeLayout
+                android:id="@+id/ll_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/auth_top"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_20">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="@dimen/margin_30"
+                    android:background="@drawable/shape_noradius_orange" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:text="人工服务"
+                    android:textColor="@color/color_black"
+                    android:textSize="17sp" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_service"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_6"
+                android:text="专属微信客服为你服务"
+                android:textColor="@color/color_888888"
+                android:textSize="12sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@+id/ll_service"
+                android:layout_marginTop="@dimen/height_40">
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_55"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_zxkf_men"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_40"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:background="@drawable/shape_5r_solid_white"
+            android:gravity="center"
+            android:padding="@dimen/margin_8"
+            android:text="咨询客服"
+            android:textColor="@color/color_F7AB00"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_40"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:background="@drawable/shape_orange"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_30"
+                android:layout_marginLeft="@dimen/margin_20"
+                android:gravity="center"
+                android:text="开通会员"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_13"
+                android:text="据说80%会员都约到了心仪的TA"
+                android:textColor="@color/color_FFEABA"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
+

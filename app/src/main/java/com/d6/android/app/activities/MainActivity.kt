@@ -47,7 +47,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
     private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,
             DateFragment::class.java, SquareMainFragment::class.java,
-            MessageFragment::class.java,MineV2Fragment::class.java)
+            MessageFragment::class.java,MineFragment::class.java)
     private var unReadMsg:Int?=-1
 
     private val broadcast by lazy {
