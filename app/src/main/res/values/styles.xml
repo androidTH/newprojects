@@ -190,6 +190,17 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <style name="tv_wallet_leftstyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_888888</item>
+    </style>
+
+    <style name="tv_wallet_rightstyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_333333</item>
+    </style>
+
     <style name="tv_auth_style_title">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/color_333333</item>

@@ -129,5 +129,7 @@ object Const {
     @JvmField
     var CHOOSE_Friends="choosefriends"
     @JvmField
+    var USERINFO_PERCENT = "userinfo_percent"
+    @JvmField
     var DIALOG_SHOW_MAX=9
 }

@@ -2,6 +2,7 @@ package com.d6.android.app.fragments
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -22,6 +23,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.USERINFO_PERCENT
 import io.reactivex.Flowable
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
@@ -65,6 +67,7 @@ class MineFragment : BaseFragment() {
                 startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
             }
         }
+
         rl_fans_count.setOnClickListener(View.OnClickListener {
             startActivity<FansActivity>()
         })
@@ -130,11 +133,21 @@ class MineFragment : BaseFragment() {
         rl_wallet.setOnClickListener {
             startActivity<MyPointsActivity>()
         }
+
+        iv_whiteclose.setOnClickListener {
+            rl_warmuserinfo.visibility = View.GONE
+            SPUtils.instance().put(USERINFO_PERCENT,System.currentTimeMillis()).apply()
+        }
+
+        tv_edituserinfo.setOnClickListener {
+            mData?.let {
+                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
+            }
+        }
     }
 
     override fun onFirstVisibleToUser() {
         mImages.add(AddImage("res:///" + myImageAdapter.mRes, 1))
-        showDialog()
     }
 
     override fun onResume() {
@@ -210,6 +223,9 @@ class MineFragment : BaseFragment() {
                 }
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
+                AppUtils.setUserWallet( context,"积分 ${it.iPoint.toString()}",0 ,2 ,tv_points)
+                AppUtils.setUserWallet( context,"小红花 ",0 ,3 ,tv_redflowernums)
+
                 if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
                     img_auther.visibility = View.GONE
                     img_mine_official.visibility = View.VISIBLE
@@ -227,28 +243,69 @@ class MineFragment : BaseFragment() {
                     }
                 }
 
+                var drawable: Drawable? = null
                 //27入门 28中级  29优质
                 if (TextUtils.equals(it.userclassesid, "27")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())//这句一定要加
                 } else if (TextUtils.equals(it.userclassesid, "28")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_zj)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.gril_zj)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())//这句一定要加
                 } else if (TextUtils.equals(it.userclassesid, "29")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_gj)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.gril_gj)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
                 } else if (TextUtils.equals(it.userclassesid.toString(), "22")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
                 } else if (TextUtils.equals(it.userclassesid, "23")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_silver)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.vip_silver)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
                 } else if (TextUtils.equals(it.userclassesid, "24")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_gold)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.vip_gold)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
                 } else if (TextUtils.equals(it.userclassesid, "25")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
                 } else if (TextUtils.equals(it.userclassesid, "26")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
                 }else if(TextUtils.equals(it.userclassesid,"7")){
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.youke_icon)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
                 }else{
                     tv_vip.visibility = View.GONE
+                    drawable = null
+                    tv_menber_center.text = getString(R.string.string_vip_tq)
                 }
+
+                tv_menber_center.setCompoundDrawables(drawable, null, null, null)
+
+
+                if(it.iDatacompletion < 60){
+                    if(SPUtils.instance().getLong(USERINFO_PERCENT,System.currentTimeMillis())!=System.currentTimeMillis()){
+                        if(getSevenDays(SPUtils.instance().getLong(USERINFO_PERCENT, System.currentTimeMillis()))){
+                            rl_warmuserinfo.visibility = View.VISIBLE
+                        }else{
+                            rl_warmuserinfo.visibility = View.GONE
+                        }
+                    }else{
+                        rl_warmuserinfo.visibility = View.VISIBLE
+                    }
+                }else{
+                    rl_warmuserinfo.visibility = View.GONE
+                }
+
+                rv_square_imgs.visibility = View.GONE
+                tv_squarewarm.text = getString(R.string.string_nosquare)
             }
         }) { _, _ ->
 //            mSwipeRefreshLayout.isRefreshing = false
