@@ -190,6 +190,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="tv_date_leftstyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_F7AB00</item>
+    </style>
+
+    <style name="tv_date_rightstyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_333333</item>
+    </style>
 
     <style name="tv_wallet_leftstyle">
         <item name="android:textSize">14sp</item>

@@ -357,10 +357,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/margin_8">
+            android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/rl_mysquare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -393,8 +393,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_square_imgs"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_marginLeft="@dimen/margin_8" />
+                android:layout_height="80dp"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_10" />
         </LinearLayout>
 
         <View
