@@ -43,6 +43,16 @@ class AppUtils {
             tv.setText(ss, TextView.BufferType.SPANNABLE)
         }
 
+        fun setDateDialog(context: Context,value:CharSequence , start:Int,end :Int, tv: TextView){
+            val ss = SpannableString(value)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_date_leftstyle), start, end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_date_rightstyle), end,
+                    value.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            tv.setText(ss, TextView.BufferType.SPANNABLE)
+        }
+
 
         fun setTvStyle(context: Context,value:CharSequence , start:Int,end :Int, tv: TextView){
             val ss = SpannableString(value)

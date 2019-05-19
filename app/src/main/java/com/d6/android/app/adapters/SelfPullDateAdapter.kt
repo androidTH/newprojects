@@ -5,10 +5,7 @@ import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.dialogs.OpenDateDialog
-import com.d6.android.app.dialogs.OpenDateErrorDialog
-import com.d6.android.app.dialogs.ShareFriendsDialog
-import com.d6.android.app.dialogs.SquareActionDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
@@ -52,6 +49,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
             dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+//            var dateInfo = RengGongDialog()
+//            var dateInfo = SelfDateDialog()
+//            dateInfo.show((context as BaseActivity).supportFragmentManager, "rg")
+
         }) { code, msg ->
             if (code == 2) {
                 var openErrorDialog = OpenDateErrorDialog()

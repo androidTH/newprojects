@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
 import cn.liaox.cachelib.CacheDbManager
@@ -24,13 +25,14 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.USERINFO_PERCENT
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.fragment_myinfo.*
-import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
@@ -50,6 +52,8 @@ class MineFragment : BaseFragment() {
     private val mSquares = ArrayList<Square>()
 
     private val mImages = ArrayList<AddImage>()
+    private val mPicsWall = ArrayList<AddImage>()
+
     private val myImageAdapter by lazy {
         MyImageAdapter(mImages)
     }
@@ -64,7 +68,7 @@ class MineFragment : BaseFragment() {
 
         headview.setOnClickListener {
             mData?.let {
-                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
+                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mPicsWall)
             }
         }
 
@@ -114,8 +118,8 @@ class MineFragment : BaseFragment() {
         }
 
         rl_blacklist.setOnClickListener {
-//            startActivity<BlackListActivity>()
-            startActivity<MemberActivity>()
+            startActivity<BlackListActivity>()
+//            startActivity<MemberActivity>()
         }
 
         rl_customerservice.setOnClickListener {
@@ -125,8 +129,8 @@ class MineFragment : BaseFragment() {
         }
 
         rl_member_center.setOnClickListener {
-            (context as BaseActivity).isVipUser {
-
+            (context as BaseActivity).isAuthUser {
+                startActivity<MemberActivity>()
             }
         }
 
@@ -141,13 +145,26 @@ class MineFragment : BaseFragment() {
 
         tv_edituserinfo.setOnClickListener {
             mData?.let {
-                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
+                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mPicsWall)
             }
         }
+
+        tv_squarewarm.setOnClickListener {
+            startActivity<UserInfoActivity>("id" to userId)
+        }
+
+        rv_square_imgs.setHasFixedSize(true)
+        rv_square_imgs.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rv_square_imgs.isNestedScrollingEnabled = false
+        rv_square_imgs.adapter = myImageAdapter
+        rv_square_imgs.addItemDecoration(VerticalDividerItemDecoration.Builder(context)
+                .colorResId(android.R.color.transparent)
+                .size(dip(3))
+                .build())
     }
 
     override fun onFirstVisibleToUser() {
-        mImages.add(AddImage("res:///" + myImageAdapter.mRes, 1))
+        mPicsWall.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
     }
 
     override fun onResume() {
@@ -304,8 +321,14 @@ class MineFragment : BaseFragment() {
                     rl_warmuserinfo.visibility = View.GONE
                 }
 
-                rv_square_imgs.visibility = View.GONE
-                tv_squarewarm.text = getString(R.string.string_nosquare)
+                if (!TextUtils.equals("null", it.userpics)) {
+                    addSquareImages(it)
+                }else{
+                    rv_square_imgs.visibility = View.GONE
+                    tv_squarewarm.text = getString(R.string.string_nosquare)
+                }
+
+                setPicsWall(it)
             }
         }) { _, _ ->
 //            mSwipeRefreshLayout.isRefreshing = false
@@ -350,7 +373,10 @@ class MineFragment : BaseFragment() {
         })
     }
 
-    private fun refreshImages(userData: UserData) {
+    /**
+     * 动态图片
+     */
+    private fun addSquareImages(userData: UserData) {
         mImages.clear()
         if (!TextUtils.equals("null", userData.userpics)) {
             if (!userData.userpics.isNullOrEmpty()) {
@@ -361,9 +387,29 @@ class MineFragment : BaseFragment() {
                     }
                 }
             }
+        }else{
+            rv_square_imgs.visibility = View.GONE
+            tv_squarewarm.text = getString(R.string.string_nosquare)
         }
-        mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
         myImageAdapter.notifyDataSetChanged()
+    }
+
+    /**
+     * 照片墙
+     */
+    private fun setPicsWall(userData: UserData) {
+        mPicsWall.clear()
+        if (!TextUtils.equals("null", userData.userpics)) {
+            if (!userData.userpics.isNullOrEmpty()) {
+                userData.userpics?.let {
+                    val images = it.split(",")
+                    images.forEach {
+                        mPicsWall.add(AddImage(it))
+                    }
+                }
+            }
+        }
+        mPicsWall.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
     }
 
     private fun updateImages(path: String) {
@@ -381,7 +427,7 @@ class MineFragment : BaseFragment() {
             mData = userData
             Request.updateUserInfo(userData)
         }.request(this) { _, _ ->
-            refreshImages(userData)
+            setPicsWall(userData)
         }
     }
 

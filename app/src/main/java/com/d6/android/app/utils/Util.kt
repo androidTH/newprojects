@@ -323,9 +323,11 @@ inline fun Activity.isAuthUser(next: () -> Unit) {
     if (className == "7") {// 22 普通会员
         var sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if(TextUtils.equals("1",sex)){
-              this.startActivity<MenMemberActivity>()
+            this.startActivity<AuthMenStateActivity>()
+//              this.startActivity<MenMemberActivity>()
         }else{
-             this.startActivity<DateAuthStateActivity>()
+            this.startActivity<AuthWomenStateActivity>()
+//             this.startActivity<DateAuthStateActivity>()
         }
     }else{
         next()
