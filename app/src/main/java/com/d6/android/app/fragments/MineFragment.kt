@@ -72,6 +72,12 @@ class MineFragment : BaseFragment() {
             }
         }
 
+        rl_edituserinfo.setOnClickListener {
+            mData?.let {
+                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mPicsWall)
+            }
+        }
+
         rl_fans_count.setOnClickListener(View.OnClickListener {
             startActivity<FansActivity>()
         })

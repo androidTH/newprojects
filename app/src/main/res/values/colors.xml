@@ -90,6 +90,11 @@
     <color name="color_CCFFFFFF">#CCFFFFFF</color>
     <color name="color_4ACE71">#4ACE71</color>
     <color name="color_D0D0D0">#D0D0D0</color>
+    <color name="color_848484">#848484</color>
+    <color name="color_FF4B00">#FF4B00</color>
+
+    <color name="color_bbbbbb">#BBBBBB</color>
+    <color name="color_DBDBDB">#DBDBDB</color>
     <!--普通-->
     <color name="color_FFA651">#FFA651</color>
     <color name="color_FFC792">#FFC792</color>
@@ -111,4 +116,6 @@
     <!--中级-->
     <color name="color_8950EC">#8950EC</color>
     <color name="color_B594EC">#B594EC</color>
+
+
 </resources>

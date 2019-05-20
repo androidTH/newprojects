@@ -31,6 +31,7 @@ import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import com.d6.android.app.widget.badge.DisplayUtil
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.dialog_membership_price_list.*
 import org.jetbrains.anko.bundleOf
@@ -81,7 +82,7 @@ class OpenMemberShipDialog : DialogFragment() {
         rv_membership_price_list.setHasFixedSize(true)
         rv_membership_price_list.layoutManager = LinearLayoutManager(context)
         mMemberShipAdapter = MemberShipAdapter(mData)
-        rv_membership_price_list.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
+        rv_membership_price_list.addItemDecoration(VerticalDividerItemDecoration.Builder(context)
                 .size(dip(1))
                 .color(ContextCompat.getColor(context,R.color.color_EFEFEF))
                 .build())

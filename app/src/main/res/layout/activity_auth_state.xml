@@ -55,10 +55,18 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_service"
                 android:layout_marginTop="@dimen/height_40">
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/rv_viptypes"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"/>-->
 
+                <com.d6.android.app.widget.gallery.DiscreteScrollView
+                    android:id="@+id/rv_viptypes"
+                    android:layout_width="match_parent"
+                    android:layout_height="560dp" />
             </RelativeLayout>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>

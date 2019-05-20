@@ -57,6 +57,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_edituserinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
@@ -157,6 +158,14 @@
                 android:text="-"
                 android:textColor="@color/color_777777"
                 android:textSize="12sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_13"
+                android:drawableRight="@mipmap/ic_more_gray"
+                android:drawablePadding="@dimen/margin_3" />
         </RelativeLayout>
 
         <View
