@@ -87,7 +87,6 @@ class SquareFragment : RecyclerFragment() {
                 startActivityForResult<SquareTrendDetailActivity>(1,"id" to it,"position" to position)
             }
         }
-        showDialog()
         getData()
     }
 

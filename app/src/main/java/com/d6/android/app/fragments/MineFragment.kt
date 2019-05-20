@@ -129,7 +129,7 @@ class MineFragment : BaseFragment() {
         }
 
         rl_member_center.setOnClickListener {
-            (context as BaseActivity).isAuthUser {
+            (context as BaseActivity).isAuthUser("mine") {
                 startActivity<MemberActivity>()
             }
         }

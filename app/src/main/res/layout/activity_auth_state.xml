@@ -85,6 +85,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/ll_openmemeber"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_40"
             android:layout_marginLeft="@dimen/margin_10"

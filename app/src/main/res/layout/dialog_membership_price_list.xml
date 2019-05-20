@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/margin_20"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_65">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="开通会员"
+            android:textColor="@color/color_333333"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_membership_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:src="@mipmap/icon_close_orange" />
+    </RelativeLayout>
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/height_60"
+         android:background="@color/color_EFEFEF">
+         <TextView
+             android:id="@+id/tv_rg_city"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="14sp"
+             android:textColor="@color/color_888888"
+             android:textStyle="bold"
+             android:layout_marginTop="@dimen/margin_10"
+             android:layout_marginLeft="@dimen/margin_15"
+             android:text="人工服务约会地区"/>
+         <TextView
+             android:layout_below="@+id/tv_rg_city"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="12sp"
+             android:textColor="@color/color_888888"
+             android:layout_marginTop="@dimen/margin_3"
+             android:layout_marginLeft="@dimen/margin_15"
+             android:text="不同地区价格稍有差异"/>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_centerVertical="true"
+             android:textColor="@color/color_F7AB00"
+             android:layout_marginRight="@dimen/margin_15"
+             android:drawableRight="@mipmap/more_downicon"
+             android:drawablePadding="@dimen/margin_5"
+             android:textSize="14sp"
+             android:textStyle="bold"
+             android:text="地区"/>
+     </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_membership_price_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_wx_pay_flower"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/margin_45"-->
+        <!--android:layout_marginLeft="@dimen/margin_20"-->
+        <!--android:layout_marginTop="@dimen/margin_20"-->
+        <!--android:layout_marginRight="@dimen/margin_20"-->
+        <!--android:background="@drawable/shape_4r_54"-->
+        <!--android:gravity="center"-->
+        <!--android:text="微信支付"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="17sp" />-->
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_flower_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/height_60"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="普通会员"
+        android:textStyle="bold"
+        android:textColor="@color/color_333333"
+        android:drawablePadding="@dimen/margin_3"
+        android:drawableRight="@mipmap/vip_gold"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/tv_vipinfo"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textSize="12sp"
+        android:textColor="@color/color_888888"
+        android:text="赠送1000积分，约会成功率90%"/>
+    <TextView
+        android:id="@+id/tv_vip_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_15r_orange"
+        android:paddingTop="@dimen/margin_5"
+        android:paddingBottom="@dimen/margin_5"
+        android:paddingLeft="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_15"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_15"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:text="¥388"/>
+</RelativeLayout>

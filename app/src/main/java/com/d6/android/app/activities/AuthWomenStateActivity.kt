@@ -30,8 +30,13 @@ class AuthWomenStateActivity : BaseActivity() {
     //    private val immersionBar by lazy {
 //        ImmersionBar.with(this)
 //    }
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
+    private val from by lazy{
+        intent.getStringExtra(Const.NO_VIP_FROM_TYPE)
     }
 
     private val mImages = ArrayList<AddImage>()
@@ -96,6 +101,11 @@ class AuthWomenStateActivity : BaseActivity() {
             })
         }
 
+        if(TextUtils.equals("mine",from)){
+            tv_d6vipinfo.text = "听说开通会员后，80%都约到了心仪的TA"
+        }else{
+            tv_d6vipinfo.text = "D6是一个高端私密交友社区，部分服务仅对会员开放"
+        }
     }
 
     override fun onResume() {

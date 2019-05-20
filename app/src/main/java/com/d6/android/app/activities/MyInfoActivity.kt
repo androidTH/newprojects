@@ -203,6 +203,18 @@ class MyInfoActivity : BaseActivity() {
         tv_intro1.setText(userData.intro)
         et_zuojia.setText(userData.zuojia)
         tv_inputaddress.text = userData.city
+
+        //顶部添加提示文案：完成度复用旧版算法
+        //-60%：😔资料完成度：xx% 要约别人先完善自己
+        //60%-80%：🙂资料完成度：xx% 离完美的自己就差一步啦
+        //80%-：😄资料完成度：xx% D6不会泄漏你的任何信息
+        if(userData.iDatacompletion<=60){
+            tv_userinfo_percent.text ="\uD83D\uDE14资料完成度：${userData.iDatacompletion}% 要约别人先完善自己 "
+        }else if(userData.iDatacompletion>60&&userData.iDatacompletion<=80){
+            tv_userinfo_percent.text ="\uD83D\uDE42资料完成度：${userData.iDatacompletion}% 离完美的自己就差一步啦 "
+        }else{
+            tv_userinfo_percent.text = "\uD83D\uDE04资料完成度：${userData.iDatacompletion}% D6不会泄漏你的任何信息"
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

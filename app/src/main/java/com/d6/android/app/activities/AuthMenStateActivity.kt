@@ -2,12 +2,15 @@ package com.d6.android.app.activities
 
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.OpenMemberShipDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_auth_state.*
@@ -25,6 +28,10 @@ class AuthMenStateActivity : BaseActivity() {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
+    private val from by lazy{
+        intent.getStringExtra(NO_VIP_FROM_TYPE)
     }
 
     private val mImages = ArrayList<AddImage>()
@@ -47,6 +54,17 @@ class AuthMenStateActivity : BaseActivity() {
             pushCustomerMessage(this, getLocalUserId(), 5, "", next = {
                 chatService(this)
             })
+        }
+
+        ll_openmemeber.setOnClickListener {
+            var mOpenMemberShipDialog = OpenMemberShipDialog()
+            mOpenMemberShipDialog.show(supportFragmentManager,OpenMemberShipDialog::class.java.toString())
+        }
+
+        if(TextUtils.equals("mine",from)){
+            tv_d6vipinfo.text = "听说开通会员后，80%都约到了心仪的TA"
+        }else{
+            tv_d6vipinfo.text = "D6是一个高端私密交友社区，部分服务仅对会员开放"
         }
     }
 

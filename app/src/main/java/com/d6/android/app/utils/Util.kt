@@ -8,7 +8,6 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
@@ -26,7 +25,6 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
@@ -41,6 +39,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.models.VersionBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.http.UpdateAppHttpUtil
+import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
@@ -57,7 +56,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
-import kotlinx.android.synthetic.main.activity_square_detail.*
 import org.jetbrains.anko.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -318,15 +316,15 @@ fun File?.getFileSuffix(): String {
     } else ""
 }
 
-inline fun Activity.isAuthUser(next: () -> Unit) {
+inline fun Activity.isAuthUser(from:String="nomine",next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7") {// 22 普通会员
         var sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if(TextUtils.equals("1",sex)){
-            this.startActivity<AuthMenStateActivity>()
+            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
 //              this.startActivity<MenMemberActivity>()
         }else{
-            this.startActivity<AuthWomenStateActivity>()
+            this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //             this.startActivity<DateAuthStateActivity>()
         }
     }else{
@@ -349,16 +347,18 @@ inline fun Activity.isVipUser(next: () -> Unit) {
     }
 }
 
-inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String, crossinline next: () -> Unit) {
+inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String,from:String="nomine", crossinline next: () -> Unit) {
     Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
             data?.let {
                 if (it.userclassesid == "7") {
                     saveUserInfo(it)
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
                     if (TextUtils.equals("1", it.sex)) {//1是男
-                        this.startActivity<MenMemberActivity>()
-                    } else {
-                        this.startActivity<DateAuthStateActivity>()
+                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+//                      this.startActivity<MenMemberActivity>()
+                    }else{
+                        this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
+//                      this.startActivity<DateAuthStateActivity>()
                     }
                 }else{
                     next();

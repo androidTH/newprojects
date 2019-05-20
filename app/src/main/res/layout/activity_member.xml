@@ -100,11 +100,13 @@
                     android:textColor="@color/color_888888"
                     android:layout_gravity="center_horizontal"
                     android:textSize="12sp" />
+                <!--android:background="@drawable/shape_15r_7e"-->
 
                 <TextView
+                    android:id="@+id/tv_wechat_kf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_15r_7e"
+                    android:background="@mipmap/wechat_buttonkf"
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/white"
                     android:layout_marginTop="@dimen/margin_10"
@@ -112,8 +114,7 @@
                     android:paddingBottom="@dimen/margin_5"
                     android:paddingLeft="@dimen/margin_8"
                     android:paddingRight="@dimen/margin_8"
-                    android:textSize="14sp"
-                    android:text="专属微信客服"/>
+                    android:textSize="14sp"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"

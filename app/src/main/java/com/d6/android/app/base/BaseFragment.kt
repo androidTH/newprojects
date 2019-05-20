@@ -135,20 +135,21 @@ abstract class BaseFragment : Fragment() ,RequestManager{
     }
 
     fun showDialog(msg: String = "加载中...", canCancel: Boolean = true) {
-        if (context == null) {
-            return
-        }
-        dialog.setCanceledOnTouchOutside(canCancel)
-        dialog.setMessage(msg)
-        if (!dialog.isShowing) {
-            dialog.show()
-        }
+//        if (context == null) {
+//            return
+//        }
+//        dialog.setCanceledOnTouchOutside(canCancel)
+//        dialog.setMessage(msg)
+//        if (!dialog.isShowing) {
+//            dialog.show()
+//        }
+        LoadDialog.show(context,msg,canCancel)
     }
 
     override fun dismissDialog() {
-        if (dialog.isShowing) {
-            dialog.dismiss()
-        }
+//        if (dialog.isShowing) {
+//            dialog.dismiss()
+//        }
         LoadDialog.dismiss(context)
     }
 

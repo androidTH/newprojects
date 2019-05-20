@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.WeChatKFDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.net.Request
@@ -49,6 +50,11 @@ class MemberActivity : BaseActivity() {
             pushCustomerMessage(this, getLocalUserId(), 5, "", next = {
                 chatService(this)
             })
+        }
+
+        tv_wechat_kf.setOnClickListener {
+             var mWeChatKfDialog = WeChatKFDialog()
+             mWeChatKfDialog.show(supportFragmentManager,"wechatkf")
         }
     }
 

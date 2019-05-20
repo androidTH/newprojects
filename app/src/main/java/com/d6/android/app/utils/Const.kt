@@ -132,4 +132,7 @@ object Const {
     var USERINFO_PERCENT = "userinfo_percent"
     @JvmField
     var DIALOG_SHOW_MAX=9
+
+    @JvmField
+    var NO_VIP_FROM_TYPE = "No_Vip_From"
 }
