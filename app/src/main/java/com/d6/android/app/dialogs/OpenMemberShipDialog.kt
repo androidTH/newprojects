@@ -83,7 +83,7 @@ class OpenMemberShipDialog : DialogFragment() {
         rv_membership_price_list.setHasFixedSize(true)
         rv_membership_price_list.layoutManager = LinearLayoutManager(context)
         mMemberShipAdapter = MemberShipAdapter(mMemberPriceList)
-        rv_membership_price_list.addItemDecoration(VerticalDividerItemDecoration.Builder(context)
+        rv_membership_price_list.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
                 .size(dip(1))
                 .color(ContextCompat.getColor(context,R.color.color_EFEFEF))
                 .build())

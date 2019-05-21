@@ -49,8 +49,6 @@ class MineFragment : BaseFragment() {
     }
     private var mData: UserData? = null
 
-    private val mSquares = ArrayList<Square>()
-
     private val mImages = ArrayList<AddImage>()
     private val mBigSquareImages = ArrayList<AddImage>()
     private val mPicsWall = ArrayList<AddImage>()
@@ -69,7 +67,12 @@ class MineFragment : BaseFragment() {
 
         headview.setOnClickListener {
             mData?.let {
-                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mPicsWall)
+                it.picUrl?.let {
+                    var url = it.replace(Const.Pic_Thumbnail_Size_wh200,"")
+                    val urls = ArrayList<String>()
+                    urls.add(url)
+                    startActivityForResult<ImagePagerActivity>(22, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to 0)
+                }
             }
         }
 
@@ -269,11 +272,11 @@ class MineFragment : BaseFragment() {
                     if (TextUtils.equals("0", mData!!.screen) || mData!!.screen.isNullOrEmpty()) {
                         img_auther.visibility = View.GONE
                     } else if (TextUtils.equals("1", mData!!.screen)) {
-                        img_auther.setImageResource(R.mipmap.video_big)
+                        img_auther.setImageResource(R.mipmap.video_small)
                         img_auther.visibility = View.VISIBLE
                     } else if (TextUtils.equals("3", mData!!.screen)) {
                         img_auther.visibility = View.GONE
-                        img_auther.setImageResource(R.mipmap.renzheng_big)
+                        img_auther.setImageResource(R.mipmap.renzheng_small)
                     } else {
                         img_auther.visibility = View.GONE
                     }

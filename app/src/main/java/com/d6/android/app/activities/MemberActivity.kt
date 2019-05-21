@@ -2,6 +2,9 @@ package com.d6.android.app.activities
 
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.WeChatKFDialog
@@ -20,16 +23,9 @@ import org.jetbrains.anko.startActivity
  */
 class MemberActivity : BaseActivity() {
 
-    @JvmField
-    public var phoneNum:String? = ""
-//    private val immersionBar by lazy {
-//        ImmersionBar.with(this)
-//    }
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
-
-    private val mImages = ArrayList<AddImage>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,39 +52,64 @@ class MemberActivity : BaseActivity() {
              var mWeChatKfDialog = WeChatKFDialog()
              mWeChatKfDialog.show(supportFragmentManager,"wechatkf")
         }
+
+        getUserInfo()
     }
 
-    override fun onResume() {
-        super.onResume()
-        //getData()
-    }
+    private fun getMemberLevel(userclassId:String?,sex:String?) {
+        Request.findUserClasses().request(this){msg,data->
+            data?.list?.let {
+                Log.i("mem","数量${it.size}")
+                it.forEach {
+                    if(TextUtils.equals(it.ids.toString(),userclassId)){
+                        tv_data_address.text = it.sRemark
+                        tv_desc.text = it.sDesc
+                        if(TextUtils.equals("1",sex.toString())){
+                            tv_data_address.text = it.sServiceArea
+                            AppUtils.setMemberNums(this, "直推次数: " + it.iRecommendCount!!, 0, 5, tv_ztnums)
+                        }else{
+                            tv_data_address.visibility= View.GONE
+                            tv_ztnums.visibility = View.GONE
+                            view_line.visibility = View.GONE
+                        }
+                    }
 
-    private var lianxifangshi = 0
-    private var qurenzheng = 0
-    private var wanshanziliao = 0.0
-    private fun getDateCount() {
-        Request.getDateSuccessCount().request(this) { _, data ->
-//            tv_date_count.text = String.format("目前已有%s人在D6约会成功", data?.asString ?: "1000")
+                    if (TextUtils.equals(it.ids.toString(), "27")) {
+
+                    } else if (TextUtils.equals(it.ids.toString(), "28")) {
+
+                    } else if (TextUtils.equals(it.ids.toString(), "29")) {
+
+                    } else if (TextUtils.equals(it.ids.toString(), "22")) {
+
+                    } else if (TextUtils.equals(it.ids.toString(), "23")) {
+
+                    } else if (TextUtils.equals(it.ids.toString(), "24")) {
+
+                    } else if (TextUtils.equals(it.ids.toString(), "25")) {
+
+                    } else if (TextUtils.equals(it.ids.toString(), "26")) {
+
+                    } else if (TextUtils.equals(it.ids.toString(), "7")) {
+
+                    } else if(TextUtils.equals(it.ids.toString(), "30")){
+
+                    }else {
+
+                    }
+                }
+            }
         }
     }
 
     private fun getUserInfo() {
-        dialog()
         Request.getUserInfo("",userId).request(this, success = { _, data ->
-            saveUserInfo(data)
-            data?.let {
-                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
-                RongIM.getInstance().refreshUserInfoCache(info)
-                mImages.clear()
-                if (!it.userpics.isNullOrEmpty()) {
-                    val images = it.userpics!!.split(",")
-                    images.forEach {
-                        mImages.add(AddImage(it))
-                    }
-                }
-                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
-                startActivity<MyInfoActivity>("data" to it,"images" to mImages)
-            }
+             data?.let {
+                 vipheaderview.setImageURI(data.picUrl)
+                 tv_viplevel.text = data.classesname
+                 tv_vipendtime.text = "到期时间："
+                 getMemberLevel(data.userclassesid,it.sex)
+             }
         }) { _, _ ->
         }
     }
