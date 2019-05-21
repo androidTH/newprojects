@@ -52,6 +52,7 @@ class MineFragment : BaseFragment() {
     private val mSquares = ArrayList<Square>()
 
     private val mImages = ArrayList<AddImage>()
+    private val mBigSquareImages = ArrayList<AddImage>()
     private val mPicsWall = ArrayList<AddImage>()
 
     private val myImageAdapter by lazy {
@@ -85,6 +86,18 @@ class MineFragment : BaseFragment() {
         rl_follow_count.setOnClickListener(View.OnClickListener {
             startActivity<FollowActivity>()
         })
+
+        myImageAdapter.setOnItemClickListener { _, position ->
+
+            val data = mImages[position]
+            if (data.type != 1) {
+                mData?.let {
+                    //广场照片详情页面
+//                    val urls = mImages.filter { it.type != 1 }.map { it.imgUrl }
+                    startActivityForResult<ImagePagerActivity>(22, "data" to it, ImagePagerActivity.URLS to mBigSquareImages, ImagePagerActivity.CURRENT_POSITION to position, "delete" to false)
+                }
+            }
+        }
 
         rl_vistors_count.setOnClickListener(View.OnClickListener {
             Request.getVistorAuth(userId).request(this, false, success = { msg, data ->
@@ -247,7 +260,7 @@ class MineFragment : BaseFragment() {
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
                 AppUtils.setUserWallet( context,"积分 ${it.iPoint.toString()}",0 ,2 ,tv_points)
-                AppUtils.setUserWallet( context,"小红花 ",0 ,3 ,tv_redflowernums)
+                AppUtils.setUserWallet( context,"小红花 ${it.iFlowerCount.toString()}",0 ,3 ,tv_redflowernums)
 
                 if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
                     img_auther.visibility = View.GONE
@@ -327,7 +340,13 @@ class MineFragment : BaseFragment() {
                     rl_warmuserinfo.visibility = View.GONE
                 }
 
-                if (!TextUtils.equals("null", it.userpics)) {
+//                if(it.iSquareCount!!>0){
+//                    tv_squarewarm.text = "${it.iSquareCount}条动态"
+//                }else{
+//                    tv_squarewarm.text = getString(R.string.string_nosquare)
+//                }
+
+                if (!TextUtils.equals("null", it.sSquarePicList.toString())) {
                     addSquareImages(it)
                 }else{
                     rv_square_imgs.visibility = View.GONE
@@ -356,11 +375,11 @@ class MineFragment : BaseFragment() {
                     tv_fcount.visibility = View.GONE
                 }
 
-//                if (it.iPointNew!!.toInt() > 0) {
-//                    headerView.tv_mypointscount.visibility = View.VISIBLE
-//                } else {
-//                    headerView.tv_mypointscount.visibility = View.GONE
-//                }
+                if (it.iPointNew!!.toInt() > 0) {
+                    iv_reddot.visibility = View.VISIBLE
+                } else {
+                    iv_reddot.visibility = View.GONE
+                }
 
 //                if(data.iFollowCount!! > 0){
 //                    headerView.tv_fllcount.text = "+${data.iFollowCount.toString()}"
@@ -384,18 +403,24 @@ class MineFragment : BaseFragment() {
      */
     private fun addSquareImages(userData: UserData) {
         mImages.clear()
-        if (!TextUtils.equals("null", userData.userpics)) {
-            if (!userData.userpics.isNullOrEmpty()) {
-                userData.userpics?.let {
+        if (!TextUtils.equals("null", userData.sSquarePicList)) {
+            if (!userData.sSquarePicList.isNullOrEmpty()) {
+                userData.sSquarePicList?.let {
                     val images = it.split(",")
                     images.forEach {
                         mImages.add(AddImage(it))
                     }
                 }
+
+                userData.sSourceSquarePicList?.let {
+                    var SourceSquares = it.split(",")
+                    SourceSquares.forEach{
+                        mBigSquareImages.add(AddImage(it))
+                    }
+                }
             }
         }else{
             rv_square_imgs.visibility = View.GONE
-            tv_squarewarm.text = getString(R.string.string_nosquare)
         }
         myImageAdapter.notifyDataSetChanged()
     }

@@ -63,6 +63,9 @@ data class UserData(val accountId: String? = "") : Serializable {
     var isValid:String?=""
     var iIsInBlackList:Int?=-1
     var iMessageSetting:Int?=-1
+    var iSquareCount:Int?=-1
+    var sSquarePicList:String?="" //动态图片
+    var sSourceSquarePicList:String?=""
 
     override fun toString(): String {
 

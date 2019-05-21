@@ -26,7 +26,7 @@
                 android:id="@+id/tv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/nav_closebutton_white"
+                android:drawableLeft="@mipmap/navigation_whiteback_color"
                 android:padding="12dp" />
 
             <com.facebook.drawee.view.SimpleDraweeView

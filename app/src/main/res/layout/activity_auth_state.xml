@@ -13,7 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/height_75">
+            android:paddingBottom="@dimen/height_65">
 
             <include
                 android:id="@+id/auth_top"

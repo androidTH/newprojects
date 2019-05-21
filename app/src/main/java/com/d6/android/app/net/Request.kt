@@ -440,4 +440,7 @@ object Request {
 
     //推送消息
     fun pushCustomerMessage(iUserid:String,iType:Int,sResourceId:String)=RRetrofit.instance().create(ApiServices::class.java).pushCustomerMessage(iUserid,iType,sResourceId)
+
+    //获取会员列表
+    fun findUserClasses()=RRetrofit.instance().create(ApiServices::class.java).findUserClasses()
 }

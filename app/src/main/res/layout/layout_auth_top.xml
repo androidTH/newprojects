@@ -14,7 +14,7 @@
         android:id="@+id/tv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@mipmap/nav_closebutton_white"
+        android:drawableLeft="@mipmap/navigation_whiteback_color"
         android:padding="12dp" />
 
     <ImageView
@@ -172,24 +172,24 @@
 
             <TextView
                 android:id="@+id/tv_numone"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
                 android:background="@drawable/shape_dot_selector"
                 android:gravity="center"
                 android:enabled="false" />
 
             <TextView
                 android:id="@+id/tv_numtwo"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
                 android:layout_marginLeft="@dimen/margin_5"
                 android:layout_marginRight="@dimen/margin_5"
                 android:background="@drawable/shape_dot_selector" />
 
             <TextView
                 android:id="@+id/tv_numthree"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
                 android:background="@drawable/shape_dot_selector" />
         </LinearLayout>
     </LinearLayout>

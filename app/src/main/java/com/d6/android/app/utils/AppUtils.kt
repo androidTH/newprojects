@@ -33,6 +33,16 @@ class AppUtils {
         var SP_NAME :String? = null
         var PICDIR :String? = null
 
+        fun setMemberNums(context: Context,value:CharSequence , start:Int,end :Int, tv: TextView){
+            val ss = SpannableString(value)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_member_leftstyle), start, end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(TextAppearanceSpan(context, R.style.tv_member_rightstyle), end,
+                    value.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            tv.setText(ss, TextView.BufferType.SPANNABLE)
+        }
+
         fun setUserWallet(context: Context,value:CharSequence , start:Int,end :Int, tv: TextView){
             val ss = SpannableString(value)
             ss.setSpan(TextAppearanceSpan(context, R.style.tv_wallet_leftstyle), start, end,

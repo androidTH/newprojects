@@ -417,4 +417,8 @@ interface ApiServices {
 
    @POST("backstage/push/pushCustomerMessage")
    fun pushCustomerMessage(@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String):Flowable<Response<JsonPrimitive>>
+
+   /*2.1.0接口*/
+   @POST("backstage/userclasses/findUserClasses")
+   fun findUserClasses():Flowable<Response<ListMemeberBean<MemberBean>>>
 }

@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MemberCommentHolder
@@ -12,6 +13,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.OpenMemberShipDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
+import com.d6.android.app.models.MemberBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
@@ -23,6 +25,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_auth_state.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
 
@@ -39,7 +42,13 @@ class AuthMenStateActivity : BaseActivity() {
         intent.getStringExtra(NO_VIP_FROM_TYPE)
     }
 
+    private val mMemberLevelAdapter by lazy{
+        MemberLevelAdapter(mMemberPriceList)
+    }
+
     private val mImages = ArrayList<AddImage>()
+    private var mMemberPriceList = ArrayList<MemberBean>()
+
     var mComments = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +73,7 @@ class AuthMenStateActivity : BaseActivity() {
 
         ll_openmemeber.setOnClickListener {
             var mOpenMemberShipDialog = OpenMemberShipDialog()
+            mOpenMemberShipDialog.arguments = bundleOf("members" to mMemberPriceList)
             mOpenMemberShipDialog.show(supportFragmentManager,OpenMemberShipDialog::class.java.toString())
         }
 
@@ -72,16 +82,10 @@ class AuthMenStateActivity : BaseActivity() {
         }else{
             tv_d6vipinfo.text = "D6是一个高端私密交友社区，部分服务仅对会员开放"
         }
-
-        var mData = ArrayList<String>()
-        for(i in 1..5){
-            mData.add("普通会员${i}")
-        }
-
         rv_viptypes.setHasFixedSize(true)
         rv_viptypes.setOrientation(DSVOrientation.HORIZONTAL)
         rv_viptypes.setSlideOnFling(false)
-        rv_viptypes.adapter = MemberLevelAdapter(mData)
+        rv_viptypes.adapter = mMemberLevelAdapter
         rv_viptypes.setItemTransitionTimeMillis(150)
         rv_viptypes.setItemTransformer(ScaleTransformer.Builder()
                 .setMinScale(1.0f)
@@ -131,6 +135,8 @@ class AuthMenStateActivity : BaseActivity() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
             }
         })
+
+        getMemberPriceList()
     }
 
     override fun onResume() {
@@ -143,9 +149,16 @@ class AuthMenStateActivity : BaseActivity() {
         member_banner.stopTurning()
     }
 
-    private fun getDateCount() {
-        Request.getDateSuccessCount().request(this) { _, data ->
+    private fun getMemberPriceList() {
+//        Request.getDateSuccessCount().request(this) { _, data ->
 //            tv_date_count.text = String.format("目前已有%s人在D6约会成功", data?.asString ?: "1000")
+//        }
+        Request.findUserClasses().request(this){msg,data->
+            data?.list?.let {
+                mMemberPriceList = it
+                mMemberLevelAdapter.setNewData(it)
+                Log.i("mem","数量${mMemberPriceList.size}")
+            }
         }
     }
 

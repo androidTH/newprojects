@@ -23,6 +23,7 @@ import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.MemberBean
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
@@ -48,6 +49,7 @@ class OpenMemberShipDialog : DialogFragment() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private var mMemberPriceList = ArrayList<MemberBean>()
     private var mMemberShipAdapter: MemberShipAdapter?=null
     private var mSquareId:String = ""
     private var mToFromType = 0
@@ -70,18 +72,17 @@ class OpenMemberShipDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mMemberPriceList = arguments.getParcelableArrayList("members")
+        if(mMemberPriceList==null){
+            getMemberPriceList()
+        }
         iv_membership_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
-        var mData = ArrayList<String>()
-        for(index in 0..5){
-           mData.add("白银会员${index}")
-        }
-
         rv_membership_price_list.setHasFixedSize(true)
         rv_membership_price_list.layoutManager = LinearLayoutManager(context)
-        mMemberShipAdapter = MemberShipAdapter(mData)
+        mMemberShipAdapter = MemberShipAdapter(mMemberPriceList)
         rv_membership_price_list.addItemDecoration(VerticalDividerItemDecoration.Builder(context)
                 .size(dip(1))
                 .color(ContextCompat.getColor(context,R.color.color_EFEFEF))
@@ -103,13 +104,19 @@ class OpenMemberShipDialog : DialogFragment() {
 //        getFlowerList()
     }
 
-    private fun getUserInfo(id: String) {
-        Request.getUserInfo(userId, id).request((context as BaseActivity),false,success= { msg, data ->
-            data?.let {
+    private fun getMemberPriceList() {
+//        Request.getUserInfo(userId, id).request((context as BaseActivity),false,success= { msg, data ->
+//            data?.let {
 //                iv_sendflower_headView.setImageURI(it.picUrl)
 //                tv_sendflower_name.text = it.name
+//            }
+//        })
+
+        Request.findUserClasses().request((context as BaseActivity)){msg,data->
+            data?.list?.let {
+                mMemberShipAdapter?.setNewData(it)
             }
-        })
+        }
     }
 
     private fun getFlowerList(){
