@@ -33,6 +33,7 @@ object Const {
         var  HEADERIMAGE ="headerimage"
         var  SELECTIMAGE ="selectimage"
         var  USERPOINTS_NUMS = "UserPointNums"
+        var  SLOGINTOKEN ="sLoginToken"
 }
 
     val SQUAREMSG_LAST_TIME = "Square_lastTime" //广场消息时间

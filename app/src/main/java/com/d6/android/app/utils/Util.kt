@@ -134,8 +134,8 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_DATACOMPLETION, obj.iDatacompletion)
             .put(Const.User.USER_MESSAGESETTING,"${obj.iMessageSetting}")
 //            .put(Const.User.IS_LOGIN, true)
+            .put(Const.User.SLOGINTOKEN,obj.sLoginToken)
             .apply()
-
 }
 
 fun View?.visible() {

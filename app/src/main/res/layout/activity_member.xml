@@ -43,7 +43,7 @@
                 android:layout_below="@+id/vipheaderview"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_6"
-                android:text="黄金会员"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="15sp" />
 
@@ -62,7 +62,7 @@
                 android:layout_below="@+id/tv_vipendtime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_20"
+                android:paddingBottom="@dimen/margin_15"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_20"
                 android:layout_marginRight="@dimen/margin_10"
@@ -123,14 +123,35 @@
                     android:layout_marginRight="@dimen/margin_10"
                     android:background="@color/color_EFEFEF" />
                 <TextView
+                    android:id="@+id/tv_data_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:textColor="@color/color_black"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:layout_marginTop="18dp"
+                    android:textStyle="bold"
+                    android:text="全球"/>
+                <View
+                    android:id="@+id/view_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:background="@color/color_EFEFEF" />
+                <TextView
+                    android:id="@+id/tv_ztnums"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_black"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="18dp"
+                    android:textStyle="bold"
                     android:text="直推次数："/>
                 <TextView
+                    android:id="@+id/tv_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/margin_13"
@@ -139,21 +160,39 @@
                     android:textColor="@color/color_666666"
                     android:textSize="14sp" />
 
-                <TextView
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/margin_5"-->
+                    <!--android:paddingLeft="@dimen/margin_13"-->
+                    <!--android:text="·有权报名速约，挑选优质男生会员； "-->
+                    <!--android:textColor="@color/color_666666"-->
+                    <!--android:textSize="14sp" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/margin_5"-->
+                    <!--android:paddingLeft="@dimen/margin_13"-->
+                    <!--android:text="·有权参加各类线下娱乐活动；"-->
+                    <!--android:textColor="@color/color_666666"-->
+                    <!--android:textSize="14sp" />-->
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_13"
-                    android:text="·有权报名速约，挑选优质男生会员； "
-                    android:textColor="@color/color_666666"
-                    android:textSize="14sp" />
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:background="@color/color_EFEFEF" />
 
                 <TextView
+                    android:id="@+id/tv_remark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_13"
-                    android:text="·有权参加各类线下娱乐活动；"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/margin_13"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:text="注：北京/上海/广东/江苏/浙江/海外+100"
                     android:textColor="@color/color_666666"
                     android:textSize="14sp" />
             </LinearLayout>

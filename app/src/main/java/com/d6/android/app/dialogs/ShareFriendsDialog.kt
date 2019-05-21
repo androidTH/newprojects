@@ -86,7 +86,7 @@ class ShareFriendsDialog : DialogFragment() {
             }else if(TextUtils.equals(fromType,"myDateDetail")){
                 sResourceId = arguments.getString("sResourceId")
                 iType = 1
-                ll_action.visibility = View.GONE
+                tv_deldate.visibility = View.VISIBLE
             }else{
                 tv_deldate.visibility = View.VISIBLE
             }

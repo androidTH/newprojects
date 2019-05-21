@@ -416,9 +416,15 @@ interface ApiServices {
    fun shareMessage(@Query("iUserid")userid:String,@Query("iType") iType:Int,@Query("sResourceId") sResourceId:String,@Query("sAppointUser")sAppointUser:String):Flowable<Response<JsonPrimitive>>
 
    @POST("backstage/push/pushCustomerMessage")
-   fun pushCustomerMessage(@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String):Flowable<Response<JsonPrimitive>>
+   fun pushCustomerMessage(@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonPrimitive>>
 
    /*2.1.0接口*/
+   //获取等级接口
    @POST("backstage/userclasses/findUserClasses")
-   fun findUserClasses():Flowable<Response<ListMemeberBean<MemberBean>>>
+   fun findUserClasses(@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<ListMemeberBean<MemberBean>>>
+
+   //删除约会
+  @POST("backstage/appointment/delAppointment")
+  fun delAppointment(@Query("sLoginToken")sLoginToken:String,@Query("sAppointmentId") sAppointmentId:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonPrimitive>>
+
 }

@@ -11,6 +11,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MemberShipAdapter
 import com.d6.android.app.base.BaseActivity
@@ -89,15 +90,17 @@ class OpenMemberShipDialog : DialogFragment() {
                 .build())
         rv_membership_price_list.adapter = mMemberShipAdapter
 
+        mMemberShipAdapter?.setOnItemChildClickListener(){adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
+             if(view?.id == R.id.tv_vip_price){
+                 var memberBean = mMemberPriceList.get(position)
+                 memberBean.iAndroidPrice?.let {
+                     buyRedFlowerPay(it,userId)
+                 }
+             }
+        }
+
         mMemberShipAdapter?.setOnItemClickListener() { adapter, view, position ->
                  mMemberShipAdapter?.let {
-//                     if(it.selectedIndex == position){
-//                         it.selectedIndex= -1
-//                     }else{
-//                         it.selectedIndex = position
-//                         mFlowerCount = it.data.get(position).iFlowerCount.toString()
-//                     }
-                     it.notifyDataSetChanged()
                  }
         }
 //        getUserInfo(id)
@@ -105,26 +108,11 @@ class OpenMemberShipDialog : DialogFragment() {
     }
 
     private fun getMemberPriceList() {
-//        Request.getUserInfo(userId, id).request((context as BaseActivity),false,success= { msg, data ->
-//            data?.let {
-//                iv_sendflower_headView.setImageURI(it.picUrl)
-//                tv_sendflower_name.text = it.name
-//            }
-//        })
-
         Request.findUserClasses().request((context as BaseActivity)){msg,data->
             data?.list?.let {
                 mMemberShipAdapter?.setNewData(it)
             }
         }
-    }
-
-    private fun getFlowerList(){
-        Request.getUserFlower().request((context as BaseActivity),false,success = {msg,data->
-            mMemberShipAdapter?.let {
-//                it.setNewData(data)
-            }
-        })
     }
 
     private fun BuyRedFlowerSuccess(id:String,flowerCount:String){
@@ -140,7 +128,7 @@ class OpenMemberShipDialog : DialogFragment() {
                 .UserId(userId.toInt())
                 .iFlowerCount(flowerCount)
                 .goodsPrice(flowerCount)// 单位为：分 pointRule.iPrice
-                .goodsName("小红花")
+                .goodsName("积分")
                 .goodsIntroduction("")
                 .httpType(HttpType.Post)
                 .httpClientType(NetworkClientType.Retrofit)

@@ -343,11 +343,11 @@ class MineFragment : BaseFragment() {
                     rl_warmuserinfo.visibility = View.GONE
                 }
 
-//                if(it.iSquareCount!!>0){
-//                    tv_squarewarm.text = "${it.iSquareCount}条动态"
-//                }else{
-//                    tv_squarewarm.text = getString(R.string.string_nosquare)
-//                }
+                if(it.iSquareCount!!>0){
+                    tv_squarewarm.text = "${it.iSquareCount}条动态"
+                }else{
+                    tv_squarewarm.text = getString(R.string.string_nosquare)
+                }
 
                 if (!TextUtils.equals("null", it.sSquarePicList.toString())) {
                     addSquareImages(it)

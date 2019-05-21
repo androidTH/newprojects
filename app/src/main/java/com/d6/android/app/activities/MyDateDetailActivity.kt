@@ -37,6 +37,10 @@ class MyDateDetailActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val sLoginToken by lazy{
+        SPUtils.instance().getString(Const.User.SLOGINTOKEN)
+    }
+
     private lateinit var myAppointment:MyAppointment
     private val mImages = ArrayList<String>()
     private var iAppointUserid:String =""
@@ -55,6 +59,8 @@ class MyDateDetailActivity : BaseActivity() {
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
                     startActivity<ReportActivity>("id" to myAppointment!!.sId.toString(), "tiptype" to "3")
+                }else if(p==1){
+                    delMyDate()
                 }
             }
         })
@@ -478,6 +484,17 @@ class MyDateDetailActivity : BaseActivity() {
                 titlebar_datedetails.hideRightButton(0,false)
             }else {
                 titlebar_datedetails.hideRightButton(0,true)
+            }
+        }
+    }
+
+    private fun delMyDate(){
+        dialog()
+        Request.delAppointment(sLoginToken,myAppointment.sId.toString()).request(this,false,success={_,_->
+            finish()
+        }) {code,msg->
+            if(code==2){
+               toast(msg)
             }
         }
     }

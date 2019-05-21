@@ -271,11 +271,13 @@ class HomeFragment : BaseFragment() {
             showTips(data,"","")
             if (data != null) {
                 var pointDesc = data.optString("sAddPointDesc")
+                var sLoginToken = data.optString("sLoginToken")
                 if (!TextUtils.isEmpty(pointDesc)) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
                     SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
                     SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
                 }
+                SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
             }
         }){code,msg->
 //            var mg = JsonObject().getAsJsonObject(msg)

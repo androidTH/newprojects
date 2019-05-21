@@ -443,4 +443,7 @@ object Request {
 
     //获取会员列表
     fun findUserClasses()=RRetrofit.instance().create(ApiServices::class.java).findUserClasses()
+
+    //删除约会列表
+    fun delAppointment(sLoginToken:String,sAppointmentId:String)=RRetrofit.instance().create(ApiServices::class.java).delAppointment(sLoginToken,sAppointmentId)
 }

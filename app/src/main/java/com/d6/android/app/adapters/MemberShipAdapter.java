@@ -78,5 +78,8 @@ public class MemberShipAdapter extends BaseQuickAdapter<MemberBean,BaseViewHolde
 //         Drawable drawable = ContextCompat.getDrawable(mContext,R.mipmap.vip_ordinary);
 
         tvName.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
+
+
+        helper.addOnClickListener(R.id.tv_vip_price);
     }
 }
