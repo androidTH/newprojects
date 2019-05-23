@@ -52,6 +52,7 @@
              android:layout_marginLeft="@dimen/margin_15"
              android:text="不同地区价格稍有差异"/>
          <TextView
+             android:id="@+id/tv_choose_address"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignParentRight="true"
@@ -60,6 +61,8 @@
              android:layout_marginRight="@dimen/margin_15"
              android:drawableRight="@mipmap/more_downicon"
              android:drawablePadding="@dimen/margin_5"
+             android:paddingTop="@dimen/margin_5"
+             android:paddingBottom="@dimen/margin_5"
              android:textSize="14sp"
              android:textStyle="bold"
              android:text="地区"/>

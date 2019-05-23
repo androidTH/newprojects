@@ -19,6 +19,7 @@
             android:layout_marginRight="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_2"
             android:background="@drawable/shape_4r_orange_f7"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <ImageView

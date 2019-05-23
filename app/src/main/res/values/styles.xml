@@ -58,8 +58,8 @@
     </style>
 
     <style name="DefaultHeadStyle">
-        <item name="failureImage">@mipmap/default_head</item>
-        <item name="placeholderImage">@mipmap/default_head</item>
+        <item name="failureImage">@mipmap/headportrait_girl</item>
+        <item name="placeholderImage">@mipmap/headportrait_girl</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>

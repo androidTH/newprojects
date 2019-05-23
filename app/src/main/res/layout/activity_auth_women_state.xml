@@ -7,6 +7,7 @@
     tools:context=".activities.AuthWomenStateActivity">
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_auth_women"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -39,6 +40,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_16"
                     android:text="人工服务"
+                    android:textStyle="bold"
                     android:textColor="@color/color_black"
                     android:textSize="17sp" />
             </RelativeLayout>
@@ -59,9 +61,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_wxkftips"
-                android:layout_marginLeft="@dimen/margin_20"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_20"
+                android:layout_marginRight="@dimen/margin_10"
                 android:background="@drawable/shape_whitebg_5r"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/margin_15">
@@ -115,6 +117,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_16"
                     android:text="免费认证会员"
+                    android:textStyle="bold"
                     android:textColor="@color/color_black"
                     android:textSize="17sp" />
             </RelativeLayout>
@@ -133,9 +136,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_mfrz"
-                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_35"
-                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_10"
                 android:background="@drawable/shape_10r_white"
                 android:paddingBottom="@dimen/margin_10">
 
@@ -243,6 +246,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/ll_free_rz"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_40"
             android:layout_marginLeft="@dimen/margin_10"

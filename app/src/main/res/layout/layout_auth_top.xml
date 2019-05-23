@@ -52,9 +52,9 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@+id/tv_d6vipinfo"
-        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginTop="@dimen/margin_20"
-        android:layout_marginRight="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_10"
         android:background="@drawable/shape_10r_white"
         android:orientation="horizontal">
 
@@ -149,24 +149,26 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_say"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="90dp"
         android:layout_below="@+id/ll_vip"
-        android:layout_marginTop="@dimen/margin_30"
-        android:orientation="vertical">
+        android:layout_marginTop="@dimen/margin_25"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_10">
 
         <com.d6.android.app.widget.convenientbanner.ConvenientBanner
             android:id="@+id/member_banner"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             banner:canLoop="true"
             banner:autoTurningTime="3000"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -192,7 +194,7 @@
                 android:layout_height="4dp"
                 android:background="@drawable/shape_dot_selector" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_vipfk"
@@ -225,6 +227,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_16"
             android:text="会员特权"
+            android:textStyle="bold"
             android:textColor="@color/color_black"
             android:textSize="17sp" />
     </RelativeLayout>
@@ -244,9 +247,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_viptq"
-        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginTop="@dimen/margin_50"
-        android:layout_marginRight="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_10"
         android:background="@drawable/shape_whitebg_5r"
         android:orientation="vertical"
         android:paddingBottom="@dimen/margin_15">
