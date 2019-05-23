@@ -3,6 +3,7 @@ package com.d6.android.app.adapters;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         TextView tv_memeber_address = helper.getView(R.id.tv_memeber_address);
         TextView tv_vip_percent = helper.getView(R.id.tv_vip_percent);
         TextView tv_remark = helper.getView(R.id.tv_remark);
+        View view_line = helper.getView(R.id.view_line);
         tv_vip_percent.setVisibility(View.VISIBLE);
 
         tv_english.setText(item.getSEnClassesname());
@@ -54,7 +56,14 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         tv_memeber_address.setText(item.getSServiceArea());
         AppUtils.Companion.setMemberNums(mContext,"直推次数: "+item.getIRecommendCount(),0,5,tv_ztnums);
         AppUtils.Companion.setMemberNums(mContext,"有效期: "+item.getSEnableDateDesc(),0,4,tv_endtime);
-        tv_remark.setText(item.getSRemark());
+        if(!TextUtils.isEmpty(item.getSRemark())){
+            tv_remark.setVisibility(View.VISIBLE);
+            view_line.setVisibility(View.VISIBLE);
+            tv_remark.setText(item.getSRemark());
+        }else{
+            tv_remark.setVisibility(View.GONE);
+            view_line.setVisibility(View.GONE);
+        }
 //        int position = (helper.getLayoutPosition() - getHeaderLayoutCount());
         if(item.getIds()==22){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_pt));

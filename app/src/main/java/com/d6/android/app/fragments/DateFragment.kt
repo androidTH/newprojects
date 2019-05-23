@@ -363,11 +363,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     if(it.iDatacompletion<60){
                         var mFindDate:FindDate = FindDate(it.accountId)
                         setFindDate(mFindDate,it)
-                        mDates.add(4,mFindDate)
-                        if(TextUtils.equals(sex,"0")){
-                            (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion
-                        }else{
-                            (mRecyclerView.adapter as DateWomanCardAdapter).iDateComlete = it.iDatacompletion
+                        if (mDates.size > 4) {
+                            mDates.add(4, mFindDate)
+                            if (TextUtils.equals(sex, "0")) {
+                                (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion
+                            } else {
+                                (mRecyclerView.adapter as DateWomanCardAdapter).iDateComlete = it.iDatacompletion
+                            }
                         }
                     }
                 }

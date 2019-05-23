@@ -51,9 +51,7 @@ class OpenMemberShipDialog : DialogFragment() {
     }
 
     private var mMemberPriceList = ArrayList<MemberBean>()
-    private var mMemberShipAdapter: MemberShipAdapter?=null
-    private var mSquareId:String = ""
-    private var mToFromType = 0
+    var mMemberShipAdapter: MemberShipAdapter?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +75,13 @@ class OpenMemberShipDialog : DialogFragment() {
         if(mMemberPriceList==null){
             getMemberPriceList()
         }
+
         iv_membership_close.setOnClickListener {
             dismissAllowingStateLoss()
+        }
+
+        tv_choose_address.setOnClickListener {
+            dialogListener?.onClick(2001,"地区")
         }
 
         rv_membership_price_list.setHasFixedSize(true)
@@ -92,10 +95,11 @@ class OpenMemberShipDialog : DialogFragment() {
 
         mMemberShipAdapter?.setOnItemChildClickListener(){adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
              if(view?.id == R.id.tv_vip_price){
-                 var memberBean = mMemberPriceList.get(position)
-                 memberBean.iAndroidPrice?.let {
-                     buyRedFlowerPay(it,userId)
-                 }
+                 dialogListener?.onClick(position,"支付")
+//                 var memberBean = mMemberPriceList.get(position)
+//                 memberBean.iAndroidPrice?.let {
+//                     buyRedFlowerPay(it,"",memberBean.ids!!.toInt(),memberBean.classesname.toString())
+//                 }
              }
         }
 
@@ -103,87 +107,33 @@ class OpenMemberShipDialog : DialogFragment() {
                  mMemberShipAdapter?.let {
                  }
         }
-//        getUserInfo(id)
-//        getFlowerList()
+    }
+
+    fun setAddressd(address:String){
+        tv_choose_address.text = address
+        getAreaNameMemberPriceList(address)
+    }
+
+
+    private fun getAreaNameMemberPriceList(areaName:String){
+        isBaseActivity {
+            Request.findUserClasses(areaName).request(it){msg,data->
+                data?.list?.let {
+                    Log.i("mem","数量${it.size}")
+                    mMemberPriceList = it
+                    mMemberShipAdapter?.let {
+                        it.setNewData(mMemberPriceList)
+                    }
+                }
+            }
+        }
     }
 
     private fun getMemberPriceList() {
         Request.findUserClasses().request((context as BaseActivity)){msg,data->
             data?.list?.let {
-                mMemberShipAdapter?.setNewData(it)
-            }
-        }
-    }
-
-    private fun BuyRedFlowerSuccess(id:String,flowerCount:String){
-        val dialogSendFlowerSuccess = DialogSendFlowerSuccess()
-            dialogSendFlowerSuccess.arguments = bundleOf("userId" to id,"nums" to flowerCount)
-            dialogSendFlowerSuccess.show((context as BaseActivity).supportFragmentManager, "sendflower")
-    }
-
-    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String){
-        val params = PayParams.Builder((context as BaseActivity))
-                .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
-                .payWay(PayWay.WechatPay)
-                .UserId(userId.toInt())
-                .iFlowerCount(flowerCount)
-                .goodsPrice(flowerCount)// 单位为：分 pointRule.iPrice
-                .goodsName("积分")
-                .goodsIntroduction("")
-                .httpType(HttpType.Post)
-                .httpClientType(NetworkClientType.Retrofit)
-                .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
-                .setType(1)
-                .build()
-        EasyPay.newInstance(params).requestPayInfo(object : OnPayInfoRequestListener {
-            override fun onPayInfoRequetStart() {
-            }
-
-            override fun onPayInfoRequstSuccess() {
-
-            }
-
-            override fun onPayInfoRequestFailure() {
-            }
-        }).toPay(object : OnPayResultListener {
-            override fun onPaySuccess(payWay: PayWay?,orderId:String) {
-                Log.i("redflowerorderId",orderId)
-                if(!TextUtils.isEmpty(orderId)){
-                    checkOrderStatus(receiverUserId,orderId,flowerCount.toString())
-                }
-            }
-
-            override fun onPayCancel(payWay: PayWay?) {
-            }
-
-            override fun onPayFailure(payWay: PayWay?, errCode: Int) {
-
-            }
-        })
-    }
-
-    /**
-     * 检查订单的状态
-     */
-    private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String){
-        if(context!=null){
-            BuyRedFlowerSuccess(receiverUserId,flowerCount)
-            Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
-                Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
-                    if(mToFromType == 1){
-                        EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
-                    }else if(mToFromType == 2){
-//                        mSquare?.let {
-//                            it.iFlowerCount = flowerCount.toInt()+it.iFlowerCount!!.toInt()
-//                            EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt(),mSquare))
-//                        }
-                    }else if(mToFromType == 4){
-                        dialogListener?.onClick(1,flowerCount)
-                    }
-                    dismissAllowingStateLoss()
-                })
-            }){code,msg->
-                CustomToast.showToast(msg)
+                mMemberPriceList = it
+                mMemberShipAdapter?.setNewData(mMemberPriceList)
             }
         }
     }
@@ -195,6 +145,12 @@ class OpenMemberShipDialog : DialogFragment() {
             override fun onClick(position: Int, data: String?) {
                 l(position, data)
             }
+        }
+    }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
         }
     }
 }

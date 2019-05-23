@@ -55,51 +55,34 @@ public class RetrofitClient implements NetworkClientInterf {
                 .baseUrl(payParams.getApiUrl())
                 .build();
         PrePayInfoService service = retrofit.create(PrePayInfoService.class);
+        Call<ResponseBody> call=null;
         if(payParams.getType()==1){
-            Call<ResponseBody> call = service.postBuyFlower(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiFlowerCount());
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        try {
-                            String result = response.body().string();
-                            c.onSuccess(result);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        c.onFailure();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    c.onFailure();
-                }
-            });
+            call = service.postBuyFlower(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiFlowerCount());
         }else if(payParams.getType() == 0){
-            Call<ResponseBody> call = service.postPrePayInfo(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.isSuccessful()) {
-                        try {
-                            String result = response.body().string();
-                            c.onSuccess(result);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        c.onFailure();
+            call = service.postPrePayInfo(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
+        }else if(payParams.getType()==2){
+            call = service.postAddUserClass(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),"",23);
+        }
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        String result = response.body().string();
+                        c.onSuccess(result);
+                        Log.i("RetrofitClient","内容:"+result);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                } else {
                     c.onFailure();
                 }
-            });
-        }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                c.onFailure();
+            }
+        });
     }
 }

@@ -421,7 +421,7 @@ interface ApiServices {
    /*2.1.0接口*/
    //获取等级接口
    @POST("backstage/userclasses/findUserClasses")
-   fun findUserClasses(@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<ListMemeberBean<MemberBean>>>
+   fun findUserClasses(@Query("sAreaName") sAreaName:String, @Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<ListMemeberBean<MemberBean>>>
 
    //删除约会
   @POST("backstage/appointment/delAppointment")

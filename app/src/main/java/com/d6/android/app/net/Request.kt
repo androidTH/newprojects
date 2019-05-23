@@ -442,7 +442,7 @@ object Request {
     fun pushCustomerMessage(iUserid:String,iType:Int,sResourceId:String)=RRetrofit.instance().create(ApiServices::class.java).pushCustomerMessage(iUserid,iType,sResourceId)
 
     //获取会员列表
-    fun findUserClasses()=RRetrofit.instance().create(ApiServices::class.java).findUserClasses()
+    fun findUserClasses(sAreaName:String="")=RRetrofit.instance().create(ApiServices::class.java).findUserClasses(sAreaName)
 
     //删除约会列表
     fun delAppointment(sLoginToken:String,sAppointmentId:String)=RRetrofit.instance().create(ApiServices::class.java).delAppointment(sLoginToken,sAppointmentId)

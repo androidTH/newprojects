@@ -49,7 +49,7 @@ public class MemberShipAdapter extends BaseQuickAdapter<MemberBean,BaseViewHolde
     protected void convert(BaseViewHolder helper, MemberBean item) {
         TextView tvName = helper.getView(R.id.tv_name);
         tvName.setText(item.getClassesname());
-        helper.setText(R.id.tv_vip_price, String.valueOf(item.getIAndroidPrice()));
+        helper.setText(R.id.tv_vip_price, "¥"+String.valueOf(item.getIAndroidPrice()));
         helper.setText(R.id.tv_vipinfo, item.getSTitle());
         Drawable drawable;
         if (TextUtils.equals(String.valueOf(item.getIds()), "27")) {

@@ -344,8 +344,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                             lp.rightMargin = resources.getDimensionPixelOffset(R.dimen.margin_6)
                         }
                         headerView.rl_headView.layoutParams = lp
-                    } else {
-                        headerView.rl_prompt.visibility = View.VISIBLE
                     }
                 }
 
@@ -381,6 +379,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                         headerView.img_other_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_big)
                         headerView.img_date_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_small)
+                    }
+
+                    if(TextUtils.equals("0",it.isValid)){
+                        headerView.img_other_auther.visibility = View.GONE
+                        headerView.img_date_auther.visibility = View.GONE
+                        headerView.rl_prompt.visibility = View.VISIBLE
+                        headerView.img_official.visibility = View.VISIBLE
+                        headerView.img_official.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_forbidden_icon)
                     }
                 }
 

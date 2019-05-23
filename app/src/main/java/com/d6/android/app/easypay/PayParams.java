@@ -34,7 +34,9 @@ public class PayParams {
     private HttpType mHttpType = HttpType.Post;
     private NetworkClientType mNetworkClientType = NetworkClientType.OkHttp;
     private String mApiUrl;
-    private int Type;//0代表积分 1代表小红花
+    private int Type;//0代表积分 1代表小红花 2代表会员购买
+    private String sAreaName;
+    private int iUserclassid;
 
     public Activity getActivity() {
         return mActivity;
@@ -140,6 +142,22 @@ public class PayParams {
         Type = type;
     }
 
+    public String getsAreaName() {
+        return sAreaName == null ? "" : sAreaName;
+    }
+
+    public void setsAreaName(String sAreaName) {
+        this.sAreaName = sAreaName;
+    }
+
+    public int getiUserclassid() {
+        return iUserclassid;
+    }
+
+    public void setiUserclassid(int iUserclassid) {
+        this.iUserclassid = iUserclassid;
+    }
+
     public static class Builder {
         Activity mActivity;
         String wechatAppId;
@@ -154,6 +172,8 @@ public class PayParams {
         NetworkClientType mNetworkClientType;
         String apiUrl;
         int mType;
+        String sAreaName;
+        int iUserclassid;
 
 
         public Builder(Activity activity) {
@@ -219,6 +239,16 @@ public class PayParams {
             return this;
         }
 
+        public PayParams.Builder setSAeaName(String are){
+            sAreaName = are;
+            return this;
+        }
+
+        public PayParams.Builder setUserClassId(int userClassId){
+            iUserclassid = userClassId;
+            return this;
+        }
+
         public PayParams build() {
             PayParams params = new PayParams();
 
@@ -235,7 +265,8 @@ public class PayParams {
             params.setApiUrl(apiUrl);
             params.setiFlowerCount(iFlowerCount);
             params.setType(mType);
-
+            params.setsAreaName(sAreaName);
+            params.setiUserclassid(iUserclassid);
             return params;
         }
 

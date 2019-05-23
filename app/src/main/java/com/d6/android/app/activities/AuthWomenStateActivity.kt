@@ -2,8 +2,12 @@ package com.d6.android.app.activities
 
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.view.View
+import android.widget.ScrollView
 import com.d6.android.app.R
+import com.d6.android.app.adapters.MemberCommentHolder
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.DateAuthTipDialog
 import com.d6.android.app.dialogs.DateContactAuthDialog
@@ -11,6 +15,8 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.gyf.barlibrary.ImmersionBar
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
@@ -41,6 +47,8 @@ class AuthWomenStateActivity : BaseActivity() {
 
     private val mImages = ArrayList<AddImage>()
 
+    var mComments = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth_women_state)
@@ -66,7 +74,6 @@ class AuthWomenStateActivity : BaseActivity() {
 //            } else {
 ////                startActivity<MyDateActivity>()
 //            }
-
         }
 
         //第二步认证
@@ -101,25 +108,83 @@ class AuthWomenStateActivity : BaseActivity() {
             })
         }
 
+        ll_free_rz.setOnClickListener {
+            ns_auth_women.fullScroll(ScrollView.FOCUS_DOWN)
+        }
+
         if(TextUtils.equals("mine",from)){
             tv_d6vipinfo.text = "听说开通会员后，80%都约到了心仪的TA"
         }else{
             tv_d6vipinfo.text = "D6是一个高端私密交友社区，部分服务仅对会员开放"
         }
+
+        mComments.add("“感觉还不错吧 里面人还蛮多的 也交到一些朋友啦 中级会员的我已经呆了一年多了 也算比较熟悉了 群的种类多 有些蛮热闹 也有线下聚会”")
+        mComments.add("“特别好玩的一个app，里面可以看到动态还能发起约会，最近更新的版本修复了很多bug，灰常棒~”")
+        mComments.add("“我进Ｄ6以来、我炮友基本都是d6的、而且客服比别的平台负责多了、APP其他都挺好的、就是不能发布视频”")
+
+        setMemeberComemnt()
     }
 
     override fun onResume() {
         super.onResume()
-        //getData()
+        member_banner.startTurning()
+        getAuthPercent()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        member_banner.stopTurning()
     }
 
     private var lianxifangshi = 0
     private var qurenzheng = 0
     private var wanshanziliao = 0.0
 
-    private fun getData() {
+    private fun setMemeberComemnt(){
+        member_banner.setPages(
+                object : CBViewHolderCreator {
+                    override fun createHolder(itemView: View): MemberCommentHolder {
+                        return MemberCommentHolder(itemView)
+                    }
+
+                    override fun getLayoutId(): Int {
+                        return R.layout.item_vipcomment
+                    }
+                },mComments)
+
+        member_banner.setOnPageChangeListener(object: OnPageChangeListener {
+            override fun onPageSelected(index: Int) {
+                when(index){
+                    0-> {
+                        tv_numone.isEnabled = false
+                        tv_numtwo.isEnabled = true
+                        tv_numthree.isEnabled = true
+                    }
+                    1->{
+                        tv_numone.isEnabled = true
+                        tv_numtwo.isEnabled = false
+                        tv_numthree.isEnabled = true
+                    }
+                    2->{
+                        tv_numone.isEnabled = true
+                        tv_numtwo.isEnabled = true
+                        tv_numthree.isEnabled = false
+                    }
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            }
+        })
+    }
+
+
+    private fun getAuthPercent() {
         Request.getAuthState(userId).request(this, success = { _, data ->
-            getDateCount()
+//            getDateCount()
             if (data != null) {
                 wanshanziliao = data.optDouble("wanshanziliao")
                 tv_percent.text = "${wanshanziliao * 10}%"
@@ -141,18 +206,17 @@ class AuthWomenStateActivity : BaseActivity() {
 
             }
         }) { _, _ ->
-            getDateCount()
+//            getDateCount()
         }
     }
 
     private fun getDateCount() {
-        Request.getDateSuccessCount().request(this) { _, data ->
+//        Request.getDateSuccessCount().request(this) { _, data ->
 //            tv_date_count.text = String.format("目前已有%s人在D6约会成功", data?.asString ?: "1000")
-        }
+//        }
     }
 
     private fun getUserInfo() {
-        dialog()
         Request.getUserInfo("", userId).request(this, success = { _, data ->
             saveUserInfo(data)
             data?.let {
@@ -168,8 +232,7 @@ class AuthWomenStateActivity : BaseActivity() {
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 startActivity<MyInfoActivity>("data" to it, "images" to mImages)
             }
-        }) { _, _ ->
-        }
+        })
     }
 
     override fun onDestroy() {

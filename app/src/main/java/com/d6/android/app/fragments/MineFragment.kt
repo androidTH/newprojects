@@ -245,6 +245,7 @@ class MineFragment : BaseFragment() {
                 updateCache(it)
 
                 headview.setImageURI(it.picUrl)
+                sv_service.setImageURI(it.sServicePicUrl)
                 tv_nick.text = it.name
                 if (!TextUtils.isEmpty(it.intro)) {
                     tv_signature.text = it.intro
@@ -280,6 +281,11 @@ class MineFragment : BaseFragment() {
                     } else {
                         img_auther.visibility = View.GONE
                     }
+                }
+
+                if(TextUtils.equals("0",it.isValid)){
+                    img_auther.visibility = View.VISIBLE
+                    img_auther.setImageResource(R.mipmap.official_forbidden_icon)
                 }
 
                 var drawable: Drawable? = null

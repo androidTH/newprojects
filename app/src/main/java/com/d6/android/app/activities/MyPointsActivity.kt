@@ -11,6 +11,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.DialogCashMoney
 import com.d6.android.app.dialogs.PayResultDialog
 import com.d6.android.app.dialogs.PointsListDialog
+import com.d6.android.app.dialogs.YKCashMoneyDialog
 import com.d6.android.app.easypay.EasyPay
 import com.d6.android.app.easypay.PayParams
 import com.d6.android.app.easypay.callback.OnPayInfoRequestListener
@@ -103,21 +104,30 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_cash_money.setOnClickListener {
-            isCheckOnLineAuthUser(this,userId){
-                if(!TextUtils.equals("0",mHeaderView.tv_redflowernums.text.toString())){
-                var dialogCashMoney = DialogCashMoney()
-                mUserInfo?.let {
-                    dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
-                }
-                dialogCashMoney.show(supportFragmentManager,"cashmoney")
-                dialogCashMoney.setDialogListener { p, s ->
-//                    var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
+              val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+              if(TextUtils.equals("7",className)){
+                  var mYKCashMoneyDialog =  YKCashMoneyDialog()
+                  mYKCashMoneyDialog.show(supportFragmentManager,"YKCashMoneyDialog")
+                  mYKCashMoneyDialog.setDialogListener { p, s ->
+                      pushCustomerMessage(this,userId,6,""){
+                          chatService(this)
+                      }
+                  }
+              }else{
+                  if(!TextUtils.equals("0",mHeaderView.tv_redflowernums.text.toString())){
+                      var dialogCashMoney = DialogCashMoney()
+                      mUserInfo?.let {
+                          dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
+                      }
+                      dialogCashMoney.show(supportFragmentManager,"cashmoney")
+                      dialogCashMoney.setDialogListener { p, s ->
+                      //var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
 //                    mHeaderView.tv_redflowernums.text = redflowerNums.toString()
-                    getUserInfo()
-                    getData()
-                }
-                }
-            }
+                          getUserInfo()
+                          getData()
+                      }
+                  }
+              }
         }
         getUserInfo()
     }
@@ -197,7 +207,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             mPointsListDialog.dismissAllowingStateLoss()
             getUserInfo()
             var payResultDialog = PayResultDialog()
-            payResultDialog.arguments = bundleOf("payresult" to "wx_pay_success")
+            payResultDialog.arguments = bundleOf("buyType" to "points" ,"payresult" to "wx_pay_success")
             payResultDialog.show(supportFragmentManager, "fd")
         }){code,msg->
             showToast(msg)

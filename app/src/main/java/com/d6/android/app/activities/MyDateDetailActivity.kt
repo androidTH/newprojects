@@ -60,7 +60,11 @@ class MyDateDetailActivity : BaseActivity() {
                 if (p == 0) {
                     startActivity<ReportActivity>("id" to myAppointment!!.sId.toString(), "tiptype" to "3")
                 }else if(p==1){
-                    delMyDate()
+                    val mDelMyDateDialog = DelDateDialogList()
+                    mDelMyDateDialog.show(supportFragmentManager,"delMyDialog")
+                    mDelMyDateDialog.setDialogListener { p, s ->
+                        delMyDate()
+                    }
                 }
             }
         })

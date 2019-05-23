@@ -67,6 +67,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var sSquarePicList:String?="" //动态图片
     var sSourceSquarePicList:String?=""
     var sLoginToken:String?=""
+    var sServicePicUrl:String?=""
 
     override fun toString(): String {
 
