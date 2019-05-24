@@ -111,4 +111,10 @@
     <string name="string_ask_service">有相关问题可以联系客服六妹</string>
     <string name="string_auth_explain">为了保障会员的服务，满足你个性化的需求，做针对性的匹配。D6会给每个会员提供一对一专属微信客服</string>
     <string name="string_memeber_success">会员充值成功</string>
+    <string name="string_man_firstcomment">整体设计风格很有创意，用户体验极佳，没有那么多的冗余和广告，辛苦主创，再接再厉！海绵-高级会员:作为钻石会员，享受着客服的贴心一对一服务，哦，对了，我探探陌陌全部卸载了</string>
+    <string name="string_man_secondcomment">作为一个进了D6两年的会员看到了平台的发展，有很大的进步，不知道为什么那些觉得要入会费的人会来黑平台，但是我们用过的人都可以同意平台很靠谱，态度超级好，经常会改进以及修补漏洞。平台不缺这些无脑黑粉，不想入就去玩探探吧。总是就是好用，靠谱，整体体验感相当好。</string>
+    <string name="string_man_lastcomment">黄金会员，每次申请匹配都有专门的客服小姐姐来找我进行询问和帮助，非常周到！就算匹配不成功，跟客服小姐姐聊天也不错，哈哈</string>
+    <string name="string_women_firstcomment">感觉还不错吧 里面人还蛮多的 也交到一些朋友啦 中级会员的我已经呆了一年多了 也算比较熟悉了 群的种类多 有些蛮热闹 也有线下聚会</string>
+    <string name="string_women_secondcomment">特别好玩的一个app，里面可以看到动态还能发起约会，最近更新的版本修复了很多bug，灰常棒~</string>
+    <string name="string_women_lastcomment">我进Ｄ6以来、我炮友基本都是d6的、而且客服比别的平台负责多了、APP其他都挺好的、就是不能发布视频</string>
 </resources>

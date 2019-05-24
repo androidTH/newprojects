@@ -1,6 +1,5 @@
 package com.d6.android.app.activities
 
-import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -9,13 +8,10 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.WeChatKFDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.AddImage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import io.rong.imkit.RongIM
-import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_member.*
-import org.jetbrains.anko.startActivity
+import kotlinx.android.synthetic.main.include_member.*
 
 
 /**
@@ -34,10 +30,10 @@ class MemberActivity : BaseActivity() {
         immersionBar
                 .fitsSystemWindows(false)
                 .statusBarColor(R.color.trans_parent)
-                .titleBar(tv_back)
+                .titleBar(tv_member_back)
                 .init()
 
-        tv_back.setOnClickListener {
+        tv_member_back.setOnClickListener {
             finish()
         }
 
@@ -61,15 +57,15 @@ class MemberActivity : BaseActivity() {
             data?.list?.let {
                 Log.i("mem","数量${it.size}")
                 it.forEach {
-                    if(TextUtils.equals(it.ids.toString(),userclassId)){
-                        tv_data_address.text = it.sRemark
-                        tv_desc.text = it.sDesc
+                    if(TextUtils.equals(it.ids.toString(),userclassId.toString())){
+                        tv_men_member_remark.text = it.sRemark
+                        tv_men_memberdesc.text = it.sDesc
                         if(TextUtils.equals("1",sex.toString())){
                             tv_data_address.text = it.sServiceArea
-                            AppUtils.setMemberNums(this, "直推次数: " + it.iRecommendCount!!, 0, 5, tv_ztnums)
+                            AppUtils.setMemberNums(this, "直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
                         }else{
                             tv_data_address.visibility= View.GONE
-                            tv_ztnums.visibility = View.GONE
+                            tv_mem_memberztnums.visibility = View.GONE
                             view_line.visibility = View.GONE
                         }
                     }

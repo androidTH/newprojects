@@ -7,10 +7,11 @@ import com.google.gson.JsonPrimitive
 import com.qiniu.android.utils.Json
 import com.vector.update_app.utils.AppUpdateUtils
 import io.reactivex.Flowable
-import org.intellij.lang.annotations.Flow
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 /**
  * Created on 2017/12/27.

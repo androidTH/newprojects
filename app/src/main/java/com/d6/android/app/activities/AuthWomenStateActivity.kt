@@ -9,15 +9,14 @@ import android.widget.ScrollView
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MemberCommentHolder
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.DateAuthTipDialog
 import com.d6.android.app.dialogs.DateContactAuthDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
+import com.d6.android.app.models.MemberComment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
-import com.gyf.barlibrary.ImmersionBar
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_auth_women_state.*
@@ -47,7 +46,7 @@ class AuthWomenStateActivity : BaseActivity() {
 
     private val mImages = ArrayList<AddImage>()
 
-    var mComments = ArrayList<String>()
+    var mComments = ArrayList<MemberComment>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,9 +117,12 @@ class AuthWomenStateActivity : BaseActivity() {
             tv_d6vipinfo.text = "D6是一个高端私密交友社区，部分服务仅对会员开放"
         }
 
-        mComments.add("“感觉还不错吧 里面人还蛮多的 也交到一些朋友啦 中级会员的我已经呆了一年多了 也算比较熟悉了 群的种类多 有些蛮热闹 也有线下聚会”")
-        mComments.add("“特别好玩的一个app，里面可以看到动态还能发起约会，最近更新的版本修复了很多bug，灰常棒~”")
-        mComments.add("“我进Ｄ6以来、我炮友基本都是d6的、而且客服比别的平台负责多了、APP其他都挺好的、就是不能发布视频”")
+        mComments.add(MemberComment(getString(R.string.string_women_firstcomment),
+                "https://tvax1.sinaimg.cn/crop.0.0.996.996.180/0074V8z6ly8g1v3pxqs6jj30ro0rojte.jpg"))
+        mComments.add(MemberComment(getString(R.string.string_women_secondcomment),
+                "https://tvax4.sinaimg.cn/crop.0.0.1080.1080.180/700a69f8ly8g0fj1kcfdbj20u00u00vy.jpg"))
+        mComments.add(MemberComment(getString(R.string.string_women_lastcomment),
+                "https://tva1.sinaimg.cn/crop.10.0.492.492.180/9ba8d31djw8f9ocv5yysfj20e80doaar.jpg"))
 
         setMemeberComemnt()
     }

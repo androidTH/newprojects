@@ -107,6 +107,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
               val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
               if(TextUtils.equals("7",className)){
                   var mYKCashMoneyDialog =  YKCashMoneyDialog()
+                  mYKCashMoneyDialog.arguments = bundleOf("title" to "提现","content" to "为了你的帐户安全，提现需要核实你的身份，联系客服认证即可")
                   mYKCashMoneyDialog.show(supportFragmentManager,"YKCashMoneyDialog")
                   mYKCashMoneyDialog.setDialogListener { p, s ->
                       pushCustomerMessage(this,userId,6,""){

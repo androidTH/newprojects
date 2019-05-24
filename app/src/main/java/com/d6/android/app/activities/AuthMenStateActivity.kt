@@ -2,11 +2,9 @@ package com.d6.android.app.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MemberCommentHolder
@@ -24,6 +22,7 @@ import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.MemberBean
+import com.d6.android.app.models.MemberComment
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -33,12 +32,10 @@ import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
-import io.rong.imkit.RongIM
-import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_auth_state.*
+import kotlinx.android.synthetic.main.include_member.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 
@@ -66,7 +63,7 @@ class AuthMenStateActivity : BaseActivity() {
     private lateinit var mOpenMemberShipDialog:OpenMemberShipDialog
     private var areaName=""
 
-    var mComments = ArrayList<String>()
+    var mComments = ArrayList<MemberComment>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,11 +106,11 @@ class AuthMenStateActivity : BaseActivity() {
                                 }
                             }
                         }
-                    }else if(classId.isNullOrEmpty()){
+                    }else if(classId.isNotEmpty()){
                         memberBean.iAndroidPrice?.let {
                             var price = it
                             memberBean.ids?.let {
-                                buyRedFlowerPay(price,"",it,memberBean.classesname.toString())
+                                buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
                             }
                         }
                     }
@@ -134,9 +131,12 @@ class AuthMenStateActivity : BaseActivity() {
         rv_viptypes.setItemTransformer(ScaleTransformer.Builder()
                 .setMinScale(1.0f)
                 .build())
-        mComments.add("“感觉还不错吧 里面人还蛮多的 也交到一些朋友啦 中级会员的我已经呆了一年多了 也算比较熟悉了 群的种类多 有些蛮热闹 也有线下聚会”")
-        mComments.add("“特别好玩的一个app，里面可以看到动态还能发起约会，最近更新的版本修复了很多bug，灰常棒~”")
-        mComments.add("“我进Ｄ6以来、我炮友基本都是d6的、而且客服比别的平台负责多了、APP其他都挺好的、就是不能发布视频”")
+        mComments.add(MemberComment(getString(R.string.string_man_firstcomment),
+                "https://tva1.sinaimg.cn/crop.188.1135.1843.1843.180/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
+        mComments.add(MemberComment(getString(R.string.string_man_secondcomment),
+                "https://tvax2.sinaimg.cn/crop.0.0.1080.1080.180/006lz966ly8g2vdezyk2aj30u00u0ac7.jpg"))
+        mComments.add(MemberComment(getString(R.string.string_man_lastcomment),
+                "https://tvax1.sinaimg.cn/crop.0.0.996.996.180/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
         setMemeberComemnt()
     }
 
@@ -251,19 +251,48 @@ class AuthMenStateActivity : BaseActivity() {
     private fun checkOrderStatus(orderId:String){
             Request.getOrderById(orderId).request(this,false,success={msg,data->
                 mOpenMemberShipDialog.dismissAllowingStateLoss()
+                ns_auth_mem.visibility = View.GONE
+                ll_bottom.visibility = View.GONE
+                member.visibility = View.VISIBLE
                 var payResultDialog = PayResultDialog()
                 payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
                 payResultDialog.show(supportFragmentManager, "fd")
+                getUserInfo()
             }){code,msg->
                 CustomToast.showToast(msg)
             }
+    }
+
+    private fun getUserInfo() {
+        Request.getUserInfo("",userId).request(this, success = { _, data ->
+            data?.let {
+                vipheaderview.setImageURI(data.picUrl)
+                tv_viplevel.text = data.classesname
+                tv_vipendtime.text = "到期时间："
+                mMemberPriceList.forEach {
+                    if(TextUtils.equals(it.ids.toString(),data.userclassesid.toString())){
+                        tv_men_member_remark.text = it.sRemark
+                        tv_men_memberdesc.text = it.sDesc
+                        if(TextUtils.equals("1",it.sex.toString())){
+                            tv_data_address.text = it.sServiceArea
+                            AppUtils.setMemberNums(this, "直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
+                        }else{
+                            tv_data_address.visibility= View.GONE
+                            tv_mem_memberztnums.visibility = View.GONE
+                            view_line.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }) { _, _ ->
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == AREA_REQUEST_CODE){
-                var areaName = data!!.getStringExtra("area")
+                areaName = data!!.getStringExtra("area")
                 mOpenMemberShipDialog.setAddressd(areaName)
             }
         }

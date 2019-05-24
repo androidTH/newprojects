@@ -2,20 +2,20 @@ package com.d6.android.app.net
 
 import android.util.Log
 import cn.liaox.cachelib.CacheDBLib
+import com.d6.android.app.R
+import com.d6.android.app.net.HttpsFactroy.getSSLSocketFactory
 import com.d6.android.app.net.json.JsonConverterFactory
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.JsonUtil
-import com.d6.android.app.utils.NetworkUtils
-import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.*
 import okhttp3.CacheControl
 import okhttp3.ConnectionPool
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-//import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLSession
 
 /**
  * 网络请求retrofit初始化。
@@ -64,4 +64,5 @@ class RRetrofit private constructor(){
     }
 
     fun <T>create(clazz: Class<T>) :T = retrofit.create(clazz)
+
 }

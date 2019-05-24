@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
@@ -57,11 +58,6 @@ class MineFragment : BaseFragment() {
         MyImageAdapter(mImages)
     }
 
-    private val mTags = ArrayList<UserTag>()
-    private val userTagAdapter by lazy {
-        UserTagAdapter(mTags)//UserTagAdapter
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -96,8 +92,8 @@ class MineFragment : BaseFragment() {
             if (data.type != 1) {
                 mData?.let {
                     //广场照片详情页面
-//                    val urls = mImages.filter { it.type != 1 }.map { it.imgUrl }
-                    startActivityForResult<ImagePagerActivity>(22, "data" to it, ImagePagerActivity.URLS to mBigSquareImages, ImagePagerActivity.CURRENT_POSITION to position, "delete" to false)
+                    val urls = mBigSquareImages.filter { it.type != 1 }.map { it.imgUrl }
+                    startActivityForResult<ImagePagerActivity>(22, "data" to it, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position, "delete" to false)
                 }
             }
         }
@@ -349,16 +345,16 @@ class MineFragment : BaseFragment() {
                     rl_warmuserinfo.visibility = View.GONE
                 }
 
-                if(it.iSquareCount!!>0){
-                    tv_squarewarm.text = "${it.iSquareCount}条动态"
-                }else{
-                    tv_squarewarm.text = getString(R.string.string_nosquare)
-                }
-
                 if (!TextUtils.equals("null", it.sSquarePicList.toString())) {
+                    rv_square_imgs.visibility = View.VISIBLE
                     addSquareImages(it)
                 }else{
                     rv_square_imgs.visibility = View.GONE
+                }
+
+                if(it.iSquareCount!!>0){
+                    tv_squarewarm.text = "${it.iSquareCount}条动态"
+                }else{
                     tv_squarewarm.text = getString(R.string.string_nosquare)
                 }
 
@@ -412,6 +408,7 @@ class MineFragment : BaseFragment() {
      */
     private fun addSquareImages(userData: UserData) {
         mImages.clear()
+        mBigSquareImages.clear()
         if (!TextUtils.equals("null", userData.sSquarePicList)) {
             if (!userData.sSquarePicList.isNullOrEmpty()) {
                 userData.sSquarePicList?.let {

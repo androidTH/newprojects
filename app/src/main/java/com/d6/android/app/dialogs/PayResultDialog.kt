@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MemberActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
@@ -22,11 +23,8 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.dialog_payresult_layout.*
 import kotlinx.android.synthetic.main.dialog_payresult_success_layout.*
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.textResource
-import org.jetbrains.anko.wrapContent
 
 /**
  * 积分充值结果dialog

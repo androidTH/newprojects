@@ -61,7 +61,7 @@ public class RetrofitClient implements NetworkClientInterf {
         }else if(payParams.getType() == 0){
             call = service.postPrePayInfo(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
         }else if(payParams.getType()==2){
-            call = service.postAddUserClass(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),"",23);
+            call = service.postAddUserClass(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getsAreaName(),payParams.getiUserclassid());
         }
         call.enqueue(new Callback<ResponseBody>() {
             @Override

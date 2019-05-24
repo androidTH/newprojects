@@ -10,7 +10,7 @@
     android:orientation="vertical">
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_datetype_img"
-        style="@style/DefaultCircleHeadStyle"
+        style="@style/DefaultCircleimgbgstyle"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:padding="@dimen/margin_2halfe"

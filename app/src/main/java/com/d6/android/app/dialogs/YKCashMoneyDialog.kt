@@ -28,6 +28,9 @@ class YKCashMoneyDialog : DialogFragment(), RequestManager, DialogInterface.OnKe
         return mCancelable
     }
 
+    private var title:String=""
+    private var content:String=""
+
     var mCancelable:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +59,12 @@ class YKCashMoneyDialog : DialogFragment(), RequestManager, DialogInterface.OnKe
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(arguments!=null){
+            title =arguments.getString("title")
+            content = arguments.getString("content")
+        }
+        tv_dialog_title.text = title
+        tv_dialog_content.text = content
 
         tv_ykcash_no.setOnClickListener {//不再提示
             dismissAllowingStateLoss()

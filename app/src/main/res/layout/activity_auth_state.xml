@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/color_F6F7FA"
     tools:context=".activities.AuthMenStateActivity">
-
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ns_auth_mem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -72,6 +72,7 @@
     </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_55"
         android:layout_alignParentBottom="true"
@@ -120,5 +121,15 @@
                 android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
+    <include
+        android:id="@+id/member"
+        android:visibility="gone"
+        layout="@layout/include_member"/>
+    <TextView
+        android:id="@+id/tv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/navigation_whiteback_color"
+        android:padding="12dp" />
 </RelativeLayout>
 
