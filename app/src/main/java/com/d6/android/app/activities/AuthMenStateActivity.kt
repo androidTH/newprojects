@@ -2,8 +2,10 @@ package com.d6.android.app.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
@@ -32,6 +34,7 @@ import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
+import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_auth_state.*
 import kotlinx.android.synthetic.main.include_member.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
@@ -47,6 +50,10 @@ class AuthMenStateActivity : BaseActivity() {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
+    private val sLoginToken  by lazy{
+        SPUtils.instance().getString(Const.User.SLOGINTOKEN)
     }
 
     private val from by lazy{
@@ -194,7 +201,7 @@ class AuthMenStateActivity : BaseActivity() {
     }
 
     private fun getMemberPriceList() {
-        Request.findUserClasses().request(this){msg,data->
+        Request.findUserClasses(sLoginToken).request(this){msg,data->
             data?.list?.let {
                 mMemberPriceList = it
                 mMemberLevelAdapter.setNewData(mMemberPriceList)
@@ -258,6 +265,7 @@ class AuthMenStateActivity : BaseActivity() {
                 payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
                 payResultDialog.show(supportFragmentManager, "fd")
                 getUserInfo()
+                OpenInstall.reportEffectPoint("open_vip",1)//会员转化
             }){code,msg->
                 CustomToast.showToast(msg)
             }
@@ -268,18 +276,36 @@ class AuthMenStateActivity : BaseActivity() {
             data?.let {
                 vipheaderview.setImageURI(data.picUrl)
                 tv_viplevel.text = data.classesname
-                tv_vipendtime.text = "到期时间："
+                data.dUserClassEndTime?.let {
+                    if(it>0){
+                        tv_vipendtime.text = "到期时间：${data.dUserClassEndTime.toTime(timeFormat)}"
+                    }else{
+                        tv_vipendtime.text = ""
+                    }
+                }
+
                 mMemberPriceList.forEach {
                     if(TextUtils.equals(it.ids.toString(),data.userclassesid.toString())){
-                        tv_men_member_remark.text = it.sRemark
-                        tv_men_memberdesc.text = it.sDesc
+                        if(TextUtils.isEmpty(it.sRemark)){
+                            view_line02.visibility = View.GONE
+                            tv_men_member_remark.visibility = View.GONE
+                        }else{
+                            view_line02.visibility = View.VISIBLE
+                            tv_men_member_remark.visibility = View.VISIBLE
+                            tv_men_member_remark.text = it.sRemark
+                        }
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            tv_men_memberdesc.text = Html.fromHtml(it.sDesc,Html.FROM_HTML_MODE_COMPACT)
+                        }else{
+                            tv_men_memberdesc.text = Html.fromHtml(it.sDesc)
+                        }
+                        tv_mem_memberztnums.visibility = View.VISIBLE
+                        tv_data_address.visibility =View.VISIBLE
+                        view_line.visibility = View.VISIBLE
                         if(TextUtils.equals("1",it.sex.toString())){
                             tv_data_address.text = it.sServiceArea
-                            AppUtils.setMemberNums(this, "直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
-                        }else{
-                            tv_data_address.visibility= View.GONE
-                            tv_mem_memberztnums.visibility = View.GONE
-                            view_line.visibility = View.GONE
+                            AppUtils.setMemberNums(this,2, "直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
                         }
                     }
                 }

@@ -141,4 +141,7 @@ object Const {
     var WOMEN_HEADERURL = "http://p22l7xdxa.bkt.clouddn.com/1556507697336.jpg?imageMogr2/auto-orient/thumbnail/200x200/quality/100"
     @JvmField
     var MEN_HEADERURL = "http://p22l7xdxa.bkt.clouddn.com/1556507266810.jpg?imageMogr2/auto-orient/thumbnail/200x200/quality/100"
+
+    @JvmField
+    var OPENSTALL_CHANNEL = "openstall_channel"
 }

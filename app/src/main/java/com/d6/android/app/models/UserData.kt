@@ -68,6 +68,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var sSourceSquarePicList:String?=""
     var sLoginToken:String?=""
     var sServicePicUrl:String?=""
+    var dUserClassEndTime:Long?=0
 
     override fun toString(): String {
 

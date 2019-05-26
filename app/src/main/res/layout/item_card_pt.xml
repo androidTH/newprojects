@@ -148,8 +148,28 @@
             android:layout_width="match_parent"
             android:layout_height="290dp"
             android:paddingTop="@dimen/margin_15"
-            android:orientation="horizontal">
-
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_sirentitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/margin_5"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_15"
+                android:textStyle="bold"
+                android:text=""
+                android:textColor="@color/color_C69F61"
+                android:visibility="gone"
+                android:textSize="14sp" />
+            <View
+                android:id="@+id/view_sirenline"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_13"
+                android:layout_marginBottom="@dimen/margin_13"
+                android:background="@color/color_EFEFEF" />
             <TextView
                 android:id="@+id/tv_desc"
                 android:layout_width="match_parent"
@@ -157,8 +177,6 @@
                 android:lineSpacingExtra="@dimen/margin_5"
                 android:paddingLeft="@dimen/margin_15"
                 android:paddingRight="@dimen/margin_15"
-                android:text="· 制作会员卡片，上传至广网、APP，并入档；
-· 供女生翻牌，翻牌时效永久；"
                 android:textColor="@color/color_333333"
                 android:textSize="14sp" />
         </LinearLayout>

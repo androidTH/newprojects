@@ -42,7 +42,7 @@
             android:layout_below="@+id/tv_viplevel"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_6"
-            android:text="到期时间：2020年05月20日"
+            android:text=""
             android:textColor="@color/color_CCFFFFFF"
             android:textSize="11sp" />
 
@@ -122,6 +122,7 @@
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginTop="18dp"
                 android:text=""
+                android:visibility="gone"
                 android:textColor="@color/color_black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -132,6 +133,7 @@
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_20"
+                android:visibility="gone"
                 android:layout_marginRight="@dimen/margin_10"
                 android:background="@color/color_EFEFEF" />
 
@@ -142,6 +144,7 @@
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginTop="18dp"
                 android:text=""
+                android:visibility="gone"
                 android:textColor="@color/color_black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -152,33 +155,17 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_13"
                 android:paddingTop="@dimen/margin_13"
-                android:text=" "
+                android:lineSpacingExtra="@dimen/margin_6"
                 android:textColor="@color/color_666666"
                 android:textSize="14sp" />
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/margin_5"-->
-            <!--android:paddingLeft="@dimen/margin_13"-->
-            <!--android:text="·有权报名速约，挑选优质男生会员； "-->
-            <!--android:textColor="@color/color_666666"-->
-            <!--android:textSize="14sp" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/margin_5"-->
-            <!--android:paddingLeft="@dimen/margin_13"-->
-            <!--android:text="·有权参加各类线下娱乐活动；"-->
-            <!--android:textColor="@color/color_666666"-->
-            <!--android:textSize="14sp" />-->
             <View
+                android:id="@+id/view_line02"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginTop="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_15"
+                android:visibility="gone"
                 android:background="@color/color_EFEFEF" />
 
             <TextView
@@ -188,7 +175,7 @@
                 android:layout_marginTop="@dimen/margin_13"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_15"
-                android:text=""
+                android:visibility="gone"
                 android:textColor="@color/color_666666"
                 android:textSize="14sp" />
         </LinearLayout>

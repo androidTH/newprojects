@@ -14,6 +14,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_set_user_info.*
 import org.jetbrains.anko.startActivity
@@ -27,6 +28,10 @@ class SetUserInfoActivity : BaseActivity() {
     private var headFilePath: String? = null
     private var sex = -1
     private var ISNOTEDIT = false
+
+    private val openchannel by lazy{
+        SPUtils.instance().getString(OPENSTALL_CHANNEL,"channel")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

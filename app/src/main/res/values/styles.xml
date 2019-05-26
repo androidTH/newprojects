@@ -212,6 +212,11 @@
         <item name="android:textColor">@color/color_FF4B00</item>
     </style>
 
+    <style name="tv_member_rightf7astyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_F7AB00</item>
+    </style>
+
     <style name="tv_date_leftstyle">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_F7AB00</item>
@@ -239,7 +244,7 @@
 
     <style name="tv_auth_style_desc">
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@color/color_8888</item>
+        <item name="android:textColor">@color/color_888888</item>
     </style>
 
     <style name="TopPopAnim" parent="@android:style/Animation.Translucent">

@@ -26,6 +26,7 @@ class MemberBean(var ids:Int?=0):Parcelable{
     var sServiceArea:String?=""
     var iRecommendCount:Int?=0
     var sDesc:String?=""
+    var sRemarkTop:String?=""
     var sRemark:String?=""
     var iIsPayapp:Int?=0
 
@@ -47,6 +48,7 @@ class MemberBean(var ids:Int?=0):Parcelable{
         iRecommendCount = parcel.readValue(Int::class.java.classLoader) as? Int
         sDesc = parcel.readString()
         sRemark = parcel.readString()
+        sRemarkTop = parcel.readString()
         iIsPayapp = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
@@ -79,6 +81,7 @@ class MemberBean(var ids:Int?=0):Parcelable{
         parcel.writeValue(iRecommendCount)
         parcel.writeString(sDesc)
         parcel.writeString(sRemark)
+        parcel.writeString(sRemarkTop)
         parcel.writeValue(iIsPayapp)
     }
 

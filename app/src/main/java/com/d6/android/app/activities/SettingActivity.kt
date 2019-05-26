@@ -17,28 +17,14 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
-import com.d6.android.app.net.http.UpdateAppHttpUtil
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
-import com.vector.update_app.UpdateAppBean
-import com.vector.update_app.UpdateAppManager
-import com.vector.update_app.UpdateCallback
-import com.vector.update_app.utils.AppUpdateUtils
 import io.rong.imkit.RongIM
-import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_setting.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import org.json.JSONException
-import org.json.JSONObject
-import java.util.HashMap
 
 class SettingActivity : TitleActivity() {
     private val userId by lazy {
@@ -130,6 +116,9 @@ class SettingActivity : TitleActivity() {
         tv_blacklist.setOnClickListener {
             startActivity<BlackListActivity>()
         }
+
+        tv_versionname.text = getD6VersionName(this)
+
         getUserInfo()
     }
 

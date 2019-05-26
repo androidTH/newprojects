@@ -147,7 +147,7 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_below="@+id/ll_vip"
-        android:layout_marginTop="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_18"
         android:layout_marginRight="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_10">
 
@@ -167,24 +167,24 @@
 
             <TextView
                 android:id="@+id/tv_numone"
-                android:layout_width="4dp"
-                android:layout_height="4dp"
+                android:layout_width="3dp"
+                android:layout_height="3dp"
                 android:background="@drawable/shape_dot_selector"
                 android:gravity="center"
                 android:enabled="false" />
 
             <TextView
                 android:id="@+id/tv_numtwo"
-                android:layout_width="4dp"
-                android:layout_height="4dp"
+                android:layout_width="3dp"
+                android:layout_height="3dp"
                 android:layout_marginLeft="@dimen/margin_5"
                 android:layout_marginRight="@dimen/margin_5"
                 android:background="@drawable/shape_dot_selector" />
 
             <TextView
                 android:id="@+id/tv_numthree"
-                android:layout_width="4dp"
-                android:layout_height="4dp"
+                android:layout_width="3dp"
+                android:layout_height="3dp"
                 android:background="@drawable/shape_dot_selector" />
         </LinearLayout>
     </RelativeLayout>
@@ -206,7 +206,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_vipfk"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_20">
+        android:layout_marginTop="@dimen/margin_13">
 
         <ImageView
             android:layout_width="80dp"

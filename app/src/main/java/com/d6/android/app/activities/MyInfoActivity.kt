@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import com.d6.android.app.R
@@ -208,12 +209,14 @@ class MyInfoActivity : BaseActivity() {
         //-60%：😔资料完成度：xx% 要约别人先完善自己
         //60%-80%：🙂资料完成度：xx% 离完美的自己就差一步啦
         //80%-：😄资料完成度：xx% D6不会泄漏你的任何信息
-        if(userData.iDatacompletion<=60){
-            tv_userinfo_percent.text ="\uD83D\uDE14资料完成度：${userData.iDatacompletion}% 要约别人先完善自己 "
-        }else if(userData.iDatacompletion>60&&userData.iDatacompletion<=80){
-            tv_userinfo_percent.text ="\uD83D\uDE42资料完成度：${userData.iDatacompletion}% 离完美的自己就差一步啦 "
+        var dataCompletion:Double =(userData.iDatacompletion/120.0)
+        var percent = Math.round((dataCompletion*100)).toInt()
+        if(percent<=60){
+            tv_userinfo_percent.text ="\uD83D\uDE14资料完成度：${percent}% 要约别人先完善自己 "
+        }else if(percent>60&&percent<=80){
+            tv_userinfo_percent.text ="\uD83D\uDE42资料完成度：${percent}% 离完美的自己就差一步啦 "
         }else{
-            tv_userinfo_percent.text = "\uD83D\uDE04资料完成度：${userData.iDatacompletion}% D6不会泄漏你的任何信息"
+            tv_userinfo_percent.text = "\uD83D\uDE04资料完成度：${percent}% D6不会泄漏你的任何信息"
         }
     }
 

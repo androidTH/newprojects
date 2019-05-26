@@ -103,8 +103,8 @@ class PrivilegeDescActivity : BaseActivity() {
     private fun getData() {
         Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
             data?.let {
-                val womanWeChat = data.optString("ext1")
-                val manWeChat = data.optString("ext2")
+                val womanWeChat = data.optString("ext5")
+                val manWeChat = data.optString("ext6")
                 if(TextUtils.equals(sex,"0")){
                     wechatnumber = womanWeChat
                 }else{

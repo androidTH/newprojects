@@ -129,9 +129,9 @@ class PayResultDialog : DialogFragment(),RequestManager {
             data?.let {
                 val sex = SPUtils.instance().getString(Const.User.USER_SEX)
                 if(TextUtils.equals(sex, "0")){
-                    weChat  = data.optString("ext1")
+                    weChat  = data.optString("ext5")
                 }else{
-                    weChat = data.optString("ext2")
+                    weChat = data.optString("ext6")
                 }
                 tv_payreuslt_wx.text= "客服微信号：$weChat"
             }

@@ -6,6 +6,7 @@ import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.defaultScheduler
 import com.fm.openinstall.OpenInstall
@@ -66,16 +67,18 @@ class LauncherActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        OpenInstall.getWakeUp(intent, wakeUpAdapter);
+        OpenInstall.getWakeUp(intent, wakeUpAdapter)
     }
 
     var wakeUpAdapter: AppWakeUpAdapter = object : AppWakeUpAdapter() {
         override fun onWakeUp(appData: AppData) {
             //获取渠道数据
             val channelCode = appData.getChannel()
+            SPUtils.instance().put("openinstall",appData.channel)
             //获取绑定数据
             val bindData = appData.getData()
-            Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString())
+            Log.d("OpenInstall", "${appData.channel}+getWakeUp : wakeupData = " + appData.toString())
+            SPUtils.instance().put(OPENSTALL_CHANNEL,appData.channel)
         }
     }
 }
