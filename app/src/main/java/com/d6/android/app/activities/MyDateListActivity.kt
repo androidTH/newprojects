@@ -1,18 +1,18 @@
 package com.d6.android.app.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
-import com.d6.android.app.R
-import com.d6.android.app.adapters.FansAdapter
+import android.util.Log
 import com.d6.android.app.adapters.MyDateListAdapter
 import com.d6.android.app.base.RecyclerActivity
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Fans
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 
 /**
  * 我的约会列表
@@ -24,6 +24,7 @@ class MyDateListActivity : RecyclerActivity() {
     }
     private var pageNum = 1
     private val mMyAppointments = ArrayList<MyAppointment>()
+
     private val myDateAdapter by lazy {
         MyDateListAdapter(mMyAppointments)
     }
@@ -40,7 +41,8 @@ class MyDateListActivity : RecyclerActivity() {
 //            startActivity<UserInfoActivity>("id" to id.toString())
             if(mMyAppointments.size>position){
                 var myAppointment = mMyAppointments[position]
-                startActivity<MyDateDetailActivity>("data" to myAppointment,"from" to Const.FROM_MY_DATELIST)
+//                startActivity<MyDateDetailActivity>("data" to myAppointment,"from" to Const.FROM_MY_DATELIST)
+                startActivityForResult<MyDateDetailActivity>(2000,"index" to position,"data" to myAppointment,"from" to Const.FROM_MY_DATELIST)
             }
         }
         addItemDecoration()
@@ -61,8 +63,21 @@ class MyDateListActivity : RecyclerActivity() {
                 }
             } else {
                 mMyAppointments.addAll(data.list.results)
+                myDateAdapter.notifyDataSetChanged()
             }
-            myDateAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode == 2000){
+                data?.let {
+                    var position = data.getIntExtra("index",0)
+                    mMyAppointments.removeAt(position)
+                    myDateAdapter.notifyItemRemoved(position)
+                }
+            }
         }
     }
 

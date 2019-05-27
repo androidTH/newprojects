@@ -18,6 +18,8 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
+import com.fm.openinstall.OpenInstall
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
@@ -40,6 +42,11 @@ class SignInActivity : BaseActivity() {
     private val wxApi by lazy {
         WXAPIFactory.createWXAPI(this, "wx43d13a711f68131c")
     }
+
+    private val channel by lazy{
+        SPUtils.instance().getString(OPENSTALL_CHANNEL,"")
+    }
+
     private val shareApi by lazy {
         UMShareAPI.get(this)
     }
@@ -296,7 +303,7 @@ class SignInActivity : BaseActivity() {
             "$countryCode-$phone"
         }
         sysErr("------->$p")
-        Request.loginV2New(1, code, p, devicetoken).request(this) { msg, data ->
+        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel).request(this) { msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -324,7 +331,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
-        Request.loginV2New(0, openId = openId,sUnionid=unionid).request(this, false, success = { msg, data ->
+        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
                     startActivityForResult<BindPhoneActivity>(2, "openId" to openId,"unionId" to unionid, "name" to name, "gender" to gender, "headerpic" to iconurl)

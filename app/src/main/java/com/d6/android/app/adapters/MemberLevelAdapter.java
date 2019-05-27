@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +19,7 @@ import com.d6.android.app.R;
 import com.d6.android.app.models.MemberBean;
 import com.d6.android.app.utils.AppUtils;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -48,7 +51,8 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         TextView tv_memeber_address = helper.getView(R.id.tv_memeber_address);
         TextView tv_vip_percent = helper.getView(R.id.tv_vip_percent);
         TextView tv_remark = helper.getView(R.id.tv_remark);
-        TextView tv_desc = helper.getView(R.id.tv_desc);
+//        TextView tv_desc = helper.getView(R.id.tv_desc);
+        RecyclerView mRvAuthTips = helper.getView(R.id.rv_auth_tips);
         View view_line = helper.getView(R.id.view_line);
         View sirenline = helper.getView(R.id.view_sirenline);
         TextView tv_sirentitle = helper.getView(R.id.tv_sirentitle);
@@ -60,12 +64,14 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         tv_vip_percent.setText(item.getSTitle());
         helper.setText(R.id.tv_memeber_price,String.valueOf(item.getIAndroidPrice()));
 
+        mRvAuthTips.setHasFixedSize(true);
+        mRvAuthTips.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         if(!TextUtils.isEmpty(item.getSDesc())){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                tv_desc.setText(Html.fromHtml(item.getSDesc(),Html.FROM_HTML_MODE_COMPACT));
-            }else{
-                tv_desc.setText(Html.fromHtml(item.getSDesc()));
-            }
+            mRvAuthTips.setVisibility(View.VISIBLE);
+            List<String> listString = Arrays.asList(item.getSDesc().split("<br/>"));
+            mRvAuthTips.setAdapter(new AuthTipsQuickAdapter(listString));
+        }else{
+            mRvAuthTips.setVisibility(View.GONE);
         }
         tv_memeber_address.setText(item.getSServiceArea());
         AppUtils.Companion.setMemberNums(mContext,1,"直推次数: "+item.getIRecommendCount(),0,5,tv_ztnums);

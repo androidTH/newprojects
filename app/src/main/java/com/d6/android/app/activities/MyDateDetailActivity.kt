@@ -1,6 +1,8 @@
 package com.d6.android.app.activities
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -33,6 +35,7 @@ import org.jetbrains.anko.toast
  * 约会详情页
  */
 class MyDateDetailActivity : BaseActivity() {
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -46,6 +49,7 @@ class MyDateDetailActivity : BaseActivity() {
     private var iAppointUserid:String =""
     private var iShareUserId:String=""
     private var explainAppoint = ""
+    private var index=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,9 +75,11 @@ class MyDateDetailActivity : BaseActivity() {
 
         var from= intent.getStringExtra("from")
         if(TextUtils.equals(from,Const.FROM_MY_DATESUCCESS)){
+            //来自于约会
             var sId = intent.getStringExtra("sId")
             getData(sId,"")
         }else if(TextUtils.equals(from,FROM_MY_CHATDATE)){
+            //来自于聊天
             myAppointment = (intent.getSerializableExtra("data") as MyAppointment)
             iShareUserId = intent.getStringExtra("iShareUserId")
             if(myAppointment !=null){
@@ -85,7 +91,9 @@ class MyDateDetailActivity : BaseActivity() {
                 }
             }
         }else{
+            //来自于约会详情页面
             myAppointment = (intent.getSerializableExtra("data") as MyAppointment)
+            index = intent.getIntExtra("index",0)
             if(myAppointment !=null){
                 iAppointUserid = myAppointment!!.iAppointUserid.toString()
                 if(myAppointment!!.sAppointmentSignupId.isNotEmpty()){
@@ -495,6 +503,10 @@ class MyDateDetailActivity : BaseActivity() {
     private fun delMyDate(){
         dialog()
         Request.delAppointment(sLoginToken,myAppointment.sId.toString()).request(this,false,success={_,_->
+            var intent = Intent()
+            intent.putExtra("type","delDate")
+            intent.putExtra("index",index)
+            setResult(Activity.RESULT_OK,intent)
             finish()
         }) {code,msg->
             if(code==2){

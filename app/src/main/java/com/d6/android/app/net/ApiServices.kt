@@ -156,7 +156,7 @@ interface ApiServices {
     fun loginV2(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?): Flowable<Response<UserData>>
 
     @POST("backstage/new_login/system_login_new")
-    fun loginV2New(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?,@Query("sUnionid") sUnionid:String?): Flowable<Response<UserData>>
+    fun loginV2New(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?,@Query("sUnionid") sUnionid:String?,@Query("sChannelId") sChannelId:String?): Flowable<Response<UserData>>
 
 
     @POST("backstage/dataDict/find")
@@ -302,7 +302,7 @@ interface ApiServices {
 
     //绑定手机号
     @POST("backstage/account/bindPhone")
-    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("sUnionid") sUnionid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String):Flowable<Response<UserData>>
+    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("sUnionid") sUnionid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String,@Query("sChannelId") sChannelId:String?):Flowable<Response<UserData>>
 
     //赠送积分
     @POST("backstage/new_login/loginForPoint")

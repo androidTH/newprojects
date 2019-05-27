@@ -2,11 +2,13 @@ package com.d6.android.app.activities
 
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import com.d6.android.app.R
+import com.d6.android.app.adapters.AuthTipsQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.WeChatKFDialog
 import com.d6.android.app.extentions.request
@@ -67,11 +69,10 @@ class MemberActivity : BaseActivity() {
                     if(TextUtils.equals(memberBean.ids.toString(),userclassId.toString())){
 
                         memberBean.sDesc?.let {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                tv_men_memberdesc.text = Html.fromHtml(it.replace("FF4B00", "666666"),Html.FROM_HTML_MODE_COMPACT)
-                            }else{
-                                tv_men_memberdesc.text = Html.fromHtml(it.replace("FF4B00", "666666"))
-                            }
+                            var mTipsData = it.split("<br/>")
+                            rv_men_memberdesc.setHasFixedSize(true)
+                            rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+                            rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
                         }
                         tv_data_address.visibility= View.GONE
                         tv_mem_memberztnums.visibility = View.GONE
@@ -92,11 +93,15 @@ class MemberActivity : BaseActivity() {
                             }
 
                             it.sDesc?.let {
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    tv_men_memberdesc.text = Html.fromHtml(it.replace("FF4B00", "666666"),Html.FROM_HTML_MODE_COMPACT)
-                                }else{
-                                    tv_men_memberdesc.text = Html.fromHtml(it.replace("FF4B00", "666666"))
-                                }
+                                var mTipsData = it.split("<br/>")
+                                rv_men_memberdesc.setHasFixedSize(true)
+                                rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+                                rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                                    tv_men_memberdesc.text = Html.fromHtml(it.replace("FF4B00", "666666"),Html.FROM_HTML_MODE_COMPACT)
+//                                }else{
+//                                    tv_men_memberdesc.text = Html.fromHtml(it.replace("FF4B00", "666666"))
+//                                }
                             }
 
                             tv_mem_memberztnums.visibility = View.VISIBLE

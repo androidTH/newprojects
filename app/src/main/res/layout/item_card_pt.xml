@@ -93,7 +93,7 @@
         <TextView
             android:id="@+id/tv_memeber_address"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/margin_15"
             android:text="限定本地（一个省/直辖市）"
@@ -110,7 +110,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:orientation="horizontal">
 
             <TextView
@@ -146,7 +146,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="290dp"
+            android:layout_height="325dp"
             android:paddingTop="@dimen/margin_15"
             android:orientation="vertical">
             <TextView
@@ -170,15 +170,10 @@
                 android:layout_marginTop="@dimen/margin_13"
                 android:layout_marginBottom="@dimen/margin_13"
                 android:background="@color/color_EFEFEF" />
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="@dimen/margin_5"
-                android:paddingLeft="@dimen/margin_15"
-                android:paddingRight="@dimen/margin_15"
-                android:textColor="@color/color_333333"
-                android:textSize="14sp" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_auth_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <View
@@ -192,9 +187,10 @@
         <TextView
             android:id="@+id/tv_remark"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15"
             android:text="注：北京/上海/广东/江苏/浙江/海外+100"
             android:textColor="@color/color_888888"
             android:textSize="14sp" />

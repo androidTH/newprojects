@@ -32,6 +32,10 @@ class BindPhoneActivity : TitleActivity() {
         SPUtils.instance().getString(Const.User.DEVICETOKEN)
     }
 
+    private val channel by lazy{
+        SPUtils.instance().getString(Const.OPENSTALL_CHANNEL,"")
+    }
+
     private val openId by lazy {
         intent.getStringExtra("openId")
     }
@@ -198,7 +202,7 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
 
-       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic).request(this,false,success = {msg,data->
+       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel).request(this,false,success = {msg,data->
            saveMsg(msg)
            saveUserInfo(data)
            data?.let {

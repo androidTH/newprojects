@@ -17,10 +17,10 @@ import com.d6.android.app.models.Fans
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 
 /**
  *粉丝
@@ -64,7 +64,8 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
         })
 
         linear_item_date.setOnClickListener {
-            context.startActivity<MyDateDetailActivity>("data" to data,"from" to Const.FROM_MY_DATELIST)
+//            context.startActivity<MyDateDetailActivity>("data" to data,"from" to Const.FROM_MY_DATELIST)
+            (context as BaseActivity).startActivityForResult<MyDateDetailActivity>(2000,"index" to position,"data" to data,"from" to Const.FROM_MY_DATELIST)
         }
 
 //            holder.setText(R.id.tv_pull_name,data.sAppointUserName)

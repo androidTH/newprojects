@@ -235,8 +235,8 @@ object Request {
             RRetrofit.instance().create(ApiServices::class.java).loginV2(type, vercode, phone, guoneiguowai, openId,devicetoken)
 
 
-    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="",sUnionid:String?="") =
-            RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken,sUnionid)
+    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="",sUnionid:String?="",sChannelId:String = "") =
+            RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken,sUnionid,sChannelId)
 
 
     fun findDataDict(key: String? = "quhao") =
@@ -355,7 +355,7 @@ object Request {
                                 ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,xingzuo,agemin,agemax,lat,lon,pageNum)
 
     //绑定手机号
-    fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic)
+    fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String,sChannelId:String?)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic,sChannelId)
 
     //赠送积分
     fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)

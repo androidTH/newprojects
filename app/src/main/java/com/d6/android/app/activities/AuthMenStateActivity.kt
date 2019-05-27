@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
+import com.d6.android.app.adapters.AuthTipsQuickAdapter
 import com.d6.android.app.adapters.MemberCommentHolder
 import com.d6.android.app.adapters.MemberLevelAdapter
 import com.d6.android.app.base.BaseActivity
@@ -22,7 +24,6 @@ import com.d6.android.app.easypay.enums.HttpType
 import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.MemberBean
 import com.d6.android.app.models.MemberComment
 import com.d6.android.app.net.API
@@ -294,12 +295,13 @@ class AuthMenStateActivity : BaseActivity() {
                             tv_men_member_remark.visibility = View.VISIBLE
                             tv_men_member_remark.text = it.sRemark
                         }
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            tv_men_memberdesc.text = Html.fromHtml(it.sDesc,Html.FROM_HTML_MODE_COMPACT)
-                        }else{
-                            tv_men_memberdesc.text = Html.fromHtml(it.sDesc)
+                        it.sDesc?.let {
+                            var mTipsData = it.split("<br/>")
+                            rv_men_memberdesc.setHasFixedSize(true)
+                            rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+                            rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
                         }
+
                         tv_mem_memberztnums.visibility = View.VISIBLE
                         tv_data_address.visibility =View.VISIBLE
                         view_line.visibility = View.VISIBLE
