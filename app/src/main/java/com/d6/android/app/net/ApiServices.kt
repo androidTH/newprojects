@@ -305,8 +305,8 @@ interface ApiServices {
     fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("sUnionid") sUnionid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String,@Query("sChannelId") sChannelId:String?):Flowable<Response<UserData>>
 
     //赠送积分
-    @POST("backstage/new_login/loginForPoint")
-    fun loginForPoint(@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
+    @POST("backstage/new_login/loginForPointNew")
+    fun loginForPointNew(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //解锁聊天支付多少积分
     @POST("backstage/rongcloud/getUnlockTalkPoint")
@@ -314,11 +314,11 @@ interface ApiServices {
 
     //是否能聊天
     @POST("backstage/rongcloud/unlockTalk")
-    fun doUnlockTalk(@Query("iUserid") iUserid:String,@Query("iTalkUserId") iTalkUserId:String):Flowable<Response<JsonObject>>
+    fun doUnlockTalk(@Query("iUserid") iUserid:String,@Query("iTalkUserId") iTalkUserId:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     //是否允许聊天
     @POST("backstage/rongcloud/getTalkJustify")
-    fun doTalkJustify(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iTalkUserId:String):Flowable<Response<JsonObject>>
+    fun doTalkJustify(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iTalkUserId:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
     /*1.8.0接口*/
     //送小红花列表
@@ -377,11 +377,11 @@ interface ApiServices {
 
     /*1.9.1接口*/
     @POST("backstage/blacklist/add")
-    fun addBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String): Flowable<Response<JsonPrimitive>>
+    fun addBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)): Flowable<Response<JsonPrimitive>>
 
     //获取黑名单列表
     @POST("backstage/blacklist/find")
-    fun getFindMyBlacklist(@Query("iUserid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<BlackListBean>>>
+    fun getFindMyBlacklist(@Query("iUserid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<Page<BlackListBean>>>
 
     //移除黑名单
     @POST("backstage/blacklist/del")
@@ -394,30 +394,30 @@ interface ApiServices {
 
    /* 2.0接口*/
    @POST("backstage/blacklist/remove")
-   fun removeBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String): Flowable<Response<JsonPrimitive>>
+   fun removeBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)): Flowable<Response<JsonPrimitive>>
 
     //查询好友列表
    @POST("backstage/userfriend/findByPage")
-   fun findUserFriends(@Query("iUserid")userid:String,@Query("sUserName") sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FriendBean>>>
+   fun findUserFriends(@Query("iUserid")userid:String,@Query("sUserName") sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<Page<FriendBean>>>
 
    //动态消息设置
    @POST("backstage/account/updateMessageSetting")
-   fun updateMessageSetting(@Query("iUserid") userid:String,@Query("iMessageSetting") iMessageSetting:Int):Flowable<Response<JsonPrimitive>>
+   fun updateMessageSetting(@Query("iUserid") userid:String,@Query("iMessageSetting") iMessageSetting:Int,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonPrimitive>>
 
    //查询用户接口
    @POST("backstage/account/findAllByPage")
-   fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FriendBean>>>
+   fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<Page<FriendBean>>>
 
    //我的好友个数
    @POST("backstage/userfriend/findFriendCount")
-   fun findFriendCount(@Query("iUserid")userid:String):Flowable<Response<JsonObject>>
+   fun findFriendCount(@Query("iUserid")userid:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonObject>>
 
    //分享的接口
    @POST("backstage/share/shareMessage")
-   fun shareMessage(@Query("iUserid")userid:String,@Query("iType") iType:Int,@Query("sResourceId") sResourceId:String,@Query("sAppointUser")sAppointUser:String):Flowable<Response<JsonPrimitive>>
+   fun shareMessage(@Query("iUserid")userid:String,@Query("iType") iType:Int,@Query("sResourceId") sResourceId:String,@Query("sAppointUser")sAppointUser:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonPrimitive>>
 
    @POST("backstage/push/pushCustomerMessage")
-   fun pushCustomerMessage(@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonPrimitive>>
+   fun pushCustomerMessage(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<JsonPrimitive>>
 
    /*2.1.0接口*/
    //获取等级接口

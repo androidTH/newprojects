@@ -39,6 +39,8 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
     @SerializedName("iWeight") var iWeight:Int?=-1
     var iPoint:Int?=-1
     var iAppointStatus:Int?=-1
+    var userclassesid:Int?=-1
+    var classesname:String?=""
 //    @SerializedName("sSourceAppointPic")
 //    var sSourceAppointPic:String?=""
 }

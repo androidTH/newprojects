@@ -56,7 +56,7 @@
                 android:textColor="@color/color_888888"
                 android:textSize="12sp" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_regong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,36 +65,14 @@
                 android:layout_marginTop="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_10"
                 android:background="@drawable/shape_whitebg_5r"
-                android:orientation="vertical"
                 android:paddingBottom="@dimen/margin_15">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/margin_13"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_women_memberdesc"
                     android:paddingTop="@dimen/margin_13"
-                    android:text="·有权报名速约，挑选优质男生会员；"
-                    android:textColor="@color/color_666666"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_13"
-                    android:text="·可加入各类微信群，包括地区群、全国群、字母群、 有戏群、健身群等特色群；"
-                    android:textColor="@color/color_666666"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_13"
-                    android:text="·有权参加各类线下娱乐活动；"
-                    android:textColor="@color/color_666666"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
 
         </RelativeLayout>
 

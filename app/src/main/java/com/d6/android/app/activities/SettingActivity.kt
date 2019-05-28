@@ -104,6 +104,7 @@ class SettingActivity : TitleActivity() {
                     .remove(Const.User.USER_TOKEN)
                     .remove(Const.User.SLOGINTOKEN)
                     .apply()
+            clearLoginToken()
             SPUtils.instance().remove(Const.USERINFO)
             PushAgent.getInstance(applicationContext).deleteAlias(userId, "D6", { _, _ ->
 

@@ -53,10 +53,6 @@ class AuthMenStateActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val sLoginToken  by lazy{
-        SPUtils.instance().getString(Const.User.SLOGINTOKEN)
-    }
-
     private val from by lazy{
         intent.getStringExtra(NO_VIP_FROM_TYPE)
     }
@@ -71,6 +67,8 @@ class AuthMenStateActivity : BaseActivity() {
     private lateinit var mOpenMemberShipDialog:OpenMemberShipDialog
     private var areaName=""
 
+    private var ISNOTBUYMEMBER = 0 //0 没有购买
+
     var mComments = ArrayList<MemberComment>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +82,7 @@ class AuthMenStateActivity : BaseActivity() {
                 .init()
 
         tv_back.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         tv_zxkf_men.setOnClickListener {
@@ -202,7 +200,7 @@ class AuthMenStateActivity : BaseActivity() {
     }
 
     private fun getMemberPriceList() {
-        Request.findUserClasses(sLoginToken).request(this){msg,data->
+        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
             data?.list?.let {
                 mMemberPriceList = it
                 mMemberLevelAdapter.setNewData(mMemberPriceList)
@@ -259,6 +257,7 @@ class AuthMenStateActivity : BaseActivity() {
     private fun checkOrderStatus(orderId:String){
             Request.getOrderById(orderId).request(this,false,success={msg,data->
                 mOpenMemberShipDialog.dismissAllowingStateLoss()
+                ISNOTBUYMEMBER = 1
                 ns_auth_mem.visibility = View.GONE
                 ll_bottom.visibility = View.GONE
                 member.visibility = View.VISIBLE
@@ -322,6 +321,15 @@ class AuthMenStateActivity : BaseActivity() {
             if(requestCode == AREA_REQUEST_CODE){
                 areaName = data!!.getStringExtra("area")
                 mOpenMemberShipDialog.setAddressd(areaName)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(ISNOTBUYMEMBER==0){
+            pushCustomerMessage(this,getLocalUserId(),7,""){
+                chatService(this)
             }
         }
     }

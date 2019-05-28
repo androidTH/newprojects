@@ -50,10 +50,6 @@ class OpenMemberShipDialog : DialogFragment() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val sLoginToken  by lazy{
-        SPUtils.instance().getString(Const.User.SLOGINTOKEN)
-    }
-
     private var mMemberPriceList = ArrayList<MemberBean>()
     var mMemberShipAdapter: MemberShipAdapter?=null
 
@@ -121,7 +117,7 @@ class OpenMemberShipDialog : DialogFragment() {
 
     private fun getAreaNameMemberPriceList(areaName:String){
         isBaseActivity {
-            Request.findUserClasses(sLoginToken,areaName).request(it){msg,data->
+            Request.findUserClasses(getLoginToken(),areaName).request(it){ msg, data->
                 data?.list?.let {
                     Log.i("mem","数量${it.size}")
                     mMemberPriceList = it
@@ -134,7 +130,7 @@ class OpenMemberShipDialog : DialogFragment() {
     }
 
     private fun getMemberPriceList() {
-        Request.findUserClasses(sLoginToken).request((context as BaseActivity)){msg,data->
+        Request.findUserClasses(getLoginToken()).request((context as BaseActivity)){msg,data->
             data?.list?.let {
                 mMemberPriceList = it
                 mMemberShipAdapter?.setNewData(mMemberPriceList)

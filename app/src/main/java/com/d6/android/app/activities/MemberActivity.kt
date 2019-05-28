@@ -27,10 +27,6 @@ class MemberActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val sLoginToken  by lazy{
-        SPUtils.instance().getString(Const.User.SLOGINTOKEN)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_member)
@@ -61,59 +57,50 @@ class MemberActivity : BaseActivity() {
     }
 
     private fun getMemberLevel(userclassId:String?,sex:String?) {
-        Request.findUserClasses(sLoginToken).request(this){msg,data->
+        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
             data?.list?.let {
-                Log.i("mem","数量${it.size}")
-                if(TextUtils.equals("0",sex.toString())){
-                    var memberBean = it.get(0)
-                    if(TextUtils.equals(memberBean.ids.toString(),userclassId.toString())){
-
-                        memberBean.sDesc?.let {
-                            var mTipsData = it.split("<br/>")
-                            rv_men_memberdesc.setHasFixedSize(true)
-                            rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-                            rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
-                        }
-                        tv_data_address.visibility= View.GONE
-                        tv_mem_memberztnums.visibility = View.GONE
-                        view_line.visibility = View.GONE
-                        view_line02.visibility = View.GONE
-                        tv_men_member_remark.visibility = View.GONE
-                    }
-                }else{
-                    it.forEach {
+                Log.i("ffffff","${it.size}")
+                it.forEach {
                         if(TextUtils.equals(it.ids.toString(),userclassId.toString())){
-                            if(TextUtils.isEmpty(it.sRemark)){
+                            if(TextUtils.equals("0",sex.toString())){
+                                it.sDesc?.let {
+                                    var mTipsData = it.split("<br/>")
+                                    rv_men_memberdesc.setHasFixedSize(true)
+                                    rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+                                    rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
+                                }
+                                tv_data_address.visibility= View.GONE
+                                tv_mem_memberztnums.visibility = View.GONE
+                                view_line.visibility = View.GONE
                                 view_line02.visibility = View.GONE
                                 tv_men_member_remark.visibility = View.GONE
                             }else{
-                                view_line02.visibility = View.VISIBLE
-                                tv_men_member_remark.visibility = View.VISIBLE
-                                tv_men_member_remark.text = it.sRemark
-                            }
+                                if(TextUtils.isEmpty(it.sRemark)){
+                                    view_line02.visibility = View.GONE
+                                    tv_men_member_remark.visibility = View.GONE
+                                }else{
+                                    view_line02.visibility = View.VISIBLE
+                                    tv_men_member_remark.visibility = View.VISIBLE
+                                    tv_men_member_remark.text = it.sRemark
+                                }
 
-                            it.sDesc?.let {
-                                var mTipsData = it.split("<br/>")
-                                rv_men_memberdesc.setHasFixedSize(true)
-                                rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-                                rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
-//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//                                    tv_men_memberdesc.text = Html.fromHtml(it.replace("FF4B00", "666666"),Html.FROM_HTML_MODE_COMPACT)
-//                                }else{
-//                                    tv_men_memberdesc.text = Html.fromHtml(it.replace("FF4B00", "666666"))
-//                                }
-                            }
+                                it.sDesc?.let {
+                                    var mTipsData = it.split("<br/>")
+                                    rv_men_memberdesc.setHasFixedSize(true)
+                                    rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+                                    rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
+                                }
 
-                            tv_mem_memberztnums.visibility = View.VISIBLE
-                            tv_data_address.visibility =View.VISIBLE
-                            view_line.visibility = View.VISIBLE
+                                tv_mem_memberztnums.visibility = View.VISIBLE
+                                tv_data_address.visibility =View.VISIBLE
+                                view_line.visibility = View.VISIBLE
 
-                            if(TextUtils.equals("1",sex.toString())){
-                                tv_data_address.text = it.sServiceArea
-                                AppUtils.setMemberNums(this, 2,"直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
+                                if(TextUtils.equals("1",sex.toString())){
+                                    tv_data_address.text = it.sServiceArea
+                                    AppUtils.setMemberNums(this, 2,"直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
+                                }
                             }
                         }
-                    }
                 }
             }
         }
@@ -123,7 +110,13 @@ class MemberActivity : BaseActivity() {
         Request.getUserInfo("",userId).request(this, success = { _, data ->
              data?.let {
                  vipheaderview.setImageURI(data.picUrl)
-                 tv_viplevel.text = data.classesname
+                 if(TextUtils.equals(data.userclassesid,"29")){
+                     tv_viplevel.text = "高级会员"
+                 }else if(TextUtils.equals(data.userclassesid,"27")){
+                     tv_viplevel.text = "初级会员"
+                 }else{
+                     tv_viplevel.text = data.classesname
+                 }
                  data.dUserClassEndTime?.let {
                      if(it>0){
                          tv_vipendtime.text = "到期时间：${data.dUserClassEndTime.toTime(timeFormat)}"

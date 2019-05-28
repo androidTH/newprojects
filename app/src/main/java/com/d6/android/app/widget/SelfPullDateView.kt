@@ -17,6 +17,7 @@ import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.view_self_release_view.view.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 
@@ -131,6 +132,31 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             deleteAction?.let {
                 it.onDelete(myAppointment)
             }
+        }
+
+        tv_date_vip.visibility = View.VISIBLE
+        if(TextUtils.equals(myAppointment.userclassesid.toString(),"27")){
+            tv_date_vip.backgroundDrawable =  ContextCompat.getDrawable(context,R.mipmap.gril_cj)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"28")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_zj)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"29")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_gj)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"22")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"23")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"24")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"25")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"26")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
+        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
+            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+        }else{
+            tv_date_vip.visibility = View.GONE
         }
 
 //            if (TextUtils.equals("0", myAppointment.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {

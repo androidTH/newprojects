@@ -27,6 +27,7 @@ import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * 主页
@@ -267,7 +268,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun loginforPoint(){
-        Request.loginForPoint(userId).request(this,false,success = {msg,data->
+        Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
             showTips(data,"","")
             if (data != null) {
                 var pointDesc = data.optString("sAddPointDesc")
@@ -280,6 +281,10 @@ class HomeFragment : BaseFragment() {
                 SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
             }
         }){code,msg->
+            if(code==200){
+                toast(msg)
+                startActivity<SignInActivity>()
+            }
 //            var mg = JsonObject().getAsJsonObject(msg)
 //            showTips(mg,"","")
         }

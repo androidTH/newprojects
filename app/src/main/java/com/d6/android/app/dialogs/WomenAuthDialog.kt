@@ -85,7 +85,8 @@ class WomenAuthDialog : DialogFragment() {
 
         //第一步认证
         tv_base_info.setOnClickListener {
-            getUserInfo()
+            dialogListener?.onClick(1,"baseinfo")
+            dismissAllowingStateLoss()
         }
 
         //第三步认证
@@ -138,27 +139,6 @@ class WomenAuthDialog : DialogFragment() {
             }
     }
 
-    private val mImages = ArrayList<AddImage>()
-    private fun getUserInfo() {
-        isBaseActivity {
-            Request.getUserInfo("", userId).request(it, success = { _, data ->
-                it.saveUserInfo(data)
-                data?.let {
-                    val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
-                    RongIM.getInstance().refreshUserInfoCache(info)
-                    mImages.clear()
-                    if (!it.userpics.isNullOrEmpty()) {
-                        val images = it.userpics!!.split(",")
-                        images.forEach {
-                            mImages.add(AddImage(it))
-                        }
-                    }
-                    mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
-                    startActivity<MyInfoActivity>("data" to it, "images" to mImages)
-                }
-            })
-        }
-    }
 
     private var dialogListener: OnDialogListener? = null
 

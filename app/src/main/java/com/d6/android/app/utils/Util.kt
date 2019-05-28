@@ -922,9 +922,22 @@ fun chatService(activity: BaseActivity){
 }
 
 inline fun Activity.pushCustomerMessage(requestManager: RequestManager, userId:String,iType:Int,sSourceId:String, crossinline next: () -> Unit) {
-    Request.pushCustomerMessage(userId,iType,sSourceId).request(requestManager,false,success = {msg,data->
+    Request.pushCustomerMessage(getLoginToken(),userId,iType,sSourceId).request(requestManager,false,success = {msg,data->
         next()
     }){code,msg->
         toast(msg)
     }
+}
+
+private var sLoginToken = ""
+
+fun getLoginToken():String{
+    if(sLoginToken.isNullOrEmpty()){
+        sLoginToken = SPUtils.instance().getString(Const.User.SLOGINTOKEN,"")
+    }
+    return sLoginToken
+}
+
+fun clearLoginToken(){
+    sLoginToken = ""
 }

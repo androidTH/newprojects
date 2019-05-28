@@ -358,7 +358,7 @@ object Request {
     fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String,sChannelId:String?)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic,sChannelId)
 
     //赠送积分
-    fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)
+    fun loginForPoint(sLoginToken:String,iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPointNew(sLoginToken,iUserid)
 
 
     //支付多少积分
@@ -439,7 +439,7 @@ object Request {
     fun shareMessage(userid:String,iType:Int,sResourceId:String,sAppointUser:String)=RRetrofit.instance().create(ApiServices::class.java).shareMessage(userid,iType,sResourceId,sAppointUser)
 
     //推送消息
-    fun pushCustomerMessage(iUserid:String,iType:Int,sResourceId:String)=RRetrofit.instance().create(ApiServices::class.java).pushCustomerMessage(iUserid,iType,sResourceId)
+    fun pushCustomerMessage(sLoginToken:String,iUserid:String,iType:Int,sResourceId:String)=RRetrofit.instance().create(ApiServices::class.java).pushCustomerMessage(sLoginToken,iUserid,iType,sResourceId)
 
     //获取会员列表
     fun findUserClasses(sLoginToken:String,sAreaName:String="")=RRetrofit.instance().create(ApiServices::class.java).findUserClasses(sLoginToken,sAreaName)

@@ -59,8 +59,7 @@
                 android:layout_height="@dimen/margin_15"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/video_small"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <TextView
@@ -105,13 +104,8 @@
             android:layout_alignTop="@+id/rl_date_womenheadView"
             android:layout_marginTop="@dimen/margin_5"
             android:layout_marginLeft="8dp"
-            android:background="@drawable/shape_4r_orange"
-            android:drawableLeft="@mipmap/memberorder_icon_white"
-            android:drawablePadding="@dimen/margin_2"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
-            android:text="黄金会员"
-            android:textColor="@color/white"
             android:textSize="12dp"
             android:visibility="gone" />
 

@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -20,6 +21,7 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
@@ -148,7 +150,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 img_date_menauther.visibility = View.GONE
                 img_date_menauther.setImageResource(R.mipmap.renzheng_small)
             }else{
-                img_date_menauther.visibility = View.VISIBLE
+                img_date_menauther.visibility = View.GONE
             }
 
 
@@ -158,7 +160,30 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 holder.setText(R.id.tv_name, data.name)
             }
 
-            holder.setText(R.id.tv_vip, data.classesname)
+            var tv_vip = holder.bind<TextView>(R.id.tv_vip)
+            tv_vip.visibility = View.VISIBLE
+            if(TextUtils.equals(data.userclassesid.toString(),"22")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
+            }else if(TextUtils.equals(data.userclassesid,"23")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
+            }else if(TextUtils.equals(data.userclassesid,"24")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
+            }else if(TextUtils.equals(data.userclassesid,"25")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
+            }else if(TextUtils.equals(data.userclassesid,"26")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
+            }else if(TextUtils.equals(data.userclassesid,"7")){
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+            }else{
+                tv_vip.backgroundDrawable = null
+                tv_vip.visibility = View.GONE
+            }
+
             val tv_age = holder.bind<TextView>(R.id.tv_age)
 
 //        val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)

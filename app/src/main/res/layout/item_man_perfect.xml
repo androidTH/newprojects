@@ -55,15 +55,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="@dimen/margin_5"
         android:layout_toRightOf="@+id/tv_man_pecfect_age"
-        android:background="@drawable/shape_4r_orange"
-        android:drawableLeft="@mipmap/memberorder_icon_white"
-        android:drawablePadding="@dimen/margin_2"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
-        android:text="白银"
         android:textColor="@color/white"
         android:textSize="11sp"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/ll_vistorfollownums"

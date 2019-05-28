@@ -40,10 +40,6 @@ class MyDateDetailActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val sLoginToken by lazy{
-        SPUtils.instance().getString(Const.User.SLOGINTOKEN)
-    }
-
     private lateinit var myAppointment:MyAppointment
     private val mImages = ArrayList<String>()
     private var iAppointUserid:String =""
@@ -502,7 +498,7 @@ class MyDateDetailActivity : BaseActivity() {
 
     private fun delMyDate(){
         dialog()
-        Request.delAppointment(sLoginToken,myAppointment.sId.toString()).request(this,false,success={_,_->
+        Request.delAppointment(getLoginToken(),myAppointment.sId.toString()).request(this,false,success={_,_->
             var intent = Intent()
             intent.putExtra("type","delDate")
             intent.putExtra("index",index)
