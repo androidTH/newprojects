@@ -41,6 +41,7 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
     var iAppointStatus:Int?=-1
     var userclassesid:Int?=-1
     var classesname:String?=""
+    var screen:String?=""
 //    @SerializedName("sSourceAppointPic")
 //    var sSourceAppointPic:String?=""
 }

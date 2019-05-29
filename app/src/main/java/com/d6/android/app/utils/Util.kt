@@ -10,6 +10,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -18,6 +19,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.Settings
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -102,9 +104,12 @@ fun Fragment.screenHeight(): Int = context.screenHeight()
 
 fun View.screenHeight(): Int = context.screenHeight()
 
-
+private var mUserId = ""
 fun getLocalUserId():String{
-    return SPUtils.instance().getString(Const.User.USER_ID)
+    if(TextUtils.isEmpty(mUserId)){
+        mUserId = SPUtils.instance().getString(Const.User.USER_ID)
+    }
+    return mUserId;
 }
 fun Activity.callPhone(phone: String?) {
 //    val isAllow = permission(Manifest.permission.CALL_PHONE,"拨号权限",15)
@@ -929,6 +934,32 @@ inline fun Activity.pushCustomerMessage(requestManager: RequestManager, userId:S
     }
 }
 
+fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
+    var mDrawable:Drawable? = null
+    if (TextUtils.equals(levelId, "27")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_cj)
+    } else if (TextUtils.equals(levelId, "28")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_zj)
+    } else if (TextUtils.equals(levelId, "29")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_gj)
+    } else if (TextUtils.equals(levelId, "22")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
+    } else if (TextUtils.equals(levelId, "23")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
+    } else if (TextUtils.equals(levelId, "24")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
+    } else if (TextUtils.equals(levelId, "25")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
+    } else if (TextUtils.equals(levelId, "26")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
+    } else if (TextUtils.equals(levelId, "7")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
+    } else if(TextUtils.equals(levelId, "30")){
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon);
+    }
+    return mDrawable
+}
+
 private var sLoginToken = ""
 
 fun getLoginToken():String{
@@ -940,4 +971,5 @@ fun getLoginToken():String{
 
 fun clearLoginToken(){
     sLoginToken = ""
+    mUserId = ""
 }

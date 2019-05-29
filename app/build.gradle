@@ -14,8 +14,8 @@ android {
         applicationId "com.d6.android.app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 29 //29 2.0.0
-        versionName "2.0.0"
+        versionCode 30 //30 2.1.0
+        versionName "2.1.0"
         // Enabling multiDex support.
         multiDexEnabled true
         ndk {
@@ -142,8 +142,8 @@ dependencies {
     compile project(':library')
 
     //下拉刷新库
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-4'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-4'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-27'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-27'
     compile 'com.qianwen:update-app:3.5.2'
     compile 'com.qianwen:okhttp-utils:3.8.0'
     implementation 'org.greenrobot:eventbus:3.1.1'

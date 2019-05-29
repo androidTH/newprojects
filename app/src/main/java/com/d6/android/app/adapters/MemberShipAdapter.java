@@ -15,6 +15,8 @@ import com.d6.android.app.models.MemberBean;
 
 import java.util.List;
 
+import static com.d6.android.app.utils.UtilKt.getLevelDrawable;
+
 /**
  * author : jinjiarui
  * time   : 2018/12/25
@@ -51,35 +53,8 @@ public class MemberShipAdapter extends BaseQuickAdapter<MemberBean,BaseViewHolde
         tvName.setText(item.getClassesname());
         helper.setText(R.id.tv_vip_price, "¥"+String.valueOf(item.getIAndroidPrice()));
         helper.setText(R.id.tv_vipinfo, item.getSTitle());
-        Drawable drawable;
-        if (TextUtils.equals(String.valueOf(item.getIds()), "27")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_cj);
-        } else if (TextUtils.equals(String.valueOf(item.getIds()), "28")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_zj);
-        } else if (TextUtils.equals(String.valueOf(item.getIds()), "29")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_gj);
-        } else if (TextUtils.equals(String.valueOf(item.getIds()), "22")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary);
-        } else if (TextUtils.equals(String.valueOf(item.getIds()), "23")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver);
-        } else if (TextUtils.equals(String.valueOf(item.getIds()), "24")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold);
-        } else if (TextUtils.equals(String.valueOf(item.getIds()), "25")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs);
-        } else if (TextUtils.equals(String.valueOf(item.getIds()), "26")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private);
-        } else if (TextUtils.equals(String.valueOf(item.getIds()), "7")) {
-            drawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon);
-        } else if(TextUtils.equals(String.valueOf(item.getIds()), "30")){
-            drawable = null;
-        }else {
-            drawable = null;
-        }
-//         Drawable drawable = ContextCompat.getDrawable(mContext,R.mipmap.vip_ordinary);
-
+        Drawable drawable = getLevelDrawable(String.valueOf(item.getIds()),mContext);
         tvName.setCompoundDrawablesWithIntrinsicBounds(null,null,drawable,null);
-
-
         helper.addOnClickListener(R.id.tv_vip_price);
     }
 }

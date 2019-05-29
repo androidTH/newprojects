@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
@@ -15,6 +14,7 @@ import com.d6.android.app.dialogs.WomenAuthDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.MemberComment
+import com.d6.android.app.net.API.BASE_URL
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
@@ -77,11 +77,11 @@ class AuthWomenStateActivity : BaseActivity() {
         }
 
         mComments.add(MemberComment(getString(R.string.string_women_firstcomment),
-                "https://tvax1.sinaimg.cn/crop.0.0.996.996.180/0074V8z6ly8g1v3pxqs6jj30ro0rojte.jpg"))
+                BASE_URL+"static/image/0074V8z6ly8g1v3pxqs6jj30ro0rojte.jpg"))
         mComments.add(MemberComment(getString(R.string.string_women_secondcomment),
-                "https://tvax4.sinaimg.cn/crop.0.0.1080.1080.180/700a69f8ly8g0fj1kcfdbj20u00u00vy.jpg"))
+                BASE_URL+"static/image/700a69f8ly8g0fj1kcfdbj20u00u00vy.jpg"))
         mComments.add(MemberComment(getString(R.string.string_women_lastcomment),
-                "https://tva1.sinaimg.cn/crop.10.0.492.492.180/9ba8d31djw8f9ocv5yysfj20e80doaar.jpg"))
+                BASE_URL+"static/image/9ba8d31djw8f9ocv5yysfj20e80doaar.jpg"))
 
         setMemeberComemnt()
 

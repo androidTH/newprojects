@@ -70,8 +70,8 @@
 
         <ImageView
             android:id="@+id/img_official"
-            android:layout_width="23dp"
-            android:layout_height="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/margin_5"

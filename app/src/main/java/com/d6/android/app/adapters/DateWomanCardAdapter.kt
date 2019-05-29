@@ -307,7 +307,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
         val tv_man_perferctvip = holder.bind<TextView>(R.id.tv_man_perfect_vip)
 
-        if(TextUtils.equals(data.userclassesid.toString(),"22")){
+        if(TextUtils.equals(data.userclassesid,"22")){
 //                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
             tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
         }else if(TextUtils.equals(data.userclassesid,"23")){
@@ -324,6 +324,8 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
         }else if(TextUtils.equals(data.userclassesid,"7")){
             tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+        }else if(TextUtils.equals(data.userclassesid,"30")){
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
         }
 
 //        if(data.classesname.isNotEmpty()){

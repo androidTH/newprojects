@@ -16,6 +16,8 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CustomerServiceId
+import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import kotlinx.android.synthetic.main.view_self_release_view.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.dip
@@ -134,29 +136,51 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        tv_date_vip.visibility = View.VISIBLE
-        if(TextUtils.equals(myAppointment.userclassesid.toString(),"27")){
-            tv_date_vip.backgroundDrawable =  ContextCompat.getDrawable(context,R.mipmap.gril_cj)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"28")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_zj)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"29")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_gj)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"22")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"23")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"24")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"25")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"26")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
-        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
-            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+//        tv_date_vip.visibility = View.VISIBLE
+//        if(TextUtils.equals(myAppointment.userclassesid.toString(),"27")){
+//            tv_date_vip.backgroundDrawable =  ContextCompat.getDrawable(context,R.mipmap.gril_cj)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"28")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_zj)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"29")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_gj)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"22")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"23")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"24")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"25")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"26")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"30")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
+//        }else{
+//            tv_date_vip.visibility = View.GONE
+//        }
+
+        tv_date_vip.backgroundDrawable = getLevelDrawable(myAppointment.userclassesid.toString(),context)
+
+        if(TextUtils.equals(CustomerServiceId,myAppointment.iAppointUserid.toString())||TextUtils.equals(CustomerServiceWomenId,myAppointment.iAppointUserid.toString())){
+            iv_self_servicesign.visibility = View.VISIBLE
+            img_self_auther.visibility = View.GONE
         }else{
-            tv_date_vip.visibility = View.GONE
+            iv_self_servicesign.visibility = View.GONE
+            if(TextUtils.equals("0",myAppointment!!.screen)|| myAppointment!!.screen.isNullOrEmpty()){
+                img_self_auther.visibility = View.GONE
+            }else if(TextUtils.equals("1",myAppointment!!.screen)){
+                img_self_auther.visibility = View.VISIBLE
+                img_self_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.video_small)
+            }else if(TextUtils.equals("3",myAppointment!!.screen)){
+                img_self_auther.visibility = View.GONE
+                img_self_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.renzheng_small)
+            }else{
+                img_self_auther.visibility = View.GONE
+            }
         }
 
 //            if (TextUtils.equals("0", myAppointment.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {

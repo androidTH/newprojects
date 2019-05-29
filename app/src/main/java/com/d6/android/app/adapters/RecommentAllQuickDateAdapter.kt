@@ -89,6 +89,8 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
                 tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
             } else if (data.classesname.toString().startsWith("私人")) {
                 tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
+            }else if (data.classesname.toString().startsWith("入群")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
             }
         }
 //        val endTime = data.createTime.parserTime().toTime("yyyy-MM-dd")

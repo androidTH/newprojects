@@ -136,6 +136,8 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                         holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.vip_private));
                     } else if (TextUtils.equals(mUserData.getUserclassesid(), "7")) {
                         holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.youke_icon));
+                    }else if (TextUtils.equals(mUserData.getUserclassesid(), "30")) {
+                        holder.tv_chat_men_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.ruqun_icon));
                     }
                 }
 

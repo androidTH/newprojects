@@ -29,8 +29,14 @@
             android:layout_height="@dimen/margin_15"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:src="@mipmap/video_small"
             android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/iv_self_servicesign"
+            android:layout_width="20dp"
+            android:layout_height="15dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/official_icon" />
     </RelativeLayout>
 
     <LinearLayout
@@ -62,8 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="8sp"
-                android:visibility="gone"/>
+                android:textSize="8sp"/>
         </LinearLayout>
 
         <TextView

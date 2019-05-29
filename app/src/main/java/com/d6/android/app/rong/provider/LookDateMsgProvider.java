@@ -218,6 +218,8 @@ public class LookDateMsgProvider extends IContainerItemProvider.MessageProvider<
                          holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.vip_private));
                      }else if (date.getClassesname().startsWith("游客")) {
                          holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.youke_icon));
+                     }else if (date.getClassesname().startsWith("入群")) {
+                         holder.tv_chat_speeddate_authlevel.setBackground(ContextCompat.getDrawable(v.getContext(),R.mipmap.ruqun_icon));
                      }
                  }
 

@@ -361,6 +361,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.img_other_auther.visibility = View.GONE
                     headerView.img_date_auther.visibility = View.GONE
                     headerView.img_official.visibility = View.VISIBLE
+                    headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_iconnew)
                 }else{
                     if (TextUtils.equals("0", it.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
                         headerView.img_other_auther.visibility = View.GONE
@@ -383,10 +384,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                     if(TextUtils.equals("0",it.isValid)){
                         headerView.img_other_auther.visibility = View.GONE
-                        headerView.img_date_auther.visibility = View.GONE
+                        headerView.img_date_auther.visibility = View.VISIBLE
                         headerView.rl_prompt.visibility = View.VISIBLE
                         headerView.img_official.visibility = View.VISIBLE
                         headerView.img_official.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_forbidden_icon)
+                        headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_forbidden_icon)
                     }
                 }
 
@@ -405,41 +407,45 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
 //                headerView.tv_vip.text = String.format("%s", it.classesname+it.userclassesid)
                 //22普通 23白银 24黄金 25钻石 26私人  7游客
-                if (TextUtils.equals("0", it.sex)) {//女性
-                    //27入门 28中级  29优质
-//                   tv_vip.text = String.format("%s", it.classesname)
-                    if(TextUtils.equals(it.userclassesid,"27")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_primary))
-                        headerView.tv_vip.backgroundDrawable =  ContextCompat.getDrawable(this,R.mipmap.gril_cj)
-                    }else if(TextUtils.equals(it.userclassesid,"28")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_middle))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_zj)
-                    }else if(TextUtils.equals(it.userclassesid,"29")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_gj)
-                    }else if(TextUtils.equals(it.userclassesid,"7")){
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
-                    }
-                } else {
-                    if(TextUtils.equals(it.userclassesid.toString(),"22")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_ordinary)
-                    }else if(TextUtils.equals(it.userclassesid,"23")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_silver)
-                    }else if(TextUtils.equals(it.userclassesid,"24")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_gold)
-                    }else if(TextUtils.equals(it.userclassesid,"25")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_zs)
-                    }else if(TextUtils.equals(it.userclassesid,"26")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
-                    }else if(TextUtils.equals(it.userclassesid,"7")){
-                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
-                    }
-                }
+//                if (TextUtils.equals("0", it.sex)) {//女性
+//                    //27入门 28中级  29优质
+////                   tv_vip.text = String.format("%s", it.classesname)
+//                    if(TextUtils.equals(it.userclassesid,"27")){
+////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_primary))
+//                        headerView.tv_vip.backgroundDrawable =  ContextCompat.getDrawable(this,R.mipmap.gril_cj)
+//                    }else if(TextUtils.equals(it.userclassesid,"28")){
+////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_middle))
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_zj)
+//                    }else if(TextUtils.equals(it.userclassesid,"29")){
+////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_gj)
+//                    }else if(TextUtils.equals(it.userclassesid,"7")){
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
+//                    }
+//                } else {
+//                    if(TextUtils.equals(it.userclassesid.toString(),"22")){
+////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_ordinary)
+//                    }else if(TextUtils.equals(it.userclassesid,"23")){
+////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_silver)
+//                    }else if(TextUtils.equals(it.userclassesid,"24")){
+////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_gold)
+//                    }else if(TextUtils.equals(it.userclassesid,"25")){
+////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_zs)
+//                    }else if(TextUtils.equals(it.userclassesid,"26")){
+////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
+//                    }else if(TextUtils.equals(it.userclassesid,"7")){
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
+//                    }else if(TextUtils.equals(it.userclassesid,"30")){
+//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.ruqun_icon)
+//                    }
+//                }
+
+                headerView.tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),this)
 
                 mTags.clear()
                 if (!it.height.isNullOrEmpty()) {

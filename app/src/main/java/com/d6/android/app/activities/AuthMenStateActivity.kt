@@ -138,11 +138,11 @@ class AuthMenStateActivity : BaseActivity() {
                 .setMinScale(1.0f)
                 .build())
         mComments.add(MemberComment(getString(R.string.string_man_firstcomment),
-                "https://tva1.sinaimg.cn/crop.188.1135.1843.1843.180/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
+                API.BASE_URL +"static/image/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
         mComments.add(MemberComment(getString(R.string.string_man_secondcomment),
-                "https://tvax2.sinaimg.cn/crop.0.0.1080.1080.180/006lz966ly8g2vdezyk2aj30u00u0ac7.jpg"))
+                API.BASE_URL +"static/image/006lz966ly8g2vdezyk2aj30u00u0ac7.jpg"))
         mComments.add(MemberComment(getString(R.string.string_man_lastcomment),
-                "https://tvax1.sinaimg.cn/crop.0.0.996.996.180/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
+                API.BASE_URL +"static/image/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
         setMemeberComemnt()
     }
 
