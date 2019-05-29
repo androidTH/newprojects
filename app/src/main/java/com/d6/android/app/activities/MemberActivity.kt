@@ -43,7 +43,8 @@ class MemberActivity : BaseActivity() {
 
 
         ll_lianxikf.setOnClickListener {
-            pushCustomerMessage(this, getLocalUserId(), 5, "", next = {
+            //8、会员联系客服
+            pushCustomerMessage(this, getLocalUserId(), 8, "", next = {
                 chatService(this)
             })
         }

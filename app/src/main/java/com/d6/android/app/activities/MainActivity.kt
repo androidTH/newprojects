@@ -260,7 +260,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
         getUserInfo()
 
-        UnReadMessageCountChangedObserver()
+//        UnReadMessageCountChangedObserver()
 
         diyUpdate(this,"")
 
@@ -294,6 +294,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         if(tabhost.currentTab==0){
             myDateUnMsg()
         }
+        unReadMsgNum = 0
         getUserInfoUnMsg()
         getUnReadCount()
     }
@@ -345,8 +346,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                     val view1 = tabhost.tabWidget.getChildTabViewAt(3)
                     if (view1 != null) {
                         val view = view1.find<View>(R.id.tv_msg_count)
-                        if (p0 > 0) {
-                            unReadMsgNum = p0
+                        if (p0.toInt() > 0) {
+                            Log.i("messagesssssss","${unReadMsgNum}收到——UnReadCount")
+                            unReadMsgNum = p0.toInt()
                             view?.visible()
                         } else {
                             view?.gone()
@@ -410,7 +412,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
-                view?.gone()
                 Log.i("messagesssssss","系统收到——rong")
                 getSquareMsg()
             } else {
@@ -436,14 +437,15 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
-                view?.gone()
-                if(unReadMsgNum >0){
+                Log.i("messagesssssss","${unReadMsgNum}显示")
+                if(unReadMsgNum > 0){
                     unReadMsgNum = 0
                     view?.visible()
                 }else{
                     view?.gone()
                 }
             } else {
+                Log.i("messagesssssss","显示")
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
@@ -501,13 +503,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
     override fun onCountChanged(p0: Int) {
         val view1 = tabhost.tabWidget.getChildTabViewAt(3)
-        Log.i("message","${p0}--收到——rong")
+        val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+        if (fragment != null && fragment is MessageFragment) {
+            fragment.getChatMsg()
+        }
+        unReadMsgNum = p0
         if(p0>0){
-            unReadMsgNum = p0
-            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
-            if (fragment != null && fragment is MessageFragment) {
-                fragment.getChatMsg()
-            }
             if (view1 != null) {
                 val view = view1.find<View>(R.id.tv_msg_count)
                 view?.visible()
