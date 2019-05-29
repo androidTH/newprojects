@@ -18,6 +18,8 @@ import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CustomerServiceId
+import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
@@ -198,9 +200,17 @@ class SettingActivity : TitleActivity() {
                 }
 
                 if(TextUtils.equals("0",mData!!.screen)||TextUtils.equals("3",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
-                    img_auther.visibility = View.GONE
+                    img_auther.backgroundDrawable = null
                 }else{
-                    img_auther.visibility = View.VISIBLE
+                    img_auther.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.video_small)
+                }
+
+                if(TextUtils.equals(data.accountId,CustomerServiceId)||TextUtils.equals(data.accountId,CustomerServiceWomenId)){
+                    img_auther.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.official_iconnew)
+                }else{
+                    if(TextUtils.equals("0",it.isValid)){
+                        img_auther.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.official_forbidden_icon)
+                    }
                 }
             }
         }) { _, _ ->

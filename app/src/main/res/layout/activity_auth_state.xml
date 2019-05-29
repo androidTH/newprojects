@@ -125,6 +125,17 @@
         android:id="@+id/member"
         android:visibility="gone"
         layout="@layout/include_member"/>
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="#F79000">-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_back"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:drawableLeft="@mipmap/navigation_whiteback_color"-->
+            <!--android:padding="12dp" />-->
+    <!--</LinearLayout>-->
     <TextView
         android:id="@+id/tv_back"
         android:layout_width="wrap_content"

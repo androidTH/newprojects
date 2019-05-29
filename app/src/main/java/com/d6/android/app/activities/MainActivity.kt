@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
@@ -49,6 +50,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             DateFragment::class.java, SquareMainFragment::class.java,
             MessageFragment::class.java,MineFragment::class.java)
     private var unReadMsg:Int?=-1
+    private var unReadMsgNum:Int=0
 
     private val broadcast by lazy {
         object : BroadcastReceiver() {
@@ -64,6 +66,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
+                    Log.i("messagesssssss","收到——rong")
                     getUnReadCount()
                 }
             }
@@ -343,6 +346,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                     if (view1 != null) {
                         val view = view1.find<View>(R.id.tv_msg_count)
                         if (p0 > 0) {
+                            unReadMsgNum = p0
                             view?.visible()
                         } else {
                             view?.gone()
@@ -401,13 +405,13 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun getSysLastOne() {
-//        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getSystemMessages(userId, 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
                 view?.gone()
+                Log.i("messagesssssss","系统收到——rong")
                 getSquareMsg()
             } else {
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
@@ -427,13 +431,18 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         val userId = SPUtils.instance().getString(Const.User.USER_ID)
         Request.getNewSquareMessages(userId, 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
                 view?.gone()
+                if(unReadMsgNum >0){
+                    unReadMsgNum = 0
+                    view?.visible()
+                }else{
+                    view?.gone()
+                }
             } else {
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
@@ -492,7 +501,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
     override fun onCountChanged(p0: Int) {
         val view1 = tabhost.tabWidget.getChildTabViewAt(3)
+        Log.i("message","${p0}--收到——rong")
         if(p0>0){
+            unReadMsgNum = p0
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
             if (fragment != null && fragment is MessageFragment) {
                 fragment.getChatMsg()
