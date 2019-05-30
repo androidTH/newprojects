@@ -406,7 +406,7 @@ interface ApiServices {
 
    //查询用户接口
    @POST("backstage/account/findAllByPage")
-   fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<Page<FriendBean>>>
+   fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sVersion") sVersion:String = AppUpdateUtils.getVersionName(AppUtils.context)):Flowable<Response<Page<UserData>>>
 
    //我的好友个数
    @POST("backstage/userfriend/findFriendCount")

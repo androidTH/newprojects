@@ -11,6 +11,8 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.FriendBean
+import com.d6.android.app.utils.Const.CustomerServiceId
+import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.utils.getLevelDrawable
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.backgroundDrawable
@@ -42,10 +44,10 @@ class FriendsAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<FriendBean>
         var img_friends_auther = holder.bind<ImageView>(R.id.img_friends_auther)
         if(TextUtils.equals("3",data.screen)){
             img_friends_auther.visibility=View.GONE
-            img_friends_auther.setImageResource(R.mipmap.renzheng_small)
+            img_friends_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.renzheng_small)
         }else if(TextUtils.equals("1",data.screen)){
             img_friends_auther.visibility=View.VISIBLE
-            img_friends_auther.setImageResource(R.mipmap.video_small)
+            img_friends_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.video_small)
         }else{
             img_friends_auther.visibility=View.GONE
         }
@@ -62,6 +64,17 @@ class FriendsAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<FriendBean>
 //        if(TextUtils.equals("0", data.sSex)){
             tv_vip.backgroundDrawable =  getLevelDrawable(data.userclassesid.toString(),context)
 //        }
+
+        tv_vip.backgroundDrawable =  getLevelDrawable(data.userclassesid.toString(),context)
+
+        var iv_friends_servicesign = holder.bind<ImageView>(R.id.iv_friends_servicesign)
+
+        if(TextUtils.equals(CustomerServiceId,data.iUserid.toString())|| TextUtils.equals(CustomerServiceWomenId,data.iUserid.toString())){
+            iv_friends_servicesign.visibility = View.VISIBLE
+            iv_friends_servicesign.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_iconnew)
+        }else{
+            iv_friends_servicesign.visibility = View.GONE
+        }
 
         headView.setOnClickListener {
             isBaseActivity {

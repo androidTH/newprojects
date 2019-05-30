@@ -55,7 +55,7 @@ class AuthWomenStateActivity : BaseActivity() {
 
 
         tv_zxkf_women.setOnClickListener {
-            pushCustomerMessage(this, getLocalUserId(), 5, "", next = {
+            pushCustomerMessage(this, getLocalUserId(), 2, "", next = {
                 chatService(this)
             })
         }

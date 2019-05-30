@@ -11,6 +11,7 @@ import com.d6.android.app.adapters.SearchFriendsAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.FriendBean
+import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
@@ -30,7 +31,7 @@ class SearchFriendsActivity : BaseActivity() {
     }
 
     private var pageNum = 1
-    private val mFriends = ArrayList<FriendBean>()
+    private val mFriends = ArrayList<UserData>()
     private var sUserName="";
     private val friendsAdapter by lazy {
         SearchFriendsAdapter(mFriends)
@@ -46,7 +47,7 @@ class SearchFriendsActivity : BaseActivity() {
         immersionBar.init()
         friendsAdapter.setOnItemClickListener { view, position ->
             val mFriends =  mFriends[position]
-            startActivity<UserInfoActivity>("id" to mFriends.iUserid.toString())
+            startActivity<UserInfoActivity>("id" to mFriends.accountId.toString())
         }
         initRecyclerView()
         dialog()

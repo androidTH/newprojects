@@ -2,6 +2,7 @@ package com.d6.android.app.adapters
 
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,6 +13,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.Fans
 import com.d6.android.app.models.FriendBean
+import com.d6.android.app.models.UserData
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import kotlinx.android.synthetic.main.view_trend_view.view.*
@@ -21,41 +23,41 @@ import org.jetbrains.anko.startActivity
 /**
  *粉丝
  */
-class SearchFriendsAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<FriendBean>(mData, R.layout.item_list_friends) ,View.OnClickListener{
+class SearchFriendsAdapter(mData:ArrayList<UserData>): HFRecyclerAdapter<UserData>(mData, R.layout.item_list_friends) ,View.OnClickListener{
     override fun onClick(v: View?) {
 
     }
 
-    override fun onBind(holder: ViewHolder, position: Int, data: FriendBean) {
-        holder.setText(R.id.tv_name,data.sUserName)
+    override fun onBind(holder: ViewHolder, position: Int, data: UserData) {
+        holder.setText(R.id.tv_name,data.name)
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-        headView.setImageURI(data.sPicUrl)
+        headView.setImageURI(data.picUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.ziwojieshao.isNullOrEmpty()){
-            tv_userinfo.text = data.ziwojieshao
+        if(!data.signature.isNullOrEmpty()){
+            tv_userinfo.text = data.signature
             tv_userinfo.visibility = View.VISIBLE
         }else{
             tv_userinfo.visibility = View.GONE
         }
 
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
-        tv_sex.isSelected = TextUtils.equals("0", data.sSex)
-        tv_sex.text = data.nianling
+        tv_sex.isSelected = TextUtils.equals("0", data.sex.toString())
+        tv_sex.text = data.age
 
         var img_friends_auther = holder.bind<ImageView>(R.id.img_friends_auther)
         if(TextUtils.equals("3",data.screen)){
             img_friends_auther.visibility=View.GONE
-            img_friends_auther.setImageResource(R.mipmap.renzheng_small)
+            img_friends_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.renzheng_small)
         }else if(TextUtils.equals("1",data.screen)){
             img_friends_auther.visibility=View.VISIBLE
-            img_friends_auther.setImageResource(R.mipmap.video_small)
+            img_friends_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.video_small)
         }else{
             img_friends_auther.visibility=View.GONE
         }
 
         headView.setOnClickListener {
             isBaseActivity {
-                it.startActivity<UserInfoActivity>("id" to data.iUserid.toString())
+                it.startActivity<UserInfoActivity>("id" to data.accountId.toString())
             }
         }
 

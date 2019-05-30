@@ -16,6 +16,7 @@ import com.d6.android.app.adapters.MemberLevelAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.OpenMemberShipDialog
 import com.d6.android.app.dialogs.PayResultDialog
+import com.d6.android.app.dialogs.WeChatKFDialog
 import com.d6.android.app.easypay.EasyPay
 import com.d6.android.app.easypay.PayParams
 import com.d6.android.app.easypay.callback.OnPayInfoRequestListener
@@ -86,9 +87,14 @@ class AuthMenStateActivity : BaseActivity() {
         }
 
         tv_zxkf_men.setOnClickListener {
-            pushCustomerMessage(this, getLocalUserId(), 5, "", next = {
+            pushCustomerMessage(this, getLocalUserId(), 1, "", next = {
                 chatService(this)
             })
+        }
+
+        tv_wechat_kf.setOnClickListener {
+            var mWeChatKfDialog = WeChatKFDialog()
+            mWeChatKfDialog.show(supportFragmentManager,"wechatkf")
         }
 
         ll_openmemeber.setOnClickListener {
