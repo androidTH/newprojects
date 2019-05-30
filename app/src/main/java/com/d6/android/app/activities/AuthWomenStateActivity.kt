@@ -192,7 +192,7 @@ class AuthWomenStateActivity : BaseActivity() {
         super.onBackPressed()
         if(ISNOTBUYMEMBER==0){
             pushCustomerMessage(this,getLocalUserId(),7,""){
-                chatService(this)
+
             }
         }
     }

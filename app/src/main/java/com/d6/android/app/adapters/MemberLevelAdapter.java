@@ -118,6 +118,9 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
             tv_sirentitle.setVisibility(View.VISIBLE);
             sirenline.setVisibility(view_line.VISIBLE);
 
+            view_line.setVisibility(View.GONE);
+            tv_remark.setVisibility(View.GONE);
+
             if(!TextUtils.isEmpty(item.getSDesc())){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     tv_sirentitle.setText(Html.fromHtml(item.getSRemarkTop(),Html.FROM_HTML_MODE_COMPACT));

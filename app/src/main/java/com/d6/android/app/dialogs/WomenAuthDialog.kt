@@ -86,7 +86,6 @@ class WomenAuthDialog : DialogFragment() {
         //第一步认证
         tv_base_info.setOnClickListener {
             dialogListener?.onClick(1,"baseinfo")
-            dismissAllowingStateLoss()
         }
 
         //第三步认证

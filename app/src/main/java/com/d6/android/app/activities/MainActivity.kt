@@ -66,7 +66,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
-                    Log.i("messagesssssss","收到——rong")
                     getUnReadCount()
                 }
             }

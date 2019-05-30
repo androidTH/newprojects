@@ -66,7 +66,7 @@ class AuthMenStateActivity : BaseActivity() {
     private var mMemberPriceList = ArrayList<MemberBean>()
 
     private lateinit var mOpenMemberShipDialog:OpenMemberShipDialog
-    private var areaName=""
+    private var areaName = ""
 
     private var ISNOTBUYMEMBER = 0 //0 没有购买
 
@@ -128,6 +128,7 @@ class AuthMenStateActivity : BaseActivity() {
                     }
                 }
             }
+            areaName = ""
         }
 
         if(TextUtils.equals("mine",from)){
@@ -335,7 +336,6 @@ class AuthMenStateActivity : BaseActivity() {
         super.onBackPressed()
         if(ISNOTBUYMEMBER==0){
             pushCustomerMessage(this,getLocalUserId(),7,""){
-                chatService(this)
             }
         }
     }

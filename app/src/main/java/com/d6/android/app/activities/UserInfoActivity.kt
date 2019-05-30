@@ -66,6 +66,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
     private val mImages = ArrayList<AddImage>()
 
+    private val mPicsWall = ArrayList<AddImage>()
+
     private val myImageAdapter by lazy {
         MyImageAdapter(mImages)
     }
@@ -201,6 +203,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             shareDialog.show(supportFragmentManager, "user")
         }
 
+        tv_msg.setOnClickListener {
+            mData?.let {
+                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mPicsWall)
+            }
+        }
+
         headerView.headView.setOnClickListener {
             mData?.let {
                 it.picUrl?.let {
@@ -225,9 +233,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         if (TextUtils.equals(userId, id)) {
             rl_doaction.visibility = View.GONE
             tv_more.visibility =View.GONE
+            tv_msg.visibility = View.VISIBLE
         } else {
             rl_doaction.visibility = View.VISIBLE
             tv_more.visibility =View.VISIBLE
+            tv_msg.visibility = View.GONE
         }
         getUserInfo()
         addVistor()
@@ -239,12 +249,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         rl_title.backgroundDrawable = colorDrawable
         tv_title_nick.alpha = alpha / 255f
         if (alpha > 128) {
-            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_chat_orange, 0)
+            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_orange, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_orange, 0)
+            tv_back.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.navigation_back_white, 0)
             immersionBar.statusBarDarkFont(true).init()
         } else {
-            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_chat_white1, 0)
+            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_white, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_white, 0)
+            tv_back.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.navigation_back_white, 0)
             immersionBar.statusBarDarkFont(false).init()
         }
     }
@@ -505,6 +517,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
+                    setPicsWall(it)
                 }else{
                     headerView.rv_my_images.visibility = View.GONE
                 }
@@ -562,6 +575,24 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             headerView.rv_my_images.visibility = View.GONE
         }
         myImageAdapter.notifyDataSetChanged()
+    }
+
+    /**
+     * 照片墙
+     */
+    private fun setPicsWall(userData: UserData) {
+        mPicsWall.clear()
+        if (!TextUtils.equals("null", userData.userpics)) {
+            if (!userData.userpics.isNullOrEmpty()) {
+                userData.userpics?.let {
+                    val images = it.split(",")
+                    images.forEach {
+                        mPicsWall.add(AddImage(it))
+                    }
+                }
+            }
+        }
+        mPicsWall.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
     }
 
     private fun getTrendData() {

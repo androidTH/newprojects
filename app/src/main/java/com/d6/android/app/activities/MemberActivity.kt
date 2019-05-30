@@ -27,6 +27,10 @@ class MemberActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_member)
@@ -120,7 +124,11 @@ class MemberActivity : BaseActivity() {
                  }
                  data.dUserClassEndTime?.let {
                      if(it>0){
-                         tv_vipendtime.text = "到期时间：${data.dUserClassEndTime.toTime(timeFormat)}"
+                         if(TextUtils.equals("0",sex)){
+                             tv_vipendtime.visibility = View.GONE
+                         }else{
+                             tv_vipendtime.text = "到期时间：${data.dUserClassEndTime.toTime(timeFormat)}"
+                         }
                      }else{
                          tv_vipendtime.text = ""
                      }

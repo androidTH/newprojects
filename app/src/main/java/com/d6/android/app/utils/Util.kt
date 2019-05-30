@@ -921,9 +921,9 @@ fun chatService(activity: BaseActivity){
     var sex = SPUtils.instance().getString(Const.User.USER_SEX)
     if(TextUtils.equals("0",sex)){
         //女客服号
-        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceWomenId, "D6男生客服")
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceWomenId, "")//客服小六
     }else{
-        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceId, "D6女生客服")
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceId, "")//客服六妹
     }
 }
 
@@ -960,6 +960,15 @@ fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
     }
     return mDrawable
 }
+
+private var mVersion = ""
+fun getAppVersion():String{
+    if(TextUtils.isEmpty(mVersion)){
+        mVersion = AppUpdateUtils.getVersionName(AppUtils.context)
+    }
+    return mVersion
+}
+
 
 private var sLoginToken = ""
 
