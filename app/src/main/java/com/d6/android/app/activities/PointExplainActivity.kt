@@ -9,6 +9,7 @@ import android.webkit.WebViewClient
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
+import com.d6.android.app.net.API.BASE_URL
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.activity_contact_us.*
@@ -55,7 +56,8 @@ class PointExplainActivity : BaseActivity() {
             }
         })
 
-        webView.loadUrl("http://www.d6-zone.com/JyPhone/static/integralexplain.html")
+//        webView.loadUrl("http://www.d6-zone.com/JyPhone/static/integralexplain.html")
+        webView.loadUrl(BASE_URL+"/static/integralexplain/index.html")
     }
 
     private fun getData() {

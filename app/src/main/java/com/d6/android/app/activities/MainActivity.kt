@@ -502,23 +502,24 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     override fun onCountChanged(p0: Int) {
-        val view1 = tabhost.tabWidget.getChildTabViewAt(3)
-        val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
-        if (fragment != null && fragment is MessageFragment) {
-            fragment.getChatMsg()
-        }
-        unReadMsgNum = p0
-        if(p0>0){
-            if (view1 != null) {
-                val view = view1.find<View>(R.id.tv_msg_count)
-                view?.visible()
-            }
-        }else{
-            if (view1 != null) {
-                val view = view1.find<View>(R.id.tv_msg_count)
-                view?.gone()
-            }
-        }
+//        val view1 = tabhost.tabWidget.getChildTabViewAt(3)
+//        val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+//        if (fragment != null && fragment is MessageFragment) {
+//            fragment.getChatMsg()
+//        }
+//        unReadMsgNum = p0
+//        if(p0>0){
+//            if (view1 != null) {
+//                val view = view1.find<View>(R.id.tv_msg_count)
+//                view?.visible()
+//            }
+//        }else{
+//            if (view1 != null) {
+//                val view = view1.find<View>(R.id.tv_msg_count)
+//                view?.gone()
+//            }
+//        }
+        Log.i("messagesssssss","onCountChanged")
     }
 
     private var mExitTime: Long = 0
