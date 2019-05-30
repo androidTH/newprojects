@@ -87,6 +87,12 @@ class MineFragment : BaseFragment() {
             startActivity<FollowActivity>()
         })
 
+        ll_square.setOnClickListener {
+            mData?.let {
+                startActivity<UserInfoActivity>("id" to it.accountId.toString())
+            }
+        }
+
         myImageAdapter.setOnItemClickListener { _, position ->
             mData?.let {
                 startActivity<UserInfoActivity>("id" to it.accountId.toString())
@@ -363,10 +369,12 @@ class MineFragment : BaseFragment() {
                 if(it.iSquareCount!!>0){
                     tv_squarewarm.text = "${it.iSquareCount}条动态"
                 }else{
+                    view_mine_square.visibility = View.GONE
+                    ll_square.visibility = View.GONE
                     tv_squarewarm.text = getString(R.string.string_nosquare)
                 }
 
-                setPicsWall(it)
+//                setPicsWall(it)
             }
         }) { _, _ ->
 //            mSwipeRefreshLayout.isRefreshing = false

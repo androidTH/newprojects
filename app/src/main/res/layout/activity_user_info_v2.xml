@@ -35,15 +35,15 @@
             android:id="@+id/tv_msg"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/title_bar_size"
-            android:layout_marginRight="4dp"
-            android:layout_toLeftOf="@+id/tv_more"
-            android:drawableRight="@mipmap/ic_my_msg"
+            android:layout_marginRight="@dimen/margin_8"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@mipmap/ic_setting_white"
             android:gravity="center"
             android:paddingLeft="6dp"
             android:paddingTop="8dp"
             android:paddingRight="6dp"
             android:paddingBottom="8dp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_more"
@@ -55,7 +55,7 @@
             android:paddingLeft="6dp"
             android:paddingTop="8dp"
             android:paddingRight="6dp"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="8dp"/>
     </RelativeLayout>
 
     <RelativeLayout

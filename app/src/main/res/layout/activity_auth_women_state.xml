@@ -131,6 +131,6 @@
         android:id="@+id/tv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@mipmap/navigation_whiteback_color"
+        android:drawableLeft="@mipmap/navigation_back_bgcolor"
         android:padding="12dp" />
 </RelativeLayout>

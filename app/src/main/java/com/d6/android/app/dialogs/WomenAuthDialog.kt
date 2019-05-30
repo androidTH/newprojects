@@ -94,7 +94,6 @@ class WomenAuthDialog : DialogFragment() {
                 var localUserId = getLocalUserId()
                 it.pushCustomerMessage(it, localUserId, 2, localUserId, next = {
                     chatService(it)
-                    dismissAllowingStateLoss()
                 })
             }
         }

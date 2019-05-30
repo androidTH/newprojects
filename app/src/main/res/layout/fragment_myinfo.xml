@@ -359,11 +359,13 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/view_mine_square"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_8"
             android:background="@color/color_F6F7FA" />
 
         <LinearLayout
+            android:id="@+id/ll_square"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -400,7 +402,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_square_imgs"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:layout_marginLeft="@dimen/margin_10" />
         </LinearLayout>

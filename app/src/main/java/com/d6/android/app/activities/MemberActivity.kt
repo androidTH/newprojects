@@ -58,6 +58,11 @@ class MemberActivity : BaseActivity() {
              mWeChatKfDialog.show(supportFragmentManager,"wechatkf")
         }
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
         getUserInfo()
     }
 

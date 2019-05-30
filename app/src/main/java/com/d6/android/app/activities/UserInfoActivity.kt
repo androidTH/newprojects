@@ -1,5 +1,7 @@
 package com.d6.android.app.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -61,6 +63,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         layoutInflater.inflate(R.layout.header_user_info_layout, mSwipeRefreshLayout.mRecyclerView, false)
     }
     private val mSquares = ArrayList<Square>()
+
+    private var deletePic:Boolean = false
     private val squareAdapter by lazy {
         MySquareAdapter(mSquares, 0)
     }
@@ -126,10 +130,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         })
         myImageAdapter.setOnItemClickListener { _, position ->
-            val data = mImages[position]
-            if (data.type != 1) {
-                val urls = mImages.filter { it.type != 1 }.map { it.imgUrl }
-                startActivityForResult<ImagePagerActivity>(22, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position)
+            val addImg = mPicsWall[position]
+            if (addImg.type != 1) {
+                mData?.let {
+                    val urls = mPicsWall.filter { it.type != 1 }.map { it.imgUrl }
+                    startActivityForResult<ImagePagerActivity>(22,  "data" to it,ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position,"delete" to deletePic)
+                }
             }
         }
         headerView.rv_tags.setHasFixedSize(true)
@@ -234,10 +240,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             rl_doaction.visibility = View.GONE
             tv_more.visibility =View.GONE
             tv_msg.visibility = View.VISIBLE
+            deletePic = true
         } else {
             rl_doaction.visibility = View.VISIBLE
             tv_more.visibility =View.VISIBLE
             tv_msg.visibility = View.GONE
+            deletePic = false
         }
         getUserInfo()
         addVistor()
@@ -517,7 +525,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
-                    setPicsWall(it)
+                    if(deletePic){
+                        setPicsWall(it)
+                    }
                 }else{
                     headerView.rv_my_images.visibility = View.GONE
                 }
@@ -592,7 +602,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
             }
         }
-        mPicsWall.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
+        if(deletePic){
+            mPicsWall.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
+        }
     }
 
     private fun getTrendData() {
@@ -609,8 +621,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mSwipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {
-                mSquares.addAll(data.list.results)
-                squareAdapter.notifyDataSetChanged()
+                data.list?.let {
+                    mSquares.addAll(data.list.results)
+                    squareAdapter.notifyDataSetChanged()
+                }
             }
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
@@ -707,51 +721,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private fun showDatePayPointDialog(name: String) {
         isAuthUser{
             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-//            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
-//                jsonObjetct?.let {
-//                    var code = it.optInt("code")
-//                    if (code != 7) {
-//                    }else if(code == 7){
-//                        startActivity<MenMemberActivity>()
-//                    }
-//                }
-//            })
         }
-//        Request.doTalkJustify(userId, id).request(this,false,success = {msg,data->
-//            if(data!=null){
-//                var code = data!!.optInt("code")
-//                if(code == 1){
-//                    var point = data!!.optString("iTalkPoint")
-//                    var remainPoint = data!!.optString("iRemainPoint")
-//                    if(point.toInt() > remainPoint.toInt()){
-//                        val dateDialog = OpenDatePointNoEnoughDialog()
-//                        var point = data!!.optString("iTalkPoint")
-//                        var remainPoint = data!!.optString("iRemainPoint")
-//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-//                        dateDialog.show(supportFragmentManager, "d")
-//                    }else{
-//                        val dateDialog = OpenDatePayPointDialog()
-//                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to id)
-//                        dateDialog.show(supportFragmentManager, "d")
-//                    }
-//                } else if(code == 0){
-//                    showToast(msg.toString())
-////                    RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-//                } else {
-//                    val dateDialog = OpenDatePointNoEnoughDialog()
-//                    var point = data!!.optString("iTalkPoint")
-//                    var remainPoint = data!!.optString("iRemainPoint")
-//                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-//                    dateDialog.show(supportFragmentManager, "d")
-//                }
-//            }else{
-//                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
-//            }
-//        }) { code, msg ->
-//             if(code == 0){
-//                 showToast(msg)
-//             }
-//        }
     }
 
     private fun signUpDate(myAppointment: MyAppointment) {
@@ -787,9 +757,20 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK){
+            if(requestCode == 22||requestCode==0){
+                onRefresh()
+            }
+        }
+    }
+
     override fun onRefresh() {
         pageNum = 1
         getUserInfo()
+        getUserFollowAndFansandVistor()
     }
 
     override fun showToast(msg: String) {

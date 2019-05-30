@@ -71,9 +71,11 @@ class AuthWomenStateActivity : BaseActivity() {
         }
 
         if(TextUtils.equals("mine",from)){
+            tv_vipinfo.text = "免费认证开通会员"
             tv_d6vipinfo.text = "听说开通会员后，80%都约到了心仪的TA"
         }else{
-            tv_d6vipinfo.text = "D6是一个高端私密交友社区，部分服务仅对会员开放"
+            tv_vipinfo.text ="成为会员后可使用此功能"
+             tv_d6vipinfo.text = "D6是一个高端私密交友社区，部分服务仅对会员开放"
         }
 
         mComments.add(MemberComment(getString(R.string.string_women_firstcomment),
