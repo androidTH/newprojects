@@ -36,7 +36,12 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
 //        tv_time.text = data.dJointime.toTime("MM.dd")
         headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        tv_userinfo.text = data.gexingqianming
+        if(!data.gexingqianming.isNullOrEmpty()){
+            tv_userinfo.visibility = View.VISIBLE
+            tv_userinfo.text = data.gexingqianming
+        }else{
+            tv_userinfo.visibility = View.GONE
+        }
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling

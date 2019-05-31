@@ -167,6 +167,7 @@ class PublishFindDateActivity : BaseActivity() {
             if (!isFastClick()) {
                 if (publish()) {
                     Request.getAppointmentAuth(userId).request(this, true, success = { msg, data ->
+                        dialog()
                         CreateDate(et_content.text.toString().trim())
                     }) { code, msg ->
                         if (code == 0) {
@@ -287,7 +288,6 @@ class PublishFindDateActivity : BaseActivity() {
             showToast("发布约会截止日期不能早于开始日期")
             return false
         }
-        dialog()
         return true
     }
 
@@ -348,7 +348,6 @@ class PublishFindDateActivity : BaseActivity() {
             }
         }
     }
-
 
     private fun CreateDate(content: String) {
         if (mImages.size > 1) {//有图片

@@ -41,6 +41,9 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private var userJson = SPUtils.instance().getString(Const.USERINFO)
+    private var mUserInfo = GsonHelper.getGson().fromJson(userJson,UserData::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.FadeDialog)
@@ -71,9 +74,6 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         var cashmoney = arguments.getString("cashmoney")
 
         tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
-
-        var userJson = SPUtils.instance().getString(Const.USERINFO)
-        var mUserInfo = GsonHelper.getGson().fromJson(userJson,UserData::class.java)
 
         tv_close.setOnClickListener {
             KeyboardktUtils().hideKeyboard(it)
@@ -205,7 +205,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                     tv_bindwx.text = "更换微信"
                     tv_wx_username.text="微信：${it.wxname}"
                 }
-
+                mUserInfo = it
                 SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
             }
         })

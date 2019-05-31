@@ -103,7 +103,7 @@ class AuthMenStateActivity : BaseActivity() {
             mOpenMemberShipDialog.show(supportFragmentManager,OpenMemberShipDialog::class.java.toString())
             mOpenMemberShipDialog.setDialogListener { p, s ->
                 if(p==2001){
-                    startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
+                    startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE)
                 }else{
                     var memberBean = mMemberPriceList.get(p)
                     var classId = memberBean.ids.toString()
@@ -328,8 +328,11 @@ class AuthMenStateActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK){
             if(requestCode == AREA_REQUEST_CODE){
-                areaName = data!!.getStringExtra("area")
-                mOpenMemberShipDialog.setAddressd(areaName)
+                var city = data!!.getStringExtra("area")
+                if(!TextUtils.equals(city,"不限地区")){
+                    areaName = city
+                    mOpenMemberShipDialog.setAddressd(areaName)
+                }
             }
         }
     }

@@ -348,6 +348,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                         if (p0.toInt() > 0) {
                             Log.i("messagesssssss","${unReadMsgNum}收到——UnReadCount")
                             unReadMsgNum = p0.toInt()
+                            Log.i("messagesssssss","${p0.toInt()}收到——UnReadCount")
                             view?.visible()
                         } else {
                             view?.gone()
@@ -406,8 +407,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun getSysLastOne() {
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSystemMessages(userId, 1, pageSize = 1).request(this, false, success = { _, data ->
+        Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
@@ -431,8 +431,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun getSquareMsg() {
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getNewSquareMessages(userId, 1, pageSize = 1).request(this, false, success = { _, data ->
+        Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据

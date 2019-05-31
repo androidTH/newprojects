@@ -38,10 +38,6 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         this(R.layout.item_card_pt,data);
     }
 
-    public MemberLevelAdapter(int layoutResId) {
-        super(layoutResId);
-    }
-
     @Override
     protected void convert(BaseViewHolder helper, MemberBean item) {
         RelativeLayout rl_vip_top = helper.getView(R.id.rl_vip_top);
@@ -54,8 +50,6 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
 //        TextView tv_desc = helper.getView(R.id.tv_desc);
         RecyclerView mRvAuthTips = helper.getView(R.id.rv_auth_tips);
         View view_line = helper.getView(R.id.view_line);
-        View sirenline = helper.getView(R.id.view_sirenline);
-        TextView tv_sirentitle = helper.getView(R.id.tv_sirentitle);
 
         tv_vip_percent.setVisibility(View.VISIBLE);
 
@@ -88,46 +82,23 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         if(item.getIds()==22){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_pt));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_848484));
-            tv_sirentitle.setVisibility(View.GONE);
-            sirenline.setVisibility(view_line.GONE);
         }else if(item.getIds()==30){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_group));
             helper.setText(R.id.tv_vip_level,"入群会员");
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_888888));
-            tv_sirentitle.setVisibility(View.GONE);
-            sirenline.setVisibility(view_line.GONE);
+
         }else if(item.getIds()==23){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_sliver));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_A19BB0));
-            tv_sirentitle.setVisibility(View.GONE);
-            sirenline.setVisibility(view_line.GONE);
         }else if(item.getIds()==24){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_gold));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_C69F60));
-            tv_sirentitle.setVisibility(View.GONE);
-            sirenline.setVisibility(view_line.GONE);
         }else if(item.getIds()==25){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_diamond));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_8170D2));
-            tv_sirentitle.setVisibility(View.GONE);
-            sirenline.setVisibility(view_line.GONE);
         }else if(item.getIds()==26){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_private));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_s323432));
-
-            tv_sirentitle.setVisibility(View.VISIBLE);
-            sirenline.setVisibility(view_line.VISIBLE);
-
-            view_line.setVisibility(View.GONE);
-            tv_remark.setVisibility(View.GONE);
-
-            if(!TextUtils.isEmpty(item.getSDesc())){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    tv_sirentitle.setText(Html.fromHtml(item.getSRemarkTop(),Html.FROM_HTML_MODE_COMPACT));
-                }else{
-                    tv_sirentitle.setText(Html.fromHtml(item.getSRemarkTop()));
-                }
-            }
 
             Log.i("ffff",item.getClassesname()+"---"+ item.getSRemarkTop());
         }

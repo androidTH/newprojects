@@ -296,6 +296,7 @@ class MineFragment : BaseFragment() {
 
                 var drawable: Drawable? = null
                 //27入门 28中级  29优质
+                tv_menber_center.text = ""
                 if (TextUtils.equals(it.userclassesid, "27")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
                     drawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
@@ -367,6 +368,8 @@ class MineFragment : BaseFragment() {
                 }
 
                 if(it.iSquareCount!!>0){
+                    view_mine_square.visibility = View.VISIBLE
+                    ll_square.visibility = View.VISIBLE
                     tv_squarewarm.text = "${it.iSquareCount}条动态"
                 }else{
                     view_mine_square.visibility = View.GONE

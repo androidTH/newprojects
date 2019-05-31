@@ -107,24 +107,4 @@ class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
             fans.iIsFollow = 0
         }
     }
-
-//    private fun addFollow(fans:Fans,tv_focus:TextView){
-//        Request.getAddFollow(fans.iFollowUserid.toString(), fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
-//            tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
-//            tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-//            tv_focus.setText("已喜欢")
-//            fans.iIsFollow = 1
-//        }
-//    }
-//
-//    private fun delFollow(fans:Fans,tv_focus:TextView){
-//        Request.getDelFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
-//            tv_focus.setBackgroundResource(R.drawable.shape_10r_nofans)
-//            tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
-//            tv_focus.text ="喜欢"
-//            fans.iIsFollow = 0
-////            mData.remove(fans)
-////            notifyDataSetChanged()
-//        }
-//    }
 }

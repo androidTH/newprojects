@@ -15,6 +15,7 @@ import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.textColor
 
 /**
  *粉丝
@@ -60,25 +61,26 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
             tv_vip.visibility = View.VISIBLE
             tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
         }
+
         var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
-        if(data.iIsFollow == 0){
+
+        if(TextUtils.equals("0",data.isFollow)){
             mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
-            mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
+            mTvFollow.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
             mTvFollow.setText("喜欢")
         }else{
             mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
-            mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
+            mTvFollow.textColor = ContextCompat.getColor(context,R.color.color_DFE1E5)
             mTvFollow.setText("已喜欢")
         }
 
         mTvFollow.setOnClickListener(this)
         mTvFollow.setTag(data)
-        sysErr(data.toString()+"--------url----->"+data.sPicUrl.isNullOrEmpty())
     }
 
     override fun onClick(v: View?) {
         var fans= (v as TextView).tag as Fans
-        if(fans.iIsFollow == 0){
+        if(TextUtils.equals("0",fans.isFollow)){
             addFollow(fans,v)
         }else {
             delFollow(fans,v)
@@ -87,20 +89,20 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
     }
 
     private fun addFollow(fans:Fans,tv_focus:TextView){
-        Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity),true){ s: String?, jsonObject: JsonObject? ->
+        Request.getAddFollow(userId, fans.iVistorid.toString()).request((context as BaseActivity),true){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
             tv_focus.setText("已喜欢")
-            fans.iIsFollow = 1
+            fans.isFollow ="1"
         }
     }
 
     private fun delFollow(fans:Fans,tv_focus:TextView){
-        Request.getDelFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
+        Request.getDelFollow(userId, fans.iVistorid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_nofans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
             tv_focus.text ="喜欢"
-            fans.iIsFollow = 0
+            fans.isFollow ="0"
         }
     }
 }

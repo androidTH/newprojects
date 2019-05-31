@@ -54,7 +54,7 @@ class MyDateDetailActivity : BaseActivity() {
         titlebar_datedetails.titleView.setText("我的约会")
         titlebar_datedetails.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
             val shareDialog = ShareFriendsDialog()
-            shareDialog.arguments = bundleOf("from" to "myDateDetail","id" to iAppointUserid,"sResourceId" to myAppointment!!.sId.toString())
+            shareDialog.arguments = bundleOf("from" to "myDateDetail","id" to iAppointUserid,"sResourceId" to myAppointment!!.sId.toString(),"sAppointmentSignupId" to myAppointment.sAppointmentSignupId)
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
@@ -87,7 +87,7 @@ class MyDateDetailActivity : BaseActivity() {
                 }
             }
         }else{
-            //来自于约会详情页面
+            //来自于约会列表
             myAppointment = (intent.getSerializableExtra("data") as MyAppointment)
             index = intent.getIntExtra("index",0)
             if(myAppointment !=null){

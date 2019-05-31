@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +37,7 @@ class ShareFriendsDialog : DialogFragment() {
     private var mList = ArrayList<FriendBean>()
 
     private val mUserId by lazy{
-        SPUtils.instance().getString(Const.User.USER_ID)
+        getLocalUserId()
     }
 
     private val sex by lazy{
@@ -85,8 +86,14 @@ class ShareFriendsDialog : DialogFragment() {
                 iType = 2
             }else if(TextUtils.equals(fromType,"myDateDetail")){
                 sResourceId = arguments.getString("sResourceId")
+                var sAppointmentSignupId = arguments.getString("sAppointmentSignupId","")
                 iType = 1
-                tv_deldate.visibility = View.VISIBLE
+                if(TextUtils.isEmpty(sAppointmentSignupId)){
+                    tv_deldate.visibility = View.VISIBLE
+                }else{
+                    ll_action.visibility = View.GONE
+                }
+                Log.i("shareFriends","sid=${sAppointmentSignupId}")
             }else{
                 tv_deldate.visibility = View.VISIBLE
             }

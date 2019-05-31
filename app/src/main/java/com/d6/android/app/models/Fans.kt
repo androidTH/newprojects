@@ -22,6 +22,7 @@ data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
     @SerializedName("ziwojieshao")var gexingqianming:String?=""
     @SerializedName("iIsFollow")var iIsFollow:Int?=0
     @SerializedName("userclassesname") var userclassesname:String?=""
+    @SerializedName("isFollow") var isFollow:String?=""
 //    screen
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
@@ -36,6 +37,7 @@ data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
         gexingqianming = parcel.readString()
         iIsFollow = parcel.readValue(Int::class.java.classLoader) as? Int
         userclassesname = parcel.readString()
+        isFollow = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -51,6 +53,7 @@ data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
         parcel.writeString(gexingqianming)
         parcel.writeValue(iIsFollow)
         parcel.writeString(userclassesname)
+        parcel.writeString(isFollow)
     }
 
     override fun describeContents(): Int {

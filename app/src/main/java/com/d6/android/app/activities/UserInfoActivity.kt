@@ -246,9 +246,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_more.visibility =View.VISIBLE
             tv_msg.visibility = View.GONE
             deletePic = false
+            addVistor()
         }
         getUserInfo()
-        addVistor()
         getUserFollowAndFansandVistor()
     }
 
@@ -257,12 +257,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         rl_title.backgroundDrawable = colorDrawable
         tv_title_nick.alpha = alpha / 255f
         if (alpha > 128) {
-            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_orange, 0)
+            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.mycenter_edit_orange, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_orange, 0)
             tv_back.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.navigation_back_white, 0)
             immersionBar.statusBarDarkFont(true).init()
         } else {
-            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_white, 0)
+            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.mycenter_edit, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_white, 0)
             tv_back.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.navigation_back_white, 0)
             immersionBar.statusBarDarkFont(false).init()
