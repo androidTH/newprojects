@@ -120,7 +120,9 @@ class SettingActivity : TitleActivity() {
             startActivity<BlackListActivity>()
         }
 
-        tv_versionname.text = getD6VersionName(this)
+        tv_versionname.text = getAppVersion()
+
+//        DataCleanManager.getTotalCacheSize(this)
 
         getUserInfo()
     }

@@ -30,8 +30,6 @@ class RecommendDateActivity : TitleActivity() {
 
     var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
-    private var mFragments = ArrayList<Fragment>()
-
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
     }

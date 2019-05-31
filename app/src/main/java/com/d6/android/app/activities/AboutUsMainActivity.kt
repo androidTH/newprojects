@@ -43,8 +43,6 @@ class AboutUsMainActivity : TitleActivity() {
 //               checkVersion()
         }
 
-        tv_versionname.text = getD6VersionName(this)
-
     }
 
     private fun checkVersion() {

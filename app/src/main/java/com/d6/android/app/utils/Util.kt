@@ -555,24 +555,6 @@ fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
 }
 
 /**
- * 获得版本名称
- *
- * @return
- */
-fun getD6VersionName(context: Context): String {
-    var versionName = "1.6.1"
-    try {
-        val info = context.packageManager.getPackageInfo(
-                context.packageName, 0)
-        versionName = info.versionName
-
-    } catch (e: PackageManager.NameNotFoundException) {
-        e.printStackTrace()
-    }
-    return versionName
-}
-
-/**
  * 日期匹配星座
  */
  fun getConstellations(time:String):String{
@@ -961,6 +943,12 @@ fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
     return mDrawable
 }
 
+
+/**
+ * 获得版本名称
+ *
+ * @return
+ */
 private var mVersion = ""
 fun getAppVersion():String{
     if(TextUtils.isEmpty(mVersion)){
