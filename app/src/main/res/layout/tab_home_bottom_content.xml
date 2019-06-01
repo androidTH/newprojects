@@ -28,4 +28,20 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         android:visibility="invisible" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_msg_count"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginTop="@dimen/margin_3"-->
+        <!--android:background="@drawable/shape_4r_red"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="@dimen/margin_3"-->
+        <!--android:text="30"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:textSize="12sp"-->
+        <!--android:visibility="visible"/>-->
 </FrameLayout>

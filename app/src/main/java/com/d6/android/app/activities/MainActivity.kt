@@ -344,11 +344,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                     }
                     val view1 = tabhost.tabWidget.getChildTabViewAt(3)
                     if (view1 != null) {
-                        val view = view1.find<View>(R.id.tv_msg_count)
+                        val view = view1.find<View>(R.id.tv_msg_count)  as TextView
                         if (p0.toInt() > 0) {
-                            Log.i("messagesssssss","${unReadMsgNum}收到——UnReadCount")
-                            unReadMsgNum = p0.toInt()
-                            Log.i("messagesssssss","${p0.toInt()}收到——UnReadCount")
+                            unReadMsgNum = unReadMsgNum + p0.toInt()
+//                            view.text = "${unReadMsgNum}"
                             view?.visible()
                         } else {
                             view?.gone()
@@ -412,7 +411,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
     private fun getSysLastOne() {
         Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
+            val view = (tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView)
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
                 Log.i("messagesssssss","系统收到——rong")
@@ -424,6 +423,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                 }
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
+//                    unReadMsgNum  =unReadMsgNum + data?.list?.results.size
+//                    view.text = "${unReadMsgNum}"
                 } else {
                     getSquareMsg()
                 }
@@ -436,11 +437,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
     private fun getSquareMsg() {
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
+            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 //无数据
-                Log.i("messagesssssss","${unReadMsgNum}显示")
                 if(unReadMsgNum > 0){
+//                    view.text = "${unReadMsgNum}"
                     unReadMsgNum = 0
                     view?.visible()
                 }else{
@@ -453,6 +454,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                     fragment.setSquareMsg(data)
                 }
                 if ((data.count ?: 0) > 0) {
+//                    unReadMsgNum = unReadMsgNum + data?.list?.results.size
+//                    view.text = "${unReadMsgNum}"
                     view?.visible()
                 }else{
                     view?.gone()
