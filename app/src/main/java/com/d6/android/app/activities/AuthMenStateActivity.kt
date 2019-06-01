@@ -141,6 +141,7 @@ class AuthMenStateActivity : BaseActivity() {
         rv_viptypes.setHasFixedSize(true)
         rv_viptypes.setOrientation(DSVOrientation.HORIZONTAL)
         rv_viptypes.setSlideOnFling(false)
+        rv_viptypes.isNestedScrollingEnabled = false
         rv_viptypes.adapter = mMemberLevelAdapter
         rv_viptypes.setItemTransitionTimeMillis(150)
         rv_viptypes.setItemTransformer(ScaleTransformer.Builder()

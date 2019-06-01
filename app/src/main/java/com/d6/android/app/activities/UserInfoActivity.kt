@@ -33,6 +33,7 @@ import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
+import io.reactivex.Flowable
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
@@ -43,6 +44,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
+import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
  *
@@ -130,12 +132,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         })
         myImageAdapter.setOnItemClickListener { _, position ->
-            val addImg = mPicsWall[position]
+            val addImg = mImages[position]
             if (addImg.type != 1) {
                 mData?.let {
-                    val urls = mPicsWall.filter { it.type != 1 }.map { it.imgUrl }
+                    val urls = mImages.filter { it.type != 1 }.map { it.imgUrl }
                     startActivityForResult<ImagePagerActivity>(22,  "data" to it,ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position,"delete" to deletePic)
                 }
+            }else{
+                if (mImages.size >= 9) {
+                    toast("最多上传8张图片")
+                    return@setOnItemClickListener
+                }
+                startActivityForResult<SelectPhotoDialog>(8)
             }
         }
         headerView.rv_tags.setHasFixedSize(true)
@@ -211,7 +219,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         tv_msg.setOnClickListener {
             mData?.let {
-                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mPicsWall)
+                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
             }
         }
 
@@ -525,9 +533,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
-                    if(deletePic){
-                        setPicsWall(it)
-                    }
+//                    if(deletePic){
+//                        setPicsWall(it)
+//                    }
                 }else{
                     headerView.rv_my_images.visibility = View.GONE
                 }
@@ -583,6 +591,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }else{
             headerView.rv_my_images.visibility = View.GONE
+        }
+        if(deletePic){
+            mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
         }
         myImageAdapter.notifyDataSetChanged()
     }
@@ -763,7 +774,37 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         if(resultCode == RESULT_OK){
             if(requestCode == 22||requestCode==0){
                 onRefresh()
+            }else if (requestCode == 8 && data != null) {//选择图片
+                val path = data.getStringExtra(SelectPhotoDialog.PATH)
+//               updateImages(path)
+                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+                param.index = 0
+                param.type = Const.User.SELECTIMAGE
+                param.images.add(path)
+                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
+            }else if (requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE && data != null) {
+                var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
+                updateImages(param.images[param.index])
             }
+        }
+    }
+
+    private fun updateImages(path: String) {
+        val userData = mData ?: return
+        dialog()
+        Flowable.just(path).flatMap {
+            val file = BitmapUtils.compressImageFile(path)
+            Request.uploadFile(file)
+        }.flatMap {
+            if (userData.userpics.isNullOrEmpty()) {
+                userData.userpics = it
+            } else {
+                userData.userpics = userData.userpics + "," + it
+            }
+            mData = userData
+            Request.updateUserInfo(userData)
+        }.request(this) { _, _ ->
+            refreshImages(userData)
         }
     }
 

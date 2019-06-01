@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="312dp"
-    android:layout_height="550dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/margin_10"
     android:layout_marginRight="@dimen/margin_6"
     android:layout_marginLeft="@dimen/margin_6"
@@ -49,7 +49,7 @@
                 android:id="@+id/tv_vip_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/tv_vip_level"
+                android:layout_alignBaseline="@+id/tv_vip_level"
                 android:layout_marginLeft="@dimen/margin_6"
                 android:layout_toRightOf="@+id/tv_vip_level"
                 android:text="成功率/随缘"
@@ -102,6 +102,7 @@
             android:textStyle="bold" />
 
         <View
+            android:id="@+id/view_line_serviceare"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginLeft="@dimen/margin_15"
@@ -144,35 +145,37 @@
             android:layout_marginRight="@dimen/margin_15"
             android:background="@color/color_EFEFEF" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="318dp"
+            android:layout_height="wrap_content"
             android:paddingTop="@dimen/margin_10"
-            android:orientation="vertical">
+            android:paddingBottom="@dimen/margin_8">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_auth_tips"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+                android:layout_height="wrap_content" />
+            <View
+                android:id="@+id/view_line"
+                android:layout_above="@+id/tv_remark"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@color/color_EFEFEF" />
 
-        <View
-            android:id="@+id/view_line"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginRight="@dimen/margin_15"
-            android:background="@color/color_EFEFEF" />
-
-        <TextView
-            android:id="@+id/tv_remark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxHeight="80dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/margin_15"
-            android:paddingRight="@dimen/margin_15"
-            android:text="注：北京/上海/广东/江苏/浙江/海外+100"
-            android:textColor="@color/color_888888"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:maxHeight="90dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_10"
+                android:text="注：北京/上海/广东/江苏/浙江/海外+100注：北京/上海/广东/江苏/浙江/海外+100注：北京/上海/广东/江苏/浙江/海外+100"
+                android:textColor="@color/color_888888"
+                android:textSize="14sp" />
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

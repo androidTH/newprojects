@@ -53,6 +53,7 @@ class MineFragment : BaseFragment() {
     private val mImages = ArrayList<AddImage>()
     private val mBigSquareImages = ArrayList<AddImage>()
     private val mPicsWall = ArrayList<AddImage>()
+    private var isShowWarm:Boolean = false
 
     private val myImageAdapter by lazy {
         MyImageAdapter(mImages)
@@ -205,6 +206,9 @@ class MineFragment : BaseFragment() {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             immersionBar.init()
+            if(!isShowWarm){
+                getUserFollowAndFansandVistor()
+            }
         }
     }
 
@@ -376,8 +380,7 @@ class MineFragment : BaseFragment() {
                     ll_square.visibility = View.GONE
                     tv_squarewarm.text = getString(R.string.string_nosquare)
                 }
-
-//                setPicsWall(it)
+                setPicsWall(it)
             }
         }) { _, _ ->
 //            mSwipeRefreshLayout.isRefreshing = false
@@ -387,40 +390,38 @@ class MineFragment : BaseFragment() {
     //关注粉丝访客
     fun getUserFollowAndFansandVistor() {
         Request.getUserFollowAndFansandVistor(userId).request(this, success = { s: String?, data: FollowFansVistor? ->
-            //            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
+            // toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
                 tv_fans_count.text = data.iFansCountAll.toString()
                 tv_follow_count.text = data.iFollowCount.toString()
                 tv_vistor_count.text = data.iVistorCountAll.toString()
-                if (data.iFansCount!! > 0) {
-                    tv_fcount.text = "+${data.iFansCount.toString()}"
-                    tv_fcount.visibility = View.VISIBLE
-                } else {
-                    tv_fcount.visibility = View.GONE
-                }
-
-                if (it.iPointNew!!.toInt() > 0) {
-                    iv_reddot.visibility = View.VISIBLE
-                } else {
-                    iv_reddot.visibility = View.GONE
-                }
-
-//                if(data.iFollowCount!! > 0){
-//                    headerView.tv_fllcount.text = "+${data.iFollowCount.toString()}"
-//                    headerView.tv_fllcount.visibility = View.VISIBLE
-//                }else {
-//                    headerView.tv_fllcount.visibility = View.GONE
-//                }
-
-                if (data.iVistorCount!! > 0) {
-                    tv_vcount.text = "+${data.iVistorCount.toString()}"
-                    tv_vcount.visibility = View.VISIBLE
-                } else {
-                    tv_vcount.visibility = View.GONE
-                }
+                showLikeWarm(false,data.iFansCount!!.toInt(),it.iPointNew!!.toInt(),data.iVistorCount!!.toInt())
             }
         })
     }
+
+    fun showLikeWarm(showWarm:Boolean,fansCount:Int,iPoint:Int,vistorCount:Int){
+        if (fansCount > 0) {
+            tv_fcount.text = "+${fansCount.toString()}"
+            tv_fcount.visibility = View.VISIBLE
+        } else {
+            tv_fcount.visibility = View.GONE
+        }
+
+        if (iPoint> 0) {
+            iv_reddot.visibility = View.VISIBLE
+        } else {
+            iv_reddot.visibility = View.GONE
+        }
+        if (vistorCount > 0) {
+            tv_vcount.text = "+${vistorCount.toString()}"
+            tv_vcount.visibility = View.VISIBLE
+        } else {
+            tv_vcount.visibility = View.GONE
+        }
+        isShowWarm = showWarm
+    }
+
 
     /**
      * 动态图片

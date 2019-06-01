@@ -42,11 +42,11 @@ class ScreeningAreaActivity : BaseActivity() {
     }
 
     private val lastTime by lazy{
-        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
+        SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINMEMBER)
     }
 
     private val cityJson by lazy{
-        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATAOFFIND)
+        DiskFileUtils.getDiskLruCacheHelper(this).getAsString(Const.PROVINCE_DATAOFMEMBER)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -142,9 +142,9 @@ class ScreeningAreaActivity : BaseActivity() {
     }
 
     private fun getServiceProvinceData(){
-        Request.getProvinceAll().request(this) { _, data ->
+        Request.getProvinceAllOfMember("1").request(this) { _, data ->
             data?.let {
-                DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
+                DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATAOFMEMBER, GsonHelper.getGson().toJson(it))
                 mProvinces.clear()
                 setLocationCity()
                 it.add(0,province)
@@ -154,7 +154,7 @@ class ScreeningAreaActivity : BaseActivity() {
                 mCityOfProviceAdapter.setNewData(mCities)
                 tv_menu_toptitle.text = mProvinces.get(0).name
 
-                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINMEMBER,getTodayTime()).apply()
             }
         }
     }

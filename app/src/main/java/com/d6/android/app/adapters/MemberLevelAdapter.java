@@ -50,12 +50,18 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
 //        TextView tv_desc = helper.getView(R.id.tv_desc);
         RecyclerView mRvAuthTips = helper.getView(R.id.rv_auth_tips);
         View view_line = helper.getView(R.id.view_line);
+        View view_line_serviceare = helper.getView(R.id.view_line_serviceare);
 
-        tv_vip_percent.setVisibility(View.VISIBLE);
 
         tv_english.setText(item.getSEnClassesname());
         helper.setText(R.id.tv_vip_level,item.getClassesname());
-        tv_vip_percent.setText(item.getSTitle());
+        if(TextUtils.isEmpty(item.getSTitle())){
+            tv_vip_percent.setVisibility(View.GONE);
+        }else{
+            tv_vip_percent.setVisibility(View.VISIBLE);
+            tv_vip_percent.setText(item.getSTitle());
+        }
+
         helper.setText(R.id.tv_memeber_price,String.valueOf(item.getIAndroidPrice()));
 
         mRvAuthTips.setHasFixedSize(true);
@@ -67,7 +73,15 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         }else{
             mRvAuthTips.setVisibility(View.GONE);
         }
-        tv_memeber_address.setText(item.getSServiceArea());
+
+        if(TextUtils.isEmpty(item.getSServiceArea())){
+            view_line_serviceare.setVisibility(View.GONE);
+            tv_memeber_address.setVisibility(View.GONE);
+        }else{
+            view_line_serviceare.setVisibility(View.VISIBLE);
+            tv_memeber_address.setVisibility(View.VISIBLE);
+            tv_memeber_address.setText(item.getSServiceArea());
+        }
         AppUtils.Companion.setMemberNums(mContext,1,"直推次数: "+item.getIRecommendCount(),0,5,tv_ztnums);
         AppUtils.Companion.setMemberNums(mContext,1,"有效期: "+item.getSEnableDateDesc(),0,4,tv_endtime);
         if(!TextUtils.isEmpty(item.getSRemark())){
@@ -78,7 +92,9 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
             tv_remark.setVisibility(View.GONE);
             view_line.setVisibility(View.GONE);
         }
+        Log.i("MemberLevelAdapter",item.getSServiceArea()+"会员备注,会员id ="+item.getIds());
 //        int position = (helper.getLayoutPosition() - getHeaderLayoutCount());
+        tv_english.setTextColor(ContextCompat.getColor(mContext,R.color.color_4000000));
         if(item.getIds()==22){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_pt));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_848484));
@@ -86,7 +102,6 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_group));
             helper.setText(R.id.tv_vip_level,"入群会员");
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_888888));
-
         }else if(item.getIds()==23){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_sliver));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_A19BB0));
@@ -99,8 +114,7 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         }else if(item.getIds()==26){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_private));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_s323432));
-
-            Log.i("ffff",item.getClassesname()+"---"+ item.getSRemarkTop());
+            tv_english.setTextColor(ContextCompat.getColor(mContext,R.color.color_C69F61));
         }
               //R.color.color_848484   R.color.color_888888  R.color.color_A19BB0 R.color.color_C69F60
                                          //R.color.color_8170D2 R.color.color_323432

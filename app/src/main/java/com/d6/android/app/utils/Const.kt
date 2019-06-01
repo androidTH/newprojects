@@ -80,8 +80,10 @@ object Const {
     var LOCATIONFAIL = "location_fail"
     var PROVINCE_DATA = "province" //省份
     var PROVINCE_DATAOFFIND = "provinceOfFind" //省份
+    var PROVINCE_DATAOFMEMBER = "provinceOfMember" //会员
     var LASTLONGTIMEOFProvince = "LastLoginTimeOfProvince"//查询省份的时间设置
     var LASTTIMEOFPROVINCEINFIND = "LastTimeOfProvinceInFind"//发现中的查询省份时间
+    var LASTTIMEOFPROVINCEINMEMBER = "LastTimeOfProvinceInMember"//发现中的查询省份时间
     var IGNORE_VERSION ="ignore_version" //忽略版本
     var LASTDAYTIME = "LastDayTime"
     var NO_LIMIT_ERA = "不限/定位不限地区"

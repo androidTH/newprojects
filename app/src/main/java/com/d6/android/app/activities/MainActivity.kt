@@ -375,15 +375,19 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun getUserInfoUnMsg(){
-        Request.getUserFollowAndFansandVistor(userId).request(this,success = {s:String?,data: FollowFansVistor?->
+        Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this,success = { s:String?, data: FollowFansVistor?->
             data?.let {
                 val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_count)
-                if(data.iFansCount!! > 0||it.iPointNew!!.toInt()> 0||data.iVistorCount!! > 0){
-                        view.visibility = View.VISIBLE
-                    }else{
-                        view.visibility = View.GONE
+                if (data.iFansCount!! > 0 || it.iPointNew!!.toInt() > 0 || data.iVistorCount!! > 0) {
+                    view.visibility = View.VISIBLE
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
+                    if (fragment != null && fragment is MineFragment) {
+                        fragment.showLikeWarm(true,it.iFansCount!!.toInt(), it.iPointNew!!.toInt(), data.iVistorCount!!.toInt())
                     }
+                } else {
+                    view.visibility = View.GONE
                 }
+            }
         })
     }
 

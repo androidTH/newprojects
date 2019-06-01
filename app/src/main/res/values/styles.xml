@@ -291,7 +291,7 @@
 
     <style name="tv_userinfotags_iconleft">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_40FFFFFF</item>
+        <item name="android:textColor">@color/color_BFFFFFFF</item>
     </style>
 
     <style name="tv_userinfotags_iconright">

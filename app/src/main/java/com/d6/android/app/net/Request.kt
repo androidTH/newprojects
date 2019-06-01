@@ -446,4 +446,9 @@ object Request {
 
     //删除约会列表
     fun delAppointment(sLoginToken:String,sAppointmentId:String)=RRetrofit.instance().create(ApiServices::class.java).delAppointment(sLoginToken,sAppointmentId)
+
+
+    fun getProvinceAllOfMember(sType:String) =
+            RRetrofit.instance().create(ApiServices::class.java).getProvinceAllOfMember(sType)
+
 }

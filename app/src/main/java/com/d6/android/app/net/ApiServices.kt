@@ -124,23 +124,23 @@ interface ApiServices {
     fun getProvince(@Query("isShow") isShow:Int): Flowable<Response<ArrayList<Province>>>
 
     @POST("backstage/sysDict/findautoAll")
-    fun getProvinceAll(): Flowable<Response<ArrayList<Province>>>
+    fun getProvinceAll(@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 
     @POST("backstage/comments/findByPageguangchangxiaoxi")
-    fun getSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int, @Query("createTime") createTime: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<SquareMessage>>>
+    fun getSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int, @Query("createTime") createTime: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<SquareMessage>>>
 
     /**
      * 广场动态消息
      */
     @POST("backstage/imessage/findSquareMessageByPage")
-    fun getNewSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int,@Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<SquareMessage>>>
+    fun getNewSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int,@Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<SquareMessage>>>
 
 
     @POST("backstage/rongcloud/gettalkdetails")
-    fun getTalkDetails(@Query("fromuserid") fromuserid: String, @Query("touserid") touserid: String, @Query("checkdate") checkdate: String): Flowable<Response<JsonObject>>
+    fun getTalkDetails(@Query("fromuserid") fromuserid: String, @Query("touserid") touserid: String, @Query("checkdate") checkdate: String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/imessage/findByPage")
-    fun getSystemMsgs(@Query("userid") userid: String, @Query("pageNum") pageNum: Int, @Query("createTime") createTime: String? = "", @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<SysMessage>>>
+    fun getSystemMsgs(@Query("userid") userid: String, @Query("pageNum") pageNum: Int, @Query("createTime") createTime: String? = "", @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<SysMessage>>>
 
     @POST("backstage/account/updateumengdevicetype")
     fun updateDeviceType(@Query("userid") userid: String, @Query("devicetype") devicetype:String = "android"): Flowable<Response<JsonObject>>
@@ -159,19 +159,19 @@ interface ApiServices {
     fun findDataDict(@Query("dataKey") dataKey:String?="quhao"): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/tip/add")
-    fun report(@Query("userid") userid:String,@Query("tipuserid") tipuserid:String,@Query("content") content:String,@Query("tiptype") tiptype:String): Flowable<Response<JsonPrimitive>>
+    fun report(@Query("userid") userid:String,@Query("tipuserid") tipuserid:String,@Query("content") content:String,@Query("tiptype") tiptype:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagementsaccount/update")
     fun updateSeeCount(@Query("userid") userid:String,@Query("seecount") seecount:String="1"): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagementsaccount/findseecount")
-    fun findSeeCount(@Query("userid") userid:String): Flowable<Response<JsonPrimitive>>
+    fun findSeeCount(@Query("userid") userid:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagements/leiji")
-    fun myDateCount(@Query("userid") userid:String): Flowable<Response<JsonPrimitive>>
+    fun myDateCount(@Query("userid") userid:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagements/leiji")
-    fun dateMeCount(@Query("engagementuserid") userid:String): Flowable<Response<JsonPrimitive>>
+    fun dateMeCount(@Query("engagementuserid") userid:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagements/sasamieru")
     fun getDateSuccessCount(): Flowable<Response<JsonPrimitive>>
@@ -424,4 +424,7 @@ interface ApiServices {
   @POST("backstage/appointment/delAppointment")
   fun delAppointment(@Query("sLoginToken")sLoginToken:String,@Query("sAppointmentId") sAppointmentId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
 
+  //会员约会地区选择
+  @POST("backstage/sysDict/findautoAll")
+  fun getProvinceAllOfMember(@Query("sType") sType:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 }

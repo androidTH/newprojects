@@ -260,7 +260,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
                 }
             }
-        })
+        }){code,msg->
+            if(code == 0){
+                CustomToast.showToast(msg)
+                fragment?.let {
+                    it.doIsNotSendMsg(true, msg)
+                }
+            }
+        }
     }
 
     /**
