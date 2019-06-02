@@ -57,7 +57,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_service"
-                android:descendantFocusability="blocksDescendants"
                 android:layout_marginTop="@dimen/height_40">
                 <com.d6.android.app.widget.gallery.DiscreteScrollView
                     android:id="@+id/rv_viptypes"

@@ -49,7 +49,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,
             DateFragment::class.java, SquareMainFragment::class.java,
             MessageFragment::class.java,MineFragment::class.java)
-    private var unReadMsg:Int?=-1
+    private var unReadDateMsg:Int=-1
     private var unReadMsgNum:Int=0
 
     private val broadcast by lazy {
@@ -293,7 +293,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         if(tabhost.currentTab==0){
             myDateUnMsg()
         }
-        unReadMsgNum = 0
+        unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()
         getUnReadCount()
     }
@@ -344,13 +344,15 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                     }
                     val view1 = tabhost.tabWidget.getChildTabViewAt(3)
                     if (view1 != null) {
+//            1            unReadMsgNum = 0
+//                        unReadMsgNum = unReadMsgNum + it
+//                        Log.i("messagesssssss","${unReadMsgNum}显示getUnreadCount")
+//                        getSysLastOne()
                         val view = view1.find<View>(R.id.tv_msg_count)  as TextView
                         if (p0.toInt() > 0) {
                             unReadMsgNum = unReadMsgNum + p0.toInt()
-//                            view.text = "${unReadMsgNum}"
                             view?.visible()
                         } else {
-                            view?.gone()
                             getSysLastOne()
                         }
                     }
@@ -367,8 +369,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     private fun myDateUnMsg(){
         Request.getUnreadAppointmentCount(SPUtils.instance().getString(Const.User.USER_ID)).request(this, success = { msg, data ->
             if (data != null) {
-                unReadMsg = data.unreadCount
-                setNoticeIsNoShow()
+                data.unreadCount?.let {
+                    unReadDateMsg = it
+                    setNoticeIsNoShow()
+                }
             }
         })
     }
@@ -376,7 +380,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     private fun getUserInfoUnMsg(){
         Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this,success = { s:String?, data: FollowFansVistor?->
             data?.let {
-                val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_count)
+                val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_count) as TextView
                 if (data.iFansCount!! > 0 || it.iPointNew!!.toInt() > 0 || data.iVistorCount!! > 0) {
                     view.visibility = View.VISIBLE
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
@@ -391,10 +395,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun setNoticeIsNoShow(){
-        val view = tabhost.tabWidget.getChildTabViewAt(0).findViewById<View>(R.id.tv_msg_count)
-        if(unReadMsg!! > 0){
+        val view = tabhost.tabWidget.getChildTabViewAt(0).findViewById<View>(R.id.tv_msg_count) as TextView
+        if(unReadDateMsg > 0){
             iv_mydate_newnotice.visibility = View.VISIBLE
             view.visibility = View.VISIBLE
+//     1       view.text = "${unReadDateMsg}"
         }else{
             iv_mydate_newnotice.visibility = View.GONE
             view.visibility = View.GONE
@@ -414,17 +419,17 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             val view = (tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView)
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
-                Log.i("messagesssssss","系统收到——rong")
                 getSquareMsg()
             } else {
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSysMsg(data)
                 }
+//       1         unReadMsgNum  =unReadMsgNum + data.count!!.toInt()
+//                Log.i("messagesssssss","${unReadMsgNum}显示SystemMessages${data.count}")
+//                getSquareMsg()
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
-//                    unReadMsgNum  =unReadMsgNum + data?.list?.results.size
-//                    view.text = "${unReadMsgNum}"
                 } else {
                     getSquareMsg()
                 }
@@ -438,24 +443,37 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     private fun getSquareMsg() {
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            Log.i("messagesssssss","${unReadMsgNum}显示")
+            if (data?.list?.results == null || data.list?.results?.isEmpty()) {
                 //无数据
                 if(unReadMsgNum > 0){
-//                    view.text = "${unReadMsgNum}"
-                    unReadMsgNum = 0
+//                1 if(unReadMsgNum>=99){
+//                        view.text = "99+"
+//                    }else{
+//                        view.text = "${unReadMsgNum}"
+//                    }
+                    unReadMsgNum = 0 // 注释
                     view?.visible()
                 }else{
                     view?.gone()
                 }
             } else {
-                Log.i("messagesssssss","显示")
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }
+//          1      unReadMsgNum = unReadMsgNum + data.count!!.toInt()
+//                if(unReadMsgNum>0){
+//                    if(unReadMsgNum>=99){
+//                        view.text = "99+"
+//                    }else{
+//                        view.text = "${unReadMsgNum}"
+//                    }
+//                    view?.visible()
+//                }else{
+//                    view?.gone()
+//                }
                 if ((data.count ?: 0) > 0) {
-//                    unReadMsgNum = unReadMsgNum + data?.list?.results.size
-//                    view.text = "${unReadMsgNum}"
                     view?.visible()
                 }else{
                     view?.gone()
