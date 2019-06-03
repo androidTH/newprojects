@@ -35,6 +35,7 @@
         android:layout_toRightOf="@+id/headView"
         android:singleLine="true"
         android:textSize="15sp"
+        android:ellipsize="end"
         android:text="-----------" />
 
     <TextView

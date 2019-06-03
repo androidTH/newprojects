@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/margin_5"
@@ -165,7 +166,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_13"
-                android:drawableRight="@mipmap/ic_more_gray"
+                android:drawableRight="@mipmap/center_moreicon"
                 android:drawablePadding="@dimen/margin_3" />
         </RelativeLayout>
 
@@ -392,7 +393,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:drawableRight="@mipmap/ic_more_gray"
+                    android:drawableRight="@mipmap/center_moreicon"
                     android:drawablePadding="@dimen/margin_5"
                     android:gravity="center"
                     android:textColor="@color/color_888888"
@@ -446,7 +447,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_13"
-                android:drawableRight="@mipmap/ic_more_gray"
+                android:drawableRight="@mipmap/center_moreicon"
                 android:drawablePadding="@dimen/margin_3" />
         </RelativeLayout>
 
@@ -487,7 +488,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_13"
-                android:drawableRight="@mipmap/ic_more_gray"
+                android:drawableRight="@mipmap/center_moreicon"
                 android:drawablePadding="@dimen/margin_3" />
         </RelativeLayout>
 
@@ -564,7 +565,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_13"
-                android:drawableRight="@mipmap/ic_more_gray"
+                android:drawableRight="@mipmap/center_moreicon"
                 android:drawablePadding="@dimen/margin_3" />
         </RelativeLayout>
 
@@ -596,7 +597,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_13"
-                android:drawableRight="@mipmap/ic_more_gray"
+                android:drawableRight="@mipmap/center_moreicon"
                 android:drawablePadding="@dimen/margin_3" />
         </RelativeLayout>
 
@@ -628,7 +629,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_13"
-                android:drawableRight="@mipmap/ic_more_gray"
+                android:drawableRight="@mipmap/center_moreicon"
                 android:drawablePadding="@dimen/margin_3" />
         </RelativeLayout>
     </LinearLayout>

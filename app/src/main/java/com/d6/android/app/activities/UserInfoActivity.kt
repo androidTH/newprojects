@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
@@ -361,6 +362,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 headerView.headView.hierarchy = getHierarchy(it.sex.toString())
                 headerView.headView.setImageURI(it.picUrl)
+
+                Log.i("minefragment","个人中心头像url=${it.picUrl}")
 
                 headerView.tv_nick.text = it.name
                 if (!TextUtils.isEmpty(it.intro)) {

@@ -53,9 +53,6 @@ class MineFragment : BaseFragment() {
 
     override fun contentViewId() = R.layout.fragment_myinfo
 
-    private val sex by lazy{
-        SPUtils.instance().getString(Const.User.USER_SEX)
-    }
     private var mData: UserData? = null
 
     private val mImages = ArrayList<AddImage>()
@@ -264,6 +261,7 @@ class MineFragment : BaseFragment() {
                 RongIM.getInstance().refreshUserInfoCache(info)
                 updateCache(it)
                 headview.setImageURI(it.picUrl)
+                Log.i("minefragment","我的页面头像url=${it.picUrl}")
                 sv_service.setImageURI(it.sServicePicUrl)
                 tv_nick.text = it.name
 
@@ -359,7 +357,6 @@ class MineFragment : BaseFragment() {
                 }
 
                 tv_menber_center.setCompoundDrawables(drawable, null, null, null)
-
 
                 if(it.iDatacompletion < 60){
                     if(SPUtils.instance().getLong(USERINFO_PERCENT,System.currentTimeMillis())!=System.currentTimeMillis()){

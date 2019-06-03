@@ -13,6 +13,7 @@ import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
@@ -359,8 +360,12 @@ class SignInActivity : BaseActivity() {
                     finish()
                 }
             }
-        }) { msg, data ->
-            startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
+        }) { code, data ->
+            if(code !=-3&&code!=200){
+                startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
+            }else{
+                toast(data)
+            }
         }
     }
 

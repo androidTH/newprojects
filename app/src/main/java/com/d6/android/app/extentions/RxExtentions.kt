@@ -91,11 +91,6 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 is ResultException -> {
                     code = t.code
                     msg = t.message!!
-                }
-            }
-            if(!TextUtils.isEmpty(msg)){
-                error(code, msg)
-                if (code == 200 || code == -3) {
                     if (requestManager is Fragment) {
                         if (requestManager.activity != null && requestManager.activity is BaseActivity) {
                             val mSingleActionDialog = SingleActionDialog()
@@ -103,7 +98,11 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                             mSingleActionDialog.show((requestManager.activity as BaseActivity).supportFragmentManager, "action")
                         }
                     }
-                }else{
+                }
+            }
+            if(!TextUtils.isEmpty(msg)){
+                error(code, msg)
+                if (code!=200&&code != -3) {
                     if (showToast) {
                         requestManager.showToast(msg)
                     }
