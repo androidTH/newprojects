@@ -29,8 +29,9 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 class SettingActivity : TitleActivity() {
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
+
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
     private var mData: UserData?=null
@@ -108,22 +109,23 @@ class SettingActivity : TitleActivity() {
                     .apply()
             clearLoginToken()
             SPUtils.instance().remove(Const.USERINFO)
-            PushAgent.getInstance(applicationContext).deleteAlias(userId, "D6", { _, _ ->
+            PushAgent.getInstance(applicationContext).deleteAlias(getLocalUserId(), "D6", { _, _ ->
 
             })
             RongIM.getInstance().disconnect()
+            closeAll()
             startActivity<SignInActivity>()
-            finish()
         }
 
         tv_blacklist.setOnClickListener {
             startActivity<BlackListActivity>()
         }
 
+        headView.hierarchy = getHierarchy()
+
         tv_versionname.text = getAppVersion()
 
 //        DataCleanManager.getTotalCacheSize(this)
-
         getUserInfo()
     }
 
@@ -135,7 +137,7 @@ class SettingActivity : TitleActivity() {
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this, success = { _, data ->
+        Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->
             this.mData = data
             mSwipeRefreshLayout.isRefreshing = false
             saveUserInfo(data)
@@ -192,7 +194,9 @@ class SettingActivity : TitleActivity() {
                         tv_sex.text = it
                     }
                 }
+
                 headView.setImageURI(it.picUrl)
+
                 tv_nick.text = it.name
 
                 if (!TextUtils.isEmpty(it.intro)) {

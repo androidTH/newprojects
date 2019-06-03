@@ -19,14 +19,19 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.view.Gravity
 import com.amap.api.location.AMapLocationClient
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.AreaSelectedPopup
+import com.d6.android.app.dialogs.LoginOutTipDialog
+import com.d6.android.app.dialogs.SingleActionDialog
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -280,14 +285,7 @@ class HomeFragment : BaseFragment() {
                 }
                 SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
             }
-        }){code,msg->
-            if(code==200){
-                toast(msg)
-                startActivity<SignInActivity>()
-            }
-//            var mg = JsonObject().getAsJsonObject(msg)
-//            showTips(mg,"","")
-        }
+        })
     }
 
 
@@ -307,14 +305,14 @@ class HomeFragment : BaseFragment() {
 
 
     private fun getSpeedData() {
-        Request.findLookAboutList(userId).request(this, success = { _, data ->
+        Request.findLookAboutList(userId).request(this,success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             mSpeedDates.clear()
             data?.let {
                 mSpeedDates.addAll(it)
             }
             speedDateAdapter.notifyDataSetChanged()
-        }) { _, _ ->
+        }) { code, _ ->
             mSwipeRefreshLayout.isRefreshing = false
         }
     }

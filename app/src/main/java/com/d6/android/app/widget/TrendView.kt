@@ -90,7 +90,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
      * type 1 可以展示删除按钮。
      */
     fun update(square: Square,type:Int?=0) {
-
         imageAdapter.bindSquare(square)
 //        val uid = SPUtils.instance().getString(Const.User.USER_ID)
 //        if (TextUtils.equals(square.userid, uid) && type == 1) {//是自己。
@@ -99,7 +98,9 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 //            tv_delete.gone()
 //        }
         this.square = square
+        headView.hierarchy = getHierarchy(square.sex.toString())
         headView.setImageURI(square.picUrl)
+
         tv_name.text = square.name
 
         tv_sex.isSelected = TextUtils.equals("0",square.sex)

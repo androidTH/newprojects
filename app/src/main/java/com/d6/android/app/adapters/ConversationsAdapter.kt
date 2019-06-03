@@ -14,6 +14,7 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.RongUtils
 import com.facebook.drawee.view.SimpleDraweeView
 import io.rong.imkit.RongContext
+import io.rong.imkit.RongIM
 import io.rong.imkit.model.ConversationProviderTag
 import io.rong.imkit.model.UIConversation
 import io.rong.imkit.utils.RongDateUtils
@@ -83,6 +84,12 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                     context.toast("删除成功！")
                     mData.remove(data)
                     notifyDataSetChanged()
+                    RongIM.getInstance().clearMessages(Conversation.ConversationType.PRIVATE,
+                            data.targetId, null)
+                    RongIMClient.getInstance().cleanRemoteHistoryMessages(
+                    Conversation.ConversationType.PRIVATE,
+                       data.targetId, System.currentTimeMillis(),
+                    null)
                 }
 
                 override fun onError(p0: RongIMClient.ErrorCode?) {

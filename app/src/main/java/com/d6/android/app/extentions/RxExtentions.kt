@@ -8,6 +8,7 @@ import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.ConfirmDialog
+import com.d6.android.app.dialogs.SingleActionDialog
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Response
 import com.d6.android.app.net.Error
@@ -90,17 +91,22 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 is ResultException -> {
                     code = t.code
                     msg = t.message!!
-                    if(code == 200){
-                        if (requestManager is BaseActivity) {
-                            requestManager.startActivity<SignInActivity>()
-                        }
-                    }
                 }
             }
             if(!TextUtils.isEmpty(msg)){
                 error(code, msg)
-                if (showToast) {
-                    requestManager.showToast(msg)
+                if (code == 200 || code == -3) {
+                    if (requestManager is Fragment) {
+                        if (requestManager.activity != null && requestManager.activity is BaseActivity) {
+                            val mSingleActionDialog = SingleActionDialog()
+                            mSingleActionDialog.arguments = bundleOf("message" to msg)
+                            mSingleActionDialog.show((requestManager.activity as BaseActivity).supportFragmentManager, "action")
+                        }
+                    }
+                }else{
+                    if (showToast) {
+                        requestManager.showToast(msg)
+                    }
                 }
             }
         }

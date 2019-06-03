@@ -36,7 +36,8 @@
                         android:id="@+id/headView"
                         style="@style/DefaultCircleHeadStyle"
                         android:layout_width="56dp"
-                        android:layout_height="56dp" />
+                        android:layout_height="56dp"
+                        android:visibility="visible"/>
 
                     <ImageView
                         android:id="@+id/img_auther"

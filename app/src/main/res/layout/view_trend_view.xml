@@ -9,7 +9,7 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/headView"
-        style="@style/DefaultHeadStyle"
+        style="@style/DefaultNoHeadStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"

@@ -76,6 +76,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
     fun update(square: Square) {
         this.square = square
         imageAdapter.bindSquare(square)
+        headView.hierarchy = getHierarchy(square.sex.toString())
         headView.setImageURI(square.picUrl)
         tv_name.text = square.name
         tv_sex.isSelected = if(TextUtils.equals("0",square.sex)) true else false

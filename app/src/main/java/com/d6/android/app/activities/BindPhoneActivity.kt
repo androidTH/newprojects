@@ -210,7 +210,7 @@ class BindPhoneActivity : TitleActivity() {
                RongIM.getInstance().refreshUserInfoCache(info)
            }
            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-               startActivityForResult<SetUserInfoActivity>(3,"name" to name, "gender" to gender,"headerpic" to headerpic)
+               startActivityForResult<SetUserInfoActivity>(3,"name" to name, "gender" to gender,"headerpic" to headerpic,"openid" to openId,"unionid" to unionId)
            } else {
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                startActivity<MainActivity>()

@@ -16,6 +16,7 @@ import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
+import io.rong.imlib.NativeClient
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
@@ -140,6 +141,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         enterActivity()
 
         RongIM.getInstance().setSendMessageListener(this)
+
+//        mUserInfo = RongUserInfoManager.getInstance().getUserInfo(mTargetId)
+//        if (RongIM.getInstance() != null && mUserInfo != null) {
+//            RongIM.getInstance().clearMessages(Conversation.ConversationType.PRIVATE,
+//                    mTargetId, null)
+//            RongIMClient.getInstance().cleanRemoteHistoryMessages(
+//                    Conversation.ConversationType.PRIVATE,
+//                    mTargetId, System.currentTimeMillis(),
+//                    null);
+//        }
+//        RongIMClient.getInstance().cleanHistoryMessages(Conversation.ConversationType.PRIVATE,"",System.currentTimeMillis(),true,null)
     }
 
     /**

@@ -244,11 +244,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         dialog()
-        if (TextUtils.equals(userId, id)) {
+
+        if (TextUtils.equals(getLocalUserId(), id)) {
             rl_doaction.visibility = View.GONE
             tv_more.visibility =View.GONE
             tv_msg.visibility = View.VISIBLE
             deletePic = true
+            mImages.add(AddImage("res:///" + myImageAdapter.mRes, 1))
         } else {
             rl_doaction.visibility = View.VISIBLE
             tv_more.visibility =View.VISIBLE
@@ -256,6 +258,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             deletePic = false
             addVistor()
         }
+
         getUserInfo()
         getUserFollowAndFansandVistor()
     }
@@ -355,7 +358,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 RongIM.getInstance().refreshUserInfoCache(info)
                 tv_title_nick.text = it.name
                 headerView.iv_bg.showBlur(it.picUrl)
+
+                headerView.headView.hierarchy = getHierarchy(it.sex.toString())
                 headerView.headView.setImageURI(it.picUrl)
+
                 headerView.tv_nick.text = it.name
                 if (!TextUtils.isEmpty(it.intro)) {
                     headerView.tv_signature.text = it.intro
@@ -516,7 +522,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     var sb = StringBuffer()
                     sb.append("爱好 ")
                     if (mHobbies != null) {
-                        //,,
+                        //
                         for (str in mHobbies) {
                             if (!TextUtils.isEmpty(str)) {
                                 sb.append("${str} ")
@@ -533,11 +539,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
-//                    if(deletePic){
-//                        setPicsWall(it)
-//                    }
                 }else{
-                    headerView.rv_my_images.visibility = View.GONE
+                    if(deletePic){
+                        myImageAdapter.notifyDataSetChanged()
+                        headerView.rv_my_images.visibility = View.VISIBLE
+                    }else{
+                        headerView.rv_my_images.visibility = View.GONE
+                    }
                 }
 
                 squareAdapter.setUserInfo(mData!!)
@@ -593,6 +601,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             headerView.rv_my_images.visibility = View.GONE
         }
         if(deletePic){
+            headerView.rv_my_images.visibility = View.VISIBLE
             mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
         }
         myImageAdapter.notifyDataSetChanged()

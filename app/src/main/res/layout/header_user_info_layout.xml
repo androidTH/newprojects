@@ -55,9 +55,10 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/headView"
-            style="@style/DefaultCircleHeadStyle"
+            style="@style/DefaultCircleNoHeadStyle"
             android:layout_width="64dp"
-            android:layout_height="64dp" />
+            android:layout_height="64dp"/>
+
         <!--android:background="@drawable/shape_auther_bg"-->
         <ImageView
             android:id="@+id/img_other_auther"

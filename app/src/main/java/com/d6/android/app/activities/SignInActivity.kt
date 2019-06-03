@@ -350,7 +350,7 @@ class SignInActivity : BaseActivity() {
                     val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
                     RongIM.getInstance().refreshUserInfoCache(info)
                     if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称
-                        startActivity<SetUserInfoActivity>("name" to name, "gender" to gender, "headerpic" to iconurl)
+                        startActivity<SetUserInfoActivity>("name" to name, "gender" to gender, "headerpic" to iconurl,"openid" to openId,"unionid" to unionid)
                     } else {
                         SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                         startActivity<MainActivity>()

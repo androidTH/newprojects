@@ -33,6 +33,9 @@ class SetUserInfoActivity : BaseActivity() {
         SPUtils.instance().getString(OPENSTALL_CHANNEL,"channel")
     }
 
+    private var openId = ""
+    private var unionId = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_user_info)
@@ -46,6 +49,18 @@ class SetUserInfoActivity : BaseActivity() {
             ""
         }
         et_nick.setText(name)
+
+        openId = if(intent.hasExtra("openId")){
+            intent.getStringExtra("openId")
+        }else{
+            ""
+        }
+
+        unionId = if(intent.hasExtra("unionid")){
+            intent.getStringExtra("unionid")
+        }else{
+            ""
+        }
 
         sex = if (intent.hasExtra("gender")) {
             val s = intent.getStringExtra("gender")
@@ -172,6 +187,8 @@ class SetUserInfoActivity : BaseActivity() {
         user.sex = sex.toString()
         user.name = nick
         user.invitecode = code
+        user.wxid = openId
+        user.sUnionid = unionId
         dialog()
         if(ISNOTEDIT){
             Request.uploadFile(File(headFilePath)).flatMap {
@@ -183,6 +200,7 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_NICK, nick)
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
+                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
                 OpenInstall.reportRegister()
                 startActivity<MainActivity>()
@@ -198,6 +216,7 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_NICK, nick)
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
+                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
                 OpenInstall.reportRegister()
                 startActivity<MainActivity>()

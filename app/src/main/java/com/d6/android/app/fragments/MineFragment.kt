@@ -3,6 +3,7 @@ package com.d6.android.app.fragments
 import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.DrawableContainer
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import com.alibaba.fastjson.JSONObject
@@ -26,6 +28,7 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.USERINFO_PERCENT
+import com.facebook.drawee.drawable.ScalingUtils
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.rong.imkit.RongIM
@@ -37,6 +40,11 @@ import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
+
+
+
+
 
 /**
  * 我的
@@ -45,8 +53,8 @@ class MineFragment : BaseFragment() {
 
     override fun contentViewId() = R.layout.fragment_myinfo
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)//35598
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
     }
     private var mData: UserData? = null
 
@@ -110,7 +118,7 @@ class MineFragment : BaseFragment() {
         }
 
         rl_vistors_count.setOnClickListener(View.OnClickListener {
-            Request.getVistorAuth(userId).request(this, false, success = { msg, data ->
+            Request.getVistorAuth(getLocalUserId()).request(this, false, success = { msg, data ->
                 startActivity<VistorsActivity>()
             }) { code, msg ->
                 if (code == 2) {
@@ -179,7 +187,7 @@ class MineFragment : BaseFragment() {
         }
 
         tv_squarewarm.setOnClickListener {
-            startActivity<UserInfoActivity>("id" to userId)
+            startActivity<UserInfoActivity>("id" to getLocalUserId())
         }
 
         rv_square_imgs.setHasFixedSize(true)
@@ -190,6 +198,8 @@ class MineFragment : BaseFragment() {
                 .colorResId(android.R.color.transparent)
                 .size(dip(3))
                 .build())
+
+        headview.hierarchy = getHierarchy()
     }
 
     override fun onFirstVisibleToUser() {
@@ -246,17 +256,18 @@ class MineFragment : BaseFragment() {
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo("", userId).request(this, success = { _, data ->
+        Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->
             mData = data
             activity?.saveUserInfo(data)
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                 RongIM.getInstance().refreshUserInfoCache(info)
                 updateCache(it)
-
                 headview.setImageURI(it.picUrl)
                 sv_service.setImageURI(it.sServicePicUrl)
                 tv_nick.text = it.name
+
+
                 if (!TextUtils.isEmpty(it.intro)) {
                     tv_signature.text = it.intro
                 } else {
@@ -276,7 +287,7 @@ class MineFragment : BaseFragment() {
                 AppUtils.setUserWallet( context,"积分 ${it.iPoint.toString()}",0 ,2 ,tv_points)
                 AppUtils.setUserWallet( context,"小红花 ${it.iFlowerCount.toString()}",0 ,3 ,tv_redflowernums)
 
-                if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
+                if(TextUtils.equals(getLocalUserId(), Const.CustomerServiceId)||TextUtils.equals(getLocalUserId(), Const.CustomerServiceWomenId)){
                     img_auther.visibility = View.GONE
                     img_mine_official.visibility = View.VISIBLE
                 }else{
@@ -389,7 +400,7 @@ class MineFragment : BaseFragment() {
 
     //关注粉丝访客
     fun getUserFollowAndFansandVistor() {
-        Request.getUserFollowAndFansandVistor(userId).request(this, success = { s: String?, data: FollowFansVistor? ->
+        Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this, success = { s: String?, data: FollowFansVistor? ->
             // toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
                 tv_fans_count.text = data.iFansCountAll.toString()

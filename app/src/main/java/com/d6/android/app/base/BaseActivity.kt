@@ -60,7 +60,6 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         //竖屏
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         ACTION_CLOSE_ALL = "cn.base.%s.all.close".format(packageName)
-        System.err.println(ACTION_CLOSE_ALL)
         if (isRegisterCloseBroadReceiver()) {
             registerReceiver(closeAllReceiver, IntentFilter(ACTION_CLOSE_ALL))
         }

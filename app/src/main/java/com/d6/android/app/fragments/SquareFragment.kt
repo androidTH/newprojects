@@ -25,6 +25,7 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.header_square_list.view.*
@@ -49,9 +50,6 @@ class SquareFragment : RecyclerFragment() {
     }
     private var pageNum = 1
     private var isfresh = true
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
 
     private val classId by lazy {
         if (arguments == null) {
@@ -159,7 +157,7 @@ class SquareFragment : RecyclerFragment() {
     }
 
     private fun getSquareList() {
-        Request.getSquareList(userId, classId, pageNum, 2,sex = type).request(this) { _, data ->
+        Request.getSquareList(getLocalUserId(), classId, pageNum, 2,sex = type).request(this) { _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
             }

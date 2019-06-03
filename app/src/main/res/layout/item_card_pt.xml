@@ -22,16 +22,16 @@
             android:layout_height="75dp"
             android:background="@drawable/shape_5r_pt">
 
-            <TextView
-                android:id="@+id/tv_english"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/color_4000000"
-                android:textStyle="bold"
-                android:layout_marginTop="@dimen/margin_16"
-                android:layout_marginLeft="@dimen/margin_16"
-                android:text="Regular members"/>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_english"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="12sp"-->
+                <!--android:textColor="@color/color_4000000"-->
+                <!--android:textStyle="bold"-->
+                <!--android:layout_marginTop="@dimen/margin_16"-->
+                <!--android:layout_marginLeft="@dimen/margin_16"-->
+                <!--android:text="Regular members"/>-->
 
             <TextView
                 android:id="@+id/tv_vip_level"
@@ -39,19 +39,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_35"
+                android:layout_marginTop="@dimen/margin_15"
                 android:text="普通会员"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <!--android:layout_alignBaseline="@+id/tv_vip_level"-->
+
             <TextView
                 android:id="@+id/tv_vip_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tv_vip_level"
-                android:layout_marginLeft="@dimen/margin_6"
-                android:layout_toRightOf="@+id/tv_vip_level"
+                android:layout_below="@+id/tv_vip_level"
+                android:layout_marginLeft="@dimen/margin_16"
                 android:text="成功率/随缘"
                 android:textColor="@color/white"
                 android:textSize="11sp"

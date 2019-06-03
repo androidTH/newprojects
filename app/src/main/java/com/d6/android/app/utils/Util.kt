@@ -46,6 +46,10 @@ import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
 import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
+import com.facebook.drawee.drawable.ScalingUtils
+import com.facebook.drawee.generic.GenericDraweeHierarchy
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
+import com.facebook.drawee.generic.RoundingParams
 import com.google.gson.JsonObject
 import com.umeng.analytics.MobclickAgent
 import com.vector.update_app.UpdateAppBean
@@ -943,6 +947,29 @@ fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
     return mDrawable
 }
 
+fun getUserSex():String{
+    return SPUtils.instance().getString(Const.User.USER_SEX)
+}
+
+fun getHierarchy(sex:String= getUserSex()): GenericDraweeHierarchy {
+    val builder = GenericDraweeHierarchyBuilder(AppUtils.context!!.resources)
+    if(TextUtils.equals("1", sex)){
+        builder.setFailureImage(R.mipmap.headportrait_boy)
+        builder.setPlaceholderImage(R.mipmap.headportrait_boy)
+    }else{
+        builder.setFailureImage(R.mipmap.headportrait_girl)
+        builder.setPlaceholderImage(R.mipmap.headportrait_girl)
+    }
+    builder.placeholderImageScaleType = ScalingUtils.ScaleType.FIT_CENTER
+    builder.failureImageScaleType = ScalingUtils.ScaleType.FIT_CENTER
+    builder.desiredAspectRatio = 1f
+    var rp = RoundingParams()
+    //是否要将图片剪切成圆形
+    rp.setCornersRadius(6f)
+    rp.setRoundAsCircle(true)
+    builder.roundingParams = rp
+    return builder.build()
+}
 
 /**
  * 获得版本名称
@@ -956,7 +983,6 @@ fun getAppVersion():String{
     }
     return mVersion
 }
-
 
 private var sLoginToken = ""
 

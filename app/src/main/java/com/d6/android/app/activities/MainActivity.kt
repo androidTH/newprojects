@@ -38,10 +38,6 @@ import org.jetbrains.anko.collections.forEachWithIndex
  */
 class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
-
     private val tabTexts = arrayOf( "约会","发现", "动态","消息", "我的")
 
     private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
@@ -177,10 +173,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 //        tv_create_date.gone()
 
         tv_create_date.setOnClickListener {
-            isCheckOnLineAuthUser(this,userId){
+            isCheckOnLineAuthUser(this, getLocalUserId()){
                 startActivityForResult<PublishFindDateActivity>(10)
             }
         }
+
+        date_headView.hierarchy = getHierarchy()
 
         date_headView.setOnClickListener {
             getAuthState()
@@ -215,12 +213,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         iv_right.setOnClickListener {
             when (tabhost.currentTab) {
                 1 -> {
-                    isCheckOnLineAuthUser(this,userId) {
+                    isCheckOnLineAuthUser(this, getLocalUserId()) {
                         startActivityForResult<FilterActivity>(0)
                     }
                 }
                 2 -> {
-                    isCheckOnLineAuthUser(this,userId) {
+                    isCheckOnLineAuthUser(this, getLocalUserId()) {
                         startActivityForResult<ReleaseNewTrendsActivity>(1)
                     }
                 }
@@ -250,9 +248,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                 }
             })
         }
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        PushAgent.getInstance(this.applicationContext).addAlias(userId, "D6") { _, _ -> }
-        Request.updateDeviceType(userId).request(this, false) { _, _ -> }
+        PushAgent.getInstance(this.applicationContext).addAlias(getLocalUserId(), "D6") { _, _ -> }
+        Request.updateDeviceType(getLocalUserId()).request(this, false) { _, _ -> }
 
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
@@ -314,7 +311,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
      * 保存用户信息
      */
     private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this ,success = { _, data ->
+        Request.getUserInfo("", getLocalUserId()).request(this ,success = { _, data ->
             data?.let {
                 SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
                 SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()
@@ -381,7 +378,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this,success = { s:String?, data: FollowFansVistor?->
             data?.let {
                 val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_count) as TextView
-                if (data.iFansCount!! > 0 || it.iPointNew!!.toInt() > 0 || data.iVistorCount!! > 0) {
+                if (data.iPointNew!!>0) {
                     view.visibility = View.VISIBLE
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
                     if (fragment != null && fragment is MineFragment) {
