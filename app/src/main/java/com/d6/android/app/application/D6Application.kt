@@ -12,7 +12,6 @@ import android.os.Handler
 import android.os.Looper
 import android.support.multidex.MultiDex
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -25,7 +24,6 @@ import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
-import com.d6.android.app.rong.bean.SquareMsgContent
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
@@ -37,18 +35,14 @@ import com.umeng.socialize.PlatformConfig
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
-import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
 import io.rong.push.RongPushClient
-import io.rong.push.notification.RongNotificationInterface
 import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.toast
 import java.lang.Exception
-import java.lang.reflect.Field
-import java.lang.reflect.Method
 
 
 /**
