@@ -311,7 +311,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
      * 保存用户信息
      */
     private fun getUserInfo() {
-        Request.getUserInfo("", getLocalUserId()).request(this ,success = { _, data ->
+        Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
             data?.let {
                 SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
                 SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()

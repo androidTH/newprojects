@@ -203,6 +203,7 @@ class BindPhoneActivity : TitleActivity() {
         }
 
        Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel).request(this,false,success = {msg,data->
+           clearLoginToken()
            saveMsg(msg)
            saveUserInfo(data)
            data?.let {
@@ -219,6 +220,7 @@ class BindPhoneActivity : TitleActivity() {
            }
        }){code,msg->
            if (code == 2) {
+               clearLoginToken()
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                startActivity<MainActivity>()
                setResult(Activity.RESULT_OK)

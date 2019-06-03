@@ -195,6 +195,7 @@ class SetUserInfoActivity : BaseActivity() {
                 user.picUrl = it
                 Request.updateUserInfo(user)
             }.request(this) { _, data ->
+                clearLoginToken()
                 SPUtils.instance()
                         .put(Const.User.IS_LOGIN,true)
                         .put(Const.User.USER_NICK, nick)
@@ -211,6 +212,7 @@ class SetUserInfoActivity : BaseActivity() {
         }else{
             user.picUrl = headFilePath
             Request.updateUserInfo(user).request(this, success = {msg,data->
+                clearLoginToken()
                 SPUtils.instance()
                         .put(Const.User.IS_LOGIN,true)
                         .put(Const.User.USER_NICK, nick)

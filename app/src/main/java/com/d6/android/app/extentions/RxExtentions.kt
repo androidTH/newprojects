@@ -3,6 +3,7 @@ package com.d6.android.app.extentions
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat.startActivity
 import android.text.TextUtils
+import android.util.Log
 import com.d6.android.app.activities.SignChooseActivity
 import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.application.D6Application
@@ -102,7 +103,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             }
             if(!TextUtils.isEmpty(msg)){
                 error(code, msg)
-                if (code!=200&&code != -3) {
+                if (code!=200&&code!=-3) { //-2 该用户已注销
                     if (showToast) {
                         requestManager.showToast(msg)
                     }

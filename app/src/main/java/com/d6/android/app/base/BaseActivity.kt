@@ -12,7 +12,6 @@ import android.view.Window
 import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.widget.ProgressDialog
 import com.umeng.analytics.MobclickAgent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -20,7 +19,6 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
 import java.lang.Exception
 import android.view.MotionEvent
-import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
 import com.d6.android.app.widget.LoadDialog
 import com.gyf.barlibrary.ImmersionBar

@@ -161,6 +161,8 @@ class SignInActivity : BaseActivity() {
                 .build()
 
         SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
+
+        clearLoginToken()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -315,6 +317,7 @@ class SignInActivity : BaseActivity() {
                     e.printStackTrace()
                 }
             }
+            clearLoginToken()
             saveUserInfo(data)
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))

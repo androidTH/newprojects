@@ -113,7 +113,7 @@ fun getLocalUserId():String{
     if(TextUtils.isEmpty(mUserId)){
         mUserId = SPUtils.instance().getString(Const.User.USER_ID)
     }
-    return mUserId;
+    return mUserId
 }
 fun Activity.callPhone(phone: String?) {
 //    val isAllow = permission(Manifest.permission.CALL_PHONE,"拨号权限",15)
