@@ -406,6 +406,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:layout_marginLeft="@dimen/margin_10" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/margin_2"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:background="@color/color_F6F7FA" />
+            <RelativeLayout
+                android:id="@+id/rl_unknow"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:clickable="true"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:text="匿名身份"
+                    android:textColor="@color/color_black"
+                    android:drawablePadding="@dimen/margin_10"
+                    android:drawableLeft="@mipmap/nimingxing"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/margin_13"
+                    android:drawableRight="@mipmap/center_moreicon"
+                    android:drawablePadding="@dimen/margin_3" />
+            </RelativeLayout>
         </LinearLayout>
 
         <View

@@ -1,23 +1,37 @@
 package com.d6.android.app.activities
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.BlackListAdapter
+import com.d6.android.app.adapters.CardManTagAdapter
+import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.BlackListBean
+import com.d6.android.app.models.UserTag
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_blacklist.*
 import kotlinx.android.synthetic.main.activity_unknow.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
 
 /**
  * 匿名身份
  */
 class UnKnownActivity : BaseActivity() {
+
+    private val mTags = ArrayList<UserTag>()
+
+    private val userTagAdapter by lazy {
+        CardManTagAdapter(mTags)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +53,76 @@ class UnKnownActivity : BaseActivity() {
 
         }
 
+        unknow_headview.setImageURI("res:///"+R.mipmap.niming_headbig)
+
+        rv_unknow_tags.setHasFixedSize(true)
+        rv_unknow_tags.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        rv_unknow_tags.isNestedScrollingEnabled = false
+        rv_unknow_tags.adapter = userTagAdapter
+        getUserInfo()
     }
 
+    private fun getUserInfo() {
+        Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->
+            data?.let {
+                tv_sex.isSelected = TextUtils.equals("0", it.sex)
+                it.age?.let {
+                    if (it.toInt() <= 0) {
+                        tv_sex.text = ""
+                    } else {
+                        tv_sex.text = it
+                    }
+                }
+                var drawable: Drawable? = getLevelDrawable(it.userclassesid.toString(),this)
+                //27入门 28中级  29优质
+                if(drawable!=null){
+                    tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),this)
+                }else{
+                    tv_vip.visibility = View.GONE
+                }
+
+                mTags.clear()
+
+                if (!it.height.isNullOrEmpty()) {
+                    mTags.add(UserTag("身高 ${it.height}", R.mipmap.boy_stature_icon))
+                }
+
+                if (!it.weight.isNullOrEmpty()) {
+                    mTags.add(UserTag("体重 ${it.weight}", R.mipmap.boy_weight_icon))
+                }
+
+                if (!it.constellation.isNullOrEmpty()) {
+                    mTags.add(UserTag("星座 ${it.constellation}", R.mipmap.boy_constellation_icon))
+                }
+
+                if (!it.city.isNullOrEmpty()) {
+                    mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_icon))
+                }
+
+                if (!it.job.isNullOrEmpty()) {
+                    mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_icon))
+                }
+
+                if (!it.zuojia.isNullOrEmpty()) {
+                    mTags.add(UserTag("座驾 ${it.zuojia}", R.mipmap.boy_car_icon))
+                }
+
+                if (!it.hobbit.isNullOrEmpty()) {
+                    var mHobbies = it.hobbit?.replace("#", ",")?.split(",")
+                    var sb = StringBuffer()
+                    sb.append("爱好 ")
+                    if (mHobbies != null) {
+                        for (str in mHobbies) {
+//                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
+                            sb.append("${str} ")
+                        }
+                        mTags.add(UserTag(sb.toString(), R.mipmap.boy_hobby_icon))
+                    }
+                }
+                userTagAdapter.notifyDataSetChanged()
+            }
+        }) { _, _ ->
+            //            mSwipeRefreshLayout.isRefreshing = false
+        }
+    }
 }

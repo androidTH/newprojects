@@ -18,6 +18,7 @@ import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommonTipDialog
+import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.Fans
@@ -232,6 +233,8 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         }
 
         getLocalFriendsCount()
+//        var mSelectUnknowDialog = SelectUnKnowTypeDialog()
+//        mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
