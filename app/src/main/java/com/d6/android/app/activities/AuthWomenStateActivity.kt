@@ -67,7 +67,7 @@ class AuthWomenStateActivity : BaseActivity() {
               var mWomenAuthDialog = WomenAuthDialog()
               mWomenAuthDialog.show(supportFragmentManager,"womenAuthDialog")
               mWomenAuthDialog.setDialogListener { p, s ->
-//                  ISNOTBUYMEMBER = 1
+                  ISNOTBUYMEMBER = 1
                   getUserInfo()
               }
         }
@@ -88,9 +88,6 @@ class AuthWomenStateActivity : BaseActivity() {
                 BASE_URL+"static/image/9ba8d31djw8f9ocv5yysfj20e80doaar.jpg"))
 
         setMemeberComemnt()
-
-
-        rv_women_memberdesc
     }
 
     override fun onResume() {

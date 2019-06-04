@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -39,23 +40,11 @@ import org.jetbrains.anko.wrapContent
  */
 class WomenAuthDialog : DialogFragment() {
 
-    private var mList = ArrayList<FriendBean>()
+    private var lianxifangshi = 0
+    private var qurenzheng = 0
+    private var wanshanziliao = 0
 
-    private val mUserId by lazy{
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
 
-    private val sex by lazy{
-        SPUtils.instance().getString(Const.User.USER_SEX)
-    }
-
-    private val wxApi by lazy {
-        WXAPIFactory.createWXAPI(context, "wx43d13a711f68131c")
-    }
-
-    private var iType = 0 //1、约会 2、动态 3、速约 4、觅约 5、个人主页
-    private var sResourceId = ""
-    private var  mDialogShareFriendsQuickAdapter = DialogShareFriendsQuickAdapter(mList)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.Dialog)
@@ -73,7 +62,6 @@ class WomenAuthDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         AppUtils.setTvStyle(context, resources.getString(R.string.first_step_info), 0, 11, tv_base_info);
 //        AppUtils.setTvStyle( this, resources.getString(R.string.second_step_info),0 ,10 , tv_contact_info);
@@ -98,20 +86,16 @@ class WomenAuthDialog : DialogFragment() {
 //                })
             }
         }
-        getAuthPercent()
     }
 
-    private var lianxifangshi = 0
-    private var qurenzheng = 0
-    private var wanshanziliao = 0
-
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
+    override fun onResume() {
+        super.onResume()
+        getAuthPercent()
     }
 
     private fun getAuthPercent() {
         isBaseActivity {
-                Request.getAuthState(userId).request(it, success = { _, data ->
+                Request.getAuthState(getLocalUserId()).request(it, success = { _, data ->
                     if (data != null) {
                         wanshanziliao = data.optDouble("wanshanziliao").toInt()
                         tv_percent.text = "${wanshanziliao * 10}%"
@@ -132,9 +116,7 @@ class WomenAuthDialog : DialogFragment() {
                     } else {
 
                     }
-                }) { _, _ ->
-                    //            getDateCount()
-                }
+                })
             }
     }
 
