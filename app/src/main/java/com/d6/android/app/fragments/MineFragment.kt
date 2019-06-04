@@ -187,6 +187,10 @@ class MineFragment : BaseFragment() {
             startActivity<UserInfoActivity>("id" to getLocalUserId())
         }
 
+        rl_unknow.setOnClickListener {
+            startActivity<UnKnownActivity>()
+        }
+
         rv_square_imgs.setHasFixedSize(true)
         rv_square_imgs.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_square_imgs.isNestedScrollingEnabled = false
