@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
@@ -38,6 +39,7 @@ class AuthWomenStateActivity : BaseActivity() {
     var mComments = ArrayList<MemberComment>()
 
     private var ISNOTBUYMEMBER = 0 //0 没有咨询客服
+    private var wanshanziliao = 0 //资料完成度
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +96,7 @@ class AuthWomenStateActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         member_banner.startTurning()
+        getUserInfoPercent()
     }
 
     override fun onStop() {
@@ -177,23 +180,24 @@ class AuthWomenStateActivity : BaseActivity() {
                             rv_women_memberdesc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                             rv_women_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
                     }
-//                }
                 }
-//
             }
         }
     }
 
-    private fun getDateCount() {
-//        Request.getDateSuccessCount().request(this) { _, data ->
-//            tv_date_count.text = String.format("目前已有%s人在D6约会成功", data?.asString ?: "1000")
-//        }
+
+    private fun getUserInfoPercent(){
+        Request.getAuthState(getLocalUserId()).request(this,false, success = { _, data ->
+            if (data != null) {
+                wanshanziliao = data.optDouble("wanshanziliao").toInt()*10
+            }
+        })
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if(ISNOTBUYMEMBER==0){
-            pushCustomerMessage(this,getLocalUserId(),7,""){
+        if (wanshanziliao < 80) {
+            pushCustomerMessage(this, getLocalUserId(), 7, "") {
 
             }
         }

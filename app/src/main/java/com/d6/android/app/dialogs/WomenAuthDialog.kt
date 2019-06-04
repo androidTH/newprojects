@@ -91,10 +91,11 @@ class WomenAuthDialog : DialogFragment() {
         //第三步认证
         tv_auth.setOnClickListener {
             isBaseActivity {
-                var localUserId = getLocalUserId()
-                it.pushCustomerMessage(it, localUserId, 2, localUserId, next = {
-                    chatService(it)
-                })
+//                var localUserId = getLocalUserId()
+                chatService(it)
+//                it.pushCustomerMessage(it, localUserId, 2, localUserId, next = {
+//                    chatService(it)
+//                })
             }
         }
         getAuthPercent()
