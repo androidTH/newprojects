@@ -67,7 +67,7 @@ class AuthWomenStateActivity : BaseActivity() {
               var mWomenAuthDialog = WomenAuthDialog()
               mWomenAuthDialog.show(supportFragmentManager,"womenAuthDialog")
               mWomenAuthDialog.setDialogListener { p, s ->
-                  ISNOTBUYMEMBER = 1
+//                  ISNOTBUYMEMBER = 1
                   getUserInfo()
               }
         }
