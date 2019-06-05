@@ -84,6 +84,11 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
                 if (dialogListener != null) {
                     dialogListener?.onClick(type, "success")
                 }
+            }else{
+                dismissAllowingStateLoss()
+                if (dialogListener != null) {
+                    dialogListener?.onClick(type, "success")
+                }
             }
         }
 

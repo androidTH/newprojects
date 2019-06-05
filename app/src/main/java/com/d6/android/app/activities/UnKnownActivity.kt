@@ -11,6 +11,7 @@ import com.d6.android.app.adapters.BlackListAdapter
 import com.d6.android.app.adapters.CardManTagAdapter
 import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.BlackListBean
 import com.d6.android.app.models.UserTag
@@ -20,6 +21,7 @@ import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_blacklist.*
 import kotlinx.android.synthetic.main.activity_unknow.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
 /**
@@ -27,6 +29,9 @@ import org.jetbrains.anko.startActivity
  */
 class UnKnownActivity : BaseActivity() {
 
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
+    }
     private val mTags = ArrayList<UserTag>()
 
     private val userTagAdapter by lazy {
@@ -42,15 +47,34 @@ class UnKnownActivity : BaseActivity() {
         }
 
         tv_unknow_square.setOnClickListener {
-
+            startActivity<ReleaseNewTrendsActivity>()
         }
 
         tv_unknow_date.setOnClickListener {
-
+            startActivity<PublishFindDateActivity>()
         }
 
         tv_unknow_start.setOnClickListener {
-
+            isAuthUser(){
+                if(TextUtils.equals("1",sex)){
+                    var point = "500"
+                    var sAddPointDesc = "支付${point}积分开通匿名身份"
+                    val dateDialog = VistorPayPointDialog()
+                    dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 2)
+                    dateDialog.setDialogListener { p, s ->
+                        if(p==2){
+                            tv_unknow_square.visibility = View.VISIBLE
+                            tv_unknow_date.visibility = View.VISIBLE
+                            tv_unknow_start.visibility = View.GONE
+                        }
+                    }
+                    dateDialog.show(supportFragmentManager, "unknow")
+                }else{
+                    tv_unknow_square.visibility = View.VISIBLE
+                    tv_unknow_date.visibility = View.VISIBLE
+                    tv_unknow_start.visibility = View.GONE
+                }
+            }
         }
 
         unknow_headview.setImageURI("res:///"+R.mipmap.niming_headbig)

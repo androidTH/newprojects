@@ -39,12 +39,12 @@ class SelectUnKnowTypeDialog : DialogFragment() {
             dismissAllowingStateLoss()
         }
 
-        tv_unknow_open.setOnClickListener {
+        ll_unknow_open.setOnClickListener {
             dialogListener?.onClick(1, resources.getString(R.string.string_unknow_open))
             dismissAllowingStateLoss()
         }
 
-        tv_unknow_unknow.setOnClickListener {
+        ll_unknow_unknow.setOnClickListener {
             dialogListener?.onClick(2, resources.getString(R.string.string_unknow_unknow))
             dismissAllowingStateLoss()
         }

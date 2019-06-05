@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_line_chat"
+        android:id="@+id/ll_unknow_open"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -38,7 +38,7 @@
         android:background="@color/color_EFEFEF" />
 
     <LinearLayout
-        android:id="@+id/ll_agree_chat"
+        android:id="@+id/ll_unknow_unknow"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_60"
         android:orientation="vertical">
