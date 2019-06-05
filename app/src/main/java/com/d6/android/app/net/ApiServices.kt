@@ -255,7 +255,7 @@ interface ApiServices {
 
     //我的约会
     @POST("backstage/appointment/findMyAppointmentListByPage")
-    fun findMyAppointmentList(@Query("iUserid")sUserId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<MyAppointment>>>
+    fun findMyAppointmentList(@Query("iUserid")sUserId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sVersion") sVersion:String =getAppVersion()):Flowable<Response<Page<MyAppointment>>>
 
     //报名约会
     @POST("backstage/appointmentsignup/add")

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
@@ -20,20 +21,16 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_square_detail.*
 import kotlinx.android.synthetic.main.header_square_detail.view.*
-import org.jetbrains.anko.toast
-import android.view.inputmethod.InputMethodManager
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommentDelDialog
+import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.dialogs.SendRedFlowerDialog
 import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.eventbus.FlowerMsgEvent
-import com.share.utils.ShareUtils
-import com.umeng.socialize.bean.SHARE_MEDIA
+import com.d6.android.app.utils.AppUtils.Companion.context
 import io.rong.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.*
 import java.util.*
 
 
@@ -155,9 +152,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         et_content.addTextChangedListener(object :TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 if (p0 != null && p0.isNotEmpty()) {
-                    btn_send.visible()
+                    btn_send.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_orange)
                 } else {
-                    btn_send.gone()
+                    btn_send.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_grey)
                 }
             }
 
@@ -175,6 +172,31 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             hideSoftKeyboard(et_content)
             if (!isFastClick()) {
                 comment()
+            }
+        }
+
+        tv_unknow_choose.setOnClickListener {
+            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
+            mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
+            mSelectUnknowDialog.setDialogListener { p, s ->
+                if(p==1){
+                    tv_unknow_choose.text = "公开"
+                    var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.public_small)
+                    var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
+                    tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
+
+                    tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_666666)
+                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_white_border)
+                }else if(p==2){
+                    tv_unknow_choose.text = "匿名"
+                    var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.anonymous_small)
+                    var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
+
+                    tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
+
+                    tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.white)
+                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_5a_border)
+                }
             }
         }
         dialog()

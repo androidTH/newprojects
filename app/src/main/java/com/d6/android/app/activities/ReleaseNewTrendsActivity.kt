@@ -26,6 +26,7 @@ import com.d6.android.app.models.Fans
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -201,13 +202,12 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         }
 
         et_content.addTextChangedListener(object:TextWatcher{
-            override fun afterTextChanged(s: Editable?) {
-                if(s.isNullOrEmpty() || TextUtils.isEmpty(et_content.text)){
-                    tv_release.backgroundResource = R.drawable.shape_10r_grey
-                }else{
-                    tv_release.backgroundResource = R.drawable.shape_10r_orange
-                }
-            }
+            override fun afterTextChanged(s: Editable?) =
+                    if(s.isNullOrEmpty() || TextUtils.isEmpty(et_content.text)){
+                        tv_release.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_grey)
+                    }else{
+                        tv_release.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_orange)
+                    }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 

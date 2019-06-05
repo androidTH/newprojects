@@ -1,44 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
+
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/mSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
+
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="@dimen/padding_16"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:paddingTop="@dimen/margin_10"
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_6">
+
+        <TextView
+            android:id="@+id/tv_unknow_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginRight="@dimen/margin_6"
+            android:background="@drawable/shape_20r_white_border"
+            android:drawableLeft="@mipmap/public_small"
+            android:drawableRight="@mipmap/ic_arrow_down"
+            android:drawablePadding="@dimen/margin_2"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_6"
+            android:paddingTop="@dimen/margin_3"
+            android:paddingRight="@dimen/margin_6"
+            android:paddingBottom="@dimen/margin_3"
+            android:text="公开"
+            android:textColor="@color/color_666666"
+            android:textSize="12sp" />
+
         <EditText
             android:id="@+id/et_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="@string/string_comment_tips"
-            android:padding="8dp"
-            android:textColorHint="@color/white"
-            android:textColor="@color/textColor"
-            android:text=""
-            android:maxLines="3"
+            android:background="@drawable/shape_25r_f1"
             android:gravity="top|left"
-            android:textSize="@dimen/textSize"
-            android:background="@drawable/shape_4r_gray"
-            android:layout_height="wrap_content" />
+            android:hint="@string/string_comment_tips"
+            android:maxLines="2"
+            android:paddingLeft="@dimen/margin_13"
+            android:paddingRight="@dimen/margin_8"
+            android:paddingTop="@dimen/margin_8"
+            android:paddingBottom="@dimen/margin_8"
+            android:text=""
+            android:textColor="@color/color_333333"
+            android:textColorHint="@color/color_999999"
+            android:textSize="@dimen/textSize" />
+
         <TextView
+            android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_orange_rounded"
-            android:text="发送"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/shape_10r_grey"
             android:paddingLeft="12dp"
             android:paddingTop="8dp"
-            android:layout_gravity="bottom"
-            android:paddingBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:visibility="gone"
             android:paddingRight="12dp"
+            android:paddingBottom="8dp"
+            android:text="发送"
             android:textColor="@color/white"
-            android:id="@+id/btn_send"/>
+            android:visibility="visible" />
+        <!--android:background="@drawable/shape_orange_rounded"-->
     </LinearLayout>
 </LinearLayout>
