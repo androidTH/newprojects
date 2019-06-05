@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F5F5F5"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_size"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_unknow_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/back"
+            android:paddingLeft="@dimen/padding_16" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="匿名身份"
+            android:textColor="@color/color_black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_15"
+        android:gravity="center"
+        android:text="担心别人知道你的身份吗，想以匿名身份捉弄一下好友吗，开通“匿名身份”即可隐身，支持以下匿名功能"
+        android:textColor="@color/color_666666"
+        android:textSize="14sp" />
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_20">
+
+        <TextView
+            android:id="@+id/tv_unknow_dowhat01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="·匿名发布动态"
+            android:textColor="@color/color_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_unknow_dowhat02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="·匿名发布动态"
+            android:textColor="@color/color_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_unknow_dowhat03"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_unknow_dowhat01"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="·匿名身份聊天"
+            android:textColor="@color/color_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_unknow_dowhat04"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_unknow_dowhat02"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="·匿名身份评论"
+            android:textColor="@color/color_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_25">
+
+        <RelativeLayout
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_30"
+            android:background="@drawable/shape_white_8r"
+            android:paddingBottom="@dimen/margin_15">
+
+            <TextView
+                android:id="@+id/tv_unknow_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_35"
+                android:text="匿名"
+                android:textColor="@color/color_black"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_unknow_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_unknow_name"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_10"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_5"
+                    android:background="@drawable/ic_sex_bg_selector"
+                    android:drawableLeft="@drawable/sex_white_selector"
+                    android:drawablePadding="1dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="0.5dp"
+                    android:paddingRight="3dp"
+                    android:paddingBottom="0.5dp"
+                    android:text="24"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/tv_vip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp"
+                    android:background="@mipmap/vip_gold"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_unknow_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_unknow_level"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15" />
+        </RelativeLayout>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/unknow_headview"
+            style="@style/DefaultCircleNoHeadStyle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/niming_headbig"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_20">
+
+        <TextView
+            android:id="@+id/tv_unknow_square"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_weight="1"
+            android:background="@drawable/shape_6r_orange"
+            android:gravity="center"
+            android:text="发布动态"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_unknow_date"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_6r_orange"
+            android:gravity="center"
+            android:text="发布约会"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_unknow_start"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_6r_orange"
+            android:gravity="center"
+            android:text="开启匿名身份"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_unknow_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_10"
+        android:text="开启匿名后将获得7次匿名试用机会"
+        android:textColor="@color/color_666666"
+        android:textSize="12sp" />
+</LinearLayout>
