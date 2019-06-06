@@ -108,9 +108,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //            getOtherUser()
 //        }
 
-        getOtherUser()
-
-        RongUtils.setUserInfo(mTargetId,null,chat_headView)
+        if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
+            getOtherUser()
+            RongUtils.setUserInfo(mTargetId,null,chat_headView)
+        }
 
         tv_openchat_apply.setOnClickListener {
             tv_openchat_apply.isEnabled = false
@@ -484,10 +485,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             }
         }
 
-        if (!TextUtils.equals(mTargetId, Const.CustomerServiceId)||!TextUtils.equals(mTargetId, Const.CustomerServiceWomenId)) {
-            getApplyStatus()
+        if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
+            if (!TextUtils.equals(mTargetId, Const.CustomerServiceId)||!TextUtils.equals(mTargetId, Const.CustomerServiceWomenId)) {
+                getApplyStatus()
+            }
         }
-
     }
 
     override fun onSend(p0: Message?): Message? {

@@ -52,7 +52,7 @@ object Const {
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
 
     @JvmField
-    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","不限")
+    var dateTypes = arrayOf("旅行","吃饭","电影","看电影","不限") // 游戏
     @JvmField
     var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,
             R.mipmap.invitation_drink_small,R.mipmap.invitation_nolimit_small)
@@ -104,6 +104,9 @@ object Const {
 
     @JvmField
     val IS_FIRST_SHOW_TIPS = "is_first_show_tips"
+
+    @JvmField
+    val IS_FIRST_SHOWUNKNOW_TIPS = "is_first_show_unknow_tips"
 
     @JvmField
     val YOUMENG_MSG_NOTIFION = "com.d6.app.youmeng_msg_notifion"

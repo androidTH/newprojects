@@ -2,6 +2,7 @@ package com.d6.android.app.fragments
 
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
@@ -131,7 +132,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                builder.city("北京")
 //                RongIM.getInstance().startCustomerServiceChat(activity, "KEFU146001495753714", "在线客服", builder.build())
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
-            } else {
+            } else if(conversation.conversationType ==Conversation.ConversationType.GROUP){
+                Log.i("messageFragment","${conversation.targetId}===${conversation.conversationTitle}")
+                RongIM.getInstance().startGroupChat(context, conversation.targetId, "匿名")
+            }else {
                 activity.isAuthUser{
                     RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
 //                    Request.getApplyStatus(userId, conversation.targetId).request(this, false, success = { msg, jsonObjetct ->
@@ -196,7 +200,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             override fun onError(errorCode: RongIMClient.ErrorCode) {
 
             }
-        }, Conversation.ConversationType.PRIVATE)
+        }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
     }
 
     /**

@@ -189,6 +189,8 @@ class MineFragment : BaseFragment() {
 
         rl_unknow.setOnClickListener {
             startActivity<UnKnownActivity>()
+            iv_unknow_reddot.visibility = View.GONE
+            SPUtils.instance().put(Const.IS_FIRST_SHOWUNKNOW_TIPS, true).apply()
         }
 
         rv_square_imgs.setHasFixedSize(true)
@@ -201,6 +203,11 @@ class MineFragment : BaseFragment() {
                 .build())
 
         headview.hierarchy = getHierarchy()
+        if(!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOWUNKNOW_TIPS, false)){
+            iv_unknow_reddot.visibility = View.VISIBLE
+        }else{
+            iv_unknow_reddot.visibility = View.GONE
+        }
     }
 
     override fun onFirstVisibleToUser() {
