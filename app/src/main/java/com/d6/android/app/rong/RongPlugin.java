@@ -7,6 +7,7 @@ import com.d6.android.app.rong.bean.BusinessCardFMsgContent;
 import com.d6.android.app.rong.bean.BusinessCardMMsgContent;
 import com.d6.android.app.rong.bean.CommentMsgContent;
 import com.d6.android.app.rong.bean.CustomMessage;
+import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage;
 import com.d6.android.app.rong.bean.LookDateMsgContent;
 import com.d6.android.app.rong.bean.SpeedDateMsgContent;
 import com.d6.android.app.rong.bean.SquareMsgContent;
@@ -18,6 +19,7 @@ import com.d6.android.app.rong.provider.BusinessCardMMsgProvider;
 import com.d6.android.app.rong.provider.CommentMsgProvider;
 import com.d6.android.app.rong.provider.CustomMessageProvider;
 import com.d6.android.app.rong.provider.CustomUnKnowMessageProvider;
+import com.d6.android.app.rong.provider.GroupUnKnowMessageProvider;
 import com.d6.android.app.rong.provider.LookDateMsgProvider;
 import com.d6.android.app.rong.provider.SpeedDateMsgProvider;
 import com.d6.android.app.rong.provider.SquareMsgProvider;
@@ -87,6 +89,7 @@ public class RongPlugin {
         RongIM.registerMessageType(LookDateMsgContent.class);
         RongIM.registerMessageType(BusinessCardFMsgContent.class);
         RongIM.registerMessageType(BusinessCardMMsgContent.class);
+        RongIM.registerMessageType(GroupUnKnowTipsMessage.class);
 
         RongIM.registerMessageTemplate(new CustomMessageProvider());
         RongIM.registerMessageTemplate(new TipsMessageProvider());
@@ -98,6 +101,7 @@ public class RongPlugin {
         RongIM.registerMessageTemplate(new LookDateMsgProvider());//密约
         RongIM.registerMessageTemplate(new BusinessCardFMsgProvider());//急约
         RongIM.registerMessageTemplate(new BusinessCardMMsgProvider());//急约
+        RongIM.registerMessageTemplate(new GroupUnKnowMessageProvider());//群组消息
 
     }
 }

@@ -160,3 +160,16 @@ fun getSevenDays(timestamp: Long):Boolean{
     }
     return false
 }
+
+fun getOneDay(timestamp: Long):Boolean{
+    val currentSeconds = System.currentTimeMillis()
+    val timeGap = (currentSeconds - timestamp)/1000 // 与现在时间相差秒数
+    var days:Long=0
+    if (timeGap > 24 * 60 * 60) {
+        days = (timeGap / (24 * 60 * 60))
+    }
+    if(days>=1){
+        return true
+    }
+    return false
+}

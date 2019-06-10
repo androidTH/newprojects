@@ -223,7 +223,7 @@ class PublishFindDateActivity : BaseActivity() {
 
         tv_unknow_sf.setOnClickListener {
             var mSelectUnknowDialog = SelectUnKnowTypeDialog()
-            mSelectUnknowDialog.arguments = bundleOf("type" to "PublishFindDate")
+            mSelectUnknowDialog.arguments = bundleOf("type" to "PublishFindDate","IsOpenUnKnow" to "close")
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
                 if(p==1){

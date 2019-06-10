@@ -8,15 +8,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.UnKnownActivity
+import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.OnDialogListener
+import com.d6.android.app.utils.SPUtils
 import kotlinx.android.synthetic.main.dialog_select_unknowtype_layout.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.wrapContent
 
 /**
  * 设置私聊类型
  */
 class SelectUnKnowTypeDialog : DialogFragment() {
+
+    private val point_nums by lazy {
+        SPUtils.instance().getString(Const.User.USERPOINTS_NUMS)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,10 +46,9 @@ class SelectUnKnowTypeDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var type = ""
-        if(arguments !=null){
-            type =   arguments.getString("type")
-        }
+        var type = arguments.getString("type")
+        var  IsOpenUnKnow = arguments.getString("IsOpenUnKnow","")
+
         tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()
         }
@@ -50,15 +59,26 @@ class SelectUnKnowTypeDialog : DialogFragment() {
         }
 
         ll_unknow_unknow.setOnClickListener {
-            dialogListener?.onClick(2, resources.getString(R.string.string_unknow_unknow))
+            if(TextUtils.equals(IsOpenUnKnow,"close")){
+                startActivity<UnKnownActivity>()
+            }else{
+                if(point_nums.toInt()<50){
+                    var openErrorDialog = OpenDatePointNoEnoughDialog()
+                    openErrorDialog.arguments= bundleOf("point" to "30","remainPoint" to "50")
+                    openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                }else{
+//                    SPUtils.instance().put(Const.User.USERPOINTS_NUMS,(point_nums.toInt()-50).toString()).apply()
+                    dialogListener?.onClick(2, resources.getString(R.string.string_unknow_unknow))
+                }
+            }
             dismissAllowingStateLoss()
         }
 
         if(TextUtils.equals("PublishFindDate",type)){
-            tv_unknow_opentips.text = "以当前身份发布约会"
+//            tv_unknow_opentips.text = "以真实身份发布"
             tv_unknow_unknowtips.text ="以匿名身份发布约会"
         }else if(TextUtils.equals("SquareTrendDetail",type)){
-            tv_unknow_opentips.text ="以当前身份发布评论"
+//            tv_unknow_opentips.text ="以当前身份发布评论"
             tv_unknow_unknowtips.text ="以匿名身份发布评论"
         }
     }

@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_10"
-            android:text="以当前身份发布动态"
+            android:text="以真实身份发布"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
     </LinearLayout>

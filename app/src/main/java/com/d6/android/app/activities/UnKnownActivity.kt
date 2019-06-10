@@ -31,9 +31,6 @@ import org.jetbrains.anko.startActivity
  */
 class UnKnownActivity : BaseActivity() {
 
-    private val sex by lazy{
-        SPUtils.instance().getString(Const.User.USER_SEX)
-    }
     private val mTags = ArrayList<UserUnKnowTag>()
 
     private val userTagAdapter by lazy {
@@ -58,24 +55,18 @@ class UnKnownActivity : BaseActivity() {
 
         tv_unknow_start.setOnClickListener {
             isAuthUser(){
-                if(TextUtils.equals("1",sex)){
-                    var point = "500"
-                    var sAddPointDesc = "支付${point}积分开通匿名身份"
-                    val dateDialog = VistorPayPointDialog()
-                    dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 2)
-                    dateDialog.setDialogListener { p, s ->
-                        if(p==2){
-                            tv_unknow_square.visibility = View.VISIBLE
-                            tv_unknow_date.visibility = View.VISIBLE
-                            tv_unknow_start.visibility = View.GONE
-                        }
+                var point = "400"
+                var sAddPointDesc = "支付${point}积分开通匿名身份"
+                val dateDialog = VistorPayPointDialog()
+                dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 2)
+                dateDialog.setDialogListener { p, s ->
+                    if (p == 2) {
+                        tv_unknow_square.visibility = View.VISIBLE
+                        tv_unknow_date.visibility = View.VISIBLE
+                        tv_unknow_start.visibility = View.GONE
                     }
-                    dateDialog.show(supportFragmentManager, "unknow")
-                }else{
-                    tv_unknow_square.visibility = View.VISIBLE
-                    tv_unknow_date.visibility = View.VISIBLE
-                    tv_unknow_start.visibility = View.GONE
                 }
+                dateDialog.show(supportFragmentManager, "unknow")
             }
         }
 

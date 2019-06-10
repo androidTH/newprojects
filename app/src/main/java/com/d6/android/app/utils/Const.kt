@@ -32,7 +32,7 @@ object Const {
         var  DEVICETOKEN ="devicetoken"
         var  HEADERIMAGE ="headerimage"
         var  SELECTIMAGE ="selectimage"
-        var  USERPOINTS_NUMS = "UserPointNums"
+        var  USERPOINTS_NUMS = "UserPointNums"//用户积分数量
         var  SLOGINTOKEN ="sLoginToken"
 }
 
@@ -149,4 +149,7 @@ object Const {
 
     @JvmField
     var OPENSTALL_CHANNEL = "openstall_channel"
+
+    @JvmField
+    var SEND_GROUP_TIPSMESSAGE = "send_group_tipsmessage"
 }

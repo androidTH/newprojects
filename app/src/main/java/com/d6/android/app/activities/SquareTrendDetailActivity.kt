@@ -177,7 +177,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         tv_unknow_choose.setOnClickListener {
             var mSelectUnknowDialog = SelectUnKnowTypeDialog()
-            mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail")
+            mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail","IsOpenUnKnow" to "close")
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
                 if(p==1){
