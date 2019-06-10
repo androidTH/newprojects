@@ -1,7 +1,9 @@
 package com.d6.android.app.activities
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -21,9 +23,7 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.activity_chat.*
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import org.json.JSONObject
 import java.util.*
 
@@ -64,7 +64,21 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        immersionBar.init()
+        if(mConversationType==Conversation.ConversationType.GROUP){
+            immersionBar.statusBarColor(R.color.color_8F5A5A).statusBarDarkFont(true).init()
+            rl_chat_toolbar.backgroundColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+            chat_headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
+            iv_nimingbg.visibility = View.VISIBLE
+            tv_chattitle.textColor = ContextCompat.getColor(this,R.color.white)
+            var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.titlemore_whitesmall_icon)
+
+            tv_chattitle.setCompoundDrawablesWithIntrinsicBounds(null,null,mDrawableRight,null)
+
+        }else if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
+            immersionBar.init()
+            getOtherUser()
+            RongUtils.setUserInfo(mTargetId,null,chat_headView)
+        }
 
 //        titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
 //            startActivity<UserInfoActivity>("id" to mTargetId)
@@ -77,7 +91,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
 
         ll_userinfo.setOnClickListener {
-            startActivity<UserInfoActivity>("id" to mTargetId)
+            if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
+                startActivity<UserInfoActivity>("id" to mTargetId)
+            }else{
+                var mUnknowDialog = UnKnowInfoDialog()
+                mUnknowDialog.arguments = bundleOf("otheruserId" to "")
+                mUnknowDialog.show(supportFragmentManager,"unknowDialog")
+            }
         }
 
         iv_chat_more.setOnClickListener {
@@ -107,11 +127,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //        if(TextUtils.equals("--",mTitle)){
 //            getOtherUser()
 //        }
-
-        if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
-            getOtherUser()
-            RongUtils.setUserInfo(mTargetId,null,chat_headView)
-        }
 
         tv_openchat_apply.setOnClickListener {
             tv_openchat_apply.isEnabled = false
@@ -153,6 +168,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //                    null);
 //        }
 //        RongIMClient.getInstance().cleanHistoryMessages(Conversation.ConversationType.PRIVATE,"",System.currentTimeMillis(),true,null)
+    }
+
+    /**
+     * 获取群组成员信息
+     */
+    private fun getGroupMembers() {
+
     }
 
     /**

@@ -18,6 +18,7 @@ import com.d6.android.app.adapters.DateTypeAdapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.OpenDateErrorDialog
+import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
@@ -218,6 +219,19 @@ class PublishFindDateActivity : BaseActivity() {
 
         tv_notififriends.setOnClickListener {
             startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, Const.CHOOSE_Friends to mChooseFriends)
+        }
+
+        tv_unknow_sf.setOnClickListener {
+            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
+            mSelectUnknowDialog.arguments = bundleOf("type" to "PublishFindDate")
+            mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
+            mSelectUnknowDialog.setDialogListener { p, s ->
+                if(p==1){
+                    tv_unknow_sf.text = "公开身份"
+                }else{
+                    tv_unknow_sf.text = "匿名身份"
+                }
+            }
         }
 
         startTime = getTodayTime()

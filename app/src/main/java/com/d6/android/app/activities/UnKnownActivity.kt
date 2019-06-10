@@ -9,12 +9,14 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.BlackListAdapter
 import com.d6.android.app.adapters.CardManTagAdapter
+import com.d6.android.app.adapters.CardUnKnowTagAdapter
 import com.d6.android.app.adapters.UserTagAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.BlackListBean
 import com.d6.android.app.models.UserTag
+import com.d6.android.app.models.UserUnKnowTag
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
@@ -32,16 +34,16 @@ class UnKnownActivity : BaseActivity() {
     private val sex by lazy{
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
-    private val mTags = ArrayList<UserTag>()
+    private val mTags = ArrayList<UserUnKnowTag>()
 
     private val userTagAdapter by lazy {
-        CardManTagAdapter(mTags)
+        CardUnKnowTagAdapter(mTags)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_unknow)
-        immersionBar.fitsSystemWindows(true).statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
+        immersionBar.fitsSystemWindows(true).statusBarColor(R.color.color_8F5A5A).statusBarDarkFont(true).init()
         tv_unknow_back.setOnClickListener {
             finish()
         }
@@ -77,7 +79,7 @@ class UnKnownActivity : BaseActivity() {
             }
         }
 
-        unknow_headview.setImageURI("res:///"+R.mipmap.niming_headbig)
+        unknow_headview.setImageURI("res:///"+R.mipmap.nimingtouxiang_big)
 
         rv_unknow_tags.setHasFixedSize(true)
         rv_unknow_tags.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
@@ -108,39 +110,38 @@ class UnKnownActivity : BaseActivity() {
                 mTags.clear()
 
                 if (!it.height.isNullOrEmpty()) {
-                    mTags.add(UserTag("身高 ${it.height}", R.mipmap.boy_stature_icon))
+                    mTags.add(UserUnKnowTag("身高","${it.height}",R.mipmap.boy_stature_icon))
                 }
 
                 if (!it.weight.isNullOrEmpty()) {
-                    mTags.add(UserTag("体重 ${it.weight}", R.mipmap.boy_weight_icon))
+                    mTags.add(UserUnKnowTag("体重","${it.weight}",R.mipmap.boy_weight_icon))
                 }
 
                 if (!it.constellation.isNullOrEmpty()) {
-                    mTags.add(UserTag("星座 ${it.constellation}", R.mipmap.boy_constellation_icon))
+                    mTags.add(UserUnKnowTag("星座"," ${it.constellation}",R.mipmap.boy_constellation_icon))
                 }
 
                 if (!it.city.isNullOrEmpty()) {
-                    mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_icon))
+                    mTags.add(UserUnKnowTag("地区","${it.city}",R.mipmap.boy_area_icon))
                 }
 
                 if (!it.job.isNullOrEmpty()) {
-                    mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_icon))
+                    mTags.add(UserUnKnowTag("职业", "${it.job}",R.mipmap.boy_profession_icon))
                 }
 
                 if (!it.zuojia.isNullOrEmpty()) {
-                    mTags.add(UserTag("座驾 ${it.zuojia}", R.mipmap.boy_car_icon))
+                    mTags.add(UserUnKnowTag("座驾","${it.zuojia}",R.mipmap.boy_car_icon))
                 }
 
                 if (!it.hobbit.isNullOrEmpty()) {
                     var mHobbies = it.hobbit?.replace("#", ",")?.split(",")
                     var sb = StringBuffer()
-                    sb.append("爱好 ")
                     if (mHobbies != null) {
                         for (str in mHobbies) {
 //                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
                             sb.append("${str} ")
                         }
-                        mTags.add(UserTag(sb.toString(), R.mipmap.boy_hobby_icon))
+                        mTags.add(UserUnKnowTag("爱好",sb.toString(),R.mipmap.boy_hobby_icon))
                     }
                 }
                 userTagAdapter.notifyDataSetChanged()

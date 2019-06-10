@@ -177,6 +177,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         tv_unknow_choose.setOnClickListener {
             var mSelectUnknowDialog = SelectUnKnowTypeDialog()
+            mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail")
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
                 if(p==1){
@@ -186,16 +187,16 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
 
                     tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_666666)
-                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_white_border)
+//                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_white_border)
                 }else if(p==2){
                     tv_unknow_choose.text = "匿名"
-                    var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.anonymous_small)
-                    var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
+                    var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.key_small)
+                    var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.niming_more)
 
                     tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
 
-                    tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.white)
-                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_5a_border)
+                    tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+//                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_5a_border)
                 }
             }
         }

@@ -78,7 +78,7 @@
                     android:background="@null"
                     android:paddingLeft="@dimen/padding_16"
                     android:text=""
-                    android:drawableRight="@drawable/ic_chevron_right_gray_24dp"
+                    android:drawableRight="@mipmap/center_moreicon"
                     android:paddingRight="@dimen/padding_16"
                     android:drawablePadding="8dp"
                     android:textColor="@color/color_666666"
@@ -129,12 +129,13 @@
                     android:hint="约会报名开始时间"
                     android:paddingRight="@dimen/padding_16"
                     android:drawablePadding="8dp"
-                    android:drawableRight="@drawable/ic_chevron_right_gray_24dp"
+                    android:drawableRight="@mipmap/center_moreicon"
                     android:gravity="center_vertical|right" />
                 <View style="@style/view_line_h"
                     android:layout_marginLeft="@dimen/padding_16"
                     android:layout_alignBottom="@+id/tv_area"/>
                 <TextView
+                    android:id="@+id/tv_endtime_name"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_below="@+id/tv_startTime"
@@ -155,11 +156,40 @@
                     android:hint="约会报名结束时间"
                     android:paddingRight="@dimen/padding_16"
                     android:drawablePadding="8dp"
-                    android:drawableRight="@drawable/ic_chevron_right_gray_24dp"
+                    android:drawableRight="@mipmap/center_moreicon"
                     android:gravity="center_vertical|right" />
                 <View style="@style/view_line_h"
                     android:layout_marginLeft="@dimen/padding_16"
                     android:layout_alignBottom="@+id/tv_startTime"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/tv_endtime_name"
+                    android:paddingLeft="@dimen/padding_16"
+                    android:text="发布身份"
+                    android:textColor="@color/color_333333"
+                    android:gravity="center_vertical" />
+                <TextView
+                    android:id="@+id/tv_unknow_sf"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/tv_endtime_name"
+                    android:layout_marginLeft="80dp"
+                    android:singleLine="true"
+                    android:paddingLeft="@dimen/padding_16"
+                    android:text="公开身份"
+                    android:textColor="@color/color_666666"
+                    android:paddingRight="@dimen/padding_16"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@mipmap/center_moreicon"
+                    android:gravity="center_vertical|right" />
+                <!--android:drawableRight="@drawable/ic_chevron_right_gray_24dp"-->
+
+                <View style="@style/view_line_h"
+                    android:layout_marginLeft="@dimen/padding_16"
+                    android:layout_alignBottom="@+id/tv_endtime_name"/>
             </RelativeLayout>
             <View style="@style/view_line_h"
                 android:layout_height="6dp"/>

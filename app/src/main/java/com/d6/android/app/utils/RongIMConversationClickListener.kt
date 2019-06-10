@@ -1,12 +1,16 @@
 package com.d6.android.app.utils
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import com.d6.android.app.activities.UserInfoActivity
+import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
 /**
@@ -65,7 +69,13 @@ class RongIMConversationClickListener : RongIM.ConversationClickListener{
      */
     @Suppress("UNREACHABLE_CODE")
     override fun onUserPortraitClick(p0: Context?, p1: Conversation.ConversationType?, p2: UserInfo?, p3: String?): Boolean {
-        p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
+        if(p1==Conversation.ConversationType.GROUP){
+            var mUnknowDialog = UnKnowInfoDialog()
+            mUnknowDialog.arguments = bundleOf("otheruserId" to p2!!.userId)
+            mUnknowDialog.show((p0 as BaseActivity).supportFragmentManager,"unknowDialog")
+        }else{
+            p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
+        }
         return true
     }
 

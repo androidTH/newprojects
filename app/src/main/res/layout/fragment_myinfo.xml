@@ -428,7 +428,7 @@
                 android:text="匿名身份"
                 android:textColor="@color/color_black"
                 android:drawablePadding="@dimen/margin_10"
-                android:drawableLeft="@mipmap/nimingxing"
+                android:drawableLeft="@mipmap/niming_person"
                 android:textSize="15sp" />
 
             <ImageView

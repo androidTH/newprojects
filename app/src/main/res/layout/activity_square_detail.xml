@@ -22,9 +22,8 @@
         <TextView
             android:id="@+id/tv_unknow_choose"
             android:layout_width="wrap_content"
-            android:layout_height="28dp"
+            android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin_6"
-            android:background="@drawable/shape_20r_white_border"
             android:drawableLeft="@mipmap/public_small"
             android:drawableRight="@mipmap/ic_arrow_down"
             android:drawablePadding="@dimen/margin_2"
@@ -34,6 +33,7 @@
             android:paddingRight="@dimen/margin_6"
             android:paddingBottom="@dimen/margin_3"
             android:text="公开"
+            android:textStyle="bold"
             android:textColor="@color/color_666666"
             android:textSize="12sp" />
 

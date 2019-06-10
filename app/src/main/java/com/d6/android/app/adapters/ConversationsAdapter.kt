@@ -35,7 +35,11 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
 
         if (data.conversationType === Conversation.ConversationType.PRIVATE) {
             RongUtils.setUserInfo(data.targetId, tv_name, headView)
+        }else if(data.conversationType==Conversation.ConversationType.GROUP){
+            tv_name.text = "匿名"
+            headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
         }
+
         tv_time.text = RongDateUtils.getConversationListFormatDate(data.sentTime, context)
         val tv_content = holder.bind<TextView>(R.id.tv_content)
         if (data.latestMessage != null) {

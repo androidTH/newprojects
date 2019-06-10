@@ -109,12 +109,12 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 if (cityType == 0) {
                     tv_address.text = "添加地址"
 //                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)//R.mipmap.ic_add1
-                    tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//R.mipmap.ic_add1
+                    tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)//R.mipmap.ic_add1
 //                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.textColor99))
                 } else {
                     tv_address.text = city
 //                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(,0,0,0)
-                    tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,R.mipmap.comment_local_del,0)
+                    tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)
 //                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.orange_f6a))
                 }
 
@@ -139,7 +139,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 tv_address.text = "添加地址"
 //                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//R.mipmap.ic_add1
+                tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)//R.mipmap.ic_add1
 
             }
         }
@@ -151,7 +151,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 tv_address.text = "添加地址"
 //                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)//comment_addlocal_icon
+                tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)//comment_addlocal_icon
 
             } else {
                 cityType = 1
@@ -163,15 +163,16 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                             tv_address.text = city
 //                            tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_loc_yellow,0,0,0)
 //                            tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_delete1,0,0,0)
-                            tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,R.mipmap.comment_local_del,0)
+                            tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)
                         }
                     } else {
                         cityType = 0
                         toast("没有定位权限")
                         tv_address.text = ""
+//                        R.mipmap.comment_addlocal_icon
 //                        tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.comment_addlocal_icon,0,0,0)
+                        tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
                     }
                 }
             }
@@ -222,27 +223,31 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, CHOOSE_Friends to mChooseFriends)
         }
 
+        rl_noticefriends.setOnClickListener {
+            startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, CHOOSE_Friends to mChooseFriends)
+        }
+
         tv_unknow_choose.setOnClickListener {
            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
            mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
            mSelectUnknowDialog.setDialogListener { p, s ->
                tv_unknow_choose.text = s
-               if(p==1){
-                   var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.public_small)
-                   var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
-                   tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
+//               if(p==1){
+//                   var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.public_small)
+//                   var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
+//                   tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
+//
+//                   tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_666666)
+//                   tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_white_border)
+//               }else if(p==2){
+//                   var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.anonymous_small)
+//                   var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
 
-                   tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_666666)
-                   tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_white_border)
-               }else if(p==2){
-                   var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.anonymous_small)
-                   var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
+//                   tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
 
-                   tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
-
-                   tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.white)
-                   tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_5a_border)
-               }
+//                   tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.white)
+//                   tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_10r_5a_border)
+//               }
            }
         }
 

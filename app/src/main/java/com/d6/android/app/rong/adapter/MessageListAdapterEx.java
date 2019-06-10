@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.d6.android.app.R;
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 
 import static com.d6.android.app.utils.Const.CustomerServiceId;
@@ -43,26 +44,34 @@ public class MessageListAdapterEx extends MessageListAdapter {
     @Override
     protected void bindView(View v, int position, UIMessage data) {
         super.bindView(v, position, data);
-        ViewHolderEx holder= (ViewHolderEx) v.getTag(R.id.viewholderex);
+        ViewHolderEx holderEx= (ViewHolderEx) v.getTag(R.id.viewholderex);
         if(TextUtils.equals(CustomerServiceId,data.getTargetId())||TextUtils.equals(CustomerServiceWomenId,data.getTargetId())){
             if(data.getMessageDirection() == Message.MessageDirection.RECEIVE){
-                holder.mIvHeaderLeftSign.setVisibility(View.VISIBLE);
-                holder.mIvHeaderRightSign.setVisibility(View.GONE);
+                holderEx.mIvHeaderLeftSign.setVisibility(View.VISIBLE);
+                holderEx.mIvHeaderRightSign.setVisibility(View.GONE);
             }else{
-                holder.mIvHeaderLeftSign.setVisibility(View.GONE);
-                holder.mIvHeaderRightSign.setVisibility(View.GONE);
+                holderEx.mIvHeaderLeftSign.setVisibility(View.GONE);
+                holderEx.mIvHeaderRightSign.setVisibility(View.GONE);
             }
         }else if(TextUtils.equals(CustomerServiceId,data.getSenderUserId())||TextUtils.equals(CustomerServiceWomenId,data.getSenderUserId())){
             if(data.getMessageDirection() == Message.MessageDirection.SEND){
-                holder.mIvHeaderLeftSign.setVisibility(View.GONE);
-                holder.mIvHeaderRightSign.setVisibility(View.VISIBLE);
+                holderEx.mIvHeaderLeftSign.setVisibility(View.GONE);
+                holderEx.mIvHeaderRightSign.setVisibility(View.VISIBLE);
             }else{
-                holder.mIvHeaderLeftSign.setVisibility(View.GONE);
-                holder.mIvHeaderRightSign.setVisibility(View.GONE);
+                holderEx.mIvHeaderLeftSign.setVisibility(View.GONE);
+                holderEx.mIvHeaderRightSign.setVisibility(View.GONE);
             }
         }else{
-            holder.mIvHeaderLeftSign.setVisibility(View.GONE);
-            holder.mIvHeaderRightSign.setVisibility(View.GONE);
+            holderEx.mIvHeaderLeftSign.setVisibility(View.GONE);
+            holderEx.mIvHeaderRightSign.setVisibility(View.GONE);
+        }
+
+        if (data.getConversationType() == Conversation.ConversationType.GROUP) {
+            if (data.getMessageDirection() == Message.MessageDirection.RECEIVE) {
+                MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
+                holder.leftIconView.setAvatar(null, R.mipmap.nimingtouxiang_small);
+                holder.nameView.setVisibility(View.GONE);
+            }
         }
     }
 

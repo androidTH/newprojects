@@ -2,6 +2,7 @@ package com.d6.android.app.dialogs
 
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,10 @@ class SelectUnKnowTypeDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var type = ""
+        if(arguments !=null){
+            type =   arguments.getString("type")
+        }
         tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()
         }
@@ -47,6 +52,14 @@ class SelectUnKnowTypeDialog : DialogFragment() {
         ll_unknow_unknow.setOnClickListener {
             dialogListener?.onClick(2, resources.getString(R.string.string_unknow_unknow))
             dismissAllowingStateLoss()
+        }
+
+        if(TextUtils.equals("PublishFindDate",type)){
+            tv_unknow_opentips.text = "以当前身份发布约会"
+            tv_unknow_unknowtips.text ="以匿名身份发布约会"
+        }else if(TextUtils.equals("SquareTrendDetail",type)){
+            tv_unknow_opentips.text ="以当前身份发布评论"
+            tv_unknow_unknowtips.text ="以匿名身份发布评论"
         }
     }
 
