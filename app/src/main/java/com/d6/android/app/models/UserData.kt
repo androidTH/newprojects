@@ -69,6 +69,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var sLoginToken:String?=""
     var sServicePicUrl:String?=""
     var dUserClassEndTime:Long?=0
+    var iAnonymousCount:Int?=-1
 
     override fun toString(): String {
 

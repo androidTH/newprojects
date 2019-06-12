@@ -3,6 +3,9 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +20,7 @@ import com.d6.android.app.widget.LabelsView
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_hobbit_layout.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
@@ -82,7 +86,7 @@ class HobbitDialog : DialogFragment(), RequestManager {
             dismissAllowingStateLoss()
         }
 
-        add_hobbit_iv.setOnClickListener(View.OnClickListener {
+        add_hobbit_tv.setOnClickListener(View.OnClickListener {
             if(mLabels.size < 3){
                 mLabels.add(et_hobbit_content.text.toString().trim())
                 labelsView.setLabels(mLabels, R.layout.layout_tag)
@@ -96,6 +100,25 @@ class HobbitDialog : DialogFragment(), RequestManager {
             }
         }, R.layout.layout_tag)
 
+        et_hobbit_content.addTextChangedListener(object :TextWatcher{
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                s?.let {
+                    if(it.length>0){
+                        add_hobbit_tv.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_right4r_orange)
+                    }else{
+                        add_hobbit_tv.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_right4r_cd)
+                    }
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+        })
     }
 
     private var dialogListener: OnDialogListener? = null

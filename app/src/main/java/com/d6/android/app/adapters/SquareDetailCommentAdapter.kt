@@ -8,15 +8,18 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.CommentDelDialog
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.CustomLinkMovementMethod
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.SpanBuilder
 import com.facebook.drawee.view.SimpleDraweeView
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
 /**
@@ -43,9 +46,17 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         headView.setImageURI(data.picUrl)
         headView.setOnClickListener {
             val id = data.userId ?: ""
-            context.startActivity<UserInfoActivity>("id" to id)
+            if(data.iIsAnonymous==1){
+                var mUnknowDialog = UnKnowInfoDialog()
+                mUnknowDialog.arguments = bundleOf("otheruserId" to "${id}")
+                mUnknowDialog.show((context as BaseActivity).supportFragmentManager,"unknowDialog")
+            }else{
+                context.startActivity<UserInfoActivity>("id" to id)
+            }
         }
+
         holder.setText(R.id.tv_name, data.name)
+
         val contentView = holder.bind<TextView>(R.id.tv_content)
         val spanText = if (data.replyUserId.isNullOrEmpty()) {
             //这里多余了。什么都没做只是转换成了下类型
@@ -69,6 +80,7 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         tv_del_myself_comment.setOnClickListener {
             deleteAction?.onDelete(data)
         }
+
     }
 
     private inner class TextClickableSpan(private val id: String?) : ClickableSpan() {

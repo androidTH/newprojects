@@ -27,6 +27,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_mydate_details.*
 import kotlinx.android.synthetic.main.item_list_date_status.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -268,7 +269,11 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
                         tv_days0.text = data.dCreatetime.interval()//约会发布时间
                         headView0.setOnClickListener {
-                            startUserInfo(data!!.iAppointUserid.toString())
+                            if(data.iIsAnonymous==1){
+                                showUnKnowInfo(data.iAppointUserid.toString())
+                            }else{
+                                startUserInfo(data.iAppointUserid.toString())
+                            }
                         }
 
                         headView1.setImageURI(data.sAppointmentPicUrl)
@@ -276,10 +281,18 @@ class MyDateDetailActivity : BaseActivity() {
                         tv_days1.text = data.dAppointmentSignupUpdatetime.interval()//报名约会时间
                         tv_point_nums.text="已返还${data.iPoint}积分"
                         headView1.setOnClickListener {
-                            startUserInfo(data!!.iAppointUserid.toString())
+                            if(data.iIsAnonymous==1){
+                                showUnKnowInfo(data.iAppointUserid.toString())
+                            }else{
+                                startUserInfo(data.iAppointUserid.toString())
+                            }
                         }
                     }
                 }
+
+                var drawable = ContextCompat.getDrawable(this,Const.dateListTypes[data.iAppointType!!.toInt()-1])
+                iv_datetype_img.backgroundDrawable = drawable
+
                 myAppointment = data
                 iAppointUserid = myAppointment.iAppointUserid.toString()
                 updateUI()
@@ -306,7 +319,11 @@ class MyDateDetailActivity : BaseActivity() {
         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
         tv_days0.text = data.dCreatetime.interval()//约会发布时间//stampToTime(data.dCreatetime)
         headView0.setOnClickListener {
-            startUserInfo(data!!.iAppointUserid.toString())
+            if(data.iIsAnonymous==1){
+                showUnKnowInfo(data.iAppointUserid.toString())
+            }else{
+                startUserInfo(data.iAppointUserid.toString())
+            }
         }
 
         headView1.setImageURI(data.sPicUrl)
@@ -320,7 +337,11 @@ class MyDateDetailActivity : BaseActivity() {
         tv_name2.text = getSpannable("${data.sAppointUserName}:${str}",len)
         tv_days2.text = updateTime.interval() //同意约会时间
         headView2.setOnClickListener {
-            startUserInfo(data.iAppointUserid.toString())
+            if(data.iIsAnonymous==1){
+                showUnKnowInfo(data.iAppointUserid.toString())
+            }else{
+                startUserInfo(data.iAppointUserid.toString())
+            }
         }
     }
 
@@ -333,7 +354,11 @@ class MyDateDetailActivity : BaseActivity() {
         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4);
         tv_days0.text = data.dCreatetime.interval() //约会发布时间
         headView0.setOnClickListener {
-            startUserInfo(data!!.iAppointUserid.toString())
+            if(data.iIsAnonymous==1){
+                showUnKnowInfo(data!!.iAppointUserid.toString())
+            }else{
+                startUserInfo(data!!.iAppointUserid.toString())
+            }
         }
 
         headView1.setImageURI(data.sPicUrl)
@@ -347,7 +372,11 @@ class MyDateDetailActivity : BaseActivity() {
         tv_name2.text = getSpannable("${data.sAppointUserName}:同意",2)
         tv_days2.text = data.dAppointmentSignupUpdatetime.interval() //同意约会时间
         headView2.setOnClickListener {
-            startUserInfo(data!!.iAppointUserid.toString())
+            if(data.iIsAnonymous==1){
+                showUnKnowInfo(data!!.iAppointUserid.toString())
+            }else{
+                startUserInfo(data!!.iAppointUserid.toString())
+            }
         }
 
         headView3.setImageURI(data.sPicUrl)
@@ -431,9 +460,12 @@ class MyDateDetailActivity : BaseActivity() {
         tv_name0.text = getSpannable("${data.sAppointUserName}:发布约会",4)
         tv_days0.text = data.dCreatetime.interval()//约会发布时间
 
-
         headView0.setOnClickListener {
-            startUserInfo(data!!.iAppointUserid.toString())
+            if(data.iIsAnonymous==1){
+                showUnKnowInfo(data!!.iAppointUserid.toString())
+            }else{
+                startUserInfo(data!!.iAppointUserid.toString())
+            }
         }
     }
 
@@ -525,5 +557,11 @@ class MyDateDetailActivity : BaseActivity() {
 
     fun startUserInfo(mTargetId:String){
         startActivity<UserInfoActivity>("id" to mTargetId)
+    }
+
+    fun showUnKnowInfo(mTargetId:String){
+        var mUnknowDialog = UnKnowInfoDialog()
+        mUnknowDialog.arguments = bundleOf("otheruserId" to mTargetId)
+        mUnknowDialog.show(supportFragmentManager,"unknowDialog")
     }
 }

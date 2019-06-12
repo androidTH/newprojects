@@ -23,7 +23,7 @@ import io.rong.imlib.model.UserInfo;
  * Created by Beyond on 2016/12/5.
  */
 
-@MessageTag(value = "app:CustomGroupUnKnowTipsMsg", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
+@MessageTag(value = "app:CustomGroupUnKnowTipsMsg", flag = MessageTag.ISCOUNTED)
 public class GroupUnKnowTipsMessage extends MessageContent {
     private final static String TAG = "GroupUnKnowTipsMessage";
 

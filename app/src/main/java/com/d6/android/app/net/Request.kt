@@ -142,8 +142,8 @@ object Request {
     fun feedback(userId: String, content: String) =
             RRetrofit.instance().create(ApiServices::class.java).feedback(userId, content)
 
-    fun addComment(userId: String, newsId: String, content: String, replyUid: String?) =
-            RRetrofit.instance().create(ApiServices::class.java).addComment(userId, newsId, content, replyUid)
+    fun addComment(userId: String, newsId: String, content: String, replyUid: String?,iIsAnonymous:Int) =
+            RRetrofit.instance().create(ApiServices::class.java).addComment(userId, newsId, content, replyUid,iIsAnonymous)
 
     /**
      * 速约
@@ -184,8 +184,8 @@ object Request {
                            , area: String? = null, outArea: String? = null, arrayUserClassesId: String? = null, pageSize: Int = PAGE_SIZE) =
             RRetrofit.instance().create(ApiServices::class.java).getSelfReleaseList(pageNum, beginTime, endTime, area, outArea, arrayUserClassesId, pageSize)
 
-    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String) =
-            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser)
+    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String,iIsAnonymous:Int) =
+            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser,iIsAnonymous)
 
     fun releaseSelfAbout(userId: String, outArea: String?, area: String?, city: String?, beginTime: String?, endTime: String?, content: String, imgUrl: String?) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSelfAbout(userId, content, outArea, area, city, beginTime, endTime, imgUrl)
@@ -314,8 +314,8 @@ object Request {
     fun getUserPoints(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getUserPoints(userid , pageNum)
 
     //发布约会
-    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?,sAppointUser:String)=RRetrofit.instance().
-            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic,sAppointUser)
+    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?,sAppointUser:String,iIsAnonymous:Int)=RRetrofit.instance().
+            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic,sAppointUser,iIsAnonymous)
     //自主约会
     fun findAppointmentList(userid: String,iAppointType:String?, sPlace:String?,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAppointmentList(userid,iAppointType ,sPlace,pageNum)
 
@@ -447,8 +447,29 @@ object Request {
     //删除约会列表
     fun delAppointment(sLoginToken:String,sAppointmentId:String)=RRetrofit.instance().create(ApiServices::class.java).delAppointment(sLoginToken,sAppointmentId)
 
-
     fun getProvinceAllOfMember(sType:String) =
             RRetrofit.instance().create(ApiServices::class.java).getProvinceAllOfMember(sType)
 
+    //查询约会和动态匿名剩余次数接口
+    fun getAnonymouseAppointmentPoint(sLoginToken:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).getAnonymouseAppointmentPoint(sLoginToken,iType)
+
+    //查询是否开启匿名卡片
+    fun getUserQueryAnonymous(sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getUserQueryAnonymous(sLoginToken)
+
+    //查询匿名需要支付的积分
+    fun getQueryAnonymous(sLoginToken:String) = RRetrofit.instance().create(ApiServices::class.java).getQueryAnonymous(sLoginToken)
+
+    //开通匿名卡片支付积分
+    fun getAnonymousPayPoint(sLoginToken:String) = RRetrofit.instance().create(ApiServices::class.java).getAnonymousPayPoint(sLoginToken)
+
+    //获得匿名用户详情页
+    fun getAnonymousAccountDetail(sLoginToken:String,iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAnonymousAccountDetail(sLoginToken,iUserid)
+    // 创建匿名组接口
+    fun CreateGroupAdd(sLoginToken:String,iTalkUserid:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).CreateGroupAdd(sLoginToken,iTalkUserid,iType)
+
+    //跳转到匿名用户组（先判断是否已创建匿名组，没有创建则手动创建）
+    fun doToUserAnonyMousGroup(sLoginToken:String,iTalkUserid:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).doToUserAnonyMousGroup(sLoginToken,iTalkUserid,iType)
+
+    //查询组的信息，返回组的名称和图片（已区分是否匿名）
+    fun findGroupDescByGroupId(sLoginToken:String,sGroupId:String)=RRetrofit.instance().create(ApiServices::class.java).findGroupDescByGroupId(sLoginToken,sGroupId)
 }

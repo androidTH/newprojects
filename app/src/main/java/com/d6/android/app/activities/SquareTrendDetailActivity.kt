@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
@@ -50,6 +51,12 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         SPUtils.instance().getString(Const.User.USER_ID)
     }
     private var pageNum = 1
+    private var iIsAnonymous:Int = 2
+
+    private val IsOpenUnKnow by lazy{
+        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
+    }
+
     private val mComments = ArrayList<Comment>()
     private val squareDetailCommentAdapter by lazy {
         SquareDetailCommentAdapter(mComments)
@@ -177,10 +184,10 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         tv_unknow_choose.setOnClickListener {
             var mSelectUnknowDialog = SelectUnKnowTypeDialog()
-            mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail","IsOpenUnKnow" to "close")
+            mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail","IsOpenUnKnow" to IsOpenUnKnow)
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
-                if(p==1){
+                if(p==2){
                     tv_unknow_choose.text = "公开"
                     var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.public_small)
                     var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
@@ -188,7 +195,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
                     tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_666666)
 //                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_white_border)
-                }else if(p==2){
+                }else if(p==1){
                     tv_unknow_choose.text = "匿名"
                     var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.key_small)
                     var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.niming_more)
@@ -198,11 +205,15 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
 //                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_5a_border)
                 }
+                iIsAnonymous = p
             }
         }
+
+        iIsAnonymous = 2
         dialog()
         getData()
     }
+
 
 //    private fun showSoftInput() {
 //        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -312,7 +323,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             replayUid
         }
         dialog()
-        Request.addComment(userId, id,content,replyUid).request(this,false,success={msg,jsonObject->
+        Request.addComment(userId, id,content,replyUid,iIsAnonymous).request(this,false,success={msg,jsonObject->
             et_content.setText("")
             et_content.clearFocus()
             et_content.hint=getString(R.string.string_comment_tips)
@@ -320,6 +331,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             toast("评论成功")
             pageNum = 1
             mSquare?.commentCount= mSquare?.commentCount!!.toInt()+1
+            Log.i("dddd","success==${jsonObject}")
             getData()
             showTips(jsonObject,"","");
         }){code,msg->

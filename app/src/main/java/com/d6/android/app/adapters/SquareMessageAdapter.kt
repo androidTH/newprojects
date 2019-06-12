@@ -6,9 +6,11 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
 /**
@@ -45,7 +47,13 @@ class SquareMessageAdapter(mData:ArrayList<SquareMessage>): HFRecyclerAdapter<Sq
             val id = data.userid
             isBaseActivity {
                 if (id!=null) {
-                    it.startActivity<UserInfoActivity>("id" to id.toString())
+                    if(data.iIsAnonymous==1){
+                        var mUnknowDialog = UnKnowInfoDialog()
+                        mUnknowDialog.arguments = bundleOf("otheruserId" to "${id}")
+                        mUnknowDialog.show((context as BaseActivity).supportFragmentManager,"unknowDialog")
+                    }else{
+                        it.startActivity<UserInfoActivity>("id" to id.toString())
+                    }
                 }
             }
         }

@@ -125,7 +125,7 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
 
                 holder.tv_chat_datetype.setText(Const.dateTypes[appointmentMsg.getIAppointType() - 1]);
 
-                if (appointmentMsg.getIAppointType() == Const.dateTypesImg.length) {
+                if (appointmentMsg.getIAppointType() == 5) {
                     Drawable drawable = ContextCompat.getDrawable(v.getContext(), R.mipmap.invitation_nolimit_small);
                     holder.tv_chat_datetype.setCompoundDrawables(drawable, null, null, null);
                 } else {

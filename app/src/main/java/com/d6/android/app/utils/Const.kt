@@ -52,21 +52,24 @@ object Const {
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
 
     @JvmField
-    var dateTypes = arrayOf("旅行","吃饭","电影","看电影","不限") // 游戏
+    var dateTypes = arrayOf("旅行","吃饭","电影","看电影","不限","聊天","游戏") // 游戏
+
     @JvmField
     var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,
-            R.mipmap.invitation_drink_small,R.mipmap.invitation_nolimit_small)
+            R.mipmap.invitation_drink_small,R.mipmap.invitation_nolimit_small,R.mipmap.invitation_chat_small,R.mipmap.invitation_game_small)
     //正式 f509c00b16c12f2d7c3306d3383e7655 测试 f509c00b16c12f2d7c3306d3383e7655
 
     var dateTypesDefault = arrayOf(R.mipmap.invitation_travel_default,R.mipmap.invitation_meal_default,R.mipmap.invitation_film_default,
-            R.mipmap.invitation_drink_default,R.mipmap.invitation_nolimit_default)
+            R.mipmap.invitation_drink_default,R.mipmap.invitation_nolimit_default,R.mipmap.invitation_chat_default,R.mipmap.invitation_game_default)
 
     var dateTypesSelected = arrayOf(R.mipmap.invitation_travel_seleted,R.mipmap.invitation_meal_seleted,R.mipmap.invitation_film_seleted,
-            R.mipmap.invitation_drink_seleted,R.mipmap.invitation_nolimit_seleted)
+            R.mipmap.invitation_drink_seleted,R.mipmap.invitation_nolimit_seleted,R.mipmap.invitation_chat_seleted,R.mipmap.invitation_game_seleted)
 
     var dateTypesBig = arrayOf(R.mipmap.invitation_travel_feed,R.mipmap.invitation_meal_feed,R.mipmap.invitation_film_feed,
-            R.mipmap.drink_nolimit_feed,R.mipmap.invitation_nolimit_feed)//invitation_shopping_feed
+            R.mipmap.drink_nolimit_feed,R.mipmap.invitation_nolimit_feed,R.mipmap.chat_nolimit_feed,R.mipmap.game_nolimit_feed)//invitation_shopping_feed
 
+    var dateListTypes = arrayOf(R.mipmap.invitation_trip_white,R.mipmap.invitation_meal_white,R.mipmap.invitation_film_white,
+            R.mipmap.details_drink_icon_white,R.mipmap.details_nolimit_icon_white,R.mipmap.invitation_chat_white,R.mipmap.invitation_game_white)
 
     val FROM_MY_DATELIST = "MyDateListActivity"
     val FROM_MY_DATESUCCESS = "OpenDateSuccessDialog"
@@ -152,4 +155,9 @@ object Const {
 
     @JvmField
     var SEND_GROUP_TIPSMESSAGE = "send_group_tipsmessage"
+
+    @JvmField
+    var CHECK_OPEN_UNKNOW = "IsOpenUnKnow" //检查是否开启匿名
+    @JvmField
+    var CHECK_OPEN_UNKNOW_MSG = "IsOpenUnKnowMsg" //检查是否开启匿名提示信息
 }

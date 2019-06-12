@@ -22,15 +22,12 @@ import com.d6.android.app.dialogs.CommonTipDialog
 import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
-import com.d6.android.app.models.Fans
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
-import com.d6.android.app.widget.CustomToast
 import com.tbruyelle.rxpermissions2.RxPermissions
-import com.umeng.analytics.MobclickAgent
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
@@ -44,6 +41,16 @@ import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 class ReleaseNewTrendsActivity : BaseActivity(){
 
     private var tagId: String? = null
+    private var iIsAnonymous:Int = 2
+
+    private val IsOpenUnKnow by lazy{
+        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
+    }
+
+    private val open_unknow_msg by lazy{
+        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW_MSG,"")
+    }
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -66,6 +73,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     private val mNoticeFriendsQuickAdapter by lazy{
          NoticeFriendsQuickAdapter(mChooseFriends)
     }
+
     private var REQUEST_CHOOSECODE:Int=10
     private  var mChooseFriends = ArrayList<FriendBean>()
 
@@ -229,10 +237,11 @@ class ReleaseNewTrendsActivity : BaseActivity(){
 
         tv_unknow_choose.setOnClickListener {
            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
-           mSelectUnknowDialog.arguments = bundleOf("IsOpenUnKnow" to "open")
+           mSelectUnknowDialog.arguments = bundleOf("type" to "ReleaseNewTrends","IsOpenUnKnow" to IsOpenUnKnow,"code" to mRequestCode,"desc" to sAddPointDesc,"iAddPoint" to iAddPoint,"iRemainPoint" to iRemainPoint)
            mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
            mSelectUnknowDialog.setDialogListener { p, s ->
                tv_unknow_choose.text = s
+               iIsAnonymous = p
            }
         }
 
@@ -247,7 +256,13 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             }
         }
 
+        iIsAnonymous = 2
         getLocalFriendsCount()
+        if(TextUtils.equals("close",IsOpenUnKnow)){
+            sAddPointDesc = open_unknow_msg
+        }else{
+            getCheckAnonMouseNums()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -323,7 +338,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                     this.city
                 }
                 var userIds = getShareUserId(mChooseFriends)
-                Request.releaseSquare(userId, tagId, city, it, content,userIds)
+                Request.releaseSquare(userId, tagId, city, it, content,userIds,iIsAnonymous)
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -347,7 +362,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             }
             var userIds = getShareUserId(mChooseFriends)
             Log.i("notificeMyFriends",userIds)
-            Request.releaseSquare(userId, tagId, city, null, content,userIds).request(this,false,success={
+            Request.releaseSquare(userId, tagId, city, null, content,userIds,iIsAnonymous).request(this,false,success={
                 _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -388,6 +403,42 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 rv_friends.visibility = View.GONE
                 tv_noticeuser.visibility = View.GONE
                 view_bottomline.visibility = View.GONE
+            }
+        }
+    }
+
+    private var mRequestCode:Int = 1
+    private var sAddPointDesc=""
+    private var iAddPoint :String= "" //匿名发布需要消耗的积分
+    private var iRemainPoint:String="" //剩余积分
+
+    private fun getCheckAnonMouseNums(){
+        Request.getAnonymouseAppointmentPoint(getLoginToken(),1).request(this,false,success = {msg,jsonObject->
+
+        }){code,msg->
+            mRequestCode = code
+            if(code==2){
+                if(msg.isNotEmpty()){
+                    var jsonobject = org.json.JSONObject(msg)
+//                    var iRemainCount = jsonobject.optString("iRemainCount")
+                    sAddPointDesc = jsonobject.optString("sAddPointDesc")
+                }
+            }else if(code==3){
+                if(msg.isNotEmpty()){
+                    var jsonobject = org.json.JSONObject(msg)
+//                    var iRemainCount = jsonobject.optString("iRemainCount")//还有匿名次数
+                    sAddPointDesc = jsonobject.optString("sAddPointDesc")//剩余匿名次数描述
+                    iRemainPoint = jsonobject.optString("iRemainPoint")//iRemainPoint 剩余积分
+                    iAddPoint = jsonobject.optString("iAddPoint")//匿名发布需要消耗的积分
+                }
+            }else if(code == 4){
+                if(msg.isNotEmpty()){
+                    var jsonobject = org.json.JSONObject(msg)
+//                    var iRemainCount = jsonobject.optString("iRemainCount")//还有匿名次数
+                    sAddPointDesc = jsonobject.optString("sAddPointDesc")//剩余匿名次数描述
+                    iRemainPoint = jsonobject.optString("iRemainPoint")//iRemainPoint 剩余积分
+                    iAddPoint = jsonobject.optString("iAddPoint")//匿名发布需要消耗的积分
+                }
             }
         }
     }

@@ -217,7 +217,7 @@
             android:gravity="center"
             android:text="开启匿名身份"
             android:textColor="@color/white"
-            android:visibility="visible"
+            android:visibility="gone"
             android:textSize="15sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -228,7 +228,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_10"
-        android:text="开启匿名后将获得3次匿名试用机会"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="12sp" />
 </LinearLayout>

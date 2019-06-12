@@ -154,9 +154,10 @@
         </RelativeLayout>
     </LinearLayout>
     <ImageView
+        android:id="@+id/iv_datetype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginLeft="@dimen/margin_15"
-        android:src="@mipmap/details_shopping_icon"/>
+        android:background="@mipmap/details_shopping_icon"/>
 </RelativeLayout>

@@ -262,6 +262,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         getUserInfo()
         getUserFollowAndFansandVistor()
+
+//        createGroupName()
+    }
+
+    private fun createGroupName(){
+        Request.doToUserAnonyMousGroup(getLoginToken(),id,1).request(this,false,success = { msg, jsonObject->
+            jsonObject?.let {
+                Log.i("createGroupName","json=${it}---sId----${it.iTalkUserid}")
+            }
+        }){code,msg->
+            Log.i("createGroupName","fail${msg}")//保存失败
+        }
     }
 
     private fun setTitleBgAlpha(alpha: Int) {
@@ -286,7 +298,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
      */
     private fun setDateInfo(myAppointment: MyAppointment?) {
         headerView.tv_datetype_name.text = Const.dateTypes[myAppointment?.iAppointType!!.toInt() - 1]
-        if (myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size) {
+        if (myAppointment.iAppointType == 5) {
             var drawable = ContextCompat.getDrawable(context, R.mipmap.invitation_nolimit_feed)
             headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null)
             headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))

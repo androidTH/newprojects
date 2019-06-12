@@ -13,6 +13,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
@@ -20,6 +21,7 @@ import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import kotlinx.android.synthetic.main.view_self_release_view.view.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 
@@ -50,7 +52,13 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         headView.setOnClickListener(OnClickListener {
             val id =myAppointment.iAppointUserid
             isBaseActivity {
-                it.startActivity<UserInfoActivity>("id" to id.toString())
+                if(myAppointment.iIsAnonymous==1){
+                    var mUnknowDialog = UnKnowInfoDialog()
+                    mUnknowDialog.arguments = bundleOf("otheruserId" to id.toString())
+                    mUnknowDialog.show(it.supportFragmentManager,"unknowDialog")
+                }else{
+                    it.startActivity<UserInfoActivity>("id" to id.toString())
+                }
             }
         })
 //        val start = myAppointment.dStarttime.toString()?.parserTime("yyyy-MM-dd")
@@ -67,17 +75,11 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 //                .build()
 
         tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()-1]
+        var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment.iAppointType!!.toInt()-1])
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
 
-        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size){
-            var drawable =ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_feed)
-            tv_datetype_name.setCompoundDrawables(null,drawable,null,null)
-            tv_datetype_name.setCompoundDrawablePadding(dip(3))
-        }else{
-            var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment.iAppointType!!.toInt()-1])
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
-            tv_datetype_name.setCompoundDrawablePadding(dip(3));
-            tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
-        }
+        tv_datetype_name.setCompoundDrawablePadding(dip(3))
+        tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
 
         var sb = StringBuffer()
         if(!myAppointment.iAge.toString().isNullOrEmpty()){

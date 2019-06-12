@@ -42,6 +42,7 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
     var userclassesid:Int?=-1
     var classesname:String?=""
     var screen:String?=""
+    @SerializedName("iIsAnonymous")var iIsAnonymous:Int?= 0 //1、匿名  2、非匿名状态
 //    @SerializedName("sSourceAppointPic")
 //    var sSourceAppointPic:String?=""
 }

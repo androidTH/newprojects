@@ -20,7 +20,6 @@ import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
-import io.rong.imlib.IRongCallback
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
@@ -28,6 +27,8 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import org.jetbrains.anko.*
 import org.json.JSONObject
 import java.util.*
+
+
 
 
 //聊天
@@ -79,35 +80,26 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
             tv_chattitle.setCompoundDrawablesWithIntrinsicBounds(null,null,mDrawableRight,null)
 
-            if(getOneDay(SPUtils.instance().getLong(SEND_GROUP_TIPSMESSAGE, System.currentTimeMillis()))){
+            if(getOneDay(SPUtils.instance().getLong(SEND_GROUP_TIPSMESSAGE+mOtherUserId, System.currentTimeMillis()))){
                 var custommsg = TipsTxtMessage("你正在以匿名身份和对方聊天", "1")
-                var richContentMessage = GroupUnKnowTipsMessage.obtain("你正在以匿名身份和对方聊天", GsonHelper.getGson().toJson(custommsg));
-                var myMessage = Message.obtain(mTargetId, mConversationType, richContentMessage);
-                RongIM.getInstance().sendMessage(myMessage, null, null, object : IRongCallback.ISendMessageCallback {
-                    override fun onAttached(p0: Message?) {
-
+                var richContentMessage = GroupUnKnowTipsMessage.obtain("你正在以匿名身份和对方聊天", GsonHelper.getGson().toJson(custommsg))
+                RongIM.getInstance().insertOutgoingMessage(mConversationType, mTargetId, Message.SentStatus.RECEIVED,richContentMessage, object : RongIMClient.ResultCallback<Message>() {
+                    override fun onSuccess(message: Message) {
+                        SPUtils.instance().put(SEND_GROUP_TIPSMESSAGE+mOtherUserId, System.currentTimeMillis()).apply()
                     }
 
-                    override fun onError(p0: Message?, p1: RongIMClient.ErrorCode?) {
+                    override fun onError(errorCode: RongIMClient.ErrorCode) {
 
-                    }
-
-                    override fun onSuccess(p0: Message?) {
-                        SPUtils.instance().put(SEND_GROUP_TIPSMESSAGE,System.currentTimeMillis()).apply()
                     }
                 })
             }
-
+            mOtherUserId = ""
         }else if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
             immersionBar.init()
             mOtherUserId = mTargetId
             getOtherUser()
             RongUtils.setUserInfo(mOtherUserId,null,chat_headView)
         }
-
-//        titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
-//            startActivity<UserInfoActivity>("id" to mTargetId)
-//        })
 
         iv_back_close.setOnClickListener {
             hideSoftKeyboard(it)

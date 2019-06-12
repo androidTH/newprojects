@@ -189,7 +189,7 @@
                         android:layout_alignParentRight="true"
                         android:drawablePadding="@dimen/margin_8"
                         android:drawableRight="@mipmap/center_moreicon"
-                        android:text="匿名身份"
+                        android:text="公开身份"
                         android:textSize="12sp"
                         android:textColor="@color/color_888888"
                         android:paddingLeft="@dimen/margin_6"

@@ -24,10 +24,6 @@ import org.jetbrains.anko.wrapContent
  */
 class SelectUnKnowTypeDialog : DialogFragment() {
 
-    private val point_nums by lazy {
-        SPUtils.instance().getString(Const.User.USERPOINTS_NUMS)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.Dialog)
@@ -48,13 +44,16 @@ class SelectUnKnowTypeDialog : DialogFragment() {
 
         var type = arguments.getString("type")
         var  IsOpenUnKnow = arguments.getString("IsOpenUnKnow","")
+        var mRequestCode = arguments.getInt("code",0)
+        var iAddPoint = arguments.getString("iAddPoint","")//匿名发布需要消耗的积分
+        var iRemainPoint = arguments.getString("iRemainPoint","")//剩余积分
 
         tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
         ll_unknow_open.setOnClickListener {
-            dialogListener?.onClick(1, resources.getString(R.string.string_unknow_open))
+            dialogListener?.onClick(2, resources.getString(R.string.string_unknow_open))
             dismissAllowingStateLoss()
         }
 
@@ -62,25 +61,30 @@ class SelectUnKnowTypeDialog : DialogFragment() {
             if(TextUtils.equals(IsOpenUnKnow,"close")){
                 startActivity<UnKnownActivity>()
             }else{
-                if(point_nums.toInt()<50){
+                if (mRequestCode == 4) {
                     var openErrorDialog = OpenDatePointNoEnoughDialog()
-                    openErrorDialog.arguments= bundleOf("point" to "30","remainPoint" to "50")
+                    openErrorDialog.arguments = bundleOf("point" to iAddPoint, "remainPoint" to iRemainPoint)
                     openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                }else{
-//                    SPUtils.instance().put(Const.User.USERPOINTS_NUMS,(point_nums.toInt()-50).toString()).apply()
-                    dialogListener?.onClick(2, resources.getString(R.string.string_unknow_unknow))
+                } else {
+                    dialogListener?.onClick(1, resources.getString(R.string.string_unknow_unknow))
                 }
             }
             dismissAllowingStateLoss()
         }
 
         if(TextUtils.equals("PublishFindDate",type)){
-//            tv_unknow_opentips.text = "以真实身份发布"
-            tv_unknow_unknowtips.text ="以匿名身份发布约会"
+            var desc = arguments.getString("desc")
+            setTextTipMsg(mRequestCode,desc)
         }else if(TextUtils.equals("SquareTrendDetail",type)){
-//            tv_unknow_opentips.text ="以当前身份发布评论"
-            tv_unknow_unknowtips.text ="以匿名身份发布评论"
+            tv_unknow_unknowtips.text = "以匿名身份发布评论"
+        }else if(TextUtils.equals("ReleaseNewTrends",type)){
+            var desc = arguments.getString("desc")
+            setTextTipMsg(mRequestCode,desc)
         }
+    }
+
+    private fun setTextTipMsg(code:Int,desc:String){
+        tv_unknow_unknowtips.text = desc
     }
 
     private var dialogListener: OnDialogListener? = null

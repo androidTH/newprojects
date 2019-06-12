@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginTop="@dimen/margin_15"
-                android:src="@mipmap/details_shopping_icon" />
+                android:background="@mipmap/details_shopping_icon" />
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 

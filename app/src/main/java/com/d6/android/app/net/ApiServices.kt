@@ -67,7 +67,7 @@ interface ApiServices {
     fun feedback(@Query("userid") accountId: String, @Query("content") content: String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/comments/add")
-    fun addComment(@Query("userid") accountId: String, @Query("newsId") newsId: String, @Query("content") content: String, @Query("replyuserid") replyuserid: String?,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    fun addComment(@Query("userid") accountId: String, @Query("newsId") newsId: String, @Query("content") content: String, @Query("replyuserid") replyuserid: String?,@Query("iIsAnonymous") iIsAnonymous:Int,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/comments/del")
     fun delComment(@Query("ids")ids:Int):Flowable<Response<JsonObject>>
@@ -107,7 +107,7 @@ interface ApiServices {
                            , @Query("guoneiarea") guoneiarea: String? = null, @Query("guowaiarea") guowaiarea: String? = null, @Query("arrayuserclassesid") arrayUserClassesId: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<MyDate>>>
 
     @POST("backstage/square/add")
-    fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String,@Query("sAppointUser")sAppointUser:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String, @Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int, @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/selfabout/add")
     fun releaseSelfAbout(@Query("userid") userid: String, @Query("content") content: String?, @Query("handlookwhere") handlookwhere: String?
@@ -247,7 +247,7 @@ interface ApiServices {
     @POST("backstage/appointment/add")
     fun releasePullDate(@Query("iUserid") userid: String, @Query("sPlace") sPlace: String?, @Query("sDesc") sDesc: String?
                          , @Query("iAppointType") iAppointType: Int?, @Query("dStarttime") beginTime: String?
-                         , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?,@Query("sAppointUser")sAppointUser:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+                         , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?,@Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //自主约会
     @POST("backstage/appointment/findAppointmentListByPage")
@@ -427,4 +427,41 @@ interface ApiServices {
   //会员约会地区选择
   @POST("backstage/sysDict/findautoAll")
   fun getProvinceAllOfMember(@Query("sType") sType:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
+
+   /*2.2.0接口*/
+  //查询约会和动态匿名剩余次数接口 iType   类型 1、约会 2、动态
+  @POST("backstage/appointment/anonymousAppointmentPoint")
+  fun getAnonymouseAppointmentPoint(@Query("sLoginToken")sLoginToken:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+  //查询是否开启匿名卡片
+  @POST("backstage/account/userQueryAnonymous")
+  fun getUserQueryAnonymous(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+  //查询匿名需要支付的积分
+  @POST("backstage/account/queryAnonymousPoint")
+  fun getQueryAnonymous(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+  //开通匿名卡片支付积分
+  @POST("backstage/account/anonymousPayPoint")
+  fun getAnonymousPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+  //查询用户的匿名卡片详情
+  @POST("backstage/account/getAnonymousAccountDetail")
+  fun getAnonymousAccountDetail(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String):Flowable<Response<UserData>>
+
+  //创建匿名组接口 iType 1、我是匿名  2、对方是匿名
+  @POST("backstage/group/add")
+  fun CreateGroupAdd(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int):Flowable<Response<JsonObject>>
+
+  //跳转到匿名用户组（先判断是否已创建匿名组，没有创建则手动创建
+  @POST("backstage/group/toUserAnonymousGroup")
+  fun doToUserAnonyMousGroup(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int):Flowable<Response<GroupBean>>
+
+  //获取当前组的成员
+  @POST("backstage/group/findGroupMembersByGroupId")
+  fun findGroupMembersByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String)
+
+  //查询组的信息，返回组的名称和图片（已区分是否匿名）
+   @POST("backstage/group/findGroupByGroupid")
+   fun findGroupDescByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String):Flowable<Response<GroupBean>>
 }

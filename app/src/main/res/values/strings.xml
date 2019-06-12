@@ -22,7 +22,7 @@
     <string name="wx_fast_login">微信快捷登录</string>
     <string name="user_no_auther">认证后更容易获得青睐·点击认证</string>
     <string name="mine_edit_info">编辑资料</string>
-    <string name="hobbit_string">最长可输入3个爱好，每个爱好最长5个字,点击+号可添加另一个</string>
+    <string name="hobbit_string">最长可输入3个爱好，每个爱好最长5个字，点击添加可添加另一个</string>
     <string name="date_wenan">想要TA的联系方式,点击联系客服,将此页面分享给客服哦</string>
     <string name="string_mypoints">我的积分</string>
     <string name="string_wallet">钱包</string>

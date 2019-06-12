@@ -15,14 +15,13 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
+import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
-import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.find
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.*
 
 /**
  * Created on 2017/12/17.
@@ -66,7 +65,13 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 headView.setOnClickListener {
                     square?.let {
                         val id = it.userid?:""
-                        context.startActivity<UserInfoActivity>("id" to id)
+                        if(it.iIsAnonymous==1){
+                            var mUnknowDialog = UnKnowInfoDialog()
+                            mUnknowDialog.arguments = bundleOf("otheruserId" to id)
+                            mUnknowDialog.show((context as BaseActivity).supportFragmentManager,"unknowDialog")
+                        }else{
+                            context.startActivity<UserInfoActivity>("id" to id)
+                        }
                     }
                 }
         //        commentAdapter.setOnCommentClick {

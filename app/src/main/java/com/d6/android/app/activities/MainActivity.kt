@@ -21,6 +21,8 @@ import com.d6.android.app.fragments.*
 import com.d6.android.app.models.FollowFansVistor
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
+import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW_MSG
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
@@ -31,6 +33,7 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
+import org.json.JSONObject
 
 
 /**
@@ -260,6 +263,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
         diyUpdate(this,"")
 
+        getUserQueryAnonymous()
+
         getPermission()
     }
 
@@ -324,6 +329,18 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                 }
             }
         })
+    }
+
+    private fun getUserQueryAnonymous(){
+        Request.getUserQueryAnonymous(getLoginToken()).request(this,false,success={msg,jsonobject->
+           SPUtils.instance().put(CHECK_OPEN_UNKNOW,"open").apply()
+        }){code,msg->
+            if(code == 2){
+                val jsonObject = JSONObject(msg)
+                SPUtils.instance().put(CHECK_OPEN_UNKNOW_MSG,jsonObject.optString("sAnonymousDesc")).apply()
+            }
+            SPUtils.instance().put(CHECK_OPEN_UNKNOW,"close").apply()
+        }
     }
 
     private fun UnReadMessageCountChangedObserver(){

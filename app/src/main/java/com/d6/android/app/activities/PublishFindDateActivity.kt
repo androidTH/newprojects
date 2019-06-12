@@ -26,6 +26,8 @@ import com.d6.android.app.models.DateType
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
+import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.utils.Const.dateTypesDefault
 import com.d6.android.app.utils.Const.dateTypesSelected
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -44,7 +46,21 @@ class PublishFindDateActivity : BaseActivity() {
 
     private val mImages = ArrayList<AddImage>()
     private val mDateTypes = ArrayList<DateType>()
-    var dateTypes = arrayOf("旅行", "吃饭", "电影", "喝酒", "不限")
+    private var iIsAnonymous:Int = 2
+
+    private val IsOpenUnKnow by lazy{
+       SPUtils.instance().getString(CHECK_OPEN_UNKNOW)
+    }
+
+    private val open_unknow_msg by lazy{
+        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW_MSG,"")
+    }
+
+    private var mRequestCode:Int = 1
+    private var sAddPointDesc=""
+    private var iAddPoint :String= "" //匿名发布需要消耗的积分
+    private var iRemainPoint:String="" //剩余积分
+    var showDateTypes:Array<DateType> = arrayOf(DateType(6),DateType(2),DateType(1),DateType(3),DateType(7))
 
     private val addAdapter by lazy {
         AddImageAdapter(mImages)
@@ -67,7 +83,7 @@ class PublishFindDateActivity : BaseActivity() {
     private var area = ""
     private var startTime: String = ""
     private var endTime: String = ""
-    private var selectedDateType: DateType? = null;
+    private var selectedDateType: DateType? = null
     private var REQUEST_CHOOSECODE:Int=10
 
     private  var mChooseFriends = ArrayList<FriendBean>()
@@ -87,7 +103,6 @@ class PublishFindDateActivity : BaseActivity() {
         RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
                 locationClient.setLocationListener {
-                    sysErr("--location--->" + it)
                     if (it != null) {
                         city = it.city
                         tv_city.setText(city)
@@ -95,16 +110,14 @@ class PublishFindDateActivity : BaseActivity() {
                     }
                 }
                 startLocation()
-            } else {
-
             }
         }
 
-        for (i in 0..4) {
-            var dt = DateType((i + 1))
-            dt.dateTypeName = dateTypes[i]
-            dt.imgUrl = "res:///${dateTypesDefault[i]}"
-            dt.selectedimgUrl = "res:///${dateTypesSelected[i]}"
+        for (i in 0..(showDateTypes.size-1)) {
+            var dt = showDateTypes[i]
+            dt.dateTypeName = dateTypes[dt.type-1]
+            dt.imgUrl = "res:///${dateTypesDefault[dt.type-1]}"
+            dt.selectedimgUrl = "res:///${dateTypesSelected[dt.type-1]}"
             dt.isSelected = false
             mDateTypes.add(dt)
         }
@@ -223,14 +236,16 @@ class PublishFindDateActivity : BaseActivity() {
 
         tv_unknow_sf.setOnClickListener {
             var mSelectUnknowDialog = SelectUnKnowTypeDialog()
-            mSelectUnknowDialog.arguments = bundleOf("type" to "PublishFindDate","IsOpenUnKnow" to "close")
+            mSelectUnknowDialog.arguments = bundleOf("type" to "PublishFindDate","IsOpenUnKnow" to IsOpenUnKnow,
+                    "code" to mRequestCode,"desc" to sAddPointDesc,"iAddPoint" to iAddPoint,"iRemainPoint" to iRemainPoint)
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
-                if(p==1){
+                if(p==2){
                     tv_unknow_sf.text = "公开身份"
                 }else{
                     tv_unknow_sf.text = "匿名身份"
                 }
+                iIsAnonymous = p
             }
         }
 
@@ -248,7 +263,46 @@ class PublishFindDateActivity : BaseActivity() {
             }
         }
 
+        iIsAnonymous = 2
         getLocalFriendsCount()
+
+        if(TextUtils.equals("close",IsOpenUnKnow)){
+            sAddPointDesc = open_unknow_msg
+        }else{
+            getCheckAnonMouseNums()
+        }
+    }
+
+    private fun getCheckAnonMouseNums(){
+        Request.getAnonymouseAppointmentPoint(getLoginToken(),1).request(this,false,success = {msg,jsonObject->
+
+        }){code,msg->
+            mRequestCode = code
+            Log.i("CheckAnonMouseNums","${msg}")
+            if(code==2){
+                if(msg.isNotEmpty()){
+                   var jsonobject = org.json.JSONObject(msg)
+//                   var iRemainCount = jsonobject.optString("iRemainCount")//还有匿名次数
+                   sAddPointDesc = jsonobject.optString("sAddPointDesc")
+                }
+            }else if(code==3){
+                if(msg.isNotEmpty()){
+                    var jsonobject = org.json.JSONObject(msg)
+//                    var iRemainCount = jsonobject.optString("iRemainCount")
+                    sAddPointDesc = jsonobject.optString("sAddPointDesc")//剩余匿名次数描述
+                    iRemainPoint = jsonobject.optString("iRemainPoint")//iRemainPoint 剩余积分
+                    iAddPoint = jsonobject.optString("iAddPoint")//匿名发布需要消耗的积分
+                }
+            }else if(code == 4){
+                if(msg.isNotEmpty()){
+                    var jsonobject = org.json.JSONObject(msg)
+//                    var iRemainCount = jsonobject.optString("iRemainCount")//还有匿名次数
+                    sAddPointDesc = jsonobject.optString("sAddPointDesc")//剩余匿名次数描述
+                    iRemainPoint = jsonobject.optString("iRemainPoint")//iRemainPoint 剩余积分
+                    iAddPoint = jsonobject.optString("iAddPoint")//匿名发布需要消耗的积分
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -267,7 +321,6 @@ class PublishFindDateActivity : BaseActivity() {
                 tv_area.text = area
             }else if(requestCode == REQUEST_CHOOSECODE && data!=null){
                 mChooseFriends = data!!.getParcelableArrayListExtra(Const.CHOOSE_Friends)
-                Log.i("ffffff","requset="+requestCode+"size="+mChooseFriends.size)
                 mDateFriendsQuickAdapter.setNewData(mChooseFriends)
             }
         }
@@ -324,7 +377,7 @@ class PublishFindDateActivity : BaseActivity() {
             Flowable.just(sb.toString())
         }.flatMap {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, it,userIds)
+            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, it,userIds,iIsAnonymous)
         }.request(this, false, success = { _, data ->
             showToast("发布成功")
             if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
@@ -369,7 +422,7 @@ class PublishFindDateActivity : BaseActivity() {
         } else {
             var userIds = getShareUserId(mChooseFriends)
             Log.i("notificeMyFriends",userIds)
-            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "",userIds).request(this, false, success = { _, data ->
+            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
                 showToast("发布成功")
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                     showTips(data, "", "")
