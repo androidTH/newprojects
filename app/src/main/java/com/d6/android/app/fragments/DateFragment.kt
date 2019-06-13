@@ -322,7 +322,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private fun showDatePayPointDialog(name:String,id:String){
         activity.isCheckOnLineAuthUser(this,userId){
-            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
+            Request.getApplyStatus(userId, id,1).request(this, false, success = { msg, jsonObjetct ->
                 jsonObjetct?.let {
                     var code = it.optInt("code")
                     if (code != 7) {

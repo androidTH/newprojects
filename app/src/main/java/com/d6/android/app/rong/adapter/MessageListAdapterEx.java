@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.d6.android.app.R;
+import com.d6.android.app.utils.SPUtils;
+
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.adapter.MessageListAdapter;
 import io.rong.imlib.model.Conversation;
@@ -15,6 +17,7 @@ import io.rong.imlib.model.Message;
 
 import static com.d6.android.app.utils.Const.CustomerServiceId;
 import static com.d6.android.app.utils.Const.CustomerServiceWomenId;
+import static com.d6.android.app.utils.Const.WHO_ANONYMOUS;
 
 /**
  * author : jinjiarui
@@ -26,9 +29,12 @@ public class MessageListAdapterEx extends MessageListAdapter {
     private static String TAG = MessageListAdapterEx.class.getSimpleName();
 
     private Context mContext;
+    private String mWhoanonmouse = "1";
+
     public MessageListAdapterEx(Context context) {
         super(context);
         this.mContext = context;
+        this.mWhoanonmouse = SPUtils.Companion.instance().getString(WHO_ANONYMOUS, "1");
     }
 
     @Override
@@ -37,40 +43,48 @@ public class MessageListAdapterEx extends MessageListAdapter {
         ViewHolderEx holder = new ViewHolderEx();
         holder.mIvHeaderLeftSign = result.findViewById(R.id.iv_header_leftsign);
         holder.mIvHeaderRightSign = result.findViewById(R.id.iv_header_rightsign);
-        result.setTag(R.id.viewholderex,holder);
+        result.setTag(R.id.viewholderex, holder);
         return result;
     }
 
     @Override
     protected void bindView(View v, int position, UIMessage data) {
         super.bindView(v, position, data);
-        ViewHolderEx holderEx= (ViewHolderEx) v.getTag(R.id.viewholderex);
-        if(TextUtils.equals(CustomerServiceId,data.getTargetId())||TextUtils.equals(CustomerServiceWomenId,data.getTargetId())){
-            if(data.getMessageDirection() == Message.MessageDirection.RECEIVE){
+        ViewHolderEx holderEx = (ViewHolderEx) v.getTag(R.id.viewholderex);
+        if (TextUtils.equals(CustomerServiceId, data.getTargetId()) || TextUtils.equals(CustomerServiceWomenId, data.getTargetId())) {
+            if (data.getMessageDirection() == Message.MessageDirection.RECEIVE) {
                 holderEx.mIvHeaderLeftSign.setVisibility(View.VISIBLE);
                 holderEx.mIvHeaderRightSign.setVisibility(View.GONE);
-            }else{
+            } else {
                 holderEx.mIvHeaderLeftSign.setVisibility(View.GONE);
                 holderEx.mIvHeaderRightSign.setVisibility(View.GONE);
             }
-        }else if(TextUtils.equals(CustomerServiceId,data.getSenderUserId())||TextUtils.equals(CustomerServiceWomenId,data.getSenderUserId())){
-            if(data.getMessageDirection() == Message.MessageDirection.SEND){
+        } else if (TextUtils.equals(CustomerServiceId, data.getSenderUserId()) || TextUtils.equals(CustomerServiceWomenId, data.getSenderUserId())) {
+            if (data.getMessageDirection() == Message.MessageDirection.SEND) {
                 holderEx.mIvHeaderLeftSign.setVisibility(View.GONE);
                 holderEx.mIvHeaderRightSign.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 holderEx.mIvHeaderLeftSign.setVisibility(View.GONE);
                 holderEx.mIvHeaderRightSign.setVisibility(View.GONE);
             }
-        }else{
+        } else {
             holderEx.mIvHeaderLeftSign.setVisibility(View.GONE);
             holderEx.mIvHeaderRightSign.setVisibility(View.GONE);
         }
 
         if (data.getConversationType() == Conversation.ConversationType.GROUP) {
-            if (data.getMessageDirection() == Message.MessageDirection.RECEIVE) {
-                MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
-                holder.leftIconView.setAvatar(null, R.mipmap.nimingtouxiang_small);
-                holder.nameView.setVisibility(View.GONE);
+            if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+                if (TextUtils.equals("1", mWhoanonmouse)) {
+                    MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
+                    holder.rightIconView.setAvatar(null, R.mipmap.nimingtouxiang_small);
+                    holder.nameView.setVisibility(View.GONE);
+                }
+            } else {
+                if(TextUtils.equals("2", mWhoanonmouse)){
+                    MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
+                    holder.leftIconView.setAvatar(null, R.mipmap.nimingtouxiang_small);
+                    holder.nameView.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -78,7 +92,8 @@ public class MessageListAdapterEx extends MessageListAdapter {
     protected class ViewHolderEx extends MessageListAdapter.ViewHolder {
         ImageView mIvHeaderLeftSign;
         ImageView mIvHeaderRightSign;
-        public ViewHolderEx(){
+
+        public ViewHolderEx() {
             super();
         }
     }

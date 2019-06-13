@@ -267,9 +267,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun createGroupName(){
-        Request.doToUserAnonyMousGroup(getLoginToken(),id,1).request(this,false,success = { msg, jsonObject->
+        Request.doToUserAnonyMousGroup(getLoginToken(),id,2).request(this,false,success = { msg, jsonObject->
             jsonObject?.let {
-                Log.i("createGroupName","json=${it}---sId----${it.iTalkUserid}")
+                Log.i("createGroupName","json=${it.sId}---sId----${it.iTalkUserid}")
             }
         }){code,msg->
             Log.i("createGroupName","fail${msg}")//保存失败

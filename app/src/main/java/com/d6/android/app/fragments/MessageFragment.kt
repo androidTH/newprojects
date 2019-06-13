@@ -133,8 +133,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                RongIM.getInstance().startCustomerServiceChat(activity, "KEFU146001495753714", "在线客服", builder.build())
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
             } else if(conversation.conversationType ==Conversation.ConversationType.GROUP){
-                Log.i("messageFragment","${conversation.targetId}")
-                RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP, conversation.targetId, "匿名")
+               // Log.i("messageFragment","${conversation.targetId}") //anoy_100486_100541 anoy_100486_21881  anoy_100491_100486
+                RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,conversation.targetId, "")
             }else {
                 activity.isAuthUser{
                     RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)

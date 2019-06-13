@@ -385,7 +385,7 @@ object Request {
     fun updateTalkSetting(iUserid:String,iTalkSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateTalkSetting(iUserid,iTalkSetting)
 
     //新的私聊接口
-    fun doTalkJustifyNew(iFromUserid:String,iToUserid:String) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustifyNew(iFromUserid,iToUserid)
+    fun doTalkJustifyNew(iFromUserid:String,iToUserid:String,iType:Int) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustifyNew(iFromUserid,iToUserid,iType)
 
     //申请私聊接口
     fun doApplyPrivateChat(iFromUserid:String, iToUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doApplyPrivateChat(iFromUserid,iToUserId)
@@ -394,7 +394,7 @@ object Request {
     fun doUpdatePrivateChatStatus(iFromUserid:String,iToUserid:String,iStatus:String)=RRetrofit.instance().create(ApiServices::class.java).doUpdatePrivateChatStatus(iFromUserid,iToUserid,iStatus)
 
      //获取与当前用户的私聊状态
-    fun getApplyStatus(iFromUserid:String,iToUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid)
+    fun getApplyStatus(iFromUserid:String,iToUserid:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid,iType)
 
     //获取用户信息接口
     fun getUserInfoDetail(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserInfoDetail(iUserid)

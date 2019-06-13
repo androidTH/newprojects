@@ -26,6 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="@dimen/height_30"
+            android:layout_marginRight="@dimen/padding_35"
             android:orientation="horizontal">
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/chat_headView"

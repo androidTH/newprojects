@@ -338,9 +338,9 @@ interface ApiServices {
     @POST("backstage/account/updateTalkSetting")
     fun updateTalkSetting(@Query("iUserid") iUserid:String,@Query("iTalkSetting") iTalkSetting:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-    //新的私聊接口
+    //新的私聊接口  1、私聊 2、匿名组
     @POST("backstage/rongcloud/getTalkJustifyNew")
-    fun doTalkJustifyNew(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun doTalkJustifyNew(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //申请私聊接口
     @POST("backstage/talkapply/apply")
@@ -352,7 +352,7 @@ interface ApiServices {
 
     //获取与当前用户的私聊状态
     @POST("backstage/talkapply/getApplyStatus")
-    fun getApplyStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun getApplyStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     /* 1.8.2接口*/
     //判断是否允许发布约会接口
@@ -453,7 +453,7 @@ interface ApiServices {
   @POST("backstage/group/add")
   fun CreateGroupAdd(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int):Flowable<Response<JsonObject>>
 
-  //跳转到匿名用户组（先判断是否已创建匿名组，没有创建则手动创建
+  //跳转到匿名用户组（先判断是否已创建匿名组，没有创建则手动创建 iType 1、我是匿名  2、对方是匿名
   @POST("backstage/group/toUserAnonymousGroup")
   fun doToUserAnonyMousGroup(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int):Flowable<Response<GroupBean>>
 

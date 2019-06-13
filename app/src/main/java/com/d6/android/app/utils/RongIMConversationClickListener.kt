@@ -1,11 +1,13 @@
 package com.d6.android.app.utils
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UnKnowInfoDialog
+import com.d6.android.app.utils.Const.WHO_ANONYMOUS
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
@@ -70,9 +72,25 @@ class RongIMConversationClickListener : RongIM.ConversationClickListener{
     @Suppress("UNREACHABLE_CODE")
     override fun onUserPortraitClick(p0: Context?, p1: Conversation.ConversationType?, p2: UserInfo?, p3: String?): Boolean {
         if(p1==Conversation.ConversationType.GROUP){
-            var mUnknowDialog = UnKnowInfoDialog()
-            mUnknowDialog.arguments = bundleOf("otheruserId" to p2!!.userId)
-            mUnknowDialog.show((p0 as BaseActivity).supportFragmentManager,"unknowDialog")
+            var mwhoanyonmous = SPUtils.instance().getString(WHO_ANONYMOUS)
+            if(TextUtils.equals(p2!!.userId, getLocalUserId())){
+                if(TextUtils.equals("1",mwhoanyonmous)){
+                    var mUnknowDialog = UnKnowInfoDialog()
+                    mUnknowDialog.arguments = bundleOf("otheruserId" to p2!!.userId)
+                    mUnknowDialog.show((p0 as BaseActivity).supportFragmentManager,"unknowDialog")
+                }else{
+                    p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
+                }
+            }else {
+                if(TextUtils.equals("2",mwhoanyonmous)){
+                    var mUnknowDialog = UnKnowInfoDialog()
+                    mUnknowDialog.arguments = bundleOf("otheruserId" to p2!!.userId)
+                    mUnknowDialog.show((p0 as BaseActivity).supportFragmentManager,"unknowDialog")
+                }else{
+                    p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
+                }
+            }
+
         }else{
             p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
         }

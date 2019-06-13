@@ -160,4 +160,7 @@ object Const {
     var CHECK_OPEN_UNKNOW = "IsOpenUnKnow" //检查是否开启匿名
     @JvmField
     var CHECK_OPEN_UNKNOW_MSG = "IsOpenUnKnowMsg" //检查是否开启匿名提示信息
+
+    @JvmField
+    var WHO_ANONYMOUS = "whoanyonmous" //检查是否开启匿名提示信息
 }

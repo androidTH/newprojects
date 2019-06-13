@@ -10,6 +10,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextPaint
 import android.text.TextUtils
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
@@ -148,12 +149,20 @@ class MyDateDetailActivity : BaseActivity() {
                     if(it.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
 //                        checkChatCount(it.iUserid.toString()) {
 //                            showDatePayPointDialog(name,it.iUserid.toString())
-                            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
+                            if(it.iIsAnonymous==1){
+                                createGroupName(it.iUserid.toString())
+                            }else{
+                                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
+                            }
 //                        }
                     }else if(it.sAppointmentSignupId.isNotEmpty()){
 //                        checkChatCount(it.iAppointUserid.toString()) {
 //                            showDatePayPointDialog(name,it.iAppointUserid.toString())
-                            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
+                            if(it.iIsAnonymous==1){
+                                createGroupName(it.iUserid.toString())
+                            }else{
+                                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
+                            }
 //                        }
                     }
                 }
@@ -564,4 +573,15 @@ class MyDateDetailActivity : BaseActivity() {
         mUnknowDialog.arguments = bundleOf("otheruserId" to mTargetId)
         mUnknowDialog.show(supportFragmentManager,"unknowDialog")
     }
+
+    private fun createGroupName(id:String){
+        Request.doToUserAnonyMousGroup(getLoginToken(),id,2).request(this,false,success = { msg, jsonObject->
+            jsonObject?.let {
+                Log.i("createGroupName","json=${it.sId}---sId----${it.iTalkUserid}")
+            }
+        }){code,msg->
+            Log.i("createGroupName","fail${msg}")//保存失败
+        }
+    }
+
 }

@@ -16,6 +16,7 @@ import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.rong.fragment.ConversationFragmentEx
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.SEND_GROUP_TIPSMESSAGE
+import com.d6.android.app.utils.Const.WHO_ANONYMOUS
 import com.d6.android.app.widget.CustomToast
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
@@ -27,8 +28,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import org.jetbrains.anko.*
 import org.json.JSONObject
 import java.util.*
-
-
+import kotlin.collections.ArrayList
 
 
 //聊天
@@ -39,6 +39,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private var SendMsgTotal:Int = 3
 
     private var IsAgreeChat:Boolean = true
+    private var iType:Int=1 //1、私聊 2、匿名组
+    private var mGroupIdSplit:List<String> =ArrayList<String>()
 
     private val mTargetId by lazy {
         intent.data.getQueryParameter("targetId")
@@ -59,6 +61,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private var isInBlackList=0
 
     private var mOtherUserId = ""
+    private var mWhoanonymous = "1" //1我自己匿名   2对方匿名
 
     /**
      * 会话类型
@@ -73,32 +76,48 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         if(mConversationType==Conversation.ConversationType.GROUP){
             immersionBar.statusBarColor(R.color.color_8F5A5A).statusBarDarkFont(true).init()
             rl_chat_toolbar.backgroundColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
-            chat_headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
             iv_nimingbg.visibility = View.VISIBLE
             tv_chattitle.textColor = ContextCompat.getColor(this,R.color.white)
             var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.titlemore_whitesmall_icon)
 
             tv_chattitle.setCompoundDrawablesWithIntrinsicBounds(null,null,mDrawableRight,null)
-
-            if(getOneDay(SPUtils.instance().getLong(SEND_GROUP_TIPSMESSAGE+mOtherUserId, System.currentTimeMillis()))){
-                var custommsg = TipsTxtMessage("你正在以匿名身份和对方聊天", "1")
-                var richContentMessage = GroupUnKnowTipsMessage.obtain("你正在以匿名身份和对方聊天", GsonHelper.getGson().toJson(custommsg))
-                RongIM.getInstance().insertOutgoingMessage(mConversationType, mTargetId, Message.SentStatus.RECEIVED,richContentMessage, object : RongIMClient.ResultCallback<Message>() {
-                    override fun onSuccess(message: Message) {
-                        SPUtils.instance().put(SEND_GROUP_TIPSMESSAGE+mOtherUserId, System.currentTimeMillis()).apply()
+            mGroupIdSplit = mTargetId.split("_")
+            Log.i("chatActivity","${mTargetId}")
+            iType = 2
+            if(TextUtils.equals(mGroupIdSplit[1], getLocalUserId())){//我是匿名
+                mOtherUserId = mGroupIdSplit[2]
+                RongIM.getInstance().getHistoryMessages(mConversationType,mTargetId,-1,20,object : RongIMClient.ResultCallback<List<Message>>(){
+                    override fun onSuccess(p0: List<Message>?) {
+                        if (p0!!.size == 0) {
+                            sendOutgoingMessage()
+                        } else {
+                            if (getOneDay(SPUtils.instance().getLong(SEND_GROUP_TIPSMESSAGE + mOtherUserId, System.currentTimeMillis()))) {
+                                sendOutgoingMessage()
+                            }
+                        }
                     }
 
-                    override fun onError(errorCode: RongIMClient.ErrorCode) {
+                    override fun onError(p0: RongIMClient.ErrorCode?) {
 
                     }
                 })
+                mWhoanonymous = "1"
+                SPUtils.instance().put(WHO_ANONYMOUS,"1").apply()
+                RongUtils.setUserInfo(mOtherUserId,tv_chattitle,chat_headView)
+            }else{
+                chat_headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
+                mOtherUserId = mGroupIdSplit[1] //对方匿名
+                tv_chattitle.text="匿名"
+                mWhoanonymous = "2"
+                SPUtils.instance().put(WHO_ANONYMOUS,"2").apply()
             }
-            mOtherUserId = ""
         }else if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
             immersionBar.init()
             mOtherUserId = mTargetId
-            getOtherUser()
-            RongUtils.setUserInfo(mOtherUserId,null,chat_headView)
+            iType = 1
+//            getOtherUser()
+            RongUtils.setUserInfo(mOtherUserId,tv_chattitle,chat_headView)
+//            setChatTitle()
         }
 
         iv_back_close.setOnClickListener {
@@ -106,14 +125,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             onBackPressed()
         }
 
-
         ll_userinfo.setOnClickListener {
             if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
                 startActivity<UserInfoActivity>("id" to mOtherUserId)
             }else{
-                var mUnknowDialog = UnKnowInfoDialog()
-                mUnknowDialog.arguments = bundleOf("otheruserId" to "")
-                mUnknowDialog.show(supportFragmentManager,"unknowDialog")
+                if(TextUtils.equals("2",mWhoanonymous)){//2 对方匿名
+                    var mUnknowDialog = UnKnowInfoDialog()
+                    mUnknowDialog.arguments = bundleOf("otheruserId" to mOtherUserId)
+                    mUnknowDialog.show(supportFragmentManager,"unknowDialog")
+                }else{
+                    startActivity<UserInfoActivity>("id" to mOtherUserId)
+                }
             }
         }
 
@@ -132,13 +154,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 }
             }
             userActionDialog.show(supportFragmentManager, "user")
-        }
-
-        val info = RongUserInfoManager.getInstance().getUserInfo(mOtherUserId)
-        if (info == null || info.name.isNullOrEmpty()) {
-            tv_chattitle.text = mTitle
-        } else {
-            tv_chattitle.text = info.name
         }
 
 //        if(TextUtils.equals("--",mTitle)){
@@ -174,24 +189,33 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         enterActivity()
 
         RongIM.getInstance().setSendMessageListener(this)
+    }
 
-//        mUserInfo = RongUserInfoManager.getInstance().getUserInfo(mTargetId)
-//        if (RongIM.getInstance() != null && mUserInfo != null) {
-//            RongIM.getInstance().clearMessages(Conversation.ConversationType.PRIVATE,
-//                    mTargetId, null)
-//            RongIMClient.getInstance().cleanRemoteHistoryMessages(
-//                    Conversation.ConversationType.PRIVATE,
-//                    mTargetId, System.currentTimeMillis(),
-//                    null);
-//        }
-//        RongIMClient.getInstance().cleanHistoryMessages(Conversation.ConversationType.PRIVATE,"",System.currentTimeMillis(),true,null)
+
+    private fun sendOutgoingMessage(){
+        var custommsg = TipsTxtMessage("你正在以匿名身份和对方聊天", "1")
+        var richContentMessage = GroupUnKnowTipsMessage.obtain("你正在以匿名身份和对方聊天", GsonHelper.getGson().toJson(custommsg))
+        RongIM.getInstance().insertOutgoingMessage(mConversationType, mTargetId, Message.SentStatus.RECEIVED,richContentMessage, object : RongIMClient.ResultCallback<Message>() {
+            override fun onSuccess(message: Message) {
+                SPUtils.instance().put(SEND_GROUP_TIPSMESSAGE+mOtherUserId, System.currentTimeMillis()).apply()
+            }
+
+            override fun onError(errorCode: RongIMClient.ErrorCode) {
+
+            }
+        })
     }
 
     /**
      * 获取群组成员信息
      */
-    private fun getGroupMembers() {
-
+    private fun setChatTitle() {
+        val info = RongUserInfoManager.getInstance().getUserInfo(mOtherUserId)
+        if (info == null || info.name.isNullOrEmpty()) {
+            tv_chattitle.text = mTitle
+        } else {
+            tv_chattitle.text = info.name
+        }
     }
 
     /**
@@ -252,7 +276,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
      * 获取私聊状态
      */
     private fun getApplyStatus(){
-        Request.getApplyStatus(userId,mOtherUserId).request(this,false,success={msg,jsonObjetct->
+        Request.getApplyStatus(userId,if(iType==2)  mTargetId else mOtherUserId,iType).request(this,false,success={msg,jsonObjetct->
             jsonObjetct?.let {
                 var code = it.optInt("code")
                 if(code == 1){//已申请私聊且对方已同意
@@ -346,7 +370,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
      * 检查聊天次数
      */
     private fun checkTalkJustify() {
-        Request.doTalkJustifyNew(userId, mOtherUserId).request(this, false, success = { msg, data ->
+        Request.doTalkJustifyNew(userId,if(iType==2)  mTargetId else mOtherUserId ,iType).request(this, false, success = { msg, data ->
             if (data != null) {
                 var code = data.optInt("iTalkType")
                 if (code == 2) {//已发送3次聊天消息，需要解锁无限畅聊
@@ -524,10 +548,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             }
         }
 
-        if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
-            if (!TextUtils.equals(mOtherUserId, Const.CustomerServiceId)||!TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
-                getApplyStatus()
-            }
+        if (!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
+            getApplyStatus()
         }
     }
 
