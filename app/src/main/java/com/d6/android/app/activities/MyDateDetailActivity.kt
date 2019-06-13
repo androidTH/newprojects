@@ -150,7 +150,7 @@ class MyDateDetailActivity : BaseActivity() {
 //                        checkChatCount(it.iUserid.toString()) {
 //                            showDatePayPointDialog(name,it.iUserid.toString())
                             if(it.iIsAnonymous==1){
-                                createGroupName(it.iUserid.toString())
+                                createGroupName(it.iUserid.toString(),1) //1 我是匿名
                             }else{
                                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iUserid.toString(), name)
                             }
@@ -158,8 +158,9 @@ class MyDateDetailActivity : BaseActivity() {
                     }else if(it.sAppointmentSignupId.isNotEmpty()){
 //                        checkChatCount(it.iAppointUserid.toString()) {
 //                            showDatePayPointDialog(name,it.iAppointUserid.toString())
+                           Log.i("tv_private_chat","state===${it.iIsAnonymous}")
                             if(it.iIsAnonymous==1){
-                                createGroupName(it.iUserid.toString())
+                                createGroupName(it.iAppointUserid.toString(),2) //2 对方匿名
                             }else{
                                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, it.iAppointUserid.toString(), name)
                             }
@@ -574,8 +575,9 @@ class MyDateDetailActivity : BaseActivity() {
         mUnknowDialog.show(supportFragmentManager,"unknowDialog")
     }
 
-    private fun createGroupName(id:String){
-        Request.doToUserAnonyMousGroup(getLoginToken(),id,2).request(this,false,success = { msg, jsonObject->
+    //创建群组
+    private fun createGroupName(id:String,iType:Int){
+        Request.doToUserAnonyMousGroup(getLoginToken(),id,iType).request(this,false,success = { msg, jsonObject->
             jsonObject?.let {
                 Log.i("createGroupName","json=${it.sId}---sId----${it.iTalkUserid}")
             }

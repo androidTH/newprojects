@@ -265,9 +265,12 @@ class PublishFindDateActivity : BaseActivity() {
 
         iIsAnonymous = 2
         getLocalFriendsCount()
+    }
 
+    override fun onResume() {
+        super.onResume()
         if(TextUtils.equals("close",IsOpenUnKnow)){
-            sAddPointDesc = open_unknow_msg
+            sAddPointDesc = "以匿名身份发布约会"
         }else{
             getCheckAnonMouseNums()
         }

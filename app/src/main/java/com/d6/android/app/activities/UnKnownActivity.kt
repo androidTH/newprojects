@@ -117,6 +117,7 @@ class UnKnownActivity : BaseActivity() {
                    dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 2)
                    dateDialog.setDialogListener { p, s ->
                        if (p == 2) {
+                           SPUtils.instance().put(Const.CHECK_OPEN_UNKNOW,"open").apply()
                            tv_unknow_square.visibility = View.VISIBLE
                            tv_unknow_date.visibility = View.VISIBLE
                            tv_unknow_start.visibility = View.GONE

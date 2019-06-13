@@ -91,7 +91,6 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 showToast("最多上传9张图片")
                 return@setOnAddClickListener
             }
-//            startActivityForResult<SelectPhotoDialog>(0)
             val c = 9
             val paths = mImages.filter { it.type!=1 }.map { it.path }
             val urls = ArrayList<String>(paths)
@@ -258,8 +257,12 @@ class ReleaseNewTrendsActivity : BaseActivity(){
 
         iIsAnonymous = 2
         getLocalFriendsCount()
+    }
+
+    override fun onResume() {
+        super.onResume()
         if(TextUtils.equals("close",IsOpenUnKnow)){
-            sAddPointDesc = open_unknow_msg
+            sAddPointDesc = "以匿名身份发布动态"
         }else{
             getCheckAnonMouseNums()
         }
