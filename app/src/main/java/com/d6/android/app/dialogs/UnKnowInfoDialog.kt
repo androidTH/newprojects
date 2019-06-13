@@ -54,7 +54,7 @@ class UnKnowInfoDialog : DialogFragment(), RequestManager {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout((screenWidth() * 0.8f).toInt() + dip(30), wrapContent)
+        dialog.window.setLayout((screenWidth() * 0.7f).toInt() + dip(30), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
         dialog.setCanceledOnTouchOutside(true)
     }

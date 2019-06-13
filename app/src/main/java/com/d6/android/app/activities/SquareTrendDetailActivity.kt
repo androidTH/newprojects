@@ -50,6 +50,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
+
     private var pageNum = 1
     private var iIsAnonymous:Int = 2
 
@@ -187,25 +188,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail","IsOpenUnKnow" to IsOpenUnKnow)
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
-                if(p==2){
-                    tv_unknow_choose.text = "公开"
-                    var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.public_small)
-                    var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
-                    tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
-
-                    tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_666666)
-//                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_white_border)
-                }else if(p==1){
-                    tv_unknow_choose.text = "匿名"
-                    var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.key_small)
-                    var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.niming_more)
-
-                    tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
-
-                    tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
-//                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_5a_border)
-                }
-                iIsAnonymous = p
+                setInputState(p)
             }
         }
 
@@ -215,6 +198,28 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
 
+    private fun setInputState(p:Int){
+        if(p==2){
+            tv_unknow_choose.text = "公开"
+            var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.public_small)
+            var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
+            tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
+
+            tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_666666)
+//                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_white_border)
+        }else if(p==1){
+            tv_unknow_choose.text = "匿名"
+            var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.key_small)
+            var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.niming_more)
+
+            tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
+
+            tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+//                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_5a_border)
+        }
+
+        iIsAnonymous = p
+    }
 //    private fun showSoftInput() {
 //        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 //        //显示软键盘
@@ -239,6 +244,17 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     squareDetailCommentAdapter.notifyDataSetChanged()
                     mSquare?.comments = mComments
                     updateBean()
+                    if(it.iIsAnonymous==1){
+                        if(TextUtils.equals("open",IsOpenUnKnow)){
+                            setInputState(1)
+                        }else{
+                            setInputState(2)
+                        }
+                    }else{
+                        setInputState(2)
+                    }
+
+                    Log.i("squarecomment","状态=${it.iIsAnonymous}")
                 }
             }, error = { code, msg ->
                 if(code == 2){

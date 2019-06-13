@@ -46,7 +46,7 @@ interface ApiServices {
     fun updateUserInfo(@Body userData: UserData,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<UserData>>
 
     @POST("backstage/squareclasses/find")
-    fun getSquareTags(): Flowable<Response<ArrayList<SquareTag>>>
+    fun getSquareTags(@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<SquareTag>>>
 
     @POST("backstage/square/del")
     fun deleteSquare(@Query("userid") userid:String,@Query("ids") ids:String?,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
@@ -55,7 +55,7 @@ interface ApiServices {
     fun deleteSysMsg(@Query("userid") userid:String,@Query("ids") ids:String?,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/square/findByPage")
-    fun getSquareList(@Query("userid") accountId: String, @Query("classesid") classesid: String?, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE, @Query("limit") limit: Int = 0, @Query("sex") sex: Int = 2): Flowable<Response<Page<Square>>>
+    fun getSquareList(@Query("userid") accountId: String, @Query("classesid") classesid: String?, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE, @Query("limit") limit: Int = 0, @Query("sex") sex: Int = 2,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<Square>>>
 
     @POST("backstage/square/find")
     fun getSquareDetail(@Query("userid") userId: String, @Query("ids") ids: String?, @Query("limit") limit: Int = Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Square>>
@@ -70,16 +70,16 @@ interface ApiServices {
     fun addComment(@Query("userid") accountId: String, @Query("newsId") newsId: String, @Query("content") content: String, @Query("replyuserid") replyuserid: String?,@Query("iIsAnonymous") iIsAnonymous:Int,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/comments/del")
-    fun delComment(@Query("ids")ids:Int):Flowable<Response<JsonObject>>
+    fun delComment(@Query("ids")ids:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     @POST("backstage/tool/webuploader/getqiniutoken")
-    fun getQiniuToken(): Flowable<Response<JsonPrimitive>>
+    fun getQiniuToken(@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/speedabout/findByPage")
     fun getSpeedDateList(@Query("speedtype") speedType: Int, @Query("pageNum") pageNum: Int, @Query("beginTime") beginTime: String? = null, @Query("endTime") endTime: String? = null
                          , @Query("classesid") classesid: String? = null, @Query("arrayspeedstate") arraySpeedState: String? = null, @Query("speedwhere") area: String? = null
                          , @Query("handspeedwhere") guowaiarea: String? = null, @Query("arrayuserclassesid") arrayUserClassesId: String? = null, @Query("speedhomepage") speedhomepage: String? = null
-                         , @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<MyDate>>>
+                         , @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<MyDate>>>
 
     @POST("backstage/speedabout/find")
     fun getSpeedDetail(@Query("ids") ids: String?,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<MyDate>>
@@ -88,13 +88,13 @@ interface ApiServices {
     fun getFindDateList(@Query("looktype") looktype: Int, @Query("pageNum") pageNum: Int, @Query("beginTime") beginTime: String? = null, @Query("endTime") endTime: String? = null
                         , @Query("classesid") classesid: String? = null, @Query("arraylookstate") arrayLookState: String? = null, @Query("userlookwhere") guoneiarea: String? = null
                         , @Query("userhandlookwhere") guowaiarea: String? = null, @Query("arrayuserclassesid") arrayUserClassesId: String? = null
-                        , @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<MyDate>>>
+                        , @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<MyDate>>>
 
     @POST("backstage/wxkf/find")
     fun searchWeChatId(@Query("kfName") kfName: String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/square/findByPageMySquare")
-    fun getMySquares(@Query("loginuserid") loginuserid:String,@Query("userid") userid: String, @Query("limit") limit: Int, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE): Flowable<Response<Page<Square>>>
+    fun getMySquares(@Query("loginuserid") loginuserid:String,@Query("userid") userid: String, @Query("limit") limit: Int, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<Square>>>
 
     @POST("backstage/upvote/add")
     fun addPraise(@Query("userid") userid: String, @Query("newsId") newsId: String?,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
@@ -112,16 +112,16 @@ interface ApiServices {
     @POST("backstage/selfabout/add")
     fun releaseSelfAbout(@Query("userid") userid: String, @Query("content") content: String?, @Query("handlookwhere") handlookwhere: String?
                          , @Query("lookwhere") lookwhere: String?, @Query("city") city: String?, @Query("beginTime") beginTime: String?
-                         , @Query("endTime") endTime: String?, @Query("selfpicurl") selfpicurl: String?): Flowable<Response<JsonObject>>
+                         , @Query("endTime") endTime: String?, @Query("selfpicurl") selfpicurl: String?,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/userclasses/findauto")
-    fun getUserLevels(): Flowable<Response<ArrayList<UserLevel>>>
+    fun getUserLevels(@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<UserLevel>>>
 
     @POST("backstage/sysDict/findauto")
-    fun getCities(@Query("paramKey") paramKey: String): Flowable<Response<ArrayList<City>>>
+    fun getCities(@Query("paramKey") paramKey: String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<City>>>
 
     @POST("backstage/sysDict/findautoNew")
-    fun getProvince(@Query("isShow") isShow:Int): Flowable<Response<ArrayList<Province>>>
+    fun getProvince(@Query("isShow") isShow:Int,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 
     @POST("backstage/sysDict/findautoAll")
     fun getProvinceAll(@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
@@ -146,13 +146,13 @@ interface ApiServices {
     fun updateDeviceType(@Query("userid") userid: String, @Query("devicetype") devicetype:String = "android"): Flowable<Response<JsonObject>>
 
     @POST("backstage/new_login/getVerifyCode")
-    fun getVerifyCodeV2(@Query("phone") phone: String, @Query("vercodetype") vercodetype:Int): Flowable<Response<JsonObject>>
+    fun getVerifyCodeV2(@Query("phone") phone: String, @Query("vercodetype") vercodetype:Int,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/new_login/system_login")
-    fun loginV2(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?): Flowable<Response<UserData>>
+    fun loginV2(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<UserData>>
 
     @POST("backstage/new_login/system_login_new")
-    fun loginV2New(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?,@Query("sUnionid") sUnionid:String?,@Query("sChannelId") sChannelId:String?): Flowable<Response<UserData>>
+    fun loginV2New(@Query("logintype") logintype: Int, @Query("vercode") vercode:String?,@Query("phone") phone:String?=null, @Query("guoneiguowai") guoneiguowai:String?=null, @Query("openid") openid:String?=null,@Query("devicetoken") devicetoken:String?,@Query("sUnionid") sUnionid:String?,@Query("sChannelId") sChannelId:String?,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<UserData>>
 
 
     @POST("backstage/dataDict/find")
@@ -162,7 +162,7 @@ interface ApiServices {
     fun report(@Query("userid") userid:String,@Query("tipuserid") tipuserid:String,@Query("content") content:String,@Query("tiptype") tiptype:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagementsaccount/update")
-    fun updateSeeCount(@Query("userid") userid:String,@Query("seecount") seecount:String="1"): Flowable<Response<JsonPrimitive>>
+    fun updateSeeCount(@Query("userid") userid:String,@Query("seecount") seecount:String="1",@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagementsaccount/findseecount")
     fun findSeeCount(@Query("userid") userid:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
@@ -177,19 +177,19 @@ interface ApiServices {
     fun getDateSuccessCount(): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagementsaccount/update")
-    fun updateDateInfo(@Query("userid") userid:String,@Query("egagementtype")egagementtype:String?,@Query("egagementtext")egagementtext:String?,@Query("userhandlookwhere")userhandlookwhere:String?,@Query("userlookwhere")userlookwhere:String?,@Query("phone")phone:String?,@Query("egagementwx")egagementwx:String?,@Query("openEgagementflag")openEgagementflag:String?): Flowable<Response<JsonPrimitive>>
+    fun updateDateInfo(@Query("userid") userid:String,@Query("egagementtype")egagementtype:String?,@Query("egagementtext")egagementtext:String?,@Query("userhandlookwhere")userhandlookwhere:String?,@Query("userlookwhere")userlookwhere:String?,@Query("phone")phone:String?,@Query("egagementwx")egagementwx:String?,@Query("openEgagementflag")openEgagementflag:String?,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagements/update")
-    fun updateDateState(@Query("ids")ids:String,@Query("state")state:String): Flowable<Response<JsonPrimitive>>
+    fun updateDateState(@Query("ids")ids:String,@Query("state")state:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagements/add")
-    fun dateUser(@Query("userid")userid:String,@Query("engagementuserid")engagementuserid:String): Flowable<Response<JsonObject>>
+    fun dateUser(@Query("userid")userid:String,@Query("engagementuserid")engagementuserid:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/engagementsaccount/findByPagewoyuebieren")
     fun findMyDatingList(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE): Flowable<Response<Page<NewDate>>>
 
     @POST("backstage/engagementsaccount/findByPage")
-    fun findDatingMeList(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE): Flowable<Response<Page<NewDate>>>
+    fun findDatingMeList(@Query("userid")userid:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<NewDate>>>
 
     @POST("backstage/engagementsaccount/findcart")
     fun getHomeDateList(@Query("userid")userid:String,@Query("sex")sex:String,@Query("egagementtype")egagementtype:Int,@Query("userlookwhere")userlookwhere:String?,@Query("userhandlookwhere")userhandlookwhere:String?): Flowable<Response<ArrayList<DateBean>>>
@@ -199,11 +199,11 @@ interface ApiServices {
 
     //添加关注
     @POST("backstage/follow/add")
-    fun getAddFollow(@Query("userid") userid:String,@Query("followuserid") followuserid:String?):Flowable<Response<JsonObject>>
+    fun getAddFollow(@Query("userid") userid:String,@Query("followuserid") followuserid:String?,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //取消关注
     @POST("backstage/follow/del")
-    fun getDelFollow(@Query("userid") userid:String,@Query("followuserid") followuserid:String?):Flowable<Response<JsonObject>>
+    fun getDelFollow(@Query("userid") userid:String,@Query("followuserid") followuserid:String?,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //查询我的关注,粉丝访客个数
     @POST("backstage/statistic/find")
@@ -294,11 +294,11 @@ interface ApiServices {
     fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sCity") scity:String,
                                 @Query("sex") sex:String,@Query("xingzuo") xingzuo:String, @Query("agemin") agemin:String, @Query("agemax") agemax:String,
                                 @Query("lat") lat:String, @Query("lon") lon:String,
-                                @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE):Flowable<Response<Page<FindDate>>>
+                                @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<FindDate>>>
 
     //绑定手机号
     @POST("backstage/account/bindPhone")
-    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("sUnionid") sUnionid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String,@Query("sChannelId") sChannelId:String?):Flowable<Response<UserData>>
+    fun bindPhone(@Query("phone") phone:String, @Query("vercode") vercode:String,@Query("openid") openid:String,@Query("sUnionid") sUnionid:String,@Query("devicetoken") devicetoken:String,@Query("sWxName")sWxName:String,@Query("sWxpic")sWxpic:String,@Query("sChannelId") sChannelId:String?,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<UserData>>
 
     //赠送积分
     @POST("backstage/new_login/loginForPointNew")
@@ -447,21 +447,21 @@ interface ApiServices {
 
   //查询用户的匿名卡片详情
   @POST("backstage/account/getAnonymousAccountDetail")
-  fun getAnonymousAccountDetail(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String):Flowable<Response<UserData>>
+  fun getAnonymousAccountDetail(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<UserData>>
 
   //创建匿名组接口 iType 1、我是匿名  2、对方是匿名
   @POST("backstage/group/add")
-  fun CreateGroupAdd(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int):Flowable<Response<JsonObject>>
+  fun CreateGroupAdd(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
   //跳转到匿名用户组（先判断是否已创建匿名组，没有创建则手动创建 iType 1、我是匿名  2、对方是匿名
   @POST("backstage/group/toUserAnonymousGroup")
-  fun doToUserAnonyMousGroup(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int):Flowable<Response<GroupBean>>
+  fun doToUserAnonyMousGroup(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<GroupBean>>
 
   //获取当前组的成员
   @POST("backstage/group/findGroupMembersByGroupId")
-  fun findGroupMembersByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String)
+  fun findGroupMembersByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String,@Query("sVersion") sVersion:String = getAppVersion())
 
   //查询组的信息，返回组的名称和图片（已区分是否匿名）
    @POST("backstage/group/findGroupByGroupid")
-   fun findGroupDescByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String):Flowable<Response<GroupBean>>
+   fun findGroupDescByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<GroupBean>>
 }

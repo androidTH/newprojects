@@ -158,7 +158,7 @@ class MyDateDetailActivity : BaseActivity() {
                     }else if(it.sAppointmentSignupId.isNotEmpty()){
 //                        checkChatCount(it.iAppointUserid.toString()) {
 //                            showDatePayPointDialog(name,it.iAppointUserid.toString())
-                           Log.i("tv_private_chat","state===${it.iIsAnonymous}")
+                            Log.i("tv_private_chat","state===${it.iIsAnonymous}")
                             if(it.iIsAnonymous==1){
                                 createGroupName(it.iAppointUserid.toString(),2) //2 对方匿名
                             }else{
@@ -580,6 +580,7 @@ class MyDateDetailActivity : BaseActivity() {
         Request.doToUserAnonyMousGroup(getLoginToken(),id,iType).request(this,false,success = { msg, jsonObject->
             jsonObject?.let {
                 Log.i("createGroupName","json=${it.sId}---sId----${it.iTalkUserid}")
+                RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,it.sId, "")
             }
         }){code,msg->
             Log.i("createGroupName","fail${msg}")//保存失败
