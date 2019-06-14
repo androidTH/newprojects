@@ -31,25 +31,22 @@ import org.jetbrains.anko.toast
 /**
  * Created on 2017/12/25.
  */
-class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<Conversation>(mData, R.layout.item_list_conversations) {
+class UnKnowChatAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<Conversation>(mData, R.layout.item_list_conversations) {
     @SuppressLint("SetTextI18n")
     override fun onBind(holder: ViewHolder, position: Int, data: Conversation) {
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         val tv_name = holder.bind<TextView>(R.id.tv_name)
         val tv_time = holder.bind<TextView>(R.id.tv_time)
 
-        if (data.conversationType === Conversation.ConversationType.PRIVATE) {
-            RongUtils.setUserInfo(data.targetId, tv_name, headView)
-        }else if(data.conversationType==Conversation.ConversationType.GROUP){
-            var groupbean = RongUserInfoManager.getInstance().getGroupInfo(data.targetId)
-            if (groupbean != null) {
-                tv_name.text = groupbean.name
-                headView.setImageURI(groupbean.portraitUri)
-            }else{
-                tv_name.text = "匿名"
-                headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
-            }
-        }
+        val split = data.targetId.split("_")
+        RongUtils.setUserInfo(split[2], tv_name, headView)
+
+//        var groupbean = RongUserInfoManager.getInstance().getGroupInfo(data.targetId)
+
+//        if(groupbean!=null){
+//            tv_name.text = groupbean.name
+//            headView.setImageURI(groupbean.portraitUri)
+//        }
 
         tv_time.text = RongDateUtils.getConversationListFormatDate(data.sentTime, context)
         val tv_content = holder.bind<TextView>(R.id.tv_content)
@@ -61,16 +58,6 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         } else {
             tv_content.text = ""
         }
-
-//        var tag = RongContext.getInstance().getConversationProviderTag(data.conversationType.getName())
-
-//        if(tag.portraitPosition==1){
-//          Log.i("ddddd","发送方")
-//        }else if(tag.portraitPosition==2){
-//            Log.i("ddddd","接收方")
-//        }else{
-//            Log.i("ddddd","接收方")
-//        }
 
         var img_servicesign = holder.bind<ImageView>(R.id.iv_header_servicesign)
         if(TextUtils.equals(Const.CustomerServiceId, data.targetId)|| TextUtils.equals(Const.CustomerServiceWomenId, data.targetId)){

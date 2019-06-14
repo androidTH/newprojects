@@ -675,7 +675,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         mDialogAddBlackList.show(supportFragmentManager, "addBlacklist")
         mDialogAddBlackList.setDialogListener { p, s ->
             dialog()
-            Request.addBlackList(userId, id).request(this) { _, _ ->
+            Request.addBlackList(userId, id,2).request(this) { _, _ ->
                 CustomToast.showToast(getString(R.string.string_blacklist_toast))
                 mData?.iIsInBlackList = 1
             }
@@ -684,7 +684,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     //移除黑名单
     private fun removeBlackList(){
-        Request.removeBlackList(userId,id).request(this){msg,jsonPrimitive->
+        Request.removeBlackList(userId,id,2).request(this){msg,jsonPrimitive->
             CustomToast.showToast(msg.toString())
             mData?.iIsInBlackList = 0
         }

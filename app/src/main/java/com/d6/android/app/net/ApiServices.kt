@@ -373,7 +373,7 @@ interface ApiServices {
 
     /*1.9.1接口*/
     @POST("backstage/blacklist/add")
-    fun addBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
+    fun addBlackList(@Query("iUserid") userid:String, @Query("iBlackUserid") blackuserid:String, @Query("iType") iType:Int, @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     //获取黑名单列表
     @POST("backstage/blacklist/find")
@@ -381,7 +381,7 @@ interface ApiServices {
 
     //移除黑名单
     @POST("backstage/blacklist/del")
-    fun removeBlackList(@Query("sId") sId:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
+    fun delBlackList(@Query("sId") sId:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     /*1.9.2接口*/
     @POST("backstage/account/updateUnionId")
@@ -390,7 +390,7 @@ interface ApiServices {
 
    /* 2.0接口*/
    @POST("backstage/blacklist/remove")
-   fun removeBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
+   fun removeBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     //查询好友列表
    @POST("backstage/userfriend/findByPage")

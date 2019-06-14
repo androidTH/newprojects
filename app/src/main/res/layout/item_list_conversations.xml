@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.d6.android.app.widget.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_swipitem"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/ll_message"
         android:layout_width="match_parent"
         android:orientation="vertical"
         app:layout_itemType="main"
@@ -109,6 +111,7 @@
             android:layout_marginLeft="25dp"/>
     </LinearLayout>
     <FrameLayout
+        android:id="@+id/fragme_delete"
         android:layout_width="wrap_content"
         app:layout_itemType="menu"
         android:layout_height="match_parent">

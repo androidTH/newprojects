@@ -38,6 +38,7 @@ import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Group
 import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
 import io.rong.push.RongPushClient
@@ -155,6 +156,7 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
     private fun initCacheLib() {
         CacheDBLib.init(this)
+
         RongUtils.setUserProvider(object : RongUtils.UserProvider {
             private val views = ArrayList<View?>()
             private val map = HashMap<String, Boolean>()
@@ -220,6 +222,8 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
                 })
             }
         })
+
+
     }
 
 

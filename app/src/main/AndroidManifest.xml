@@ -178,7 +178,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MessagesActivity"
+            android:name=".activities.UnKnowChatActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SelectPhotoDialog"

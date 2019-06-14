@@ -47,13 +47,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
     private var mBadgeSys:Badge? = null
 
-    private var mUserId = SPUtils.instance().getString(Const.User.USER_ID)
     private var SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
     private var SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
-
-    private val userId by lazy {
-        mUserId
-    }
 
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
@@ -86,6 +81,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             }
             SPUtils.instance().put(Const.SQUAREMSG_LAST_TIME, D6Application.systemTime).apply()
             startActivity<SquareMessagesActivity>()
+        }
+
+        headerView.rl_unknowchat.setOnClickListener {
+            startActivity<UnKnowChatActivity>()
         }
 
         iv_msg_right.setOnClickListener {
@@ -155,7 +154,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         getSysLastOne(SysMsg_time.toString())
         getSquareMsg(SquareMsg_time.toString())
 
-        if(TextUtils.equals(Const.CustomerServiceId,userId)||TextUtils.equals(Const.CustomerServiceWomenId,userId)){
+        if(TextUtils.equals(Const.CustomerServiceId, getLocalUserId())||TextUtils.equals(Const.CustomerServiceWomenId,getLocalUserId())){
             tv_topsearch.visibility = View.VISIBLE
         }else{
             tv_topsearch.visibility = View.GONE
@@ -193,6 +192,16 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 mConversations.clear()
                 if (conversations != null) {
                     mConversations.addAll(conversations)
+                    for(c:Conversation in conversations){
+                        if(c.conversationType == Conversation.ConversationType.GROUP){
+                            var split = c.targetId.split("_")
+                            if(split.size==3){
+                                if(TextUtils.equals(split[1], getLocalUserId())){
+                                    mConversations.remove(c)
+                                }
+                            }
+                        }
+                    }
                 }
                 conversationsAdapter.notifyDataSetChanged()
             }
@@ -201,13 +210,14 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
             }
         }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
+
     }
 
     /**
      * 系统消息
      */
     private fun getSysLastOne(lastTime:String) {
-        Request.getSystemMessages(userId, 1, pageSize = 1).request(this) { _, data ->
+        Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this) { _, data ->
              data?.let {
                  setSysMsg(data)
              }
@@ -218,7 +228,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
      * 广场消息
      */
     private fun getSquareMsg(lastTime:String) {
-        Request.getNewSquareMessages(userId, 1, pageSize = 1).request(this) { _, data ->
+        Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this) { _, data ->
             setSquareMsg(data)
         }
     }

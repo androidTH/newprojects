@@ -242,8 +242,8 @@ object Request {
     fun findDataDict(key: String? = "quhao") =
             RRetrofit.instance().create(ApiServices::class.java).findDataDict(key)
 
-    fun addBlackList(userId: String,id:String) =
-            RRetrofit.instance().create(ApiServices::class.java).addBlackList(userId,id)
+    fun addBlackList(userId: String,id:String,iType:Int) =
+            RRetrofit.instance().create(ApiServices::class.java).addBlackList(userId,id,iType)
 
     fun report(userId: String,id:String,content:String,tiptype:String) =
             RRetrofit.instance().create(ApiServices::class.java).report(userId,id,content,tiptype)
@@ -415,13 +415,13 @@ object Request {
     fun getFindMyBlackList(iUserId: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindMyBlacklist(iUserId,pageNum)
 
     //移除黑名单
-    fun removeBlackList(sId:String?)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(sId.toString())
+    fun removeBlackList(sId:String?)=RRetrofit.instance().create(ApiServices::class.java).delBlackList(sId.toString())
 
     //更新微信登录的unionId
     fun updateUnionId(iUserid:String,sOpenId:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).updateUnionId(iUserid,sOpenId,sUnionid)
 
     //把某人移除黑名单
-    fun removeBlackList(userId: String,id:String)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(userId,id)
+    fun removeBlackList(userId: String,id:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(userId,id,iType)
 
     //查询好友列表
     fun findUserFriends(iUserId: String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findUserFriends(iUserId,sUserName,pageNum)

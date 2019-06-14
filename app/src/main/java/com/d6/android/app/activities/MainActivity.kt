@@ -11,6 +11,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity

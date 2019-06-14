@@ -40,7 +40,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
 
         view.setDeleteClick {
-            doReport(it.iAppointUserid.toString(),it.sId.toString())
+            doReport(it.iAppointUserid.toString(),it.sId.toString(),it.iIsAnonymous!!.toInt())
         }
     }
 
@@ -62,7 +62,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
     }
 
-    private fun doReport(userid:String,sDateId:String){
+    private fun doReport(userid:String,sDateId:String,iType:Int){
         val squareActionDialog = ShareFriendsDialog()
         squareActionDialog.arguments = bundleOf("from" to "selfPullDate","id" to userid,"sResourceId" to sDateId)
         squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
@@ -73,7 +73,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 }
             }else if(p==2){
                isBaseActivity {
-                   Request.addBlackList(userId, userid).request(it) { _, _ ->
+                   Request.addBlackList(userId, userid,iType).request(it) { _, _ ->
                        CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
                    }
                }

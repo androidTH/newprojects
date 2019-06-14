@@ -43,9 +43,6 @@ import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 
 
-
-
-
 /**
  * 我的
  */

@@ -3,6 +3,7 @@ package com.d6.android.app.activities
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
+import cn.liaox.cachelib.CacheDbManager
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
@@ -26,6 +28,7 @@ import com.d6.android.app.utils.Const.FROM_MY_CHATDATE
 import com.d6.android.app.widget.CustomToast
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Group
 import kotlinx.android.synthetic.main.activity_mydate_details.*
 import kotlinx.android.synthetic.main.item_list_date_status.*
 import org.jetbrains.anko.backgroundDrawable
@@ -580,7 +583,10 @@ class MyDateDetailActivity : BaseActivity() {
         Request.doToUserAnonyMousGroup(getLoginToken(),id,iType).request(this,false,success = { msg, jsonObject->
             jsonObject?.let {
                 Log.i("createGroupName","json=${it.sId}---sId----${it.iTalkUserid}")
+                var group = Group(it.sId,it.sGroupName, Uri.parse(it.sGroupPicUrl))
+                RongIM.getInstance().refreshGroupInfoCache(group)
                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,it.sId, "")
+
             }
         }){code,msg->
             Log.i("createGroupName","fail${msg}")//保存失败
