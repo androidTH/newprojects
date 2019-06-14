@@ -142,8 +142,8 @@ object Request {
     fun feedback(userId: String, content: String) =
             RRetrofit.instance().create(ApiServices::class.java).feedback(userId, content)
 
-    fun addComment(userId: String, newsId: String, content: String, replyUid: String?,iIsAnonymous:Int) =
-            RRetrofit.instance().create(ApiServices::class.java).addComment(userId, newsId, content, replyUid,iIsAnonymous)
+    fun addComment(userId: String, newsId: String, content: String, replyUid: String?,iIsAnonymous:Int,iReplyCommnetType:Int?) =
+            RRetrofit.instance().create(ApiServices::class.java).addComment(userId, newsId, content, replyUid,iIsAnonymous,iReplyCommnetType)
 
     /**
      * 速约

@@ -53,6 +53,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
     private var pageNum = 1
     private var iIsAnonymous:Int = 2
+    private var chooseAnonymous = false
 
     private val IsOpenUnKnow by lazy{
         SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
@@ -70,6 +71,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private var replayUid = ""
     //回复内容
     private var replayContent=""
+    private var iReplyCommnetType:Int?= 2 //1、回复的评论类型是匿名 2、回复的评论类型是非匿名
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -129,6 +131,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             if(!TextUtils.equals(replayContent,comment.content)){
                 et_content.setText("")
                 et_content.hint = resources.getString(R.string.string_replaycomment,comment.name)
+                iReplyCommnetType = comment.iIsAnonymous
             }
             replayContent = comment.content.toString()
 
@@ -189,6 +192,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
                 setInputState(p)
+                chooseAnonymous = true
             }
         }
 
@@ -241,20 +245,22 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                         mComments.addAll(it.comments)
                     }
                     Collections.reverse(mComments)
+                    squareDetailCommentAdapter.setNMIndex(1)
                     squareDetailCommentAdapter.notifyDataSetChanged()
                     mSquare?.comments = mComments
                     updateBean()
-                    if(it.iIsAnonymous==1){
-                        if(TextUtils.equals("open",IsOpenUnKnow)){
-                            setInputState(1)
+                    if(!chooseAnonymous){
+                        if(it.iIsAnonymous==1){
+                            if(TextUtils.equals("open",IsOpenUnKnow)){
+                                setInputState(1)
+                            }else{
+                                setInputState(2)
+                            }
                         }else{
                             setInputState(2)
                         }
-                    }else{
-                        setInputState(2)
                     }
 
-                    Log.i("squarecomment","状态=${it.iIsAnonymous}")
                 }
             }, error = { code, msg ->
                 if(code == 2){
@@ -293,7 +299,11 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             } else {
                 mComments.addAll(data.list.results)
             }
-            squareDetailCommentAdapter.notifyDataSetChanged()
+            if(data?.list!=null){
+                if(data.list.results!=null){
+                    squareDetailCommentAdapter.notifyItemChanged(mComments.size-data.list.results?.size!!.toInt())
+                }
+            }
         }, error = { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
         })
@@ -339,11 +349,12 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             replayUid
         }
         dialog()
-        Request.addComment(userId, id,content,replyUid,iIsAnonymous).request(this,false,success={msg,jsonObject->
+        Request.addComment(userId, id,content,replyUid,iIsAnonymous,iReplyCommnetType).request(this,false,success={msg,jsonObject->
             et_content.setText("")
             et_content.clearFocus()
             et_content.hint=getString(R.string.string_comment_tips)
             replayUid = ""
+            iReplyCommnetType = 2
             toast("评论成功")
             pageNum = 1
             mSquare?.commentCount= mSquare?.commentCount!!.toInt()+1

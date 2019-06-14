@@ -66,8 +66,8 @@ interface ApiServices {
     @POST("backstage/opinions/add")
     fun feedback(@Query("userid") accountId: String, @Query("content") content: String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
-    @POST("backstage/comments/add")
-    fun addComment(@Query("userid") accountId: String, @Query("newsId") newsId: String, @Query("content") content: String, @Query("replyuserid") replyuserid: String?,@Query("iIsAnonymous") iIsAnonymous:Int,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    @POST("backstage/comments/add") //1、回复的评论类型是匿名 2、回复的评论类型是非匿名
+    fun addComment(@Query("userid") accountId: String, @Query("newsId") newsId: String, @Query("content") content: String, @Query("replyuserid") replyuserid: String?, @Query("iIsAnonymous") iIsAnonymous:Int, @Query("iReplyCommnetType") iReplyCommnetType:Int?, @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/comments/del")
     fun delComment(@Query("ids")ids:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>

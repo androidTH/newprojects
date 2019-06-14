@@ -183,13 +183,13 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             tv_tag.text = ""
         }
 
-        square.commentCount?.let {
-            if (it > 0) {
-                comment_line.visible()
-            } else {
-                comment_line.gone()
-            }
-        }
+//        square.commentCount?.let {
+//            if (it > 0) {
+//                comment_line.visible()
+//            } else {
+//                comment_line.gone()
+//            }
+//        }
     }
 
     fun updateFlowerCount(square: Square){

@@ -51,7 +51,7 @@ class CommentActivity : TitleActivity() {
             uid
         }
         dialog()
-        Request.addComment(userId, id,content,replyUid,iIsAnonymous).request(this){ msg, _->
+        Request.addComment(userId, id,content,replyUid,iIsAnonymous,2).request(this){ msg, _->
             toast("评论成功")
             setResult(Activity.RESULT_OK)
             finish()

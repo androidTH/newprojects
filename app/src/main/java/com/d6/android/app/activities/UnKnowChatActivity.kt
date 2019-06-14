@@ -59,6 +59,10 @@ class UnKnowChatActivity : RecyclerActivity() {
                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,conversation.targetId, "")
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
         getData()
     }
 

@@ -39,8 +39,9 @@ class UnKnowChatAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<Conv
         val tv_time = holder.bind<TextView>(R.id.tv_time)
 
         val split = data.targetId.split("_")
-        RongUtils.setUserInfo(split[2], tv_name, headView)
-
+        if(split.size==2){
+            RongUtils.setUserInfo(split[2], tv_name, headView)
+        }
 //        var groupbean = RongUserInfoManager.getInstance().getGroupInfo(data.targetId)
 
 //        if(groupbean!=null){

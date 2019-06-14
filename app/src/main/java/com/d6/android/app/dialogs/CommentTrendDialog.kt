@@ -133,7 +133,7 @@ class CommentTrendDialog : DialogFragment() ,RequestManager,TrendDetailActivity.
         if (activity is BaseActivity) {
             (activity as BaseActivity).dialog()
         }
-        Request.addComment(userId, id,content,null,2).request(this,success = { msg, jsonObject->
+        Request.addComment(userId, id,content,null,2,2).request(this,success = { msg, jsonObject->
             isCommenting = false
             et_content.setText("")
             et_content.clearFocus()

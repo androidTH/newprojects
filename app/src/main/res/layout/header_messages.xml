@@ -195,7 +195,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="56dp"
-            android:layout_marginTop="2dp"
+            android:layout_centerVertical="true"
             android:text="密聊"
             android:textColor="@color/color_black"
             android:textSize="15sp" />
@@ -210,6 +210,7 @@
             android:layout_marginBottom="3dp"
             android:singleLine="true"
             android:text="暂无消息"
+            android:visibility="gone"
             android:textColor="@color/color_777777"
             android:textSize="12sp" />
 
@@ -236,4 +237,8 @@
             android:layout_centerVertical="true"
             android:background="@mipmap/ic_more_gray"/>
     </RelativeLayout>
+    <View
+        style="@style/view_line_h"
+        android:layout_marginLeft="25dp" />
+
 </LinearLayout>

@@ -2,41 +2,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#f6f6f6"
-    android:padding="@dimen/padding_12"
+    android:background="@color/white"
+    android:paddingTop="@dimen/padding_12"
+    android:paddingLeft="@dimen/padding_12"
     android:layout_height="wrap_content">
     <com.facebook.drawee.view.SimpleDraweeView
         android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginTop="4dp"
         style="@style/DefaultHeadStyle"
-        android:layout_marginRight="12dp"
+        android:layout_marginRight="@dimen/margin_8"
         android:id="@+id/headView"
-        app:roundAsCircle="true"
-        android:layout_height="30dp" />
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:roundAsCircle="true"/>
+    <RelativeLayout
+        android:id="@+id/rl_userinfo"
+        android:layout_marginTop="4dp"
         android:layout_toRightOf="@+id/headView"
-        android:singleLine="true"
-        android:textSize="15sp"
-        android:text="---"
-        android:textColor="@color/textColor99"/>
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:textSize="14sp"
+            android:text="---"
+            android:textColor="@color/color_666666"/>
+    </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_name"
+        android:layout_below="@+id/rl_userinfo"
+        android:layout_alignLeft="@+id/rl_userinfo"
+        android:textSize="14sp"
+        android:layout_marginBottom="@dimen/margin_8"
         android:layout_marginRight="@dimen/margin_45"
-        android:textSize="12sp"
         android:id="@+id/tv_content"
-        android:layout_below="@+id/tv_name"
+        android:textColor="@color/color_black"
         android:text="-------------------"/>
     <TextView
         android:id="@+id/tv_del_myselfcomment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/padding_12"
         android:textColor="@color/color_333333"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="删除"/>
+        android:padding="@dimen/margin_4"
+        android:drawableRight="@mipmap/comment_delete_icon" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/margin_35"
+        android:background="@color/color_EFEFEF"/>
 </RelativeLayout>
