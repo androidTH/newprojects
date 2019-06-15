@@ -83,6 +83,7 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
                 }else{
                     replyName = "${data.replyName+nmIndex}"
                     content = String.format("回复%s:%s", replyName, data.content)
+                    nmIndex = nmIndex+1
                 }
             }else{
                 replyName = "${data.replyName}"

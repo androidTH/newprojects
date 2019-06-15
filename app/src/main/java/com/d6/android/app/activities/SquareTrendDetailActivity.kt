@@ -398,6 +398,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 mSquare?.commentCount= mSquare?.commentCount!!.toInt()-1
                 mSquare?.comments=mComments
                 updateBean()
+                squareDetailCommentAdapter.setNMIndex(1)
                 squareDetailCommentAdapter.notifyDataSetChanged()
                 mSquare?.let {
                     headerView.mTrendDetailView.update(it)

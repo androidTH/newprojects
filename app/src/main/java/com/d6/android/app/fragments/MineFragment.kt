@@ -40,7 +40,6 @@ import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 
 
 /**
@@ -269,7 +268,6 @@ class MineFragment : BaseFragment() {
                 RongIM.getInstance().refreshUserInfoCache(info)
                 updateCache(it)
                 headview.setImageURI(it.picUrl)
-                Log.i("minefragment","我的页面头像url=${it.picUrl}")
                 sv_service.setImageURI(it.sServicePicUrl)
                 tv_nick.text = it.name
 
