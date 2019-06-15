@@ -94,15 +94,15 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         }
 
         holder.bind<View>(R.id.tv_delete).setOnClickListener {
-            RongIMClient.getInstance().removeConversation(Conversation.ConversationType.PRIVATE,data.targetId,object :RongIMClient.ResultCallback<Boolean>(){
+            RongIMClient.getInstance().removeConversation(data.conversationType,data.targetId,object :RongIMClient.ResultCallback<Boolean>(){
                 override fun onSuccess(p0: Boolean?) {
                     context.toast("删除成功！")
                     mData.remove(data)
                     notifyDataSetChanged()
-                    RongIM.getInstance().clearMessages(Conversation.ConversationType.PRIVATE,
+                    RongIM.getInstance().clearMessages(data.conversationType,
                             data.targetId, null)
                     RongIMClient.getInstance().cleanRemoteHistoryMessages(
-                    Conversation.ConversationType.PRIVATE,
+                            data.conversationType,
                        data.targetId, System.currentTimeMillis(),
                     null)
                 }

@@ -578,7 +578,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         mDialogAddBlackList.show(supportFragmentManager, "addBlacklist")
         mDialogAddBlackList.setDialogListener { p, s ->
             dialog()
-            Request.addBlackList(userId, mOtherUserId,if(iType==2)1 else 2).request(this) { _, _ ->
+
+            Request.addBlackList(userId, mOtherUserId,IsNMType()).request(this) { _, _ ->
                 CustomToast.showToast(getString(R.string.string_blacklist_toast))
                 isInBlackList = 1
             }
@@ -586,7 +587,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     }
 
     private fun removeBlackList(){
-        Request.removeBlackList(userId,mOtherUserId,if(iType==2)1 else 2).request(this){msg,jsonPrimitive->
+        Request.removeBlackList(userId,mOtherUserId,IsNMType()).request(this){msg,jsonPrimitive->
             CustomToast.showToast(msg.toString())
             isInBlackList = 0
         }
@@ -595,5 +596,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     override fun onDestroy() {
         super.onDestroy()
         RongIM.getInstance().setSendMessageListener(null)
+    }
+
+    private fun IsNMType():Int{
+        if (iType == 2) {
+            if (TextUtils.equals(mWhoanonymous,"1")) {
+                return 2
+            } else {
+                return 1
+            }
+        } else {
+            return 2
+        }
     }
 }

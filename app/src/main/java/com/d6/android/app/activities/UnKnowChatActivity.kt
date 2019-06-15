@@ -41,7 +41,7 @@ class UnKnowChatActivity : RecyclerActivity() {
     }
 
     override fun mode(): SwipeRefreshRecyclerLayout.Mode {
-        return SwipeRefreshRecyclerLayout.Mode.None
+        return SwipeRefreshRecyclerLayout.Mode.Top
     }
 
     override fun adapter() = mUnKnowChatAdapter
@@ -51,10 +51,8 @@ class UnKnowChatActivity : RecyclerActivity() {
         title = "密聊"
 
         mSwipeRefreshLayout.mRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this))
-
         mUnKnowChatAdapter.setOnItemClickListener{_,position->
             val conversation = mConversations[position]
-
             if(conversation.conversationType ==Conversation.ConversationType.GROUP){
                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,conversation.targetId, "")
             }
@@ -94,6 +92,7 @@ class UnKnowChatActivity : RecyclerActivity() {
 
     override fun pullDownRefresh() {
         super.pullDownRefresh()
+        getData()
         setRefresh(false)
     }
 }

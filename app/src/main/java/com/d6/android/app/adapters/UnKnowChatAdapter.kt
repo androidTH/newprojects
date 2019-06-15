@@ -13,6 +13,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.rong.provider.SquareMsgProvider
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.RongUtils
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.widget.SwipeItemLayout
@@ -38,8 +39,9 @@ class UnKnowChatAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<Conv
         val tv_name = holder.bind<TextView>(R.id.tv_name)
         val tv_time = holder.bind<TextView>(R.id.tv_time)
 
+        Log.i("UnKnowChatAdapter","UnKnowChatAdapter-${data.targetId}")
         val split = data.targetId.split("_")
-        if(split.size==2){
+        if(split.size==GROUPSPLIT_LEN){
             RongUtils.setUserInfo(split[2], tv_name, headView)
         }
 //        var groupbean = RongUserInfoManager.getInstance().getGroupInfo(data.targetId)
@@ -82,15 +84,15 @@ class UnKnowChatAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<Conv
         }
 
         holder.bind<View>(R.id.tv_delete).setOnClickListener {
-            RongIMClient.getInstance().removeConversation(Conversation.ConversationType.PRIVATE,data.targetId,object :RongIMClient.ResultCallback<Boolean>(){
+            RongIMClient.getInstance().removeConversation(data.conversationType,data.targetId,object :RongIMClient.ResultCallback<Boolean>(){
                 override fun onSuccess(p0: Boolean?) {
                     context.toast("删除成功！")
                     mData.remove(data)
                     notifyDataSetChanged()
-                    RongIM.getInstance().clearMessages(Conversation.ConversationType.PRIVATE,
+                    RongIM.getInstance().clearMessages(data.conversationType,
                             data.targetId, null)
                     RongIMClient.getInstance().cleanRemoteHistoryMessages(
-                    Conversation.ConversationType.PRIVATE,
+                            data.conversationType,
                        data.targetId, System.currentTimeMillis(),
                     null)
                 }

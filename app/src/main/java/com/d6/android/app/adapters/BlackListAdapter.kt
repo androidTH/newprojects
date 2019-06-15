@@ -45,7 +45,7 @@ class BlackListAdapter(mData:ArrayList<BlackListBean>): HFRecyclerAdapter<BlackL
             tv_userinfo.visibility = View.GONE
         }
 
-        val img_blacklist_auther = holder.bind<ImageView>(R.id.img_blacklist_auther)
+//        val img_blacklist_auther = holder.bind<ImageView>(R.id.img_blacklist_auther)
 //        if(TextUtils.equals("3",data.screen)){
 //            img_blacklist_auther.visibility=View.GONE
 //            img_blacklist_auther.setImageResource(R.mipmap.renzheng_small)
@@ -77,7 +77,7 @@ class BlackListAdapter(mData:ArrayList<BlackListBean>): HFRecyclerAdapter<BlackL
         if (context is BaseActivity) {
             (context as BaseActivity).dialog("",canCancel = false,visibility = false)
         }
-        Request.removeBlackList(blackList.sId).request((context as BaseActivity),false,success={ s: String?, jsonObject:JsonPrimitive? ->
+        Request.removeBlackList(getLocalUserId(),blackList.iBlackUserid.toString(),blackList.iIsAnonymous!!.toInt()).request((context as BaseActivity),false,success={ s: String?, jsonObject:JsonPrimitive? ->
             mData.remove(blackList)
             notifyDataSetChanged()
             CustomToast.showToast("已从黑名单中移除")

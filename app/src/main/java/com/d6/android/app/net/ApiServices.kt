@@ -372,7 +372,7 @@ interface ApiServices {
     fun getByVersion(@Query("sVersion") sVersion:String,@Query("iType") iType:String):Flowable<Response<VersionBean>>
 
     /*1.9.1接口*/
-    @POST("backstage/blacklist/add")
+    @POST("backstage/blacklist/add") //1、匿名  2、非匿名状态
     fun addBlackList(@Query("iUserid") userid:String, @Query("iBlackUserid") blackuserid:String, @Query("iType") iType:Int, @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     //获取黑名单列表

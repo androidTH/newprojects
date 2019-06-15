@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName
  *     version:
  */
 data class BlackListBean(@SerializedName("sId")var sId:String?=""):Parcelable {
-    @SerializedName("iUserid") var iUserid:Int? = -1
+    @SerializedName("iUserid") var iUserid:Int? = -1 //登录用户id
     @SerializedName("iBlackUserid") var iBlackUserid:Int?=-1
     @SerializedName("sPicUrl") var sPicUrl:String?=""
     @SerializedName("sUserName") var sUserName:String?=""
@@ -21,6 +21,7 @@ data class BlackListBean(@SerializedName("sId")var sId:String?=""):Parcelable {
     @SerializedName("ziwojieshao")var ziwojieshao:String?=""
     @SerializedName("gexingqianming")var gexingqianming:String?=""
     @SerializedName("userclassesname") var userclassesname:String?=""
+    var iIsAnonymous:Int?=0 //1、匿名  2、非匿名状态
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         iUserid = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -33,11 +34,13 @@ data class BlackListBean(@SerializedName("sId")var sId:String?=""):Parcelable {
         ziwojieshao = parcel.readString()
         gexingqianming = parcel.readString()
         userclassesname = parcel.readString()
+        iIsAnonymous = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(sId)
         parcel.writeValue(iUserid)
+        parcel.writeValue(iIsAnonymous)
         parcel.writeValue(iBlackUserid)
         parcel.writeString(sPicUrl)
         parcel.writeString(sUserName)

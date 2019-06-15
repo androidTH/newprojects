@@ -163,4 +163,7 @@ object Const {
 
     @JvmField
     var WHO_ANONYMOUS = "whoanyonmous" //检查是否开启匿名提示信息
+
+    @JvmField
+    var GROUPSPLIT_LEN = 3 //群组分割长度
 }

@@ -15,6 +15,7 @@ import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
@@ -195,7 +196,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                     for(c:Conversation in conversations){
                         if(c.conversationType == Conversation.ConversationType.GROUP){
                             var split = c.targetId.split("_")
-                            if(split.size==3){
+                            if(split.size==GROUPSPLIT_LEN){
                                 if(TextUtils.equals(split[1], getLocalUserId())){
                                     mConversations.remove(c)
                                 }
