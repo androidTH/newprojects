@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.utils.NetworkUtils
 import com.d6.android.app.widget.LoadDialog
 import com.d6.android.app.widget.ProgressDialog
 import com.gyf.barlibrary.ImmersionBar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 
 /**
  * 
@@ -59,6 +61,13 @@ abstract class BaseFragment : Fragment() ,RequestManager{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         immersionBar.init()
+        NetworkUtils.registerNetConnChangedReceiver(context)
+
+        NetworkUtils.addNetConnChangedListener {
+            if(it== NetworkUtils.ConnectStatus.NO_NETWORK){
+                toast("网络异常，请检查您的网络状态")
+            }
+        }
         initPrepare()
     }
 
@@ -125,6 +134,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
             val childFragmentManager = Fragment::class.java.getDeclaredField("mChildFragmentManager")
             childFragmentManager.isAccessible = true
             childFragmentManager.set(this, null)
+            NetworkUtils.unregisterNetConnChangedReceiver(context)
         } catch (e: NoSuchFieldException) {
             e.printStackTrace()
         } catch (e: IllegalAccessException) {
@@ -134,7 +144,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
         }
     }
 
-    fun showDialog(msg: String = "加载中...", canCancel: Boolean = true) {
+    fun showDialog(msg: String = "加载中...", canCancel: Boolean = false) {
 //        if (context == null) {
 //            return
 //        }

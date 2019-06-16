@@ -21,6 +21,7 @@ import java.lang.Exception
 import android.view.MotionEvent
 import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
+import com.d6.android.app.utils.NetworkUtils
 import com.d6.android.app.widget.LoadDialog
 import com.gyf.barlibrary.ImmersionBar
 
@@ -110,10 +111,11 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
         dismissDialog()
     }
 
-    fun dialog(msg: String = "加载中...", canCancel: Boolean = true,visibility:Boolean = true) {
+    fun dialog(msg: String = "加载中...", canCancel: Boolean = true,visibility:Boolean = false) {
         LoadDialog.show(this,msg,canCancel)
     }
 

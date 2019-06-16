@@ -118,7 +118,7 @@
                     android:singleLine="true"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/textSize15"
-                    android:text="未设置昵称"/>
+                    android:text="加载中…"/>
 
                 <TextView
                     android:id="@+id/tv_sex"

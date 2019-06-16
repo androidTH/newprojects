@@ -231,7 +231,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
               for(c:Conversation in mUnConversations){
                   if(c.unreadMessageCount>0){
-                      mNMUnReadTotal  = mNMUnReadTotal +c.unreadMessageCount
+                      mNMUnReadTotal  = mNMUnReadTotal + c.unreadMessageCount
                   }
               }
 
