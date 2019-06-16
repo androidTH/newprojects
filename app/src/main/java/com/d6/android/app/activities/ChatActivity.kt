@@ -74,17 +74,18 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
         if(mConversationType==Conversation.ConversationType.GROUP){
-            immersionBar.statusBarColor(R.color.color_8F5A5A).statusBarDarkFont(true).init()
-            rl_chat_toolbar.backgroundColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
-            iv_nimingbg.visibility = View.VISIBLE
-            tv_chattitle.textColor = ContextCompat.getColor(this,R.color.white)
-            var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.titlemore_whitesmall_icon)
-
-            tv_chattitle.setCompoundDrawablesWithIntrinsicBounds(null,null,mDrawableRight,null)
             mGroupIdSplit = mTargetId.split("_")
             Log.i("chatActivity","${mTargetId}")
             iType = 2
-            if(TextUtils.equals(mGroupIdSplit[1], getLocalUserId())){//我是匿名
+            if(TextUtils.equals(mGroupIdSplit[1], getLocalUserId())){
+                //我是匿名
+                immersionBar.statusBarColor(R.color.color_8F5A5A).statusBarDarkFont(true).init()
+                rl_chat_toolbar.backgroundColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+                iv_nimingbg.visibility = View.VISIBLE
+                tv_chattitle.textColor = ContextCompat.getColor(this,R.color.white)
+                var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.titlemore_whitesmall_icon)
+                tv_chattitle.setCompoundDrawablesWithIntrinsicBounds(null,null,mDrawableRight,null)
+
                 mOtherUserId = mGroupIdSplit[2]
                 RongIM.getInstance().getHistoryMessages(mConversationType,mTargetId,-1,20,object : RongIMClient.ResultCallback<List<Message>>(){
                     override fun onSuccess(p0: List<Message>?) {
@@ -105,6 +106,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 SPUtils.instance().put(WHO_ANONYMOUS,"1").apply()
                 RongUtils.setUserInfo(mOtherUserId,tv_chattitle,chat_headView)
             }else{
+                immersionBar.init()
                 chat_headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
                 mOtherUserId = mGroupIdSplit[1] //对方匿名
                 tv_chattitle.text="匿名"

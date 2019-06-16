@@ -98,7 +98,7 @@
                         android:text="所在位置"
                         android:gravity="center"
                         android:drawablePadding="@dimen/margin_8"
-                        android:textColor="@color/color_F7AB00"
+                        android:textColor="@color/color_333333"
                         android:textSize="12sp"
                         android:drawableLeft="@mipmap/comment_addlocal_icon"/>
                     <TextView
@@ -138,7 +138,7 @@
                         android:drawablePadding="@dimen/margin_5"
                         android:drawableLeft="@mipmap/notice_friends_icon"
                         android:text="@string/string_notificefriends"
-                        android:textColor="@color/color_F7AB00"
+                        android:textColor="@color/color_333333"
                         android:textSize="12sp"
                         android:paddingRight="@dimen/margin_8"/>
                     <TextView
@@ -173,14 +173,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:id="@+id/tv_nmtype"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:text="发布身份"
                         android:gravity="center_vertical"
                         android:drawablePadding="@dimen/margin_8"
-                        android:textColor="@color/color_8F5A5A"
+                        android:textColor="@color/color_333333"
                         android:textSize="12sp"
-                        android:drawableLeft="@mipmap/key_small"/>
+                        android:drawableLeft="@mipmap/public_small_yellow"/>
                     <TextView
                         android:id="@+id/tv_unknow_choose"
                         android:layout_width="wrap_content"

@@ -191,11 +191,23 @@
             android:padding="3dp"
             android:src="@mipmap/nimingtouxiang_small" />
 
+        <com.d6.android.app.widget.DragPointView
+            android:id="@+id/iv3_unreadnum"
+            android:layout_toRightOf="@+id/iv3"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/margin_2"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:layout_marginLeft="-18dp"
+            android:visibility="gone" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="56dp"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="2dp"
             android:text="密聊"
             android:textColor="@color/color_black"
             android:textSize="15sp" />
@@ -210,7 +222,7 @@
             android:layout_marginBottom="3dp"
             android:singleLine="true"
             android:text="暂无消息"
-            android:visibility="gone"
+            android:visibility="visible"
             android:textColor="@color/color_777777"
             android:textSize="12sp" />
 
@@ -238,6 +250,7 @@
             android:background="@mipmap/ic_more_gray"/>
     </RelativeLayout>
     <View
+        android:id="@+id/line_mchat"
         style="@style/view_line_h"
         android:layout_marginLeft="25dp" />
 

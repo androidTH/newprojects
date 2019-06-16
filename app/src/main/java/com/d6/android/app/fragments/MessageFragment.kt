@@ -21,6 +21,7 @@ import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.badge.Badge
 import com.d6.android.app.widget.badge.QBadgeView
+import io.rong.imkit.RongContext
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
@@ -39,6 +40,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     private val mConversations = ArrayList<Conversation>()
+    private val mUnConversations = ArrayList<Conversation>()
+    private var mNMUnReadTotal:Int = 0 //我匿名未读消息数
 
     private val conversationsAdapter by lazy {
         ConversationsAdapter(mConversations)
@@ -191,6 +194,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         RongIM.getInstance().getConversationList(object : RongIMClient.ResultCallback<List<Conversation>>() {
             override fun onSuccess(conversations: List<Conversation>?) {
                 mConversations.clear()
+                mUnConversations.clear()
                 if (conversations != null) {
                     mConversations.addAll(conversations)
                     for(c:Conversation in conversations){
@@ -199,10 +203,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                             if(split.size==GROUPSPLIT_LEN){
                                 if(TextUtils.equals(split[1], getLocalUserId())){
                                     mConversations.remove(c)
+                                    mUnConversations.add(c)
                                 }
                             }
                         }
                     }
+                    getNMChat()
                 }
                 conversationsAdapter.notifyDataSetChanged()
             }
@@ -212,6 +218,38 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             }
         }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
 
+    }
+
+    /**
+     * 密聊是否显示和未读消息数量
+     */
+    private fun getNMChat(){
+          mNMUnReadTotal = 0
+          if(mUnConversations!=null&&mUnConversations.size>0){
+              headerView.rl_unknowchat.visibility = View.VISIBLE
+              headerView.line_mchat.visibility = View.VISIBLE
+
+              for(c:Conversation in mUnConversations){
+                  if(c.unreadMessageCount>0){
+                      mNMUnReadTotal  = mNMUnReadTotal +c.unreadMessageCount
+                  }
+              }
+
+              if(mNMUnReadTotal>0){
+                  headerView.iv3_unreadnum.visibility = View.VISIBLE
+                  headerView.iv3_unreadnum.text = "${mNMUnReadTotal}"
+              }else{
+                  headerView.iv3_unreadnum.visibility = View.GONE
+              }
+              var mConv = mUnConversations.get(0)
+              val provider = RongContext.getInstance().getMessageTemplate(mConv.latestMessage.javaClass)
+              if (provider != null) {
+                  headerView.tv_content3.text= provider.getContentSummary(context,mConv.latestMessage)
+              }
+          }else{
+              headerView.rl_unknowchat.visibility = View.GONE
+              headerView.line_mchat.visibility = View.GONE
+          }
     }
 
     /**

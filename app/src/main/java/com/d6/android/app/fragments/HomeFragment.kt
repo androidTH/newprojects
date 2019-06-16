@@ -126,9 +126,9 @@ class HomeFragment : BaseFragment() {
         getSpeedData()
 
         tv_date_city.setOnClickListener {
-//            activity.isAuthUser(){
+            activity.isAuthUser(){
                 showArea()
-//            }
+            }
         }
 
         tv_datetype.setOnClickListener {

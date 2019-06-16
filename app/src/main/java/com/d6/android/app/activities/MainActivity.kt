@@ -378,7 +378,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
             }
 
-        }, Conversation.ConversationType.PRIVATE)
+        }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
     }
 
     private fun myDateUnMsg(){
@@ -396,11 +396,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this,success = { s:String?, data: FollowFansVistor?->
             data?.let {
                 val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_count) as TextView
-                if (data.iPointNew!!>0) {
+                if (it.iFansCount!!>0||it.iVistorCount!!>0) {
                     view.visibility = View.VISIBLE
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
                     if (fragment != null && fragment is MineFragment) {
-                        fragment.showLikeWarm(true,it.iFansCount!!.toInt(), it.iPointNew!!.toInt(), data.iVistorCount!!.toInt())
+                        fragment.showLikeWarm(true,it.iFansCount!!.toInt(), it.iPointNew!!.toInt(), it.iVistorCount!!.toInt())
                     }
                 } else {
                     view.visibility = View.GONE

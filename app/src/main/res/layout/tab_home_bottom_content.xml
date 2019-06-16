@@ -15,8 +15,8 @@
         android:layout_gravity="center"/>
     <TextView
         android:id="@+id/tv_msg_count"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
+        android:layout_width="9dp"
+        android:layout_height="9dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/margin_26"

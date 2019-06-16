@@ -240,6 +240,15 @@ class ReleaseNewTrendsActivity : BaseActivity(){
            mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
            mSelectUnknowDialog.setDialogListener { p, s ->
                tv_unknow_choose.text = s
+               if(p==1){
+                   tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+                   var drawable = ContextCompat.getDrawable(this, R.mipmap.key_small)
+                   tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
+               }else{
+                   tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_333333)
+                   var drawable = ContextCompat.getDrawable(this, R.mipmap.public_small_yellow)
+                   tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
+               }
                iIsAnonymous = p
            }
         }
@@ -411,7 +420,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     }
 
     private var mRequestCode:Int = 1
-    private var sAddPointDesc=""
+    private var sAddPointDesc="以匿名身份发布动态"
     private var iAddPoint :String= "" //匿名发布需要消耗的积分
     private var iRemainPoint:String="" //剩余积分
 

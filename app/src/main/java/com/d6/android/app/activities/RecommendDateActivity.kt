@@ -47,7 +47,9 @@ class RecommendDateActivity : TitleActivity() {
         setTitleBold("人工推荐")
 
         tv_date_city.setOnClickListener {
-                showArea()
+            isAuthUser(){
+               showArea()
+            }
         }
 
         tv_datetype.setOnClickListener {

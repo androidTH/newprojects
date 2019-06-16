@@ -218,6 +218,7 @@ class MineFragment : BaseFragment() {
             if(!isShowWarm){
                 getUserFollowAndFansandVistor()
             }
+            getUserInfo()
         }
     }
 
@@ -422,6 +423,7 @@ class MineFragment : BaseFragment() {
         } else {
             iv_reddot.visibility = View.GONE
         }
+
         if (vistorCount > 0) {
             tv_vcount.text = "+${vistorCount.toString()}"
             tv_vcount.visibility = View.VISIBLE
