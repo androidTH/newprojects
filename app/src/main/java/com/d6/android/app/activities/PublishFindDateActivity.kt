@@ -52,10 +52,7 @@ class PublishFindDateActivity : BaseActivity() {
        SPUtils.instance().getString(CHECK_OPEN_UNKNOW)
     }
 
-    private val open_unknow_msg by lazy{
-        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW_MSG,"")
-    }
-
+    private var mFrom:String="otherActivity"
     private var mRequestCode:Int = 1
     private var sAddPointDesc="以匿名身份发布约会"
     private var iAddPoint :String= "" //匿名发布需要消耗的积分
@@ -263,7 +260,16 @@ class PublishFindDateActivity : BaseActivity() {
             }
         }
 
-        iIsAnonymous = 2
+        if(intent.hasExtra("from")){
+            mFrom = intent.getStringExtra("from")
+        }
+        if(TextUtils.equals("otherActivity",mFrom)){
+            iIsAnonymous = 2
+            tv_unknow_sf.text = "公开身份"
+        }else{
+            iIsAnonymous = 1
+            tv_unknow_sf.text = "匿名身份"
+        }
         getLocalFriendsCount()
     }
 

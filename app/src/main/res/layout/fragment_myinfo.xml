@@ -215,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:text=""
+                    android:text="0"
                     android:textColor="@color/color_333333"
                     android:textSize="15sp" />
 
@@ -258,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:text=""
+                    android:text="0"
                     android:textColor="@color/color_333333"
                     android:textSize="15sp" />
 
@@ -302,7 +302,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:text=""
+                    android:text="0"
                     android:textColor="@color/color_333333"
                     android:textSize="15sp" />
 
@@ -554,7 +554,7 @@
                 android:layout_marginLeft="@dimen/margin_20"
                 android:drawableLeft="@mipmap/intergal_small_mine_coin"
                 android:drawablePadding="@dimen/margin_5"
-                android:text="积分"
+                android:text="积分:0"
                 android:textColor="@color/color_888888"
                 android:textSize="14sp" />
 
@@ -565,7 +565,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@mipmap/small_flower_newicon"
                 android:drawablePadding="@dimen/margin_5"
-                android:text="小红花"
+                android:text="小红花:0"
                 android:textColor="@color/color_888888"
                 android:textSize="14sp" />
         </LinearLayout>

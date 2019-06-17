@@ -189,7 +189,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:padding="3dp"
-            android:src="@mipmap/nimingtouxiang_small" />
+            android:src="@mipmap/nimingleixing_chat" />
 
         <com.d6.android.app.widget.DragPointView
             android:id="@+id/iv3_unreadnum"

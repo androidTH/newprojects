@@ -10,6 +10,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.CardUnKnowTagAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.OpenDateErrorDialog
+import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserUnKnowTag
@@ -50,11 +51,11 @@ class UnKnownActivity : BaseActivity() {
         }
 
         tv_unknow_square.setOnClickListener {
-            startActivity<ReleaseNewTrendsActivity>()
+            checkPoints(1)
         }
 
         tv_unknow_date.setOnClickListener {
-            startActivity<PublishFindDateActivity>()
+            checkPoints(2)
         }
 
         tv_unknow_start.setOnClickListener {
@@ -71,18 +72,20 @@ class UnKnownActivity : BaseActivity() {
         rv_unknow_tags.adapter = userTagAdapter
         dialog()
         getUserInfo()
-        if(TextUtils.equals("open",IsOpenUnKnow)){
-            tv_unknow_square.visibility = View.VISIBLE
-            tv_unknow_date.visibility = View.VISIBLE
-            tv_unknow_start.visibility = View.GONE
-        }else if(TextUtils.equals("close",IsOpenUnKnow)){
-            tv_unknow_square.visibility = View.GONE
-            tv_unknow_date.visibility = View.GONE
-            tv_unknow_start.visibility = View.VISIBLE
-            tv_unknow_tips.text = open_unknow_msg
-        }else{
-            getUserQueryAnonymous()
-        }
+//        if(TextUtils.equals("open",IsOpenUnKnow)){
+//            tv_unknow_square.visibility = View.VISIBLE
+//            tv_unknow_date.visibility = View.VISIBLE
+//            tv_unknow_start.visibility = View.GONE
+//        }else if(TextUtils.equals("close",IsOpenUnKnow)){
+//            tv_unknow_square.visibility = View.GONE
+//            tv_unknow_date.visibility = View.GONE
+//            tv_unknow_start.visibility = View.VISIBLE
+//            tv_unknow_tips.text = open_unknow_msg
+//        }else{
+//            getUserQueryAnonymous()
+//        }
+
+        getUserQueryAnonymous()
     }
 
     private fun getUserQueryAnonymous(){
@@ -130,14 +133,42 @@ class UnKnownActivity : BaseActivity() {
                if(msg.isNotEmpty()){
                    if (msg.isNotEmpty()) {
                        val jsonObject = JSONObject(msg)
-                       var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-                       var openErrorDialog = OpenDateErrorDialog()
-                       openErrorDialog.arguments = bundleOf("code" to 4, "msg" to sAddPointDesc)
-                       openErrorDialog.show(supportFragmentManager, "publishfindDateActivity")
+                       var iAddPoint = jsonObject.getString("iAddPoint")
+                       var iRemainPoint = jsonObject.getString("iRemainPoint")
+                       var openErrorDialog = OpenDatePointNoEnoughDialog()
+                       openErrorDialog.arguments = bundleOf("point" to iAddPoint, "remainPoint" to iRemainPoint)
+                       openErrorDialog.show(supportFragmentManager, "d")
                    }
                }
            }
        }
+    }
+
+    private fun checkPoints(type:Int){
+            Request.getAnonymouseAppointmentPoint(getLoginToken(),1).request(this,false,success = {msg,jsonObject->
+                if(type==1){
+                    startActivity<ReleaseNewTrendsActivity>("from" to "UnknowActivity")
+                }else if(type==2){
+                    startActivity<PublishFindDateActivity>("from" to "UnknowActivity")
+                }
+            }){code,msg->
+                if(code == 4){
+                    if(msg.isNotEmpty()){
+                        var jsonobject = JSONObject(msg)
+                        var iRemainPoint = jsonobject.optString("iRemainPoint")//iRemainPoint 剩余积分
+                        var iAddPoint = jsonobject.optString("iAddPoint")//匿名发布需要消耗的积分
+                        var openErrorDialog = OpenDatePointNoEnoughDialog()
+                        openErrorDialog.arguments = bundleOf("point" to iAddPoint, "remainPoint" to iRemainPoint)
+                        openErrorDialog.show(supportFragmentManager, "d")
+                    }
+                }else{
+                    if(type==1){
+                        startActivity<ReleaseNewTrendsActivity>("from" to "UnknowActivity")
+                    }else if(type==2){
+                        startActivity<PublishFindDateActivity>("from" to "UnknowActivity")
+                    }
+                }
+            }
     }
 
     private fun getUserInfo() {

@@ -103,7 +103,7 @@ class SquareFragment : RecyclerFragment() {
             this.type = 2
 
         }
-        isfresh = false
+        showDialog()
         initFirstPageData()
     }
 
@@ -127,9 +127,9 @@ class SquareFragment : RecyclerFragment() {
                             val ids = banner.newsid ?: ""
                             startActivity<SquareTrendDetailActivity>("id" to ids, "position" to it)
                         }
-                if(isfresh){
-                    showDialog()
-                }
+//                if(isfresh){
+//                    showDialog()
+//                }
                 getSquareList()
             }
         }) { _, _ ->

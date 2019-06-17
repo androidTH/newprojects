@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
@@ -209,6 +210,8 @@ class MineFragment : BaseFragment() {
         super.onResume()
         getUserInfo()
         getUserFollowAndFansandVistor()
+
+        Log.i("minefragment","onresume")
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -219,6 +222,7 @@ class MineFragment : BaseFragment() {
                 getUserFollowAndFansandVistor()
             }
             getUserInfo()
+            Log.i("minefragment","onHiddenChanged--${isShowWarm}")
         }
     }
 
@@ -412,25 +416,34 @@ class MineFragment : BaseFragment() {
 
     fun showLikeWarm(showWarm:Boolean,fansCount:Int,iPoint:Int,vistorCount:Int){
         if (fansCount > 0) {
-            tv_fcount.text = "+${fansCount.toString()}"
+            tv_fcount.text = "+${fansCount}"
             tv_fcount.visibility = View.VISIBLE
         } else {
             tv_fcount.visibility = View.GONE
         }
 
-        if (iPoint> 0) {
-            iv_reddot.visibility = View.VISIBLE
-        } else {
-            iv_reddot.visibility = View.GONE
-        }
+//        if (iPoint> 0) {
+//            iv_reddot.visibility = View.VISIBLE
+//        } else {
+//            iv_reddot.visibility = View.GONE
+//        }
 
         if (vistorCount > 0) {
-            tv_vcount.text = "+${vistorCount.toString()}"
+            tv_vcount.text = "+${vistorCount}"
             tv_vcount.visibility = View.VISIBLE
         } else {
             tv_vcount.visibility = View.GONE
         }
-        isShowWarm = showWarm
+
+        var intent = Intent(Const.MINE_MESSAGE)
+        if(fansCount>0||vistorCount>0){
+            intent.putExtra("showwarm",true)
+            isShowWarm = true
+        }else{
+            intent.putExtra("showwarm",false)
+            isShowWarm = false
+        }
+        context.sendBroadcast(intent)
     }
 
 

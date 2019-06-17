@@ -72,12 +72,31 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
     }
 
+    private val mineBroadcast by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_red) as TextView
+                    intent?.let {
+                        var showwarm = intent.getBooleanExtra("showwarm",false)
+                        if(showwarm){
+                            view.visibility = View.VISIBLE
+                        }else{
+                            view.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         immersionBar.init()
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
         registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
+        registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))
         tabhost.setup(this, supportFragmentManager, R.id.container)
         tabhost.tabWidget.dividerDrawable = null
         tabTexts.forEachWithIndex { i, it ->
@@ -363,7 +382,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 //                        unReadMsgNum = unReadMsgNum + it
 //                        Log.i("messagesssssss","${unReadMsgNum}显示getUnreadCount")
 //                        getSysLastOne()
-                        val view = view1.find<View>(R.id.tv_msg_count)  as TextView
+                        val view = view1.find<View>(R.id.tv_msg_red)  as TextView
                         if (p0.toInt() > 0) {
                             unReadMsgNum = unReadMsgNum + p0.toInt()
                             view?.visible()
@@ -395,9 +414,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     private fun getUserInfoUnMsg(){
         Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this,success = { s:String?, data: FollowFansVistor?->
             data?.let {
-                val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_count) as TextView
+                val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_red) as TextView
                 if (it.iFansCount!!>0||it.iVistorCount!!>0) {
-                    view.visibility = View.VISIBLE
+//                    view.visibility = View.VISIBLE
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
                     if (fragment != null && fragment is MineFragment) {
                         fragment.showLikeWarm(true,it.iFansCount!!.toInt(), it.iPointNew!!.toInt(), it.iVistorCount!!.toInt())
@@ -410,7 +429,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun setNoticeIsNoShow(){
-        val view = tabhost.tabWidget.getChildTabViewAt(0).findViewById<View>(R.id.tv_msg_count) as TextView
+        val view = tabhost.tabWidget.getChildTabViewAt(0).findViewById<View>(R.id.tv_msg_red) as TextView
         if(unReadDateMsg > 0){
             iv_mydate_newnotice.visibility = View.VISIBLE
             view.visibility = View.VISIBLE
@@ -431,8 +450,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
     private fun getSysLastOne() {
         Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = (tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView)
-            if (data?.list?.results == null || data.list?.results.isEmpty()) {
+            val view = (tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView)
+            if (data?.list?.results == null || data.list?.results?.isEmpty()) {
                 //无数据
                 getSquareMsg()
             } else {
@@ -457,9 +476,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
     private fun getSquareMsg() {
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
+            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView
             Log.i("messagesssssss","${unReadMsgNum}显示")
-            if (data?.list?.results == null || data.list?.results?.isEmpty()) {
+            if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
                 if(unReadMsgNum > 0){
 //                1 if(unReadMsgNum>=99){

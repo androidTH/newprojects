@@ -30,6 +30,7 @@ import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_choose_friends.*
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.jetbrains.anko.*
@@ -43,12 +44,10 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     private var tagId: String? = null
     private var iIsAnonymous:Int = 2
 
+    private var mFrom:String="otherActivity"
+
     private val IsOpenUnKnow by lazy{
         SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
-    }
-
-    private val open_unknow_msg by lazy{
-        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW_MSG,"")
     }
 
     private val userId by lazy {
@@ -116,7 +115,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 if (cityType == 0) {
                     tv_address.text = "添加地址"
 //                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)//R.mipmap.ic_add1
-                    tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)//R.mipmap.ic_add1
+                    tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//R.mipmap.ic_add1
 //                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.textColor99))
                 } else {
                     tv_address.text = city
@@ -146,7 +145,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 tv_address.text = "添加地址"
 //                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)//R.mipmap.ic_add1
+                tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//R.mipmap.ic_add1
 
             }
         }
@@ -158,7 +157,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
                 tv_address.text = "添加地址"
 //                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)//comment_addlocal_icon
+                tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//comment_addlocal_icon
 
             } else {
                 cityType = 1
@@ -179,7 +178,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
 //                        R.mipmap.comment_addlocal_icon
 //                        tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
 //                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
-                        tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+                        tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)
                     }
                 }
             }
@@ -234,7 +233,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, CHOOSE_Friends to mChooseFriends)
         }
 
-        tv_unknow_choose.setOnClickListener {
+        ll_unknow_choose.setOnClickListener {
            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
            mSelectUnknowDialog.arguments = bundleOf("type" to "ReleaseNewTrends","IsOpenUnKnow" to IsOpenUnKnow,"code" to mRequestCode,"desc" to sAddPointDesc,"iAddPoint" to iAddPoint,"iRemainPoint" to iRemainPoint)
            mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
@@ -264,7 +263,23 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             }
         }
 
-        iIsAnonymous = 2
+        if(intent.hasExtra("from")){
+            mFrom = intent.getStringExtra("from")
+        }
+
+        if(TextUtils.equals("otherActivity",mFrom)){
+            iIsAnonymous = 2
+            tv_unknow_choose.text = resources.getString(R.string.string_unknow_open)
+            tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_333333)
+            var drawable = ContextCompat.getDrawable(this, R.mipmap.public_small_yellow)
+            tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
+        }else{
+            iIsAnonymous = 1
+            tv_unknow_choose.text = resources.getString(R.string.string_unknow_unknow)
+            tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+            var drawable = ContextCompat.getDrawable(this, R.mipmap.key_small)
+            tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
+        }
         getLocalFriendsCount()
     }
 

@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iv_wallet_headView"
-            android:text="相思木景"
+            android:text=""
             android:textColor="@color/color_black"
             android:textSize="15sp"
             android:textStyle="bold" />

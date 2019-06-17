@@ -237,6 +237,12 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 mSwipeRefreshLayout.isRefreshing = false
                 data?.let {
                     mSquare = it
+                    if(TextUtils.equals(it.userid, getLocalUserId())){
+                        squareDetailCommentAdapter.setIsMySquare(true)
+                    }else{
+                        squareDetailCommentAdapter.setIsMySquare(false)
+                    }
+
                     headerView.mTrendDetailView.update(it)
                     mComments.clear()
                     if (it.comments == null || it.comments.isEmpty()) {

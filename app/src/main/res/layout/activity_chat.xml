@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
     <RelativeLayout
@@ -42,8 +43,11 @@
                 android:layout_gravity="center_horizontal"
                 android:drawableRight="@mipmap/titlemore_small_icon"
                 android:drawablePadding="@dimen/margin_5"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:text="小小"
                 android:textColor="@color/color_black"
+                app:autoSizeTextType="uniform"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </LinearLayout>

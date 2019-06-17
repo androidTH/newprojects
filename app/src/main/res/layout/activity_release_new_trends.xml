@@ -104,7 +104,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:layout_alignParentRight="true"
                         android:drawablePadding="@dimen/margin_5"
                         android:drawableRight="@mipmap/comment_local_del"
@@ -167,6 +167,7 @@
                     android:background="@color/color_EFEFEF"
                     android:layout_height="0.5dp"/>
                 <RelativeLayout
+                    android:id="@+id/ll_unknow_choose"
                     android:layout_below="@+id/view_unknow_line"
                     android:paddingTop="@dimen/margin_8"
                     android:paddingBottom="@dimen/margin_3"
@@ -186,7 +187,7 @@
                         android:id="@+id/tv_unknow_choose"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:gravity="center_vertical"
+                        android:gravity="center"
                         android:layout_alignParentRight="true"
                         android:drawablePadding="@dimen/margin_8"
                         android:drawableRight="@mipmap/center_moreicon"

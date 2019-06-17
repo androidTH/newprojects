@@ -46,6 +46,10 @@ class MyDateListActivity : RecyclerActivity() {
             }
         }
         addItemDecoration()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getData()
     }
 

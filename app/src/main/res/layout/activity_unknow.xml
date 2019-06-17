@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="·匿名发布动态"
+            android:text="·匿名发起约会"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />

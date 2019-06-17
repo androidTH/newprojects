@@ -159,15 +159,6 @@
         android:textSize="11sp"
         android:visibility="invisible" />
 
-    <ImageView
-        android:id="@+id/iv_isfollow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_nick"
-        android:layout_alignParentRight="true"
-        android:src="@mipmap/usercenter_like_button"
-        android:visibility="gone" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_my_images"
         android:layout_width="match_parent"
@@ -275,6 +266,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_user_fans_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="喜欢TA的"
@@ -306,6 +298,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_user_follow_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TA喜欢的"
@@ -344,6 +337,34 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/color_EFEFEF" />
+
+        <RelativeLayout
+            android:id="@+id/rel_add_square"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_add_square"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin_16"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="@dimen/margin_18"
+                android:layout_centerInParent="true"
+                android:background="@drawable/shape_orange_26trans"
+                android:drawableLeft="@mipmap/ic_add_pic"
+                android:drawablePadding="-10dp"
+                android:enabled="false"
+                android:gravity="center"
+                android:paddingBottom="@dimen/margin_8"
+                android:paddingLeft="15dp"
+                android:paddingRight="10dp"
+                android:paddingTop="@dimen/margin_8"
+                android:text="发布动态"
+                android:textColor="@color/orange_f6a"
+                android:textStyle="bold"
+                android:textSize="14dp" />
+        </RelativeLayout>
     </LinearLayout>
 
     <TextView

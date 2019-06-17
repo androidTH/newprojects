@@ -32,6 +32,11 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         nmIndex = index
     }
 
+    private var IsMySquare:Boolean  = false
+    public fun setIsMySquare(ismysquare:Boolean){
+        IsMySquare = ismysquare
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val holder = super.onCreateViewHolder(parent, viewType)
         if (viewType == TYPE_NORMAL) {
@@ -56,7 +61,7 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         }
 
         if(data.iIsAnonymous==1){
-            if(TextUtils.equals(data.userId, getLocalUserId())){
+            if(IsMySquare){
                 holder.setText(R.id.tv_name, "${data.name}贴主")
             }else{
                 holder.setText(R.id.tv_name, data.name+nmIndex)

@@ -39,6 +39,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
+import kotlinx.android.synthetic.main.header_user_info_layout.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import org.greenrobot.eventbus.EventBus
@@ -62,9 +63,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private var mData: UserData? = null
 
     private var pageNum = 1
+
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_user_info_layout, mSwipeRefreshLayout.mRecyclerView, false)
     }
+
     private val mSquares = ArrayList<Square>()
 
     private var deletePic:Boolean = false
@@ -224,6 +227,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }
 
+        headerView.rel_add_square.setOnClickListener {
+            //发布动态
+            startActivityForResult<ReleaseNewTrendsActivity>(3)
+        }
+
         headerView.headView.setOnClickListener {
             mData?.let {
                 it.picUrl?.let {
@@ -244,6 +252,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     ?: ""), "position" to position)
         }
 
+
         dialog()
 
         if (TextUtils.equals(getLocalUserId(), id)) {
@@ -252,18 +261,22 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_msg.visibility = View.VISIBLE
             deletePic = true
             mImages.add(AddImage("res:///" + myImageAdapter.mRes, 1))
+            headerView.tv_user_follow_tips.text = "我喜欢的"
+            headerView.tv_user_fans_tips.text = "喜欢我的"
+            headerView.rel_add_square.visibility = View.VISIBLE
         } else {
             rl_doaction.visibility = View.VISIBLE
             tv_more.visibility =View.VISIBLE
             tv_msg.visibility = View.GONE
+            headerView.rel_add_square.visibility = View.GONE
+            headerView.tv_user_follow_tips.text = "TA喜欢的"
+            headerView.tv_user_fans_tips.text = "喜欢TA的"
             deletePic = false
             addVistor()
         }
 
         getUserInfo()
         getUserFollowAndFansandVistor()
-
-//        createGroupName()
     }
 
     private fun createGroupName(){

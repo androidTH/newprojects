@@ -29,6 +29,7 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
+import java.util.concurrent.TimeoutException
 
 /**
  * Created on 2017/12/27.
@@ -51,6 +52,14 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 }
                 is ConnectException -> {
                     msg = Error.NET_ERROR
+                }
+
+                is TimeoutException->{
+                    if (requestManager is Fragment) {
+                        requestManager.dismissDialog()
+                    }else if(requestManager is BaseActivity){
+                        requestManager.dismissDialog()
+                    }
                 }
 //                is SocketTimeoutException -> msg = Error.NET_ERROR
                 is HttpException -> {
@@ -92,6 +101,11 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 is ResultException -> {
                     code = t.code
                     msg = t.message!!
+                }
+            }
+            if(!TextUtils.isEmpty(msg)){
+                error(code, msg)
+                if (code == 200 || code == -3) {
                     if (requestManager is Fragment) {
                         if (requestManager.activity != null && requestManager.activity is BaseActivity) {
                             val mSingleActionDialog = SingleActionDialog()
@@ -99,12 +113,8 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                             mSingleActionDialog.show((requestManager.activity as BaseActivity).supportFragmentManager, "action")
                         }
                     }
-                }
-            }
-            if(!TextUtils.isEmpty(msg)){
-                error(code, msg)
-                if (code!=200&&code!=-3) { //-2 该用户已注销
-                    if (showToast) {
+                }else{
+                    if (showToast) {////-2 该用户已注销
                         requestManager.showToast(msg)
                     }
                 }
