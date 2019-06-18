@@ -63,7 +63,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_5"
             android:layout_marginBottom="@dimen/margin_10"
-            android:text="以匿名身份发布动态"
+            android:text="以匿名身份发布"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
     </LinearLayout>

@@ -107,7 +107,11 @@ class SpeedDateDetailActivity : TitleActivity() {
             }
         }
 
-        getSpeedDateDetail(mSpeedDate.id.toString())
+        if(intent.hasExtra("id")){
+            getSpeedDateDetail(intent.getStringExtra("id"))
+        }else{
+            getSpeedDateDetail(mSpeedDate.id.toString())
+        }
     }
 
     private fun getSpeedDateDetail(id: String) {

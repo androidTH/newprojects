@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
     <RelativeLayout
@@ -17,50 +17,70 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_5"
-            android:padding="@dimen/margin_8"
             android:paddingLeft="@dimen/margin_5"
             android:paddingRight="@dimen/margin_5"
             android:src="@mipmap/back" />
 
-        <LinearLayout
-            android:id="@+id/ll_userinfo"
+        <RelativeLayout
+            android:id="@+id/rl_userinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="@dimen/height_30"
-            android:layout_marginRight="@dimen/padding_35"
+            android:layout_marginRight="@dimen/margin_35"
             android:orientation="horizontal">
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/chat_headView"
-                style="@style/DefaultCircleHeadStyle"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginRight="@dimen/margin_7"/>
-            <TextView
-                android:id="@+id/tv_chattitle"
+
+            <LinearLayout
+                android:id="@+id/chat_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:drawableRight="@mipmap/titlemore_small_icon"
-                android:drawablePadding="@dimen/margin_5"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:text="小小"
-                android:textColor="@color/color_black"
-                app:autoSizeTextType="uniform"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/chat_headView"
+                    style="@style/DefaultCircleHeadStyle"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="@dimen/margin_7" />
+
+                <TextView
+                    android:id="@+id/tv_chattitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableRight="@mipmap/titlemore_small_icon"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/color_black"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_service_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chat_title"
+                android:layout_centerHorizontal="true"
+                android:text="客服工作时间上午9:00-凌晨1:30，其他时间可留言"
+                android:textColor="@color/color_666666"
+                android:visibility="gone"
+                android:textSize="10sp" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/iv_nimingbg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
-            android:visibility="gone"
-            android:src="@mipmap/title_bg_niming"/>
+            android:src="@mipmap/title_bg_niming"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/iv_chat_more"
             android:layout_width="wrap_content"
@@ -73,9 +93,9 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_below="@+id/rl_chat_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/rl_chat_toolbar"
         android:orientation="vertical">
 
         <RelativeLayout

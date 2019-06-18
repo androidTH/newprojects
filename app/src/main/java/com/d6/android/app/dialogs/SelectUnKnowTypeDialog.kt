@@ -76,7 +76,7 @@ class SelectUnKnowTypeDialog : DialogFragment() {
             var desc = arguments.getString("desc")
             setTextTipMsg(mRequestCode,desc)
         }else if(TextUtils.equals("SquareTrendDetail",type)){
-            tv_unknow_unknowtips.text = "以匿名身份发布评论"
+            tv_unknow_unknowtips.text = "以匿名身份发布"
         }else if(TextUtils.equals("ReleaseNewTrends",type)){
             var desc = arguments.getString("desc")
             setTextTipMsg(mRequestCode,desc)

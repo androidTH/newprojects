@@ -121,12 +121,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //            setChatTitle()
         }
 
-        iv_back_close.setOnClickListener {
-            hideSoftKeyboard(it)
-            onBackPressed()
+        if (TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
+            tv_service_time.visibility = View.VISIBLE
         }
 
-        ll_userinfo.setOnClickListener {
+        rl_userinfo.setOnClickListener {
             if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
                 startActivity<UserInfoActivity>("id" to mOtherUserId)
             }else{

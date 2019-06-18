@@ -54,7 +54,7 @@ class PublishFindDateActivity : BaseActivity() {
 
     private var mFrom:String="otherActivity"
     private var mRequestCode:Int = 1
-    private var sAddPointDesc="以匿名身份发布约会"
+    private var sAddPointDesc="以匿名身份发布"
     private var iAddPoint :String= "" //匿名发布需要消耗的积分
     private var iRemainPoint:String="" //剩余积分
     var showDateTypes:Array<DateType> = arrayOf(DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(5))

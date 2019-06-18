@@ -264,10 +264,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             headerView.tv_user_follow_tips.text = "我喜欢的"
             headerView.tv_user_fans_tips.text = "喜欢我的"
             headerView.rel_add_square.visibility = View.VISIBLE
+            headerView.rl_userinfo_date.visibility = View.GONE
         } else {
             rl_doaction.visibility = View.VISIBLE
             tv_more.visibility =View.VISIBLE
             tv_msg.visibility = View.GONE
+            headerView.rl_userinfo_date.visibility = View.VISIBLE
             headerView.rel_add_square.visibility = View.GONE
             headerView.tv_user_follow_tips.text = "TA喜欢的"
             headerView.tv_user_fans_tips.text = "喜欢TA的"
