@@ -2,6 +2,7 @@ package com.d6.android.app.activities
 
 import android.os.Bundle
 import android.service.carrier.CarrierMessagingService
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
@@ -25,9 +26,7 @@ import io.rong.imlib.model.Group
 import io.rong.imlib.model.Message
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.header_messages.view.*
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 
 
 /**
@@ -48,6 +47,9 @@ class UnKnowChatActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        immersionBar.statusBarColor(R.color.color_8F5A5A).statusBarDarkFont(true).init()
+        titleBar.backgroundColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+        titleBar.titleView.textColor = ContextCompat.getColor(this,R.color.white)
         title = "密聊"
 
         mSwipeRefreshLayout.mRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this))

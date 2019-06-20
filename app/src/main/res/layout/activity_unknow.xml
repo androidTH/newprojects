@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="匿名身份"
+            android:text="我的匿名"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:textStyle="bold" />

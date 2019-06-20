@@ -9,7 +9,6 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.SendRedFlowerDialog
 import com.d6.android.app.dialogs.ShareFriendsDialog
-import com.d6.android.app.dialogs.SquareActionDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
@@ -45,6 +44,10 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
 
         trendView.setOnItemClick {v,s->
             mOnItemClickListener?.onItemClick(v,position)
+        }
+
+        trendView.setOnSquareDetailsClick {
+            mOnSquareDetailsClick?.onSquareDetails(position,it)
         }
 
         trendView.setDeleteClick {
@@ -110,6 +113,20 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
                 notifyDataSetChanged()
             }
         }
+    }
+
+    fun setOnSquareDetailsClick(action:(position:Int,square:Square)->Unit) {
+        this.mOnSquareDetailsClick = object : OnSquareDetailsClick {
+            override fun onSquareDetails(position:Int,square: Square) {
+                action(position,square)
+            }
+        }
+    }
+
+    private var mOnSquareDetailsClick: OnSquareDetailsClick?=null
+
+    interface OnSquareDetailsClick{
+        fun onSquareDetails(position:Int,square: Square)
     }
 
     private var clickListener: OnItemClickListener? = null

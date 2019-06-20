@@ -299,7 +299,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_5"
-                            android:text="解锁私聊"
+                            android:text="自主约会"
                             android:textColor="@color/color_888888"
                             android:textSize="12sp" />
                     </LinearLayout>

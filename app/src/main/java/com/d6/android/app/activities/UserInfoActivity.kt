@@ -1,6 +1,5 @@
 package com.d6.android.app.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -289,6 +288,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }){code,msg->
             Log.i("createGroupName","fail${msg}")//保存失败
         }
+
     }
 
     private fun setTitleBgAlpha(alpha: Int) {
@@ -382,7 +382,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             mSwipeRefreshLayout.isRefreshing = false
             this.mData = data
             data?.let {
-                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
+                val info = UserInfo(data.accountId, data.name, Uri.parse("${data.picUrl}"))
                 RongIM.getInstance().refreshUserInfoCache(info)
                 tv_title_nick.text = it.name
                 headerView.iv_bg.showBlur(it.picUrl)

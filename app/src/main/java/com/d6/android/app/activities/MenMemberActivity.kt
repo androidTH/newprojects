@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_pointexplain_layout.*
 import org.jetbrains.anko.toast
 
 /**
- * 男性会员说明
+ * 男性会员说明   ---已经不用了
  */
 class MenMemberActivity : BaseActivity() {
 

@@ -582,11 +582,9 @@ class MyDateDetailActivity : BaseActivity() {
     private fun createGroupName(id:String,iType:Int){
         Request.doToUserAnonyMousGroup(getLoginToken(),id,iType).request(this,false,success = { msg, jsonObject->
             jsonObject?.let {
-                Log.i("createGroupName","json=${it.sId}---sId----${it.iTalkUserid}")
                 var group = Group(it.sId,it.sGroupName, Uri.parse(it.sGroupPicUrl))
                 RongIM.getInstance().refreshGroupInfoCache(group)
                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,it.sId, "")
-
             }
         }){code,msg->
             Log.i("createGroupName","fail${msg}")//保存失败

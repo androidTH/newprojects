@@ -1,10 +1,9 @@
 package com.d6.android.app.application
 
-import android.app.Activity
-import android.app.ActivityManager
-import android.app.Application
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -12,8 +11,10 @@ import android.os.Handler
 import android.os.Looper
 import android.support.multidex.MultiDex
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.RemoteViews
 import android.widget.TextView
 import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
@@ -25,7 +26,10 @@ import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
+import com.d6.android.app.rong.bean.*
+import com.d6.android.app.rong.provider.SquareMsgProvider
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.D6ActivityLifecyclerCallbacks
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
 import com.umeng.commonsdk.UMConfigure
@@ -36,46 +40,23 @@ import com.umeng.socialize.PlatformConfig
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
+import io.rong.imkit.userInfoCache.RongUserInfoManager
+import io.rong.imkit.utils.SystemUtils
 import io.rong.imlib.RongIMClient
-import io.rong.imlib.model.Conversation
-import io.rong.imlib.model.Group
-import io.rong.imlib.model.Message
-import io.rong.imlib.model.UserInfo
+import io.rong.imlib.model.*
+import io.rong.message.TextMessage
 import io.rong.push.RongPushClient
 import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.toast
 import java.lang.Exception
-
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  *
  */
-class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks, RongIMClient.OnReceiveMessageListener, RongIMClient.ConnectionStatusListener {
-    private val activities = ArrayList<Activity>()
-
-    override fun onActivityPaused(p0: Activity?) {
-
-    }
-
-    override fun onActivityResumed(p0: Activity?) {
-    }
-
-    override fun onActivityStarted(p0: Activity?) {
-    }
-
-    override fun onActivityDestroyed(activity: Activity?) {
-        activities.remove(activity)
-    }
-
-    override fun onActivitySaveInstanceState(p0: Activity?, p1: Bundle?) {
-    }
-
-    override fun onActivityStopped(p0: Activity?) {
-    }
-
-    override fun onActivityCreated(activity: Activity, p1: Bundle?) {
-        activities.add(activity)
-    }
+class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, RongIMClient.ConnectionStatusListener{
 
     companion object {
         var isChooseLoginPage = false
@@ -84,9 +65,11 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
 
     override fun getSPName() = "com.d6.android.data"
 
+    var mD6ActivityLifecyclerCallbacks=D6ActivityLifecyclerCallbacks()
     override fun onCreate() {
         super.onCreate()
         disableAPIDialog()
+        registerActivityLifecycleCallbacks(mD6ActivityLifecyclerCallbacks)
 //        UMConfigure.setLogEnabled(true)
 //        Bugout.init(this, "ed3b07b4f9f09c390b7dd863e153a276", "d6")
         UMConfigure.init(this, Const.UMENG_APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
@@ -232,27 +215,57 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
     }
 
     override fun onReceived(message: Message?, p1: Int): Boolean {
-        if (message != null && message.conversationType == Conversation.ConversationType.PRIVATE) {
-//            if(message.content is SquareMsgContent){
-//                if(message.messageDirection == Message.MessageDirection.RECEIVE){
-//                    val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.senderUserId)
-//                    (message.content as SquareMsgContent).content = "${userInfo.name}给你发送了一条动态"
-//                    Log.i("onReceived","接受消息:${userInfo.name}给你发送了一条动态")
-//                }else if(message.messageDirection == Message.MessageDirection.SEND){
-//                    val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.targetId)
-//                    (message.content as SquareMsgContent).content = "sssss发送了一条动态"
-//                    Log.i("onReceived","发送消息:你给${userInfo.name}发送了一条动态")
-//                }
-//            }
+        if (message != null &&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)) {
             sendBroadcast(Intent(Const.NEW_MESSAGE))
-//            message?.let {
-//                if (it.content is TipsMessage) {
-//                    var mTipsMessage = (it.content as TipsMessage)
-//                    sendBroadcast(Intent(Const.PRIVATECHAT_APPLY).putExtra("extra",mTipsMessage.extra))
-//                }
-//            }
         }
-        return false
+        if(SystemUtils.isInBackground(this)){
+            if(message==null){
+                return false
+            }
+            var notification:Notification
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            var builder:Notification.Builder?
+            if (Build.VERSION.SDK_INT >= 26) {
+                val channel = NotificationChannel("channel_id", "channel_name", NotificationManager.IMPORTANCE_HIGH)
+                manager?.createNotificationChannel(channel)
+                builder= Notification.Builder(this, channel.id)
+            }else{
+                builder= Notification.Builder(this)
+            }
+            val myNotificationView = RemoteViews(getPackageName(), R.layout.notification_view)
+            var title = ""
+            if(message.conversationType == Conversation.ConversationType.PRIVATE){
+                val userInfo = RongUserInfoManager.getInstance().getUserInfo(message.senderUserId)
+                if(userInfo!=null){
+                    title = userInfo.name
+                    myNotificationView.setTextViewText(R.id.notification_title, userInfo.name)
+                }else{
+                    myNotificationView.setTextViewText(R.id.notification_title, "D6社区")
+                }
+            }else if(message.conversationType==Conversation.ConversationType.GROUP){
+                myNotificationView.setTextViewText(R.id.notification_title,"匿名")
+            }
+
+            myNotificationView.setTextViewText(R.id.notification_text,getMessageContent(message.content))
+
+            val uri = Uri.parse("rong://" + getApplicationInfo().processName).buildUpon().appendPath("conversation").appendPath(message.conversationType.getName().toLowerCase(Locale.US)).
+                    appendQueryParameter("targetId", message.targetId).appendQueryParameter("title", title).build()
+            val intent = Intent("android.intent.action.VIEW", uri)
+            var pendingIntent = PendingIntent.getActivity(
+                                           this, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT)
+            myNotificationView.setTextViewText(R.id.push_current_time, getTimeHaveHour(message!!.receivedTime))
+            myNotificationView.setImageViewBitmap(R.id.notification_large_icon, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+            builder.setSmallIcon(R.mipmap.ic_launcher)
+                    .setWhen(System.currentTimeMillis())
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+            builder.setContent(myNotificationView)
+            builder.setAutoCancel(true)
+            builder.setContentIntent(pendingIntent)
+            notification = builder.build()
+            manager.notify(1,notification)
+        }
+        return true
     }
 
     override fun onChanged(connectionStatus: RongIMClient.ConnectionStatusListener.ConnectionStatus?) {
@@ -297,5 +310,37 @@ class D6Application : BaseApplication(), Application.ActivityLifecycleCallbacks,
         } catch (e:Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun getMessageContent(content:MessageContent):String{
+        if(content is TextMessage){
+            var contactNotificationMessage = content
+            return contactNotificationMessage.content
+        }else if(content is SquareMsgContent){
+            var contactNotificationMessage = content
+            return contactNotificationMessage.content
+        }else if(content is AppointmentMsgContent){
+            var contactNotificationMessage = content
+            return contactNotificationMessage.content
+        }else if(content is BusinessCardMMsgContent){
+            var contactNotificationMessage = content
+            return contactNotificationMessage.content
+        }else if(content is BusinessCardFMsgContent){
+            var contactNotificationMessage = content
+            return contactNotificationMessage.content
+        }else if(content is TipsMessage){
+            var contactNotificationMessage = content
+            return  contactNotificationMessage.content
+        }else if(content is CommentMsgContent){
+            var contactNotificationMessage = content
+            return contactNotificationMessage.content
+        }else if(content is LookDateMsgContent){
+            var contactNotificationMessage = content
+            return contactNotificationMessage.content
+        }else if(content is SpeedDateMsgContent) {
+            var contactNotificationMessage = content
+            return contactNotificationMessage.content
+        }
+        return "您收到了一条消息"
     }
 }

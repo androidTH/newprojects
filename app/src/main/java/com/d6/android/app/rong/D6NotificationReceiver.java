@@ -1,9 +1,9 @@
 package com.d6.android.app.rong;
 
 import android.content.Context;
+import android.util.Log;
 
 import io.rong.push.PushType;
-import io.rong.push.RongPushClient;
 import io.rong.push.notification.PushMessageReceiver;
 import io.rong.push.notification.PushNotificationMessage;
 
@@ -16,6 +16,9 @@ import io.rong.push.notification.PushNotificationMessage;
 public class D6NotificationReceiver extends PushMessageReceiver {
     @Override
     public boolean onNotificationMessageArrived(Context context, PushType pushType, PushNotificationMessage pushNotificationMessage) {
+        Log.i("D6NotificationReceiver","pushType="+pushType+"Pushextra"+pushNotificationMessage.getExtra()+"pushTitle="
+                +pushNotificationMessage.getPushTitle()+"pushcontent="+pushNotificationMessage.getPushContent());
+
         return false;
     }
 

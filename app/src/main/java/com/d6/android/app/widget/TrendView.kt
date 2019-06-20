@@ -31,6 +31,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     private var square: Square? = null
     private val mImages = ArrayList<String>()
+
     private val imageAdapter by lazy {
         SquareImageAdapter(mImages)
     }
@@ -57,6 +58,13 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 rv_comment.layoutManager = LinearLayoutManager(context)
                 rv_comment.adapter = commentAdapter
 
+                rv_comment.setOnClickListener {
+                    square?.let {
+                        Log.i("mOnSquareDetailsClick","dddddd")
+                        mOnSquareDetailsClick?.onSquareDetails(it)
+                    }
+                }
+
                 tv_appraise.setOnClickListener {
                     square?.let {
                         action?.onPraiseClick(it)
@@ -73,6 +81,13 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                             context.startActivity<UserInfoActivity>("id" to id)
                         }
                     }
+                }
+
+                ll_comments.setOnClickListener {
+                  square?.let {
+                      Log.i("mOnSquareDetailsClick","dddddd")
+                      mOnSquareDetailsClick?.onSquareDetails(it)
+                  }
                 }
         //        commentAdapter.setOnCommentClick {
         //            textClickedListener?.onTextClicked()
@@ -206,6 +221,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 mComments.addAll(square.comments)
             }
         }
+        commentAdapter.setSquareUserId(square.userid.toString(),1)
         commentAdapter.notifyDataSetChanged()
     }
 
@@ -244,9 +260,19 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }
         }
     }
+
+    fun setOnSquareDetailsClick(action:(square:Square)->Unit) {
+        this.mOnSquareDetailsClick = object : OnSquareDetailsClick {
+            override fun onSquareDetails(square: Square) {
+                    action(square)
+            }
+        }
+    }
     private var action:PraiseClickListener?=null
     private var deleteAction:DeleteClick?=null
     private var onItemClick:OnItemClick?=null
+    private var mOnSquareDetailsClick:OnSquareDetailsClick?=null
+
     private var SendFlowerAction:SendFlowerClickListener?=null
 
     interface SendFlowerClickListener{
@@ -265,8 +291,14 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         fun onClick(view: View,square: Square)
     }
 
+    interface OnSquareDetailsClick{
+        fun onSquareDetails(square: Square)
+    }
+
     private var textClickedListener: CustomLinkMovementMethod.TextClickedListener? = null
+
     fun setOnCommentClick(l:()->Unit) {
         textClickedListener = CustomLinkMovementMethod.TextClickedListener { l() }
     }
+
 }

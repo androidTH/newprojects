@@ -9,12 +9,12 @@
     <LinearLayout
         android:id="@+id/ll_unknow_open"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_unknow_open"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_10"
             android:gravity="center"
@@ -29,6 +29,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_10"
             android:text="以真实身份发布"
+            android:visibility="gone"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
     </LinearLayout>

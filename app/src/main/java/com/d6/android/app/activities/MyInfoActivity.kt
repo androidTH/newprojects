@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -19,6 +20,7 @@ import com.d6.android.app.models.City
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.MaxEditTextWatcher
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_my_info.*
@@ -183,6 +185,17 @@ class MyInfoActivity : BaseActivity() {
                     tv_hobbit1.text = s!!.replace("#",",",false)
                 }
             }
+        })
+
+        tv_nickName.addTextChangedListener(object: MaxEditTextWatcher(CHINESE_TWO,16,this,tv_nickName){
+            override fun onTextChanged(charSequence: CharSequence?, i: Int, i1: Int, i2: Int) {
+                super.onTextChanged(charSequence, i, i1, i2)
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                super.afterTextChanged(editable)
+            }
+
         })
 
         headView.setImageURI(userData.picUrl)

@@ -35,10 +35,7 @@ import com.d6.android.app.dialogs.DateErrorDialog
 import com.d6.android.app.dialogs.DialogUpdateApp
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.FriendBean
-import com.d6.android.app.models.Square
-import com.d6.android.app.models.UserData
-import com.d6.android.app.models.VersionBean
+import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.http.UpdateAppHttpUtil
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
@@ -629,8 +626,11 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
     val params = HashMap<String, String>()
 
 //        params["appKey"] = "ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f"
-    params["sVersion"] =AppUpdateUtils.getVersionName(activity) //AppUpdateUtils.getVersionName(activity)//AppUpdateUtils.getVersionName(this)
-    params["iType"] = "2"
+//    params["sVersion"] =AppUpdateUtils.getVersionName(activity) //AppUpdateUtils.getVersionName(activity)//AppUpdateUtils.getVersionName(this)
+//    params["iType"] = "2" //区分安卓和ios 2代表安卓
+    params["piecesMark"] = "app_update"
+    params["sVersion"] =AppUpdateUtils.getVersionName(activity)
+
 
     UpdateAppManager.Builder()
             //必须设置，当前Activity
@@ -638,7 +638,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
             //必须设置，实现httpManager接口的对象
             .setHttpManager(UpdateAppHttpUtil())
             //必须设置，更新地址
-            .setUpdateUrl(Const.UpdateAppUrl)
+            .setUpdateUrl(Const.UpdateAppUrl_PiecesMark)
             //以下设置，都是可选
             //设置请求方式，默认get
             .setPost(true)
@@ -662,8 +662,9 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                         val code = jsonObject.optInt("res", -1)
                         if (code == 1) {
                             var obj = jsonObject.optString("obj")
-                            var versionBean = GsonHelper.GsonToBean(obj, VersionBean::class.java)
-                            var isNoUpdate = if(!TextUtils.equals(versionBean.sVersion,versionBean.sNewVersion)){
+                            var versionBean = GsonHelper.GsonToBean(obj, PiecesMarkBean::class.java)
+
+                            var isNoUpdate = if(!TextUtils.equals(versionBean.ext5,"0")){
                                 "Yes"
                             }else{
                                 "No"
@@ -672,15 +673,15 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                                     //（必须是否更新Yes,No
                                     .setUpdate(isNoUpdate)//jsonObject.optString("update")
                                     //（必须）新版本号
-                                    .setNewVersion(versionBean.sNewVersion)
+                                    .setNewVersion(versionBean.ext2)
                                     //（必须）下载地址jsonObject.optString("apk_file_url") "http://test-1251233192.coscd.myqcloud.com/1_1.apk"
-                                    .setApkFileUrl(versionBean.sDownloadPath)//http://test-1251233192.coscd.myqcloud.com/1_1.apk
+                                    .setApkFileUrl(versionBean.ext4)//http://test-1251233192.coscd.myqcloud.com/1_1.apk
                                     //（必须）更新内容
-                                    .setUpdateLog(versionBean.sDesc)
+                                    .setUpdateLog(versionBean.description)
                                     //大小，不设置不显示大小，可以不设置
 //                                        .setTargetSize(jsonObject.optString("target_size"))
                                     //是否强制更新，可以不设置
-                                    .setConstraint(if (versionBean.iUpgradetype == 1) true else false)
+                                    .setConstraint(if (TextUtils.equals(versionBean.ext5,"2")) true else false)
 //                                        .newMd5 = jsonObject.optString("new_md5")
                         } else {
                             var msg = jsonObject.optString("resMsg")

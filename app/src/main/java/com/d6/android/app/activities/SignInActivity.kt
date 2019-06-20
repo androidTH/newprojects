@@ -9,9 +9,11 @@ import android.os.CountDownTimer
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextPaint
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.d6.android.app.R
@@ -306,7 +308,7 @@ class SignInActivity : BaseActivity() {
             "$countryCode-$phone"
         }
         sysErr("------->$p")
-        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel).request(this) { msg, data ->
+        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel).request(this,false,success={ msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -331,6 +333,14 @@ class SignInActivity : BaseActivity() {
             }
             setResult(Activity.RESULT_OK)
             finish()
+        }){code,msg->
+            var l = TextUtils.equals("0","${code}")
+            Log.i("SignInActivity","${l}")
+            if(TextUtils.equals("0","${code}")){
+                startActivity<SetUserInfoActivity>()
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
     }
 
@@ -364,7 +374,7 @@ class SignInActivity : BaseActivity() {
                 }
             }
         }) { code, data ->
-            if(code !=-3&&code!=200){
+            if(TextUtils.equals("0","${code}")){
                 startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
             }else{
                 toast(data)

@@ -28,8 +28,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.manager.IUnReadMessageObserver
+import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Group
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
@@ -40,7 +42,26 @@ import org.json.JSONObject
 /**
  * 主页
  */
-class MainActivity : BaseActivity(), IUnReadMessageObserver{
+class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProvider{
+
+    override fun getGroupInfo(p0: String?): Group? {
+        var group: Group
+        try{
+            group = RongUserInfoManager.getInstance().getGroupInfo(p0.toString())
+            if(group==null){
+                Request.findGroupDescByGroupId(getLocalUserId(), p0.toString()).request(this, false, success = { msg, data ->
+                    data?.let {
+                        group = Group(it.sId, it.sGroupName, Uri.parse(it.sGroupPicUrl))
+                        RongIM.getInstance().refreshGroupInfoCache(group)
+                    }
+                })
+            }
+        }catch(e:java.lang.Exception){
+            group = Group(p0.toString(),"匿名",Uri.parse("res:///"+R.mipmap.nimingtouxiang_small))
+            RongIM.getInstance().refreshGroupInfoCache(group)
+        }
+        return group
+    }
 
     private val tabTexts = arrayOf( "约会","发现", "动态","消息", "我的")
 
@@ -286,6 +307,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         getUserQueryAnonymous()
 
         getPermission()
+
+        RongIM.setGroupInfoProvider(this,true)
     }
 
     fun judgeDataB() {

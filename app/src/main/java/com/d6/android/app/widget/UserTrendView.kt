@@ -170,26 +170,28 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             false
         }
 
-        square.commentCount?.let {
-            if (it > 0) {
-                ll_comments.visible()
-                rv_comment.visible()
-            } else {
-                rv_comment.gone()
-                ll_comments.gone()
-            }
-            if (it > 2) {
-                tv_all_comment.text = String.format("查看全部%s条评论",it)
-                tv_all_comment.visible()
-            } else {
-                tv_all_comment.gone()
-            }
-        }
-        mComments.clear()
-        if (square.comments != null) {
-            mComments.addAll(square.comments)
-        }
-        commentAdapter.notifyDataSetChanged()
+        ll_comments.visibility = View.GONE
+
+//        square.commentCount?.let {
+//            if (it > 0) {
+//                ll_comments.visible()
+//                rv_comment.visible()
+//            } else {
+//                rv_comment.gone()
+//                ll_comments.gone()
+//            }
+//            if (it > 2) {
+//                tv_all_comment.text = String.format("查看全部%s条评论",it)
+//                tv_all_comment.visible()
+//            } else {
+//                tv_all_comment.gone()
+//            }
+//        }
+//        mComments.clear()
+//        if (square.comments != null) {
+//            mComments.addAll(square.comments)
+//        }
+//        commentAdapter.notifyDataSetChanged()
     }
 
     fun hide(@IdRes viewIdRes: Int) {

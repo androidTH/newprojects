@@ -251,7 +251,8 @@
         <activity android:name=".activities.ChooseSexActivity" />
         <activity android:name=".activities.QRNewActivity" />
         <activity android:name=".activities.SplashActivity" />
-        <activity android:name=".activities.SetUserInfoActivity" />
+        <activity android:name=".activities.SetUserInfoActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity android:name=".activities.ChooseCountryActivity" />
         <activity android:name=".activities.TrendDetailActivity"
             android:theme="@style/imageactivity"/>

@@ -17,6 +17,7 @@ import com.d6.android.app.models.Province
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
+import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import kotlinx.android.synthetic.main.activity_area_choose_layout.*
 
@@ -29,7 +30,7 @@ class ScreeningAreaActivity : BaseActivity() {
     private var mProvinces = ArrayList<Province>()
     private var currentItem: Int = 0
 
-    private val locationCity= getReplace(SPUtils.instance().getString(USER_ADDRESS))
+    private val locationCity= getReplace(SPUtils.instance().getString(USER_PROVINCE))
 
     var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
 

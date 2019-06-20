@@ -23,25 +23,25 @@
             android:textSize="18sp"
             android:textColor="@color/white"/>
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp"
-                style="@style/DefaultCircleHeadStyle"
-                app:placeholderImage="@mipmap/default_empty_head"
-                app:failureImage="@mipmap/default_empty_head"
-                android:id="@+id/headView"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/tv_head_tip"
-                android:gravity="center"
-                android:layout_alignTop="@+id/headView"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/textColor99"
-                android:text="真实靓照"
-                android:background="@mipmap/default_empty_head"/>
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            style="@style/DefaultCircleHeadStyle"
+            app:placeholderImage="@mipmap/default_empty_head"
+            app:failureImage="@mipmap/default_empty_head"
+            android:id="@+id/headView"/>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/tv_head_tip"
+            android:gravity="center"
+            android:layout_alignTop="@+id/headView"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/textColor99"
+            android:text="真实靓照"
+            android:background="@mipmap/default_empty_head"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -117,10 +117,9 @@
             android:layout_marginTop="40dp"
             android:paddingTop="16dp"
             android:background="@null"
-            android:paddingBottom="16dp"
+            android:paddingBottom="@dimen/margin_8"
             android:textColor="@color/textColor"
             android:textSize="@dimen/textSize"
-            android:maxLength="8"
             android:singleLine="true"
             android:id="@+id/et_nick"
             android:layout_below="@+id/tv_info"/>

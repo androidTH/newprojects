@@ -21,12 +21,23 @@
             android:paddingRight="@dimen/margin_5"
             android:src="@mipmap/back" />
 
+        <ImageView
+            android:id="@+id/iv_nimingbg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:src="@mipmap/title_bg_niming"
+            android:visibility="gone" />
+
         <RelativeLayout
             android:id="@+id/rl_userinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginRight="@dimen/margin_35"
+            android:layout_marginRight="@dimen/margin_45"
+            android:layout_marginLeft  ="@dimen/margin_35"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -70,16 +81,6 @@
                 android:visibility="gone"
                 android:textSize="10sp" />
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/iv_nimingbg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_15"
-            android:src="@mipmap/title_bg_niming"
-            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_chat_more"

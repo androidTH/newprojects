@@ -23,6 +23,7 @@ import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Group
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.jetbrains.anko.*
@@ -82,7 +83,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             tv_chattitle.setCompoundDrawablesWithIntrinsicBounds(null,null,mDrawableRight,null)
 
             mGroupIdSplit = mTargetId.split("_")
-            Log.i("chatActivity","${mTargetId}")
             iType = 2
             if(TextUtils.equals(mGroupIdSplit[1], getLocalUserId())){
                 //我是匿名
@@ -112,6 +112,25 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 mWhoanonymous = "2"
                 SPUtils.instance().put(WHO_ANONYMOUS,"2").apply()
             }
+
+//            var group = RongUserInfoManager.getInstance().getGroupInfo(mTargetId)
+//            Log.i("D6Application","name=${group.name}")
+
+//            RongIM.getInstance().setConversationNotificationStatus(mConversationType, mTargetId, Conversation.ConversationNotificationStatus.NOTIFY, object : RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
+//                override fun onSuccess(conversationNotificationStatus: Conversation.ConversationNotificationStatus) {
+//
+//                }
+//
+//                override fun onError(errorCode: RongIMClient.ErrorCode) {
+//                }
+//            })
+            Request.findGroupDescByGroupId(getLocalUserId(), mTargetId).request(this, false, success = { msg, data ->
+                data?.let {
+                    var group = Group(it.sId, it.sGroupName, Uri.parse(it.sGroupPicUrl))
+                    RongIM.getInstance().refreshGroupInfoCache(group)
+                }
+            })
+
         }else if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
             immersionBar.init()
             mOtherUserId = mTargetId
@@ -123,6 +142,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
         if (TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
             tv_service_time.visibility = View.VISIBLE
+        }
+
+        iv_back_close.setOnClickListener {
+            hideSoftKeyboard(it)
+            onBackPressed()
         }
 
         rl_userinfo.setOnClickListener {
@@ -189,6 +213,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         enterActivity()
 
         RongIM.getInstance().setSendMessageListener(this)
+
     }
 
 

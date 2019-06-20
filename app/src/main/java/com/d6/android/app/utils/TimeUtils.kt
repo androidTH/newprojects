@@ -1,5 +1,6 @@
 package com.d6.android.app.utils
 
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -173,3 +174,10 @@ fun getOneDay(timestamp: Long):Boolean{
     }
     return false
 }
+
+var dateHaveHour: DateFormat = SimpleDateFormat("HH:mm", Locale.CHINA)
+fun getTimeHaveHour(timeSign: Long): String {
+    val date = Date(timeSign)
+    return dateHaveHour.format(date)
+}
+

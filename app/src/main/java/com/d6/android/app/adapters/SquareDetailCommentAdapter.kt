@@ -32,9 +32,10 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         nmIndex = index
     }
 
-    private var IsMySquare:Boolean  = false
-    public fun setIsMySquare(ismysquare:Boolean){
-        IsMySquare = ismysquare
+    private var commentUserId:String  = ""
+
+    fun setIsMySquare(userId:String){
+        commentUserId = userId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -61,17 +62,19 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         }
 
         if(data.iIsAnonymous==1){
-            if(IsMySquare){
+            if(TextUtils.equals(data.userId, commentUserId)){
                 holder.setText(R.id.tv_name, "${data.name}贴主")
             }else{
-                holder.setText(R.id.tv_name, data.name+nmIndex)
-                nmIndex = nmIndex+1
+                if(TextUtils.equals(data.userId, getLocalUserId())){
+                    holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                }else{
+                    holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                    nmIndex = nmIndex+1
+                }
             }
         }else{
             holder.setText(R.id.tv_name, data.name)
         }
-
-        Log.i("coment","${data.name}+iIsReplyAnonymous=${data.iIsReplyAnonymous}---userId==${data.content}")
 
         val contentView = holder.bind<TextView>(R.id.tv_content)
         val spanText = if (data.replyUserId.isNullOrEmpty()) {
@@ -82,13 +85,17 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
             var content = ""
             var replyName = ""
             if(data.iIsReplyAnonymous==1){
-                if(TextUtils.equals(data.replyUserId, getLocalUserId())){
+                if(TextUtils.equals(data.replyUserId, commentUserId)){
                     replyName = "${data.replyName}贴主"
                     content = String.format("回复%s:%s", replyName, data.content)
                 }else{
-                    replyName = "${data.replyName+nmIndex}"
+                    if(TextUtils.equals(data.replyUserId, getLocalUserId())){
+                        replyName = "${data.replyName}${nmIndex}"
+                    }else{
+                        replyName = "${data.replyName}${nmIndex}"
+                        nmIndex = nmIndex+1
+                    }
                     content = String.format("回复%s:%s", replyName, data.content)
-                    nmIndex = nmIndex+1
                 }
             }else{
                 replyName = "${data.replyName}"

@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import android.view.WindowManager
 import android.widget.RadioButton
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -15,6 +16,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
+import com.d6.android.app.widget.MaxEditTextWatcher
 import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_set_user_info.*
 import org.jetbrains.anko.startActivity
@@ -29,9 +31,9 @@ class SetUserInfoActivity : BaseActivity() {
     private var sex = -1
     private var ISNOTEDIT = false
 
-    private val openchannel by lazy{
-        SPUtils.instance().getString(OPENSTALL_CHANNEL,"channel")
-    }
+//    private val openchannel by lazy{
+//        SPUtils.instance().getString(OPENSTALL_CHANNEL,"channel")
+//    }
 
     private var openId = ""
     private var unionId = ""
@@ -39,9 +41,9 @@ class SetUserInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_user_info)
-        immersionBar.fitsSystemWindows(false)
-                .statusBarColor(R.color.trans_parent)
-                .init()
+//        immersionBar.statusBarColor(R.color.trans_parent)
+//                .init()
+//        AndroidBug5497Workaround.assistActivity(this)
 
         val name = if (intent.hasExtra("name")) {
             intent.getStringExtra("name")
@@ -110,23 +112,20 @@ class SetUserInfoActivity : BaseActivity() {
             update()
         }
 
-        et_nick.addTextChangedListener(object :TextWatcher{
-            override fun afterTextChanged(p0: Editable?) {
-                if (p0.isNullOrEmpty()) {
+        et_nick.addTextChangedListener(object: MaxEditTextWatcher(CHINESE_TWO,16,this,et_nick){
+            override fun onTextChanged(charSequence: CharSequence?, i: Int, i1: Int, i2: Int) {
+                super.onTextChanged(charSequence, i, i1, i2)
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                super.afterTextChanged(editable)
+                if (editable.isNullOrEmpty()) {
                     tv_error.text = "昵称不能为空"
                     nickLine.setBackgroundResource(R.color.red_fc3)
                 } else {
                     tv_error.text = ""
                     nickLine.setBackgroundResource(R.color.orange_f6a)
                 }
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
 
         })
