@@ -94,16 +94,7 @@ class MineFragment : BaseFragment() {
         myImageAdapter.setOnItemClickListener { _, position ->
             mData?.let {
                 startActivity<UserInfoActivity>("id" to it.accountId.toString())
-//                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mPicsWall)
             }
-//            val data = mImages[position]
-////            if (data.type != 1) {
-////                mData?.let {
-////                    //广场照片详情页面
-////                    val urls = mBigSquareImages.filter { it.type != 1 }.map { it.imgUrl }
-////                    startActivityForResult<ImagePagerActivity>(22, "data" to it, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position, "delete" to false)
-////                }
-////            }
         }
 
         rl_vistors_count.setOnClickListener(View.OnClickListener {
@@ -185,6 +176,14 @@ class MineFragment : BaseFragment() {
             SPUtils.instance().put(Const.IS_FIRST_SHOWUNKNOW_TIPS, true).apply()
         }
 
+        sw_mine_off.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+
+            }else{
+
+            }
+        }
+
         rv_square_imgs.setHasFixedSize(true)
         rv_square_imgs.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_square_imgs.isNestedScrollingEnabled = false
@@ -200,6 +199,17 @@ class MineFragment : BaseFragment() {
         }else{
             iv_unknow_reddot.visibility = View.GONE
         }
+
+        if(TextUtils.equals(getLocalUserId(), Const.CustomerServiceId) || TextUtils.equals(getLocalUserId(), Const.CustomerServiceWomenId)) {
+            tv_service_arrow.visibility = View.GONE
+            sv_service.visibility = View.GONE
+            sw_mine_off.visibility = View.VISIBLE
+        }else{
+            tv_service_arrow.visibility = View.VISIBLE
+            sv_service.visibility = View.VISIBLE
+            sw_mine_off.visibility = View.GONE
+        }
+
     }
 
     override fun onFirstVisibleToUser() {

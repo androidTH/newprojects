@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="@dimen/margin_15"
     android:scrollbars="none"
     android:background="@color/color_F6F7FA">
@@ -580,8 +581,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:clickable="true"
-            android:gravity="center_vertical">
+            android:clickable="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -589,21 +589,44 @@
                 android:layout_marginLeft="@dimen/margin_10"
                 android:text="专属客服"
                 android:drawablePadding="@dimen/margin_10"
-                android:drawableLeft="@mipmap/mine_contactus_icon"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@mipmap/my_contact"
                 android:textColor="@color/color_333333"
                 android:textSize="15sp" />
+            <!--mine_contactus_icon-->
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sv_service"
                 style="@style/DefaultCircleHeadStyle"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_30" />
-
-            <TextView
+            <com.d6.android.app.widget.switchbutton.SwitchButton
+                android:id="@+id/sw_mine_off"
+                style="@style/SwitchButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_8"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                android:textSize="9sp"
+                android:padding="8dp"
+                android:checked="true"
+                app:kswTextOff="离线"
+                app:kswTextOn="在线"
+                app:kswAnimationDuration="300"
+                app:kswBackDrawable="@drawable/ios_mine_drawable"
+                app:kswBackMeasureRatio="1.7"
+                app:kswThumbDrawable="@drawable/shape_switchthum" />
+            <TextView
+                android:id="@+id/tv_service_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_13"
                 android:drawableRight="@mipmap/center_moreicon"
