@@ -9,13 +9,14 @@ import android.os.Parcelable
  *     desc   :
  *     version:
  */
-class MemberComment constructor(var content:String,headerurl:String){
+class MemberDesc constructor(var content:String,var title:String, headerurl:String){
     var mContent:String=""
     var mHeaderPic:String=""
-    var title:String=""
+    var mTitle:String=""
 
     init {
         this.mContent = content
+        this.mTitle = title
         this.mHeaderPic = headerurl
     }
 }

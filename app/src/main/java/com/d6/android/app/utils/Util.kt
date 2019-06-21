@@ -33,6 +33,7 @@ import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.DateErrorDialog
 import com.d6.android.app.dialogs.DialogUpdateApp
+import com.d6.android.app.dialogs.MemberDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.*
@@ -328,8 +329,10 @@ inline fun Activity.isAuthUser(from:String="nomine",next: () -> Unit) {
     if (className == "7") {// 22 普通会员
         var sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if(TextUtils.equals("1",sex)){
-            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
-//              this.startActivity<MenMemberActivity>()
+            var mMemberDialog = MemberDialog()
+            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
+            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
+//            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
         }else{
             this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //             this.startActivity<DateAuthStateActivity>()
@@ -344,7 +347,6 @@ inline fun Activity.isVipUser(next: () -> Unit) {
     if (className != "7") {// 22 普通会员
         var sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if(TextUtils.equals("1",sex)){
-//            this.startActivity<AuthWomenStateActivity>()
             this.startActivity<AuthMenStateActivity>()
         }else{
             this.startActivity<AuthWomenStateActivity>()
@@ -361,8 +363,10 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
                     saveUserInfo(it)
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
                     if (TextUtils.equals("1", it.sex)) {//1是男
-                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
-//                      this.startActivity<MenMemberActivity>()
+//                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+                        var mMemberDialog = MemberDialog()
+                        mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
+                        mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
                     }else{
                         this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //                      this.startActivity<DateAuthStateActivity>()
@@ -819,32 +823,6 @@ fun requestNotify(context: Context){
     var appInfo = context.getApplicationInfo()
     var pkg = context.getApplicationContext().getPackageName()
     var uid = appInfo.uid
-
-//        val intent: Intent = Intent()
-//        try {
-//            intent.action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
-//
-//            //8.0及以后版本使用这两个extra.  >=API 26
-//
-//            intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-//            intent.putExtra(Settings.EXTRA_CHANNEL_ID, uid)
-//
-//            //5.0-7.1 使用这两个extra.  <= API 25, >=API 21
-//            intent.putExtra("app_package", context.packageName)
-//            intent.putExtra("app_uid", uid)
-//
-//            context.startActivity(intent)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//
-//            //其他低版本或者异常情况，走该节点。进入APP设置界面
-//            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-//            intent.putExtra("package", context.packageName)
-//            //val uri = Uri.fromParts("package", packageName, null)
-//            //intent.data = uri
-//            context.startActivity(intent)
-//        }
-
     try {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val intent: Intent = Intent()

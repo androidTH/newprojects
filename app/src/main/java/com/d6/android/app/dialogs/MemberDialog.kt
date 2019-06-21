@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.RecyclerView
 import android.text.SpannableString
 import android.text.Spanned
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -13,15 +15,18 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyDateActivity
+import com.d6.android.app.adapters.MemberDescHolder
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.MemberComment
+import com.d6.android.app.models.MemberDesc
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.dialog_self_date.*
+import kotlinx.android.synthetic.main.member_dialog.*
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -32,7 +37,7 @@ import org.jetbrains.anko.wrapContent
  */
 class MemberDialog : DialogFragment(),RequestManager {
 
-    var mComments = ArrayList<MemberComment>()
+    var mMemberDesc = ArrayList<MemberDesc>()
 
     private val compositeDisposable by lazy {
         CompositeDisposable()
@@ -58,9 +63,9 @@ class MemberDialog : DialogFragment(),RequestManager {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout((screenWidth() * 0.8f).toInt() + dip(30), wrapContent)
+        dialog.window.setLayout((screenWidth() * 0.75f).toInt() + dip(30), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
-        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCanceledOnTouchOutside(true)
     }
 
     override fun show(manager: FragmentManager?, tag: String?) {
@@ -74,13 +79,68 @@ class MemberDialog : DialogFragment(),RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mComments.add(MemberComment(getString(R.string.string_man_firstcomment), "res:///"))
-        mComments.add(MemberComment(getString(R.string.string_man_secondcomment),
-                "static/image/006lz966ly8g2vdezyk2aj30u00u0ac7.jpg"))
-        mComments.add(MemberComment(getString(R.string.string_man_lastcomment),
-                "static/image/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
-        mComments.add(MemberComment(getString(R.string.string_man_lastcomment),
-                "static/image/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
+        var from  = arguments.getString(Const.NO_VIP_FROM_TYPE)
+
+        if(TextUtils.equals("mine",from)){
+            tv_member.text = "会员有价 情缘无价"
+        }else{
+            tv_member.text = "成为会员后即可使用该功能"
+        }
+        mMemberDesc.add(MemberDesc("人工精准匹配约会，超高成功率","专属客服匹配","res:///"+R.mipmap.windows_tz1))
+        mMemberDesc.add(MemberDesc("直接开聊拒绝骚扰","一对一私聊",
+                "res:///"+R.mipmap.windows_tz2))
+        mMemberDesc.add(MemberDesc("多金？有颜？总有一个是你的菜","一对一私聊",
+                "res:///"+R.mipmap.windows_tz3))
+        mMemberDesc.add(MemberDesc("提供交友、线上群聊、线下聚会、酒店旅行折扣","私人定制服务",
+                "res:///"+R.mipmap.windows_tz4))
+
+        member_banner.setPages(
+                object : CBViewHolderCreator {
+                    override fun createHolder(itemView: View): MemberDescHolder {
+                        return MemberDescHolder(itemView)
+                    }
+
+                    override fun getLayoutId(): Int {
+                        return R.layout.item_member_banner
+                    }
+                },mMemberDesc)
+
+        member_banner.setOnPageChangeListener(object: OnPageChangeListener {
+            override fun onPageSelected(index: Int) {
+                when(index){
+                    0-> {
+                        tv_numone.isEnabled = false
+                        tv_numtwo.isEnabled = true
+                        tv_numthree.isEnabled = true
+                        tv_numfour.isEnabled = true
+                    }
+                    1->{
+                        tv_numone.isEnabled = true
+                        tv_numtwo.isEnabled = false
+                        tv_numthree.isEnabled = true
+                        tv_numfour.isEnabled = true
+                    }
+                    2->{
+                        tv_numone.isEnabled = true
+                        tv_numtwo.isEnabled = true
+                        tv_numthree.isEnabled = false
+                        tv_numfour.isEnabled = true
+                    }
+                    3->{
+                        tv_numone.isEnabled = true
+                        tv_numtwo.isEnabled = true
+                        tv_numthree.isEnabled = true
+                        tv_numfour.isEnabled = false
+                    }
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            }
+        })
 
         tv_know.setOnClickListener {
                isBaseActivity {
@@ -90,7 +150,16 @@ class MemberDialog : DialogFragment(),RequestManager {
                    })
                }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        member_banner.startTurning()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        member_banner.startTurning()
     }
 
     private fun getAuthState() {

@@ -94,6 +94,30 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="40dp"/>
 
+    <RelativeLayout
+        android:id="@+id/rl_service"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/height_65"
+        android:layout_marginRight="@dimen/margin_20">
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@mipmap/my_contactus_float"/>
+
+        <com.d6.android.app.widget.DragPointView
+            android:id="@+id/tv_service_count"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_2"
+            android:textColor="@android:color/white"
+            android:textSize="9sp" />
+    </RelativeLayout>
     <View
         android:layout_above="@android:id/tabhost"
         style="@style/view_line_h" />

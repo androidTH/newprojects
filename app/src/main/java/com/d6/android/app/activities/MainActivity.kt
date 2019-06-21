@@ -268,6 +268,13 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 }
             }
         }
+
+        rl_service.setOnClickListener {
+           pushCustomerMessage(this, getLocalUserId(),5,"",next = {
+                chatService(this)
+            })
+        }
+
         //默认标题
         tv_title.text = "约会"
         tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
@@ -341,6 +348,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()
         getUnReadCount()
+        getServiceUnReadMsg()
     }
 
     fun setBottomBarNormal(tabIndex:Int){
@@ -600,6 +608,31 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //            }
 //        }
         Log.i("messagesssssss","onCountChanged")
+    }
+
+    private fun getServiceUnReadMsg(){
+        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+        var mTargetId = if(TextUtils.equals("0",sex)){
+            Const.CustomerServiceWomenId
+        }else{
+            Const.CustomerServiceId
+        }
+        RongIM.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE,mTargetId,object:RongIMClient.ResultCallback<Int>(){
+            override fun onSuccess(p0: Int?) {
+                p0?.let {
+                    if(it >0 ){
+                        tv_service_count.visibility = View.VISIBLE
+                        tv_service_count.text = "${it}"
+                    }else{
+                        tv_service_count.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onError(p0: RongIMClient.ErrorCode?) {
+
+            }
+        })
     }
 
     private var mExitTime: Long = 0

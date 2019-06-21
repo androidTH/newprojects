@@ -5,9 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.View
-import android.view.WindowManager
 import android.widget.RadioButton
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -15,7 +13,6 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.widget.MaxEditTextWatcher
 import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_set_user_info.*

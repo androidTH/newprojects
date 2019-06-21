@@ -10,5 +10,6 @@
         android:paddingRight="2dp"
         android:paddingTop="4dp"
         android:textColor="@color/color_333333"
+        android:textSize="12sp"
         android:id="@+id/tv_content"/>
 </LinearLayout>
