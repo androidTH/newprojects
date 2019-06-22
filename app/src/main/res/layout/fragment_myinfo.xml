@@ -590,7 +590,7 @@
                 android:text="专属客服"
                 android:drawablePadding="@dimen/margin_10"
                 android:layout_centerVertical="true"
-                android:drawableLeft="@mipmap/my_contact"
+                android:drawableLeft="@mipmap/mine_contactus_icon"
                 android:textColor="@color/color_333333"
                 android:textSize="15sp" />
             <!--mine_contactus_icon-->
