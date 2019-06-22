@@ -70,7 +70,6 @@ class UnKnownActivity : BaseActivity() {
         rv_unknow_tags.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         rv_unknow_tags.isNestedScrollingEnabled = false
         rv_unknow_tags.adapter = userTagAdapter
-        dialog()
         getUserInfo()
 //        if(TextUtils.equals("open",IsOpenUnKnow)){
 //            tv_unknow_square.visibility = View.VISIBLE

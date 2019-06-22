@@ -93,12 +93,15 @@
             android:src="@mipmap/ic_more_orange" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_chat_toolbar"
         android:orientation="vertical">
-
+        <FrameLayout
+            android:id="@+id/rong_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
         <RelativeLayout
             android:id="@+id/relative_tips"
             android:layout_width="match_parent"
@@ -107,7 +110,7 @@
             android:layout_marginTop="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/shape_white"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 android:id="@+id/tv_openchat_tips_title"
@@ -194,9 +197,5 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <FrameLayout
-            android:id="@+id/rong_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

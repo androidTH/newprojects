@@ -29,7 +29,6 @@ class SquareMessagesActivity : RecyclerActivity() {
             startActivity<SquareTrendDetailActivity>("id" to squareMessage.url,"position" to position)
         }
         addItemDecoration()
-        dialog()
         getData()
     }
 

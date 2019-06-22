@@ -251,8 +251,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     ?: ""), "position" to position)
         }
 
-
-        dialog()
+//        dialog()
 
         if (TextUtils.equals(getLocalUserId(), id)) {
             rl_doaction.visibility = View.GONE

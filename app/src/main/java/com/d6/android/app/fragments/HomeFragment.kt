@@ -38,6 +38,7 @@ import org.jetbrains.anko.support.v4.toast
  * 主页
  */
 class HomeFragment : BaseFragment() {
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
@@ -69,6 +70,7 @@ class HomeFragment : BaseFragment() {
             mSwipeRefreshLayout.isEnabled = verticalOffset >= 0
         }
 
+        mSwipeRefreshLayout.isRefreshing = true
         rvSpeedDate.setHasFixedSize(true)
         rvSpeedDate.isNestedScrollingEnabled = true
         rvSpeedDate.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
@@ -122,7 +124,6 @@ class HomeFragment : BaseFragment() {
             }
         }
 
-        showDialog()
         getSpeedData()
 
         tv_date_city.setOnClickListener {
@@ -210,7 +211,7 @@ class HomeFragment : BaseFragment() {
     }
 
     fun refresh(){
-        showDialog()
+        mSwipeRefreshLayout.isRefreshing = true
         city = ""
         type = 0
         getSpeedData()

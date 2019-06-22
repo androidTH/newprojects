@@ -113,17 +113,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 SPUtils.instance().put(WHO_ANONYMOUS,"2").apply()
             }
 
-//            var group = RongUserInfoManager.getInstance().getGroupInfo(mTargetId)
-//            Log.i("D6Application","name=${group.name}")
-
-//            RongIM.getInstance().setConversationNotificationStatus(mConversationType, mTargetId, Conversation.ConversationNotificationStatus.NOTIFY, object : RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
-//                override fun onSuccess(conversationNotificationStatus: Conversation.ConversationNotificationStatus) {
-//
-//                }
-//
-//                override fun onError(errorCode: RongIMClient.ErrorCode) {
-//                }
-//            })
             Request.findGroupDescByGroupId(getLocalUserId(), mTargetId).request(this, false, success = { msg, data ->
                 data?.let {
                     var group = Group(it.sId, it.sGroupName, Uri.parse(it.sGroupPicUrl))
@@ -435,12 +424,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     var point = data!!.optString("iTalkPoint")
                     var remainPoint = data!!.optString("iRemainPoint")
                     if(point.toInt() > remainPoint.toInt()){
+//                        val dateDialog = OpenChatPointNoEnoughDialog()
                         val dateDialog = OpenDatePointNoEnoughDialog()
                         var point = data!!.optString("iTalkPoint")
                         var remainPoint = data!!.optString("iRemainPoint")
                         dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
                         dateDialog.show(supportFragmentManager, "d")
                     }else{
+//                        val dateDialog = OpenDatePayPointDialog()
                         val dateDialog = OpenDatePayPointDialog()
                         dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to mOtherUserId,"type" to "1")
                         dateDialog.show(supportFragmentManager, "d")
@@ -455,7 +446,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 } else if(code == 0){
                     showToast(msg.toString())
                 } else {
-                    val dateDialog = OpenDatePointNoEnoughDialog()
+                    val dateDialog = OpenChatPointNoEnoughDialog()
                     var point = data!!.optString("iTalkPoint")
                     var remainPoint = data!!.optString("iRemainPoint")
                     dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)

@@ -1,28 +1,26 @@
 package com.d6.android.app.activities
 
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.gone
-import com.d6.android.app.utils.visible
-import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
+import com.d6.android.app.utils.*
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
-import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.fragment_splash.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
 
 
@@ -39,7 +37,7 @@ class SplashActivity : BaseActivity() {
                 return SplashFragment.instance(position)
             }
 
-            override fun getCount() = 3
+            override fun getCount() = 4
         }
 
         mViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -67,6 +65,11 @@ class SplashActivity : BaseActivity() {
             }
         })
 
+        tv_protocols.movementMethod = LinkMovementMethod.getInstance()
+        val s = "点击登录/注册即表示同意 用户协议"
+        tv_protocols.text = SpanBuilder(s)
+                .click(s.length - 5, s.length, MClickSpan(this))
+                .build()
     }
 
     class SplashFragment : BaseFragment() {
@@ -86,9 +89,10 @@ class SplashActivity : BaseActivity() {
             super.onActivityCreated(savedInstanceState)
             val p = arguments.getInt("p")
             val ids = when (p) {
-                0 -> R.mipmap.guide1 //R.mipmap.page_01
-                1 -> R.mipmap.guide2 //R.mipmap.page_02
-                else -> R.mipmap.guide3// R.mipmap.page_03
+                0 -> R.mipmap.windows_tz1 //R.mipmap.page_01
+                1 -> R.mipmap.windows_tz2 //R.mipmap.page_02
+                2 -> R.mipmap.windows_tz3 //R.mipmap.page_02
+                else -> R.mipmap.windows_tz4// R.mipmap.page_03
             }
             val builder = GenericDraweeHierarchyBuilder(resources)
             val hierarchy = builder
@@ -122,6 +126,17 @@ class SplashActivity : BaseActivity() {
         }
 
         override fun onFirstVisibleToUser() {
+        }
+    }
+
+    private class MClickSpan(val context: Context) : ClickableSpan() {
+        override fun onClick(p0: View?) {
+            context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "file:///android_asset/yonghuxieyi.html")
+        }
+
+        override fun updateDrawState(ds: TextPaint?) {
+            ds?.color = ContextCompat.getColor(context, R.color.color_F7AB00)
+            ds?.isUnderlineText = false
         }
     }
 

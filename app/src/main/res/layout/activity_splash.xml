@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_login"
         android:layout_marginBottom="@dimen/margin_20"
-        android:visibility="gone"
+        android:visibility="visible"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -59,9 +59,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/height_75"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <Button
             android:id="@+id/btn_phonelogin"
@@ -88,4 +88,14 @@
             android:textColor="@color/white"
             android:textSize="@dimen/btnTextSize" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_protocols"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_25"
+        android:textSize="12sp"
+        android:textColor="@color/color_888888"
+        android:text="点击登录/注册即表示同意 用户协议"/>
 </RelativeLayout>

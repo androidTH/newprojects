@@ -115,7 +115,7 @@ class SpeedDateDetailActivity : TitleActivity() {
     }
 
     private fun getSpeedDateDetail(id: String) {
-        dialog()
+//        dialog()
         Request.getSpeedDetail(id).request(this){ _, data->
             data?.let {
                 refreshUI(it)

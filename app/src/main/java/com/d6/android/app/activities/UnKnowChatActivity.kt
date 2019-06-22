@@ -6,26 +6,14 @@ import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
-import com.d6.android.app.adapters.ConversationsAdapter
 import com.d6.android.app.adapters.UnKnowChatAdapter
-import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.RecyclerActivity
-import com.d6.android.app.dialogs.OpenDatePayPointDialog
-import com.d6.android.app.extentions.request
-import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import com.d6.android.app.widget.badge.Badge
-import com.d6.android.app.widget.badge.QBadgeView
 import io.rong.imkit.RongIM
-import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
-import io.rong.imlib.model.Group
-import io.rong.imlib.model.Message
-import io.rong.message.TextMessage
-import kotlinx.android.synthetic.main.header_messages.view.*
 import org.jetbrains.anko.*
 
 

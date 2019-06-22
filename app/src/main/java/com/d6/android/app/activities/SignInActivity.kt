@@ -47,7 +47,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private val channel by lazy{
-        SPUtils.instance().getString(OPENSTALL_CHANNEL,"")
+        SPUtils.instance().getString(OPENSTALL_CHANNEL,"Openinstall")
     }
 
     private val shareApi by lazy {

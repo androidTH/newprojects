@@ -55,7 +55,6 @@ class BlackListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLi
     }
 
     private fun getData() {
-        dialog("加载中...")
         Request.getFindMyBlackList(userId, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mBlackList.clear()

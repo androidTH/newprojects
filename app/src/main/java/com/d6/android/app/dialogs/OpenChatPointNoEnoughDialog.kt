@@ -1,43 +1,39 @@
 package com.d6.android.app.dialogs
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
-import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.rong.imkit.RongIM
-import io.rong.imlib.model.Conversation
-import kotlinx.android.synthetic.main.dialog_date_paypoint.*
-import org.jetbrains.anko.bundleOf
+import kotlinx.android.synthetic.main.dialog_chat_send_fail.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 /**
- * 支付积分
+ * 约会发送
  */
-class OpenDatePayPointDialog : DialogFragment(),RequestManager {
+class OpenChatPointNoEnoughDialog : DialogFragment(),RequestManager {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private lateinit var chatUserId:String
-    private lateinit var username:String;
-    private var mType:String="0"
+    private val point_nums by lazy {
+        SPUtils.instance().getString(Const.User.USERPOINTS_NUMS)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,56 +58,44 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.dialog_date_paypoint, container, false)
+            inflater?.inflate(R.layout.dialog_chat_send_fail, container, false)
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var point = if (arguments != null) {
-            arguments.getString("point")
-        } else {
-            "0"
-        }
-
+        var point = arguments.getString("point")
         var remainPoint = arguments.getString("remainPoint")
-        mType = arguments.getString("type")
-
-        tv_payok.setOnClickListener {
-            getData(point,remainPoint)
-        }
-
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
-       if(arguments !=null){
-           username = arguments.getString("username")
-           chatUserId = arguments.getString("chatUserId")
-           tv_mypointnums.text = "${point}积分"
-
-           tv_payinfo.text = "支付后即可与${username}私聊"
-//           tv_payinfo.text = String.format(resources.getString(R.string.string_payinfo),"${point}","${point}","${point}")
+        tv_chongzhi.setOnClickListener {
+            context.startActivity<MyPointsActivity>()
+            dismissAllowingStateLoss()
         }
+        tv_mypointnums.text = "${point}积分"
+        tv_tishi_point.text = String.format(resources.getString(R.string.string_payinfo),"${point}","${point}","${point}")
+
+        tv_point_low.text = String.format(resources.getString(R.string.string_balance),remainPoint)
     }
 
-    private fun getData(point:String,remainPoint:String) {
-        dismissAllowingStateLoss()
-        isBaseActivity {
-            //194ecdb4-4809-4b2d-bf32-42a3342964df
-            Request.doUnlockTalk(userId, chatUserId).request(it,success = {msg,data->
-                if(TextUtils.equals("0",mType)){
-                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, chatUserId, username)
-                } else if (TextUtils.equals("1", mType)) {
-                    dialogListener?.let {
-                        it.onClick(0, "payok")
+    private fun getData() {
+        isBaseActivity{
+                Request.queryAppointmentPoint(userId).request(it, false,success = {msg,data->
+                    data?.let {
+//                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
+//                        tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
+//                        tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
+//                        tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
+                        tv_mypointnums.text = "${it.iAppointPoint.toString()}积分"
+                        tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),point_nums)
+                    }
+                }){code,msg->
+                    if(code == 2){
+                        tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),point_nums)
+//                        tv_tishi_point.text = msg
                     }
                 }
-            }){code,msg->
-                var openErrorDialog = OpenDatePointNoEnoughDialog()
-                openErrorDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-                openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }
-        }
     }
 
     private var dialogListener: OnDialogListener? = null

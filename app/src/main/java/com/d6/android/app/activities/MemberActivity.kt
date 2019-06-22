@@ -69,7 +69,6 @@ class MemberActivity : BaseActivity() {
     private fun getMemberLevel(userclassId:String?,sex:String?) {
         Request.findUserClasses(getLoginToken()).request(this){ msg, data->
             data?.list?.let {
-                Log.i("ffffff","${it.size}")
                 it.forEach {
                         if(TextUtils.equals(it.ids.toString(),userclassId.toString())){
                             if(TextUtils.equals("0",sex.toString())){

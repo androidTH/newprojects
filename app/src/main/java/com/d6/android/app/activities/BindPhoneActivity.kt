@@ -33,7 +33,7 @@ class BindPhoneActivity : TitleActivity() {
     }
 
     private val channel by lazy{
-        SPUtils.instance().getString(Const.OPENSTALL_CHANNEL,"")
+        SPUtils.instance().getString(Const.OPENSTALL_CHANNEL,"Openinstall")
     }
 
     private val openId by lazy {

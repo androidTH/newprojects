@@ -54,7 +54,6 @@ class SystemMessagesActivity : RecyclerActivity() {
             }
         }
         mSwipeRefreshLayout.mRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this))
-        dialog()
         getData()
     }
 
