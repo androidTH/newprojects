@@ -1,55 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/mViewPager"
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/mViewPager"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="500dp"/>-->
+    <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+        android:id="@+id/splasy_banner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activities.SplashActivity"/>
+        android:layout_height="500dp"
+        banner:autoTurningTime="3000"
+        banner:canLoop="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_login"
-        android:layout_marginBottom="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/height_50"
         android:visibility="visible"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_numone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
             android:background="@drawable/shape_dot_selector"
             android:gravity="center"
             android:enabled="false"
-            android:text="1"
             android:textColor="@color/white"
             android:textSize="9sp" />
 
         <TextView
             android:id="@+id/tv_numtwo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
             android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/shape_dot_selector"
             android:gravity="center"
-            android:text="2"
             android:textColor="@color/white"
             android:textSize="9sp" />
 
         <TextView
             android:id="@+id/tv_numthree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginLeft="@dimen/margin_10"
             android:background="@drawable/shape_dot_selector"
             android:gravity="center"
-            android:text="3"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+        <TextView
+            android:id="@+id/tv_numfour"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:background="@drawable/shape_dot_selector"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="9sp" />
     </LinearLayout>
@@ -59,7 +69,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/height_75"
+        android:paddingTop="@dimen/margin_15"
+        android:paddingBottom="@dimen/margin_5"
+        android:layout_marginBottom="@dimen/height_85"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -70,23 +82,21 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:background="@drawable/shape_sign_login_press_circle"
-            android:enabled="false"
             android:text="手机号注册/登录"
             android:textColor="@color/white"
-            android:textSize="@dimen/btnTextSize" />
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/btn_wxlogin"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_20"
             android:layout_marginRight="40dp"
             android:background="@drawable/shape_sign_wxlogin_press_circle"
-            android:enabled="false"
-            android:text="手机号注册/登录"
+            android:text="微信注册/登录"
             android:textColor="@color/white"
-            android:textSize="@dimen/btnTextSize" />
+            android:textSize="15sp" />
     </LinearLayout>
     <TextView
         android:id="@+id/tv_protocols"

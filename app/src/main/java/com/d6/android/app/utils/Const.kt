@@ -168,4 +168,7 @@ object Const {
 
     @JvmField
     var GROUPSPLIT_LEN = 3 //群组分割长度
+
+    @JvmField
+    var DEBUG_MODE = "debug_mode"
 }

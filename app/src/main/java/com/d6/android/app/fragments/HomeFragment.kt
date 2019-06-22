@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.RecommendDateAdapter
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.view.Gravity
 import com.amap.api.location.AMapLocationClient
+import com.d6.android.app.BuildConfig
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.AreaSelectedPopup
 import com.d6.android.app.dialogs.LoginOutTipDialog
@@ -30,6 +32,8 @@ import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
+import com.googlecode.mp4parser.h264.Debug
+import com.qamaster.android.common.DebugInfo
 import com.tbruyelle.rxpermissions2.RxPermissions
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.toast
@@ -260,7 +264,6 @@ class HomeFragment : BaseFragment() {
         fragments?.forEach {
             if (it != null && !it.isDetached) {
                 if (it is SelfPullDateFragment) {
-//                  var area = if(!TextUtils.isEmpty(city)) city else if(!TextUtils.isEmpty(outCity)) outCity else ""
                   var area = if(!TextUtils.isEmpty(city)) city else ""
                     var dateType = if(type == 6||type==0){
                         ""
@@ -313,7 +316,8 @@ class HomeFragment : BaseFragment() {
                 mSpeedDates.addAll(it)
             }
             speedDateAdapter.notifyDataSetChanged()
-        }) { code, _ ->
+        }) { code, msg ->
+            toast(msg)
             mSwipeRefreshLayout.isRefreshing = false
         }
     }

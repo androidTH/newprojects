@@ -27,7 +27,7 @@ class LauncherActivity : BaseActivity() {
         override fun onNext(t: Long) {
             if (t == 3L) {
                 val isFirst =  SPUtils.instance().getBoolean(Const.User.IS_FIRST,true)
-                if (!isFirst) {
+                if (isFirst) {
                     startActivity<SplashActivity>()
                 } else {
                     val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
@@ -59,6 +59,7 @@ class LauncherActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         try {
+            immersionBar.destroy()
             diposable.dispose()
         } catch (e: Exception) {
 //            e.printStackTrace()

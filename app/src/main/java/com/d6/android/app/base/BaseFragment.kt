@@ -8,6 +8,7 @@ import android.view.ViewGroup
 //import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.net.Error.SERVER_ERROR
 import com.d6.android.app.utils.NetworkUtils
 import com.d6.android.app.widget.LoadDialog
 import com.d6.android.app.widget.ProgressDialog
@@ -65,7 +66,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
 
         NetworkUtils.addNetConnChangedListener {
             if(it== NetworkUtils.ConnectStatus.NO_NETWORK){
-                toast("网络异常，请检查您的网络状态")
+                toast(SERVER_ERROR)
             }
         }
         initPrepare()

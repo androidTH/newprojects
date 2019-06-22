@@ -27,6 +27,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
@@ -39,6 +40,7 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.http.UpdateAppHttpUtil
+import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
@@ -951,6 +953,19 @@ fun getHierarchy(sex:String= getUserSex()): GenericDraweeHierarchy {
     return builder.build()
 }
 
+fun showFloatManService():Boolean{
+    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+    if (TextUtils.equals("7",className)) {
+        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+        if(TextUtils.equals("1",sex)){
+            return true
+        }else{
+            return false
+        }
+    }
+    return false
+}
+
 /**
  * 获得版本名称
  *
@@ -976,4 +991,13 @@ fun getLoginToken():String{
 fun clearLoginToken(){
     sLoginToken = ""
     mUserId = ""
+}
+
+//false 正式环境 true 测试环境
+fun getDebugMode():Boolean{
+    if(BuildConfig.DEBUG){
+        var debugmode = SPUtils.instance().getBoolean(DEBUG_MODE,true)
+        return debugmode
+    }
+    return false
 }

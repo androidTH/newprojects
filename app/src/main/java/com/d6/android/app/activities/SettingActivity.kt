@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.DialogUpdateApp
@@ -20,6 +21,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
+import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
@@ -118,7 +120,23 @@ class SettingActivity : TitleActivity() {
         }
 
         tv_blacklist.setOnClickListener {
-            startActivity<BlackListActivity>()
+           SPUtils.instance().put(DEBUG_MODE,!getDebugMode()).apply()
+            tv_blacklist.text = if(getDebugMode()){
+                "测试环境"
+            }else{
+                "正式环境"
+            }
+        }
+
+        if(BuildConfig.DEBUG){
+            tv_blacklist.text = if(getDebugMode()){
+                "测试环境"
+            }else{
+                "正式环境"
+            }
+            tv_blacklist.visibility = View.VISIBLE
+        }else{
+            tv_blacklist.visibility = View.GONE
         }
 
         headView.hierarchy = getHierarchy()

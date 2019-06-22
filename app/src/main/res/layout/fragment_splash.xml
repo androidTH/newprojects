@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_splash"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <!--<com.facebook.drawee.view.SimpleDraweeView-->
-        <!--android:id="@+id/imageView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--style="@style/uerInfoaddImageStyle"-->
-        <!--app:viewAspectRatio="1" />-->
+    android:layout_height="match_parent">
     <TextView
         android:id="@+id/splash_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/height_75"
-        android:textColor="@color/color_333333"
+        android:textColor="@color/white"
         android:layout_centerHorizontal="true"
-        android:textSize="22sp"
-        android:visibility="gone"
-        android:text="专属人工客服为你匹配约会"/>
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text=""/>
     <TextView
         android:id="@+id/splash_smalltitle"
         android:layout_below="@+id/splash_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_5"
-        android:textColor="@color/color_333333"
+        android:layout_marginTop="@dimen/margin_8"
+        android:textColor="@color/color_CCFFFFFF"
         android:layout_centerHorizontal="true"
-        android:textSize="13sp"
-        android:visibility="gone"
-        android:text="成功率高达80%"/>
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text=""/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/imageView"
+        android:layout_width="320dp"
+        android:layout_height="205dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="130dp"
+        app:viewAspectRatio="1.2"
+        app:actualImageScaleType="centerInside"
+        android:scaleType="centerInside"/>
+
     <TextView
         android:layout_width="140dp"
         android:layout_height="70dp"

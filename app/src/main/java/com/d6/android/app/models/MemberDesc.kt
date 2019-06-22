@@ -9,14 +9,15 @@ import android.os.Parcelable
  *     desc   :
  *     version:
  */
-class MemberDesc constructor(var content:String,var title:String, headerurl:String){
+class MemberDesc constructor(var content:String,var title:String, headerurl:String,resId:Int=0){
     var mContent:String=""
     var mHeaderPic:String=""
     var mTitle:String=""
-
+    var mResId:Int=0
     init {
         this.mContent = content
         this.mTitle = title
         this.mHeaderPic = headerurl
+        this.mResId = resId
     }
 }

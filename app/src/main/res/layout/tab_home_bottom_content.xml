@@ -29,13 +29,13 @@
         android:textSize="12sp"
         android:visibility="invisible" />
 
-    <!--<com.d6.android.app.widget.DragPointView-->
-        <!--android:id="@+id/tv_msg_count"-->
-        <!--android:layout_width="19dp"-->
-        <!--android:layout_height="19dp"-->
-        <!--android:layout_gravity="right"-->
-        <!--android:layout_marginRight="@dimen/margin_5"-->
-        <!--android:textColor="@android:color/white"-->
-        <!--android:textSize="12sp"-->
-        <!--android:visibility="invisible"/>-->
+    <com.d6.android.app.widget.DragPointView
+        android:id="@+id/tv_msg_count"
+        android:layout_width="19dp"
+        android:layout_height="19dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="@dimen/margin_13"
+        android:textColor="@android:color/white"
+        android:textSize="11sp"
+        android:visibility="invisible"/>
 </FrameLayout>

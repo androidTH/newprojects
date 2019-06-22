@@ -8,6 +8,7 @@ import com.d6.android.app.activities.SignChooseActivity
 import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.ConfirmDialog
 import com.d6.android.app.dialogs.SingleActionDialog
 import com.d6.android.app.interfaces.RequestManager
@@ -48,24 +49,28 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             var msg = ""
             when (t) {
                 is JsonSyntaxException -> {
+                    Log.i("RxExtentions","JsonSyntaxException")
                     msg = Error.PARSER_ERROR
                 }
                 is ConnectException -> {
+                    Log.i("RxExtentions","ConnectException")
                     msg = Error.NET_ERROR
                 }
 
                 is TimeoutException->{
-                    if (requestManager is Fragment) {
-                        requestManager.dismissDialog()
-                    }else if(requestManager is BaseActivity){
-                        requestManager.dismissDialog()
-                    }
+                    Log.i("RxExtentions","TimeoutException")
+                    msg = Error.TIMEOUT_ERROR
                 }
-//                is SocketTimeoutException -> msg = Error.NET_ERROR
+                is SocketTimeoutException -> {
+                    Log.i("RxExtentions","SocketTimeoutException")
+                    msg = Error.TIMEOUT_ERROR
+                }
                 is HttpException -> {
+                    Log.i("RxExtentions","HttpException${t.code()}")
                     msg = Error.SERVER_ERROR
                     val tCode = t.code()
-                    if (tCode == 401) {//未通过服务端认证。需前往登录
+                    if (tCode == 401) {
+                        //未通过服务端认证。需前往登录
                         msg = "登录信息已过期,请重新登录"
                         if (!D6Application.isChooseLoginPage) {
                             D6Application.isChooseLoginPage = true
@@ -106,7 +111,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             if(!TextUtils.isEmpty(msg)){
                 error(code, msg)
                 if (code == 200 || code == -3) {
-                    if (requestManager is Fragment) {
+                    if (requestManager is BaseFragment) {
                         if (requestManager.activity != null && requestManager.activity is BaseActivity) {
                             val mSingleActionDialog = SingleActionDialog()
                             mSingleActionDialog.arguments = bundleOf("message" to msg)

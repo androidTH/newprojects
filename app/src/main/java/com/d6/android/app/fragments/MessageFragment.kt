@@ -15,6 +15,7 @@ import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
 import com.d6.android.app.widget.SwipeItemLayout
@@ -204,6 +205,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                                 if(TextUtils.equals(split[1], getLocalUserId())){
                                     mConversations.remove(c)
                                     mUnConversations.add(c)
+                                }
+                            }
+                        }else{
+                            if(showFloatManService()){
+                                if(TextUtils.equals(c.targetId,CustomerServiceId)){
+                                    mConversations.remove(c)
                                 }
                             }
                         }

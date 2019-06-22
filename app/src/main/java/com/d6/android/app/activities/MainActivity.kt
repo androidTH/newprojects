@@ -72,6 +72,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             MessageFragment::class.java,MineFragment::class.java)
     private var unReadDateMsg:Int=-1
     private var unReadMsgNum:Int=0
+    private var unReadServiceMsgNum:Int=0
 
     private val broadcast by lazy {
         object : BroadcastReceiver() {
@@ -348,7 +349,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()
         getUnReadCount()
-        getServiceUnReadMsg()
     }
 
     fun setBottomBarNormal(tabIndex:Int){
@@ -377,6 +377,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                         val mLoginOutTipDialog = LoginOutTipDialog()
                         mLoginOutTipDialog.show(supportFragmentManager, "action")
                     }
+                }
+
+                if(showFloatManService()){
+                    rl_service.visibility = View.VISIBLE
+                }else{
+                    rl_service.visibility = View.GONE
                 }
             }
         })
@@ -409,17 +415,22 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     }
                     val view1 = tabhost.tabWidget.getChildTabViewAt(3)
                     if (view1 != null) {
-//            1            unReadMsgNum = 0
-//                        unReadMsgNum = unReadMsgNum + it
-//                        Log.i("messagesssssss","${unReadMsgNum}显示getUnreadCount")
-//                        getSysLastOne()
-                        val view = view1.find<View>(R.id.tv_msg_red)  as TextView
-                        if (p0.toInt() > 0) {
-                            unReadMsgNum = unReadMsgNum + p0.toInt()
-                            view?.visible()
-                        } else {
+                        unReadMsgNum = 0
+                        unReadMsgNum = unReadMsgNum + it
+                        Log.i("messagesssssss","${unReadMsgNum}显示getUnreadCount")
+                        if(showFloatManService()){
+                            getServiceUnReadMsg()
+                        }else{
+                            unReadServiceMsgNum = 0
                             getSysLastOne()
                         }
+//                        val view = view1.find<View>(R.id.tv_msg_red)  as TextView
+//                        if (p0.toInt() > 0) {
+//                            unReadMsgNum = unReadMsgNum + p0.toInt()
+//                            view?.visible()
+//                        } else {
+//                            getSysLastOne()
+//                        }
                     }
                 }
             }
@@ -490,14 +501,14 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSysMsg(data)
                 }
-//       1         unReadMsgNum  =unReadMsgNum + data.count!!.toInt()
-//                Log.i("messagesssssss","${unReadMsgNum}显示SystemMessages${data.count}")
-//                getSquareMsg()
-                if ((data.count ?: 0) > 0) {
-                    view?.visible()
-                } else {
-                    getSquareMsg()
-                }
+                unReadMsgNum  =unReadMsgNum + data.count!!.toInt()
+                Log.i("messagesssssss","${unReadMsgNum}显示SystemMessages${data.count}")
+                getSquareMsg()
+//                if ((data.count ?: 0) > 0) {
+//                    view?.visible()
+//                } else {
+//                    getSquareMsg()
+//                }
             }
 
         }) { _, _ ->
@@ -507,17 +518,18 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
     private fun getSquareMsg() {
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView
+            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
             Log.i("messagesssssss","${unReadMsgNum}显示")
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
+                unReadMsgNum = unReadMsgNum - unReadServiceMsgNum
                 if(unReadMsgNum > 0){
-//                1 if(unReadMsgNum>=99){
-//                        view.text = "99+"
-//                    }else{
-//                        view.text = "${unReadMsgNum}"
-//                    }
-                    unReadMsgNum = 0 // 注释
+                  if(unReadMsgNum>=99){
+                        view.text = "99+"
+                    }else{
+                        view.text = "${unReadMsgNum}"
+                    }
+//                    unReadMsgNum = 0 // 注释
                     view?.visible()
                 }else{
                     view?.gone()
@@ -527,22 +539,22 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }
-//          1      unReadMsgNum = unReadMsgNum + data.count!!.toInt()
-//                if(unReadMsgNum>0){
-//                    if(unReadMsgNum>=99){
-//                        view.text = "99+"
-//                    }else{
-//                        view.text = "${unReadMsgNum}"
-//                    }
-//                    view?.visible()
-//                }else{
-//                    view?.gone()
-//                }
-                if ((data.count ?: 0) > 0) {
+                unReadMsgNum = unReadMsgNum + data.count!!.toInt() - unReadServiceMsgNum
+                if(unReadMsgNum>0){
+                    if(unReadMsgNum>=99){
+                        view.text = "99+"
+                    }else{
+                        view.text = "${unReadMsgNum}"
+                    }
                     view?.visible()
                 }else{
                     view?.gone()
                 }
+//                if ((data.count ?: 0) > 0) {
+//                    view?.visible()
+//                }else{
+//                    view?.gone()
+//                }
             }
         }) { _, _ ->
 
@@ -611,13 +623,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     }
 
     private fun getServiceUnReadMsg(){
-        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
-        var mTargetId = if(TextUtils.equals("0",sex)){
-            Const.CustomerServiceWomenId
-        }else{
-            Const.CustomerServiceId
-        }
-        RongIM.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE,mTargetId,object:RongIMClient.ResultCallback<Int>(){
+        RongIM.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE,Const.CustomerServiceId,object:RongIMClient.ResultCallback<Int>(){
             override fun onSuccess(p0: Int?) {
                 p0?.let {
                     if(it >0 ){
@@ -626,6 +632,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     }else{
                         tv_service_count.visibility = View.GONE
                     }
+                    unReadServiceMsgNum = it
+                    getSysLastOne()
                 }
             }
 
