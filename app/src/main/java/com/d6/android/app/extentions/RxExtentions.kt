@@ -56,7 +56,6 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                     Log.i("RxExtentions","ConnectException")
                     msg = Error.NET_ERROR
                 }
-
                 is TimeoutException->{
                     Log.i("RxExtentions","TimeoutException")
                     msg = Error.TIMEOUT_ERROR
