@@ -200,6 +200,7 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_SEX, user.sex)
                         .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
+                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
@@ -216,6 +217,7 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_SEX, user.sex)
                         .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
+                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
