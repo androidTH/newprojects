@@ -134,6 +134,8 @@ class SetUserInfoActivity : BaseActivity() {
         tv_info.text = SpanBuilder(s)
                 .color(this,s.length-5,s.length-2,R.color.orange_f6a)
                 .build()
+
+        OpenInstall.reportRegister()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -202,7 +204,7 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_SEX, user.sex)
                         .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
-                OpenInstall.reportRegister()
+                OpenInstall.reportEffectPoint("perfect_profile",1)//会员转化
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
@@ -219,7 +221,7 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_SEX, user.sex)
                         .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
-                OpenInstall.reportRegister()
+                OpenInstall.reportEffectPoint("perfect_profile",1)//会员转化
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)

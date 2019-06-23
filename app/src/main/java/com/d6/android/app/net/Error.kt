@@ -9,4 +9,5 @@ object Error {
     val NET_ERROR = "网络异常，请检查您的网络状态"
     val SERVER_404ERROR = "服务端404错误"
     val SERVER_ERROR = "网络异常，请检查您的网络状态"
+    val SERVERTIMEOUT_ERROR = "网络连接超时，请稍后重试"
 }
