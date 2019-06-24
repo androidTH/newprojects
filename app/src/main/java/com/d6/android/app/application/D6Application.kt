@@ -112,7 +112,9 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         //在这里初始化
 //        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
 
-        OpenInstall.init(this)
+        if(isMainProcess()){
+            OpenInstall.init(this)
+        }
     }
 
     override fun attachBaseContext(base: Context?) {
@@ -339,5 +341,16 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             return contactNotificationMessage.content
         }
         return "您收到了一条消息"
+    }
+
+    fun isMainProcess(): Boolean {
+        val pid = android.os.Process.myPid()
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (appProcess in activityManager.runningAppProcesses) {
+            if (appProcess.pid === pid) {
+                return applicationInfo.packageName == appProcess.processName
+            }
+        }
+        return false
     }
 }
