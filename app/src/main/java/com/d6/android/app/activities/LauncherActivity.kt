@@ -10,6 +10,7 @@ import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.defaultScheduler
 import com.fm.openinstall.OpenInstall
+import com.fm.openinstall.listener.AppInstallAdapter
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import org.jetbrains.anko.startActivity
@@ -52,7 +53,8 @@ class LauncherActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
         immersionBar.init()
-        OpenInstall.getWakeUp(intent, wakeUpAdapter);
+//        OpenInstall.getWakeUp(intent, wakeUpAdapter)
+        OpenInstall.getInstall(mAppInstallAdapter)
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
     }
 
@@ -68,18 +70,26 @@ class LauncherActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        OpenInstall.getWakeUp(intent, wakeUpAdapter)
+//        OpenInstall.getWakeUp(intent, wakeUpAdapter)
     }
 
     var wakeUpAdapter: AppWakeUpAdapter = object : AppWakeUpAdapter() {
         override fun onWakeUp(appData: AppData) {
             //获取渠道数据
             val channelCode = appData.getChannel()
-            SPUtils.instance().put("openinstall",appData.channel)
             //获取绑定数据
             val bindData = appData.getData()
             Log.d("OpenInstall", "${appData.channel}+getWakeUp : wakeupData = " + appData.toString())
-            SPUtils.instance().put(OPENSTALL_CHANNEL,appData.channel)
+            SPUtils.instance().put(OPENSTALL_CHANNEL,appData.channel).apply()
+        }
+    }
+
+    var mAppInstallAdapter = object: AppInstallAdapter(){
+        override fun onInstall(p0: AppData?) {
+            p0?.let {
+                Log.d("OpenInstall", "渠道=${it.channel} wakeupData = " + it.toString())
+                SPUtils.instance().put(OPENSTALL_CHANNEL,it.channel).apply()
+            }
         }
     }
 }
