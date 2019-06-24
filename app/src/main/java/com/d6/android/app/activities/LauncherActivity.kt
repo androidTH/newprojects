@@ -74,11 +74,10 @@ class LauncherActivity : BaseActivity() {
         override fun onWakeUp(appData: AppData) {
             //获取渠道数据
             val channelCode = appData.getChannel()
-            SPUtils.instance().put("openinstall",appData.channel)
             //获取绑定数据
             val bindData = appData.getData()
             Log.d("OpenInstall", "${appData.channel}+getWakeUp : wakeupData = " + appData.toString())
-            SPUtils.instance().put(OPENSTALL_CHANNEL,appData.channel)
+            SPUtils.instance().put(OPENSTALL_CHANNEL,appData.channel).apply()
         }
     }
 }

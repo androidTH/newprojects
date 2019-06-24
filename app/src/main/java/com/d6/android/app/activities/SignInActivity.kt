@@ -326,6 +326,7 @@ class SignInActivity : BaseActivity() {
                 RongIM.getInstance().refreshUserInfoCache(info)
             }
             if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
+                OpenInstall.reportRegister()
                 startActivity<SetUserInfoActivity>()
             } else {
                 SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
