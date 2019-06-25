@@ -58,7 +58,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 rv_comment.layoutManager = LinearLayoutManager(context)
                 rv_comment.adapter = commentAdapter
 
-                rv_comment.setOnClickListener {
+                commentAdapter.setOnCommentClick {
                     square?.let {
                         Log.i("mOnSquareDetailsClick","dddddd")
                         mOnSquareDetailsClick?.onSquareDetails(it)
@@ -85,7 +85,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
                 ll_comments.setOnClickListener {
                   square?.let {
-                      Log.i("mOnSquareDetailsClick","dddddd")
+                      Log.i("mOnSquareDetailsClick","ffffff")
                       mOnSquareDetailsClick?.onSquareDetails(it)
                   }
                 }

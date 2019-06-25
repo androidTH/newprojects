@@ -26,10 +26,11 @@ import org.jetbrains.anko.startActivity
  */
 class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<Comment>(mData, R.layout.item_list_square_detail_comment) {
 
+    private var mNMCommentsUserId = ArrayList<String>()
     private var nmIndex = 1
-
     fun setNMIndex(index:Int){
-        nmIndex = index
+        this.nmIndex = index
+        mNMCommentsUserId.clear()
     }
 
     private var commentUserId:String  = ""
@@ -65,13 +66,21 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
             if(TextUtils.equals(data.userId, commentUserId)){
                 holder.setText(R.id.tv_name, "${data.name}贴主")
             }else{
-                if(TextUtils.equals(data.userId, getLocalUserId())){
+                if(mNMCommentsUserId.size==0){
                     holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
                 }else{
-                    holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
-                    nmIndex = nmIndex+1
+                    var index = mNMCommentsUserId.indexOf(data.userId.toString())
+                    if(index>0){
+                        nmIndex = index +1
+                        holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                    }else{
+                        nmIndex = nmIndex+1
+                        holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                    }
                 }
+                mNMCommentsUserId.add(data.userId.toString())
             }
+
         }else{
             holder.setText(R.id.tv_name, data.name)
         }
@@ -89,12 +98,19 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
                     replyName = "${data.replyName}贴主"
                     content = String.format("回复%s:%s", replyName, data.content)
                 }else{
-                    if(TextUtils.equals(data.replyUserId, getLocalUserId())){
+                    if(mNMCommentsUserId.size==0){
                         replyName = "${data.replyName}${nmIndex}"
                     }else{
-                        replyName = "${data.replyName}${nmIndex}"
-                        nmIndex = nmIndex+1
+                        var index = mNMCommentsUserId.indexOf(data.replyUserId.toString())
+                        if(index>0){
+                            nmIndex = index +1
+                            replyName = "${data.replyName}${nmIndex}"
+                        }else{
+                            nmIndex = nmIndex+1
+                            replyName = "${data.replyName}${nmIndex}"
+                        }
                     }
+                    mNMCommentsUserId.add(data.replyUserId.toString())
                     content = String.format("回复%s:%s", replyName, data.content)
                 }
             }else{

@@ -25,6 +25,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
+import org.jetbrains.anko.support.v4.toast
 
 /**
  * Created on 2017/12/17.
@@ -152,7 +153,7 @@ class SquareFragment : RecyclerFragment() {
     }
 
     private fun getSquareList() {
-        Request.getSquareList(getLocalUserId(), classId, pageNum, 2,sex = type).request(this) { _, data ->
+        Request.getSquareList(getLocalUserId(), classId, pageNum, 2,sex = type).request(this,false,success={ _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
             }
@@ -167,6 +168,8 @@ class SquareFragment : RecyclerFragment() {
                 mSquares.addAll(data.list.results)
             }
             squareAdapter.notifyDataSetChanged()
+        }){code,msg->
+           toast(msg)
         }
     }
 
@@ -180,7 +183,7 @@ class SquareFragment : RecyclerFragment() {
                 mSquares.get(positon).commentCount = mSquare.commentCount
                 mSquares.get(positon).isupvote = mSquare.isupvote
                 mSquares.get(positon).appraiseCount = mSquare.appraiseCount
-                mSquares.get(positon).comments = mSquare.comments
+//                mSquares.get(positon).comments = mSquare.comments
                 mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
                 mSquares.get(positon).iIsSendFlower = mSquare.iIsSendFlower
                 squareAdapter.notifyDataSetChanged()
