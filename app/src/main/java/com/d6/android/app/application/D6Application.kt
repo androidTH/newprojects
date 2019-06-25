@@ -18,7 +18,7 @@ import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
-//import com.bugtags.library.Bugtags
+import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
 import com.d6.android.app.net.Request
@@ -62,11 +62,9 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 
     override fun getSPName() = "com.d6.android.data"
 
-    var mD6ActivityLifecyclerCallbacks=D6ActivityLifecyclerCallbacks()
     override fun onCreate() {
         super.onCreate()
         disableAPIDialog()
-        registerActivityLifecycleCallbacks(mD6ActivityLifecyclerCallbacks)
 //        UMConfigure.setLogEnabled(true)
 //        Bugout.init(this, "ed3b07b4f9f09c390b7dd863e153a276", "d6")
         UMConfigure.init(this, Const.UMENG_APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
@@ -110,7 +108,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
 
         //在这里初始化
-//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
+        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
 
         if(isMainProcess()){
             OpenInstall.init(this)
