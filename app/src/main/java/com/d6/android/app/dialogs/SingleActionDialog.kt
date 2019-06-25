@@ -8,9 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
-import com.d6.android.app.activities.SignInActivity
+import com.d6.android.app.activities.SplashActivity
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -66,7 +65,7 @@ class SingleActionDialog : DialogFragment(),RequestManager {
         tv_action.setOnClickListener {
             isBaseActivity {
                 it.closeAll()
-                startActivity<SignInActivity>()
+                startActivity<SplashActivity>()
             }
         }
     }

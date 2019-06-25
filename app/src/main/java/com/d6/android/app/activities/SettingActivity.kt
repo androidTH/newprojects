@@ -116,7 +116,8 @@ class SettingActivity : TitleActivity() {
             })
             RongIM.getInstance().disconnect()
             closeAll()
-            startActivity<SignInActivity>()
+//            startActivity<SignInActivity>()
+            startActivity<SplashActivity>()
         }
 
         tv_blacklist.setOnClickListener {

@@ -1,11 +1,9 @@
 package com.d6.android.app.extentions
 
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.startActivity
 import android.text.TextUtils
 import android.util.Log
-import com.d6.android.app.activities.SignChooseActivity
-import com.d6.android.app.activities.SignInActivity
+import com.d6.android.app.activities.SplashActivity
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
@@ -15,11 +13,7 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Response
 import com.d6.android.app.net.Error
 import com.d6.android.app.net.ResultException
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.defaultScheduler
-import com.d6.android.app.utils.sysErr
-import com.google.gson.JsonObject
+import com.d6.android.app.utils.*
 import com.google.gson.JsonSyntaxException
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
@@ -53,8 +47,12 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                     msg = Error.PARSER_ERROR
                 }
                 is ConnectException -> {
-                    Log.i("RxExtentions","ConnectException")
-                    msg = Error.NET_ERROR
+                    if(NetworkUtils.hasInternet(AppUtils.context)){
+                        msg = Error.SERVER_ERROR
+                    }else{
+                        msg = Error.NET_ERROR
+                    }
+                    Log.i("RxExtentions","ConnectException${msg}")
                 }
                 is TimeoutException->{
                     Log.i("RxExtentions","TimeoutException")
@@ -80,11 +78,11 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                                     .apply()
                             if (requestManager is BaseActivity) {
                                 requestManager.closeAll()
-                                requestManager.startActivity<SignInActivity>()
+                                requestManager.startActivity<SplashActivity>()
                             }else if (requestManager is Fragment) {
                                 if (requestManager.activity != null && requestManager.activity is BaseActivity) {
                                     (requestManager.activity as BaseActivity).closeAll()
-                                    requestManager.startActivity<SignInActivity>()
+                                    requestManager.startActivity<SplashActivity>()
                                 }
                             }
                         }
@@ -96,7 +94,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                             confirmDialog.arguments = bundleOf("msg" to "对不起，您的账号已被禁用，如有疑问，请联系D6客服。")
                             confirmDialog.setDialogListener { p, s ->
                                 requestManager.closeAll()
-                                requestManager.startActivity<SignInActivity>()
+                                requestManager.startActivity<SplashActivity>()
                             }
                             confirmDialog.show(requestManager.supportFragmentManager,"con")
                         }

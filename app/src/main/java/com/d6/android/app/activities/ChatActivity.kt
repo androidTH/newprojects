@@ -472,7 +472,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             PushAgent.getInstance(applicationContext).deleteAlias(userId, "D6", { _, _ ->
 
             })
-            startActivity<SignInActivity>()
+            startActivity<SplashActivity>()
         } else {
             if (RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
                 enterFragment(mConversationType, mTargetId)

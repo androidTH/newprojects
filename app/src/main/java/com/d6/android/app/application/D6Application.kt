@@ -20,7 +20,7 @@ import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
 //import com.bugtags.library.Bugtags
 import com.d6.android.app.R
-import com.d6.android.app.activities.SignInActivity
+import com.d6.android.app.activities.SplashActivity
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
@@ -288,7 +288,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                 .remove(Const.User.SLOGINTOKEN)
                 .apply()
         val loginActivityIntent = Intent()
-        loginActivityIntent.setClass(this, SignInActivity::class.java)
+        loginActivityIntent.setClass(this, SplashActivity::class.java)
         loginActivityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(loginActivityIntent)
     }

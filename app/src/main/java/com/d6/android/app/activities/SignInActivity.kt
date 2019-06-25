@@ -297,7 +297,6 @@ class SignInActivity : BaseActivity() {
             toast("验证码不能为空")
             return
         }
-        dialog()
         //【1:phone方式登录，0: 微信登录】
         val p = if (countryCode == "+86") {
             phone
@@ -307,6 +306,7 @@ class SignInActivity : BaseActivity() {
             "$countryCode-$phone"
         }
         sysErr("------->$p")
+        dialog()
         Request.loginV2New(1, code, p, devicetoken,sChannelId = channel).request(this,false,success={ msg, data ->
             msg?.let {
                 try {
@@ -333,12 +333,12 @@ class SignInActivity : BaseActivity() {
             setResult(Activity.RESULT_OK)
             finish()
         }){code,msg->
-            var l = TextUtils.equals("0","${code}")
-            Log.i("SignInActivity","${l}")
             if(TextUtils.equals("0","${code}")){
                 startActivity<SetUserInfoActivity>()
                 setResult(Activity.RESULT_OK)
                 finish()
+            }else{
+                toast(msg)
             }
         }
     }

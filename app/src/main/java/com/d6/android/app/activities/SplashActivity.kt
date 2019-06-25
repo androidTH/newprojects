@@ -53,12 +53,12 @@ class SplashActivity : BaseActivity() {
                 .statusBarColor(R.color.trans_parent).init()
 
         btn_phonelogin.setOnClickListener {
-            SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
-            val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
-            if (!isLogin) {
-                startActivity<SignInActivity>()
-            }
-            finish()
+//            SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
+//            val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
+//            if (!isLogin) {
+//                startActivity<SignInActivity>()
+//            }
+            startActivity<SignInActivity>()
         }
 
         btn_wxlogin.setOnClickListener {
@@ -177,6 +177,8 @@ class SplashActivity : BaseActivity() {
         tv_protocols.text = SpanBuilder(s)
                 .click(s.length - 5, s.length, MClickSpan(this))
                 .build()
+
+        clearLoginToken()
     }
 
     override fun onResume() {

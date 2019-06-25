@@ -27,10 +27,10 @@ class LauncherActivity : BaseActivity() {
         override fun onError(t: Throwable?) {}
         override fun onNext(t: Long) {
             if (t == 3L) {
-                val isFirst =  SPUtils.instance().getBoolean(Const.User.IS_FIRST,true)
-                if (isFirst) {
-                    startActivity<SplashActivity>()
-                } else {
+//                val isFirst =  SPUtils.instance().getBoolean(Const.User.IS_FIRST,true)
+//                if (isFirst) {
+//                    startActivity<SplashActivity>()
+//                } else {
                     val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
                     if (isLogin) {
                         val name = SPUtils.instance().getString(Const.User.USER_NICK)
@@ -40,9 +40,10 @@ class LauncherActivity : BaseActivity() {
                             startActivity<MainActivity>()
                         }
                     } else {
-                        startActivity<SignInActivity>()
+//                        startActivity<SignInActivity>()
+                        startActivity<SplashActivity>()
                     }
-                }
+//                }
                 finish()
             }
         }
