@@ -40,7 +40,7 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 
 /**
- * 自主发布
+ * 自主发布约会
  */
 class PublishFindDateActivity : BaseActivity() {
 

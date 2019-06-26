@@ -68,19 +68,21 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
             }else{
                 if(mNMCommentsUserId.size==0){
                     holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                    mNMCommentsUserId.add(data.userId.toString())
                 }else{
                     var index = mNMCommentsUserId.indexOf(data.userId.toString())
-                    if(index>0){
+                    Log.i("dddddd","${data.userId}---${data.content}---${index}---size=${mNMCommentsUserId.size}")
+                    if(index>=0){
                         nmIndex = index +1
                         holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                        Log.i("dddddd","${data.userId}---${data.content}---${nmIndex}")
                     }else{
                         nmIndex = nmIndex+1
                         holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                        mNMCommentsUserId.add(data.userId.toString())
                     }
                 }
-                mNMCommentsUserId.add(data.userId.toString())
             }
-
         }else{
             holder.setText(R.id.tv_name, data.name)
         }
@@ -100,17 +102,19 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
                 }else{
                     if(mNMCommentsUserId.size==0){
                         replyName = "${data.replyName}${nmIndex}"
+                        mNMCommentsUserId.add(data.replyUserId.toString())
                     }else{
                         var index = mNMCommentsUserId.indexOf(data.replyUserId.toString())
-                        if(index>0){
+                        if(index>=0){
                             nmIndex = index +1
                             replyName = "${data.replyName}${nmIndex}"
                         }else{
                             nmIndex = nmIndex+1
                             replyName = "${data.replyName}${nmIndex}"
+                            mNMCommentsUserId.add(data.replyUserId.toString())
+                            Log.i("dddddd","${data.replyUserId}---${data.content}")
                         }
                     }
-                    mNMCommentsUserId.add(data.replyUserId.toString())
                     content = String.format("回复%s:%s", replyName, data.content)
                 }
             }else{

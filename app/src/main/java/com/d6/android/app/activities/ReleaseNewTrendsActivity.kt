@@ -37,7 +37,7 @@ import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
- * 广场动态
+ * 发布广场动态
  */
 class ReleaseNewTrendsActivity : BaseActivity(){
 

@@ -48,6 +48,8 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
         imageView.setOnClickListener {
             if (data.type == 1) {
                 listener?.onAddClick()
+            }else{
+                startActivity(mData,position)
             }
         }
         ivDeleteView.setOnClickListener {

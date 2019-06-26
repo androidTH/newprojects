@@ -54,14 +54,16 @@ class SquareCommentAdapter(mData:ArrayList<Comment>): HFRecyclerAdapter<Comment>
             } else {
                 if (mNMCommentsUserId.size == 0) {
                     name = "${data.name}${mNMIndex}"
+                    mNMCommentsUserId.add(data.userId.toString())
                 } else {
                     var index = mNMCommentsUserId.indexOf(data.userId.toString())
-                    if (index > 0) {
+                    if (index >= 0) {
                         mNMIndex = index + 1
                         name = "${data.name}${mNMIndex}"
                     } else {
                         mNMIndex = mNMIndex + 1
                         name = "${data.name}${mNMIndex}"
+                        mNMCommentsUserId.add(data.userId.toString())
                     }
                 }
             }
@@ -83,17 +85,18 @@ class SquareCommentAdapter(mData:ArrayList<Comment>): HFRecyclerAdapter<Comment>
                 }else{
                     if(mNMCommentsUserId.size==0){
                         replyName = "${data.replyName}${mNMIndex}"
+                        mNMCommentsUserId.add(data.replyUserId.toString())
                     }else{
                         var index = mNMCommentsUserId.indexOf(data.replyUserId.toString())
-                        if(index>0){
+                        if(index>=0){
                             mNMIndex= index +1
                             replyName = "${data.replyName}${mNMIndex}"
                         }else{
                             mNMIndex = mNMIndex+1
                             replyName = "${data.replyName}${mNMIndex}"
+                            mNMCommentsUserId.add(data.replyUserId.toString())
                         }
                     }
-                    mNMCommentsUserId.add(data.replyUserId.toString())
                 }
             }else{
                 replyName = "${data.replyName}"
