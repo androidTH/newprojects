@@ -11,8 +11,8 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_datetype_img"
         style="@style/DefaultCircleimgbgstyle"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:padding="@dimen/margin_2halfe"
         android:background="@drawable/datetype_selector"/>
     <ImageView
@@ -27,6 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/color_666666"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:text="逛街"/>
 </LinearLayout>

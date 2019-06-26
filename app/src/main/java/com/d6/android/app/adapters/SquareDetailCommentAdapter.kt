@@ -71,11 +71,9 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
                     mNMCommentsUserId.add(data.userId.toString())
                 }else{
                     var index = mNMCommentsUserId.indexOf(data.userId.toString())
-                    Log.i("dddddd","${data.userId}---${data.content}---${index}---size=${mNMCommentsUserId.size}")
                     if(index>=0){
                         nmIndex = index +1
                         holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
-                        Log.i("dddddd","${data.userId}---${data.content}---${nmIndex}")
                     }else{
                         nmIndex = nmIndex+1
                         holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
@@ -112,7 +110,6 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
                             nmIndex = nmIndex+1
                             replyName = "${data.replyName}${nmIndex}"
                             mNMCommentsUserId.add(data.replyUserId.toString())
-                            Log.i("dddddd","${data.replyUserId}---${data.content}")
                         }
                     }
                     content = String.format("回复%s:%s", replyName, data.content)
