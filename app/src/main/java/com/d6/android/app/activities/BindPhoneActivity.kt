@@ -17,6 +17,14 @@ import com.d6.android.app.utils.*
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_bindphone_layout.*
+import kotlinx.android.synthetic.main.activity_bindphone_layout.et_code
+import kotlinx.android.synthetic.main.activity_bindphone_layout.et_phone
+import kotlinx.android.synthetic.main.activity_bindphone_layout.phoneLine
+import kotlinx.android.synthetic.main.activity_bindphone_layout.tv_code_error
+import kotlinx.android.synthetic.main.activity_bindphone_layout.tv_get_code
+import kotlinx.android.synthetic.main.activity_bindphone_layout.tv_phone_error
+import kotlinx.android.synthetic.main.activity_bindphone_layout.tv_type
+import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
 import org.json.JSONObject
 
@@ -248,6 +256,8 @@ class BindPhoneActivity : TitleActivity() {
         override fun onFinish() {
             tv_get_code.text = "重新获取"
             tv_get_code.isEnabled = true
+            tv_get_code.textColor = ContextCompat.getColor(this@BindPhoneActivity, R.color.white)
+            tv_get_code.backgroundResource = R.drawable.shape_code_bindphone_bg
 //            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
         }
 

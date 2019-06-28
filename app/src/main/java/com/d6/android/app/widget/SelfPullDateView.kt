@@ -84,19 +84,29 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         var sb = StringBuffer()
         if(!myAppointment.iAge.toString().isNullOrEmpty()){
             if(myAppointment.iAge!=null){
-                sb.append("${myAppointment.iAge}岁")
+                myAppointment.iAge?.let {
+                    if(it>0){
+                        sb.append("${myAppointment.iAge}岁")
+                    }
+                }
             }
         }
 
         if(!myAppointment.iHeight.toString().isNullOrEmpty()){
             if(myAppointment.iHeight!!.toInt() > 0 ){
-                sb.append("·${myAppointment.iHeight}cm")
+                if(sb.length>0){
+                    sb.append("·")
+                }
+                sb.append("${myAppointment.iHeight}cm")
             }
         }
 
         if(!myAppointment.iWeight.toString().isNullOrEmpty()){
             if(!myAppointment.iWeight.toString().equals("0")){
-                sb.append("·${myAppointment.iWeight}kg")
+                if(sb.length>0){
+                    sb.append("·")
+                }
+                sb.append("${myAppointment.iWeight}kg")
             }
         }
 

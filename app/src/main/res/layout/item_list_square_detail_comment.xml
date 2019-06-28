@@ -25,10 +25,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_45"
             android:singleLine="true"
             android:textSize="14sp"
             android:text="---"
             android:textColor="@color/color_666666"/>
+        <TextView
+            android:id="@+id/tv_del_myselfcomment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_10"
+            android:textColor="@color/color_333333"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_4"
+            android:drawableRight="@mipmap/comment_delete_icon" />
     </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
@@ -37,20 +48,10 @@
         android:layout_alignLeft="@+id/rl_userinfo"
         android:textSize="14sp"
         android:layout_marginBottom="@dimen/margin_8"
-        android:layout_marginRight="@dimen/margin_45"
+        android:layout_marginRight="@dimen/margin_20"
         android:id="@+id/tv_content"
         android:textColor="@color/color_black"
         android:text="-------------------"/>
-    <TextView
-        android:id="@+id/tv_del_myselfcomment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/padding_12"
-        android:textColor="@color/color_333333"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:padding="@dimen/margin_4"
-        android:drawableRight="@mipmap/comment_delete_icon" />
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"

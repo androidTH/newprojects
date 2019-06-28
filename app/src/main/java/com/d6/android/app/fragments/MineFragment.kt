@@ -388,6 +388,7 @@ class MineFragment : BaseFragment() {
                     rl_warmuserinfo.visibility = View.GONE
                 }
 
+                ll_square.visibility = View.VISIBLE
                 if (!TextUtils.equals("null", it.sSquarePicList.toString())) {
                     rv_square_imgs.visibility = View.VISIBLE
                     addSquareImages(it)

@@ -144,6 +144,7 @@
                     android:layout_below="@+id/tv_contact_us"
                     android:drawableLeft="@mipmap/my_contactus_icon"
                     android:drawablePadding="@dimen/margin_16"
+                    android:visibility="gone"
                     android:text="在线客服" />
 
                 <View
@@ -151,6 +152,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/tv_contact_us"
                     android:layout_marginLeft="45dp"
+                    android:visibility="gone"
                     android:background="@color/color_EFEFEF" />
             </RelativeLayout>
 

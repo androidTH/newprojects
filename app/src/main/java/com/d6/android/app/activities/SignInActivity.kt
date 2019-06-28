@@ -386,6 +386,9 @@ class SignInActivity : BaseActivity() {
             tv_get_code.text = "重新获取"
             tv_get_code.isEnabled = true
 //            tv_get_code.textColor  = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
+
+            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_F7AB00)
+            tv_get_code.backgroundResource = R.drawable.shape_code_btn_bg
         }
 
         override fun onTick(millisUntilFinished: Long) {

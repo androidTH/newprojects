@@ -232,6 +232,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
      */
     private fun getNMChat(){
           mNMUnReadTotal = 0
+          Log.i("messagefragment","ssssss${mUnConversations.size}")
           if(mUnConversations!=null&&mUnConversations.size>0){
               headerView.rl_unknowchat.visibility = View.VISIBLE
               headerView.line_mchat.visibility = View.VISIBLE
