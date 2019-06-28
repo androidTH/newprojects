@@ -47,10 +47,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/headView"
             android:layout_alignRight="@+id/headView"
-            android:layout_marginRight="-8dp"
+            android:layout_marginRight="@dimen/margin_8"
             android:id="@+id/tv_change_head"
             android:visibility="gone"
-            android:drawableRight="@mipmap/ic_change_head"/>
+            android:drawableRight="@mipmap/bianji_userinfo"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

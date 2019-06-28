@@ -12,6 +12,7 @@ import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage
+import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.rong.fragment.ConversationFragmentEx
 import com.d6.android.app.utils.*
@@ -90,10 +91,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 RongIM.getInstance().getHistoryMessages(mConversationType,mTargetId,-1,20,object : RongIMClient.ResultCallback<List<Message>>(){
                     override fun onSuccess(p0: List<Message>?) {
                         if (p0!!.size == 0) {
-                            sendOutgoingMessage()
+                            sendOutgoingMessage(getString(R.string.string_nm_tips),"1")
                         } else {
                             if (getOneDay(SPUtils.instance().getLong(SEND_GROUP_TIPSMESSAGE + mOtherUserId, System.currentTimeMillis()))) {
-                                sendOutgoingMessage()
+                                sendOutgoingMessage(getString(R.string.string_nm_tips),"1")
                             }
                         }
                     }
@@ -111,6 +112,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 tv_chattitle.text="匿名"
                 mWhoanonymous = "2"
                 SPUtils.instance().put(WHO_ANONYMOUS,"2").apply()
+
             }
 
             Request.findGroupDescByGroupId(getLocalUserId(), mTargetId).request(this, false, success = { msg, data ->
@@ -206,9 +208,24 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     }
 
 
-    private fun sendOutgoingMessage(){
-        var custommsg = TipsTxtMessage("你正在以匿名身份和对方聊天", "1")
-        var richContentMessage = GroupUnKnowTipsMessage.obtain("你正在以匿名身份和对方聊天", GsonHelper.getGson().toJson(custommsg))
+    //发送匿名消息
+    private fun sendOutgoingMessage(msg:String,type:String){
+        var custommsg = TipsTxtMessage(msg, type)
+        var richContentMessage = GroupUnKnowTipsMessage.obtain(msg, GsonHelper.getGson().toJson(custommsg))
+        RongIM.getInstance().insertOutgoingMessage(mConversationType, mTargetId, Message.SentStatus.RECEIVED,richContentMessage, object : RongIMClient.ResultCallback<Message>() {
+            override fun onSuccess(message: Message) {
+                SPUtils.instance().put(SEND_GROUP_TIPSMESSAGE+mOtherUserId, System.currentTimeMillis()).apply()
+            }
+
+            override fun onError(errorCode: RongIMClient.ErrorCode) {
+
+            }
+        })
+    }
+
+    private fun sendOutgoingSystemMessage(msg:String,type:String){
+        var custommsg = TipsTxtMessage(msg, type)
+        var richContentMessage = TipsMessage.obtain(msg, GsonHelper.getGson().toJson(custommsg))
         RongIM.getInstance().insertOutgoingMessage(mConversationType, mTargetId, Message.SentStatus.RECEIVED,richContentMessage, object : RongIMClient.ResultCallback<Message>() {
             override fun onSuccess(message: Message) {
                 SPUtils.instance().put(SEND_GROUP_TIPSMESSAGE+mOtherUserId, System.currentTimeMillis()).apply()
@@ -402,6 +419,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                             var mDialogPrivateChat = DialogPrivateChat()
                             mDialogPrivateChat.show(supportFragmentManager, "DialogPrivateChat")
                         }
+//                        sendOutgoingSystemMessage(getString(R.string.string_system_tips01),"1")
                     }
                 }
                 Log.i(TAG, "${SendMsgTotal}发送消息数量${code}")
@@ -567,6 +585,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         if (!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
             getApplyStatus()
         }
+
     }
 
     override fun onSend(p0: Message?): Message? {

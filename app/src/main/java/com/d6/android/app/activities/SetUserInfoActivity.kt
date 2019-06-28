@@ -99,6 +99,10 @@ class SetUserInfoActivity : BaseActivity() {
             startActivityForResult<SelectPhotoDialog>(0)
         }
 
+        tv_change_head.setOnClickListener {
+            startActivityForResult<SelectPhotoDialog>(0)
+        }
+
         rg.setOnCheckedChangeListener { radioGroup, i ->
             val view = radioGroup.findViewById<RadioButton>(i)
             sex = view.tag.toString().toInt()

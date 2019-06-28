@@ -322,6 +322,7 @@ class SplashActivity : BaseActivity() {
                         SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                         startActivity<MainActivity>()
                     }
+
                     finish()
                 }
             }
