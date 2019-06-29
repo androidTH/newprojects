@@ -74,29 +74,44 @@
         android:layout_marginBottom="@dimen/height_85"
         android:orientation="vertical"
         android:visibility="visible">
-
-        <Button
-            android:id="@+id/btn_phonelogin"
+        <RelativeLayout
+            android:id="@+id/rl_phonelogin"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:background="@drawable/shape_sign_login_press_circle"
-            android:text="手机号注册/登录"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:background="@drawable/shape_sign_login_press_circle">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="手机号注册/登录"
+                android:textColor="@color/white"
+                android:drawableLeft="@mipmap/login_cellphone"
+                android:drawablePadding="@dimen/margin_6"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textSize="15sp" />
+        </RelativeLayout>
 
-        <Button
-            android:id="@+id/btn_wxlogin"
+        <RelativeLayout
+            android:id="@+id/rl_wxlogin"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginRight="40dp"
-            android:background="@drawable/shape_sign_wxlogin_press_circle"
-            android:text="微信注册/登录"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/shape_sign_wxlogin_press_circle">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:drawableLeft="@mipmap/login_wechat"
+                android:drawablePadding="@dimen/margin_6"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="微信注册/登录"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </RelativeLayout>
     </LinearLayout>
     <TextView
         android:id="@+id/tv_protocols"

@@ -35,8 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_vipinfo"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginRight="@dimen/margin_25"
         android:layout_marginTop="@dimen/margin_6"
-        android:text=""
         android:textColor="@color/color_CCFFFFFF"
         android:textSize="11sp" />
 

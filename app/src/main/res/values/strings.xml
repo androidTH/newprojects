@@ -123,4 +123,5 @@
     <string name="string_nm_tips">你正在以匿名身份和对方聊天</string>
     <string name="string_system_tips01">系统：温馨提示：为了保持良好的社区氛围，请不要发送低俗、淫秽色情、辱骂他人的消息，如果被对方举报经核实后将予以禁言或封号处理</string>
     <string name="string_system_tips02">系统：温馨提示：如果聊天中对方索要小红花、微信号或者借钱等行为时，请予以警惕。如果对方发送低俗、淫秽色情、辱骂他人的消息时，可点击右上角举报</string>
+    <string name="string_loading_tips">加载中...</string>
 </resources>

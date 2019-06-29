@@ -342,7 +342,7 @@ public class DragPointView extends AppCompatTextView {
         StateListDrawable bg = new StateListDrawable();
         GradientDrawable gradientStateNormal = new GradientDrawable();
         gradientStateNormal.setColor(color);
-        gradientStateNormal.setShape(GradientDrawable.RECTANGLE);
+        gradientStateNormal.setShape(GradientDrawable.OVAL);
         gradientStateNormal.setCornerRadius(50);
         gradientStateNormal.setStroke(0, 0);
         bg.addState(View.EMPTY_STATE_SET, gradientStateNormal);

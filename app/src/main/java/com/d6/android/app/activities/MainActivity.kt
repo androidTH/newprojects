@@ -271,9 +271,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
 
         rl_service.setOnClickListener {
-           pushCustomerMessage(this, getLocalUserId(),5,"",next = {
-                chatService(this)
-            })
+//           pushCustomerMessage(this, getLocalUserId(),5,"",next = {
+//                chatService(this)
+//            })
+            chatService(this)
         }
 
         //默认标题

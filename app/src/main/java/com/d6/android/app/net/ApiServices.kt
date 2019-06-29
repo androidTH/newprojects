@@ -412,6 +412,7 @@ interface ApiServices {
    @POST("backstage/share/shareMessage")
    fun shareMessage(@Query("iUserid")userid:String,@Query("iType") iType:Int,@Query("sResourceId") sResourceId:String,@Query("sAppointUser")sAppointUser:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
 
+    //会话类型1、咨询会员 2、咨询认证 3、觅约人工推荐 4、速约人工推荐 5、在线客服 6、提现联系客服 7、游客离开会员页 8、会员联系客服 9、注册发送客服消息
    @POST("backstage/push/pushCustomerMessage")
    fun pushCustomerMessage(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
 

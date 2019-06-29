@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
@@ -96,26 +97,32 @@
 
     <RelativeLayout
         android:id="@+id/rl_service"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/height_65"
         android:layout_marginRight="@dimen/margin_20">
         <ImageView
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@mipmap/my_contactus_float"/>
 
-        <com.d6.android.app.widget.DragPointView
+        <com.d6.android.app.widget.DragStrokeView
             android:id="@+id/tv_service_count"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:padding="1.5dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_8"
-            android:layout_marginTop="@dimen/margin_2"
+            android:layout_marginRight="@dimen/margin_13"
+            android:layout_marginTop="@dimen/margin_5"
             android:textColor="@android:color/white"
+            android:text="1"
+            app:autoSizeMaxTextSize="9sp"
+            app:autoSizeMinTextSize="6sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             android:textSize="9sp" />
     </RelativeLayout>
     <View

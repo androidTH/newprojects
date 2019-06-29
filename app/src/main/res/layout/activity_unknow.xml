@@ -35,7 +35,7 @@
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_15"
-        android:gravity="center"
+        android:gravity="center|left"
         android:text="担心别人知道你的身份吗，害怕自己的隐私被泄漏吗，开通“匿名身份”即可隐身，支持以下匿名功能"
         android:textColor="@color/white"
         android:textSize="14sp" />

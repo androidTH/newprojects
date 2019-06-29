@@ -133,10 +133,10 @@ class AuthMenStateActivity : BaseActivity() {
 
         if(TextUtils.equals("mine",from)){
             tv_vipinfo.text = "会员有价 情缘无价"
-            tv_d6vipinfo.text = "听说开通会员后，80%都约到了心仪的TA"
+            tv_d6vipinfo.text = "D6定位高端私密私人定制交友社区，以高品质、高素质的会员为基础，全球拥有60000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务"
         }else{
             tv_vipinfo.text = "成为会员后可使用此功能"
-            tv_d6vipinfo.text = "D6是一个高端私密交友社区，部分服务仅对会员开放"
+            tv_d6vipinfo.text = "D6定位高端私密私人定制交友社区，以高品质、高素质的会员为基础，全球拥有60000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务"
         }
         rv_viptypes.setHasFixedSize(true)
         rv_viptypes.setOrientation(DSVOrientation.HORIZONTAL)

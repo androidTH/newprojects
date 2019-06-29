@@ -267,7 +267,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             rl_doaction.visibility = View.VISIBLE
             tv_more.visibility =View.VISIBLE
             tv_msg.visibility = View.GONE
-            headerView.rl_userinfo_date.visibility = View.VISIBLE
             headerView.rel_add_square.visibility = View.GONE
             headerView.tv_user_follow_tips.text = "TA喜欢的"
             headerView.tv_user_fans_tips.text = "喜欢TA的"
@@ -586,7 +585,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.tv_name.isSelected = TextUtils.equals("0", it.sex)
                     setDateInfo(it.appointment)
                 } else {
-                    headerView.rl_userinfo_date.visibility = View.GONE
+                    if(!TextUtils.equals(getLocalUserId(), id)){
+                       headerView.rl_userinfo_date.visibility = View.VISIBLE
+                    }
                 }
 
                 if (data.iIsFollow != null) {

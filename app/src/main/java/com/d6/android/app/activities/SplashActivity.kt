@@ -52,7 +52,7 @@ class SplashActivity : BaseActivity() {
         immersionBar
                 .statusBarColor(R.color.trans_parent).init()
 
-        btn_phonelogin.setOnClickListener {
+        rl_phonelogin.setOnClickListener {
 //            SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
 //            val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
 //            if (!isLogin) {
@@ -61,7 +61,7 @@ class SplashActivity : BaseActivity() {
             startActivity<SignInActivity>()
         }
 
-        btn_wxlogin.setOnClickListener {
+        rl_wxlogin.setOnClickListener {
             if (wxApi.isWXAppInstalled) {
                 SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
                 val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
@@ -77,7 +77,7 @@ class SplashActivity : BaseActivity() {
                 R.drawable.shape_tz1))
         mMemberDesc.add(MemberDesc("直接开聊拒绝骚扰","一对一私聊",
                 "res:///"+R.mipmap.tezheng2_big,R.drawable.shape_tz2))
-        mMemberDesc.add(MemberDesc("多金？有颜？总有一个是你的菜","一对一私聊",
+        mMemberDesc.add(MemberDesc("多金？有颜？总有一个是你的菜","优质会员任你挑",
                 "res:///"+R.mipmap.tezheng3_big,R.drawable.shape_tz3))
         mMemberDesc.add(MemberDesc("提供交友、线上群聊、线下聚会、酒店旅行折扣","私人定制服务",
                 "res:///"+R.mipmap.tezheng4_big,R.drawable.shape_tz4))

@@ -197,7 +197,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         }
 
         iIsAnonymous = 2
-        dialog()
         getData()
     }
 
