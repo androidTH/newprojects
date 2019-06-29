@@ -150,7 +150,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
         tv_sub_title.text = sub
 
-        tv_content.text = square.content
+        if(square.content.isNullOrEmpty()){
+            tv_content.visibility = View.GONE
+        }else{
+            tv_content.visibility = View.VISIBLE
+            tv_content.text = square.content
+        }
 
         if (square.imgUrl.isNullOrEmpty()) {
             rv_images.gone()

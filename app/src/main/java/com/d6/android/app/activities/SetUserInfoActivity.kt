@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
+import android.view.KeyEvent
 import android.view.View
 import android.widget.RadioButton
 import com.d6.android.app.R
@@ -136,6 +137,13 @@ class SetUserInfoActivity : BaseActivity() {
                 .color(this,s.length-5,s.length-2,R.color.orange_f6a)
                 .build()
         OpenInstall.reportRegister()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            return true
+        }
+        return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

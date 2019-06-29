@@ -1,22 +1,17 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
-import android.util.Log
-import android.view.View
-import android.widget.DatePicker
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
-import com.d6.android.app.models.City
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -24,7 +19,6 @@ import com.d6.android.app.widget.MaxEditTextWatcher
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_my_info.*
-import okhttp3.internal.Util
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
@@ -60,7 +54,7 @@ class MyInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_info)
-        immersionBar.fitsSystemWindows(true).init()
+//        immersionBar.fitsSystemWindows(true).init()
 
         rv_edit_images.setHasFixedSize(true)
         rv_edit_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

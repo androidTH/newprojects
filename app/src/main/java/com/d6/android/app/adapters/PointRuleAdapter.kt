@@ -26,10 +26,13 @@ class PointRuleAdapter(mData:ArrayList<PointRule>): HFRecyclerAdapter<PointRule>
         var  mTvPointMoney= holder.bind<TextView>(R.id.tv_point_money)
         mTvPointMoney.text = "¥${data.iPrice.toString()}"
         var tv_point_nomoney = holder.bind<TextView>(R.id.tv_point_nomoney)
-        tv_point_nomoney.text="¥${data.iDiscount.toString()}"
-        tv_point_nomoney.paint.setFlags(Paint.STRIKE_THRU_TEXT_FLAG)
-        tv_point_nomoney.paint.isAntiAlias = true
-//        mTvFollow.setOnClickListener(this)
-//        mTvFollow.setTag(data)
+        if(TextUtils.equals(data.iPrice.toString(),data.iDiscount.toString())){
+            tv_point_nomoney.visibility = View.GONE
+        }else{
+            tv_point_nomoney.visibility = View.VISIBLE
+            tv_point_nomoney.text="¥${data.iDiscount.toString()}"
+            tv_point_nomoney.paint.setFlags(Paint.STRIKE_THRU_TEXT_FLAG)
+            tv_point_nomoney.paint.isAntiAlias = true
+        }
     }
 }

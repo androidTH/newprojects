@@ -126,11 +126,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .build())
 
         tv_like.setOnClickListener(View.OnClickListener {
-            if (mData?.iIsFollow != null) {
-                if (mData?.iIsFollow == 0) {//mData?.iIsFollow
-                    addFollow()
-                } else {
-                    delFollow()
+            mData?.let {
+                if (it.iIsFollow != null) {
+                    if (it.iIsFollow == 0) {//mData?.iIsFollow
+                        addFollow()
+                    } else {
+                        delFollow()
+                    }
                 }
             }
         })

@@ -101,14 +101,14 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        if(!myAppointment.iWeight.toString().isNullOrEmpty()){
-            if(!myAppointment.iWeight.toString().equals("0")){
-                if(sb.length>0){
-                    sb.append("·")
-                }
-                sb.append("${myAppointment.iWeight}kg")
-            }
-        }
+//        if(!myAppointment.iWeight.toString().isNullOrEmpty()){
+//            if(!myAppointment.iWeight.toString().equals("0")){
+//                if(sb.length>0){
+//                    sb.append("·")
+//                }
+//                sb.append("${myAppointment.iWeight}kg")
+//            }
+//        }
 
         if(!sb.toString().isNullOrEmpty()){
             tv_sub_title.text = sb.toString()

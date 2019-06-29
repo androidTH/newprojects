@@ -406,6 +406,22 @@ class MineFragment : BaseFragment() {
                     tv_squarewarm.text = getString(R.string.string_nosquare)
                 }
                 setPicsWall(it)
+
+                if (TextUtils.equals("7",it.userclassesid)) {
+                    if(TextUtils.equals("1",it.sex)){
+                        rl_customerservice.visibility = View.GONE
+                        view_kf.visibility = View.GONE
+                    }else{
+                        rl_customerservice.visibility = View.VISIBLE
+                        view_kf.visibility = View.VISIBLE
+                    }
+                }else{
+                    rl_customerservice.visibility = View.VISIBLE
+                    view_kf.visibility = View.VISIBLE
+                }
+
+                var intent = Intent(Const.MINE_MANSERVICE_YOUKE)
+                context.sendBroadcast(intent)
             }
         }) { _, _ ->
 //            mSwipeRefreshLayout.isRefreshing = false

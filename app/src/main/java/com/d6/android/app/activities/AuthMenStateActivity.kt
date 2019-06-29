@@ -30,6 +30,7 @@ import com.d6.android.app.models.MemberComment
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
@@ -87,7 +88,7 @@ class AuthMenStateActivity : BaseActivity() {
         }
 
         tv_zxkf_men.setOnClickListener {
-            pushCustomerMessage(this, getLocalUserId(), 1, "", next = {
+            pushCustomerMessage(this, CustomerServiceId, 1, "", next = {
                 chatService(this)
             })
         }

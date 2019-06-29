@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:banner="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/margin_10">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_white_10r"
-        android:paddingBottom="15dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="15dp">
 
         <com.d6.android.app.widget.convenientbanner.ConvenientBanner
             android:id="@+id/member_banner"
@@ -60,8 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/member_banner"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="15dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -83,7 +87,7 @@
                 android:layout_marginTop="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_5"
                 android:lineSpacingExtra="@dimen/margin_5"
-                android:text="自主约会是D6为你打造的约会服务，为了保证内容真实性，仅对会员开放，并对发布的约会进行人工审核，双方同意后即可开始聊天，进行约会。 "
+                android:text="D6定位高端私密私人定制社区，以高品质、高素质的会员为基础，全球拥有60000+的质华人会员。 平台实行会员制，成为会员可享受私人定制服务。 "
                 android:textColor="@color/color_666666"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -93,16 +97,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_content"
-            android:layout_marginTop="@dimen/margin_20"
-            android:background="@drawable/shape_4r_orange"
-            android:gravity="center"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="@dimen/margin_20"
             android:layout_marginRight="15dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:background="@drawable/shape_orange"
+            android:gravity="center"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
             android:text="联系客服咨询会员"
             android:textColor="@color/white"
-            android:textSize="@dimen/btnTextSize"
+            android:textSize="15sp"
             android:textStyle="bold" />
     </RelativeLayout>
-</RelativeLayout>
+</android.support.v7.widget.CardView>

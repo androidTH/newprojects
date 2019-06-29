@@ -74,6 +74,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     private var unReadMsgNum:Int=0
     private var unReadServiceMsgNum:Int=0
 
+    private var filterTrendDialog:FilterTrendDialog?=null
+
     private val broadcast by lazy {
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -89,6 +91,20 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
                     getUnReadCount()
+                }
+            }
+        }
+    }
+
+    private val manService by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    if(showFloatManService()){
+                        rl_service.visibility = View.VISIBLE
+                    }else{
+                        rl_service.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -119,6 +135,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
         registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
         registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))
+        registerReceiver(manService, IntentFilter(Const.MINE_MANSERVICE_YOUKE))
         tabhost.setup(this, supportFragmentManager, R.id.container)
         tabhost.tabWidget.dividerDrawable = null
         tabTexts.forEachWithIndex { i, it ->
@@ -203,16 +220,15 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
 
         tv_title1.setOnClickListener {
-            val filterTrendDialog = FilterTrendDialog()
-            filterTrendDialog.setDialogListener { p, s ->
+            filterTrendDialog = FilterTrendDialog()
+            filterTrendDialog?.setDialogListener { p, s ->
                 setTrendTitle(p)
-
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
                 if (fragment != null && fragment is SquareMainFragment) {
                     fragment.filter(p)
                 }
             }
-            filterTrendDialog.show(supportFragmentManager, "ftd")
+            filterTrendDialog?.show(supportFragmentManager, "ftd")
         }
 
 //        tv_create_date.gone()

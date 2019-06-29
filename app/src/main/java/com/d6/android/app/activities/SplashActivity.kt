@@ -73,14 +73,14 @@ class SplashActivity : BaseActivity() {
             }
         }
 
-        mMemberDesc.add(MemberDesc("人工精准匹配约会，超高成功率","专属客服匹配","res:///"+R.mipmap.tezheng1_big,
+        mMemberDesc.add(MemberDesc("人工精准匹配约会、超高成功率","专属客服匹配","res:///"+R.mipmap.tezheng1_big,
                 R.drawable.shape_tz1))
-        mMemberDesc.add(MemberDesc("直接开聊拒绝骚扰","一对一私聊",
+        mMemberDesc.add(MemberDesc("提供交友、线上群聊、线下聚会、酒店旅行折扣","私人定制服务",
+                "res:///"+R.mipmap.tezheng4_big,R.drawable.shape_tz4))
+        mMemberDesc.add(MemberDesc("直接开聊、拒绝骚扰","一对一私聊",
                 "res:///"+R.mipmap.tezheng2_big,R.drawable.shape_tz2))
         mMemberDesc.add(MemberDesc("多金？有颜？总有一个是你的菜","优质会员任你挑",
                 "res:///"+R.mipmap.tezheng3_big,R.drawable.shape_tz3))
-        mMemberDesc.add(MemberDesc("提供交友、线上群聊、线下聚会、酒店旅行折扣","私人定制服务",
-                "res:///"+R.mipmap.tezheng4_big,R.drawable.shape_tz4))
 
         splasy_banner.setPages(
                 object : CBViewHolderCreator {

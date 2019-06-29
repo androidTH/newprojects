@@ -44,6 +44,7 @@
     </RelativeLayout>
     <!--<View style="@style/view_line_h"/>-->
     <ScrollView
+        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:scrollbars="none"
         android:overScrollMode="never"
