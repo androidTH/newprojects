@@ -87,7 +87,7 @@
                 android:layout_marginTop="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_5"
                 android:lineSpacingExtra="@dimen/margin_5"
-                android:text="D6定位高端私密私人定制社区，以高品质、高素质的会员为基础，全球拥有60000+的质华人会员。 平台实行会员制，成为会员可享受私人定制服务。 "
+                android:text="@string/string_d6_desc"
                 android:textColor="@color/color_666666"
                 android:textSize="12sp" />
         </LinearLayout>

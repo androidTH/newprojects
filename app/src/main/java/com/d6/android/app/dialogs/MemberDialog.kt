@@ -89,7 +89,7 @@ class MemberDialog : DialogFragment(),RequestManager {
         mMemberDesc.add(MemberDesc("人工精准匹配约会，超高成功率","专属客服匹配","res:///"+R.mipmap.windows_tz1))
         mMemberDesc.add(MemberDesc("直接开聊拒绝骚扰","一对一私聊",
                 "res:///"+R.mipmap.windows_tz2))
-        mMemberDesc.add(MemberDesc("多金？有颜？总有一个是你的菜","一对一私聊",
+        mMemberDesc.add(MemberDesc("多金？有颜？总有一个是你的菜","优质会员任你挑",
                 "res:///"+R.mipmap.windows_tz3))
         mMemberDesc.add(MemberDesc("提供交友、线上群聊、线下聚会、酒店旅行折扣","私人定制服务",
                 "res:///"+R.mipmap.windows_tz4))

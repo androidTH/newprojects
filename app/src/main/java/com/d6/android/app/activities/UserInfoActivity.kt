@@ -51,6 +51,7 @@ import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
  *
  */
 class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshListener {
+
     private val id by lazy {
         intent.getStringExtra("id")
     }
@@ -582,14 +583,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 getTrendData()
 
                 if (it.appointment != null) {
+                    headerView.rl_userinfo_date.visibility = View.VISIBLE
                     headerView.date_headView.setImageURI(it.picUrl)
                     headerView.tv_name.text = it.name
                     headerView.tv_name.isSelected = TextUtils.equals("0", it.sex)
                     setDateInfo(it.appointment)
                 } else {
-                    if(!TextUtils.equals(getLocalUserId(), id)){
-                       headerView.rl_userinfo_date.visibility = View.VISIBLE
-                    }
+                    headerView.rl_userinfo_date.visibility = View.GONE
                 }
 
                 if (data.iIsFollow != null) {
@@ -674,7 +674,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
             } else {
                 data.list?.let {
-                    mSquares.addAll(data.list.results)
+                    data.list.results?.let { it1 -> mSquares.addAll(it1) }
                     squareAdapter.notifyDataSetChanged()
                 }
             }

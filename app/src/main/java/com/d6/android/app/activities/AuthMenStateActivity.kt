@@ -1,5 +1,6 @@
 package com.d6.android.app.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
@@ -73,6 +74,7 @@ class AuthMenStateActivity : BaseActivity() {
 
     var mComments = ArrayList<MemberComment>()
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth_state)
@@ -134,10 +136,10 @@ class AuthMenStateActivity : BaseActivity() {
 
         if(TextUtils.equals("mine",from)){
             tv_vipinfo.text = "会员有价 情缘无价"
-            tv_d6vipinfo.text = "D6定位高端私密私人定制交友社区，以高品质、高素质的会员为基础，全球拥有60000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务"
+            tv_d6vipinfo.text = getString(R.string.string_d6_desc)
         }else{
             tv_vipinfo.text = "成为会员后可使用此功能"
-            tv_d6vipinfo.text = "D6定位高端私密私人定制交友社区，以高品质、高素质的会员为基础，全球拥有60000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务"
+            tv_d6vipinfo.text = getString(R.string.string_d6_desc)
         }
         rv_viptypes.setHasFixedSize(true)
         rv_viptypes.setOrientation(DSVOrientation.HORIZONTAL)
