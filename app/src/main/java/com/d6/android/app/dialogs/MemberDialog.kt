@@ -144,7 +144,7 @@ class MemberDialog : DialogFragment(),RequestManager {
 
         tv_know.setOnClickListener {
                isBaseActivity {
-                   it.pushCustomerMessage((context as BaseActivity), getLocalUserId(),5,"",next = {
+                   it.pushCustomerMessage((context as BaseActivity), getLocalUserId(),8,"",next = {
                        chatService(it)
                        dismissAllowingStateLoss()
                    })

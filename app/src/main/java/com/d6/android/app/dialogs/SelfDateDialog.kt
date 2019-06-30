@@ -84,7 +84,7 @@ class SelfDateDialog : DialogFragment(),RequestManager {
 
         tv_lianxi.setOnClickListener {
                isBaseActivity {
-                   it.pushCustomerMessage((context as BaseActivity), getLocalUserId(),5,"",next = {
+                   it.pushCustomerMessage((context as BaseActivity), getLocalUserId(),8,"",next = {
                        chatService(it)
                        dismissAllowingStateLoss()
                    })

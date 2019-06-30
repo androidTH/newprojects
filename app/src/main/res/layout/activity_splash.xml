@@ -4,14 +4,12 @@
     android:layout_height="match_parent"
     xmlns:banner="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/mViewPager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="500dp"/>-->
     <com.d6.android.app.widget.convenientbanner.ConvenientBanner
         android:id="@+id/splasy_banner"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_login"
+        android:layout_marginBottom="@dimen/margin_35"
         banner:autoTurningTime="3000"
         banner:canLoop="true" />
 
@@ -19,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll_login"
-        android:layout_marginBottom="@dimen/height_50"
+        android:layout_marginBottom="@dimen/height_60"
         android:visibility="visible"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
@@ -38,7 +36,7 @@
             android:id="@+id/tv_numtwo"
             android:layout_width="4dp"
             android:layout_height="4dp"
-            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_6"
             android:background="@drawable/shape_dot_selector"
             android:gravity="center"
             android:textColor="@color/white"
@@ -48,7 +46,7 @@
             android:id="@+id/tv_numthree"
             android:layout_width="4dp"
             android:layout_height="4dp"
-            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_6"
             android:background="@drawable/shape_dot_selector"
             android:gravity="center"
             android:textColor="@color/white"
@@ -57,7 +55,7 @@
             android:id="@+id/tv_numfour"
             android:layout_width="4dp"
             android:layout_height="4dp"
-            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_6"
             android:background="@drawable/shape_dot_selector"
             android:gravity="center"
             android:textColor="@color/white"
@@ -67,11 +65,11 @@
     <LinearLayout
         android:id="@+id/ll_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:paddingTop="@dimen/margin_15"
         android:paddingBottom="@dimen/margin_5"
-        android:layout_marginBottom="@dimen/height_85"
+        android:layout_marginBottom="@dimen/height_75"
         android:orientation="vertical"
         android:visibility="visible">
         <RelativeLayout
