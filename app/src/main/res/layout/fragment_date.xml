@@ -69,7 +69,7 @@
             android:id="@+id/mRecyclerView"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_width="match_parent"
-            android:layout_height="460dp" />
+            android:layout_height="450dp"/>
 
         <ImageView
             android:id="@+id/tv_main_card_bg_im_id"

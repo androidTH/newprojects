@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="300dp"
-    android:layout_height="460dp"
+    android:layout_height="450dp"
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="15dp"
@@ -18,7 +18,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:viewAspectRatio="1.3"
+            app:viewAspectRatio="1.2"
             android:id="@+id/imageView"
             style="@style/DefaultImageStyle"/>
 

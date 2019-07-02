@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:orientation="vertical">
     <RelativeLayout
@@ -31,4 +32,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/blacklist_refreshrecycler"/>
+
+    <!--<com.scwang.smartrefresh.layout.SmartRefreshLayout-->
+        <!--android:id="@+id/blacklist_smartrefreshlayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:srlEnableLoadMore="true"-->
+        <!--app:srlEnableAutoLoadMore="false">-->
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/blacklist_refreshrecycler"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:overScrollMode="never"/>-->
+        <!--<com.scwang.smartrefresh.layout.footer.ClassicsFooter-->
+            <!--android:id="@+id/class_footer"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"/>-->
+    <!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 </LinearLayout>

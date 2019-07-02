@@ -97,15 +97,16 @@
 
     <RelativeLayout
         android:id="@+id/rl_service"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/height_65"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/margin_20">
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@mipmap/my_contactus_float"/>
 
         <com.d6.android.app.widget.DragStrokeView
@@ -115,7 +116,7 @@
             android:visibility="invisible"
             android:padding="1.5dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_13"
+            android:layout_marginRight="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_5"
             android:textColor="@android:color/white"
             android:text="1"
