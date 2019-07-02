@@ -333,16 +333,21 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         if (!myAppointment.iHeight.toString().isNullOrEmpty()) {
-            if (myAppointment.iHeight!!.toInt() > 0) {
-                sb.append("·${myAppointment.iHeight}cm")
+            if (myAppointment.iHeight!=null) {
+                if(myAppointment.iHeight!!.toInt() > 0){
+                    if(sb.length>0){
+                        sb.append("·")
+                    }
+                    sb.append("${myAppointment.iHeight}cm")
+                }
             }
         }
 
-        if (!myAppointment.iWeight.toString().isNullOrEmpty()) {
-            if (!myAppointment.iWeight.toString().equals("0")) {
-                sb.append("·${myAppointment.iWeight}kg")
-            }
-        }
+//        if (!myAppointment.iWeight.toString().isNullOrEmpty()) {
+//            if (!myAppointment.iWeight.toString().equals("0")) {
+//                sb.append("·${myAppointment.iWeight}kg")
+//            }
+//        }
 
         if (!sb.toString().isNullOrEmpty()) {
             headerView.tv_sub_title.text = sb.toString()

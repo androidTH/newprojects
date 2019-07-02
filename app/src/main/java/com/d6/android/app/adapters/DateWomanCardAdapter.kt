@@ -154,26 +154,31 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             tv_woman_age.isSelected = TextUtils.equals("0", data.sex)
 
+            var tv_content = holder.bind<TextView>(R.id.tv_content)
+
             if (!data.egagementtext.isNullOrEmpty()) {
                 if(!TextUtils.equals("null",data.egagementtext)){
-                    holder.setText(R.id.tv_content, data.egagementtext)
+                    tv_content.visibility = View.VISIBLE
+                    tv_content.text =  data.egagementtext
                 }else{
-                    holder.setText(R.id.tv_content,"")
+                    tv_content.visibility = View.GONE
                 }
             } else if (!(data.gexingqianming.isNullOrEmpty())) {
                 if(!TextUtils.equals("null",data.gexingqianming)){
-                    holder.setText(R.id.tv_content, data.gexingqianming)
+                    tv_content.visibility = View.VISIBLE
+                    tv_content.text = data.gexingqianming
                 }else{
-                    holder.setText(R.id.tv_content,"")
+                    tv_content.visibility = View.GONE
                 }
             }else if(!data.ziwojieshao.isNullOrEmpty()){
                 if(!TextUtils.equals("null",data.ziwojieshao)){
-                    holder.setText(R.id.tv_content, data.ziwojieshao)
+                    tv_content.visibility = View.VISIBLE
+                    tv_content.text = data.ziwojieshao
                 }else{
-                    holder.setText(R.id.tv_content,"")
+                    tv_content.visibility = View.GONE
                 }
             }else{
-                holder.setText(R.id.tv_content,"")
+                tv_content.visibility = View.GONE
             }
 
             if (TextUtils.equals("null", data.userlookwhere)) {

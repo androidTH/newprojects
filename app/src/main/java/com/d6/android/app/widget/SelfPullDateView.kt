@@ -93,11 +93,13 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         if(!myAppointment.iHeight.toString().isNullOrEmpty()){
-            if(myAppointment.iHeight!!.toInt() > 0 ){
-                if(sb.length>0){
-                    sb.append("·")
+            if(myAppointment.iHeight!=null){
+                if(myAppointment.iHeight!!.toInt() > 0){
+                    if(sb.length>0){
+                        sb.append("·")
+                    }
+                    sb.append("${myAppointment.iHeight}cm")
                 }
-                sb.append("${myAppointment.iHeight}cm")
             }
         }
 

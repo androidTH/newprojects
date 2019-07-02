@@ -216,10 +216,15 @@ class HomeFragment : BaseFragment() {
 
     fun refresh(){
         mSwipeRefreshLayout.isRefreshing = true
-        city = ""
-        type = 0
-        getSpeedData()
-        getFragment()
+        mSwipeRefreshLayout.scrollTo(0,0)
+        mSwipeRefreshLayout.postDelayed(object:Runnable{
+            override fun run() {
+                city = ""
+                type = 0
+                getSpeedData()
+                getFragment()
+            }
+        },600)
     }
 
     //设置定位城市

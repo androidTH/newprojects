@@ -139,7 +139,11 @@ abstract class RecyclerFragment : BaseFragment() {
     override fun dismissDialog() {
         super.dismissDialog()
         if(!mIsDismissDialog){
-            setRefreshing(false)
+            mSwipeRefreshLayout.postDelayed(object:Runnable{
+                override fun run() {
+                    setRefreshing(false)
+                }
+            },500)
         }
     }
     /**

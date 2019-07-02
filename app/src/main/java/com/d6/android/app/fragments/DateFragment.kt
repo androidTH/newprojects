@@ -36,6 +36,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
+import me.jessyan.autosize.internal.CustomAdapt
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.textColor
@@ -43,7 +44,15 @@ import org.jetbrains.anko.textColor
 /**
  * 约会
  */
-class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
+class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, CustomAdapt {
+
+    override fun isBaseOnWidth(): Boolean {
+       return false
+    }
+
+    override fun getSizeInDp(): Float {
+        return 667.0f
+    }
 
     override fun onItemClick(view: View?, position: Int) {
         if(view?.id ==R.id.cardView){

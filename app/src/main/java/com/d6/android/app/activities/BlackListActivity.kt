@@ -67,7 +67,7 @@ class BlackListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLi
                     blacklist_refreshrecycler.setLoadMoreText("暂无数据")
                 }
             } else {
-                mBlackList.addAll(data.list.results)
+                data.list.results?.let { mBlackList.addAll(it) }
             }
             mBlackListAdapter.notifyDataSetChanged()
             blacklist_refreshrecycler.isRefreshing = false

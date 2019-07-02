@@ -427,6 +427,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         }) { code, msg ->
             if (code == 0) {
                 showToast(msg)
+                fragment?.let {
+                    it.doIsNotSendMsg(true, getString(R.string.string_addblacklist_toast))
+                }
             }
         }
     }

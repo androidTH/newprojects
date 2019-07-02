@@ -74,10 +74,10 @@ class AuthWomenStateActivity : BaseActivity() {
 
         if(TextUtils.equals("mine",from)){
             tv_vipinfo.text = "免费认证开通会员"
-            tv_d6vipinfo.text = "D6定位高端私密私人定制交友社区，以高品质、高素质的会员为基础，全球拥有60000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务"
+            tv_d6vipinfo.text = resources.getString(R.string.string_d6_desc)
         }else{
             tv_vipinfo.text ="成为会员后可使用此功能"
-             tv_d6vipinfo.text = "D6定位高端私密私人定制交友社区，以高品质、高素质的会员为基础，全球拥有60000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务"
+             tv_d6vipinfo.text = resources.getString(R.string.string_d6_desc)
         }
 
         mComments.add(MemberComment(getString(R.string.string_women_firstcomment),

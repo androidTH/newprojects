@@ -15,6 +15,7 @@ import com.d6.android.app.widget.ProgressDialog
 import com.gyf.barlibrary.ImmersionBar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import me.jessyan.autosize.AutoSizeConfig
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -61,6 +62,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         immersionBar.init()
+        AutoSizeConfig.getInstance().setCustomFragment(true)
         NetworkUtils.registerNetConnChangedReceiver(context)
 
         NetworkUtils.addNetConnChangedListener {

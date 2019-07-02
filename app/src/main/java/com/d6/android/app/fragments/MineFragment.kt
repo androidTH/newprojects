@@ -157,7 +157,7 @@ class MineFragment : BaseFragment() {
 
         iv_whiteclose.setOnClickListener {
             rl_warmuserinfo.visibility = View.GONE
-            SPUtils.instance().put(USERINFO_PERCENT,System.currentTimeMillis()).apply()
+            SPUtils.instance().put(USERINFO_PERCENT+ getLocalUserId(),System.currentTimeMillis()).apply()
         }
 
         tv_edituserinfo.setOnClickListener {
@@ -375,8 +375,8 @@ class MineFragment : BaseFragment() {
                 tv_menber_center.setCompoundDrawables(drawable, null, null, null)
 
                 if(it.iDatacompletion < 60){
-                    if(SPUtils.instance().getLong(USERINFO_PERCENT,System.currentTimeMillis())!=System.currentTimeMillis()){
-                        if(getSevenDays(SPUtils.instance().getLong(USERINFO_PERCENT, System.currentTimeMillis()))){
+                    if(SPUtils.instance().getLong(USERINFO_PERCENT+ getLocalUserId(),System.currentTimeMillis())!=System.currentTimeMillis()){
+                        if(getSevenDays(SPUtils.instance().getLong(USERINFO_PERCENT+getLocalUserId(), System.currentTimeMillis()))){
                             rl_warmuserinfo.visibility = View.VISIBLE
                         }else{
                             rl_warmuserinfo.visibility = View.GONE

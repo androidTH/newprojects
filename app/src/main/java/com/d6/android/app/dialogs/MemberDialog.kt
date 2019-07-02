@@ -3,12 +3,8 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import android.text.SpannableString
-import android.text.Spanned
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -144,7 +140,7 @@ class MemberDialog : DialogFragment(),RequestManager {
 
         tv_know.setOnClickListener {
                isBaseActivity {
-                   it.pushCustomerMessage((context as BaseActivity), getLocalUserId(),8,"",next = {
+                   it.pushCustomerMessage((context as BaseActivity), getLocalUserId(),1,"",next = {
                        chatService(it)
                        dismissAllowingStateLoss()
                    })

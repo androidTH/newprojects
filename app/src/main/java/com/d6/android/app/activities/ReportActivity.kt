@@ -23,7 +23,11 @@ class ReportActivity : TitleActivity() {
         intent.getStringExtra("id")
     }
     private val tiptype by lazy{
-        intent.getStringExtra("tiptype")
+        if(intent.hasExtra("tiptype")){
+            intent.getStringExtra("tiptype")
+        }else{
+            ""
+        }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

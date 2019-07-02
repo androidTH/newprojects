@@ -129,7 +129,6 @@ class SquareFragment : RecyclerFragment() {
                 getSquareList()
             }
         }) { _, _ ->
-            showDialog()
             getSquareList()
         }
     }
@@ -210,7 +209,12 @@ class SquareFragment : RecyclerFragment() {
         }
         mIsDismissDialog = false
         mSwipeRefreshLayout.isRefreshing = true
-        getData()
+        mSwipeRefreshLayout.postDelayed(object:Runnable{
+            override fun run() {
+                getData()
+            }
+        },600)
+
     }
 
     public override fun pullDownRefresh() {
