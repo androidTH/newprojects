@@ -28,26 +28,27 @@
             android:gravity="center"/>
     </RelativeLayout>
 
-    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/blacklist_refreshrecycler"/>
-
-    <!--<com.scwang.smartrefresh.layout.SmartRefreshLayout-->
-        <!--android:id="@+id/blacklist_smartrefreshlayout"-->
+    <!--<com.d6.android.app.widget.SwipeRefreshRecyclerLayout-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
-        <!--app:srlEnableLoadMore="true"-->
-        <!--app:srlEnableAutoLoadMore="false">-->
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/blacklist_refreshrecycler"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:background="@android:color/white"-->
-            <!--android:overScrollMode="never"/>-->
-        <!--<com.scwang.smartrefresh.layout.footer.ClassicsFooter-->
-            <!--android:id="@+id/class_footer"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"/>-->
-    <!--</com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
+        <!--android:id="@+id/blacklist_refreshrecycler"/>-->
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableScrollContentWhenLoaded="true"
+        app:srlEnableFooterFollowWhenLoadFinished="true">
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/blacklist_refreshrecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"/>
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlClassicsSpinnerStyle="Translate"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

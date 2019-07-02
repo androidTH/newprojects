@@ -18,7 +18,7 @@ import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
-import com.bugtags.library.Bugtags
+//import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
 import com.d6.android.app.net.Request
@@ -26,7 +26,6 @@ import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.rong.bean.*
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.D6ActivityLifecyclerCallbacks
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
 import com.umeng.commonsdk.UMConfigure
@@ -108,7 +107,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
 
         //在这里初始化
-        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
+//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
 
         if(isMainProcess()){
             OpenInstall.init(this)
@@ -202,7 +201,6 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                 })
             }
         })
-
 
     }
 

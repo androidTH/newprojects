@@ -1,9 +1,7 @@
 package com.d6.android.app.adapters
 
-import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -44,18 +42,6 @@ class BlackListAdapter(mData:ArrayList<BlackListBean>): HFRecyclerAdapter<BlackL
         }else{
             tv_userinfo.visibility = View.GONE
         }
-
-//        val img_blacklist_auther = holder.bind<ImageView>(R.id.img_blacklist_auther)
-//        if(TextUtils.equals("3",data.screen)){
-//            img_blacklist_auther.visibility=View.GONE
-//            img_blacklist_auther.setImageResource(R.mipmap.renzheng_small)
-//        }else if(TextUtils.equals("1",data.screen)){
-//            img_blacklist_auther.visibility=View.VISIBLE
-//            img_blacklist_auther.setImageResource(R.mipmap.video_small)
-//        }else{
-//            img_blacklist_auther.visibility=View.GONE
-//        }
-
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling

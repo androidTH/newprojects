@@ -62,7 +62,6 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     }
 
     override fun onFirstVisibleToUser() {
-//        LoadDialog.show(context)
         pullDownRefresh()
     }
 
