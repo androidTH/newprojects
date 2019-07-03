@@ -131,7 +131,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        immersionBar.init()
+        immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
         registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
         registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))
@@ -154,6 +154,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             tv_find_tab.visibility = View.INVISIBLE
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
+                    immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
+                    titleBar.backgroundColor = ContextCompat.getColor(this,R.color.color_black)
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
 //                    tv_title.text = "广场"
                     tv_title.visible()
@@ -164,11 +166,15 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     iv_right.gone()
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
-                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
+//                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
+                    tv_title.textColor = ContextCompat.getColor(this,R.color.white)
+                    tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.white)
                     tv_title.text = "约会"
                     tv_date_tab.visibility = View.VISIBLE
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
+                    immersionBar.init()
+                    titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     //titleBar.backgroundColor = Color.TRANSPARENT
                     titleBar.gone()
                     iv_right.gone()
@@ -181,6 +187,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_find_tab.visibility = View.VISIBLE
                 }
                 TextUtils.equals(it, tabTexts[2]) -> {
+                    immersionBar.init()
+                    titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     tv_create_date.gone()
                     tv_date_mydate.gone()
                     date_headView.gone()
@@ -201,6 +209,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 }
 
                 TextUtils.equals(it, tabTexts[3]) -> {
+                    immersionBar.init()
+                    titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     titleBar.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 //                    iv_right.imageResource = R.mipmap.ic_msg_setting
@@ -210,6 +220,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title1.text = ""
                 }
                 TextUtils.equals(it, tabTexts[4]) -> {
+                    immersionBar.init()
+                    titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     titleBar.gone()
                     iv_right.gone()
                     tv_title1.gone()
@@ -295,7 +307,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         //默认标题
         tv_title.text = "约会"
-        tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
+        tv_title.textColor = ContextCompat.getColor(this,R.color.white)
         titleBar.visibility = View.VISIBLE
 
         val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)

@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="230dp"
-    android:layout_marginLeft="8dp"
-    android:background="@drawable/shape_date_white"
-    android:padding="@dimen/margin_10">
+    android:layout_height="210dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginRight="@dimen/margin_13"
+    android:background="@drawable/shape_date_white_2r">
 
     <RelativeLayout
         android:id="@+id/rl_datecontent"
-        android:layout_width="110dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp" />
-<!--android:background="@drawable/shape_4r_56"-->
-        <TextView
-            android:id="@+id/tv_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/shape_4r_orange"
-            android:layout_marginTop="@dimen/margin_5"
-            android:layout_marginRight="@dimen/margin_3"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/margin_5"
-            android:paddingTop="3dp"
-            android:paddingRight="@dimen/margin_5"
-            android:paddingBottom="3dp"
-            android:text="救火"
-            android:textColor="@color/white"
-            android:textSize="10sp" />
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:viewAspectRatio="1.0"
+            app:roundTopStart="true"
+            app:roundTopEnd="true"
+            app:roundTopLeft="true"
+            app:roundTopRight="true"
+            app:roundBottomStart="false"
+            app:roundBottomEnd="false"
+            app:roundBottomLeft="false"
+            app:roundBottomRight="false"
+            app:roundAsCircle="false"
+            app:roundedCornerRadius="@dimen/margin_2"/>
 
         <TextView
             android:id="@+id/tv_auth_state"
@@ -38,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_5"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="108dp"
             android:background="@drawable/shape_10r_8e"
             android:drawablePadding="@dimen/margin_2"
             android:textColor="@color/white"
@@ -48,15 +42,12 @@
             android:paddingBottom="@dimen/margin_2"
             android:textSize="10sp"
             android:visibility="visible" />
-        <!--android:background="@drawable/shape_10r_8e"-->
-        <!--android:drawableLeft="@mipmap/small_authentication"-->
-
         <TextView
             android:id="@+id/tv_auth_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="108dp"
             android:layout_marginRight="@dimen/margin_5"
             android:drawablePadding="@dimen/margin_1"
             android:paddingLeft="@dimen/margin_5"
@@ -72,6 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView"
+            android:layout_marginLeft="@dimen/margin_8"
             android:layout_marginTop="5dp">
 
             <TextView
@@ -93,8 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_name"
+            android:layout_marginLeft="@dimen/margin_8"
             android:gravity="center_vertical"
             android:text="28 180CM 80KG"
+            android:visibility="gone"
             android:maxLines="2"
             android:ellipsize="end"
             android:textColor="@color/color_888888"
@@ -103,26 +97,48 @@
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_info"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_8"
             android:gravity="center_vertical"
             android:text="-----"
             android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_content"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/tv_address"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:text="----"
-            android:maxLines="1"
-            android:textColor="@color/color_888888"
-            android:textSize="12sp" />
+            android:layout_marginLeft="@dimen/margin_8"
+            android:layout_marginTop="@dimen/margin_5"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_2"
+                android:background="@drawable/shape_squareorange_1r"
+                android:paddingLeft="@dimen/margin_2"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:paddingRight="@dimen/margin_2"
+                android:text=""
+                android:textColor="@color/color_F7AB00"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:text="----"
+                android:maxLines="1"
+                android:textColor="@color/color_888888"
+                android:textSize="12sp" />
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout

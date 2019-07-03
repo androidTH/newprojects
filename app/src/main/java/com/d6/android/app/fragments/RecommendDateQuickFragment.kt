@@ -1,8 +1,9 @@
 package com.d6.android.app.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -10,21 +11,17 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.RecommentAllQuickDateAdapter
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.ReRecyclerFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.LoadDialog
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * 人工推荐
  */
 class RecommendDateQuickFragment : ReRecyclerFragment() {
-
-    private var mUserId = ""
 
     private var pageNum = 1
     private val mSpeedDates = ArrayList<MyDate>()
@@ -40,12 +37,30 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
         return dateAdapter
     }
 
-    override fun getLayoutManager(): GridLayoutManager {
-        return GridLayoutManager(context, 2)
+//    override fun getLayoutManager(): GridLayoutManager {
+//        return GridLayoutManager(context, 2)
+//    }
+
+    override fun getLayoutManager(): LinearLayoutManager {
+        return LinearLayoutManager(context)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            iLookType = it.getString(ARG_PARAM1)
+            sPlace = it.getString(ARG_PARAM2)
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mSwipeRefreshLayout.setBackgroundColor(Color.BLACK)
         dateAdapter.setOnItemClickListener { adapter, view, position ->
                 val date = dateAdapter.data[position]
                 if (date.iType == 1) {
@@ -55,28 +70,22 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
                 }
         }
 
-        if(TextUtils.isEmpty(mUserId)){
-            mUserId = SPUtils.instance().getString(Const.User.USER_ID)
-        }
-
     }
 
     override fun onFirstVisibleToUser() {
-        pullDownRefresh()
+        getFindRecommend(ilookType = iLookType,city = sPlace)
     }
 
-    fun getFindRecommend(ilookType: String="", city: String=""){
+    fun getFindRecommend(ilookType: String="", city: String=""):RecommendDateQuickFragment{
         pageNum = 1
         pullRefresh(ilookType,city)
+        return this
     }
 
     fun getData(ilookType: String, city: String) {
         this.iLookType = ilookType
         this.sPlace = city
-        if(TextUtils.isEmpty(mUserId)){
-            mUserId = SPUtils.instance().getString(Const.User.USER_ID)
-        }
-        Request.findLookAllAboutList(mUserId, iLookType, sPlace, pageNum).request(this) { _, data ->
+        Request.findLookAllAboutList(getLocalUserId(), iLookType, sPlace, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 dateAdapter.data.clear()
                 setRefreshing(false)
@@ -111,4 +120,23 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
         pageNum++
         getData(iLookType, sPlace)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        immersionBar.destroy()
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+                RecommendDateQuickFragment().apply {
+                    arguments = Bundle().apply {
+                        putString(ARG_PARAM1, param1)
+                        putString(ARG_PARAM2, param2)
+                    }
+                }
+    }
 }
+
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"

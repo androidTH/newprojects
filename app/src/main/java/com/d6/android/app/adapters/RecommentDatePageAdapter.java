@@ -4,6 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.d6.android.app.fragments.RecommendDateQuickFragment;
+import com.d6.android.app.rong.bean.RecommentType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +18,12 @@ import java.util.List;
  */
 public class RecommentDatePageAdapter extends FragmentStatePagerAdapter {
 
-    private List<String> mTitles = new ArrayList<>();
-    private List<Fragment> mDataFragments;
-    public RecommentDatePageAdapter(FragmentManager fm,List<Fragment> data) {
+    private List<RecommentType> mTitles = new ArrayList<>();
+    private List<RecommendDateQuickFragment> mDataFragments;
+    public RecommentDatePageAdapter(FragmentManager fm,List<RecommendDateQuickFragment> data,List<RecommentType> titles) {
         super(fm);
         this.mDataFragments = data;
-        mTitles.add("全部");
-        mTitles.add("觅约");
-        mTitles.add("救火");
-        mTitles.add("征求");
-        mTitles.add("急约");
-        mTitles.add("旅行约");
-
+        this.mTitles = titles;
     }
 
     @Override
@@ -41,7 +38,7 @@ public class RecommentDatePageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTitles.get(position);
+        return mTitles.get(position).getMName();
     }
 
 }

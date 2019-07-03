@@ -1,102 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_black"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_recomment_root"
     android:orientation="vertical">
-    <LinearLayout
-        android:id="@+id/ll_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/shape_4r_f5f5"
-        android:visibility="visible"
-        android:gravity="center_horizontal">
 
-        <TextView
-            android:id="@+id/tv_date_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/margin_25"
-            android:drawableRight="@mipmap/titlemore_icon"
-            android:drawablePadding="@dimen/margin_5"
-            android:text="地区"
-            android:textColor="@color/color_black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_datetype"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:drawableRight="@mipmap/titlemore_icon"
-            android:drawablePadding="@dimen/margin_5"
-            android:text="类型"
-            android:textColor="@color/color_black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_1"
-        android:visibility="gone"
-        android:background="@color/color_EAEAEA"/>
-    <FrameLayout
-        android:id="@+id/container"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activities.RecommendDateActivity">
-    </FrameLayout>
     <RelativeLayout
+        android:id="@+id/rl_recomend_toolbar"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="50dp">
+        android:layout_height="48dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_back_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:paddingLeft="@dimen/margin_5"
+            android:paddingRight="@dimen/margin_5"
+            android:src="@mipmap/back" />
+
+        <TextView
+            android:id="@+id/tv_recomendtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:text="人工服务"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+        <LinearLayout
+            android:id="@+id/ll_userlevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/recomend_level"
+                style="@style/DefaultCircleHeadStyle"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginRight="@dimen/margin_7" />
+
+            <TextView
+                android:id="@+id/tv_userlevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=""
+                android:textColor="@color/color_999999"
+                android:layout_marginRight="@dimen/margin_13"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/ll_rgchoose"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="@dimen/margin_10">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/height_65">
-            <android.support.design.widget.TabLayout
+            <com.d6.android.app.widget.tablayout.TabLayout
                 android:id="@+id/tab_recommentdate"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 app:tabPaddingStart="0dp"
                 app:tabPaddingEnd="0dp"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
+                app:tabGravity="center"
+                app:tabMaxWidth="@dimen/margin_45"
                 android:scrollbars="horizontal"
-                app:tabBackground="@color/white"
+                app:tabBackground="@color/color_black"
                 app:tabIndicatorColor="@color/color_F7AB00"
                 app:tabIndicatorHeight="3dp"
+                app:tabLineOffset="@dimen/margin_20"
                 app:tabSelectedTextColor="@color/color_F7AB00"
-                app:tabTextColor="@color/color_888888" />
+                app:tabTextColor="@color/white" />
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_date_city"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_alignParentRight="true"
-            android:drawableRight="@mipmap/titlemore_icon"
-            android:drawablePadding="@dimen/margin_5"
+            android:drawableRight="@mipmap/icon_recomend_down"
             android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
             android:text="地区"
-            android:textColor="@color/color_black"
+            android:gravity="center_horizontal"
+            android:textColor="@color/color_999999"
             android:textSize="14sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:visibility="gone"
-        android:background="@color/color_e6e6e6" />
-
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager_recommenddate"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

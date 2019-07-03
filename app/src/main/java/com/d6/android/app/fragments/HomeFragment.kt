@@ -69,7 +69,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
             mSwipeRefreshLayout.isEnabled = verticalOffset >= 0
         }
@@ -159,7 +158,6 @@ class HomeFragment : BaseFragment() {
     override fun onFirstVisibleToUser() {
 
     }
-
 
     private val locationClient by lazy {
         AMapLocationClient(activity)
@@ -326,10 +324,11 @@ class HomeFragment : BaseFragment() {
             mSwipeRefreshLayout.isRefreshing = false
         }
     }
+
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            immersionBar.init()
+            immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
         }
     }
 

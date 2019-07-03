@@ -31,10 +31,11 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
+        var tv_info = holder.bind<TextView>(R.id.tv_info)
         if(TextUtils.equals("0",data.sex)){
-            holder.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
+            tv_info.visibility = View.GONE
+            tv_info.text = String.format("%s岁·%s·%s", data.age, data.height, data.weight)
         }else{
-            var tv_info = holder.bind<TextView>(R.id.tv_info)
             var sb = StringBuffer()
             if(!data.job.isNullOrEmpty()){
                 sb.append("职业:${data.job}")
@@ -45,7 +46,7 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
             if(sb.toString().isNullOrEmpty()){
                 tv_info.visibility = View.GONE
             }else{
-                tv_info.visibility = View.VISIBLE
+                tv_info.visibility = View.GONE
                 tv_info.text = sb.toString()
             }// String.format("职业:%s 座驾:%s", data.job, data.zuojia)
         }

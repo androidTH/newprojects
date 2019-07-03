@@ -2,7 +2,6 @@ package com.d6.android.app.adapters
 
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 
@@ -11,10 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.models.MyDate
-import com.d6.android.app.utils.AppUtils
-import com.d6.android.app.utils.Const
 import com.facebook.drawee.view.SimpleDraweeView
-import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import org.jetbrains.anko.backgroundDrawable
 
 /**
@@ -30,11 +26,11 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
         val nameView = helper.getView<TextView>(R.id.tv_name)
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
-
+        var tv_info = helper.getView<TextView>(R.id.tv_info)
         if(TextUtils.equals("0",data.sex)){
-            helper.setText(R.id.tv_info, String.format("%s岁·%s·%s", data.age, data.height, data.weight))
+            tv_info.visibility = View.VISIBLE
+            tv_info.text = String.format("%s岁·%s·%s", data.age, data.height, data.weight)
         }else{
-            var tv_info = helper.getView<TextView>(R.id.tv_info)
             var sb = StringBuffer()
             if(!data.job.isNullOrEmpty()){
                 sb.append("职业:${data.job}")
@@ -104,7 +100,7 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
         if(data.iType==1){
             typeView.text = "觅约"
         }else if(data.iType==2){
-            typeView.text = "速约"
+//            typeView.text = "速约"
             typeView.text =  data.getSpeedStateStr()
         }
     }
