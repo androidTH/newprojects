@@ -19,7 +19,9 @@ class DialogShareFriendsQuickAdapter(data: List<FriendBean>) : BaseQuickAdapter<
         val mHeadView = helper.getView<SimpleDraweeView>(R.id.headView)
         var mUserName = helper.getView<TextView>(R.id.tv_share_name)
         mUserName.text = data.sUserName
-        if(getData().size > DIALOG_SHOW_MAX){
+
+        var position = (helper.layoutPosition - getHeaderLayoutCount())
+        if(position == DIALOG_SHOW_MAX){
             mHeadView.setImageURI("res:///"+R.mipmap.share_more_icon)
             mUserName.text="更多"
             mUserName.textColor = ContextCompat.getColor(mContext,R.color.color_F7AB00)

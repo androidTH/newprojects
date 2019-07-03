@@ -21,9 +21,6 @@ import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.Const.DIALOG_SHOW_MAX
-import com.d6.android.app.widget.CustomToast
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.dialog_sharefriends_layout.*
