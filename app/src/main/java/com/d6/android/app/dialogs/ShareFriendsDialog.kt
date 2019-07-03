@@ -210,7 +210,11 @@ class ShareFriendsDialog : DialogFragment() {
                     rv_chooseuser.visibility = View.GONE
                     tv_share.visibility = View.GONE
                 } else {
-                    mList.addAll(data.list.results)
+                    if(data.list.results.size>DIALOG_SHOW_MAX){
+                        mList.addAll(data.list.results.subList(0, DIALOG_SHOW_MAX))
+                    }else{
+                        mList.addAll(data.list.results)
+                    }
                 }
                 mDialogShareFriendsQuickAdapter.setNewData(mList)
             }
