@@ -11,7 +11,8 @@ object Const {
     object User{
         val IS_LOGIN="isLogin"
         val IS_FIRST="isFirst"
-        val IS_FIRST_SHOW_TIPS="isFirstShowTips"
+        val IS_FIRST_SHOW_RGDIALOG="isFirstShowRGDialog"
+        val IS_FIRST_SHOW_SELFDATEDIALOG="isFirstShowSelfDateDialog"
         @JvmField
         val USER_ID="userId"
         val USER_SEX="userSex"

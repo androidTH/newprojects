@@ -12,7 +12,6 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.RecommendDateAdapter
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.dialogs.FilterDateTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
@@ -22,20 +21,15 @@ import android.view.Gravity
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.BuildConfig
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.AreaSelectedPopup
-import com.d6.android.app.dialogs.LoginOutTipDialog
-import com.d6.android.app.dialogs.SingleActionDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
-import com.googlecode.mp4parser.h264.Debug
-import com.qamaster.android.common.DebugInfo
 import com.tbruyelle.rxpermissions2.RxPermissions
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -58,6 +52,10 @@ class HomeFragment : BaseFragment() {
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
+    }
+
+    private val showSelfDateDialog by lazy{
+        SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
     }
 
     private val mSpeedDates = ArrayList<MyDate>()
@@ -153,6 +151,12 @@ class HomeFragment : BaseFragment() {
         loginforPoint()
         checkLocation()
         getProvinceData()
+
+        if(showSelfDateDialog){
+            var mSelfDateDialog = SelfDateDialog()
+            mSelfDateDialog.show(childFragmentManager,"RgDateDailog")
+            SPUtils.instance().put(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),false).apply()
+        }
     }
 
     override fun onFirstVisibleToUser() {

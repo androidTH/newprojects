@@ -136,6 +136,7 @@ class SetUserInfoActivity : BaseActivity() {
         tv_info.text = SpanBuilder(s)
                 .color(this,s.length-5,s.length-2,R.color.orange_f6a)
                 .build()
+
         OpenInstall.reportRegister()
     }
 

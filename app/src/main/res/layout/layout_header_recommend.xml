@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/margin_12"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_datetype_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/margin_2"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
+        android:background="@mipmap/category_bg"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_5C4724"
+        android:gravity="center_horizontal"
+        android:textSize="12sp"
+        android:text="精准匹配,寻找合拍的TA"/>
+</RelativeLayout>

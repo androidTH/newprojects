@@ -8,8 +8,8 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -924,9 +924,35 @@ fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
     } else if (TextUtils.equals(levelId, "7")) {
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
     } else if(TextUtils.equals(levelId, "30")){
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon);
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
     }
     return mDrawable
+}
+
+fun getLevelDrawableOfClassName(name:String,mContext:Context):Drawable?{
+    var mDrawable:Drawable? = null
+    if (name.startsWith("入门")) {
+        ContextCompat.getDrawable(mContext, R.mipmap.gril_cj)
+    } else if (name.startsWith("中级")) {
+       ContextCompat.getDrawable(mContext, R.mipmap.gril_zj)
+    } else if (name.startsWith("优质")) {
+        ContextCompat.getDrawable(mContext, R.mipmap.gril_gj)
+    } else if (name.startsWith("普通")) {
+       ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
+    } else if (name.startsWith("白银")) {
+        ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
+    } else if (name.startsWith("黄金")) {
+       ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
+    } else if (name.startsWith("钻石")) {
+       ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
+    } else if (name.startsWith("私人")) {
+        ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
+    } else if (name.startsWith("游客")) {
+        ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
+    } else if (name.startsWith("入群")) {
+       ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
+    }
+   return mDrawable
 }
 
 fun getUserSex():String{
@@ -1001,3 +1027,60 @@ fun getDebugMode():Boolean{
     }
     return false
 }
+
+fun saveBmpToGallery(context: Context, bmp: Bitmap, picName: String) {
+    //        String fileName = null;
+    //        //系统相册目录
+    //        String galleryPath = Environment.getExternalStorageDirectory()
+    //                + File.separator + Environment.DIRECTORY_DCIM
+    //                + File.separator + "pictures" + File.separator;//Camera
+    //
+    //        // 声明文件对象
+    //        File file = null;
+    //        // 声明输出流
+    //        FileOutputStream outStream = null;
+    //        try {
+    //            // 如果有目标文件，直接获得文件对象，否则创建一个以filename为名称的文件
+    //            file = new File(galleryPath, picName + ".jpg");
+    //            // 获得文件相对路径
+    //            fileName = file.toString();
+    //            // 获得输出流，如果文件中有内容，追加内容
+    //            outStream = new FileOutputStream(fileName);
+    //            if (null != outStream) {
+    //                bmp.compress(Bitmap.CompressFormat.JPEG, 90, outStream);
+    //            }
+    //        } catch (Exception e) {
+    //            e.getStackTrace();
+    //        } finally {
+    //            try {
+    //                if (outStream != null) {
+    //                    outStream.close();
+    //                }
+    //            } catch (IOException e) {
+    //                e.printStackTrace();
+    //            }
+    //        }
+    val path = MediaStore.Images.Media.insertImage(context.contentResolver,
+            bmp, picName, null)
+    val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+    val uri = Uri.fromFile(File(getRealPathFromURI(Uri.parse(path), context)))
+    intent.data = uri
+    context.sendBroadcast(intent)
+    //        MediaScannerConnection.scanFile(context, new String[]{fileName},new String[]{"image/*"}, null);
+}
+
+fun getRealPathFromURI(contentUri: Uri, context: Context): String {
+    val proj = arrayOf(MediaStore.Images.Media.DATA)
+    val cursor = context.contentResolver.query(contentUri, proj, null, null, null)
+    val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+    cursor.moveToFirst()
+    val fileStr = cursor.getString(column_index)
+    cursor.close()
+    return fileStr
+}
+
+fun convertViewToBitmap(view: View): Bitmap {
+    view.buildDrawingCache()
+    return view.drawingCache
+}
+

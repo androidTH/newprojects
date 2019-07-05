@@ -30,14 +30,6 @@ class UnKnownActivity : BaseActivity() {
 
     private val mTags = ArrayList<UserUnKnowTag>()
 
-    private val open_unknow_msg by lazy{
-        SPUtils.instance().getString(CHECK_OPEN_UNKNOW_MSG,"")
-    }
-
-    private val IsOpenUnKnow by lazy{
-        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW,"")
-    }
-
     private val userTagAdapter by lazy {
         CardUnKnowTagAdapter(mTags)
     }

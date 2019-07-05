@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
 import com.d6.android.app.activities.FindDateDetailActivity
@@ -35,6 +38,10 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
 
     override fun setAdapter(): BaseQuickAdapter<*, *> {
         return dateAdapter
+    }
+
+    private val mRecommendHeaderView by lazy{
+        layoutInflater.inflate(R.layout.layout_header_recommend, null,false)
     }
 
 //    override fun getLayoutManager(): GridLayoutManager {
@@ -69,7 +76,22 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
                     startActivity<SpeedDateDetailActivity>("data" to date)
                 }
         }
-
+        dateAdapter.setHeaderAndEmpty(true)
+        if(!TextUtils.isEmpty(iLookType)){
+            var tv_datetype_desc = mRecommendHeaderView.findViewById<TextView>(R.id.tv_datetype_desc)
+            if(TextUtils.equals(iLookType,"1")){
+                tv_datetype_desc.text = "当天快速匹配"
+            }else if(TextUtils.equals(iLookType,"5")){
+                tv_datetype_desc.text = "每日最新会员"
+            }else if(TextUtils.equals(iLookType,"2")){
+                tv_datetype_desc.text = "精准匹配,寻找合拍的TA"
+            }else if(TextUtils.equals(iLookType,"3")){
+                tv_datetype_desc.text = "近期快速匹配"
+            }else if(TextUtils.equals(iLookType,"4")){
+                tv_datetype_desc.text = "边旅行,边约会"
+            }
+            dateAdapter.addHeaderView(mRecommendHeaderView)
+        }
     }
 
     override fun onFirstVisibleToUser() {
@@ -101,7 +123,9 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
             dateAdapter.notifyDataSetChanged()
         }
 
-        dateAdapter.emptyView = layoutInflater.inflate(R.layout.no_empty_layout,null)
+        if(dateAdapter.data.size==0){
+            dateAdapter.emptyView = layoutInflater.inflate(R.layout.no_empty_layout,null)
+        }
     }
 
     fun pullRefresh(ilookType: String="", city: String="") {

@@ -36,7 +36,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/margin_5"
@@ -123,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
-            android:background="@drawable/shape_4r_orange"
+            android:background="@drawable/shape_4r_orange_f7"
             android:gravity="center"
             android:paddingTop="17sp"
             android:paddingBottom="15dp"

@@ -3,10 +3,12 @@ package com.d6.android.app.activities
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.RecommentDatePageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.AreaSelectedPopup
+import com.d6.android.app.dialogs.RenGongDateDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.RecommendDateQuickFragment
 import com.d6.android.app.models.City
@@ -15,9 +17,11 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.bean.RecommentType
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_RGDIALOG
 import com.d6.android.app.utils.Const.User.USER_HEAD
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import kotlinx.android.synthetic.main.activity_recommend_date.*
+import org.jetbrains.anko.startActivity
 
 /**
  * 全部人工推荐
@@ -47,6 +51,10 @@ class RecommendDateActivity : BaseActivity() {
     private var userJson = SPUtils.instance().getString(Const.USERINFO)
     private var mUserInfo = GsonHelper.getGson().fromJson(userJson, UserData::class.java)
 
+    private val showRGDialog by lazy{
+        SPUtils.instance().getBoolean(IS_FIRST_SHOW_RGDIALOG+getLocalUserId(),true)
+    }
+
     private val headerUrl by lazy{
         SPUtils.instance().getString(USER_HEAD)
     }
@@ -67,6 +75,18 @@ class RecommendDateActivity : BaseActivity() {
                showArea()
             }
         }
+
+        ll_userlevel.setOnClickListener {
+            isAuthUser(){
+                startActivity<MemberActivity>()
+            }
+        }
+
+        tv_recomendtitle.setOnClickListener {
+            var mRgDateDialog = RenGongDateDialog()
+            mRgDateDialog.show(supportFragmentManager,"RgDateDailog")
+        }
+
 //        tv_datetype.setOnClickListener {
 //                val filterDateTypeDialog = FilterDateTypeDialog()
 //                filterDateTypeDialog.setDateType(false)
@@ -132,15 +152,26 @@ class RecommendDateActivity : BaseActivity() {
             }
         })
 
-        recomend_level.setImageURI(headerUrl)
-
-        if(TextUtils.equals(mUserInfo.userclassesid,"29")){
-            tv_userlevel.text = "高级会员"
-        }else if(TextUtils.equals(mUserInfo.userclassesid,"27")){
-            tv_userlevel.text = "初级会员"
+        if(TextUtils.equals(mUserInfo.userclassesid,"7")){
+            recomend_level.visibility = View.GONE
+            tv_userlevel.text = "联系客服"
         }else{
-            tv_userlevel.text = mUserInfo.classesname
+            recomend_level.setImageURI(headerUrl)
+            if(TextUtils.equals(mUserInfo.userclassesid,"29")){
+                tv_userlevel.text = "高级会员"
+            }else if(TextUtils.equals(mUserInfo.userclassesid,"27")){
+                tv_userlevel.text = "初级会员"
+            }else{
+                tv_userlevel.text = mUserInfo.classesname
+            }
         }
+
+        if(showRGDialog){
+            var mRgDateDialog = RenGongDateDialog()
+            mRgDateDialog.show(supportFragmentManager,"RgDateDailog")
+            SPUtils.instance().put(IS_FIRST_SHOW_RGDIALOG+getLocalUserId(),false).apply()
+        }
+
     }
 
     private fun getProvinceData() {

@@ -62,29 +62,6 @@ class SearchFriendsAdapter(mData:ArrayList<UserData>): HFRecyclerAdapter<UserDat
         }
 
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
-//        if (TextUtils.equals(data.userclassesid, "27")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
-//        } else if (TextUtils.equals(data.userclassesid, "28")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_zj)
-//        } else if (TextUtils.equals(data.userclassesid, "29")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_gj)
-//        } else if (TextUtils.equals(data.userclassesid.toString(), "22")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
-//        } else if (TextUtils.equals(data.userclassesid, "23")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_silver)
-//        } else if (TextUtils.equals(data.userclassesid, "24")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_gold)
-//        } else if (TextUtils.equals(data.userclassesid, "25")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
-//        } else if (TextUtils.equals(data.userclassesid, "26")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
-//        }else if (TextUtils.equals(data.userclassesid, "7")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.youke_icon)
-//        }else if (TextUtils.equals(data.userclassesid, "30")) {
-//            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.ruqun_icon)
-//        }else{
-//            tv_vip.visibility = View.GONE
-//        }
         tv_vip.backgroundDrawable =  getLevelDrawable(data.userclassesid.toString(),context)
     }
 
