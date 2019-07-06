@@ -159,8 +159,8 @@ class SpeedDateDetailActivity : TitleActivity() {
 //            mTags.add(UserTag("星座 " + mData.job!!, R.mipmap.boy_profession_icon))
 //        }
 
-        if (!TextUtils.isEmpty(speedDate.city)) {
-            mTags.add(UserTag("地区 " + speedDate.city, R.mipmap.boy_constellation_icon))
+        if (!TextUtils.isEmpty(speedDate.speedcity)) {
+            mTags.add(UserTag("地区 " + speedDate.speedcity, R.mipmap.boy_constellation_icon))
         }
 
         rv_speeddate_tags.setHasFixedSize(true)

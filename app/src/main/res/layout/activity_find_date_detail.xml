@@ -7,7 +7,6 @@
     android:background="@color/color_F5F5F5">
 
     <ScrollView
-        android:id="@+id/finddate_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/margin_10"
@@ -220,56 +219,6 @@
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
     </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/rl_qrcode"
-        android:layout_below="@+id/finddate_scroll"
-        android:background="@color/white"
-        android:paddingTop="@dimen/margin_10"
-        android:paddingLeft="@dimen/margin_10"
-        android:paddingBottom="@dimen/margin_10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_qrcode"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
-          <LinearLayout
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_toRightOf="@+id/sdv_qrcode"
-              android:layout_marginLeft="@dimen/margin_10"
-              android:layout_marginTop="@dimen/margin_10"
-              android:orientation="horizontal">
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/color_F7AB00"
-                  android:textSize="17sp"
-                  android:textStyle="bold"
-                  android:text="D6社区"/>
-              <TextView
-                  android:layout_marginLeft="@dimen/margin_8"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textColor="@color/color_888888"
-                  android:layout_gravity="center_vertical"
-                  android:textSize="12sp"
-                  android:textStyle="bold"
-                  android:text="高端私密社交"/>
-          </LinearLayout>
-         <TextView
-             android:layout_toRightOf="@+id/sdv_qrcode"
-             android:layout_alignBottom="@+id/sdv_qrcode"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_marginBottom="@dimen/margin_15"
-             android:layout_marginLeft="@dimen/margin_10"
-             android:textColor="@color/color_black"
-             android:textSize="12sp"
-             android:textStyle="bold"
-             android:text="长按二维码扫描下载D6即可约TA"/>
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

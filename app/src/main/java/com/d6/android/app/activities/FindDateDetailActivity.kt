@@ -34,6 +34,8 @@ import org.jetbrains.anko.startActivity
  */
 class FindDateDetailActivity : TitleActivity() {
 
+    private var mTag = FindDateDetailActivity::class.java.simpleName
+
     private val mData by lazy {
         intent.getSerializableExtra("data") as MyDate
     }
@@ -96,19 +98,26 @@ class FindDateDetailActivity : TitleActivity() {
 //        helper.attachToRecyclerView(rv_images)
 
         tv_contact.setOnClickListener {
-//            isAuthUser() {
-//             ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
-//            }
-
-            var mDateTypeDialog = DateTypeDialog()
-            mDateTypeDialog.setDialogListener { p, s ->
-                if(p==1){//分享约会
-                    saveBmpToGallery(this,convertViewToBitmap(rl_root_finddate),"finddate_qrcode")
-                }else if(p==2){//复制微信
-
-                }
+            isAuthUser() {
+             ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
             }
-            mDateTypeDialog.show(supportFragmentManager,"dateType")
+//            var mDateTypeDialog = DateTypeDialog()
+//            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])
+//            mDateTypeDialog.setDialogListener { p, s ->
+//                if(p==1){//分享约会
+//                    dialog()
+//                    runOnUiThread {
+//                        var mBitmap = LongImageUtils.getRecyclerItemsToBitmap(this,mTag,mData,mUrls)
+//                        saveBmpToGallery(this,mBitmap,"finddate_qrcode")
+//                        dismissDialog()
+//
+////                        saveBmpToGallery(this,convertViewToBitmap(rv_images),"ddddd")
+//                    }
+//                }else if(p==2){//复制微信
+//
+//                }
+//            }
+//            mDateTypeDialog.show(supportFragmentManager,"dateType")
         }
         refreshUI()
     }

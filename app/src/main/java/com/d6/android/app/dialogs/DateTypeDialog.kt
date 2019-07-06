@@ -2,6 +2,8 @@ package com.d6.android.app.dialogs
 
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.text.TextUtils
@@ -17,8 +19,14 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.optString
+import com.facebook.binaryresource.FileBinaryResource
+import com.facebook.cache.common.SimpleCacheKey
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.controller.BaseControllerListener
+import com.facebook.drawee.controller.ControllerListener
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.dialog_datetype_layout.*
+import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -65,6 +73,47 @@ class DateTypeDialog : DialogFragment() {
             dialogListener?.onClick(2,"wxcopy")
             dismissAllowingStateLoss()
         }
+//        val resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(SimpleCacheKey(arguments.getString("pics"))) as FileBinaryResource
+//        val file = resource.getFile()
+//        val bitmap = BitmapFactory.decodeFile(file.getPath())
+//        imageView.setImageBitmap(bitmap)
+//        ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+//            @Override
+//            public void onFinalImageSet(
+//                    String id,
+//                    @Nullable ImageInfo imageInfo,
+//                    @Nullable Animatable anim) {
+//                if (imageInfo == null) {
+//                    return;
+//                }
+//                QualityInfo qualityInfo = imageInfo.getQualityInfo();
+//                FLog.d("Final image received! " +
+//                        "Size %d x %d",
+//                        "Quality level %d, good enough: %s, full quality: %s",
+//                        imageInfo.getWidth(),
+//                        imageInfo.getHeight(),
+//                        qualityInfo.getQuality(),
+//                        qualityInfo.isOfGoodEnoughQuality(),
+//                        qualityInfo.isOfFullQuality());
+//            }
+//
+//            @Override
+//            public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
+//                FLog.d("Intermediate image received");
+//            }
+//
+//            @Override
+//            public void onFailure(String id, Throwable throwable) {
+//                FLog.e(getClass(), throwable, "Error loading %s", id)
+//            }
+//        };
+//
+//        Uri uri;
+//        DraweeController controller = Fresco.newDraweeControllerBuilder()
+//                .setControllerListener(controllerListener)
+//                .setUri(uri)
+//                // other setters
+//                .build();
         getData()
     }
 
