@@ -143,7 +143,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 //            tv_vip.visibility = View.GONE
 //        }
 
-        if(square.iIsCommmentTop==2){
+        if(square.iIsCommentTop==2){
             tv_sub_title.text = context.getString(R.string.string_newcomments)
         }else{
             val sub = if (square.city.isNullOrEmpty()) {

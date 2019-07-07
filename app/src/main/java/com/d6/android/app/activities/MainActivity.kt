@@ -23,6 +23,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW_MSG
+import com.d6.android.app.utils.Const.ISUPDOWN
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
@@ -62,6 +63,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         return group
     }
 
+    private var isUpdown:Boolean = false
     private val tabTexts = arrayOf( "约会","发现", "动态","消息", "我的")
 
     private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
@@ -127,6 +129,27 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
     }
 
+    private val mHomeDateStateBar by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    intent?.let {
+                        isUpdown = it.getBooleanExtra(ISUPDOWN,false)
+                        if(isUpdown!!){
+                            titleBar.backgroundColor = ContextCompat.getColor(context,R.color.white)
+                            tv_title.textColor = ContextCompat.getColor(context,R.color.color_black)
+                            tv_date_mydate.textColor = ContextCompat.getColor(context,R.color.color_black)
+                        }else{
+                            titleBar.backgroundColor = ContextCompat.getColor(context,R.color.color_black)
+                            tv_title.textColor = ContextCompat.getColor(context,R.color.white)
+                            tv_date_mydate.textColor = ContextCompat.getColor(context,R.color.white)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -135,6 +158,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
         registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))
         registerReceiver(manService, IntentFilter(Const.MINE_MANSERVICE_YOUKE))
+        registerReceiver(mHomeDateStateBar, IntentFilter(Const.HOMEDATE_STATEBAR))
+
         tabhost.setup(this, supportFragmentManager, R.id.container)
         tabhost.tabWidget.dividerDrawable = null
         tabTexts.forEachWithIndex { i, it ->
@@ -154,7 +179,15 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
                     immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
-                    titleBar.backgroundColor = ContextCompat.getColor(this,R.color.color_black)
+                    if(isUpdown!!){
+                        titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
+                        tv_title.textColor = ContextCompat.getColor(this,R.color.color_black)
+                        tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.color_black)
+                    }else{
+                        titleBar.backgroundColor = ContextCompat.getColor(this,R.color.color_black)
+                        tv_title.textColor = ContextCompat.getColor(this,R.color.white)
+                        tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.white)
+                    }
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
 //                    tv_title.text = "广场"
                     tv_title.visible()
@@ -166,8 +199,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title1.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.ic_filter,0)
 //                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
-                    tv_title.textColor = ContextCompat.getColor(this,R.color.white)
-                    tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.white)
                     tv_title.text = "约会"
                     tv_date_tab.visibility = View.VISIBLE
                 }

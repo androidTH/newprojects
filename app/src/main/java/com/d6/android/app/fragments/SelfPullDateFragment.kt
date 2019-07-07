@@ -4,21 +4,29 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.activities.MainActivity
 import com.d6.android.app.adapters.SelfPullDateAdapter
 import com.d6.android.app.base.RecyclerFragment
+import com.d6.android.app.dialogs.SelfDateDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 
 /**
  * 自主发布约会
  */
 class SelfPullDateFragment : RecyclerFragment() {
+
+    private var showSelfDateDialog = SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
+
+    private var mIsUpDown:Boolean = false //true 向上 false 向下
 
     companion object {
         fun instance(type: Int): SelfPullDateFragment {
@@ -69,6 +77,37 @@ class SelfPullDateFragment : RecyclerFragment() {
 //            startActivity<SelfReleaseDetailActivity>("data" to data)
         }
 
+        mSwipeRefreshLayout.mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (recyclerView?.layoutManager is LinearLayoutManager) {
+                    val l = (recyclerView.layoutManager as LinearLayoutManager)
+                    val f = l.findFirstVisibleItemPosition()
+                    if (f == 0) {
+                        val view = l.findViewByPosition(0)
+                        val h = view.top
+                        Log.i("dddddddd","h=${h}----dy=${dy}")
+                        if(h<0&&dy>=0){
+                            //表示向上滑动
+                            if(showSelfDateDialog){
+                                showSelfDateDialog = !showSelfDateDialog
+                                var mSelfDateDialog = SelfDateDialog()
+                                mSelfDateDialog.show(childFragmentManager,"RgDateDailog")
+                                SPUtils.instance().put(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),showSelfDateDialog).apply()
+                            }
+                            if(!mIsUpDown){
+                                mIsUpDown =!mIsUpDown
+                                mRenGongBackground?.showBackground(mIsUpDown)
+                            }
+                        }else if(h==0&&dy<0){
+                            //表示向下滑动
+                            mIsUpDown = !mIsUpDown
+                            mRenGongBackground?.showBackground(mIsUpDown)
+                        }
+                    }
+                }
+            }
+        })
         getData()
     }
 
@@ -102,6 +141,16 @@ class SelfPullDateFragment : RecyclerFragment() {
             }
             dateAdapter.notifyDataSetChanged()
         }
+    }
+
+    var mRenGongBackground:RenGongBackground? = null
+
+    interface RenGongBackground{
+        fun showBackground(mUpDown:Boolean)
+    }
+
+    fun setRenGongBackGround(renGongBackground: RenGongBackground){
+        mRenGongBackground = renGongBackground
     }
 
     override fun pullDownRefresh() {

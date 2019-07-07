@@ -16,10 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:actualImageScaleType="centerInside"
             app:roundAsCircle="false"
             app:roundedCornerRadius="@dimen/margin_5"
-            app:viewAspectRatio="1" />
+            app:viewAspectRatio="1"
+            style="@style/DefaultImageStyle"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

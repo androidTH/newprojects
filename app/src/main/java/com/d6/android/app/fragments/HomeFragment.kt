@@ -1,6 +1,7 @@
 package com.d6.android.app.fragments
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
@@ -20,11 +21,13 @@ import org.jetbrains.anko.support.v4.startActivity
 import android.view.Gravity
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.BuildConfig
+import com.d6.android.app.adapters.HomeDatePageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.models.City
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.ISUPDOWN
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
@@ -35,7 +38,23 @@ import org.jetbrains.anko.support.v4.toast
 /**
  * 主页
  */
-class HomeFragment : BaseFragment() {
+class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground{
+
+    private var mTAG = HomeFragment::class.java.simpleName
+
+    private var mHomeIsUpDown:Boolean = false //true 向上 false 向下
+    override fun showBackground(mUpDown: Boolean) {
+        mHomeIsUpDown = mUpDown
+        if(mUpDown){
+            immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
+        }else{
+            immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
+        }
+
+        var intent = Intent(Const.HOMEDATE_STATEBAR)
+        intent.putExtra(ISUPDOWN,mHomeIsUpDown)
+        context.sendBroadcast(intent)
+    }
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -43,6 +62,10 @@ class HomeFragment : BaseFragment() {
 
     private var type: Int = 0
     private var city: String? = ""
+
+
+    private var mSelfPullDateFragment:SelfPullDateFragment?=null
+    private var mFragments = ArrayList<SelfPullDateFragment>()
 
     var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
@@ -52,10 +75,6 @@ class HomeFragment : BaseFragment() {
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
-    }
-
-    private val showSelfDateDialog by lazy{
-        SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
     }
 
     private val mSpeedDates = ArrayList<MyDate>()
@@ -88,21 +107,13 @@ class HomeFragment : BaseFragment() {
                 }
         }
 
-        mViewPager.adapter = object : FragmentPagerAdapter(childFragmentManager) {
-            val titles = arrayOf("官方推荐")
-            override fun getItem(position: Int): Fragment {
-                if (position == 0) {
-//                    return HomeFindDateFragment.instance(position)
-                    return SelfPullDateFragment.instance(position)
-                }
-                return SelfPullDateFragment.instance(position)
-            }
-
-            override fun getCount() = titles.size
-
-            override fun getPageTitle(position: Int) = titles[position]
-
+        mSelfPullDateFragment=SelfPullDateFragment.instance(0)
+        mSelfPullDateFragment?.setRenGongBackGround(this)
+        mSelfPullDateFragment?.let {
+            mFragments.add(it)
         }
+
+        mViewPager.adapter = HomeDatePageAdapter(childFragmentManager,mFragments)
 
         tv_speed_date_more.setOnClickListener {
             startActivity<RecommendDateActivity>()
@@ -151,12 +162,6 @@ class HomeFragment : BaseFragment() {
         loginforPoint()
         checkLocation()
         getProvinceData()
-
-        if(showSelfDateDialog){
-            var mSelfDateDialog = SelfDateDialog()
-            mSelfDateDialog.show(childFragmentManager,"RgDateDailog")
-            SPUtils.instance().put(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),false).apply()
-        }
     }
 
     override fun onFirstVisibleToUser() {
@@ -278,6 +283,7 @@ class HomeFragment : BaseFragment() {
                         type.toString()
                     }
                    it.refresh(area ,dateType)
+                   it.setRenGongBackGround(this)
                 }
             }
         }
@@ -332,7 +338,13 @@ class HomeFragment : BaseFragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
+            if(mHomeIsUpDown){
+                Log.i(mTAG,"向上")
+                immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
+            }else{
+                immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
+                Log.i(mTAG,"向下")
+            }
         }
     }
 
