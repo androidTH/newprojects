@@ -23,8 +23,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/shape_rgpic_bg"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/margin_15"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_25"
             android:paddingBottom="@dimen/margin_10">
 
             <LinearLayout

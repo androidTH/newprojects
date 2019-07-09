@@ -19,6 +19,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.loadmore.CustomLoadMoreView
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -49,7 +50,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
 //    }
 
     override fun getLayoutManager(): LinearLayoutManager {
-        return LinearLayoutManager(context)
+        return LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +69,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mSwipeRefreshLayout.setBackgroundColor(Color.BLACK)
+        dateAdapter.setLoadMoreView(CustomLoadMoreView())
         dateAdapter.setOnItemClickListener { adapter, view, position ->
                 val date = dateAdapter.data[position]
                 if (date.iType == 1) {
@@ -84,7 +86,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
             }else if(TextUtils.equals(iLookType,"5")){
                 tv_datetype_desc.text = "每日最新会员"
             }else if(TextUtils.equals(iLookType,"2")){
-                tv_datetype_desc.text = "精准匹配,寻找合拍的TA"
+                tv_datetype_desc.text = "精准匹配合拍的TA"
             }else if(TextUtils.equals(iLookType,"3")){
                 tv_datetype_desc.text = "近期快速匹配"
             }else if(TextUtils.equals(iLookType,"4")){
@@ -117,7 +119,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 dateAdapter.loadMoreEnd(false)
             } else {
-                dateAdapter.addData(data.list.results)
+                data.list.results?.let { dateAdapter.addData(it) }
                 dateAdapter.loadMoreComplete()
             }
             dateAdapter.notifyDataSetChanged()

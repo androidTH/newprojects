@@ -1,11 +1,13 @@
 package com.d6.android.app.activities
 
+import android.graphics.Bitmap
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PagerSnapHelper
 import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
@@ -17,17 +19,14 @@ import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.share.utils.ShareUtils
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
-import io.rong.imkit.RongIM
-import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_find_date_detail.*
-import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.*
+import java.lang.ref.WeakReference
 
 /**
  * 觅约详情
@@ -41,11 +40,14 @@ class FindDateDetailActivity : TitleActivity() {
     }
     private val mUrls = ArrayList<String>()
 
+    private val mPicBitmap = ArrayList<Bitmap>()
+
     private val imgAdapter by lazy {
         FindDateImagesAdapter(mUrls)
     }
 
     private val mTags =ArrayList<UserTag>()
+    private var mHandler:Handler?=null
 
     private val mUserTagAdapter by lazy{
          CardChatManTagAdapter(mTags)
@@ -106,20 +108,24 @@ class FindDateDetailActivity : TitleActivity() {
 //            mDateTypeDialog.setDialogListener { p, s ->
 //                if(p==1){//分享约会
 //                    dialog()
-//                    runOnUiThread {
-//                        var mBitmap = LongImageUtils.getRecyclerItemsToBitmap(this,mTag,mData,mUrls)
-//                        saveBmpToGallery(this,mBitmap,"finddate_qrcode")
-//                        dismissDialog()
-//
-////                        saveBmpToGallery(this,convertViewToBitmap(rv_images),"ddddd")
-//                    }
+//                    sendHandlerMessage(0)
 //                }else if(p==2){//复制微信
 //
 //                }
 //            }
 //            mDateTypeDialog.show(supportFragmentManager,"dateType")
         }
+
+        mHandler = DoHandler(this)
         refreshUI()
+
+        LongImageUtils.getInstance().setDoLongPicSuccess {
+            cardview_finddate.postDelayed(object:Runnable{
+                override fun run() {
+                    dismissDialog()
+                }
+            },500)
+        }
     }
 
     private fun refreshUI() {
@@ -212,5 +218,52 @@ class FindDateDetailActivity : TitleActivity() {
             tv_contact.isEnabled = true
             tv_contact.text = "联系客服"
         }
+    }
+
+    protected var mSaveBitmapRunnable=object: Runnable{
+        override fun run() {
+            var mBitmap = LongImageUtils.getInstance().getRecyclerItemsToBitmap(this@FindDateDetailActivity,mTag,mData,mPicBitmap)
+            saveBmpToGallery(this@FindDateDetailActivity,mBitmap,"finddate_qrcode")
+        }
+    }
+
+    fun sendHandlerMessage(index:Int){
+        var message= mHandler?.obtainMessage()
+        message?.arg1 = index
+        mHandler?.sendMessage(message)
+    }
+
+    private class DoHandler(activity: FindDateDetailActivity) : Handler() {
+        //持有弱引用HandlerActivity,GC回收时会被回收掉.
+        private val mActivty: WeakReference<FindDateDetailActivity>
+        init {
+            mActivty = WeakReference<FindDateDetailActivity>(activity)
+        }
+        override fun handleMessage(msg: Message) {
+            val activity = mActivty.get()
+            super.handleMessage(msg)
+            if (activity != null) {
+                msg?.let {
+                    var index = it.arg1
+                    FrescoUtils.loadImage(activity,activity.mUrls[index],object:IResult<Bitmap>{
+                        override fun onResult(result: Bitmap?) {
+                            result?.let {
+                                activity.mPicBitmap.add(it)
+                                if(index==(activity.mUrls.size-1)){
+                                    ThreadPoolManager.getInstance().execute(activity.mSaveBitmapRunnable)
+                                }else{
+                                    activity.sendHandlerMessage(index+1)
+                                }
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mHandler = null
     }
 }

@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
@@ -25,6 +26,8 @@ import com.d6.android.app.adapters.CardChatManTagAdapter;
 import com.d6.android.app.models.MyDate;
 import com.d6.android.app.models.UserTag;
 import com.d6.android.app.widget.ScreenUtil;
+import com.d6.android.app.widget.frescohelper.FrescoUtils;
+import com.d6.android.app.widget.frescohelper.IResult;
 import com.facebook.binaryresource.FileBinaryResource;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -46,7 +49,15 @@ import static com.d6.android.app.utils.UtilKt.getLevelDrawableOfClassName;
  */
 public class LongImageUtils {
 
-    public static String saveImage(Activity mActivity, Bitmap bitmap, String imgName) {
+    private static LongImageUtils instance;
+    public static LongImageUtils getInstance(){
+         if(instance==null){
+             instance =new  LongImageUtils();
+         }
+         return instance;
+    }
+
+    public  String saveImage(Activity mActivity, Bitmap bitmap, String imgName) {
 
         String dir = Environment.getExternalStorageDirectory().getPath() + "/长图/";
         File file = new File(dir);
@@ -76,7 +87,7 @@ public class LongImageUtils {
      * @param bitmap
      * @param filePath
      */
-    public static void saveBitmap(Bitmap bitmap, String filePath) {
+    public void saveBitmap(Bitmap bitmap, String filePath) {
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(filePath);
@@ -94,9 +105,9 @@ public class LongImageUtils {
         }
     }
 
-    private static MediaScannerConnection sMediaScannerConnection;
+    private MediaScannerConnection sMediaScannerConnection;
 
-    public static void insertImage(Context context, final String filePath) {
+    public void insertImage(Context context, final String filePath) {
         sMediaScannerConnection = new MediaScannerConnection(context, new MediaScannerConnection.MediaScannerConnectionClient() {
             @Override
             public void onMediaScannerConnected() {
@@ -123,7 +134,7 @@ public class LongImageUtils {
      * @param activity
      * @return
      */
-    public static Bitmap getRecyclerItemsToBitmap(Activity activity,String type, MyDate mData, List<String> mPicsList) {
+    public Bitmap getRecyclerItemsToBitmap(Activity activity,String type, MyDate mData, List<Bitmap> mPicsList) {
 
         int allItemsHeight = 0;
         int itemWidth = ScreenUtil.getScreenWidth(activity);
@@ -131,7 +142,7 @@ public class LongImageUtils {
 
         //如果有头部就写上
         View headerView = activity.getLayoutInflater().inflate(R.layout.longpic_header, null);
-        LinearLayout ll5 = headerView.findViewById(R.id.ll5);
+        RelativeLayout ll5 = headerView.findViewById(R.id.ll5);
         TextView tv_finddate_time = headerView.findViewById(R.id.tv_finddate_time);
         TextView tv_finddate_showtime = headerView.findViewById(R.id.tv_finddate_showtime);
         TextView tv_datetype_desc = headerView.findViewById(R.id.tv_datetype_desc);
@@ -145,7 +156,8 @@ public class LongImageUtils {
         TextView tv_aihao = headerView.findViewById(R.id.tv_aihao);
         TextView tv_content = headerView.findViewById(R.id.tv_content);
 
-        tv_sex.setText(mData.getSex());
+        tv_sex.setText(mData.getAge());
+
         mTags.clear();
         if (!TextUtils.isEmpty(mData.getHeight())) {
             mTags.add(new UserTag("身高 " + mData.getHeight(), R.mipmap.boy_stature_icon));
@@ -236,12 +248,12 @@ public class LongImageUtils {
         allItemsHeight += headerView.getMeasuredHeight();
 
         for (int i = 0; i < mPicsList.size(); i++) {
-            FileBinaryResource resource = (FileBinaryResource) Fresco.getImagePipelineFactory().getMainFileCache().getResource(new SimpleCacheKey(mPicsList.get(i)));
-            File file = resource.getFile();
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
+//            FileBinaryResource resource = (FileBinaryResource) Fresco.getImagePipelineFactory().getMainFileCache().getResource(new SimpleCacheKey(mPicsList.get(i)));
+//            File file = resource.getFile();
+//            Bitmap bitmap = BitmapFactory.decodeFile(file.getPath());
             View childView = LayoutInflater.from(activity).inflate(R.layout.longpic_content, null);
             ImageView imageView = childView.findViewById(R.id.imageView);
-            imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(mPicsList.get(i));
             childView.measure(View.MeasureSpec.makeMeasureSpec(itemWidth, View.MeasureSpec.EXACTLY), 0);
             childView.layout(0, 0, itemWidth, childView.getMeasuredHeight());
             childView.setDrawingCacheEnabled(true);
@@ -259,7 +271,6 @@ public class LongImageUtils {
         bitmaps.add(footerView.getDrawingCache());
         allItemsHeight += footerView.getMeasuredHeight();
 
-
         Bitmap bigBitmap = Bitmap.createBitmap(itemWidth, allItemsHeight, Bitmap.Config.ARGB_4444);
         Canvas bigCanvas = new Canvas(bigBitmap);
 
@@ -274,9 +285,23 @@ public class LongImageUtils {
             iHeight += bmp.getHeight();
             bmp.recycle();
         }
+        for(int i=0;i<mPicsList.size();i++){
+            Bitmap bmp = mPicsList.get(i);
+            bmp.recycle();
+        }
 
+        if(mDoLongPicSuccess!=null){
+            mDoLongPicSuccess.onLongPicSuccess();
+        }
         return bigBitmap;
-
     }
 
+    public void setDoLongPicSuccess(DoLongPicSuccess dolongpicSuccess){
+        mDoLongPicSuccess = dolongpicSuccess;
+    }
+
+    private DoLongPicSuccess mDoLongPicSuccess;
+    interface DoLongPicSuccess{
+        public void onLongPicSuccess();
+    }
 }

@@ -46,10 +46,17 @@ import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
 import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
+import com.facebook.common.references.CloseableReference
+import com.facebook.datasource.BaseDataSubscriber
+import com.facebook.datasource.DataSource
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.drawable.ScalingUtils
 import com.facebook.drawee.generic.GenericDraweeHierarchy
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.facebook.drawee.generic.RoundingParams
+import com.facebook.imagepipeline.image.CloseableBitmap
+import com.facebook.imagepipeline.image.CloseableImage
+import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.google.gson.JsonObject
 import com.umeng.analytics.MobclickAgent
 import com.vector.update_app.UpdateAppBean
@@ -70,6 +77,7 @@ import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
+import java.util.concurrent.Executor
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
@@ -1083,4 +1091,3 @@ fun convertViewToBitmap(view: View): Bitmap {
     view.buildDrawingCache()
     return view.drawingCache
 }
-

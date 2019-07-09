@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
@@ -40,6 +41,7 @@ import kotlinx.android.synthetic.main.fragment_date.*
 import me.jessyan.autosize.internal.CustomAdapt
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
 
 /**
@@ -112,6 +114,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                     if ((mDates.size-scrollPosition) <= 2) {
                         pageNum++
                         getData(city,xingzuo,agemin,agemax)
+                    }
+
+                    Log.i("DateFragment","index=${scrollPosition}")
+                    var findDate = mDates.get(scrollPosition-1)
+                    if(findDate.iIsFans==1){
+                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.like_complte))
+                    }else{
+                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.discover_like_button))
                     }
                 }
             }
@@ -273,6 +283,12 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                 mDates.addAll(data.list.results)
                 if(pageNum == 1){
                     joinInCard()
+                    var findDate = mDates.get(0)
+                    if(findDate.iIsFans==1){
+                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.like_complte))
+                    }else{
+                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.discover_like_button))
+                    }
                 }
                 mRecyclerView.adapter.notifyDataSetChanged()
             }
@@ -311,21 +327,28 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             mRecyclerView.smoothScrollToPosition(scrollPosition)
             if((mDates.size - scrollPosition)<=2){
                 pageNum++
-                getData(city,xingzuo,agemin,agemax)
+                 getData(city,xingzuo,agemin,agemax)
             }
         }
     }
 
     private fun addFollow(){
-//        showDialog()//35578
         scrollPosition = mRecyclerView.currentItem
         if(mDates.size > scrollPosition){
             var findDate = mDates.get(scrollPosition)
-            Request.getAddFollow(userId,findDate.accountId.toString()).request(this,true){ s: String?, jsonObject: JsonObject? ->
-                //toast("$s,$jsonObject")
-                doAnimation()
-                doNextCard()
-                showTips(jsonObject,"","")
+            if(findDate.iIsFans==0){
+                Request.getAddFollow(userId, findDate.accountId.toString()).request(this, true) { s: String?, jsonObject: JsonObject? ->
+                    //toast("$s,$jsonObject")
+                    mDates.get(scrollPosition).iIsFans = 1
+                    doAnimation()
+                    doNextCard()
+                    showTips(jsonObject, "", "")
+                }
+            }else{
+                Request.getDelFollow(userId, findDate.accountId.toString()).request(this,true) { s: String?, jsonObject: JsonObject? ->
+                    mDates.get(scrollPosition).iIsFans = 0
+                    doNextCard()
+                }
             }
         }
     }

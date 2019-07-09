@@ -49,6 +49,13 @@
         <item name="failureImageScaleType">fitCenter</item>
     </style>
 
+    <style name="DefaultbigImageStyle">
+        <item name="failureImage">@color/dividing_line_color</item>
+        <item name="placeholderImage">@color/dividing_line_color</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+    </style>
+
     <style name="uerInfoaddImageStyle">
         <item name="failureImage">@color/color_99ffffff</item>
         <item name="placeholderImage">@color/color_99ffffff</item>

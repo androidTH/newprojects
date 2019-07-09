@@ -19,6 +19,7 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.optString
+import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.facebook.binaryresource.FileBinaryResource
 import com.facebook.cache.common.SimpleCacheKey
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -60,8 +61,8 @@ class DateTypeDialog : DialogFragment() {
         }
 
         tv_sharedate.setOnClickListener {
-            dialogListener?.onClick(1,"sharedate")
             dismissAllowingStateLoss()
+            dialogListener?.onClick(1,"sharedate")
         }
 
         tv_wxcopy.setOnClickListener {
@@ -77,43 +78,6 @@ class DateTypeDialog : DialogFragment() {
 //        val file = resource.getFile()
 //        val bitmap = BitmapFactory.decodeFile(file.getPath())
 //        imageView.setImageBitmap(bitmap)
-//        ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
-//            @Override
-//            public void onFinalImageSet(
-//                    String id,
-//                    @Nullable ImageInfo imageInfo,
-//                    @Nullable Animatable anim) {
-//                if (imageInfo == null) {
-//                    return;
-//                }
-//                QualityInfo qualityInfo = imageInfo.getQualityInfo();
-//                FLog.d("Final image received! " +
-//                        "Size %d x %d",
-//                        "Quality level %d, good enough: %s, full quality: %s",
-//                        imageInfo.getWidth(),
-//                        imageInfo.getHeight(),
-//                        qualityInfo.getQuality(),
-//                        qualityInfo.isOfGoodEnoughQuality(),
-//                        qualityInfo.isOfFullQuality());
-//            }
-//
-//            @Override
-//            public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
-//                FLog.d("Intermediate image received");
-//            }
-//
-//            @Override
-//            public void onFailure(String id, Throwable throwable) {
-//                FLog.e(getClass(), throwable, "Error loading %s", id)
-//            }
-//        };
-//
-//        Uri uri;
-//        DraweeController controller = Fresco.newDraweeControllerBuilder()
-//                .setControllerListener(controllerListener)
-//                .setUri(uri)
-//                // other setters
-//                .build();
         getData()
     }
 

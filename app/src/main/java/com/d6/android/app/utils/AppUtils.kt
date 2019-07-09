@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -20,6 +21,7 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig
 import java.io.File
 import android.os.Build.VERSION_CODES.KITKAT
 import android.provider.Settings
+import com.facebook.common.internal.Preconditions
 
 
 /**
@@ -100,10 +102,12 @@ class AppUtils {
         fun init(context: Context) {
             this.context = context.applicationContext
             initFilePath()
-            val config = ImagePipelineConfig.newBuilder(context)
+
+            var imagePipelineConfig = ImagePipelineConfig.newBuilder(Preconditions.checkNotNull(context))
+                    .setBitmapsConfig(Bitmap.Config.ARGB_8888) // 若不是要求忒高清显示应用，就用使用RGB_565吧（默认是ARGB_8888)
                     .setDownsampleEnabled(true)
                     .build()
-            Fresco.initialize(this.context,config)
+            Fresco.initialize(context,imagePipelineConfig)
         }
 
         fun initFilePath() {
