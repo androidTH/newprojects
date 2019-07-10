@@ -38,7 +38,6 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.json.JSONObject
 
-
 /**
  * 主页
  */
