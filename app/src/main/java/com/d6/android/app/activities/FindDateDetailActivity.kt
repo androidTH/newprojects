@@ -1,7 +1,6 @@
 package com.d6.android.app.activities
 
 import android.graphics.Bitmap
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -14,10 +13,11 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.CardChatManTagAdapter
 import com.d6.android.app.adapters.FindDateImagesAdapter
 import com.d6.android.app.base.TitleActivity
-import com.d6.android.app.dialogs.DateTypeDialog
 import com.d6.android.app.dialogs.ShareFriendsDialog
+import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.UserTag
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
@@ -35,9 +35,7 @@ class FindDateDetailActivity : TitleActivity() {
 
     private var mTag = FindDateDetailActivity::class.java.simpleName
 
-    private val mData by lazy {
-        intent.getSerializableExtra("data") as MyDate
-    }
+    private var mData :MyDate?=null
     private val mUrls = ArrayList<String>()
 
     private val mPicBitmap = ArrayList<Bitmap>()
@@ -79,13 +77,19 @@ class FindDateDetailActivity : TitleActivity() {
           //R.mipmap.ic_share
         titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
             val shareDialog = ShareFriendsDialog()
-            shareDialog.arguments = bundleOf("from" to "Recommend_findDate","id" to mData.userId.toString(),"sResourceId" to mData.id.toString())
+            mData?.let {
+                shareDialog.arguments = bundleOf("from" to "Recommend_findDate","id" to it.userId.toString(),"sResourceId" to it.id.toString())
+            }
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
-                    startActivity<ReportActivity>("id" to mData.id.toString(), "tiptype" to "4")
+                    mData?.let{
+                        startActivity<ReportActivity>("id" to it.id.toString(), "tiptype" to "4")
+                    }
                 }else if(p==3){
-                    ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+                    mData?.let {
+                        ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, it.lookfriendstand ?: "", it.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+it.id, shareListener)
+                    }
                 }
             }
         })
@@ -101,7 +105,9 @@ class FindDateDetailActivity : TitleActivity() {
 
         tv_contact.setOnClickListener {
             isAuthUser() {
-             ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+                mData?.let {
+                    ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, it.lookfriendstand ?: "", it.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+it.id, shareListener)
+                }
             }
 //            var mDateTypeDialog = DateTypeDialog()
 //            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])
@@ -117,7 +123,15 @@ class FindDateDetailActivity : TitleActivity() {
         }
 
         mHandler = DoHandler(this)
-        refreshUI()
+
+        if(intent.hasExtra("id")){
+            getLookDateDetail(intent.getStringExtra("id"))
+        }else{
+            mData = intent.getSerializableExtra("data") as MyDate
+            mData?.let {
+                refreshUI(it)
+            }
+        }
 
         LongImageUtils.getInstance().setDoLongPicSuccess {
             cardview_finddate.postDelayed(object:Runnable{
@@ -128,25 +142,34 @@ class FindDateDetailActivity : TitleActivity() {
         }
     }
 
-    private fun refreshUI() {
-        date_type.text = String.format("觅约：%s", mData.looknumber)
-        tv_sex.text = "${mData.age}"
+    private fun getLookDateDetail(id: String) {
+        Request.getSpeedDetail(id).request(this){ _, data->
+            data?.let {
+                mData = it
+                refreshUI(it)
+            }
+        }
+    }
+
+    private fun refreshUI(mLookDate:MyDate) {
+        date_type.text = String.format("觅约：%s", mLookDate.looknumber)
+        tv_sex.text = "${mLookDate.age}"
 
         mTags.clear()
-        if (!TextUtils.isEmpty(mData.height)) {
-            mTags.add(UserTag("身高 " + mData.height!!, R.mipmap.boy_stature_icon))
+        if (!TextUtils.isEmpty(mLookDate.height)) {
+            mTags.add(UserTag("身高 " + mLookDate.height!!, R.mipmap.boy_stature_icon))
         }
 
-        if (!TextUtils.isEmpty(mData.weight)) {
-            mTags.add(UserTag("体重 " + mData.weight!!, R.mipmap.boy_weight_grayicon))
+        if (!TextUtils.isEmpty(mLookDate.weight)) {
+            mTags.add(UserTag("体重 " + mLookDate.weight!!, R.mipmap.boy_weight_grayicon))
         }
 
-//        if (!TextUtils.isEmpty(mData.job)) {
-//            mTags.add(UserTag("星座 " + mData.job!!, R.mipmap.boy_profession_icon))
-//        }
+        if (!TextUtils.isEmpty(mLookDate.xingzuo)) {
+            mTags.add(UserTag("星座 " + mLookDate.xingzuo, R.mipmap.boy_profession_icon))
+        }
 
-        if (!TextUtils.isEmpty(mData.city)) {
-            mTags.add(UserTag("地区 " + mData.city, R.mipmap.boy_constellation_icon))
+        if (!TextUtils.isEmpty(mLookDate.city)) {
+            mTags.add(UserTag("地区 " + mLookDate.city, R.mipmap.boy_constellation_icon))
         }
 
         rv_tags.setHasFixedSize(true)
@@ -154,20 +177,20 @@ class FindDateDetailActivity : TitleActivity() {
         rv_tags.isNestedScrollingEnabled = false
         rv_tags.adapter = mUserTagAdapter
 
-        if (!TextUtils.isEmpty(mData.job)) {
-            AppUtils.setTvTag(this, "职业 ${mData.job}", 0, 2, tv_job)
+        if (!TextUtils.isEmpty(mLookDate.job)) {
+            AppUtils.setTvTag(this, "职业 ${mLookDate.job}", 0, 2, tv_job)
         } else {
             tv_job.visibility = View.GONE
         }
 
-        if (!mData.zuojia.isNullOrEmpty()) {
-            AppUtils.setTvTag(this, "座驾 ${mData.zuojia}", 0, 2, tv_zuojia)
+        if (!mLookDate.zuojia.isNullOrEmpty()) {
+            AppUtils.setTvTag(this, "座驾 ${mLookDate.zuojia}", 0, 2, tv_zuojia)
         } else {
             tv_zuojia.visibility = View.GONE
         }
 
-        if (!mData.hobbit.isNullOrEmpty()) {
-            var mHobbies = mData.hobbit?.replace("#", ",")?.split(",")
+        if (!mLookDate.hobbit.isNullOrEmpty()) {
+            var mHobbies = mLookDate.hobbit?.replace("#", ",")?.split(",")
             var sb = StringBuffer()
             sb.append("爱好 ")
             if (mHobbies != null) {
@@ -180,36 +203,36 @@ class FindDateDetailActivity : TitleActivity() {
             tv_aihao.visibility = View.GONE
         }
 
-        tv_content.text = mData.lookfriendstand
+        tv_content.text = mLookDate.lookfriendstand
 
-        mData.coverurl?.let {
+        mLookDate.coverurl?.let {
             val pics = it.split(",")
             mUrls.clear()
             mUrls.addAll(pics.toList())
             imgAdapter.notifyDataSetChanged()
         }
 
-        if (TextUtils.equals(mData.sex, "1")) {
+        if (TextUtils.equals(mLookDate.sex, "1")) {
             tv_sex.isSelected = false
             tv_vip.visibility = View.VISIBLE
             img_auther.visibility = View.GONE
-            tv_vip.backgroundDrawable = getLevelDrawableOfClassName(mData.classesname.toString(),this)
+            tv_vip.backgroundDrawable = getLevelDrawableOfClassName(mLookDate.classesname.toString(),this)
         } else {
             tv_sex.isSelected = true
             tv_vip.visibility = View.GONE
             img_auther.visibility = View.VISIBLE
-            if (TextUtils.equals("1", mData.screen)) {
+            if (TextUtils.equals("1", mLookDate.screen)) {
                 img_auther.backgroundDrawable= ContextCompat.getDrawable(this,R.mipmap.video_big)
-            } else if(TextUtils.equals("0", mData.screen)){
+            } else if(TextUtils.equals("0", mLookDate.screen)){
                 img_auther.visibility = View.GONE
-            }else if(TextUtils.equals("3",mData.screen)){
+            }else if(TextUtils.equals("3",mLookDate.screen)){
                 img_auther.visibility = View.GONE
                 img_auther.backgroundDrawable=ContextCompat.getDrawable(this,R.mipmap.renzheng_big)
             }
         }
 
 
-        if (TextUtils.equals(mData.lookstate,"2")) {//已觅约
+        if (TextUtils.equals(mLookDate.lookstate,"2")) {//已觅约
 //            titleBar.hideAllRightButton()
             tv_contact.isEnabled = false
             tv_contact.text = "已觅约"

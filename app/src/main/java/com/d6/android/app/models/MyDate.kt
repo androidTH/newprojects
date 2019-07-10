@@ -52,6 +52,7 @@ data class MyDate(@SerializedName("ids") val id: String?) : Serializable {
     val classesname: String? = ""
     val lookstate: String? = ""
     val zuojia: String? = ""
+    val xingzuo:String?= ""
     val screen: String? = ""
     val selfpicurl: String? = ""//自助发布图片
     @SerializedName("iType")

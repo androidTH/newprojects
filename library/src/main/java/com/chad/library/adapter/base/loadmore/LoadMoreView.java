@@ -125,4 +125,6 @@ public abstract class LoadMoreView {
     protected abstract
     @IdRes
     int getLoadEndViewId();
+
+
 }

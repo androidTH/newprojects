@@ -465,4 +465,9 @@ interface ApiServices {
   //查询组的信息，返回组的名称和图片（已区分是否匿名）
    @POST("backstage/group/findGroupByGroupid")
    fun findGroupDescByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<GroupBean>>
+
+    //密约详情页
+   @POST("backstage/lookabout/find")
+   fun getLookDateDetail(@Query("ids") ids: String?,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<MyDate>>
+
 }

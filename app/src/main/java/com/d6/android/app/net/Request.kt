@@ -472,4 +472,7 @@ object Request {
 
     //查询组的信息，返回组的名称和图片（已区分是否匿名）
     fun findGroupDescByGroupId(sLoginToken:String,sGroupId:String)=RRetrofit.instance().create(ApiServices::class.java).findGroupDescByGroupId(sLoginToken,sGroupId)
+
+    fun getLookDateDetail(ids: String?) = RRetrofit.instance().create(ApiServices::class.java).getLookDateDetail(ids)
+
 }

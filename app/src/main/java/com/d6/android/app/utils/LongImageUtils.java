@@ -167,9 +167,9 @@ public class LongImageUtils {
             mTags.add(new UserTag("体重 " + mData.getWeight(), R.mipmap.boy_weight_grayicon));
         }
 
-//        if (!TextUtils.isEmpty(mData.job)) {
-//            mTags.add(UserTag("星座 " + mData.job!!, R.mipmap.boy_profession_icon))
-//        }
+        if (!TextUtils.isEmpty(mData.getXingzuo())) {
+            mTags.add(new UserTag("星座 " + mData.getXingzuo(), R.mipmap.boy_profession_icon));
+        }
 
         if(TextUtils.equals(type,"FindDateDetailActivity")){
             ll5.setVisibility(View.GONE);

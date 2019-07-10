@@ -155,9 +155,9 @@ class SpeedDateDetailActivity : TitleActivity() {
             mTags.add(UserTag("体重 " + speedDate.weight!!, R.mipmap.boy_weight_grayicon))
         }
 
-//        if (!TextUtils.isEmpty(mData.job)) {
-//            mTags.add(UserTag("星座 " + mData.job!!, R.mipmap.boy_profession_icon))
-//        }
+        if (!TextUtils.isEmpty(speedDate.xingzuo)) {
+            mTags.add(UserTag("星座 " + speedDate.xingzuo, R.mipmap.boy_profession_icon))
+        }
 
         if (!TextUtils.isEmpty(speedDate.speedcity)) {
             mTags.add(UserTag("地区 " + speedDate.speedcity, R.mipmap.boy_constellation_icon))
