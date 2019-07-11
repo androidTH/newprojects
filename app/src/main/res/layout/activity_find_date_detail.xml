@@ -32,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_13"
+                    android:paddingBottom="@dimen/margin_12"
                     android:paddingLeft="@dimen/margin_20"
                     android:paddingRight="@dimen/margin_20">
 
@@ -182,10 +183,10 @@
                     </RelativeLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ll5"
-                        android:layout_marginBottom="12dp"
                         android:orientation="horizontal">
 
                         <TextView

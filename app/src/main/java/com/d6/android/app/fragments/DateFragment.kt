@@ -339,15 +339,17 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             if(findDate.iIsFans==0){
                 Request.getAddFollow(userId, findDate.accountId.toString()).request(this, true) { s: String?, jsonObject: JsonObject? ->
                     //toast("$s,$jsonObject")
+                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.like_complte))
                     mDates.get(scrollPosition).iIsFans = 1
                     doAnimation()
-                    doNextCard()
+//                    doNextCard()
                     showTips(jsonObject, "", "")
                 }
             }else{
                 Request.getDelFollow(userId, findDate.accountId.toString()).request(this,true) { s: String?, jsonObject: JsonObject? ->
                     mDates.get(scrollPosition).iIsFans = 0
-                    doNextCard()
+                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.discover_like_button))
+//                    doNextCard()
                 }
             }
         }

@@ -133,16 +133,16 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
                     intent?.let {
-                        isUpdown = it.getBooleanExtra(ISUPDOWN,false)
-                        if(isUpdown!!){
-                            titleBar.backgroundColor = ContextCompat.getColor(context,R.color.white)
-                            tv_title.textColor = ContextCompat.getColor(context,R.color.color_black)
-                            tv_date_mydate.textColor = ContextCompat.getColor(context,R.color.color_black)
-                        }else{
-                            titleBar.backgroundColor = ContextCompat.getColor(context,R.color.color_black)
-                            tv_title.textColor = ContextCompat.getColor(context,R.color.white)
-                            tv_date_mydate.textColor = ContextCompat.getColor(context,R.color.white)
-                        }
+//                        isUpdown = it.getBooleanExtra(ISUPDOWN,false)
+//                        if(isUpdown){
+//                            titleBar.backgroundColor = ContextCompat.getColor(context,R.color.white)
+//                            tv_title.textColor = ContextCompat.getColor(context,R.color.color_black)
+//                            tv_date_mydate.textColor = ContextCompat.getColor(context,R.color.color_black)
+//                        }else{
+//                            titleBar.backgroundColor = ContextCompat.getColor(context,R.color.color_black)
+//                            tv_title.textColor = ContextCompat.getColor(context,R.color.white)
+//                            tv_date_mydate.textColor = ContextCompat.getColor(context,R.color.white)
+//                        }
                     }
                 }
             }
@@ -152,12 +152,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
+        immersionBar.init()
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
         registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
         registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))
         registerReceiver(manService, IntentFilter(Const.MINE_MANSERVICE_YOUKE))
-        registerReceiver(mHomeDateStateBar, IntentFilter(Const.HOMEDATE_STATEBAR))
+//        registerReceiver(mHomeDateStateBar, IntentFilter(Const.HOMEDATE_STATEBAR))
 
         tabhost.setup(this, supportFragmentManager, R.id.container)
         tabhost.tabWidget.dividerDrawable = null
@@ -177,16 +177,17 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             tv_find_tab.visibility = View.INVISIBLE
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
-                    immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
-                    if(isUpdown!!){
-                        titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
-                        tv_title.textColor = ContextCompat.getColor(this,R.color.color_black)
-                        tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.color_black)
-                    }else{
-                        titleBar.backgroundColor = ContextCompat.getColor(this,R.color.color_black)
-                        tv_title.textColor = ContextCompat.getColor(this,R.color.white)
-                        tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.white)
-                    }
+//                    if(isUpdown){
+//                        titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
+//                        tv_title.textColor = ContextCompat.getColor(this,R.color.color_black)
+//                        tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.color_black)
+//                    }else{
+//                        titleBar.backgroundColor = ContextCompat.getColor(this,R.color.color_black)
+//                        tv_title.textColor = ContextCompat.getColor(this,R.color.white)
+//                        tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.white)
+//                    }
+
+                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
 //                    tv_title.text = "广场"
                     tv_title.visible()
@@ -336,7 +337,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         //默认标题
         tv_title.text = "约会"
-        tv_title.textColor = ContextCompat.getColor(this,R.color.white)
+        tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
         titleBar.visibility = View.VISIBLE
 
         val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)

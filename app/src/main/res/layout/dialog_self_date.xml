@@ -17,7 +17,7 @@
             android:id="@+id/tv_date_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/margin_5"
             android:gravity="center"
             android:text="自主约会"
             android:textColor="@color/color_333333"
@@ -31,7 +31,7 @@
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginRight="@dimen/margin_5"
             android:lineSpacingExtra="@dimen/margin_5"
-            android:text="自主约会是D6为你打造的约会服务，为了保证内容真实性，仅对会员开放，并对发布的约会进行人工审核，双方同意后即可开始聊天，进行约会。 "
+            android:text="自主约会是D6为你打造的约会服务，为了保证内容真实性，仅对会员开放，并对发布的约会进行人工审核，双方同意后即可开始聊天，进行约会。你情我愿，那就约起来吧！ "
             android:textColor="@color/color_333333"
             android:textSize="15sp" />
 
@@ -44,6 +44,7 @@
             android:layout_marginRight="@dimen/margin_5"
             android:text="你情我愿，那就约起来吧！"
             android:textColor="@color/color_333333"
+            android:visibility="gone"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -125,8 +126,8 @@
             android:layout_marginTop="@dimen/margin_20"
             android:background="@drawable/shape_4r_orange_f7"
             android:gravity="center"
-            android:paddingTop="17sp"
-            android:paddingBottom="15dp"
+            android:paddingTop="@dimen/margin_13"
+            android:paddingBottom="@dimen/margin_13"
             android:text="知道了"
             android:textColor="@color/white"
             android:textSize="@dimen/btnTextSize"

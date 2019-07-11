@@ -244,7 +244,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     } else {
                         mComments.addAll(it.comments)
                     }
-                    Collections.reverse(mComments)
+//                    Collections.reverse(mComments)
                     squareDetailCommentAdapter.setNMIndex(1)
                     squareDetailCommentAdapter.notifyDataSetChanged()
                     mSquare?.comments = mComments

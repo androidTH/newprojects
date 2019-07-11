@@ -216,7 +216,12 @@ class SpeedDateDetailActivity : TitleActivity() {
 //        val startT = speedDate.beginTime?.parserTime()
 //        val endT = speedDate.endTime?.parserTime()
         tv_speeddate_showtime.text = speedDate.createTime?.interval()//String.format("速约时间:%s-%s", startT?.toTime("MM.dd") , endT?.toTime("MM.dd"))
-        tv_content.text =speedDate.speedcontent
+        if(!speedDate.speedcontent.isNullOrEmpty()){
+            ll6.visibility = View.VISIBLE
+            tv_content.text =speedDate.speedcontent
+        }else{
+            ll6.visibility = View.GONE
+        }
 
         val l1 = speedDate.speedcity?.length ?: 0
         val l2 = speedDate.getSpeedStateStr().length

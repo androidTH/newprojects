@@ -153,9 +153,11 @@ class RecommendDateActivity : BaseActivity() {
         })
 
         if(TextUtils.equals(mUserInfo.userclassesid,"7")){
-            recomend_level.visibility = View.GONE
-            tv_userlevel.text = "联系客服"
+            ll_userlevel.visibility = View.GONE
+//            recomend_level.visibility = View.GONE
+//            tv_userlevel.text = "联系客服"
         }else{
+            ll_userlevel.visibility = View.VISIBLE
             recomend_level.setImageURI(headerUrl)
             if(TextUtils.equals(mUserInfo.userclassesid,"29")){
                 tv_userlevel.text = "高级会员"

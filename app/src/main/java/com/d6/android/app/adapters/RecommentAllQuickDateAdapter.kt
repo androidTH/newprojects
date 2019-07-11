@@ -2,6 +2,7 @@ package com.d6.android.app.adapters
 
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 
@@ -21,7 +22,8 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
     override fun convert(helper: BaseViewHolder, data: MyDate) {
         val imageView = helper.getView<SimpleDraweeView>(R.id.imageView)
         data.lookpics?.let {
-            imageView.setImageURI(data.lookpics)
+            imageView.setImageURI(it)
+            Log.i("recoment","${it}")
         }
         val nameView = helper.getView<TextView>(R.id.tv_name)
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)
@@ -41,13 +43,20 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
             if(sb.toString().isNullOrEmpty()){
                 tv_info.visibility = View.GONE
             }else{
-                tv_info.visibility = View.VISIBLE
+                tv_info.visibility = View.GONE
                 tv_info.text = sb.toString()
             }// String.format("职业:%s 座驾:%s", data.job, data.zuojia)
         }
 
         helper.setText(R.id.tv_content, data.lookfriendstand)
-        helper.setText(R.id.tv_address,data.city)
+        var mCity = helper.getView<TextView>(R.id.tv_address)
+        if(!data.city.isNullOrEmpty()){
+            mCity.visibility = View.VISIBLE
+            mCity.text = data.city
+        }else{
+           mCity.visibility = View.GONE
+        }
+
         val tv_audio_auth = helper.getView<TextView>(R.id.tv_auth_state)
         val tv_audio_level = helper.getView<TextView>(R.id.tv_auth_level)
 

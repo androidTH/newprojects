@@ -2,8 +2,6 @@ package com.d6.android.app.activities
 
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -19,21 +17,18 @@ import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.frescohelper.FrescoUtils
-import com.d6.android.app.widget.frescohelper.IResult
 import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
 import kotlinx.android.synthetic.main.activity_find_date_detail.*
 import org.jetbrains.anko.*
-import java.lang.ref.WeakReference
 
 /**
  * 觅约详情
  */
 class FindDateDetailActivity : TitleActivity() {
 
-    private var mTag = FindDateDetailActivity::class.java.simpleName
+//    private var mTag = FindDateDetailActivity::class.java.simpleName
 
     private var mData :MyDate?=null
     private val mUrls = ArrayList<String>()
@@ -45,7 +40,7 @@ class FindDateDetailActivity : TitleActivity() {
     }
 
     private val mTags =ArrayList<UserTag>()
-    private var mHandler:Handler?=null
+//    private var mHandler:Handler?=null
 
     private val mUserTagAdapter by lazy{
          CardChatManTagAdapter(mTags)
@@ -122,7 +117,7 @@ class FindDateDetailActivity : TitleActivity() {
 //            mDateTypeDialog.show(supportFragmentManager,"dateType")
         }
 
-        mHandler = DoHandler(this)
+//        mHandler = DoHandler(this)
 
         if(intent.hasExtra("id")){
             getLookDateDetail(intent.getStringExtra("id"))
@@ -133,13 +128,13 @@ class FindDateDetailActivity : TitleActivity() {
             }
         }
 
-        LongImageUtils.getInstance().setDoLongPicSuccess {
-            cardview_finddate.postDelayed(object:Runnable{
-                override fun run() {
-                    dismissDialog()
-                }
-            },500)
-        }
+//        LongImageUtils.getInstance().setDoLongPicSuccess {
+//            cardview_finddate.postDelayed(object:Runnable{
+//                override fun run() {
+//                    dismissDialog()
+//                }
+//            },500)
+//        }
     }
 
     private fun getLookDateDetail(id: String) {
@@ -203,7 +198,12 @@ class FindDateDetailActivity : TitleActivity() {
             tv_aihao.visibility = View.GONE
         }
 
-        tv_content.text = mLookDate.lookfriendstand
+        if(!TextUtils.isEmpty(mLookDate.lookfriendstand)){
+            tv_content.text = mLookDate.lookfriendstand
+        }else{
+            date_view_line.visibility = View.GONE
+            ll6.visibility = View.GONE
+        }
 
         mLookDate.coverurl?.let {
             val pics = it.split(",")
@@ -245,48 +245,48 @@ class FindDateDetailActivity : TitleActivity() {
 
     protected var mSaveBitmapRunnable=object: Runnable{
         override fun run() {
-            var mBitmap = LongImageUtils.getInstance().getRecyclerItemsToBitmap(this@FindDateDetailActivity,mTag,mData,mPicBitmap)
+            var mBitmap = LongImageUtils.getInstance().getRecyclerItemsToBitmap(this@FindDateDetailActivity,"",mData,mPicBitmap)
             saveBmpToGallery(this@FindDateDetailActivity,mBitmap,"finddate_qrcode")
         }
     }
 
-    fun sendHandlerMessage(index:Int){
-        var message= mHandler?.obtainMessage()
-        message?.arg1 = index
-        mHandler?.sendMessage(message)
-    }
+//    fun sendHandlerMessage(index:Int){
+//        var message= mHandler?.obtainMessage()
+//        message?.arg1 = index
+//        mHandler?.sendMessage(message)
+//    }
 
-    private class DoHandler(activity: FindDateDetailActivity) : Handler() {
-        //持有弱引用HandlerActivity,GC回收时会被回收掉.
-        private val mActivty: WeakReference<FindDateDetailActivity>
-        init {
-            mActivty = WeakReference<FindDateDetailActivity>(activity)
-        }
-        override fun handleMessage(msg: Message) {
-            val activity = mActivty.get()
-            super.handleMessage(msg)
-            if (activity != null) {
-                msg?.let {
-                    var index = it.arg1
-                    FrescoUtils.loadImage(activity,activity.mUrls[index],object:IResult<Bitmap>{
-                        override fun onResult(result: Bitmap?) {
-                            result?.let {
-                                activity.mPicBitmap.add(it)
-                                if(index==(activity.mUrls.size-1)){
-                                    ThreadPoolManager.getInstance().execute(activity.mSaveBitmapRunnable)
-                                }else{
-                                    activity.sendHandlerMessage(index+1)
-                                }
-                            }
-                        }
-                    })
-                }
-            }
-        }
-    }
+//    private class DoHandler(activity: FindDateDetailActivity) : Handler() {
+//        //持有弱引用HandlerActivity,GC回收时会被回收掉.
+//        private val mActivty: WeakReference<FindDateDetailActivity>
+//        init {
+//            mActivty = WeakReference<FindDateDetailActivity>(activity)
+//        }
+//        override fun handleMessage(msg: Message) {
+//            val activity = mActivty.get()
+//            super.handleMessage(msg)
+//            if (activity != null) {
+//                msg?.let {
+//                    var index = it.arg1
+//                    FrescoUtils.loadImage(activity,activity.mUrls[index],object:IResult<Bitmap>{
+//                        override fun onResult(result: Bitmap?) {
+//                            result?.let {
+//                                activity.mPicBitmap.add(it)
+//                                if(index==(activity.mUrls.size-1)){
+//                                    ThreadPoolManager.getInstance().execute(activity.mSaveBitmapRunnable)
+//                                }else{
+//                                    activity.sendHandlerMessage(index+1)
+//                                }
+//                            }
+//                        }
+//                    })
+//                }
+//            }
+//        }
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
-        mHandler = null
+//        mHandler = null
     }
 }

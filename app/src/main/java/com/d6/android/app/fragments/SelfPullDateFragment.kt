@@ -64,14 +64,13 @@ class SelfPullDateFragment : RecyclerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
+//        immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
     }
+
     override fun onFirstVisibleToUser() {
 
         mSwipeRefreshLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_F5F5F5))
-
 //        addItemDecoration()
-
         dateAdapter.setOnItemClickListener { _, position ->
             val data = mFindDates[position]
 //            startActivity<SelfReleaseDetailActivity>("data" to data)
@@ -86,7 +85,6 @@ class SelfPullDateFragment : RecyclerFragment() {
                     if (f == 0) {
                         val view = l.findViewByPosition(0)
                         val h = view.top
-                        Log.i("dddddddd","h=${h}----dy=${dy}")
                         if(h<0&&dy>=0){
                             //表示向上滑动
                             if(showSelfDateDialog){

@@ -41,19 +41,19 @@ import org.jetbrains.anko.support.v4.toast
 class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground{
 
     private var mTAG = HomeFragment::class.java.simpleName
+//    private var mHomeIsUpDown:Boolean = false //true 向上 false 向下
 
-    private var mHomeIsUpDown:Boolean = false //true 向上 false 向下
     override fun showBackground(mUpDown: Boolean) {
-        mHomeIsUpDown = mUpDown
-        if(mUpDown){
-            immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
-        }else{
-            immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
-        }
+//        mHomeIsUpDown = mUpDown
+//        if(mUpDown){
+//            immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
+//        }else{
+//            immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
+//        }
 
-        var intent = Intent(Const.HOMEDATE_STATEBAR)
-        intent.putExtra(ISUPDOWN,mHomeIsUpDown)
-        context.sendBroadcast(intent)
+//        var intent = Intent(Const.HOMEDATE_STATEBAR)
+//        intent.putExtra(ISUPDOWN,mHomeIsUpDown)
+//        context.sendBroadcast(intent)
     }
 
     private val userId by lazy {
@@ -149,7 +149,11 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground{
                 val filterDateTypeDialog = FilterDateTypeDialog()
                 filterDateTypeDialog.show(childFragmentManager, "ftd")
                 filterDateTypeDialog.setDialogListener { p, s ->
-                    type = p
+                    if(p==5){
+                        type = 0
+                    }else{
+                        type = p
+                    }
                     tv_datetype.text = s
                     getFragment()
                 }
@@ -338,13 +342,14 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground{
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            if(mHomeIsUpDown){
-                Log.i(mTAG,"向上")
-                immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
-            }else{
-                immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
-                Log.i(mTAG,"向下")
-            }
+            immersionBar.init()
+//            if(mHomeIsUpDown){
+//                Log.i(mTAG,"向上")
+//                immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
+//            }else{
+//                immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
+//                Log.i(mTAG,"向下")
+//            }
         }
     }
 

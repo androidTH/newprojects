@@ -14,11 +14,13 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import com.umeng.message.PushAgent
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.bean.SHARE_MEDIA
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.rong.imkit.RongIM
 import kotlinx.android.synthetic.main.dialog_singleaction_layout.*
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -64,6 +66,18 @@ class SingleActionDialog : DialogFragment(),RequestManager {
         tv_tips.text = msg
         tv_action.setOnClickListener {
             isBaseActivity {
+                SPUtils.instance().remove(Const.User.USER_ID)
+                        .remove(Const.User.IS_LOGIN)
+                        .remove(Const.User.RONG_TOKEN)
+                        .remove(Const.User.USER_TOKEN)
+                        .remove(Const.User.SLOGINTOKEN)
+                        .apply()
+                clearLoginToken()
+                SPUtils.instance().remove(Const.USERINFO)
+                PushAgent.getInstance(it).deleteAlias(getLocalUserId(), "D6", { _, _ ->
+
+                })
+                RongIM.getInstance().disconnect()
                 it.closeAll()
                 startActivity<SplashActivity>()
             }
