@@ -204,8 +204,7 @@
                             android:id="@+id/tv_content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="2"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:text=""
                             android:textColor="@color/color_333333"
                             android:textSize="14sp" />

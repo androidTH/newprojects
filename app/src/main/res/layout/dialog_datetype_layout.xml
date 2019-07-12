@@ -25,11 +25,12 @@
             <!--app:actualImageScaleType="fitCenter"-->
             <!--app:placeholderImageScaleType="fitCenter"-->
             <!--app:viewAspectRatio="1.3"/>-->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:id="@+id/imageView"/>
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scaleType="fitCenter"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:id="@+id/imageView"/>-->
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

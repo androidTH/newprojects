@@ -30,7 +30,7 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
         nameView.isSelected = TextUtils.equals(data.sex, "0")
         var tv_info = helper.getView<TextView>(R.id.tv_info)
         if(TextUtils.equals("0",data.sex)){
-            tv_info.visibility = View.VISIBLE
+            tv_info.visibility = View.GONE
             tv_info.text = String.format("%s岁·%s·%s", data.age, data.height, data.weight)
         }else{
             var sb = StringBuffer()

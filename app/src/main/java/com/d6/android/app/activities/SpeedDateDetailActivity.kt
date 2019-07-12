@@ -109,6 +109,7 @@ class SpeedDateDetailActivity : TitleActivity() {
                 ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
             }
 //            var mDateTypeDialog = DateTypeDialog()
+//            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])
 //            mDateTypeDialog.setDialogListener { p, s ->
 //                if(p==1){//分享约会
 //
@@ -215,7 +216,8 @@ class SpeedDateDetailActivity : TitleActivity() {
 
 //        val startT = speedDate.beginTime?.parserTime()
 //        val endT = speedDate.endTime?.parserTime()
-        tv_speeddate_showtime.text = speedDate.createTime?.interval()//String.format("速约时间:%s-%s", startT?.toTime("MM.dd") , endT?.toTime("MM.dd"))
+//        speedDate.createTime?.interval()
+        tv_speeddate_showtime.text = String.format("%s-%s", speedDate.beginTime.parserTime().toTime(timeFormat) , speedDate.endTime?.parserTime().toTime(timeFormat)) //speedDate.createTime?.interval()
         if(!speedDate.speedcontent.isNullOrEmpty()){
             ll6.visibility = View.VISIBLE
             tv_content.text =speedDate.speedcontent
@@ -223,8 +225,8 @@ class SpeedDateDetailActivity : TitleActivity() {
             ll6.visibility = View.GONE
         }
 
-        val l1 = speedDate.speedcity?.length ?: 0
-        val l2 = speedDate.getSpeedStateStr().length
+//        val l1 = speedDate.speedcity?.length ?: 0
+//        val l2 = speedDate.getSpeedStateStr().length
 //        val l3 = mSpeedDate.handspeedwhere?.length ?: 0
 
 //        tv_content.text = SpanBuilder(String.format("%s%s-%s", mSpeedDate.speedwhere + mSpeedDate.handspeedwhere, mSpeedDate.getSpeedStateStr(), mSpeedDate.speedcontent))
@@ -262,7 +264,8 @@ class SpeedDateDetailActivity : TitleActivity() {
 //            btn_contact.isEnabled = false
 //            btn_contact.text = "已过期"
             iv_speed_timeout.visibility = View.VISIBLE
-            btn_contact.visibility = View.GONE
+//            btn_contact.visibility = View.VISIBLE
+            rl_bottom.visibility = View.GONE
         } else {
             iv_speed_timeout.visibility = View.GONE
             btn_contact.visibility = View.VISIBLE

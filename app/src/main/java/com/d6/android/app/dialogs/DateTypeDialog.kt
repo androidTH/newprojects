@@ -2,6 +2,7 @@ package com.d6.android.app.dialogs
 
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -20,6 +21,7 @@ import com.d6.android.app.utils.OnDialogListener
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.optString
 import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.binaryresource.FileBinaryResource
 import com.facebook.cache.common.SimpleCacheKey
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -78,6 +80,13 @@ class DateTypeDialog : DialogFragment() {
 //        val file = resource.getFile()
 //        val bitmap = BitmapFactory.decodeFile(file.getPath())
 //        imageView.setImageBitmap(bitmap)
+//        FrescoUtils.loadImage(context,arguments.getString("pics"),object:IResult<Bitmap>{
+//            override fun onResult(result: Bitmap?) {
+//                result?.let {
+//                    imageView.setImageBitmap(it)
+//                }
+//            }
+//        })
         getData()
     }
 

@@ -49,7 +49,7 @@ class FindDateImagesAdapter(mData: ArrayList<String>) : BaseRecyclerAdapter<Stri
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: String) {
-        val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
+        val imageView = holder.bind<ImageView>(R.id.imageView)
 //        val layoutParams = imageView.getLayoutParams()
 //        var viewWidth = ScreenUtil.getScreenWidth(context)
 //
@@ -104,13 +104,16 @@ class FindDateImagesAdapter(mData: ArrayList<String>) : BaseRecyclerAdapter<Stri
 //        var draweeController = draweeControllerBuilder.build()
 //        imageView.setController(draweeController)
 
-        imageView.setImageURI(data)
+//        imageView.setImageURI(data)
 
-//        FrescoUtils.loadImage(context, data, object : IResult<Bitmap> {
-//            override fun onResult(result: Bitmap?) {
-//                imageView.setImageBitmap(result)
-//            }
-//        })
+
+        FrescoUtils.loadImage(context,data,object:IResult<Bitmap>{
+            override fun onResult(result: Bitmap?) {
+                result?.let {
+                    imageView.setImageBitmap(it)
+                }
+            }
+        })
 
         imageView.setOnClickListener {
             context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mData, ImagePagerActivity.CURRENT_POSITION to position)

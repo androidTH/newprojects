@@ -231,7 +231,6 @@ class FindDateDetailActivity : TitleActivity() {
             }
         }
 
-
         if (TextUtils.equals(mLookDate.lookstate,"2")) {//已觅约
 //            titleBar.hideAllRightButton()
             tv_contact.isEnabled = false

@@ -48,13 +48,15 @@
         android:id="@+id/custom_load_more_load_end_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_15"
         android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/brvah_load_end"
+            android:text="以上会员卡片都是人工认证并制作，有意向可联系你的微信专属客服"
             android:textColor="@android:color/darker_gray"/>
     </FrameLayout>
 </FrameLayout>
