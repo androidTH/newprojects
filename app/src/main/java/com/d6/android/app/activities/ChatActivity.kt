@@ -26,6 +26,8 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Group
 import io.rong.imlib.model.Message
+import io.rong.imlib.model.MessageContent
+import io.rong.message.ImageMessage
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.jetbrains.anko.*
 import org.json.JSONObject
@@ -61,6 +63,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     }
 
     private var isInBlackList=0
+    private var isValid:String="0"
 
     private var mOtherUserId = ""
     private var mWhoanonymous = "1" //1我自己匿名   2对方匿名
@@ -205,6 +208,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
         RongIM.getInstance().setSendMessageListener(this)
 
+        getOtherUser()
     }
 
 
@@ -289,12 +293,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     }
 
     private fun getOtherUser(){
-        Request.getUserInfo(userId,mOtherUserId).request(this, success = { _, data ->
+        Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
                data?.let {
-                   if(TextUtils.equals("--",mTitle)){
-                       tv_chattitle.text = it.name
-                   }
-                   isInBlackList = it.iIsInBlackList!!.toInt()
+                   isValid = it.isValid.toString()
+//                   isInBlackList = it.iIsInBlackList!!.toInt()
                }
         }){code,msg->
             if(code==2){
@@ -592,6 +594,20 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     }
 
     override fun onSend(p0: Message?): Message? {
+        if(TextUtils.equals(isValid,"2")){
+            p0?.let {
+                RongIM.getInstance().insertOutgoingMessage(mConversationType, mTargetId, Message.SentStatus.RECEIVED,it.content, object : RongIMClient.ResultCallback<Message>() {
+                    override fun onSuccess(message: Message) {
+
+                    }
+
+                    override fun onError(errorCode: RongIMClient.ErrorCode) {
+
+                    }
+                })
+            }
+            return null
+        }
         return p0
     }
 

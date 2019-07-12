@@ -217,7 +217,7 @@ class SpeedDateDetailActivity : TitleActivity() {
 //        val startT = speedDate.beginTime?.parserTime()
 //        val endT = speedDate.endTime?.parserTime()
 //        speedDate.createTime?.interval()
-        tv_speeddate_showtime.text = String.format("%s-%s", speedDate.beginTime.parserTime().toTime(timeFormat) , speedDate.endTime?.parserTime().toTime(timeFormat)) //speedDate.createTime?.interval()
+        tv_speeddate_showtime.text = String.format("%s-%s", speedDate.beginTime.parserTime().toTime("yyyy.MM.dd") , speedDate.endTime?.parserTime().toTime("yyyy.MM.dd")) //speedDate.createTime?.interval()
         if(!speedDate.speedcontent.isNullOrEmpty()){
             ll6.visibility = View.VISIBLE
             tv_content.text =speedDate.speedcontent
