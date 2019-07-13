@@ -29,7 +29,6 @@ import org.jetbrains.anko.startActivity
 class RecommendDateActivity : BaseActivity() {
 
     val fragment = RecommendDateQuickFragment()
-    private var iLookType: String = ""
     private var city: String = ""
 
     private val mRecommentTypes = ArrayList<RecommentType>()

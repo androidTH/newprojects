@@ -39,8 +39,8 @@ class SetUserInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_user_info)
-//        immersionBar.statusBarColor(R.color.trans_parent)
-//                .init()
+        immersionBar.statusBarColor(R.color.trans_parent)
+                .init()
 //        AndroidBug5497Workaround.assistActivity(this)
 
         val name = if (intent.hasExtra("name")) {

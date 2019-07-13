@@ -123,6 +123,11 @@ fun getLocalUserId():String{
     }
     return mUserId
 }
+
+fun getIsOpenUnKnow():String{
+    return SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
+}
+
 fun Activity.callPhone(phone: String?) {
 //    val isAllow = permission(Manifest.permission.CALL_PHONE,"拨号权限",15)
 //    if (isAllow) {
@@ -939,26 +944,26 @@ fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
 
 fun getLevelDrawableOfClassName(name:String,mContext:Context):Drawable?{
     var mDrawable:Drawable? = null
-    if (name.startsWith("入门")) {
-        ContextCompat.getDrawable(mContext, R.mipmap.gril_cj)
-    } else if (name.startsWith("中级")) {
-       ContextCompat.getDrawable(mContext, R.mipmap.gril_zj)
-    } else if (name.startsWith("优质")) {
-        ContextCompat.getDrawable(mContext, R.mipmap.gril_gj)
-    } else if (name.startsWith("普通")) {
-       ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
-    } else if (name.startsWith("白银")) {
-        ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
-    } else if (name.startsWith("黄金")) {
-       ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
-    } else if (name.startsWith("钻石")) {
-       ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
-    } else if (name.startsWith("私人")) {
-        ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
-    } else if (name.startsWith("游客")) {
-        ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
-    } else if (name.startsWith("入群")) {
-       ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
+    if (name.indexOf("入门")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_cj)
+    } else if (name.indexOf("中级")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_zj)
+    } else if (name.indexOf("优质")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_gj)
+    } else if (name.indexOf("普通")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
+    } else if (name.indexOf("白银")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
+    } else if (name.indexOf("黄金")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
+    } else if (name.indexOf("钻石")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
+    } else if (name.indexOf("私人")!=-1) {
+        mDrawable =  ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
+    } else if (name.indexOf("游客")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
+    } else if (name.indexOf("入群")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
     }
    return mDrawable
 }

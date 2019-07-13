@@ -312,6 +312,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         Request.getApplyStatus(userId,if(iType==2)  mTargetId else mOtherUserId,iType).request(this,false,success={msg,jsonObjetct->
             jsonObjetct?.let {
                 var code = it.optInt("code")
+                Log.i("chatactivity","code=${code}----${it}")
                 if(code == 1){//已申请私聊且对方已同意
                     if(TextUtils.equals("1",sex)){
                         sendCount = it.optInt("iTalkCount")
@@ -365,7 +366,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     tv_openchat_points.visibility = View.VISIBLE
                     linear_openchat_agree.visibility = View.GONE
                     tv_openchat_apply.visibility = View.GONE
-                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
+                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchangchat)
                     tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
                 }
             }
@@ -386,10 +387,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         relative_tips.visibility = View.VISIBLE
         tv_openchat_points.visibility = View.VISIBLE
         if(sendCount>=3){
-            tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
+            tv_openchat_tips_title.text = resources.getString(R.string.string_openchangchat)
             tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
             IsAgreeChat = false
-            fragment?.doIsNotSendMsg(!IsAgreeChat,resources.getString(R.string.string_other_agreee_openchat))
+            fragment?.doIsNotSendMsg(!IsAgreeChat,resources.getString(R.string.string_pay_points_openchangchat))
         }else{
             IsAgreeChat = true
             sendCount = SendMsgTotal - sendCount
@@ -407,9 +408,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             if (data != null) {
                 var code = data.optInt("iTalkType")
                 if (code == 2) {//已发送3次聊天消息，需要解锁无限畅聊
-                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
+                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchangchat)
                     tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
-                    fragment?.doIsNotSendMsg(true,resources.getString(R.string.string_pay_points_openchat))
+                    fragment?.doIsNotSendMsg(true,resources.getString(R.string.string_pay_points_openchangchat))
                 } else if (code == 1) {//发送3次聊天消息以内，允许继续发送消息
                     var iTalkCount = data.optInt("iTalkCount")
                     sendCount = SendMsgTotal - iTalkCount

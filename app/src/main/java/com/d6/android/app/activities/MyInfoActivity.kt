@@ -54,7 +54,7 @@ class MyInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_info)
-//        immersionBar.fitsSystemWindows(true).init()
+        immersionBar.init()
 
         rv_edit_images.setHasFixedSize(true)
         rv_edit_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
