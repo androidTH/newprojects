@@ -161,17 +161,19 @@ public class ConversationFragmentEx extends ConversationFragment {
 
     public void doIsNotSendMsg(boolean flag,String hitmsg){
         if(flag){
-            mMyEditText.setEnabled(false);
-            mMyEmoticonToggle.setEnabled(false);
-            mMyPluginToggle.setEnabled(false);
-            mMyVoiceToggle.setEnabled(false);
-            mMyEditText.setHint(hitmsg);
+            rongExtension.setVisibility(View.GONE);
+//            mMyEditText.setEnabled(false);
+//            mMyEmoticonToggle.setEnabled(false);
+//            mMyPluginToggle.setEnabled(false);
+//            mMyVoiceToggle.setEnabled(false);
+//            mMyEditText.setHint(hitmsg);
         }else{
-            mMyEditText.setEnabled(true);
-            mMyEmoticonToggle.setEnabled(true);
-            mMyPluginToggle.setEnabled(true);
-            mMyVoiceToggle.setEnabled(true);
-            mMyEditText.setHint("");
+            rongExtension.setVisibility(View.VISIBLE);
+//            mMyEditText.setEnabled(true);
+//            mMyEmoticonToggle.setEnabled(true);
+//            mMyPluginToggle.setEnabled(true);
+//            mMyVoiceToggle.setEnabled(true);
+//            mMyEditText.setHint("");
         }
     }
 }

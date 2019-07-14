@@ -68,6 +68,7 @@
     <string name="string_pay_points_openchangchat">支付积分后即可无限畅聊</string>
     <string name="string_otherapply_agreee_openchat">%1$s申请和你私聊</string>
     <string name="string_apply_agree_openchat">申请和对方私聊</string>
+    <string name="string_apply_agree_openchat_warm">为了避免恶意骚扰，请先向对方发起私聊申请</string>
     <string name="string_already_applay">已申请</string>
     <string name="string_privatechat_set">私聊设置</string>
     <string name="string_linechat">直接私聊</string>
@@ -131,4 +132,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="string_newcomments">有新的评论</string>
+    <string name="string_applay_tips_center">%1$s申请与你私聊</string>
+    <string name="string_appaying_openchat">申请中...</string>
+    <string name="string_applay_sendredflower">送小红花</string>
+    <string name="string_give_redflower">送小红花可以置顶提醒提高对方回复率哦</string>
 </resources>

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
@@ -51,8 +52,9 @@ class CommonTipDialog : DialogFragment(),RequestManager {
         super.onViewCreated(view, savedInstanceState)
 
         tv_common_contact.setOnClickListener {
-            val serviceId = "5"
-            RongIM.getInstance().startConversation(context, Conversation.ConversationType.PRIVATE, serviceId, "D6客服")
+            isBaseActivity {
+                chatService(it)
+            }
             dismissAllowingStateLoss()
         }
 
@@ -85,6 +87,12 @@ class CommonTipDialog : DialogFragment(),RequestManager {
 
     override fun onBind(disposable: Disposable) {
         compositeDisposable.add(disposable)
+    }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
+        }
     }
 
     override fun onDestroy() {

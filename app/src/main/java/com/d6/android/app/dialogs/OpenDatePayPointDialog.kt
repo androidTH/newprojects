@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
@@ -22,6 +23,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.dialog_date_paypoint.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -77,7 +79,11 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
         mType = arguments.getString("type")
 
         tv_payok.setOnClickListener {
-            getData(point,remainPoint)
+            if(CheckIsNotEnoughPoint(point,remainPoint)){
+                context.startActivity<MyPointsActivity>()
+            }else{
+                getData(point,remainPoint)
+            }
         }
 
         tv_close.setOnClickListener {
@@ -85,11 +91,24 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
         }
 
        if(arguments !=null){
-           username = arguments.getString("username")
-           chatUserId = arguments.getString("chatUserId")
+//           username = arguments.getString("username")
+//           chatUserId = arguments.getString("chatUserId")
            tv_mypointnums.text = "${point}积分"
 
-           tv_payinfo.text = "支付后即可与${username}私聊"
+           tv_payinfo.text = "本次申请私聊将预付${point}积分，对方同意后即可无限畅聊"
+           tv_agree_points.text = "对方同意，扣除${point}积分"
+           tv_noagree_points.text = "对方拒绝，返还${point}积分"
+           tv_timeout_points.text = "超时未回复，返还${point}积分"
+
+           if(CheckIsNotEnoughPoint(point,remainPoint)){
+               tv_noenoughpoint.visibility = View.VISIBLE
+               tv_noenoughpoint.text="积分不足，你的剩余积分${remainPoint}分"
+               tv_payok.text = "充值积分"
+           }else{
+               tv_noenoughpoint.visibility = View.GONE
+               tv_payok.text = "支付积分"
+           }
+//           tv_payinfo.text = "支付后即可与${username}畅聊"
 //           tv_payinfo.text = String.format(resources.getString(R.string.string_payinfo),"${point}","${point}","${point}")
         }
     }
@@ -112,6 +131,13 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
                 openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }
         }
+    }
+
+    private fun CheckIsNotEnoughPoint(point:String,remainPoint:String):Boolean{
+        if(point.toInt() > remainPoint.toInt()){
+            return true
+        }
+        return false
     }
 
     private var dialogListener: OnDialogListener? = null

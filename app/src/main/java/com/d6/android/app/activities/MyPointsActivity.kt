@@ -8,10 +8,7 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.PointsAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.DialogCashMoney
-import com.d6.android.app.dialogs.PayResultDialog
-import com.d6.android.app.dialogs.PointsListDialog
-import com.d6.android.app.dialogs.YKCashMoneyDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.easypay.EasyPay
 import com.d6.android.app.easypay.PayParams
 import com.d6.android.app.easypay.callback.OnPayInfoRequestListener
@@ -95,7 +92,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     payMoney(data)
                 }
             }else{
-                CustomToast.showToast("请联系微信客服开通会员后进行充值～")
+                val commonTiphDialog = CommonTipDialog()
+                commonTiphDialog.arguments = bundleOf("resMsg" to "你当前是游客身份，提现需要核实身份，请联系客服")
+                commonTiphDialog.show(supportFragmentManager, "resMsg")
+//                CustomToast.showToast("请联系微信客服开通会员后进行充值～")
             }
         }
 

@@ -179,13 +179,30 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //        }
 
         tv_openchat_apply.setOnClickListener {
-            tv_openchat_apply.isEnabled = false
-            tv_openchat_apply.text = resources.getText(R.string.string_already_applay)
             applyPrivateChat()
+
             relative_tips.visibility = View.VISIBLE
-            tv_openchat_apply.visibility = View.VISIBLE
-            tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-            tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
+            tv_apply_sendflower.visibility = View.VISIBLE
+            tv_openchat_apply.visibility = View.GONE
+            tv_openchat_tips_title.text = getString(R.string.string_appaying_openchat)
+            tv_openchat_tips.text = getString(R.string.string_give_redflower)
+
+//            var dateDialog = OpenDatePayPointDialog()
+//            dateDialog.arguments= bundleOf("point" to "200","remainPoint" to "300","type" to "1")
+//            dateDialog.show(supportFragmentManager, "d")
+//            dateDialog.let {
+//                it.setDialogListener { p, s ->
+//                    relative_tips.visibility = View.GONE
+//                    IsAgreeChat = false
+//                    fragment?.doIsNotSendMsg(false,"")
+//                }
+//            }
+        }
+
+        tv_apply_sendflower.setOnClickListener {
+            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+            dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 3,"userId" to mOtherUserId)
+            dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
         }
 
         tv_openchat_points.setOnClickListener {
@@ -322,18 +339,23 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                         relative_tips.visibility = View.GONE
                     }
                 }else if(code== 2){//已申请私聊且对方还未通过
-                    tv_openchat_apply.isEnabled= false
-                    tv_openchat_apply.text = resources.getText(R.string.string_already_applay)
                     relative_tips.visibility = View.VISIBLE
-                    tv_openchat_apply.visibility = View.VISIBLE
-                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
+                    tv_openchat_apply.visibility = View.GONE
+                    tv_apply_sendflower.visibility = View.VISIBLE
+                    tv_apply_sendflower.text = resources.getText(R.string.string_applay_sendredflower)
+
+                    tv_openchat_tips_title.text = getString(R.string.string_appaying_openchat)
+                    tv_openchat_tips.text = getString(R.string.string_give_redflower)
+
                     fragment?.doIsNotSendMsg( true, resources.getString(R.string.string_other_agreee_openchat))
+
                 }else if(code == 3){//对方发出申请私聊等待我确认
                     relative_tips.visibility = View.VISIBLE
                     linear_openchat_agree.visibility = View.VISIBLE
-                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips.text = getString(R.string.string_other_apply_openchat)
+                    tv_openchat_tips_title.visibility = View.GONE
+                    tv_openchat_tips.visibility = View.GONE
+                    tv_openchat_tips_center.visibility = View.VISIBLE
+                    tv_openchat_tips_center.text =String.format(getString(R.string.string_applay_tips_center),tv_chattitle.text)
                     fragment?.let {
                         it.doIsNotSendMsg( true, String.format(resources.getString(R.string.string_otherapply_agreee_openchat),tv_chattitle.text))
                     }
@@ -341,7 +363,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     relative_tips.visibility = View.VISIBLE
                     tv_openchat_apply.visibility = View.VISIBLE
                     tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
+                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat_warm)
                     fragment?.let {
                         it.doIsNotSendMsg(true, resources.getString(R.string.string_other_agreee_openchat))
                     }
@@ -447,34 +469,31 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 if(code == 1){
                     var point = data!!.optString("iTalkPoint")
                     var remainPoint = data!!.optString("iRemainPoint")
-                    if(point.toInt() > remainPoint.toInt()){
-//                        val dateDialog = OpenChatPointNoEnoughDialog()
-                        val dateDialog = OpenDatePointNoEnoughDialog()
-                        var point = data!!.optString("iTalkPoint")
-                        var remainPoint = data!!.optString("iRemainPoint")
-                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
-                        dateDialog.show(supportFragmentManager, "d")
-                    }else{
-//                        val dateDialog = OpenDatePayPointDialog()
-                        val dateDialog = OpenDatePayPointDialog()
-                        dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"username" to name,"chatUserId" to mOtherUserId,"type" to "1")
-                        dateDialog.show(supportFragmentManager, "d")
-                        dateDialog.let {
-                            it.setDialogListener { p, s ->
-                                relative_tips.visibility = View.GONE
-                                IsAgreeChat = false
-                                fragment?.doIsNotSendMsg(false,"")
-                            }
+                    var dateDialog = OpenDatePayPointDialog()
+                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"type" to "1")
+                    dateDialog.show(supportFragmentManager, "d")
+                    dateDialog.let {
+                        it.setDialogListener { p, s ->
+                            relative_tips.visibility = View.GONE
+                            IsAgreeChat = false
+                            fragment?.doIsNotSendMsg(false,"")
                         }
                     }
                 } else if(code == 0){
                     showToast(msg.toString())
                 } else {
-                    val dateDialog = OpenChatPointNoEnoughDialog()
                     var point = data!!.optString("iTalkPoint")
                     var remainPoint = data!!.optString("iRemainPoint")
-                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint)
+                    var dateDialog = OpenDatePayPointDialog()
+                    dateDialog.arguments= bundleOf("point" to point,"remainPoint" to remainPoint,"type" to "1")
                     dateDialog.show(supportFragmentManager, "d")
+                    dateDialog.let {
+                        it.setDialogListener { p, s ->
+                            relative_tips.visibility = View.GONE
+                            IsAgreeChat = false
+                            fragment?.doIsNotSendMsg(false,"")
+                        }
+                    }
                 }
             }else{
                 showToast(msg.toString())

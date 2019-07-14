@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="---"
+            android:text="200积分"
             android:textColor="@color/color_F7AB00"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -37,23 +37,70 @@
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/margin_15"
             android:lineSpacingExtra="@dimen/margin_5"
             android:textSize="15sp"
-            android:text=""
-            android:textColor="@color/color_666666"/>
+            android:text="本次申请私聊将预付200积分，对方同意后即可无限畅聊"
+            android:textColor="@color/color_333333"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_agree_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="----"
+                android:textSize="14sp"
+                android:textColor="@color/color_666666" />
+
+            <TextView
+                android:id="@+id/tv_noagree_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_7"
+                android:gravity="center_horizontal"
+                android:text="----"
+                android:textSize="14sp"
+                android:textColor="@color/color_666666" />
+
+            <TextView
+                android:id="@+id/tv_timeout_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_7"
+                android:gravity="center_horizontal"
+                android:text="----"
+                android:textSize="14sp"
+                android:textColor="@color/color_666666" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_noenoughpoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_25"
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="center_horizontal"
+            android:text="----"
+            android:textSize="12sp"
+            android:textColor="@color/color_F7AB00"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="确认支付"
+            android:text="支付积分"
             android:textSize="@dimen/btnTextSize"
             android:id="@+id/tv_payok"
             android:textColor="@color/white"
             android:gravity="center"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:background="@drawable/shape_4r_orange"/>
+            android:background="@drawable/shape_orange"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tv_close"
