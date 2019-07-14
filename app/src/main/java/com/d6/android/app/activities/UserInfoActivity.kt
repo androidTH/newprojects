@@ -452,7 +452,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         headerView.img_date_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_small)
                     }
 
-                    if(TextUtils.equals("0",it.isValid)){
+                    if(TextUtils.equals("0",it.isValid)||TextUtils.equals("2",it.isValid)){
                         headerView.img_other_auther.visibility = View.GONE
                         headerView.img_date_auther.visibility = View.VISIBLE
                         headerView.rl_prompt.visibility = View.VISIBLE
