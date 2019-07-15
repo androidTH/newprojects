@@ -42,7 +42,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private var sendCount: Int = 0
     private var SendMsgTotal:Int = 3
 
-    private var IsAgreeChat:Boolean = true
+    private var IsAgreeChat:Boolean = true //true 代表需要判断聊天次数 false代表不用判断聊天次数
     private var iType:Int=1 //1、私聊 2、匿名组
     private var mGroupIdSplit:List<String> =ArrayList<String>()
 
@@ -288,17 +288,18 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         Request.doUpdatePrivateChatStatus(mOtherUserId,userId,iStatus).request(this,false,success={msg,jsonObject->
             if(TextUtils.equals("2",iStatus)){
                 fragment?.let {
+                    relative_tips.visibility = View.GONE
                     it.doIsNotSendMsg(false,"")
-                    if(TextUtils.equals("1",sex)){
-                        relative_tips.visibility = View.VISIBLE
-                        tv_openchat_points.visibility = View.VISIBLE
-                        linear_openchat_agree.visibility = View.GONE
-                        IsAgreeChat = true
-                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
-                        tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
-                    }else{
-                        relative_tips.visibility = View.GONE
-                    }
+//                    if(TextUtils.equals("1",sex)){
+//                        relative_tips.visibility = View.VISIBLE
+//                        tv_openchat_points.visibility = View.VISIBLE
+//                        linear_openchat_agree.visibility = View.GONE
+//                        IsAgreeChat = true
+//                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
+//                        tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
+//                    }else{
+//                        relative_tips.visibility = View.GONE
+//                    }
                 }
             }else{
                 linear_openchat_agree.visibility = View.GONE
@@ -370,7 +371,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 }else if(code == 5){//对方的私聊设置为直接私聊
                      if(TextUtils.equals("1",sex)){
                          sendCount = it.optInt("iTalkCount")
-                         setIsNotShowPoints()
+//                         setIsNotShowPoints()
+                         IsAgreeChat = true
+                         relative_tips.visibility = View.GONE
                      }else{
                          IsAgreeChat = true
                          relative_tips.visibility = View.GONE
@@ -444,7 +447,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                             var mDialogPrivateChat = DialogPrivateChat()
                             mDialogPrivateChat.show(supportFragmentManager, "DialogPrivateChat")
                         }
-//                        sendOutgoingSystemMessage(getString(R.string.string_system_tips01),"1")
+                        sendOutgoingSystemMessage(getString(R.string.string_system_tips01),"1")
                     }
                 }
                 Log.i(TAG, "${SendMsgTotal}发送消息数量${code}")
@@ -566,22 +569,27 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 if(TextUtils.equals("1",type)){
                     relative_tips.visibility = View.VISIBLE
                     linear_openchat_agree.visibility = View.VISIBLE
-                    tv_openchat_apply.visibility = View.GONE
-                    tv_openchat_points.visibility = View.GONE
-                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips.text = getString(R.string.string_other_apply_openchat)
-                }else if(TextUtils.equals("2",type)){//同意
-                    if(TextUtils.equals("1",sex)){
-                        relative_tips.visibility = View.VISIBLE
-                        tv_openchat_points.visibility = View.VISIBLE
-                        linear_openchat_agree.visibility = View.GONE
-                        tv_openchat_apply.visibility = View.GONE
-                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
-                        tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
-                        IsAgreeChat = true
-                    }else{
-                        relative_tips.visibility = View.GONE
+                    tv_openchat_tips_title.visibility = View.GONE
+                    tv_openchat_tips.visibility = View.GONE
+                    tv_openchat_tips_center.visibility = View.VISIBLE
+                    tv_openchat_tips_center.text =String.format(getString(R.string.string_applay_tips_center),tv_chattitle.text)
+                    fragment?.let {
+                        it.doIsNotSendMsg( true, String.format(resources.getString(R.string.string_otherapply_agreee_openchat),tv_chattitle.text))
                     }
+                }else if(TextUtils.equals("2",type)){//同意
+//                    if(TextUtils.equals("1",sex)){
+//                        relative_tips.visibility = View.VISIBLE
+//                        tv_openchat_points.visibility = View.VISIBLE
+//                        linear_openchat_agree.visibility = View.GONE
+//                        tv_openchat_apply.visibility = View.GONE
+//                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
+//                        tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
+//                        IsAgreeChat = true
+//                    }else{
+//                        relative_tips.visibility = View.GONE
+//                    }
+
+                    relative_tips.visibility = View.GONE
                     fragment?.doIsNotSendMsg(false,"")
 //                    if(!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)){
 //                        var mDialogPrivateChat = DialogPrivateChat()
@@ -590,13 +598,24 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //
 //                    }
                 }else if(TextUtils.equals("3",type)){//拒绝
+//                    relative_tips.visibility = View.VISIBLE
+//                    tv_openchat_apply.visibility = View.VISIBLE
+//                    tv_openchat_apply.isEnabled = true
+//                    tv_openchat_apply.text = resources.getText(R.string.string_apply_openchat)
+//                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
+//                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
+//                    IsAgreeChat = false
+
                     relative_tips.visibility = View.VISIBLE
                     tv_openchat_apply.visibility = View.VISIBLE
                     tv_openchat_apply.isEnabled = true
                     tv_openchat_apply.text = resources.getText(R.string.string_apply_openchat)
                     tv_openchat_tips_title.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
-                    IsAgreeChat = false
+                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat_warm)
+                    fragment?.let {
+                        it.doIsNotSendMsg(true, resources.getString(R.string.string_other_agreee_openchat))
+                    }
+
 //                    if(!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)){
 //                        var mDialogPrivateChat = DialogPrivateChat()
 //                        mDialogPrivateChat.show(supportFragmentManager, "DialogPrivateChat")

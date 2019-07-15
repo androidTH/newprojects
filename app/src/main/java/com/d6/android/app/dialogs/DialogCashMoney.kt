@@ -18,6 +18,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
+import com.d6.android.app.net.Request.pushCustomerMessage
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
 import com.umeng.socialize.UMAuthListener
@@ -27,6 +28,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_cash_widthdrawal.*
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
@@ -216,6 +218,15 @@ class DialogCashMoney : DialogFragment(), RequestManager {
      */
     private fun doCashMoney(money:String){
         isBaseActivity {
+//            var mYKCashMoneyDialog =  YKCashMoneyDialog()
+//            mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to "你提现的额度已经达到限额，请联系客服提现")
+//            mYKCashMoneyDialog.show(it.supportFragmentManager,"YKCashMoneyDialog")
+//            mYKCashMoneyDialog.setDialogListener { p, s ->
+//                it.pushCustomerMessage(it,userId,6,""){
+//                    chatService(it)
+//                }
+//            }
+
             it.dialog()
             Request.doCashMoney(userId,money).request(this,false,success={msg,data->
                 it.dismissDialog()

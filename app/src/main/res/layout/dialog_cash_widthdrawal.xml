@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
-            android:text="提现将收取20%的手续费，最低提现金额20元"
+            android:text="提现将收取20%的手续费，单次最低提现额度20元，最高200元"
             android:textColor="@color/color_888888"
             android:layout_marginLeft="@dimen/margin_10"
             android:textSize="12sp" />

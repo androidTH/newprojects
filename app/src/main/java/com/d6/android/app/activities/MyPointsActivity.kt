@@ -92,8 +92,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     payMoney(data)
                 }
             }else{
+
+
                 val commonTiphDialog = CommonTipDialog()
-                commonTiphDialog.arguments = bundleOf("resMsg" to "你当前是游客身份，提现需要核实身份，请联系客服")
+                commonTiphDialog.arguments = bundleOf("resMsg" to "请联系微信客服开通会员后进行充值～")
                 commonTiphDialog.show(supportFragmentManager, "resMsg")
 //                CustomToast.showToast("请联系微信客服开通会员后进行充值～")
             }
@@ -107,7 +109,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
               val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
               if(TextUtils.equals("7",className)){
                   var mYKCashMoneyDialog =  YKCashMoneyDialog()
-                  mYKCashMoneyDialog.arguments = bundleOf("title" to "提现","content" to "为了你的帐户安全，提现需要核实你的身份，联系客服认证即可")
+                  mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to "你当前是游客身份，提现需要核实身份，请联系客服")
                   mYKCashMoneyDialog.show(supportFragmentManager,"YKCashMoneyDialog")
                   mYKCashMoneyDialog.setDialogListener { p, s ->
                       pushCustomerMessage(this,userId,6,""){
