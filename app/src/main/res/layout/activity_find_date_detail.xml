@@ -236,7 +236,8 @@
             android:gravity="center"
             android:text="联系专属客服"
             android:textColor="@color/color_F7AB00"
-            android:textSize="@dimen/btnTextSize" />
+            android:textStyle="bold"
+            android:textSize="14sp" />
 
         <!--android:background="@drawable/orange_gray_selector"-->
 
@@ -251,6 +252,7 @@
             android:gravity="center"
             android:text="@string/date_wenan"
             android:textColor="@color/color_888888"
+            android:textStyle="bold"
             android:textSize="10sp" />
     </LinearLayout>
 </RelativeLayout>
