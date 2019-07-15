@@ -243,7 +243,8 @@
             android:layout_marginTop="@dimen/margin_12"
             android:layout_marginBottom="@dimen/margin_5"
             android:visibility="gone"
-            android:textSize="@dimen/btnTextSize" />
+            android:textStyle="bold"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -254,6 +255,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:gravity="center_vertical"
+            android:textStyle="bold"
             android:text="@string/date_wenan"
             android:textColor="@color/color_888888"
             android:textSize="10sp" />

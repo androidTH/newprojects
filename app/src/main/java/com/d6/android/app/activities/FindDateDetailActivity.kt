@@ -239,7 +239,7 @@ class FindDateDetailActivity : TitleActivity() {
         } else {
 //            titleBar.hideRightButton(0,false)
             tv_contact.isEnabled = true
-            tv_contact.text = "联系客服"
+            tv_contact.text = "联系专属客服"
         }
     }
 
