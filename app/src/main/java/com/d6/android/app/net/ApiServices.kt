@@ -2,6 +2,7 @@ package com.d6.android.app.net
 
 import com.d6.android.app.models.*
 import com.d6.android.app.utils.getAppVersion
+import com.d6.android.app.utils.getLoginToken
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import io.reactivex.Flowable
@@ -305,8 +306,9 @@ interface ApiServices {
     fun loginForPointNew(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //解锁聊天支付多少积分
+    //iTalkRefusePoint 拒绝邀请返还积分    iTalkOverDuePoint 过期返还积分
     @POST("backstage/rongcloud/getUnlockTalkPoint")
-    fun getUnlockTalkPoint(@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun getUnlockTalkPoint(@Query("sLoginToken") LoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //是否能聊天
     @POST("backstage/rongcloud/unlockTalk")
@@ -331,16 +333,16 @@ interface ApiServices {
 
     //提现接口
     @POST("backstage/userflowerrule/withDrawFlower")
-    fun doCashMoney(@Query("iUserid") iUserid:String,@Query("iFlowerCount")iFlowerCount:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun doCashMoney(@Query("iUserid") iUserid:String, @Query("iFlowerCount")iFlowerCount:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
      /*1.8.5接口*/
     //修改聊天设置接口
     @POST("backstage/account/updateTalkSetting")
-    fun updateTalkSetting(@Query("iUserid") iUserid:String,@Query("iTalkSetting") iTalkSetting:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun updateTalkSetting(@Query("iUserid") iUserid:String,@Query("iTalkSetting") iTalkSetting:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //新的私聊接口  1、私聊 2、匿名组
     @POST("backstage/rongcloud/getTalkJustifyNew")
-    fun doTalkJustifyNew(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun doTalkJustifyNew(@Query("iFromUserid") iUserid:String,@Query("iToUserid") iToUserid:String,@Query("iType") iType:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //申请私聊接口
     @POST("backstage/talkapply/apply")
@@ -348,7 +350,7 @@ interface ApiServices {
 
     //同意或拒绝私聊接口
     @POST("backstage/talkapply/update")
-    fun doUpdatePrivateChatStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("iStatus") iStatus:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun doUpdatePrivateChatStatus(@Query("iFromUserid") iFromUserid:String,@Query("iToUserid") iToUserid:String,@Query("iStatus") iStatus:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //获取与当前用户的私聊状态
     @POST("backstage/talkapply/getApplyStatus")
@@ -406,7 +408,7 @@ interface ApiServices {
 
    //我的好友个数
    @POST("backstage/userfriend/findFriendCount")
-   fun findFriendCount(@Query("iUserid")userid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+   fun findFriendCount(@Query("iUserid")userid:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
    //分享的接口
    @POST("backstage/share/shareMessage")
@@ -427,7 +429,7 @@ interface ApiServices {
 
   //会员约会地区选择
   @POST("backstage/sysDict/findautoAll")
-  fun getProvinceAllOfMember(@Query("sType") sType:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
+  fun getProvinceAllOfMember(@Query("sType") sType:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 
    /*2.2.0接口*/
   //查询约会和动态匿名剩余次数接口 iType   类型 1、约会 2、动态
@@ -468,6 +470,11 @@ interface ApiServices {
 
     //密约详情页
    @POST("backstage/lookabout/find")
-   fun getLookDateDetail(@Query("ids") ids: String?,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<MyDate>>
+   fun getLookDateDetail(@Query("ids") ids: String?,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<MyDate>>
+
+   //2.5.0
+   //申请私聊接口
+   @POST("backstage/talkapply/applyNew")
+   fun doApplyNewPrivateChat(@Query("sLoginToken")sLoginToken:String,@Query("iToUserid") iToUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
 }

@@ -362,7 +362,7 @@ object Request {
 
 
     //支付多少积分
-    fun getUnlockTalkPoint()=RRetrofit.instance().create(ApiServices::class.java).getUnlockTalkPoint()
+    fun getUnlockTalkPoint(sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getUnlockTalkPoint(sLoginToken)
 
     //能否聊天
     fun doUnlockTalk(iUserid:String,iTalkUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doUnlockTalk(iUserid, iTalkUserId)
@@ -474,5 +474,8 @@ object Request {
     fun findGroupDescByGroupId(sLoginToken:String,sGroupId:String)=RRetrofit.instance().create(ApiServices::class.java).findGroupDescByGroupId(sLoginToken,sGroupId)
 
     fun getLookDateDetail(ids: String?) = RRetrofit.instance().create(ApiServices::class.java).getLookDateDetail(ids)
+
+    //新的申请私聊接口
+    fun doApplyNewPrivateChat(sLoginToken:String,iToUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doApplyNewPrivateChat(sLoginToken,iToUserId)
 
 }

@@ -9,8 +9,9 @@ import me.yokeyword.indexablerv.IndexableEntity
  * Created on 2018/1/15.
  */
 data class IntegralExplain(var iAppointPoint: String?): Parcelable {
-     var iAppointPointRefuse:String=""
-     var iAppointPointCancel:String=""
+     var iAppointPointRefuse:String="" //拒绝返还积分
+     var iAppointPointCancel:String=""//过期返还积分
+
 
      constructor(parcel: Parcel) : this(parcel.readString()) {
           iAppointPointRefuse = parcel.readString()

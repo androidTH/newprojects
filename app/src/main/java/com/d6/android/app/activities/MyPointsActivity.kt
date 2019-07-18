@@ -92,8 +92,6 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     payMoney(data)
                 }
             }else{
-
-
                 val commonTiphDialog = CommonTipDialog()
                 commonTiphDialog.arguments = bundleOf("resMsg" to "请联系微信客服开通会员后进行充值～")
                 commonTiphDialog.show(supportFragmentManager, "resMsg")

@@ -182,4 +182,8 @@ object Const {
 
     @JvmField
     var ISUPDOWN = "IsUpDown"
+
+
+    @JvmField
+    var SEND_FIRST_PRIVATE_TIPSMESSAGE = "send_first_private_tipsmessage"//第一次给某个用户发消息时
 }

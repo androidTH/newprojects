@@ -13,6 +13,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.rong.provider.SquareMsgProvider
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.DateToolUtils
 import com.d6.android.app.utils.RongUtils
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.widget.SwipeItemLayout
@@ -51,7 +52,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             }
         }
 
-        tv_time.text = RongDateUtils.getConversationListFormatDate(data.sentTime, context)
+        tv_time.text = DateToolUtils.getConversationFormatDate(data.sentTime,false, context)
         val tv_content = holder.bind<TextView>(R.id.tv_content)
         if (data.latestMessage != null) {
             val provider = RongContext.getInstance().getMessageTemplate(data.latestMessage.javaClass)

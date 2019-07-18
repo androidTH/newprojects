@@ -234,8 +234,17 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                 dialogListener?.onClick(1,money)
                 dismissAllowingStateLoss()
             }){code,msg->
-                showToast(msg)
+//                showToast(msg)
                 it.dismissDialog()
+
+                var mYKCashMoneyDialog =  YKCashMoneyDialog()
+                mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to msg)
+                mYKCashMoneyDialog.show(it.supportFragmentManager,"YKCashMoneyDialog")
+                mYKCashMoneyDialog.setDialogListener { p, s ->
+                    it.pushCustomerMessage(this,userId,6,""){
+                        chatService(it)
+                    }
+                }
             }
         }
     }

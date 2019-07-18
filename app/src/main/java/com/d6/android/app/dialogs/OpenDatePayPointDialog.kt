@@ -69,20 +69,25 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var point = if (arguments != null) {
+        var point = if (arguments != null) { //支付积分
             arguments.getString("point")
         } else {
             "0"
         }
-
-        var remainPoint = arguments.getString("remainPoint")
+//        var remainPoint = arguments.getString("remainPoint")//剩余积分
         mType = arguments.getString("type")
+        var iTalkRefusePoint = arguments.getInt("iTalkRefusePoint",0)
+        var iTalkOverDuePoint = arguments.getInt("iTalkOverDuePoint",0)
 
         tv_payok.setOnClickListener {
-            if(CheckIsNotEnoughPoint(point,remainPoint)){
+            if(TextUtils.equals(mType,"2")){
                 context.startActivity<MyPointsActivity>()
+                dismissAllowingStateLoss()
             }else{
-                getData(point,remainPoint)
+                dialogListener?.let {
+                    it.onClick(0, "payok")
+                    dismissAllowingStateLoss()
+                }
             }
         }
 
@@ -97,12 +102,12 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
 
            tv_payinfo.text = "本次申请私聊将预付${point}积分，对方同意后即可无限畅聊"
            tv_agree_points.text = "对方同意，扣除${point}积分"
-           tv_noagree_points.text = "对方拒绝，返还${point}积分"
-           tv_timeout_points.text = "超时未回复，返还${point}积分"
+           tv_noagree_points.text = "对方拒绝，返还${iTalkRefusePoint}积分"
+           tv_timeout_points.text = "超时未回复，返还${iTalkOverDuePoint}积分"
 
-           if(CheckIsNotEnoughPoint(point,remainPoint)){
+           if(TextUtils.equals(mType,"2")){
                tv_noenoughpoint.visibility = View.VISIBLE
-               tv_noenoughpoint.text="积分不足，你的剩余积分${remainPoint}分"
+               tv_noenoughpoint.text= arguments.getString("msg")
                tv_payok.text = "充值积分"
            }else{
                tv_noenoughpoint.visibility = View.GONE
@@ -123,6 +128,7 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
                 } else if (TextUtils.equals("1", mType)) {
                     dialogListener?.let {
                         it.onClick(0, "payok")
+                        dismissAllowingStateLoss()
                     }
                 }
             }){code,msg->

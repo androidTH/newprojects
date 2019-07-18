@@ -70,7 +70,7 @@
                 android:textSize="15sp"
                 android:layout_toRightOf="@+id/headView"
                 android:layout_marginLeft="12dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="@dimen/margin_35"
                 android:layout_marginTop="2dp"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/color_black"
@@ -92,11 +92,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_time"
+                android:layout_alignTop="@+id/headView"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/textColor99"
-                android:layout_alignBottom="@+id/headView"
-                android:textSize="12sp"
-                android:visibility="gone"
+                android:layout_marginTop="@dimen/margin_10"
+                android:textColor="@color/color_999999"
+                android:textSize="10sp"
+                android:visibility="visible"
+                android:text="15:12"
                 android:layout_gravity="center_vertical"/>
             <ImageView
                 android:layout_width="15dp"
@@ -105,6 +107,7 @@
                 android:paddingRight="4dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:visibility="gone"
                 android:background="@mipmap/ic_more_gray"/>
         </RelativeLayout>
         <View style="@style/view_line_h"
