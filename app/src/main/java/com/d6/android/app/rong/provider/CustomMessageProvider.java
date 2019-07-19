@@ -18,7 +18,6 @@ import com.d6.android.app.R;
 import com.d6.android.app.rong.bean.CustomMessage;
 import com.d6.android.app.rong.bean.ImgTxtMessage;
 import com.d6.android.app.utils.GsonHelper;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.json.JSONException;
 import org.json.JSONObject;

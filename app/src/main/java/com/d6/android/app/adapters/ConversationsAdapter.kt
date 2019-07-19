@@ -58,9 +58,11 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             val provider = RongContext.getInstance().getMessageTemplate(data.latestMessage.javaClass)
             if (provider != null) {
                 tv_content.text = provider.getContentSummary(context,data.latestMessage)
+                tv_time.visibility = View.VISIBLE
             }
         } else {
             tv_content.text = ""
+            tv_time.visibility = View.GONE
         }
 
 //        var tag = RongContext.getInstance().getConversationProviderTag(data.conversationType.getName())

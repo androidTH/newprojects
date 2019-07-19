@@ -186,4 +186,6 @@ object Const {
 
     @JvmField
     var SEND_FIRST_PRIVATE_TIPSMESSAGE = "send_first_private_tipsmessage"//第一次给某个用户发消息时
+    @JvmField
+    var RECEIVER_FIRST_PRIVATE_TIPSMESSAGE = "receiver_first_private_tipsmessage"//第一次收到某个用户发消息时
 }

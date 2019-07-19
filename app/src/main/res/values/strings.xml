@@ -136,4 +136,5 @@
     <string name="string_appaying_openchat">申请中...</string>
     <string name="string_applay_sendredflower">送小红花</string>
     <string name="string_give_redflower">送小红花可以置顶提醒提高对方回复率哦</string>
+    <string name="string_setfail">设置失败</string>
 </resources>
