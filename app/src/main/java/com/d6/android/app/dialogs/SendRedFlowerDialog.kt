@@ -27,11 +27,17 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
+import com.d6.android.app.rong.bean.CustomSystemMessage
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import com.d6.android.app.widget.badge.DisplayUtil
 import io.rong.eventbus.EventBus
+import io.rong.imkit.RongIM
+import io.rong.imlib.IRongCallback
+import io.rong.imlib.RongIMClient
+import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.dialog_send_redflower.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.matchParent
@@ -137,6 +143,8 @@ class SendRedFlowerDialog : DialogFragment() {
         }
         getUserInfo(id)
         getFlowerList()
+
+//        sendSysMessage(id)
     }
 
     private fun getUserInfo(id: String) {
@@ -160,6 +168,23 @@ class SendRedFlowerDialog : DialogFragment() {
         val dialogSendFlowerSuccess = DialogSendFlowerSuccess()
             dialogSendFlowerSuccess.arguments = bundleOf("userId" to id,"nums" to flowerCount)
             dialogSendFlowerSuccess.show((context as BaseActivity).supportFragmentManager, "sendflower")
+    }
+
+    private fun sendSysMessage(targetId:String){
+         var systemmsg = CustomSystemMessage("申请置顶")
+         var richContentMessage = CustomSystemMessage.obtain("申请置顶",GsonHelper.getGson().toJson(systemmsg))
+         var msg = Message.obtain(targetId, Conversation.ConversationType.PRIVATE, richContentMessage);
+         RongIM.getInstance().sendMessage(msg, null, null, object : IRongCallback.ISendMessageCallback{
+            override fun onAttached(p0: Message?) {
+            }
+
+            override fun onError(p0: Message?, p1: RongIMClient.ErrorCode?) {
+
+            }
+
+            override fun onSuccess(p0: Message?) {
+            }
+        })
     }
 
     private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String){

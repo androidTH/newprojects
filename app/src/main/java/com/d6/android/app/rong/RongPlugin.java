@@ -8,6 +8,7 @@ import com.d6.android.app.rong.bean.BusinessCardMMsgContent;
 import com.d6.android.app.rong.bean.CommentMsgContent;
 import com.d6.android.app.rong.bean.CustomMessage;
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage;
+import com.d6.android.app.rong.bean.CustomSystemMessage;
 import com.d6.android.app.rong.bean.LookDateMsgContent;
 import com.d6.android.app.rong.bean.SpeedDateMsgContent;
 import com.d6.android.app.rong.bean.SquareMsgContent;
@@ -90,6 +91,7 @@ public class RongPlugin {
         RongIM.registerMessageType(BusinessCardFMsgContent.class);
         RongIM.registerMessageType(BusinessCardMMsgContent.class);
         RongIM.registerMessageType(GroupUnKnowTipsMessage.class);
+        RongIM.registerMessageType(CustomSystemMessage.class);
 
         RongIM.registerMessageTemplate(new CustomMessageProvider());
         RongIM.registerMessageTemplate(new TipsMessageProvider());

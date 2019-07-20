@@ -215,7 +215,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
 
         if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
-            if(message.content is CustomMessage){
+            if(message.content is CustomSystemMessage){
 //                if(){
 //
 //                }else{

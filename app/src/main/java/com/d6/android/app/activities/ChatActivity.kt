@@ -11,6 +11,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
+import com.d6.android.app.rong.bean.CustomSystemMessage
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage
 import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
@@ -414,6 +415,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                          relative_tips.visibility = View.GONE
                      }
                     checkISFirstSendMsg()
+                    fragment?.let {
+                        it.doIsNotSendMsg(false, resources.getString(R.string.string_other_agreee_openchat))
+                    }
 //                    SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
                 }else if(code == 6){//以前聊过天的允许私聊(包括付过积分，约会过的，送过花的)
                     relative_tips.visibility = View.GONE
@@ -444,31 +448,33 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     }
 
     private fun checkISFirstReceiverMsg(){
-        RongIM.getInstance().getHistoryMessages(mConversationType,mOtherUserId,-1,20,object : RongIMClient.ResultCallback<List<Message>>(){
-            override fun onSuccess(p0: List<Message>?) {
-                var mReceiveListMessage = ArrayList<Message>()
-                p0?.let {
-                    for(message:Message in it){
-                        if(message.messageDirection==Message.MessageDirection.RECEIVE){
-                            if(message.content is TextMessage||message is ImageMessage){
-                                mReceiveListMessage.add(message)
+        if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+            RongIM.getInstance().getHistoryMessages(mConversationType,mOtherUserId,-1,20,object : RongIMClient.ResultCallback<List<Message>>(){
+                override fun onSuccess(p0: List<Message>?) {
+                    var mReceiveListMessage = ArrayList<Message>()
+                    p0?.let {
+                        for(message:Message in it){
+                            if(message.messageDirection==Message.MessageDirection.RECEIVE){
+                                if(message.content is TextMessage||message is ImageMessage){
+                                    mReceiveListMessage.add(message)
+                                }
                             }
                         }
                     }
-                }
-                Log.i("chatactivity","消息历史记录"+mReceiveListMessage.size)
-                if (mReceiveListMessage.size==1) {
-                    if(!SPUtils.instance().getBoolean(RECEIVER_FIRST_PRIVATE_TIPSMESSAGE+ getLocalUserId())){
-                        sendOutgoingSystemMessage(getString(R.string.string_system_tips02),"1")
-                        SPUtils.instance().put(RECEIVER_FIRST_PRIVATE_TIPSMESSAGE+ getLocalUserId(),true).apply()
+                    Log.i("chatactivity","消息历史记录"+mReceiveListMessage.size)
+                    if (mReceiveListMessage.size==1) {
+                        if(!SPUtils.instance().getBoolean(RECEIVER_FIRST_PRIVATE_TIPSMESSAGE+ getLocalUserId())){
+                            sendOutgoingSystemMessage(getString(R.string.string_system_tips02),"1")
+                            SPUtils.instance().put(RECEIVER_FIRST_PRIVATE_TIPSMESSAGE+ getLocalUserId(),true).apply()
+                        }
                     }
                 }
-            }
 
-            override fun onError(p0: RongIMClient.ErrorCode?) {
+                override fun onError(p0: RongIMClient.ErrorCode?) {
 
-            }
-        })
+                }
+            })
+        }
     }
 
 
@@ -762,6 +768,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //                        if(p1==null){
 //                            checkTalkJustify()
 //                        }
+
                         if(SPUtils.instance().getBoolean(SEND_FIRST_PRIVATE_TIPSMESSAGE+ getLocalUserId())){
                             sendOutgoingSystemMessage(getString(R.string.string_system_tips01),"1")
                             SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+ getLocalUserId(),false).apply()

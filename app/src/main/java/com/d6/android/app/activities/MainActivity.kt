@@ -186,7 +186,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                        tv_title.textColor = ContextCompat.getColor(this,R.color.white)
 //                        tv_date_mydate.textColor = ContextCompat.getColor(this,R.color.white)
 //                    }
-
                     tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
 //                    iv_right.imageResource = R.mipmap.ic_add_orange
 //                    tv_title.text = "广场"
