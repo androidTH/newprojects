@@ -319,10 +319,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null)
             headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))
         } else {
-            var drawable = ContextCompat.getDrawable(context, Const.dateTypesBig[myAppointment?.iAppointType!!.toInt() - 1])
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
-            headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3));
-            headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null);
+            var index = myAppointment?.iAppointType!!.toInt() - 1
+            if(index !=Const.dateTypesBig.size){
+                var drawable = ContextCompat.getDrawable(context, Const.dateTypesBig[index])
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())// 设置边界
+                headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))
+                headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null)
+            }
         }
 
         var sb = StringBuffer()

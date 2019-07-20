@@ -48,7 +48,7 @@ class SendRedFlowerDialog : DialogFragment() {
 
     private var mBuyFlowerAdapter: BuyFlowerAdapter?=null
     private var mSquareId:String = ""
-    private var mToFromType = 0
+    private var mToFromType = 0//1 动态详情页送小红花 2 动态列表送小红花 3 聊天输入框扩展框 4 个人信息页动态送小红花 5 申请私聊送小红花
     private var mFlowerCount:String=""
     private var mSquare:Square? = null
 
@@ -208,7 +208,9 @@ class SendRedFlowerDialog : DialogFragment() {
      */
     private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String){
         if(context!=null){
-            BuyRedFlowerSuccess(receiverUserId,flowerCount)
+            if(mToFromType!=5){
+                BuyRedFlowerSuccess(receiverUserId,flowerCount)
+            }
             Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
                 Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
                     if(mToFromType == 1){

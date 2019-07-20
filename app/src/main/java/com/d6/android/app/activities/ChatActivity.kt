@@ -207,7 +207,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
         tv_apply_sendflower.setOnClickListener {
             var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-            dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 3,"userId" to mOtherUserId)
+            dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 5,"userId" to mOtherUserId)
             dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
         }
 
@@ -220,11 +220,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         tv_openchat_no.setOnClickListener {
             //拒绝
             doUpdatePrivateChatStatus("3")
+            RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,false)
         }
 
         tv_openchat_agree.setOnClickListener {
             //同意
             doUpdatePrivateChatStatus("2")
+            RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,false)
         }
 
         enterActivity()
@@ -232,6 +234,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         RongIM.getInstance().setSendMessageListener(this)
 
         getOtherUser()
+
+//        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
     }
 
     private fun showDatePoint(iTalkPoint:String,iTalkRefusePoint:Int,iTalkOverDuePoint:Int,msg:String,code:String){
@@ -409,8 +413,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                          IsAgreeChat = true
                          relative_tips.visibility = View.GONE
                      }
-//                    checkISFirstSendMsg()
-                    SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
+                    checkISFirstSendMsg()
+//                    SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
                 }else if(code == 6){//以前聊过天的允许私聊(包括付过积分，约会过的，送过花的)
                     relative_tips.visibility = View.GONE
                     IsAgreeChat = false
@@ -476,23 +480,24 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 var mReceiveListMessage = ArrayList<Message>()
                 p0?.let {
                     for(message:Message in it){
-//                        if(message.content is TextMessage||message is ImageMessage){
-//                            mSendListMessage.add(message)
-//                        }
                         if(message.messageDirection==Message.MessageDirection.SEND){
                             if(message.content is TextMessage||message is ImageMessage){
                                 mSendListMessage.add(message)
                             }
-                        }else{
-                            if(message.content is TextMessage||message is ImageMessage){
-                                mReceiveListMessage.add(message)
-                            }
                         }
+
+//                        else{
+//                            if(message.content is TextMessage||message is ImageMessage){
+//                                mReceiveListMessage.add(message)
+//                            }
+//                        }
                     }
                 }
                 Log.i("chatactivity","消息历史记录"+mSendListMessage.size)
-                if (mReceiveListMessage.size==0) {
+                if (mSendListMessage.size==0) {
                     SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
+                }else{
+                    SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),false).apply()
                 }
             }
 

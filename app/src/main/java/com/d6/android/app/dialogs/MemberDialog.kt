@@ -105,28 +105,70 @@ class MemberDialog : DialogFragment(),RequestManager {
             override fun onPageSelected(index: Int) {
                 when(index){
                     0-> {
-                        tv_numone.isEnabled = false
-                        tv_numtwo.isEnabled = true
-                        tv_numthree.isEnabled = true
-                        tv_numfour.isEnabled = true
+                        if(tv_numone_member!=null){
+                            tv_numone_member.isEnabled = false
+                        }
+                        if(tv_numtwo_member!=null){
+                            tv_numtwo_member.isEnabled = true
+                        }
+
+                        if(tv_numthree_member!=null){
+                            tv_numthree_member.isEnabled = true
+                        }
+
+                        if(tv_numfour_member!=null){
+                            tv_numfour_member.isEnabled = true
+                        }
                     }
                     1->{
-                        tv_numone.isEnabled = true
-                        tv_numtwo.isEnabled = false
-                        tv_numthree.isEnabled = true
-                        tv_numfour.isEnabled = true
+                        if(tv_numone_member!=null){
+                            tv_numone_member.isEnabled = true
+                        }
+                        if(tv_numtwo_member!=null){
+                            tv_numtwo_member.isEnabled = false
+                        }
+
+                        if(tv_numthree_member!=null){
+                            tv_numthree_member.isEnabled = true
+                        }
+
+                        if(tv_numfour_member!=null){
+                            tv_numfour_member.isEnabled = true
+                        }
                     }
                     2->{
-                        tv_numone.isEnabled = true
-                        tv_numtwo.isEnabled = true
-                        tv_numthree.isEnabled = false
-                        tv_numfour.isEnabled = true
+
+                        if(tv_numone_member!=null){
+                            tv_numone_member.isEnabled = true
+                        }
+                        if(tv_numtwo_member!=null){
+                            tv_numtwo_member.isEnabled = true
+                        }
+
+                        if(tv_numthree_member!=null){
+                            tv_numthree_member.isEnabled = false
+                        }
+
+                        if(tv_numfour_member!=null){
+                            tv_numfour_member.isEnabled = true
+                        }
                     }
                     3->{
-                        tv_numone.isEnabled = true
-                        tv_numtwo.isEnabled = true
-                        tv_numthree.isEnabled = true
-                        tv_numfour.isEnabled = false
+
+                        if(tv_numone_member!=null){
+                            tv_numone_member.isEnabled = true
+                        }
+                        if(tv_numtwo_member!=null){
+                            tv_numtwo_member.isEnabled = true
+                        }
+
+                        if(tv_numthree_member!=null){
+                            tv_numthree_member.isEnabled = true
+                        }
+
+                        if(tv_numfour_member!=null){
+                            tv_numfour_member.isEnabled = false
+                        }
                     }
                 }
             }
@@ -140,7 +182,7 @@ class MemberDialog : DialogFragment(),RequestManager {
 
         tv_know.setOnClickListener {
                isBaseActivity {
-                   it.pushCustomerMessage((context as BaseActivity), getLocalUserId(),1,"",next = {
+                   it.pushCustomerMessage(it, getLocalUserId(),1,"",next = {
                        chatService(it)
                        dismissAllowingStateLoss()
                    })
