@@ -22,7 +22,7 @@ import java.lang.StringBuilder
  * 广场照片详情页
  */
 class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
-    private var urls: ArrayList<String>? = null
+    private var urls = ArrayList<String>()
     private var userData:UserData?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +67,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         val adapter = ImagePagerAdapter(supportFragmentManager, urls)
         adapter.isBlur(isBlur)
         mImageViewPager.adapter = adapter
+        if(urls!=null){
+            mImageViewPager.offscreenPageLimit = urls.size
+        }
         mImageViewPager.addOnPageChangeListener(this)
         mImageViewPager.currentItem = position
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)

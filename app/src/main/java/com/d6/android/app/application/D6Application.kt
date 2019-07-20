@@ -212,7 +212,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null &&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)) {
             sendBroadcast(Intent(Const.NEW_MESSAGE))
-        }MemberDialog
+        }
 
         if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
             if(message.content is CustomMessage){

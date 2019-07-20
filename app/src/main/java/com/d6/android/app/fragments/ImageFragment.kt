@@ -3,6 +3,7 @@ package com.d6.android.app.fragments
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseNoBarFragment
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -30,7 +31,11 @@ class ImageFragment : BaseNoBarFragment() {
     }
 
     override fun contentViewId() = R.layout.fragment_image
-    override fun onFirstVisibleToUser() {
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.i("FirstVisibleToUser","onActivityCreated")
+
         val url: String?
         var isBlur = false
         if (arguments != null) {
@@ -61,11 +66,19 @@ class ImageFragment : BaseNoBarFragment() {
                     .setTapToRetryEnabled(true)
                     .build()
         }
+
+        Log.i("FirstVisibleToUser","FirstVisibleToUser${url}")
         zoomDrawee.hierarchy = hierarchy
         zoomDrawee.controller = ctrl
         zoomDrawee.setOnClickListener { activity.onBackPressed() }
     }
 
-    override fun onVisibleToUser() {}
+    override fun onFirstVisibleToUser() {
+
+    }
+
+    override fun onVisibleToUser() {
+        Log.i("FirstVisibleToUser","onVisibleToUser")
+    }
     override fun onInvisibleToUser() {}
 }

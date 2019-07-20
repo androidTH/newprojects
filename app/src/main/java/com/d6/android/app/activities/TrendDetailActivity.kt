@@ -75,6 +75,7 @@ class TrendDetailActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         mUrls.addAll(temp)
         val adapter = ImagePagerAdapter(supportFragmentManager, mUrls)
         mViewPager.adapter = adapter
+        mViewPager.offscreenPageLimit = mUrls.size
         mViewPager.addOnPageChangeListener(this)
         mViewPager.currentItem = position
         tv_count.text = String.format("%d/%d", position + 1, mUrls.size)
