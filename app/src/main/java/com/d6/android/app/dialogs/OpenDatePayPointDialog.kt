@@ -40,7 +40,7 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
     private lateinit var chatUserId:String
     private lateinit var username:String;
     private var mType:String="0"
-
+    private var  remainPoint:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.FadeDialog)
@@ -75,18 +75,19 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
             "0"
         }
 //        var remainPoint = arguments.getString("remainPoint")//剩余积分
-        mType = arguments.getString("type")
-        var iTalkRefusePoint = arguments.getInt("iTalkRefusePoint",0)
-        var iTalkOverDuePoint = arguments.getInt("iTalkOverDuePoint",0)
-
+        mType = arguments.getString("type")//3 代表畅聊 2积分不足
         tv_payok.setOnClickListener {
             if(TextUtils.equals(mType,"2")){
                 context.startActivity<MyPointsActivity>()
                 dismissAllowingStateLoss()
             }else{
-                dialogListener?.let {
-                    it.onClick(0, "payok")
-                    dismissAllowingStateLoss()
+                if(!TextUtils.equals("3",mType)){
+                    dialogListener?.let {
+                        it.onClick(0, "payok")
+                        dismissAllowingStateLoss()
+                    }
+                }else{
+                    getData(point)
                 }
             }
         }
@@ -96,36 +97,47 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
         }
 
        if(arguments !=null){
-//           username = arguments.getString("username")
-//           chatUserId = arguments.getString("chatUserId")
            tv_mypointnums.text = "${point}积分"
+           if(!TextUtils.equals(mType,"3")){
+               var iTalkRefusePoint = arguments.getInt("iTalkRefusePoint",0)
+               var iTalkOverDuePoint = arguments.getInt("iTalkOverDuePoint",0)
 
-           tv_payinfo.text = "本次申请私聊将预付${point}积分，对方同意后即可无限畅聊"
-           tv_agree_points.text = "对方同意，扣除${point}积分"
-           tv_noagree_points.text = "对方拒绝，返还${iTalkRefusePoint}积分"
-           tv_timeout_points.text = "超时未回复，返还${iTalkOverDuePoint}积分"
+               tv_payinfo.text = "本次申请私聊将预付${point}积分，对方同意后即可无限畅聊"
+               tv_agree_points.text = "对方同意，扣除${point}积分"
+               tv_noagree_points.text = "对方拒绝，返还${iTalkRefusePoint}积分"
+               tv_timeout_points.text = "3天内未回复，返还${iTalkOverDuePoint}积分"
 
-           if(TextUtils.equals(mType,"2")){
-               tv_noenoughpoint.visibility = View.VISIBLE
-               tv_noenoughpoint.text= arguments.getString("msg")
-               tv_payok.text = "充值积分"
+               if(TextUtils.equals(mType,"2")){
+                   tv_noenoughpoint.visibility = View.VISIBLE
+                   tv_noenoughpoint.text= arguments.getString("msg")
+                   tv_payok.text = "充值积分"
+               }else{
+                   tv_noenoughpoint.visibility = View.GONE
+                   tv_payok.text = "支付积分"
+               }
            }else{
-               tv_noenoughpoint.visibility = View.GONE
-               tv_payok.text = "支付积分"
-           }
-//           tv_payinfo.text = "支付后即可与${username}畅聊"
+               remainPoint = arguments.getString("remainPoint")
+               username = arguments.getString("username")
+               chatUserId = arguments.getString("chatUserId")
+
+               tv_payinfo.text = "支付后即可与${username}畅聊"
 //           tv_payinfo.text = String.format(resources.getString(R.string.string_payinfo),"${point}","${point}","${point}")
+
+               tv_agree_points.text = "对方同意，扣除${point}积分"
+               tv_noagree_points.text = "对方拒绝，返还${point}积分"
+               tv_timeout_points.text = "3天内未回复，返还${point}积分"
+           }
         }
     }
 
-    private fun getData(point:String,remainPoint:String) {
+    private fun getData(point:String) {
         dismissAllowingStateLoss()
         isBaseActivity {
             //194ecdb4-4809-4b2d-bf32-42a3342964df
             Request.doUnlockTalk(userId, chatUserId).request(it,success = {msg,data->
                 if(TextUtils.equals("0",mType)){
                     RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, chatUserId, username)
-                } else if (TextUtils.equals("1", mType)) {
+                } else if (TextUtils.equals("3", mType)) {
                     dialogListener?.let {
                         it.onClick(0, "payok")
                         dismissAllowingStateLoss()
