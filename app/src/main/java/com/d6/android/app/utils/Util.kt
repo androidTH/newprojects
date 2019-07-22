@@ -40,6 +40,8 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.http.UpdateAppHttpUtil
+import com.d6.android.app.rong.bean.TipsMessage
+import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.utils.JsonUtil.containsEmoji
@@ -68,7 +70,9 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
+import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Message
 import org.jetbrains.anko.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -639,6 +643,16 @@ fun checkLimitEx(str:String):Boolean{
     return false;
 }
 
+fun checkJoinWx(str:String):Boolean{
+    var limitEx = "[0-9a-zA-z]{6,}"
+    var pattern = Pattern.compile(limitEx)
+    var m = pattern.matcher(str)
+    if(m.find()){
+        return true
+    }
+    return false
+}
+
 fun diyUpdate(activity: BaseActivity,from:String?) {
     val path = Environment.getExternalStorageDirectory().absolutePath
 
@@ -1095,4 +1109,17 @@ fun getRealPathFromURI(contentUri: Uri, context: Context): String {
 fun convertViewToBitmap(view: View): Bitmap {
     view.buildDrawingCache()
     return view.drawingCache
+}
+
+fun sendOutgoingSystemMessage(msg:String,type:String,message:Message){
+    var custommsg = TipsTxtMessage(msg, type)
+    var richContentMessage = TipsMessage.obtain(msg, GsonHelper.getGson().toJson(custommsg))
+    RongIM.getInstance().insertOutgoingMessage(message.conversationType,message.targetId, Message.SentStatus.RECEIVED,richContentMessage, object : RongIMClient.ResultCallback<Message>() {
+        override fun onSuccess(message: Message) {
+        }
+
+        override fun onError(errorCode: RongIMClient.ErrorCode) {
+
+        }
+    })
 }

@@ -397,7 +397,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     fragment?.let {
                         it.hideChatInput( true)
                     }
-                }else if(code == 4){//双方均未发出私聊申请切双方私聊设置为同意后私聊
+                }else if(code == 4){//双方均未发出私聊申请且双方私聊设置为同意后私聊
                     relative_tips_bottom.visibility = View.VISIBLE
                     tv_openchat_apply_bottom.visibility = View.VISIBLE
                     tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
@@ -689,23 +689,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     }
                 }else if(TextUtils.equals("2",type)){//同意
                     relative_tips_bottom.visibility = View.GONE
-                    if(TextUtils.equals("1",sex)){
-                        relative_tips.visibility = View.VISIBLE
-                        tv_openchat_points.visibility = View.VISIBLE
-                        linear_openchat_agree.visibility = View.GONE
-                        tv_openchat_apply.visibility = View.GONE
-                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
-                        tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
-                        IsAgreeChat = true
-                    }
-//                    else{
-//                        relative_tips.visibility = View.GONE
-//                        SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
-//                        fragment?.let {
-//                            it.hideChatInput(false)
-//                        }
+//                    if(TextUtils.equals("1",sex)){
+//                        relative_tips.visibility = View.VISIBLE
+//                        tv_openchat_points.visibility = View.VISIBLE
+//                        linear_openchat_agree.visibility = View.GONE
+//                        tv_openchat_apply.visibility = View.GONE
+//                        tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), SendMsgTotal)
+//                        tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
+//                        IsAgreeChat = true
 //                    }
 
+                    IsAgreeChat = true
                     SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
                     fragment?.let {
                         it.hideChatInput(false)

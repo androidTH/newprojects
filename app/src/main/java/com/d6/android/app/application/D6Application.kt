@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.support.multidex.MultiDex
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.RemoteViews
@@ -214,14 +215,19 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             sendBroadcast(Intent(Const.NEW_MESSAGE))
         }
 
+        //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）
         if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
             if(message.content is CustomSystemMessage){
-//                if(){
-//
-//                }else{
-//
-//                }
                 RongUtils.setConversationTop(this,message.conversationType,message.targetId,true)
+            }
+        }
+
+        if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
+            if (message.content is TextMessage) {
+                var txtMessage = message.content as TextMessage
+                if (checkJoinWx(txtMessage.content)) {
+                    sendOutgoingSystemMessage(getString(R.string.string_system_tips03), "1", message)
+                }
             }
         }
 
