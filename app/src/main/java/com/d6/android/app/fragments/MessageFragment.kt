@@ -255,7 +255,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
                     }
                     getNMChat()
-                    setIsTopConversation()
+                    mConversations.addAll(0,mISTopConversations)
+//                    setIsTopConversation()
                 }
                 conversationsAdapter.notifyDataSetChanged()
             }

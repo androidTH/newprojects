@@ -1,6 +1,7 @@
 package com.d6.android.app.adapters
 
 import android.annotation.SuppressLint
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -26,6 +27,8 @@ import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imkit.utils.RongDateUtils
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.toast
 
 
@@ -35,9 +38,16 @@ import org.jetbrains.anko.toast
 class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<Conversation>(mData, R.layout.item_list_conversations) {
     @SuppressLint("SetTextI18n")
     override fun onBind(holder: ViewHolder, position: Int, data: Conversation) {
+        var swipeItemLayout = holder.bind<SwipeItemLayout>(R.id.root_swipitem);
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         val tv_name = holder.bind<TextView>(R.id.tv_name)
         val tv_time = holder.bind<TextView>(R.id.tv_time)
+
+        if(data.isTop){
+            swipeItemLayout.backgroundColor = ContextCompat.getColor(context,R.color.color_05000000)
+        }else{
+            swipeItemLayout.backgroundColor = ContextCompat.getColor(context,R.color.white)
+        }
 
         if (data.conversationType === Conversation.ConversationType.PRIVATE) {
             RongUtils.setUserInfo(data.targetId, tv_name, headView)
