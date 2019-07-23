@@ -124,9 +124,9 @@
     <string name="string_unknow_open">真实身份</string>
     <string name="string_payinfo">本次申请私聊将预付%1$s积分，对方同意后即可无限畅聊\n对方同意，扣除%2$s积分\n对方拒绝，返还200积分\n超时未回复，返还%2$s积分</string>
     <string name="string_nm_tips">你正在以匿名身份和对方聊天</string>
-    <string name="string_system_tips01">系统：温馨提示：为了保持良好的社区氛围，请不要发送低俗、淫秽色情、辱骂他人的消息，如果被对方举报经核实后将予以禁言或封号处理</string>
-    <string name="string_system_tips02">系统：温馨提示：如果聊天中对方索要小红花、微信号或者借钱等行为时，请予以警惕。如果对方发送低俗、淫秽色情、辱骂他人的消息时，可点击右上角举报</string>
-    <string name="string_system_tips03">系统：如果对方要求你添加微信或手机号等其他联系方式，请谨慎添加以防诈骗，为了维护你的权益，建议你在D6社区内聊天</string>
+    <string name="string_system_tips01">温馨提示：为了保持良好的社区氛围，请不要发送低俗、淫秽色情、辱骂他人的消息，如果被对方举报经核实后将予以禁言或封号处理</string>
+    <string name="string_system_tips02">温馨提示：如果聊天中对方索要小红花、微信号或者借钱等行为时，请予以警惕。如果对方发送低俗、淫秽色情、辱骂他人的消息时，可点击右上角举报</string>
+    <string name="string_system_tips03">如果对方要求你添加微信或手机号等其他联系方式，请谨慎添加以防诈骗，为了维护你的权益，建议你在D6社区内聊天</string>
     <string name="string_loading_tips">加载中...</string>
     <string name="string_d6_desc">D6定位高端私人定制交友社区，以高品质、高素质的会员为基础，全球拥有60000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务</string>
 
@@ -134,7 +134,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="string_newcomments">有新的评论</string>
     <string name="string_applay_tips_center">%1$s申请与你私聊</string>
-    <string name="string_appaying_openchat">申请中...</string>
+    <string name="string_appaying_openchat">私聊申请中...</string>
     <string name="string_applay_sendredflower">送小红花</string>
     <string name="string_give_redflower">送小红花可以置顶提醒提高对方回复率哦</string>
     <string name="string_setfail">设置失败</string>

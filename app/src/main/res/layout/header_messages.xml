@@ -114,7 +114,7 @@
             android:textColor="@color/color_999999"
             android:textSize="10sp"
             android:visibility="visible"
-            android:text="15:12"
+            android:text=""
             android:layout_gravity="center_vertical"/>
 
         <ImageView
@@ -176,7 +176,7 @@
             android:textColor="@color/color_999999"
             android:textSize="10sp"
             android:visibility="visible"
-            android:text="15:12"
+            android:text=""
             android:layout_gravity="center_vertical"/>
 
         <TextView

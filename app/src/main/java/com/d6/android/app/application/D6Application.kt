@@ -19,7 +19,7 @@ import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
-//import com.bugtags.library.Bugtags
+import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
 import com.d6.android.app.net.Request
@@ -45,6 +45,7 @@ import io.rong.message.TextMessage
 import io.rong.push.RongPushClient
 import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.toast
+import org.json.JSONObject
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
@@ -108,7 +109,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
 
         //在这里初始化
-//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
+        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
 
         if(isMainProcess()){
             OpenInstall.init(this)
@@ -217,8 +218,17 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 
         //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）
         if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
-            if(message.content is CustomSystemMessage){
-                RongUtils.setConversationTop(this,message.conversationType,message.targetId,true)
+            if(message.content is CustomMessage){
+                if(message.messageDirection== Message.MessageDirection.RECEIVE){
+                    RongUtils.setConversationTop(this,message.conversationType,message.targetId,true)
+                }
+            }else if(message.content is TipsMessage){
+                var tipsMessage = message.content as TipsMessage
+                var jsonObject = JSONObject(tipsMessage.extra)
+                var type = jsonObject.optString("status")
+                if(TextUtils.equals("4",type)){
+                    RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
+                }
             }
         }
 

@@ -81,6 +81,9 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
                 }else if(TextUtils.equals(msg.getType(),"2")||TextUtils.equals(msg.getType(),"3")){
                     holder.mTvMsgContent.setVisibility(View.VISIBLE);
                 }
+//                else if(TextUtils.equals(msg.getType(),"4")){
+//                    holder.mTvMsgContent.setVisibility(View.VISIBLE);
+//                }
             }
         } else {
             TextView textView = holder.mTvMsgContent;
@@ -94,6 +97,9 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
                     }else if(TextUtils.equals(type,"2")||TextUtils.equals(type,"3")){
                         holder.mTvMsgContent.setVisibility(View.VISIBLE);
                     }
+//                    else if(TextUtils.equals(type,"4")){
+//                        holder.mTvMsgContent.setVisibility(View.VISIBLE);
+//                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

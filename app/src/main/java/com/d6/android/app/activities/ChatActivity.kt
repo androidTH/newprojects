@@ -400,6 +400,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 }else if(code == 4){//双方均未发出私聊申请且双方私聊设置为同意后私聊
                     relative_tips_bottom.visibility = View.VISIBLE
                     tv_openchat_apply_bottom.visibility = View.VISIBLE
+                    tv_openchat_tips_title_bottom.visibility = View.VISIBLE
+                    tv_openchat_tips_bottom.visibility = View.VISIBLE
+                    tv_openchat_tips_center_bottom.visibility = View.GONE
+
                     tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
                     tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
                     fragment?.let {
@@ -550,13 +554,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
                     tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
                     Log.i(TAG, "${SendMsgTotal}发送消息数量")
-                    if (iTalkCount == 1) {
-                        if (!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)) {
-                            var mDialogPrivateChat = DialogPrivateChat()
-                            mDialogPrivateChat.show(supportFragmentManager, "DialogPrivateChat")
-                        }
+//                    if (iTalkCount == 1) {
+//                        if (!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)) {
+//                            var mDialogPrivateChat = DialogPrivateChat()
+//                            mDialogPrivateChat.show(supportFragmentManager, "DialogPrivateChat")
+//                        }
 //                        sendOutgoingSystemMessage(getString(R.string.string_system_tips01),"1")
-                    }
+//                    }
                 }
                 Log.i(TAG, "${SendMsgTotal}发送消息数量${code}")
             }
@@ -680,6 +684,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 if(TextUtils.equals("1",type)){
                     relative_tips_bottom.visibility = View.VISIBLE
                     linear_openchat_agree_bottom.visibility = View.VISIBLE
+                    tv_openchat_apply_bottom.visibility = View.GONE
                     tv_openchat_tips_title_bottom.visibility = View.GONE
                     tv_openchat_tips_bottom.visibility = View.GONE
                     tv_openchat_tips_center_bottom.visibility = View.VISIBLE
@@ -724,19 +729,30 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     relative_tips_bottom.visibility = View.VISIBLE
                     tv_openchat_apply_bottom.visibility = View.VISIBLE
                     tv_openchat_apply_bottom.isEnabled = true
+                    tv_apply_sendflower.visibility = View.GONE
                     tv_openchat_apply_bottom.text = resources.getText(R.string.string_apply_openchat)
                     tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
                     tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
                     fragment?.let {
                         it.hideChatInput(true)
                     }
-
 //                    if(!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)){
 //                        var mDialogPrivateChat = DialogPrivateChat()
 //                        mDialogPrivateChat.show(supportFragmentManager, "DialogPrivateChat")
 //                    }else{
 //
 //                    }
+                }else if(TextUtils.equals("4",type)){
+                    relative_tips_bottom.visibility = View.VISIBLE
+                    tv_openchat_apply_bottom.visibility = View.VISIBLE
+                    tv_openchat_apply_bottom.isEnabled = true
+                    tv_apply_sendflower.visibility = View.GONE
+                    tv_openchat_apply_bottom.text = resources.getText(R.string.string_apply_openchat)
+                    tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
+                    tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
+                    fragment?.let {
+                        it.hideChatInput(true)
+                    }
                 }
             }
         }

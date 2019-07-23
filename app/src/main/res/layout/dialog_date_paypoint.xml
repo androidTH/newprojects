@@ -40,12 +40,13 @@
             android:layout_marginTop="@dimen/margin_15"
             android:lineSpacingExtra="@dimen/margin_5"
             android:textSize="15sp"
-            android:text="本次申请私聊将预付200积分，对方同意后即可无限畅聊"
+            android:text=""
             android:textColor="@color/color_333333"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_30"
             android:orientation="vertical">
 
             <TextView
@@ -82,24 +83,24 @@
             android:id="@+id/tv_noenoughpoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_25"
             android:drawablePadding="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_10"
             android:gravity="center_horizontal"
             android:text="----"
             android:textSize="12sp"
-            android:textColor="@color/color_F7AB00"
-            />
+            android:textColor="@color/color_F7AB00" />
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_height="@dimen/height_45"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="@dimen/margin_16"
+            android:textStyle="bold"
             android:text="支付积分"
             android:textSize="@dimen/btnTextSize"
             android:id="@+id/tv_payok"
             android:textColor="@color/white"
             android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
             android:background="@drawable/shape_orange"/>
     </LinearLayout>
     <TextView

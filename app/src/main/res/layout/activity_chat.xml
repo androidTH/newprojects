@@ -96,6 +96,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/color_EBEBEB"
         android:layout_below="@+id/rl_chat_toolbar">
 
         <RelativeLayout
@@ -196,6 +197,7 @@
         <FrameLayout
             android:id="@+id/rong_content"
             android:layout_below="@+id/relative_tips"
+            android:layout_above="@+id/relative_tips_bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -204,7 +206,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_5"
             android:layout_marginBottom="@dimen/margin_5"
             android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/shape_white"
@@ -291,10 +293,12 @@
 
                 <TextView
                     android:id="@+id/tv_openchat_no_bottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="32dp"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:gravity="center"
                     android:background="@drawable/shape_ebeb"
-                    android:padding="@dimen/dp_10"
                     android:text="拒绝"
                     android:textStyle="bold"
                     android:textColor="@color/color_666666"
@@ -302,12 +306,14 @@
 
                 <TextView
                     android:id="@+id/tv_openchat_agree_bottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_orange"
+                    android:layout_width="50dp"
+                    android:layout_height="32dp"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:gravity="center"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:layout_marginRight="@dimen/margin_5"
-                    android:padding="@dimen/dp_10"
+                    android:background="@drawable/shape_orange"
                     android:text="同意"
                     android:textStyle="bold"
                     android:textColor="@color/white"

@@ -8,7 +8,7 @@ package com.d6.android.app.rong.bean;
  */
 public class TipsTxtMessage {
     private String content;
-    private String type;//0 申请 1 同意 2 拒绝
+    private String type;//0 申请 1 同意 2 拒绝 4 过期
 
     public TipsTxtMessage(String content, String type) {
         this.content = content;

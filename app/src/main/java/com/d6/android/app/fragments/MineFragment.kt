@@ -155,6 +155,10 @@ class MineFragment : BaseFragment() {
             startActivity<MyPointsActivity>()
         }
 
+        ll_mine_points.setOnClickListener {
+            startActivity<MyPointsActivity>()
+        }
+
         iv_whiteclose.setOnClickListener {
             rl_warmuserinfo.visibility = View.GONE
             SPUtils.instance().put(USERINFO_PERCENT+ getLocalUserId(),System.currentTimeMillis()).apply()

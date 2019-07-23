@@ -8,6 +8,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,6 @@ import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.rong.bean.CustomMessage;
-import com.d6.android.app.rong.bean.ImgTxtMessage;
-import com.d6.android.app.utils.GsonHelper;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import io.rong.imkit.RongContext;
@@ -26,10 +24,12 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
+import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imkit.utilities.OptionsPopupDialog;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by Beyond on 2016/12/5.
@@ -140,14 +140,29 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
     @Override
     public void bindView(final View v, int position, final CustomMessage content, final UIMessage data) {
         CustomMessageProvider.ViewHolder holder = (CustomMessageProvider.ViewHolder) v.getTag();
-
+        Log.i("dddddddddddddddd",content.getExtra()+"方向"+data.getMessageDirection());
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
             TextView textView = holder.mTvMsgContent;
-            textView.setText(content.getContent());
+//            textView.setText(content.getContent());
             if(!TextUtils.isEmpty(content.getExtra())){
-                ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);
-                holder.mTvReceivedFlowerNums.setText(msg.getNums());
+                int nums = 1;
+                try {
+                    JSONObject jsonObject = new JSONObject(content.getExtra());
+                    nums = jsonObject.getInt("nums");
+                    String receivename = jsonObject.getString("receiveusername");
+                    holder.mTvReceivedFlowerNums.setText(String.valueOf(nums));
+//                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+//                  strDir=userInfo.getName()+"给你分享了一条动态";
+                    textView.setText("你给"+receivename+"打赏了"+nums+"朵小红花");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+                    textView.setText("你给"+userInfo.getName()+"打赏了"+nums+"朵小红花");
+                    holder.mTvReceivedFlowerNums.setText(String.valueOf(nums));
+                }
+//                ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);
+//                holder.mTvReceivedFlowerNums.setText(msg.getNums());
             }
         } else {
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
