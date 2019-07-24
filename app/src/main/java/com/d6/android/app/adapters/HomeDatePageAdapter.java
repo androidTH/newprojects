@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.d6.android.app.fragments.RecommendDateQuickFragment;
 import com.d6.android.app.fragments.SelfPullDateFragment;
+import com.d6.android.app.models.DateType;
 import com.d6.android.app.rong.bean.RecommentType;
 
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ public class HomeDatePageAdapter extends FragmentStatePagerAdapter {
 
     private List<SelfPullDateFragment> mHomeDataFragments;
 
-    private List<String> mTitles = new ArrayList<>();
-    public HomeDatePageAdapter(FragmentManager fm, List<SelfPullDateFragment> data) {
+    private List<DateType> mTitles = new ArrayList<>();
+    public HomeDatePageAdapter(FragmentManager fm, List<SelfPullDateFragment> data,List<DateType> titles) {
         super(fm);
         this.mHomeDataFragments = data;
-        mTitles.add("官方推荐");
+        this.mTitles = titles;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class HomeDatePageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTitles.get(position);
+        return mTitles.get(position).getDateTypeName();
     }
 
 }

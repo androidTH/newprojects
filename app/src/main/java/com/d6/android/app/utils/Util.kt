@@ -348,10 +348,10 @@ inline fun Activity.isAuthUser(from:String="nomine",next: () -> Unit) {
     if (className == "7") {// 22 普通会员
         var sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if(TextUtils.equals("1",sex)){
-            var mMemberDialog = MemberDialog()
-            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
-            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
-//            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+//            var mMemberDialog = MemberDialog()
+//            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
+//            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
+            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
         }else{
             this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //             this.startActivity<DateAuthStateActivity>()
@@ -382,10 +382,10 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
                     saveUserInfo(it)
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
                     if (TextUtils.equals("1", it.sex)) {//1是男
-//                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
-                        var mMemberDialog = MemberDialog()
-                        mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
-                        mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
+                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+//                        var mMemberDialog = MemberDialog()
+//                        mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
+//                        mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
                     }else{
                         this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //                      this.startActivity<DateAuthStateActivity>()

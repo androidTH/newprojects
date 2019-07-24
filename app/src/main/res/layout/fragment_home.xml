@@ -89,6 +89,7 @@
 
             </RelativeLayout>
 
+            <!--70dp-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -96,6 +97,15 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/shape_4r_f5f5">
 
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_newest_date"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:drawableLeft="@mipmap/title_label_icon"-->
+                    <!--android:drawablePadding="8dp"-->
+                    <!--android:text="自主约会"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textStyle="bold" />-->
                 <TextView
                     android:id="@+id/tv_newest_date"
                     android:layout_width="wrap_content"
@@ -134,6 +144,48 @@
                     android:textColor="@color/color_black"
                     android:textSize="14sp"
                     android:textStyle="bold" />
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_marginTop="@dimen/margin_8"-->
+                    <!--android:layout_below="@+id/tv_newest_date">-->
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="@dimen/margin_8"-->
+                        <!--android:layout_toLeftOf="@+id/tv_date_city"-->
+                        <!--android:layout_marginRight="@dimen/margin_8">-->
+                        <!--<com.d6.android.app.widget.tablayout.TabLayout-->
+                            <!--android:id="@+id/tab_home_date"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="30dp"-->
+                            <!--app:tabPaddingStart="0dp"-->
+                            <!--app:tabPaddingEnd="0dp"-->
+                            <!--app:tabMode="scrollable"-->
+                            <!--app:tabGravity="center"-->
+                            <!--app:tabMaxWidth="@dimen/margin_45"-->
+                            <!--android:scrollbars="horizontal"-->
+                            <!--app:tabBackground="@drawable/tablayout_background"-->
+                            <!--app:tabIndicatorColor="@color/color_F7AB00"-->
+                            <!--app:tabIndicatorHeight="0dp"-->
+                            <!--app:tabLineOffset="@dimen/margin_20"-->
+                            <!--app:tabSelectedTextColor="@color/white"-->
+                            <!--app:tabTextColor="@color/color_666666" />-->
+                    <!--</LinearLayout>-->
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_date_city"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_marginRight="@dimen/margin_8"-->
+                        <!--android:drawableRight="@mipmap/titlemore_icon"-->
+                        <!--android:drawablePadding="@dimen/margin_5"-->
+                        <!--android:gravity="center"-->
+                        <!--android:text="地区"-->
+                        <!--android:textColor="@color/color_666666"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:textStyle="bold" />-->
+                <!--</RelativeLayout>-->
             </RelativeLayout>
         </android.support.design.widget.AppBarLayout>
 

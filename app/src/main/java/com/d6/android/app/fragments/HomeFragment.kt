@@ -25,12 +25,14 @@ import com.d6.android.app.adapters.HomeDatePageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.models.City
+import com.d6.android.app.models.DateType
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.ISUPDOWN
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
+import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import org.jetbrains.anko.support.v4.toast
@@ -55,6 +57,10 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground{
 //        intent.putExtra(ISUPDOWN,mHomeIsUpDown)
 //        context.sendBroadcast(intent)
     }
+
+    var showDateTypes:Array<DateType> = arrayOf(DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(5))
+
+    private val mSelfDateTypes = ArrayList<DateType>()
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -110,10 +116,27 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground{
         mSelfPullDateFragment=SelfPullDateFragment.instance(0)
         mSelfPullDateFragment?.setRenGongBackGround(this)
         mSelfPullDateFragment?.let {
-            mFragments.add(it)
+             mFragments.add(it)
         }
 
-        mViewPager.adapter = HomeDatePageAdapter(childFragmentManager,mFragments)
+//        mFragments.add(SelfPullDateFragment.instance(0))
+//        mFragments.add(SelfPullDateFragment.instance(0))
+//        mFragments.add(SelfPullDateFragment.instance(0))
+//        mFragments.add(SelfPullDateFragment.instance(0))
+//        mFragments.add(SelfPullDateFragment.instance(0))
+//        mFragments.add(SelfPullDateFragment.instance(0))
+//        mFragments.add(SelfPullDateFragment.instance(0))
+//
+//        for (i in 0..(showDateTypes.size-1)) {
+//            var dt = showDateTypes[i]
+//            dt.dateTypeName = dateTypes[dt.type-1]
+//            mSelfDateTypes.add(dt)
+//        }
+
+        mViewPager.offscreenPageLimit = mFragments.size
+        mViewPager.adapter = HomeDatePageAdapter(childFragmentManager,mFragments,mSelfDateTypes)
+
+//        tab_home_date.setupWithViewPager(mViewPager)
 
         tv_speed_date_more.setOnClickListener {
             startActivity<RecommendDateActivity>()
@@ -145,7 +168,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground{
         }
 
         tv_datetype.setOnClickListener {
-//            activity.isCheckOnLineAuthUser(this,userId){
                 val filterDateTypeDialog = FilterDateTypeDialog()
                 filterDateTypeDialog.show(childFragmentManager, "ftd")
                 filterDateTypeDialog.setDialogListener { p, s ->
@@ -157,7 +179,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground{
                     tv_datetype.text = s
                     getFragment()
                 }
-//            }
         }
 
         mPopupArea = AreaSelectedPopup.create(activity)

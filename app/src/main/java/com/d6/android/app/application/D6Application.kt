@@ -27,6 +27,7 @@ import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.rong.bean.*
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
 import com.umeng.commonsdk.UMConfigure
@@ -295,6 +296,11 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         connectionStatus?.let {
             if (connectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT) {
                 quit()
+            }else if(connectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.TOKEN_INCORRECT){
+                val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
+                if(!TextUtils.isEmpty(token)){
+                    RongIM.connect(token,getConnectCallback())
+                }
             }
         }
     }

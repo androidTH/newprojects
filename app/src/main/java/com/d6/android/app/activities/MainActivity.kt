@@ -72,7 +72,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             MessageFragment::class.java,MineFragment::class.java)
     private var unReadDateMsg:Int=-1
     private var unReadMsgNum:Int=0
-    private var unReadServiceMsgNum:Int=0
+    private var unReadServiceMsgNum:Int=0//男游客浮动移除
 
     private var filterTrendDialog:FilterTrendDialog?=null
 
@@ -101,7 +101,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
                     if(showFloatManService()){
-                        rl_service.visibility = View.VISIBLE
+                        rl_service.visibility = View.GONE
                     }else{
                         rl_service.visibility = View.GONE
                     }
@@ -156,7 +156,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
         registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
         registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))
-        registerReceiver(manService, IntentFilter(Const.MINE_MANSERVICE_YOUKE))
+//        registerReceiver(manService, IntentFilter(Const.MINE_MANSERVICE_YOUKE)) 2.5移除
 //        registerReceiver(mHomeDateStateBar, IntentFilter(Const.HOMEDATE_STATEBAR))
 
         tabhost.setup(this, supportFragmentManager, R.id.container)
@@ -436,12 +436,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                         mLoginOutTipDialog.show(supportFragmentManager, "action")
                     }
                 }
-
+                /*2.5移除
                 if(showFloatManService()){
-                    rl_service.visibility = View.VISIBLE
+                    rl_service.visibility = View.GONE
                 }else{
                     rl_service.visibility = View.GONE
-                }
+                }*/
             }
         })
     }
@@ -476,19 +476,16 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                         unReadMsgNum = 0
                         unReadMsgNum = unReadMsgNum + it
                         Log.i("messagesssssss","${unReadMsgNum}显示getUnreadCount")
-                        if(showFloatManService()){
-                            getServiceUnReadMsg()
-                        }else{
-                            unReadServiceMsgNum = 0
-                            getSysLastOne()
-                        }
-//                        val view = view1.find<View>(R.id.tv_msg_red)  as TextView
-//                        if (p0.toInt() > 0) {
-//                            unReadMsgNum = unReadMsgNum + p0.toInt()
-//                            view?.visible()
-//                        } else {
+
+                          //2.5移除
+//                        if(showFloatManService()){
+//                            getServiceUnReadMsg()
+//                        }else{
+//                            unReadServiceMsgNum = 0
 //                            getSysLastOne()
 //                        }
+
+                        getSysLastOne()
                     }
                 }
             }
@@ -580,7 +577,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             Log.i("messagesssssss","${unReadMsgNum}显示")
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
-                unReadMsgNum = unReadMsgNum - unReadServiceMsgNum
+               // unReadMsgNum = unReadMsgNum - unReadServiceMsgNum//2.5移除
                 if(unReadMsgNum > 0){
                   if(unReadMsgNum>=99){
                         view.text = "99+"
@@ -597,7 +594,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }
-                unReadMsgNum = unReadMsgNum + data.count!!.toInt() - unReadServiceMsgNum
+//                unReadMsgNum = unReadMsgNum + data.count!!.toInt() - unReadServiceMsgNum//2.5移除
+                unReadMsgNum = unReadMsgNum + data.count!!.toInt()
                 if(unReadMsgNum>0){
                     if(unReadMsgNum>=99){
                         view.text = "99+"
@@ -608,11 +606,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 }else{
                     view?.gone()
                 }
-//                if ((data.count ?: 0) > 0) {
-//                    view?.visible()
-//                }else{
-//                    view?.gone()
-//                }
             }
         }) { _, _ ->
 

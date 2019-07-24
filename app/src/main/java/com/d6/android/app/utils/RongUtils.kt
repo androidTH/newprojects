@@ -67,4 +67,18 @@ object RongUtils {
             })
         }
     }
+
+    fun getConnectCallback(): RongIMClient.ConnectCallback {
+        return object : RongIMClient.ConnectCallback() {
+            override fun onTokenIncorrect() {
+            }
+
+            override fun onSuccess(s: String) {
+
+            }
+
+            override fun onError(e: RongIMClient.ErrorCode) {
+            }
+        }
+    }
 }

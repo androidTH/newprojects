@@ -221,7 +221,7 @@
                 android:text="@string/string_apply_openchat"
                 android:textColor="@color/color_black"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/tv_openchat_tips_bottom"
@@ -233,17 +233,18 @@
                 android:lines="2"
                 android:text="@string/string_apply_openchat"
                 android:textColor="@color/color_888888"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/tv_openchat_tips_center_bottom"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_centerVertical="true"
+                android:maxLines="2"
                 android:text="-------"
-                android:textColor="@color/color_black"
                 android:visibility="gone"
+                android:textColor="@color/color_black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 

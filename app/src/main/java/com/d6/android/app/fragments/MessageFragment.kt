@@ -241,16 +241,21 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                                 }
                             }
                         }else{
-                            if(showFloatManService()){
-                                if(TextUtils.equals(c.targetId,CustomerServiceId)){
-                                    mConversations.remove(c)
-                                }
-                            }else{
-                                if(c.isTop){
-                                    mConversations.remove(c)
-                                    mISTopConversations.add(c)
-                                }
+                            if(c.isTop){
+                                mConversations.remove(c)
+                                mISTopConversations.add(c)
                             }
+                            //2.5移除
+//                            if(showFloatManService()){
+//                                if(TextUtils.equals(c.targetId,CustomerServiceId)){
+//                                    mConversations.remove(c)
+//                                }
+//                            }else{
+//                                if(c.isTop){
+//                                    mConversations.remove(c)
+//                                    mISTopConversations.add(c)
+//                                }
+//                            }
                         }
 
                     }

@@ -140,7 +140,6 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
     @Override
     public void bindView(final View v, int position, final CustomMessage content, final UIMessage data) {
         CustomMessageProvider.ViewHolder holder = (CustomMessageProvider.ViewHolder) v.getTag();
-        Log.i("dddddddddddddddd",content.getExtra()+"方向"+data.getMessageDirection());
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
             TextView textView = holder.mTvMsgContent;
