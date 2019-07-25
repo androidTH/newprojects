@@ -1019,6 +1019,13 @@ fun showFloatManService():Boolean{
     return false
 }
 
+fun removeKFService(mOtherUserId:String):Boolean{
+    if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+        return true
+    }
+    return false
+}
+
 /**
  * 获得版本名称
  *
