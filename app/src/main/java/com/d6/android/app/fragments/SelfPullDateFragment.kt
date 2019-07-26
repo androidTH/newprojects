@@ -17,6 +17,7 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLocalUserId
+import com.d6.android.app.utils.getSelfDateDialog
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 
 /**
@@ -24,15 +25,13 @@ import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
  */
 class SelfPullDateFragment : RecyclerFragment() {
 
-    private var showSelfDateDialog = SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
-
     private var mIsUpDown:Boolean = false //true 向上 false 向下
 
     companion object {
-        fun instance(type: Int): SelfPullDateFragment {
+        fun instance(type: String): SelfPullDateFragment {
             val fragment = SelfPullDateFragment()
             val b = Bundle()
-            b.putInt("type", type)
+            b.putString("type", type)
             fragment.arguments = b
             return fragment
         }
@@ -62,6 +61,14 @@ class SelfPullDateFragment : RecyclerFragment() {
 
     override fun setAdapter() = dateAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            dateType= it.getString("type")
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 //        immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
@@ -87,11 +94,10 @@ class SelfPullDateFragment : RecyclerFragment() {
                         val h = view.top
                         if(h<0&&dy>=0){
                             //表示向上滑动
-                            if(showSelfDateDialog){
-                                showSelfDateDialog = !showSelfDateDialog
+                            if(getSelfDateDialog()){
                                 var mSelfDateDialog = SelfDateDialog()
                                 mSelfDateDialog.show(childFragmentManager,"RgDateDailog")
-                                SPUtils.instance().put(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),showSelfDateDialog).apply()
+                                SPUtils.instance().put(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),false).apply()
                             }
                             if(!mIsUpDown){
                                 mIsUpDown =!mIsUpDown

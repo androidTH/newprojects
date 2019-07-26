@@ -418,4 +418,9 @@
         <!--下划线的宽度-->
         <attr name="tabLineOffset" format="dimension"/>
     </declare-styleable>
+    
+    <style name="tab_home_date" >
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

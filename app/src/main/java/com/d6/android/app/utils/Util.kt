@@ -44,6 +44,7 @@ import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
@@ -1122,4 +1123,8 @@ fun sendOutgoingSystemMessage(msg:String,type:String,message:Message){
 
         }
     })
+}
+
+fun getSelfDateDialog():Boolean{
+   return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
 }
