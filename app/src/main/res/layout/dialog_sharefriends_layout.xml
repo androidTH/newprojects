@@ -6,6 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
     <LinearLayout
+        android:id="@+id/ll_dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

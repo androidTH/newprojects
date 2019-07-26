@@ -360,9 +360,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         var time = converTime(myAppointment.dEndtime)
-        headerView.tv_time_long.text = "倒计时:${time}"
+        headerView.tv_time_long.text = "倒计时·${time}"
 
-        headerView.tv_self_address.text = myAppointment.sPlace
+        headerView.tv_self_address.text = "约会地点·${myAppointment.sPlace}"
 
         headerView.tv_content.text = myAppointment.sDesc
 
@@ -532,7 +532,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                    }
 //                }
 
-                headerView.tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),this)
+                var drawable = getLevelDrawable(it.userclassesid.toString(),this)
+                headerView.tv_vip.backgroundDrawable = drawable
+                headerView.tv_date_vip.backgroundDrawable = drawable
 
                 mTags.clear()
                 if (!it.height.isNullOrEmpty()) {
@@ -608,7 +610,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.rl_userinfo_date.visibility = View.VISIBLE
                     headerView.date_headView.setImageURI(it.picUrl)
                     headerView.tv_name.text = it.name
-                    headerView.tv_name.isSelected = TextUtils.equals("0", it.sex)
+                    headerView.tv_user_date_sex.text = "${it.age}"
+                    headerView.tv_user_date_sex.isSelected = TextUtils.equals("0", it.sex)
                     setDateInfo(it.appointment)
                 } else {
                     headerView.rl_userinfo_date.visibility = View.GONE

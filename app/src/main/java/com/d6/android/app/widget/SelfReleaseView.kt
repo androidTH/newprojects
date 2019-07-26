@@ -1,7 +1,6 @@
 package com.d6.android.app.widget
 
 import android.content.Context
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -9,12 +8,9 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
-import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.models.MyDate
-import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.view_self_release_view.view.*
-import org.jetbrains.anko.dip
 
 /**
  * Created on 2017/12/17.
@@ -39,7 +35,8 @@ class SelfReleaseView @JvmOverloads constructor(context: Context, attrs: Attribu
         this.myDate = myDate
         headView.setImageURI(myDate.picUrl)
         tv_name.text = myDate.name
-        tv_name.isSelected = TextUtils.equals("0", myDate.sex)
+        tv_date_user_sex.isSelected = TextUtils.equals("0", myDate.sex)
+        tv_date_user_sex.text = myDate.age
         val start = myDate.beginTime?.parserTime("yyyy-MM-dd")
         val end = myDate.endTime?.parserTime("yyyy-MM-dd")
         val time = String.format("%s-%s",start?.toTime("MM.dd"),end?.toTime("MM.dd"))
@@ -51,9 +48,9 @@ class SelfReleaseView @JvmOverloads constructor(context: Context, attrs: Attribu
 //        tv_sub_title.text = SpanBuilder(s)
 //                .color(context,0,time.length,R.color.color_369)
 //                .build()
-        tv_time_long.text = time;
+        tv_time_long.text = "倒计时·${time}"
 
-        tv_self_address.text = myDate.city
+        tv_self_address.text = "约会地点·${myDate.city}"
 
         tv_content.text = myDate.content
 
