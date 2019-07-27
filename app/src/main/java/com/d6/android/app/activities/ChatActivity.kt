@@ -261,7 +261,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             }
         }
 
-        if (!removeKFService(mOtherUserId)) {
+        if (TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
             tv_service_time.visibility = View.VISIBLE
             root_date_chat.visibility = View.GONE
         }

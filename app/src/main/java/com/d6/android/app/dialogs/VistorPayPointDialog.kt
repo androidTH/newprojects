@@ -99,7 +99,7 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
     }
 
     private fun getData(point:String,remainPoint:String) {
-        Request.getVistorPayPoint(userId).request((context as BaseActivity),false,success={msg,data->
+        Request.getVistorPayPoint(userId, getLoginToken()).request((context as BaseActivity),false,success={ msg, data->
             if (type == 0) {
                 startActivity<VistorsActivity>()
             }
