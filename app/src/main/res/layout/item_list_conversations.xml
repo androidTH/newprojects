@@ -100,6 +100,21 @@
                 android:visibility="visible"
                 android:text="15:12"
                 android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_conversation_type"
+                android:layout_below="@+id/tv_time"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/margin_8"
+                android:textColor="@color/color_999999"
+                android:drawableLeft="@mipmap/chatlist_chat"
+                android:drawablePadding="@dimen/margin_5"
+                android:textSize="10sp"
+                android:text="申请私聊"
+                android:layout_gravity="center_vertical"/>
+            <!--chatlist_date-->
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="18dp"

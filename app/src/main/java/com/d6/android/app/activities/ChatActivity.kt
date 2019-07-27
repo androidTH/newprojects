@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
@@ -17,6 +19,7 @@ import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.rong.fragment.ConversationFragmentEx
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.RECEIVER_FIRST_PRIVATE_TIPSMESSAGE
 import com.d6.android.app.utils.Const.SEND_FIRST_PRIVATE_TIPSMESSAGE
 import com.d6.android.app.utils.Const.SEND_GROUP_TIPSMESSAGE
@@ -33,6 +36,9 @@ import io.rong.imlib.model.MessageContent
 import io.rong.message.ImageMessage
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.activity_chat.tv_openchat_agree_bottom
+import kotlinx.android.synthetic.main.activity_chat.tv_openchat_no_bottom
+import kotlinx.android.synthetic.main.layout_date_chat.*
 import org.jetbrains.anko.*
 import org.json.JSONObject
 import java.util.*
@@ -140,10 +146,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //            checkISFirstReceiverMsg()
         }
 
-        if (TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
-            tv_service_time.visibility = View.VISIBLE
-        }
-
         iv_back_close.setOnClickListener {
             hideSoftKeyboard(it)
             onBackPressed()
@@ -223,12 +225,45 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             //拒绝
             doUpdatePrivateChatStatus("3")
             RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,false)
+            SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+mOtherUserId,false).apply()
         }
 
         tv_openchat_agree_bottom.setOnClickListener {
             //同意
             doUpdatePrivateChatStatus("2")
             RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,false)
+            SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+mOtherUserId,false).apply()
+
+        }
+
+        iv_chat_unfold.setOnClickListener {
+            if(rl_date_chat.visibility == View.GONE){
+                rl_date_chat.visibility = View.VISIBLE
+                root_date_chat.animation = AnimationUtils.loadAnimation(this,
+                        R.anim.anim_datechat_in)
+            }else{
+                var annotation =  AnimationUtils.loadAnimation(this,
+                        R.anim.anim_datechat_out)
+                annotation.setAnimationListener(object :Animation.AnimationListener {
+                    override fun onAnimationStart(animation: Animation) {
+
+                    }
+
+                    override fun onAnimationEnd(animation: Animation) {
+                        rl_date_chat.visibility = View.GONE
+                    }
+
+                    override fun onAnimationRepeat(animation: Animation) {
+
+                    }
+                })
+                root_date_chat.startAnimation(annotation)
+            }
+        }
+
+        if (!removeKFService(mOtherUserId)) {
+            tv_service_time.visibility = View.VISIBLE
+            root_date_chat.visibility = View.GONE
         }
 
         enterActivity()
@@ -397,6 +432,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     fragment?.let {
                         it.hideChatInput( true)
                     }
+                    SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+mOtherUserId,true).apply()
                 }else if(code == 4){//双方均未发出私聊申请且双方私聊设置为同意后私聊
                     relative_tips_bottom.visibility = View.VISIBLE
                     tv_openchat_apply_bottom.visibility = View.VISIBLE
@@ -692,6 +728,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     fragment?.let {
                         it.hideChatInput( true)
                     }
+                    SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+mOtherUserId,true).apply()
                 }else if(TextUtils.equals("2",type)){//同意
                     relative_tips_bottom.visibility = View.GONE
 //                    if(TextUtils.equals("1",sex)){
@@ -765,7 +802,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             }
         }
 
-        if (!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
+
+        if (removeKFService(mOtherUserId)) {
             getApplyStatus()
         }
 
@@ -791,7 +829,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
     override fun onSent(p0: Message?, p1: RongIM.SentMessageErrorCode?): Boolean {
         p0?.let {
-            if (!TextUtils.equals(mOtherUserId, Const.CustomerServiceId)||!TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
+            if (removeKFService(mOtherUserId)) {
 //                if (TextUtils.equals("1", sex)) {
                 if (IsAgreeChat) {
                     if (p1 == null) {

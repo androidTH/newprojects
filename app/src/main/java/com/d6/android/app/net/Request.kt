@@ -393,20 +393,20 @@ object Request {
     //同意或拒绝私聊接口
     fun doUpdatePrivateChatStatus(iFromUserid:String,iToUserid:String,iStatus:String)=RRetrofit.instance().create(ApiServices::class.java).doUpdatePrivateChatStatus(iFromUserid,iToUserid,iStatus)
 
-     //获取与当前用户的私聊状态
+    //获取与当前用户的私聊状态
     fun getApplyStatus(iFromUserid:String,iToUserid:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid,iType)
 
     //获取用户信息接口
     fun getUserInfoDetail(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserInfoDetail(iUserid)
 
     //判断是否允许发布约会接口
-    fun getAppointmentAuth(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAppointmentAuth(iUserid)
+    fun getAppointmentAuth(iUserid:String,sLoginToken: String)=RRetrofit.instance().create(ApiServices::class.java).getAppointmentAuth(iUserid,sLoginToken)
 
     //判断是否有查看访客权限
     fun getVistorAuth(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorAuth(iUserid)
 
     //支付查看访客积分
-    fun getVistorPayPoint(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorPayPoint(iUserid)
+    fun getVistorPayPoint(iUserid:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorPayPoint(iUserid,sLoginToken)
 
     //更新版本
     fun getByVersion(sVersion:String,iType:String)=RRetrofit.instance().create(ApiServices::class.java).getByVersion(sVersion,iType)

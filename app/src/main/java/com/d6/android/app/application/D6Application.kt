@@ -27,6 +27,7 @@ import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.rong.bean.*
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
@@ -220,15 +221,21 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）
         if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
             if(message.content is CustomMessage){
-                if(message.messageDirection== Message.MessageDirection.RECEIVE){
-                    RongUtils.setConversationTop(this,message.conversationType,message.targetId,true)
+                var flag =  SPUtils.instance().getBoolean(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+message.targetId,false)
+                if(flag){
+                    if(message.messageDirection== Message.MessageDirection.RECEIVE){
+                        RongUtils.setConversationTop(this,message.conversationType,message.targetId,true)
+                    }
                 }
+                //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）
             }else if(message.content is TipsMessage){
-                var tipsMessage = message.content as TipsMessage
-                var jsonObject = JSONObject(tipsMessage.extra)
-                var type = jsonObject.optString("status")
-                if(TextUtils.equals("4",type)){
-                    RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
+                if(removeKFService(message.targetId)){
+                    var tipsMessage = message.content as TipsMessage
+                    var jsonObject = JSONObject(tipsMessage.extra)
+                    var type = jsonObject.optString("status")
+                    if(TextUtils.equals("4",type)){
+                        RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
+                    }
                 }
             }
         }

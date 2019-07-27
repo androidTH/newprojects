@@ -198,11 +198,14 @@ class SpeedDateDetailActivity : TitleActivity() {
 
         mUrls.clear()
         speedDate.coverurl?.let {
-            val array = it.split(",")
-            if (array.isNotEmpty()) {
-                mUrls.addAll(array)
+            if(it.isNotEmpty()){
+                val array = it.split(",")
+                if (array.isNotEmpty()) {
+                    mUrls.addAll(array)
+                }
             }
         }
+
         //如果内容图片为空
         if (mUrls.isEmpty()) {
             speedDate.speedpics?.let {
