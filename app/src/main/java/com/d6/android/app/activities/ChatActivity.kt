@@ -257,7 +257,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
                     }
                 })
-                root_date_chat.startAnimation(annotation)
+                rl_date_chat.startAnimation(annotation)
+                iv_chat_unfold.animation = annotation
             }
         }
 

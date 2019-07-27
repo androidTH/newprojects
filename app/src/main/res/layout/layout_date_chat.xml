@@ -223,7 +223,6 @@
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
-
     <ImageView
         android:id="@+id/iv_chat_unfold"
         android:layout_width="43dp"
@@ -231,5 +230,4 @@
         android:layout_below="@id/rl_date_chat"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/chat_unfold" />
-
 </RelativeLayout>
