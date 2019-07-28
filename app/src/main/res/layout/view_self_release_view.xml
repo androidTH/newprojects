@@ -22,7 +22,9 @@
             style="@style/DefaultHeadStyle"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:roundAsCircle="true" />
+            app:roundAsCircle="true"
+            app:roundingBorderWidth="0.5dp"
+            app:roundingBorderColor="@color/color_1A000000"/>
         <ImageView
             android:id="@+id/img_self_auther"
             android:layout_width="wrap_content"
@@ -154,7 +156,7 @@
                 android:id="@+id/tv_time_long"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/invitation_time_icon"
+                android:drawableLeft="@mipmap/local_list_icon"
                 android:drawablePadding="@dimen/margin_3"
                 android:text="倒计时:4天"
                 android:textStyle="bold"
@@ -166,7 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:drawableLeft="@mipmap/invitation_local_icon"
+                android:drawableLeft="@mipmap/time_list_icon"
                 android:drawablePadding="@dimen/margin_2"
                 android:text="武汉"
                 android:textStyle="bold"

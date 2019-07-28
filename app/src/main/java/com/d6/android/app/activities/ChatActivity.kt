@@ -13,7 +13,6 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
-import com.d6.android.app.rong.bean.CustomSystemMessage
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage
 import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
@@ -32,7 +31,6 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Group
 import io.rong.imlib.model.Message
-import io.rong.imlib.model.MessageContent
 import io.rong.message.ImageMessage
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -78,6 +76,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private var mOtherUserId = ""
     private var mWhoanonymous = "1" //1我自己匿名   2对方匿名
 
+    private var content = "你好啊你好啊你好啊你好"
     /**
      * 会话类型
      */
@@ -237,30 +236,40 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         }
 
         iv_chat_unfold.setOnClickListener {
-            if(rl_date_chat.visibility == View.GONE){
-                rl_date_chat.visibility = View.VISIBLE
-                root_date_chat.animation = AnimationUtils.loadAnimation(this,
-                        R.anim.anim_datechat_in)
+            if(ll_date_dowhat.visibility == View.GONE){
+                extendDateChatDesc(true)
+                tv_datechat_content.setEllipsize(null);//展开
+                tv_datechat_content.setSingleLine(false);//这个方法是必须设置的，否则无法展开
             }else{
-                var annotation =  AnimationUtils.loadAnimation(this,
-                        R.anim.anim_datechat_out)
-                annotation.setAnimationListener(object :Animation.AnimationListener {
-                    override fun onAnimationStart(animation: Animation) {
-
-                    }
-
-                    override fun onAnimationEnd(animation: Animation) {
-                        rl_date_chat.visibility = View.GONE
-                    }
-
-                    override fun onAnimationRepeat(animation: Animation) {
-
-                    }
-                })
-                rl_date_chat.startAnimation(annotation)
-                iv_chat_unfold.animation = annotation
+                extendDateChatDesc(false)
             }
+//            if(rl_date_chat.visibility == View.GONE){
+//                rl_date_chat.visibility = View.VISIBLE
+//                root_date_chat.animation = AnimationUtils.loadAnimation(this,
+//                        R.anim.anim_datechat_in)
+//            }else{
+//                var annotation =  AnimationUtils.loadAnimation(this,
+//                        R.anim.anim_datechat_out)
+//                annotation.setAnimationListener(object :Animation.AnimationListener {
+//                    override fun onAnimationStart(animation: Animation) {
+//
+//                    }
+//
+//                    override fun onAnimationEnd(animation: Animation) {
+//                        rl_date_chat.visibility = View.GONE
+//                    }
+//
+//                    override fun onAnimationRepeat(animation: Animation) {
+//
+//                    }
+//                })
+//                rl_date_chat.startAnimation(annotation)
+//                iv_chat_unfold.animation = annotation
+//            }
         }
+
+        tv_datechat_content.setEllipsize(TextUtils.TruncateAt.END);//收起
+        tv_datechat_content.maxLines = 2
 
         if (TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
             tv_service_time.visibility = View.VISIBLE
@@ -706,7 +715,21 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 .appendQueryParameter("title", mTitle)
                 .build()
 
-        fragment!!.uri = uri
+        fragment?.let {
+            it.uri = uri
+            var mSoftKeyboardStateHelper = SoftKeyboardStateHelper(root_chat)
+            mSoftKeyboardStateHelper.addSoftKeyboardStateListener(object: SoftKeyboardStateHelper.SoftKeyboardStateListener{
+                override fun onSoftKeyboardClosed() {
+
+                }
+
+                override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
+                    ll_date_dowhat.visibility = View.GONE
+                    rv_datechat_images.visibility = View.GONE
+                    iv_chat_unfold.visibility = View.VISIBLE
+                }
+            })
+        }
 
         val transaction = supportFragmentManager.beginTransaction()
         //xxx 涓轰綘瑕佸姞杞界殑 id
@@ -803,11 +826,21 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             }
         }
 
-
         if (removeKFService(mOtherUserId)) {
             getApplyStatus()
         }
+    }
 
+    private fun extendDateChatDesc(isextend:Boolean){
+        if(isextend){
+            ll_date_dowhat.visibility = View.VISIBLE
+            rv_datechat_images.visibility = View.VISIBLE
+            iv_chat_unfold.visibility = View.GONE
+        }else{
+            ll_date_dowhat.visibility = View.GONE
+            rv_datechat_images.visibility = View.GONE
+            iv_chat_unfold.visibility = View.VISIBLE
+        }
     }
 
     override fun onSend(p0: Message?): Message? {

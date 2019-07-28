@@ -73,19 +73,23 @@
     </style>
 
     <style name="DefaultHeadStyle">
-        <item name="failureImage">@mipmap/headportrait_girl</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+        <item name="viewAspectRatio">1</item>
+        <item name="roundedCornerRadius">6dp</item>
+        <item name="roundingBorderWidth">0.5dp</item>
+        <item name="roundingBorderColor">@color/color_1A000000</item>
+    </style>
+
+    <style name="DefaultNoHeadStyle">
+        <item name="failureImage">@mipmap/default_head</item>
         <item name="placeholderImage">@mipmap/headportrait_girl</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
         <item name="roundedCornerRadius">6dp</item>
-    </style>
-
-    <style name="DefaultNoHeadStyle">
-        <item name="placeholderImageScaleType">fitCenter</item>
-        <item name="failureImageScaleType">fitCenter</item>
-        <item name="viewAspectRatio">1</item>
-        <item name="roundedCornerRadius">6dp</item>
+        <item name="roundingBorderWidth">0.5dp</item>
+        <item name="roundingBorderColor">@color/color_1A000000</item>
     </style>
 
     <style name="Defaultpicbg">
@@ -102,6 +106,8 @@
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
         <item name="roundedCornerRadius">6dp</item>
+        <item name="roundingBorderWidth">0.5dp</item>
+        <item name="roundingBorderColor">@color/color_1A000000</item>
     </style>
 
     <style name="DefaultmanCircle" parent="manDefaultHeadStyle">

@@ -314,6 +314,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         var mSelfPullDateFragment:SelfPullDateFragment = fragments.get(onPageSelected) as SelfPullDateFragment
         mSelfPullDateFragment?.let {
             var area = if(!TextUtils.isEmpty(city)) city else ""
+            type = showDateTypes.get(onPageSelected).type
             var dateType = if(type==0){//type == 6||
                 ""
             }else{
@@ -322,14 +323,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             mSelfPullDateFragment.refresh(area ,dateType)
             mSelfPullDateFragment.setRenGongBackGround(this)
         }
-
-//        fragments?.forEach {
-//            if (it != null && !it.isDetached) {
-//                if (it is SelfPullDateFragment) {
-//
-//                }
-//            }
-//        }
     }
 
     private fun loginforPoint(){

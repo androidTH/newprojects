@@ -71,11 +71,6 @@ class SelfPullDateFragment : RecyclerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
-    }
-
-    override fun onFirstVisibleToUser() {
-
         mSwipeRefreshLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.color_F5F5F5))
 //        addItemDecoration()
         dateAdapter.setOnItemClickListener { _, position ->
@@ -113,6 +108,9 @@ class SelfPullDateFragment : RecyclerFragment() {
             }
         })
         getData()
+    }
+
+    override fun onFirstVisibleToUser() {
     }
 
     fun refresh() {

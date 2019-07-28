@@ -35,11 +35,11 @@ public class ConversationFragmentEx extends ConversationFragment {
 
     private OnShowAnnounceListener onShowAnnounceListener;
     private String mTargetId = "";
-    private RongExtension rongExtension;
-    private EditText mMyEditText;
-    private ImageView mMyEmoticonToggle;
+    public RongExtension rongExtension;
+    public EditText mMyEditText;
+    public ImageView mMyEmoticonToggle;
     private ImageView mMyPluginToggle;
-    private ImageView mMyVoiceToggle;
+    public ImageView mMyVoiceToggle;
     private boolean IsNotInput = false;
     private String hitmsg ="";
 
