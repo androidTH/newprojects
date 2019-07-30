@@ -236,10 +236,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         }
 
         iv_chat_unfold.setOnClickListener {
-            if(ll_date_dowhat.visibility == View.GONE){
+            if(iv_chat_unfold.visibility == View.VISIBLE){
                 extendDateChatDesc(true)
-                tv_datechat_content.setEllipsize(null);//展开
-                tv_datechat_content.setSingleLine(false);//这个方法是必须设置的，否则无法展开
             }else{
                 extendDateChatDesc(false)
             }
@@ -724,11 +722,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 }
 
                 override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
-                    ll_date_dowhat.visibility = View.GONE
-                    rv_datechat_images.visibility = View.GONE
-                    iv_chat_unfold.visibility = View.VISIBLE
+                    if(iv_chat_unfold.visibility == View.GONE){
+                        extendDateChatDesc(false)
+                    }
                 }
             })
+
+            it.setOnExtensionExpandedListener {it->
+                if(iv_chat_unfold.visibility == View.GONE){
+                    extendDateChatDesc(it)
+                }
+            }
         }
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -831,15 +835,20 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         }
     }
 
-    private fun extendDateChatDesc(isextend:Boolean){
+    fun extendDateChatDesc(isextend:Boolean){
         if(isextend){
             ll_date_dowhat.visibility = View.VISIBLE
             rv_datechat_images.visibility = View.VISIBLE
             iv_chat_unfold.visibility = View.GONE
+            tv_datechat_content.setEllipsize(null)//展开
+            tv_datechat_content.setSingleLine(false)//这个方法是必须设置的，否则无法展开
         }else{
             ll_date_dowhat.visibility = View.GONE
             rv_datechat_images.visibility = View.GONE
             iv_chat_unfold.visibility = View.VISIBLE
+            tv_datechat_content.setEllipsize(TextUtils.TruncateAt.END);//收起
+            tv_datechat_content.maxLines = 2
+            Log.i("ConversationFragmentEx","${isextend}")
         }
     }
 

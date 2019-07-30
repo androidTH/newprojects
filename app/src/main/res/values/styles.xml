@@ -73,6 +73,8 @@
     </style>
 
     <style name="DefaultHeadStyle">
+        <item name="failureImage">@mipmap/headempty_coloricon</item>
+        <item name="placeholderImage">@mipmap/headempty_coloricon</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
@@ -82,8 +84,8 @@
     </style>
 
     <style name="DefaultNoHeadStyle">
-        <item name="failureImage">@mipmap/default_head</item>
-        <item name="placeholderImage">@mipmap/headportrait_girl</item>
+        <item name="failureImage">@mipmap/headempty_coloricon</item>
+        <item name="placeholderImage">@mipmap/headempty_coloricon</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
@@ -100,8 +102,9 @@
     </style>
 
     <style name="manDefaultHeadStyle">
-        <item name="failureImage">@mipmap/headportrait_boy</item>
-        <item name="placeholderImage">@mipmap/headportrait_boy</item>
+        <!--headempty_grayicon-->
+        <item name="failureImage">@mipmap/headempty_coloricon</item>
+        <item name="placeholderImage">@mipmap/headempty_coloricon</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
