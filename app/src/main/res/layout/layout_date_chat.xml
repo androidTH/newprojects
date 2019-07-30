@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_date_chat"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:visibility="gone">
     <RelativeLayout
         android:id="@+id/rl_date_chat"
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:layout_marginRight="@dimen/margin_5">
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/headView_fdate"
+                android:id="@+id/headView_ydate"
                 style="@style/DefaultHeadStyle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -33,12 +34,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_40"
                 android:layout_marginLeft="@dimen/margin_8"
-                android:layout_toRightOf="@+id/headView_fdate"
+                android:layout_toRightOf="@+id/headView_ydate"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_fdate"
+                    android:id="@+id/tv_ydate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_ydate_fa8"
@@ -50,18 +51,18 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_fname"
+                    android:id="@+id/tv_yname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="邀约人"
+                    android:text="---"
                     android:textColor="@color/color_333333"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/headView_ydate"
+                android:id="@+id/headView_fdate"
                 style="@style/DefaultHeadStyle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -72,12 +73,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginRight="@dimen/margin_3"
-                android:layout_toLeftOf="@+id/headView_ydate"
+                android:layout_toLeftOf="@+id/headView_fdate"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_ydate"
+                    android:id="@+id/tv_fdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_fdate_fa8"
@@ -89,7 +90,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_yname"
+                    android:id="@+id/tv_fname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -131,8 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:visibility="gone" />
+                android:layout_marginBottom="@dimen/margin_10"/>
 
             <LinearLayout
                 android:id="@+id/ll_date_dowhat"
@@ -188,6 +188,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_datechat_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/margin_10"
@@ -197,6 +198,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_datechat_nums"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="剩余消息：50条"
@@ -225,7 +227,8 @@
                     android:text="拒绝"
                     android:textColor="@color/color_666666"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/tv_datechat_agree"
@@ -239,6 +242,20 @@
                     android:paddingBottom="@dimen/margin_5"
                     android:text="同意"
                     android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_datechat_giveup"
+                    android:layout_width="50dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/shape_ebeb"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:text="放弃"
+                    android:textColor="@color/color_666666"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>

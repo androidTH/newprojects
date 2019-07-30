@@ -184,7 +184,7 @@ class MyDateDetailActivity : BaseActivity() {
                             noPeopleJoinDate(data,-1)
                         }else if(data.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(iAppointUserid,userId)){
                             var param:RelativeLayout.LayoutParams = tv_date_status.layoutParams as RelativeLayout.LayoutParams
-                            param.addRule(RelativeLayout.CENTER_VERTICAL);
+                            param.addRule(RelativeLayout.CENTER_VERTICAL)
                             tv_date_status.text="状态：待同意"
                             tv_no_date.visibility = View.VISIBLE
                             tv_agree_date.visibility = View.VISIBLE

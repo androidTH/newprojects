@@ -3,21 +3,25 @@ package com.d6.android.app.activities
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.d6.android.app.R
+import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage
 import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.rong.fragment.ConversationFragmentEx
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.AppUtils.Companion.setTextViewSpannable
 import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.RECEIVER_FIRST_PRIVATE_TIPSMESSAGE
 import com.d6.android.app.utils.Const.SEND_FIRST_PRIVATE_TIPSMESSAGE
@@ -49,6 +53,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private var TAG = "ChatActivity"
     private var sendCount: Int = 0
     private var SendMsgTotal:Int = 3
+    private var sAppointmentSignupId:String = ""
 
     private var IsAgreeChat:Boolean = true //true 代表需要判断聊天次数 false代表不用判断聊天次数
     private var iType:Int=1 //1、私聊 2、匿名组
@@ -235,6 +240,18 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
         }
 
+        tv_datechat_giveup.setOnClickListener {
+            updateDateStatus(sAppointmentSignupId,4)
+        }
+
+        tv_datechat_no.setOnClickListener {
+            updateDateStatus(sAppointmentSignupId,3)
+        }
+
+        tv_datechat_agree.setOnClickListener {
+            updateDateStatus(sAppointmentSignupId,2)
+        }
+
         iv_chat_unfold.setOnClickListener {
             if(iv_chat_unfold.visibility == View.VISIBLE){
                 extendDateChatDesc(true)
@@ -417,7 +434,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                         IsAgreeChat = false
                         relative_tips.visibility = View.GONE
                     }
-//                    checkISFirstSendMsg()
+                    // checkISFirstSendMsg()
 //                    ---SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
                 }else if(code== 2){//已申请私聊且对方还未通过
                     relative_tips_bottom.visibility = View.VISIBLE
@@ -476,6 +493,16 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     fragment?.let {
                         it.doIsNotSendMsg(true, getString(R.string.string_addblacklist_toast))
                     }
+                }else if(code==9){ //报名约会
+                     //iTalkCount:已发出的聊天消息次数  iAllTalkCount：总的聊天消息次数
+                    sendCount = it.optInt("iTalkCount")
+                    SendMsgTotal = it.optInt("iAllTalkCount")
+                    Log.i("chatactivity","${SendMsgTotal}appointment-----${it.optJsonObj("appointment")}")
+                    var appointment =GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
+                    appointment?.let {
+                        root_date_chat.visibility = View.VISIBLE
+                        setDateChatUi(appointment,sendCount)
+                    }
                 }else{
                     relative_tips.visibility = View.GONE
                     tv_openchat_points.visibility = View.VISIBLE
@@ -525,6 +552,62 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         }
     }
 
+    private val mImages = ArrayList<String>()
+    private fun setDateChatUi(appointment:MyAppointment,talkCount:Int){
+        headView_ydate.setImageURI(appointment.sAppointmentPicUrl)
+        headView_fdate.setImageURI(appointment.sPicUrl)
+        tv_yname.text = appointment.sAppointUserName
+        tv_fname.text = appointment.sUserName
+        tv_datechat_content.text = appointment.sDesc
+        tv_datchat_address.text = appointment.sPlace
+        if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(appointment.iAppointUserid.toString(), getLocalUserId())){
+            tv_date_info.text = "${appointment.sUserName}申请赴约"
+            tv_datechat_no.visibility = View.VISIBLE
+            tv_datechat_agree.visibility = View.VISIBLE
+            tv_datechat_giveup.visibility = View.GONE
+        }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
+            tv_date_info.text = "等待对方确认中…"
+            tv_datechat_no.visibility = View.GONE
+            tv_datechat_agree.visibility = View.GONE
+            tv_datechat_giveup.visibility = View.VISIBLE
+        }
+
+        rv_datechat_images.setHasFixedSize(true)
+        rv_datechat_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        if (appointment.sAppointPic.isNullOrEmpty()) {
+            rv_datechat_images.visibility = View.GONE
+        }else{
+            rv_datechat_images.visibility = View.VISIBLE
+            val images = appointment.sAppointPic?.split(",")
+            if (images != null) {
+                mImages.addAll(images.toList())
+            }
+            rv_datechat_images.adapter = SelfReleaselmageAdapter(mImages,1)
+        }
+
+        setTextViewSpannable(this,"倒计时：${converTime(appointment.dEndtime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+        setTextViewSpannable(this,"剩余消息：${talkCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+        sAppointmentSignupId = appointment.sAppointmentSignupId
+    }
+
+    fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int){
+        Request.updateDateStatus(sAppointmentSignupId,iStatus,"").request(this, success = {msg, data->
+            run {
+                if (iStatus == 2) {
+                    root_date_chat.visibility = View.GONE
+//                    tv_date_status.text = "状态:赴约"
+                } else if (iStatus == 3) {
+//                    tv_date_status.text = "状态：已拒绝"
+                    root_date_chat.visibility = View.GONE
+                    getApplyStatus()
+                }else if(iStatus == 4){
+//                    tv_date_status.text="状态：主动取消"
+                    root_date_chat.visibility = View.GONE
+                    getApplyStatus()
+                }
+            }
+        })
+    }
 
     private fun checkISFirstSendMsg(){
         RongIM.getInstance().getHistoryMessages(mConversationType,mOtherUserId,-1,20,object : RongIMClient.ResultCallback<List<Message>>(){
@@ -587,24 +670,26 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private fun checkTalkJustify() {
         Request.doTalkJustifyNew(userId,if(iType==2)  mTargetId else mOtherUserId ,iType).request(this, false, success = { msg, data ->
             if (data != null) {
-                var code = data.optInt("iTalkType")
-                if (code == 2) {//已发送3次聊天消息，需要解锁无限畅聊
-                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchangchat)
-                    tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
-                    fragment?.doIsNotSendMsg(true,resources.getString(R.string.string_pay_points_openchangchat))
-                } else if (code == 1) {//发送3次聊天消息以内，允许继续发送消息
-                    var iTalkCount = data.optInt("iTalkCount")
-                    sendCount = SendMsgTotal - iTalkCount
-                    tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
-                    tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
-                    Log.i(TAG, "${SendMsgTotal}发送消息数量")
-//                    if (iTalkCount == 1) {
-//                        if (!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)) {
-//                            var mDialogPrivateChat = DialogPrivateChat()
-//                            mDialogPrivateChat.show(supportFragmentManager, "DialogPrivateChat")
-//                        }
-//                        sendOutgoingSystemMessage(getString(R.string.string_system_tips01),"1")
-//                    }
+//                var code = data.optInt("iTalkType")
+//                if (code == 2) {//已发送3次聊天消息，需要解锁无限畅聊
+//                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchangchat)
+//                    tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
+//                    fragment?.doIsNotSendMsg(true,resources.getString(R.string.string_pay_points_openchangchat))
+//                } else if (code == 1) {//发送3次聊天消息以内，允许继续发送消息
+//                    var iTalkCount = data.optInt("iTalkCount")
+//                    sendCount = SendMsgTotal - iTalkCount
+//                    tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
+//                    tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
+//                    Log.i(TAG, "${SendMsgTotal}发送消息数量")
+//                }
+                var code = data.optInt("code")
+                if(code==2){
+                    sendCount = data.optInt("iTalkCount")
+                    SendMsgTotal = data.optInt("iAllTalkCount")
+                    if(sendCount==0){
+                        fragment?.doIsNotSendMsg(true,"")
+                    }
+                    setTextViewSpannable(this,"剩余消息：${sendCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
                 }
                 Log.i(TAG, "${SendMsgTotal}发送消息数量${code}")
             }
@@ -826,6 +911,18 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     }
 //                    linear_openchat_agree_bottom.visibility = View.GONE
 //                    getApplyStatus()
+                }else if(TextUtils.equals("5",type)){
+                    //staus 5、6、7、8分别是接受、拒绝、取消、过期
+                    root_chat.visibility = View.GONE
+                }else if(TextUtils.equals("6",type)){
+                    root_chat.visibility = View.GONE
+                    getApplyStatus()
+                }else if(TextUtils.equals("7",type)){
+                    root_chat.visibility = View.GONE
+                    getApplyStatus()
+                }else if(TextUtils.equals("8",type)){
+                    root_chat.visibility = View.GONE
+                    getApplyStatus()
                 }
             }
         }
@@ -874,7 +971,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         p0?.let {
             if (removeKFService(mOtherUserId)) {
 //                if (TextUtils.equals("1", sex)) {
-                if (IsAgreeChat) {
+                if (IsAgreeChat||sAppointmentSignupId.isNotEmpty()) {
                     if (p1 == null) {
                         checkTalkJustify()
                     }

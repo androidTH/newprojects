@@ -99,6 +99,15 @@ class AppUtils {
             tv.setText(ss, TextView.BufferType.SPANNABLE)
         }
 
+        fun setTextViewSpannable(context: Context,value:CharSequence , start:Int,end :Int, tv: TextView,appbefore:Int,appafter:Int) {
+            val ss = SpannableString(value)
+            ss.setSpan(TextAppearanceSpan(context, appbefore), start, end,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            ss.setSpan(TextAppearanceSpan(context, appafter), end,
+                    value.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            tv.setText(ss, TextView.BufferType.SPANNABLE)
+        }
+
         fun init(context: Context) {
             this.context = context.applicationContext
             initFilePath()

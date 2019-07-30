@@ -339,6 +339,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="tv_datechat_time">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_888888</item>
+    </style>
+
+    <style name="tv_datechat_numbers">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_F7B500</item>
+    </style>
+
     <style name="translucent" parent="AppTheme">
     </style>
 

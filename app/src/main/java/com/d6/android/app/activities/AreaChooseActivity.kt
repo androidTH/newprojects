@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_area_choose_layout.*
 
 class AreaChooseActivity : BaseActivity() {
 
+//    https://github.com/kongzue/StackLabel
+
     private var mCities = ArrayList<Province>()
     private var mProvinces = ArrayList<Province>()
 //    private var mHomeList = ArrayList<CategoryBean.DataBean>()
