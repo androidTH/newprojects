@@ -37,6 +37,7 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
     @SerializedName("iAge") var iAge:Int?=-1
     @SerializedName("iHeigth") var iHeight:Int?=-1
     @SerializedName("iWeight") var iWeight:Int?=-1
+    @SerializedName("iAppointmentSignupCount") var iAppointmentSignupCount:Int?=-1 //有多人约会
     var iPoint:Int?=-1
     var iAppointStatus:Int?=-1
     var userclassesid:Int?=-1
@@ -45,4 +46,5 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
     @SerializedName("iIsAnonymous")var iIsAnonymous:Int?= 0 //1、匿名  2、非匿名状态
 //    @SerializedName("sSourceAppointPic")
 //    var sSourceAppointPic:String?=""
+//    iAppointmentSignupCount
 }

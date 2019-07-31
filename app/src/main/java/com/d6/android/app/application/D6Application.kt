@@ -28,6 +28,7 @@ import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.rong.bean.*
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
+import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
@@ -235,7 +236,18 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                     var type = jsonObject.optString("status")
                     if(TextUtils.equals("4",type)){
                         RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
+                    }else if(TextUtils.equals("5",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+message.targetId,true).apply()
+                    }else if(TextUtils.equals("6",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
+                    }else if(TextUtils.equals("7",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
+                    }else if(TextUtils.equals("8",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
+                    }else if(TextUtils.equals("9",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
                     }
+                  Log.i("ffffffffff","type${type}")
                 }
             }
         }

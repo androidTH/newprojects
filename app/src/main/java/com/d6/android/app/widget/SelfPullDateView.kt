@@ -201,6 +201,14 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
+        myAppointment.iAppointmentSignupCount?.let {
+            if(it>0){
+                tv_date_nums.text = "累计${it}人邀约"
+            }else{
+                tv_date_nums.text = "暂无人邀约"
+            }
+        }
+
 //            if (TextUtils.equals("0", myAppointment.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
 //                img_other_auther.visibility = View.GONE
 //                img_date_auther.visibility = View.GONE

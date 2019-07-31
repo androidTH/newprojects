@@ -79,14 +79,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:layout_marginRight="@dimen/margin_8"
+                android:layout_toLeftOf="@+id/tv_conversation_type"
                 android:layout_marginTop="@dimen/margin_3"
+                android:layout_marginRight="@dimen/margin_8"
                 android:layout_alignLeft="@+id/tv_name"
                 android:layout_below="@+id/tv_name"
                 android:textColor="@color/color_777777"
                 android:singleLine="true"
-                android:id="@+id/tv_content"
-                android:layout_toLeftOf="@+id/tv_time"/>
+                android:id="@+id/tv_content"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,7 +112,6 @@
                 android:drawableLeft="@mipmap/chatlist_chat"
                 android:drawablePadding="@dimen/margin_5"
                 android:textSize="10sp"
-                android:text="申请私聊"
                 android:layout_gravity="center_vertical"/>
             <!--chatlist_date-->
             <ImageView

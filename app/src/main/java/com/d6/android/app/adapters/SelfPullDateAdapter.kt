@@ -10,7 +10,9 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
@@ -53,7 +55,6 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
 //            var dateInfo = RengGongDialog()
 //            var dateInfo = SelfDateDialog()
 //            dateInfo.show((context as BaseActivity).supportFragmentManager, "rg")
-
         }) { code, msg ->
             if (code == 2) {
                 var openErrorDialog = OpenDateErrorDialog()

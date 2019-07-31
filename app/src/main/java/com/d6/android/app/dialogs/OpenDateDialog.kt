@@ -102,6 +102,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
                 var explain = arguments.getParcelable("explain") as IntegralExplain
                 openSuccessDialog.arguments = bundleOf("point" to explain.iAppointPoint.toString(),"sId" to sId.toString())
                 openSuccessDialog.show(it.supportFragmentManager, "d")
+
             }) { code, msg ->
                 if(code == 3){
                     var openErrorDialog = OpenDateErrorDialog()

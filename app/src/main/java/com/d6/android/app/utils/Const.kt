@@ -193,4 +193,9 @@ object Const {
     @JvmField
     var APPLAY_CONVERTION_ISTOP = "applay_convertion_istop"
 
+    @JvmField
+    var CONVERSATION_APPLAY_DATE_TYPE = "conversation_applay_date_type" //申请约会
+
+    @JvmField
+    var CONVERSATION_APPLAY_PRIVATE_TYPE = "conversation_applay_private_type" //申请私聊
 }
