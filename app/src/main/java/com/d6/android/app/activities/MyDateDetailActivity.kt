@@ -489,7 +489,7 @@ class MyDateDetailActivity : BaseActivity() {
     }
 
     private fun signUpDate(myAppointment:MyAppointment) {
-        Request.queryAppointmentPoint(userId).request(this, false, success = { msg, data ->
+        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}").request(this, false, success = { msg, data ->
             explainAppoint = data?.iAppointPoint.toString()
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!,"fromType" to "MydateDetail")

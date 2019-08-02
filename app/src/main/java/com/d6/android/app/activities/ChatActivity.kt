@@ -530,7 +530,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     sendCount = it.optInt("iTalkCount")
                     SendMsgTotal = it.optInt("iAllTalkCount")
                     var datetime = it.optLong("dOverduetime")
-                    Log.i("chatactivity","${datetime}时间appointment-----${it.optJsonObj("appointment")}")
+                    Log.i("chatactivity","${sendCount}消息数量appointment-----${it.optJsonObj("appointment")}")
                     var appointment =GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
                     appointment?.let {
                         root_date_chat.visibility = View.VISIBLE
@@ -598,11 +598,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             tv_datechat_no.visibility = View.VISIBLE
             tv_datechat_agree.visibility = View.VISIBLE
             tv_datechat_giveup.visibility = View.GONE
-            if(talkCount<=0){
-              fragment?.let {
-                  it.hideChatInput(false)
-                  it.doIsNotSendMsg(true,getString(R.string.string_fuyue_applay_date_tips))
-              }
+            if (sendCount > 0 && talkCount <= 0) {
+                fragment?.let {
+                    it.hideChatInput(false)
+                    it.doIsNotSendMsg(true, getString(R.string.string_fuyue_applay_date_tips))
+                }
             }
             ISNOTYAODATE = 1
         }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
@@ -610,7 +610,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             tv_datechat_no.visibility = View.GONE
             tv_datechat_agree.visibility = View.GONE
             tv_datechat_giveup.visibility = View.VISIBLE
-            if(talkCount<=0){
+            if(sendCount>0&&talkCount<=0){
                 fragment?.let {
                     it.hideChatInput(false)
                     it.doIsNotSendMsg(true,getString(R.string.string_applay_date_tips))
@@ -634,6 +634,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
         setTextViewSpannable(this,"倒计时：${converTime(appointment.dOverduetime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
         setTextViewSpannable(this,"剩余消息：${talkCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+        if(SendMsgTotal==-1){
+            tv_datechat_nums.visibility = View.GONE
+        }
         sAppointmentSignupId = appointment.sAppointmentSignupId
     }
 
@@ -1028,7 +1031,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         p0?.let {
             if (removeKFService(mOtherUserId)) {
 //                if (TextUtils.equals("1", sex)) {
-                if (IsAgreeChat||sAppointmentSignupId.isNotEmpty()) {
+                if (IsAgreeChat||(SendMsgTotal!=-1&&sAppointmentSignupId.isNotEmpty())) {
                     if (p1 == null) {
                         checkTalkJustify()
                     }

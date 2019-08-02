@@ -802,7 +802,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun signUpDate(myAppointment: MyAppointment) {
-        Request.queryAppointmentPoint(userId).request(this, false, success = { msg, data ->
+        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}").request(this, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
             dateDialog.show(supportFragmentManager, "d")

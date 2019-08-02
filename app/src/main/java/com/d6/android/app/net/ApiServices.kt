@@ -284,7 +284,7 @@ interface ApiServices {
 
     //添加查询约会扣除、退回、取消需要的积分接口
     @POST("backstage/appointment/queryAppointmentPoint")
-    fun queryAppointmentPoint(@Query("iUserid") iUserid:String,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<IntegralExplain>>
+    fun queryAppointmentPoint(@Query("iUserid") iUserid:String, @Query("iAppointUserid") iAppointUserid:String, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<IntegralExplain>>
 
     //同城
     @POST("backstage/account/updateUserPosition")
