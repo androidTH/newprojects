@@ -139,4 +139,6 @@
     <string name="string_give_redflower">送小红花可以置顶提醒提高对方回复率哦</string>
     <string name="string_setfail">设置失败</string>
     <string name="string_conversation_type">申请私聊</string>
+    <string name="string_applay_date_tips">可发送消息数已用完,等待对方同意</string>
+    <string name="string_fuyue_applay_date_tips">可发送消息数已用完</string>
 </resources>

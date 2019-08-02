@@ -66,7 +66,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
 
     private var mSelfPullDateFragment:SelfPullDateFragment?=null
-    private var mFragments = ArrayList<SelfPullDateFragment>()
+//    private var mFragments = ArrayList<SelfPullDateFragment>()
 
     var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
@@ -108,19 +108,15 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 }
         }
 
-//        mSelfPullDateFragment=SelfPullDateFragment.instance(0)
-//        mSelfPullDateFragment?.setRenGongBackGround(this)
-//        mSelfPullDateFragment?.let {
-//             mFragments.add(it)
-//        }
-
-        mFragments.add(SelfPullDateFragment.instance(""))
-        mFragments.add(SelfPullDateFragment.instance("6"))
-        mFragments.add(SelfPullDateFragment.instance("2"))
-        mFragments.add(SelfPullDateFragment.instance("1"))
-        mFragments.add(SelfPullDateFragment.instance("3"))
-        mFragments.add(SelfPullDateFragment.instance("7"))
-        mFragments.add(SelfPullDateFragment.instance("8"))
+        var mFragments = listOf(
+                SelfPullDateFragment.instance(""),
+                SelfPullDateFragment.instance("6"),
+                SelfPullDateFragment.instance("2"),
+                SelfPullDateFragment.instance("1"),
+                SelfPullDateFragment.instance("3"),
+                SelfPullDateFragment.instance("7"),
+                SelfPullDateFragment.instance("8")
+        )
 
         for (i in 0..(showDateTypes.size-1)) {
             var dt = showDateTypes[i]

@@ -29,6 +29,7 @@ import com.d6.android.app.rong.bean.*
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
+import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
@@ -234,20 +235,24 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                     var tipsMessage = message.content as TipsMessage
                     var jsonObject = JSONObject(tipsMessage.extra)
                     var type = jsonObject.optString("status")
-                    if(TextUtils.equals("4",type)){
+                    if(TextUtils.equals("1",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,true).apply()
+                    }else if(TextUtils.equals("3",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
+                    }else if(TextUtils.equals("4",type)){
                         RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
-                    }else if(TextUtils.equals("5",type)){
+                    }else if(TextUtils.equals("5",type)){//约会 同意
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+message.targetId,true).apply()
-                    }else if(TextUtils.equals("6",type)){
+                    }else if(TextUtils.equals("6",type)){//约会 拒绝
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
-                    }else if(TextUtils.equals("7",type)){
+                    }else if(TextUtils.equals("7",type)){//约会 取消
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
-                    }else if(TextUtils.equals("8",type)){
+                    }else if(TextUtils.equals("8",type)){//约会 过期
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
-                    }else if(TextUtils.equals("9",type)){
-                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
+                    }else if(TextUtils.equals("9",type)){//约会 申请
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,true).apply()
                     }
-                  Log.i("ffffffffff","type${type}")
+                    Log.i("ffffffffff","${tipsMessage.content}type${type}")
                 }
             }
         }

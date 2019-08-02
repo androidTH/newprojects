@@ -60,6 +60,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private var IsAgreeChat:Boolean = true //true 代表需要判断聊天次数 false代表不用判断聊天次数
     private var iType:Int=1 //1、私聊 2、匿名组
     private var mGroupIdSplit:List<String> =ArrayList<String>()
+    private var ISNOTYAODATE = 1// 1邀约  2赴约
 
     private val mTargetId by lazy {
         intent.data.getQueryParameter("targetId")
@@ -231,6 +232,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             doUpdatePrivateChatStatus("3")
             RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,false)
             SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,false).apply()
+            SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,false).apply()
         }
 
         tv_openchat_agree_bottom.setOnClickListener {
@@ -238,7 +240,25 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             doUpdatePrivateChatStatus("2")
             RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,false)
             SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,false).apply()
+            SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,false).apply()
+        }
 
+        headView_ydate.setOnClickListener {
+            if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
+                startActivity<UserInfoActivity>("id" to mOtherUserId)
+            }else{
+                if(TextUtils.equals("2",mWhoanonymous)){//2 对方匿名
+                    var mUnknowDialog = UnKnowInfoDialog()
+                    mUnknowDialog.arguments = bundleOf("otheruserId" to mOtherUserId)
+                    mUnknowDialog.show(supportFragmentManager,"unknowDialog")
+                }else{
+                    startActivity<UserInfoActivity>("id" to mOtherUserId)
+                }
+            }
+        }
+
+        headView_fdate.setOnClickListener {
+            startActivity<UserInfoActivity>("id" to getLocalUserId())
         }
 
         tv_datechat_giveup.setOnClickListener {
@@ -307,7 +327,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         dateDialog.show(supportFragmentManager, "d")
         dateDialog.let {
             it.setDialogListener { p, s ->
-                  applyPrivateChat()
+                SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
+                applyPrivateChat()
 //                relative_tips.visibility = View.GONE
 //                IsAgreeChat = false
 //                fragment?.doIsNotSendMsg(false, "")
@@ -499,11 +520,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
                     sendCount = it.optInt("iTalkCount")
                     SendMsgTotal = it.optInt("iAllTalkCount")
-                    Log.i("chatactivity","${SendMsgTotal}appointment-----${it.optJsonObj("appointment")}")
+                    var datetime = it.optLong("dOverduetime")
+                    Log.i("chatactivity","${datetime}时间appointment-----${it.optJsonObj("appointment")}")
                     var appointment =GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
                     appointment?.let {
                         root_date_chat.visibility = View.VISIBLE
-                        setDateChatUi(appointment,sendCount)
+                        setDateChatUi(appointment,sendCount,datetime)
                     }
                 }else{
                     relative_tips.visibility = View.GONE
@@ -555,7 +577,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     }
 
     private val mImages = ArrayList<String>()
-    private fun setDateChatUi(appointment:MyAppointment,talkCount:Int){
+    private fun setDateChatUi(appointment:MyAppointment,talkCount:Int,dateTime:Long){
         headView_ydate.setImageURI(appointment.sAppointmentPicUrl)
         headView_fdate.setImageURI(appointment.sPicUrl)
         tv_yname.text = appointment.sAppointUserName
@@ -567,11 +589,25 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             tv_datechat_no.visibility = View.VISIBLE
             tv_datechat_agree.visibility = View.VISIBLE
             tv_datechat_giveup.visibility = View.GONE
+            if(talkCount<=0){
+              fragment?.let {
+                  it.hideChatInput(false)
+                  it.doIsNotSendMsg(true,getString(R.string.string_fuyue_applay_date_tips))
+              }
+            }
+            ISNOTYAODATE = 1
         }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
             tv_date_info.text = "等待对方确认中…"
             tv_datechat_no.visibility = View.GONE
             tv_datechat_agree.visibility = View.GONE
             tv_datechat_giveup.visibility = View.VISIBLE
+            if(talkCount<=0){
+                fragment?.let {
+                    it.hideChatInput(false)
+                    it.doIsNotSendMsg(true,getString(R.string.string_applay_date_tips))
+                }
+            }
+            ISNOTYAODATE = 2
         }
 
         rv_datechat_images.setHasFixedSize(true)
@@ -579,7 +615,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         if (appointment.sAppointPic.isNullOrEmpty()) {
             rv_datechat_images.visibility = View.GONE
         }else{
-            rv_datechat_images.visibility = View.VISIBLE
+            rv_datechat_images.visibility = View.GONE
             val images = appointment.sAppointPic?.split(",")
             if (images != null) {
                 mImages.addAll(images.toList())
@@ -587,7 +623,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             rv_datechat_images.adapter = SelfReleaselmageAdapter(mImages,1)
         }
 
-        setTextViewSpannable(this,"倒计时：${converTime(appointment.dEndtime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+        setTextViewSpannable(this,"倒计时：${converTime(appointment.dOverduetime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
         setTextViewSpannable(this,"剩余消息：${talkCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
         sAppointmentSignupId = appointment.sAppointmentSignupId
     }
@@ -614,7 +650,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     private fun checkISFirstSendMsg(){
         RongIM.getInstance().getHistoryMessages(mConversationType,mOtherUserId,-1,20,object : RongIMClient.ResultCallback<List<Message>>(){
             override fun onSuccess(p0: List<Message>?) {
-                Log.i("chatactivity","消息历史记录"+p0?.size)
                 var mSendListMessage = ArrayList<Message>()
                 var mReceiveListMessage = ArrayList<Message>()
                 p0?.let {
@@ -624,15 +659,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                                 mSendListMessage.add(message)
                             }
                         }
-
-//                        else{
-//                            if(message.content is TextMessage||message is ImageMessage){
-//                                mReceiveListMessage.add(message)
-//                            }
-//                        }
                     }
                 }
-                Log.i("chatactivity","消息历史记录"+mSendListMessage.size)
                 if (mSendListMessage.size==0) {
                     SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
                 }else{
@@ -688,8 +716,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 if(code==2){
                     sendCount = data.optInt("iTalkCount")
                     SendMsgTotal = data.optInt("iAllTalkCount")
-                    if(sendCount==0){
-                        fragment?.doIsNotSendMsg(true,"")
+                    if(sendCount<= 0){
+                        if(ISNOTYAODATE ==1){
+                            fragment?.doIsNotSendMsg(true,getString(R.string.string_fuyue_applay_date_tips))
+                        }else{
+                            fragment?.doIsNotSendMsg(true,getString(R.string.string_applay_date_tips))
+                        }
+                        sendCount = 0
                     }
                     setTextViewSpannable(this,"剩余消息：${sendCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
                 }
@@ -731,7 +764,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                                 relative_tips.visibility = View.GONE
                                 IsAgreeChat = false
                                 fragment?.doIsNotSendMsg(false,"")
-                                SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
                             }
                         }
                     }
@@ -921,20 +953,24 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 //                    getApplyStatus()
                 }else if(TextUtils.equals("5",type)){
                     //staus 5、6、7、8分别是接受、拒绝、取消、过期
-                    root_chat.visibility = View.GONE
+                    root_date_chat.visibility = View.GONE
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
                 }else if(TextUtils.equals("6",type)){
-                    root_chat.visibility = View.GONE
+                    root_date_chat.visibility = View.GONE
                     getApplyStatus()
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
                 }else if(TextUtils.equals("7",type)){
-                    root_chat.visibility = View.GONE
+                    root_date_chat.visibility = View.GONE
                     getApplyStatus()
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
                 }else if(TextUtils.equals("8",type)){
-                    root_chat.visibility = View.GONE
+                    root_date_chat.visibility = View.GONE
                     getApplyStatus()
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
+                }else if(TextUtils.equals("9",type)){
+                    relative_tips_bottom.visibility = View.GONE
+                    relative_tips.visibility = View.GONE
+                    getApplyStatus()
                 }
             }
         }

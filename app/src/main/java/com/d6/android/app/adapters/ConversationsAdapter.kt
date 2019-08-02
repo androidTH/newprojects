@@ -54,6 +54,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         }else{
             swipeItemLayout.backgroundColor = ContextCompat.getColor(context,R.color.white)
             var applay_private_type =  SPUtils.instance().getBoolean(CONVERSATION_APPLAY_PRIVATE_TYPE+ getLocalUserId()+"-"+data.targetId,false)
+            Log.i("sssssss","${applay_private_type}")
             if(applay_private_type){
                 tv_conversation_type.visibility = View.VISIBLE
                 tv_conversation_type.text=context.getString(R.string.string_conversation_type)
