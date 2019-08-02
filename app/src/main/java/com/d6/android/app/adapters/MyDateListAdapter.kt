@@ -149,7 +149,7 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
 
         var iv_datetype = holder.bind<ImageView>(R.id.iv_datetype)
         var index = data.iAppointType!!.toInt()-1
-        if(index!=Const.dateListTypes.size){
+        if(index<Const.dateListTypes.size){
             var drawable = ContextCompat.getDrawable(context,Const.dateListTypes[index])
             iv_datetype.backgroundDrawable = drawable
         }

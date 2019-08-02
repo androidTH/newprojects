@@ -261,14 +261,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             startActivity<UserInfoActivity>("id" to getLocalUserId())
         }
 
+        //放弃
         tv_datechat_giveup.setOnClickListener {
             updateDateStatus(sAppointmentSignupId,4)
         }
 
+        //拒绝
         tv_datechat_no.setOnClickListener {
             updateDateStatus(sAppointmentSignupId,3)
         }
 
+        //同意
         tv_datechat_agree.setOnClickListener {
             updateDateStatus(sAppointmentSignupId,2)
         }
@@ -469,6 +472,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
 
                     fragment?.hideChatInput( true)
 
+                    SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
+
                 }else if(code == 3){//对方发出申请私聊等待我确认
                     relative_tips_bottom.visibility = View.VISIBLE
                     linear_openchat_agree_bottom.visibility = View.VISIBLE
@@ -480,6 +485,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                         it.hideChatInput( true)
                     }
                     SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,true).apply()
+                    SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
+
                 }else if(code == 4){//双方均未发出私聊申请且双方私聊设置为同意后私聊
                     relative_tips_bottom.visibility = View.VISIBLE
                     tv_openchat_apply_bottom.visibility = View.VISIBLE
@@ -492,6 +499,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     fragment?.let {
                         it.hideChatInput(true)
                     }
+                    SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
+
                 }else if(code == 5){//对方的私聊设置为直接私聊
                      if(TextUtils.equals("1",sex)){
                          sendCount = it.optInt("iTalkCount")

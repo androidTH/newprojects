@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -71,6 +72,7 @@ public class ConversationFragmentEx extends ConversationFragment {
         mMyPluginToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_plugin_toggle);
         mMyVoiceToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_voice_toggle);
         doIsNotSendMsg(IsNotInput,hitmsg);
+        hideChatInput(false);
         return v;
     }
 
@@ -198,8 +200,17 @@ public class ConversationFragmentEx extends ConversationFragment {
             }
         }
 
-
 //        rongExtension.isExtensionExpanded();
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        super.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+        if(!IsNotEditTextClick){
+            if(mOnExtensionExpandedListener!=null){
+                mOnExtensionExpandedListener.onExpandedListener(false);
+            }
+        }
     }
 
     public void doIsNotSendMsg(boolean flag, String hitmsg){

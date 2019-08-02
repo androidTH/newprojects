@@ -243,6 +243,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                         RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
                     }else if(TextUtils.equals("5",type)){//约会 同意
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+message.targetId,true).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
                     }else if(TextUtils.equals("6",type)){//约会 拒绝
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
                     }else if(TextUtils.equals("7",type)){//约会 取消
@@ -251,6 +252,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
                     }else if(TextUtils.equals("9",type)){//约会 申请
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,true).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
                     }
                     Log.i("ffffffffff","${tipsMessage.content}type${type}")
                 }
