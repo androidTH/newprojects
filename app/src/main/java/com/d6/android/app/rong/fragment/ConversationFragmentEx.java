@@ -244,7 +244,7 @@ public class ConversationFragmentEx extends ConversationFragment {
         mOnExtensionExpandedListener = expListener;
     }
 
-    interface OnExtensionExpandedListener{
+    public interface OnExtensionExpandedListener{
         void onExpandedListener(Boolean flag);
     }
 }

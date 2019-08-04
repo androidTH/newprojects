@@ -100,39 +100,40 @@ public class DragPointView extends AppCompatTextView {
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                root.getLocationOnScreen(p);
-                scrollParent = getScrollParent();
-                if (scrollParent != null) {
-                    scrollParent.requestDisallowInterceptTouchEvent(true);
-                }
-                int location[] = new int[2];
-                getLocationOnScreen(location);
-                x = location[0] + (getWidth() / 2) - p[0];
-                y = location[1] + (getHeight() / 2) - p[1];
-                r = (getWidth() + getHeight()) / 4;
-                pointView = new PointView(getContext());
-                pointView.setLayoutParams(new ViewGroup.LayoutParams(root.getWidth(), root.getHeight()));
-                setDrawingCacheEnabled(true);
-                pointView.catchBitmap = getDrawingCache();
-                pointView.setLocation(x, y, r, event.getRawX() - p[0], event.getRawY() - p[1]);
-                ((ViewGroup) root).addView(pointView);
-                setVisibility(View.INVISIBLE);
+//                root.getLocationOnScreen(p);
+//                scrollParent = getScrollParent();
+//                if (scrollParent != null) {
+//                    scrollParent.requestDisallowInterceptTouchEvent(true);
+//                }
+//                int location[] = new int[2];
+//                getLocationOnScreen(location);
+//                x = location[0] + (getWidth() / 2) - p[0];
+//                y = location[1] + (getHeight() / 2) - p[1];
+//                r = (getWidth() + getHeight()) / 4;
+//                pointView = new PointView(getContext());
+//                pointView.setLayoutParams(new ViewGroup.LayoutParams(root.getWidth(), root.getHeight()));
+//                setDrawingCacheEnabled(true);
+//                pointView.catchBitmap = getDrawingCache();
+//                pointView.setLocation(x, y, r, event.getRawX() - p[0], event.getRawY() - p[1]);
+//                ((ViewGroup) root).addView(pointView);
+//                setVisibility(View.INVISIBLE);
                 break;
             case MotionEvent.ACTION_MOVE:
-                pointView.refrashXY(event.getRawX() - p[0], event.getRawY() - p[1]);
+//                pointView.refrashXY(event.getRawX() - p[0], event.getRawY() - p[1]);
                 break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                if (scrollParent != null) {
-                    scrollParent.requestDisallowInterceptTouchEvent(false);
-                }
-                if (!pointView.broken) { // 没有拉断
-                    pointView.cancel();
-                } else if (pointView.nearby) {// 拉断了,但是又回去了
-                    pointView.cancel();
-                } else { // 彻底拉断了
-                    pointView.broken();
-                }
+//                if (scrollParent != null) {
+//                    scrollParent.requestDisallowInterceptTouchEvent(false);
+//                }
+//                if (!pointView.broken) { // 没有拉断
+//                    pointView.cancel();
+//                } else if (pointView.nearby) {// 拉断了,但是又回去了
+//                    pointView.cancel();
+//                } else { // 彻底拉断了
+////                    pointView.broken();
+//                    pointView.cancel();
+//                }
                 break;
             default:
                 break;

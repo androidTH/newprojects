@@ -1,5 +1,9 @@
 package com.d6.android.app.activities
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
@@ -23,6 +27,7 @@ import com.d6.android.app.rong.fragment.ConversationFragmentEx
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.setTextViewSpannable
 import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
+import com.d6.android.app.utils.Const.CHAT_TARGET_ID
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.Const.RECEIVER_FIRST_PRIVATE_TIPSMESSAGE
@@ -102,6 +107,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.titlemore_whitesmall_icon)
             tv_chattitle.setCompoundDrawablesWithIntrinsicBounds(null,null,mDrawableRight,null)
 
+            //"anoy_" + 匿名用户的id + "_" + 报名约会用户的id   anoy_103091_100541
             mGroupIdSplit = mTargetId.split("_")
             iType = 2
             if(TextUtils.equals(mGroupIdSplit[1], getLocalUserId())){
@@ -488,16 +494,22 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
 
                 }else if(code == 4){//双方均未发出私聊申请且双方私聊设置为同意后私聊
-                    relative_tips_bottom.visibility = View.VISIBLE
-                    tv_openchat_apply_bottom.visibility = View.VISIBLE
-                    tv_openchat_tips_title_bottom.visibility = View.VISIBLE
-                    tv_openchat_tips_bottom.visibility = View.VISIBLE
-                    tv_openchat_tips_center_bottom.visibility = View.GONE
+                    if(iType==2){
+                        fragment?.let {
+                            it.doIsNotSendMsg(true,"约会已结束")
+                        }
+                    }else{
+                        relative_tips_bottom.visibility = View.VISIBLE
+                        tv_openchat_apply_bottom.visibility = View.VISIBLE
+                        tv_openchat_tips_title_bottom.visibility = View.VISIBLE
+                        tv_openchat_tips_bottom.visibility = View.VISIBLE
+                        tv_openchat_tips_center_bottom.visibility = View.GONE
 
-                    tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
-                    fragment?.let {
-                        it.hideChatInput(true)
+                        tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
+                        tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
+                        fragment?.let {
+                            it.hideChatInput(true)
+                        }
                     }
                     SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
 
@@ -531,10 +543,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     SendMsgTotal = it.optInt("iAllTalkCount")
                     var datetime = it.optLong("dOverduetime")
                     Log.i("chatactivity","${sendCount}消息数量appointment-----${it.optJsonObj("appointment")}")
-                    var appointment =GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
+                    var appointment = GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
                     appointment?.let {
                         root_date_chat.visibility = View.VISIBLE
                         setDateChatUi(appointment,sendCount,datetime)
+                        CHAT_TARGET_ID = mTargetId
                     }
                 }else{
                     relative_tips.visibility = View.GONE
@@ -592,33 +605,32 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         tv_yname.text = appointment.sAppointUserName
         tv_fname.text = appointment.sUserName
         tv_datechat_content.text = appointment.sDesc
-        tv_datchat_address.text = appointment.sPlace
+        tv_datchat_address.text = "约会地点：${appointment.sPlace}"
         if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(appointment.iAppointUserid.toString(), getLocalUserId())){
-            tv_date_info.text = "${appointment.sUserName}申请赴约"
+            tv_date_info.text = "对方申请赴约" //"${appointment.sUserName}申请赴约"
             tv_datechat_no.visibility = View.VISIBLE
             tv_datechat_agree.visibility = View.VISIBLE
             tv_datechat_giveup.visibility = View.GONE
-            if (sendCount > 0 && talkCount <= 0) {
-                fragment?.let {
-                    it.hideChatInput(false)
-                    it.doIsNotSendMsg(true, getString(R.string.string_fuyue_applay_date_tips))
-                }
-            }
+//            if (SendMsgTotal > 0 && talkCount <= 0) {
+//                fragment?.let {
+//                    it.hideChatInput(false)
+//                    it.doIsNotSendMsg(true, getString(R.string.string_fuyue_applay_date_tips))
+//                }
+//            }
             ISNOTYAODATE = 1
         }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
             tv_date_info.text = "等待对方确认中…"
             tv_datechat_no.visibility = View.GONE
             tv_datechat_agree.visibility = View.GONE
             tv_datechat_giveup.visibility = View.VISIBLE
-            if(sendCount>0&&talkCount<=0){
-                fragment?.let {
-                    it.hideChatInput(false)
-                    it.doIsNotSendMsg(true,getString(R.string.string_applay_date_tips))
-                }
-            }
             ISNOTYAODATE = 2
         }
 
+        if(SendMsgTotal>0&&talkCount<=0){
+            fragment?.let {
+                it.doIsNotSendMsg(true,getString(R.string.string_applay_date_tips))
+            }
+        }
         rv_datechat_images.setHasFixedSize(true)
         rv_datechat_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         if (appointment.sAppointPic.isNullOrEmpty()) {
@@ -865,6 +877,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                     extendDateChatDesc(it)
                 }
             }
+
+            registerReceiver(rongReceiveMessage, IntentFilter(Const.CHAT_MESSAGE))
         }
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -982,9 +996,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 }else if(TextUtils.equals("9",type)){
                     relative_tips_bottom.visibility = View.GONE
                     relative_tips.visibility = View.GONE
+                    fragment?.let {
+                        it.hideChatInput(false)
+                    }
                     getApplyStatus()
                 }
             }
+
         }
 
         if (removeKFService(mOtherUserId)) {
@@ -1050,6 +1068,22 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
         return false
     }
 
+
+    private val rongReceiveMessage by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                   if(SendMsgTotal!=-1&&sAppointmentSignupId.isNotEmpty()){
+                       sendCount = sendCount - 1
+                       if(sendCount<= 0){
+                           fragment?.doIsNotSendMsg(true,getString(R.string.string_applay_date_tips))
+                           sendCount = 0
+                       }
+                   }
+                 context?.let { setTextViewSpannable(it,"剩余消息：${sendCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers) }
+            }
+        }
+    }
+
     private fun addBlackList() {
         var mDialogAddBlackList = DialogAddBlackList()
         mDialogAddBlackList.show(supportFragmentManager, "addBlacklist")
@@ -1073,6 +1107,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
     override fun onDestroy() {
         super.onDestroy()
         RongIM.getInstance().setSendMessageListener(null)
+        unregisterReceiver(rongReceiveMessage)
+        CHAT_TARGET_ID = ""
     }
 
     private fun IsNMType():Int{

@@ -424,8 +424,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 it.age?.let {
                     if (it.toInt() <= 0) {
                         headerView.tv_sex.text = ""
+                        headerView.tv_user_date_sex.text = ""
                     } else {
                         headerView.tv_sex.text = it
+                        headerView.tv_user_date_sex.text = it
                     }
                 }
 
@@ -610,7 +612,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.rl_userinfo_date.visibility = View.VISIBLE
                     headerView.date_headView.setImageURI(it.picUrl)
                     headerView.tv_name.text = it.name
-                    headerView.tv_user_date_sex.text = "${it.age}"
                     headerView.tv_user_date_sex.isSelected = TextUtils.equals("0", it.sex)
                     setDateInfo(it.appointment)
                 } else {

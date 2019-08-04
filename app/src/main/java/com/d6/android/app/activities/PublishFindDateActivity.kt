@@ -27,6 +27,8 @@ import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
+import com.d6.android.app.utils.Const.User.USER_ADDRESS
+import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.utils.Const.dateTypesDefault
 import com.d6.android.app.utils.Const.dateTypesSelected
@@ -34,6 +36,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_publish_find_date.*
+import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
@@ -100,6 +103,8 @@ class PublishFindDateActivity : BaseActivity() {
                         city = it.city
                         tv_city.setText(city)
                         locationClient.stopLocation()
+                        SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
+                        SPUtils.instance().put(USER_PROVINCE,it.province).apply()
                     }
                 }
                 startLocation()
@@ -138,7 +143,15 @@ class PublishFindDateActivity : BaseActivity() {
                 showToast("最多上传9张图片")
                 return@setOnAddClickListener
             }
-            startActivityForResult<SelectPhotoDialog>(0)
+            val c = 9
+            val paths = mImages.filter { it.type!=1 }.map { it.path }
+            val urls = ArrayList<String>(paths)
+            startActivityForResult<MultiImageSelectorActivity>(0
+                    , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
+                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                    ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
+            )
+//            startActivityForResult<SelectPhotoDialog>(0)
         }
         mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))//ic_add_bg
         addAdapter.notifyDataSetChanged()
@@ -314,12 +327,23 @@ class PublishFindDateActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 0 && data != null) {
-                val path = data.getStringExtra(SelectPhotoDialog.PATH)
-                val size = mImages.size
-                val image = AddImage("file://" + path)
-                image.path = path
-                mImages.add(size - 1, image)
+//                val path = data.getStringExtra(SelectPhotoDialog.PATH)
+//                val size = mImages.size
+//                val image = AddImage("file://" + path)
+//                image.path = path
+//                mImages.add(size - 1, image)
+//                addAdapter.notifyDataSetChanged()
+
+                val result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+                mImages.clear()
+                result.forEach {
+                    val image = AddImage("file://$it")
+                    image.path = it
+                    mImages.add(image)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+                }
+                mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))
                 addAdapter.notifyDataSetChanged()
+
             } else if (requestCode == 4 && data != null) {
 //                areaType = data.getIntExtra("type",0)
                 area = data.getStringExtra("area")
@@ -414,7 +438,7 @@ class PublishFindDateActivity : BaseActivity() {
 
         Request.findUserFriends(userId,"",1).request(this) { _, data ->
             if(data?.list?.results!=null){
-                ll_friends.visibility = View.VISIBLE
+                ll_friends.visibility = View.GONE
             }else{
                 ll_friends.visibility = View.GONE
             }

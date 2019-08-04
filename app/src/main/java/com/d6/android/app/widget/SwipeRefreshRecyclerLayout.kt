@@ -230,7 +230,7 @@ class SwipeRefreshRecyclerLayout : SwipeRefreshLayout, SwipeRefreshLayout.OnRefr
         if (mode == Mode.Bottom || mode == Mode.Both) {
             this.isLoadMore = refreshing
             if (loadMoreView != null) {
-                loadMoreView?.visibility = View.GONE
+                loadMoreView?.visibility = View.VISIBLE
             }
         }
     }

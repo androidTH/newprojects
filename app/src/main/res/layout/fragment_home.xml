@@ -132,6 +132,7 @@
                             app:tabIndicatorHeight="3dp"
                             app:tabLineOffset="@dimen/margin_15"
                             app:tabMaxWidth="@dimen/margin_45"
+                            app:tabBackground="@drawable/tablayout_background"
                             app:tabMode="scrollable"
                             app:tabPaddingEnd="0dp"
                             app:tabPaddingStart="0dp"

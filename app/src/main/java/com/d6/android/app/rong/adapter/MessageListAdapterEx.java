@@ -74,15 +74,19 @@ public class MessageListAdapterEx extends MessageListAdapter {
 
         if (data.getConversationType() == Conversation.ConversationType.GROUP) {
             if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+                MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
                 if (TextUtils.equals("1", mWhoanonmouse)) {
-                    MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
                     holder.rightIconView.setAvatar(null, R.mipmap.nimingtouxiang_small);
+                    holder.nameView.setVisibility(View.GONE);
+                }else{
                     holder.nameView.setVisibility(View.GONE);
                 }
             } else {
+                MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
                 if(TextUtils.equals("2", mWhoanonmouse)){
-                    MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
                     holder.leftIconView.setAvatar(null, R.mipmap.nimingtouxiang_small);
+                    holder.nameView.setVisibility(View.GONE);
+                }else{
                     holder.nameView.setVisibility(View.GONE);
                 }
             }

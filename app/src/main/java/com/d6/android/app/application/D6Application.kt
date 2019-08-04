@@ -218,6 +218,9 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null &&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)) {
             sendBroadcast(Intent(Const.NEW_MESSAGE))
+            if(TextUtils.equals(Const.CHAT_TARGET_ID,message.targetId)){
+                sendBroadcast(Intent(Const.CHAT_MESSAGE))
+            }
         }
 
         //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）
@@ -267,6 +270,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                 }
             }
         }
+
 
         if(SystemUtils.isInBackground(this)){
             if(message==null){

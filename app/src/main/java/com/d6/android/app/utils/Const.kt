@@ -40,6 +40,7 @@ object Const {
     val SQUAREMSG_LAST_TIME = "Square_lastTime" //广场消息时间
     val SYSMSG_LAST_TIME = "SysMsylastTime"//系统消息时间
     val NEW_MESSAGE = "com.d6.app.new_msg"
+    val CHAT_MESSAGE = "com.d6.app.chat_msg_count"
     val MINE_MESSAGE = "com.d6.app.mine_msg"//我的关注 粉丝提醒
     val MINE_MANSERVICE_YOUKE = "com.d6.app.mine_manservice_youke"//我的关注 粉丝提醒
     val HOMEDATE_STATEBAR = "com.d6.app.homedate_statebar"//约会状态栏
@@ -198,4 +199,7 @@ object Const {
 
     @JvmField
     var CONVERSATION_APPLAY_PRIVATE_TYPE = "conversation_applay_private_type" //申请私聊
+
+    @JvmField
+    var CHAT_TARGET_ID = ""
 }

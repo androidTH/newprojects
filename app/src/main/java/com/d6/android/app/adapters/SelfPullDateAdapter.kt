@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
@@ -55,6 +56,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
 //            var dateInfo = RengGongDialog()
 //            var dateInfo = SelfDateDialog()
 //            dateInfo.show((context as BaseActivity).supportFragmentManager, "rg")
+            dateDialog.setDialogListener { p, s ->
+                mData.remove(myAppointment)
+                notifyDataSetChanged()
+            }
         }) { code, msg ->
             if (code == 2) {
                 var openErrorDialog = OpenDateErrorDialog()
@@ -66,6 +71,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 var  mDialogYesOrNo = DialogYesOrNo()
                 mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg,"data" to myAppointment)
                 mDialogYesOrNo.show((context as BaseActivity).supportFragmentManager, "dialogyesorno")
+                mDialogYesOrNo.setDialogListener { p, s ->
+                    mData.remove(myAppointment)
+                    notifyDataSetChanged()
+                }
             }
         }
     }

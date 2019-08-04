@@ -74,12 +74,10 @@
         <TextView
             android:id="@+id/tv_action"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_margin="16dp"
             android:background="@drawable/shape_4r_orange"
             android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
             android:text="约"
             android:textColor="@color/white"
             android:textSize="@dimen/btnTextSize" />

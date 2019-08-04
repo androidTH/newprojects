@@ -1,6 +1,7 @@
 package com.d6.android.app.adapters
 
 import android.annotation.SuppressLint
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -13,8 +14,11 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.rong.provider.SquareMsgProvider
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
+import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.RongUtils
+import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.widget.SwipeItemLayout
 import com.facebook.drawee.view.SimpleDraweeView
@@ -51,8 +55,30 @@ class UnKnowChatAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<Conv
 //            headView.setImageURI(groupbean.portraitUri)
 //        }
 
+
         tv_time.text = RongDateUtils.getConversationListFormatDate(data.sentTime, context)
         val tv_content = holder.bind<TextView>(R.id.tv_content)
+        val tv_conversation_type = holder.bind<TextView>(R.id.tv_conversation_type)
+        var applay_private_type =  SPUtils.instance().getBoolean(CONVERSATION_APPLAY_PRIVATE_TYPE+ getLocalUserId()+"-"+data.targetId,false)
+        if(applay_private_type){
+            tv_conversation_type.visibility = View.VISIBLE
+            tv_conversation_type.text=context.getString(R.string.string_conversation_type)
+            var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_chat)
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+            tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
+        }else{
+            var applay_date_type =  SPUtils.instance().getBoolean(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+data.targetId,false)
+            if(applay_date_type){
+                tv_conversation_type.visibility = View.VISIBLE
+                tv_conversation_type.text="申请约会"
+                var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_date)
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+                tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
+            }else{
+                tv_conversation_type.visibility = View.GONE
+            }
+        }
+
         if (data.latestMessage != null) {
             val provider = RongContext.getInstance().getMessageTemplate(data.latestMessage.javaClass)
             if (provider != null) {

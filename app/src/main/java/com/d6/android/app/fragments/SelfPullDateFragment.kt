@@ -129,14 +129,14 @@ class SelfPullDateFragment : RecyclerFragment() {
         Request.findAppointmentList(userId,dateType,area,pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFindDates.clear()
-                mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
+//                mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
-                    mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                    mSwipeRefreshLayout.setLoadMoreText("已经触及底线了")
                     pageNum--
                 } else {
-                    mSwipeRefreshLayout.setLoadMoreText("暂无数据")
+                    mSwipeRefreshLayout.setLoadMoreText("已经触及底线了")
                 }
             } else {
                 mFindDates.addAll(data.list.results)

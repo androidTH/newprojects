@@ -456,11 +456,11 @@ class MineFragment : BaseFragment() {
             tv_fcount.visibility = View.GONE
         }
 
-//        if (iPoint> 0) {
-//            iv_reddot.visibility = View.VISIBLE
-//        } else {
-//            iv_reddot.visibility = View.GONE
-//        }
+        if (iPoint> 0) {
+            iv_reddot.visibility = View.VISIBLE
+        } else {
+            iv_reddot.visibility = View.GONE
+        }
 
         if (vistorCount > 0) {
             tv_vcount.text = "+${vistorCount}"

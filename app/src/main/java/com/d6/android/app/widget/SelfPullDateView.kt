@@ -124,9 +124,9 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 //        }
 
         var time = converTime(myAppointment.dEndtime)
-        tv_time_long.text="倒计时:${time}"
+        tv_time_long.text="倒计时：${time}"
 
-        tv_self_address.text = myAppointment.sPlace
+        tv_self_address.text = "约会地点：${myAppointment.sPlace}"
 
         tv_content.text = myAppointment.sDesc
 
@@ -205,7 +205,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             if(it>0){
                 tv_date_nums.text = "累计${it}人邀约"
             }else{
-                tv_date_nums.text = "暂无人邀约"
+                tv_date_nums.text = ""
             }
         }
 

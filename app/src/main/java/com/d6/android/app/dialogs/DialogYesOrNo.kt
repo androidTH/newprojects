@@ -98,7 +98,12 @@ class DialogYesOrNo : DialogFragment(), RequestManager, DialogInterface.OnKeyLis
         dismissAllowingStateLoss()
         isBaseActivity {
             Request.signUpdate(getLocalUserId(),myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
-                RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, "${myAppointment?.iAppointUserid}", "${myAppointment?.sAppointUserName}")
+                if(myAppointment?.iIsAnonymous==1){
+                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.GROUP, "anoy_${myAppointment?.iAppointUserid}_${getLocalUserId()}", "匿名")
+                }else{
+                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, "${myAppointment?.iAppointUserid}", "${myAppointment?.sAppointUserName}")
+                }
+                dialogListener?.onClick(2,"${myAppointment?.sId.toString()}")
             }) { code, msg ->
                 if(code == 3){
                     var openErrorDialog = OpenDateErrorDialog()
