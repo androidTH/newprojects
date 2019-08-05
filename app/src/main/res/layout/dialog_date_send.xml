@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
             android:gravity="center_horizontal"
-            android:text="发起约会"
+            android:text="申请赴约"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:gravity="center_horizontal"
+            android:gravity="left"
             android:text="----"
             android:textColor="@color/color_black" />
 
@@ -78,7 +78,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/shape_4r_orange"
             android:gravity="center"
-            android:text="约"
+            android:text="申请"
             android:textColor="@color/white"
             android:textSize="@dimen/btnTextSize" />
     </LinearLayout>

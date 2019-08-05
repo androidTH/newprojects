@@ -396,7 +396,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 tv_title_nick.text = it.name
                 headerView.iv_bg.showBlur(it.picUrl)
 
-                headerView.headView.hierarchy = getHierarchy(it.sex.toString())
+//                headerView.headView.hierarchy = getHierarchy(it.sex.toString())
                 headerView.headView.setImageURI(it.picUrl)
 
                 Log.i("minefragment","个人中心头像url=${it.picUrl}")

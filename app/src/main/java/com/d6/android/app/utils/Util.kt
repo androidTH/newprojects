@@ -1037,6 +1037,7 @@ private var sLoginToken = ""
 
 fun getLoginToken():String{
     if(sLoginToken.isNullOrEmpty()){
+        //"70CDE1CA39B0C087E664AAC7126FB04E5F4CA06A2371790EA1CE43F08C83D6558E67C773E5F243D7451624FCA50D3059C14656CF3C5D4E977027A55834EBC8E9"
         sLoginToken = SPUtils.instance().getString(Const.User.SLOGINTOKEN,"")
     }
     return sLoginToken

@@ -105,6 +105,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                     msg = t.message!!
                 }
             }
+
             if(!TextUtils.isEmpty(msg)){
                 error(code, msg)
                 if (code == 200 || code == -3) {

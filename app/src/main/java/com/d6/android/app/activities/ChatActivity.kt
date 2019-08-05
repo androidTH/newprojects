@@ -511,8 +511,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                             it.hideChatInput(true)
                         }
                     }
+                    SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,false).apply()
                     SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
-
+                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
                 }else if(code == 5){//对方的私聊设置为直接私聊
                      if(TextUtils.equals("1",sex)){
                          sendCount = it.optInt("iTalkCount")
@@ -974,7 +975,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                         it.hideChatInput(true)
                     }
                     SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,false).apply()
-                    SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
+                    SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE+ getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
+                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
 //                    linear_openchat_agree_bottom.visibility = View.GONE
 //                    getApplyStatus()
                 }else if(TextUtils.equals("5",type)){

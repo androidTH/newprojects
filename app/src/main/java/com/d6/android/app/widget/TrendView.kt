@@ -118,7 +118,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 //            tv_delete.gone()
 //        }
         this.square = square
-        headView.hierarchy = getHierarchy(square.sex.toString())
+//        headView.hierarchy = getHierarchy(square.sex.toString())
         headView.setImageURI(square.picUrl)
 
         tv_name.text = square.name

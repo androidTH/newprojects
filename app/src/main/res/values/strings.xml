@@ -33,10 +33,10 @@
     <string name="open_date_string">发起约会</string>
     <string name="send_date_string">你发起的约会将通知对方,对方同意之后就可以开启甜蜜之旅,点击"我的约会",可查看约会状态</string>
     <string name="string_pointdesc">本次约会预付%1$s积分,查看我的积分</string>
-    <string name="string_pointlow">你当前积分为%1$s积分,发起约会需要消耗%2$s积分。点击"充值"可获得更多积分,为了不错过心仪的TA。</string>
+    <string name="string_pointlow">你当前积分为%1$s积分,申请赴约需要消耗%2$s积分。点击"充值"可获得更多积分,为了不错过心仪的TA。</string>
     <string name="string_balance">积分不足,你的剩余积分%1$s分</string>
-    <string name="string_senddatefail">发起失败</string>
-    <string name="senddatepointlow">发起失败,积分余额不足</string>
+    <string name="string_senddatefail">申请失败</string>
+    <string name="senddatepointlow">申请失败，积分余额不足</string>
     <string name="vistorpointlow">查看访客失败,积分余额不足</string>
     <string name="string_samecity">同城</string>
     <string name="string_age">年龄</string>

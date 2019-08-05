@@ -280,7 +280,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
         }
 
-        date_headView.hierarchy = getHierarchy()
+//        date_headView.hierarchy = getHierarchy()
 
         date_headView.setOnClickListener {
             getAuthState()

@@ -1,5 +1,6 @@
 package com.d6.android.app.net.json
 
+import android.util.Log
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.models.Response
 import com.d6.android.app.utils.sysErr
