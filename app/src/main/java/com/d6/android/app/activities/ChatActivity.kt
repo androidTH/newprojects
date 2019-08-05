@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.d6.android.app.R
@@ -55,7 +56,7 @@ import kotlin.collections.ArrayList
 
 
 //聊天
-class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
+class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayoutChangeListener {
 
     private var TAG = "ChatActivity"
     private var sendCount: Int = 0
@@ -531,6 +532,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 }else if(code == 6){//以前聊过天的允许私聊(包括付过积分，约会过的，送过花的)
                     relative_tips_bottom.visibility = View.GONE
                     IsAgreeChat = false
+                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
 //                    ---SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),false).apply()
                 }else if(code ==8){
                     CustomToast.showToast(getString(R.string.string_addblacklist))
@@ -612,12 +614,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             tv_datechat_no.visibility = View.VISIBLE
             tv_datechat_agree.visibility = View.VISIBLE
             tv_datechat_giveup.visibility = View.GONE
-//            if (SendMsgTotal > 0 && talkCount <= 0) {
-//                fragment?.let {
-//                    it.hideChatInput(false)
-//                    it.doIsNotSendMsg(true, getString(R.string.string_fuyue_applay_date_tips))
-//                }
-//            }
             ISNOTYAODATE = 1
         }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
             tv_date_info.text = "等待对方确认中…"
@@ -651,6 +647,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             tv_datechat_nums.visibility = View.GONE
         }
         sAppointmentSignupId = appointment.sAppointmentSignupId
+
+        root_date_chat.addOnLayoutChangeListener(this)
     }
 
     fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int){
@@ -658,14 +656,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
             run {
                 if (iStatus == 2) {
                     root_date_chat.visibility = View.GONE
+                    setFragmentTopMargin(0)
 //                    tv_date_status.text = "状态:赴约"
                 } else if (iStatus == 3) {
 //                    tv_date_status.text = "状态：已拒绝"
                     root_date_chat.visibility = View.GONE
+                    setFragmentTopMargin(0)
                     getApplyStatus()
                 }else if(iStatus == 4){
 //                    tv_date_status.text="状态：主动取消"
                     root_date_chat.visibility = View.GONE
+                    setFragmentTopMargin(0)
                     getApplyStatus()
                 }
             }
@@ -982,22 +983,27 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                 }else if(TextUtils.equals("5",type)){
                     //staus 5、6、7、8分别是接受、拒绝、取消、过期
                     root_date_chat.visibility = View.GONE
+                    setFragmentTopMargin(0)
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
                 }else if(TextUtils.equals("6",type)){
                     root_date_chat.visibility = View.GONE
+                    setFragmentTopMargin(0)
                     getApplyStatus()
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
                 }else if(TextUtils.equals("7",type)){
                     root_date_chat.visibility = View.GONE
+                    setFragmentTopMargin(0)
                     getApplyStatus()
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
                 }else if(TextUtils.equals("8",type)){
                     root_date_chat.visibility = View.GONE
+                    setFragmentTopMargin(0)
                     getApplyStatus()
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
                 }else if(TextUtils.equals("9",type)){
                     relative_tips_bottom.visibility = View.GONE
                     relative_tips.visibility = View.GONE
+                    setFragmentTopMargin(0)
                     fragment?.let {
                         it.hideChatInput(false)
                     }
@@ -1084,6 +1090,19 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener {
                  context?.let { setTextViewSpannable(it,"剩余消息：${sendCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers) }
             }
         }
+    }
+
+    override fun onLayoutChange(v: View?, left: Int, top: Int, right: Int, bottom: Int, oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int) {
+        root_date_chat.removeOnLayoutChangeListener(this)
+        var height = root_date_chat.height
+        setFragmentTopMargin(height)
+    }
+
+    //设置聊天布局marginTop
+    private fun setFragmentTopMargin(height:Int){
+        var rongparams = rong_content.layoutParams as ViewGroup.MarginLayoutParams
+        rongparams.topMargin = height
+        rong_content.layoutParams = rongparams
     }
 
     private fun addBlackList() {
