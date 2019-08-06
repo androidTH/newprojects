@@ -388,7 +388,7 @@ public class MultiImageSelectorFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        System.err.println("--onRequestPermissionsResult--");
         if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults.length>0&&grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // 首次加载所有图片
                 //new LoadImageTask().execute();
                 getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
@@ -420,8 +420,7 @@ public class MultiImageSelectorFragment extends Fragment {
                 }
             }
         }else if(requestCode == EXTERNAL_CAMERA_REQUEST_CODE){
-            if(grantResults.length>0){
-                if (grantResults[0]!= PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length>0&&grantResults[0]!= PackageManager.PERMISSION_GRANTED){
                     if (getActivity()!=null) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("请注意");
@@ -446,7 +445,6 @@ public class MultiImageSelectorFragment extends Fragment {
 //                    getActivity().finish();
                     }
                 }
-            }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
