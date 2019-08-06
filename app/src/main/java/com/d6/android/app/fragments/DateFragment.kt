@@ -115,8 +115,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                         pageNum++
                         getData(city,xingzuo,agemin,agemax)
                     }
-
-                    Log.i("DateFragment","index=${scrollPosition}")
                     if(mDates.size>0){
                         var findDate = mDates.get(scrollPosition-1)
                         if(findDate.iIsFans==1){

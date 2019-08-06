@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F5F5F5"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_size"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_goodfriends_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/back"
+            android:paddingLeft="@dimen/padding_16" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="邀请好友"
+            android:textColor="@color/color_black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_10">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_18"
+                android:layout_marginBottom="@dimen/margin_15">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/iv_user_headView"
+                    style="@style/DefaultCircleHeadStyle"
+                    android:layout_width="54dp"
+                    android:layout_height="54dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/margin_3" />
+
+                <LinearLayout
+                    android:id="@+id/ll_share_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_user_headView"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_yq_user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="我的邀请人：无"
+                        android:textColor="@color/color_black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="成为会员开启更多权限"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="累计奖励20朵小红花 200积分"
+                        android:textColor="@color/color_black"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_cash_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/shape_20r_white_orange"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingRight="15dp"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:text="提现"
+                    android:textColor="@color/color_F7AB00"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginBottom="@dimen/margin_15"
+                android:background="@color/color_EAEAEA" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:text="· 邀请的好友注册成功后奖励100积分"
+                android:textColor="@color/color_888888" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="· 好友购买会员，即奖励会员费20%小红花给你，最高封顶 "
+                android:textColor="@color/color_888888" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="· 好友认证会员，奖励20朵小红花 "
+                android:textColor="@color/color_888888" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="· 1朵小红花=1元，可前往钱包中提现 "
+                android:textColor="@color/color_888888" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="· 如果通过非法手段刷量，D6将取消奖励并封号处理"
+                android:textColor="@color/color_888888" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_20"
+                android:paddingBottom="@dimen/margin_10"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@mipmap/invite_process_share"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="分享"
+                    android:textColor="@color/color_666666"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:background="@color/color_FEEFCD" />
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@mipmap/invite_process_register"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="好友注册"
+                    android:textColor="@color/color_666666"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:background="@color/color_FEEFCD" />
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@mipmap/invite_process_buyvip"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="好友购买会员"
+                    android:textColor="@color/color_666666"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:background="@color/color_FEEFCD" />
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@mipmap/invite_process_gift"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="奖励到账"
+                    android:textColor="@color/color_666666"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0.5dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:background="@color/color_FEEFCD" />
+
+                <TextView
+                    android:layout_width="46dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@mipmap/invite_process_withdraw"
+                    android:gravity="center"
+                    android:text="奖励到账"
+                    android:textStyle="bold"
+                    android:textColor="@color/color_666666"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

@@ -191,12 +191,13 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         }else{
             tv_topsearch.visibility = View.GONE
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
         checkPushIsNotShow()
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//    }
 
     private fun checkPushIsNotShow() {
         if (isNotificationEnabled(context)) {

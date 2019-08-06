@@ -42,7 +42,8 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     }
 
     private val mRecommendHeaderView by lazy{
-        layoutInflater.inflate(R.layout.layout_header_recommend, null,false)
+//        layoutInflater.inflate(R.layout.layout_header_recommend, null,false)
+        LayoutInflater.from(getActivity()).inflate(R.layout.layout_header_recommend, null,false)
     }
 
 //    override fun getLayoutManager(): GridLayoutManager {

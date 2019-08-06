@@ -1098,7 +1098,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         setFragmentTopMargin(height)
     }
 
-    //设置聊天布局marginTop
+    //动态设置聊天布局marginTop
     private fun setFragmentTopMargin(height:Int){
         var rongparams = rong_content.layoutParams as ViewGroup.MarginLayoutParams
         rongparams.topMargin = height

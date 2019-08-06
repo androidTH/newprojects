@@ -420,29 +420,31 @@ public class MultiImageSelectorFragment extends Fragment {
                 }
             }
         }else if(requestCode == EXTERNAL_CAMERA_REQUEST_CODE){
-            if (grantResults[0]!= PackageManager.PERMISSION_GRANTED){
-                if (getActivity()!=null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("请注意");
-                    builder.setMessage("本应用需要使用访问相机拍照权限，否则无法正常使用！");
-                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            getActivity().finish();
-                        }
-                    });
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            getActivity().finish();
-                        }
-                    });
-                    builder.create().show();
+            if(grantResults.length>0){
+                if (grantResults[0]!= PackageManager.PERMISSION_GRANTED){
+                    if (getActivity()!=null) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("请注意");
+                        builder.setMessage("本应用需要使用访问相机拍照权限，否则无法正常使用！");
+                        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().finish();
+                            }
+                        });
+                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().finish();
+                            }
+                        });
+                        builder.create().show();
 //                        return;
 //                    }
 
 //                    Toast.makeText(getActivity().getApplicationContext(), "没有sd卡操作权限，请先授权！", Toast.LENGTH_SHORT).show();
 //                    getActivity().finish();
+                    }
                 }
             }
         }
