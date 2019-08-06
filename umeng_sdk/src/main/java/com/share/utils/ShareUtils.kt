@@ -6,10 +6,12 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.Bitmap
 
 import com.umeng.sdk.R
 import com.umeng.socialize.ShareAction
 import com.umeng.socialize.ShareContent
+import com.umeng.socialize.ShareContent.TEXT_IMAGE_STYLE
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.UmengTool
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -96,6 +98,17 @@ object ShareUtils {
         val shareContent = ShareContent()
         shareContent.mMedia = web
         ShareAction(context).setPlatform(platform)
+                .setShareContent(shareContent)
+                .setCallback(listener)
+                .share()
+    }
+
+    fun sharePic(context: Activity, platform: SHARE_MEDIA, content: String, title: String, image: UMImage, listener: UMShareListener) {
+        val shareContent = ShareContent()
+        image.title = title
+        shareContent.mMedia = image
+        ShareAction(context).setPlatform(platform)
+                .withText(content)
                 .setShareContent(shareContent)
                 .setCallback(listener)
                 .share()

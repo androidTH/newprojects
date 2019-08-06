@@ -325,6 +325,7 @@
         <activity android:name=".activities.PrivilegeDescActivity"/>
         <activity android:name=".activities.BindPhoneActivity"/>
         <activity android:name=".activities.BlackListActivity"/>
+        <activity android:name=".activities.InviteGoodFriendsActivity"/>
         <activity android:name=".activities.UnKnownActivity"/>
         <activity android:name=".activities.SexChooseActivity"
             android:theme="@style/chooseAnim"/>

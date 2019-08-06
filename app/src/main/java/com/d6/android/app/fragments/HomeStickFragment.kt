@@ -2,7 +2,6 @@ package com.d6.android.app.fragments
 
 import android.Manifest
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -14,7 +13,7 @@ import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home_stick.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.view.Gravity
 import com.amap.api.location.AMapLocationClient
@@ -34,9 +33,9 @@ import org.jetbrains.anko.support.v4.toast
 /**
  * 主页
  */
-class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,ViewPager.OnPageChangeListener,AppBarLayout.OnOffsetChangedListener{
+class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,ViewPager.OnPageChangeListener{
 
-    private var mTAG = HomeFragment::class.java.simpleName
+    private var mTAG = HomeStickFragment::class.java.simpleName
 //    private var mHomeIsUpDown:Boolean = false //true 向上 false 向下
 
     private var onPageSelected:Int = 0
@@ -48,6 +47,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 //        }else{
 //            immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
 //        }
+
 //        var intent = Intent(Const.HOMEDATE_STATEBAR)
 //        intent.putExtra(ISUPDOWN,mHomeIsUpDown)
 //        context.sendBroadcast(intent)
@@ -83,11 +83,13 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         RecommendDateAdapter(mSpeedDates)
     }
 
-    override fun contentViewId() = R.layout.fragment_home
+    override fun contentViewId() = R.layout.fragment_home_stick
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        appBarLayout.addOnOffsetChangedListener(this)
+//        appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
+//            mSwipeRefreshLayout.isEnabled = verticalOffset >= 0
+//        }
 
         mSwipeRefreshLayout.isRefreshing = true
         rvSpeedDate.setHasFixedSize(true)
@@ -254,8 +256,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     fun refresh(){
-        appBarLayout.removeOnOffsetChangedListener(this)
-        mSwipeRefreshLayout.isEnabled = true
         mSwipeRefreshLayout.isRefreshing = true
         mSwipeRefreshLayout.scrollTo(0,0)
         mSwipeRefreshLayout.postDelayed(object:Runnable{
@@ -318,7 +318,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             }
             mSelfPullDateFragment.refresh(area ,dateType)
             mSelfPullDateFragment.setRenGongBackGround(this)
-            appBarLayout.addOnOffsetChangedListener(this)
         }
     }
 
@@ -377,10 +376,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     override fun onPageSelected(position: Int) {
         onPageSelected = position
         Log.i("selfpulldate","onPageSelected${onPageSelected}")
-    }
-
-    override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-        mSwipeRefreshLayout.isEnabled = verticalOffset >= 0
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
