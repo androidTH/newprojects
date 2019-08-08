@@ -302,8 +302,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                   headerView.tv_content3.text= provider.getContentSummary(context,mConv.latestMessage)
               }
           }else{
-              headerView.rl_unknowchat.visibility = View.GONE
-              headerView.line_mchat.visibility = View.GONE
+              if(headerView!=null){
+                  headerView.rl_unknowchat.visibility = View.GONE
+                  headerView.line_mchat.visibility = View.GONE
+              }
           }
     }
 
