@@ -5,38 +5,21 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
-import android.text.TextUtils
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
-import com.d6.android.app.adapters.MemberShipAdapter
+import com.d6.android.app.adapters.AppMemberPriceAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.easypay.EasyPay
-import com.d6.android.app.easypay.PayParams
-import com.d6.android.app.easypay.callback.OnPayInfoRequestListener
-import com.d6.android.app.easypay.callback.OnPayResultListener
-import com.d6.android.app.easypay.enums.HttpType
-import com.d6.android.app.easypay.enums.NetworkClientType
-import com.d6.android.app.easypay.enums.PayWay
-import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MemberBean
-import com.d6.android.app.models.Square
-import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
-import com.d6.android.app.widget.RxRecyclerViewDividerTool
-import com.d6.android.app.widget.badge.DisplayUtil
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
-import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
-import io.rong.eventbus.EventBus
-import kotlinx.android.synthetic.main.dialog_membership_price_list.*
-import org.jetbrains.anko.bundleOf
+import kotlinx.android.synthetic.main.dialog_appmember_price_list.*
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.wrapContent
@@ -44,10 +27,11 @@ import org.jetbrains.anko.wrapContent
 /**
  * 开通会员
  */
-class OpenMemberShipDialog : DialogFragment() {
+class AppMemberDialog : DialogFragment() {
 
     private var mMemberPriceList = ArrayList<MemberBean>()
-    var mMemberShipAdapter: MemberShipAdapter?=null
+    var mAppMemberPriceAdapter: AppMemberPriceAdapter?=null
+    private var mSelectedPriceIndex:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,51 +46,68 @@ class OpenMemberShipDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.dialog_membership_price_list, container, false)
+            inflater?.inflate(R.layout.dialog_appmember_price_list, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mMemberPriceList = arguments.getParcelableArrayList("members")
+//        mMemberPriceList = arguments.getParcelableArrayList("members")
+
         if(mMemberPriceList==null){
             getMemberPriceList()
         }
 
-        iv_membership_close.setOnClickListener {
+        var desc =if(arguments.containsKey("desc")){
+            arguments.getString("desc")
+        }else{
+            ""
+        }
+
+        tv_appmember_des.text = desc
+
+        iv_appmember_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
-        tv_choose_address.setOnClickListener {
-            dialogListener?.onClick(2001,"地区")
+        tv_wxpay_appmember.setOnClickListener {
+            dialogListener?.onClick(mSelectedPriceIndex,"支付")
         }
 
-        rv_membership_price_list.setHasFixedSize(true)
-        rv_membership_price_list.layoutManager = LinearLayoutManager(context)
-        mMemberShipAdapter = MemberShipAdapter(mMemberPriceList)
-        rv_membership_price_list.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
-                .size(dip(1))
-                .color(ContextCompat.getColor(context,R.color.color_EFEFEF))
-                .build())
-        rv_membership_price_list.adapter = mMemberShipAdapter
+        rv_appmember_price_list.setHasFixedSize(true)
+        rv_appmember_price_list.layoutManager = GridLayoutManager(context,3)
 
-        mMemberShipAdapter?.setOnItemChildClickListener(){adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
-             if(view?.id == R.id.tv_vip_price){
-                 dialogListener?.onClick(position,"支付")
-//                 var memberBean = mMemberPriceList.get(position)
-//                 memberBean.iAndroidPrice?.let {
-//                     buyRedFlowerPay(it,"",memberBean.ids!!.toInt(),memberBean.classesname.toString())
-//                 }
-             }
-        }
+        var mList = listOf<String>(
+            "string01",
+            "string02",
+            "string03"
+        )
 
-        mMemberShipAdapter?.setOnItemClickListener() { adapter, view, position ->
-                 mMemberShipAdapter?.let {
-                 }
+        mAppMemberPriceAdapter = AppMemberPriceAdapter(mList)
+        rv_appmember_price_list.adapter = mAppMemberPriceAdapter
+
+        mAppMemberPriceAdapter?.setOnItemClickListener() { adapter, view, position ->
+            mAppMemberPriceAdapter?.let {
+                mSelectedPriceIndex = position
+                if (it.selectedIndex == position) {
+                    it.selectedIndex = -1
+                } else {
+                    it.selectedIndex = position
+                }
+                it.notifyDataSetChanged()
+
+                if(it.selectedIndex!=-1){
+                    tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_54)
+                    tv_wxpay_appmember.text = "微信支付·¥${243}"
+                }else{
+                    tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_8054)
+                    tv_wxpay_appmember.text = "微信支付"
+                }
+            }
         }
     }
 
     fun setAddressd(address:String){
-        tv_choose_address.text = address
+//        tv_choose_address.text = address
         getAreaNameMemberPriceList(address)
     }
 
@@ -117,8 +118,8 @@ class OpenMemberShipDialog : DialogFragment() {
                 data?.list?.let {
                     Log.i("mem","数量${it.size}")
                     mMemberPriceList = it
-                    mMemberShipAdapter?.let {
-                        it.setNewData(mMemberPriceList)
+                    mAppMemberPriceAdapter?.let {
+//                        it.setNewData(mMemberPriceList)
                     }
                 }
             }
@@ -129,7 +130,7 @@ class OpenMemberShipDialog : DialogFragment() {
         Request.findUserClasses(getLoginToken()).request((context as BaseActivity)){msg,data->
             data?.list?.let {
                 mMemberPriceList = it
-                mMemberShipAdapter?.setNewData(mMemberPriceList)
+//                mAppMemberPriceAdapter?.setNewData(mMemberPriceList)
             }
         }
     }

@@ -32,21 +32,22 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_title"
-        android:layout_marginTop="@dimen/margin_8"
-        android:background="@color/white">
-
+        android:background="@color/white"
+        android:layout_below="@+id/rl_title">
         <LinearLayout
             android:id="@+id/ll_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingRight="@dimen/margin_10">
-
+            android:orientation="vertical">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_8"
+                android:background="@color/color_F5F5F5"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_18"
                 android:layout_marginBottom="@dimen/margin_15">
 
@@ -117,6 +118,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_5"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
                 android:text="· 邀请的好友注册成功后奖励100积分"
                 android:textSize="12sp"
                 android:textColor="@color/color_888888" />
@@ -124,24 +127,32 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
                 android:text="· 好友购买会员，即奖励会员费20%小红花给你，最高封顶 "
                 android:textColor="@color/color_888888" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
                 android:text="· 好友认证会员，奖励20朵小红花 "
                 android:textColor="@color/color_888888" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
                 android:text="· 1朵小红花=1元，可前往钱包中提现 "
                 android:textColor="@color/color_888888" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
                 android:text="· 如果通过非法手段刷量，D6将取消奖励并封号处理"
                 android:textColor="@color/color_888888" />
 
@@ -149,12 +160,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_20"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
                 android:paddingBottom="@dimen/margin_10"
                 android:gravity="center_horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:drawableTop="@mipmap/invite_process_share"
                     android:drawablePadding="@dimen/margin_5"
                     android:gravity="center"
@@ -163,17 +177,17 @@
                     android:textColor="@color/color_666666"
                     android:textSize="12sp" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:layout_marginBottom="@dimen/margin_18"
-                    android:background="@color/color_FEEFCD" />
+                    android:background="@mipmap/plan_arow_icon" />
 
                 <TextView
                     android:layout_width="46dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:drawableTop="@mipmap/invite_process_register"
                     android:drawablePadding="@dimen/margin_5"
                     android:gravity="center"
@@ -182,17 +196,17 @@
                     android:textColor="@color/color_666666"
                     android:textSize="12sp" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:layout_marginBottom="@dimen/margin_18"
-                    android:background="@color/color_FEEFCD" />
+                    android:background="@mipmap/plan_arow_icon"  />
 
                 <TextView
                     android:layout_width="46dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:drawableTop="@mipmap/invite_process_buyvip"
                     android:drawablePadding="@dimen/margin_5"
                     android:gravity="center"
@@ -201,17 +215,17 @@
                     android:textColor="@color/color_666666"
                     android:textSize="12sp" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:layout_marginBottom="@dimen/margin_18"
-                    android:background="@color/color_FEEFCD" />
+                    android:background="@mipmap/plan_arow_icon"  />
 
                 <TextView
                     android:layout_width="46dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:drawableTop="@mipmap/invite_process_gift"
                     android:drawablePadding="@dimen/margin_5"
                     android:gravity="center"
@@ -220,17 +234,17 @@
                     android:textColor="@color/color_666666"
                     android:textSize="12sp" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0.5dp"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
                     android:layout_marginBottom="@dimen/margin_18"
-                    android:background="@color/color_FEEFCD" />
+                    android:background="@mipmap/plan_arow_icon"  />
 
                 <TextView
                     android:layout_width="46dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:drawableTop="@mipmap/invite_process_withdraw"
                     android:drawablePadding="@dimen/margin_5"
                     android:gravity="center"
@@ -239,8 +253,21 @@
                     android:textColor="@color/color_666666"
                     android:textSize="12sp" />
             </LinearLayout>
-
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_20"
+                android:background="@color/color_F5F5F5"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_F5F5F5">
+                <include
+                    layout="@layout/share_friends_layout"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_60"
+                android:background="@color/color_F5F5F5"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <LinearLayout

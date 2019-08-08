@@ -35,7 +35,7 @@ import com.d6.android.app.widget.badge.DisplayUtil
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.rong.eventbus.EventBus
-import kotlinx.android.synthetic.main.dialog_membership_price_list.*
+import kotlinx.android.synthetic.main.dialog_slivermember_price.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.dip
@@ -44,7 +44,11 @@ import org.jetbrains.anko.wrapContent
 /**
  * 开通会员
  */
-class OpenMemberShipDialog : DialogFragment() {
+class SilverMemberDialog : DialogFragment() {
+
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
+    }
 
     private var mMemberPriceList = ArrayList<MemberBean>()
     var mMemberShipAdapter: MemberShipAdapter?=null
@@ -62,17 +66,27 @@ class OpenMemberShipDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.dialog_membership_price_list, container, false)
+            inflater?.inflate(R.layout.dialog_slivermember_price, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mMemberPriceList = arguments.getParcelableArrayList("members")
-        if(mMemberPriceList==null){
-            getMemberPriceList()
+        var desc = if(arguments.containsKey("desc")){
+                arguments.getString("desc")
+        }else{
+            ""
         }
 
-        iv_membership_close.setOnClickListener {
+        var ids =  arguments.getString("ids")
+        tv_slive_title.text= if(TextUtils.equals(ids,"22")){
+             "开通普通会员"
+        }else{
+             "开通白银会员"
+        }
+
+        tv_slivermember_des.text = desc
+
+        iv_silverMembership_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
@@ -80,33 +94,19 @@ class OpenMemberShipDialog : DialogFragment() {
             dialogListener?.onClick(2001,"地区")
         }
 
-        rv_membership_price_list.setHasFixedSize(true)
-        rv_membership_price_list.layoutManager = LinearLayoutManager(context)
-        mMemberShipAdapter = MemberShipAdapter(mMemberPriceList)
-        rv_membership_price_list.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
-                .size(dip(1))
-                .color(ContextCompat.getColor(context,R.color.color_EFEFEF))
-                .build())
-        rv_membership_price_list.adapter = mMemberShipAdapter
-
-        mMemberShipAdapter?.setOnItemChildClickListener(){adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int ->
-             if(view?.id == R.id.tv_vip_price){
-                 dialogListener?.onClick(position,"支付")
-//                 var memberBean = mMemberPriceList.get(position)
-//                 memberBean.iAndroidPrice?.let {
-//                     buyRedFlowerPay(it,"",memberBean.ids!!.toInt(),memberBean.classesname.toString())
-//                 }
-             }
-        }
-
-        mMemberShipAdapter?.setOnItemClickListener() { adapter, view, position ->
-                 mMemberShipAdapter?.let {
-                 }
+        tv_wxpay_member.setOnClickListener {
+            dialogListener?.onClick(1000, "微信支付")
         }
     }
 
     fun setAddressd(address:String){
-        tv_choose_address.text = address
+        if(TextUtils.equals(address,"不限地区")){
+            tv_choose_address.text = "地区"
+            tv_wxpay_member.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_8054)
+        }else{
+            tv_choose_address.text = address
+            tv_wxpay_member.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_54)
+        }
         getAreaNameMemberPriceList(address)
     }
 
@@ -121,15 +121,6 @@ class OpenMemberShipDialog : DialogFragment() {
                         it.setNewData(mMemberPriceList)
                     }
                 }
-            }
-        }
-    }
-
-    private fun getMemberPriceList() {
-        Request.findUserClasses(getLoginToken()).request((context as BaseActivity)){msg,data->
-            data?.list?.let {
-                mMemberPriceList = it
-                mMemberShipAdapter?.setNewData(mMemberPriceList)
             }
         }
     }

@@ -80,7 +80,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         tv_points_info.setOnClickListener {
             startActivity<PointExplainActivity>()
-//            startActivity<InviteGoodFriendsActivity>()
+        }
+
+        mHeaderView.rl_redwallet.setOnClickListener {
+            startActivity<InviteGoodFriendsActivity>()
         }
 
         mHeaderView.tv_recharge.setOnClickListener {

@@ -153,6 +153,7 @@ class MineFragment : BaseFragment() {
 
         rl_wallet.setOnClickListener {
             startActivity<MyPointsActivity>()
+            iv_reddot.visibility = View.GONE
         }
 
         ll_mine_points.setOnClickListener {

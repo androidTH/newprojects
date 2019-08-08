@@ -9,15 +9,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
 import com.d6.android.app.adapters.MemberCommentHolder
 import com.d6.android.app.adapters.MemberLevelAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.OpenMemberShipDialog
-import com.d6.android.app.dialogs.PayResultDialog
-import com.d6.android.app.dialogs.WeChatKFDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.easypay.EasyPay
 import com.d6.android.app.easypay.PayParams
 import com.d6.android.app.easypay.callback.OnPayInfoRequestListener
@@ -65,9 +64,11 @@ class AuthMenStateActivity : BaseActivity() {
     }
 
     private val AREA_REQUEST_CODE = 11
+    private val AREA_REQUEST_CODE_SILIVER = 12
     private var mMemberPriceList = ArrayList<MemberBean>()
 
     private lateinit var mOpenMemberShipDialog:OpenMemberShipDialog
+    private lateinit var mSilverMemberDialog:SilverMemberDialog
     private var areaName = ""
 
     private var ISNOTBUYMEMBER = 0 //0 没有购买
@@ -101,19 +102,29 @@ class AuthMenStateActivity : BaseActivity() {
         }
 
         ll_openmemeber.setOnClickListener {
-            mOpenMemberShipDialog = OpenMemberShipDialog()
-            mOpenMemberShipDialog.arguments = bundleOf("members" to mMemberPriceList)
-            mOpenMemberShipDialog.show(supportFragmentManager,OpenMemberShipDialog::class.java.toString())
-            mOpenMemberShipDialog.setDialogListener { p, s ->
-                if(p==2001){
-                    startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE)
-                }else{
-                    var memberBean = mMemberPriceList.get(p)
-                    var classId = memberBean.ids.toString()
-                    if(TextUtils.equals("22",classId)||TextUtils.equals("23",classId)){
-                        if(TextUtils.isEmpty(areaName)){
-                            toast("请选择约会地区，不同地区价格稍有差异")
-                        }else{
+            var member = mMemberPriceList.get(rv_viptypes.currentItem)
+            if(member.ids!=22&&member.ids!=23&&member.ids!=31){
+                mOpenMemberShipDialog = OpenMemberShipDialog()
+                mOpenMemberShipDialog.arguments = bundleOf("members" to mMemberPriceList)
+                mOpenMemberShipDialog.show(supportFragmentManager,OpenMemberShipDialog::class.java.toString())
+                mOpenMemberShipDialog.setDialogListener { p, s ->
+                    if(p==2001){
+                        startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE)
+                    }else{
+                        var memberBean = mMemberPriceList.get(p)
+                        var classId = memberBean.ids.toString()
+                        if(TextUtils.equals("22",classId)||TextUtils.equals("23",classId)){
+                            if(TextUtils.isEmpty(areaName)){
+                                toast("请选择约会地区，不同地区价格稍有差异")
+                            }else{
+                                memberBean.iAndroidPrice?.let {
+                                    var price = it
+                                    memberBean.ids?.let {
+                                        buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
+                                    }
+                                }
+                            }
+                        }else if(classId.isNotEmpty()){
                             memberBean.iAndroidPrice?.let {
                                 var price = it
                                 memberBean.ids?.let {
@@ -121,17 +132,36 @@ class AuthMenStateActivity : BaseActivity() {
                                 }
                             }
                         }
-                    }else if(classId.isNotEmpty()){
-                        memberBean.iAndroidPrice?.let {
-                            var price = it
-                            memberBean.ids?.let {
-                                buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
-                            }
-                        }
                     }
                 }
+                areaName = ""
+            }else if(member.ids==31){
+                 var mAppMemberDialog  = AppMemberDialog()
+                 var desc = mMemberPriceList.get(rv_viptypes.currentItem).sTitle
+                 mAppMemberDialog.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${desc}")
+                 mAppMemberDialog.show(supportFragmentManager,AppMemberDialog::class.java.toString())
+                 mAppMemberDialog.setDialogListener { p, s ->
+                     if (p != 1000) {
+
+                     } else {
+                         //支付
+                     }
+                 }
+            }else{
+                mSilverMemberDialog = SilverMemberDialog()
+                var desc = mMemberPriceList.get(rv_viptypes.currentItem).sTitle
+                mSilverMemberDialog.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${desc}")
+                mSilverMemberDialog.show(supportFragmentManager,SilverMemberDialog::class.java.toString())
+                mSilverMemberDialog.setDialogListener { p, s ->
+                    if(p==1000){
+                        //支付
+
+                    }else if(p == 2001){
+                        startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE_SILIVER)
+                    }
+                }
+                areaName = ""
             }
-            areaName = ""
         }
 
         if(TextUtils.equals("mine",from)){
@@ -150,6 +180,9 @@ class AuthMenStateActivity : BaseActivity() {
         rv_viptypes.setItemTransformer(ScaleTransformer.Builder()
                 .setMinScale(1.0f)
                 .build())
+        rv_viptypes.addOnItemChangedListener { viewHolder, adapterPosition ->
+            Log.i("AuthMenStateActivity","位置${adapterPosition}")
+        }
         mComments.add(MemberComment(getString(R.string.string_man_firstcomment),
                 API.BASE_URL +"static/image/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
         mComments.add(MemberComment(getString(R.string.string_man_secondcomment),
@@ -337,6 +370,9 @@ class AuthMenStateActivity : BaseActivity() {
                     areaName = city
                     mOpenMemberShipDialog.setAddressd(areaName)
                 }
+            }else if(requestCode==AREA_REQUEST_CODE_SILIVER){
+                var areaName = data!!.getStringExtra("area")
+                mSilverMemberDialog.setAddressd(areaName)
             }
         }
     }

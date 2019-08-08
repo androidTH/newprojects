@@ -516,17 +516,29 @@
                 android:drawablePadding="@dimen/margin_10"
                 android:textSize="15sp" />
 
+            <TextView
+                android:id="@+id/tv_goodfirends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邀请好友入会赢现金奖励"
+                android:textColor="@color/color_F7A300"
+                android:layout_toLeftOf="@+id/iv_reddot"
+                android:layout_marginRight="@dimen/margin_8"
+                android:visibility="visible"
+                android:textSize="12sp" />
             <ImageView
                 android:id="@+id/iv_reddot"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
+                android:layout_toLeftOf="@+id/wallet_left"
                 android:layout_marginTop="@dimen/margin_5"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_25"
+                android:layout_marginRight="@dimen/margin_28"
                 android:textColor="@color/color_F7AB00"
                 android:background="@drawable/shape_reddot"
                 android:visibility="gone"/>
             <TextView
+                android:id="@+id/wallet_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
