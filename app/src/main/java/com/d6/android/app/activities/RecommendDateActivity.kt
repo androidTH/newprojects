@@ -125,7 +125,7 @@ class RecommendDateActivity : BaseActivity() {
         mRecommentTypes.add(RecommentType("救火","1"))
         mRecommentTypes.add(RecommentType("征求","2"))
         mRecommentTypes.add(RecommentType("急约","3"))
-        mRecommentTypes.add(RecommentType("旅行约","4"))
+        mRecommentTypes.add(RecommentType("旅行","4"))
 
         mFragments.add(RecommendDateQuickFragment.newInstance("",""))
         mFragments.add(RecommendDateQuickFragment.newInstance("5",""))
