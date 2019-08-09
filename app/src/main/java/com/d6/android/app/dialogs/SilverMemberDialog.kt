@@ -3,52 +3,27 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MemberShipAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.easypay.EasyPay
-import com.d6.android.app.easypay.PayParams
-import com.d6.android.app.easypay.callback.OnPayInfoRequestListener
-import com.d6.android.app.easypay.callback.OnPayResultListener
-import com.d6.android.app.easypay.enums.HttpType
-import com.d6.android.app.easypay.enums.NetworkClientType
-import com.d6.android.app.easypay.enums.PayWay
-import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MemberBean
-import com.d6.android.app.models.Square
-import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
-import com.d6.android.app.widget.RxRecyclerViewDividerTool
-import com.d6.android.app.widget.badge.DisplayUtil
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
-import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
-import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.dialog_slivermember_price.*
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.matchParent
-import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.wrapContent
 
 /**
  * 开通会员
  */
 class SilverMemberDialog : DialogFragment() {
-
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
 
     private var mMemberPriceList = ArrayList<MemberBean>()
     var mMemberShipAdapter: MemberShipAdapter?=null
@@ -95,31 +70,34 @@ class SilverMemberDialog : DialogFragment() {
         }
 
         tv_wxpay_member.setOnClickListener {
-            dialogListener?.onClick(1000, "微信支付")
+            if(!TextUtils.equals(tv_choose_address.text,"地区")){
+                dialogListener?.onClick(1000, tv_slivemember_price.text.toString())
+            }
         }
+
+        tv_wxpay_member.text = "微信支付"
     }
 
-    fun setAddressd(address:String){
+    fun setAddressd(address:String,currentIndex:Int){
         if(TextUtils.equals(address,"不限地区")){
             tv_choose_address.text = "地区"
             tv_wxpay_member.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_8054)
+            tv_wxpay_member.text = "微信支付"
         }else{
             tv_choose_address.text = address
             tv_wxpay_member.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_54)
+            getAreaNameMemberPriceList(address,currentIndex)
         }
-        getAreaNameMemberPriceList(address)
     }
 
 
-    private fun getAreaNameMemberPriceList(areaName:String){
+    private fun getAreaNameMemberPriceList(areaName:String,currentIndex:Int){
         isBaseActivity {
             Request.findUserClasses(getLoginToken(),areaName).request(it){ msg, data->
                 data?.list?.let {
-                    Log.i("mem","数量${it.size}")
-                    mMemberPriceList = it
-                    mMemberShipAdapter?.let {
-                        it.setNewData(mMemberPriceList)
-                    }
+                    var memberBean = it.get(currentIndex)
+                    tv_wxpay_member.text = "微信支付·¥${memberBean.iAndroidPrice}"
+                    tv_slivemember_price.text = "${memberBean.iAndroidPrice}"
                 }
             }
         }

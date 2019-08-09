@@ -215,6 +215,7 @@ class MineFragment : BaseFragment() {
             sw_mine_off.visibility = View.GONE
         }
 
+
     }
 
     override fun onFirstVisibleToUser() {
@@ -331,6 +332,7 @@ class MineFragment : BaseFragment() {
                 var drawable: Drawable? = null
                 //27入门 28中级  29优质
                 tv_menber_center.text = ""
+                tv_goodfirends.text = "邀请好友入会赢现金奖励"
                 if (TextUtils.equals(it.userclassesid, "27")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
                     drawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
@@ -375,6 +377,12 @@ class MineFragment : BaseFragment() {
                     tv_vip.visibility = View.GONE
                     drawable = null
                     tv_menber_center.text = getString(R.string.string_vip_tq)
+                }
+
+                if(!TextUtils.equals(it.userclassesid, "7")){
+                    tv_goodfirends.text = "邀请好友入会赢现金奖励"
+                }else{
+                    tv_goodfirends.visibility = View.GONE
                 }
 
                 tv_menber_center.setCompoundDrawables(drawable, null, null, null)

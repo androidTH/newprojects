@@ -141,4 +141,5 @@
     <string name="string_conversation_type">申请私聊</string>
     <string name="string_applay_date_tips">可发送消息数已用完</string>
     <string name="string_fuyue_applay_date_tips">可发送消息数已用完</string>
+    <string name="string_picsave_local">图片已保存到相册</string>
 </resources>

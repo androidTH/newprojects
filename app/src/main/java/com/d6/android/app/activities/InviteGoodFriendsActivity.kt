@@ -18,6 +18,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA
 import kotlinx.android.synthetic.main.activity_goodfriends.*
 import com.umeng.socialize.media.UMImage
 import kotlinx.android.synthetic.main.share_friends_layout.*
+import org.jetbrains.anko.toast
 import java.lang.ref.WeakReference
 
 /**
@@ -43,6 +44,11 @@ class InviteGoodFriendsActivity : BaseActivity(){
         tv_goodfriends_back.setOnClickListener {
             finish()
         }
+
+        tv_goodfriends_money.setOnClickListener {
+            finish()
+        }
+
         tv_invitationfriends_username.text = userName
         iv_user_headView.setImageURI(headerUrl)
         iv_invitationfriends_headView.setImageURI(headerUrl)
@@ -80,6 +86,7 @@ class InviteGoodFriendsActivity : BaseActivity(){
             mDoIndex = 0
             dialog()
             ThreadPoolManager.getInstance().execute(mSaveBitmapRunnable)
+            toast(getString(R.string.string_picsave_local))
 //            FrescoUtils.loadImage(this,headerUrl,object: IResult<Bitmap> {
 //                override fun onResult(result: Bitmap?) {
 //                    result?.let {

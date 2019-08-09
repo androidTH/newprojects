@@ -520,11 +520,11 @@
                 android:id="@+id/tv_goodfirends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="邀请好友入会赢现金奖励"
+                android:text=""
                 android:textColor="@color/color_F7A300"
                 android:layout_toLeftOf="@+id/iv_reddot"
                 android:layout_marginRight="@dimen/margin_8"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:textSize="12sp" />
             <ImageView
                 android:id="@+id/iv_reddot"

@@ -92,7 +92,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_cash_money"
+                    android:id="@+id/tv_goodfriends_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -273,7 +273,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white"
+        android:background="@color/color_E6FFFFFF"
         android:layout_alignParentBottom="true">
         <TextView
             android:layout_width="wrap_content"

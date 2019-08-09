@@ -104,40 +104,46 @@ class AuthMenStateActivity : BaseActivity() {
         ll_openmemeber.setOnClickListener {
             var member = mMemberPriceList.get(rv_viptypes.currentItem)
             if(member.ids!=22&&member.ids!=23&&member.ids!=31){
-                mOpenMemberShipDialog = OpenMemberShipDialog()
-                mOpenMemberShipDialog.arguments = bundleOf("members" to mMemberPriceList)
-                mOpenMemberShipDialog.show(supportFragmentManager,OpenMemberShipDialog::class.java.toString())
-                mOpenMemberShipDialog.setDialogListener { p, s ->
-                    if(p==2001){
-                        startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE)
-                    }else{
-                        var memberBean = mMemberPriceList.get(p)
-                        var classId = memberBean.ids.toString()
-                        if(TextUtils.equals("22",classId)||TextUtils.equals("23",classId)){
-                            if(TextUtils.isEmpty(areaName)){
-                                toast("请选择约会地区，不同地区价格稍有差异")
-                            }else{
-                                memberBean.iAndroidPrice?.let {
-                                    var price = it
-                                    memberBean.ids?.let {
-                                        buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
-                                    }
-                                }
-                            }
-                        }else if(classId.isNotEmpty()){
-                            memberBean.iAndroidPrice?.let {
-                                var price = it
-                                memberBean.ids?.let {
-                                    buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
-                                }
-                            }
-                        }
+                if(member!=null){
+                    member.iAndroidPrice?.let {
+                        var ids = member.ids
+                        ids?.let { it1 -> buyRedFlowerPay(it, areaName, it1, member.classesname.toString()) }
                     }
                 }
-                areaName = ""
+//                mOpenMemberShipDialog = OpenMemberShipDialog()
+//                mOpenMemberShipDialog.arguments = bundleOf("members" to mMemberPriceList)
+//                mOpenMemberShipDialog.show(supportFragmentManager,OpenMemberShipDialog::class.java.toString())
+//                mOpenMemberShipDialog.setDialogListener { p, s ->
+//                    if(p==2001){
+//                        startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE)
+//                    }else{
+//                        var memberBean = mMemberPriceList.get(p)
+//                        var classId = memberBean.ids.toString()
+//                        if(TextUtils.equals("22",classId)||TextUtils.equals("23",classId)){
+//                            if(TextUtils.isEmpty(areaName)){
+//                                toast("请选择约会地区，不同地区价格稍有差异")
+//                            }else{
+//                                memberBean.iAndroidPrice?.let {
+//                                    var price = it
+//                                    memberBean.ids?.let {
+//                                        buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
+//                                    }
+//                                }
+//                            }
+//                        }else if(classId.isNotEmpty()){
+//                            memberBean.iAndroidPrice?.let {
+//                                var price = it
+//                                memberBean.ids?.let {
+//                                    buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//                areaName = ""
             }else if(member.ids==31){
                  var mAppMemberDialog  = AppMemberDialog()
-                 var desc = mMemberPriceList.get(rv_viptypes.currentItem).sTitle
+                 var desc = member.sTitle
                  mAppMemberDialog.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${desc}")
                  mAppMemberDialog.show(supportFragmentManager,AppMemberDialog::class.java.toString())
                  mAppMemberDialog.setDialogListener { p, s ->
@@ -145,17 +151,27 @@ class AuthMenStateActivity : BaseActivity() {
 
                      } else {
                          //支付
+                         member.iAndroidPrice?.let {
+                             var pirce = it
+                             member.ids?.let {
+                                 buyRedFlowerPay(pirce,areaName,it,member.classesname.toString())
+                             }
+                         }
                      }
                  }
             }else{
                 mSilverMemberDialog = SilverMemberDialog()
-                var desc = mMemberPriceList.get(rv_viptypes.currentItem).sTitle
-                mSilverMemberDialog.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${desc}")
+                if(member!=null){
+                    mSilverMemberDialog.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${member.sTitle}")
+                }
                 mSilverMemberDialog.show(supportFragmentManager,SilverMemberDialog::class.java.toString())
                 mSilverMemberDialog.setDialogListener { p, s ->
                     if(p==1000){
                         //支付
-
+                        member.ids?.let {
+                            var price = s.toString().toInt()
+                            buyRedFlowerPay(price,areaName,it,member.classesname.toString())
+                        }
                     }else if(p == 2001){
                         startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE_SILIVER)
                     }
@@ -371,11 +387,21 @@ class AuthMenStateActivity : BaseActivity() {
                     mOpenMemberShipDialog.setAddressd(areaName)
                 }
             }else if(requestCode==AREA_REQUEST_CODE_SILIVER){
-                var areaName = data!!.getStringExtra("area")
-                mSilverMemberDialog.setAddressd(areaName)
+                areaName = data!!.getStringExtra("area")
+                mSilverMemberDialog.setAddressd(areaName,rv_viptypes.currentItem)
             }
         }
     }
+
+    private fun getAreaNameMemberPriceList(areaName:String){
+            Request.findUserClasses(getLoginToken(),areaName).request(this){ msg, data->
+                data?.list?.let {
+                    var memberBean = it.get(rv_viptypes.currentItem)
+//                    mSilverMemberDialog.setAddressd(areaName,"${memberBean.iAndroidPrice}")
+                }
+            }
+    }
+
 
     override fun onBackPressed() {
         super.onBackPressed()

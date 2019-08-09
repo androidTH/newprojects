@@ -70,6 +70,7 @@ class AppMemberDialog : DialogFragment() {
         }
 
         tv_wxpay_appmember.setOnClickListener {
+
             dialogListener?.onClick(mSelectedPriceIndex,"支付")
         }
 
@@ -97,7 +98,7 @@ class AppMemberDialog : DialogFragment() {
 
                 if(it.selectedIndex!=-1){
                     tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_54)
-                    tv_wxpay_appmember.text = "微信支付·¥${243}"
+                    tv_wxpay_appmember.text = "微信支付·¥${23}"
                 }else{
                     tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_8054)
                     tv_wxpay_appmember.text = "微信支付"
