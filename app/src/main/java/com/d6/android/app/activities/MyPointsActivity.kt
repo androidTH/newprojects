@@ -3,7 +3,10 @@ package com.d6.android.app.activities
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.PointsAdapter
@@ -23,6 +26,7 @@ import com.d6.android.app.models.UserPoints
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.AppUtils.Companion.setTextViewSpannable
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_mypoints.*
@@ -46,6 +50,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private var pageNum = 1
     private val mUserPoints = ArrayList<UserPoints>()
+
     lateinit var mPointsListDialog: PointsListDialog
 
     private val mPointsAdapter by lazy {
@@ -140,6 +145,30 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     override fun onResume() {
         super.onResume()
         getData()
+        getAccountInviteLink()
+    }
+
+
+    private fun getAccountInviteLink(){
+        Request.getAccountInviteLink(getLoginToken()).request(this,false,success={msg,data->
+            data?.let {
+                if(mHeaderView!=null){
+                    if(it.iInviteCount>0){
+                        var style = SpannableStringBuilder("累计邀请: ${it.iInviteCount}人")
+                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        mHeaderView.tv_redwallet_nums.text = style
+                    }
+                    if(it.iInviteFlower>0){
+                        var style = SpannableStringBuilder("累计收益: ${it.iInviteFlower}朵小红花 ${it.iInvitePoint}积分")
+                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 12, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        mHeaderView.tv_redwallet_points.text = style
+                    }
+                }
+            }
+        }){code,msg->
+
+        }
     }
 
     private fun getData() {

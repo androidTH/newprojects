@@ -6,6 +6,8 @@ import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.INSTALL_DATA01
+import com.d6.android.app.utils.Const.INSTALL_DATA02
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.defaultScheduler
@@ -54,8 +56,8 @@ class LauncherActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
         immersionBar.init()
-//        OpenInstall.getWakeUp(intent, wakeUpAdapter)
         OpenInstall.getInstall(mAppInstallAdapter)
+        OpenInstall.getWakeUp(intent, wakeUpAdapter)
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
     }
 
@@ -71,7 +73,7 @@ class LauncherActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-//        OpenInstall.getWakeUp(intent, wakeUpAdapter)
+        OpenInstall.getWakeUp(intent, wakeUpAdapter)
     }
 
     var wakeUpAdapter: AppWakeUpAdapter = object : AppWakeUpAdapter() {
@@ -79,17 +81,19 @@ class LauncherActivity : BaseActivity() {
             //获取渠道数据
             val channelCode = appData.getChannel()
             //获取绑定数据
-            val bindData = appData.getData()
-            Log.d("OpenInstall", "${appData.channel}+getWakeUp : wakeupData = " + appData.toString())
-            SPUtils.instance().put(OPENSTALL_CHANNEL,appData.channel).apply()
+            var bindData = appData.getData()
+            Log.d("OpenInstall", "${channelCode}+getWakeUp : wakeupData = ${bindData}")
+            SPUtils.instance().put(INSTALL_DATA02,"${channelCode}_${bindData}").apply()
         }
     }
 
     var mAppInstallAdapter = object: AppInstallAdapter(){
         override fun onInstall(p0: AppData?) {
             p0?.let {
-                Log.d("OpenInstall", "渠道=${it.channel} wakeupData = " + it.toString())
+                var bindData = it.getData()
+                Log.d("OpenInstall", "渠道=${it.channel} wakeupData = ${bindData}")
                 SPUtils.instance().put(OPENSTALL_CHANNEL,it.channel).apply()
+                SPUtils.instance().put(INSTALL_DATA01,"${it.channel}_${bindData}").apply()
             }
         }
     }

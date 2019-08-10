@@ -43,6 +43,10 @@ class SignInActivity : TitleActivity() {
     private var countryCode = "+86"
     private var type = 1
 
+    private val install_data01 by lazy{
+        SPUtils.instance().getString(Const.INSTALL_DATA01)
+    }
+
     private val wxApi by lazy {
         WXAPIFactory.createWXAPI(this, "wx43d13a711f68131c")
     }
@@ -309,7 +313,7 @@ class SignInActivity : TitleActivity() {
         }
         sysErr("------->$p")
         dialog()
-        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel).request(this,false,success={ msg, data ->
+        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel,sInviteCode = install_data01).request(this,false,success={ msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -346,7 +350,7 @@ class SignInActivity : TitleActivity() {
     }
 
     private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
-        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel).request(this, false, success = { msg, data ->
+        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel,sInviteCode = install_data01).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
                     startActivityForResult<BindPhoneActivity>(2, "openId" to openId,"unionId" to unionid, "name" to name, "gender" to gender, "headerpic" to iconurl)

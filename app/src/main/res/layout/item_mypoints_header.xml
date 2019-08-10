@@ -194,13 +194,23 @@
            android:layout_height="wrap_content"
            android:background="@mipmap/invite_banner"/>
         <TextView
+            android:id="@+id/tv_redwallet_nums"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:textColor="@color/color_999999"
             android:layout_marginLeft="@dimen/margin_18"
             android:layout_marginBottom="@dimen/margin_15"
-            android:textSize="11sp"
-            android:text="累计邀请: 5人  累计收益：30红花200积分"/>
+            android:textSize="11sp"/>
+        <TextView
+            android:id="@+id/tv_redwallet_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_redwallet_nums"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/color_999999"
+            android:layout_marginLeft="@dimen/margin_18"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:textSize="11sp" />
     </RelativeLayout>
 </RelativeLayout>

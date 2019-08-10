@@ -349,6 +349,16 @@
         <item name="android:textColor">@color/color_F7B500</item>
     </style>
 
+    <style name="tv_inviate_nums">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_F7AB00</item>
+    </style>
+
+    <style name="tv_inviate_tv">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
     <style name="translucent" parent="AppTheme">
     </style>
 

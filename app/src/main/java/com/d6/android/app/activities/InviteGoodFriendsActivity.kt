@@ -5,13 +5,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.util.Log
+import android.support.v4.content.ContextCompat
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.extentions.request
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.frescohelper.FrescoUtils
-import com.d6.android.app.widget.frescohelper.IResult
+import com.d6.android.app.utils.AppUtils.Companion.setTextViewSpannable
 import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -20,6 +23,9 @@ import com.umeng.socialize.media.UMImage
 import kotlinx.android.synthetic.main.share_friends_layout.*
 import org.jetbrains.anko.toast
 import java.lang.ref.WeakReference
+import android.text.style.ForegroundColorSpan
+import android.util.Log
+
 
 /**
  * 分享邀请好友
@@ -97,6 +103,33 @@ class InviteGoodFriendsActivity : BaseActivity(){
 //            })
         }
         mHandler = DoHandler(this)
+
+        getAccountInviteLink()
+    }
+
+    private fun getAccountInviteLink(){
+        Request.getAccountInviteLink(getLoginToken()).request(this,false,success={msg,data->
+            data?.let {
+                if(it.iInviteFlower>0){
+                    tv_goodfriends_money.visibility = View.VISIBLE
+                }else{
+                    tv_goodfriends_money.visibility = View.GONE
+                }
+                var span = SpannableStringBuilder("累计已邀请: ${it.iInviteCount}人")
+                span.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 7, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                tv_invite_nums.text = span
+
+                var style = SpannableStringBuilder("累计奖励: ${it.iInviteFlower}朵小红花 ${it.iInvitePoint}积分")
+
+                style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 12, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                tv_invite_reward.text = style
+                iv_invitationfriends_qcode.setImageURI(it.sInviteLinkPic)
+                tv_invitationfriends_desc.text = it.sInviteDesc
+            }
+        }){code,msg->
+
+        }
     }
 
     private val shareListener by lazy {

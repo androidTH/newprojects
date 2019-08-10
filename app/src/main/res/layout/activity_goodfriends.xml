@@ -77,16 +77,16 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_invite_nums"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="成为会员开启更多权限"
                         android:textColor="@color/color_black"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tv_invite_reward"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="累计奖励20朵小红花 200积分"
                         android:textColor="@color/color_black"
                         android:textSize="12sp" />
                 </LinearLayout>

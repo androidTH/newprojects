@@ -36,6 +36,10 @@ class BindPhoneActivity : TitleActivity() {
 
     private var countryCode = "+86"
 
+    private val install_data01 by lazy{
+        SPUtils.instance().getString(Const.INSTALL_DATA01)
+    }
+
     private val devicetoken by lazy{
         SPUtils.instance().getString(Const.User.DEVICETOKEN)
     }
@@ -210,7 +214,7 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
 
-       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel).request(this,false,success = {msg,data->
+       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel,sInviteCode = install_data01).request(this,false,success = {msg,data->
            clearLoginToken()
            saveMsg(msg)
            saveUserInfo(data)

@@ -102,6 +102,7 @@ class AuthMenStateActivity : BaseActivity() {
         }
 
         ll_openmemeber.setOnClickListener {
+            if(mMemberPriceList.size!=0){
             var member = mMemberPriceList.get(rv_viptypes.currentItem)
             if(member.ids!=22&&member.ids!=23&&member.ids!=31){
                 if(member!=null){
@@ -177,6 +178,8 @@ class AuthMenStateActivity : BaseActivity() {
                     }
                 }
                 areaName = ""
+            }
+
             }
         }
 
@@ -392,16 +395,6 @@ class AuthMenStateActivity : BaseActivity() {
             }
         }
     }
-
-    private fun getAreaNameMemberPriceList(areaName:String){
-            Request.findUserClasses(getLoginToken(),areaName).request(this){ msg, data->
-                data?.list?.let {
-                    var memberBean = it.get(rv_viptypes.currentItem)
-//                    mSilverMemberDialog.setAddressd(areaName,"${memberBean.iAndroidPrice}")
-                }
-            }
-    }
-
 
     override fun onBackPressed() {
         super.onBackPressed()

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.widget.Toast
+import com.d6.android.app.activities.InviteGoodFriendsActivity
 import com.d6.android.app.activities.MyDateActivity
 import com.d6.android.app.base.BaseActivity
 import com.umeng.message.UmengNotificationClickHandler
@@ -63,6 +64,8 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
 
             }else if(TextUtils.equals(type,"9")){
 
+            }else if(TextUtils.equals(type,"10")){//邀请用户
+                (context as BaseActivity).startActivity<InviteGoodFriendsActivity>()
             }
         }
     }

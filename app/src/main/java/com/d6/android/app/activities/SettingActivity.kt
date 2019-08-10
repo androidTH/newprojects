@@ -22,6 +22,8 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.utils.Const.DEBUG_MODE
+import com.d6.android.app.utils.Const.INSTALL_DATA01
+import com.d6.android.app.utils.Const.INSTALL_DATA02
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
@@ -38,6 +40,15 @@ class SettingActivity : TitleActivity() {
 
     private var mData: UserData?=null
     private val mImages = ArrayList<AddImage>()
+
+    private val install_data01 by lazy{
+        SPUtils.instance().getString(INSTALL_DATA01)
+    }
+
+    private val install_data02 by lazy{
+        SPUtils.instance().getString(INSTALL_DATA02)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
@@ -123,7 +134,7 @@ class SettingActivity : TitleActivity() {
         tv_blacklist.setOnClickListener {
            SPUtils.instance().put(DEBUG_MODE,!getDebugMode()).apply()
             tv_blacklist.text = if(getDebugMode()){
-                "测试环境"
+                "${install_data01}测试环境${install_data02}"
             }else{
                 "正式环境"
             }
