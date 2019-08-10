@@ -15,6 +15,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.AppMemberPriceAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.AppMemberPrice
 import com.d6.android.app.models.MemberBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -29,7 +30,6 @@ import org.jetbrains.anko.wrapContent
  */
 class AppMemberDialog : DialogFragment() {
 
-    private var mMemberPriceList = ArrayList<MemberBean>()
     var mAppMemberPriceAdapter: AppMemberPriceAdapter?=null
     private var mSelectedPriceIndex:Int = 0
 
@@ -51,10 +51,10 @@ class AppMemberDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        mMemberPriceList = arguments.getParcelableArrayList("members")
-
-        if(mMemberPriceList==null){
-            getMemberPriceList()
+        var mMember = if(arguments.containsKey("bean")){
+            arguments.getParcelable("bean") as MemberBean
+        }else{
+            null
         }
 
         var desc =if(arguments.containsKey("desc")){
@@ -70,20 +70,13 @@ class AppMemberDialog : DialogFragment() {
         }
 
         tv_wxpay_appmember.setOnClickListener {
-
-            dialogListener?.onClick(mSelectedPriceIndex,"支付")
+            dialogListener?.onClick(mSelectedPriceIndex,"${tv_wxpay_price.text.toString()}")
         }
 
         rv_appmember_price_list.setHasFixedSize(true)
-        rv_appmember_price_list.layoutManager = GridLayoutManager(context,3)
+        rv_appmember_price_list.layoutManager = GridLayoutManager(context,3) as RecyclerView.LayoutManager?
 
-        var mList = listOf<String>(
-            "string01",
-            "string02",
-            "string03"
-        )
-
-        mAppMemberPriceAdapter = AppMemberPriceAdapter(mList)
+        mAppMemberPriceAdapter = AppMemberPriceAdapter(mMember?.let{it.lstPrice})
         rv_appmember_price_list.adapter = mAppMemberPriceAdapter
 
         mAppMemberPriceAdapter?.setOnItemClickListener() { adapter, view, position ->
@@ -98,7 +91,9 @@ class AppMemberDialog : DialogFragment() {
 
                 if(it.selectedIndex!=-1){
                     tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_54)
-                    tv_wxpay_appmember.text = "微信支付·¥${23}"
+                    var price =it.data[position].iAndroidPrice
+                    tv_wxpay_appmember.text = "微信支付·¥${price}"
+                    tv_wxpay_price.text = "${price}"
                 }else{
                     tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_8054)
                     tv_wxpay_appmember.text = "微信支付"
@@ -106,6 +101,31 @@ class AppMemberDialog : DialogFragment() {
             }
         }
     }
+
+//    private fun getAppMemberPrice(mMember:MemberBean):List<AppMemberPrice>{
+//        var mList=ArrayList<AppMemberPrice>()
+//        if (mMember != null) {
+//            var mAppMemberPrice = AppMemberPrice()
+//            mAppMemberPrice.timeLong = "1个月"
+//            mAppMemberPrice.iAndroidPrice = mMember.iAndroidPrice
+//            mAppMemberPrice.sAndroidPriceDiscount = mMember.sAndroidPriceDiscount
+//            mAppMemberPrice.sAndroidPriceDiscountDesc = mMember.sAndroidPriceDiscountDesc
+//            mList.add(mAppMemberPrice)
+//            var mAppMemberAPrice = AppMemberPrice()
+//            mAppMemberAPrice.timeLong = "3个月"
+//            mAppMemberAPrice.iAndroidPrice = mMember.iAndroidAPrice
+//            mAppMemberAPrice.sAndroidPriceDiscount = mMember.sAndroidAPriceDiscount
+//            mAppMemberAPrice.sAndroidPriceDiscountDesc = mMember.sAndroidAPriceDiscountDesc
+//            mList.add(mAppMemberAPrice)
+//            var mAppMemberYPrice = AppMemberPrice()
+//            mAppMemberYPrice.timeLong = "6个月"
+//            mAppMemberYPrice.iAndroidPrice = mMember.iAndroidYPrice
+//            mAppMemberYPrice.sAndroidPriceDiscount = mMember.sAndroidYPriceDiscount
+//            mAppMemberYPrice.sAndroidPriceDiscountDesc = mMember.sAndroidYPriceDiscountDesc
+//            mList.add(mAppMemberYPrice)
+//        }
+//        return mList
+//    }
 
     fun setAddressd(address:String){
 //        tv_choose_address.text = address
@@ -118,7 +138,7 @@ class AppMemberDialog : DialogFragment() {
             Request.findUserClasses(getLoginToken(),areaName).request(it){ msg, data->
                 data?.list?.let {
                     Log.i("mem","数量${it.size}")
-                    mMemberPriceList = it
+//                    mMemberPriceList = it
                     mAppMemberPriceAdapter?.let {
 //                        it.setNewData(mMemberPriceList)
                     }
@@ -130,7 +150,7 @@ class AppMemberDialog : DialogFragment() {
     private fun getMemberPriceList() {
         Request.findUserClasses(getLoginToken()).request((context as BaseActivity)){msg,data->
             data?.list?.let {
-                mMemberPriceList = it
+//                mMemberPriceList = it
 //                mAppMemberPriceAdapter?.setNewData(mMemberPriceList)
             }
         }

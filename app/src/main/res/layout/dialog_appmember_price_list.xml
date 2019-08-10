@@ -76,4 +76,12 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="17sp" />
+    <TextView
+        android:id="@+id/tv_wxpay_price"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:textSize="11sp" />
 </LinearLayout>

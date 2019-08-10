@@ -25,6 +25,7 @@ import com.d6.android.app.easypay.enums.HttpType
 import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.AppMemberPrice
 import com.d6.android.app.models.MemberBean
 import com.d6.android.app.models.MemberComment
 import com.d6.android.app.net.API
@@ -145,7 +146,7 @@ class AuthMenStateActivity : BaseActivity() {
             }else if(member.ids==31){
                  var mAppMemberDialog  = AppMemberDialog()
                  var desc = member.sTitle
-                 mAppMemberDialog.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${desc}")
+                 mAppMemberDialog.arguments = bundleOf("bean" to member, "desc" to "${desc}")
                  mAppMemberDialog.show(supportFragmentManager,AppMemberDialog::class.java.toString())
                  mAppMemberDialog.setDialogListener { p, s ->
                      if (p != 1000) {
@@ -153,9 +154,9 @@ class AuthMenStateActivity : BaseActivity() {
                      } else {
                          //支付
                          member.iAndroidPrice?.let {
-                             var pirce = it
+                             var pirce =s?.let { it.toInt() }
                              member.ids?.let {
-                                 buyRedFlowerPay(pirce,areaName,it,member.classesname.toString())
+                                 buyRedFlowerPay(pirce,"",it,member.classesname.toString())
                              }
                          }
                      }
@@ -253,6 +254,7 @@ class AuthMenStateActivity : BaseActivity() {
 
         getMemberPriceList()
     }
+
 
     override fun onResume() {
         super.onResume()

@@ -33,6 +33,12 @@
                 <!--android:layout_marginLeft="@dimen/margin_16"-->
                 <!--android:text="Regular members"/>-->
 
+            <ImageView
+                android:id="@+id/iv_appviponly_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/appviponly_pic"/>
             <TextView
                 android:id="@+id/tv_vip_level"
                 android:layout_width="wrap_content"
