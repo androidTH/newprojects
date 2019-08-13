@@ -279,6 +279,14 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 } else {
                     mHeaderView.ll_huiyuan_info.visibility = View.VISIBLE
                 }
+                if(!TextUtils.equals(it.userclassesid, "7")){
+                    mHeaderView.view_top_bottom.visibility = View.VISIBLE
+                    mHeaderView.rl_redwallet.visibility = View.VISIBLE
+                }else{
+                    mHeaderView.rl_redwallet.visibility = View.GONE
+                    mHeaderView.view_top_bottom.visibility = View.GONE
+                }
+
                 mUserInfo = data
                 SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
             }

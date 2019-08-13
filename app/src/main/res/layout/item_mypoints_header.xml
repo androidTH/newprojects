@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/margin_10"
-    android:background="@color/color_EFEFEF">
+    android:background="@color/color_F5F5F5">
 
     <RelativeLayout
         android:id="@+id/rl_points_top"
@@ -179,6 +179,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/view_top_bottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_10"
             android:layout_alignParentBottom="true"
