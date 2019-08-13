@@ -62,7 +62,8 @@
 
         <meta-data
             android:name="com.openinstall.APP_KEY"
-            android:value="b5zf76"/>
+            android:value="vwm5ds"/>
+        <!--正式：b5zf76  测试：vwm5ds-->
 
         <meta-data
             android:name="design_width_in_dp"
@@ -93,7 +94,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="d6app" android:host="com.d6.android.app" android:pathPrefix="/openwith"/>
-                <data android:scheme="b5zf76"/>
+                <data android:scheme="vwm5ds"/>
+
+                <!--正式：b5zf76  测试：vwm5ds-->
             </intent-filter>
         </activity>
         <activity

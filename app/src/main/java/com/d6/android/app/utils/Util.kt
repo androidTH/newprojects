@@ -646,10 +646,14 @@ fun checkLimitEx(str:String):Boolean{
 
 fun checkJoinWx(str:String):Boolean{
     var limitEx = "[0-9a-zA-z]{6,}"
+    var limitEx01 = "wx-QQ-加Q-Q号-企鹅号-微信-薇信-加v-加V-vx-VX"
     var pattern = Pattern.compile(limitEx)
     var m = pattern.matcher(str)
     if(m.find()){
         return true
+    }
+    if(limitEx01.contains(str)){
+         return true
     }
     return false
 }

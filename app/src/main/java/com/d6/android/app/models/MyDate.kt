@@ -62,7 +62,7 @@ data class MyDate(@SerializedName("ids") val id: String?) : Serializable {
             "1" -> "救火"
             "2" -> "征求"
             "3" -> "急约"
-            "4" -> "旅行约"
+            "4" -> "旅行"
             else -> "救火"
         }
     }

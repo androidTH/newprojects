@@ -136,15 +136,15 @@ class SettingActivity : TitleActivity() {
             tv_blacklist.text = if(getDebugMode()){
                 "${install_data01}测试环境${install_data02}"
             }else{
-                "正式环境"
+                "${install_data01}正式环境${install_data02}"
             }
         }
 
         if(BuildConfig.DEBUG){
             tv_blacklist.text = if(getDebugMode()){
-                "测试环境"
+                "${install_data01}测试环境${install_data02}"
             }else{
-                "正式环境"
+                "${install_data01}正式环境${install_data02}"
             }
             tv_blacklist.visibility = View.VISIBLE
         }else{

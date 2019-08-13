@@ -19,7 +19,7 @@ import org.jetbrains.anko.startActivity
 import java.util.concurrent.TimeUnit
 import com.fm.openinstall.model.AppData
 import com.fm.openinstall.listener.AppWakeUpAdapter
-
+import org.json.JSONObject
 
 
 class LauncherActivity : BaseActivity() {
@@ -82,7 +82,7 @@ class LauncherActivity : BaseActivity() {
             val channelCode = appData.getChannel()
             //获取绑定数据
             var bindData = appData.getData()
-            Log.d("OpenInstall", "${channelCode}+getWakeUp : wakeupData = ${bindData}")
+            Log.d("OpenInstall", "${channelCode}+AppWakeUpAdapter = ${bindData}")
             SPUtils.instance().put(INSTALL_DATA02,"${channelCode}_${bindData}").apply()
         }
     }
@@ -91,9 +91,13 @@ class LauncherActivity : BaseActivity() {
         override fun onInstall(p0: AppData?) {
             p0?.let {
                 var bindData = it.getData()
-                Log.d("OpenInstall", "渠道=${it.channel} wakeupData = ${bindData}")
-                SPUtils.instance().put(OPENSTALL_CHANNEL,it.channel).apply()
-                SPUtils.instance().put(INSTALL_DATA01,"${it.channel}_${bindData}").apply()
+                if(bindData.isNotEmpty()){
+                    var jsonObject = JSONObject(bindData)
+                    var userId = jsonObject.optInt("sInviteCode")
+                    Log.d("OpenInstall", "渠道=${it.channel} wakeupData = ${userId}")
+                    SPUtils.instance().put(OPENSTALL_CHANNEL,it.channel).apply()
+                    SPUtils.instance().put(INSTALL_DATA01,"${userId}").apply()
+                }
             }
         }
     }

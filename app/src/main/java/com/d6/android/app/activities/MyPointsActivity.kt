@@ -20,6 +20,7 @@ import com.d6.android.app.easypay.enums.HttpType
 import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.InviteLinkBean
 import com.d6.android.app.models.PointRule
 import com.d6.android.app.models.UserData
 import com.d6.android.app.models.UserPoints
@@ -50,6 +51,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private var pageNum = 1
     private val mUserPoints = ArrayList<UserPoints>()
+    private var mInviteLinkBean:InviteLinkBean? = null
 
     lateinit var mPointsListDialog: PointsListDialog
 
@@ -88,7 +90,9 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.rl_redwallet.setOnClickListener {
-            startActivity<InviteGoodFriendsActivity>()
+            mInviteLinkBean?.let {
+                startActivity<InviteGoodFriendsActivity>("bean" to it)
+            }
         }
 
         mHeaderView.tv_recharge.setOnClickListener {
@@ -158,12 +162,15 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         mHeaderView.tv_redwallet_nums.text = style
                     }
-                    if(it.iInviteFlower>0){
+                    if(it.iInviteFlower>0||it.iInvitePoint>0){
+                        var str = "累计收益: ${it.iInviteFlower}朵小红花 ${it.iInvitePoint}积分"
+                        var len = "${it.iInvitePoint}".length
                         var style = SpannableStringBuilder("累计收益: ${it.iInviteFlower}朵小红花 ${it.iInvitePoint}积分")
-                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 12, 13, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, str.length - 7 - len , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 12, str.length-2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         mHeaderView.tv_redwallet_points.text = style
                     }
+                    mInviteLinkBean = it
                 }
             }
         }){code,msg->
@@ -176,7 +183,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             if (pageNum == 1) {
                 mUserPoints.clear()
             }
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data?.list?.results.isEmpty()) {
                 if (pageNum > 1) {
                     mypoints_refreshrecycler.setLoadMoreText("没有更多了")
                     pageNum--

@@ -226,32 +226,30 @@
     <RelativeLayout
         android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="68dp"
         android:layout_alignParentBottom="true"
         android:background="@color/color_E6FFFFFF"
         android:orientation="vertical">
-
         <TextView
             android:id="@+id/btn_contact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_width="190dp"
+            android:layout_height="@dimen/height_30"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="联系专属客服"
-            android:textColor="@color/color_F7AB00"
-            android:layout_marginTop="@dimen/margin_12"
-            android:layout_marginBottom="@dimen/margin_5"
-            android:visibility="gone"
+            android:background="@drawable/shape_orange_4r"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="14sp" />
+            android:textSize="13sp"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_contact"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_5"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:gravity="center_vertical"

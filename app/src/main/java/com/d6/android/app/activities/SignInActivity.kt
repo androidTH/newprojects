@@ -23,6 +23,7 @@ import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMAuthListener
@@ -326,6 +327,7 @@ class SignInActivity : TitleActivity() {
             }
             clearLoginToken()
             saveUserInfo(data)
+            SPUtils.instance().put(INSTALL_DATA01,"").apply()
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                 RongIM.getInstance().refreshUserInfoCache(info)
@@ -366,6 +368,7 @@ class SignInActivity : TitleActivity() {
                         }
                     }
                     saveUserInfo(it)
+                    SPUtils.instance().put(INSTALL_DATA01,"").apply()
                     val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
                     RongIM.getInstance().refreshUserInfoCache(info)
                     if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称

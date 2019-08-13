@@ -149,15 +149,13 @@ class AuthMenStateActivity : BaseActivity() {
                  mAppMemberDialog.arguments = bundleOf("bean" to member, "desc" to "${desc}")
                  mAppMemberDialog.show(supportFragmentManager,AppMemberDialog::class.java.toString())
                  mAppMemberDialog.setDialogListener { p, s ->
-                     if (p != 1000) {
+                     if (p == 1000) {
 
                      } else {
                          //支付
-                         member.iAndroidPrice?.let {
-                             var pirce =s?.let { it.toInt() }
-                             member.ids?.let {
-                                 buyRedFlowerPay(pirce,"",it,member.classesname.toString())
-                             }
+                         var pirce =s?.let { it.toInt() }
+                         member.ids?.let {
+                             buyRedFlowerPay(pirce,"",it,member.classesname.toString())
                          }
                      }
                  }
