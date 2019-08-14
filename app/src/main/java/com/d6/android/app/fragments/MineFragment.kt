@@ -332,7 +332,6 @@ class MineFragment : BaseFragment() {
                 var drawable: Drawable? = null
                 //27入门 28中级  29优质
                 tv_menber_center.text = ""
-                tv_goodfirends.text = "邀请好友入会赢现金奖励"
                 if (TextUtils.equals(it.userclassesid, "27")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
                     drawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
@@ -381,6 +380,7 @@ class MineFragment : BaseFragment() {
 
                 if(!TextUtils.equals(it.userclassesid, "7")){
                     tv_goodfirends.text = "邀请好友入会赢现金奖励"
+                    tv_goodfirends.visibility = View.VISIBLE
                 }else{
                     tv_goodfirends.visibility = View.GONE
                 }

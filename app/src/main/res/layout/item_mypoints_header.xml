@@ -35,7 +35,7 @@
                 android:layout_marginBottom="@dimen/margin_4"
                 android:layout_toRightOf="@+id/iv_wallet_headView"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_huiyuan_info"
@@ -69,7 +69,6 @@
                 android:layout_above="@+id/ll_huiyuan_info"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/iv_wallet_headView"
-                android:text=""
                 android:textColor="@color/color_black"
                 android:textSize="15sp"
                 android:textStyle="bold" />

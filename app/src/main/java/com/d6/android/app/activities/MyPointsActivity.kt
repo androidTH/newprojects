@@ -274,11 +274,12 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.white)
                 }
 
-                if (TextUtils.equals(it.sex, "0")) {
-                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
-                } else {
-                    mHeaderView.ll_huiyuan_info.visibility = View.VISIBLE
-                }
+//                if (TextUtils.equals(it.sex, "0")) {
+//                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
+//                } else {
+//                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
+//                }
+
                 if(!TextUtils.equals(it.userclassesid, "7")){
                     mHeaderView.view_top_bottom.visibility = View.VISIBLE
                     mHeaderView.rl_redwallet.visibility = View.VISIBLE
