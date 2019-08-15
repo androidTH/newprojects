@@ -120,6 +120,8 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.youke_icon)
         }else if (square.userclassesname.toString().startsWith("入群")) {
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.ruqun_icon)
+        }else if (square.userclassesname.toString().startsWith("app")) {
+            tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.app_vip)
         }
 
         val sub = if (square.city.isNullOrEmpty()) {

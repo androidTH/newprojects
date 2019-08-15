@@ -1,5 +1,6 @@
 package com.d6.android.app.fragments
 
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log

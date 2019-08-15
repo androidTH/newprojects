@@ -331,6 +331,8 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
         }else if(TextUtils.equals(data.userclassesid,"30")){
             tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
+        }else if(TextUtils.equals(data.userclassesid,"31")){
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.app_vip)
         }
 
 //        if(data.classesname.isNotEmpty()){

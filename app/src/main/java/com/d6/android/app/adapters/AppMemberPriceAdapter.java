@@ -12,7 +12,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.d6.android.app.R;
 import com.d6.android.app.models.AppMemberPrice;
-import com.d6.android.app.models.MemberBean;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class AppMemberPriceAdapter extends BaseQuickAdapter<AppMemberPrice,BaseV
         this.selectedIndex = selectedIndex;
     }
 
-    private int selectedIndex = -1;
+    private int selectedIndex = 0;
 
     public AppMemberPriceAdapter(int layoutResId, @Nullable List<AppMemberPrice> data) {
         super(layoutResId, data);
@@ -59,7 +58,7 @@ public class AppMemberPriceAdapter extends BaseQuickAdapter<AppMemberPrice,BaseV
         }
         helper.setText(R.id.tv_appmember_time, item.getSEnableDateDesc());
 
-        helper.setText(R.id.tv_appmember_price,String.valueOf(item.getIAndroidPrice()));
+        helper.setText(R.id.tv_appmember_price,String.valueOf("¥"+item.getIAndroidPrice()));
 
         if(TextUtils.isEmpty(item.getSAndroidPriceDiscountDesc())){
             helper.setGone(R.id.tv_discount_desc,false);
@@ -74,7 +73,6 @@ public class AppMemberPriceAdapter extends BaseQuickAdapter<AppMemberPrice,BaseV
         }else{
             mLLAPPMemberItem.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_white_ef));
         }
-        helper.addOnClickListener(R.id.tv_vip_price);
-
+//        helper.addOnClickListener(R.id.tv_vip_price);
     }
 }

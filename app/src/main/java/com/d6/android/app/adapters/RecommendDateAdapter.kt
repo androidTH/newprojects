@@ -91,6 +91,8 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
                 tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
             }else if (data.classesname.toString().startsWith("入群")) {
                 tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.ruqun_icon)
+            }else if (data.classesname.toString().startsWith("app")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.app_vip)
             }
         }
         val typeView = holder.bind<TextView>(R.id.tv_type)

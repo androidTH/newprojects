@@ -51,7 +51,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
 //    }
 
     override fun getLayoutManager(): LinearLayoutManager {
-        return LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        return LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

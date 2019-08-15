@@ -372,7 +372,11 @@ class MineFragment : BaseFragment() {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
                     drawable = ContextCompat.getDrawable(context, R.mipmap.ruqun_icon)
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-                } else{
+                } else if(TextUtils.equals(it.userclassesid,"31")){
+                    tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.app_vip)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.app_vip)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+                }else{
                     tv_vip.visibility = View.GONE
                     drawable = null
                     tv_menber_center.text = getString(R.string.string_vip_tq)

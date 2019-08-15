@@ -149,6 +149,8 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
                         holder.tv_chat_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.gril_gj));
                     } else if (TextUtils.equals(mUserData.getUserclassesid(), "7")) {
                         holder.tv_chat_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.youke_icon));
+                    }else if (TextUtils.equals(mUserData.getUserclassesid(), "31")) {
+                        holder.tv_chat_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.app_vip));
                     }
                 } else {
                     if (TextUtils.equals(mUserData.getUserclassesid(), "22")) {
@@ -165,6 +167,8 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
                         holder.tv_chat_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.youke_icon));
                     }else if (TextUtils.equals(mUserData.getUserclassesid(), "30")) {
                         holder.tv_chat_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.ruqun_icon));
+                    }else if(TextUtils.equals(mUserData.getUserclassesid(), "31")){
+                        holder.tv_chat_vip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.app_vip));
                     }
                 }
 

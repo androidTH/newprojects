@@ -62,12 +62,14 @@
         android:layout_marginBottom="@dimen/margin_20"
         android:layout_marginLeft="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_20"
+        android:visibility="gone"
         android:text="自动订阅，到期会自动扣费并续订服务，如需取消前往应用商品的设置页面去定订阅。"/>
 
     <TextView
         android:id="@+id/tv_wxpay_appmember"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_45"
+        android:layout_marginTop="@dimen/margin_20"
         android:layout_marginLeft="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_20"
         android:background="@drawable/shape_4r_8054"

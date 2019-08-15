@@ -100,6 +100,14 @@ class AppMemberDialog : DialogFragment() {
                 }
             }
         }
+
+        mAppMemberPriceAdapter?.let {
+            var mAppMemberPrice = it.data[0]
+            tv_wxpay_appmember.background = ContextCompat.getDrawable(context, R.drawable.shape_4r_54)
+            var price = mAppMemberPrice.iAndroidPrice
+            tv_wxpay_appmember.text = "微信支付·¥${price}"
+            tv_wxpay_price.text = "${price}"
+        }
     }
 
 //    private fun getAppMemberPrice(mMember:MemberBean):List<AppMemberPrice>{

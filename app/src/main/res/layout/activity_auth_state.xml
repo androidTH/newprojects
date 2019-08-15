@@ -98,20 +98,20 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/tv_openmember"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_30"
                 android:layout_marginLeft="@dimen/margin_20"
                 android:gravity="center"
-                android:text="开通会员"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_member_showdes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_13"
-                android:text="据说80%会员都约到了心仪的TA"
+                android:layout_marginLeft="@dimen/margin_5"
                 android:textColor="@color/color_FFEABA"
                 android:textSize="11sp" />
         </LinearLayout>
