@@ -119,7 +119,6 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         finish()
         overridePendingTransition(R.anim.img_fade_in, R.anim.img_fade_out)
     }

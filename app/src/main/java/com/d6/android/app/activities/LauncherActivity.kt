@@ -28,7 +28,7 @@ class LauncherActivity : BaseActivity() {
         override fun onComplete() {}
         override fun onError(t: Throwable?) {}
         override fun onNext(t: Long) {
-            if (t == 3L) {
+            if (t == 1L) {
 //                val isFirst =  SPUtils.instance().getBoolean(Const.User.IS_FIRST,true)
 //                if (isFirst) {
 //                    startActivity<SplashActivity>()

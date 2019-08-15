@@ -14,13 +14,15 @@
         <item name="android:textSize">@dimen/textSize</item>
     </style>
 
-    <style name="lautherstyle" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="lautherstyle" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
 
     <style name="Theme.ProgressDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowIsFloating">true</item>

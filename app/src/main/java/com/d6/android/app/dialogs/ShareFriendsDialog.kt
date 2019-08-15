@@ -66,7 +66,11 @@ class ShareFriendsDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var userId = arguments.getString("id")
+        var userId = if(arguments.containsKey("id")){
+            arguments.getString("id")
+        }else{
+            ""
+        }
         var fromType = arguments.getString("from")
         initRecycler()
         if (TextUtils.equals(mUserId, userId)) {
