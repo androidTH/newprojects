@@ -74,9 +74,15 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         mPointsAdapter.setOnItemClickListener { view, position ->
             var mUserPoints = mUserPoints.get(position)
-            mUserPoints.sResourceId.let {
-                if(!it.isNullOrEmpty()){
-                    startActivity<SquareTrendDetailActivity>("id" to it.toString())
+            if(mUserPoints.iType!=16&&mUserPoints.iType!=17&&mUserPoints.iType!=18){
+                mUserPoints.sResourceId.let {
+                    if(!it.isNullOrEmpty()){
+                        startActivity<SquareTrendDetailActivity>("id" to it.toString())
+                    }
+                }
+            }else if(mUserPoints.iType==16||mUserPoints.iType==17||mUserPoints.iType==18){
+                mUserPoints.iSenduserid?.let {
+                    startActivity<UserInfoActivity>("id" to "${it}")
                 }
             }
         }
