@@ -19,6 +19,7 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
      @SerializedName("sResourceId") var sResourceId:String?=""
      @SerializedName("iSenduserid") var iSenduserid:Int=0
      @SerializedName("iType") var iType:Int = 0 //16、好友注册奖励 17、邀请认证会员奖励小红花 18、邀请够买会员奖励小红花
+     @SerializedName("sSendUserName") var sSendUserName:String=""
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         sId = parcel.readString()
@@ -29,6 +30,7 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
         sResourceId = parcel.readString()
         iSenduserid = parcel.readInt()
         iType = parcel.readInt()
+        sSendUserName = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -41,6 +43,7 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
         parcel.writeString(sResourceId)
         parcel.writeInt(iSenduserid)
         parcel.writeInt(iType)
+        parcel.writeString(sSendUserName)
     }
 
     override fun describeContents(): Int {
