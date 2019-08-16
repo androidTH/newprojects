@@ -69,7 +69,8 @@ class MessageSettingActivity : TitleActivity() {
             saveUserInfo(data)
             data?.let {
                 if(it.iTalkSetting==1){
-                    tv_private_chat_type.text=resources.getString(R.string.string_linechat)
+//                    tv_private_chat_type.text=resources.getString(R.string.string_linechat)
+                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
                 }else if(it.iTalkSetting==2){
                     tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
                 }

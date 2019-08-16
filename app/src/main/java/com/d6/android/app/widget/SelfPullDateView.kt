@@ -1,6 +1,7 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -75,11 +76,13 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 //                .build()
 
         tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()-1]
-        var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment.iAppointType!!.toInt()-1])
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
-
-        tv_datetype_name.setCompoundDrawablePadding(dip(3))
-        tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
+        var index = myAppointment.iAppointType!!.toInt()-1
+        if(index!= Const.dateTypesBig.size){
+            var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[index])
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
+            tv_datetype_name.setCompoundDrawablePadding(dip(3))
+            tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
+        }
 
         var sb = StringBuffer()
         if(!myAppointment.iAge.toString().isNullOrEmpty()){

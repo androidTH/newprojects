@@ -303,8 +303,14 @@ class MyDateDetailActivity : BaseActivity() {
                     }
                 }
 
-                var drawable = ContextCompat.getDrawable(this,Const.dateListTypes[data.iAppointType!!.toInt()-1])
-                iv_datetype_img.backgroundDrawable = drawable
+                var index = data.iAppointType!!.toInt()-1
+                if(index!=Const.dateListTypes.size){
+                    var drawable = ContextCompat.getDrawable(this,Const.dateListTypes[index])
+                    iv_datetype_img.backgroundDrawable = drawable
+                }else{
+                    var drawable = ContextCompat.getDrawable(this,Const.dateListTypes[0])
+                    iv_datetype_img.backgroundDrawable = drawable
+                }
 
                 myAppointment = data
                 iAppointUserid = myAppointment.iAppointUserid.toString()

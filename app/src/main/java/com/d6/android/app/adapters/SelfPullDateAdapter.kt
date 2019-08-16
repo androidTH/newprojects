@@ -16,6 +16,7 @@ import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.json.JSONObject
 
 /**
  *
@@ -56,7 +57,9 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }) { code, msg ->
             if (code == 2) {
                 var openErrorDialog = OpenDateErrorDialog()
-                openErrorDialog.arguments = bundleOf("code" to code, "msg" to msg)
+                var jsonObject = JSONObject(msg)
+                var resMsg = jsonObject.optString("resMsg")
+                openErrorDialog.arguments = bundleOf("code" to code, "msg" to resMsg)
                 openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }
         }

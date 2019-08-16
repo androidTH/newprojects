@@ -362,7 +362,7 @@ object Request {
 
 
     //支付多少积分
-    fun getUnlockTalkPoint()=RRetrofit.instance().create(ApiServices::class.java).getUnlockTalkPoint()
+    fun getUnlockTalkPoint(sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getUnlockTalkPoint(sLoginToken)
 
     //能否聊天
     fun doUnlockTalk(iUserid:String,iTalkUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doUnlockTalk(iUserid, iTalkUserId)
@@ -400,13 +400,13 @@ object Request {
     fun getUserInfoDetail(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserInfoDetail(iUserid)
 
     //判断是否允许发布约会接口
-    fun getAppointmentAuth(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAppointmentAuth(iUserid)
+    fun getAppointmentAuth(iUserid:String,sLoginToken: String)=RRetrofit.instance().create(ApiServices::class.java).getAppointmentAuth(iUserid,sLoginToken)
 
     //判断是否有查看访客权限
     fun getVistorAuth(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorAuth(iUserid)
 
     //支付查看访客积分
-    fun getVistorPayPoint(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorPayPoint(iUserid)
+    fun getVistorPayPoint(iUserid:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorPayPoint(iUserid,sLoginToken)
 
     //更新版本
     fun getByVersion(sVersion:String,iType:String)=RRetrofit.instance().create(ApiServices::class.java).getByVersion(sVersion,iType)
@@ -474,5 +474,8 @@ object Request {
     fun findGroupDescByGroupId(sLoginToken:String,sGroupId:String)=RRetrofit.instance().create(ApiServices::class.java).findGroupDescByGroupId(sLoginToken,sGroupId)
 
     fun getLookDateDetail(ids: String?) = RRetrofit.instance().create(ApiServices::class.java).getLookDateDetail(ids)
+
+    //新的申请私聊接口
+    fun doApplyNewPrivateChat(sLoginToken:String,iToUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doApplyNewPrivateChat(sLoginToken,iToUserId)
 
 }

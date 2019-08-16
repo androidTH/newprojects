@@ -32,7 +32,7 @@
             android:id="@+id/tv_tishi_point"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center_horizontal|left"
             android:layout_marginTop="15dp"
             android:textSize="14sp"
             android:textColor="@color/color_666666"/>

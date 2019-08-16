@@ -319,10 +319,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null)
             headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))
         } else {
-            var drawable = ContextCompat.getDrawable(context, Const.dateTypesBig[myAppointment?.iAppointType!!.toInt() - 1])
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
-            headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3));
-            headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null);
+            var index = myAppointment?.iAppointType!!.toInt() - 1
+            if(index !=Const.dateTypesBig.size){
+                var drawable = ContextCompat.getDrawable(context, Const.dateTypesBig[index])
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())// 设置边界
+                headerView.tv_datetype_name.setCompoundDrawablePadding(dip(3))
+                headerView.tv_datetype_name.setCompoundDrawables(null, drawable, null, null)
+            }
         }
 
         var sb = StringBuffer()
@@ -459,14 +462,20 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         headerView.img_official.visibility = View.VISIBLE
                         headerView.img_official.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_forbidden_icon)
                         headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_forbidden_icon)
-                        var lp = RelativeLayout.LayoutParams(headerView.rl_headView.layoutParams)
-                        lp?.let {
-                            lp.topMargin = resources.getDimensionPixelOffset(R.dimen.height_120)
-                            lp.leftMargin = resources.getDimensionPixelOffset(R.dimen.margin16dp)
-                            lp.rightMargin = resources.getDimensionPixelOffset(R.dimen.margin_6)
-                        }
-                        headerView.rl_headView.layoutParams = lp
 
+
+                        if(TextUtils.equals(getLocalUserId(), id)){
+                            headerView.rl_prompt.visibility = View.GONE
+                            headerView.img_official.visibility = View.GONE
+                        }else{
+                            var lp = RelativeLayout.LayoutParams(headerView.rl_headView.layoutParams)
+                            lp?.let {
+                                lp.topMargin = resources.getDimensionPixelOffset(R.dimen.height_120)
+                                lp.leftMargin = resources.getDimensionPixelOffset(R.dimen.margin16dp)
+                                lp.rightMargin = resources.getDimensionPixelOffset(R.dimen.margin_6)
+                            }
+                            headerView.rl_headView.layoutParams = lp
+                        }
                     }
                 }
 

@@ -236,6 +236,7 @@ class FindDateDetailActivity : TitleActivity() {
 //            titleBar.hideAllRightButton()
             tv_contact.isEnabled = false
             tv_contact.text = "已觅约"
+            ll_finddate_details.visibility = View.GONE
         } else {
 //            titleBar.hideRightButton(0,false)
             tv_contact.isEnabled = true

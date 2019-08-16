@@ -174,4 +174,12 @@ public class ConversationFragmentEx extends ConversationFragment {
             mMyEditText.setHint("");
         }
     }
+
+    public void hideChatInput(boolean flag){
+        if(flag){
+            rongExtension.setVisibility(View.GONE);
+        }else{
+            rongExtension.setVisibility(View.VISIBLE);
+        }
+    }
 }

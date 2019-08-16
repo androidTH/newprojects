@@ -540,6 +540,7 @@
             android:background="@color/color_EFEFEF" />
 
         <LinearLayout
+            android:id="@+id/ll_mine_points"
             android:layout_width="match_parent"
             android:layout_height="@dimen/padding_60"
             android:gravity="center_vertical"
@@ -586,7 +587,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:text="客服"
+                android:text="专属客服"
                 android:drawablePadding="@dimen/margin_10"
                 android:layout_centerVertical="true"
                 android:drawableLeft="@mipmap/mine_contactus_icon"

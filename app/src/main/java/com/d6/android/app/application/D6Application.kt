@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.support.multidex.MultiDex
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.RemoteViews
@@ -26,6 +27,8 @@ import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.rong.bean.*
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
+import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
 import com.umeng.commonsdk.UMConfigure
@@ -44,6 +47,7 @@ import io.rong.message.TextMessage
 import io.rong.push.RongPushClient
 import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.toast
+import org.json.JSONObject
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
@@ -213,6 +217,37 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         if (message != null &&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)) {
             sendBroadcast(Intent(Const.NEW_MESSAGE))
         }
+
+        if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
+            if(message.content is CustomMessage){
+                var flag =  SPUtils.instance().getBoolean(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+message.targetId,false)
+                if(flag){
+                    if(message.messageDirection== Message.MessageDirection.RECEIVE){
+                        RongUtils.setConversationTop(this,message.conversationType,message.targetId,true)
+                    }
+                }
+                //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）
+            }else if(message.content is TipsMessage){
+                if(removeKFService(message.targetId)){
+                    var tipsMessage = message.content as TipsMessage
+                    var jsonObject = JSONObject(tipsMessage.extra)
+                    var type = jsonObject.optString("status")
+                    if(TextUtils.equals("4",type)){
+                        RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
+                    }
+                }
+            }
+        }
+
+        if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
+            if (message.content is TextMessage) {
+                var txtMessage = message.content as TextMessage
+                if (checkJoinWx(txtMessage.content)) {
+                    sendOutgoingSystemMessage(getString(R.string.string_system_tips03), "1", message)
+                }
+            }
+        }
+
         if(SystemUtils.isInBackground(this)){
             if(message==null){
                 return false
@@ -267,6 +302,11 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         connectionStatus?.let {
             if (connectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT) {
                 quit()
+            }else if(connectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.TOKEN_INCORRECT){
+                val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
+                if(!TextUtils.isEmpty(token)){
+                    RongIM.connect(token,getConnectCallback())
+                }
             }
         }
     }

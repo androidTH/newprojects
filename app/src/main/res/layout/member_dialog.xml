@@ -30,7 +30,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_numone"
+                android:id="@+id/tv_numone_member"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
                 android:background="@drawable/shape_dot_selector"
@@ -38,7 +38,7 @@
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/tv_numtwo"
+                android:id="@+id/tv_numtwo_member"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
                 android:layout_marginLeft="@dimen/margin_5"
@@ -46,14 +46,14 @@
                 android:background="@drawable/shape_dot_selector" />
 
             <TextView
-                android:id="@+id/tv_numthree"
+                android:id="@+id/tv_numthree_member"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
                 android:layout_marginRight="@dimen/margin_5"
                 android:background="@drawable/shape_dot_selector" />
 
             <TextView
-                android:id="@+id/tv_numfour"
+                android:id="@+id/tv_numfour_member"
                 android:layout_width="5dp"
                 android:layout_height="5dp"
                 android:background="@drawable/shape_dot_selector" />

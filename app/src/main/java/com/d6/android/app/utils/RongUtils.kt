@@ -1,9 +1,14 @@
 package com.d6.android.app.utils
 
+import android.content.Context
+import android.text.TextUtils
 import android.widget.ImageView
 import android.widget.TextView
 
 import com.d6.android.app.R
+import io.rong.imkit.RongIM
+import io.rong.imlib.RongIMClient
+import io.rong.imlib.model.Conversation
 
 object RongUtils {
 
@@ -48,4 +53,32 @@ object RongUtils {
         getGroup(groupId, textView, imageView)
     }
 
+    //会话列表置顶
+    fun setConversationTop(context: Context, conversationType: Conversation.ConversationType, targetId: String, state: Boolean) {
+        if (!TextUtils.isEmpty(targetId) && RongIM.getInstance() != null) {
+            RongIM.getInstance().setConversationToTop(conversationType, targetId, state, object : RongIMClient.ResultCallback<Boolean>() {
+                override fun onSuccess(aBoolean: Boolean?) {
+
+                }
+
+                override fun onError(errorCode: RongIMClient.ErrorCode) {
+                    NToast.shortToast(context,"设置失败")
+                }
+            })
+        }
+    }
+
+    fun getConnectCallback(): RongIMClient.ConnectCallback {
+        return object : RongIMClient.ConnectCallback() {
+            override fun onTokenIncorrect() {
+            }
+
+            override fun onSuccess(s: String) {
+
+            }
+
+            override fun onError(e: RongIMClient.ErrorCode) {
+            }
+        }
+    }
 }

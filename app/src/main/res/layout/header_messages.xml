@@ -51,6 +51,11 @@
             android:textSize="11sp"
             android:text="去开启"/>
     </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_top_conversation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
     <RelativeLayout
         android:id="@+id/rl_sys"
         android:layout_width="match_parent"
@@ -101,6 +106,18 @@
             android:textSize="12sp"
             android:visibility="gone" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_systemmsg_time"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_3"
+            android:textColor="@color/color_999999"
+            android:textSize="10sp"
+            android:visibility="visible"
+            android:text=""
+            android:layout_gravity="center_vertical"/>
+
         <ImageView
             android:layout_width="15dp"
             android:layout_height="18dp"
@@ -109,6 +126,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@mipmap/ic_more_gray"
+            android:visibility="gone"
             android:gravity="center"/>
     </RelativeLayout>
 
@@ -151,6 +169,18 @@
             android:textSize="12sp" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_squaremsg_time"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_3"
+            android:textColor="@color/color_999999"
+            android:textSize="10sp"
+            android:visibility="visible"
+            android:text=""
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
             android:id="@+id/tv_msg_count2"
             android:layout_width="wrap_content"
             android:paddingLeft="4dp"
@@ -171,6 +201,7 @@
             android:paddingRight="4dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             android:background="@mipmap/ic_more_gray"/>
     </RelativeLayout>
 

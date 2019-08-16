@@ -148,9 +148,11 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
         }
 
         var iv_datetype = holder.bind<ImageView>(R.id.iv_datetype)
-        var drawable = ContextCompat.getDrawable(context,Const.dateListTypes[data.iAppointType!!.toInt()-1])
-        iv_datetype.backgroundDrawable = drawable
-
+        var index = data.iAppointType!!.toInt()-1
+        if(index!=Const.dateListTypes.size){
+            var drawable = ContextCompat.getDrawable(context,Const.dateListTypes[index])
+            iv_datetype.backgroundDrawable = drawable
+        }
         Log.i("datelistadater","${data.iIsAnonymous}")
     }
 

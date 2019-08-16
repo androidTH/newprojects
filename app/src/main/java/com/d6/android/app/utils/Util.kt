@@ -40,6 +40,8 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.http.UpdateAppHttpUtil
+import com.d6.android.app.rong.bean.TipsMessage
+import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.utils.JsonUtil.containsEmoji
@@ -68,7 +70,9 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
+import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Message
 import org.jetbrains.anko.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -344,10 +348,10 @@ inline fun Activity.isAuthUser(from:String="nomine",next: () -> Unit) {
     if (className == "7") {// 22 普通会员
         var sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if(TextUtils.equals("1",sex)){
-            var mMemberDialog = MemberDialog()
-            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
-            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
-//            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+//            var mMemberDialog = MemberDialog()
+//            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
+//            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
+            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
         }else{
             this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //             this.startActivity<DateAuthStateActivity>()
@@ -378,10 +382,10 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
                     saveUserInfo(it)
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
                     if (TextUtils.equals("1", it.sex)) {//1是男
-//                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
-                        var mMemberDialog = MemberDialog()
-                        mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
-                        mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
+                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+//                        var mMemberDialog = MemberDialog()
+//                        mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
+//                        mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
                     }else{
                         this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //                      this.startActivity<DateAuthStateActivity>()
@@ -637,6 +641,16 @@ fun checkLimitEx(str:String):Boolean{
     }
 
     return false;
+}
+
+fun checkJoinWx(str:String):Boolean{
+    var limitEx = "[0-9a-zA-z]{6,}"
+    var pattern = Pattern.compile(limitEx)
+    var m = pattern.matcher(str)
+    if(m.find()){
+        return true
+    }
+    return false
 }
 
 fun diyUpdate(activity: BaseActivity,from:String?) {
@@ -1005,6 +1019,13 @@ fun showFloatManService():Boolean{
     return false
 }
 
+fun removeKFService(mOtherUserId:String):Boolean{
+    if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+        return true
+    }
+    return false
+}
+
 /**
  * 获得版本名称
  *
@@ -1095,4 +1116,17 @@ fun getRealPathFromURI(contentUri: Uri, context: Context): String {
 fun convertViewToBitmap(view: View): Bitmap {
     view.buildDrawingCache()
     return view.drawingCache
+}
+
+fun sendOutgoingSystemMessage(msg:String,type:String,message:Message){
+    var custommsg = TipsTxtMessage(msg, type)
+    var richContentMessage = TipsMessage.obtain(msg, GsonHelper.getGson().toJson(custommsg))
+    RongIM.getInstance().insertOutgoingMessage(message.conversationType,message.targetId, Message.SentStatus.RECEIVED,richContentMessage, object : RongIMClient.ResultCallback<Message>() {
+        override fun onSuccess(message: Message) {
+        }
+
+        override fun onError(errorCode: RongIMClient.ErrorCode) {
+
+        }
+    })
 }

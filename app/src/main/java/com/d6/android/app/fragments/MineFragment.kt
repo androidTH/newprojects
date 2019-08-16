@@ -155,6 +155,10 @@ class MineFragment : BaseFragment() {
             startActivity<MyPointsActivity>()
         }
 
+        ll_mine_points.setOnClickListener {
+            startActivity<MyPointsActivity>()
+        }
+
         iv_whiteclose.setOnClickListener {
             rl_warmuserinfo.visibility = View.GONE
             SPUtils.instance().put(USERINFO_PERCENT+ getLocalUserId(),System.currentTimeMillis()).apply()
@@ -409,7 +413,8 @@ class MineFragment : BaseFragment() {
                 }
                 setPicsWall(it)
 
-                if (TextUtils.equals("7",it.userclassesid)) {
+                //2.5移除
+/*              if (TextUtils.equals("7",it.userclassesid)) {
                     if(TextUtils.equals("1",it.sex)){
                         rl_customerservice.visibility = View.GONE
                         view_kf.visibility = View.GONE
@@ -421,9 +426,9 @@ class MineFragment : BaseFragment() {
                     rl_customerservice.visibility = View.VISIBLE
                     view_kf.visibility = View.VISIBLE
                 }
-
                 var intent = Intent(Const.MINE_MANSERVICE_YOUKE)
-                context.sendBroadcast(intent)
+                context.sendBroadcast(intent)*/
+
             }
         }) { _, _ ->
 //            mSwipeRefreshLayout.isRefreshing = false
