@@ -360,9 +360,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         var time = converTime(myAppointment.dEndtime)
-        headerView.tv_time_long.text = "倒计时:${time}"
+        headerView.tv_time_long.text = "倒计时·${time}"
 
-        headerView.tv_self_address.text = myAppointment.sPlace
+        headerView.tv_self_address.text = "约会地点·${myAppointment.sPlace}"
 
         headerView.tv_content.text = myAppointment.sDesc
 
@@ -396,7 +396,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 tv_title_nick.text = it.name
                 headerView.iv_bg.showBlur(it.picUrl)
 
-                headerView.headView.hierarchy = getHierarchy(it.sex.toString())
+//                headerView.headView.hierarchy = getHierarchy(it.sex.toString())
                 headerView.headView.setImageURI(it.picUrl)
 
                 Log.i("minefragment","个人中心头像url=${it.picUrl}")
@@ -424,8 +424,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 it.age?.let {
                     if (it.toInt() <= 0) {
                         headerView.tv_sex.text = ""
+                        headerView.tv_user_date_sex.text = ""
                     } else {
                         headerView.tv_sex.text = it
+                        headerView.tv_user_date_sex.text = it
                     }
                 }
 
@@ -532,7 +534,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                    }
 //                }
 
-                headerView.tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),this)
+                var drawable = getLevelDrawable(it.userclassesid.toString(),this)
+                headerView.tv_vip.backgroundDrawable = drawable
+                headerView.tv_date_vip.backgroundDrawable = drawable
 
                 mTags.clear()
                 if (!it.height.isNullOrEmpty()) {
@@ -608,7 +612,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.rl_userinfo_date.visibility = View.VISIBLE
                     headerView.date_headView.setImageURI(it.picUrl)
                     headerView.tv_name.text = it.name
-                    headerView.tv_name.isSelected = TextUtils.equals("0", it.sex)
+                    headerView.tv_user_date_sex.isSelected = TextUtils.equals("0", it.sex)
                     setDateInfo(it.appointment)
                 } else {
                     headerView.rl_userinfo_date.visibility = View.GONE
@@ -799,7 +803,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun signUpDate(myAppointment: MyAppointment) {
-        Request.queryAppointmentPoint(userId).request(this, false, success = { msg, data ->
+        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}").request(this, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
             dateDialog.show(supportFragmentManager, "d")

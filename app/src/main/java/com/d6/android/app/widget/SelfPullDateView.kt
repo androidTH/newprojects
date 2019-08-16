@@ -49,7 +49,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         this.myDate = myDate
         headView.setImageURI(myAppointment.sAppointmentPicUrl)
         tv_name.text = myAppointment.sAppointUserName
-        tv_name.isSelected = myAppointment.iSex == 0
+        tv_date_user_sex.isSelected = myAppointment.iSex == 0
         headView.setOnClickListener(OnClickListener {
             val id =myAppointment.iAppointUserid
             isBaseActivity {
@@ -84,27 +84,28 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
         }
 
-        var sb = StringBuffer()
+//        var sb = StringBuffer()
         if(!myAppointment.iAge.toString().isNullOrEmpty()){
             if(myAppointment.iAge!=null){
                 myAppointment.iAge?.let {
                     if(it>0){
-                        sb.append("${myAppointment.iAge}岁")
+//                        sb.append("${myAppointment.iAge}岁")
+                        tv_date_user_sex.text = "${myAppointment.iAge}"
                     }
                 }
             }
         }
-
-        if(!myAppointment.iHeight.toString().isNullOrEmpty()){
-            if(myAppointment.iHeight!=null){
-                if(myAppointment.iHeight!!.toInt() > 0){
-                    if(sb.length>0){
-                        sb.append("·")
-                    }
-                    sb.append("${myAppointment.iHeight}cm")
-                }
-            }
-        }
+//
+//        if(!myAppointment.iHeight.toString().isNullOrEmpty()){
+//            if(myAppointment.iHeight!=null){
+//                if(myAppointment.iHeight!!.toInt() > 0){
+//                    if(sb.length>0){
+//                        sb.append("·")
+//                    }
+//                    sb.append("${myAppointment.iHeight}cm")
+//                }
+//            }
+//        }
 
 //        if(!myAppointment.iWeight.toString().isNullOrEmpty()){
 //            if(!myAppointment.iWeight.toString().equals("0")){
@@ -115,17 +116,17 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 //            }
 //        }
 
-        if(!sb.toString().isNullOrEmpty()){
-            tv_sub_title.text = sb.toString()
-            tv_sub_title.visibility = View.VISIBLE
-        }else{
-            tv_sub_title.visibility = View.GONE
-        }
+//        if(!sb.toString().isNullOrEmpty()){
+//            tv_sub_title.text = sb.toString()
+//            tv_sub_title.visibility = View.VISIBLE
+//        }else{
+//            tv_sub_title.visibility = View.GONE
+//        }
 
         var time = converTime(myAppointment.dEndtime)
-        tv_time_long.text="倒计时:${time}"
+        tv_time_long.text="倒计时：${time}"
 
-        tv_self_address.text = myAppointment.sPlace
+        tv_self_address.text = "约会地点：${myAppointment.sPlace}"
 
         tv_content.text = myAppointment.sDesc
 
@@ -197,6 +198,14 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
                 img_self_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.renzheng_small)
             }else{
                 img_self_auther.visibility = View.GONE
+            }
+        }
+
+        myAppointment.iAppointmentSignupCount?.let {
+            if(it>0){
+                tv_date_nums.text = "累计${it}人邀约"
+            }else{
+                tv_date_nums.text = ""
             }
         }
 

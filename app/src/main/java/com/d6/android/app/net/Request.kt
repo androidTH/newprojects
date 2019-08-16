@@ -344,7 +344,7 @@ object Request {
     fun getOrderById(sOrderid:String)=RRetrofit.instance().create(ApiServices::class.java).getOrderById(sOrderid)
 
     //添加查询约会扣除、退回、取消需要的积分接口
-    fun queryAppointmentPoint(userId:String)=RRetrofit.instance().create(ApiServices::class.java).queryAppointmentPoint(userId)
+    fun queryAppointmentPoint(userId:String,iAppointUserid:String)=RRetrofit.instance().create(ApiServices::class.java).queryAppointmentPoint(userId,iAppointUserid)
 
     //更新地理未知
     fun updateUserPosition(iUserid:String,sPosition:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sPosition)
@@ -393,7 +393,7 @@ object Request {
     //同意或拒绝私聊接口
     fun doUpdatePrivateChatStatus(iFromUserid:String,iToUserid:String,iStatus:String)=RRetrofit.instance().create(ApiServices::class.java).doUpdatePrivateChatStatus(iFromUserid,iToUserid,iStatus)
 
-     //获取与当前用户的私聊状态
+    //获取与当前用户的私聊状态
     fun getApplyStatus(iFromUserid:String,iToUserid:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid,iType)
 
     //获取用户信息接口

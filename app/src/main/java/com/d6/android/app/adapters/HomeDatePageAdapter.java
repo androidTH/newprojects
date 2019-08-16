@@ -44,4 +44,11 @@ public class HomeDatePageAdapter extends FragmentStatePagerAdapter {
         return mTitles.get(position).getDateTypeName();
     }
 
+    public HomeDatePageAdapter getFragment(int position) {
+//        String tag = mFragmentTags.get(position);
+//        if (tag == null)
+//            return null;
+        return (HomeDatePageAdapter)getFragment(position);
+    }
+
 }

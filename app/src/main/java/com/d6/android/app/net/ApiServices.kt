@@ -247,8 +247,8 @@ interface ApiServices {
     //发布约会
     @POST("backstage/appointment/add")
     fun releasePullDate(@Query("iUserid") userid: String, @Query("sPlace") sPlace: String?, @Query("sDesc") sDesc: String?
-                         , @Query("iAppointType") iAppointType: Int?, @Query("dStarttime") beginTime: String?
-                         , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?,@Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+                        , @Query("iAppointType") iAppointType: Int?, @Query("dStarttime") beginTime: String?
+                        , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?,@Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //自主约会
     @POST("backstage/appointment/findAppointmentListByPage")
@@ -262,7 +262,7 @@ interface ApiServices {
     @POST("backstage/appointmentsignup/add")
     fun signUpdate(@Query("iUserid") userid:String,@Query("sAppointmentId") sAppointmentId:String,@Query("sDesc") sDesc:String,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String =getAppVersion()):Flowable<Response<JsonObject>>
 
-   //约会详情页
+    //约会详情页
     @POST("backstage/appointment/queryAppointmentDetail")
     fun getAppoinmentIdDetail(@Query("iUserid") iUserid:String,@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("sAppointmentId") sAppointmentId:String,@Query("iShareUserid") iShareUserid:String,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String =getAppVersion()):Flowable<Response<MyAppointment>>
 
@@ -284,7 +284,7 @@ interface ApiServices {
 
     //添加查询约会扣除、退回、取消需要的积分接口
     @POST("backstage/appointment/queryAppointmentPoint")
-    fun queryAppointmentPoint(@Query("iUserid") iUserid:String,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<IntegralExplain>>
+    fun queryAppointmentPoint(@Query("iUserid") iUserid:String, @Query("iAppointUserid") iAppointUserid:String, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<IntegralExplain>>
 
     //同城
     @POST("backstage/account/updateUserPosition")
@@ -335,7 +335,7 @@ interface ApiServices {
     @POST("backstage/userflowerrule/withDrawFlower")
     fun doCashMoney(@Query("iUserid") iUserid:String, @Query("iFlowerCount")iFlowerCount:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-     /*1.8.5接口*/
+    /*1.8.5接口*/
     //修改聊天设置接口
     @POST("backstage/account/updateTalkSetting")
     fun updateTalkSetting(@Query("iUserid") iUserid:String,@Query("iTalkSetting") iTalkSetting:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
@@ -390,91 +390,91 @@ interface ApiServices {
     fun updateUnionId(@Query("iUserid") iUserid:String,@Query("sOpenId")sOpenId:String,@Query("sUnionid")sUnionid:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
 
-   /* 2.0接口*/
-   @POST("backstage/blacklist/remove")
-   fun removeBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String,@Query("iType") iType:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
+    /* 2.0接口*/
+    @POST("backstage/blacklist/remove")
+    fun removeBlackList(@Query("iUserid") userid:String,@Query("iBlackUserid") blackuserid:String,@Query("iType") iType:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     //查询好友列表
-   @POST("backstage/userfriend/findByPage")
-   fun findUserFriends(@Query("iUserid")userid:String,@Query("sUserName") sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<FriendBean>>>
+    @POST("backstage/userfriend/findByPage")
+    fun findUserFriends(@Query("iUserid")userid:String,@Query("sUserName") sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<FriendBean>>>
 
-   //动态消息设置
-   @POST("backstage/account/updateMessageSetting")
-   fun updateMessageSetting(@Query("iUserid") userid:String,@Query("iMessageSetting") iMessageSetting:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
+    //动态消息设置
+    @POST("backstage/account/updateMessageSetting")
+    fun updateMessageSetting(@Query("iUserid") userid:String,@Query("iMessageSetting") iMessageSetting:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
 
-   //查询用户接口
-   @POST("backstage/account/findAllByPage")
-   fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<UserData>>>
+    //查询用户接口
+    @POST("backstage/account/findAllByPage")
+    fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<UserData>>>
 
-   //我的好友个数
-   @POST("backstage/userfriend/findFriendCount")
-   fun findFriendCount(@Query("iUserid")userid:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    //我的好友个数
+    @POST("backstage/userfriend/findFriendCount")
+    fun findFriendCount(@Query("iUserid")userid:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-   //分享的接口
-   @POST("backstage/share/shareMessage")
-   fun shareMessage(@Query("iUserid")userid:String,@Query("iType") iType:Int,@Query("sResourceId") sResourceId:String,@Query("sAppointUser")sAppointUser:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
+    //分享的接口
+    @POST("backstage/share/shareMessage")
+    fun shareMessage(@Query("iUserid")userid:String,@Query("iType") iType:Int,@Query("sResourceId") sResourceId:String,@Query("sAppointUser")sAppointUser:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
 
     //会话类型1、咨询会员 2、咨询认证 3、觅约人工推荐 4、速约人工推荐 5、在线客服 6、提现联系客服 7、游客离开会员页 8、会员联系客服 9、注册发送客服消息
-   @POST("backstage/push/pushCustomerMessage")
-   fun pushCustomerMessage(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
+    @POST("backstage/push/pushCustomerMessage")
+    fun pushCustomerMessage(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String,@Query("iType") iType:Int,@Query("sResourceId")sResourceId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
 
-   /*2.1.0接口*/
-   //获取等级接口
-   @POST("backstage/userclasses/findUserClasses")
-   fun findUserClasses(@Query("sLoginToken")sLoginToken:String,@Query("sAreaName") sAreaName:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<ListMemeberBean<MemberBean>>>
+    /*2.1.0接口*/
+    //获取等级接口
+    @POST("backstage/userclasses/findUserClasses")
+    fun findUserClasses(@Query("sLoginToken")sLoginToken:String,@Query("sAreaName") sAreaName:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<ListMemeberBean<MemberBean>>>
 
-   //删除约会
-  @POST("backstage/appointment/delAppointment")
-  fun delAppointment(@Query("sLoginToken")sLoginToken:String,@Query("sAppointmentId") sAppointmentId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
+    //删除约会
+    @POST("backstage/appointment/delAppointment")
+    fun delAppointment(@Query("sLoginToken")sLoginToken:String,@Query("sAppointmentId") sAppointmentId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
 
-  //会员约会地区选择
-  @POST("backstage/sysDict/findautoAll")
-  fun getProvinceAllOfMember(@Query("sType") sType:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
+    //会员约会地区选择
+    @POST("backstage/sysDict/findautoAll")
+    fun getProvinceAllOfMember(@Query("sType") sType:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 
-   /*2.2.0接口*/
-  //查询约会和动态匿名剩余次数接口 iType   类型 1、约会 2、动态
-  @POST("backstage/appointment/anonymousAppointmentPoint")
-  fun getAnonymouseAppointmentPoint(@Query("sLoginToken")sLoginToken:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    /*2.2.0接口*/
+    //查询约会和动态匿名剩余次数接口 iType   类型 1、约会 2、动态
+    @POST("backstage/appointment/anonymousAppointmentPoint")
+    fun getAnonymouseAppointmentPoint(@Query("sLoginToken")sLoginToken:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-  //查询是否开启匿名卡片
-  @POST("backstage/account/userQueryAnonymous")
-  fun getUserQueryAnonymous(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    //查询是否开启匿名卡片
+    @POST("backstage/account/userQueryAnonymous")
+    fun getUserQueryAnonymous(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-  //查询匿名需要支付的积分
-  @POST("backstage/account/queryAnonymousPoint")
-  fun getQueryAnonymous(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    //查询匿名需要支付的积分
+    @POST("backstage/account/queryAnonymousPoint")
+    fun getQueryAnonymous(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-  //开通匿名卡片支付积分
-  @POST("backstage/account/anonymousPayPoint")
-  fun getAnonymousPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    //开通匿名卡片支付积分
+    @POST("backstage/account/anonymousPayPoint")
+    fun getAnonymousPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-  //查询用户的匿名卡片详情
-  @POST("backstage/account/getAnonymousAccountDetail")
-  fun getAnonymousAccountDetail(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<UserData>>
+    //查询用户的匿名卡片详情
+    @POST("backstage/account/getAnonymousAccountDetail")
+    fun getAnonymousAccountDetail(@Query("sLoginToken")sLoginToken:String,@Query("iUserid")iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<UserData>>
 
-  //创建匿名组接口 iType 1、我是匿名  2、对方是匿名
-  @POST("backstage/group/add")
-  fun CreateGroupAdd(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    //创建匿名组接口 iType 1、我是匿名  2、对方是匿名
+    @POST("backstage/group/add")
+    fun CreateGroupAdd(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-  //跳转到匿名用户组（先判断是否已创建匿名组，没有创建则手动创建 iType 1、我是匿名  2、对方是匿名
-  @POST("backstage/group/toUserAnonymousGroup")
-  fun doToUserAnonyMousGroup(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<GroupBean>>
+    //跳转到匿名用户组（先判断是否已创建匿名组，没有创建则手动创建 iType 1、我是匿名  2、对方是匿名
+    @POST("backstage/group/toUserAnonymousGroup")
+    fun doToUserAnonyMousGroup(@Query("sLoginToken")sLoginToken:String,@Query("iTalkUserid") iTalkUserid:String,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<GroupBean>>
 
-  //获取当前组的成员
-  @POST("backstage/group/findGroupMembersByGroupId")
-  fun findGroupMembersByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String,@Query("sVersion") sVersion:String = getAppVersion())
+    //获取当前组的成员
+    @POST("backstage/group/findGroupMembersByGroupId")
+    fun findGroupMembersByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String,@Query("sVersion") sVersion:String = getAppVersion())
 
-  //查询组的信息，返回组的名称和图片（已区分是否匿名）
-   @POST("backstage/group/findGroupByGroupid")
-   fun findGroupDescByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<GroupBean>>
+    //查询组的信息，返回组的名称和图片（已区分是否匿名）
+    @POST("backstage/group/findGroupByGroupid")
+    fun findGroupDescByGroupId(@Query("sLoginToken")sLoginToken:String,@Query("sGroupId") sGroupId:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<GroupBean>>
 
     //密约详情页
-   @POST("backstage/lookabout/find")
-   fun getLookDateDetail(@Query("ids") ids: String?,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<MyDate>>
+    @POST("backstage/lookabout/find")
+    fun getLookDateDetail(@Query("ids") ids: String?,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<MyDate>>
 
-   //2.5.0
-   //申请私聊接口
-   @POST("backstage/talkapply/applyNew")
-   fun doApplyNewPrivateChat(@Query("sLoginToken")sLoginToken:String,@Query("iToUserid") iToUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    //2.5.0
+    //申请私聊接口
+    @POST("backstage/talkapply/applyNew")
+    fun doApplyNewPrivateChat(@Query("sLoginToken")sLoginToken:String,@Query("iToUserid") iToUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
 }

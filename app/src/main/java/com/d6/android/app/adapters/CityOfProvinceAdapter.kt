@@ -25,9 +25,9 @@ import org.jetbrains.anko.textColor
  */
 class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, BaseViewHolder>(R.layout.item_area_menu_right, data) {
 
-    private val sameCity by lazy{
-        getReplace(SPUtils.instance().getString(USER_PROVINCE))
-    }
+//    private val sameCity by lazy{
+//        getReplace(SPUtils.instance().getString(USER_PROVINCE))
+//    }
 
     override fun convert(helper: BaseViewHolder, data: Province) {
         var item_menu_title = helper.getView<TextView>(R.id.tv_menu_title)
@@ -54,6 +54,7 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
             tv_no_limit_area.setTag(Const.NO_LIMIT_ERA)
 
             if (TextUtils.isEmpty(data.lstDicts.get(0).name)) {
+                var sameCity = getReplace(SPUtils.instance().getString(USER_PROVINCE))
                 if(TextUtils.isEmpty(sameCity)){
                     tv_arealocation.text = mContext.getString(R.string.string_nolocation)
                     tv_arealocation.setTag(Const.LOCATIONFAIL)

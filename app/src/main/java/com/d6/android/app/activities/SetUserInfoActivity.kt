@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.RadioButton
@@ -43,10 +44,14 @@ class SetUserInfoActivity : BaseActivity() {
                 .init()
 //        AndroidBug5497Workaround.assistActivity(this)
 
-        val name = if (intent.hasExtra("name")) {
+        var name = if (intent.hasExtra("name")) {
             intent.getStringExtra("name")
         } else {
             ""
+        }
+
+        if(name.length>8){
+            name = name.substring(0,8)
         }
         et_nick.setText(name)
 
@@ -116,11 +121,10 @@ class SetUserInfoActivity : BaseActivity() {
 
         et_nick.addTextChangedListener(object: MaxEditTextWatcher(CHINESE_TWO,16,this,et_nick){
             override fun onTextChanged(charSequence: CharSequence?, i: Int, i1: Int, i2: Int) {
-                super.onTextChanged(charSequence, i, i1, i2)
+
             }
 
             override fun afterTextChanged(editable: Editable?) {
-                super.afterTextChanged(editable)
                 if (editable.isNullOrEmpty()) {
                     tv_error.text = "昵称不能为空"
                     nickLine.setBackgroundResource(R.color.red_fc3)

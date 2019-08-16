@@ -92,7 +92,7 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
 
     private fun getData() {
         isBaseActivity{
-            Request.queryAppointmentPoint(userId).request(it, success = {msg,data->
+            Request.queryAppointmentPoint(userId,"").request(it, success = {msg,data->
                 data?.let {
                     //                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
 //                        tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"

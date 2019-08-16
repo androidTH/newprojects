@@ -73,19 +73,25 @@
     </style>
 
     <style name="DefaultHeadStyle">
-        <item name="failureImage">@mipmap/headportrait_girl</item>
-        <item name="placeholderImage">@mipmap/headportrait_girl</item>
+        <item name="failureImage">@mipmap/headempty_coloricon</item>
+        <item name="placeholderImage">@mipmap/headempty_coloricon</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
         <item name="roundedCornerRadius">6dp</item>
+        <item name="roundingBorderWidth">0.5dp</item>
+        <item name="roundingBorderColor">@color/color_1A000000</item>
     </style>
 
     <style name="DefaultNoHeadStyle">
+        <item name="failureImage">@mipmap/headempty_coloricon</item>
+        <item name="placeholderImage">@mipmap/headempty_coloricon</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
         <item name="roundedCornerRadius">6dp</item>
+        <item name="roundingBorderWidth">0.5dp</item>
+        <item name="roundingBorderColor">@color/color_1A000000</item>
     </style>
 
     <style name="Defaultpicbg">
@@ -96,12 +102,15 @@
     </style>
 
     <style name="manDefaultHeadStyle">
-        <item name="failureImage">@mipmap/headportrait_boy</item>
-        <item name="placeholderImage">@mipmap/headportrait_boy</item>
+        <!--headempty_grayicon-->
+        <item name="failureImage">@mipmap/headempty_coloricon</item>
+        <item name="placeholderImage">@mipmap/headempty_coloricon</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
         <item name="roundedCornerRadius">6dp</item>
+        <item name="roundingBorderWidth">0.5dp</item>
+        <item name="roundingBorderColor">@color/color_1A000000</item>
     </style>
 
     <style name="DefaultmanCircle" parent="manDefaultHeadStyle">
@@ -330,6 +339,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="tv_datechat_time">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_888888</item>
+    </style>
+
+    <style name="tv_datechat_numbers">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_F7B500</item>
+    </style>
+
     <style name="translucent" parent="AppTheme">
     </style>
 
@@ -418,4 +437,9 @@
         <!--下划线的宽度-->
         <attr name="tabLineOffset" format="dimension"/>
     </declare-styleable>
+    
+    <style name="tab_home_date" >
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

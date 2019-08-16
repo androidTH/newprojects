@@ -19,6 +19,8 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.dialog_date_send.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
@@ -85,7 +87,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
 
        if(arguments !=null){
            var it = arguments.getParcelable("explain") as IntegralExplain
-           tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
+           tv_preparepoints.text = "本次申请赴约将预付${it.iAppointPoint}积分,申请成功后先聊一聊再决定是否赴约哦"
            tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
            tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
            tv_timeout_points.text = "3天内未回复,返还${it.iAppointPointCancel}积分"
@@ -97,11 +99,17 @@ class OpenDateDialog : DialogFragment(),RequestManager {
         isBaseActivity {
             //194ecdb4-4809-4b2d-bf32-42a3342964df
             Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
-                var openSuccessDialog = OpenDateSuccessDialog()
-                var sId = data?.optString("sId")
-                var explain = arguments.getParcelable("explain") as IntegralExplain
-                openSuccessDialog.arguments = bundleOf("point" to explain.iAppointPoint.toString(),"sId" to sId.toString())
-                openSuccessDialog.show(it.supportFragmentManager, "d")
+//                var openSuccessDialog = OpenDateSuccessDialog()
+//                var sId = data?.optString("sId")
+//                var explain = arguments.getParcelable("explain") as IntegralExplain
+//                openSuccessDialog.arguments = bundleOf("point" to explain.iAppointPoint.toString(),"sId" to sId.toString())
+//                openSuccessDialog.show(it.supportFragmentManager, "d")
+                if(myAppointment?.iIsAnonymous==1){
+                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.GROUP, "anoy_${myAppointment?.iAppointUserid}_${getLocalUserId()}", "匿名")
+                }else{
+                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, "${myAppointment?.iAppointUserid}", "${myAppointment?.sAppointUserName}")
+                }
+                dialogListener?.onClick(2,myAppointment?.sId.toString())
             }) { code, msg ->
                 if(code == 3){
                     var openErrorDialog = OpenDateErrorDialog()

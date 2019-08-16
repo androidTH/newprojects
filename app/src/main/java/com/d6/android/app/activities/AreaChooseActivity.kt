@@ -1,11 +1,13 @@
 package com.d6.android.app.activities
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.widget.TextView
+import com.amap.api.location.AMapLocationClient
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
 import com.d6.android.app.adapters.CityOfProvinceAdapter
@@ -18,10 +20,14 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.PROVINCE_DATA
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
+import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.diskcache.DiskFileUtils
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_area_choose_layout.*
 
 class AreaChooseActivity : BaseActivity() {
+
+//    https://github.com/kongzue/StackLabel
 
     private var mCities = ArrayList<Province>()
     private var mProvinces = ArrayList<Province>()
@@ -90,10 +96,15 @@ class AreaChooseActivity : BaseActivity() {
 
         mCityOfProviceAdapter.setOnItemChildClickListener(BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.tv_arealocation) {
-                var intent = Intent()
-                intent.putExtra("area", (view as TextView).text.toString())
-                setResult(RESULT_OK, intent)
-                onBackPressed()
+                var mTvLocation = (view as TextView);
+                if(TextUtils.equals(mTvLocation.tag.toString(),Const.LOCATIONFAIL)){
+                    checkLocation()
+                }else{
+                    var intent = Intent()
+                    intent.putExtra("area", (view as TextView).text.toString())
+                    setResult(RESULT_OK, intent)
+                    onBackPressed()
+                }
             }
         })
 
@@ -122,7 +133,7 @@ class AreaChooseActivity : BaseActivity() {
             } else {
                 var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
                 mProvinces.clear()
-                setLocationCity()
+                setLocationCity(locationCity)
                 data?.let {
                     it.add(0, province)
                     mProvinces.addAll(it)
@@ -140,7 +151,7 @@ class AreaChooseActivity : BaseActivity() {
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(this).put(PROVINCE_DATA, GsonHelper.getGson().toJson(it))
                 mProvinces.clear()
-                setLocationCity()
+                setLocationCity(locationCity)
                 it.add(0,province)
                 mProvinces.addAll(it)
                 mCities.addAll(it)
@@ -153,15 +164,49 @@ class AreaChooseActivity : BaseActivity() {
     }
 
     //设置定位城市
-    private fun setLocationCity(){
-        var city = City("",locationCity)
+    private fun setLocationCity(city:String){
+        var city = City("",city)
         city.isSelected = true
         city.isValid ="2"
         province.lstDicts.add(city)
     }
 
+    private val locationClient by lazy {
+        AMapLocationClient(applicationContext)
+    }
+
+    private fun checkLocation(){
+        RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
+            if (it) {
+                locationClient.setLocationListener {
+                    if (it != null) {
+                        setLocationCity(getReplace(it.city))
+                        locationClient.stopLocation()
+                        mCityOfProviceAdapter.notifyItemChanged(0)
+                        SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
+                        SPUtils.instance().put(USER_PROVINCE,it.province).apply()
+                    }
+                }
+                startLocation()
+            }
+        }
+    }
+
+    private fun startLocation() {
+        locationClient.stopLocation()
+        locationClient.startLocation()
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(0, R.anim.dd_menu_out);
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(locationClient!=null){
+            locationClient.onDestroy()
+        }
+        immersionBar.destroy()
     }
 }

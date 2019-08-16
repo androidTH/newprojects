@@ -28,6 +28,8 @@ import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.rong.bean.*
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
+import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
+import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
@@ -216,8 +218,12 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null &&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)) {
             sendBroadcast(Intent(Const.NEW_MESSAGE))
+            if(TextUtils.equals(Const.CHAT_TARGET_ID,message.targetId)){
+                sendBroadcast(Intent(Const.CHAT_MESSAGE))
+            }
         }
 
+        //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）
         if(message!=null&&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)){
             if(message.content is CustomMessage){
                 var flag =  SPUtils.instance().getBoolean(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+message.targetId,false)
@@ -232,9 +238,29 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                     var tipsMessage = message.content as TipsMessage
                     var jsonObject = JSONObject(tipsMessage.extra)
                     var type = jsonObject.optString("status")
-                    if(TextUtils.equals("4",type)){
+                    if(TextUtils.equals("1",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,true).apply()
+                    }else if(TextUtils.equals("3",type)){
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
+                    }else if(TextUtils.equals("4",type)){
                         RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
+                    }else if(TextUtils.equals("5",type)){//约会 同意
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+message.targetId,true).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
+                    }else if(TextUtils.equals("6",type)){//约会 拒绝
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
+                    }else if(TextUtils.equals("7",type)){//约会 取消
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
+                    }else if(TextUtils.equals("8",type)){//约会 过期
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
+                    }else if(TextUtils.equals("9",type)){//约会 申请
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,true).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
                     }
+                    Log.i("ffffffffff","${tipsMessage.content}type${type}")
                 }
             }
         }
@@ -247,6 +273,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                 }
             }
         }
+
 
         if(SystemUtils.isInBackground(this)){
             if(message==null){

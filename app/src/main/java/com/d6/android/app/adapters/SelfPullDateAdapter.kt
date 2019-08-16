@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
@@ -10,7 +11,9 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
@@ -46,14 +49,17 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
     }
 
     private fun signUpDate(myAppointment:MyAppointment) {
-        Request.queryAppointmentPoint(userId).request(context as BaseActivity, false, success = { msg, data ->
+        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}").request(context as BaseActivity, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
             dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
 //            var dateInfo = RengGongDialog()
 //            var dateInfo = SelfDateDialog()
 //            dateInfo.show((context as BaseActivity).supportFragmentManager, "rg")
-
+            dateDialog.setDialogListener { p, s ->
+                mData.remove(myAppointment)
+                notifyDataSetChanged()
+            }
         }) { code, msg ->
             if (code == 2) {
                 var openErrorDialog = OpenDateErrorDialog()
@@ -61,6 +67,14 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 var resMsg = jsonObject.optString("resMsg")
                 openErrorDialog.arguments = bundleOf("code" to code, "msg" to resMsg)
                 openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            }else if(code==3){
+                var  mDialogYesOrNo = DialogYesOrNo()
+                mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg,"data" to myAppointment)
+                mDialogYesOrNo.show((context as BaseActivity).supportFragmentManager, "dialogyesorno")
+                mDialogYesOrNo.setDialogListener { p, s ->
+                    mData.remove(myAppointment)
+                    notifyDataSetChanged()
+                }
             }
         }
     }

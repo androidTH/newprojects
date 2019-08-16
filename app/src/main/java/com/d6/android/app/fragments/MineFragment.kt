@@ -197,7 +197,7 @@ class MineFragment : BaseFragment() {
                 .size(dip(3))
                 .build())
 
-        headview.hierarchy = getHierarchy()
+//        headview.hierarchy = getHierarchy()
         if(!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOWUNKNOW_TIPS, false)){
             iv_unknow_reddot.visibility = View.VISIBLE
         }else{
@@ -456,11 +456,11 @@ class MineFragment : BaseFragment() {
             tv_fcount.visibility = View.GONE
         }
 
-//        if (iPoint> 0) {
-//            iv_reddot.visibility = View.VISIBLE
-//        } else {
-//            iv_reddot.visibility = View.GONE
-//        }
+        if (iPoint> 0) {
+            iv_reddot.visibility = View.VISIBLE
+        } else {
+            iv_reddot.visibility = View.GONE
+        }
 
         if (vistorCount > 0) {
             tv_vcount.text = "+${vistorCount}"

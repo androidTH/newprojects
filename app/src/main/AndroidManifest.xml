@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.d6.android.app">
 
+    <!--https://github.com/lihangleo2/ShadowLayout-->
+    <!--https://github.com/ogaclejapan/SmartTabLayout-->
+    <!--https://github.com/shichaohui/WXShareMultiImage-->
+    <!--https://github.com/iammert/ScalingLayout-->
+    <!--https://github.com/wkp111/StickLayout?utm_source=androidweekly.io&utm_medium=website-->
+    <!--https://github.com/kongzue/StackLabel-->
+    <!--https://github.com/gdutxiaoxu/CoordinatorLayoutExample-->
+    <!--https://mp.weixin.qq.com/s/vbIKAo0whZKyIy_E80FcWw--><!--HomeFragment-->
+    <!--https://github.com/LillteZheng/ViewPagerHelper-->
+
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
@@ -315,6 +325,7 @@
         <activity android:name=".activities.PrivilegeDescActivity"/>
         <activity android:name=".activities.BindPhoneActivity"/>
         <activity android:name=".activities.BlackListActivity"/>
+        <activity android:name=".activities.InviteGoodFriendsActivity"/>
         <activity android:name=".activities.UnKnownActivity"/>
         <activity android:name=".activities.SexChooseActivity"
             android:theme="@style/chooseAnim"/>

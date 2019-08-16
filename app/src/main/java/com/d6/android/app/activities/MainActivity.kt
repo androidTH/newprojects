@@ -280,7 +280,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
         }
 
-        date_headView.hierarchy = getHierarchy()
+//        date_headView.hierarchy = getHierarchy()
 
         date_headView.setOnClickListener {
             getAuthState()
@@ -402,7 +402,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     override fun onResume() {
         super.onResume()
         if(tabhost.currentTab==0){
-            myDateUnMsg()
+//            myDateUnMsg()
         }
         unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()

@@ -76,7 +76,9 @@
                     android:id="@+id/headview"
                     style="@style/DefaultCircleNoHeadStyle"
                     android:layout_width="54dp"
-                    android:layout_height="54dp"/>
+                    android:layout_height="54dp"
+                    app:roundingBorderWidth="0.5dp"
+                    app:roundingBorderColor="@color/color_1A000000"/>
 
                 <ImageView
                     android:id="@+id/img_auther"

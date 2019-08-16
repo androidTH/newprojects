@@ -44,6 +44,7 @@ import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
@@ -1043,6 +1044,7 @@ private var sLoginToken = ""
 
 fun getLoginToken():String{
     if(sLoginToken.isNullOrEmpty()){
+        //"70CDE1CA39B0C087E664AAC7126FB04E5F4CA06A2371790EA1CE43F08C83D6558E67C773E5F243D7451624FCA50D3059C14656CF3C5D4E977027A55834EBC8E9"
         sLoginToken = SPUtils.instance().getString(Const.User.SLOGINTOKEN,"")
     }
     return sLoginToken
@@ -1129,4 +1131,16 @@ fun sendOutgoingSystemMessage(msg:String,type:String,message:Message){
 
         }
     })
+}
+
+
+fun removeKFService(mOtherUserId:String):Boolean{
+    if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+        return true
+    }
+    return false
+}
+
+fun getSelfDateDialog():Boolean{
+   return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
 }

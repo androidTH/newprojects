@@ -45,15 +45,13 @@
             android:text="快去充值吧！"/>
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/height_45"
             android:layout_margin="16dp"
             android:text="充值"
             android:textSize="@dimen/btnTextSize"
             android:id="@+id/tv_chongzhi"
             android:textColor="@color/white"
             android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
             android:background="@drawable/shape_4r_orange"/>
     </LinearLayout>
     <TextView

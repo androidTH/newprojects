@@ -1,0 +1,177 @@
+<com.d6.android.app.widget.CustomSwipeToRefresh xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mSwipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F5F5F5">
+
+    <com.d6.android.app.widget.StickyLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/appBarLayout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/color_F5F5F5"-->
+        <!--app:layout_behavior="com.d6.android.app.utils.MyBehavior">-->
+        <LinearLayout
+            android:id="@+id/ll_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/top_01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_10">
+
+                <TextView
+                    android:id="@+id/tv_speed_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/title_label_icon"
+                    android:drawablePadding="8dp"
+                    android:paddingTop="@dimen/padding_12"
+                    android:paddingBottom="@dimen/margin_8"
+                    android:text="人工服务"
+                    android:textColor="@color/color_F7AB00"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tv_speed_date"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_toRightOf="@+id/tv_speed_date"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:text="专属客服为你服务"
+                    android:textColor="@color/color_888888"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_speed_date_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignTop="@+id/tv_speed_date"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/margin_8"
+                    android:drawableRight="@mipmap/ic_arrow_right_orange"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:text="查看全部"
+                    android:textColor="@color/orange_f6a"
+                    android:textSize="12sp" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvSpeedDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_speed_date"
+                    android:layout_marginTop="@dimen/margin_5" />
+
+                <TextView
+                    android:id="@+id/tv_newest_date_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawableRight="@mipmap/ic_arrow_right_orange"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:text="查看更多"
+                    android:textColor="@color/orange_f6a"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+            <!--70dp-->
+            <RelativeLayout
+                android:id="@+id/rl_tab"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/shape_4r_f5f5"
+                android:paddingTop="@dimen/margin_8">
+
+                <TextView
+                    android:id="@+id/tv_newest_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/title_label_icon"
+                    android:drawablePadding="8dp"
+                    android:text="自主约会"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_below="@+id/tv_newest_date"
+                    android:layout_marginTop="@dimen/margin_3">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_8"
+                        android:layout_marginRight="@dimen/margin_8"
+                        android:layout_toLeftOf="@+id/tv_date_city">
+
+                        <com.d6.android.app.widget.tablayout.TabLayout
+                            android:id="@+id/tab_home_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:scrollbars="horizontal"
+                            app:tabBackground="@drawable/tablayout_background"
+                            app:tabGravity="center"
+                            app:tabIndicatorColor="@color/color_F7AB00"
+                            app:tabIndicatorHeight="3dp"
+                            app:tabLineOffset="@dimen/margin_15"
+                            app:tabMaxWidth="@dimen/margin_45"
+                            app:tabMode="scrollable"
+                            app:tabPaddingEnd="0dp"
+                            app:tabPaddingStart="0dp"
+                            app:tabSelectedTextColor="@color/color_F7AB00"
+                            app:tabTextAppearance="@style/tab_home_date"
+                            app:tabTextColor="@color/color_666666" />
+                        <!--app:tabBackground="@drawable/tablayout_background"-->
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_date_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/margin_8"
+                        android:drawableRight="@mipmap/titlemore_icon"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/margin_3"
+                        android:text="地区"
+                        android:textColor="@color/color_black"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+        <!--</android.support.design.widget.AppBarLayout>-->
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/mViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.d6.android.app.widget.StickyLayout>
+
+</com.d6.android.app.widget.CustomSwipeToRefresh>

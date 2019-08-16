@@ -151,6 +151,11 @@ class SelectPhotoDialog : DialogActivity() {
                         }
                     }
                 }
+                2->{
+                    setResult(RESULT_OK, data)
+                    finish()
+                    overridePendingTransition(0, 0)
+                }
             }
         }
     }

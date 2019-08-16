@@ -73,8 +73,11 @@ class DialogCashMoney : DialogFragment(), RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var cashmoney = arguments.getString("cashmoney")
-
+        var cashmoney =  if(arguments.containsKey("cashmoney")){
+            arguments.getString("cashmoney")
+        }else{
+            ""
+        }
         tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
 
         tv_close.setOnClickListener {

@@ -135,21 +135,25 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
         if (data.sAppointPic.isNullOrEmpty()) {
             rv_mydate_imgs.gone()
         } else {
+            rv_mydate_imgs.visible()
             rv_mydate_imgs.setHasFixedSize(true)
             rv_mydate_imgs.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            var preSize = mImages.size
             mImages.clear()
-            rv_mydate_imgs.visible()
+            if(rv_mydate_imgs.adapter!=null){
+                rv_mydate_imgs.adapter.notifyItemRangeRemoved(0,preSize)
+            }
             val images = data.sSourceAppointPic?.split(",")
             if (images != null) {
                 mImages.addAll(images.toList())
             }
             rv_mydate_imgs.adapter = SelfReleaselmageAdapter(mImages,1)
-
+            rv_mydate_imgs.adapter.notifyDataSetChanged()
         }
 
         var iv_datetype = holder.bind<ImageView>(R.id.iv_datetype)
         var index = data.iAppointType!!.toInt()-1
-        if(index!=Const.dateListTypes.size){
+        if(index<Const.dateListTypes.size){
             var drawable = ContextCompat.getDrawable(context,Const.dateListTypes[index])
             iv_datetype.backgroundDrawable = drawable
         }

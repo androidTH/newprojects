@@ -140,7 +140,7 @@ class SettingActivity : TitleActivity() {
             tv_blacklist.visibility = View.GONE
         }
 
-        headView.hierarchy = getHierarchy()
+//        headView.hierarchy = getHierarchy()
 
         tv_versionname.text = getAppVersion()
 

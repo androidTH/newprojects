@@ -205,6 +205,7 @@ class SpeedDateDetailActivity : TitleActivity() {
                 }
             }
         }
+
         //如果内容图片为空
         if (mUrls.isEmpty()) {
             speedDate.speedpics?.let {

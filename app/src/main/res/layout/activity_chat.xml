@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_chat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -92,12 +93,18 @@
             android:layout_marginRight="@dimen/margin_15"
             android:src="@mipmap/ic_more_orange" />
     </RelativeLayout>
+    <View
+        android:id="@+id/chat_top_line"
+        android:layout_below="@+id/rl_chat_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_EAEAEA" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_EBEBEB"
-        android:layout_below="@+id/rl_chat_toolbar">
+        android:layout_below="@+id/chat_top_line">
 
         <RelativeLayout
             android:id="@+id/relative_tips"
@@ -200,6 +207,11 @@
             android:layout_above="@+id/relative_tips_bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <include
+            layout="@layout/layout_date_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:id="@+id/relative_tips_bottom"

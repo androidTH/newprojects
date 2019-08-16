@@ -80,6 +80,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         tv_points_info.setOnClickListener {
             startActivity<PointExplainActivity>()
+//            startActivity<InviteGoodFriendsActivity>()
         }
 
         mHeaderView.tv_recharge.setOnClickListener {
@@ -119,13 +120,13 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                       var dialogCashMoney = DialogCashMoney()
                       mUserInfo?.let {
                           dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
-                      }
-                      dialogCashMoney.show(supportFragmentManager,"cashmoney")
-                      dialogCashMoney.setDialogListener { p, s ->
-                      //var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
+                          dialogCashMoney.show(supportFragmentManager,"cashmoney")
+                          dialogCashMoney.setDialogListener { p, s ->
+                              //var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
 //                    mHeaderView.tv_redflowernums.text = redflowerNums.toString()
-                          getUserInfo()
-                          getData()
+                              getUserInfo()
+                              getData()
+                          }
                       }
                   }
               }

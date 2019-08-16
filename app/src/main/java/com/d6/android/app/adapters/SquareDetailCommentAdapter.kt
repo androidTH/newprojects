@@ -127,6 +127,9 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         }
         contentView.text = spanText
 
+        var tv_comment_time = holder.bind<TextView>(R.id.tv_comment_time)
+        tv_comment_time.text = data.createTime?.interval()
+
         val tv_del_myself_comment = holder.bind<TextView>(R.id.tv_del_myselfcomment)
         if(data.userId == getLocalUserId()){
             tv_del_myself_comment.visibility = View.VISIBLE

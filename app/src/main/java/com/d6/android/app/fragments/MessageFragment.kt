@@ -191,12 +191,13 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         }else{
             tv_topsearch.visibility = View.GONE
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
         checkPushIsNotShow()
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//    }
 
     private fun checkPushIsNotShow() {
         if (isNotificationEnabled(context)) {
@@ -301,8 +302,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                   headerView.tv_content3.text= provider.getContentSummary(context,mConv.latestMessage)
               }
           }else{
-              headerView.rl_unknowchat.visibility = View.GONE
-              headerView.line_mchat.visibility = View.GONE
+              if(headerView!=null){
+                  headerView.rl_unknowchat.visibility = View.GONE
+                  headerView.line_mchat.visibility = View.GONE
+              }
           }
     }
 

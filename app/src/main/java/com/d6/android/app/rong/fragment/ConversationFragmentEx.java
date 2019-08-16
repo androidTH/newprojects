@@ -1,17 +1,22 @@
 package com.d6.android.app.rong.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.d6.android.app.activities.ChatActivity;
 import com.d6.android.app.rong.adapter.MessageListAdapterEx;
 import com.d6.android.app.rong.bean.TipsMessage;
 import com.d6.android.app.utils.Const;
@@ -33,15 +38,17 @@ import io.rong.imlib.model.Message;
  */
 public class ConversationFragmentEx extends ConversationFragment {
 
+    private String TAG = ConversationFragmentEx.class.getSimpleName();
     private OnShowAnnounceListener onShowAnnounceListener;
     private String mTargetId = "";
-    private RongExtension rongExtension;
-    private EditText mMyEditText;
-    private ImageView mMyEmoticonToggle;
+    public RongExtension rongExtension;
+    public EditText mMyEditText;
+    public ImageView mMyEmoticonToggle;
     private ImageView mMyPluginToggle;
-    private ImageView mMyVoiceToggle;
+    public ImageView mMyVoiceToggle;
     private boolean IsNotInput = false;
     private String hitmsg ="";
+    private boolean IsNotEditTextClick = false;
 
     public ConversationFragmentEx(){
 
@@ -65,6 +72,7 @@ public class ConversationFragmentEx extends ConversationFragment {
         mMyPluginToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_plugin_toggle);
         mMyVoiceToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_voice_toggle);
         doIsNotSendMsg(IsNotInput,hitmsg);
+        hideChatInput(false);
         return v;
     }
 
@@ -150,16 +158,62 @@ public class ConversationFragmentEx extends ConversationFragment {
     }
 
     @Override
-    public void onPluginToggleClick(View v, ViewGroup extensionBoard) {
+    public void onSwitchToggleClick(View v, ViewGroup inputBoard) {
+        super.onSwitchToggleClick(v, inputBoard);
+        Log.i(TAG,"onSwitchToggleClick");
+        IsNotEditTextClick = true;
+    }
 
+    @Override
+    public void onPluginToggleClick(View v, ViewGroup extensionBoard) {
+        Log.i(TAG,"onPluginToggleClick");
+        IsNotEditTextClick = false;
     }
 
     @Override
     public void onEmoticonToggleClick(View v, ViewGroup extensionBoard) {
-
+        Log.i(TAG,"onEmoticonToggleClick");
+        IsNotEditTextClick = false;
     }
 
-    public void doIsNotSendMsg(boolean flag,String hitmsg){
+    @Override
+    public void onEditTextClick(EditText editText) {
+        super.onEditTextClick(editText);
+        Log.i(TAG,"onEditTextClick");
+        IsNotEditTextClick = true;
+    }
+
+    @Override
+    public void onExtensionCollapsed() {
+        super.onExtensionCollapsed();
+        Log.i(TAG,"onExtensionCollapsed");
+        IsNotEditTextClick = false;
+    }
+
+    @Override
+    public void onExtensionExpanded(int h) {
+        super.onExtensionExpanded(h);
+        Log.i(TAG,"onExtensionExpanded");
+        if(!IsNotEditTextClick){
+            if(mOnExtensionExpandedListener!=null){
+                mOnExtensionExpandedListener.onExpandedListener(false);
+            }
+        }
+
+//        rongExtension.isExtensionExpanded();
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        super.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+        if(!IsNotEditTextClick){
+            if(mOnExtensionExpandedListener!=null){
+                mOnExtensionExpandedListener.onExpandedListener(false);
+            }
+        }
+    }
+
+    public void doIsNotSendMsg(boolean flag, String hitmsg){
         if(flag){
             mMyEditText.setEnabled(false);
             mMyEmoticonToggle.setEnabled(false);
@@ -181,5 +235,16 @@ public class ConversationFragmentEx extends ConversationFragment {
         }else{
             rongExtension.setVisibility(View.VISIBLE);
         }
+    }
+
+
+    private OnExtensionExpandedListener mOnExtensionExpandedListener;
+
+    public void setOnExtensionExpandedListener(OnExtensionExpandedListener expListener){
+        mOnExtensionExpandedListener = expListener;
+    }
+
+    public interface OnExtensionExpandedListener{
+        void onExpandedListener(Boolean flag);
     }
 }

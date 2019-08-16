@@ -115,13 +115,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                         pageNum++
                         getData(city,xingzuo,agemin,agemax)
                     }
-
-                    Log.i("DateFragment","index=${scrollPosition}")
-                    var findDate = mDates.get(scrollPosition-1)
-                    if(findDate.iIsFans==1){
-                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.like_complte))
-                    }else{
-                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.discover_like_button))
+                    if(mDates.size>0){
+                        var findDate = mDates.get(scrollPosition-1)
+                        if(findDate.iIsFans==1){
+                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.like_complte))
+                        }else{
+                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.discover_like_button))
+                        }
                     }
                 }
             }

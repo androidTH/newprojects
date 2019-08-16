@@ -79,10 +79,14 @@ class ShareFriendsDialog : DialogFragment() {
 
             if(TextUtils.equals(fromType,"userInfo")){
                 ll_action.visibility = View.GONE
+                getUserFriends()
             }else if(TextUtils.equals(fromType,"square")){
                 sResourceId = arguments.getString("sResourceId")
                 iType = 2
+                getUserFriends()
             }else if(TextUtils.equals(fromType,"myDateDetail")){
+                ll_dialog_title.visibility = View.GONE
+                rv_chooseuser.visibility = View.GONE
                 sResourceId = arguments.getString("sResourceId")
                 var sAppointmentSignupId = arguments.getString("sAppointmentSignupId","")
                 iType = 1
@@ -94,8 +98,8 @@ class ShareFriendsDialog : DialogFragment() {
                 Log.i("shareFriends","sid=${sAppointmentSignupId}")
             }else{
                 tv_deldate.visibility = View.VISIBLE
+                getUserFriends()
             }
-            getUserFriends()
         } else {
             tv_report_user.visibility = View.VISIBLE
             tv_deldate.visibility = View.GONE
@@ -123,8 +127,10 @@ class ShareFriendsDialog : DialogFragment() {
                     4
                 }
             }else if(TextUtils.equals(fromType,"selfPullDate")||TextUtils.equals(fromType,"myDateDetail")){
-                showFriends()
+//                showFriends()
+                ll_dialog_title.visibility = View.GONE
                 tv_sharewx.visibility = View.GONE
+                rv_chooseuser.visibility = View.GONE
                 sResourceId = arguments.getString("sResourceId")
                 iType = 1
             }else if(TextUtils.equals(fromType,"square")){

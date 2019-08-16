@@ -171,17 +171,17 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
 
     @Override
     public void onItemClick(View view, int position, AppointmentMsgContent content, UIMessage message) {
-        MyAppointment appointment = GsonHelper.getGson().fromJson(content.getExtra(), MyAppointment.class);
-        if (appointment != null) {
-            Intent intent = new Intent();
-            intent.setAction("com.d6.android.app.activities.MyDateDetailActivity");
-            intent.putExtra("from", FROM_MY_CHATDATE);
+//        MyAppointment appointment = GsonHelper.getGson().fromJson(content.getExtra(), MyAppointment.class);
+//        if (appointment != null) {
+//            Intent intent = new Intent();
+//            intent.setAction("com.d6.android.app.activities.MyDateDetailActivity");
+//            intent.putExtra("from", FROM_MY_CHATDATE);
 //            if(message.getMessageDirection() == Message.MessageDirection.SEND){
-            intent.putExtra("iShareUserId", message.getTargetId());
+//            intent.putExtra("iShareUserId", message.getTargetId());
 //            }
-            intent.putExtra("data", appointment);
-            view.getContext().startActivity(intent);
-        }
+//            intent.putExtra("data", appointment);
+//            view.getContext().startActivity(intent);
+//        }
     }
 
     @Override

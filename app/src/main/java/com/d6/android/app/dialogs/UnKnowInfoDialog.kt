@@ -94,12 +94,12 @@ class UnKnowInfoDialog : DialogFragment(), RequestManager {
         isBaseActivity {
             Request.getUserInfo(getLocalUserId(),otherUserId).request(it, success = { _, data ->
                 data?.let {
-                    tv_sex.isSelected = TextUtils.equals("0", it.sex)
+                    tv_unknow_sex.isSelected = TextUtils.equals("0", it.sex)
                     it.age?.let {
                         if (it.toInt() <= 0) {
-                            tv_sex.text = ""
+                            tv_unknow_sex.text = ""
                         } else {
-                            tv_sex.text = it
+                            tv_unknow_sex.text = it
                         }
                     }
                     var drawable: Drawable? = getLevelDrawable(it.userclassesid.toString(),context)
