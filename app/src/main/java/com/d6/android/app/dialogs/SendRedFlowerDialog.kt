@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -117,7 +118,7 @@ class SendRedFlowerDialog : DialogFragment() {
         })
 
         rv_send_redflower.setHasFixedSize(true)
-        rv_send_redflower.layoutManager = GridLayoutManager(context,3)
+        rv_send_redflower.layoutManager = GridLayoutManager(context,3) as RecyclerView.LayoutManager?
         mBuyFlowerAdapter = BuyFlowerAdapter(null)
         rv_send_redflower.addItemDecoration(RxRecyclerViewDividerTool(DisplayUtil.dpToPx(15)))
         rv_send_redflower.adapter = mBuyFlowerAdapter
@@ -220,6 +221,7 @@ class SendRedFlowerDialog : DialogFragment() {
                     }else if(mToFromType == 4){
                         dialogListener?.onClick(1,flowerCount)
                     }
+                    dismissAllowingStateLoss()
                 })
             }){code,msg->
                 CustomToast.showToast(msg)

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_white_10r"
+        android:orientation="vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:padding="16dp">
+        <TextView
+            android:id="@+id/tv_date_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="人工匹配约会"
+            android:gravity="center"
+            android:textColor="@color/color_333333"
+            android:textSize="17dp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:textColor="@color/color_333333"
+            android:text="专属客服一对一服务，基于你的需求为你人工匹配约会对象，约会成功率高达80%"/>
+        <TextView
+            android:id="@+id/tv_huo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textSize="14sp"
+            android:textColor="@color/color_F7AB00"
+            android:drawableLeft="@mipmap/pop_huo"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:text="救火：当天快速匹配" />
+        <TextView
+            android:id="@+id/tv_zq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textSize="14sp"
+            android:textColor="@color/color_F7AB00"
+            android:drawableLeft="@mipmap/pop_zq"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:text="征求：精准匹配，寻找合拍的TA" />
+        <TextView
+            android:id="@+id/tv_jy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textSize="14sp"
+            android:textColor="@color/color_F7AB00"
+            android:drawableLeft="@mipmap/pop_jy"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:text="急约：近期快速匹配" />
+        <TextView
+            android:id="@+id/tv_ny"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textSize="14sp"
+            android:textColor="@color/color_F7AB00"
+            android:drawableLeft="@mipmap/pop_ny"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:text="觅约：每日最新会员" />
+        <TextView
+            android:id="@+id/tv_lxy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:textSize="14sp"
+            android:textColor="@color/color_F7AB00"
+            android:drawableLeft="@mipmap/pop_lx"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:text="旅行约：边旅行，边约会" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:text="知道了"
+            android:textSize="@dimen/btnTextSize"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingTop="17sp"
+            android:id="@+id/tv_know"
+            android:paddingBottom="15dp"
+            android:textStyle="bold"
+            android:background="@drawable/shape_4r_orange"/>
+
+        <TextView
+            android:id="@+id/tv_lianxi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/color_888888"
+            android:text="@string/string_ask_service" />
+    </LinearLayout>
+</RelativeLayout>

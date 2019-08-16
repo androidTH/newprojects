@@ -65,16 +65,6 @@ class SelfPullDateFragment : RecyclerFragment() {
 //            startActivity<SelfReleaseDetailActivity>("data" to data)
         }
 
-        showDialog()
-        getData()
-    }
-
-
-    fun refreshByPublishNew() {
-        this.area = ""
-        this.areaType = 1
-        this.vipIds = ""
-        pageNum = 1
         getData()
     }
 

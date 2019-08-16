@@ -59,7 +59,7 @@
             android:layout_marginLeft="@dimen/margin_16"
             android:layout_marginRight="@dimen/margin_16"
             android:layout_marginTop="@dimen/margin_5"
-            android:text="联系微信客服认证"
+            android:text="联系客服认证"
             android:id="@+id/tv_action"
             android:textSize="@dimen/btnTextSize"
             android:textColor="@color/white"

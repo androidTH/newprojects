@@ -203,6 +203,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:visibility="gone"
         android:gravity="center">
 
         <!--<View-->
@@ -229,5 +230,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
+        android:visibility="gone"
         android:drawableTop="@mipmap/ic_wx" />
 </LinearLayout>

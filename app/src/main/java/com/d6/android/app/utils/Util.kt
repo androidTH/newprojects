@@ -1,40 +1,61 @@
 package com.d6.android.app.utils
 
+import android.annotation.TargetApi
 import android.app.Activity
+import android.app.AppOpsManager
+import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.StatFs
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.Settings
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
-import com.d6.android.app.activities.DateAuthStateActivity
-import com.d6.android.app.activities.UnAuthUserActivity
+import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.DateErrorDialog
+import com.d6.android.app.dialogs.DialogUpdateApp
+import com.d6.android.app.dialogs.MemberDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.Square
-import com.d6.android.app.models.UserData
+import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
+import com.d6.android.app.net.http.UpdateAppHttpUtil
+import com.d6.android.app.utils.Const.DEBUG_MODE
+import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
+import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
 import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
+import com.facebook.drawee.drawable.ScalingUtils
+import com.facebook.drawee.generic.GenericDraweeHierarchy
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
+import com.facebook.drawee.generic.RoundingParams
 import com.google.gson.JsonObject
+import com.umeng.analytics.MobclickAgent
+import com.vector.update_app.UpdateAppBean
+import com.vector.update_app.UpdateAppManager
+import com.vector.update_app.UpdateCallback
+import com.vector.update_app.utils.AppUpdateUtils
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,12 +63,15 @@ import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import org.jetbrains.anko.*
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 /**
  * 打印日志
@@ -84,6 +108,13 @@ fun Fragment.screenHeight(): Int = context.screenHeight()
 
 fun View.screenHeight(): Int = context.screenHeight()
 
+private var mUserId = ""
+fun getLocalUserId():String{
+    if(TextUtils.isEmpty(mUserId)){
+        mUserId = SPUtils.instance().getString(Const.User.USER_ID)
+    }
+    return mUserId
+}
 fun Activity.callPhone(phone: String?) {
 //    val isAllow = permission(Manifest.permission.CALL_PHONE,"拨号权限",15)
 //    if (isAllow) {
@@ -110,7 +141,10 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_SEX, obj.sex)
             .put(Const.User.USER_SCREENID, obj.screen)
             .put(Const.User.USER_DATACOMPLETION, obj.iDatacompletion)
+            .put(Const.User.USER_MESSAGESETTING,"${obj.iMessageSetting}")
+            .put(Const.User.USERPOINTS_NUMS,"${obj.iPoint}")
 //            .put(Const.User.IS_LOGIN, true)
+            .put(Const.User.SLOGINTOKEN,obj.sLoginToken)
             .apply()
 }
 
@@ -292,38 +326,70 @@ fun File?.getFileSuffix(): String {
     } else ""
 }
 
-inline fun Activity.isAuthUser(next: () -> Unit) {
+inline fun Activity.isAuthUser(from:String="nomine",next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-    val screen = SPUtils.instance().getString(Const.User.USER_SCREENID)
-    if (className == "7"&&screen == "0") {// 22 普通会员
-        this.startActivity<DateAuthStateActivity>()
-    } else {
+    if (className == "7") {// 22 普通会员
+        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+        if(TextUtils.equals("1",sex)){
+            var mMemberDialog = MemberDialog()
+            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
+            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
+//            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+        }else{
+            this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
+//             this.startActivity<DateAuthStateActivity>()
+        }
+    }else{
         next()
     }
 }
 
-inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String, crossinline next: () -> Unit) {
+inline fun Activity.isVipUser(next: () -> Unit) {
+    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+    if (className != "7") {// 22 普通会员
+        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+        if(TextUtils.equals("1",sex)){
+            this.startActivity<AuthMenStateActivity>()
+        }else{
+            this.startActivity<AuthWomenStateActivity>()
+        }
+    }else{
+        next()
+    }
+}
+
+inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String,from:String="nomine", crossinline next: () -> Unit) {
     Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
             data?.let {
-                if(it.screen=="0"&&it.userclassesid=="7"){
-//                    SPUtils.instance().put(Const.User.USER_CLASS_ID,it.userclassesid).apply()
+                if (it.userclassesid == "7") {
+                    saveUserInfo(it)
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
-                    this.startActivity<DateAuthStateActivity>()
+                    if (TextUtils.equals("1", it.sex)) {//1是男
+//                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+                        var mMemberDialog = MemberDialog()
+                        mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
+                        mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
+                    }else{
+                        this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
+//                      this.startActivity<DateAuthStateActivity>()
+                    }
                 }else{
-                    next()
+                    next();
                 }
             }
     })
 }
 
-inline fun Activity.isNoAuthToChat(id:String?,next: () -> Unit) {
-    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-    if (className == "7") {
-        CustomToast.showToast("联系微信客服开通会员可获得更多聊天机会哦～")
-//        RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, "D6客服")
-    } else {
-        next()
-    }
+inline fun Activity.isNoAuthToChat(requestManager: RequestManager, userId:String,crossinline next: () -> Unit) {
+    Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
+        data?.let {
+            if (it.userclassesid == "7") {
+                CustomToast.showToast("联系微信客服开通会员可获得更多聊天机会哦～")
+            }else{
+                next()
+            }
+        }
+    })
 }
 
 inline fun Activity.doAuthUser(next: () -> Unit) {
@@ -490,28 +556,10 @@ fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
         if(!TextUtils.isEmpty(pointDesc)){
             CustomToast.success("$pointDesc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
         }
+
     } else if(!TextUtils.isEmpty(desc)){
         CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
     }
-}
-
-/**
- * 获得版本名称
- *
- * @return
- */
-fun getD6VersionName(context: Context): String {
-    var versionName = "1.6.1"
-    try {
-        val info = context.packageManager.getPackageInfo(
-                context.packageName, 0)
-        versionName = info.versionName
-
-    } catch (e: PackageManager.NameNotFoundException) {
-        e.printStackTrace()
-    }
-
-    return versionName
 }
 
 /**
@@ -541,4 +589,415 @@ fun getDiskLruCacheHelper(context: Context): DiskLruCacheHelper? {
     }
 
     return mDiskLruCacheHelper
+}
+
+private val MIN_DELAY_TIME= 1000  // 两次点击间隔不能少于1000ms
+private var lastClickTime:Long = 0
+
+/**
+ * 防止多次点击
+ */
+fun isFastClick():Boolean {
+    var flag = true
+    var currentClickTime = System.currentTimeMillis()
+    if ((currentClickTime - lastClickTime) >= MIN_DELAY_TIME) {
+        flag = false
+    }
+    lastClickTime = currentClickTime
+    return flag
+}
+
+/**
+ * 检测特殊符号和表情
+ */
+fun checkLimitEx(str:String):Boolean{
+    var limitEx ="[`~!@#\$%^&*()+=|{}':;',\\\\[\\\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]"
+
+    var pattern = Pattern.compile(limitEx)
+    var m = pattern.matcher(str)
+    if(m.find()){
+        return true
+    }
+
+    if(containsEmoji(str)){
+        return true
+    }
+
+    return false;
+}
+
+fun diyUpdate(activity: BaseActivity,from:String?) {
+    val path = Environment.getExternalStorageDirectory().absolutePath
+
+    val params = HashMap<String, String>()
+
+//        params["appKey"] = "ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f"
+//    params["sVersion"] =AppUpdateUtils.getVersionName(activity) //AppUpdateUtils.getVersionName(activity)//AppUpdateUtils.getVersionName(this)
+//    params["iType"] = "2" //区分安卓和ios 2代表安卓
+    params["piecesMark"] = "app_update"
+    params["sVersion"] =AppUpdateUtils.getVersionName(activity)
+
+
+    UpdateAppManager.Builder()
+            //必须设置，当前Activity
+            .setActivity(activity)
+            //必须设置，实现httpManager接口的对象
+            .setHttpManager(UpdateAppHttpUtil())
+            //必须设置，更新地址
+            .setUpdateUrl(Const.UpdateAppUrl_PiecesMark)
+            //以下设置，都是可选
+            //设置请求方式，默认get
+            .setPost(true)
+            //添加自定义参数，默认version=1.0.0（app的versionName）；apkKey=唯一表示（在AndroidManifest.xml配置）
+            .setParams(params)
+            //设置apk下砸路径，默认是在下载到sd卡下/Download/1.0.0/test.apk
+            .setTargetPath(path)
+            .build()
+            //检测是否有新版本
+            .checkNewApp(object : UpdateCallback() {
+                /**
+                 * 解析json,自定义协议
+                 *
+                 * @param json 服务器返回的json
+                 * @return UpdateAppBean
+                 */
+                override fun parseJson(json: String): UpdateAppBean {
+                    val updateAppBean = UpdateAppBean()
+                    try {
+                        val jsonObject = JSONObject(json)
+                        val code = jsonObject.optInt("res", -1)
+                        if (code == 1) {
+                            var obj = jsonObject.optString("obj")
+                            var versionBean = GsonHelper.GsonToBean(obj, PiecesMarkBean::class.java)
+
+                            var isNoUpdate = if(!TextUtils.equals(versionBean.ext5,"0")){
+                                "Yes"
+                            }else{
+                                "No"
+                            }
+                            updateAppBean
+                                    //（必须是否更新Yes,No
+                                    .setUpdate(isNoUpdate)//jsonObject.optString("update")
+                                    //（必须）新版本号
+                                    .setNewVersion(versionBean.ext2)
+                                    //（必须）下载地址jsonObject.optString("apk_file_url") "http://test-1251233192.coscd.myqcloud.com/1_1.apk"
+                                    .setApkFileUrl(versionBean.ext4)//http://test-1251233192.coscd.myqcloud.com/1_1.apk
+                                    //（必须）更新内容
+                                    .setUpdateLog(versionBean.description)
+                                    //大小，不设置不显示大小，可以不设置
+//                                        .setTargetSize(jsonObject.optString("target_size"))
+                                    //是否强制更新，可以不设置
+                                    .setConstraint(if (TextUtils.equals(versionBean.ext5,"2")) true else false)
+//                                        .newMd5 = jsonObject.optString("new_md5")
+                        } else {
+                            var msg = jsonObject.optString("resMsg")
+//                            showToast(msg)
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+
+                    return updateAppBean
+                }
+
+                /**
+                 * 有新版本
+                 *
+                 * @param updateApp        新版本信息
+                 * @param updateAppManager app更新管理器
+                 */
+                public override fun hasNewApp(updateApp: UpdateAppBean, updateAppManager: UpdateAppManager) {
+                    var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
+                    if(TextUtils.equals(activity::class.java.simpleName,from)){
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
+                        }
+                    }else if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
+                        //自定义对话框
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
+                        }
+                    } else if (updateApp.isConstraint) {
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show(activity.supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
+                        }
+                    }
+                }
+
+                /**
+                 * 网络请求之前
+                 */
+                public override fun onBefore() {
+                    activity.dialog()
+                }
+
+                /**
+                 * 网路请求之后
+                 */
+                public override fun onAfter() {
+                    activity.dismissDialog()
+                }
+
+                /**
+                 * 没有新版本
+                 */
+                public override fun noNewApp(error: String?) {
+                    if(TextUtils.equals(from,activity::class.java.simpleName)){
+                        showToast("已是最新版本")
+                    }
+                }
+            })
+}
+
+fun getReplace(str:String):String{
+    return str.replace("省","").replace("市","")
+}
+
+fun hideSoftKeyboard(view:View) {
+    var manager = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+}
+
+fun showSoftInput(view:View) {
+    val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    //显示软键盘
+    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
+    view.requestFocus()
+}
+
+private val CHECK_OP_NO_THROW = "checkOpNoThrow"
+private val OP_POST_NOTIFICATION = "OP_POST_NOTIFICATION"
+
+@TargetApi(Build.VERSION_CODES.KITKAT)
+fun isNotificationEnabled(context: Context): Boolean {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        ///< 8.0手机以上
+        if ((context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).getImportance() === NotificationManager.IMPORTANCE_NONE) {
+            return false
+        }
+    }
+
+    val mAppOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+    val appInfo = context.applicationInfo
+    val pkg = context.applicationContext.packageName
+    val uid = appInfo.uid
+
+    var appOpsClass: Class<*>? = null
+    try {
+        appOpsClass = Class.forName(AppOpsManager::class.java!!.getName())
+        val checkOpNoThrowMethod = appOpsClass!!.getMethod(CHECK_OP_NO_THROW, Integer.TYPE, Integer.TYPE,
+                String::class.java)
+        val opPostNotificationValue = appOpsClass.getDeclaredField(OP_POST_NOTIFICATION)
+
+        val value = opPostNotificationValue.get(Int::class.java) as Int
+        return checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg) as Int === AppOpsManager.MODE_ALLOWED
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return false
+}
+
+fun getShareUserId(mChooseFriends:ArrayList<FriendBean>):String{
+    if(mChooseFriends!=null&&mChooseFriends.size>0){
+        var sb = StringBuilder()
+        for(bean in mChooseFriends){
+            sb.append("${bean.iUserid}").append(",")
+        }
+        return sb.deleteCharAt(sb.length-1).toString()
+    }
+    return ""
+}
+
+/**
+ * 跳到通知页
+ */
+fun requestNotify(context: Context){
+
+    var appInfo = context.getApplicationInfo()
+    var pkg = context.getApplicationContext().getPackageName()
+    var uid = appInfo.uid
+    try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val intent: Intent = Intent()
+            intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            //这种方案适用于 API 26, 即8.0（含8.0）以上可以用
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, pkg)
+            intent.putExtra(Settings.EXTRA_CHANNEL_ID, uid)
+            //这种方案适用于 API21——25，即 5.0——7.1 之间的版本可以使用
+            intent.putExtra("app_package", pkg)
+            intent.putExtra("app_uid", uid)
+            context.startActivity(intent)
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+            val intent: Intent = Intent()
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.addCategory(Intent.CATEGORY_DEFAULT)
+            intent.setData(Uri.parse("package:" + context.getPackageName()))
+            context.startActivity(intent)
+//                context.startActivityForResult(intent, AppConst.REQUEST_SETTING_NOTIFICATION);
+        } else {
+            var intent =  Intent(Settings.ACTION_SETTINGS)
+            context.startActivity(intent)
+//                context.startActivityForResult(intent, AppConst.REQUEST_SETTING_NOTIFICATION);
+        }
+    } catch (e:Exception) {
+        var intent = Intent(Settings.ACTION_SETTINGS)
+        context.startActivity(intent)
+//            context.startActivityForResult(intent, AppConst.REQUEST_SETTING_NOTIFICATION);
+    }
+}
+
+/**
+ * 分享到聊天
+ */
+fun shareChat(activity: BaseActivity,type:String,sex:String,userId:String){
+    var map = HashMap<String,String>()
+    map.put("content_type",type)
+    map.put("sex",if(TextUtils.equals("0",sex)) "women" else "man")
+    if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
+        map.put("is_service","Y")
+    }else{
+        map.put("is_service","n")
+    }
+    MobclickAgent.onEvent(activity,"share_chat_id",map)
+}
+
+/**
+ * 发布时同步到聊天
+ */
+fun syncChat(activity: BaseActivity,type:String,sex:String,userId:String){
+    var map = HashMap<String,String>()
+    map.put("content_type",type)
+    map.put("sex",if(TextUtils.equals("0",sex)) "women" else "man")
+    if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
+        map.put("is_service","Y")
+    }else{
+        map.put("is_service","n")
+    }
+    MobclickAgent.onEvent(activity,"sync_chat_id",map)
+}
+
+fun chatService(activity: BaseActivity){
+    var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+    if(TextUtils.equals("0",sex)){
+        //女客服号
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceWomenId, "")//客服小六
+    }else{
+        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, Const.CustomerServiceId, "")//客服六妹
+    }
+}
+
+inline fun Activity.pushCustomerMessage(requestManager: RequestManager, userId:String,iType:Int,sSourceId:String, crossinline next: () -> Unit) {
+    Request.pushCustomerMessage(getLoginToken(),userId,iType,sSourceId).request(requestManager,false,success = {msg,data->
+        next()
+    }){code,msg->
+        toast(msg)
+    }
+}
+
+fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
+    var mDrawable:Drawable? = null
+    if (TextUtils.equals(levelId, "27")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_cj)
+    } else if (TextUtils.equals(levelId, "28")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_zj)
+    } else if (TextUtils.equals(levelId, "29")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_gj)
+    } else if (TextUtils.equals(levelId, "22")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
+    } else if (TextUtils.equals(levelId, "23")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
+    } else if (TextUtils.equals(levelId, "24")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
+    } else if (TextUtils.equals(levelId, "25")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
+    } else if (TextUtils.equals(levelId, "26")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
+    } else if (TextUtils.equals(levelId, "7")) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
+    } else if(TextUtils.equals(levelId, "30")){
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon);
+    }
+    return mDrawable
+}
+
+fun getUserSex():String{
+    return SPUtils.instance().getString(Const.User.USER_SEX)
+}
+
+fun getHierarchy(sex:String= getUserSex()): GenericDraweeHierarchy {
+    val builder = GenericDraweeHierarchyBuilder(AppUtils.context!!.resources)
+    if(TextUtils.equals("1", sex)){
+        builder.setFailureImage(R.mipmap.headportrait_boy)
+        builder.setPlaceholderImage(R.mipmap.headportrait_boy)
+    }else{
+        builder.setFailureImage(R.mipmap.headportrait_girl)
+        builder.setPlaceholderImage(R.mipmap.headportrait_girl)
+    }
+    builder.placeholderImageScaleType = ScalingUtils.ScaleType.FIT_CENTER
+    builder.failureImageScaleType = ScalingUtils.ScaleType.FIT_CENTER
+    builder.desiredAspectRatio = 1f
+    var rp = RoundingParams()
+    //是否要将图片剪切成圆形
+    rp.setCornersRadius(6f)
+    rp.setRoundAsCircle(true)
+    builder.roundingParams = rp
+    return builder.build()
+}
+
+fun showFloatManService():Boolean{
+    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+    if (TextUtils.equals("7",className)) {
+        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+        if(TextUtils.equals("1",sex)){
+            return true
+        }else{
+            return false
+        }
+    }
+    return false
+}
+
+/**
+ * 获得版本名称
+ *
+ * @return
+ */
+private var mVersion = ""
+fun getAppVersion():String{
+    if(TextUtils.isEmpty(mVersion)){
+        mVersion = AppUpdateUtils.getVersionName(AppUtils.context)
+    }
+    return mVersion
+}
+
+private var sLoginToken = ""
+
+fun getLoginToken():String{
+    if(sLoginToken.isNullOrEmpty()){
+        sLoginToken = SPUtils.instance().getString(Const.User.SLOGINTOKEN,"")
+    }
+    return sLoginToken
+}
+
+fun clearLoginToken(){
+    sLoginToken = ""
+    mUserId = ""
+}
+
+//false 正式环境 true 测试环境
+fun getDebugMode():Boolean{
+    if(BuildConfig.DEBUG){
+        var debugmode = SPUtils.instance().getBoolean(DEBUG_MODE,true)
+        return debugmode
+    }
+    return false
 }

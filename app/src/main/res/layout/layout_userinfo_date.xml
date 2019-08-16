@@ -4,6 +4,7 @@
     android:id="@+id/rl_userinfo_date"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:visibility="gone"
     app:cardCornerRadius="@dimen/margin_5"
     app:cardElevation="@dimen/margin_5"
     app:cardMaxElevation="@dimen/margin_5">
@@ -32,7 +33,7 @@
                 android:layout_height="@dimen/margin_15"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/video_small_authentication"
+                android:background="@mipmap/video_small"
                 android:visibility="visible"/>
         </RelativeLayout>
 
@@ -52,7 +53,7 @@
                 android:drawableRight="@drawable/sex_selector"
                 android:drawablePadding="@dimen/margin_5"
                 android:singleLine="true"
-                android:text="-------"
+                android:text="加载中..."
                 android:textColor="@color/color_333333"
                 android:textSize="14sp" />
 
@@ -63,7 +64,7 @@
                 android:layout_marginRight="80dp"
                 android:layout_marginBottom="2dp"
                 android:singleLine="true"
-                android:text="30岁·175·74kg"
+                android:text="--"
                 android:textColor="@color/color_999999"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -73,9 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:drawableTop="@mipmap/drink_nolimit_feed"
             android:gravity="center"
-            android:text="吃饭"
             android:textColor="@color/color_A9A9A9"
             android:textSize="11sp" />
 
@@ -132,7 +131,6 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/invitation_time_icon"
                 android:drawablePadding="@dimen/margin_3"
-                android:text="倒计时:4天"
                 android:textColor="@color/color_888888"
                 android:textSize="12sp" />
 
@@ -143,7 +141,6 @@
                 android:layout_marginLeft="@dimen/margin_15"
                 android:drawableLeft="@mipmap/invitation_local_icon"
                 android:drawablePadding="@dimen/margin_2"
-                android:text="武汉"
                 android:textColor="@color/color_888888"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="230dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sv_service"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        app:roundTopStart="false"
+        app:roundTopEnd="false"
+        app:roundTopLeft="false"
+        app:roundTopRight="false"
+        app:roundBottomStart="false"
+        app:roundBottomEnd="false"
+        app:roundBottomLeft="false"
+        app:roundBottomRight="false"
+        app:roundAsCircle="false"
+        app:roundedCornerRadius="@dimen/margin_10"
+        android:src="@mipmap/windows_tz1" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_15"
+        android:lineSpacingExtra="@dimen/margin_3"
+        android:textStyle="bold"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/tv_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_5"
+        android:lineSpacingExtra="@dimen/margin_3"
+        android:textStyle="bold"
+        android:text=""
+        android:textColor="@color/color_CCFFFFFF"
+        android:textSize="12sp" />
+
+</RelativeLayout>

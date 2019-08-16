@@ -3,11 +3,8 @@ package com.d6.android.app.fragments
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
-import android.view.View
 import com.d6.android.app.R
-import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.widget.photodrag.PhotoDragHelper
+import com.d6.android.app.base.BaseNoBarFragment
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.drawable.ProgressBarDrawable
 import com.facebook.drawee.drawable.ScalingUtils
@@ -20,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_image.*
 /**
  * 图片Fragment
  */
-class ImageFragment : BaseFragment() {
+class ImageFragment : BaseNoBarFragment() {
     companion object {
         fun newInstance(url: String, isBlur: Boolean): Fragment {
             val imageFragment = ImageFragment()
@@ -71,5 +68,4 @@ class ImageFragment : BaseFragment() {
 
     override fun onVisibleToUser() {}
     override fun onInvisibleToUser() {}
-
 }

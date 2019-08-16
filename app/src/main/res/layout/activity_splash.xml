@@ -1,10 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mViewPager"
-    tools:context=".activities.SplashActivity">
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+    <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+        android:id="@+id/splasy_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_login"
+        android:layout_marginBottom="@dimen/margin_35"
+        banner:autoTurningTime="3000"
+        banner:canLoop="true" />
 
-</android.support.v4.view.ViewPager>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_login"
+        android:layout_marginBottom="@dimen/height_60"
+        android:visibility="visible"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_numone"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:background="@drawable/shape_dot_selector"
+            android:gravity="center"
+            android:enabled="false"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/tv_numtwo"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginLeft="@dimen/margin_6"
+            android:background="@drawable/shape_dot_selector"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/tv_numthree"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginLeft="@dimen/margin_6"
+            android:background="@drawable/shape_dot_selector"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+        <TextView
+            android:id="@+id/tv_numfour"
+            android:layout_width="4dp"
+            android:layout_height="4dp"
+            android:layout_marginLeft="@dimen/margin_6"
+            android:background="@drawable/shape_dot_selector"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="@dimen/margin_15"
+        android:paddingBottom="@dimen/margin_5"
+        android:layout_marginBottom="@dimen/height_75"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <RelativeLayout
+            android:id="@+id/rl_phonelogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/shape_sign_login_press_circle">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="手机号注册/登录"
+                android:textColor="@color/white"
+                android:drawableLeft="@mipmap/login_cellphone"
+                android:drawablePadding="@dimen/margin_6"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_wxlogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/shape_sign_wxlogin_press_circle">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:drawableLeft="@mipmap/login_wechat"
+                android:drawablePadding="@dimen/margin_6"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="微信注册/登录"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_protocols"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_25"
+        android:textSize="12sp"
+        android:textColor="@color/color_888888"
+        android:text="点击登录/注册即表示同意 用户协议"/>
+</RelativeLayout>

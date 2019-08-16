@@ -10,7 +10,7 @@ data class DateType(var type: Int = 1):Parcelable {
     var imgUrl: String = ""
     var selectedimgUrl:String=""
     var dateTypeName:String=""
-    var isSelected:Boolean=false;
+    var isSelected:Boolean=false
 
     constructor(parcel: Parcel) : this(parcel.readInt()) {
         imgUrl = parcel.readString()

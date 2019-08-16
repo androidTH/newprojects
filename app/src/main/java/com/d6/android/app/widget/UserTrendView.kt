@@ -107,21 +107,21 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //        tv_name.text = square.name
 //        tv_name.isSelected = TextUtils.equals("0",square.sex)
         val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime.toTime("MM.dd")
+            square.updatetime?.interval()
         } else {
-            String.format("%s | %s",square.updatetime.toTime("MM.dd"),square.city)
+            String.format("%s | %s",square.updatetime?.interval(),square.city)
         }
         tv_sub_title.text = sub
 
         tv_content.text = square.content
 
-        if (square.imgUrl.isNullOrEmpty()) {
+        if (square.sSourceSquarePics.isNullOrEmpty()) {
             rv_images.gone()
         } else {
             rv_images.visible()
         }
         mImages.clear()
-        val images = square.imgUrl?.split(",")
+        val images = square.sSourceSquarePics?.split(",")
         if (images != null) {
             mImages.addAll(images.toList())
         }
@@ -170,26 +170,28 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             false
         }
 
-        square.commentCount?.let {
-            if (it > 0) {
-                ll_comments.visible()
-                rv_comment.visible()
-            } else {
-                rv_comment.gone()
-                ll_comments.gone()
-            }
-            if (it > 2) {
-                tv_all_comment.text = String.format("查看全部%s条评论",it)
-                tv_all_comment.visible()
-            } else {
-                tv_all_comment.gone()
-            }
-        }
-        mComments.clear()
-        if (square.comments != null) {
-            mComments.addAll(square.comments)
-        }
-        commentAdapter.notifyDataSetChanged()
+        ll_comments.visibility = View.GONE
+
+//        square.commentCount?.let {
+//            if (it > 0) {
+//                ll_comments.visible()
+//                rv_comment.visible()
+//            } else {
+//                rv_comment.gone()
+//                ll_comments.gone()
+//            }
+//            if (it > 2) {
+//                tv_all_comment.text = String.format("查看全部%s条评论",it)
+//                tv_all_comment.visible()
+//            } else {
+//                tv_all_comment.gone()
+//            }
+//        }
+//        mComments.clear()
+//        if (square.comments != null) {
+//            mComments.addAll(square.comments)
+//        }
+//        commentAdapter.notifyDataSetChanged()
     }
 
     fun hide(@IdRes viewIdRes: Int) {

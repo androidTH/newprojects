@@ -1,8 +1,10 @@
 package com.d6.android.app.activities
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.text.TextUtils
 import com.d6.android.app.R
+import com.d6.android.app.adapters.RecommentDatePageAdapter
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.AreaSelectedPopup
 import com.d6.android.app.dialogs.FilterCityDialog
@@ -25,11 +27,8 @@ class RecommendDateActivity : TitleActivity() {
     val fragment = RecommendDateQuickFragment()
     private var iLookType: String = ""
     private var city: String = ""
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
 
-    var province = Province(Const.LOCATIONCITYCODE,"不限")
+    var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
@@ -45,16 +44,15 @@ class RecommendDateActivity : TitleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommend_date)
         immersionBar.init()
-        setTitleBold("全部人工推荐")
+        setTitleBold("人工推荐")
 
         tv_date_city.setOnClickListener {
-            isAuthUser{
-                showArea()
+            isAuthUser(){
+               showArea()
             }
         }
 
         tv_datetype.setOnClickListener {
-            isCheckOnLineAuthUser(this,userId) {
                 val filterDateTypeDialog = FilterDateTypeDialog()
                 filterDateTypeDialog.setDateType(false)
                 filterDateTypeDialog.show(supportFragmentManager, "ftd")
@@ -68,7 +66,6 @@ class RecommendDateActivity : TitleActivity() {
                     }
                     fragment.getFindRecommend(iLookType,city)
                 }
-            }
         }
 
         fragment.userVisibleHint = true
@@ -84,18 +81,29 @@ class RecommendDateActivity : TitleActivity() {
             getProvinceData()
         }else{
             var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-//            setLocationCity()
-//            ProvinceData?.add(0,province)
+            setLocationCity()
+            ProvinceData?.add(0,province)
             mPopupArea.setData(ProvinceData)
         }
+
+//        mFragments.add(RecommendDateQuickFragment())
+//        mFragments.add(RecommendDateQuickFragment())
+//        mFragments.add(RecommendDateQuickFragment())
+//        mFragments.add(RecommendDateQuickFragment())
+//        mFragments.add(RecommendDateQuickFragment())
+//        mFragments.add(RecommendDateQuickFragment())
+//
+//        viewpager_recommenddate.adapter = RecommentDatePageAdapter(supportFragmentManager,mFragments)
+//        viewpager_recommenddate.offscreenPageLimit = mFragments.size
+//        tab_recommentdate.setupWithViewPager(viewpager_recommenddate)
     }
 
     private fun getProvinceData() {
         Request.getProvinceAll().request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
-//                setLocationCity()
-//                it.add(0,province)
+                setLocationCity()
+                it.add(0,province)
                 mPopupArea.setData(it)
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND, getTodayTime()).apply()
             }
@@ -104,7 +112,10 @@ class RecommendDateActivity : TitleActivity() {
 
     //设置不限
     private fun setLocationCity(){
-        var city = City("","不限地区")
+//        var city = City("","不限地区")
+        var sameCity = SPUtils.instance().getString(Const.User.USER_PROVINCE)
+        var city = City("", getReplace(sameCity))
+        city.isSelected = true
         city.isSelected = true
         province.lstDicts.add(city)
     }

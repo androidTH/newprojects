@@ -39,6 +39,7 @@ abstract class RecyclerFragment : BaseFragment() {
 
     private var adapter: RecyclerView.Adapter<*>? = null
     protected abstract fun setAdapter(): RecyclerView.Adapter<*>
+    protected var mIsDismissDialog = false
     /**
      * 下拉刷新
      */
@@ -137,7 +138,13 @@ abstract class RecyclerFragment : BaseFragment() {
 
     override fun dismissDialog() {
         super.dismissDialog()
-        setRefreshing(false)
+        if(!mIsDismissDialog){
+            mSwipeRefreshLayout.postDelayed(object:Runnable{
+                override fun run() {
+                    setRefreshing(false)
+                }
+            },500)
+        }
     }
     /**
      * 设置刷新状态

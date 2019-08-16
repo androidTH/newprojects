@@ -6,8 +6,8 @@
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         style="@style/DefaultHeadStyle"
         android:layout_marginRight="8dp"
         android:id="@+id/headView"
@@ -17,9 +17,10 @@
         android:layout_height="wrap_content"
         android:text="--"
         android:layout_marginBottom="6dp"
-        android:textColor="@color/color_369"
+        android:textColor="@color/color_black"
         android:singleLine="true"
         android:layout_toRightOf="@+id/headView"
+        android:textSize="15sp"
         android:id="@+id/tv_name"/>
     <TextView
         android:layout_width="match_parent"
@@ -30,26 +31,27 @@
         android:text="--"
         android:textColor="@color/color_333333"
         android:layout_below="@+id/tv_name"
+        android:textSize="12sp"
         android:layout_marginBottom="6dp"/>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tv_name"
         android:layout_below="@+id/tv_content"
         android:textColor="@color/color_888888"
         android:id="@+id/tv_time"
         android:text="--"
-        android:layout_marginBottom="6dp"/>
+        android:textSize="11sp"/>
     <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_alignParentRight="true"
         android:visibility="invisible"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         style="@style/DefaultImageStyle"
         android:id="@+id/imageView"/>
     <TextView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:padding="8dp"
         android:layout_alignParentRight="true"
         android:background="#d0d0d0"

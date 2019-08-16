@@ -10,10 +10,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.UserBean
 import com.alibaba.fastjson.JSONObject
@@ -35,15 +32,11 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.rong.imkit.RongIM
-import io.rong.imlib.RongIMClient
-import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
-import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_mine_v2.*
 import kotlinx.android.synthetic.main.header_mine_layout.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.imageURI
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -86,6 +79,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         super.onActivityCreated(savedInstanceState)
         immersionBar
                 .fitsSystemWindows(false)
+                .statusBarColor(R.color.trans_parent)
                 .statusBarAlpha(0f)
                 .titleBar(rl_title)
                 .keyboardEnable(true)
@@ -151,22 +145,22 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         })
 
         headerView.rl_vistors_count.setOnClickListener(View.OnClickListener {
-            Request.getVistorAuth(userId).request(this,false,success={msg,data->
+            Request.getVistorAuth(userId).request(this, false, success = { msg, data ->
                 startActivity<VistorsActivity>()
-            }){code,msg->
-                if(code==2){
+            }) { code, msg ->
+                if (code == 2) {
                     //积分充足
-                    if(msg.isNotEmpty()){
+                    if (msg.isNotEmpty()) {
                         val jsonObject = JSONObject.parseObject(msg)
                         var point = jsonObject.getString("iAddPoint")
                         var sAddPointDesc = jsonObject.getString("sAddPointDesc")
                         val dateDialog = VistorPayPointDialog()
-                        dateDialog.arguments= bundleOf("point" to point,"pointdesc" to sAddPointDesc,"type" to  0)
+                        dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 0)
                         dateDialog.show((context as BaseActivity).supportFragmentManager, "vistor")
                     }
-                }else if(code==3){
+                } else if (code == 3) {
                     //积分不足
-                    if(msg.isNotEmpty()){
+                    if (msg.isNotEmpty()) {
                         val jsonObject = JSONObject.parseObject(msg)
                         var sAddPointDesc = jsonObject.getString("sAddPointDesc")
 //                        val dateDialog = OpenDatePointNoEnoughDialog()
@@ -177,7 +171,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                         openErrorDialog.arguments = bundleOf("code" to 1000, "msg" to sAddPointDesc)
                         openErrorDialog.show((context as BaseActivity).supportFragmentManager, "publishfindDateActivity")
                     }
-                }else{
+                } else {
                     showToast(msg)
                 }
             }
@@ -185,7 +179,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
 
         headerView.tv_auther_sign.setOnClickListener(View.OnClickListener {
-            activity.isCheckOnLineAuthUser(this,userId){
+            activity.isCheckOnLineAuthUser(this, userId) {
                 startActivity<DateAuthSucessActivity>()
             }
         })
@@ -214,7 +208,8 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //            (activity as BaseActivity).getTrendDetail(square.id ?: "") {
 //                startActivityForResult<TrendDetailActivity>(18, "data" to it)
 //            }
-            startActivity<SquareTrendDetailActivity>("id" to (square.id?:""),"position" to position)
+            startActivity<SquareTrendDetailActivity>("id" to (square.id
+                    ?: ""), "position" to position)
         }
 
         mSwipeRefreshLayout.mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -243,10 +238,10 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         showDialog()
     }
 
-    private fun setTitleBgAlpha(alpha:Int) {
+    private fun setTitleBgAlpha(alpha: Int) {
         colorDrawable.alpha = alpha
         rl_title.backgroundDrawable = colorDrawable
-        tv_title_nick.alpha = alpha/255f
+        tv_title_nick.alpha = alpha / 255f
         if (alpha > 128) {
 //            tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_my_msg_orange, 0)
             tv_setting.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_setting_orange, 0)
@@ -265,30 +260,11 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
         getUserInfo()
         getUserFollowAndFansandVistor()
     }
+
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             immersionBar.init()
-        }
-    }
-
-    private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
-                //无数据
-//                tv_msg_count1.gone()
-//                headerView.tv_msg_count.gone()
-            } else {
-                if ((data.count ?:0)> 0) {
-//                    tv_msg_count1.visible()
-//                    headerView.tv_msg_count.visible()
-//                    headerView.tv_msg_count.text = data.count.toString()
-                }
-            }
-        }) { _, _ ->
-
         }
     }
 
@@ -318,7 +294,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             } else if (requestCode == 22) {
                 onRefresh()
-            }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
+            } else if (requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE && data != null) {
                 var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
                 updateImages(param.images[param.index])
             }
@@ -326,7 +302,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this,success = { _, data ->
+        Request.getUserInfo("", userId).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             mData = data
             activity?.saveUserInfo(data)
@@ -338,51 +314,78 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 headerView.headview.setImageURI(it.picUrl)
                 headerView.tv_nick.text = it.name
                 tv_title_nick.text = it.name
-                if(!TextUtils.isEmpty(it.intro)){
+                if (!TextUtils.isEmpty(it.intro)) {
                     headerView.tv_signature.text = it.intro
-                }else{
-                    headerView.tv_signature.text = "一个好的自我介绍更受异性青睐~"
+                } else {
+                    headerView.tv_signature.text = getString(R.string.string_info)
                 }
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 it.age?.let {
-                    if(it.toInt()<=0){
+                    if (it.toInt() <= 0) {
                         headerView.tv_sex.text = ""
-                    }else{
+                    } else {
                         headerView.tv_sex.text = it
                     }
                 }
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
-                if(TextUtils.equals("0",mData!!.screen)|| mData!!.screen.isNullOrEmpty()){
-                    if(TextUtils.equals("7",mData!!.userclassesid)){
-                        headerView.tv_auther_sign.visibility = View.VISIBLE
-                    }else{
-                        headerView.tv_auther_sign.visibility = View.GONE
-                    }
-                    headerView.img_auther.visibility = View.GONE
-                }else if(TextUtils.equals("1",mData!!.screen)){
-                    headerView.img_auther.setImageResource(R.mipmap.girl_center_videoborder)
-                    headerView.img_auther.visibility = View.VISIBLE
-                    headerView.tv_auther_sign.visibility = View.GONE
-                }else if(TextUtils.equals("3",mData!!.screen)){
+                if(TextUtils.equals(userId, Const.CustomerServiceId)||TextUtils.equals(userId, Const.CustomerServiceWomenId)){
                     headerView.tv_auther_sign.visibility = View.GONE
                     headerView.img_auther.visibility = View.GONE
-                    headerView.img_auther.setImageResource(R.mipmap.small_authentication)
+                    headerView.img_mine_official.visibility = View.VISIBLE
                 }else{
-                    headerView.tv_auther_sign.visibility = View.VISIBLE
-                    headerView.img_auther.visibility = View.GONE
+                    if (TextUtils.equals("0", mData!!.screen) || mData!!.screen.isNullOrEmpty()) {
+                        if (TextUtils.equals("7", mData!!.userclassesid)) {
+                            headerView.tv_auther_sign.visibility = View.GONE
+                        } else {
+                            headerView.tv_auther_sign.visibility = View.GONE
+                        }
+                        headerView.img_auther.visibility = View.GONE
+                    } else if (TextUtils.equals("1", mData!!.screen)) {
+                        headerView.img_auther.setImageResource(R.mipmap.video_big)
+                        headerView.img_auther.visibility = View.VISIBLE
+                        headerView.tv_auther_sign.visibility = View.GONE
+                    } else if (TextUtils.equals("3", mData!!.screen)) {
+                        headerView.tv_auther_sign.visibility = View.GONE
+                        headerView.img_auther.visibility = View.GONE
+                        headerView.img_auther.setImageResource(R.mipmap.renzheng_big)
+                    } else {
+                        headerView.tv_auther_sign.visibility = View.GONE
+                        headerView.img_auther.visibility = View.GONE
+                    }
                 }
 
-                headerView.tv_vip.text = String.format("%s", it.classesname)
+                //27入门 28中级  29优质
+                if (TextUtils.equals(it.userclassesid, "27")) {
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_cj)
+                } else if (TextUtils.equals(it.userclassesid, "28")) {
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_zj)
+                } else if (TextUtils.equals(it.userclassesid, "29")) {
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.gril_gj)
+                } else if (TextUtils.equals(it.userclassesid.toString(), "22")) {
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
+                } else if (TextUtils.equals(it.userclassesid, "23")) {
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_silver)
+                } else if (TextUtils.equals(it.userclassesid, "24")) {
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_gold)
+                } else if (TextUtils.equals(it.userclassesid, "25")) {
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
+                } else if (TextUtils.equals(it.userclassesid, "26")) {
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
+                }else if(TextUtils.equals(it.userclassesid,"7")){
+                    headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+                }else{
+                    headerView.tv_vip.visibility = View.GONE
+                }
 
                 mTags.clear()
 
-                if(!it.height.isNullOrEmpty()){
+                if (!it.height.isNullOrEmpty()) {
                     mTags.add(UserTag("身高 ${it.height}", R.mipmap.boy_stature_whiteicon))
                 }
 
-                if(!it.weight.isNullOrEmpty()){
+                if (!it.weight.isNullOrEmpty()) {
                     mTags.add(UserTag("体重 ${it.weight}", R.mipmap.boy_weight_whiteicon))
                 }
 
@@ -395,33 +398,38 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
                 }
 
                 if (!it.job.isNullOrEmpty()) {
-                    AppUtils.setUserInfoTvTag(context,"职业 ${it.job}",0,2,headerView.tv_job)
-                }else{
+                    AppUtils.setUserInfoTvTag(context, "职业 ${it.job}", 0, 2, headerView.tv_job)
+                } else {
                     headerView.tv_job.visibility = View.GONE
                 }
 
                 if (!it.zuojia.isNullOrEmpty()) {
-                    AppUtils.setUserInfoTvTag(context,"座驾${it.zuojia}",0,2,headerView.tv_zuojia)
-                }else{
+                    AppUtils.setUserInfoTvTag(context, "座驾${it.zuojia}", 0, 2, headerView.tv_zuojia)
+                } else {
                     headerView.tv_zuojia.visibility = View.GONE
                 }
                 if (!it.hobbit.isNullOrEmpty()) {
-                    var mHobbies = it.hobbit?.replace("#",",")?.split(",")
+                    var mHobbies = it.hobbit?.replace("#", ",")?.split(",")
                     var sb = StringBuffer()
                     sb.append("爱好 ")
                     if (mHobbies != null) {
-                        for(str in mHobbies){
+                        for (str in mHobbies) {
 //                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
                             sb.append("${str} ")
                         }
 //                        mTags.add(UserTag(sb.toString(), R.mipmap.boy_hobby_whiteicon))
-                        AppUtils.setUserInfoTvTag(context,sb.toString(),0,2,headerView.tv_aihao)
+                        AppUtils.setUserInfoTvTag(context, sb.toString(), 0, 2, headerView.tv_aihao)
                     }
-                }else{
+                } else {
                     headerView.tv_aihao.visibility = View.GONE
                 }
 
                 userTagAdapter.notifyDataSetChanged()
+                if (mTags.size == 0) {
+                    headerView.rv_tags.visibility = View.GONE
+                } else {
+                    headerView.rv_tags.visibility = View.VISIBLE
+                }
                 refreshImages(it)
                 getTrendData()
             }
@@ -431,23 +439,23 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
     }
 
     //关注粉丝访客
-    fun getUserFollowAndFansandVistor(){
-        Request.getUserFollowAndFansandVistor(userId).request(this,success = {s:String?,data:FollowFansVistor?->
-//            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
+    fun getUserFollowAndFansandVistor() {
+        Request.getUserFollowAndFansandVistor(userId).request(this, success = { s: String?, data: FollowFansVistor? ->
+            //            toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
                 headerView.tv_fans_count.text = data.iFansCountAll.toString()
                 headerView.tv_follow_count.text = data.iFollowCount.toString()
                 headerView.tv_vistor_count.text = data.iVistorCountAll.toString()
-                if(data.iFansCount!! > 0){
+                if (data.iFansCount!! > 0) {
                     headerView.tv_fcount.text = "+${data.iFansCount.toString()}"
                     headerView.tv_fcount.visibility = View.VISIBLE
-                }else {
+                } else {
                     headerView.tv_fcount.visibility = View.GONE
                 }
 
-                if(it.iPointNew!!.toInt()> 0){
+                if (it.iPointNew!!.toInt() > 0) {
                     headerView.tv_mypointscount.visibility = View.VISIBLE
-                }else{
+                } else {
                     headerView.tv_mypointscount.visibility = View.GONE
                 }
 
@@ -458,10 +466,10 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 //                    headerView.tv_fllcount.visibility = View.GONE
 //                }
 
-                if(data.iVistorCount!! > 0){
+                if (data.iVistorCount!! > 0) {
                     headerView.tv_vcount.text = "+${data.iVistorCount.toString()}"
                     headerView.tv_vcount.visibility = View.VISIBLE
-                }else {
+                } else {
                     headerView.tv_vcount.visibility = View.GONE
                 }
             }
@@ -470,7 +478,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
     private fun refreshImages(userData: UserData) {
         mImages.clear()
-        if(!TextUtils.equals("null",userData.userpics)){
+        if (!TextUtils.equals("null", userData.userpics)) {
             if (!userData.userpics.isNullOrEmpty()) {
                 userData.userpics?.let {
                     val images = it.split(",")
@@ -486,7 +494,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
 
     private fun getTrendData() {
 
-        Request.getMySquares(userId,userId, 0, pageNum).request(this, success = { _, data ->
+        Request.getMySquares(userId, userId, 0, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
             if (pageNum == 1) {
                 mSquares.clear()

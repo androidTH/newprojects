@@ -1,15 +1,16 @@
 package com.d6.android.app.adapters
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
-import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
@@ -18,11 +19,10 @@ import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.support.v4.startActivity
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
 
@@ -140,13 +140,52 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             val headView = holder.bind<SimpleDraweeView>(R.id.headView)
             headView.setImageURI(data.picUrl)
 
+            val img_date_menauther = holder.bind<ImageView>(R.id.img_date_menauther)
+
+            if(TextUtils.equals("0",data!!.screen)|| data!!.screen.isNullOrEmpty()){
+                img_date_menauther.visibility = View.GONE
+            }else if(TextUtils.equals("1",data!!.screen)){
+                img_date_menauther.setImageResource(R.mipmap.video_small)
+            }else if(TextUtils.equals("3",data!!.screen)){
+                img_date_menauther.visibility = View.GONE
+                img_date_menauther.setImageResource(R.mipmap.renzheng_small)
+            }else{
+                img_date_menauther.visibility = View.GONE
+            }
+
+
             if (data.name.length >= 5) {
                 holder.setText(R.id.tv_name, "${data.name.substring(0, 4)}...")
             } else {
                 holder.setText(R.id.tv_name, data.name)
             }
 
-            holder.setText(R.id.tv_vip, data.classesname)
+            var tv_vip = holder.bind<TextView>(R.id.tv_vip)
+            tv_vip.visibility = View.VISIBLE
+            if(TextUtils.equals(data.userclassesid.toString(),"22")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
+            }else if(TextUtils.equals(data.userclassesid,"23")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
+            }else if(TextUtils.equals(data.userclassesid,"24")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
+            }else if(TextUtils.equals(data.userclassesid,"25")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
+            }else if(TextUtils.equals(data.userclassesid,"26")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
+            }else if(TextUtils.equals(data.userclassesid,"7")){
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+            }else if(TextUtils.equals(data.userclassesid,"30")){
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
+            }else{
+                tv_vip.backgroundDrawable = null
+                tv_vip.visibility = View.GONE
+            }
+
             val tv_age = holder.bind<TextView>(R.id.tv_age)
 
 //        val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)

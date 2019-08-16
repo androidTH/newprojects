@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_chat_men_card"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rc_ic_bubble_left"
+    android:orientation="vertical"
+    android:paddingLeft="9dp">
+
+    <RelativeLayout
+        android:layout_width="@dimen/width_210"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/chat_men_headView"
+            style="@style/DefaultCircleHeadStyle"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/margin_10" />
+
+        <ImageView
+            android:id="@+id/chat_men_img_auther"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_below="@+id/tv_chat_men_name"
+            android:layout_marginLeft="@dimen/margin_25"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_10"
+            android:src="@mipmap/video_small" />
+
+        <TextView
+            android:id="@+id/tv_chat_men_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/chat_men_headView"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/chat_men_headView"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="----"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/textSize_15"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_chat_men_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_chat_men_name"
+            android:layout_toRightOf="@+id/chat_men_headView"
+            android:background="@drawable/ic_sex_circle_bg_selector"
+            android:drawableLeft="@drawable/sex_white_selector"
+            android:drawablePadding="1dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="3dp"
+            android:paddingTop="0.5dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="0.5dp"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_chat_men_vip"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_16"
+            android:layout_below="@+id/tv_chat_men_name"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_toRightOf="@+id/tv_chat_men_age"
+            android:drawablePadding="@dimen/margin_2"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_chat_men_vistorfollownums"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_chat_men_age"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_toRightOf="@+id/chat_men_headView"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_chat_men_vistor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_10"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_chat_men_vistor_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textColor="@color/color_888888"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_chat_men_vistor_count"
+                android:text="访客"
+                android:textColor="@color/color_888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_chat_men_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_toEndOf="@+id/ll_chat_men_vistor"
+            android:layout_toRightOf="@+id/ll_chat_men_vistor"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_chat_men_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8"
+                android:textColor="@color/color_888888"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_chat_men_like_count"
+                android:text="喜欢TA·8人"
+                android:textColor="@color/color_888888"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_chat_men_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_chat_men_vistorfollownums"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginRight="16dp"
+        android:layout_toRightOf="@+id/chat_men_headView"
+        android:gravity="center_vertical"
+        android:text="--"
+        android:textColor="@color/textColor99"
+        android:textSize="11sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_chat_men_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat_men_images"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginBottom="6dp"
+        android:minHeight="66dp"
+        android:paddingRight="@dimen/margin_16" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat_men_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/rv_chat_men_tags"
+        android:layout_marginTop="@dimen/margin_15"
+        android:background="@color/color_EFEFEF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_line"
+        android:layout_marginTop="@dimen/margin_5"
+        android:drawableLeft="@mipmap/card_mingpian"
+        android:drawablePadding="@dimen/margin_5"
+        android:gravity="center_vertical"
+        android:text="个人名片"
+        android:textColor="@color/color_999999"
+        android:textSize="11sp" />
+</LinearLayout>

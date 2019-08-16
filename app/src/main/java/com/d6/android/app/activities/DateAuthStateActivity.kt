@@ -41,6 +41,7 @@ class DateAuthStateActivity : BaseActivity() {
 
         immersionBar
                 .fitsSystemWindows(false)
+                .statusBarColor(R.color.trans_parent)
                 .titleBar(tv_back)
                 .init()
 
@@ -80,15 +81,18 @@ class DateAuthStateActivity : BaseActivity() {
 //            if (qurenzheng > 0) {
 //                return@setOnClickListener
 //            }
-            val dateAuthTipDialog = DateAuthTipDialog()
-            dateAuthTipDialog.show(supportFragmentManager, "t")
+            var localUserId =getLocalUserId()
+            pushCustomerMessage(this,localUserId,2,localUserId,next = {
+                chatService(this)
+            })
+//            val dateAuthTipDialog = DateAuthTipDialog()
+//            dateAuthTipDialog.show(supportFragmentManager, "t")
         }
 
     }
 
     override fun onResume() {
         super.onResume()
-        dialog()
         getData()
     }
 

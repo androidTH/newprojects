@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MessageSettingActivity
 import com.d6.android.app.activities.SettingActivity
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.utils.*
@@ -57,7 +58,7 @@ class DialogPrivateChat : DialogFragment(),RequestManager {
 
         tv_go_set.setOnClickListener {
             dismissAllowingStateLoss()
-            startActivity<SettingActivity>()
+            startActivity<MessageSettingActivity>()
         }
         SPUtils.instance().put(Const.IS_FIRST_SHOW_TIPS,true).apply()
     }

@@ -8,7 +8,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.SendRedFlowerDialog
-import com.d6.android.app.dialogs.SquareActionDialog
+import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
@@ -46,17 +46,20 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
             mOnItemClickListener?.onItemClick(v,position)
         }
 
+        trendView.setOnSquareDetailsClick {
+            mOnSquareDetailsClick?.onSquareDetails(position,it)
+        }
+
         trendView.setDeleteClick {
-            val squareActionDialog = SquareActionDialog()
-            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
-            squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
-            squareActionDialog.setDialogListener { p, s ->
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("from" to "square","id" to it.userid.toString(),"sResourceId" to it.id.toString())
+            shareDialog.show((context as BaseActivity).supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
                     mData?.let {
                         startActivity(data.id!!, "2")
                     }
                 } else if (p == 1) {
-//                    startActivityForResult<SettingActivity>(5)
                     delete(data)
                 }
             }
@@ -78,7 +81,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     private fun praise(square: Square) {
         isBaseActivity {
             it.dialog()
-            Request.addPraise(userId, square.id).request(it) { msg, data ->
+            Request.addPraise(userId, square.id).request(it,true) { msg, data ->
                 it.showToast("点赞成功")
                 showTips(data,"","")
                 square.isupvote = "1"
@@ -110,6 +113,20 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
                 notifyDataSetChanged()
             }
         }
+    }
+
+    fun setOnSquareDetailsClick(action:(position:Int,square:Square)->Unit) {
+        this.mOnSquareDetailsClick = object : OnSquareDetailsClick {
+            override fun onSquareDetails(position:Int,square: Square) {
+                action(position,square)
+            }
+        }
+    }
+
+    private var mOnSquareDetailsClick: OnSquareDetailsClick?=null
+
+    interface OnSquareDetailsClick{
+        fun onSquareDetails(position:Int,square: Square)
     }
 
     private var clickListener: OnItemClickListener? = null

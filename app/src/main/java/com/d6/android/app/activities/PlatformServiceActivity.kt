@@ -15,7 +15,7 @@ class  PlatformServiceActivity : TitleActivity() {
         setContentView(R.layout.activity_platform_service)
         title = "平台服务"
 
-        imageView.setImageURI("res:///"+R.mipmap.service_banner)
+        imageView.setImageURI("res:///")//R.mipmap.service_banner
         rb_male.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 ll_male.visible()

@@ -14,7 +14,7 @@ import com.d6.android.app.utils.AppUtils
 class UserTagAdapter(mData:ArrayList<UserTag>): BaseRecyclerAdapter<UserTag>(mData, R.layout.item_list_card_user_tag) {//item_list_card_user_tag
     override fun onBind(holder: ViewHolder, position: Int, data: UserTag) {
         val contentView = holder.bind<TextView>(R.id.tv_content)
-        contentView.text = data.content
+//        contentView.text = data.content
         var drawable = ContextCompat.getDrawable(context,data.color)
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
         contentView.setCompoundDrawables(drawable,null,null,null)

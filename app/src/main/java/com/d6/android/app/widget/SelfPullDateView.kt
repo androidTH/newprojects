@@ -13,10 +13,15 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CustomerServiceId
+import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import kotlinx.android.synthetic.main.view_self_release_view.view.*
+import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 
@@ -47,7 +52,13 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         headView.setOnClickListener(OnClickListener {
             val id =myAppointment.iAppointUserid
             isBaseActivity {
-                it.startActivity<UserInfoActivity>("id" to id.toString())
+                if(myAppointment.iIsAnonymous==1){
+                    var mUnknowDialog = UnKnowInfoDialog()
+                    mUnknowDialog.arguments = bundleOf("otheruserId" to id.toString())
+                    mUnknowDialog.show(it.supportFragmentManager,"unknowDialog")
+                }else{
+                    it.startActivity<UserInfoActivity>("id" to id.toString())
+                }
             }
         })
 //        val start = myAppointment.dStarttime.toString()?.parserTime("yyyy-MM-dd")
@@ -64,36 +75,42 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 //                .build()
 
         tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()-1]
+        var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment.iAppointType!!.toInt()-1])
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
 
-        if(myAppointment.iAppointType!!.toInt() == Const.dateTypesBig.size){
-            var drawable =ContextCompat.getDrawable(context,R.mipmap.invitation_nolimit_feed)
-            tv_datetype_name.setCompoundDrawables(null,drawable,null,null)
-            tv_datetype_name.setCompoundDrawablePadding(dip(3))
-        }else{
-            var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[myAppointment.iAppointType!!.toInt()-1])
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
-            tv_datetype_name.setCompoundDrawablePadding(dip(3));
-            tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
-        }
+        tv_datetype_name.setCompoundDrawablePadding(dip(3))
+        tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
 
         var sb = StringBuffer()
         if(!myAppointment.iAge.toString().isNullOrEmpty()){
             if(myAppointment.iAge!=null){
-                sb.append("${myAppointment.iAge}岁")
+                myAppointment.iAge?.let {
+                    if(it>0){
+                        sb.append("${myAppointment.iAge}岁")
+                    }
+                }
             }
         }
 
         if(!myAppointment.iHeight.toString().isNullOrEmpty()){
-            if(myAppointment.iHeight!!.toInt() > 0 ){
-                sb.append("·${myAppointment.iHeight}cm")
+            if(myAppointment.iHeight!=null){
+                if(myAppointment.iHeight!!.toInt() > 0){
+                    if(sb.length>0){
+                        sb.append("·")
+                    }
+                    sb.append("${myAppointment.iHeight}cm")
+                }
             }
         }
 
-        if(!myAppointment.iWeight.toString().isNullOrEmpty()){
-            if(!myAppointment.iWeight.toString().equals("0")){
-                sb.append("·${myAppointment.iWeight}kg")
-            }
-        }
+//        if(!myAppointment.iWeight.toString().isNullOrEmpty()){
+//            if(!myAppointment.iWeight.toString().equals("0")){
+//                if(sb.length>0){
+//                    sb.append("·")
+//                }
+//                sb.append("${myAppointment.iWeight}kg")
+//            }
+//        }
 
         if(!sb.toString().isNullOrEmpty()){
             tv_sub_title.text = sb.toString()
@@ -132,6 +149,67 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
                 it.onDelete(myAppointment)
             }
         }
+
+//        tv_date_vip.visibility = View.VISIBLE
+//        if(TextUtils.equals(myAppointment.userclassesid.toString(),"27")){
+//            tv_date_vip.backgroundDrawable =  ContextCompat.getDrawable(context,R.mipmap.gril_cj)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"28")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_zj)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"29")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_gj)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"22")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"23")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"24")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"25")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"26")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"30")){
+//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
+//        }else{
+//            tv_date_vip.visibility = View.GONE
+//        }
+
+        tv_date_vip.backgroundDrawable = getLevelDrawable(myAppointment.userclassesid.toString(),context)
+
+        if(TextUtils.equals(CustomerServiceId,myAppointment.iAppointUserid.toString())||TextUtils.equals(CustomerServiceWomenId,myAppointment.iAppointUserid.toString())){
+            iv_self_servicesign.visibility = View.VISIBLE
+            img_self_auther.visibility = View.GONE
+        }else{
+            iv_self_servicesign.visibility = View.GONE
+            if(TextUtils.equals("0",myAppointment!!.screen)|| myAppointment!!.screen.isNullOrEmpty()){
+                img_self_auther.visibility = View.GONE
+            }else if(TextUtils.equals("1",myAppointment!!.screen)){
+                img_self_auther.visibility = View.VISIBLE
+                img_self_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.video_small)
+            }else if(TextUtils.equals("3",myAppointment!!.screen)){
+                img_self_auther.visibility = View.GONE
+                img_self_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.renzheng_small)
+            }else{
+                img_self_auther.visibility = View.GONE
+            }
+        }
+
+//            if (TextUtils.equals("0", myAppointment.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
+//                img_other_auther.visibility = View.GONE
+//                img_date_auther.visibility = View.GONE
+//                if (TextUtils.equals("3", it.screen)) {
+//                    tv_other_auther_sign.visibility = View.GONE
+//                } else {
+//                    tv_other_auther_sign.visibility = View.GONE
+//                }
+//            } else if (TextUtils.equals("1", data.screen)) {
+//                img_other_auther.visibility = View.VISIBLE
+//                img_date_auther.visibility = View.VISIBLE
+//                tv_other_auther_sign.visibility = View.GONE
+//            }
     }
 
     public fun sendDateListener(action:(myAppointment: MyAppointment)->Unit) {

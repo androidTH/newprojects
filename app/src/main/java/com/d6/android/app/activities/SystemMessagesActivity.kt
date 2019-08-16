@@ -47,11 +47,13 @@ class SystemMessagesActivity : RecyclerActivity() {
                 msg.urltype == "4" -> {//速约
                     getSpeedDateDetail((msg.url ?: ""))
                 }
+                msg.urltype == "5"->{
+                    startActivity<MyDateListActivity>()
+                }
                 else -> startActivity<MessageDetailActivity>("data" to mMessages[position])
             }
         }
         mSwipeRefreshLayout.mRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(this))
-        dialog()
         getData()
     }
 

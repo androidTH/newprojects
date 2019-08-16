@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
@@ -20,17 +22,16 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_square_detail.*
 import kotlinx.android.synthetic.main.header_square_detail.view.*
-import org.jetbrains.anko.toast
-import android.view.inputmethod.InputMethodManager
 import com.d6.android.app.dialogs.CommentDelDialog
+import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.dialogs.SendRedFlowerDialog
+import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.eventbus.FlowerMsgEvent
-import com.share.utils.ShareUtils
-import com.umeng.socialize.bean.SHARE_MEDIA
+import com.d6.android.app.utils.AppUtils.Companion.context
 import io.rong.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.*
 import java.util.*
 
 
@@ -49,7 +50,15 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
+
     private var pageNum = 1
+    private var iIsAnonymous:Int = 2
+    private var chooseAnonymous = false
+
+    private val IsOpenUnKnow by lazy{
+        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
+    }
+
     private val mComments = ArrayList<Comment>()
     private val squareDetailCommentAdapter by lazy {
         SquareDetailCommentAdapter(mComments)
@@ -60,6 +69,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
     private var replayUid = ""
+    //回复内容
+    private var replayContent=""
+    private var iReplyCommnetType:Int?= 2 //1、回复的评论类型是匿名 2、回复的评论类型是非匿名
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,16 +101,47 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
         }
 
+        headerView.mTrendDetailView.setOnCommentClick {
+            showSoftInput(et_content)
+            replayUid=""
+            et_content.setText("")
+            et_content.hint = resources.getString(R.string.string_comment_tips)
+        }
+
+        headerView.mTrendDetailView.setOnSoftInputClick{
+            hideSoftKeyboard(et_content)
+        }
+
+        headerView.mTrendDetailView.setDeletClick {
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("from" to "square","id" to it.userid.toString(),"sResourceId" to it.id.toString())
+            shareDialog.show(supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
+                    startActivity<ReportActivity>("id" to id, "tiptype" to "2")
+                } else if (p == 1) {
+                    delSquare()
+                }
+            }
+        }
+
         squareDetailCommentAdapter.setOnItemClickListener { _, position ->
             val comment = mComments[position]
+
+            if(!TextUtils.equals(replayContent,comment.content)){
+                et_content.setText("")
+                et_content.hint = resources.getString(R.string.string_replaycomment,comment.name)
+                iReplyCommnetType = comment.iIsAnonymous
+            }
+            replayContent = comment.content.toString()
+
             replayUid = comment.userId?:""
 //            isAuthUser {
 //                startActivityForResult<CommentActivity>(0, "id" to id, "uid" to cUid)
 //            }
-            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            //显示软键盘
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-            et_content.requestFocus()
+//            showSoftInput()
+
+            showSoftInput(et_content)
         }
 
         squareDetailCommentAdapter.setDeleteClick {
@@ -120,9 +163,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         et_content.addTextChangedListener(object :TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 if (p0 != null && p0.isNotEmpty()) {
-                    btn_send.visible()
+                    btn_send.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_orange)
                 } else {
-                    btn_send.gone()
+                    btn_send.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_grey)
                 }
             }
 
@@ -137,37 +180,97 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         })
 
         btn_send.setOnClickListener {
-//            isAuthUser {
-                val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                //显示软键盘
-                imm.hideSoftInputFromWindow(et_content.windowToken, 0)
+            hideSoftKeyboard(et_content)
+            if (!isFastClick()) {
                 comment()
-//            }
+            }
         }
-        dialog()
+
+        tv_unknow_choose.setOnClickListener {
+            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
+            mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail","IsOpenUnKnow" to IsOpenUnKnow)
+            mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
+            mSelectUnknowDialog.setDialogListener { p, s ->
+                setInputState(p)
+                chooseAnonymous = true
+            }
+        }
+
+        iIsAnonymous = 2
         getData()
     }
 
+
+    private fun setInputState(p:Int){
+        if(p==2){
+            tv_unknow_choose.text = "公开"
+            var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.public_small)
+            var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.ic_arrow_down)
+            tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
+
+            tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_666666)
+//                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_white_border)
+        }else if(p==1){
+            tv_unknow_choose.text = "匿名"
+            var mDrawableLeft = ContextCompat.getDrawable(this,R.mipmap.key_small)
+            var mDrawableRight = ContextCompat.getDrawable(this,R.mipmap.niming_more)
+
+            tv_unknow_choose.setCompoundDrawablesWithIntrinsicBounds(mDrawableLeft,null,mDrawableRight,null)
+
+            tv_unknow_choose.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+//                    tv_unknow_choose.backgroundDrawable = ContextCompat.getDrawable(this,R.drawable.shape_20r_5a_border)
+        }
+
+        iIsAnonymous = p
+    }
+//    private fun showSoftInput() {
+//        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        //显示软键盘
+//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
+//        et_content.requestFocus()
+//    }
+
     private fun getData() {
-        Request.getSquareDetail(userId, id).request(this, success = { _, data ->
-            mSwipeRefreshLayout.isRefreshing = false
-            data?.let {
-                mSquare = it
-                headerView.mTrendDetailView.update(it)
-                mComments.clear()
-                if (it.comments == null || it.comments.isEmpty()) {
-                    mSwipeRefreshLayout.setLoadMoreText("暂无评论")
-                } else {
-                    mComments.addAll(it.comments)
+        if (id.isNotEmpty()) {
+            Request.getSquareDetail(userId, id).request(this, success = { _, data ->
+                mSwipeRefreshLayout.isRefreshing = false
+                data?.let {
+                    mSquare = it
+                    squareDetailCommentAdapter.setIsMySquare(it.userid.toString())
+                    headerView.mTrendDetailView.update(it)
+                    mComments.clear()
+                    if (it.comments == null || it.comments.isEmpty()) {
+                        mSwipeRefreshLayout.setLoadMoreText("暂无评论")
+                    } else {
+                        mComments.addAll(it.comments)
+                    }
+                    Collections.reverse(mComments)
+                    squareDetailCommentAdapter.setNMIndex(1)
+                    squareDetailCommentAdapter.notifyDataSetChanged()
+                    mSquare?.comments = mComments
+                    updateBean()
+                    if(!chooseAnonymous){
+                        if(it.iIsAnonymous==1){
+                            if(TextUtils.equals("open",IsOpenUnKnow)){
+                                setInputState(1)
+                            }else{
+                                setInputState(2)
+                            }
+                        }else{
+                            setInputState(2)
+                        }
+                    }
+
                 }
-                Collections.reverse(mComments)
-                squareDetailCommentAdapter.notifyDataSetChanged()
-                mSquare?.comments = mComments
-                updateBean()
-            }
-        }, error = { _, _ ->
-            mSwipeRefreshLayout.isRefreshing = false
-        })
+            }, error = { code, msg ->
+                if(code == 2){
+                   toast("动态不存在。")
+                   finish()
+                }else{
+                    mSwipeRefreshLayout.isRefreshing = false
+                }
+            })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -196,7 +299,11 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             } else {
                 mComments.addAll(data.list.results)
             }
-            squareDetailCommentAdapter.notifyDataSetChanged()
+            if(data?.list!=null){
+                if(data.list.results!=null){
+                    squareDetailCommentAdapter.notifyItemChanged(mComments.size-data.list.results?.size!!.toInt())
+                }
+            }
         }, error = { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
         })
@@ -204,7 +311,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
     private fun praise(square: Square) {
         dialog()
-        Request.addPraise(userId, square.id).request(this) { msg, jsonObject ->
+        Request.addPraise(userId, square.id).request(this,true) { msg, jsonObject ->
             showToast("点赞成功")
             square.isupvote = "1"
             square.appraiseCount = (square.appraiseCount?:0)+1
@@ -242,13 +349,16 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             replayUid
         }
         dialog()
-        Request.addComment(userId, id,content,replyUid).request(this,false,success={msg,jsonObject->
+        Request.addComment(userId, id,content,replyUid,iIsAnonymous,iReplyCommnetType).request(this,false,success={msg,jsonObject->
             et_content.setText("")
             et_content.clearFocus()
+            et_content.hint=getString(R.string.string_comment_tips)
             replayUid = ""
+            iReplyCommnetType = 2
             toast("评论成功")
             pageNum = 1
             mSquare?.commentCount= mSquare?.commentCount!!.toInt()+1
+            Log.i("dddd","success==${jsonObject}")
             getData()
             showTips(jsonObject,"","");
         }){code,msg->
@@ -288,6 +398,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 mSquare?.commentCount= mSquare?.commentCount!!.toInt()-1
                 mSquare?.comments=mComments
                 updateBean()
+                squareDetailCommentAdapter.setNMIndex(1)
                 squareDetailCommentAdapter.notifyDataSetChanged()
                 mSquare?.let {
                     headerView.mTrendDetailView.update(it)
@@ -303,6 +414,17 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 updateBean()
                 headerView.mTrendDetailView.updateFlowerCount(it)
             }
+    }
+
+    /**
+     * 删除动态
+     */
+    fun delSquare(){
+        dialog(canCancel = false)
+        Request.deleteSquare(userId, id).request(this) { _, _ ->
+            showToast("删除成功")
+            finish()
+        }
     }
 
     override fun onDestroy() {

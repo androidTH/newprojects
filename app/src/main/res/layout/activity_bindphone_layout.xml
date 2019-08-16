@@ -2,18 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_F5F5F5"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_gravity="center_horizontal"
+        android:textSize="12sp"
+        android:textColor="@color/color_999999"
+        android:text="为了保障你的信息安全请绑定手机号"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_3"
+        android:textSize="12sp"
+        android:textColor="@color/color_999999"
+        android:text="D6不会泄漏你的任何个人信息"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="@dimen/margin_20"
         android:layout_marginRight="40dp"
         android:background="@drawable/shape_sign_bg"
         android:orientation="vertical"
         android:paddingBottom="@dimen/margin_15">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

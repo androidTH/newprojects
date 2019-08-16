@@ -10,13 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.utils.OnDialogListener
-import com.d6.android.app.utils.screenWidth
 import com.gyf.barlibrary.ImmersionBar
-import kotlinx.android.synthetic.main.dialog_mine_action_layout.*
-import kotlinx.android.synthetic.main.dialog_select_sex_layout.*
-import org.jetbrains.anko.matchParent
+import kotlinx.android.synthetic.main.dialog_filter_trend_layout.*
 import org.jetbrains.anko.support.v4.dip
-import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -61,6 +57,10 @@ class FilterTrendDialog : DialogFragment() {
 
         tv_cancel.setOnClickListener {
             dialogListener?.onClick(0, "")
+            dismissAllowingStateLoss()
+        }
+
+        ll_root.setOnClickListener {
             dismissAllowingStateLoss()
         }
     }

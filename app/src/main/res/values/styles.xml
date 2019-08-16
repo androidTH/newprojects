@@ -14,6 +14,14 @@
         <item name="android:textSize">@dimen/textSize</item>
     </style>
 
+    <style name="lautherstyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Theme.ProgressDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -58,19 +66,54 @@
     </style>
 
     <style name="DefaultHeadStyle">
-        <item name="failureImage">@mipmap/default_head</item>
-        <item name="placeholderImage">@mipmap/default_head</item>
+        <item name="failureImage">@mipmap/headportrait_girl</item>
+        <item name="placeholderImage">@mipmap/headportrait_girl</item>
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>
         <item name="roundedCornerRadius">6dp</item>
     </style>
 
+    <style name="DefaultNoHeadStyle">
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+        <item name="viewAspectRatio">1</item>
+        <item name="roundedCornerRadius">6dp</item>
+    </style>
+
+    <style name="Defaultpicbg">
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+        <item name="viewAspectRatio">1</item>
+        <item name="roundedCornerRadius">6dp</item>
+    </style>
+
+    <style name="manDefaultHeadStyle">
+        <item name="failureImage">@mipmap/headportrait_boy</item>
+        <item name="placeholderImage">@mipmap/headportrait_boy</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+        <item name="viewAspectRatio">1</item>
+        <item name="roundedCornerRadius">6dp</item>
+    </style>
+
+    <style name="DefaultmanCircle" parent="manDefaultHeadStyle">
+        <item name="roundAsCircle">true</item>
+    </style>
+
     <style name="DefaultCircle" parent="DefaultHeadStyle">
         <item name="roundAsCircle">true</item>
     </style>
 
+    <style name="DefaultCircleimgbgstyle" parent="Defaultpicbg">
+        <item name="roundAsCircle">true</item>
+    </style>
+
     <style name="DefaultCircleHeadStyle" parent="DefaultHeadStyle">
+        <item name="roundAsCircle">true</item>
+    </style>
+
+    <style name="DefaultCircleNoHeadStyle" parent="DefaultNoHeadStyle">
         <item name="roundAsCircle">true</item>
     </style>
 
@@ -190,6 +233,42 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <style name="tv_member_leftstyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
+    <style name="tv_member_rightstyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_FF4B00</item>
+    </style>
+
+    <style name="tv_member_rightf7astyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/color_F7AB00</item>
+    </style>
+
+    <style name="tv_date_leftstyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_F7AB00</item>
+    </style>
+
+    <style name="tv_date_rightstyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_333333</item>
+    </style>
+
+    <style name="tv_wallet_leftstyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_888888</item>
+    </style>
+
+    <style name="tv_wallet_rightstyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_333333</item>
+    </style>
+
     <style name="tv_auth_style_title">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/color_333333</item>
@@ -197,7 +276,7 @@
 
     <style name="tv_auth_style_desc">
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">@color/color_8888</item>
+        <item name="android:textColor">@color/color_888888</item>
     </style>
 
     <style name="TopPopAnim" parent="@android:style/Animation.Translucent">
@@ -236,7 +315,7 @@
 
     <style name="tv_userinfotags_iconleft">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_40FFFFFF</item>
+        <item name="android:textColor">@color/color_BFFFFFFF</item>
     </style>
 
     <style name="tv_userinfotags_iconright">
@@ -245,5 +324,46 @@
     </style>
 
     <style name="translucent" parent="AppTheme">
+    </style>
+
+    <!--SWITCH-->
+    <style name="SwitchButtonMD">
+        <!--<item name="kswThumbDrawable">@drawable/ksw_md_thumb</item>-->
+        <!--<item name="kswBackColor">@color/ksw_md_back_color</item>-->
+        <item name="kswBackMeasureRatio">1.45</item>
+        <item name="kswThumbMarginLeft">-16dp</item>
+        <item name="kswThumbMarginTop">-14dp</item>
+        <item name="kswThumbMarginRight">-16dp</item>
+        <item name="kswThumbMarginBottom">-14dp</item>
+        <item name="kswThumbWidth">@dimen/ksw_md_thumb_ripple_size</item>
+        <item name="kswThumbHeight">@dimen/ksw_md_thumb_ripple_size</item>
+    </style>
+
+    <style name="SwitchButtonStyle">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <declare-styleable name="ProgressWheel">
+        <attr name="matProg_progressIndeterminate" format="boolean" />
+        <attr name="matProg_barColor" format="color" />
+        <attr name="matProg_rimColor" format="color" />
+        <attr name="matProg_rimWidth" format="dimension" />
+        <attr name="matProg_spinSpeed" format="float" />
+        <attr name="matProg_barSpinCycleTime" format="integer" />
+        <attr name="matProg_circleRadius" format="dimension" />
+        <attr name="matProg_fillRadius" format="boolean" />
+        <attr name="matProg_barWidth" format="dimension" />
+        <attr name="matProg_linearProgress" format="boolean" />
+    </declare-styleable>
+
+    <style name="groupunknowtipmsg" parent="RCTheme.TextView">
+        <item name="android:background">@drawable/drawable_unknowtipsmsg</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">6dp</item>>
+        <item name="android:textColor">@color/color_8F5A5A</item>
     </style>
 </resources>

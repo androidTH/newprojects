@@ -15,6 +15,7 @@ import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.facebook.drawee.view.SimpleDraweeView
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
+import org.jetbrains.anko.backgroundDrawable
 
 /**
  * jinjiarui
@@ -58,23 +59,39 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
             tv_audio_auth.visibility = View.VISIBLE
             tv_audio_level.visibility = View.GONE
             if (TextUtils.equals("1", data.screen)) {
-                tv_audio_auth.text = "视频认证"
-                var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.video_small_authentication_icon)
-                drawable.setBounds(0, 0,drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-                tv_audio_auth.setCompoundDrawables(drawable,null,null,null);
+                tv_audio_auth.backgroundDrawable=ContextCompat.getDrawable(mContext,R.mipmap.video_big)
+//                tv_audio_auth.text = "视频认证"
+//                var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.video_small_authentication_icon)
+//                drawable.setBounds(0, 0,drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+//                tv_audio_auth.setCompoundDrawables(drawable,null,null,null);
             } else if(TextUtils.equals("0", data.screen)){
                 tv_audio_auth.visibility = View.GONE
             }else if(TextUtils.equals("3",data.screen)){
                 tv_audio_auth.visibility = View.GONE
-                tv_audio_auth.text = "已认证"
-                var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.small_authentication_icon)
-                drawable.setBounds(0,0, drawable.getMinimumWidth(), drawable.getMinimumHeight())//这句一定要加
-                tv_audio_auth.setCompoundDrawables(drawable,null,null,null);
+                tv_audio_auth.backgroundDrawable=ContextCompat.getDrawable(mContext,R.mipmap.renzheng_big)
+//                tv_audio_auth.text = "已认证"
+//                var drawable = ContextCompat.getDrawable(AppUtils.context,R.mipmap.small_authentication_icon)
+//                drawable.setBounds(0,0, drawable.getMinimumWidth(), drawable.getMinimumHeight())//这句一定要加
+//                tv_audio_auth.setCompoundDrawables(drawable,null,null,null);
             }
         }else{
             tv_audio_auth.visibility = View.GONE
             tv_audio_level.visibility = View.VISIBLE
-            tv_audio_level.text = data.classesname
+//            tv_audio_level.text = data.classesname
+
+            if (data.classesname.toString().startsWith("普通")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
+            } else if (data.classesname.toString().startsWith("白银")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
+            } else if (data.classesname.toString().startsWith("黄金")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
+            } else if (data.classesname.toString().startsWith( "钻石")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
+            } else if (data.classesname.toString().startsWith("私人")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
+            }else if (data.classesname.toString().startsWith("入群")) {
+                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
+            }
         }
 //        val endTime = data.createTime.parserTime().toTime("yyyy-MM-dd")
         val cTime = if (D6Application.systemTime <= 0) {

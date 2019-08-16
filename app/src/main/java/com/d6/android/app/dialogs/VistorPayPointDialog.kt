@@ -30,7 +30,6 @@ import org.jetbrains.anko.wrapContent
  */
 class VistorPayPointDialog : DialogFragment(),RequestManager {
 
-
     private var type:Int = 0
 
     private val userId by lazy {
@@ -84,6 +83,13 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
                 if (dialogListener != null) {
                     dialogListener?.onClick(type, "success")
                 }
+            }else if(type == 2){
+                OpenAnonymousPayPoint()
+            }else{
+                dismissAllowingStateLoss()
+                if (dialogListener != null) {
+                    dialogListener?.onClick(type, "success")
+                }
             }
         }
 
@@ -101,6 +107,21 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
         }){code,msg->
             showToast(msg)
         }
+    }
+
+    //支付积分开通
+    private fun OpenAnonymousPayPoint(){
+        isBaseActivity {
+            Request.getAnonymousPayPoint(getLoginToken()).request(it,false,success = { msg, data->
+                dismissAllowingStateLoss()
+                if (dialogListener != null) {
+                    dialogListener?.onClick(type, "success")
+                }
+            }){code,msg->
+                showToast(msg)
+            }
+        }
+
     }
 
     private var dialogListener: OnDialogListener? = null

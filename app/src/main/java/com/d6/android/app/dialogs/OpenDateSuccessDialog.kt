@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.text.TextPaint
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.Gravity
@@ -42,6 +43,8 @@ class OpenDateSuccessDialog : DialogFragment(),RequestManager {
 
     private var myAppointment:MyAppointment?=null
 
+    private var fromType = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.FadeDialog)
@@ -70,15 +73,21 @@ class OpenDateSuccessDialog : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fromType = arguments.getString("fromType","")
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
 
         tv_action.setOnClickListener {
 //            startActivity<MyDateListActivity>()
-            var sId = arguments.getString("sId")
-            startActivity<MyDateDetailActivity>("from" to Const.FROM_MY_DATESUCCESS,"sId" to sId)
-            dismissAllowingStateLoss()
+            if(TextUtils.isEmpty(fromType)){
+                var sId = arguments.getString("sId")
+                startActivity<MyDateDetailActivity>("from" to Const.FROM_MY_DATESUCCESS,"sId" to sId)
+                dismissAllowingStateLoss()
+            }else{
+                dialogListener?.onClick(0,"")
+                dismissAllowingStateLoss()
+            }
         }
 
         var str = String.format(resources.getString(R.string.string_pointdesc),arguments.getString("point"))

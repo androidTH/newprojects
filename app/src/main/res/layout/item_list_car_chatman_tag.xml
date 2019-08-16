@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="30dp">
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingRight="@dimen/margin_8"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:gravity="center|left"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:textColor="@color/color_999999"
+        android:drawablePadding="@dimen/margin_5"
+        android:textSize="14sp"
+        android:text="身高"/>
+</RelativeLayout>

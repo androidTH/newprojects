@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import com.d6.android.app.R;
 import com.d6.android.app.models.Banner;
 import com.d6.android.app.widget.convenientbanner.holder.Holder;
-import com.d6.android.app.widget.convenientbanner.utils.ScreenUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 

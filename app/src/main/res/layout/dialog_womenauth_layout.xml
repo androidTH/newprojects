@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="免费认证会员"
+            android:textColor="@color/color_black"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="17sp" />
+        <ImageView
+            android:id="@+id/iv_womenauth_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_10"
+            android:src="@mipmap/window_close_orangebutton"/>
+    </RelativeLayout>
+    <View style="@style/view_line_h" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:background="@drawable/shape_10r_white"
+        android:paddingBottom="@dimen/margin_10">
+
+        <TextView
+            android:id="@+id/tv_base_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_fun"
+            android:background="@color/white"
+            android:lineSpacingExtra="8dp"
+            android:padding="16dp"
+            android:text=""
+            android:textColor="@color/color_888888"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_base_info"
+            android:layout_alignBottom="@+id/tv_base_info"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@mipmap/ic_right_arrow"
+            android:drawablePadding="@dimen/margin_3"
+            android:gravity="center"
+            android:paddingRight="16dp"
+            android:text="0%"
+            android:textSize="13sp"
+            android:textColor="@color/color_888888" />
+
+
+        <TextView
+            android:id="@+id/tv_contact_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_base_info"
+            android:background="@color/white"
+            android:lineSpacingExtra="8dp"
+            android:padding="13dp"
+            android:text=""
+            android:textColor="@color/textColor"
+            android:textSize="16dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_contact_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_contact_info"
+            android:layout_alignBottom="@+id/tv_contact_info"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@mipmap/ic_right_arrow"
+            android:gravity="center"
+            android:paddingRight="16dp"
+            android:text="未完成"
+            android:textColor="@color/orange_f6a"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_auth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_contact_info"
+            android:background="@color/white"
+            android:lineSpacingExtra="8dp"
+            android:padding="13dp"
+            android:text=""
+            android:textColor="@color/color_888888"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_auth_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_auth"
+            android:layout_alignBottom="@+id/tv_auth"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@mipmap/ic_right_arrow"
+            android:gravity="center"
+            android:paddingRight="16dp"
+            android:text="未完成"
+            android:textSize="13sp"
+            android:drawablePadding="@dimen/margin_3"
+            android:textColor="@color/orange_f6a" />
+    </RelativeLayout>
+</LinearLayout>

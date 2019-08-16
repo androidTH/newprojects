@@ -3,16 +3,20 @@ package com.d6.android.app.fragments
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.d6.android.app.R
 import com.d6.android.app.activities.FindDateDetailActivity
 import com.d6.android.app.activities.SpeedDateDetailActivity
 import com.d6.android.app.adapters.RecommentAllQuickDateAdapter
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.ReRecyclerFragment
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.LoadDialog
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -20,9 +24,8 @@ import org.jetbrains.anko.support.v4.startActivity
  */
 class RecommendDateQuickFragment : ReRecyclerFragment() {
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
+    private var mUserId = ""
+
     private var pageNum = 1
     private val mSpeedDates = ArrayList<MyDate>()
 
@@ -44,23 +47,25 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dateAdapter.setOnItemClickListener { adapter, view, position ->
-            activity.isCheckOnLineAuthUser(this,userId) {
                 val date = dateAdapter.data[position]
                 if (date.iType == 1) {
                     startActivity<FindDateDetailActivity>("data" to date)
                 } else if (date.iType == 2) {
                     startActivity<SpeedDateDetailActivity>("data" to date)
                 }
-            }
         }
+
+        if(TextUtils.isEmpty(mUserId)){
+            mUserId = SPUtils.instance().getString(Const.User.USER_ID)
+        }
+
     }
 
     override fun onFirstVisibleToUser() {
-        showDialog()
         pullDownRefresh()
     }
 
-    public fun getFindRecommend(ilookType: String="", city: String=""){
+    fun getFindRecommend(ilookType: String="", city: String=""){
         pageNum = 1
         pullRefresh(ilookType,city)
     }
@@ -68,7 +73,10 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
     fun getData(ilookType: String, city: String) {
         this.iLookType = ilookType
         this.sPlace = city
-        Request.findLookAllAboutList(userId, iLookType, sPlace, pageNum).request(this) { _, data ->
+        if(TextUtils.isEmpty(mUserId)){
+            mUserId = SPUtils.instance().getString(Const.User.USER_ID)
+        }
+        Request.findLookAllAboutList(mUserId, iLookType, sPlace, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 dateAdapter.data.clear()
                 setRefreshing(false)
@@ -83,6 +91,8 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
             }
             dateAdapter.notifyDataSetChanged()
         }
+
+        dateAdapter.emptyView = layoutInflater.inflate(R.layout.no_empty_layout,null)
     }
 
     fun pullRefresh(ilookType: String="", city: String="") {

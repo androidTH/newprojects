@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
@@ -26,6 +27,7 @@
             android:visibility="gone"
             android:drawablePadding="@dimen/margin_3"
             android:drawableRight="@mipmap/ic_arrow_down"
+            android:textStyle="bold"
             android:text=""
             android:gravity="center_vertical|left"/>
 
@@ -54,7 +56,7 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/date_headView"
-            style="@style/DefaultCircleHeadStyle"
+            style="@style/DefaultCircleNoHeadStyle"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
@@ -93,6 +95,37 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="40dp"/>
 
+    <RelativeLayout
+        android:id="@+id/rl_service"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/height_65"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/margin_20">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/my_contactus_float"/>
+
+        <com.d6.android.app.widget.DragStrokeView
+            android:id="@+id/tv_service_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:padding="1.5dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_5"
+            android:textColor="@android:color/white"
+            android:text="1"
+            app:autoSizeMaxTextSize="9sp"
+            app:autoSizeMinTextSize="6sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            android:textSize="9sp" />
+    </RelativeLayout>
     <View
         android:layout_above="@android:id/tabhost"
         style="@style/view_line_h" />

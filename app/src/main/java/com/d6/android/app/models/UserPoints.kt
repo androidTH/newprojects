@@ -16,6 +16,7 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
      @SerializedName("iPoint") var iPoint:Int?=0
      @SerializedName("iPointtype") var iPointtype:Int?=1 // 1、充值  2、消费  3、充值购买小红花 4、提现小红花 5、收到小红花 6、赠送小红花
      @SerializedName("dCreatetime") var dCreatetime:Long?=0
+     @SerializedName("sResourceId") var sResourceId:String?=""
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         sId = parcel.readString()
@@ -23,6 +24,7 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
         iPoint = parcel.readValue(Int::class.java.classLoader) as? Int
         iPointtype = parcel.readValue(Int::class.java.classLoader) as? Int
         dCreatetime = parcel.readValue(Long::class.java.classLoader) as? Long
+        sResourceId = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -32,6 +34,7 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
         parcel.writeValue(iPoint)
         parcel.writeValue(iPointtype)
         parcel.writeValue(dCreatetime)
+        parcel.writeString(sResourceId)
     }
 
     override fun describeContents(): Int {
@@ -47,4 +50,6 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
             return arrayOfNulls(size)
         }
     }
+
+
 }

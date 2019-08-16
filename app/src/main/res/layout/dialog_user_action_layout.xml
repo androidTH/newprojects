@@ -6,28 +6,64 @@
     android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_action"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center"
-        android:text="举报" />
     <View style="@style/view_line_h"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"/>
-    <TextView
-        android:id="@+id/tv_action1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center"
-        android:text="屏蔽" />
-    <View style="@style/view_line_h"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"/>
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_15"
+        android:paddingTop="@dimen/margin_15"
+        android:paddingBottom="@dimen/margin_10"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_report_user"
+            android:drawableTop="@mipmap/jubao_button"
+            android:gravity="center_horizontal"
+            android:drawablePadding="@dimen/margin_5"
+            android:textSize="12sp"
+            android:textColor="@color/color_666666"
+            android:text="@string/string_report_us"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_joinblack"
+            android:drawableTop="@mipmap/heiming_button"
+            android:drawablePadding="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:textColor="@color/color_666666"
+            android:id="@+id/tv_joinblack"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/string_delete"
+            android:drawableTop="@mipmap/deleted_button"
+            android:drawablePadding="@dimen/margin_5"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:textColor="@color/color_666666"
+            android:visibility="gone"
+            android:id="@+id/tv_deldate"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/tv_cancel"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_alignParentRight="true"
         android:gravity="center"
-        android:text="取消" />
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:text="@string/string_sharefriends_cancel"
+        android:background="@color/color_F5F5F5"
+        android:textColor="@color/color_333333"
+        android:textStyle="bold"
+        android:textSize="15sp" />
 </LinearLayout>

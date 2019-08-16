@@ -1,6 +1,7 @@
 package com.d6.android.app.activities
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
@@ -10,6 +11,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.DialogCashMoney
 import com.d6.android.app.dialogs.PayResultDialog
 import com.d6.android.app.dialogs.PointsListDialog
+import com.d6.android.app.dialogs.YKCashMoneyDialog
 import com.d6.android.app.easypay.EasyPay
 import com.d6.android.app.easypay.PayParams
 import com.d6.android.app.easypay.callback.OnPayInfoRequestListener
@@ -28,8 +30,10 @@ import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_mypoints.*
 import kotlinx.android.synthetic.main.item_mypoints_header.view.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textColor
 
 
 /**
@@ -58,11 +62,20 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypoints)
-        immersionBar.fitsSystemWindows(true).statusBarColor(R.color.trans_parent).statusBarDarkFont(true).init()
+        immersionBar.fitsSystemWindows(true).statusBarDarkFont(true).init()
         mypoints_refreshrecycler.setLayoutManager(LinearLayoutManager(this))
         mypoints_refreshrecycler.setAdapter(mPointsAdapter)
         mPointsAdapter.setHeaderView(mHeaderView)
         mypoints_refreshrecycler.setOnRefreshListener(this)
+
+        mPointsAdapter.setOnItemClickListener { view, position ->
+            var mUserPoints = mUserPoints.get(position)
+            mUserPoints.sResourceId.let {
+                if(!it.isNullOrEmpty()){
+                    startActivity<SquareTrendDetailActivity>("id" to it.toString())
+                }
+            }
+        }
 
         tv_mypoints_back.setOnClickListener {
             finish()
@@ -91,17 +104,31 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_cash_money.setOnClickListener {
-            isCheckOnLineAuthUser(this,userId){
-                var dialogCashMoney = DialogCashMoney()
-                mUserInfo?.let {
-                    dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
-                }
-                dialogCashMoney.show(supportFragmentManager,"cashmoney")
-                dialogCashMoney.setDialogListener { p, s ->
-                    getUserInfo()
-                    getData()
-                }
-            }
+              val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+              if(TextUtils.equals("7",className)){
+                  var mYKCashMoneyDialog =  YKCashMoneyDialog()
+                  mYKCashMoneyDialog.arguments = bundleOf("title" to "提现","content" to "为了你的帐户安全，提现需要核实你的身份，联系客服认证即可")
+                  mYKCashMoneyDialog.show(supportFragmentManager,"YKCashMoneyDialog")
+                  mYKCashMoneyDialog.setDialogListener { p, s ->
+                      pushCustomerMessage(this,userId,6,""){
+                          chatService(this)
+                      }
+                  }
+              }else{
+                  if(!TextUtils.equals("0",mHeaderView.tv_redflowernums.text.toString())){
+                      var dialogCashMoney = DialogCashMoney()
+                      mUserInfo?.let {
+                          dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
+                      }
+                      dialogCashMoney.show(supportFragmentManager,"cashmoney")
+                      dialogCashMoney.setDialogListener { p, s ->
+                      //var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
+//                    mHeaderView.tv_redflowernums.text = redflowerNums.toString()
+                          getUserInfo()
+                          getData()
+                      }
+                  }
+              }
         }
         getUserInfo()
     }
@@ -181,7 +208,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             mPointsListDialog.dismissAllowingStateLoss()
             getUserInfo()
             var payResultDialog = PayResultDialog()
-            payResultDialog.arguments = bundleOf("payresult" to "wx_pay_success")
+            payResultDialog.arguments = bundleOf("buyType" to "points" ,"payresult" to "wx_pay_success")
             payResultDialog.show(supportFragmentManager, "fd")
         }){code,msg->
             showToast(msg)
@@ -198,6 +225,14 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 mHeaderView.tv_wallet_username.text = it.name
 
                 mHeaderView.tv_redflowernums.text = it.iFlowerCount.toString()
+
+                if(TextUtils.equals("0",it.iFlowerCount.toString())){
+                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_fe6)
+                    mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.color_96FFFFFF)
+                }else{
+                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_white)
+                    mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.white)
+                }
 
                 if (TextUtils.equals(it.sex, "0")) {
                     mHeaderView.ll_huiyuan_info.visibility = View.GONE

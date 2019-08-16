@@ -78,8 +78,8 @@ public class ConversationFragmentEx extends ConversationFragment {
 
     @Override
     public MessageListAdapter onResolveAdapter(Context context) {
-//        return new MessageListAdapterEx(context);
-        return super.onResolveAdapter(context);
+        return new MessageListAdapterEx(context);
+//        return super.onResolveAdapter(context);
     }
 
     @Override

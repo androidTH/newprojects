@@ -1,5 +1,6 @@
 package com.d6.android.app.dialogs
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
@@ -63,6 +64,7 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater?.inflate(R.layout.dialog_date_paypoint, container, false)
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var point = if (arguments != null) {
@@ -86,7 +88,9 @@ class OpenDatePayPointDialog : DialogFragment(),RequestManager {
            username = arguments.getString("username")
            chatUserId = arguments.getString("chatUserId")
            tv_mypointnums.text = "${point}积分"
+
            tv_payinfo.text = "支付后即可与${username}私聊"
+//           tv_payinfo.text = String.format(resources.getString(R.string.string_payinfo),"${point}","${point}","${point}")
         }
     }
 

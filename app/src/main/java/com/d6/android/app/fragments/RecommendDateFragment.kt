@@ -48,7 +48,7 @@ class RecommendDateFragment : RecyclerFragment(){
 
         mSwipeRefreshLayout.setLayoutManager(getLayoutManager())
         dateAdapter.setOnItemClickListener { _, position ->
-            activity?.doAuthUser {
+            activity?.isAuthUser {
                 val date = mSpeedDates[position]
                 if(date.iType == 1){
                     startActivity<FindDateDetailActivity>("data" to date)

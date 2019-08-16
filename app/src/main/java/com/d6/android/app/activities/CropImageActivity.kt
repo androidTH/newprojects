@@ -36,6 +36,7 @@ class CropImageActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crop_image)
+        immersionBar.init()
         title = "裁剪图片"
         titleBar.addRightButton("确定", onClickListener = View.OnClickListener {
             if (Environment.getExternalStorageState() != Environment.MEDIA_MOUNTED) {

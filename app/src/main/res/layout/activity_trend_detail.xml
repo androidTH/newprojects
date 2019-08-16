@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_BF000000"
+    android:background="@color/color_black"
     android:id="@+id/rl_root"
     tools:context=".activities.TrendDetailActivity">
 
@@ -35,6 +35,7 @@
             android:background="@drawable/shape_4d_black"
             android:layout_centerInParent="true"/>
         <ImageView
+            android:id="@+id/iv_dynamic_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -72,22 +73,23 @@
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:id="@+id/tv_trend_uage"
-            android:textSize="10dp"
-            android:text="0"
             android:layout_toRightOf="@+id/tv_trend_uname"
             android:layout_alignTop="@+id/tv_trend_uname"
             android:layout_marginTop="@dimen/margin_3"
-            android:textColor="@color/white"
             android:gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:drawablePadding="1dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:paddingTop="0.5dp"
+            android:paddingBottom="0.5dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="10sp"
             android:background="@drawable/ic_sex_circle_newbg_selector"
             android:drawableLeft="@drawable/sex_white_selector"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
             android:textSize="@dimen/textSize_12"
             android:layout_below="@+id/tv_trend_uname"
             android:layout_alignLeft="@+id/tv_trend_uname"

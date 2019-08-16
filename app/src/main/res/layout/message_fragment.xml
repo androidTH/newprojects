@@ -9,6 +9,15 @@
         android:background="@color/white"
         android:id="@+id/msg_titleBar">
         <TextView
+            android:id="@+id/tv_topsearch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingRight="12dp"
+            android:paddingLeft="12dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:drawableLeft="@mipmap/top_search_icon"/>
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/padding_16"
@@ -16,6 +25,7 @@
             android:id="@+id/tv_title"
             android:paddingRight="@dimen/padding_16"
             android:text="消息"
+            android:textStyle="bold"
             android:gravity="center"/>
         <TextView
             android:layout_width="wrap_content"
@@ -26,9 +36,14 @@
             android:layout_alignParentRight="true"
             android:paddingRight="12dp"
             android:paddingLeft="12dp"
+            android:layout_marginRight="@dimen/margin_5"
             android:id="@+id/iv_msg_right"
             android:drawableLeft="@mipmap/ic_msg_setting"/>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_EAEAEA" />
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/swiprefreshRecyclerlayout_msg"
         android:layout_width="match_parent"

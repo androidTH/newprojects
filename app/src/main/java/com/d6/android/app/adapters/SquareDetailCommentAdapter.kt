@@ -2,21 +2,23 @@ package com.d6.android.app.adapters
 
 import android.support.v4.content.ContextCompat
 import android.text.TextPaint
+import android.text.TextUtils
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.CommentDelDialog
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.CustomLinkMovementMethod
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.SpanBuilder
+import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
 /**
@@ -24,9 +26,17 @@ import org.jetbrains.anko.startActivity
  */
 class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<Comment>(mData, R.layout.item_list_square_detail_comment) {
 
+    private var mNMCommentsUserId = ArrayList<String>()
+    private var nmIndex = 1
+    fun setNMIndex(index:Int){
+        this.nmIndex = index
+        mNMCommentsUserId.clear()
+    }
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
+    private var commentUserId:String  = ""
+
+    fun setIsMySquare(userId:String){
+        commentUserId = userId
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
@@ -43,25 +53,82 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         headView.setImageURI(data.picUrl)
         headView.setOnClickListener {
             val id = data.userId ?: ""
-            context.startActivity<UserInfoActivity>("id" to id)
+            if(data.iIsAnonymous==1){
+                var mUnknowDialog = UnKnowInfoDialog()
+                mUnknowDialog.arguments = bundleOf("otheruserId" to "${id}")
+                mUnknowDialog.show((context as BaseActivity).supportFragmentManager,"unknowDialog")
+            }else{
+                context.startActivity<UserInfoActivity>("id" to id)
+            }
         }
-        holder.setText(R.id.tv_name, data.name)
+
+        if(data.iIsAnonymous==1){
+            if(TextUtils.equals(data.userId, commentUserId)){
+                holder.setText(R.id.tv_name, "${data.name}贴主")
+            }else{
+                if(mNMCommentsUserId.size==0){
+                    holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                    mNMCommentsUserId.add(data.userId.toString())
+                }else{
+                    var index = mNMCommentsUserId.indexOf(data.userId.toString())
+                    if(index>=0){
+                        nmIndex = index +1
+                        holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                    }else{
+                        nmIndex = nmIndex+1
+                        holder.setText(R.id.tv_name, "${data.name}${nmIndex}")
+                        mNMCommentsUserId.add(data.userId.toString())
+                    }
+                }
+            }
+        }else{
+            holder.setText(R.id.tv_name, data.name)
+        }
+
         val contentView = holder.bind<TextView>(R.id.tv_content)
         val spanText = if (data.replyUserId.isNullOrEmpty()) {
             //这里多余了。什么都没做只是转换成了下类型
             SpanBuilder(data.content ?: "")
                     .build()
         } else {
-            val content = String.format("回复%s:%s", data.replyName, data.content)
-            val length1 = data.replyName?.length ?: 0
+            var content = ""
+            var replyName = ""
+            if(data.iIsReplyAnonymous==1){
+                if(TextUtils.equals(data.replyUserId, commentUserId)){
+                    replyName = "${data.replyName}贴主"
+                    content = String.format("回复%s:%s", replyName, data.content)
+                }else{
+                    if(mNMCommentsUserId.size==0){
+                        replyName = "${data.replyName}${nmIndex}"
+                        mNMCommentsUserId.add(data.replyUserId.toString())
+                    }else{
+                        var index = mNMCommentsUserId.indexOf(data.replyUserId.toString())
+                        if(index>=0){
+                            nmIndex = index +1
+                            replyName = "${data.replyName}${nmIndex}"
+                        }else{
+                            nmIndex = nmIndex+1
+                            replyName = "${data.replyName}${nmIndex}"
+                            mNMCommentsUserId.add(data.replyUserId.toString())
+                        }
+                    }
+                    content = String.format("回复%s:%s", replyName, data.content)
+                }
+            }else{
+                replyName = "${data.replyName}"
+                content = String.format("回复%s:%s", replyName, data.content)
+            }
+
+            val length1 = replyName.length
             SpanBuilder(content)
                     .click(2, 2 + length1, TextClickableSpan(data.replyUserId))
                     .build()
+
         }
         contentView.text = spanText
 
         val tv_del_myself_comment = holder.bind<TextView>(R.id.tv_del_myselfcomment)
-        if(data.userId == userId){
+        if(data.userId == getLocalUserId()){
             tv_del_myself_comment.visibility = View.VISIBLE
         }else{
             tv_del_myself_comment.visibility = View.GONE
@@ -69,6 +136,7 @@ class SquareDetailCommentAdapter(mData: ArrayList<Comment>) : HFRecyclerAdapter<
         tv_del_myself_comment.setOnClickListener {
             deleteAction?.onDelete(data)
         }
+
     }
 
     private inner class TextClickableSpan(private val id: String?) : ClickableSpan() {

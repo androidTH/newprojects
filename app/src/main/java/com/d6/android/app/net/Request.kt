@@ -5,12 +5,11 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.utils.getFileSuffix
 import com.d6.android.app.utils.ioScheduler
 import com.d6.android.app.utils.sysErr
-import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Retrofit
 import retrofit2.http.POST
 import retrofit2.http.Query
 import java.io.File
@@ -143,8 +142,8 @@ object Request {
     fun feedback(userId: String, content: String) =
             RRetrofit.instance().create(ApiServices::class.java).feedback(userId, content)
 
-    fun addComment(userId: String, newsId: String, content: String, replyUid: String?) =
-            RRetrofit.instance().create(ApiServices::class.java).addComment(userId, newsId, content, replyUid)
+    fun addComment(userId: String, newsId: String, content: String, replyUid: String?,iIsAnonymous:Int,iReplyCommnetType:Int?) =
+            RRetrofit.instance().create(ApiServices::class.java).addComment(userId, newsId, content, replyUid,iIsAnonymous,iReplyCommnetType)
 
     /**
      * 速约
@@ -185,8 +184,8 @@ object Request {
                            , area: String? = null, outArea: String? = null, arrayUserClassesId: String? = null, pageSize: Int = PAGE_SIZE) =
             RRetrofit.instance().create(ApiServices::class.java).getSelfReleaseList(pageNum, beginTime, endTime, area, outArea, arrayUserClassesId, pageSize)
 
-    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String) =
-            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content)
+    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String,iIsAnonymous:Int) =
+            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser,iIsAnonymous)
 
     fun releaseSelfAbout(userId: String, outArea: String?, area: String?, city: String?, beginTime: String?, endTime: String?, content: String, imgUrl: String?) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSelfAbout(userId, content, outArea, area, city, beginTime, endTime, imgUrl)
@@ -212,6 +211,12 @@ object Request {
     fun getSquareMessages(userId: String, pageNum: Int, time: String? = null, pageSize: Int = PAGE_SIZE) =
             RRetrofit.instance().create(ApiServices::class.java).getSquareMessages(userId, pageNum, time, pageSize)
 
+    /**
+     * 获取广场消息
+     */
+    fun getNewSquareMessages(userId: String, pageNum: Int,pageSize: Int = PAGE_SIZE) =
+            RRetrofit.instance().create(ApiServices::class.java).getNewSquareMessages(userId, pageNum, pageSize)
+
     fun getSystemMessages(userId: String, pageNum: Int, time: String? = null, pageSize: Int = PAGE_SIZE) =
             RRetrofit.instance().create(ApiServices::class.java).getSystemMsgs(userId, pageNum, time, pageSize)
 
@@ -230,15 +235,15 @@ object Request {
             RRetrofit.instance().create(ApiServices::class.java).loginV2(type, vercode, phone, guoneiguowai, openId,devicetoken)
 
 
-    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="") =
-            RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken)
+    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="",sUnionid:String?="",sChannelId:String = "") =
+            RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken,sUnionid,sChannelId)
 
 
     fun findDataDict(key: String? = "quhao") =
             RRetrofit.instance().create(ApiServices::class.java).findDataDict(key)
 
-    fun addBlackList(userId: String,id:String) =
-            RRetrofit.instance().create(ApiServices::class.java).addBlackList(userId,id)
+    fun addBlackList(userId: String,id:String,iType:Int) =
+            RRetrofit.instance().create(ApiServices::class.java).addBlackList(userId,id,iType)
 
     fun report(userId: String,id:String,content:String,tiptype:String) =
             RRetrofit.instance().create(ApiServices::class.java).report(userId,id,content,tiptype)
@@ -309,8 +314,8 @@ object Request {
     fun getUserPoints(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getUserPoints(userid , pageNum)
 
     //发布约会
-    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?)=RRetrofit.instance().
-            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic)
+    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?,sAppointUser:String,iIsAnonymous:Int)=RRetrofit.instance().
+            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic,sAppointUser,iIsAnonymous)
     //自主约会
     fun findAppointmentList(userid: String,iAppointType:String?, sPlace:String?,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAppointmentList(userid,iAppointType ,sPlace,pageNum)
 
@@ -321,7 +326,7 @@ object Request {
     fun signUpdate(userid:String,sAppointmentId:String,sDesc:String)=RRetrofit.instance().create(ApiServices::class.java).signUpdate(userid, sAppointmentId,sDesc)
 
     //约会详情页
-    fun getAppointDetails(userId:String,sAppointmentSignupId:String,sAppointmentId:String)=RRetrofit.instance().create(ApiServices::class.java).getAppoinmentIdDetail(userId,sAppointmentSignupId,sAppointmentId)
+    fun getAppointDetails(userId:String,sAppointmentSignupId:String,sAppointmentId:String,iShareUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAppoinmentIdDetail(userId,sAppointmentSignupId,sAppointmentId,iShareUserid)
 
     //更新约会状态
     fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int,sRefuseDesc:String)=RRetrofit.instance().create(ApiServices::class.java).updateDateStatus(sAppointmentSignupId,iStatus,sRefuseDesc)
@@ -350,10 +355,10 @@ object Request {
                                 ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,xingzuo,agemin,agemax,lat,lon,pageNum)
 
     //绑定手机号
-    fun bindPhone(phone:String,vercode:String,openid:String,devicetoken:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,devicetoken,sWxName,sWxpic)
+    fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String,sChannelId:String?)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic,sChannelId)
 
     //赠送积分
-    fun loginForPoint(iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPoint(iUserid)
+    fun loginForPoint(sLoginToken:String,iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPointNew(sLoginToken,iUserid)
 
 
     //支付多少积分
@@ -368,7 +373,7 @@ object Request {
     fun getUserFlower()=RRetrofit.instance().create(ApiServices::class.java).getUserFlowerRule()
 
     //绑定微信号
-    fun doBindWxId(iUserid: String,wxid:String,sWxName:String,sWxpic:String)=RRetrofit.instance().create(ApiServices::class.java).doBindWxId(iUserid,wxid,sWxName,sWxpic)
+    fun doBindWxId(iUserid: String,wxid:String,sWxName:String,sWxpic:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).doBindWxId(iUserid,wxid,sWxName,sWxpic,sUnionid)
 
     //大赏用户红花
     fun sendFlowerByOrderId(iUserid:String,iReceiveUserid:String,sOrderid:String,sResourceid:String)=RRetrofit.instance().create(ApiServices::class.java).sendFlowerByOrderId(iUserid,iReceiveUserid,sOrderid,sResourceid)
@@ -380,7 +385,7 @@ object Request {
     fun updateTalkSetting(iUserid:String,iTalkSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateTalkSetting(iUserid,iTalkSetting)
 
     //新的私聊接口
-    fun doTalkJustifyNew(iFromUserid:String,iToUserid:String) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustifyNew(iFromUserid,iToUserid)
+    fun doTalkJustifyNew(iFromUserid:String,iToUserid:String,iType:Int) = RRetrofit.instance().create(ApiServices::class.java).doTalkJustifyNew(iFromUserid,iToUserid,iType)
 
     //申请私聊接口
     fun doApplyPrivateChat(iFromUserid:String, iToUserId:String)=RRetrofit.instance().create(ApiServices::class.java).doApplyPrivateChat(iFromUserid,iToUserId)
@@ -389,7 +394,7 @@ object Request {
     fun doUpdatePrivateChatStatus(iFromUserid:String,iToUserid:String,iStatus:String)=RRetrofit.instance().create(ApiServices::class.java).doUpdatePrivateChatStatus(iFromUserid,iToUserid,iStatus)
 
      //获取与当前用户的私聊状态
-    fun getApplyStatus(iFromUserid:String,iToUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid)
+    fun getApplyStatus(iFromUserid:String,iToUserid:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).getApplyStatus(iFromUserid,iToUserid,iType)
 
     //获取用户信息接口
     fun getUserInfoDetail(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getUserInfoDetail(iUserid)
@@ -400,6 +405,71 @@ object Request {
     //判断是否有查看访客权限
     fun getVistorAuth(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorAuth(iUserid)
 
-    ///支付查看访客积分
+    //支付查看访客积分
     fun getVistorPayPoint(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getVistorPayPoint(iUserid)
+
+    //更新版本
+    fun getByVersion(sVersion:String,iType:String)=RRetrofit.instance().create(ApiServices::class.java).getByVersion(sVersion,iType)
+
+    //获取粉丝列表
+    fun getFindMyBlackList(iUserId: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getFindMyBlacklist(iUserId,pageNum)
+
+    //移除黑名单
+    fun removeBlackList(sId:String?)=RRetrofit.instance().create(ApiServices::class.java).delBlackList(sId.toString())
+
+    //更新微信登录的unionId
+    fun updateUnionId(iUserid:String,sOpenId:String,sUnionid:String)=RRetrofit.instance().create(ApiServices::class.java).updateUnionId(iUserid,sOpenId,sUnionid)
+
+    //把某人移除黑名单
+    fun removeBlackList(userId: String,id:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).removeBlackList(userId,id,iType)
+
+    //查询好友列表
+    fun findUserFriends(iUserId: String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findUserFriends(iUserId,sUserName,pageNum)
+
+    //消息设置接口
+    fun updateMessageSetting(iUserId:String,iMessageSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateMessageSetting(iUserId,iMessageSetting)
+
+    //客服查询用户
+    fun findAllUserFriends(iUserId:String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAllUserFriends(iUserId,sUserName,pageNum)
+
+    //查询好友个数
+    fun findFriendCount(iUserId:String)=RRetrofit.instance().create(ApiServices::class.java).findFriendCount(iUserId)
+
+    //分享给好友
+    fun shareMessage(userid:String,iType:Int,sResourceId:String,sAppointUser:String)=RRetrofit.instance().create(ApiServices::class.java).shareMessage(userid,iType,sResourceId,sAppointUser)
+
+    //推送消息
+    fun pushCustomerMessage(sLoginToken:String,iUserid:String,iType:Int,sResourceId:String)=RRetrofit.instance().create(ApiServices::class.java).pushCustomerMessage(sLoginToken,iUserid,iType,sResourceId)
+
+    //获取会员列表
+    fun findUserClasses(sLoginToken:String,sAreaName:String="")=RRetrofit.instance().create(ApiServices::class.java).findUserClasses(sLoginToken,sAreaName)
+
+    //删除约会列表
+    fun delAppointment(sLoginToken:String,sAppointmentId:String)=RRetrofit.instance().create(ApiServices::class.java).delAppointment(sLoginToken,sAppointmentId)
+
+    fun getProvinceAllOfMember(sType:String) =
+            RRetrofit.instance().create(ApiServices::class.java).getProvinceAllOfMember(sType)
+
+    //查询约会和动态匿名剩余次数接口
+    fun getAnonymouseAppointmentPoint(sLoginToken:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).getAnonymouseAppointmentPoint(sLoginToken,iType)
+
+    //查询是否开启匿名卡片
+    fun getUserQueryAnonymous(sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getUserQueryAnonymous(sLoginToken)
+
+    //查询匿名需要支付的积分
+    fun getQueryAnonymous(sLoginToken:String) = RRetrofit.instance().create(ApiServices::class.java).getQueryAnonymous(sLoginToken)
+
+    //开通匿名卡片支付积分
+    fun getAnonymousPayPoint(sLoginToken:String) = RRetrofit.instance().create(ApiServices::class.java).getAnonymousPayPoint(sLoginToken)
+
+    //获得匿名用户详情页
+    fun getAnonymousAccountDetail(sLoginToken:String,iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAnonymousAccountDetail(sLoginToken,iUserid)
+    // 创建匿名组接口
+    fun CreateGroupAdd(sLoginToken:String,iTalkUserid:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).CreateGroupAdd(sLoginToken,iTalkUserid,iType)
+
+    //跳转到匿名用户组（先判断是否已创建匿名组，没有创建则手动创建）
+    fun doToUserAnonyMousGroup(sLoginToken:String,iTalkUserid:String,iType:Int)=RRetrofit.instance().create(ApiServices::class.java).doToUserAnonyMousGroup(sLoginToken,iTalkUserid,iType)
+
+    //查询组的信息，返回组的名称和图片（已区分是否匿名）
+    fun findGroupDescByGroupId(sLoginToken:String,sGroupId:String)=RRetrofit.instance().create(ApiServices::class.java).findGroupDescByGroupId(sLoginToken,sGroupId)
 }

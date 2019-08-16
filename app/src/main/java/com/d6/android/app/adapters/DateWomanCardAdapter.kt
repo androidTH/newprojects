@@ -1,11 +1,13 @@
 package com.d6.android.app.adapters
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -17,9 +19,9 @@ import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.widget.CustomToast
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
+import org.jetbrains.anko.backgroundDrawable
 
 class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_womennewcard) {
 
@@ -102,7 +104,39 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 holder.setText(R.id.tv_name, data.name)
             }
 
-//          holder.setText(R.id.tv_vip, data.classesname)
+
+            val img_date_womenauther = holder.bind<ImageView>(R.id.img_date_womenauther)
+
+            if(TextUtils.equals("0",data!!.screen)|| data!!.screen.isNullOrEmpty()){
+                img_date_womenauther.visibility = View.GONE
+            }else if(TextUtils.equals("1",data!!.screen)){
+                img_date_womenauther.visibility = View.VISIBLE
+                img_date_womenauther.setImageResource(R.mipmap.video_small)
+            }else if(TextUtils.equals("3",data!!.screen)){
+                img_date_womenauther.visibility = View.GONE
+                img_date_womenauther.setImageResource(R.mipmap.renzheng_small)
+            }else{
+                img_date_womenauther.visibility = View.GONE
+            }
+
+            var tv_women_vip = holder.bind<TextView>(R.id.tv_vip)
+            tv_women_vip.visibility = View.VISIBLE
+            if(TextUtils.equals(data.userclassesid,"27")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_primary))
+                tv_women_vip.backgroundDrawable =  ContextCompat.getDrawable(context,R.mipmap.gril_cj)
+            }else if(TextUtils.equals(data.userclassesid,"28")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_middle))
+                tv_women_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_zj)
+            }else if(TextUtils.equals(data.userclassesid,"29")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
+                tv_women_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_gj)
+            }else if(TextUtils.equals(data.userclassesid,"7")){
+                tv_women_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+            }else{
+                tv_women_vip.backgroundDrawable = null
+                tv_women_vip.visibility = View.GONE
+            }
+
             val tv_woman_age = holder.bind<TextView>(R.id.tv_womang_age)
 
             if (!data.nianling.isNullOrEmpty()) {
@@ -120,26 +154,31 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             tv_woman_age.isSelected = TextUtils.equals("0", data.sex)
 
+            var tv_content = holder.bind<TextView>(R.id.tv_content)
+
             if (!data.egagementtext.isNullOrEmpty()) {
                 if(!TextUtils.equals("null",data.egagementtext)){
-                    holder.setText(R.id.tv_content, data.egagementtext)
+                    tv_content.visibility = View.VISIBLE
+                    tv_content.text =  data.egagementtext
                 }else{
-                    holder.setText(R.id.tv_content,"")
+                    tv_content.visibility = View.GONE
                 }
             } else if (!(data.gexingqianming.isNullOrEmpty())) {
                 if(!TextUtils.equals("null",data.gexingqianming)){
-                    holder.setText(R.id.tv_content, data.gexingqianming)
+                    tv_content.visibility = View.VISIBLE
+                    tv_content.text = data.gexingqianming
                 }else{
-                    holder.setText(R.id.tv_content,"")
+                    tv_content.visibility = View.GONE
                 }
             }else if(!data.ziwojieshao.isNullOrEmpty()){
                 if(!TextUtils.equals("null",data.ziwojieshao)){
-                    holder.setText(R.id.tv_content, data.ziwojieshao)
+                    tv_content.visibility = View.VISIBLE
+                    tv_content.text = data.ziwojieshao
                 }else{
-                    holder.setText(R.id.tv_content,"")
+                    tv_content.visibility = View.GONE
                 }
             }else{
-                holder.setText(R.id.tv_content,"")
+                tv_content.visibility = View.GONE
             }
 
             if (TextUtils.equals("null", data.userlookwhere)) {
@@ -152,9 +191,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
             if (data.iVistorCountAll >= 50) {
-                tv_vistorfollownums.text = "访客·${data.iVistorCountAll} 喜欢·${data.iFansCountAll}人"
+                tv_vistorfollownums.text = "访客·${data.iVistorCountAll} 喜欢TA的·${data.iFansCountAll}人"
             } else {
-                tv_vistorfollownums.text = "喜欢·${data.iFansCountAll}人"
+                tv_vistorfollownums.text = "喜欢TA的·${data.iFansCountAll}人"
             }
         }
 
@@ -272,12 +311,34 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         }
 
         val tv_man_perferctvip = holder.bind<TextView>(R.id.tv_man_perfect_vip)
-        if(data.classesname.isNotEmpty()){
-            tv_man_perferctvip.text = data.classesname
-            tv_man_perferctvip.visibility = View.VISIBLE
-        }else{
-            tv_man_perferctvip.visibility = View.GONE
+
+        if(TextUtils.equals(data.userclassesid,"22")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
+        }else if(TextUtils.equals(data.userclassesid,"23")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
+        }else if(TextUtils.equals(data.userclassesid,"24")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
+        }else if(TextUtils.equals(data.userclassesid,"25")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
+        }else if(TextUtils.equals(data.userclassesid,"26")){
+//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
+        }else if(TextUtils.equals(data.userclassesid,"7")){
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+        }else if(TextUtils.equals(data.userclassesid,"30")){
+            tv_man_perferctvip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
         }
+
+//        if(data.classesname.isNotEmpty()){
+//            tv_man_perferctvip.text = data.classesname
+//            tv_man_perferctvip.visibility = View.VISIBLE
+//        }else{
+//            tv_man_perferctvip.visibility = View.GONE
+//        }
 
         val tv_age = holder.bind<TextView>(R.id.tv_man_pecfect_age)
 

@@ -2,6 +2,7 @@ package com.d6.android.app.widget
 
 import android.content.Context
 import android.support.annotation.IdRes
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -14,13 +15,13 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
+import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.find
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.*
 
 /**
  * Created on 2017/12/17.
@@ -30,6 +31,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     private var square: Square? = null
     private val mImages = ArrayList<String>()
+
     private val imageAdapter by lazy {
         SquareImageAdapter(mImages)
     }
@@ -56,6 +58,13 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 rv_comment.layoutManager = LinearLayoutManager(context)
                 rv_comment.adapter = commentAdapter
 
+                commentAdapter.setOnCommentClick {
+                    square?.let {
+                        Log.i("mOnSquareDetailsClick","dddddd")
+                        mOnSquareDetailsClick?.onSquareDetails(it)
+                    }
+                }
+
                 tv_appraise.setOnClickListener {
                     square?.let {
                         action?.onPraiseClick(it)
@@ -64,8 +73,21 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 headView.setOnClickListener {
                     square?.let {
                         val id = it.userid?:""
-                        context.startActivity<UserInfoActivity>("id" to id)
+                        if(it.iIsAnonymous==1){
+                            var mUnknowDialog = UnKnowInfoDialog()
+                            mUnknowDialog.arguments = bundleOf("otheruserId" to id)
+                            mUnknowDialog.show((context as BaseActivity).supportFragmentManager,"unknowDialog")
+                        }else{
+                            context.startActivity<UserInfoActivity>("id" to id)
+                        }
                     }
+                }
+
+                ll_comments.setOnClickListener {
+                  square?.let {
+                      Log.i("mOnSquareDetailsClick","ffffff")
+                      mOnSquareDetailsClick?.onSquareDetails(it)
+                  }
                 }
         //        commentAdapter.setOnCommentClick {
         //            textClickedListener?.onTextClicked()
@@ -88,7 +110,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
      * type 1 可以展示删除按钮。
      */
     fun update(square: Square,type:Int?=0) {
-
         imageAdapter.bindSquare(square)
 //        val uid = SPUtils.instance().getString(Const.User.USER_ID)
 //        if (TextUtils.equals(square.userid, uid) && type == 1) {//是自己。
@@ -97,24 +118,44 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 //            tv_delete.gone()
 //        }
         this.square = square
+        headView.hierarchy = getHierarchy(square.sex.toString())
         headView.setImageURI(square.picUrl)
+
         tv_name.text = square.name
+
         tv_sex.isSelected = TextUtils.equals("0",square.sex)
-        if(TextUtils.equals(square.sex, "1")){
-            tv_vip.text = square.userclassesname
-            tv_vip.visibility = View.VISIBLE
+//        tv_vip.text = square.userclassesname
+        tv_vip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
+
+        if(TextUtils.equals("3",square.screen)){
+            img_auther.visibility=View.GONE
+            img_auther.setImageResource(R.mipmap.renzheng_small)
+        }else if(TextUtils.equals("1",square.screen)){
+            img_auther.visibility=View.VISIBLE
+            img_auther.setImageResource(R.mipmap.video_small)
         }else{
-            tv_vip.visibility = View.GONE
+            img_auther.visibility=View.GONE
         }
 
+//        if(TextUtils.equals(square.sex, "1")){
+//            tv_vip.visibility = View.VISIBLE
+//        }else{
+//            tv_vip.visibility = View.GONE
+//        }
+
         val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime.toTime("MM.dd")
+            square.updatetime?.interval()
         } else {
-            String.format("%s | %s",square.updatetime.toTime("MM.dd"),square.city)
+            String.format("%s | %s",square.updatetime?.interval(),square.city)
         }
         tv_sub_title.text = sub
 
-        tv_content.text = square.content
+        if(square.content.isNullOrEmpty()){
+            tv_content.visibility = View.GONE
+        }else{
+            tv_content.visibility = View.VISIBLE
+            tv_content.text = square.content
+        }
 
         if (square.imgUrl.isNullOrEmpty()) {
             rv_images.gone()
@@ -185,6 +226,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 mComments.addAll(square.comments)
             }
         }
+        commentAdapter.setSquareUserId(square.userid.toString(),1)
         commentAdapter.notifyDataSetChanged()
     }
 
@@ -223,9 +265,19 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }
         }
     }
+
+    fun setOnSquareDetailsClick(action:(square:Square)->Unit) {
+        this.mOnSquareDetailsClick = object : OnSquareDetailsClick {
+            override fun onSquareDetails(square: Square) {
+                    action(square)
+            }
+        }
+    }
     private var action:PraiseClickListener?=null
     private var deleteAction:DeleteClick?=null
     private var onItemClick:OnItemClick?=null
+    private var mOnSquareDetailsClick:OnSquareDetailsClick?=null
+
     private var SendFlowerAction:SendFlowerClickListener?=null
 
     interface SendFlowerClickListener{
@@ -244,8 +296,14 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         fun onClick(view: View,square: Square)
     }
 
+    interface OnSquareDetailsClick{
+        fun onSquareDetails(square: Square)
+    }
+
     private var textClickedListener: CustomLinkMovementMethod.TextClickedListener? = null
+
     fun setOnCommentClick(l:()->Unit) {
         textClickedListener = CustomLinkMovementMethod.TextClickedListener { l() }
     }
+
 }
