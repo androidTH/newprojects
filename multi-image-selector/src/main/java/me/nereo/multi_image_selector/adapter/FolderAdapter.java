@@ -174,22 +174,24 @@ public class FolderAdapter extends BaseAdapter {
                 size.setText("*"+mContext.getResources().getString(R.string.photo_unit));
             }
             // 显示图片
-            if(data.cover.path.isEmpty()){
-                return;
-            }
-            Uri uri = Uri.parse("file://"+data.cover.path);
-            ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
-                    .setLocalThumbnailPreviewsEnabled(true)
-                    .setAutoRotateEnabled(true)
-                    .setResizeOptions(new ResizeOptions(mImageSize,mImageSize))
-                    .build();
+            if(data.cover!=null){
+                if(data.cover.path.isEmpty()){
+                    return;
+                }
+                Uri uri = Uri.parse("file://"+data.cover.path);
+                ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+                        .setLocalThumbnailPreviewsEnabled(true)
+                        .setAutoRotateEnabled(true)
+                        .setResizeOptions(new ResizeOptions(mImageSize,mImageSize))
+                        .build();
 
-            DraweeController controller = Fresco.newDraweeControllerBuilder()
-                    .setImageRequest(request)
+                DraweeController controller = Fresco.newDraweeControllerBuilder()
+                        .setImageRequest(request)
 //                        .setUri(uri)
-                    .setOldController(cover.getController())
-                    .build();
-            cover.setController(controller);
+                        .setOldController(cover.getController())
+                        .build();
+                cover.setController(controller);
+            }
 //            if (data.cover != null) {
 //
 ////                Picasso.with(mContext)

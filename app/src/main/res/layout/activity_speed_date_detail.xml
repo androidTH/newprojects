@@ -1,170 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/color_F5F5F5">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/margin_10"
-        android:scrollbars="none"
-        android:layout_marginBottom="120dp">
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
+        android:scrollbars="none">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.youth.banner.Banner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/DefaultImageStyle"
-                android:id="@+id/imageView"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="@dimen/padding_16"
-                android:layout_marginRight="@dimen/padding_16"
-                android:layout_marginTop="8dp"
-                app:roundedCornerRadius="8dp"
-                app:viewAspectRatio="1.494"/>
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_below="@+id/imageView"
-                android:layout_marginRight="8dp"
-                style="@style/DefaultHeadStyle"
-                android:layout_alignLeft="@+id/imageView"
-                android:id="@+id/headView"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:maxWidth="240dp"
-                android:id="@+id/tv_title"
-                android:gravity="center_vertical"
-                android:drawablePadding="4dp"
-                android:layout_marginBottom="12dp"
-                android:layout_toRightOf="@+id/headView"
-                android:singleLine="true"
-                android:drawableRight="@drawable/sex_selector"
-                android:text=""
-                android:layout_below="@+id/imageView"/>
-            <TextView
-                android:id="@+id/tv_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableRight="@mipmap/ic_chat"
-                android:visibility="gone"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="8dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/headView"
-                android:paddingBottom="8dp"
-                android:paddingLeft="8dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tv_title"
-                android:textSize="12sp"
-                android:textColor="@color/textColor99"
-                android:layout_marginLeft="4dp"
-                android:id="@+id/tv_audio_auth"
-                android:gravity="center_vertical"
-                android:drawablePadding="4dp"
-                android:layout_alignBottom="@id/tv_title"
-                android:drawableRight="@mipmap/ic_audio_auth"
-                android:text="|"
-                android:layout_alignTop="@+id/tv_title"/>
-            <LinearLayout
-                android:layout_below="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:id="@+id/ll_info"
-                android:layout_alignLeft="@id/tv_title"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/tv_age"
-                    style="@style/textRedBgStyle"
-                    android:text="0"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="12dp"/>
-                <TextView
-                    android:id="@+id/tv_height"
-                    style="@style/textRedBgStyle"
-                    android:text="0CM"
-                    android:layout_marginRight="8dp"/>
-                <TextView
-                    android:id="@+id/tv_weight"
-                    style="@style/textRedBgStyle"
-                    android:text="0KG"/>
-            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_deadline_time"
-                android:layout_alignLeft="@id/tv_title"
-                android:textSize="12sp"
-                android:textColor="@color/color_369"
-                android:text="2017.01.01"
-                android:layout_below="@+id/ll_info"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_time"
-                android:textColor="@color/textColor99"
-                android:textSize="12sp"
-                android:text="--"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="8dp"
-                android:layout_below="@+id/ll_info"/>
-            <View style="@style/view_line_h"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_below="@+id/tv_time"/>
-            <TextView
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardview_speeddate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="-------"
-                android:layout_below="@+id/tv_time"
-                android:layout_alignLeft="@id/headView"
-                android:textSize="13sp"
-                android:paddingTop="8dp"
-                android:id="@+id/tv_content"
-                android:textColor="@color/textColor99"
-                android:layout_marginBottom="80dp"/>
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp"
+                app:cardPreventCornerOverlap="false">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_13"
+                    android:paddingLeft="@dimen/margin_20"
+                    android:paddingRight="@dimen/margin_20">
+
+                    <TextView
+                        android:id="@+id/speeddate_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color_black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_speeddate_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/speeddate_type"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_speeddate_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/ic_sex_bg_selector"
+                            android:drawableLeft="@drawable/sex_white_selector"
+                            android:drawablePadding="1dp"
+                            android:paddingLeft="3dp"
+                            android:paddingTop="0.5dp"
+                            android:paddingRight="3dp"
+                            android:paddingBottom="0.5dp"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tv_speeddate_vip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:textColor="@color/white"
+                            android:textSize="10dp" />
+                        <ImageView
+                            android:id="@+id/img_auther"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/margin_15"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_speeddate_tags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ll_speeddate_level"
+                        android:layout_marginTop="@dimen/margin_22"
+                        android:layout_marginBottom="@dimen/margin_8"
+                        android:minHeight="30dp" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_threetags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rv_speeddate_tags"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_job"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_25"
+                            android:layout_marginBottom="@dimen/margin_10"
+                            android:drawableLeft="@mipmap/boy_car_icon"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:text="职业 "
+                            android:textColor="@color/color_999999"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_zuojia"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_job"
+                            android:layout_marginRight="@dimen/margin_25"
+                            android:layout_marginBottom="@dimen/margin_10"
+                            android:drawableLeft="@mipmap/boy_car_icon"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:text="座驾"
+                            android:textColor="@color/color_999999"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_aihao"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_zuojia"
+                            android:layout_marginRight="@dimen/margin_25"
+                            android:drawableLeft="@mipmap/boy_car_icon"
+                            android:drawablePadding="@dimen/margin_5"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="爱好 "
+                            android:textColor="@color/color_999999"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                    <View
+                        android:id="@+id/date_view_line"
+                        android:layout_below="@+id/ll_threetags"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:background="@color/color_EFEFEF" />
+                    <RelativeLayout
+                        android:id="@+id/ll5"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/date_view_line">
+                        <TextView
+                            android:id="@+id/tv_speeddate_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_2"
+                            android:background="@drawable/shape_line_366_4r"
+                            android:padding="2dp"
+                            android:text="时间"
+                            android:textColor="@color/color_888888"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/tv_speeddate_showtime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5"
+                            android:layout_toRightOf="@+id/tv_speeddate_time"
+                            android:textColor="@color/color_333333"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_speed_timeout"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_below="@+id/date_view_line"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/margin_2"
+                        android:src="@mipmap/icon_timeofover"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/ll5"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_speeddate_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_2"
+                            android:layout_marginBottom="@dimen/margin_3"
+                            android:background="@drawable/shape_line_366_4r"
+                            android:padding="2dp"
+                            android:text="救火说明"
+                            android:textColor="@color/color_888888"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/tv_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5"
+                            android:textColor="@color/color_333333"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_speeddateimages"
+                android:layout_below="@+id/cardview_speeddate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
     </ScrollView>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="24dp"
-        android:background="@color/white"
+        android:background="@color/color_E6FFFFFF"
         android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
-            android:layout_marginBottom="@dimen/margin_15"
-            android:gravity="center"
-            android:textColor="@color/textColor99"
-            android:textSize="@dimen/textSize_12"
-            android:text="@string/date_wenan" />
 
         <TextView
             android:id="@+id/btn_contact"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/height_45"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="@dimen/margin_10"
-            android:background="@drawable/orange_gray_selector"
             android:gravity="center"
-            android:text="联系客服"
-            android:textColor="@color/white"
-            android:textSize="@dimen/btnTextSize" />
-    </LinearLayout>
+            android:text="联系专属客服"
+            android:textColor="@color/color_F7AB00"
+            android:layout_marginTop="@dimen/margin_12"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btn_contact"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:text="@string/date_wenan"
+            android:textColor="@color/color_888888"
+            android:textSize="10sp" />
+    </RelativeLayout>
 </RelativeLayout>

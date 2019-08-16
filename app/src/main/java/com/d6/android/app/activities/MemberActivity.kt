@@ -1,11 +1,8 @@
 package com.d6.android.app.activities
 
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Html
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
@@ -57,9 +54,7 @@ class MemberActivity : BaseActivity() {
              var mWeChatKfDialog = WeChatKFDialog()
              mWeChatKfDialog.show(supportFragmentManager,"wechatkf")
         }
-
     }
-
 
     override fun onResume() {
         super.onResume()

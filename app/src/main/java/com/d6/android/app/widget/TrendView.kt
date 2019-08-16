@@ -143,12 +143,16 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 //            tv_vip.visibility = View.GONE
 //        }
 
-        val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime?.interval()
-        } else {
-            String.format("%s | %s",square.updatetime?.interval(),square.city)
+        if(square.iIsCommentTop==2){
+            tv_sub_title.text = context.getString(R.string.string_newcomments)
+        }else{
+            val sub = if (square.city.isNullOrEmpty()) {
+                square.updatetime?.interval()
+            } else {
+                String.format("%s | %s",square.updatetime?.interval(),square.city)
+            }
+            tv_sub_title.text = sub
         }
-        tv_sub_title.text = sub
 
         if(square.content.isNullOrEmpty()){
             tv_content.visibility = View.GONE

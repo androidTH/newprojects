@@ -48,10 +48,6 @@ class PublishFindDateActivity : BaseActivity() {
     private val mDateTypes = ArrayList<DateType>()
     private var iIsAnonymous:Int = 2
 
-    private val IsOpenUnKnow by lazy{
-       SPUtils.instance().getString(CHECK_OPEN_UNKNOW)
-    }
-
     private var mFrom:String="otherActivity"
     private var mRequestCode:Int = 1
     private var sAddPointDesc="以匿名身份发布"
@@ -233,7 +229,7 @@ class PublishFindDateActivity : BaseActivity() {
 
         tv_unknow_sf.setOnClickListener {
             var mSelectUnknowDialog = SelectUnKnowTypeDialog()
-            mSelectUnknowDialog.arguments = bundleOf("type" to "PublishFindDate","IsOpenUnKnow" to IsOpenUnKnow,
+            mSelectUnknowDialog.arguments = bundleOf("type" to "PublishFindDate","IsOpenUnKnow" to getIsOpenUnKnow(),
                     "code" to mRequestCode,"desc" to sAddPointDesc,"iAddPoint" to iAddPoint,"iRemainPoint" to iRemainPoint)
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
@@ -275,7 +271,7 @@ class PublishFindDateActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(TextUtils.equals("close",IsOpenUnKnow)){
+        if(TextUtils.equals("close", getIsOpenUnKnow())){
             sAddPointDesc = "以匿名身份发布约会"
         }else{
             getCheckAnonMouseNums()

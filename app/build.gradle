@@ -14,8 +14,8 @@ android {
         applicationId "com.d6.android.app"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 33 //32 2.2.1
-        versionName "2.3.0"
+        versionCode 34 //32 2.2.1
+        versionName "2.4.0"
         // Enabling multiDex support.
         multiDexEnabled true
         ndk {
@@ -83,9 +83,10 @@ bugtags {
 }
 
 dependencies {
+    implementation 'com.android.support:support-v4:26.1.0'
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compile 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     //support
     compile "com.android.support:appcompat-v7:$support_version"
@@ -93,7 +94,7 @@ dependencies {
     compile "com.android.support:support-v4:${support_version}"
     compile "com.android.support:design:${support_version}"
     compile "com.android.support:cardview-v7:${support_version}"
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
 
     //anko
     compile "org.jetbrains.anko:anko:$anko_version"
@@ -108,44 +109,44 @@ dependencies {
     //rxjava
 
     //fresco
-    compile 'io.reactivex.rxjava2:rxjava:2.1.9'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
-    compile 'com.facebook.fresco:fresco:1.8.0'
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-    compile 'com.youth.banner:banner:1.4.10'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
-    compile 'com.qiniu:qiniu-android-sdk:7.3.10'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.21'
-    compile 'me.yokeyword:indexablerecyclerview:1.3.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    implementation 'com.facebook.fresco:fresco:1.8.0'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+    implementation 'com.qiniu:qiniu-android-sdk:7.3.10'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.21'
+    implementation 'me.yokeyword:indexablerecyclerview:1.3.0'
     compile project(':IMKit')
     compile project(':cachelib')
     compile project(':umeng_sdk')
 
     //    compile project(':push')
     compile project(':multi-image-selector')
-    compile 'com.amap.api:location:3.7.0'
+    implementation 'com.amap.api:location:3.7.0'
 
     //    compile files('libs/utdid4all-1.1.5.3_proguard.jar')
 
     //    compile files('libs/umeng-common-1.4.1.jar')
     compile files('libs/bugout_release.jar')
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
 
     //    implementation 'me.relex:photodraweeview:1.1.3'
-    compile 'com.google.android:flexbox:1.0.0'
-    compile 'com.contrarywind:wheelview:4.0.7'
-    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+    implementation 'com.google.android:flexbox:1.0.0'
+    implementation 'com.contrarywind:wheelview:4.0.7'
+    implementation 'com.gyf.immersionbar:immersionbar:2.3.3'
     compile project(':cardlib')
     compile project(':sticker')
     compile project(':library')
 
     //下拉刷新库
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-28'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-28'
-    compile 'com.qianwen:update-app:3.5.2'
-    compile 'com.qianwen:okhttp-utils:3.8.0'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-28'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-28'
+    implementation 'com.qianwen:update-app:3.5.2'
+    implementation 'com.qianwen:okhttp-utils:3.8.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
     //    implementation 'com.umeng.sdk:push-xiaomi:1.0.0'

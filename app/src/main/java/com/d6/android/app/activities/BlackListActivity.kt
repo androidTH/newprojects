@@ -76,6 +76,7 @@ class BlackListActivity : BaseActivity(),OnRefreshListener,OnLoadMoreListener{
         Request.getFindMyBlackList(userId, pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mBlackList.clear()
+                refreshLayout.finishRefresh()
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
@@ -91,7 +92,6 @@ class BlackListActivity : BaseActivity(),OnRefreshListener,OnLoadMoreListener{
                 data.list?.results?.let { mBlackList.addAll(it) }
             }
             mBlackListAdapter.notifyDataSetChanged()
-            refreshLayout.finishRefresh()
 //            blacklist_refreshrecycler.isRefreshing = false
         }
     }

@@ -59,11 +59,13 @@
     <string name="string_openchat_sendcount_msg">剩余发送消息%1$s</string>
     <string name="string_auth">已认证</string>
     <string name="string_openchat">申请私聊</string>
+    <string name="string_openchangchat">开启畅聊</string>
     <string name="string_paypoints">支付积分</string>
     <string name="string_apply_openchat">申请</string>
     <string name="string_other_apply_openchat">对方申请和你私聊</string>
     <string name="string_pay_points_openchat">支付积分可开启私聊</string>
     <string name="string_other_agreee_openchat">对方同意后可开启私聊</string>
+    <string name="string_pay_points_openchangchat">支付积分后即可无限畅聊</string>
     <string name="string_otherapply_agreee_openchat">%1$s申请和你私聊</string>
     <string name="string_apply_agree_openchat">申请和对方私聊</string>
     <string name="string_already_applay">已申请</string>
@@ -97,7 +99,7 @@
     <string name="string_gold">黄金</string>
     <string name="string_diamonds">钻石</string>
     <string name="string_private">私人定制</string>
-     <!--女性-->
+    <!--女性-->
     <string name="string_middle">中级</string>
     <string name="string_primary">初级</string>
     <string name="string_senior">高级</string>
@@ -108,7 +110,7 @@
     <string name="string_info">一个好的自我介绍更受异性青睐~</string>
     <string name="string_vip_tq">开通会员享受更多特权</string>
     <string name="string_nosquare">还没有任何动态</string>
-    <string name="string_ask_service">有相关问题可以联系客服六妹</string>
+    <string name="string_ask_service">有相关问题可以联系客服</string>
     <string name="string_auth_explain">为了保障会员的服务，满足你个性化的需求，做针对性的匹配。D6会给每个会员提供一对一专属微信客服</string>
     <string name="string_memeber_success">恭喜你成为会员</string>
     <string name="string_man_firstcomment">“作为钻石会员，享受着客服的贴心一对一服务，哦，对了，我探探陌陌全部卸载了”</string>
@@ -125,4 +127,8 @@
     <string name="string_system_tips02">系统：温馨提示：如果聊天中对方索要小红花、微信号或者借钱等行为时，请予以警惕。如果对方发送低俗、淫秽色情、辱骂他人的消息时，可点击右上角举报</string>
     <string name="string_loading_tips">加载中...</string>
     <string name="string_d6_desc">D6定位高端私人定制交友社区，以高品质、高素质的会员为基础，全球拥有60000+的优质华人会员。平台将实行会员制，成为会员后即可享受私人定制服务</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="string_newcomments">有新的评论</string>
 </resources>

@@ -56,18 +56,20 @@ class FilterDateTypeDialog : DialogFragment() {
         }
 
         if(mShowType){
+            line_all.visibility = View.GONE
             tv_all.visibility = View.GONE
         }else{
+            line_all.visibility = View.VISIBLE
             tv_all.visibility = View.VISIBLE
         }
 
         tv_recommend.setOnClickListener {
-            dialogListener?.onClick(5, if(mShowType )"不限" else "觅约")
+            dialogListener?.onClick(5, if(mShowType )"全部" else "觅约")
             dismissAllowingStateLoss()
         }
 
         tv_2.setOnClickListener {
-            dialogListener?.onClick(1, if(mShowType )"旅行" else "救火")
+            dialogListener?.onClick(6, if(mShowType )"聊天" else "救火")
             dismissAllowingStateLoss()
         }
 
@@ -77,14 +79,27 @@ class FilterDateTypeDialog : DialogFragment() {
         }
 
         tv_4.setOnClickListener {
-            dialogListener?.onClick(3, if(mShowType) "看电影" else "急约")
+            dialogListener?.onClick(1, if(mShowType) "旅行" else "急约")
             dismissAllowingStateLoss()
         }
 
         tv_5.setOnClickListener {
-            dialogListener?.onClick(4, if(mShowType )"喝酒" else "旅行约")
+            dialogListener?.onClick(3, if(mShowType )"电影" else "旅行约")
             dismissAllowingStateLoss()
         }
+
+
+        tv_6.setOnClickListener {
+            dialogListener?.onClick(7, if(mShowType )"游戏" else "旅行约")
+            dismissAllowingStateLoss()
+        }
+
+        tv_7.setOnClickListener {
+            dialogListener?.onClick(8, if(mShowType )"健身" else "旅行约")
+            dismissAllowingStateLoss()
+        }
+
+
 
         bgView.setOnClickListener { dismissAllowingStateLoss() }
 
@@ -93,13 +108,13 @@ class FilterDateTypeDialog : DialogFragment() {
                         .size(0,2,15)
                         .build()
 
-        tv_recommend.text = if(mShowType )"不限" else SpanBuilder("觅约\n每日最新会员")
+        tv_recommend.text = if(mShowType )"全部" else SpanBuilder("觅约\n每日最新会员")
                 .color(context,0,2,R.color.textColor)
                 .size(0,2,12)
                 .build()
 
 
-        tv_2.text = if(mShowType )"旅行" else SpanBuilder("救火\n当天快速匹配")
+        tv_2.text = if(mShowType )"聊天" else SpanBuilder("救火\n当天快速匹配")
                 .color(context,0,2,R.color.textColor)
                 .size(0,2,12)
                 .build()
@@ -111,18 +126,27 @@ class FilterDateTypeDialog : DialogFragment() {
                 .build()
 
 
-        tv_4.text = if(mShowType) "看电影" else SpanBuilder("急约\n近期快速匹配")
+        tv_4.text = if(mShowType) "旅行" else SpanBuilder("急约\n近期快速匹配")
                 .color(context,0,2,R.color.textColor)
                 .size(0,2,12)
                 .build()
 
 
-        tv_5.text = if(mShowType )"喝酒" else SpanBuilder("旅行约\n边旅行,边约会")
+        tv_5.text = if(mShowType )"电影" else SpanBuilder("旅行约\n边旅行,边约会")
                 .color(context,0,3,R.color.textColor)
                 .size(0,3,12)
                 .build()
 
 
+        tv_6.text = if(mShowType )"游戏" else SpanBuilder("旅行约\n边旅行,边约会")
+                .color(context,0,3,R.color.textColor)
+                .size(0,3,12)
+                .build()
+
+        tv_7.text = if(mShowType )"健身" else SpanBuilder("旅行约\n边旅行,边约会")
+                .color(context,0,3,R.color.textColor)
+                .size(0,3,12)
+                .build()
     }
 
     private var dialogListener: OnDialogListener? = null

@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
-import com.d6.android.app.activities.ChooseFriendsActivity
 import com.d6.android.app.activities.ShareFriendsActivity
 import com.d6.android.app.adapters.DialogShareFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
@@ -24,7 +23,6 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import kotlinx.android.synthetic.main.dialog_sharefriends_layout.*
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.wrapContent
 

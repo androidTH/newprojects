@@ -33,7 +33,9 @@
                 android:textColor="@color/textColor"
                 android:textSize="12sp" />
 
-            <ImageView style="@style/ImageView_h" />
+            <ImageView
+                android:id="@+id/line_all"
+                style="@style/ImageView_h" />
 
             <TextView
                 android:id="@+id/tv_recommend"
@@ -110,6 +112,41 @@
 
             <TextView
                 android:id="@+id/tv_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:text="旅行约\n一起来旅行吧"
+                android:textColor="@color/textColor"
+                android:lineSpacingExtra="4dp"
+                android:textSize="12sp" />
+
+            <ImageView style="@style/ImageView_h" />
+            <TextView
+                android:id="@+id/tv_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:text="旅行约\n一起来旅行吧"
+                android:textColor="@color/textColor"
+                android:lineSpacingExtra="4dp"
+                android:textSize="12sp" />
+
+            <ImageView style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

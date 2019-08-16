@@ -218,7 +218,7 @@ class MineFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        getUserInfo()
+        getUserInfo(true)
         getUserFollowAndFansandVistor()
 
         Log.i("minefragment","onresume")
@@ -231,7 +231,7 @@ class MineFragment : BaseFragment() {
             if(!isShowWarm){
                 getUserFollowAndFansandVistor()
             }
-            getUserInfo()
+            getUserInfo(false)
             Log.i("minefragment","onHiddenChanged--${isShowWarm}")
         }
     }
@@ -269,7 +269,7 @@ class MineFragment : BaseFragment() {
         }
     }
 
-    private fun getUserInfo() {
+    private fun getUserInfo(showDataInfo: Boolean) {
         Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->
             mData = data
             activity?.saveUserInfo(data)
@@ -374,18 +374,20 @@ class MineFragment : BaseFragment() {
 
                 tv_menber_center.setCompoundDrawables(drawable, null, null, null)
 
-                if(it.iDatacompletion < 60){
-                    if(SPUtils.instance().getLong(USERINFO_PERCENT+ getLocalUserId(),System.currentTimeMillis())!=System.currentTimeMillis()){
-                        if(getSevenDays(SPUtils.instance().getLong(USERINFO_PERCENT+getLocalUserId(), System.currentTimeMillis()))){
-                            rl_warmuserinfo.visibility = View.VISIBLE
+                if(showDataInfo){
+                    if(it.iDatacompletion < 60){
+                        if(SPUtils.instance().getLong(USERINFO_PERCENT+ getLocalUserId(),System.currentTimeMillis())!=System.currentTimeMillis()){
+                            if(getSevenDays(SPUtils.instance().getLong(USERINFO_PERCENT+getLocalUserId(), System.currentTimeMillis()))){
+                                rl_warmuserinfo.visibility = View.VISIBLE
+                            }else{
+                                rl_warmuserinfo.visibility = View.GONE
+                            }
                         }else{
-                            rl_warmuserinfo.visibility = View.GONE
+                            rl_warmuserinfo.visibility = View.VISIBLE
                         }
                     }else{
-                        rl_warmuserinfo.visibility = View.VISIBLE
+                        rl_warmuserinfo.visibility = View.GONE
                     }
-                }else{
-                    rl_warmuserinfo.visibility = View.GONE
                 }
 
                 ll_square.visibility = View.VISIBLE

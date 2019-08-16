@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import com.d6.android.app.adapters.MyDateListAdapter
 import com.d6.android.app.base.RecyclerActivity
+import com.d6.android.app.base.SmartRecyclerActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
@@ -17,7 +18,7 @@ import org.jetbrains.anko.startActivityForResult
 /**
  * 我的约会列表
  */
-class MyDateListActivity : RecyclerActivity() {
+class MyDateListActivity : SmartRecyclerActivity() {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -60,10 +61,12 @@ class MyDateListActivity : RecyclerActivity() {
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
-                    mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+//                    mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                    mSmartRefreshLayout.finishLoadMore()
+                    mSmartRefreshLayout.finishLoadMoreWithNoMoreData()
                     pageNum--
                 } else {
-                    mSwipeRefreshLayout.setLoadMoreText("暂无数据")
+                    mSmartRefreshLayout.finishLoadMore()
                 }
             } else {
                 mMyAppointments.addAll(data.list.results)

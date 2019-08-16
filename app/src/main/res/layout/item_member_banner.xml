@@ -20,8 +20,7 @@
         app:roundBottomLeft="false"
         app:roundBottomRight="false"
         app:roundAsCircle="false"
-        app:roundedCornerRadius="@dimen/margin_10"
-        android:src="@mipmap/windows_tz1" />
+        app:roundedCornerRadius="@dimen/margin_10"/>
 
     <TextView
         android:id="@+id/tv_title"

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_finddate"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="0dp"
+    app:cardPreventCornerOverlap="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_10"
+    android:layout_marginBottom="@dimen/margin_10">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_13"
+        android:paddingLeft="@dimen/margin_20"
+        android:paddingRight="@dimen/margin_20">
+
+        <TextView
+            android:id="@+id/date_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="速约"
+            android:textColor="@color/color_black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/ll_date_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_type"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_10"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/ic_sex_bg_selector"
+                android:drawableLeft="@drawable/sex_white_selector"
+                android:drawablePadding="1dp"
+                android:paddingLeft="3dp"
+                android:paddingTop="0.5dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="0.5dp"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_vip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:textColor="@color/white"
+                android:textSize="10dp" />
+
+            <ImageView
+                android:id="@+id/img_auther"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_15"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_date_level"
+            android:layout_marginTop="@dimen/margin_22"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:minHeight="30dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_threetags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rv_tags"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_25"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:drawableLeft="@mipmap/boy_car_icon"
+                android:drawablePadding="@dimen/margin_5"
+                android:text="职业 "
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_zuojia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_job"
+                android:layout_marginRight="@dimen/margin_25"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:drawableLeft="@mipmap/boy_car_icon"
+                android:drawablePadding="@dimen/margin_5"
+                android:text="座驾"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_aihao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_zuojia"
+                android:layout_marginRight="@dimen/margin_25"
+                android:drawableLeft="@mipmap/boy_car_icon"
+                android:drawablePadding="@dimen/margin_5"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="爱好 "
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/date_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/ll_threetags"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:background="@color/color_EFEFEF" />
+
+        <RelativeLayout
+            android:id="@+id/ll5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_view_line"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_finddate_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_line_366_4r"
+                android:padding="2dp"
+                android:text="觅约时间"
+                android:textColor="@color/color_888888"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/tv_finddate_showtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_2"
+                android:layout_toRightOf="@+id/tv_finddate_time"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_timeofover" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll5"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_datetype_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_2"
+                android:layout_marginBottom="@dimen/margin_3"
+                android:background="@drawable/shape_line_366_4r"
+                android:padding="2dp"
+                android:text="觅约说明"
+                android:textColor="@color/color_888888"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text=""
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

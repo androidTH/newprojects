@@ -19,6 +19,7 @@ import android.view.View
 import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -37,7 +38,7 @@ import org.json.JSONObject
  *
  * 登录
  */
-class SignInActivity : BaseActivity() {
+class SignInActivity : TitleActivity() {
 
     private var countryCode = "+86"
     private var type = 1
@@ -61,7 +62,7 @@ class SignInActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
-        immersionBar.statusBarColor(R.color.color_F5F5F5).init()
+        immersionBar.init()
 //        title = "D6社区"
 
         btn_sign_in.setOnClickListener {

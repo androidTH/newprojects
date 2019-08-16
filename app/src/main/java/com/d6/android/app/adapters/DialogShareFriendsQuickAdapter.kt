@@ -19,7 +19,6 @@ class DialogShareFriendsQuickAdapter(data: List<FriendBean>) : BaseQuickAdapter<
         val mHeadView = helper.getView<SimpleDraweeView>(R.id.headView)
         var mUserName = helper.getView<TextView>(R.id.tv_share_name)
         mUserName.text = data.sUserName
-
         var position = (helper.layoutPosition - getHeaderLayoutCount())
         if(position == DIALOG_SHOW_MAX){
             mHeadView.setImageURI("res:///"+R.mipmap.share_more_icon)

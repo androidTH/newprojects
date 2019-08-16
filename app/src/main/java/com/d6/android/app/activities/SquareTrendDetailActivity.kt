@@ -55,10 +55,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private var iIsAnonymous:Int = 2
     private var chooseAnonymous = false
 
-    private val IsOpenUnKnow by lazy{
-        SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
-    }
-
     private val mComments = ArrayList<Comment>()
     private val squareDetailCommentAdapter by lazy {
         SquareDetailCommentAdapter(mComments)
@@ -188,7 +184,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         tv_unknow_choose.setOnClickListener {
             var mSelectUnknowDialog = SelectUnKnowTypeDialog()
-            mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail","IsOpenUnKnow" to IsOpenUnKnow)
+            mSelectUnknowDialog.arguments = bundleOf("type" to "SquareTrendDetail","IsOpenUnKnow" to getIsOpenUnKnow())
             mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
             mSelectUnknowDialog.setDialogListener { p, s ->
                 setInputState(p)
@@ -200,6 +196,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         getData()
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
 
     private fun setInputState(p:Int){
         if(p==2){
@@ -244,14 +243,14 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     } else {
                         mComments.addAll(it.comments)
                     }
-                    Collections.reverse(mComments)
+//                    Collections.reverse(mComments)
                     squareDetailCommentAdapter.setNMIndex(1)
                     squareDetailCommentAdapter.notifyDataSetChanged()
                     mSquare?.comments = mComments
                     updateBean()
                     if(!chooseAnonymous){
                         if(it.iIsAnonymous==1){
-                            if(TextUtils.equals("open",IsOpenUnKnow)){
+                            if(TextUtils.equals("open", getIsOpenUnKnow())){
                                 setInputState(1)
                             }else{
                                 setInputState(2)

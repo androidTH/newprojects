@@ -43,8 +43,7 @@
                 android:layout_weight="1"
                 android:textColor="@color/textColor99"
                 android:id="@+id/tv_wx"
-                android:textSize="@dimen/textSize"
-                android:text="客服微信号:"/>
+                android:textSize="@dimen/textSize" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

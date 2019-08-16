@@ -58,7 +58,7 @@ class RenGongDateDialog : DialogFragment(),RequestManager {
         super.onActivityCreated(savedInstanceState)
         dialog.window.setLayout((screenWidth() * 0.8f).toInt() + dip(30), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
-        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCanceledOnTouchOutside(true)
     }
 
     override fun show(manager: FragmentManager?, tag: String?) {

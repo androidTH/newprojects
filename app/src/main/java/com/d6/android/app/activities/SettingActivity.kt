@@ -164,46 +164,6 @@ class SettingActivity : TitleActivity() {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                 RongIM.getInstance().refreshUserInfoCache(info)
                 //7 游客 25钻石 24黄金 23白银 22普通  28中级  27入门 28中级  29优质 30 入群
-//                if (TextUtils.equals("0", it.sex)) {//女性
-//
-////                    tv_vip.text = String.format("%s", it.classesname)
-//                    if(TextUtils.equals(it.userclassesid,"27")){
-////                        tv_vip.text = String.format("%s",getString(R.string.string_primary))
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_cj)
-//                    }else if(TextUtils.equals(it.userclassesid,"28")){
-////                        tv_vip.text = String.format("%s",getString(R.string.string_middle))
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_zj)
-//                    }else if(TextUtils.equals(it.userclassesid,"29")){
-////                        tv_vip.text = String.format("%s",getString(R.string.string_senior))
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_gj)
-//                    }else{
-//                        tv_vip.visibility = View.GONE
-//                    }
-//                } else {
-//                    if(TextUtils.equals(it.userclassesid.toString(),"22")){
-////                        tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_ordinary)
-//                    }else if(TextUtils.equals(it.userclassesid,"23")){
-////                        tv_vip.text = String.format("%s",getString(R.string.string_silver))
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_silver)
-//                    }else if(TextUtils.equals(it.userclassesid,"24")){
-////                        tv_vip.text = String.format("%s",getString(R.string.string_gold))
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_gold)
-//                    }else if(TextUtils.equals(it.userclassesid,"25")){
-////                        tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_zs)
-//                    }else if(TextUtils.equals(it.userclassesid,"26")){
-////                        tv_vip.text = String.format("%s",getString(R.string.string_private))
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
-//                    }else if(TextUtils.equals(it.userclassesid,"7")){
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
-//                    }else if(TextUtils.equals(it.userclassesid,"30")){
-//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.ruqun_icon)
-//                    }else{
-//                        tv_vip.backgroundDrawable = null
-//                    }
-//                }
-
                 tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),this)
                 tv_sex.isSelected = TextUtils.equals("0",it.sex)
                 it.age?.let {

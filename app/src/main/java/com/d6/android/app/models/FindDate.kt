@@ -57,6 +57,7 @@ data class FindDate(var accountId:String?="") :Parcelable {
         var iFansCountAll:Int=-1
         var iVistorCountAll:Int=-1
         var lstUserid =null
+        var iIsFans:Int=-1 //0代表没有喜欢 1代表已喜欢
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         loginName = parcel.readString()
@@ -93,6 +94,7 @@ data class FindDate(var accountId:String?="") :Parcelable {
         sPosition = parcel.readString()
         iFansCountAll = parcel.readInt()
         iVistorCountAll = parcel.readInt()
+        iIsFans = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -131,6 +133,7 @@ data class FindDate(var accountId:String?="") :Parcelable {
         parcel.writeString(sPosition)
         parcel.writeInt(iFansCountAll)
         parcel.writeInt(iVistorCountAll)
+        parcel.writeInt(iIsFans)
     }
 
     override fun describeContents(): Int {

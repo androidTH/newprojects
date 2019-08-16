@@ -39,8 +39,8 @@ class SetUserInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_user_info)
-//        immersionBar.statusBarColor(R.color.trans_parent)
-//                .init()
+        immersionBar.statusBarColor(R.color.trans_parent)
+                .init()
 //        AndroidBug5497Workaround.assistActivity(this)
 
         val name = if (intent.hasExtra("name")) {
@@ -136,6 +136,7 @@ class SetUserInfoActivity : BaseActivity() {
         tv_info.text = SpanBuilder(s)
                 .color(this,s.length-5,s.length-2,R.color.orange_f6a)
                 .build()
+
         OpenInstall.reportRegister()
     }
 
