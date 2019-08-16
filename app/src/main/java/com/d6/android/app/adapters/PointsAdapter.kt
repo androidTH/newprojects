@@ -41,6 +41,8 @@ class PointsAdapter(mData: ArrayList<UserPoints>) : HFRecyclerAdapter<UserPoints
                 span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.color_F7AB00)), index, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 tv_mypoints_content.text = span
             }
+        }else{
+            tv_mypoints_content.text = data.sPointdesc
         }
     }
 }
