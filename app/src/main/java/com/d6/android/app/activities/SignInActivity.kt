@@ -9,15 +9,20 @@ import android.os.CountDownTimer
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextPaint
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
+import com.fm.openinstall.OpenInstall
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
@@ -26,7 +31,6 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.startActivityForResult
 import org.json.JSONObject
 
 /**
@@ -37,9 +41,15 @@ class SignInActivity : BaseActivity() {
 
     private var countryCode = "+86"
     private var type = 1
+
     private val wxApi by lazy {
         WXAPIFactory.createWXAPI(this, "wx43d13a711f68131c")
     }
+
+    private val channel by lazy{
+        SPUtils.instance().getString(OPENSTALL_CHANNEL,"Openinstall")
+    }
+
     private val shareApi by lazy {
         UMShareAPI.get(this)
     }
@@ -153,6 +163,8 @@ class SignInActivity : BaseActivity() {
                 .build()
 
         SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
+
+        clearLoginToken()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -223,15 +235,15 @@ class SignInActivity : BaseActivity() {
     private fun weChatLogin() {
         shareApi.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, object : UMAuthListener {
             override fun onComplete(p0: SHARE_MEDIA?, p1: Int, data: MutableMap<String, String>?) {
-                dismissDialog()
                 if (data != null) {
                     val openId = if (data.containsKey("openid")) data["openid"] else ""
+                    val unionId = if (data.containsKey("unionid")) data["unionid"] else ""
                     val name = if (data.containsKey("name")) data["name"] else ""
                     val gender = if (data.containsKey("gender")) data["gender"] else "" //"access_token" -> "15_DqQo8GAloYTRPrkvE9Mn1TLJx06t2t8jcTnlVjTtWtCtB10KlEQJ-pksniTDmRlN1qO8OMgEH-6WaTEPbeCYXLegAsvy6iolB3FHfefn4Js"
                     val iconUrl = if (data.containsKey("iconurl")) data["iconurl"] else "" //"refreshToken" -> "15_MGQzdG8xEsuOJP-LvI80gZsR0OLgpcKlTbWjiQXJfAQJEUufz4OxdqmTh6iZnnNZSgOgHskEv-N8FexuWMsqenRdRtSycKVNGKkgfiVNJGs"
-                    sysErr("------->$gender--->$openId--->$name")
+                    sysErr("------->$gender--->$openId--->$name--->$unionId")
 //                    startActivity<BindPhoneActivity>()
-                    thirdLogin(openId ?: "", name ?: "", iconUrl ?: "", gender ?: "", iconUrl ?: "")
+                    thirdLogin(openId ?: "",unionId ?:"", name ?: "", iconUrl ?: "", gender ?: "", iconUrl ?: "")
                 } else {
                     toast("拉取微信信息异常！")
                 }
@@ -296,7 +308,7 @@ class SignInActivity : BaseActivity() {
             "$countryCode-$phone"
         }
         sysErr("------->$p")
-        Request.loginV2New(1, code, p, devicetoken).request(this) { msg, data ->
+        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel).request(this,false,success={ msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -307,12 +319,14 @@ class SignInActivity : BaseActivity() {
                     e.printStackTrace()
                 }
             }
+            clearLoginToken()
             saveUserInfo(data)
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                 RongIM.getInstance().refreshUserInfoCache(info)
             }
             if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
+                OpenInstall.reportRegister()
                 startActivity<SetUserInfoActivity>()
             } else {
                 SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
@@ -320,15 +334,22 @@ class SignInActivity : BaseActivity() {
             }
             setResult(Activity.RESULT_OK)
             finish()
+        }){code,msg->
+            var l = TextUtils.equals("0","${code}")
+            Log.i("SignInActivity","${l}")
+            if(TextUtils.equals("0","${code}")){
+                startActivity<SetUserInfoActivity>()
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
     }
 
-    private fun thirdLogin(openId: String, name: String, url: String, gender: String, iconurl: String) {
-        dialog("登录中...")
-        Request.loginV2New(0, openId = openId).request(this, false, success = { msg, data ->
+    private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
+        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
-                    startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
+                    startActivityForResult<BindPhoneActivity>(2, "openId" to openId,"unionId" to unionid, "name" to name, "gender" to gender, "headerpic" to iconurl)
                 } else {
                     msg?.let {
                         try {
@@ -344,7 +365,7 @@ class SignInActivity : BaseActivity() {
                     val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
                     RongIM.getInstance().refreshUserInfoCache(info)
                     if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称
-                        startActivity<SetUserInfoActivity>("name" to name, "gender" to gender, "headerpic" to iconurl)
+                        startActivity<SetUserInfoActivity>("name" to name, "gender" to gender, "headerpic" to iconurl,"openid" to openId,"unionid" to unionid)
                     } else {
                         SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                         startActivity<MainActivity>()
@@ -353,8 +374,12 @@ class SignInActivity : BaseActivity() {
                     finish()
                 }
             }
-        }) { msg, data ->
-            startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
+        }) { code, data ->
+            if(TextUtils.equals("0","${code}")){
+                startActivityForResult<BindPhoneActivity>(2, "openId" to openId, "name" to name, "gender" to gender, "headerpic" to iconurl)
+            }else{
+                toast(data)
+            }
         }
     }
 

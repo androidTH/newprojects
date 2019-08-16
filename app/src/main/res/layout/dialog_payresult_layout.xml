@@ -30,8 +30,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:text="@string/str_points_pay_success"/>
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="match_parent"

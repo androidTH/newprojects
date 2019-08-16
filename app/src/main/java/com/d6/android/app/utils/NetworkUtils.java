@@ -9,13 +9,17 @@ import android.net.NetworkInfo;
 import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 
+import com.d6.android.app.models.FriendBean;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.INTERNET;
 

@@ -3,12 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     tools:context=".activities.SetUserInfoActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="match_parent"
@@ -19,30 +17,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_20"
             android:text="完善资料"
             android:paddingTop="16dp"
             android:textSize="18sp"
             android:textColor="@color/white"/>
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp"
-                style="@style/DefaultCircleHeadStyle"
-                app:placeholderImage="@mipmap/default_empty_head"
-                app:failureImage="@mipmap/default_empty_head"
-                android:id="@+id/headView"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/tv_head_tip"
-                android:gravity="center"
-                android:layout_alignTop="@+id/headView"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/textColor99"
-                android:text="真实靓照"
-                android:background="@mipmap/default_empty_head"/>
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            style="@style/DefaultCircleHeadStyle"
+            app:placeholderImage="@mipmap/default_empty_head"
+            app:failureImage="@mipmap/default_empty_head"
+            android:id="@+id/headView"/>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/tv_head_tip"
+            android:gravity="center"
+            android:layout_alignTop="@+id/headView"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/textColor99"
+            android:text="真实靓照"
+            android:background="@mipmap/default_empty_head"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -118,10 +117,9 @@
             android:layout_marginTop="40dp"
             android:paddingTop="16dp"
             android:background="@null"
-            android:paddingBottom="16dp"
+            android:paddingBottom="@dimen/margin_8"
             android:textColor="@color/textColor"
             android:textSize="@dimen/textSize"
-            android:maxLength="50"
             android:singleLine="true"
             android:id="@+id/et_nick"
             android:layout_below="@+id/tv_info"/>
@@ -147,9 +145,10 @@
             android:singleLine="true"
             android:layout_marginBottom="60dp"
             android:id="@+id/et_code"
+            android:visibility="gone"
             android:layout_below="@+id/et_nick"/>
         <View style="@style/view_line_h"
-            android:layout_alignBottom="@+id/et_code"
+            android:layout_alignBottom="@+id/nickLine"
             android:layout_marginLeft="66dp"
             android:layout_marginRight="66dp"
             android:background="@color/orange_f6a"/>
@@ -158,11 +157,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="gone"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="@dimen/margin_8"
             android:textSize="@dimen/textSize"
             android:textColor="@color/red_fc3"
             android:id="@+id/tv_error"
-            android:layout_above="@+id/btn_sign_in"
+            android:layout_below="@+id/et_nick"
             android:text=""/>
         <Button
             android:id="@+id/btn_sign_in"
@@ -172,7 +171,8 @@
             android:text="进入D6"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_below="@+id/et_code"
+            android:layout_marginTop="40dp"
+            android:layout_below="@+id/nickLine"
             android:textSize="@dimen/btnTextSize"
             android:layout_marginBottom="60dp"
             android:enabled="true"

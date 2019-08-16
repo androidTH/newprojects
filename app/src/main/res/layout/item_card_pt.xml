@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="312dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_10"
+    android:layout_marginRight="@dimen/margin_6"
+    android:layout_marginLeft="@dimen/margin_6"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/margin_10"
+    app:cardElevation="3dp"
+    app:cardMaxElevation="@dimen/margin_3">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_vip_top"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@drawable/shape_5r_pt">
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_english"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="12sp"-->
+                <!--android:textColor="@color/color_4000000"-->
+                <!--android:textStyle="bold"-->
+                <!--android:layout_marginTop="@dimen/margin_16"-->
+                <!--android:layout_marginLeft="@dimen/margin_16"-->
+                <!--android:text="Regular members"/>-->
+
+            <TextView
+                android:id="@+id/tv_vip_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_15"
+                android:text="普通会员"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!--android:layout_alignBaseline="@+id/tv_vip_level"-->
+
+            <TextView
+                android:id="@+id/tv_vip_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_vip_level"
+                android:layout_marginLeft="@dimen/margin_16"
+                android:text="成功率/随缘"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_20r_ff4b"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_18"
+                    android:layout_marginBottom="@dimen/margin_8"
+                    android:gravity="bottom"
+                    android:text="¥"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_memeber_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/margin_2"
+                    android:layout_marginRight="@dimen/margin_6"
+                    android:text="28888"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_memeber_address"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_15"
+            android:text="限定本地（一个省/直辖市）"
+            android:textColor="@color/color_848484"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/view_line_serviceare"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@color/color_EFEFEF" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ztnums"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_weight="1"
+                android:text="直推次数："
+                android:textStyle="bold"
+                android:textColor="@color/color_black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_endtime"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="有效期："
+                android:textStyle="bold"
+                android:textColor="@color/color_black"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@color/color_EFEFEF" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_8">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_auth_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:id="@+id/view_line"
+                android:layout_above="@+id/tv_remark"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@color/color_EFEFEF" />
+
+            <TextView
+                android:id="@+id/tv_remark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:maxHeight="90dp"
+                android:layout_marginTop="@dimen/margin_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_10"
+                android:text="注：北京/上海/广东/江苏/浙江/海外+100注：北京/上海/广东/江苏/浙江/海外+100注：北京/上海/广东/江苏/浙江/海外+100"
+                android:textColor="@color/color_888888"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

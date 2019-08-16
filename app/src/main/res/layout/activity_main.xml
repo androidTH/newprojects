@@ -26,6 +26,7 @@
             android:visibility="gone"
             android:drawablePadding="@dimen/margin_3"
             android:drawableRight="@mipmap/ic_arrow_down"
+            android:textStyle="bold"
             android:text=""
             android:gravity="center_vertical|left"/>
 
@@ -54,7 +55,7 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/date_headView"
-            style="@style/DefaultCircleHeadStyle"
+            style="@style/DefaultCircleNoHeadStyle"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.d6.android.app.widget.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_swipitem"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:id="@+id/ll_message"
         android:layout_width="match_parent"
         android:orientation="vertical"
         app:layout_itemType="main"
@@ -19,14 +21,23 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/headView"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:padding="3dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginLeft="3.5dp"
                 android:layout_marginBottom="12dp"
                 style="@style/DefaultHeadStyle"
                 app:roundedCornerRadius="26dp" />
+
+            <ImageView
+                android:id="@+id/iv_header_servicesign"
+                android:layout_width="20dp"
+                android:layout_height="15dp"
+                android:layout_marginLeft="@dimen/margin_25"
+                android:layout_marginTop="@dimen/height_40"
+                android:src="@drawable/official_icon" />
+
             <com.d6.android.app.widget.DragPointView
                 android:id="@+id/tv_unreadnum"
                 android:layout_toRightOf="@+id/headView"
@@ -54,25 +65,24 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:textSize="16sp"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/headView"
-                android:text=""
+                android:textSize="15sp"
                 android:layout_toRightOf="@+id/headView"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginTop="2dp"
                 android:layout_gravity="center_vertical"
                 android:textColor="@color/color_black"
                 android:id="@+id/tv_name"/>
             <TextView
                 android:layout_width="match_parent"
-                android:textSize="@dimen/textSize"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginRight="8dp"
+                android:textSize="12sp"
+                android:layout_marginRight="@dimen/margin_8"
+                android:layout_marginTop="@dimen/margin_3"
                 android:layout_alignLeft="@+id/tv_name"
-                android:layout_gravity="center_vertical"
-                android:layout_alignBottom="@+id/headView"
+                android:layout_below="@+id/tv_name"
                 android:textColor="@color/color_777777"
                 android:singleLine="true"
                 android:id="@+id/tv_content"
@@ -101,6 +111,7 @@
             android:layout_marginLeft="25dp"/>
     </LinearLayout>
     <FrameLayout
+        android:id="@+id/fragme_delete"
         android:layout_width="wrap_content"
         app:layout_itemType="menu"
         android:layout_height="match_parent">

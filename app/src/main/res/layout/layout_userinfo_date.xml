@@ -32,7 +32,7 @@
                 android:layout_height="@dimen/margin_15"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/video_small_authentication"
+                android:background="@mipmap/video_small"
                 android:visibility="visible"/>
         </RelativeLayout>
 

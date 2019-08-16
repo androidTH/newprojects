@@ -22,10 +22,11 @@
         <LinearLayout
             android:id="@+id/ll_huiyuan_info"
             android:visibility="visible"
-            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_4"
             android:layout_toRightOf="@+id/iv_wallet_headView"
             android:orientation="horizontal">
 
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/iv_wallet_headView"
-            android:text="相思木景"
+            android:text=""
             android:textColor="@color/color_black"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -86,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
-            android:text="2900"
+            android:text="--"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold" />
@@ -151,14 +152,15 @@
             android:id="@+id/tv_cash_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_20r_stroke_white"
+            android:background="@drawable/shape_20r_stroke_fe6"
             android:paddingLeft="15dp"
             android:paddingTop="@dimen/margin_5"
             android:paddingRight="15dp"
             android:paddingBottom="@dimen/margin_5"
             android:text="提现"
-            android:textColor="@color/white"
+            android:textColor="@color/color_96FFFFFF"
             android:textSize="15sp" />
+        <!--android:textColor="@color/white"-->
     </LinearLayout>
     <View
         android:layout_alignParentBottom="true"

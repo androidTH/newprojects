@@ -12,7 +12,6 @@ import android.view.Window
 import com.d6.android.app.R
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.widget.ProgressDialog
 import com.umeng.analytics.MobclickAgent
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -22,6 +21,8 @@ import java.lang.Exception
 import android.view.MotionEvent
 //import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
+import com.d6.android.app.utils.NetworkUtils
+import com.d6.android.app.widget.LoadDialog
 import com.gyf.barlibrary.ImmersionBar
 
 
@@ -34,14 +35,9 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     lateinit var ACTION_CLOSE_ALL: String
     val compositeDisposable = CompositeDisposable()
     //改用lazy初始，第一次使用时才会初始化
-    private val dialog: ProgressDialog by lazy {
-        ProgressDialog(this, R.style.Theme_ProgressDialog)
-    }
-
     val immersionBar by lazy {
         ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimaryDark)
-                .statusBarDarkFont(false)
+                .statusBarColor(R.color.white).statusBarDarkFont(true)
     }
 
     val mKeyboardKt by lazy{
@@ -64,7 +60,6 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         //竖屏
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         ACTION_CLOSE_ALL = "cn.base.%s.all.close".format(packageName)
-        System.err.println(ACTION_CLOSE_ALL)
         if (isRegisterCloseBroadReceiver()) {
             registerReceiver(closeAllReceiver, IntentFilter(ACTION_CLOSE_ALL))
         }
@@ -116,31 +111,16 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
         dismissDialog()
     }
 
-    fun dialog(msg: String = "加载中...", canCancel: Boolean = true) {
-        if (!canCancel) {
-            dialog.setOnCancelListener {
-                if (this.finishWhenCancelDialog()) {
-                    finish()
-                }
-            }
-        } else {
-            //这里设置如果是可以取消的监听器置null了。可以自己在页面上重新设置想要的操作。这里不知道具体需求。
-            dialog.setOnCancelListener(null)
-        }
-        dialog.setCanceledOnTouchOutside(canCancel)
-        dialog.setMessage(msg)
-        if (!dialog.isShowing) {
-            dialog.show()
-        }
+    fun dialog(msg: String = "加载中...", canCancel: Boolean = true,visibility:Boolean = false) {
+        LoadDialog.show(this,msg,canCancel)
     }
 
     override fun dismissDialog() {
-        if (dialog.isShowing) {
-            dialog.dismiss()
-        }
+        LoadDialog.dismiss(this)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

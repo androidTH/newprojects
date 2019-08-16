@@ -5,7 +5,9 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import com.d6.android.app.R
@@ -18,6 +20,7 @@ import com.d6.android.app.models.City
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.MaxEditTextWatcher
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_my_info.*
@@ -85,6 +88,7 @@ class MyInfoActivity : BaseActivity() {
         }
 
         tv_back.setOnClickListener {
+            mKeyboardKt.hideKeyboard(it)
             finish()
         }
         tv_save.setOnClickListener {
@@ -183,6 +187,17 @@ class MyInfoActivity : BaseActivity() {
             }
         })
 
+        tv_nickName.addTextChangedListener(object: MaxEditTextWatcher(CHINESE_TWO,16,this,tv_nickName){
+            override fun onTextChanged(charSequence: CharSequence?, i: Int, i1: Int, i2: Int) {
+                super.onTextChanged(charSequence, i, i1, i2)
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                super.afterTextChanged(editable)
+            }
+
+        })
+
         headView.setImageURI(userData.picUrl)
         tv_nickName.setText(userData.name)
 //        tv_signature1.setText(userData.signature)
@@ -202,6 +217,20 @@ class MyInfoActivity : BaseActivity() {
         tv_intro1.setText(userData.intro)
         et_zuojia.setText(userData.zuojia)
         tv_inputaddress.text = userData.city
+
+        //顶部添加提示文案：完成度复用旧版算法
+        //-60%：😔资料完成度：xx% 要约别人先完善自己
+        //60%-80%：🙂资料完成度：xx% 离完美的自己就差一步啦
+        //80%-：😄资料完成度：xx% D6不会泄漏你的任何信息
+        var dataCompletion:Double =(userData.iDatacompletion/120.0)
+        var percent = Math.round((dataCompletion*100)).toInt()
+        if(percent<=60){
+            tv_userinfo_percent.text ="\uD83D\uDE14资料完成度：${percent}% 要约别人先完善自己 "
+        }else if(percent>60&&percent<=80){
+            tv_userinfo_percent.text ="\uD83D\uDE42资料完成度：${percent}% 离完美的自己就差一步啦 "
+        }else{
+            tv_userinfo_percent.text = "\uD83D\uDE04资料完成度：${percent}% D6不会泄漏你的任何信息"
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -286,6 +315,12 @@ class MyInfoActivity : BaseActivity() {
             showToast("昵称不能为空!")
             return
         }
+
+//        if(checkLimitEx(nick)){
+//            showToast("昵称中不能包含特殊符号或表情")
+//            return
+//        }
+
 //        val city = tv_city1.text.toString().trim()
 //        val area = tv_area1.text.toString().trim()
         val hobbit = tv_hobbit1.text.toString().trim()
@@ -299,7 +334,7 @@ class MyInfoActivity : BaseActivity() {
         var zuojia = et_zuojia.text.toString().trim()
 
         userData.name = nick
-        userData.sex = sex
+        userData.sex = ""
         userData.hobbit = hobbit
         userData.job = job
 //        userData.age = age

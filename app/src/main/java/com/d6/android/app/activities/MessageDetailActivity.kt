@@ -16,6 +16,7 @@ class MessageDetailActivity : TitleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message_detail)
+        immersionBar.init()
         title = "消息详情"
 
         tv_title.text = systemMsg.title

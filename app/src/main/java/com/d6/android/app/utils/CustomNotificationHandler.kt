@@ -59,6 +59,10 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
                 (context as BaseActivity).startActivity<MyDateActivity>()
             } else if (TextUtils.equals(type,"2")) {
                 (context as BaseActivity).startActivity<MyDateActivity>()
+            }else if (TextUtils.equals(type,"8")){
+
+            }else if(TextUtils.equals(type,"9")){
+
             }
         }
     }

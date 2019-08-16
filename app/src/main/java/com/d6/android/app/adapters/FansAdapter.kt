@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
@@ -13,6 +14,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
+import org.jetbrains.anko.backgroundDrawable
 
 /**
  *粉丝
@@ -23,6 +25,10 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
     override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
         holder.setText(R.id.tv_name,data.sUserName)
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
@@ -30,18 +36,23 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
 //        tv_time.text = data.dJointime.toTime("MM.dd")
         headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        tv_userinfo.text = data.gexingqianming
+        if(!data.gexingqianming.isNullOrEmpty()){
+            tv_userinfo.visibility = View.VISIBLE
+            tv_userinfo.text = data.gexingqianming
+        }else{
+            tv_userinfo.visibility = View.GONE
+        }
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
-        val sex = SPUtils.instance().getString(Const.User.USER_SEX)
         if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
             tv_vip.text = String.format("%s", data.userclassesname)
             tv_vip.visibility =View.GONE
         } else {
-            tv_vip.text = String.format("%s", data.userclassesname)
+//            tv_vip.text = String.format("%s", data.userclassesname)
             tv_vip.visibility = View.VISIBLE
+            tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
         }
 
         var mTvFollow = holder.bind<TextView>(R.id.tv_follow)

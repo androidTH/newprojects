@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.MemberActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
@@ -22,19 +23,16 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.dialog_payresult_layout.*
 import kotlinx.android.synthetic.main.dialog_payresult_success_layout.*
-import org.jetbrains.anko.imageResource
-import org.jetbrains.anko.matchParent
+import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.textResource
-import org.jetbrains.anko.wrapContent
 
 /**
  * 积分充值结果dialog
  */
 class PayResultDialog : DialogFragment(),RequestManager {
 
-    public val PAY_SUCCESS:String?="wx_pay_success"
-    public val PAY_FAIL:String?="wx_pay_fail"
+    val PAY_SUCCESS:String?="wx_pay_success"
+    val PAY_FAIL:String?="wx_pay_fail"
 
     override fun showToast(msg: String) {
         toast(msg)
@@ -91,7 +89,13 @@ class PayResultDialog : DialogFragment(),RequestManager {
 
         if(TextUtils.equals(payResult.toString(), PAY_SUCCESS)){
             iv_payresult_success_icon.imageResource= R.mipmap.intergral_successful_icon
-            tv_paysuccess_title.textResource = R.string.str_points_pay_success
+            var pointType = arguments.getString("buyType")
+            if(TextUtils.equals(pointType,"point")){
+                tv_paysuccess_title.textResource = R.string.str_points_pay_success
+            }else if(TextUtils.equals(pointType,"memeber")){
+                tv_paysuccess_title.text = getString(R.string.string_memeber_success)
+            }
+
             tv_payresult_success_close.setOnClickListener {
                 dismissAllowingStateLoss()
             }
@@ -125,9 +129,9 @@ class PayResultDialog : DialogFragment(),RequestManager {
             data?.let {
                 val sex = SPUtils.instance().getString(Const.User.USER_SEX)
                 if(TextUtils.equals(sex, "0")){
-                    weChat  = data.optString("ext1")
+                    weChat  = data.optString("ext5")
                 }else{
-                    weChat = data.optString("ext2")
+                    weChat = data.optString("ext6")
                 }
                 tv_payreuslt_wx.text= "客服微信号：$weChat"
             }

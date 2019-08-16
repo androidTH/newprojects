@@ -28,6 +28,7 @@ import io.rong.imlib.model.Message;
  */
 @ProviderTag(messageContent = TipsMessage.class, showReadState = true,showPortrait = false,centerInHorizontal = true)
 public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<TipsMessage>{
+
     private static final String TAG = "TipsMessageProvider";
 
     private static class ViewHolder {

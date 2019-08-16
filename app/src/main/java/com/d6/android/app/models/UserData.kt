@@ -55,10 +55,21 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iVistorCountAll:Int= -1
     var appointment:MyAppointment?=null
     var wxid:String?=""
+    var sUnionid:String?=""
     var iFlowerCount:Int?=-1
     var wxname:String?=""
     var wxpic:String?=""
     var iTalkSetting:Int?=-1 //1、直接私聊  2、同意后私聊
+    var isValid:String?=""
+    var iIsInBlackList:Int?=-1
+    var iMessageSetting:Int?=-1
+    var iSquareCount:Int?=-1
+    var sSquarePicList:String?="" //动态图片
+    var sSourceSquarePicList:String?=""
+    var sLoginToken:String?=""
+    var sServicePicUrl:String?=""
+    var dUserClassEndTime:Long?=0
+    var iAnonymousCount:Int?=-1
 
     override fun toString(): String {
 
@@ -79,7 +90,9 @@ data class UserData(val accountId: String? = "") : Serializable {
                 "\"invitecode\":\"$invitecode\"," +
                 "\"birthday\":\"$birthday\"," +
                 "\"userId\":\"$userId\"," +
-                "\"userpics\":\"$userpics\"" +
+                "\"userpics\":\"$userpics\"," +
+                "\"sUnionid\":\"$sUnionid\"," +
+                "\"wxid\":\"$wxid\"" +
                 "}"
     }
 }

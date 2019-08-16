@@ -1,5 +1,6 @@
 package com.d6.android.app.utils
 
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -9,6 +10,7 @@ import java.util.*
 /**
 时间戳转换默认格式yyyy-MM-dd
  */
+var timeFormat = "yyyy年MM月dd日"
 
 fun Long?.toYMDTime(): String {
     if (this == null) {
@@ -90,7 +92,7 @@ fun Long.interval(nowTime: Long = System.currentTimeMillis()): String {
         delaySeconds < secondsOfSixDay ->"5天前"
         delaySeconds < secondsOfSevenDay ->"6天前"
         delaySeconds < secondsOfEightDay ->"7天前"
-        else -> this.toTime("yyyy-MM-dd")
+        else -> this.toTime(timeFormat)
     }
     return desc
 }
@@ -146,3 +148,36 @@ fun getTodayTime(): String {
     val f = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA)
     return f.format(Date())
 }
+
+fun getSevenDays(timestamp: Long):Boolean{
+    val currentSeconds = System.currentTimeMillis()
+    val timeGap = (currentSeconds - timestamp)/1000 // 与现在时间相差秒数
+    var days:Long=0
+    if (timeGap > 24 * 60 * 60) {
+        days = (timeGap / (24 * 60 * 60))
+    }
+    if(days>=7){
+        return true
+    }
+    return false
+}
+
+fun getOneDay(timestamp: Long):Boolean{
+    val currentSeconds = System.currentTimeMillis()
+    val timeGap = (currentSeconds - timestamp)/1000 // 与现在时间相差秒数
+    var days:Long=0
+    if (timeGap > 24 * 60 * 60) {
+        days = (timeGap / (24 * 60 * 60))
+    }
+    if(days>=1){
+        return true
+    }
+    return false
+}
+
+var dateHaveHour: DateFormat = SimpleDateFormat("HH:mm", Locale.CHINA)
+fun getTimeHaveHour(timeSign: Long): String {
+    val date = Date(timeSign)
+    return dateHaveHour.format(date)
+}
+

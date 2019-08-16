@@ -35,11 +35,6 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
 
     override fun contentViewId() = R.layout.fragment_square_main
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
-    }
-
     override fun onFirstVisibleToUser() {
 
         mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -137,11 +132,6 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
         if (!hidden) {
             immersionBar.init()
         }
-    }
-
-    override fun onVisibleToUser() {
-        super.onVisibleToUser()
-
     }
 
     override fun onDestroy() {

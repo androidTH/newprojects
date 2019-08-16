@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.net.Request
@@ -61,7 +62,13 @@ class DateAuthTipDialog : DialogFragment(),RequestManager {
             toast("微信号已复制到剪切板")
         }
         tv_action.setOnClickListener {
-            WXAPIFactory.createWXAPI(context,"wx43d13a711f68131c").openWXApp()
+            var localUserId =getLocalUserId()
+            isBaseActivity {
+                it.pushCustomerMessage(this,localUserId,2,localUserId,next = {
+                     chatService(it)
+                })
+            }
+//            WXAPIFactory.createWXAPI(context,"wx43d13a711f68131c").openWXApp()
         }
 
         getData()
@@ -78,14 +85,13 @@ class DateAuthTipDialog : DialogFragment(),RequestManager {
     }
     private var weChat=""
     private fun getData() {
-
         Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
             data?.let {
                 val sex = SPUtils.instance().getString(Const.User.USER_SEX)
                 if(TextUtils.equals(sex, "0")){
-                    weChat  = data.optString("ext1")
+                    weChat  = data.optString("ext5")
                 }else{
-                    weChat = data.optString("ext2")
+                    weChat = data.optString("ext6")
                 }
                 tv_wx.text= "客服微信号：$weChat"
             }
@@ -107,5 +113,11 @@ class DateAuthTipDialog : DialogFragment(),RequestManager {
     override fun onDestroy() {
         super.onDestroy()
         compositeDisposable.dispose()
+    }
+
+    private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
+        if (context != null && context is BaseActivity) {
+            next(context as BaseActivity)
+        }
     }
 }

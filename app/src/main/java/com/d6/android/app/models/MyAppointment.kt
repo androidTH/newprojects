@@ -27,6 +27,7 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
     @SerializedName("iIsread") var iIsread:Int?=-1 //约会消息是否已读（1、未读  2、已读 ）
     @SerializedName("sPlace") var sPlace:String?="" //约会地点
     @SerializedName("sAppointPic") var sAppointPic:String?="" //"sAppointPic":"http://p22l7xdxa.bkt.clouddn.com/Fkqkg2-Wy4Cq2nAlthV92dCW9_o0,http://p22l7xdxa.bkt.clouddn.com/1535596704971.jpg,http://p22l7xdxa.bkt.clouddn.com/1536127172202.jpg,http://p22l7xdxa.bkt.clouddn.com/FrBTMocJHtq5ye0D6TxxE0Yo-Y-v,http://p22l7xdxa.bkt.clouddn.com/FhqGXx5hjTNHDttbWX4hFU2382-f"//约会图片描述
+    @SerializedName("sSourceAppointPic") var sSourceAppointPic:String?="" //"sAppointPic":"http://p22l7xdxa.bkt.clouddn.com/Fkqkg2-Wy4Cq2nAlthV92dCW9_o0,http://p22l7xdxa.bkt.clouddn.com/1535596704971.jpg,http://p22l7xdxa.bkt.clouddn.com/1536127172202.jpg,http://p22l7xdxa.bkt.clouddn.com/FrBTMocJHtq5ye0D6TxxE0Yo-Y-v,http://p22l7xdxa.bkt.clouddn.com/FhqGXx5hjTNHDttbWX4hFU2382-f"//约会图片描述
     @SerializedName("sRefuseDesc") var sRefuseDesc:String?="" //sRefuseDesc:null,//约会拒绝原因（暂未使用）
     @SerializedName("dCreatetime") var dCreatetime:Long = 0 //"dCreatetime":1539418366000,//约会发布时间
     @SerializedName("dStarttime") var dStarttime:Long = 0// "dStarttime":1539078078000,//约会开始时间
@@ -37,6 +38,11 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
     @SerializedName("iHeight") var iHeight:Int?=-1
     @SerializedName("iWeight") var iWeight:Int?=-1
     var iPoint:Int?=-1
+    var iAppointStatus:Int?=-1
+    var userclassesid:Int?=-1
+    var classesname:String?=""
+    var screen:String?=""
+    @SerializedName("iIsAnonymous")var iIsAnonymous:Int?= 0 //1、匿名  2、非匿名状态
 //    @SerializedName("sSourceAppointPic")
 //    var sSourceAppointPic:String?=""
 }

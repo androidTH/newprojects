@@ -15,7 +15,7 @@ import org.jetbrains.anko.wrapContent
 
 
 /**
- * 选择身高弹窗
+ * 分享给好友
  */
 class SelectHeightDialog : DialogFragment() {
     private val height = ArrayList<String>()

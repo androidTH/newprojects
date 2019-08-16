@@ -85,11 +85,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun contentViewId() = R.layout.fragment_date
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
-    }
-
     override fun onFirstVisibleToUser() {
         mRecyclerView.setOrientation(DSVOrientation.HORIZONTAL)
         setAdapter()
@@ -113,19 +108,19 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         })
 
         tv_city.setOnClickListener {
-            activity.isAuthUser {
+            activity.isCheckOnLineAuthUser(this,userId){
                 showArea(it)
             }
         }
 
         tv_xingzuo.setOnClickListener {
-            activity.isAuthUser{
+            activity.isCheckOnLineAuthUser(this,userId){
                 showConstellations(it)
             }
         }
 
         tv_type.setOnClickListener {
-            activity.isAuthUser{
+            activity.isCheckOnLineAuthUser(this,userId){
                 showAges(it)
             }
         }
@@ -212,7 +207,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 mLat = it.latitude.toString()
                 mLon = it.longitude.toString()
                 SPUtils.instance().put(USER_PROVINCE,it.province).apply()
-                SPUtils.instance().put(USER_ADDRESS,it.city).apply()
+                SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
             }
         }
     }
@@ -227,8 +222,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
      */
     fun getData(city:String = "",xingzuo:String="",agemin:String="",agemax:String="",lat:String="",lon:String="") {
         if (mDates.size == 0) {
-            tv_main_card_bg_im_id.visible()
-            tv_main_card_Bg_tv_id.visible()
+            tv_main_card_bg_im_id.gone()
+            tv_main_card_Bg_tv_id.gone()
             fb_unlike.gone()
             btn_like.gone()
             fb_heat_like.gone()
@@ -315,10 +310,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //        showDialog()//35578
         scrollPosition = mRecyclerView.currentItem
         if(mDates.size > scrollPosition){
-            doAnimation()
             var findDate = mDates.get(scrollPosition)
-            Request.getAddFollow(userId,findDate.accountId.toString()).request(this){ s: String?, jsonObject: JsonObject? ->
+            Request.getAddFollow(userId,findDate.accountId.toString()).request(this,true){ s: String?, jsonObject: JsonObject? ->
                 //toast("$s,$jsonObject")
+                doAnimation()
                 doNextCard()
                 showTips(jsonObject,"","")
             }
@@ -327,7 +322,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private fun showDatePayPointDialog(name:String,id:String){
         activity.isCheckOnLineAuthUser(this,userId){
-            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+            Request.getApplyStatus(userId, id,1).request(this, false, success = { msg, jsonObjetct ->
+                jsonObjetct?.let {
+                    var code = it.optInt("code")
+                    if (code != 7) {
+                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+                    }
+                }
+            })
+//            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
         }
     }
 
@@ -360,11 +363,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     if(it.iDatacompletion<60){
                         var mFindDate:FindDate = FindDate(it.accountId)
                         setFindDate(mFindDate,it)
-                        mDates.add(4,mFindDate)
-                        if(TextUtils.equals(sex,"0")){
-                            (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion
-                        }else{
-                            (mRecyclerView.adapter as DateWomanCardAdapter).iDateComlete = it.iDatacompletion
+                        if (mDates.size > 4) {
+                            mDates.add(4, mFindDate)
+                            if (TextUtils.equals(sex, "0")) {
+                                (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion
+                            } else {
+                                (mRecyclerView.adapter as DateWomanCardAdapter).iDateComlete = it.iDatacompletion
+                            }
                         }
                     }
                 }
@@ -408,8 +413,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 getServiceProvinceData()
             }else{
                 var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-//                setLocationCity()
-//                ProvinceData?.add(0,province)
+                setLocationCity()
+                ProvinceData?.add(0,province)
                 mPopupArea.setData(ProvinceData)
             }
         }
@@ -420,8 +425,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
-//                setLocationCity()
-//                it.add(0,province)
+                setLocationCity()
+                it.add(0,province)
                 mPopupArea.setData(it)
             }
         }
@@ -430,7 +435,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     //设置定位城市
     private fun setLocationCity(){
         var sameCity = SPUtils.instance().getString(USER_PROVINCE)
-        var city = City("",sameCity.replace("市",""))
+        var city = City("", getReplace(sameCity))
         city.isSelected = true
         province.lstDicts.add(city)
     }
@@ -439,7 +444,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Const.DOUPDATEUSERINFOCODE && resultCode == Activity.RESULT_OK) {
             var bundle = data?.extras
-            mUserInfoData = (bundle?.getSerializable("userinfo") as UserData)
+            mUserInfoData = (bundle?.getSerializable("userinfo") as? UserData)
             mUserInfoData?.let {
                 if(TextUtils.equals(sex,"0")){
                     (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion

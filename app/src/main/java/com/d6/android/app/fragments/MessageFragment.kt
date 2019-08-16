@@ -1,9 +1,9 @@
 package com.d6.android.app.fragments
 
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.ConversationsAdapter
@@ -15,14 +15,16 @@ import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
+import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.badge.Badge
 import com.d6.android.app.widget.badge.QBadgeView
+import io.rong.imkit.RongContext
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
-import io.rong.imlib.model.CSCustomServiceInfo
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
@@ -38,6 +40,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     private val mConversations = ArrayList<Conversation>()
+    private val mUnConversations = ArrayList<Conversation>()
+    private var mNMUnReadTotal:Int = 0 //我匿名未读消息数
 
     private val conversationsAdapter by lazy {
         ConversationsAdapter(mConversations)
@@ -47,13 +51,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
     private var mBadgeSys:Badge? = null
 
-    private var mUserId = SPUtils.instance().getString(Const.User.USER_ID)
     private var SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
     private var SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
-
-    private val userId by lazy {
-        mUserId
-    }
 
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
@@ -61,11 +60,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
     override fun contentViewId(): Int {
         return R.layout.message_fragment
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        immersionBar.statusBarColor(R.color.colorPrimaryDark).init()
     }
 
     override fun onFirstVisibleToUser() {
@@ -93,8 +87,25 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             startActivity<SquareMessagesActivity>()
         }
 
+        headerView.rl_unknowchat.setOnClickListener {
+            startActivity<UnKnowChatActivity>()
+        }
+
         iv_msg_right.setOnClickListener {
             startActivity<MessageSettingActivity>()
+        }
+
+        tv_topsearch.setOnClickListener {
+            startActivity<SearchFriendsActivity>()
+        }
+
+        headerView.iv_msgtip_close.setOnClickListener {
+            headerView.rl_msg_tips.visibility = View.GONE
+            SPUtils.instance().put(PUSH_ISNOTSHOW,System.currentTimeMillis()).apply()
+        }
+
+        headerView.tv_openmsg.setOnClickListener {
+            requestNotify(context)
         }
 
         conversationsAdapter.setOnItemClickListener { _, position ->
@@ -105,7 +116,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 s = info.name
             }
 
-            if (TextUtils.equals(Const.CustomerServiceId, conversation.targetId)) {
+            if (TextUtils.equals(Const.CustomerServiceId, conversation.targetId)||TextUtils.equals(Const.CustomerServiceWomenId, conversation.targetId)) {
                 //客服
 //                    val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
 //                    RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
@@ -124,25 +135,80 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                builder.city("北京")
 //                RongIM.getInstance().startCustomerServiceChat(activity, "KEFU146001495753714", "在线客服", builder.build())
                 RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
-            } else {
-                activity.isCheckOnLineAuthUser(this,userId){
-                    RongIM.getInstance().startPrivateChat(context, conversation.targetId, s)
+            } else if(conversation.conversationType ==Conversation.ConversationType.GROUP){
+               // Log.i("messageFragment","${conversation.targetId}") //anoy_100486_100541 anoy_100486_21881  anoy_100491_100486
+                RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,conversation.targetId, "")
+            }else {
+                activity.isAuthUser{
+                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
+//                    Request.getApplyStatus(userId, conversation.targetId).request(this, false, success = { msg, jsonObjetct ->
+//                        jsonObjetct?.let {
+//                            var code = it.optInt("code")
+//                            if (code != 7) {
+//                                RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
+//                            }
+//                        }
+//                    })
                 }
             }
             conversation.unreadMessageCount = 0
-            conversationsAdapter.notifyDataSetChanged()
+//            conversationsAdapter.notifyDataSetChanged()
         }
         getData()
         getSysLastOne(SysMsg_time.toString())
         getSquareMsg(SquareMsg_time.toString())
+
+        if(TextUtils.equals(Const.CustomerServiceId, getLocalUserId())||TextUtils.equals(Const.CustomerServiceWomenId,getLocalUserId())){
+            tv_topsearch.visibility = View.VISIBLE
+        }else{
+            tv_topsearch.visibility = View.GONE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkPushIsNotShow()
+    }
+
+    private fun checkPushIsNotShow() {
+        if (isNotificationEnabled(context)) {
+            headerView.rl_msg_tips.visibility = View.GONE
+        } else {
+            if(SPUtils.instance().getLong(PUSH_ISNOTSHOW,System.currentTimeMillis())!=System.currentTimeMillis()){
+                if (getSevenDays(SPUtils.instance().getLong(PUSH_ISNOTSHOW, System.currentTimeMillis()))) {
+                    if (isNotificationEnabled(context)) {
+                        headerView.rl_msg_tips.visibility = View.GONE
+                    } else {
+                        headerView.rl_msg_tips.visibility = View.VISIBLE
+                    }
+                } else {
+                    headerView.rl_msg_tips.visibility = View.GONE
+                }
+            }else{
+                headerView.rl_msg_tips.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun getData() {
         RongIM.getInstance().getConversationList(object : RongIMClient.ResultCallback<List<Conversation>>() {
             override fun onSuccess(conversations: List<Conversation>?) {
                 mConversations.clear()
+                mUnConversations.clear()
                 if (conversations != null) {
                     mConversations.addAll(conversations)
+                    for(c:Conversation in conversations){
+                        if(c.conversationType == Conversation.ConversationType.GROUP){
+                            var split = c.targetId.split("_")
+                            if(split.size==GROUPSPLIT_LEN){
+                                if(TextUtils.equals(split[1], getLocalUserId())){
+                                    mConversations.remove(c)
+                                    mUnConversations.add(c)
+                                }
+                            }
+                        }
+                    }
+                    getNMChat()
                 }
                 conversationsAdapter.notifyDataSetChanged()
             }
@@ -150,14 +216,47 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             override fun onError(errorCode: RongIMClient.ErrorCode) {
 
             }
-        }, Conversation.ConversationType.PRIVATE)
+        }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
+
+    }
+
+    /**
+     * 密聊是否显示和未读消息数量
+     */
+    private fun getNMChat(){
+          mNMUnReadTotal = 0
+          if(mUnConversations!=null&&mUnConversations.size>0){
+              headerView.rl_unknowchat.visibility = View.VISIBLE
+              headerView.line_mchat.visibility = View.VISIBLE
+
+              for(c:Conversation in mUnConversations){
+                  if(c.unreadMessageCount>0){
+                      mNMUnReadTotal  = mNMUnReadTotal + c.unreadMessageCount
+                  }
+              }
+
+              if(mNMUnReadTotal>0){
+                  headerView.iv3_unreadnum.visibility = View.VISIBLE
+                  headerView.iv3_unreadnum.text = "${mNMUnReadTotal}"
+              }else{
+                  headerView.iv3_unreadnum.visibility = View.GONE
+              }
+              var mConv = mUnConversations.get(0)
+              val provider = RongContext.getInstance().getMessageTemplate(mConv.latestMessage.javaClass)
+              if (provider != null) {
+                  headerView.tv_content3.text= provider.getContentSummary(context,mConv.latestMessage)
+              }
+          }else{
+              headerView.rl_unknowchat.visibility = View.GONE
+              headerView.line_mchat.visibility = View.GONE
+          }
     }
 
     /**
      * 系统消息
      */
     private fun getSysLastOne(lastTime:String) {
-        Request.getSystemMessages(userId, 1, lastTime, pageSize = 1).request(this) { _, data ->
+        Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this) { _, data ->
              data?.let {
                  setSysMsg(data)
              }
@@ -168,7 +267,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
      * 广场消息
      */
     private fun getSquareMsg(lastTime:String) {
-        Request.getSquareMessages(userId, 1, lastTime, pageSize = 1).request(this) { _, data ->
+        Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this) { _, data ->
             setSquareMsg(data)
         }
     }
@@ -240,7 +339,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                             it.hide(false)
                         }
                     }
-                    headerView.tv_content2.text = it.results[0].content
+                    var squaremsg = it.results[0];
+                    if(squaremsg.content.isNullOrEmpty()){
+                        headerView.tv_content2.text = squaremsg.title
+                    }else{
+                        headerView.tv_content2.text = squaremsg.content
+                    }
                 }
             }
         }

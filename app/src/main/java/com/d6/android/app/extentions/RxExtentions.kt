@@ -1,12 +1,16 @@
 package com.d6.android.app.extentions
 
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat.startActivity
 import android.text.TextUtils
+import android.util.Log
 import com.d6.android.app.activities.SignChooseActivity
 import com.d6.android.app.activities.SignInActivity
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.ConfirmDialog
+import com.d6.android.app.dialogs.SingleActionDialog
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Response
 import com.d6.android.app.net.Error
@@ -26,6 +30,7 @@ import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
+import java.util.concurrent.TimeoutException
 
 /**
  * Created on 2017/12/27.
@@ -49,7 +54,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 is ConnectException -> {
                     msg = Error.NET_ERROR
                 }
-//                is SocketTimeoutException -> msg = Error.NET_ERROR
+                is SocketTimeoutException -> msg = Error.SERVERTIMEOUT_ERROR
                 is HttpException -> {
                     msg = Error.SERVER_ERROR
                     val tCode = t.code()
@@ -74,7 +79,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                         }
                     }else if(tCode == 404){
                         msg = Error.SERVER_404ERROR
-                    }else if (tCode == -3) {//账号已禁用
+                    } else if (tCode == -3) {//账号已禁用
                         if (requestManager is BaseActivity) {
                             val confirmDialog = ConfirmDialog()
                             confirmDialog.arguments = bundleOf("msg" to "对不起，您的账号已被禁用，如有疑问，请联系D6客服。")
@@ -93,8 +98,18 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             }
             if(!TextUtils.isEmpty(msg)){
                 error(code, msg)
-                if (showToast) {
-                    requestManager.showToast(msg)
+                if (code == 200 || code == -3) {
+                    if (requestManager is BaseFragment) {
+                        if (requestManager.activity != null && requestManager.activity is BaseActivity) {
+                            val mSingleActionDialog = SingleActionDialog()
+                            mSingleActionDialog.arguments = bundleOf("message" to msg)
+                            mSingleActionDialog.show((requestManager.activity as BaseActivity).supportFragmentManager, "action")
+                        }
+                    }
+                }else{
+                    if (showToast) {////-2 该用户已注销
+                        requestManager.showToast(msg)
+                    }
                 }
             }
         }
@@ -107,7 +122,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             requestManager.dismissDialog()
             if (t.res == 1) {//成功
                 success(t.resMsg,t.data)
-            } else {
+            }else {
                 if(t.data!=null&&t.data!="null"){
                     error(t.res, t.data.toString())
                     if (showToast) {

@@ -9,19 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.dialogs.CommentDelDialog
-import com.d6.android.app.dialogs.SquareActionDialog
-import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Comment
-import com.d6.android.app.models.Square
-import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.UserTrendView
 import com.facebook.drawee.view.SimpleDraweeView
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
 /**

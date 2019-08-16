@@ -42,9 +42,9 @@ class QRNewActivity : TitleActivity() {
             data?.let {
                 val sex = SPUtils.instance().getString(Const.User.USER_SEX)
                 if(TextUtils.equals(sex, "0")){
-                    weChat  = data.optString("ext1")
+                    weChat  = data.optString("ext5")
                 }else{
-                    weChat = data.optString("ext2")
+                    weChat = data.optString("ext6")
                 }
                 tv_tip.text = SpanBuilder(String.format("微信公众号\n点击复制微信号:%s", weChat))
                         .bold(0, 5)

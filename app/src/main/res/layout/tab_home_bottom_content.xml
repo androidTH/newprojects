@@ -7,16 +7,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/img"
-        android:textSize="14dp"
+        android:textSize="12sp"
         android:drawablePadding="2dp"
         android:textColor="@color/color_orange_gray"
         android:scaleType="center"
         android:gravity="center"
         android:layout_gravity="center"/>
     <TextView
-        android:id="@+id/tv_msg_count"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
+        android:id="@+id/tv_msg_red"
+        android:layout_width="9dp"
+        android:layout_height="9dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/margin_26"
@@ -28,4 +28,14 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         android:visibility="invisible" />
+
+    <!--<com.d6.android.app.widget.DragPointView-->
+        <!--android:id="@+id/tv_msg_count"-->
+        <!--android:layout_width="19dp"-->
+        <!--android:layout_height="19dp"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:layout_marginRight="@dimen/margin_5"-->
+        <!--android:textColor="@android:color/white"-->
+        <!--android:textSize="12sp"-->
+        <!--android:visibility="invisible"/>-->
 </FrameLayout>

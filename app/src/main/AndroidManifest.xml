@@ -35,6 +35,7 @@
 
     <uses-permission android:name="com.d6.android.app.permission.MIPUSH_RECEIVE" />
 
+     <!--华为推送-->
     <!--如果是安卓8.0，应用编译配置的targetSdkVersion>=26，请务必添加以下权限 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
@@ -49,6 +50,10 @@
             android:name="com.amap.api.v2.apikey"
             android:value="808bc15cea5a1648a2c84a08fff73267" />
 
+        <meta-data
+            android:name="com.openinstall.APP_KEY"
+            android:value="b5zf76"/>
+        <!--线上b5zf76 测试vwm5ds-->
         <!-- <meta-data -->
         <!-- android:name="UMENG_APPKEY" -->
         <!-- android:value="5a5b309af29d9835ae000262" /> -->
@@ -65,6 +70,13 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="d6app" android:host="com.d6.android.app" android:pathPrefix="/openwith"/>
+                <data android:scheme="b5zf76"/>
             </intent-filter>
         </activity>
         <activity
@@ -92,7 +104,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SpeedDateDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.SpeedDateDetailActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.ReleaseNewTrendsActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
@@ -137,7 +154,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SquareTrendDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.SquareTrendDetailActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.BusinessCooperationActivity"
             android:screenOrientation="portrait" />
@@ -149,9 +171,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FindDateDetailActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.FindDateDetailActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".activities.MessagesActivity"
+            android:name=".activities.UnKnowChatActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SelectPhotoDialog"
@@ -161,7 +188,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.UserInfoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.UserInfoActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.SelfReleaseDetailActivity"
             android:screenOrientation="portrait" />
@@ -219,23 +251,40 @@
         <activity android:name=".activities.ChooseSexActivity" />
         <activity android:name=".activities.QRNewActivity" />
         <activity android:name=".activities.SplashActivity" />
-        <activity android:name=".activities.SetUserInfoActivity" />
+        <activity android:name=".activities.SetUserInfoActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity android:name=".activities.ChooseCountryActivity" />
         <activity android:name=".activities.TrendDetailActivity"
             android:theme="@style/imageactivity"/>
         <activity android:name=".activities.SettingActivity" />
-        <activity android:name=".activities.ReportActivity" />
+        <activity android:name=".activities.ReportActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".activities.SpeedDateActivity"
             android:label="@string/title_activity_speed_date"
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.DateAuthStateActivity" />
+        <activity android:name=".activities.AuthMenStateActivity" />
+        <activity android:name=".activities.AuthWomenStateActivity" />
+        <activity android:name=".activities.MemberActivity" />
         <activity android:name=".activities.MyDateActivity" />
         <activity android:name=".activities.EditImageActivity"></activity>
         <activity android:name=".activities.BLBeautifyImageActivity"/>
         <activity android:name=".activities.FansActivity"/>
         <activity android:name=".activities.FollowActivity"/>
         <activity android:name=".activities.VistorsActivity"/>
+        <activity android:name=".activities.ChooseFriendsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".activities.SearchFriendsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".activities.ShareFriendsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".activities.MyPointsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden">
@@ -245,16 +294,29 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MyDateListActivity"/>
-        <activity android:name=".activities.MyDateDetailActivity"/>
+        <activity android:name=".activities.MyDateDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.MyDateDetailActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.RecommendDateActivity"/>
         <activity android:name=".activities.PointExplainActivity"/>
+        <activity android:name=".activities.MenMemberActivity"/>
         <activity android:name=".activities.PrivilegeDescActivity"/>
         <activity android:name=".activities.BindPhoneActivity"/>
+        <activity android:name=".activities.BlackListActivity"/>
+        <activity android:name=".activities.UnKnownActivity"/>
         <activity android:name=".activities.SexChooseActivity"
             android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.ConstellationChooseActivity"
             android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.AreaChooseActivity"
+            android:theme="@style/chooseAnim"/>
+
+        <activity android:name=".activities.ScreeningAreaActivity"
             android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.DateAuthSucessActivity"/>
         <activity
@@ -311,7 +373,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="io.rong.push.platform.MiMessageReceiver"
+            android:name="io.rong.push.platform.mi.MiMessageReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
@@ -345,7 +407,7 @@
 
         <!-- 解决华为移动服务升级问题的透明界面（必须声明）-->
         <activity
-            android:name="com.huawei.android.hms.agent.common.HMSAgentActivity"
+            android:name="io.rong.push.platform.hms.common.HMSAgentActivity"
             android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"
             android:excludeFromRecents="true"
             android:exported="false"
@@ -362,7 +424,7 @@
             <!--android:exported="false"-->
             <!--android:grantUriPermissions="true"/>-->
         <!-- 第三方相关 :接收Push消息（注册、Push消息、Push连接状态）广播 -->
-        <receiver android:name="io.rong.push.platform.HMSReceiver">
+        <receiver android:name="io.rong.push.platform.hms.HMSReceiver">
             <intent-filter>
                 <!-- 必须,用于接收token -->
                 <action android:name="com.huawei.android.push.intent.REGISTRATION" />

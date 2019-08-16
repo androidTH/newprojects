@@ -40,12 +40,12 @@ class SelectChatTypeDialog : DialogFragment() {
             dismissAllowingStateLoss()
         }
 
-        tv_line_chat.setOnClickListener {
+        ll_line_chat.setOnClickListener {
             dialogListener?.onClick(1, resources.getString(R.string.string_linechat))
             dismissAllowingStateLoss()
         }
 
-        tv_agree_chat.setOnClickListener {
+        ll_agree_chat.setOnClickListener {
             dialogListener?.onClick(2, resources.getString(R.string.string_agree_openchat))
             dismissAllowingStateLoss()
         }

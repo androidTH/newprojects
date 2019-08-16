@@ -20,6 +20,7 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.google.gson.JsonObject
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -113,6 +114,8 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
                         tv_sendflower_success_like.text= resources.getString(R.string.string_like)
                         tv_sendflower_success_like.backgroundResource = R.drawable.shape_20r_ff6
                         tv_sendflower_success_like.textColor = ContextCompat.getColor(AppUtils.context,R.color.white)
+
+                        tv_sendflower_success_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_12),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_12))
                     }
                 }
             }
@@ -130,7 +133,7 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
     }
 
     private fun addFollow(id:String){
-        Request.getAddFollow(userId, id).request(this){ s: String?, jsonObject: JsonObject? ->
+        Request.getAddFollow(userId, id).request(this,true){ s: String?, jsonObject: JsonObject? ->
             //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
 
@@ -172,16 +175,31 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
     }
 
     private fun showDatePayPointDialog(id:String,name:String){
-        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
-            jsonObjetct?.let {
-                var code = it.optInt("code")
-                if(code!=7){
-                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-                }else{
-                    startActivity<DateAuthStateActivity>()
-                }
-            }
-        })
+        (activity as BaseActivity).isAuthUser{
+            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//            Request.getApplyStatus(userId, id).request(this, false, success = { msg, jsonObjetct ->
+//                jsonObjetct?.let {
+//                    var code = it.optInt("code")
+//                    if (code != 7) {
+//                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//                    }
+//                }
+//            })
+        }
+//        Request.getApplyStatus(userId,id).request(this,false,success={msg,jsonObjetct->
+//            jsonObjetct?.let {
+//                var code = it.optInt("code")
+//                if(code!=7){
+//                    if(code == 8){
+//                        CustomToast.showToast(getString(R.string.string_addblacklist))
+//                    }else {
+//                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//                    }
+//                }else{
+//                    startActivity<DateAuthStateActivity>()
+//                }
+//            }
+//        })
 //        if(TextUtils.equals("7",userclassId)){
 //            startActivity<DateAuthStateActivity>()
 //        }else{

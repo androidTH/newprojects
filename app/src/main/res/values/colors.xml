@@ -59,10 +59,12 @@
     <color name="color_FF8F8C">#FF8F8C</color>
     <color name="color_DFE1E5">#DFE1E5</color>
     <color name="color_24FFFFFF">#24FFFFFF</color>
+    <color name="color_96FFFFFF">#96FFFFFF</color>
     <color name="color_F79C00">#F79C00</color>
     <color name="color_68BFFF">#68BFFF</color>
     <color name="color_D8D8D8">#D8D8D8</color>
     <color name="color_F9B724">#F9B724</color>
+    <color name="color_1AF9B724">#1AF9B724</color>
     <color name="color_0D000000">#0D000000</color>
     <color name="color_FF6452">#FF6452</color>
     <color name="color_33FF6452">#33FF6452</color>
@@ -72,6 +74,7 @@
     <color name="color_80F7AB00">#80F7AB00</color>
     <color name="color_FF4000">#FF4000</color>
     <color name="color_FE6E17">#FE6E17</color>
+    <color name="color_96FE6E17">#96FE6E17</color>
     <color name="color_F7F7F7">#F7F7F7</color>
     <color name="color_54CC54">#54CC54</color>
     <color name="color_1AFA5D5D">#1AFA5D5D</color>
@@ -79,5 +82,50 @@
     <color name="color_0CC735">#0CC735</color>
     <color name="color_33000000">#33000000</color>
     <color name="color_99000000">#99000000</color>
+    <color name="color_F5A900">#F5A900</color>
+    <color name="color_CEB241">#CEB241</color>
+    <color name="color_F6F7FA">#F6F7FA</color>
+    <color name="color_FFEABA">#FFEABA</color>
+    <color name="color_7ED321">#7ED321</color>
+    <color name="color_CCFFFFFF">#CCFFFFFF</color>
+    <color name="color_4ACE71">#4ACE71</color>
+    <color name="color_D0D0D0">#D0D0D0</color>
+    <color name="color_848484">#848484</color>
+    <color name="color_FF4B00">#FF4B00</color>
+    <color name="color_4000000">#4D000000</color>
+    <color name="color_A19BB0">#A19BB0</color>
+    <color name="color_C69F60">#C69F60</color>
+    <color name="color_C69F61">#C69F61</color>
+    <color name="color_BFFFFFFF">#BFFFFFFF</color>
+    <color name="color_5A5C8F">#5A5C8F</color>
+    <color name="color_8F5A5A">#8F5A5A</color>
+    <color name="color_338F5A5A">#338F5A5A</color>
+    <color name="color_cfcfcf">#cfcfcf</color>
+    <color name="color_c7c7c7">#c7c7c7</color>
+
+    <color name="color_bbbbbb">#BBBBBB</color>
+    <color name="color_DBDBDB">#DBDBDB</color>
+    <!--普通-->
+    <color name="color_FFA651">#FFA651</color>
+    <color name="color_FFC792">#FFC792</color>
+    <!--白银-->
+    <color name="color_817897">#817897</color>
+    <color name="color_BDB5CA">#BDB5CA</color>
+    <!--黄金-->
+    <color name="color_FFAF2E">#FFAF2E</color>
+    <color name="color_FFD675">#FFD675</color>
+    <!--钻石-->
+    <color name="color_8170D2">#8170D2</color>
+    <color name="color_A294EC">#A294EC</color>
+    <!--私人定制-->
+    <color name="color_s323432">#323432</color>
+    <color name="color_696D72">#696D72</color>
+    <!--初级-->
+    <color name="color_F367C2">#F367C2</color>
+    <color name="color_FC93C9">#FC93C9</color>
+    <!--中级-->
+    <color name="color_8950EC">#8950EC</color>
+    <color name="color_B594EC">#B594EC</color>
+
 
 </resources>

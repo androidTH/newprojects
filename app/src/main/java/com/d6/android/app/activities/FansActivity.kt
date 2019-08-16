@@ -27,7 +27,7 @@ class FansActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "粉丝"
+        title = "喜欢我的"
         fansAdapter .setOnItemClickListener { view, position ->
             val id = mMessages[position].iUserid
             startActivity<UserInfoActivity>("id" to id.toString())

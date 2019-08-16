@@ -1,42 +1,66 @@
 package com.d6.android.app.activities
 
+import android.Manifest
 import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.FilterTrendDialog
+import com.d6.android.app.dialogs.LoginOutTipDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
+import com.d6.android.app.models.FollowFansVistor
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
+import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW_MSG
+import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.manager.IUnReadMessageObserver
+import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Group
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
+import org.json.JSONObject
 
 
 /**
  * 主页
  */
-class MainActivity : BaseActivity(), IUnReadMessageObserver{
+class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProvider{
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
+    override fun getGroupInfo(p0: String?): Group? {
+        var group: Group
+        try{
+            group = RongUserInfoManager.getInstance().getGroupInfo(p0.toString())
+            if(group==null){
+                Request.findGroupDescByGroupId(getLocalUserId(), p0.toString()).request(this, false, success = { msg, data ->
+                    data?.let {
+                        group = Group(it.sId, it.sGroupName, Uri.parse(it.sGroupPicUrl))
+                        RongIM.getInstance().refreshGroupInfoCache(group)
+                    }
+                })
+            }
+        }catch(e:java.lang.Exception){
+            group = Group(p0.toString(),"匿名",Uri.parse("res:///"+R.mipmap.nimingtouxiang_small))
+            RongIM.getInstance().refreshGroupInfoCache(group)
+        }
+        return group
     }
 
     private val tabTexts = arrayOf( "约会","发现", "动态","消息", "我的")
@@ -45,8 +69,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
     private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,
             DateFragment::class.java, SquareMainFragment::class.java,
-            MessageFragment::class.java,MineV2Fragment::class.java)
-    private var unReadMsg:Int?=-1
+            MessageFragment::class.java,MineFragment::class.java)
+    private var unReadDateMsg:Int=-1
+    private var unReadMsgNum:Int=0
 
     private val broadcast by lazy {
         object : BroadcastReceiver() {
@@ -58,11 +83,41 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         }
     }
 
+    private val rongBroadcast by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    getUnReadCount()
+                }
+            }
+        }
+    }
+
+    private val mineBroadcast by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_red) as TextView
+                    intent?.let {
+                        var showwarm = intent.getBooleanExtra("showwarm",false)
+                        if(showwarm){
+                            view.visibility = View.VISIBLE
+                        }else{
+                            view.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         immersionBar.init()
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
+        registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
+        registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))
         tabhost.setup(this, supportFragmentManager, R.id.container)
         tabhost.tabWidget.dividerDrawable = null
         tabTexts.forEachWithIndex { i, it ->
@@ -162,10 +217,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 //        tv_create_date.gone()
 
         tv_create_date.setOnClickListener {
-            isCheckOnLineAuthUser(this,userId){
+            isCheckOnLineAuthUser(this, getLocalUserId()){
                 startActivityForResult<PublishFindDateActivity>(10)
             }
         }
+
+        date_headView.hierarchy = getHierarchy()
 
         date_headView.setOnClickListener {
             getAuthState()
@@ -200,12 +257,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         iv_right.setOnClickListener {
             when (tabhost.currentTab) {
                 1 -> {
-                    isCheckOnLineAuthUser(this,userId) {
+                    isCheckOnLineAuthUser(this, getLocalUserId()) {
                         startActivityForResult<FilterActivity>(0)
                     }
                 }
                 2 -> {
-                    isCheckOnLineAuthUser(this,userId) {
+                    isCheckOnLineAuthUser(this, getLocalUserId()) {
                         startActivityForResult<ReleaseNewTrendsActivity>(1)
                     }
                 }
@@ -235,16 +292,23 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                 }
             })
         }
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        PushAgent.getInstance(this.applicationContext).addAlias(userId, "D6") { _, _ -> }
-        Request.updateDeviceType(userId).request(this, false) { _, _ -> }
+        PushAgent.getInstance(this.applicationContext).addAlias(getLocalUserId(), "D6") { _, _ -> }
+        Request.updateDeviceType(getLocalUserId()).request(this, false) { _, _ -> }
 
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
 
         getUserInfo()
 
-        UnReadMessageCountChangedObserver()
+//        UnReadMessageCountChangedObserver()
+
+        diyUpdate(this,"")
+
+        getUserQueryAnonymous()
+
+        getPermission()
+
+        RongIM.setGroupInfoProvider(this,true)
     }
 
     fun judgeDataB() {
@@ -274,6 +338,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
         if(tabhost.currentTab==0){
             myDateUnMsg()
         }
+        unReadMsgNum = 0  // 注释
+        getUserInfoUnMsg()
         getUnReadCount()
     }
 
@@ -293,12 +359,31 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
      * 保存用户信息
      */
     private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this, success = { _, data ->
+        Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
             data?.let {
                 SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
                 SPUtils.instance().put(Const.User.USER_DATACOMPLETION,it.iDatacompletion).apply()
+                saveUserInfo(it)
+                if(!it.wxid.isNullOrEmpty()){
+                    if(it.sUnionid.isNullOrEmpty()){
+                        val mLoginOutTipDialog = LoginOutTipDialog()
+                        mLoginOutTipDialog.show(supportFragmentManager, "action")
+                    }
+                }
             }
         })
+    }
+
+    private fun getUserQueryAnonymous(){
+        Request.getUserQueryAnonymous(getLoginToken()).request(this,false,success={msg,jsonobject->
+           SPUtils.instance().put(CHECK_OPEN_UNKNOW,"open").apply()
+        }){code,msg->
+            if(code == 2){
+                val jsonObject = JSONObject(msg)
+                SPUtils.instance().put(CHECK_OPEN_UNKNOW_MSG,jsonObject.optString("sAnonymousDesc")).apply()
+            }
+            SPUtils.instance().put(CHECK_OPEN_UNKNOW,"close").apply()
+        }
     }
 
     private fun UnReadMessageCountChangedObserver(){
@@ -316,11 +401,15 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
                     }
                     val view1 = tabhost.tabWidget.getChildTabViewAt(3)
                     if (view1 != null) {
-                        val view = view1.find<View>(R.id.tv_msg_count)
-                        if (p0 > 0) {
+//            1            unReadMsgNum = 0
+//                        unReadMsgNum = unReadMsgNum + it
+//                        Log.i("messagesssssss","${unReadMsgNum}显示getUnreadCount")
+//                        getSysLastOne()
+                        val view = view1.find<View>(R.id.tv_msg_red)  as TextView
+                        if (p0.toInt() > 0) {
+                            unReadMsgNum = unReadMsgNum + p0.toInt()
                             view?.visible()
                         } else {
-                            view?.gone()
                             getSysLastOne()
                         }
                     }
@@ -331,23 +420,43 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
 
             }
 
-        }, Conversation.ConversationType.PRIVATE)
+        }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
     }
 
     private fun myDateUnMsg(){
         Request.getUnreadAppointmentCount(SPUtils.instance().getString(Const.User.USER_ID)).request(this, success = { msg, data ->
             if (data != null) {
-                unReadMsg = data.unreadCount
-                setNoticeIsNoShow()
+                data.unreadCount?.let {
+                    unReadDateMsg = it
+                    setNoticeIsNoShow()
+                }
+            }
+        })
+    }
+
+    private fun getUserInfoUnMsg(){
+        Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this,success = { s:String?, data: FollowFansVistor?->
+            data?.let {
+                val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_red) as TextView
+                if (it.iFansCount!!>0||it.iVistorCount!!>0) {
+//                    view.visibility = View.VISIBLE
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
+                    if (fragment != null && fragment is MineFragment) {
+                        fragment.showLikeWarm(true,it.iFansCount!!.toInt(), it.iPointNew!!.toInt(), it.iVistorCount!!.toInt())
+                    }
+                } else {
+                    view.visibility = View.GONE
+                }
             }
         })
     }
 
     private fun setNoticeIsNoShow(){
-        val view = tabhost.tabWidget.getChildTabViewAt(0).findViewById<View>(R.id.tv_msg_count)
-        if(unReadMsg!! > 0){
+        val view = tabhost.tabWidget.getChildTabViewAt(0).findViewById<View>(R.id.tv_msg_red) as TextView
+        if(unReadDateMsg > 0){
             iv_mydate_newnotice.visibility = View.VISIBLE
             view.visibility = View.VISIBLE
+//     1       view.text = "${unReadDateMsg}"
         }else{
             iv_mydate_newnotice.visibility = View.GONE
             view.visibility = View.GONE
@@ -363,19 +472,19 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun getSysLastOne() {
-        val time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSystemMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
-            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
-            if (data?.list?.results == null || data.list?.results.isEmpty()) {
+        Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
+            val view = (tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView)
+            if (data?.list?.results == null || data.list?.results?.isEmpty()) {
                 //无数据
-                view?.gone()
                 getSquareMsg()
             } else {
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSysMsg(data)
                 }
+//       1         unReadMsgNum  =unReadMsgNum + data.count!!.toInt()
+//                Log.i("messagesssssss","${unReadMsgNum}显示SystemMessages${data.count}")
+//                getSquareMsg()
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
                 } else {
@@ -389,18 +498,38 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     private fun getSquareMsg() {
-        val time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getSquareMessages(userId, 1, time.toString(), pageSize = 1).request(this, false, success = { _, data ->
-            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count)
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+        Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
+            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView
+            Log.i("messagesssssss","${unReadMsgNum}显示")
+            if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
-                view?.gone()
+                if(unReadMsgNum > 0){
+//                1 if(unReadMsgNum>=99){
+//                        view.text = "99+"
+//                    }else{
+//                        view.text = "${unReadMsgNum}"
+//                    }
+                    unReadMsgNum = 0 // 注释
+                    view?.visible()
+                }else{
+                    view?.gone()
+                }
             } else {
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }
+//          1      unReadMsgNum = unReadMsgNum + data.count!!.toInt()
+//                if(unReadMsgNum>0){
+//                    if(unReadMsgNum>=99){
+//                        view.text = "99+"
+//                    }else{
+//                        view.text = "${unReadMsgNum}"
+//                    }
+//                    view?.visible()
+//                }else{
+//                    view?.gone()
+//                }
                 if ((data.count ?: 0) > 0) {
                     view?.visible()
                 }else{
@@ -453,22 +582,24 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     }
 
     override fun onCountChanged(p0: Int) {
-        val view1 = tabhost.tabWidget.getChildTabViewAt(3)
-        if(p0>0){
-            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
-            if (fragment != null && fragment is MessageFragment) {
-                fragment.getChatMsg()
-            }
-            if (view1 != null) {
-                val view = view1.find<View>(R.id.tv_msg_count)
-                view?.visible()
-            }
-        }else{
-            if (view1 != null) {
-                val view = view1.find<View>(R.id.tv_msg_count)
-                view?.gone()
-            }
-        }
+//        val view1 = tabhost.tabWidget.getChildTabViewAt(3)
+//        val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+//        if (fragment != null && fragment is MessageFragment) {
+//            fragment.getChatMsg()
+//        }
+//        unReadMsgNum = p0
+//        if(p0>0){
+//            if (view1 != null) {
+//                val view = view1.find<View>(R.id.tv_msg_count)
+//                view?.visible()
+//            }
+//        }else{
+//            if (view1 != null) {
+//                val view = view1.find<View>(R.id.tv_msg_count)
+//                view?.gone()
+//            }
+//        }
+        Log.i("messagesssssss","onCountChanged")
     }
 
     private var mExitTime: Long = 0
@@ -490,9 +621,31 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver{
     override fun onDestroy() {
         try {
             unregisterReceiver(broadcast)
+            unregisterReceiver(rongBroadcast)
         } catch (e: Exception) {
 
         }
         super.onDestroy()
+    }
+
+    /**
+     * 权限检查
+     */
+    fun getPermission() {
+        RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe {
+            if (it) {//有权限
+
+            } else {
+            }
+        }
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 12) {
+            if (TextUtils.equals(permissions[0],Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                alertDialog( "请注意", "本应用需要使用访问本地存储权限，否则无法正常使用！", false, "确定", "取消", DialogInterface.OnClickListener { _, _ -> finish() }, DialogInterface.OnClickListener { _, _ -> finish() })
+                return
+            }
+        }
     }
 }

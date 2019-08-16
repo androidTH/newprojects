@@ -55,6 +55,12 @@ class FilterDateTypeDialog : DialogFragment() {
             dismissAllowingStateLoss()
         }
 
+        if(mShowType){
+            tv_all.visibility = View.GONE
+        }else{
+            tv_all.visibility = View.VISIBLE
+        }
+
         tv_recommend.setOnClickListener {
             dialogListener?.onClick(5, if(mShowType )"不限" else "觅约")
             dismissAllowingStateLoss()
@@ -82,11 +88,10 @@ class FilterDateTypeDialog : DialogFragment() {
 
         bgView.setOnClickListener { dismissAllowingStateLoss() }
 
-        tv_all.text ="全部"
-//                SpanBuilder("全部\n全部约会类型")
-//                        .color(context,0,2,R.color.textColor)
-//                        .size(0,2,15)
-//                        .build()
+        tv_all.text = SpanBuilder("全部\n所有约会")
+                        .color(context,0,2,R.color.textColor)
+                        .size(0,2,15)
+                        .build()
 
         tv_recommend.text = if(mShowType )"不限" else SpanBuilder("觅约\n每日最新会员")
                 .color(context,0,2,R.color.textColor)

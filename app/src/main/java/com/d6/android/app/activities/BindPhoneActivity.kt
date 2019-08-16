@@ -14,8 +14,6 @@ import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
-import com.umeng.socialize.UMShareAPI
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_bindphone_layout.*
@@ -34,8 +32,16 @@ class BindPhoneActivity : TitleActivity() {
         SPUtils.instance().getString(Const.User.DEVICETOKEN)
     }
 
+    private val channel by lazy{
+        SPUtils.instance().getString(Const.OPENSTALL_CHANNEL,"Openinstall")
+    }
+
     private val openId by lazy {
         intent.getStringExtra("openId")
+    }
+
+    private val unionId by lazy {
+        intent.getStringExtra("unionId")
     }
 
     private val name by lazy{
@@ -196,7 +202,8 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
 
-       Request.bindPhone(p,code,openId,devicetoken,name,headerpic).request(this,false,success = {msg,data->
+       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel).request(this,false,success = {msg,data->
+           clearLoginToken()
            saveMsg(msg)
            saveUserInfo(data)
            data?.let {
@@ -204,7 +211,7 @@ class BindPhoneActivity : TitleActivity() {
                RongIM.getInstance().refreshUserInfoCache(info)
            }
            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-               startActivityForResult<SetUserInfoActivity>(3,"name" to name, "gender" to gender,"headerpic" to headerpic)
+               startActivityForResult<SetUserInfoActivity>(3,"name" to name, "gender" to gender,"headerpic" to headerpic,"openid" to openId,"unionid" to unionId)
            } else {
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                startActivity<MainActivity>()
@@ -213,6 +220,7 @@ class BindPhoneActivity : TitleActivity() {
            }
        }){code,msg->
            if (code == 2) {
+               clearLoginToken()
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                startActivity<MainActivity>()
                setResult(Activity.RESULT_OK)

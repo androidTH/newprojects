@@ -40,7 +40,6 @@
             android:layout_marginRight="@dimen/margin_5"
             android:layout_marginTop="100dp"
             android:background="@drawable/shape_10r_8e"
-            android:drawableLeft="@mipmap/small_authentication"
             android:drawablePadding="@dimen/margin_2"
             android:textColor="@color/white"
             android:paddingLeft="@dimen/margin_5"
@@ -49,6 +48,8 @@
             android:paddingBottom="@dimen/margin_2"
             android:textSize="10sp"
             android:visibility="visible" />
+        <!--android:background="@drawable/shape_10r_8e"-->
+        <!--android:drawableLeft="@mipmap/small_authentication"-->
 
         <TextView
             android:id="@+id/tv_auth_level"
@@ -56,14 +57,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="100dp"
-            android:background="@drawable/shape_10r_8e"
             android:layout_marginRight="@dimen/margin_5"
             android:drawablePadding="@dimen/margin_1"
             android:paddingLeft="@dimen/margin_5"
             android:paddingTop="@dimen/margin_2"
             android:paddingRight="@dimen/margin_5"
             android:paddingBottom="@dimen/margin_2"
-            android:text="黄金会员"
             android:textColor="@color/white"
             android:textSize="10sp"
             android:visibility="gone" />

@@ -31,4 +31,7 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var iFlowerCount:Int?=0
     var iIsSendFlower:Int?=0 //iIsSendFlower 大于0送过花，等于0没送过
     var sSourceSquarePics:String?=""
+    var userclassesid:String?=""
+    var screen:String?=""
+    var iIsAnonymous:Int?=0 //1、匿名  2、非匿名状态
 }

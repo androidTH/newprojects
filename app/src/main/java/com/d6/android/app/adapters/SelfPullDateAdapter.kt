@@ -1,20 +1,18 @@
 package com.d6.android.app.adapters
 
 import com.d6.android.app.R
-import com.d6.android.app.activities.PublishFindDateActivity
 import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.dialogs.OpenDateDialog
-import com.d6.android.app.dialogs.OpenDateErrorDialog
-import com.d6.android.app.dialogs.SquareActionDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.isAuthUser
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -42,7 +40,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
 
         view.setDeleteClick {
-            doReport(it.iAppointUserid.toString())
+            doReport(it.iAppointUserid.toString(),it.sId.toString(),it.iIsAnonymous!!.toInt())
         }
     }
 
@@ -51,6 +49,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
             dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+//            var dateInfo = RengGongDialog()
+//            var dateInfo = SelfDateDialog()
+//            dateInfo.show((context as BaseActivity).supportFragmentManager, "rg")
+
         }) { code, msg ->
             if (code == 2) {
                 var openErrorDialog = OpenDateErrorDialog()
@@ -60,16 +62,26 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
     }
 
-    private fun doReport(userid:String){
-        val squareActionDialog = SquareActionDialog()
-        squareActionDialog.arguments = bundleOf("id" to userid)
+    private fun doReport(userid:String,sDateId:String,iType:Int){
+        val squareActionDialog = ShareFriendsDialog()
+        squareActionDialog.arguments = bundleOf("from" to "selfPullDate","id" to userid,"sResourceId" to sDateId)
         squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
         squareActionDialog.setDialogListener { p, s ->
-            if (p == 0) {
+           if (p == 0) {
                 mData?.let {
-                    startActivity(userId, "3")
+                    startActivity(sDateId, "3")
                 }
-            }
+            }else if(p==2){
+               isBaseActivity {
+                   Request.addBlackList(userId, userid,iType).request(it) { _, _ ->
+                       CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
+                   }
+               }
+           }else if(p==1){
+               isBaseActivity {
+                   //删除的方法
+               }
+           }
         }
     }
 

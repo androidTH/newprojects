@@ -1,15 +1,21 @@
 package com.d6.android.app.adapters
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.activities.MyDateDetailActivity
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
 import com.d6.android.app.models.MyAppointment
@@ -17,7 +23,10 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
+import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 
 /**
  *粉丝
@@ -36,26 +45,45 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
 //            ll_imgs.visibility = View.GONE
 //        }else{
 //            ll_imgs.visibility = View.VISIBLE
-            var img_pull_header = holder.bind<SimpleDraweeView>(R.id.iv_pull_persion)
-            var img_push_header = holder.bind<SimpleDraweeView>(R.id.iv_push_persion)
+        var linear_item_date = holder.bind<LinearLayout>(R.id.linear_item_date);
+        var img_pull_header = holder.bind<SimpleDraweeView>(R.id.iv_pull_persion)
+        var img_push_header = holder.bind<SimpleDraweeView>(R.id.iv_push_persion)
 
+        if(data.iIsAnonymous==1){
             img_pull_header.setImageURI(data.sAppointmentPicUrl)
+        }else{
+            img_pull_header.setImageURI(data.sAppointmentPicUrl)
+        }
 
-            img_push_header.setImageURI(data.sPicUrl)
+
+         img_push_header.setImageURI(data.sPicUrl)
 
          img_pull_header.setOnClickListener(View.OnClickListener {
              val id = data.iAppointUserid
              isBaseActivity {
-                 it.startActivity<UserInfoActivity>("id" to id.toString())
+                 if(data.iIsAnonymous==1){
+                     var mUnknowDialog = UnKnowInfoDialog()
+                     mUnknowDialog.arguments = bundleOf("otheruserId" to "${id}")
+                     mUnknowDialog.show((context as BaseActivity).supportFragmentManager,"unknowDialog")
+                 }else{
+                     it.startActivity<UserInfoActivity>("id" to id.toString())
+                 }
              }
          })
 
         img_push_header.setOnClickListener(View.OnClickListener {
             val id = data.iUserid
             isBaseActivity {
-                it.startActivity<UserInfoActivity>("id" to id.toString())
+                if (id!=null) {
+                    it.startActivity<UserInfoActivity>("id" to id.toString())
+                }
             }
         })
+
+        linear_item_date.setOnClickListener {
+//            context.startActivity<MyDateDetailActivity>("data" to data,"from" to Const.FROM_MY_DATELIST)
+            (context as BaseActivity).startActivityForResult<MyDateDetailActivity>(2000,"index" to position,"data" to data,"from" to Const.FROM_MY_DATELIST)
+        }
 
 //            holder.setText(R.id.tv_pull_name,data.sAppointUserName)
 //            holder.setText(R.id.tv_push_name,data.sUserName)
@@ -111,12 +139,19 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
             rv_mydate_imgs.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             mImages.clear()
             rv_mydate_imgs.visible()
-            val images = data.sAppointPic?.split(",")
+            val images = data.sSourceAppointPic?.split(",")
             if (images != null) {
                 mImages.addAll(images.toList())
             }
             rv_mydate_imgs.adapter = SelfReleaselmageAdapter(mImages,1)
+
         }
+
+        var iv_datetype = holder.bind<ImageView>(R.id.iv_datetype)
+        var drawable = ContextCompat.getDrawable(context,Const.dateListTypes[data.iAppointType!!.toInt()-1])
+        iv_datetype.backgroundDrawable = drawable
+
+        Log.i("datelistadater","${data.iIsAnonymous}")
     }
 
     override fun onClick(v: View?) {
@@ -129,7 +164,7 @@ class MyDateListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyApp
     }
 
     private fun addFollow(fans:Fans,tv_focus:TextView){
-        Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
+        Request.getAddFollow(userId, fans.iUserid.toString()).request((context as BaseActivity),true){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
             tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
             tv_focus.setText("已关注")

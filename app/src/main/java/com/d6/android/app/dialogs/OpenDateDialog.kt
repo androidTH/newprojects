@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_date_send.*
@@ -33,6 +35,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
     }
 
     private var myAppointment:MyAppointment?=null
+    private var fromType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +69,14 @@ class OpenDateDialog : DialogFragment(),RequestManager {
         } else {
             MyAppointment()
         }
-
+        fromType = arguments.getString("fromType","")
         tv_action.setOnClickListener {
-            getData()
+            if(TextUtils.isEmpty(fromType)){
+                getData()
+            }else{
+                dialogListener?.onClick(1,myAppointment?.sId.toString())
+                dismissAllowingStateLoss()
+            }
         }
 
         tv_close.setOnClickListener {
@@ -99,6 +107,8 @@ class OpenDateDialog : DialogFragment(),RequestManager {
                     var openErrorDialog = OpenDateErrorDialog()
                     openErrorDialog.arguments= bundleOf("code" to code)
                     openErrorDialog.show(it.supportFragmentManager, "d")
+                }else{
+                    CustomToast.showToast(msg)
                 }
             }
         }

@@ -25,6 +25,9 @@ class CommentActivity : TitleActivity() {
     private val uid by lazy {
         intent.getStringExtra("uid")
     }
+
+    private var iIsAnonymous:Int = 2
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comment)
@@ -33,6 +36,7 @@ class CommentActivity : TitleActivity() {
         btn_submit.setOnClickListener {
             comment()
         }
+        iIsAnonymous = 2
     }
 
     private fun comment() {
@@ -47,7 +51,7 @@ class CommentActivity : TitleActivity() {
             uid
         }
         dialog()
-        Request.addComment(userId, id,content,replyUid).request(this){ msg, _->
+        Request.addComment(userId, id,content,replyUid,iIsAnonymous,2).request(this){ msg, _->
             toast("评论成功")
             setResult(Activity.RESULT_OK)
             finish()

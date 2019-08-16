@@ -8,20 +8,20 @@ import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.FindDateImagesAdapter
-import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.TitleActivity
-import com.d6.android.app.dialogs.ContactUsDialog
-import com.d6.android.app.extentions.request
+import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.models.MyDate
-import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.share.utils.ShareUtils
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_find_date_detail.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.startActivity
 
 /**
  * 觅约详情
@@ -59,9 +59,18 @@ class FindDateDetailActivity : TitleActivity() {
         setContentView(R.layout.activity_find_date_detail)
         immersionBar.init()
         title = "觅约详情"
-
-        titleBar.addRightButton(rightId = R.mipmap.ic_share, onClickListener = View.OnClickListener {
-            ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+          //R.mipmap.ic_share
+        titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
+            val shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("from" to "Recommend_findDate","id" to mData.userId.toString(),"sResourceId" to mData.id.toString())
+            shareDialog.show(supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
+                    startActivity<ReportActivity>("id" to mData.id.toString(), "tiptype" to "4")
+                }else if(p==3){
+                    ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+                }
+            }
         })
 
         //设置地址和编号view的elevation
@@ -73,7 +82,12 @@ class FindDateDetailActivity : TitleActivity() {
         helper.attachToRecyclerView(rv_images)
 
         tv_contact.setOnClickListener {
-            ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+            isAuthUser() {
+//                pushCustomerMessage(this, getLocalUserId(), 3, mData.id.toString()) {
+//                    chatService(this)
+//                }
+             ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, mData.lookfriendstand ?: "", mData.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+mData.id, shareListener)
+            }
         }
         refreshUI()
     }
@@ -110,11 +124,11 @@ class FindDateDetailActivity : TitleActivity() {
 
 
         if (TextUtils.equals(mData.lookstate,"2")) {//已觅约
-            titleBar.hideAllRightButton()
+//            titleBar.hideAllRightButton()
             tv_contact.isEnabled = false
             tv_contact.text = "已觅约"
         } else {
-            titleBar.hideRightButton(0,false)
+//            titleBar.hideRightButton(0,false)
             tv_contact.isEnabled = true
             tv_contact.text = "联系客服"
         }

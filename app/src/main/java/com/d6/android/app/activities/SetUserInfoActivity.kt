@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import android.view.WindowManager
 import android.widget.RadioButton
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -14,6 +15,9 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
+import com.d6.android.app.widget.MaxEditTextWatcher
+import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_set_user_info.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -27,9 +31,19 @@ class SetUserInfoActivity : BaseActivity() {
     private var sex = -1
     private var ISNOTEDIT = false
 
+//    private val openchannel by lazy{
+//        SPUtils.instance().getString(OPENSTALL_CHANNEL,"channel")
+//    }
+
+    private var openId = ""
+    private var unionId = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_user_info)
+//        immersionBar.statusBarColor(R.color.trans_parent)
+//                .init()
+//        AndroidBug5497Workaround.assistActivity(this)
 
         val name = if (intent.hasExtra("name")) {
             intent.getStringExtra("name")
@@ -37,6 +51,18 @@ class SetUserInfoActivity : BaseActivity() {
             ""
         }
         et_nick.setText(name)
+
+        openId = if(intent.hasExtra("openId")){
+            intent.getStringExtra("openId")
+        }else{
+            ""
+        }
+
+        unionId = if(intent.hasExtra("unionid")){
+            intent.getStringExtra("unionid")
+        }else{
+            ""
+        }
 
         sex = if (intent.hasExtra("gender")) {
             val s = intent.getStringExtra("gender")
@@ -86,9 +112,14 @@ class SetUserInfoActivity : BaseActivity() {
             update()
         }
 
-        et_nick.addTextChangedListener(object :TextWatcher{
-            override fun afterTextChanged(p0: Editable?) {
-                if (p0.isNullOrEmpty()) {
+        et_nick.addTextChangedListener(object: MaxEditTextWatcher(CHINESE_TWO,16,this,et_nick){
+            override fun onTextChanged(charSequence: CharSequence?, i: Int, i1: Int, i2: Int) {
+                super.onTextChanged(charSequence, i, i1, i2)
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                super.afterTextChanged(editable)
+                if (editable.isNullOrEmpty()) {
                     tv_error.text = "昵称不能为空"
                     nickLine.setBackgroundResource(R.color.red_fc3)
                 } else {
@@ -97,20 +128,14 @@ class SetUserInfoActivity : BaseActivity() {
                 }
             }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
         })
         tv_change_head.gone()
         val s = "注册成功后性别将不可以修改"
         tv_info.text = SpanBuilder(s)
                 .color(this,s.length-5,s.length-2,R.color.orange_f6a)
                 .build()
+
+        OpenInstall.reportRegister()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -147,28 +172,39 @@ class SetUserInfoActivity : BaseActivity() {
         }
         val nick = et_nick.text.toString().trim()
         if (nick.isEmpty()) {
-            tv_error.text = "昵称不能为空"
+            tv_error.text = "请输入昵称"
             nickLine.setBackgroundResource(R.color.red_fc3)
             return
         }
+
+//        if(checkLimitEx(nick)){
+//            tv_error.text = "昵称中不能包含特殊符号或表情"
+//            return
+//        }
+
         val code = et_code.text.toString().trim()
         val accountId = SPUtils.instance().getString(Const.User.USER_ID)
         val user = UserData(accountId)
         user.sex = sex.toString()
         user.name = nick
         user.invitecode = code
+        user.wxid = openId
+        user.sUnionid = unionId
         dialog()
         if(ISNOTEDIT){
             Request.uploadFile(File(headFilePath)).flatMap {
                 user.picUrl = it
                 Request.updateUserInfo(user)
             }.request(this) { _, data ->
+                clearLoginToken()
                 SPUtils.instance()
                         .put(Const.User.IS_LOGIN,true)
                         .put(Const.User.USER_NICK, nick)
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
+                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
+                OpenInstall.reportEffectPoint("perfect_profile",1)//会员转化
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
@@ -177,12 +213,15 @@ class SetUserInfoActivity : BaseActivity() {
         }else{
             user.picUrl = headFilePath
             Request.updateUserInfo(user).request(this, success = {msg,data->
+                clearLoginToken()
                 SPUtils.instance()
                         .put(Const.User.IS_LOGIN,true)
                         .put(Const.User.USER_NICK, nick)
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
+                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
+                OpenInstall.reportEffectPoint("perfect_profile",1)//会员转化
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)

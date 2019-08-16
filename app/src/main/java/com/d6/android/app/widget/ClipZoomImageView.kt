@@ -332,7 +332,7 @@ class ClipZoomImageView @JvmOverloads constructor(context: Context, attrs: Attri
                 mVerticalPadding, width - 2 * mHorizontalPadding,
                 ((width - 2 * mHorizontalPadding) / scale).toInt())
         if (scale == 1f) {//裁剪正方形（应该新开字段来判断。这里使用来判断是不是裁剪头像）
-            return comp(bitmapnew)
+            return bitmapnew //comp(bitmapnew)
         }
         return bitmapnew
     }

@@ -220,6 +220,7 @@ class SendRedFlowerDialog : DialogFragment() {
                     }else if(mToFromType == 4){
                         dialogListener?.onClick(1,flowerCount)
                     }
+                    dismissAllowingStateLoss()
                 })
             }){code,msg->
                 CustomToast.showToast(msg)

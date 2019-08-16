@@ -5,9 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.DialogUpdateApp
@@ -16,33 +17,21 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
-import com.d6.android.app.net.http.UpdateAppHttpUtil
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.utils.Const.CustomerServiceId
+import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.umeng.message.PushAgent
-import com.umeng.message.UTrack
-import com.vector.update_app.UpdateAppBean
-import com.vector.update_app.UpdateAppManager
-import com.vector.update_app.UpdateCallback
-import com.vector.update_app.utils.AppUpdateUtils
 import io.rong.imkit.RongIM
-import io.rong.imlib.RongIMClient
-import io.rong.imlib.model.Conversation
-import io.rong.imlib.model.Message
 import io.rong.imlib.model.UserInfo
-import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_setting.*
-import kotlinx.android.synthetic.main.header_mine_layout.view.*
-import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import org.json.JSONException
-import org.json.JSONObject
-import java.util.HashMap
 
 class SettingActivity : TitleActivity() {
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
+
+    private val sex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
     private var mData: UserData?=null
@@ -60,7 +49,7 @@ class SettingActivity : TitleActivity() {
 
         tv_contact_us.setOnClickListener {
             startActivity<ContactUsActivity>()
-//            diyUpdate()//版本更新
+//            startActivity<ChooseFriendsActivity>()
         }
 
         rl_my_info.setOnClickListener {
@@ -91,8 +80,12 @@ class SettingActivity : TitleActivity() {
 //                }
 //            })
 
-            val serviceId = "5"
-            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, serviceId, "D6客服")
+            pushCustomerMessage(this, getLocalUserId(),5,"",next = {
+                chatService(this)
+            })
+//            chatService(this)
+//            val serviceId = "5"
+//            RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, serviceId, "D6客服")
         }
 
         tv_feedback.setOnClickListener {
@@ -107,31 +100,32 @@ class SettingActivity : TitleActivity() {
             startActivity<WeChatSearchActivity>()
         }
 
-        tv_private_chat_type.setOnClickListener {
-             var mSelectChatTypeDialog = SelectChatTypeDialog()
-             mSelectChatTypeDialog.show(supportFragmentManager,"SelectChatTypeDialog")
-             mSelectChatTypeDialog.setDialogListener { p, s ->
-                 tv_private_chat_type.text = s.toString()
-                 setPrivateChatType(p)
-             }
-        }
-
         btn_sign_out.setOnClickListener {
             SPUtils.instance().remove(Const.User.USER_ID)
                     .remove(Const.User.IS_LOGIN)
                     .remove(Const.User.RONG_TOKEN)
                     .remove(Const.User.USER_TOKEN)
+                    .remove(Const.User.SLOGINTOKEN)
                     .apply()
+            clearLoginToken()
             SPUtils.instance().remove(Const.USERINFO)
-            PushAgent.getInstance(applicationContext).deleteAlias(userId, "D6", { _, _ ->
+            PushAgent.getInstance(applicationContext).deleteAlias(getLocalUserId(), "D6", { _, _ ->
 
             })
             RongIM.getInstance().disconnect()
+            closeAll()
             startActivity<SignInActivity>()
-            finish()
         }
 
-        dialog()
+        tv_blacklist.setOnClickListener {
+            startActivity<BlackListActivity>()
+        }
+
+        headView.hierarchy = getHierarchy()
+
+        tv_versionname.text = getAppVersion()
+
+//        DataCleanManager.getTotalCacheSize(this)
         getUserInfo()
     }
 
@@ -143,19 +137,55 @@ class SettingActivity : TitleActivity() {
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this, success = { _, data ->
+        Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->
             this.mData = data
             mSwipeRefreshLayout.isRefreshing = false
             saveUserInfo(data)
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                 RongIM.getInstance().refreshUserInfoCache(info)
-                tv_vip.text = String.format("%s", it.classesname)
+                //7 游客 25钻石 24黄金 23白银 22普通  28中级  27入门 28中级  29优质 30 入群
 //                if (TextUtils.equals("0", it.sex)) {//女性
-//                    tv_vip.visible()
+//
+////                    tv_vip.text = String.format("%s", it.classesname)
+//                    if(TextUtils.equals(it.userclassesid,"27")){
+////                        tv_vip.text = String.format("%s",getString(R.string.string_primary))
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_cj)
+//                    }else if(TextUtils.equals(it.userclassesid,"28")){
+////                        tv_vip.text = String.format("%s",getString(R.string.string_middle))
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_zj)
+//                    }else if(TextUtils.equals(it.userclassesid,"29")){
+////                        tv_vip.text = String.format("%s",getString(R.string.string_senior))
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_gj)
+//                    }else{
+//                        tv_vip.visibility = View.GONE
+//                    }
 //                } else {
-//                    tv_vip.visible()
+//                    if(TextUtils.equals(it.userclassesid.toString(),"22")){
+////                        tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_ordinary)
+//                    }else if(TextUtils.equals(it.userclassesid,"23")){
+////                        tv_vip.text = String.format("%s",getString(R.string.string_silver))
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_silver)
+//                    }else if(TextUtils.equals(it.userclassesid,"24")){
+////                        tv_vip.text = String.format("%s",getString(R.string.string_gold))
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_gold)
+//                    }else if(TextUtils.equals(it.userclassesid,"25")){
+////                        tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_zs)
+//                    }else if(TextUtils.equals(it.userclassesid,"26")){
+////                        tv_vip.text = String.format("%s",getString(R.string.string_private))
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
+//                    }else if(TextUtils.equals(it.userclassesid,"7")){
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
+//                    }else if(TextUtils.equals(it.userclassesid,"30")){
+//                        tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.ruqun_icon)
+//                    }else{
+//                        tv_vip.backgroundDrawable = null
+//                    }
 //                }
+
+                tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),this)
                 tv_sex.isSelected = TextUtils.equals("0",it.sex)
                 it.age?.let {
                     if(it.toInt()<=0){
@@ -164,20 +194,29 @@ class SettingActivity : TitleActivity() {
                         tv_sex.text = it
                     }
                 }
-                headView.setImageURI(it.picUrl)
-                tv_nick.text = it.name
-                tv_signature.text = it.intro
 
-                if(TextUtils.equals("0",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
-                    img_auther.visibility = View.GONE
-                }else{
-                    img_auther.visibility = View.VISIBLE
+                headView.setImageURI(it.picUrl)
+
+                tv_nick.text = it.name
+
+                if (!TextUtils.isEmpty(it.intro)) {
+                    tv_signature.text = it.intro
+                } else {
+                    tv_signature.text = getString(R.string.string_info)
                 }
 
-                if(it.iTalkSetting==1){
-                    tv_private_chat_type.text=resources.getString(R.string.string_linechat)
-                }else if(it.iTalkSetting==2){
-                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
+                if(TextUtils.equals("0",mData!!.screen)||TextUtils.equals("3",mData!!.screen) || mData!!.screen.isNullOrEmpty()){
+                    img_auther.backgroundDrawable = null
+                }else{
+                    img_auther.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.video_small)
+                }
+
+                if(TextUtils.equals(data.accountId,CustomerServiceId)||TextUtils.equals(data.accountId,CustomerServiceWomenId)){
+                    img_auther.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.official_iconnew)
+                }else{
+                    if(TextUtils.equals("0",it.isValid)){
+                        img_auther.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.official_forbidden_icon)
+                    }
                 }
             }
         }) { _, _ ->
@@ -185,109 +224,7 @@ class SettingActivity : TitleActivity() {
         }
     }
 
-    private fun setPrivateChatType(status:Int){
-        Request.updateTalkSetting(userId,status).request(this,false,success={msg,data->
-
-        }){code,msg->
-            showToast(msg)
-        }
-    }
-
-    private var updateurl ="https://raw.githubusercontent.com/WVector/AppUpdateDemo/master/json/json.txt"
-
-    private fun diyUpdate() {
-        val path = Environment.getExternalStorageDirectory().absolutePath
-
-        val params = HashMap<String, String>()
-
-        params["appKey"] = "ab55ce55Ac4bcP408cPb8c1Aaeac179c5f6f"
-        params["appVersion"] = "0.1.0"//AppUpdateUtils.getVersionName(this)
-        params["key1"] = "value2"
-        params["key2"] = "value3"
-
-        UpdateAppManager.Builder()
-                //必须设置，当前Activity
-                .setActivity(this)
-                //必须设置，实现httpManager接口的对象
-                .setHttpManager(UpdateAppHttpUtil())
-                //必须设置，更新地址
-                .setUpdateUrl(updateurl)
-                //以下设置，都是可选
-                //设置请求方式，默认get
-                .setPost(false)
-                //添加自定义参数，默认version=1.0.0（app的versionName）；apkKey=唯一表示（在AndroidManifest.xml配置）
-                .setParams(params)
-                //设置apk下砸路径，默认是在下载到sd卡下/Download/1.0.0/test.apk
-                .setTargetPath(path)
-                .build()
-                //检测是否有新版本
-                .checkNewApp(object : UpdateCallback() {
-                    /**
-                     * 解析json,自定义协议
-                     *
-                     * @param json 服务器返回的json
-                     * @return UpdateAppBean
-                     */
-                    override fun parseJson(json: String): UpdateAppBean {
-                        val updateAppBean = UpdateAppBean()
-                        try {
-                            val jsonObject = JSONObject(json)
-                            updateAppBean
-                                    //（必须）是否更新Yes,No
-                                    .setUpdate(jsonObject.optString("update"))
-                                    //（必须）新版本号，
-                                    .setNewVersion(jsonObject.optString("new_version"))
-                                    //（必须）下载地址jsonObject.optString("apk_file_url")
-                                    .setApkFileUrl("http://test-1251233192.coscd.myqcloud.com/1_1.apk")//http://test-1251233192.coscd.myqcloud.com/1_1.apk
-                                    //（必须）更新内容
-                                    .setUpdateLog(jsonObject.optString("update_log"))
-                                    //大小，不设置不显示大小，可以不设置
-                                    .setTargetSize(jsonObject.optString("target_size"))
-                                    //是否强制更新，可以不设置
-                                    .setConstraint(false).newMd5 = jsonObject.optString("new_md5")
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-
-                        return updateAppBean
-                    }
-
-                    /**
-                     * 有新版本
-                     *
-                     * @param updateApp        新版本信息
-                     * @param updateAppManager app更新管理器
-                     */
-                    public override fun hasNewApp(updateApp: UpdateAppBean, updateAppManager: UpdateAppManager) {
-                        //自定义对话框
-                        var mDialogUpdateApp =DialogUpdateApp()
-                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
-                        mDialogUpdateApp.show(supportFragmentManager,"updateapp")
-                        mDialogUpdateApp.setDialogListener { p, s ->
-                            updateAppManager.download()
-                        }
-                    }
-
-                    /**
-                     * 网络请求之前
-                     */
-                    public override fun onBefore() {
-                        dialog()
-                    }
-
-                    /**
-                     * 网路请求之后
-                     */
-                    public override fun onAfter() {
-                       dismissDialog()
-                    }
-
-                    /**
-                     * 没有新版本
-                     */
-                    public override fun noNewApp(error: String?) {
-                        showToast("没有新版本")
-                    }
-                })
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

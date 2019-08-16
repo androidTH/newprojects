@@ -3,6 +3,7 @@ package com.d6.android.app.widget
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.d6.android.app.R
@@ -34,12 +35,18 @@ class ProgressDialog : Dialog {
         }
     }
 
-    fun setMessage(message: CharSequence) {
+    fun setMessage(message: CharSequence,visibility:Boolean = true) {
 
         if (mMessageView == null) {
             mMessage = message
         } else {
             mMessageView?.text = message
+        }
+
+        if(visibility){
+            mMessageView?.visibility=View.VISIBLE
+        }else{
+            mMessageView?.visibility=View.GONE
         }
     }
 }
