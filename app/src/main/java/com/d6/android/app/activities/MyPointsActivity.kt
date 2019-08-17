@@ -81,8 +81,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 }
             }else if(mUserPoints.iType==16||mUserPoints.iType==17||mUserPoints.iType==18){
-                mUserPoints.iSenduserid?.let {
-                    startActivity<UserInfoActivity>("id" to "${it}")
+                if(mUserPoints.iSenduserid!=0){
+                    startActivity<UserInfoActivity>("id" to "${mUserPoints.iSenduserid}")
                 }
             }
         }

@@ -114,10 +114,15 @@ class RecommendDateActivity : BaseActivity() {
         if(!TextUtils.equals(getTodayTime(),lastTime)){
             getProvinceData()
         }else{
-            var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-            setLocationCity()
-            ProvinceData?.add(0,province)
-            mPopupArea.setData(ProvinceData)
+            try{
+                var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                setLocationCity()
+                ProvinceData?.add(0,province)
+                mPopupArea.setData(ProvinceData)
+            }catch(e:Exception){
+                e.printStackTrace()
+                getProvinceData()
+            }
         }
 
         mRecommentTypes.add(RecommentType("全部",""))

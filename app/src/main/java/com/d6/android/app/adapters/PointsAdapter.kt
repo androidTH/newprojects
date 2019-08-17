@@ -32,7 +32,7 @@ class PointsAdapter(mData: ArrayList<UserPoints>) : HFRecyclerAdapter<UserPoints
             tv_nums.textColor = ContextCompat.getColor(context, R.color.color_68BFFF)
         }
 
-        if (data.iType == 16 || data.iType == 17 || data.iType == 18) {
+        if (data.iType == 16 || data.iType == 17||data.iType==18) {
             data.sPointdesc?.let {
                 var index = it.indexOf("@${data.sSendUserName}")
                 var str = it.replace("@${data.sSendUserName}", "${data.sSendUserName}")

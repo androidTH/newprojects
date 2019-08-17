@@ -25,6 +25,7 @@ import org.jetbrains.anko.toast
 import java.lang.ref.WeakReference
 import android.text.style.ForegroundColorSpan
 import com.d6.android.app.models.InviteLinkBean
+import org.jetbrains.anko.startActivity
 
 
 /**
@@ -122,33 +123,42 @@ class InviteGoodFriendsActivity : BaseActivity(){
         }
     }
 
-    private fun setInviteGoodFriendsUI(mInviteLinkBean:InviteLinkBean){
-            if(mInviteLinkBean.iInviteFlower>0){
-                tv_goodfriends_money.visibility = View.VISIBLE
-            }else{
-                tv_goodfriends_money.visibility = View.GONE
+    private fun setInviteGoodFriendsUI(mInviteLinkBean: InviteLinkBean) {
+        if (mInviteLinkBean.iInviteFlower > 0) {
+            tv_goodfriends_money.visibility = View.VISIBLE
+        } else {
+            tv_goodfriends_money.visibility = View.GONE
+        }
+
+        if (!TextUtils.isEmpty(mInviteLinkBean.sInviteUserName)) {
+            var yqpeople = "我的邀请人：${mInviteLinkBean.sInviteUserName}"
+            var yqspan = SpannableStringBuilder(yqpeople)
+            yqspan.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.color_F7AB00)),yqpeople.length - mInviteLinkBean.sInviteUserName.length, yqpeople.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            tv_yq_user.text = yqspan
+        } else {
+            tv_yq_user.text = "我的邀请人：无"
+        }
+
+        var str_people = "累计已邀请: ${mInviteLinkBean.iInviteCount}人"
+        var span = SpannableStringBuilder(str_people)
+        span.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.color_F7AB00)), 7, str_people.length - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_invite_nums.text = span
+
+        var str = "累计奖励: ${mInviteLinkBean.iInviteFlower}朵小红花 ${mInviteLinkBean.iInvitePoint}积分"
+        var len = "${mInviteLinkBean.iInvitePoint}".length
+        var style = SpannableStringBuilder(str)
+
+        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.color_F7AB00)), 6, str.length - 7 - len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this, R.color.color_F7AB00)), 12, str.length - 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_invite_reward.text = style
+        iv_invitationfriends_qcode.setImageURI(mInviteLinkBean.sInviteLinkPic)
+        tv_invitationfriends_desc.text = mInviteLinkBean.sInviteDesc
+
+        tv_yq_user.setOnClickListener {
+            if (!TextUtils.isEmpty(mInviteLinkBean.sInviteUserId)) {
+                startActivity<UserInfoActivity>("id" to "${mInviteLinkBean.sInviteUserId}")
             }
-
-            if(!TextUtils.isEmpty(mInviteLinkBean.sInviteUserName)){
-                tv_yq_user.text = "我的邀请人：${mInviteLinkBean.sInviteUserName}"
-            }else{
-                tv_yq_user.text = "我的邀请人：无"
-            }
-
-            var str_people = "累计已邀请: ${mInviteLinkBean.iInviteCount}人"
-            var span = SpannableStringBuilder(str_people)
-            span.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 7, str_people.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            tv_invite_nums.text = span
-
-            var str = "累计奖励: ${mInviteLinkBean.iInviteFlower}朵小红花 ${mInviteLinkBean.iInvitePoint}积分"
-            var len = "${mInviteLinkBean.iInvitePoint}".length
-            var style = SpannableStringBuilder(str)
-
-            style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, str.length - 7 - len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 12, str.length-2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            tv_invite_reward.text = style
-            iv_invitationfriends_qcode.setImageURI(mInviteLinkBean.sInviteLinkPic)
-            tv_invitationfriends_desc.text = mInviteLinkBean.sInviteDesc
+        }
     }
 
     private val shareListener by lazy {
