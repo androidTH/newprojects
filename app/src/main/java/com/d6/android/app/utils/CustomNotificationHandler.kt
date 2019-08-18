@@ -3,9 +3,11 @@ package com.d6.android.app.utils
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
+import android.util.Log
 import android.widget.Toast
 import com.d6.android.app.activities.InviteGoodFriendsActivity
 import com.d6.android.app.activities.MyDateActivity
+import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
 import com.umeng.message.UmengNotificationClickHandler
 import com.umeng.message.entity.UMessage
@@ -57,7 +59,7 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
             val type = msg.extra["type"]
             val intent: Intent? = null
             if (TextUtils.equals(type,"1")) {
-                (context as BaseActivity).startActivity<MyDateActivity>()
+                (context as BaseActivity).startActivity<MyPointsActivity>()
             } else if (TextUtils.equals(type,"2")) {
                 (context as BaseActivity).startActivity<MyDateActivity>()
             }else if (TextUtils.equals(type,"8")){
