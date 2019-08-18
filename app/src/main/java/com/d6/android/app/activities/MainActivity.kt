@@ -377,11 +377,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         getPermission()
 
         RongIM.setGroupInfoProvider(this,true)
-
-//
-//        var mRewardTipsDialog = CheckInPointsDialog()
-//        mRewardTipsDialog.arguments = bundleOf("points" to "20")
-//        mRewardTipsDialog.show(supportFragmentManager,"rewardtips")
     }
 
     fun judgeDataB() {
@@ -443,6 +438,14 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                         mLoginOutTipDialog.show(supportFragmentManager, "action")
                     }
                 }
+
+
+                if(!TextUtils.equals(it.userclassesid,"7")){
+                    var mCheckInPointsDialog = CheckInPointsDialog()
+                    mCheckInPointsDialog.arguments = bundleOf("points" to "20")
+                    mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")
+                }
+
                 /*2.5移除
                 if(showFloatManService()){
                     rl_service.visibility = View.GONE

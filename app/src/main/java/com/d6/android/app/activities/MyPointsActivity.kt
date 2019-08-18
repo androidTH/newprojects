@@ -122,6 +122,15 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             startActivity<PrivilegeDescActivity>()
         }
 
+        mHeaderView.tv_work_createdate.setOnClickListener {
+            startActivity<PublishFindDateActivity>()
+        }
+
+        mHeaderView.tv_work_square.setOnClickListener {
+            startActivity<ReleaseNewTrendsActivity>()
+        }
+
+
         mHeaderView.tv_cash_money.setOnClickListener {
               val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
               if(TextUtils.equals("7",className)){
@@ -289,9 +298,15 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if(!TextUtils.equals(it.userclassesid, "7")){
                     mHeaderView.view_top_bottom.visibility = View.VISIBLE
                     mHeaderView.rl_redwallet.visibility = View.VISIBLE
+                    mHeaderView.rl_mypoints_checkin.visibility = View.VISIBLE
+                    mHeaderView.rl_mypoints_square.visibility = View.VISIBLE
+                    mHeaderView.rl_mypoints_createdate.visibility = View.VISIBLE
                 }else{
                     mHeaderView.rl_redwallet.visibility = View.GONE
                     mHeaderView.view_top_bottom.visibility = View.GONE
+                    mHeaderView.rl_mypoints_checkin.visibility = View.GONE
+                    mHeaderView.rl_mypoints_square.visibility = View.GONE
+                    mHeaderView.rl_mypoints_createdate.visibility = View.GONE
                 }
 
                 mUserInfo = data

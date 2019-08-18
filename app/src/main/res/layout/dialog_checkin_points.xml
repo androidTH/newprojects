@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@mipmap/daycoin_bg_get"
+                android:background="@mipmap/daycoin_bg"
                 android:orientation="vertical">
 
                 <TextView
@@ -58,18 +58,20 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_first_checkin_points"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="+50积分"
-                    android:textColor="@color/color_F7AB00"
+                    android:text="为签到"
+                    android:textColor="@color/color_A6A6A6"
                     android:textSize="10sp" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_second_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
@@ -88,6 +90,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_second_checkin_points"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:layout_alignParentBottom="true"
@@ -100,6 +103,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_three_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -116,6 +120,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/tv_three_checkin_points"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:layout_alignParentBottom="true"
@@ -138,11 +143,11 @@
 
         <!--android:background="@drawable/shape_orange_4r"-->
         <TextView
-            android:id="@+id/tv_checkin"
+            android:id="@+id/tv_checkin_action"
             android:layout_width="240dp"
             android:layout_height="45dp"
             android:layout_margin="16dp"
-            android:background="@drawable/shape_80orange_4r"
+            android:background="@drawable/shape_orange_4r"
             android:gravity="center"
             android:text="今日已签到"
             android:textColor="@color/white"

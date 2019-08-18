@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_checkin_points.*
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -64,7 +66,7 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
         super.onViewCreated(view, savedInstanceState)
 
 //        fromType = arguments.getString("fromType","")
-        tv_checkin.setOnClickListener {
+        tv_checkin_action.setOnClickListener {
              dismissAllowingStateLoss()
         }
 
@@ -72,7 +74,29 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-       if(arguments !=null){
+        rl_first_day.setOnClickListener {
+            rl_first_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+            tv_first_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+            tv_first_checkin_points.text = "+50积分"
+            tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+        }
+
+        rl_second_day.setOnClickListener {
+            rl_second_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+            tv_second_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+            tv_second_checkin_points.text = "+50积分"
+            tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+        }
+
+        rl_three_day.setOnClickListener {
+            rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+            tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+            tv_three_checkin_points.text = "+150积分"
+            tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+        }
+
+
+        if (arguments != null) {
 
         }
     }
