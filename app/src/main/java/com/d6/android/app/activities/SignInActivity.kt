@@ -341,13 +341,7 @@ class SignInActivity : TitleActivity() {
             setResult(Activity.RESULT_OK)
             finish()
         }){code,msg->
-            if(TextUtils.equals("0","${code}")){
-                startActivity<SetUserInfoActivity>()
-                setResult(Activity.RESULT_OK)
-                finish()
-            }else{
-                toast(msg)
-            }
+            toast(msg)
         }
     }
 
