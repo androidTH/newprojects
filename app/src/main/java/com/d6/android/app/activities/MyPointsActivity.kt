@@ -3,7 +3,10 @@ package com.d6.android.app.activities
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.PointsAdapter
@@ -17,12 +20,14 @@ import com.d6.android.app.easypay.enums.HttpType
 import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.InviteLinkBean
 import com.d6.android.app.models.PointRule
 import com.d6.android.app.models.UserData
 import com.d6.android.app.models.UserPoints
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.AppUtils.Companion.setTextViewSpannable
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_mypoints.*
@@ -46,6 +51,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private var pageNum = 1
     private val mUserPoints = ArrayList<UserPoints>()
+    private var mInviteLinkBean:InviteLinkBean? = null
+
     lateinit var mPointsListDialog: PointsListDialog
 
     private val mPointsAdapter by lazy {
@@ -67,9 +74,15 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         mPointsAdapter.setOnItemClickListener { view, position ->
             var mUserPoints = mUserPoints.get(position)
-            mUserPoints.sResourceId.let {
-                if(!it.isNullOrEmpty()){
-                    startActivity<SquareTrendDetailActivity>("id" to it.toString())
+            if(mUserPoints.iType!=16&&mUserPoints.iType!=17&&mUserPoints.iType!=18){
+                mUserPoints.sResourceId.let {
+                    if(!it.isNullOrEmpty()){
+                        startActivity<SquareTrendDetailActivity>("id" to it.toString())
+                    }
+                }
+            }else if(mUserPoints.iType==16||mUserPoints.iType==17||mUserPoints.iType==18){
+                if(mUserPoints.iSenduserid!=0){
+                    startActivity<UserInfoActivity>("id" to "${mUserPoints.iSenduserid}")
                 }
             }
         }
@@ -80,7 +93,12 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         tv_points_info.setOnClickListener {
             startActivity<PointExplainActivity>()
-//            startActivity<InviteGoodFriendsActivity>()
+        }
+
+        mHeaderView.rl_redwallet.setOnClickListener {
+            mInviteLinkBean?.let {
+                startActivity<InviteGoodFriendsActivity>("bean" to it)
+            }
         }
 
         mHeaderView.tv_recharge.setOnClickListener {
@@ -137,6 +155,33 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     override fun onResume() {
         super.onResume()
         getData()
+        getAccountInviteLink()
+    }
+
+
+    private fun getAccountInviteLink(){
+        Request.getAccountInviteLink(getLoginToken()).request(this,false,success={msg,data->
+            data?.let {
+                if(mHeaderView!=null){
+                    if(it.iInviteCount>0){
+                        var style = SpannableStringBuilder("累计邀请: ${it.iInviteCount}人")
+                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        mHeaderView.tv_redwallet_nums.text = style
+                    }
+                    if(it.iInviteFlower>0||it.iInvitePoint>0){
+                        var str = "累计收益: ${it.iInviteFlower}朵小红花 ${it.iInvitePoint}积分"
+                        var len = "${it.iInvitePoint}".length
+                        var style = SpannableStringBuilder("累计收益: ${it.iInviteFlower}朵小红花 ${it.iInvitePoint}积分")
+                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, str.length - 7 - len , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 12, str.length-2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        mHeaderView.tv_redwallet_points.text = style
+                    }
+                    mInviteLinkBean = it
+                }
+            }
+        }){code,msg->
+
+        }
     }
 
     private fun getData() {
@@ -144,7 +189,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             if (pageNum == 1) {
                 mUserPoints.clear()
             }
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data?.list?.results.isEmpty()) {
                 if (pageNum > 1) {
                     mypoints_refreshrecycler.setLoadMoreText("没有更多了")
                     pageNum--
@@ -235,11 +280,20 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.white)
                 }
 
-                if (TextUtils.equals(it.sex, "0")) {
-                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
-                } else {
-                    mHeaderView.ll_huiyuan_info.visibility = View.VISIBLE
+//                if (TextUtils.equals(it.sex, "0")) {
+//                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
+//                } else {
+//                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
+//                }
+
+                if(!TextUtils.equals(it.userclassesid, "7")){
+                    mHeaderView.view_top_bottom.visibility = View.VISIBLE
+                    mHeaderView.rl_redwallet.visibility = View.VISIBLE
+                }else{
+                    mHeaderView.rl_redwallet.visibility = View.GONE
+                    mHeaderView.view_top_bottom.visibility = View.GONE
                 }
+
                 mUserInfo = data
                 SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(it)).apply()
             }

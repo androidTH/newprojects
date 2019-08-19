@@ -141,4 +141,7 @@
     <string name="string_conversation_type">申请私聊</string>
     <string name="string_applay_date_tips">可发送消息数已用完</string>
     <string name="string_fuyue_applay_date_tips">可发送消息数已用完</string>
+    <string name="string_picsave_local">图片已保存到相册</string>
+    <string name="str_invite_top_des2"><![CDATA[· 好友购买会员，即奖励会员费20%小红花给你，最高封顶2000朵小红花]]></string>
+    <string name="checkin_content">会员福利,签到即可领取高额积分</string>
 </resources>

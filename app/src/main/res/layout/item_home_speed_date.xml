@@ -113,19 +113,21 @@
             android:layout_below="@+id/tv_address"
             android:layout_marginLeft="@dimen/margin_8"
             android:layout_marginTop="@dimen/margin_5"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
+            <!--android:background="@drawable/shape_squareorange_1r"-->
             <TextView
                 android:id="@+id/tv_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/margin_2"
-                android:background="@drawable/shape_squareorange_1r"
-                android:paddingLeft="@dimen/margin_2"
-                android:paddingTop="1dp"
-                android:paddingBottom="1dp"
-                android:paddingRight="@dimen/margin_2"
-                android:text=""
-                android:textColor="@color/color_F7AB00"
+                android:background="@drawable/shape_orange_4r"
+                android:paddingLeft="@dimen/margin_4"
+                android:paddingTop="@dimen/margin_2"
+                android:paddingBottom="@dimen/margin_2"
+                android:paddingRight="@dimen/margin_4"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 android:textSize="9sp" />
 
             <TextView

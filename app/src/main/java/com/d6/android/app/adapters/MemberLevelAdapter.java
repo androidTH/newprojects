@@ -1,7 +1,5 @@
 package com.d6.android.app.adapters;
 
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -82,8 +80,11 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
             tv_memeber_address.setVisibility(View.VISIBLE);
             tv_memeber_address.setText(item.getSServiceArea());
         }
-        AppUtils.Companion.setMemberNums(mContext,1,"直推次数: "+item.getIRecommendCount(),0,5,tv_ztnums);
+
+        AppUtils.Companion.setMemberNums(mContext,1,"直推次数: "+ (item.getIRecommendCount()==0?"无直推":item.getIRecommendCount()),0,5,tv_ztnums);
+
         AppUtils.Companion.setMemberNums(mContext,1,"有效期: "+item.getSEnableDateDesc(),0,4,tv_endtime);
+
         if(!TextUtils.isEmpty(item.getSRemark())){
             tv_remark.setVisibility(View.VISIBLE);
             view_line.setVisibility(View.VISIBLE);
@@ -95,6 +96,7 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
         Log.i("MemberLevelAdapter",item.getSServiceArea()+"会员备注,会员id ="+item.getIds());
 //        int position = (helper.getLayoutPosition() - getHeaderLayoutCount());
 //        tv_english.setTextColor(ContextCompat.getColor(mContext,R.color.color_4000000));
+        helper.setGone(R.id.iv_appviponly_pic,false);
         if(item.getIds()==22){
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_pt));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_848484));
@@ -115,6 +117,10 @@ public class MemberLevelAdapter extends BaseQuickAdapter<MemberBean,BaseViewHold
             rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_private));
             tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_s323432));
 //            tv_english.setTextColor(ContextCompat.getColor(mContext,R.color.color_C69F61));
+        }else if(item.getIds()==31){
+            helper.setGone(R.id.iv_appviponly_pic,true);
+            rl_vip_top.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_appmember));
+            tv_memeber_address.setTextColor(ContextCompat.getColor(mContext,R.color.color_s323432));
         }
               //R.color.color_848484   R.color.color_888888  R.color.color_A19BB0 R.color.color_C69F60
                                          //R.color.color_8170D2 R.color.color_323432

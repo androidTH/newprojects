@@ -14,13 +14,15 @@
         <item name="android:textSize">@dimen/textSize</item>
     </style>
 
-    <style name="lautherstyle" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="lautherstyle" parent="@android:style/Theme.Light.NoTitleBar.Fullscreen">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
 
     <style name="Theme.ProgressDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowIsFloating">true</item>
@@ -349,6 +351,16 @@
         <item name="android:textColor">@color/color_F7B500</item>
     </style>
 
+    <style name="tv_inviate_nums">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_F7AB00</item>
+    </style>
+
+    <style name="tv_inviate_tv">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/color_black</item>
+    </style>
+
     <style name="translucent" parent="AppTheme">
     </style>
 
@@ -442,4 +454,8 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
 </resources>

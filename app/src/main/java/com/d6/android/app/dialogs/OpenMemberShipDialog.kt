@@ -46,10 +46,6 @@ import org.jetbrains.anko.wrapContent
  */
 class OpenMemberShipDialog : DialogFragment() {
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
-
     private var mMemberPriceList = ArrayList<MemberBean>()
     var mMemberShipAdapter: MemberShipAdapter?=null
 

@@ -44,6 +44,10 @@ class SplashActivity : BaseActivity() {
         SPUtils.instance().getString(OPENSTALL_CHANNEL,"Openinstall")
     }
 
+    private val install_data01 by lazy{
+        SPUtils.instance().getString(Const.INSTALL_DATA01)
+    }
+
     var mMemberDesc = ArrayList<MemberDesc>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -298,7 +302,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
-        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel).request(this, false, success = { msg, data ->
+        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel,sInviteCode = install_data01).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
                     startActivityForResult<BindPhoneActivity>(2, "openId" to openId,"unionId" to unionid, "name" to name, "gender" to gender, "headerpic" to iconurl)

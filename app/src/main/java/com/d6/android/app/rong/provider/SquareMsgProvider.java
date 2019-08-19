@@ -138,6 +138,8 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
                     holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.youke_icon));
                 } else if (mSquareMsg.getUserclassesname().startsWith("入群")) {
                     holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.ruqun_icon));
+                } else if (mSquareMsg.getUserclassesname().startsWith("app")) {
+                    holder.mTvDynamicVip.setBackground(ContextCompat.getDrawable(v.getContext(), R.mipmap.app_vip));
                 } else {
                     holder.mTvDynamicVip.setVisibility(View.GONE);
                 }

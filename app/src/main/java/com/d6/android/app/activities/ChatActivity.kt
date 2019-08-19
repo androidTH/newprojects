@@ -203,7 +203,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //        }
 
         tv_openchat_apply_bottom.setOnClickListener {
-//            applyPrivateChat()
+            //            applyPrivateChat()
             Request.getUnlockTalkPoint(getLoginToken()).request(this,false,success={ msg, jsonobject->
                 jsonobject?.let {
                     var iTalkPoint = it.optInt("iTalkPoint")
@@ -441,14 +441,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
     private fun getOtherUser(){
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
-               data?.let {
-                   isValid = it.isValid.toString()
+            data?.let {
+                isValid = it.isValid.toString()
 //                   isInBlackList = it.iIsInBlackList!!.toInt()
-               }
+            }
         }){code,msg->
             if(code==2){
-               toast(msg)
-               finish()
+                toast(msg)
+                finish()
             }
         }
     }
@@ -519,15 +519,15 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
                 }else if(code == 5){//对方的私聊设置为直接私聊
-                     if(TextUtils.equals("1",sex)){
-                         sendCount = it.optInt("iTalkCount")
-                         setIsNotShowPoints()
-                         IsAgreeChat = true
-                         relative_tips.visibility = View.GONE
-                     }else{
-                         IsAgreeChat = true
-                         relative_tips.visibility = View.GONE
-                     }
+                    if(TextUtils.equals("1",sex)){
+                        sendCount = it.optInt("iTalkCount")
+                        setIsNotShowPoints()
+                        IsAgreeChat = true
+                        relative_tips.visibility = View.GONE
+                    }else{
+                        IsAgreeChat = true
+                        relative_tips.visibility = View.GONE
+                    }
 //                    ---checkISFirstSendMsg()
                     fragment?.let {
                         it.doIsNotSendMsg(false, resources.getString(R.string.string_other_agreee_openchat))
@@ -543,7 +543,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         it.doIsNotSendMsg(true, getString(R.string.string_addblacklist_toast))
                     }
                 }else if(code==9){ //报名约会
-                     //iTalkCount:已发出的聊天消息次数  iAllTalkCount：总的聊天消息次数
+                    //iTalkCount:已发出的聊天消息次数  iAllTalkCount：总的聊天消息次数
                     SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
                     sendCount = it.optInt("iTalkCount")
                     SendMsgTotal = it.optInt("iAllTalkCount")

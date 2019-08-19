@@ -14,13 +14,11 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
-import cn.liaox.cachelib.CacheDbManager
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.IntegralExplain
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*

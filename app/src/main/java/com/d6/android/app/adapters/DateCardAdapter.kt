@@ -181,6 +181,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
             }else if(TextUtils.equals(data.userclassesid,"30")){
                 tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
+            }else if(TextUtils.equals(data.userclassesid,"31")){
+                tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.app_vip)
             }else{
                 tv_vip.backgroundDrawable = null
                 tv_vip.visibility = View.GONE

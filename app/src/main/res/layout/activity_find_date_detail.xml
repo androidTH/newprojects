@@ -223,24 +223,23 @@
     <LinearLayout
         android:id="@+id/ll_finddate_details"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="68dp"
         android:layout_alignParentBottom="true"
         android:background="@color/color_E6FFFFFF"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_contact"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_45"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_width="190dp"
+            android:layout_height="@dimen/height_30"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:text="联系专属客服"
-            android:textColor="@color/color_F7AB00"
+            android:background="@drawable/shape_orange_4r"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="14sp" />
-
-        <!--android:background="@drawable/orange_gray_selector"-->
+            android:textSize="13sp" />
 
 
         <TextView
@@ -249,7 +248,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
-            android:layout_marginBottom="@dimen/margin_15"
+            android:layout_marginTop="@dimen/margin_5"
             android:gravity="center"
             android:text="@string/date_wenan"
             android:textColor="@color/color_888888"

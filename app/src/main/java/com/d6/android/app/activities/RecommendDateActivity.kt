@@ -114,10 +114,15 @@ class RecommendDateActivity : BaseActivity() {
         if(!TextUtils.equals(getTodayTime(),lastTime)){
             getProvinceData()
         }else{
-            var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-            setLocationCity()
-            ProvinceData?.add(0,province)
-            mPopupArea.setData(ProvinceData)
+            try{
+                var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                setLocationCity()
+                ProvinceData?.add(0,province)
+                mPopupArea.setData(ProvinceData)
+            }catch(e:Exception){
+                e.printStackTrace()
+                getProvinceData()
+            }
         }
 
         mRecommentTypes.add(RecommentType("全部",""))
@@ -125,7 +130,7 @@ class RecommendDateActivity : BaseActivity() {
         mRecommentTypes.add(RecommentType("救火","1"))
         mRecommentTypes.add(RecommentType("征求","2"))
         mRecommentTypes.add(RecommentType("急约","3"))
-        mRecommentTypes.add(RecommentType("旅行约","4"))
+        mRecommentTypes.add(RecommentType("旅行","4"))
 
         mFragments.add(RecommendDateQuickFragment.newInstance("",""))
         mFragments.add(RecommendDateQuickFragment.newInstance("5",""))

@@ -5,10 +5,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +27,14 @@ import com.d6.android.app.R;
 import com.d6.android.app.adapters.CardChatManTagAdapter;
 import com.d6.android.app.models.MyDate;
 import com.d6.android.app.models.UserTag;
+import com.d6.android.app.widget.CircleImageView;
 import com.d6.android.app.widget.ScreenUtil;
 import com.d6.android.app.widget.frescohelper.FrescoUtils;
 import com.d6.android.app.widget.frescohelper.IResult;
 import com.facebook.binaryresource.FileBinaryResource;
 import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -122,6 +126,29 @@ public class LongImageUtils {
             }
         });
         sMediaScannerConnection.connect();
+    }
+
+    public <T extends View> T getViewById(View view,@IdRes int resId){
+        return view.findViewById(resId);
+    }
+
+    public Bitmap getInviteGoodFriendsBitmap(Activity activity,String name,String content,List<Bitmap> mBitmaps){
+        int itemWidth = ScreenUtil.getScreenWidth(activity);
+        View mShareFriendsLayout = activity.getLayoutInflater().inflate(R.layout.share_friends_layout, null);
+        CircleImageView headerView = getViewById(mShareFriendsLayout,R.id.iv_invitationfriends_circleheadView);
+        headerView.setImageBitmap(mBitmaps.get(0));
+        TextView  tv_invitationfriends_username = getViewById(mShareFriendsLayout,R.id.tv_invitationfriends_username);
+        TextView tv_invitationfriends_desc = getViewById(mShareFriendsLayout,R.id.tv_invitationfriends_desc);
+        ImageView iv_invitationfriends_qcode = getViewById(mShareFriendsLayout,R.id.iv_invitationfriends_qcode);
+        tv_invitationfriends_username.setText(name);
+        tv_invitationfriends_desc.setText(content);
+        iv_invitationfriends_qcode.setImageBitmap(mBitmaps.get(0));
+        mShareFriendsLayout.measure(View.MeasureSpec.makeMeasureSpec(itemWidth , View.MeasureSpec.EXACTLY), 0);
+        mShareFriendsLayout.layout(0, 0, itemWidth, mShareFriendsLayout.getMeasuredHeight());
+        mShareFriendsLayout.setDrawingCacheEnabled(true);
+        mShareFriendsLayout.buildDrawingCache();
+        mShareFriendsLayout.setDrawingCacheBackgroundColor(Color.WHITE);
+        return mShareFriendsLayout.getDrawingCache();
     }
 
 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingBottom="@dimen/margin_20"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_65">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="开通APP会员"
+            android:textColor="@color/color_black"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:textSize="17sp"
+            android:textStyle="bold"  />
+
+        <ImageView
+            android:id="@+id/iv_appmember_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:src="@mipmap/icon_close_orange" />
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_DBDBDB"/>
+
+    <TextView
+        android:id="@+id/tv_appmember_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/color_888888"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:text="人工服务约会地区"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_appmember_price_list"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/color_888888"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_20"
+        android:visibility="gone"
+        android:text="自动订阅，到期会自动扣费并续订服务，如需取消前往应用商品的设置页面去定订阅。"/>
+
+    <TextView
+        android:id="@+id/tv_wxpay_appmember"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_20"
+        android:background="@drawable/shape_4r_8054"
+        android:gravity="center"
+        android:text="微信支付"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="17sp" />
+    <TextView
+        android:id="@+id/tv_wxpay_price"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_45"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:textSize="11sp" />
+</LinearLayout>

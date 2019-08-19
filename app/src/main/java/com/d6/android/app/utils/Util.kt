@@ -646,10 +646,14 @@ fun checkLimitEx(str:String):Boolean{
 
 fun checkJoinWx(str:String):Boolean{
     var limitEx = "[0-9a-zA-z]{6,}"
+    var limitEx01 = "wx-QQ-加Q-Q号-企鹅号-微信-薇信-加v-加V-vx-VX"
     var pattern = Pattern.compile(limitEx)
     var m = pattern.matcher(str)
     if(m.find()){
         return true
+    }
+    if(limitEx01.contains(str)){
+         return true
     }
     return false
 }
@@ -953,6 +957,8 @@ fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
     } else if(TextUtils.equals(levelId, "30")){
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
+    } else if(TextUtils.equals(levelId, "31")){
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.app_vip)
     }
     return mDrawable
 }
@@ -979,6 +985,8 @@ fun getLevelDrawableOfClassName(name:String,mContext:Context):Drawable?{
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
     } else if (name.indexOf("入群")!=-1) {
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
+    }else if (name.indexOf("app")!=-1) {
+        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.app_vip)
     }
    return mDrawable
 }

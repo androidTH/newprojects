@@ -391,15 +391,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="咨询会员问题可联系 "
+                android:text="咨询会员问题可 "
                 android:textColor="@color/color_666666"
+                android:textStyle="bold"
                 android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="客服 "
-                android:textColor="@color/color_F7AB00"
+                android:text="联系客服"
+                android:background="@drawable/shape_orange_4r"
+                android:textColor="@color/white"
+                android:paddingTop="@dimen/margin_2"
+                android:paddingBottom="@dimen/margin_2"
+                android:paddingLeft="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_5"
+                android:textStyle="bold"
                 android:textSize="14sp" />
         </LinearLayout>
     </RelativeLayout>

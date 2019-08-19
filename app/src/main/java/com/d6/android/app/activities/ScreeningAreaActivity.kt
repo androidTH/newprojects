@@ -127,16 +127,20 @@ class ScreeningAreaActivity : BaseActivity() {
             if (!TextUtils.equals(getTodayTime(), lastTime)) {
                 getServiceProvinceData()
             } else {
-                var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
-                mProvinces.clear()
-                setLocationCity()
-                data?.let {
-                    it.add(0, province)
-                    mProvinces.addAll(it)
-                    mCities.addAll(it)
-                    mProciceAdapter.setNewData(mProvinces)
-                    mCityOfProviceAdapter.setNewData(mCities)
-                    tv_menu_toptitle.text = mProvinces.get(0).name
+                try{
+                    var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
+                    mProvinces.clear()
+                    setLocationCity()
+                    data?.let {
+                        it.add(0, province)
+                        mProvinces.addAll(it)
+                        mCities.addAll(it)
+                        mProciceAdapter.setNewData(mProvinces)
+                        mCityOfProviceAdapter.setNewData(mCities)
+                        tv_menu_toptitle.text = mProvinces.get(0).name
+                    }
+                }catch(e:Exception){
+                    getServiceProvinceData()
                 }
             }
         }

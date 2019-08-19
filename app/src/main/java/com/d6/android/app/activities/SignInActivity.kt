@@ -23,6 +23,7 @@ import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMAuthListener
@@ -42,6 +43,10 @@ class SignInActivity : TitleActivity() {
 
     private var countryCode = "+86"
     private var type = 1
+
+    private val install_data01 by lazy{
+        SPUtils.instance().getString(Const.INSTALL_DATA01)
+    }
 
     private val wxApi by lazy {
         WXAPIFactory.createWXAPI(this, "wx43d13a711f68131c")
@@ -309,7 +314,7 @@ class SignInActivity : TitleActivity() {
         }
         sysErr("------->$p")
         dialog()
-        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel).request(this,false,success={ msg, data ->
+        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel,sInviteCode = install_data01).request(this,false,success={ msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -322,6 +327,7 @@ class SignInActivity : TitleActivity() {
             }
             clearLoginToken()
             saveUserInfo(data)
+            SPUtils.instance().put(INSTALL_DATA01,"").apply()
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                 RongIM.getInstance().refreshUserInfoCache(info)
@@ -336,18 +342,12 @@ class SignInActivity : TitleActivity() {
             setResult(Activity.RESULT_OK)
             finish()
         }){code,msg->
-            if(TextUtils.equals("0","${code}")){
-                startActivity<SetUserInfoActivity>()
-                setResult(Activity.RESULT_OK)
-                finish()
-            }else{
-                toast(msg)
-            }
+            toast(msg)
         }
     }
 
     private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
-        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel).request(this, false, success = { msg, data ->
+        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel,sInviteCode = install_data01).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
                     startActivityForResult<BindPhoneActivity>(2, "openId" to openId,"unionId" to unionid, "name" to name, "gender" to gender, "headerpic" to iconurl)
@@ -363,6 +363,7 @@ class SignInActivity : TitleActivity() {
                         }
                     }
                     saveUserInfo(it)
+                    SPUtils.instance().put(INSTALL_DATA01,"").apply()
                     val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
                     RongIM.getInstance().refreshUserInfoCache(info)
                     if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称

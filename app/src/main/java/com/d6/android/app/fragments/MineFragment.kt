@@ -153,6 +153,7 @@ class MineFragment : BaseFragment() {
 
         rl_wallet.setOnClickListener {
             startActivity<MyPointsActivity>()
+            iv_reddot.visibility = View.GONE
         }
 
         ll_mine_points.setOnClickListener {
@@ -213,6 +214,7 @@ class MineFragment : BaseFragment() {
             sv_service.visibility = View.VISIBLE
             sw_mine_off.visibility = View.GONE
         }
+
 
     }
 
@@ -370,10 +372,21 @@ class MineFragment : BaseFragment() {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
                     drawable = ContextCompat.getDrawable(context, R.mipmap.ruqun_icon)
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-                } else{
+                } else if(TextUtils.equals(it.userclassesid,"31")){
+                    tv_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.app_vip)
+                    drawable = ContextCompat.getDrawable(context, R.mipmap.app_vip)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+                }else{
                     tv_vip.visibility = View.GONE
                     drawable = null
                     tv_menber_center.text = getString(R.string.string_vip_tq)
+                }
+
+                if(!TextUtils.equals(it.userclassesid, "7")){
+                    tv_goodfirends.text = "邀请好友入会赢现金奖励"
+                    tv_goodfirends.visibility = View.VISIBLE
+                }else{
+                    tv_goodfirends.visibility = View.GONE
                 }
 
                 tv_menber_center.setCompoundDrawables(drawable, null, null, null)

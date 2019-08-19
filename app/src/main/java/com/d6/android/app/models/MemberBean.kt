@@ -20,6 +20,7 @@ class MemberBean(var ids:Int?=0):Parcelable{
     var talkcount:String?=""
     var iAndroidAPrice:Int?=0
     var iAndroidPrice:Int?=0
+    var iAndroidYPrice:Int?=0
     var iEnableDate:Int?=0
     var sEnableDateDesc=""
     var sTitle:String?=""
@@ -27,10 +28,17 @@ class MemberBean(var ids:Int?=0):Parcelable{
     var iRecommendCount:Int?=0
     var sDesc:String?=""
     var sRemarkTop:String?=""
+    var sAndroidPriceDiscount:String?=""
+    var sAndroidAPriceDiscount:String?=""
+    var sAndroidYPriceDiscount:String?=""
+    var sAndroidPriceDiscountDesc:String?=""
+    var sAndroidAPriceDiscountDesc:String?=""
+    var sAndroidYPriceDiscountDesc:String?=""
     var sRemark:String?=""
     var iIsPayapp:Int?=0
+    var lstPrice:List<AppMemberPrice>?=null
 
-    constructor(parcel: Parcel) : this(parcel.readInt()) {
+    constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         iAddPoint = parcel.readString()
         sAddPointDesc = parcel.readString()
         classesname = parcel.readString()
@@ -41,25 +49,23 @@ class MemberBean(var ids:Int?=0):Parcelable{
         talkcount = parcel.readString()
         iAndroidAPrice = parcel.readValue(Int::class.java.classLoader) as? Int
         iAndroidPrice = parcel.readValue(Int::class.java.classLoader) as? Int
+        iAndroidYPrice = parcel.readValue(Int::class.java.classLoader) as? Int
         iEnableDate = parcel.readValue(Int::class.java.classLoader) as? Int
         sEnableDateDesc = parcel.readString()
         sTitle = parcel.readString()
         sServiceArea = parcel.readString()
         iRecommendCount = parcel.readValue(Int::class.java.classLoader) as? Int
         sDesc = parcel.readString()
-        sRemark = parcel.readString()
         sRemarkTop = parcel.readString()
+        sAndroidPriceDiscount = parcel.readString()
+        sAndroidAPriceDiscount = parcel.readString()
+        sAndroidYPriceDiscount = parcel.readString()
+        sAndroidPriceDiscountDesc = parcel.readString()
+        sAndroidAPriceDiscountDesc = parcel.readString()
+        sAndroidYPriceDiscountDesc = parcel.readString()
+        sRemark = parcel.readString()
         iIsPayapp = parcel.readValue(Int::class.java.classLoader) as? Int
-    }
-
-    companion object CREATOR : Parcelable.Creator<MemberBean> {
-        override fun createFromParcel(parcel: Parcel): MemberBean {
-            return MemberBean(parcel)
-        }
-
-        override fun newArray(size: Int): Array<MemberBean?> {
-            return arrayOfNulls(size)
-        }
+        lstPrice = parcel.createTypedArrayList(AppMemberPrice)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -74,18 +80,37 @@ class MemberBean(var ids:Int?=0):Parcelable{
         parcel.writeString(talkcount)
         parcel.writeValue(iAndroidAPrice)
         parcel.writeValue(iAndroidPrice)
+        parcel.writeValue(iAndroidYPrice)
         parcel.writeValue(iEnableDate)
         parcel.writeString(sEnableDateDesc)
         parcel.writeString(sTitle)
         parcel.writeString(sServiceArea)
         parcel.writeValue(iRecommendCount)
         parcel.writeString(sDesc)
-        parcel.writeString(sRemark)
         parcel.writeString(sRemarkTop)
+        parcel.writeString(sAndroidPriceDiscount)
+        parcel.writeString(sAndroidAPriceDiscount)
+        parcel.writeString(sAndroidYPriceDiscount)
+        parcel.writeString(sAndroidPriceDiscountDesc)
+        parcel.writeString(sAndroidAPriceDiscountDesc)
+        parcel.writeString(sAndroidYPriceDiscountDesc)
+        parcel.writeString(sRemark)
         parcel.writeValue(iIsPayapp)
+        parcel.writeTypedList(lstPrice)
     }
 
     override fun describeContents(): Int {
         return 0
     }
+
+    companion object CREATOR : Parcelable.Creator<MemberBean> {
+        override fun createFromParcel(parcel: Parcel): MemberBean {
+            return MemberBean(parcel)
+        }
+
+        override fun newArray(size: Int): Array<MemberBean?> {
+            return arrayOfNulls(size)
+        }
+    }
+
 }

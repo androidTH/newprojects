@@ -76,7 +76,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         var cashmoney =  if(arguments.containsKey("cashmoney")){
             arguments.getString("cashmoney")
         }else{
-            ""
+            "0"
         }
         tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
 

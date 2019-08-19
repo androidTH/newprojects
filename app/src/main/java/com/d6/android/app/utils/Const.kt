@@ -202,4 +202,10 @@ object Const {
 
     @JvmField
     var CHAT_TARGET_ID = ""
+
+    @JvmField
+    var INSTALL_DATA01 = "install_data01"
+
+    @JvmField
+    var INSTALL_DATA02 = "install_data02"
 }
