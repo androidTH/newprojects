@@ -4,23 +4,18 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
-import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.IntegralExplain
-import com.d6.android.app.models.MyAppointment
-import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_checkin_points.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
@@ -65,7 +60,6 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        fromType = arguments.getString("fromType","")
         tv_checkin_action.setOnClickListener {
              dismissAllowingStateLoss()
         }
@@ -79,6 +73,7 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
             tv_first_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
             tv_first_checkin_points.text = "+50积分"
             tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+            showRewardTipsDialog("50")
         }
 
         rl_second_day.setOnClickListener {
@@ -86,25 +81,24 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
             tv_second_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
             tv_second_checkin_points.text = "+50积分"
             tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+            showRewardTipsDialog("50")
         }
 
         rl_three_day.setOnClickListener {
-            rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+            rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.day3coin_yetbg)
             tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
             tv_three_checkin_points.text = "+150积分"
             tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
-        }
-
-
-        if (arguments != null) {
-
+            showRewardTipsDialog("150")
         }
     }
 
-    private fun getData() {
-        dismissAllowingStateLoss()
+    private fun showRewardTipsDialog(points:String){
         isBaseActivity {
-
+            dismissAllowingStateLoss()
+            var mRewardTipsDialog = RewardTipsDialog()
+            mRewardTipsDialog.arguments = bundleOf("points" to points)
+            mRewardTipsDialog.show(it.supportFragmentManager,"rewardtipsdialog")
         }
     }
 
