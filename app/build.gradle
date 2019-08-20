@@ -5,7 +5,7 @@ apply plugin: 'com.bugtags.library.plugin'
 
 android {
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 26
+    compileSdkVersion 28
     buildToolsVersion "26.0.2"
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "com.d6.android.app"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 39 //32 2.2.1
         versionName "2.8.0"
         // Enabling multiDex support.
