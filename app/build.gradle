@@ -6,7 +6,6 @@ apply plugin: 'com.bugtags.library.plugin'
 android {
     useLibrary 'org.apache.http.legacy'
     compileSdkVersion 28
-    buildToolsVersion "26.0.2"
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
 
