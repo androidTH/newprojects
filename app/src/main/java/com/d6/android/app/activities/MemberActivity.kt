@@ -95,13 +95,17 @@ class MemberActivity : BaseActivity() {
                                     rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
                                 }
 
-                                tv_mem_memberztnums.visibility = View.VISIBLE
-                                tv_data_address.visibility =View.VISIBLE
-                                view_line.visibility = View.VISIBLE
-
                                 if(TextUtils.equals("1",sex.toString())){
                                     tv_data_address.text = it.sServiceArea
-                                    AppUtils.setMemberNums(this, 2,"直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
+                                    if(it.iRecommendCount!!>0){
+                                        view_line.visibility = View.VISIBLE
+                                        tv_mem_memberztnums.visibility = View.VISIBLE
+                                        AppUtils.setMemberNums(this, 2,"直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
+                                    }
+
+                                    if(!TextUtils.isEmpty(it.sServiceArea)){
+                                        tv_data_address.visibility =View.VISIBLE
+                                    }
                                 }
                             }
                         }
