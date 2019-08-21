@@ -93,13 +93,15 @@ class UnKnowInfoDialog : DialogFragment(), RequestManager {
     private fun getUserInfo() {
         isBaseActivity {
             Request.getUserInfo(getLocalUserId(),otherUserId).request(it, success = { _, data ->
-                data?.let {
-                    tv_unknow_sex.isSelected = TextUtils.equals("0", it.sex)
-                    it.age?.let {
-                        if (it.toInt() <= 0) {
-                            tv_unknow_sex.text = ""
-                        } else {
-                            tv_unknow_sex.text = it
+                data?.let{
+                    if (tv_unknow_sex != null) {
+                        tv_unknow_sex.isSelected = TextUtils.equals("0", it.sex)
+                        it.age?.let {
+                            if (it.toInt() <= 0) {
+                                tv_unknow_sex.text = ""
+                            } else {
+                                tv_unknow_sex.text = it
+                            }
                         }
                     }
                     var drawable: Drawable? = getLevelDrawable(it.userclassesid.toString(),context)
