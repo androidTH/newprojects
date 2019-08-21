@@ -54,7 +54,11 @@ public class DiskLruCacheHelper {
         String cachePath;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
                 || !Environment.isExternalStorageRemovable()) {
-            cachePath = context.getExternalCacheDir().getPath();
+            if(context.getExternalCacheDir()!=null){
+                cachePath = context.getExternalCacheDir().getPath();
+            }else{
+                cachePath = context.getCacheDir().getPath();
+            }
         } else {
             cachePath = context.getCacheDir().getPath();
         }
