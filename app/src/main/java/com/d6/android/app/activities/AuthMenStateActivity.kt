@@ -213,7 +213,7 @@ class AuthMenStateActivity : BaseActivity() {
                 if(member.ids==31){
                     tv_member_showdes.text = "(低至¥${member.iAndroidPrice}元/月)"
                 }else if(member.ids==22||member.ids==23){
-                    tv_member_showdes.text = "据说80%会员都约到了心仪的TA"
+                    tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
                 }else{
                     tv_member_showdes.text = "(¥${member.iAndroidPrice}元)"
                 }
