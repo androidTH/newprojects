@@ -25,7 +25,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW_MSG
-import com.d6.android.app.utils.Const.ISUPDOWN
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
