@@ -108,7 +108,7 @@ public class DiskFileUtils {
     public static DiskLruCacheHelper getDiskLruCacheHelper(Context context){
         DiskLruCacheHelper mDiskLruCacheHelper= null;
         try {
-            mDiskLruCacheHelper = mDiskLruCacheHelper = new DiskLruCacheHelper(context);
+            mDiskLruCacheHelper  = new DiskLruCacheHelper(context);
         } catch (IOException e) {
             e.printStackTrace();
         }
