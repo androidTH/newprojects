@@ -97,7 +97,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         mHeaderView.rl_redwallet.setOnClickListener {
             mInviteLinkBean?.let {
-                startActivity<InviteGoodFriendsActivity>("bean" to it)
+                startActivity<InviteGoodFriendsActivity>()
             }
         }
 

@@ -25,6 +25,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
+import com.fm.openinstall.OpenInstall
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI

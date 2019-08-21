@@ -12,6 +12,7 @@ import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.defaultScheduler
 import com.fm.openinstall.OpenInstall
+import com.fm.openinstall.listener.AppInstallAdapter
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import org.jetbrains.anko.startActivity
