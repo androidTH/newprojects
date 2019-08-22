@@ -130,6 +130,11 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             startActivity<ReleaseNewTrendsActivity>()
         }
 
+        mHeaderView.tv_work_checkin.setOnClickListener {
+            var mCheckInPointsDialog = CheckInPointsDialog()
+            mCheckInPointsDialog.arguments = bundleOf("points" to "20")
+            mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")
+        }
 
         mHeaderView.tv_cash_money.setOnClickListener {
               val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
@@ -302,8 +307,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mHeaderView.rl_mypoints_square.visibility = View.VISIBLE
                     mHeaderView.rl_mypoints_createdate.visibility = View.VISIBLE
                 }else{
+                    mHeaderView.view_top_bottom.visibility = View.VISIBLE
                     mHeaderView.rl_redwallet.visibility = View.GONE
-                    mHeaderView.view_top_bottom.visibility = View.GONE
                     mHeaderView.rl_mypoints_checkin.visibility = View.GONE
                     mHeaderView.rl_mypoints_square.visibility = View.GONE
                     mHeaderView.rl_mypoints_createdate.visibility = View.GONE

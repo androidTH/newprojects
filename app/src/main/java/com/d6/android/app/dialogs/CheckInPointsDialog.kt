@@ -73,7 +73,6 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
             tv_first_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
             tv_first_checkin_points.text = "+50积分"
             tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
-            showRewardTipsDialog("50")
         }
 
         rl_second_day.setOnClickListener {
@@ -81,7 +80,6 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
             tv_second_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
             tv_second_checkin_points.text = "+50积分"
             tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
-            showRewardTipsDialog("50")
         }
 
         rl_three_day.setOnClickListener {
@@ -89,6 +87,9 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
             tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
             tv_three_checkin_points.text = "+150积分"
             tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+        }
+
+        tv_checkin_action.setOnClickListener {
             showRewardTipsDialog("150")
         }
     }

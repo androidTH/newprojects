@@ -292,8 +292,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textStyle="bold"
-            android:textSize="13sp"
-            android:text="+150积分"/>
+            android:textSize="13sp"/>
         <TextView
             android:id="@+id/tv_work_checkin"
             android:layout_width="wrap_content"
@@ -308,7 +307,7 @@
             android:paddingRight="@dimen/margin_8"
             android:textStyle="bold"
             android:textSize="12sp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:text="@string/string_tasks"/>
     </RelativeLayout>
     <RelativeLayout
@@ -355,8 +354,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textStyle="bold"
-            android:textSize="13sp"
-            android:text="+150积分"/>
+            android:textSize="13sp"/>
         <TextView
             android:id="@+id/tv_work_square"
             android:layout_width="wrap_content"
@@ -371,7 +369,6 @@
             android:paddingRight="@dimen/margin_8"
             android:textStyle="bold"
             android:textSize="12sp"
-            android:visibility="gone"
             android:text="@string/string_tasks"/>
     </RelativeLayout>
     <RelativeLayout
