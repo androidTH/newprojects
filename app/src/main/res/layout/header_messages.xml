@@ -69,6 +69,18 @@
             android:padding="3dp"
             android:src="@mipmap/ic_sys_msgs" />
 
+        <com.d6.android.app.widget.DragPointView
+            android:id="@+id/iv1_sys_num"
+            android:layout_toRightOf="@+id/iv1"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/margin_2"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:layout_marginLeft="-18dp"
+            android:visibility="gone" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -145,6 +157,17 @@
             android:layout_height="45dp"
             android:padding="3dp"
             android:src="@mipmap/ic_square_msgs" />
+        <com.d6.android.app.widget.DragPointView
+            android:id="@+id/iv2_square_num"
+            android:layout_toRightOf="@+id/iv2"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/margin_2"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:layout_marginLeft="-18dp"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -207,8 +207,8 @@ class MineFragment : BaseFragment() {
 
         if(TextUtils.equals(getLocalUserId(), Const.CustomerServiceId) || TextUtils.equals(getLocalUserId(), Const.CustomerServiceWomenId)) {
             tv_service_arrow.visibility = View.VISIBLE
-            sv_service.visibility = View.VISIBLE
-            sw_mine_off.visibility = View.GONE
+            sv_service.visibility = View.GONE
+            sw_mine_off.visibility = View.VISIBLE
         }else{
             tv_service_arrow.visibility = View.VISIBLE
             sv_service.visibility = View.VISIBLE

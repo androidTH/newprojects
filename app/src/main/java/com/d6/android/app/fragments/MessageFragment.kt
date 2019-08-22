@@ -1,6 +1,5 @@
 package com.d6.android.app.fragments
 
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
@@ -23,12 +22,9 @@ import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import com.d6.android.app.widget.badge.Badge
-import com.d6.android.app.widget.badge.QBadgeView
 import io.rong.imkit.RongContext
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
-import io.rong.imkit.utils.RongDateUtils
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
@@ -57,10 +53,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         TopConversationsAdapter(mISTopConversations)
     }
 
-    private var mSquareMsg:Badge? = null
-
-    private var mBadgeSys:Badge? = null
-
     private var SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
     private var SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
 
@@ -82,17 +74,13 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         swiprefreshRecyclerlayout_msg.setOnRefreshListener(this)
 
         headerView.rl_sys.setOnClickListener {
-            mBadgeSys?.let {
-                it.hide(false)
-            }
+            headerView.iv1_sys_num.visibility = View.GONE
             SPUtils.instance().put(Const.SYSMSG_LAST_TIME, D6Application.systemTime).apply()
             startActivity<SystemMessagesActivity>()
         }
 
         headerView.rl_square.setOnClickListener {
-            mSquareMsg?.let {
-                it.hide(false)
-            }
+            headerView.iv2_square_num.visibility = View.GONE
             SPUtils.instance().put(Const.SQUAREMSG_LAST_TIME, D6Application.systemTime).apply()
             startActivity<SquareMessagesActivity>()
         }
@@ -364,17 +352,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         data.count.toString()
                     }
                     if ((data.count ?: 0) > 0) {
-                        if(mBadgeSys==null){
-                            mBadgeSys = QBadgeView(activity).bindTarget(headerView.iv1)
-                        }
-                        mBadgeSys?.let {
-                            it.badgeText = c
-                            it.setOnDragStateChangedListener { dragState, badge, targetView ->  }
-                        }
+                        headerView.iv1_sys_num.visibility = View.VISIBLE
+                        headerView.iv1_sys_num.text = c
                     } else {
-                        mBadgeSys?.let {
-                            it.hide(false)
-                        }
+                        headerView.iv1_sys_num.visibility = View.GONE
                     }
                     var sysmsg = data.list.results[0]
                     headerView.tv_content1.text = sysmsg.content
@@ -395,19 +376,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         data.count.toString()
                     }
                     if ((data.count ?: 0) > 0) {
-                        if(mSquareMsg == null){
-                            mSquareMsg = QBadgeView(activity).bindTarget(headerView.iv2)
-                        }
-                        mSquareMsg?.let {
-                            it.badgeText = c
-                            it.setGravityOffset(-3F, -2F, true)
-                                    .setOnDragStateChangedListener(Badge.OnDragStateChangedListener() { dragState, badge, targetView ->
-                                    })
-                        }
+                        headerView.iv2_square_num.visibility = View.VISIBLE
+                        headerView.iv2_square_num.text = c
                     } else {
-                        mSquareMsg?.let {
-                            it.hide(false)
-                        }
+                        headerView.iv2_square_num.visibility = View.GONE
                     }
                     var squaremsg = it.results[0];
                     if(squaremsg.content.isNullOrEmpty()){
