@@ -15,7 +15,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     val email: String? = ""
     val apptoken: String? = ""
     val phone: String? = ""
-    var sex: String? = "" //0 是女 1是南
+    var sex: String? = "" //0 是女 1是男
     var city: String? = ""
     var area: String? = ""
     @SerializedName("xingquaihao")
@@ -70,6 +70,8 @@ data class UserData(val accountId: String? = "") : Serializable {
     var sServicePicUrl:String?=""
     var dUserClassEndTime:Long?=0
     var iAnonymousCount:Int?=-1
+    var iWeekTaskPoint:Int = -1
+    var iTaskFlower:Int=-1
 
     override fun toString(): String {
 

@@ -124,7 +124,6 @@
                 android:textColor="@color/color_9CFFFFFF"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/margin_10"
-                android:text="做任务得：+200分"
                 android:id="@+id/tv_work_tips"/>
             <TextView
                 android:id="@+id/tv_recharge"
@@ -185,7 +184,6 @@
                 android:textColor="@color/color_9CFFFFFF"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/margin_10"
-                android:text="做任务得奖励：+2红花"
                 android:id="@+id/tv_work_checkin_tips"/>
 
             <TextView

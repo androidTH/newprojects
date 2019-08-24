@@ -44,6 +44,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val mLocalSex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
     private var mUserInfo: UserData? =null
 
     private var pageNum = 1
@@ -120,11 +124,11 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_work_createdate.setOnClickListener {
-            startActivity<PublishFindDateActivity>()
+            startActivity<ReleaseNewTrendsActivity>()
         }
 
         mHeaderView.tv_work_square.setOnClickListener {
-            startActivity<ReleaseNewTrendsActivity>()
+            startActivity<PublishFindDateActivity>()
         }
 
         mHeaderView.tv_work_checkin.setOnClickListener {
@@ -170,7 +174,6 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         getAccountInviteLink()
         getTaskList()
     }
-
 
     private fun getAccountInviteLink(){
         Request.getAccountInviteLink(getLoginToken()).request(this,false,success={msg,data->
@@ -253,6 +256,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 var sAddPointDesc = it.optString("sAddPointDesc")
                 mRewardTipsDialog.arguments = bundleOf("points" to "${iAddPoint}")
                 mRewardTipsDialog.show(supportFragmentManager,"rewardtipsdialog")
+
+                mHeaderView.tv_work_checkin.visibility = View.GONE
+                mHeaderView.tv_checkin_add_points.visibility = View.VISIBLE
+                mHeaderView.tv_checkin_add_points.text = "+${iAddPoint}积分"
             }
         })
     }
@@ -359,12 +366,26 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
 //                }
 
+                if(it.iWeekTaskPoint>0){
+                    mHeaderView.tv_work_tips.text = "做任务得：+${it.iWeekTaskPoint}积分"
+                }
+
+                if(it.iTaskFlower>0){
+                    mHeaderView.tv_work_checkin_tips.text = "做任务得奖励：+${it.iTaskFlower}朵红花"
+                }
+
                 if(!TextUtils.equals(it.userclassesid, "7")){
                     mHeaderView.view_top_bottom.visibility = View.VISIBLE
                     mHeaderView.rl_redwallet.visibility = View.VISIBLE
                     mHeaderView.rl_mypoints_checkin.visibility = View.VISIBLE
-                    mHeaderView.rl_mypoints_square.visibility = View.VISIBLE
-                    mHeaderView.rl_mypoints_createdate.visibility = View.VISIBLE
+
+                    if(TextUtils.equals(mLocalSex,"1")){
+                        mHeaderView.rl_mypoints_square.visibility = View.GONE
+                        mHeaderView.rl_mypoints_createdate.visibility = View.GONE
+                    }else{
+                        mHeaderView.rl_mypoints_square.visibility = View.VISIBLE
+                        mHeaderView.rl_mypoints_createdate.visibility = View.VISIBLE
+                    }
                 }else{
                     mHeaderView.view_top_bottom.visibility = View.VISIBLE
                     mHeaderView.rl_redwallet.visibility = View.GONE
