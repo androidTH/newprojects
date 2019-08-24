@@ -321,8 +321,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         tv_datechat_content.maxLines = 2
 
         if (TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
-            tv_service_time.visibility = View.VISIBLE
             root_date_chat.visibility = View.GONE
+            tv_service_time.visibility = View.VISIBLE
+            checkServiceUserOnline(mOtherUserId)
         }
 
         enterActivity()
@@ -332,6 +333,26 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         getOtherUser()
 
 //        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
+    }
+
+    //检查客服是否在线
+    private fun checkServiceUserOnline(iUserId:String){
+        Request.checkUserOnline(getLoginToken(),iUserId).request(this,success={ _, data->
+            data?.let {
+                var iOnline = it.optInt("iOnline")
+                if(iOnline==1){
+                    var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_offline)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+                    tv_service_time.setCompoundDrawables(drawable,null,null,null)
+                    tv_service_time.text = "离线:客服工作时间上午9:00-凌晨1:30, 可给客服留言"
+                }else{
+                    var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_online)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+                    tv_service_time.setCompoundDrawables(drawable,null,null,null)
+                    tv_service_time.text = "人工在线"
+                }
+            }
+        })
     }
 
     private fun showDatePoint(iTalkPoint:String,iTalkRefusePoint:Int,iTalkOverDuePoint:Int,msg:String,code:String){

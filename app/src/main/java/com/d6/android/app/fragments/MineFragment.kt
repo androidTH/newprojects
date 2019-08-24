@@ -35,6 +35,7 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
+import org.jetbrains.anko.support.v4.toast
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 
@@ -183,9 +184,9 @@ class MineFragment : BaseFragment() {
 
         sw_mine_off.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-
+                updateUserOnline(2)//1 不在线
             }else{
-
+                updateUserOnline(1)//2 在线
             }
         }
 
@@ -459,6 +460,17 @@ class MineFragment : BaseFragment() {
                 showLikeWarm(false,data.iFansCount!!.toInt(),it.iPointNew!!.toInt(),data.iVistorCount!!.toInt())
             }
         })
+    }
+
+    //客服修改在线状态
+    fun updateUserOnline(iOnline:Int){
+        Request.updateUserOnline(getLoginToken(),iOnline).request(this,success={_,data->
+             data?.let {
+                 toast("成功")
+             }
+        }){code,msg->
+            toast(msg)
+        }
     }
 
     fun showLikeWarm(showWarm:Boolean,fansCount:Int,iPoint:Int,vistorCount:Int){

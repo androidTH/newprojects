@@ -32,6 +32,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.CheckInPointsDialog
 import com.d6.android.app.dialogs.DateErrorDialog
 import com.d6.android.app.dialogs.DialogUpdateApp
 import com.d6.android.app.dialogs.MemberDialog
@@ -574,7 +575,6 @@ fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
         if(!TextUtils.isEmpty(pointDesc)){
             CustomToast.success("$pointDesc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
         }
-
     } else if(!TextUtils.isEmpty(desc)){
         CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
     }

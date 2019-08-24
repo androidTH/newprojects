@@ -134,10 +134,10 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_checkin_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_4"
-            android:text="已连续签到1天,连续3天将获得高额积分奖励"
             android:textColor="@color/color_888888"
             android:textSize="11sp" />
 
@@ -149,7 +149,7 @@
             android:layout_margin="16dp"
             android:background="@drawable/shape_orange_4r"
             android:gravity="center"
-            android:text="今日已签到"
+            android:text="签到"
             android:textColor="@color/white"
             android:textSize="15sp" />
     </LinearLayout>

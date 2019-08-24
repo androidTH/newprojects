@@ -20,10 +20,7 @@ import com.d6.android.app.easypay.enums.HttpType
 import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.InviteLinkBean
-import com.d6.android.app.models.PointRule
-import com.d6.android.app.models.UserData
-import com.d6.android.app.models.UserPoints
+import com.d6.android.app.models.*
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -131,9 +128,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_work_checkin.setOnClickListener {
-            var mCheckInPointsDialog = CheckInPointsDialog()
-            mCheckInPointsDialog.arguments = bundleOf("points" to "20")
-            mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")
+              doCheckIn()
+//            var mCheckInPointsDialog = CheckInPointsDialog()
+//            mCheckInPointsDialog.arguments = bundleOf("points" to "20")
+//            mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")
         }
 
         mHeaderView.tv_cash_money.setOnClickListener {
@@ -170,6 +168,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         super.onResume()
         getData()
         getAccountInviteLink()
+        getTaskList()
     }
 
 
@@ -196,6 +195,66 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }){code,msg->
 
         }
+    }
+
+    private fun getTaskList(){
+        Request.findUserPointStatus(getLoginToken()).request(this,false,success={msg,data->
+            data?.lstTask.let {
+                if(it!=null){
+                    for (taskBean:TaskBean in it){
+                        if(taskBean.iType == 1){
+                            mHeaderView.tv_checkin_title.text = taskBean.sTitle
+                            mHeaderView.tv_checkin_desc.text = taskBean.sDesc
+                            if(taskBean.iIsfinish==2){
+                                //是否签到 1、完成 2、未签到
+                                mHeaderView.tv_work_checkin.visibility = View.VISIBLE
+                                mHeaderView.tv_checkin_add_points.visibility = View.GONE
+                            }else{
+                                mHeaderView.tv_work_checkin.visibility = View.GONE
+                                mHeaderView.tv_checkin_add_points.visibility = View.VISIBLE
+                                mHeaderView.tv_checkin_add_points.text = "+${taskBean.iPoint}积分"
+                            }
+                        }else if(taskBean.iType==2){
+                            mHeaderView.tv_square_title.text = taskBean.sTitle
+                            mHeaderView.tv_square_desc.text = taskBean.sDesc
+                            if(taskBean.iIsfinish==2){
+                                mHeaderView.tv_work_square.visibility = View.VISIBLE
+                                mHeaderView.tv_square_add_points.visibility = View.GONE
+                            }else{
+                                mHeaderView.tv_work_square.visibility = View.GONE
+                                mHeaderView.tv_square_add_points.visibility = View.VISIBLE
+                                mHeaderView.tv_square_add_points.text = "+${taskBean.iPoint}积分"
+                            }
+                        }else if(taskBean.iType==3){
+                            mHeaderView.tv_createdate_title.text = taskBean.sTitle
+                            mHeaderView.tv_createdate_desc.text = taskBean.sDesc
+                            if(taskBean.iIsfinish==2){
+                                mHeaderView.tv_work_createdate.visibility = View.VISIBLE
+                                mHeaderView.tv_createdate_points.visibility = View.GONE
+                            }else{
+                                mHeaderView.tv_work_createdate.visibility = View.GONE
+                                mHeaderView.tv_createdate_points.visibility = View.VISIBLE
+                                mHeaderView.tv_createdate_points.text = "+${taskBean.iPoint}积分"
+                            }
+
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+
+    private fun doCheckIn(){
+        Request.signPoint(getLoginToken()).request(this,success={_,data->
+            data?.let {
+                var mRewardTipsDialog = RewardTipsDialog()
+                var iAddPoint = it.optInt("iAddPoint")
+                var sAddPointDesc = it.optString("sAddPointDesc")
+                mRewardTipsDialog.arguments = bundleOf("points" to "${iAddPoint}")
+                mRewardTipsDialog.show(supportFragmentManager,"rewardtipsdialog")
+            }
+        })
     }
 
     private fun getData() {

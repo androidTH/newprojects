@@ -10,7 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.models.TaskBean
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -60,6 +63,33 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        var listTask = if (arguments != null) {
+            arguments.getParcelableArrayList<TaskBean>("beans") as ArrayList<TaskBean>
+        } else {
+            null
+        }
+
+        if(listTask!=null){
+            for(taskBean in listTask){
+                if(taskBean.iType==1){
+                    if(taskBean.iIsfinish==1&&taskBean.iDay==1){
+                        rl_first_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+                        tv_first_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                        tv_first_checkin_points.text = "+${taskBean.iPoint}积分"
+                    }else if(taskBean.iIsfinish==1&&taskBean.iDay==2){
+                        rl_second_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+                        tv_second_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                        tv_second_checkin_points.text = "+${taskBean.iPoint}积分"
+                    }else if(taskBean.iIsfinish==1&&taskBean.iDay==3){
+                        rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.day3coin_yetbg)
+                        tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                        tv_three_checkin_points.text = "+${taskBean.iPoint}积分"
+                    }
+                    tv_checkin_days.text = "已连续签到${taskBean.iDay}天,连续3天将获得高额积分奖励"
+                }
+            }
+        }
+
         tv_checkin_action.setOnClickListener {
              dismissAllowingStateLoss()
         }
@@ -69,24 +99,15 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
         }
 
         rl_first_day.setOnClickListener {
-            rl_first_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
-            tv_first_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-            tv_first_checkin_points.text = "+50积分"
-            tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+
         }
 
         rl_second_day.setOnClickListener {
-            rl_second_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
-            tv_second_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-            tv_second_checkin_points.text = "+50积分"
-            tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+
         }
 
         rl_three_day.setOnClickListener {
-            rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.day3coin_yetbg)
-            tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-            tv_three_checkin_points.text = "+150积分"
-            tv_checkin_action.background = ContextCompat.getDrawable(context,R.drawable.shape_80orange_4r)
+
         }
 
         tv_checkin_action.setOnClickListener {
@@ -96,10 +117,16 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
 
     private fun showRewardTipsDialog(points:String){
         isBaseActivity {
-            dismissAllowingStateLoss()
-            var mRewardTipsDialog = RewardTipsDialog()
-            mRewardTipsDialog.arguments = bundleOf("points" to points)
-            mRewardTipsDialog.show(it.supportFragmentManager,"rewardtipsdialog")
+            Request.signPoint(getLoginToken()).request(it,success={_,data->
+                 data?.let {
+                     dismissAllowingStateLoss()
+                     var mRewardTipsDialog = RewardTipsDialog()
+                     var iAddPoint = it.optInt("iAddPoint")
+                     var sAddPointDesc = it.optString("sAddPointDesc")
+                     mRewardTipsDialog.arguments = bundleOf("points" to "${iAddPoint}")
+                     mRewardTipsDialog.show((context as BaseActivity).supportFragmentManager,"rewardtipsdialog")
+                 }
+            })
         }
     }
 

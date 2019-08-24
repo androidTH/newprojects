@@ -98,6 +98,19 @@ public class GsonHelper {
         }
         return list;
     }
+
+    public static <T> List<T> jsonToList(JsonArray array, Class<T> cls) {
+        try{
+            List<T> list = new ArrayList<T>();
+            for(final JsonElement elem : array){
+                list.add(getGson().fromJson(elem, cls));
+            }
+            return list;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * 转成list中有map的
      *

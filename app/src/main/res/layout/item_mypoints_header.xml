@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/margin_10"
@@ -268,6 +269,7 @@
            android:layout_marginRight="@dimen/margin_10"
            android:src="@mipmap/everydaycheck_icon"/>
         <TextView
+            android:id="@+id/tv_checkin_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="每天签到"
@@ -276,6 +278,7 @@
             android:layout_marginTop="@dimen/margin_15"
             android:layout_toRightOf="@id/iv_everydaycheck"/>
         <TextView
+            android:id="@+id/tv_checkin_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="会员福利，签到即可领取大额积分"
@@ -330,6 +333,7 @@
             android:layout_marginRight="@dimen/margin_10"
             android:src="@mipmap/dynamiccondition_icon"/>
         <TextView
+            android:id="@+id/tv_square_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="发布动态"
@@ -338,6 +342,7 @@
             android:layout_marginTop="@dimen/margin_15"
             android:layout_toRightOf="@id/iv_square_icon"/>
         <TextView
+            android:id="@+id/tv_square_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="会员福利，签到即可领取大额积分"
@@ -390,6 +395,7 @@
             android:layout_marginRight="@dimen/margin_10"
             android:src="@mipmap/date_icon"/>
         <TextView
+            android:id="@+id/tv_createdate_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="发布约会"
@@ -398,6 +404,7 @@
             android:layout_marginTop="@dimen/margin_15"
             android:layout_toRightOf="@id/iv_createdate"/>
         <TextView
+            android:id="@+id/tv_createdate_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="每天第一次发布约会即可获得50积分"
@@ -415,8 +422,7 @@
             android:layout_centerVertical="true"
             android:textStyle="bold"
             android:textSize="13sp"
-            android:visibility="gone"
-            android:text="+150积分"/>
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/tv_work_createdate"
             android:layout_width="wrap_content"
