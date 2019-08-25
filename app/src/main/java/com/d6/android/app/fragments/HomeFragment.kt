@@ -326,7 +326,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             if (data != null) {
                 var sLoginToken = data.optString("sLoginToken")
                 var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
-                if (lstTask!=null) {
+                if (lstTask!=null&&lstTask.size>0) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
                     SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
                     SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
