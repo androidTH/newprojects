@@ -69,7 +69,7 @@ class MySquareFragment : RecyclerFragment() {
 //                (activity as BaseActivity).getTrendDetail(it){
 //                    startActivityForResult<TrendDetailActivity>(1, "data" to it)
 //                }
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to it,"position" to position)
+                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
 
             }
         }
@@ -80,7 +80,7 @@ class MySquareFragment : RecyclerFragment() {
 //                (activity as BaseActivity).getTrendDetail(it){
 //                    startActivityForResult<TrendDetailActivity>(1, "data" to it)
 //                }
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to it,"position" to p)
+                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to p)
             }
         }
 

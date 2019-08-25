@@ -78,7 +78,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             if(mUserPoints.iType!=16&&mUserPoints.iType!=17&&mUserPoints.iType!=18){
                 mUserPoints.sResourceId.let {
                     if(!it.isNullOrEmpty()){
-                        startActivity<SquareTrendDetailActivity>("id" to it.toString())
+                        startActivity<SquareTrendDetailActivity>("id" to "${it}")
                     }
                 }
             }else if(mUserPoints.iType==16||mUserPoints.iType==17||mUserPoints.iType==18){

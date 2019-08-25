@@ -75,13 +75,13 @@ class SquareFragment : RecyclerFragment() {
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
             square.id?.let {
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to it,"position" to position)
+                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
             }
         }
 
         squareAdapter.setOnSquareDetailsClick { position, square ->
             square.id?.let {
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to it,"position" to position)
+                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
             }
         }
         mIsDismissDialog = true
@@ -123,7 +123,7 @@ class SquareFragment : RecyclerFragment() {
                         .setOnItemClickListener {
                             val banner = mBanners[it]
                             val ids = banner.newsid ?: ""
-                            startActivity<SquareTrendDetailActivity>("id" to ids, "position" to it)
+                            startActivity<SquareTrendDetailActivity>("id" to "${ids}", "position" to it)
                         }
                 mIsDismissDialog = false
                 getSquareList()
