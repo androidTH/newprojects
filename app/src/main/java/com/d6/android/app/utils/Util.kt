@@ -739,28 +739,30 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                  * @param updateAppManager app更新管理器
                  */
                 public override fun hasNewApp(updateApp: UpdateAppBean, updateAppManager: UpdateAppManager) {
-                    var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
-                    if(TextUtils.equals(activity::class.java.simpleName,from)){
-                        var mDialogUpdateApp = DialogUpdateApp()
-                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
-                        mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
-                        mDialogUpdateApp.setDialogListener { p, s ->
-                            updateAppManager.download()
-                        }
-                    }else if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
-                        //自定义对话框
-                        var mDialogUpdateApp = DialogUpdateApp()
-                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
-                        mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
-                        mDialogUpdateApp.setDialogListener { p, s ->
-                            updateAppManager.download()
-                        }
-                    } else if (updateApp.isConstraint) {
-                        var mDialogUpdateApp = DialogUpdateApp()
-                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
-                        mDialogUpdateApp.show(activity.supportFragmentManager, "updateapp")
-                        mDialogUpdateApp.setDialogListener { p, s ->
-                            updateAppManager.download()
+                    if(AppUtils.compareVersion(updateApp.newVersion, AppUpdateUtils.getVersionName(activity))==1) {
+                        var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
+                        if (TextUtils.equals(activity::class.java.simpleName, from)) {
+                            var mDialogUpdateApp = DialogUpdateApp()
+                            mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                            mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
+                            mDialogUpdateApp.setDialogListener { p, s ->
+                                updateAppManager.download()
+                            }
+                        } else if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
+                            //自定义对话框
+                            var mDialogUpdateApp = DialogUpdateApp()
+                            mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                            mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
+                            mDialogUpdateApp.setDialogListener { p, s ->
+                                updateAppManager.download()
+                            }
+                        } else if (updateApp.isConstraint) {
+                            var mDialogUpdateApp = DialogUpdateApp()
+                            mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                            mDialogUpdateApp.show(activity.supportFragmentManager, "updateapp")
+                            mDialogUpdateApp.setDialogListener { p, s ->
+                                updateAppManager.download()
+                            }
                         }
                     }
                 }

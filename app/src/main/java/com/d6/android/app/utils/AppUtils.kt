@@ -21,6 +21,7 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig
 import java.io.File
 import android.os.Build.VERSION_CODES.KITKAT
 import android.provider.Settings
+import android.util.Log
 import com.facebook.common.internal.Preconditions
 
 
@@ -130,6 +131,44 @@ class AppUtils {
             val file: File? = File(PICDIR)
             if (!file!!.exists()) {
                 file.mkdirs()
+            }
+        }
+
+        //0代表相等，1代表version1大于version2，-1代表version1小于version2
+        fun compareVersion(version1:String,version2:String):Int{
+            if (version1.equals(version2)) {
+                return 0
+            }
+            val version1Array = version1.split("\\.")
+            val version2Array = version2.split("\\.")
+            Log.d("HomePageActivity", "version1Array==" + version1Array.size)
+            Log.d("HomePageActivity", "version2Array==" + version2Array.size)
+            var index = 0
+            // 获取最小长度值
+            val minLen = Math.min(version1Array.size, version2Array.size)
+
+            // 循环判断每位的大小
+            var diff =version1Array[index].toInt() - version2Array[index].toInt()
+            while (index < minLen && diff == 0) {
+                index++
+                diff = version1Array[index].toInt() - version2Array[index].toInt()
+            }
+            if (diff == 0) {
+                // 如果位数不一致，比较多余位数
+                for (i in index until version1Array.size) {
+                    if (Integer.parseInt(version1Array[i]) > 0) {
+                        return 1
+                    }
+                }
+
+                for (i in index until version2Array.size) {
+                    if (Integer.parseInt(version2Array[i]) > 0) {
+                        return -1
+                    }
+                }
+                return 0
+            } else {
+                return if (diff > 0) 1 else -1
             }
         }
     }
