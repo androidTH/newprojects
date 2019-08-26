@@ -659,7 +659,7 @@ fun checkJoinWx(str:String):Boolean{
 }
 
 fun diyUpdate(activity: BaseActivity,from:String?) {
-    val path = Environment.getExternalStorageDirectory().absolutePath
+//    val path = Environment.getExternalStorageDirectory().absolutePath
 
     val params = HashMap<String, String>()
 
@@ -683,7 +683,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
             //添加自定义参数，默认version=1.0.0（app的versionName）；apkKey=唯一表示（在AndroidManifest.xml配置）
             .setParams(params)
             //设置apk下砸路径，默认是在下载到sd卡下/Download/1.0.0/test.apk
-            .setTargetPath(path)
+//            .setTargetPath(path)
             .build()
             //检测是否有新版本
             .checkNewApp(object : UpdateCallback() {
@@ -739,7 +739,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                  * @param updateAppManager app更新管理器
                  */
                 public override fun hasNewApp(updateApp: UpdateAppBean, updateAppManager: UpdateAppManager) {
-                    if(AppUtils.compareVersion(updateApp.newVersion, AppUpdateUtils.getVersionName(activity))==1) {
+//                    if(AppUtils.compareVersion(updateApp.newVersion, AppUpdateUtils.getVersionName(activity))==1) {
                         var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
                         if (TextUtils.equals(activity::class.java.simpleName, from)) {
                             var mDialogUpdateApp = DialogUpdateApp()
@@ -764,7 +764,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                                 updateAppManager.download()
                             }
                         }
-                    }
+//                    }
                 }
 
                 /**

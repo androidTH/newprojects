@@ -53,7 +53,7 @@
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:text="第一天"
+                    android:text="第1天"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
 
@@ -85,7 +85,7 @@
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:text="第二天"
+                    android:text="第2天"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
 
@@ -115,7 +115,7 @@
                     android:layout_height="25dp"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:text="第三天"
+                    android:text="第3天"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
 

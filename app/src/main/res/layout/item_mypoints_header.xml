@@ -173,7 +173,7 @@
                 android:drawableLeft="@mipmap/small_flower_icon"
                 android:drawablePadding="@dimen/margin_5"
                 android:gravity="center_vertical"
-                android:text="可用积分"
+                android:text="小红花"
                 android:textColor="@color/white"
                 android:textSize="10dp" />
 
@@ -184,6 +184,7 @@
                 android:textColor="@color/color_9CFFFFFF"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/margin_10"
+                android:visibility="gone"
                 android:id="@+id/tv_work_checkin_tips"/>
 
             <TextView
@@ -258,6 +259,7 @@
         android:layout_marginTop="@dimen/margin_10"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
+        android:visibility="gone"
         android:background="@drawable/shape_white_6r">
        <ImageView
            android:id="@+id/iv_everydaycheck"
@@ -299,7 +301,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:background="@drawable/shape_4r_orange"
+            android:background="@drawable/shape_13r_orange"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingTop="@dimen/margin_3"
@@ -322,6 +324,7 @@
         android:layout_marginTop="@dimen/margin_10"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
+        android:visibility="gone"
         android:background="@drawable/shape_white_6r">
         <ImageView
             android:id="@+id/iv_square_icon"
@@ -363,7 +366,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:background="@drawable/shape_4r_orange"
+            android:background="@drawable/shape_13r_orange"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingTop="@dimen/margin_3"
@@ -384,6 +387,7 @@
         android:layout_marginRight="@dimen/margin_10"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
+        android:visibility="gone"
         android:background="@drawable/shape_white_6r">
         <ImageView
             android:id="@+id/iv_createdate"
@@ -426,7 +430,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:background="@drawable/shape_4r_orange"
+            android:background="@drawable/shape_13r_orange"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingTop="@dimen/margin_3"

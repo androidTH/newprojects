@@ -165,14 +165,37 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                   }
               }
         }
-        getUserInfo()
     }
 
     override fun onResume() {
         super.onResume()
+        getUserInfo()
         getData()
         getAccountInviteLink()
-        getTaskList()
+        if(!TextUtils.equals(mLocalSex,"1")){
+            getTaskList()
+        }else{
+            loginforPoint()
+        }
+    }
+
+    private fun loginforPoint(){
+        Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
+            if (data != null) {
+                var sLoginToken = data.optString("sLoginToken")
+                var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
+                if (lstTask!=null&&lstTask.size>0) {
+                    SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
+                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
+                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+
+                    var mCheckInPointsDialog = CheckInPointsDialog()
+                    mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
+                    mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")
+                    SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
+                }
+            }
+        })
     }
 
     private fun getAccountInviteLink(){
@@ -367,7 +390,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                }
 
                 if(it.iWeekTaskPoint>0){
-                    mHeaderView.tv_work_tips.text = "做任务得：+${it.iWeekTaskPoint}积分"
+                    mHeaderView.tv_work_tips.text = "奖励积分：${it.iWeekTaskPoint}积分"
                 }
 
                 if(it.iTaskFlower>0){
@@ -380,6 +403,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mHeaderView.rl_mypoints_checkin.visibility = View.VISIBLE
 
                     if(TextUtils.equals(mLocalSex,"1")){
+                        mHeaderView.rl_mypoints_checkin.visibility = View.GONE
                         mHeaderView.rl_mypoints_square.visibility = View.GONE
                         mHeaderView.rl_mypoints_createdate.visibility = View.GONE
                     }else{

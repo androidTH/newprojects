@@ -21,6 +21,7 @@ import com.d6.android.app.adapters.HomeDatePageAdapter
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.models.*
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.LOGIN_FOR_POINT_NEW
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.dateTypes
@@ -322,7 +323,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     private fun loginforPoint(){
         Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
-            showTips(data,"","")
             if (data != null) {
                 var sLoginToken = data.optString("sLoginToken")
                 var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
@@ -330,11 +330,17 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
                     SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
                     SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
-
-                    var mCheckInPointsDialog = CheckInPointsDialog()
-                    mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
-                    mCheckInPointsDialog.show(childFragmentManager,"rewardtips")
                     SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
+                    var today = getTodayTime()
+                    var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW+getLocalUserId(),"")
+                    if(!TextUtils.equals(today,yesterday)){
+                        var mCheckInPointsDialog = CheckInPointsDialog()
+                        mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
+                        mCheckInPointsDialog.show(childFragmentManager,"rewardtips")
+                        SPUtils.instance().put(LOGIN_FOR_POINT_NEW+getLocalUserId(), getTodayTime()).apply()
+                    }else{
+                        toast("相同")
+                    }
                 }
             }
         })

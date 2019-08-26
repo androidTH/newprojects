@@ -85,7 +85,10 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
                         tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
                         tv_three_checkin_points.text = "+${taskBean.iPoint}积分"
                     }
-                    tv_checkin_days.text = "已连续签到${taskBean.iDay}天,连续3天将获得高额积分奖励"
+
+                    if(taskBean.iIsfinish==1){
+                        tv_checkin_days.text = "已签到${taskBean.iDay}天,连续3天将获得高额积分奖励"
+                    }
                 }
             }
         }
