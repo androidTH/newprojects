@@ -192,6 +192,7 @@ class SendRedFlowerDialog : DialogFragment() {
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
                 .UserId(userId.toInt())
+                .setSendUserid(receiverUserId.toInt())
                 .iFlowerCount(flowerCount)
                 .goodsPrice(flowerCount)// 单位为：分 pointRule.iPrice
                 .goodsName("小红花")

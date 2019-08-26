@@ -132,7 +132,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_work_checkin.setOnClickListener {
-              doCheckIn()
+            loginforPoint()
 //            var mCheckInPointsDialog = CheckInPointsDialog()
 //            mCheckInPointsDialog.arguments = bundleOf("points" to "20")
 //            mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")

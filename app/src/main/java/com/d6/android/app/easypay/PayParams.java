@@ -37,6 +37,7 @@ public class PayParams {
     private int Type;//0代表积分 1代表小红花 2代表会员购买
     private String sAreaName;
     private int iUserclassid;
+    private int iSendUserid;
 
     public Activity getActivity() {
         return mActivity;
@@ -158,6 +159,14 @@ public class PayParams {
         this.iUserclassid = iUserclassid;
     }
 
+    public int getiSendUserid() {
+        return iSendUserid;
+    }
+
+    public void setiSendUserid(int iSendUserid) {
+        this.iSendUserid = iSendUserid;
+    }
+
     public static class Builder {
         Activity mActivity;
         String wechatAppId;
@@ -174,6 +183,7 @@ public class PayParams {
         int mType;
         String sAreaName;
         int iUserclassid;
+        int iSendUserid;
 
 
         public Builder(Activity activity) {
@@ -249,6 +259,11 @@ public class PayParams {
             return this;
         }
 
+        public PayParams.Builder setSendUserid(int sendUserid){
+            iSendUserid = sendUserid;
+            return this;
+        }
+
         public PayParams build() {
             PayParams params = new PayParams();
 
@@ -267,6 +282,7 @@ public class PayParams {
             params.setType(mType);
             params.setsAreaName(sAreaName);
             params.setiUserclassid(iUserclassid);
+            params.setiSendUserid(iSendUserid);
             return params;
         }
 
