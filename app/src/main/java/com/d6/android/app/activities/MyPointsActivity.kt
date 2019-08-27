@@ -172,11 +172,6 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         getUserInfo()
         getData()
         getAccountInviteLink()
-        if(!TextUtils.equals(mLocalSex,"1")){
-            getTaskList()
-        }else{
-            loginforPoint()
-        }
     }
 
     private fun loginforPoint(){
@@ -235,6 +230,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if(it!=null){
                     for (taskBean:TaskBean in it){
                         if(taskBean.iType == 1){
+                            mHeaderView.rl_mypoints_checkin.visibility = View.VISIBLE
+
                             mHeaderView.tv_checkin_title.text = taskBean.sTitle
                             mHeaderView.tv_checkin_desc.text = taskBean.sDesc
                             if(taskBean.iIsfinish==2){
@@ -247,6 +244,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                                 mHeaderView.tv_checkin_add_points.text = "+${taskBean.iPoint}积分"
                             }
                         }else if(taskBean.iType==2){
+                            mHeaderView.rl_mypoints_square.visibility = View.VISIBLE
                             mHeaderView.tv_square_title.text = taskBean.sTitle
                             mHeaderView.tv_square_desc.text = taskBean.sDesc
                             if(taskBean.iIsfinish==2){
@@ -258,6 +256,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                                 mHeaderView.tv_square_add_points.text = "+${taskBean.iPoint}积分"
                             }
                         }else if(taskBean.iType==3){
+                            mHeaderView.rl_mypoints_createdate.visibility = View.VISIBLE
                             mHeaderView.tv_createdate_title.text = taskBean.sTitle
                             mHeaderView.tv_createdate_desc.text = taskBean.sDesc
                             if(taskBean.iIsfinish==2){
@@ -271,6 +270,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                         }
                     }
+                }else{
+                    mHeaderView.rl_mypoints_checkin.visibility = View.GONE
+                    mHeaderView.rl_mypoints_square.visibility = View.GONE
+                    mHeaderView.rl_mypoints_createdate.visibility = View.GONE
                 }
             }
         })
@@ -404,21 +407,18 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
                 if(!TextUtils.equals(it.userclassesid, "7")){
-                    mHeaderView.view_top_bottom.visibility = View.VISIBLE
-                    mHeaderView.rl_redwallet.visibility = View.VISIBLE
-                    mHeaderView.rl_mypoints_checkin.visibility = View.VISIBLE
-
                     if(TextUtils.equals(mLocalSex,"1")){
                         mHeaderView.rl_mypoints_checkin.visibility = View.GONE
                         mHeaderView.rl_mypoints_square.visibility = View.GONE
                         mHeaderView.rl_mypoints_createdate.visibility = View.GONE
-                    }else{
-                        mHeaderView.rl_mypoints_square.visibility = View.VISIBLE
-                        mHeaderView.rl_mypoints_createdate.visibility = View.VISIBLE
+                    }
+                    if(!TextUtils.equals(mLocalSex,"1")){
+                        getTaskList()
                     }
                 }else{
                     mHeaderView.view_top_bottom.visibility = View.VISIBLE
                     mHeaderView.rl_redwallet.visibility = View.GONE
+
                     mHeaderView.rl_mypoints_checkin.visibility = View.GONE
                     mHeaderView.rl_mypoints_square.visibility = View.GONE
                     mHeaderView.rl_mypoints_createdate.visibility = View.GONE

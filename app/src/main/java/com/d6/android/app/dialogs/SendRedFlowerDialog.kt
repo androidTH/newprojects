@@ -98,7 +98,7 @@ class SendRedFlowerDialog : DialogFragment() {
             if(!TextUtils.isEmpty(flowerCount)){
                 var mSendFlowerCount = flowerCount.toInt()
                 if(mSendFlowerCount>0){
-                    buyRedFlowerPay(mSendFlowerCount,id)
+                    buyRedFlowerPay(mSendFlowerCount,id,mSquareId)
                 }else{
                     CustomToast.showToast("请选中或输入送花的个数")
                 }
@@ -143,7 +143,6 @@ class SendRedFlowerDialog : DialogFragment() {
         }
         getUserInfo(id)
         getFlowerList()
-
 //        sendSysMessage(id)
     }
 
@@ -187,12 +186,13 @@ class SendRedFlowerDialog : DialogFragment() {
         })
     }
 
-    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String){
+    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String,sResourceid:String){
         val params = PayParams.Builder((context as BaseActivity))
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
                 .UserId(userId.toInt())
                 .setSendUserid(receiverUserId.toInt())
+                .setSResourceid(sResourceid)
                 .iFlowerCount(flowerCount)
                 .goodsPrice(flowerCount)// 单位为：分 pointRule.iPrice
                 .goodsName("小红花")
@@ -238,19 +238,30 @@ class SendRedFlowerDialog : DialogFragment() {
                 BuyRedFlowerSuccess(receiverUserId,flowerCount)
             }
             Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
-                Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
-                    if(mToFromType == 1){
-                        EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
-                    }else if(mToFromType == 2){
-                        mSquare?.let {
-                            it.iFlowerCount = flowerCount.toInt()+it.iFlowerCount!!.toInt()
-                            EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt(),mSquare))
-                        }
-                    }else if(mToFromType == 4){
-                        dialogListener?.onClick(1,flowerCount)
+//                Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
+//                    if(mToFromType == 1){
+//                        EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
+//                    }else if(mToFromType == 2){
+//                        mSquare?.let {
+//                            it.iFlowerCount = flowerCount.toInt()+it.iFlowerCount!!.toInt()
+//                            EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt(),mSquare))
+//                        }
+//                    }else if(mToFromType == 4){
+//                        dialogListener?.onClick(1,flowerCount)
+//                    }
+//                    dismissAllowingStateLoss()
+//                })
+                if(mToFromType == 1){
+                    EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
+                }else if(mToFromType == 2){
+                    mSquare?.let {
+                        it.iFlowerCount = flowerCount.toInt()+it.iFlowerCount!!.toInt()
+                        EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt(),mSquare))
                     }
-                    dismissAllowingStateLoss()
-                })
+                }else if(mToFromType == 4){
+                    dialogListener?.onClick(1,flowerCount)
+                }
+                dismissAllowingStateLoss()
             }){code,msg->
                 CustomToast.showToast(msg)
             }

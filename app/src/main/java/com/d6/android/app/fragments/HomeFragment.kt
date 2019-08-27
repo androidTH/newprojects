@@ -337,6 +337,9 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                         var mCheckInPointsDialog = CheckInPointsDialog()
                         mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
                         mCheckInPointsDialog.show(childFragmentManager,"rewardtips")
+                        mCheckInPointsDialog.setDialogListener { p, s ->
+                            mCheckInPointsDialog.dismissAllowingStateLoss()
+                        }
                         SPUtils.instance().put(LOGIN_FOR_POINT_NEW+getLocalUserId(), getTodayTime()).apply()
                     }
                 }

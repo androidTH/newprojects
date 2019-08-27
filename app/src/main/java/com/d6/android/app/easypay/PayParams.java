@@ -38,6 +38,7 @@ public class PayParams {
     private String sAreaName;
     private int iUserclassid;
     private int iSendUserid;
+    private String sResourceid;
 
     public Activity getActivity() {
         return mActivity;
@@ -167,6 +168,14 @@ public class PayParams {
         this.iSendUserid = iSendUserid;
     }
 
+    public String getsResourceid() {
+        return sResourceid == null ? "" : sResourceid;
+    }
+
+    public void setsResourceid(String sResourceid) {
+        this.sResourceid = sResourceid;
+    }
+
     public static class Builder {
         Activity mActivity;
         String wechatAppId;
@@ -184,7 +193,7 @@ public class PayParams {
         String sAreaName;
         int iUserclassid;
         int iSendUserid;
-
+        String sResourceid;
 
         public Builder(Activity activity) {
             mActivity = activity;
@@ -264,6 +273,11 @@ public class PayParams {
             return this;
         }
 
+        public PayParams.Builder setSResourceid(String resourceid){
+            sResourceid = resourceid;
+            return this;
+        }
+
         public PayParams build() {
             PayParams params = new PayParams();
 
@@ -283,6 +297,7 @@ public class PayParams {
             params.setsAreaName(sAreaName);
             params.setiUserclassid(iUserclassid);
             params.setiSendUserid(iSendUserid);
+            params.setsResourceid(sResourceid);
             return params;
         }
 
