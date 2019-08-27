@@ -193,6 +193,12 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
                     mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")
                     SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
+                    mCheckInPointsDialog.setDialogListener { p, s ->
+                        mHeaderView.tv_work_checkin.visibility = View.GONE
+                        mHeaderView.tv_checkin_add_points.visibility = View.VISIBLE
+                        mHeaderView.tv_checkin_add_points.text = "+${s}积分"
+                        mCheckInPointsDialog.dismissAllowingStateLoss()
+                    }
                 }
             }
         })

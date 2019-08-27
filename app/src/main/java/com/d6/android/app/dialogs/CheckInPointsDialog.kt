@@ -122,9 +122,9 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
         isBaseActivity {
             Request.signPoint(getLoginToken()).request(it,success={_,data->
                  data?.let {
-                     dismissAllowingStateLoss()
                      var mRewardTipsDialog = RewardTipsDialog()
                      var iAddPoint = it.optInt("iAddPoint")
+                     dialogListener?.onClick(1,"${iAddPoint}")
                      var sAddPointDesc = it.optString("sAddPointDesc")
                      mRewardTipsDialog.arguments = bundleOf("points" to "${iAddPoint}")
                      mRewardTipsDialog.show((context as BaseActivity).supportFragmentManager,"rewardtipsdialog")

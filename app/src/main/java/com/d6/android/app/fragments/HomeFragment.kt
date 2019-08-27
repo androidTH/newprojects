@@ -338,8 +338,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                         mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
                         mCheckInPointsDialog.show(childFragmentManager,"rewardtips")
                         SPUtils.instance().put(LOGIN_FOR_POINT_NEW+getLocalUserId(), getTodayTime()).apply()
-                    }else{
-                        toast("相同")
                     }
                 }
             }

@@ -141,11 +141,12 @@ dependencies {
     compile project(':cardlib')
     compile project(':sticker')
     compile project(':library')
+    compile project(':update-app')
 
     //下拉刷新库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-28'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-28'
-    implementation 'com.qianwen:update-app:3.5.2'
+//    implementation 'com.qianwen:update-app:3.5.2'
     implementation 'com.qianwen:okhttp-utils:3.8.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
