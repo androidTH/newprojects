@@ -127,7 +127,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
         }
 
         if(dateAdapter.data.size==0){
-            dateAdapter.emptyView = layoutInflater.inflate(R.layout.no_empty_layout,null)
+            dateAdapter.emptyView = LayoutInflater.from(activity).inflate(R.layout.no_empty_layout,null)
         }
     }
 

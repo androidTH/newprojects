@@ -534,7 +534,7 @@ public class MultiImageSelectorFragment extends Fragment {
 
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
-        //        private final String[] IMAGE_PROJECTION = {
+//        private final String[] IMAGE_PROJECTION = {
 //                MediaStore.Files.FileColumns.DATA,
 //                MediaStore.Files.FileColumns.DISPLAY_NAME,
 //                MediaStore.Files.FileColumns.DATE_ADDED,
