@@ -80,7 +80,8 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
                         tv_second_checkin_points.text = "+${taskBean.iPoint}积分"
                     }else if(taskBean.iIsfinish==1&&taskBean.iDay==3){
                         checkInDays = taskBean.iDay
-                        rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.day3coin_yetbg)
+                        rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.day3coin_empty_yetbg)
+                        iv_checkinthree.background = ContextCompat.getDrawable(context,R.mipmap.checkin3_icon_color)
                         tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
                         tv_three_checkin_points.text = "+${taskBean.iPoint}积分"
                     }
@@ -88,7 +89,7 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
                     if (checkInDays > 0) {
                         tv_checkin_days.text = "已签到${checkInDays}天，连续3天将获得双倍积分奖励"
                     } else {
-                        tv_checkin_days.text = "连续3天将获得高额积分奖励"
+                        tv_checkin_days.text = "连续3天将获得双倍积分奖励"
                     }
                 }
             }
