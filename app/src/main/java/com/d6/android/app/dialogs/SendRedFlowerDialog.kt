@@ -165,7 +165,7 @@ class SendRedFlowerDialog : DialogFragment() {
 
     private fun BuyRedFlowerSuccess(id:String,flowerCount:String){
         val dialogSendFlowerSuccess = DialogSendFlowerSuccess()
-            dialogSendFlowerSuccess.arguments = bundleOf("userId" to id,"nums" to flowerCount)
+            dialogSendFlowerSuccess.arguments = bundleOf("ToFromType" to mToFromType ,"userId" to id,"nums" to flowerCount)
             dialogSendFlowerSuccess.show((context as BaseActivity).supportFragmentManager, "sendflower")
     }
 

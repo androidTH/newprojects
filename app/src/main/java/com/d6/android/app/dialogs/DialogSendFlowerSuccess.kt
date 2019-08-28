@@ -71,9 +71,15 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         var id = arguments.getString("userId")
         var nums = arguments.getString("nums")
+        var mToFromType = arguments.getInt("ToFromType")
         tv_sendflower_nums.text = nums
+
+        if (mToFromType == 5) {
+            tv_sendflower_success_siliao.visibility = View.GONE
+        }
 
         tv_close.setOnClickListener { dismissAllowingStateLoss() }
 
