@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -533,6 +534,14 @@ public class MultiImageSelectorFragment extends Fragment {
 
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
+//        private final String[] IMAGE_PROJECTION = {
+//                MediaStore.Files.FileColumns.DATA,
+//                MediaStore.Files.FileColumns.DISPLAY_NAME,
+//                MediaStore.Files.FileColumns.DATE_ADDED,
+//                MediaStore.Files.FileColumns.MIME_TYPE,
+//                MediaStore.Files.FileColumns.SIZE,
+//                MediaStore.Files.FileColumns._ID };
+
         private final String[] IMAGE_PROJECTION = {
                 MediaStore.Images.Media.DATA,
                 MediaStore.Images.Media.DISPLAY_NAME,
@@ -541,6 +550,7 @@ public class MultiImageSelectorFragment extends Fragment {
                 MediaStore.Images.Media.SIZE,
                 MediaStore.Images.Media._ID };
 
+        @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             if(id == LOADER_ALL) {
@@ -549,6 +559,24 @@ public class MultiImageSelectorFragment extends Fragment {
                         IMAGE_PROJECTION[4]+">0 AND "+IMAGE_PROJECTION[3]+"=? OR "+IMAGE_PROJECTION[3]+"=? ",
                         new String[]{"image/jpeg", "image/png"}, IMAGE_PROJECTION[2] + " DESC");
                 return cursorLoader;
+
+//                String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+//                        + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
+//                        + " OR "
+//                        + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+//                        + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+//
+//                Uri queryUri = MediaStore.Files.getContentUri("external");
+//
+//                CursorLoader cursorLoader = new CursorLoader(
+//                        getActivity(),
+//                        queryUri,
+//                        IMAGE_PROJECTION,
+//                        selection,
+//                        null, // Selection args (none).
+//                        MediaStore.Files.FileColumns.DATE_ADDED + " DESC" // Sort order.
+//                );
+//                return cursorLoader;
             }else if(id == LOADER_CATEGORY){
                 CursorLoader cursorLoader = new CursorLoader(getActivity(),
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
