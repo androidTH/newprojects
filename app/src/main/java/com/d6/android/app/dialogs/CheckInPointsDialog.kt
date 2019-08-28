@@ -89,7 +89,7 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
                     if (checkInDays > 0) {
                         tv_checkin_days.text = "已签到${checkInDays}天，连续3天将获得双倍积分奖励"
                     } else {
-                        tv_checkin_days.text = "连续3天将获得高额积分奖励"
+                        tv_checkin_days.text = "连续3天将获得双倍积分奖励"
                     }
                 }
             }
