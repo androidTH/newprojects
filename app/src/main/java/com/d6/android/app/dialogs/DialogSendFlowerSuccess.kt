@@ -103,6 +103,9 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
                 iv_sendflower_success_headView.setImageURI(it.picUrl)
                 if(it.iIsFollow !=null) {
                     if (it.iIsFollow == 1) {
+                        tv_sendflower_success_like.visibility = View.GONE
+
+
                         tv_sendflower_success_like.setCompoundDrawables(null,null,null,null);
                         tv_sendflower_success_like.text = resources.getString(R.string.string_liked)
                         tv_sendflower_success_like.backgroundResource = R.drawable.shape_20r_33ff6452
