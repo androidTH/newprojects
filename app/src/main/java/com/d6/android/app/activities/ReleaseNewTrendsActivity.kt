@@ -33,6 +33,7 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_choose_friends.*
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
+import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_IMAGE_VIDEO
 import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
@@ -96,6 +97,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             startActivityForResult<MultiImageSelectorActivity>(0
                     , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
                     ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                    ,MultiImageSelectorActivity.SELECT_MODE to PICKER_IMAGE_VIDEO
                     ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
             )
         }

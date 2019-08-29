@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
@@ -24,6 +26,7 @@ import java.util.List;
 import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Image;
 import me.nereo.multi_image_selector.utils.ScreenUtils;
+import me.nereo.multi_image_selector.utils.TimeUtils;
 
 
 /**
@@ -201,11 +204,15 @@ public class ImageGridAdapter extends BaseAdapter {
         SimpleDraweeView image;
         ImageView indicator;
         View mask;
+        RelativeLayout mVideoInfo;
+        TextView mTvVideoTime;
 
         ViewHolder(View view){
             image = (SimpleDraweeView) view.findViewById(R.id.image);
             indicator = (ImageView) view.findViewById(R.id.checkmark);
             mask = view.findViewById(R.id.mask);
+            mVideoInfo = view.findViewById(R.id.video_info);
+            mTvVideoTime = view.findViewById(R.id.tv_videotime);
             view.setTag(this);
         }
 
@@ -227,6 +234,12 @@ public class ImageGridAdapter extends BaseAdapter {
                 indicator.setVisibility(View.GONE);
             }
 
+            if(data.mediaType==3){
+               mVideoInfo.setVisibility(View.VISIBLE);
+               mTvVideoTime.setText(TimeUtils.timeToMinute(data.path));
+            }else{
+                mVideoInfo.setVisibility(View.GONE);
+            }
 //            image.getLayoutParams().width = mGridWidth;
 //            image.getLayoutParams().height = mGridWidth;
 //            File imageFile = new File(data.path);

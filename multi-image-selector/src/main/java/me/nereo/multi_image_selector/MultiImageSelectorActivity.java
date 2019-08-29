@@ -29,6 +29,12 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
     /** 默认选择集 */
     public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_list";
 
+    /** 图片选择模式，默认选视频和图片 */
+    public static final String SELECT_MODE = "select_mode";
+
+    public static final int PICKER_IMAGE = 100;
+    public static final int PICKER_IMAGE_VIDEO = 101;
+
     /** 单选 */
     public static final int MODE_SINGLE = 0;
     /** 多选 */
@@ -38,6 +44,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
     private Button mSubmitButton;
     private int mDefaultCount;
     private int mode;//模式
+    private int modeType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,9 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
         mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
+        modeType = intent.getIntExtra(SELECT_MODE,PICKER_IMAGE);
         boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
+
         if(mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {
             resultList = intent.getStringArrayListExtra(EXTRA_DEFAULT_SELECTED_LIST);
         }
@@ -55,6 +64,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         Bundle bundle = new Bundle();
         bundle.putInt(MultiImageSelectorFragment.EXTRA_SELECT_COUNT, mDefaultCount);
         bundle.putInt(MultiImageSelectorFragment.EXTRA_SELECT_MODE, mode);
+        bundle.putInt(MultiImageSelectorFragment.SELECT_MODE,modeType);
         bundle.putBoolean(MultiImageSelectorFragment.EXTRA_SHOW_CAMERA, isShow);
         bundle.putStringArrayList(MultiImageSelectorFragment.EXTRA_DEFAULT_SELECTED_LIST, resultList);
 

@@ -8,11 +8,15 @@ public class Image {
     public String path;
     public String name;
     public long time;
+    public int mediaType;
+    public long mSize;
 
-    public Image(String path, String name, long time){
+    public Image(String path, String name, long time,int mimeType,long size){
         this.path = path;
         this.name = name;
         this.time = time;
+        this.mediaType = mimeType;
+        this.mSize = size;
     }
 
     @Override
