@@ -152,7 +152,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         if(data.mediaType == MEDIA_TYPE_VIDEO){
             mVideoInfo.setVisibility(View.VISIBLE);
-            mTvVideoTime.setText(TimeUtils.timeToMinute(data.path));
+//            mTvVideoTime.setText(TimeUtils.timeToMinute(data.path));
         }else{
             mVideoInfo.setVisibility(View.GONE);
         }
