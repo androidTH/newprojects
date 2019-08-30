@@ -76,6 +76,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     private var unReadServiceMsgNum:Int=0//男游客浮动移除
 
     private var filterTrendDialog:FilterTrendDialog?=null
+    private var token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
 
     private val broadcast by lazy {
         object : BroadcastReceiver() {
@@ -340,7 +341,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
         titleBar.visibility = View.VISIBLE
 
-        val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
         if (token.isNotEmpty()) {
             judgeDataB()
             val uid = SPUtils.instance().getString(Const.User.USER_ID)
@@ -407,7 +407,24 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
         unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()
-        getUnReadCount()
+        reconnect()
+    }
+
+    private fun reconnect() {
+        if(RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED){
+            getUnReadCount()
+        }else{
+            RongIM.connect(token, object : RongIMClient.ConnectCallback() {
+                override fun onTokenIncorrect() {}
+
+                override fun onSuccess(s: String) {
+                    getUnReadCount()
+                }
+
+                override fun onError(e: RongIMClient.ErrorCode) {
+                }
+            })
+        }
     }
 
     fun setBottomBarNormal(tabIndex:Int){
