@@ -408,8 +408,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
         unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()
-        getUnReadCount()
-//        reconnect()
+        reconnect()
     }
 
     private fun reconnect() {
