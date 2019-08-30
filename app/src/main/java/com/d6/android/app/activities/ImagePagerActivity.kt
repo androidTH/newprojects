@@ -2,6 +2,8 @@ package com.d6.android.app.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.view.View

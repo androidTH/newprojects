@@ -1,0 +1,54 @@
+<resources>
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="BaseAppTheme">
+        <!-- Customize your theme here. -->
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/trans_parent</item>
+        <item name="colorAccent">@color/color_F7AB00</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">@dimen/textSize</item>
+    </style>
+
+    <style name="imageactivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/imageAnim</item>
+    </style>
+
+    <style name="chooseAnim" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowAnimationStyle">@style/TopPopAnim</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="selectedBaseDialog" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@android:color/transparent</item>
+        <item name="colorAccent">@color/color_F7AB00</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@android:color/transparent</item>
+        <item name="android:windowFrame">@android:color/transparent</item>
+    </style>
+
+    <style name="Base.Animation.Dialog.Style" parent="@android:style/Animation.Translucent">
+        <item name="android:windowEnterAnimation">@anim/popup_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_out</item>
+    </style>
+
+    <style name="selectedDialog" parent="selectedBaseDialog">
+        <item name="android:windowAnimationStyle">@style/Base.Animation.Dialog.Style</item>
+    </style>
+</resources>

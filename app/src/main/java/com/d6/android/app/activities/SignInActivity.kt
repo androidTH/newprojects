@@ -68,7 +68,7 @@ class SignInActivity : TitleActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
         immersionBar.init()
-//        title = "D6社区"
+        title = "登录"
 
         btn_sign_in.setOnClickListener {
             phoneLogin()

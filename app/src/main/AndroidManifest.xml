@@ -210,7 +210,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SelectPhotoDialog"
-            android:theme="@style/Dialog" />
+            android:screenOrientation="portrait"
+            android:theme="@style/selectedDialog" />
         <activity
             android:name=".activities.CropImageActivity"
             android:screenOrientation="portrait" />
