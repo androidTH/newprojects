@@ -65,8 +65,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * @author zhy
      *
      */
-    public interface OnItemClickListener
-    {
+    public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
     private OnItemClickListener mOnItemClickListener;
@@ -75,8 +74,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * 设置OnItemClickListener
      * @param mOnItemClickListener OnItemClickListener
      */
-    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener)
-    {
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
@@ -113,7 +111,6 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (showCamera && position == 0){
                 return;
             }
-
             Image image = mImages.get(showCamera?position-1:position);
             bindData((ViewHolder) holder, image);
         }

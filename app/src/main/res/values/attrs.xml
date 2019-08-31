@@ -68,4 +68,14 @@
         <attr name="kswTextOff" format="string"/>
         <attr name="kswTextMarginH" format="dimension"/>
     </declare-styleable>
+
+    <declare-styleable name="CircleBarView">
+        <attr name="progress_color" format="color"></attr>
+        <attr name="bg_color" format="color"></attr>
+
+        <attr name="bar_width" format="dimension"></attr>
+
+        <attr name="start_angle" format="float"></attr>
+        <attr name="sweep_angle" format="float"></attr>
+    </declare-styleable>
 </resources>

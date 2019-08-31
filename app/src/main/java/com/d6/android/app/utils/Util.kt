@@ -10,6 +10,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -26,6 +27,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Toast
 import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
@@ -108,7 +110,7 @@ fun Context.screenWidth(): Int {
     return dm.widthPixels
 }
 
-fun Fragment.screenWidth(): Int = activity.screenWidth()
+fun Fragment.screenWidth(): Int = activity!!.screenWidth()
 
 fun View.screenWidth(): Int = context.screenWidth()
 
@@ -118,7 +120,7 @@ fun Context.screenHeight(): Int {
     return dm.heightPixels
 }
 
-fun Fragment.screenHeight(): Int = context.screenHeight()
+fun Fragment.screenHeight(): Int = context!!.screenHeight()
 
 fun View.screenHeight(): Int = context.screenHeight()
 
@@ -192,7 +194,7 @@ fun View?.invisible() {
 }
 
 fun Fragment.callPhone(phone: String?) {
-    activity.callPhone(phone)
+    activity?.callPhone(phone)
 }
 
 fun Activity.getUrlPath(imageUri: Uri?): String? {
@@ -1146,4 +1148,12 @@ fun removeKFService(mOtherUserId:String):Boolean{
 
 fun getSelfDateDialog():Boolean{
    return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
+}
+
+fun starDrawableAnim(mImageView:ImageView) {
+    var animationDrawable = mImageView.drawable as AnimationDrawable
+    if (animationDrawable.isRunning()) {
+        animationDrawable.stop()   //停止播放逐帧动画。
+    }
+    animationDrawable.start() //开始播放逐帧动画
 }

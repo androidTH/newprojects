@@ -276,3 +276,7 @@ public static final int *;
 -keep class * extends com.huawei.android.hms.agent.common.INoProguard {*;}
 -keep class me.jessyan.autosize.** { *; }
 -keep interface me.jessyan.autosize.** { *; }
+
+#七牛混淆
+-keep class com.pili.pldroid.player.** { *; }
+-keep class com.qiniu.qplayer.mediaEngine.MediaPlayer{*;}

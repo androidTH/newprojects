@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.d6.android.app">
 
     <!--https://github.com/lihangleo2/ShadowLayout-->
@@ -14,6 +15,7 @@
     <!--https://github.com/bravoborja/ReadMoreTextView-->
     <!--https://github.com/Zhaoss/WeiXinRecordedDemo-->
     <!--等级进度 https://www.jianshu.com/p/9e774990bdb5-->
+    <!--https://github.com/xfans/VoiceWaveView-->
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -42,6 +44,12 @@
     <!--微信支付权限-->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
+    <!--七牛播放器权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+     <!--录制权限-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
     <!--小米推送权限-->
     <permission android:name="com.d6.android.app.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
@@ -52,6 +60,7 @@
     <!--如果是安卓8.0，应用编译配置的targetSdkVersion>=26，请务必添加以下权限 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!--<uses-sdk tools:overrideLibrary="com.shuyu.gsyvideoplayer,com.shuyu.gsyvideoplayer.armv5,com.shuyu.gsy.base,shuyu.com.androidvideocache"/>-->
 
     <application
         android:name=".application.D6Application"
@@ -310,6 +319,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".activities.TopicSelectionActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activities.ShareFriendsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
@@ -349,6 +360,7 @@
         <activity android:name=".activities.ScreeningAreaActivity"
             android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.DateAuthSucessActivity"/>
+        <activity android:name=".activities.SimplePlayer"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"

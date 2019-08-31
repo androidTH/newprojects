@@ -551,22 +551,9 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
                 MediaStore.Files.FileColumns.SIZE,
                 MediaStore.Files.FileColumns._ID };
 
-//        private final String[] IMAGE_PROJECTION = {
-//                MediaStore.Images.Media.DATA,
-//                MediaStore.Images.Media.DISPLAY_NAME,
-//                MediaStore.Images.Media.DATE_ADDED,
-//                MediaStore.Images.Media.MIME_TYPE,
-//                MediaStore.Images.Media.SIZE,
-//                MediaStore.Images.Media._ID };
-
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             if(id == LOADER_ALL) {
-//                CursorLoader cursorLoader = new CursorLoader(getActivity(),
-//                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_PROJECTION,
-//                        IMAGE_PROJECTION[4]+">0 AND "+IMAGE_PROJECTION[3]+"=? OR "+IMAGE_PROJECTION[3]+"=? ",
-//                        new String[]{"image/jpeg", "image/png"}, IMAGE_PROJECTION[2] + " DESC");
-//                return cursorLoader;
 
                 String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
                         + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE

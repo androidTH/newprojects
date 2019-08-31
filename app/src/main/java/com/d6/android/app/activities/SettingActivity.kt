@@ -61,8 +61,9 @@ class SettingActivity : TitleActivity() {
                 .build()
 
         tv_contact_us.setOnClickListener {
-            startActivity<ContactUsActivity>()
+//            startActivity<ContactUsActivity>()
 //            startActivity<ChooseFriendsActivity>()
+            startActivity<SimplePlayer>()
         }
 
         rl_my_info.setOnClickListener {

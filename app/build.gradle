@@ -67,6 +67,7 @@ android {
         main {
             jni.srcDirs = []
             jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['src/main/jniLibs']
         }
     }
 
@@ -146,7 +147,8 @@ dependencies {
     //下拉刷新库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-28'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-28'
-//    implementation 'com.qianwen:update-app:3.5.2'
+
+    //    implementation 'com.qianwen:update-app:3.5.2'
     implementation 'com.qianwen:okhttp-utils:3.8.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
@@ -173,12 +175,23 @@ dependencies {
     implementation 'com.umeng.umsdk:push:5.0.2'
     implementation files('libs/OpenInstall_v2.2.2.jar')
     implementation 'com.airbnb.android:lottie:2.3.0'
-
     implementation 'me.jessyan:autosize:1.1.2'
 
-//    implementation("com.tencent.tinker:tinker-android-loader:${TINKER_VERSION}") { changing = true }
-//    annotationProcessor("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
-//    compileOnly("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
+    //    implementation 'com.shuyu:gsyVideoPlayer-java:7.0.2'
+
+    //    implementation 'com.shuyu:GSYVideoPlayer-exo2:7.0.2'
+
+    //    implementation 'com.shuyu:gsyVideoPlayer-armv5:7.0.2'
+
+    //    implementation("com.tencent.tinker:tinker-android-loader:${TINKER_VERSION}") { changing = true }
+
+    //    annotationProcessor("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
+
+    //    compileOnly("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
+    implementation files('libs/pldroid-player-2.1.8.jar')
+
+    implementation 'com.kailashdabhi:om-recorder:1.1.0'
+
 }
 
 //def gitSha() {

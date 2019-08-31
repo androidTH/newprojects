@@ -3,7 +3,9 @@ package com.d6.android.app.activities
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Environment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -24,6 +26,10 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.FriendBean
 import com.d6.android.app.net.Request
+import com.d6.android.app.recoder.RecoderUtil
+import com.d6.android.app.recoder.model.AudioChannel
+import com.d6.android.app.recoder.model.AudioSampleRate
+import com.d6.android.app.recoder.model.AudioSource
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
@@ -32,15 +38,23 @@ import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_choose_friends.*
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
+import kotlinx.android.synthetic.main.item_audio.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_IMAGE_VIDEO
+import omrecorder.AudioChunk
+import omrecorder.OmRecorder
+import omrecorder.PullTransport
+import omrecorder.Recorder
 import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
+import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 发布广场动态
  */
-class ReleaseNewTrendsActivity : BaseActivity(){
+class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulledListener, MediaPlayer.OnCompletionListener{
 
     private var tagId: String? = null
     private var iIsAnonymous:Int = 2
@@ -75,7 +89,9 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     }
 
     private var REQUEST_CHOOSECODE:Int=10
+    private var REQUEST_TOPICCODE:Int=11
     private  var mChooseFriends = ArrayList<FriendBean>()
+    private  var topicName =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,6 +122,7 @@ class ReleaseNewTrendsActivity : BaseActivity(){
         addAdapter.notifyDataSetChanged()
         tv_back.setOnClickListener {
             mKeyboardKt.hideKeyboard(it)
+            selectAudio()
             finish()
         }
 
@@ -235,6 +252,57 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, CHOOSE_Friends to mChooseFriends)
         }
 
+
+        ll_topic_choose.setOnClickListener {
+            startActivityForResult<TopicSelectionActivity>(REQUEST_TOPICCODE)
+        }
+
+        tv_recoder.setOnClickListener {
+            hideSoftKeyboard(it)
+            rl_recoder.postDelayed(Runnable {
+                rl_recoder.visibility = View.VISIBLE
+            },300)
+        }
+
+        rl_play_audio.setOnClickListener {
+            starDrawableAnim(iv_playaudio)
+        }
+
+        rl_recoder_circlebar.setOnClickListener {
+            var str  = arrayOf(Manifest.permission.RECORD_AUDIO)
+            PermissionsUtils.getInstance().checkPermissions(this, str,object:PermissionsUtils.IPermissionsResult{
+                override fun forbidPermissions() {
+
+                }
+
+                override fun passPermissions() {
+                    toggleRecording()
+                }
+            })
+        }
+
+        tv_img.setOnClickListener {
+            hideSoftKeyboard(it)
+            if (mImages.size >= 10) {//最多9张
+                showToast("最多上传9张图片")
+                return@setOnClickListener
+            }
+            val c = 9
+            val paths = mImages.filter { it.type!=1 }.map { it.path }
+            val urls = ArrayList<String>(paths)
+            startActivityForResult<MultiImageSelectorActivity>(0
+                    , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
+                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                    ,MultiImageSelectorActivity.SELECT_MODE to PICKER_IMAGE_VIDEO
+                    ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
+            )
+        }
+
+//        tv_softinput.setOnClickListener {
+//            rl_recoder.visibility = View.GONE
+//            showSoftInput(it)
+//        }
+
         ll_unknow_choose.setOnClickListener {
            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
            mSelectUnknowDialog.arguments = bundleOf("type" to "ReleaseNewTrends","IsOpenUnKnow" to IsOpenUnKnow,"code" to mRequestCode,"desc" to sAddPointDesc,"iAddPoint" to iAddPoint,"iRemainPoint" to iRemainPoint)
@@ -330,6 +398,8 @@ class ReleaseNewTrendsActivity : BaseActivity(){
             }else if(requestCode == REQUEST_CHOOSECODE && data!=null){
                   mChooseFriends = data!!.getParcelableArrayListExtra(CHOOSE_Friends)
                   mNoticeFriendsQuickAdapter.setNewData(mChooseFriends)
+            }else if(requestCode==REQUEST_TOPICCODE&&data!=null){
+                tv_topic_choose.text = data.getStringExtra(Const.CHOOSE_TOPIC)
             }
         }
     }
@@ -481,5 +551,193 @@ class ReleaseNewTrendsActivity : BaseActivity(){
     override fun onDestroy() {
         super.onDestroy()
         locationClient.onDestroy()
+    }
+
+    private var isRecording: Boolean = false
+    private var recorderSecondsElapsed: Int = 0
+    private var playerSecondsElapsed: Int = 0
+    private var timer: Timer? = null
+    private var player: MediaPlayer? = null
+    private var recorder: Recorder? = null
+    private var autoStart: Boolean = false
+    private var filePath = Environment.getExternalStorageDirectory().toString() + "/recorded_audio.mp3"
+
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        if (autoStart&&!isRecording) {
+            toggleRecording()
+        }
+    }
+
+    //录制
+    fun toggleRecording() {
+        stopPlaying()
+        RecoderUtil.wait(100, Runnable {
+            if (isRecording) {
+//                pauseRecording()
+                record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
+                restartRecording()
+            } else {
+                circlebarview.startDefaultProgress()
+                record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal_press)
+                resumeRecording()
+            }
+        })
+    }
+
+    //播放
+    fun togglePlaying() {
+        pauseRecording()
+        RecoderUtil.wait(100, Runnable {
+            if (isPlaying()) {
+                stopPlaying()
+            } else {
+                startPlaying()
+            }
+        })
+    }
+
+
+    private fun pauseRecording() {
+        isRecording = false
+        if (!isFinishing) {
+//            saveMenuItem.setVisible(true)
+        }
+        if (recorder != null) {
+            recorder?.pauseRecording()
+        }
+        stopTimer()
+    }
+
+    fun restartRecording() {
+        if (isRecording) {
+            stopRecording()
+        } else if (isPlaying()) {
+            stopPlaying()
+        } else {
+        }
+        isRecording = false //特殊加的
+        tv_recoder_time.setText("正在录制")
+        recorderSecondsElapsed = 0
+        playerSecondsElapsed = 0
+    }
+
+    private fun resumeRecording() {
+        isRecording = true
+
+        if (recorder == null) {
+            tv_recoder_time.setText("正在录制·0S")
+
+            recorder = OmRecorder.wav(
+                    PullTransport.Default(RecoderUtil.getMic(AudioSource.MIC, AudioChannel.STEREO, AudioSampleRate.HZ_44100), this@ReleaseNewTrendsActivity),
+                    File(filePath))
+        }
+        recorder?.let {
+            it.resumeRecording()
+        }
+        startTimer()
+    }
+
+
+    private fun startPlaying() {
+        try {
+            stopRecording()
+            player = MediaPlayer()
+            player?.let {
+                it.setDataSource(filePath)
+                it.prepare()
+                it.start()
+                it.setOnCompletionListener(this@ReleaseNewTrendsActivity)
+            }
+            tv_recoder_time.setText("正在录制·0S")
+            playerSecondsElapsed = 0
+            startTimer()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopRecording() {
+        recorderSecondsElapsed = 0
+        if (recorder != null) {
+            recorder?.stopRecording()
+            recorder = null
+        }
+        circlebarview.stopProgressNum()
+        stopTimer()
+    }
+
+    private fun stopPlaying() {
+        if (player != null) {
+            try {
+                player!!.stop()
+                player!!.reset()
+            } catch (e: Exception) {
+            }
+        }
+        stopTimer()
+    }
+
+    private fun isPlaying(): Boolean {
+        try {
+            return player != null && player!!.isPlaying() && !isRecording
+        } catch (e: Exception) {
+            return false
+        }
+
+    }
+
+
+    private fun startTimer() {
+        stopTimer()
+        timer = Timer()
+        timer?.let {
+            it.scheduleAtFixedRate(object : TimerTask() {
+                override fun run() {
+                    updateTimer()
+                }
+            }, 0, 1000)
+        }
+    }
+
+    private fun stopTimer() {
+        if (timer != null) {
+            timer?.let {
+                it.cancel()
+                it.purge()
+            }
+            timer = null
+        }
+    }
+
+    private fun updateTimer() {
+        runOnUiThread {
+            if (isRecording) {
+                recorderSecondsElapsed++
+                tv_recoder_time.text = "正在录制·${recorderSecondsElapsed}S"
+            } else if (isPlaying()) {
+                playerSecondsElapsed++
+//                timerView.setText(RecoderUtil.formatSeconds(playerSecondsElapsed))
+            }
+        }
+    }
+
+    private fun selectAudio() {
+        stopRecording()
+    }
+
+    override fun onAudioChunkPulled(audioChunk: AudioChunk?) {
+        val amplitude = if (isRecording) audioChunk?.maxAmplitude()?.toFloat() else 0f
+        Log.i("audio", "大小$amplitude")
+    }
+
+    override fun onCompletion(mp: MediaPlayer?) {
+        stopPlaying()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        PermissionsUtils.getInstance().onRequestPermissionsResult(this,requestCode,permissions,grantResults);
     }
 }

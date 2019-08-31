@@ -102,6 +102,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
                 }
             }
         });
+
     }
 
     private void updateDoneText(){
