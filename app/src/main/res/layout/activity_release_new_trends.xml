@@ -71,7 +71,7 @@
                 android:textColorHint="@color/color_888888" />
 
              <include
-                 layout="@layout/item_audio" />
+                 layout="@layout/item_audio_square" />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_images"
                 android:layout_width="match_parent"

@@ -32,6 +32,7 @@ import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.google.gson.JsonObject
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.rong.imkit.RongIM
@@ -116,6 +117,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         squareAdapter.setHeaderView(headerView)
         mSwipeRefreshLayout.setAdapter(squareAdapter)
         mSwipeRefreshLayout.setOnRefreshListener(this)
+//        mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
+//                .size(15)
+//                .color(ContextCompat.getColor(context, R.color.color_F5F5F5))
+//                .build())
 
         headerView.rv_my_images.setHasFixedSize(true)
         headerView.rv_my_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

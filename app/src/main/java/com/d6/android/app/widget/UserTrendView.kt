@@ -111,7 +111,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         } else {
             String.format("%s | %s",square.updatetime?.interval(),square.city)
         }
-        tv_sub_title.text = sub
+        tv_createtime.text = sub
 
         tv_content.text = square.content
 

@@ -1171,3 +1171,8 @@ fun setLeftDrawable(drawable:Drawable,textView: TextView){
     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
     textView.setCompoundDrawables(drawable, null, null, null)
 }
+
+fun setRightDrawable(drawable:Drawable,textView: TextView){
+    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+    textView.setCompoundDrawables(null, null, drawable, null)
+}

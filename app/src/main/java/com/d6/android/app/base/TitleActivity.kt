@@ -1,5 +1,6 @@
 package com.d6.android.app.base
 
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -48,6 +49,12 @@ abstract class TitleActivity : BaseActivity() {
     }
 
     fun setTitleBold(title: CharSequence?,flag:Boolean=true) {
+        titleBar.titleView.setText(title)
+        val paint = titleBar.titleView.getPaint()
+        paint.setFakeBoldText(flag)
+    }
+
+    fun setTitleDrawable(title: CharSequence?, drawable: Drawable, flag:Boolean=true) {
         titleBar.titleView.setText(title)
         val paint = titleBar.titleView.getPaint()
         paint.setFakeBoldText(flag)

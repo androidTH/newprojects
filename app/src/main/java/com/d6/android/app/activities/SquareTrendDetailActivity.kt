@@ -73,8 +73,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_square_detail)
         immersionBar.init()
-//        titleBar.addRightButton(rightId = R.mipmap.discuss_more_gray, onClickListener = View.OnClickListener {
-//        })
+//        var drawable = ContextCompat.getDrawable(this,R.mipmap.titlemore_small_icon)
+//        setRightDrawable(drawable,titleBar.titleView)
         EventBus.getDefault().register(this@SquareTrendDetailActivity)
 
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))
@@ -196,10 +196,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         getData()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     private fun setInputState(p:Int){
         if(p==2){
             tv_unknow_choose.text = "公开"
@@ -222,12 +218,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         iIsAnonymous = p
     }
-//    private fun showSoftInput() {
-//        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        //显示软键盘
-//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
-//        et_content.requestFocus()
-//    }
 
     private fun getData() {
         if (id.isNotEmpty()) {
@@ -237,6 +227,10 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     mSquare = it
                     squareDetailCommentAdapter.setIsMySquare(it.userid.toString())
                     headerView.mTrendDetailView.update(it)
+                    setTitleBold(it.name,true)
+                    titleBar.titleView.setOnClickListener {
+                        startActivity<UserInfoActivity>("id" to id)
+                    }
                     mComments.clear()
                     if (it.comments == null || it.comments.isEmpty()) {
                         mSwipeRefreshLayout.setLoadMoreText("暂无评论")

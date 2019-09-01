@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true" android:drawable="@mipmap/ic_praise_selected"/>
-    <item android:drawable="@mipmap/ic_praise_normal"/>
+    <item android:state_selected="true" android:drawable="@mipmap/feed_like_press_icon"/>
+    <item android:drawable="@mipmap/feed_like_normal_icon"/>
 </selector>

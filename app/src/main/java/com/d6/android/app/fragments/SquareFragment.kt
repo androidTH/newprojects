@@ -3,6 +3,8 @@ package com.d6.android.app.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -11,14 +13,18 @@ import com.d6.android.app.activities.MainActivity
 import com.d6.android.app.activities.SquareTrendDetailActivity
 import com.d6.android.app.adapters.NetWorkImageHolder
 import com.d6.android.app.adapters.SquareAdapter
+import com.d6.android.app.adapters.SquareTypeAdapter
 import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Banner
 import com.d6.android.app.models.Square
+import com.d6.android.app.models.SquareTypeBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.header_square_list.view.*
 import org.greenrobot.eventbus.Subscribe
@@ -54,11 +60,18 @@ class SquareFragment : RecyclerFragment() {
         return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
+
+    private var mSquareTypes= ArrayList<SquareTypeBean>()
+
     private var mBanners = ArrayList<Banner>()
 
     private val mSquares = ArrayList<Square>()
     private val squareAdapter by lazy {
         SquareAdapter(mSquares)
+    }
+
+    private val mSquareTypeAdapter by lazy{
+        SquareTypeAdapter(mSquareTypes)
     }
 
     private val headerView by lazy {
@@ -84,6 +97,19 @@ class SquareFragment : RecyclerFragment() {
                 startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
             }
         }
+
+        mSquareTypes.add(SquareTypeBean(R.mipmap.like_list_icon,"喜欢"))
+        mSquareTypes.add(SquareTypeBean(R.mipmap.square_list_icon,"男生动态"))
+        mSquareTypes.add(SquareTypeBean(R.mipmap.girl_list_icon,"女生动态"))
+        mSquareTypes.add(SquareTypeBean(R.mipmap.tag_list_icon,"夏日的小美好"))
+        mSquareTypes.add(SquareTypeBean(R.mipmap.tag_list_icon,"夏日的小美好"))
+        mSquareTypes.add(SquareTypeBean(R.mipmap.tag_list_icon,"夏日的小美好"))
+        mSquareTypes.add(SquareTypeBean(R.mipmap.tag_list_icon,"夏日的小美好"))
+
+        headerView.rv_choose_squaretype.setHasFixedSize(true)
+        headerView.rv_choose_squaretype.layoutManager = FlexboxLayoutManager(context)
+        headerView.rv_choose_squaretype.adapter = mSquareTypeAdapter
+
         mIsDismissDialog = true
         getData()
     }

@@ -39,7 +39,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
-import kotlinx.android.synthetic.main.item_audio.*
+import kotlinx.android.synthetic.main.item_audio_square.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_IMAGE_VIDEO
 import omrecorder.AudioChunk

@@ -179,11 +179,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             false
         }
 
-        if (!square.classesName.isNullOrEmpty()) {
-            tv_tag.text = String.format("#%s#",square.classesName)
-        } else {
-            tv_tag.text = ""
-        }
+//        if (!square.classesName.isNullOrEmpty()) {
+//            tv_tag.text = String.format("#%s#",square.classesName)
+//        } else {
+//            tv_tag.text = ""
+//        }
 
 //        square.commentCount?.let {
 //            if (it > 0) {
