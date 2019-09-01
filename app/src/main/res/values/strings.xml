@@ -146,4 +146,6 @@
     <string name="checkin_content">会员福利，签到即可领取双倍积分</string>
     <string name="string_tasks">做任务</string>
     <string name="string_topicselection">选择话题</string>
+    <string name="string_record_audio">点击开始录制</string>
+    <string name="string_warm_voicetime">语音时长不能小于3s</string>
 </resources>

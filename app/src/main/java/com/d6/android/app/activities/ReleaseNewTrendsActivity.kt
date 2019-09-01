@@ -14,7 +14,9 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.widget.RelativeLayout
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
@@ -36,7 +38,6 @@ import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_choose_friends.*
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import kotlinx.android.synthetic.main.item_audio.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
@@ -244,6 +245,25 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }
         })
 
+        var mSoftKeyboardStateHelper = SoftKeyboardStateHelper(et_content)
+        mSoftKeyboardStateHelper.addSoftKeyboardStateListener(object: SoftKeyboardStateHelper.SoftKeyboardStateListener{
+            override fun onSoftKeyboardClosed() {
+
+            }
+
+            override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
+                var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_gray)
+                setLeftDrawable(drawable,tv_img)
+                tv_img.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
+
+                var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_gray)
+                setLeftDrawable(drawablevideo,tv_video)
+                tv_video.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
+
+                setPanelIsNotShow(false)
+            }
+        })
+
         tv_noticeuser.setOnClickListener {
             startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, CHOOSE_Friends to mChooseFriends)
         }
@@ -260,29 +280,54 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         tv_recoder.setOnClickListener {
             hideSoftKeyboard(it)
             rl_recoder.postDelayed(Runnable {
-                rl_recoder.visibility = View.VISIBLE
+                setPanelTitleUI(3)
             },300)
         }
 
-        rl_play_audio.setOnClickListener {
-            starDrawableAnim(iv_playaudio)
+        tv_delete_audio.setOnClickListener {
+            tv_delete_audio.visibility = View.GONE
+            rl_play_audio.visibility = View.GONE
+            stopPlaying()
         }
 
-        rl_recoder_circlebar.setOnClickListener {
-            var str  = arrayOf(Manifest.permission.RECORD_AUDIO)
-            PermissionsUtils.getInstance().checkPermissions(this, str,object:PermissionsUtils.IPermissionsResult{
-                override fun forbidPermissions() {
+        rl_play_audio.setOnClickListener {
+            togglePlaying()
+        }
 
-                }
+//        rl_recoder_circlebar.setOnClickListener {
+//            var str  = arrayOf(Manifest.permission.RECORD_AUDIO)
+//            PermissionsUtils.getInstance().checkPermissions(this, str,object:PermissionsUtils.IPermissionsResult{
+//                override fun forbidPermissions() {
+//
+//                }
+//
+//                override fun passPermissions() {
+//                    toggleRecording()
+//                }
+//            })
+//        }
 
-                override fun passPermissions() {
-                    toggleRecording()
-                }
-            })
+        rl_recoder_circlebar.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                var str = arrayOf(Manifest.permission.RECORD_AUDIO)
+                PermissionsUtils.getInstance().checkPermissions(this, str, object : PermissionsUtils.IPermissionsResult {
+                    override fun forbidPermissions() {
+
+                    }
+
+                    override fun passPermissions() {
+                        toggleRecording()
+                    }
+                })
+            } else if (event.action == MotionEvent.ACTION_UP) {
+                toggleRecording()
+            }
+            true
         }
 
         tv_img.setOnClickListener {
             hideSoftKeyboard(it)
+            setPanelTitleUI(1)
             if (mImages.size >= 10) {//最多9张
                 showToast("最多上传9张图片")
                 return@setOnClickListener
@@ -293,7 +338,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             startActivityForResult<MultiImageSelectorActivity>(0
                     , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
                     ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
-                    ,MultiImageSelectorActivity.SELECT_MODE to PICKER_IMAGE_VIDEO
                     ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
             )
         }
@@ -378,13 +422,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 if(mImages.size > 1){
                     tv_release.backgroundResource = R.drawable.shape_10r_orange
                 }
-//                val path = data.getStringExtra(SelectPhotoDialog.PATH)
-//                val size = mImages.size
-//                val image = AddImage("file://$path")
-////                toast("-图片地址->"+path)
-//                image.path = path
-//                mImages.add(size - 1, image)
-//                addAdapter.notifyDataSetChanged()
             }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
                 var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
                 mImages.clear()
@@ -401,6 +438,51 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }else if(requestCode==REQUEST_TOPICCODE&&data!=null){
                 tv_topic_choose.text = data.getStringExtra(Const.CHOOSE_TOPIC)
             }
+        }
+    }
+
+    private fun setPanelIsNotShow(show:Boolean){
+        if(show){
+            rl_recoder.visibility = View.VISIBLE
+            var drawable = ContextCompat.getDrawable(context, R.mipmap.input_addvoice_icon)
+            setLeftDrawable(drawable,tv_recoder)
+            tv_recoder.textColor = ContextCompat.getColor(this,R.color.color_F7AB00)
+        }else{
+            rl_recoder.visibility = View.GONE
+            var drawable = ContextCompat.getDrawable(context, R.mipmap.input_addvideo_gray_icon)
+            setLeftDrawable(drawable,tv_recoder)
+            tv_recoder.textColor = ContextCompat.getColor(this,R.color.color_CDCDCD)
+        }
+    }
+
+    private fun setPanelTitleUI(type:Int){
+        if(type==1){
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_icon)
+            setLeftDrawable(drawable,tv_img)
+            tv_img.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+
+            var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_gray)
+            setLeftDrawable(drawablevideo,tv_video)
+            tv_video.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
+            setPanelIsNotShow(false)
+        }else if(type==2){
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_gray)
+            setLeftDrawable(drawable,tv_img)
+            tv_img.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
+
+            var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_icon)
+            setLeftDrawable(drawablevideo,tv_video)
+            tv_video.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+            setPanelIsNotShow(false)
+        }else if(type==3){
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_gray)
+            setLeftDrawable(drawable,tv_img)
+            tv_img.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
+
+            var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_gray)
+            setLeftDrawable(drawablevideo,tv_video)
+            tv_video.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
+            setPanelIsNotShow(rl_recoder.visibility == View.GONE)
         }
     }
 
@@ -553,6 +635,44 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         locationClient.onDestroy()
     }
 
+    //开始播放音频
+    private fun startPlayAudioView(){
+        tv_delete_audio.visibility = View.VISIBLE
+        iv_playaudio.setImageResource(R.drawable.drawable_play_voice)
+        starPlayDrawableAnim(iv_playaudio)
+    }
+
+    //停止播放音频
+    private fun stopPlayAudioView(){
+        stopPlayDrawableAnim(iv_playaudio)
+        iv_playaudio.setImageResource(R.mipmap.liveroom_recording3)
+    }
+
+    private fun setAudioView(Recoding:Boolean){
+        if(Recoding){
+            if(recorderSecondsElapsed>3){
+                record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
+                tv_delete_audio.visibility = View.VISIBLE
+                setRlPlayAudioWidth()
+                tv_audio_time.text = "${recorderSecondsElapsed}”"
+            }else{
+                record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
+                toast(getString(R.string.string_warm_voicetime))
+            }
+        }else{
+            circlebarview.startDefaultProgress()
+            record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal_press)
+        }
+    }
+
+    //设置播放录音条的宽度
+    private fun setRlPlayAudioWidth(){
+        rl_play_audio.visibility = View.VISIBLE
+        var param = rl_play_audio.layoutParams
+        param.width = (resources.getDimensionPixelSize(R.dimen.width_100) + resources.getDimensionPixelSize(R.dimen.width_100)/60*recorderSecondsElapsed)
+        rl_play_audio.layoutParams = param
+    }
+
     private var isRecording: Boolean = false
     private var recorderSecondsElapsed: Int = 0
     private var playerSecondsElapsed: Int = 0
@@ -561,7 +681,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     private var recorder: Recorder? = null
     private var autoStart: Boolean = false
     private var filePath = Environment.getExternalStorageDirectory().toString() + "/recorded_audio.mp3"
-
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -576,11 +695,10 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         RecoderUtil.wait(100, Runnable {
             if (isRecording) {
 //                pauseRecording()
-                record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
+                setAudioView(isRecording)
                 restartRecording()
             } else {
-                circlebarview.startDefaultProgress()
-                record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal_press)
+                setAudioView(isRecording)
                 resumeRecording()
             }
         })
@@ -593,17 +711,14 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             if (isPlaying()) {
                 stopPlaying()
             } else {
+                startPlayAudioView()
                 startPlaying()
             }
         })
     }
 
-
     private fun pauseRecording() {
         isRecording = false
-        if (!isFinishing) {
-//            saveMenuItem.setVisible(true)
-        }
         if (recorder != null) {
             recorder?.pauseRecording()
         }
@@ -618,7 +733,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         } else {
         }
         isRecording = false //特殊加的
-        tv_recoder_time.setText("正在录制")
+        tv_recoder_time.text = getString(R.string.string_record_audio)
         recorderSecondsElapsed = 0
         playerSecondsElapsed = 0
     }
@@ -627,7 +742,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         isRecording = true
 
         if (recorder == null) {
-            tv_recoder_time.setText("正在录制·0S")
+            tv_recoder_time.setText(getString(R.string.string_record_audio))
 
             recorder = OmRecorder.wav(
                     PullTransport.Default(RecoderUtil.getMic(AudioSource.MIC, AudioChannel.STEREO, AudioSampleRate.HZ_44100), this@ReleaseNewTrendsActivity),
@@ -650,7 +765,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 it.start()
                 it.setOnCompletionListener(this@ReleaseNewTrendsActivity)
             }
-            tv_recoder_time.setText("正在录制·0S")
+            tv_recoder_time.setText("点击开始录制")
             playerSecondsElapsed = 0
             startTimer()
         } catch (e: Exception) {
@@ -673,6 +788,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             try {
                 player!!.stop()
                 player!!.reset()
+                stopPlayAudioView()
             } catch (e: Exception) {
             }
         }
@@ -685,9 +801,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         } catch (e: Exception) {
             return false
         }
-
     }
-
 
     private fun startTimer() {
         stopTimer()
@@ -718,7 +832,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 tv_recoder_time.text = "正在录制·${recorderSecondsElapsed}S"
             } else if (isPlaying()) {
                 playerSecondsElapsed++
-//                timerView.setText(RecoderUtil.formatSeconds(playerSecondsElapsed))
             }
         }
     }

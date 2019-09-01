@@ -12,6 +12,7 @@
         android:id="@+id/rl_play_audio"
         android:layout_width="100dp"
         android:layout_height="34dp"
+        android:visibility="gone"
         android:background="@drawable/shape_17r_26">
 
         <ImageView
@@ -21,16 +22,24 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_12"
-            android:src="@drawable/drawable_play_voice" />
+            android:src="@mipmap/liveroom_recording3" />
 
         <TextView
+            android:id="@+id/tv_audio_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_10"
-            android:text="05”"
             android:textColor="@color/color_F7AB00"
             android:textSize="12sp" />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/tv_delete_audio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:visibility="gone"
+        android:drawableLeft="@mipmap/dele_button"/>
 </LinearLayout>

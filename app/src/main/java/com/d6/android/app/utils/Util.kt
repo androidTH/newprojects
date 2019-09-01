@@ -28,6 +28,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
@@ -1150,10 +1151,23 @@ fun getSelfDateDialog():Boolean{
    return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
 }
 
-fun starDrawableAnim(mImageView:ImageView) {
+fun starPlayDrawableAnim(mImageView:ImageView) {
     var animationDrawable = mImageView.drawable as AnimationDrawable
     if (animationDrawable.isRunning()) {
         animationDrawable.stop()   //停止播放逐帧动画。
     }
     animationDrawable.start() //开始播放逐帧动画
+}
+
+fun stopPlayDrawableAnim(mImageView:ImageView) {
+    mImageView.setImageResource(R.drawable.drawable_play_voice)
+    var animationDrawable = mImageView.drawable as AnimationDrawable
+    if (animationDrawable.isRunning()) {
+        animationDrawable.stop()   //停止播放逐帧动画。
+    }
+}
+
+fun setLeftDrawable(drawable:Drawable,textView: TextView){
+    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+    textView.setCompoundDrawables(drawable, null, null, null)
 }

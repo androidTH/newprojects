@@ -291,6 +291,8 @@
                 android:drawablePadding="@dimen/margin_5"
                 android:textColor="@color/color_CDCDCD"
                 android:drawableLeft="@mipmap/input_addpic_gray"
+                android:gravity="center"
+                android:textSize="12sp"
                 android:text="图片" />
             <!--input_addpic_icon-->
 
@@ -303,6 +305,8 @@
                 android:drawablePadding="@dimen/margin_5"
                 android:textColor="@color/color_CDCDCD"
                 android:drawableLeft="@mipmap/input_addvideo_gray"
+                android:textSize="12sp"
+                android:gravity="center"
                 android:text="视频" />
             <!--input_addvideo_icon-->
 
@@ -312,7 +316,9 @@
                 android:layout_height="wrap_content"
                 android:text="录音"
                 android:drawablePadding="@dimen/margin_5"
-                android:drawableLeft="@mipmap/input_addvoice_icon"
+                android:drawableLeft="@mipmap/input_addvideo_gray_icon"
+                android:textSize="12sp"
+                android:gravity="center"
                 android:textColor="@color/color_CDCDCD"/>
             <!--input_addvideo_gray_icon-->
         </LinearLayout>
