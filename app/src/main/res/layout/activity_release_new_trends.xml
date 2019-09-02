@@ -72,6 +72,7 @@
 
              <include
                  layout="@layout/item_audio_square" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_images"
                 android:layout_width="match_parent"
@@ -89,9 +90,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingTop="@dimen/margin_8"
-                android:paddingBottom="@dimen/margin_8">
+                android:paddingLeft="15dp">
 
                 <RelativeLayout
                     android:id="@+id/rl_location"
@@ -100,7 +99,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="25dp"
+                        android:layout_height="50dp"
                         android:drawableLeft="@mipmap/comment_addlocal_icon"
                         android:drawablePadding="@dimen/margin_8"
                         android:gravity="center"
@@ -111,7 +110,7 @@
                     <TextView
                         android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
-                        android:layout_height="25dp"
+                        android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:drawableRight="@mipmap/comment_local_del"
                         android:drawablePadding="@dimen/margin_5"
@@ -185,14 +184,12 @@
                     android:id="@+id/ll_topic_choose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/view_topic_line"
-                    android:paddingTop="@dimen/margin_8"
-                    android:paddingBottom="@dimen/margin_3">
+                    android:layout_below="@+id/view_topic_line">
 
                     <TextView
                         android:id="@+id/tv_topictype"
                         android:layout_width="wrap_content"
-                        android:layout_height="25dp"
+                        android:layout_height="50dp"
                         android:drawableLeft="@mipmap/input_tag_icon"
                         android:drawablePadding="@dimen/margin_8"
                         android:gravity="center_vertical"
@@ -203,7 +200,7 @@
                     <TextView
                         android:id="@+id/tv_topic_choose"
                         android:layout_width="wrap_content"
-                        android:layout_height="25dp"
+                        android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:drawableRight="@mipmap/center_moreicon"
                         android:drawablePadding="@dimen/margin_8"
@@ -226,13 +223,12 @@
                     android:id="@+id/ll_unknow_choose"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/view_unknow_line"
-                    android:paddingTop="@dimen/margin_8">
+                    android:layout_below="@+id/view_unknow_line">
 
                     <TextView
                         android:id="@+id/tv_nmtype"
                         android:layout_width="wrap_content"
-                        android:layout_height="25dp"
+                        android:layout_height="50dp"
                         android:drawableLeft="@mipmap/public_small_yellow"
                         android:drawablePadding="@dimen/margin_8"
                         android:gravity="center_vertical"
@@ -243,7 +239,7 @@
                     <TextView
                         android:id="@+id/tv_unknow_choose"
                         android:layout_width="wrap_content"
-                        android:layout_height="25dp"
+                        android:layout_height="50dp"
                         android:layout_alignParentRight="true"
                         android:drawableRight="@mipmap/center_moreicon"
                         android:drawablePadding="@dimen/margin_8"

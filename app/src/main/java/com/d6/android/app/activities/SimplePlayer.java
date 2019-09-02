@@ -43,8 +43,11 @@ public class SimplePlayer extends VideoPlayerBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple_play);
 
-//        String videoPath = getIntent().getStringExtra("videoPath");
-        String videoPath = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
+        String videoPath = getIntent().getStringExtra("videoPath");
+        Log.i("SimplePlayer","url="+videoPath);
+//        videoPath = "/storage/emulated/0/DCIM/Camera/VID_20190820_142242.mp4";
+//        String videoPath = "http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4";
+//        String videoPath = "http://cdn.udian.me/20190423/b2581_1556018405346_31.mp4";
 //        mIsLiveStreaming = getIntent().getIntExtra("liveStreaming", 1) == 1;
         mIsLiveStreaming = false;
 
@@ -59,32 +62,35 @@ public class SimplePlayer extends VideoPlayerBaseActivity {
         mStatInfoTextView = findViewById(R.id.StatInfoTextView);
 
         // 1 -> hw codec enable, 0 -> disable [recommended]
-        int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
+//        int codec = getIntent().getIntExtra("mediaCodec", AVOptions.MEDIA_CODEC_SW_DECODE);
         AVOptions options = new AVOptions();
         // the unit of timeout is ms
         options.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
         // 1 -> hw codec enable, 0 -> disable [recommended]
-        options.setInteger(AVOptions.KEY_MEDIACODEC, codec);
+        options.setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE);
         options.setInteger(AVOptions.KEY_LIVE_STREAMING, mIsLiveStreaming ? 1 : 0);
-        boolean disableLog = getIntent().getBooleanExtra("disable-log", false);
+        boolean disableLog = true;
+//        boolean disableLog = getIntent().getBooleanExtra("disable-log", false);
         // options.setString(AVOptions.KEY_DNS_SERVER, "127.0.0.1");
         options.setInteger(AVOptions.KEY_LOG_LEVEL, disableLog ? 5 : 0);
-        boolean cache = true;
+        boolean cache = false;
 //        boolean cache = getIntent().getBooleanExtra("cache", false);
         if (!mIsLiveStreaming && cache) {
             options.setString(AVOptions.KEY_CACHE_DIR, DEFAULT_CACHE_DIR);
         }
-        boolean vcallback = getIntent().getBooleanExtra("video-data-callback", false);
+        boolean vcallback = true;
+//        boolean vcallback = getIntent().getBooleanExtra("video-data-callback", false);
         if (vcallback) {
             options.setInteger(AVOptions.KEY_VIDEO_DATA_CALLBACK, 1);
         }
-        boolean acallback = getIntent().getBooleanExtra("audio-data-callback", false);
+//        boolean acallback = getIntent().getBooleanExtra("audio-data-callback", false);
+        boolean acallback = false;
         if (acallback) {
             options.setInteger(AVOptions.KEY_AUDIO_DATA_CALLBACK, 1);
         }
         if (!mIsLiveStreaming) {
-            int startPos = getIntent().getIntExtra("start-pos", 0);
-            options.setInteger(AVOptions.KEY_START_POSITION, startPos * 1000);
+//            int startPos = getIntent().getIntExtra("start-pos", 0);
+//            options.setInteger(AVOptions.KEY_START_POSITION, 0 * 1000);
         }
         // options.setString(AVOptions.KEY_COMP_DRM_KEY,"cWoosgRk");
         mVideoView.setAVOptions(options);
@@ -99,7 +105,7 @@ public class SimplePlayer extends VideoPlayerBaseActivity {
         mVideoView.setOnAudioFrameListener(mOnAudioFrameListener);
 
         mVideoView.setVideoPath(videoPath);
-        mVideoView.setLooping(getIntent().getBooleanExtra("loop", false));
+        mVideoView.setLooping(true);//getIntent().getBooleanExtra("loop", false)
 
         // You can also use a custom `MediaController` widget
         mMediaController = new MediaController(this, !mIsLiveStreaming, mIsLiveStreaming);

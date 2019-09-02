@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.d6.android.app.R;
 import com.d6.android.app.models.Banner;
 import com.d6.android.app.widget.convenientbanner.holder.Holder;
+import com.d6.android.app.widget.convenientbanner.utils.ScreenUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
@@ -36,8 +37,8 @@ public class NetWorkImageHolder extends Holder<Banner> {
 
     @Override
     public void updateUI(Banner data,int position,int total) {
-//        ViewGroup.LayoutParams params = simpleDraweeView.getLayoutParams();
-//        sif (position == 0) {
+        ViewGroup.LayoutParams params = simpleDraweeView.getLayoutParams();
+//        if (position == 0) {
 //            if (params instanceof ViewGroup.MarginLayoutParams) {
 //                ((ViewGroup.MarginLayoutParams) params).leftMargin = (int)space;
 //                ((ViewGroup.MarginLayoutParams) params).rightMargin = ScreenUtil.dip2px(simpleDraweeView.getContext(),2.5f);

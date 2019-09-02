@@ -16,6 +16,7 @@
     <!--https://github.com/Zhaoss/WeiXinRecordedDemo-->
     <!--等级进度 https://www.jianshu.com/p/9e774990bdb5-->
     <!--https://github.com/xfans/VoiceWaveView-->
+    <!--大图：https://www.jianshu.com/p/b15e65791c3f-->
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

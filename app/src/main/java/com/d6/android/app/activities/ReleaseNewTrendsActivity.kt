@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.support.v4.content.ContextCompat
@@ -42,6 +43,7 @@ import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import kotlinx.android.synthetic.main.item_audio_square.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_IMAGE_VIDEO
+import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_VIDEO
 import omrecorder.AudioChunk
 import omrecorder.OmRecorder
 import omrecorder.PullTransport
@@ -91,8 +93,10 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
     private var REQUEST_CHOOSECODE:Int=10
     private var REQUEST_TOPICCODE:Int=11
-    private  var mChooseFriends = ArrayList<FriendBean>()
-    private  var topicName =""
+    private var mChooseFriends = ArrayList<FriendBean>()
+    private var topicName =""
+    private var REQUESTCODE_VIDEO = 1
+    private var REQUESTCODE_IMAGE = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +118,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             startActivityForResult<MultiImageSelectorActivity>(0
                     , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
                     ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
-                    ,MultiImageSelectorActivity.SELECT_MODE to PICKER_IMAGE_VIDEO
                     ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
             )
         }
@@ -325,6 +328,29 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             true
         }
 
+        tv_video.setOnClickListener {
+            hideSoftKeyboard(it)
+            setPanelTitleUI(2)
+//            val paths = mImages.filter { it.type!=1 }.map { it.path }
+//            val urls = ArrayList<String>(paths)
+//            startActivityForResult<MultiImageSelectorActivity>(REQUESTCODE_VIDEO
+//                    , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
+//                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to 1,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to false
+//                    ,MultiImageSelectorActivity.SELECT_MODE to PICKER_VIDEO
+//                    ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
+//            )
+            val intent = Intent()
+            if (Build.VERSION.SDK_INT < 19) {
+                intent.action = Intent.ACTION_GET_CONTENT
+                intent.type = "video/*"
+            } else {
+                intent.action = Intent.ACTION_OPEN_DOCUMENT
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.type = "video/*"
+            }
+            startActivityForResult(Intent.createChooser(intent, "选择要导入的视频"), REQUESTCODE_VIDEO)
+        }
+
         tv_img.setOnClickListener {
             hideSoftKeyboard(it)
             setPanelTitleUI(1)
@@ -335,7 +361,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             val c = 9
             val paths = mImages.filter { it.type!=1 }.map { it.path }
             val urls = ArrayList<String>(paths)
-            startActivityForResult<MultiImageSelectorActivity>(0
+            startActivityForResult<MultiImageSelectorActivity>(REQUESTCODE_IMAGE
                     , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
                     ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
                     ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
@@ -394,7 +420,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             var drawable = ContextCompat.getDrawable(this, R.mipmap.key_small)
             tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
         }
-        getLocalFriendsCount()
+//        getLocalFriendsCount()
     }
 
     override fun onResume() {
@@ -409,7 +435,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 0 && data != null) {
+            if (requestCode == REQUESTCODE_IMAGE && data != null) {
                 val result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
                 mImages.clear()
                 result.forEach {
@@ -418,6 +444,25 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                     mImages.add(image)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
                 }
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+                addAdapter.notifyDataSetChanged()
+                if(mImages.size > 1){
+                    tv_release.backgroundResource = R.drawable.shape_10r_orange
+                }
+            }else if(requestCode == REQUESTCODE_VIDEO && data != null){
+//                val result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+//                mImages.clear()
+//                result.forEach {
+//                    val image = AddImage("file://$it",2)
+//                    image.path = it
+//                    mImages.add(image)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+//                }
+                mImages.clear()
+                val selectedFilepath = GetPathFromUri.getPath(this, data.data)
+                if (selectedFilepath != null && "" != selectedFilepath) {
+                    val image = AddImage("file://${selectedFilepath}",2)
+                    image.path = selectedFilepath
+                    mImages.add(image)
+                }
                 addAdapter.notifyDataSetChanged()
                 if(mImages.size > 1){
                     tv_release.backgroundResource = R.drawable.shape_10r_orange

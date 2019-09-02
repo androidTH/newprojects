@@ -19,6 +19,7 @@ import com.d6.android.app.utils.*
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.view_user_trend_view.view.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.dip
@@ -103,9 +104,22 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //            tv_delete.gone()
 //        }
         this.square = square
-//        headView.setImageURI(square.picUrl)
-//        tv_name.text = square.name
-//        tv_name.isSelected = TextUtils.equals("0",square.sex)
+        headView.setImageURI(square.picUrl)
+        tv_name.text = square.name
+        tv_sex.isSelected = TextUtils.equals("0",square.sex)
+        tv_vip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
+
+        if(TextUtils.equals("3",square.screen)){
+            img_auther.visibility=View.GONE
+            img_auther.setImageResource(R.mipmap.renzheng_small)
+        }else if(TextUtils.equals("1",square.screen)){
+            img_auther.visibility=View.VISIBLE
+            img_auther.setImageResource(R.mipmap.video_small)
+        }else{
+            img_auther.visibility=View.GONE
+        }
+
+
         val sub = if (square.city.isNullOrEmpty()) {
             square.updatetime?.interval()
         } else {

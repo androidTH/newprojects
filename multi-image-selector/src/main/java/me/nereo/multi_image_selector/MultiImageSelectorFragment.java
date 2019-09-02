@@ -18,13 +18,11 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
-import android.support.v4.content.FileProvider;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,14 +32,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,7 +50,8 @@ import me.nereo.multi_image_selector.bean.Image;
 import me.nereo.multi_image_selector.callback.DataCallback;
 import me.nereo.multi_image_selector.utils.FileUtils;
 import me.nereo.multi_image_selector.utils.ScreenUtils;
-import me.nereo.multi_image_selector.utils.data.ImageLoader;
+import me.nereo.multi_image_selector.utils.data.ImageVideoLoader;
+import me.nereo.multi_image_selector.utils.data.VideosLoader;
 
 /**
  * 图片选择Fragment
@@ -93,6 +88,7 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
 
     public static final int PICKER_IMAGE = 100;
     public static final int PICKER_IMAGE_VIDEO = 101;
+    public static final int PICKER_VIDEO = 102;
 
     // 结果数据
     private ArrayList<String> resultList = new ArrayList<>();
@@ -145,23 +141,6 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-//        mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                if (scrollState == SCROLL_STATE_FLING) {
-////                    Picasso.with(view.getContext()).pauseTag(TAG);
-//                } else {
-////                    Picasso.with(view.getContext()).resumeTag(TAG);
-//                }
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//
-//            }
-//        });
-
 
     }
 
@@ -267,6 +246,10 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
         mImageAdapter.showSelectIndicator(mode == MODE_MULTI);
 
         mPopupAnchorView = view.findViewById(R.id.footer);
+
+        if(ModeType==PICKER_VIDEO){
+            mPopupAnchorView.setVisibility(View.GONE);
+        }
 
         mCategoryText = (TextView) view.findViewById(R.id.category_btn);
         // 初始化，加载所有图片
@@ -398,9 +381,11 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
                 // 首次加载所有图片
                 //new LoadImageTask().execute();
                 if(ModeType==PICKER_IMAGE_VIDEO){
-                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,new ImageVideoLoader(getActivity(), this));
+                }else if(ModeType==PICKER_VIDEO){
+                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,new VideosLoader(getActivity(), this));
                 }else{
-                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,new ImageLoader(getActivity(), this));
+                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
                 }
             } else {
                 // Permission Denied
@@ -543,33 +528,25 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
 
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 
-        private final String[] IMAGE_PROJECTION = {
-                MediaStore.Files.FileColumns.DATA,
-                MediaStore.Files.FileColumns.DISPLAY_NAME,
-                MediaStore.Files.FileColumns.DATE_ADDED,
-                MediaStore.Files.FileColumns.MEDIA_TYPE,
-                MediaStore.Files.FileColumns.SIZE,
-                MediaStore.Files.FileColumns._ID };
+        String[] IMAGE_PROJECTION = {
+                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.DISPLAY_NAME,
+                MediaStore.Images.Media.DATE_ADDED,
+                MediaStore.Images.Media.MIME_TYPE,
+                MediaStore.Images.Media.SIZE,
+                MediaStore.Images.Media._ID };
 
         @Override
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             if(id == LOADER_ALL) {
-
-                String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
-                        + " OR "
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
-                        + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
-
-                Uri queryUri = MediaStore.Files.getContentUri("external");
-
+                Uri queryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 CursorLoader cursorLoader = new CursorLoader(
                         getActivity(),
                         queryUri,
                         IMAGE_PROJECTION,
-                        selection,
+                        null,
                         null, // Selection args (none).
-                        MediaStore.Files.FileColumns.DATE_ADDED + " DESC" // Sort order.
+                        MediaStore.Images.Media.DATE_ADDED + " DESC" // Sort order.
                 );
                 return cursorLoader;
             }else if(id == LOADER_CATEGORY){
@@ -730,9 +707,11 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
             }else {
 //                System.err.println("--232131232");
                 if(ModeType==PICKER_IMAGE_VIDEO){
-                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
+                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,new ImageVideoLoader(getActivity(), this));
+                }else if(ModeType==PICKER_VIDEO){
+                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,new VideosLoader(getActivity(), this));
                 }else{
-                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null,new ImageLoader(getActivity(), this));
+                    getActivity().getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
                 }
             }
         }

@@ -12,6 +12,12 @@
         app:viewAspectRatio="1"
         android:id="@+id/imageView"/>
     <ImageView
+        android:id="@+id/iv_video_play"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/feed_play_icon"/>
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ivDeleteView"
@@ -19,5 +25,7 @@
         android:layout_alignParentRight="true"
         android:visibility="visible"
         android:src="@mipmap/comment_photo_edit"/>
+
+    <!--deleted_button_bg.png-->
     <!--ic_delete_yellow-->
 </RelativeLayout>

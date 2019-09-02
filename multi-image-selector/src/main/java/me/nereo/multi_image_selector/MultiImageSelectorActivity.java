@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
 
     public static final int PICKER_IMAGE = 100;
     public static final int PICKER_IMAGE_VIDEO = 101;
+    public static final int PICKER_VIDEO = 102;
 
     /** 单选 */
     public static final int MODE_SINGLE = 0;
@@ -71,6 +73,12 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.image_grid, Fragment.instantiate(this, MultiImageSelectorFragment.class.getName(), bundle))
                 .commit();
+
+        TextView mTvImageTitle = findViewById(R.id.tv_title);
+
+        if(modeType== PICKER_VIDEO){
+            mTvImageTitle.setText("视频");
+        }
 
         // 返回按钮
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {

@@ -264,13 +264,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_20"
-                    android:src="@mipmap/vippage_tequan_rg" />
+                    android:src="@mipmap/vippage_tequan_sf" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
-                    android:text="人工客服匹配"
+                    android:text="专属会员身份"
                     android:textColor="@color/color_888888"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -368,7 +368,6 @@
                     android:textColor="@color/color_888888"
                     android:textSize="12sp" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -380,13 +379,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_20"
-                    android:src="@mipmap/vippage_tequan_sf" />
+                    android:src="@mipmap/vippage_tequan_rg" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
-                    android:text="专属会员身份"
+                    android:text="按地区筛选用户"
                     android:textColor="@color/color_888888"
                     android:textSize="12sp" />
             </LinearLayout>

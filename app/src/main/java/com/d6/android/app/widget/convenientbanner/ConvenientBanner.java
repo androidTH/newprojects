@@ -76,6 +76,7 @@ public class ConvenientBanner<T> extends RelativeLayout {
         viewPager.setLayoutManager(linearLayoutManager);
 
         cbLoopScaleHelper = new CBLoopScaleHelper();
+//        cbLoopScaleHelper.setPagePadding(15);
 
         adSwitchTask = new AdSwitchTask(this);
     }
@@ -108,9 +109,6 @@ public class ConvenientBanner<T> extends RelativeLayout {
     public boolean isCanLoop(){
         return canLoop;
     }
-
-
-
 
     /**
      * 通知数据变化

@@ -19,33 +19,41 @@ import me.nereo.multi_image_selector.callback.DataCallback;
  * Created by dmcBig on 2017/7/3.
  */
 
-public class ImageLoader extends LoaderM implements LoaderManager.LoaderCallbacks{
+public class ImageVideoLoader extends LoaderM implements LoaderManager.LoaderCallbacks{
 
-    String[] IMAGE_PROJECTION = {
-            MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.DISPLAY_NAME,
-            MediaStore.Images.Media.DATE_ADDED,
-            MediaStore.Images.Media.MIME_TYPE,
-            MediaStore.Images.Media.SIZE,
-            MediaStore.Images.Media._ID };
+
+        private final String[] IMAGE_PROJECTION = {
+                MediaStore.Files.FileColumns.DATA,
+                MediaStore.Files.FileColumns.DISPLAY_NAME,
+                MediaStore.Files.FileColumns.DATE_ADDED,
+                MediaStore.Files.FileColumns.MEDIA_TYPE,
+                MediaStore.Files.FileColumns.SIZE,
+                MediaStore.Files.FileColumns._ID };
 
     Context mContext;
     DataCallback mLoader;
-    public ImageLoader(Context context, DataCallback loader){
+    public ImageVideoLoader(Context context, DataCallback loader){
         this.mContext=context;
         this.mLoader=loader;
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri queryUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+                + MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE
+                + " OR "
+                + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
+                + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+
+        Uri queryUri = MediaStore.Files.getContentUri("external");
+
         CursorLoader cursorLoader = new CursorLoader(
                 mContext,
                 queryUri,
                 IMAGE_PROJECTION,
-                null,
+                selection,
                 null, // Selection args (none).
-                MediaStore.Images.Media.DATE_ADDED + " DESC" // Sort order.
+                MediaStore.Files.FileColumns.DATE_ADDED + " DESC" // Sort order.
         );
         return cursorLoader;
     }

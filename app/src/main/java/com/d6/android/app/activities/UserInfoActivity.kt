@@ -624,14 +624,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (data.iIsFollow != null) {
                     if (data.iIsFollow == 1) {
+                        tv_like.visibility = View.GONE
                         tv_like.setCompoundDrawables(null, null, null, null);
                         tv_like.text = resources.getString(R.string.string_liked)
                         tv_like.backgroundResource = R.drawable.shade_20r_white
                         tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
                         tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
-                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
+                        tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_100), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_100), resources.getDimensionPixelSize(R.dimen.margin_10))
                     } else {
+                        tv_like.visibility = View.VISIBLE
                         tv_like.text = resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
                         tv_like.textColor = ContextCompat.getColor(context, R.color.white)
@@ -756,6 +758,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
 
+            tv_like.visibility = View.GONE
             tv_like.setCompoundDrawables(null, null, null, null);
 
             tv_like.text = resources.getString(R.string.string_liked)
@@ -763,7 +766,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
             tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
-            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_100), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_100), resources.getDimensionPixelSize(R.dimen.margin_10))
 
             mData?.iIsFollow = 1
             showTips(jsonObject, "", "")
@@ -778,7 +781,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
-
+            tv_like.visibility = View.VISIBLE
             var drawable = ContextCompat.getDrawable(context, R.mipmap.icon_like_button)
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
             tv_like.setCompoundDrawables(drawable, null, null, null);
@@ -823,14 +826,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: LikeMsgEvent) {
         if (event.type == 1) {
+            tv_like.visibility = View.GONE
             tv_like.setCompoundDrawables(null, null, null, null);
             tv_like.text = resources.getString(R.string.string_liked)
             tv_like.backgroundResource = R.drawable.shade_20r_white
             tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
 
             tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
-            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
+            tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_100), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_100), resources.getDimensionPixelSize(R.dimen.margin_10))
         } else {
+            tv_like.visibility = View.VISIBLE
+
             tv_like.text = resources.getString(R.string.string_like)
             tv_like.backgroundResource = R.drawable.shape_20r_ff6
             tv_like.textColor = ContextCompat.getColor(context, R.color.white)

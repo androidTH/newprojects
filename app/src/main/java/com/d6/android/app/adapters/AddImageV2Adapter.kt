@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.d6.android.app.R
 import com.d6.android.app.activities.BLBeautifyImageActivity
+import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
@@ -37,25 +38,45 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
     override fun onBind(holder: ViewHolder, position: Int, data: AddImage) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         val ivDeleteView = holder.bind<ImageView>(R.id.ivDeleteView)
+        val ivVideoPlay = holder.bind<ImageView>(R.id.iv_video_play)
         if (data.type == 1) {//添加。
             ivDeleteView.gone()
+            ivVideoPlay.gone()
+            ivVideoPlay.visibility = View.GONE
             imageView.setImageResource(R.mipmap.comment_addphoto_icon)
+        } else if(data.type==2){
+            ivVideoPlay.visibility = View.VISIBLE
+            ivDeleteView.visibility = View.VISIBLE
+            imageView.setImageURI(data.imgUrl)
+            ivDeleteView.setImageResource(R.mipmap.deleted_video_bg)
         } else {
+            ivVideoPlay.visibility = View.GONE
             ivDeleteView.visible()
+            ivDeleteView.setImageResource(R.mipmap.comment_photo_edit)
+            ivVideoPlay.gone()
             imageView.setImageURI(data.imgUrl)
         }
 
         imageView.setOnClickListener {
             if (data.type == 1) {
                 listener?.onAddClick()
+            }else if(data.type==2){
+                startVideoActivity(data.path)
             }else{
                 startActivity(mData,position)
             }
         }
+
         ivDeleteView.setOnClickListener {
 //            mData.remove(data)
 //            notifyDataSetChanged()
-            startActivity(mData,position)
+            if(data.type==2){
+                mData.remove(data)
+                mData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+                notifyDataSetChanged()
+            }else{
+                startActivity(mData,position)
+            }
         }
     }
 
@@ -68,6 +89,10 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
             }
         }
         (context as BaseActivity).startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE,BLBeautifyParam.KEY to param);
+    }
+
+    fun startVideoActivity(path:String){
+        (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to path)
     }
 
     fun setOnAddClickListener(l:()->Unit){
