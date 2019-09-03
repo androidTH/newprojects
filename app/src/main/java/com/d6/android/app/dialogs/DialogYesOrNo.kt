@@ -67,7 +67,7 @@ class DialogYesOrNo : DialogFragment(), RequestManager, DialogInterface.OnKeyLis
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var resmsg = if(arguments.containsKey("resmsg")){
+        var resmsg = if(arguments.containsKey("msg")){
             arguments.getString("msg")
         }else{
             "你们已经解锁聊天，本次赴约申请免费，是否继续申请赴约"
@@ -89,6 +89,8 @@ class DialogYesOrNo : DialogFragment(), RequestManager, DialogInterface.OnKeyLis
         tv_yesorno_yes.setOnClickListener {
             if(TextUtils.equals("3",code)){
                 getData()
+            }else{
+                dialogListener?.onClick(1,"msg")
             }
         }
 

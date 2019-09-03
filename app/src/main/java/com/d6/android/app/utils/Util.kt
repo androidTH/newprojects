@@ -19,6 +19,7 @@ import android.os.StatFs
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.Settings
+import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -35,10 +36,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.CheckInPointsDialog
-import com.d6.android.app.dialogs.DateErrorDialog
-import com.d6.android.app.dialogs.DialogUpdateApp
-import com.d6.android.app.dialogs.MemberDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.*
@@ -1175,4 +1173,11 @@ fun setLeftDrawable(drawable:Drawable,textView: TextView){
 fun setRightDrawable(drawable:Drawable,textView: TextView){
     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
     textView.setCompoundDrawables(null, null, drawable, null)
+}
+
+fun getDialogIsorNot(activity: BaseActivity,code:Int,msg:String): DialogYesOrNo{
+    var mDialogYesOrNo = DialogYesOrNo()
+    mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg)
+    mDialogYesOrNo.show(activity.supportFragmentManager, "dialogyesorno")
+    return mDialogYesOrNo
 }

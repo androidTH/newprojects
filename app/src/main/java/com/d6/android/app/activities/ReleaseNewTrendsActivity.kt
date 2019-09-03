@@ -24,6 +24,7 @@ import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommonTipDialog
+import com.d6.android.app.dialogs.DialogYesOrNo
 import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
@@ -36,6 +37,7 @@ import com.d6.android.app.recoder.model.AudioSource
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
+import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -44,6 +46,7 @@ import kotlinx.android.synthetic.main.item_audio_square.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_IMAGE_VIDEO
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_VIDEO
+import me.nereo.multi_image_selector.utils.FileUtils.getCacheDirectory
 import omrecorder.AudioChunk
 import omrecorder.OmRecorder
 import omrecorder.PullTransport
@@ -108,18 +111,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         rv_images.isNestedScrollingEnabled = false
         rv_images.addItemDecoration(SpacesItemDecoration(dip(6),3))
         addAdapter.setOnAddClickListener {
-            if (mImages.size >= 10) {//最多9张
-                showToast("最多上传9张图片")
-                return@setOnAddClickListener
-            }
-            val c = 9
-            val paths = mImages.filter { it.type!=1 }.map { it.path }
-            val urls = ArrayList<String>(paths)
-            startActivityForResult<MultiImageSelectorActivity>(0
-                    , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
-                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
-                    ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
-            )
+            addImagesToSquare(tv_img)
         }
 
         mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))//ic_add_bg
@@ -281,16 +273,23 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
 
         tv_recoder.setOnClickListener {
-            hideSoftKeyboard(it)
-            rl_recoder.postDelayed(Runnable {
-                setPanelTitleUI(3)
-            },300)
+            if(mImages[0].type==0){
+                clearImgsOrVideoDialog(it,"图片、视频、语音不能同时添加，是否清空已添加的图片")
+            }else if(mImages[0].type==2){
+                clearImgsOrVideoDialog(it,"图片、视频、语音不能同时添加，是否清空已添加的视频")
+            }else{
+                hideSoftKeyboard(it)
+                rl_recoder.postDelayed(Runnable {
+                    setPanelTitleUI(3)
+                },300)
+            }
         }
 
         tv_delete_audio.setOnClickListener {
             tv_delete_audio.visibility = View.GONE
             rl_play_audio.visibility = View.GONE
             stopPlaying()
+            DiskFileUtils.deleteSingleFile(filePath)
         }
 
         rl_play_audio.setOnClickListener {
@@ -329,49 +328,32 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
 
         tv_video.setOnClickListener {
-            hideSoftKeyboard(it)
-            setPanelTitleUI(2)
-//            val paths = mImages.filter { it.type!=1 }.map { it.path }
-//            val urls = ArrayList<String>(paths)
-//            startActivityForResult<MultiImageSelectorActivity>(REQUESTCODE_VIDEO
-//                    , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
-//                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to 1,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to false
-//                    ,MultiImageSelectorActivity.SELECT_MODE to PICKER_VIDEO
-//                    ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
-//            )
-            val intent = Intent()
-            if (Build.VERSION.SDK_INT < 19) {
-                intent.action = Intent.ACTION_GET_CONTENT
-                intent.type = "video/*"
-            } else {
-                intent.action = Intent.ACTION_OPEN_DOCUMENT
-                intent.addCategory(Intent.CATEGORY_OPENABLE)
-                intent.type = "video/*"
+            if(mImages[0].type==0){
+                var  mDialogYesOrNo = getDialogIsorNot(this,1,"图片、视频、语音不能同时添加，是否清空已添加的图片")
+                mDialogYesOrNo.setDialogListener { p, s ->
+                    mImages.clear()
+                    mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+                    addAdapter.notifyDataSetChanged()
+                    addVideo(it)
+                    mDialogYesOrNo.dismissAllowingStateLoss()
+                }
+            }else if(DiskFileUtils.IsExists(filePath)){
+                var  mDialogYesOrNo = getDialogIsorNot(this,1,"图片、视频、语音不能同时添加，是否清空已添加的音频")
+                mDialogYesOrNo.setDialogListener { p, s ->
+                    DiskFileUtils.deleteSingleFile(filePath)
+                    tv_delete_audio.visibility = View.GONE
+                    rl_play_audio.visibility = View.GONE
+                    addVideo(it)
+                    mDialogYesOrNo.dismissAllowingStateLoss()
+                }
+            }else{
+                addVideo(it)
             }
-            startActivityForResult(Intent.createChooser(intent, "选择要导入的视频"), REQUESTCODE_VIDEO)
         }
 
         tv_img.setOnClickListener {
-            hideSoftKeyboard(it)
-            setPanelTitleUI(1)
-            if (mImages.size >= 10) {//最多9张
-                showToast("最多上传9张图片")
-                return@setOnClickListener
-            }
-            val c = 9
-            val paths = mImages.filter { it.type!=1 }.map { it.path }
-            val urls = ArrayList<String>(paths)
-            startActivityForResult<MultiImageSelectorActivity>(REQUESTCODE_IMAGE
-                    , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
-                    ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
-                    ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
-            )
+            addImagesToSquare(it)
         }
-
-//        tv_softinput.setOnClickListener {
-//            rl_recoder.visibility = View.GONE
-//            showSoftInput(it)
-//        }
 
         ll_unknow_choose.setOnClickListener {
            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
@@ -420,7 +402,79 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             var drawable = ContextCompat.getDrawable(this, R.mipmap.key_small)
             tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
         }
-//        getLocalFriendsCount()
+    }
+
+    private fun addImagesToSquare(it:View){
+        if(mImages[0].type==2){
+            //图片、视频、语音不能同时添加，是否清空已添加的xx
+            var  mDialogYesOrNo =  getDialogIsorNot(this,1,"图片、视频、语音不能同时添加，是否清空已添加的视频")
+            mDialogYesOrNo.setDialogListener { p, s ->
+                mImages.clear()
+                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+                addAdapter.notifyDataSetChanged()
+                addImages(it)
+                mDialogYesOrNo.dismissAllowingStateLoss()
+            }
+        }else if(DiskFileUtils.IsExists(filePath)){
+            var  mDialogYesOrNo = getDialogIsorNot(this,1,"图片、视频、语音不能同时添加，是否清空已添加的音频")
+            mDialogYesOrNo.setDialogListener { p, s ->
+                DiskFileUtils.deleteSingleFile(filePath)
+                tv_delete_audio.visibility = View.GONE
+                rl_play_audio.visibility = View.GONE
+                addImages(it)
+                mDialogYesOrNo.dismissAllowingStateLoss()
+            }
+        }else{
+            addImages(it)
+        }
+    }
+
+    //录音dialog
+    private fun clearImgsOrVideoDialog(it:View,msg:String){
+        var  mDialogYesOrNo =  getDialogIsorNot(this,1,msg)
+        mDialogYesOrNo.setDialogListener { p, s ->
+            mImages.clear()
+            mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+            addAdapter.notifyDataSetChanged()
+            mDialogYesOrNo.dismissAllowingStateLoss()
+
+            hideSoftKeyboard(it)
+            rl_recoder.postDelayed(Runnable {
+                setPanelTitleUI(3)
+            },300)
+        }
+    }
+
+    private fun addVideo(it:View){
+        hideSoftKeyboard(it)
+        setPanelTitleUI(2)
+        val intent = Intent()
+        if (Build.VERSION.SDK_INT < 19) {
+            intent.action = Intent.ACTION_GET_CONTENT
+            intent.type = "video/*"
+        } else {
+            intent.action = Intent.ACTION_OPEN_DOCUMENT
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "video/*"
+        }
+        startActivityForResult(Intent.createChooser(intent, "选择要导入的视频"), REQUESTCODE_VIDEO)
+    }
+
+    private fun addImages(it:View){
+        hideSoftKeyboard(it)
+        setPanelTitleUI(1)
+        if (mImages.size >= 10) {//最多9张
+            showToast("最多上传9张图片")
+            return
+        }
+        val c = 9
+        val paths = mImages.filter { it.type!=1 }.map { it.path }
+        val urls = ArrayList<String>(paths)
+        startActivityForResult<MultiImageSelectorActivity>(REQUESTCODE_IMAGE
+                , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
+                ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
+        )
     }
 
     override fun onResume() {
@@ -449,13 +503,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                     tv_release.backgroundResource = R.drawable.shape_10r_orange
                 }
             }else if(requestCode == REQUESTCODE_VIDEO && data != null){
-//                val result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
-//                mImages.clear()
-//                result.forEach {
-//                    val image = AddImage("file://$it",2)
-//                    image.path = it
-//                    mImages.add(image)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
-//                }
                 mImages.clear()
                 val selectedFilepath = GetPathFromUri.getPath(this, data.data)
                 if (selectedFilepath != null && "" != selectedFilepath) {
@@ -608,18 +655,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     }
 
     private fun getLocalFriendsCount(){
-//        Request.findFriendCount(userId).request(this,false,success = {msg,json->
-//            json?.let {
-//                var count = it.optInt("obj")
-//                if(count>0){
-//                    tv_noticeuser.visibility = View.VISIBLE
-//                    rv_friends.visibility = View.VISIBLE
-//                }else{
-//                    rv_friends.visibility = View.GONE
-//                }
-//            }
-//        })
-
         Request.findUserFriends(userId,"",1).request(this) { _, data ->
             if(data?.list?.results!=null){
                 tv_noticeuser.visibility = View.VISIBLE
