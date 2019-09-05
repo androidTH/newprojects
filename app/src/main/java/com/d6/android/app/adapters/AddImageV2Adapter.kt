@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.d6.android.app.R
 import com.d6.android.app.activities.BLBeautifyImageActivity
+import com.d6.android.app.activities.ImageLocalPagerActivity
 import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
@@ -59,7 +60,7 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
 
         imageView.setOnClickListener {
             if (data.type == 1) {
-                listener?.onAddClick()
+                listener?.onAddClick(data.type)
             }else if(data.type==2){
                 startVideoActivity(data.path)
             }else{
@@ -68,8 +69,6 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
         }
 
         ivDeleteView.setOnClickListener {
-//            mData.remove(data)
-//            notifyDataSetChanged()
             if(data.type==2){
                 mData.remove(data)
                 mData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
@@ -81,24 +80,31 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
     }
 
     fun startActivity(mData:ArrayList<AddImage>,pos:Int){
-        var param:BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
-        param.index = pos
+//        var param:BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+//        param.index = pos
+//        mData.forEach {
+//            if(it.type == 0){
+//                param.images.add(it.imgUrl.replace("file://",""))
+//            }
+//        }
+//        (context as BaseActivity).startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE,BLBeautifyParam.KEY to param);
+        var resultList = ArrayList<String>()
         mData.forEach {
-            if(it.type == 0){
-                param.images.add(it.imgUrl.replace("file://",""))
+            if(it.type!=1){
+                resultList.add(it.imgUrl)
             }
         }
-        (context as BaseActivity).startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE,BLBeautifyParam.KEY to param);
+        (context as BaseActivity).startActivityForResult<ImageLocalPagerActivity>(1000, ImageLocalPagerActivity.TYPE to 0,ImageLocalPagerActivity.CURRENT_POSITION to pos,ImageLocalPagerActivity.URLS to resultList,"delete" to true)
     }
 
     fun startVideoActivity(path:String){
         (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to path)
     }
 
-    fun setOnAddClickListener(l:()->Unit){
+    fun setOnAddClickListener(l:(type:Int)->Unit){
         listener = object : OnViewClickListener {
-            override fun onAddClick() {
-                l()
+            override fun onAddClick(type:Int) {
+                l(type)
             }
         }
     }
@@ -106,6 +112,6 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
     private var listener: OnViewClickListener?=null
 
     interface OnViewClickListener{
-        fun onAddClick()
+        fun onAddClick(type:Int)
     }
 }

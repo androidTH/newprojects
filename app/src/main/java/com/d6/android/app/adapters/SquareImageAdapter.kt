@@ -3,7 +3,6 @@ package com.d6.android.app.adapters
 import com.d6.android.app.R
 import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.activities.TrendDetailActivity
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.Square

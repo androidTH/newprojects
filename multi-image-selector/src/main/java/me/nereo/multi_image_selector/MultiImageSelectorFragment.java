@@ -273,44 +273,31 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
             }
         });
 
-        mPreviewBtn = (Button) view.findViewById(R.id.preview);
+        mPreviewBtn = view.findViewById(R.id.preview);
         // 初始化，按钮状态初始化
-        if(resultList == null || resultList.size()<=0){
-            mPreviewBtn.setText(R.string.preview);
-            mPreviewBtn.setEnabled(false);
+        if (resultList != null && resultList.size() > 0) {
+            mPreviewBtn.setText(getResources().getString(R.string.preview) + "(" + resultList.size() + ")");
         }
+
         mPreviewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO 预览
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.ImageLocalPagerActivity");
+                intent.putExtra("position",0);
+                intent.putStringArrayListExtra("urls",resultList);
+                intent.putExtra("type",1);
+                intent.putExtra("delete",true);
+                startActivity(intent);
             }
         });
 
-        mGridView = (RecyclerView) view.findViewById(R.id.grid);
+        mGridView = view.findViewById(R.id.grid);
         mGridView.setHasFixedSize(true);
 //        mGridView.set
         mGridView.setLayoutManager(new GridLayoutManager(getActivity(),3));
 //        mGridView.addItemDecoration(new );
         mGridView.setAdapter(mImageAdapter);
-//        mImageAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                if (mImageAdapter.isShowCamera()) {
-//                    // 如果显示照相机，则第一个Grid显示为照相机，处理特殊逻辑
-//                    if (i == 0) {
-//                        showCameraAction();
-//                    } else {
-//                        // 正常操作
-//                        Image image = (Image) adapterView.getAdapter().getItem(i);
-//                        selectImageFromGrid(image, mode);
-//                    }
-//                } else {
-//                    // 正常操作
-//                    Image image = (Image) adapterView.getAdapter().getItem(i);
-//                    selectImageFromGrid(image, mode);
-//                }
-//            }
-//        });
         mImageAdapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

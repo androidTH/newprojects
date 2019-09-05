@@ -33,7 +33,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
     private var square: Square? = null
     private val mImages = ArrayList<String>()
     private val imageAdapter by lazy {
-        SquareImageAdapter(mImages)
+        SquareImageAdapter(mImages,1)
     }
 
     private val userId by lazy {

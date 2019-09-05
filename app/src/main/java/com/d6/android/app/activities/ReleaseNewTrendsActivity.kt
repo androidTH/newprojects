@@ -111,7 +111,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         rv_images.isNestedScrollingEnabled = false
         rv_images.addItemDecoration(SpacesItemDecoration(dip(6),3))
         addAdapter.setOnAddClickListener {
-            addImagesToSquare(tv_img)
+            if(it==1){
+                addImagesToSquare(tv_img)
+            }
         }
 
         mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))//ic_add_bg
@@ -123,7 +125,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
 
         locationClient.setLocationListener {
-            sysErr("--location--->$it")
             if (it != null) {
                 city = it.city.replace("省","").replace("市","").trim()
                 locationClient.stopLocation()

@@ -9,7 +9,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.d6.android.app.R
+import com.d6.android.app.activities.FilterSquaresActivity
 import com.d6.android.app.activities.MainActivity
+import com.d6.android.app.activities.ReleaseNewTrendsActivity
 import com.d6.android.app.activities.SquareTrendDetailActivity
 import com.d6.android.app.adapters.NetWorkImageHolder
 import com.d6.android.app.adapters.SquareAdapter
@@ -22,6 +24,7 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.SquareTypeBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.getLocalUserId
+import com.d6.android.app.utils.isCheckOnLineAuthUser
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
@@ -29,6 +32,7 @@ import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.header_square_list.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
@@ -109,6 +113,14 @@ class SquareFragment : RecyclerFragment() {
         headerView.rv_choose_squaretype.setHasFixedSize(true)
         headerView.rv_choose_squaretype.layoutManager = FlexboxLayoutManager(context)
         headerView.rv_choose_squaretype.adapter = mSquareTypeAdapter
+
+        mSquareTypeAdapter.setOnItemClickListener { view, position ->
+            activity.isCheckOnLineAuthUser(this, getLocalUserId()) {
+//                startActivityForResult<ReleaseNewTrendsActivity>(1)
+                var mSqureType = mSquareTypes.get(position)
+                startActivity<FilterSquaresActivity>("squaretype" to mSqureType)
+            }
+        }
 
         mIsDismissDialog = true
         getData()

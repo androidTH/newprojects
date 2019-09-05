@@ -284,6 +284,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/imageactivity"/>
         <activity
+            android:name=".activities.ImageLocalPagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/imageactivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ImageLocalPagerActivity" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
         <activity android:name=".activities.MessageDetailActivity" />
@@ -312,6 +321,10 @@
         <activity android:name=".activities.FansActivity"/>
         <activity android:name=".activities.FollowActivity"/>
         <activity android:name=".activities.VistorsActivity"/>
+        <activity android:name=".activities.FilterSquaresActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".activities.ChooseFriendsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"

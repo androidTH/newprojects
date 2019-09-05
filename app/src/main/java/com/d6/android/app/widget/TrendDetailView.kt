@@ -29,7 +29,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
     private var square: Square? = null
     private val mImages = ArrayList<String>()
     private val imageAdapter by lazy {
-        SquareImageAdapter(mImages)
+        SquareImageAdapter(mImages,1)
     }
     init {
         LayoutInflater.from(context).inflate(R.layout.view_trend_detail_view, this, true)

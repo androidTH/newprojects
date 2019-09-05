@@ -18,10 +18,10 @@ import kotlinx.android.synthetic.main.fragment_image.*
 /**
  * 图片Fragment
  */
-class ImageFragment : BaseNoBarFragment() {
+class ImageLocalFragment : BaseNoBarFragment() {
     companion object {
         fun newInstance(url: String, isBlur: Boolean): Fragment {
-            val imageFragment = ImageFragment()
+            val imageFragment = ImageLocalFragment()
             val bundle = Bundle()
             bundle.putString("url", url)
             bundle.putBoolean("isBlur", isBlur)
@@ -61,7 +61,7 @@ class ImageFragment : BaseNoBarFragment() {
                     .build()
         } else {
             Fresco.newDraweeControllerBuilder()
-                    .setUri(uri)
+                    .setUri("file://"+uri)
                     .setTapToRetryEnabled(true)
                     .build()
         }

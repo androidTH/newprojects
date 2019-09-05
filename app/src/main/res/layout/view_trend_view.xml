@@ -3,17 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <View
+        android:id="@+id/comment_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_10"
+        android:background="@color/color_F5F5F5"/>
     <TextView
         android:id="@+id/tv_topfeed"
         android:layout_width="29dp"
         android:layout_height="29dp"
+        android:layout_below="@+id/comment_line"
         android:layout_alignParentRight="true"
         android:background="@mipmap/feed_topfeed_icon"
         android:paddingLeft="@dimen/margin_15" />
     <RelativeLayout
         android:id="@+id/rl_square"
+        android:layout_below="@+id/comment_line"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_8"
         android:paddingTop="@dimen/margin_10"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10">
@@ -247,11 +255,4 @@
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
     </RelativeLayout>
-    <View
-        android:id="@+id/comment_line"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_10"
-        android:layout_below="@+id/rl_square"
-        android:background="@color/color_F5F5F5"
-        android:layout_marginTop="@dimen/margin_10" />
 </RelativeLayout>
