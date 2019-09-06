@@ -39,15 +39,18 @@ class ImageLocalFragment : BaseNoBarFragment() {
         var isBlur = false
         if (arguments != null) {
             url = arguments.getString("url")
-            isBlur = arguments.getBoolean("isBlur")
         } else {
             url = ""
         }
+        setNewPic(url,isBlur)
+    }
+
+    fun setNewPic(path:String?,isBlur:Boolean){
         val hierarchy = GenericDraweeHierarchyBuilder(resources)
                 .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
                 .setProgressBarImage(ProgressBarDrawable())
                 .build()
-        val uri = Uri.parse(url)
+        val uri = Uri.parse(path)
         val request = ImageRequestBuilder.newBuilderWithSource(uri)
                 .setPostprocessor(IterativeBoxBlurPostProcessor(3, 5))
                 .build()

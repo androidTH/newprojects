@@ -287,7 +287,7 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
                 intent.putExtra("position",0);
                 intent.putStringArrayListExtra("urls",resultList);
                 intent.putExtra("type",1);
-                intent.putExtra("delete",true);
+                intent.putExtra("delete",false);
                 startActivity(intent);
             }
         });

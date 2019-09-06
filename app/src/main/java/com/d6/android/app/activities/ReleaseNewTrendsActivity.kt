@@ -29,6 +29,7 @@ import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.FriendBean
+import com.d6.android.app.models.Imagelocals
 import com.d6.android.app.net.Request
 import com.d6.android.app.recoder.RecoderUtil
 import com.d6.android.app.recoder.model.AudioChannel
@@ -37,6 +38,7 @@ import com.d6.android.app.recoder.model.AudioSource
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
+import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
@@ -60,7 +62,7 @@ import kotlin.collections.ArrayList
 /**
  * 发布广场动态
  */
-class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulledListener, MediaPlayer.OnCompletionListener{
+class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulledListener, MediaPlayer.OnCompletionListener,Observer{
 
     private var tagId: String? = null
     private var iIsAnonymous:Int = 2
@@ -97,14 +99,33 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     private var REQUEST_CHOOSECODE:Int=10
     private var REQUEST_TOPICCODE:Int=11
     private var mChooseFriends = ArrayList<FriendBean>()
-    private var topicName =""
     private var REQUESTCODE_VIDEO = 1
     private var REQUESTCODE_IMAGE = 0
+
+    /**
+     * 删除图片后更新数据
+     */
+    override fun update(o: Observable?, arg: Any?) {
+          var mImagelocal = arg as Imagelocals
+          if(mImagelocal.mType == 0){
+              mImages.removeAt(mImagelocal.position)
+          }else if(mImagelocal.mType == 1){
+              mImages.clear()
+              mImagelocal.mUrls.forEach {
+                  val image = AddImage("file://${it}")
+                  image.path = it
+                  mImages.add(image)
+              }
+              mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+          }
+          addAdapter.notifyDataSetChanged()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_release_new_trends)
         immersionBar.init()
+        ObserverManager.getInstance().addObserver(this)
         rv_images.setHasFixedSize(true)
         rv_images.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
         rv_images.adapter = addAdapter
@@ -130,14 +151,10 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 locationClient.stopLocation()
                 if (cityType == 0) {
                     tv_address.text = "添加地址"
-//                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)//R.mipmap.ic_add1
                     tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//R.mipmap.ic_add1
-//                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.textColor99))
                 } else {
                     tv_address.text = city
-//                    tv_address1.setCompoundDrawablesWithIntrinsicBounds(,0,0,0)
                     tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)
-//                    tv_address.setTextColor(ContextCompat.getColor(this,R.color.orange_f6a))
                 }
 
             }
@@ -159,8 +176,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 cityType=0
                 toast("没有定位权限")
                 tv_address.text = "添加地址"
-//                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
-//                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
                 tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//R.mipmap.ic_add1
 
             }
@@ -171,8 +186,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 cityType = 0
                 city = ""
                 tv_address.text = "添加地址"
-//                tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
-//                tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
                 tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//comment_addlocal_icon
 
             } else {
@@ -183,45 +196,16 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                             startLocation()
                         } else {
                             tv_address.text = city
-//                            tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_loc_yellow,0,0,0)
-//                            tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_delete1,0,0,0)
                             tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)
                         }
                     } else {
                         cityType = 0
                         toast("没有定位权限")
                         tv_address.text = ""
-//                        R.mipmap.comment_addlocal_icon
-//                        tv_address1.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location,0,0,0)
-//                        tv_address.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_add1,0,0,0)
                         tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)
                     }
                 }
             }
-//            val selectCityDialog = SelectCityDialog()
-//            selectCityDialog.setDialogListener { p, s ->
-//                selectCityDialog.dismissAllowingStateLoss()
-//                cityType = p
-//                if (p == 0) {
-//                    tv_address.text = ""
-//                } else {
-//                    RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
-//                        if (it) {
-//                            if (city.isNullOrEmpty()) {
-//                                startLocation()
-//                            } else {
-//                                tv_address.text = city
-//                            }
-//
-//                        } else {
-//                            toast("没有定位权限")
-//                            tv_address.text = ""
-//                        }
-//                    }
-//                }
-//            }
-//
-//            selectCityDialog.show(supportFragmentManager, "City")
         }
 
         et_content.addTextChangedListener(object:TextWatcher{
@@ -475,6 +459,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
                 ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
                 ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
+
         )
     }
 

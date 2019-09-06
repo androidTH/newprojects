@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.d6.android.app.R
-import com.d6.android.app.activities.BLBeautifyImageActivity
 import com.d6.android.app.activities.ImageLocalPagerActivity
 import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.base.BaseActivity
@@ -16,10 +15,8 @@ import com.d6.android.app.utils.screenWidth
 import com.d6.android.app.utils.visible
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.dip
-import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
  *
@@ -80,18 +77,10 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
     }
 
     fun startActivity(mData:ArrayList<AddImage>,pos:Int){
-//        var param:BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
-//        param.index = pos
-//        mData.forEach {
-//            if(it.type == 0){
-//                param.images.add(it.imgUrl.replace("file://",""))
-//            }
-//        }
-//        (context as BaseActivity).startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE,BLBeautifyParam.KEY to param);
         var resultList = ArrayList<String>()
         mData.forEach {
             if(it.type!=1){
-                resultList.add(it.imgUrl)
+                resultList.add(it.imgUrl.replace("file://",""))
             }
         }
         (context as BaseActivity).startActivityForResult<ImageLocalPagerActivity>(1000, ImageLocalPagerActivity.TYPE to 0,ImageLocalPagerActivity.CURRENT_POSITION to pos,ImageLocalPagerActivity.URLS to resultList,"delete" to true)
