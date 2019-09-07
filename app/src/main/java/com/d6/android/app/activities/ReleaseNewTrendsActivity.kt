@@ -22,6 +22,7 @@ import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
+import com.d6.android.app.application.D6Application.Companion.getProxy
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommonTipDialog
 import com.d6.android.app.dialogs.DialogYesOrNo
@@ -271,8 +272,8 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
 
         tv_delete_audio.setOnClickListener {
-            tv_delete_audio.visibility = View.GONE
-            rl_play_audio.visibility = View.GONE
+            tv_delete_audio.visibility = View.INVISIBLE
+            rl_play_audio.visibility = View.INVISIBLE
             stopPlaying()
             DiskFileUtils.deleteSingleFile(filePath)
         }
@@ -325,6 +326,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }else if(DiskFileUtils.IsExists(filePath)){
                 var  mDialogYesOrNo = getDialogIsorNot(this,1,"图片、视频、语音不能同时添加，是否清空已添加的音频")
                 mDialogYesOrNo.setDialogListener { p, s ->
+                    stopPlaying()
                     DiskFileUtils.deleteSingleFile(filePath)
                     tv_delete_audio.visibility = View.GONE
                     rl_play_audio.visibility = View.GONE
@@ -387,7 +389,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             var drawable = ContextCompat.getDrawable(this, R.mipmap.key_small)
             tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
         }
+
+//        proxyUrl = getProxyUrl(this,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
     }
+
+    var proxyUrl:String?= ""
 
     private fun addImagesToSquare(it:View){
         if(mImages[0].type==2){
@@ -403,6 +409,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }else if(DiskFileUtils.IsExists(filePath)){
             var  mDialogYesOrNo = getDialogIsorNot(this,1,"图片、视频、语音不能同时添加，是否清空已添加的音频")
             mDialogYesOrNo.setDialogListener { p, s ->
+                stopPlaying()
                 DiskFileUtils.deleteSingleFile(filePath)
                 tv_delete_audio.visibility = View.GONE
                 rl_play_audio.visibility = View.GONE
@@ -826,7 +833,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             stopRecording()
             player = MediaPlayer()
             player?.let {
-                it.setDataSource(filePath)
+                it.setDataSource(filePath)//"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3
                 it.prepare()
                 it.start()
                 it.setOnCompletionListener(this@ReleaseNewTrendsActivity)

@@ -176,6 +176,7 @@ dependencies {
     implementation files('libs/OpenInstall_v2.2.2.jar')
     implementation 'com.airbnb.android:lottie:2.3.0'
     implementation 'me.jessyan:autosize:1.1.2'
+    implementation 'com.danikula:videocache:2.7.1'
 
     //    implementation 'com.shuyu:gsyVideoPlayer-java:7.0.2'
 

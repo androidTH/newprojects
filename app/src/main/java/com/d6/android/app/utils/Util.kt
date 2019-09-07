@@ -1181,3 +1181,7 @@ fun getDialogIsorNot(activity: BaseActivity,code:Int,msg:String): DialogYesOrNo{
     mDialogYesOrNo.show(activity.supportFragmentManager, "dialogyesorno")
     return mDialogYesOrNo
 }
+fun getProxyUrl(mConent:Context,url:String):String?{
+    var  proxy = D6Application.getProxy(mConent)
+    return proxy?.getProxyUrl(url)
+}

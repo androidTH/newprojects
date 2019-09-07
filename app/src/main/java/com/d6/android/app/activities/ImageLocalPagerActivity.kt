@@ -105,7 +105,6 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         adapter = ImageLocalPagerAdapter(supportFragmentManager, mListFragment)
         mImageViewPager.adapter = adapter
         if (urls != null) {
-//            mImageViewPager.offscreenPageLimit = urls.size
             tv_dowork.text = "完成·${urls.size}"
         }
 

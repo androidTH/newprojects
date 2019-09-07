@@ -35,4 +35,5 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var screen:String?=""
     var iIsAnonymous:Int?=0 //1、匿名  2、非匿名状态
     var iIsCommentTop:Int?=1 //1、否  2、是
+    var isPlaying:Boolean = false
 }

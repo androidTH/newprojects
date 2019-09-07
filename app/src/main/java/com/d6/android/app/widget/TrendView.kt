@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
@@ -20,6 +21,7 @@ import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
 import org.jetbrains.anko.*
 
@@ -70,6 +72,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                         action?.onPraiseClick(it)
                     }
                 }
+
                 headView.setOnClickListener {
                     square?.let {
                         val id = it.userid?:""
@@ -88,21 +91,25 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                       mOnSquareDetailsClick?.onSquareDetails(it)
                   }
                 }
-        //        commentAdapter.setOnCommentClick {
-        //            textClickedListener?.onTextClicked()
-        //        }
 
                 tv_delete.setOnClickListener {
                     square?.let {
                         deleteAction?.onDelete(it)
                     }
                 }
+
+
                 tv_redflower.setOnClickListener {
                     square?.let {
                         SendFlowerAction?.onSendFlowerClick(it)
                     }
                 }
 
+                rl_play_audio.setOnClickListener {
+                    square?.let {
+                        mTogglePlay?.onTogglePlay(it)
+                    }
+                }
             }
 
     /**
@@ -231,6 +238,26 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
         commentAdapter.setSquareUserId(square.userid.toString(),1)
         commentAdapter.notifyDataSetChanged()
+
+        Log.i("trendView",square.content+"播放是否"+square.isPlaying)
+        if(square.isPlaying){
+            startPlayAudioView(iv_playaudio)
+        }else{
+            stopPlayAudioView(iv_playaudio)
+        }
+    }
+
+
+    //开始播放音频
+    fun startPlayAudioView(view:ImageView){
+        iv_playaudio.setImageResource(R.drawable.drawable_play_voice)
+        starPlayDrawableAnim(view)
+    }
+
+    //停止播放音频
+    fun stopPlayAudioView(view:ImageView){
+        stopPlayDrawableAnim(view)
+        iv_playaudio.setImageResource(R.mipmap.liveroom_recording3)
     }
 
     fun hide(@IdRes viewIdRes: Int) {
@@ -276,12 +303,22 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }
         }
     }
+
+    fun onTogglePlay(action:(square:Square)->Unit) {
+        this.mTogglePlay = object : TogglePlay {
+            override fun onTogglePlay(square: Square) {
+                action(square)
+            }
+        }
+    }
+
     private var action:PraiseClickListener?=null
     private var deleteAction:DeleteClick?=null
     private var onItemClick:OnItemClick?=null
     private var mOnSquareDetailsClick:OnSquareDetailsClick?=null
-
     private var SendFlowerAction:SendFlowerClickListener?=null
+    private var mTogglePlay:TogglePlay?=null
+
 
     interface SendFlowerClickListener{
         fun onSendFlowerClick(square: Square)
@@ -301,6 +338,10 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     interface OnSquareDetailsClick{
         fun onSquareDetails(square: Square)
+    }
+
+    interface TogglePlay{
+        fun onTogglePlay(square: Square)
     }
 
     private var textClickedListener: CustomLinkMovementMethod.TextClickedListener? = null

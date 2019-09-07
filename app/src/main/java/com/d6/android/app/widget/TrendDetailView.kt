@@ -15,6 +15,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_detail_view.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
@@ -62,6 +63,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                 }
             }
         }
+
         tv_redflower.setOnClickListener {
             square?.let {
                 sendFlowerClick?.onSendFlowerClick(it)
@@ -78,6 +80,12 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             square?.let {
                 mDeleteClick?.onDelete(it)
             }
+        }
+
+        rl_play_audio.setOnClickListener {
+          square?.let {
+              mTogglePlay?.onTogglePlay(it)
+          }
         }
 
     }
@@ -247,11 +255,20 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    fun onTogglePlay(action:(square:Square)->Unit) {
+        this.mTogglePlay = object : TogglePlay {
+            override fun onTogglePlay(square: Square) {
+                action(square)
+            }
+        }
+    }
+
     private var action:Action?=null
     private var actionCommentClick:DoCommentClick?=null
     private var actiToggleSoftClick:onToggleSoftInput?=null
     private var sendFlowerClick:DoSendFlowerClick?=null
     private var mDeleteClick:DeleteClick?=null
+    private var mTogglePlay:TogglePlay?=null
 
     interface Action{
         fun onPraiseClick(square: Square)
@@ -271,5 +288,9 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     interface DeleteClick{
         fun onDelete(square: Square)
+    }
+
+    interface TogglePlay{
+        fun onTogglePlay(square: Square)
     }
 }

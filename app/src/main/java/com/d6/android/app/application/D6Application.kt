@@ -31,6 +31,7 @@ import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.RongUtils.getConnectCallback
+import com.danikula.videocache.HttpProxyCacheServer
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
 import com.umeng.commonsdk.UMConfigure
@@ -63,6 +64,13 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
     companion object {
         var isChooseLoginPage = false
         var systemTime = 0L
+        fun getProxy(mContent: Context): HttpProxyCacheServer? {
+            var app = mContent.applicationContext as D6Application
+            if (app.proxy == null) {
+                app.proxy = app.newProxy()
+            }
+            return app.proxy
+        }
     }
 
     override fun getSPName() = "com.d6.android.data"
@@ -124,6 +132,12 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
+
+    private var proxy:HttpProxyCacheServer?=null
+
+	private fun newProxy():HttpProxyCacheServer{
+		return HttpProxyCacheServer(this);
+	}
 
     private fun getCurProcessName(context: Context): String? {
         val pid = android.os.Process.myPid()
@@ -416,4 +430,5 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
         return false
     }
+
 }

@@ -232,7 +232,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title.text = ""
                     iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_add_orange, 0)
 //                    iv_right.text = "发布"
-                    tv_title1.text = "动态"
+                    tv_title1.text = "全部动态"
 //                    tabhost.tabWidget.getChildTabViewAt(2).setOnClickListener {
 //                        showToast("dddd")
 //                    }
@@ -749,6 +749,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
         }
     }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 12) {

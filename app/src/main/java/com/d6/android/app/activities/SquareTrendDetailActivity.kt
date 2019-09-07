@@ -27,8 +27,12 @@ import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.dialogs.SendRedFlowerDialog
 import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.eventbus.FlowerMsgEvent
+import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.AppUtils.Companion.context
+import com.pili.pldroid.player.PLOnInfoListener
+import com.pili.pldroid.player.PLOnInfoListener.*
 import io.rong.eventbus.EventBus
+import kotlinx.android.synthetic.main.item_audio.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
@@ -51,6 +55,10 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val mAudioMedio by lazy{
+        AudioPlayUtils(this)
+    }
+
     private var pageNum = 1
     private var iIsAnonymous:Int = 2
     private var chooseAnonymous = false
@@ -60,6 +68,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         SquareDetailCommentAdapter(mComments)
     }
     private var mSquare:Square?=null
+
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_square_detail, mSwipeRefreshLayout.mRecyclerView, false)
     }
@@ -118,6 +127,16 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 } else if (p == 1) {
                     delSquare()
                 }
+            }
+        }
+
+        headerView.mTrendDetailView.onTogglePlay {
+            var proxyUrl = getProxyUrl(this,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
+            mAudioMedio.setAudioPath(proxyUrl)
+            if(mAudioMedio.onTogglePlay()){
+                startPlayAudioView()
+            }else{
+                stopPlayAudioView()
             }
         }
 
@@ -194,6 +213,55 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         iIsAnonymous = 2
         getData()
+
+        setAudioListener()
+    }
+
+    /**
+     * 设置音频播放监听
+     */
+    private fun setAudioListener(){
+        mAudioMedio.setmAudioListener(object:AudioPlayListener{
+            override fun onPrepared(var1: Int) {
+
+            }
+
+            override fun onBufferingUpdate(var1: Int) {
+
+            }
+
+            override fun onInfo(var1: Int, var2: Int) {
+                when (var1) {
+                    MEDIA_INFO_STATE_CHANGED_PAUSED->{
+                        stopPlayAudioView()
+                    }
+                    MEDIA_INFO_AUDIO_FRAME_RENDERING->{
+
+                    }
+                    MEDIA_INFO_CACHED_COMPLETE->{
+                        stopPlayAudioView()
+                    }
+                    else -> {
+                    }
+                }
+            }
+
+            override fun onCompletion() {
+                stopPlayAudioView()
+            }
+        })
+    }
+
+    //开始播放音频
+    private fun startPlayAudioView(){
+        headerView.mTrendDetailView.iv_playaudio.setImageResource(R.drawable.drawable_play_voice)
+        starPlayDrawableAnim(headerView.mTrendDetailView.iv_playaudio)
+    }
+
+    //停止播放音频
+    private fun stopPlayAudioView(){
+        stopPlayDrawableAnim(headerView.mTrendDetailView.iv_playaudio)
+        headerView.mTrendDetailView.iv_playaudio.setImageResource(R.mipmap.liveroom_recording3)
     }
 
     private fun setInputState(p:Int){
@@ -416,6 +484,11 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             showToast("删除成功")
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mAudioMedio.onDestoryAudio()
     }
 
     override fun onDestroy() {

@@ -3,15 +3,12 @@ package com.d6.android.app.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.FilterSquaresActivity
 import com.d6.android.app.activities.MainActivity
-import com.d6.android.app.activities.ReleaseNewTrendsActivity
 import com.d6.android.app.activities.SquareTrendDetailActivity
 import com.d6.android.app.adapters.NetWorkImageHolder
 import com.d6.android.app.adapters.SquareAdapter
@@ -23,16 +20,19 @@ import com.d6.android.app.models.Banner
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.SquareTypeBean
 import com.d6.android.app.net.Request
+import com.d6.android.app.recoder.AudioPlayListener
+import com.d6.android.app.utils.AudioPlayUtils
 import com.d6.android.app.utils.getLocalUserId
+import com.d6.android.app.utils.getProxyUrl
 import com.d6.android.app.utils.isCheckOnLineAuthUser
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
+import com.pili.pldroid.player.PLOnInfoListener
+import com.pili.pldroid.player.PLOnInfoListener.MEDIA_INFO_AUDIO_RENDERING_START
 import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.header_square_list.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
@@ -82,6 +82,13 @@ class SquareFragment : RecyclerFragment() {
         layoutInflater.inflate(R.layout.header_square_list,mSwipeRefreshLayout.mRecyclerView,false)
     }
 
+    private val mAudioMedio by lazy{
+        AudioPlayUtils(activity)
+    }
+
+    private var playIndex = -1
+    private var playSquare:Square? = null
+
     private var type = 2
     override fun setAdapter() = squareAdapter
 
@@ -99,6 +106,31 @@ class SquareFragment : RecyclerFragment() {
         squareAdapter.setOnSquareDetailsClick { position, square ->
             square.id?.let {
                 startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+            }
+        }
+
+        squareAdapter.setOnSquareAudioToggleClick { position, square ->
+            var proxyUrl:String?=null
+            if(position==0){
+                 proxyUrl = getProxyUrl(activity,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
+            }else if(position==1){
+                 proxyUrl = getProxyUrl(activity,"http://music.163.com/song/media/outer/url?id=317151.mp3")
+            }else{
+                proxyUrl = getProxyUrl(activity,"http://music.163.com/song/media/outer/url?id=281951.mp3")
+            }
+
+            mAudioMedio.singleAudioPlay(proxyUrl)
+            playSquare = square
+            playSquare?.let {
+                if(!it.isPlaying){
+                    it.isPlaying = true
+                    mSquares[position]= it
+                    if(playIndex>=0&&playIndex!=position){
+                        mSquares[playIndex].isPlaying = false
+                    }
+                    squareAdapter.notifyDataSetChanged()
+                    playIndex = position
+                }
             }
         }
 
@@ -124,6 +156,8 @@ class SquareFragment : RecyclerFragment() {
 
         mIsDismissDialog = true
         getData()
+
+        setAudioListener()
     }
 
     //筛选
@@ -147,7 +181,7 @@ class SquareFragment : RecyclerFragment() {
         Request.getBanners().request(this,false,success = { _, data ->
             if (data?.list?.results != null) {
                 mBanners.clear()
-                mBanners.addAll(elements = data.list.results!!)
+                mBanners.addAll(elements = data.list?.results!!)
                 headerView.mBanner.setPages(
                         object : CBViewHolderCreator {
                             override fun createHolder(itemView: View): NetWorkImageHolder {
@@ -179,6 +213,59 @@ class SquareFragment : RecyclerFragment() {
         }
     }
 
+    /**
+     * 设置音频播放监听
+     */
+    private fun setAudioListener(){
+        mAudioMedio.setmAudioListener(object: AudioPlayListener {
+            override fun onPrepared(var1: Int) {
+
+            }
+
+            override fun onBufferingUpdate(var1: Int) {
+
+            }
+
+            override fun onInfo(var1: Int, var2: Int) {
+                when (var1) {
+                    PLOnInfoListener.MEDIA_INFO_STATE_CHANGED_PAUSED ->{
+//                        stopPlayAudioView()
+                        playSquare?.let {
+                            it.isPlaying = false
+                            mSquares[playIndex] = it
+                            squareAdapter.notifyDataSetChanged()
+                        }
+                    }
+
+                    MEDIA_INFO_AUDIO_RENDERING_START->{
+//                        playSquare?.let {
+//                            it.isPlaying = true
+//                            mSquares[playIndex] = it
+//                            squareAdapter.notifyDataSetChanged()
+//                        }
+                    }
+
+                    PLOnInfoListener.MEDIA_INFO_AUDIO_FRAME_RENDERING ->{
+
+                    }
+                    PLOnInfoListener.MEDIA_INFO_CACHED_COMPLETE ->{
+                        playSquare?.let {
+                            it.isPlaying = false
+                            mSquares[playIndex] = it
+                            squareAdapter.notifyDataSetChanged()
+                        }
+                    }
+                    else -> {
+                    }
+                }
+            }
+
+            override fun onCompletion() {
+//                stopPlayAudioView()
+            }
+        })
+    }
+
     override fun onResume() {
         super.onResume()
         headerView.mBanner.startTurning()
@@ -187,6 +274,7 @@ class SquareFragment : RecyclerFragment() {
     override fun onPause() {
         super.onPause()
         headerView.mBanner.stopTurning()
+        mAudioMedio.onDestoryAudio()
     }
 
     private fun getSquareList() {
