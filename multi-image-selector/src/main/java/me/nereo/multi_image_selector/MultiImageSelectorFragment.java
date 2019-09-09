@@ -29,6 +29,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,8 @@ import me.nereo.multi_image_selector.utils.FileUtils;
 import me.nereo.multi_image_selector.utils.ScreenUtils;
 import me.nereo.multi_image_selector.utils.data.ImageVideoLoader;
 import me.nereo.multi_image_selector.utils.data.VideosLoader;
+
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
 /**
  * 图片选择Fragment
@@ -494,6 +497,17 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
                     if(mDesireImageCount == resultList.size()){
                         Toast.makeText(getActivity(), R.string.msg_amount_limit, Toast.LENGTH_SHORT).show();
                         return;
+                    }
+
+                    if(image.mediaType==MEDIA_TYPE_VIDEO){
+                        if(image.getGuration()>15){
+                            Toast.makeText(getActivity(), R.string.tip_video_maxtime, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if(image.getGuration()<3){
+                            Toast.makeText(getActivity(), R.string.tip_video_mintime, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     }
 
                     resultList.add(image.path);

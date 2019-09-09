@@ -2,6 +2,7 @@ package com.d6.android.app.utils;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.PowerManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -11,12 +12,6 @@ import android.widget.Toast;
 
 import com.d6.android.app.recoder.AudioPlayListener;
 import com.pili.pldroid.player.AVOptions;
-import com.pili.pldroid.player.PLMediaPlayer;
-import com.pili.pldroid.player.PLOnBufferingUpdateListener;
-import com.pili.pldroid.player.PLOnCompletionListener;
-import com.pili.pldroid.player.PLOnErrorListener;
-import com.pili.pldroid.player.PLOnInfoListener;
-import com.pili.pldroid.player.PLOnPreparedListener;
 
 import java.io.IOException;
 
@@ -32,7 +27,7 @@ public class AudioPlayUtils {
 
 
     private AVOptions mAVOptions;
-    private PLMediaPlayer mMediaPlayer;
+    private MediaPlayer mMediaPlayer;
 
     private Context mContext;
     private boolean mIsStopped = false;
@@ -41,6 +36,8 @@ public class AudioPlayUtils {
 
     private TelephonyManager mTelephonyManager;
     private PhoneStateListener mPhoneStateListener;
+    public static final int MEDIA_INFO_STATE_CHANGED_PAUSED = 30008;
+
 
     public AudioPlayUtils(Context context){
         this.mContext = context;
@@ -49,10 +46,10 @@ public class AudioPlayUtils {
     }
 
     private void initAudio(){
-        mAVOptions = new AVOptions();
-        mAVOptions.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
-        mAVOptions.setInteger(AVOptions.KEY_MEDIACODEC, 0);
-        mAVOptions.setInteger(AVOptions.KEY_START_POSITION, 0* 1000);
+//        mAVOptions = new AVOptions();
+//        mAVOptions.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
+//        mAVOptions.setInteger(AVOptions.KEY_MEDIACODEC, 0);
+//        mAVOptions.setInteger(AVOptions.KEY_START_POSITION, 0* 1000);
 
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
         audioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
@@ -68,7 +65,7 @@ public class AudioPlayUtils {
             onClickPlay();
             Log.i("AudioPlay","path="+audioPath);
         }else{
-            Log.i("AudioPlay",mAudioPath+"audiopath");
+            Log.i("AudioPlay",mAudioPath+"=audiopath");
             onTogglePlay();
         }
     }
@@ -84,8 +81,9 @@ public class AudioPlayUtils {
         try {
             if(!TextUtils.isEmpty(mAudioPath)){
                 if (mMediaPlayer == null) {
-                    mMediaPlayer = new PLMediaPlayer(mContext, mAVOptions);
+                    mMediaPlayer = new MediaPlayer();
                     mMediaPlayer.setLooping(false);
+                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
                     mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
                     mMediaPlayer.setOnErrorListener(mOnErrorListener);
@@ -94,7 +92,7 @@ public class AudioPlayUtils {
                     mMediaPlayer.setWakeMode(mContext, PowerManager.PARTIAL_WAKE_LOCK);
                 }
                 mMediaPlayer.setDataSource(mAudioPath);
-                mMediaPlayer.prepareAsync();
+                mMediaPlayer.prepare();
             }else{
                 NToast.showToast(mContext,"音频地址为空", Toast.LENGTH_SHORT);
             }
@@ -132,6 +130,9 @@ public class AudioPlayUtils {
     public void onClickPause() {
         if (mMediaPlayer != null) {
             mMediaPlayer.pause();
+            if(mAudioListener!=null){
+                mAudioListener.onInfo(MEDIA_INFO_STATE_CHANGED_PAUSED,-1);
+            }
         }
     }
 
@@ -179,64 +180,99 @@ public class AudioPlayUtils {
         }
     }
 
-    private PLOnPreparedListener mOnPreparedListener = new PLOnPreparedListener() {
+    private MediaPlayer.OnPreparedListener mOnPreparedListener = new MediaPlayer.OnPreparedListener() {
+
         @Override
-        public void onPrepared(int preparedTime) {
-            Log.i(TAG, "On Prepared !");
-//            mMediaPlayer.start();
+        public void onPrepared(MediaPlayer mp) {
+            Log.i(TAG, "On Prepared !"+ mp.getDuration());
             mIsStopped = false;
             if(mAudioListener!=null){
-                mAudioListener.onPrepared(preparedTime);
+                mAudioListener.onPrepared(mp.getDuration());
             }
         }
+
+//        @Override
+//        public void onPrepared(int preparedTime) {
+//            Log.i(TAG, "On Prepared !");
+////            mMediaPlayer.start();
+//            mIsStopped = false;
+//            if(mAudioListener!=null){
+//                mAudioListener.onPrepared(preparedTime);
+//            }
+//        }
     };
 
-    private PLOnInfoListener mOnInfoListener = new PLOnInfoListener() {
+    private MediaPlayer.OnInfoListener mOnInfoListener = new MediaPlayer.OnInfoListener() {
         @Override
-        public void onInfo(int what, int extra) {
+        public boolean onInfo(MediaPlayer mp, int what, int extra) {
             Log.i(TAG, "OnInfo, what = " + what + ", extra = " + extra);
             if(mAudioListener!=null){
                 mAudioListener.onInfo(what,extra);
             }
+            return false;
         }
+//        @Override
+//        public void onInfo(int what, int extra) {
+//            Log.i(TAG, "OnInfo, what = " + what + ", extra = " + extra);
+//            if(mAudioListener!=null){
+//                mAudioListener.onInfo(what,extra);
+//            }
+//        }
     };
 
-    private PLOnBufferingUpdateListener mOnBufferingUpdateListener = new PLOnBufferingUpdateListener() {
+    private MediaPlayer.OnBufferingUpdateListener mOnBufferingUpdateListener = new MediaPlayer.OnBufferingUpdateListener() {
         @Override
-        public void onBufferingUpdate(int percent) {
+        public void onBufferingUpdate(MediaPlayer mp, int percent) {
             Log.d(TAG, "onBufferingUpdate: " + percent + "%");
             if(mAudioListener!=null){
                 mAudioListener.onBufferingUpdate(percent);
             }
         }
+
+//        @Override
+//        public void onBufferingUpdate(int percent) {
+//            Log.d(TAG, "onBufferingUpdate: " + percent + "%");
+//            if(mAudioListener!=null){
+//                mAudioListener.onBufferingUpdate(percent);
+//            }
+//        }
     };
 
-    private PLOnCompletionListener mOnCompletionListener = new PLOnCompletionListener() {
+    private MediaPlayer.OnCompletionListener mOnCompletionListener = new MediaPlayer.OnCompletionListener() {
         @Override
-        public void onCompletion() {
+        public void onCompletion(MediaPlayer mp) {
             if(mAudioListener!=null){
                 mAudioListener.onCompletion();
             }
             Log.d(TAG, "Play Completed !");
             onClickStop();
         }
+
+//        @Override
+//        public void onCompletion() {
+//            if(mAudioListener!=null){
+//                mAudioListener.onCompletion();
+//            }
+//            Log.d(TAG, "Play Completed !");
+//            onClickStop();
+//        }
     };
 
-    private PLOnErrorListener mOnErrorListener = new PLOnErrorListener() {
+    private MediaPlayer.OnErrorListener mOnErrorListener = new MediaPlayer.OnErrorListener() {
         @Override
-        public boolean onError(int errorCode) {
-            Log.e(TAG, "Error happened, errorCode = " + errorCode);
-            switch (errorCode) {
-                case PLOnErrorListener.ERROR_CODE_IO_ERROR:
+        public boolean onError(MediaPlayer mp, int what, int extra) {
+            Log.e(TAG, what+"Error happened, errorCode = "+extra);
+            switch (what) {
+                case MediaPlayer.MEDIA_ERROR_IO:
                     /**
                      * SDK will do reconnecting automatically
                      */
                     Log.d(TAG, "IO Error !");
                     return false;
-                case PLOnErrorListener.ERROR_CODE_OPEN_FAILED:
+                case MediaPlayer.MEDIA_INFO_VIDEO_NOT_PLAYING:
                     Log.d(TAG, "failed to open player !");
                     break;
-                case PLOnErrorListener.ERROR_CODE_SEEK_FAILED:
+                case MediaPlayer.MEDIA_INFO_NOT_SEEKABLE:
                     Log.d(TAG, "failed to seek !");
                     break;
                 default:
@@ -245,6 +281,29 @@ public class AudioPlayUtils {
             }
             return true;
         }
+
+//        @Override
+//        public boolean onError(int errorCode) {
+//            Log.e(TAG, "Error happened, errorCode = " + errorCode);
+//            switch (errorCode) {
+//                case PLOnErrorListener.ERROR_CODE_IO_ERROR:
+//                    /**
+//                     * SDK will do reconnecting automatically
+//                     */
+//                    Log.d(TAG, "IO Error !");
+//                    return false;
+//                case PLOnErrorListener.ERROR_CODE_OPEN_FAILED:
+//                    Log.d(TAG, "failed to open player !");
+//                    break;
+//                case PLOnErrorListener.ERROR_CODE_SEEK_FAILED:
+//                    Log.d(TAG, "failed to seek !");
+//                    break;
+//                default:
+//                    Log.d(TAG, "unknown error !");
+//                    break;
+//            }
+//            return true;
+//        }
     };
 
 

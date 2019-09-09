@@ -2,7 +2,6 @@ package com.d6.android.app.widget
 
 import android.content.Context
 import android.support.annotation.IdRes
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -13,6 +12,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.d6.android.app.R
+import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
@@ -24,6 +24,7 @@ import com.d6.android.app.utils.*
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
 import org.jetbrains.anko.*
+import java.lang.Exception
 
 /**
  * Created on 2017/12/17.
@@ -110,6 +111,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                         mTogglePlay?.onTogglePlay(it)
                     }
                 }
+
+                rl_vidoe.setOnClickListener {
+                    square?.let {
+                        (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl)
+                    }
+                }
             }
 
     /**
@@ -143,6 +150,26 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             img_auther.visibility=View.GONE
         }
 
+        if(square.orders<=0){
+            tv_topfeed.visibility = View.VISIBLE
+        }else{
+            tv_topfeed.visibility = View.INVISIBLE
+        }
+
+        if(TextUtils.isEmpty(square.sTopicName)){
+            tv_topic.visibility = View.GONE
+        }else{
+            tv_topic.visibility = View.VISIBLE
+            tv_topic.text = square.sTopicName
+        }
+
+        if(TextUtils.isEmpty(square.city)){
+            tv_square_address.visibility = View.GONE
+        }else{
+            tv_square_address.visibility = View.VISIBLE
+            tv_square_address.text = square.city
+        }
+
 //        if(TextUtils.equals(square.sex, "1")){
 //            tv_vip.visibility = View.VISIBLE
 //        }else{
@@ -167,28 +194,81 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_content.text = square.content
         }
 
-        if (square.imgUrl.isNullOrEmpty()) {
-            rv_images.gone()
-        } else {
-            rv_images.visible()
+        //1、文字  2、图片 4、语音 ，新发布的这样区分，之前的为0
+        if(square.iResourceType==2){
+            rl_vidoe.visibility = View.GONE
+            rl_root_audio.visibility = View.GONE
+            //2、图片
+            if (square.imgUrl.isNullOrEmpty()) {
+                rv_images.gone()
+            } else {
+                rv_images.visible()
+            }
+            mImages.clear()
+            val images = square.imgUrl?.split(",")
+            if (images != null) {
+                mImages.addAll(images.toList())
+            }
+
+            val d = rv_images.getItemDecorationAt(0)
+            if (d != null) {
+                rv_images.removeItemDecoration(d)
+            }
+            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
+                rv_images.layoutManager = GridLayoutManager(context,2)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),2)
+            } else {
+                rv_images.layoutManager = GridLayoutManager(context,3)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
+            }
+            imageAdapter.notifyDataSetChanged()
+        }else if(square.iResourceType==3){
+            //3、视频
+            rv_images.visibility = View.GONE
+            rl_root_audio.visibility = View.GONE
+
+            if(square.sVideoUrl.isNotEmpty()){
+                rl_vidoe.visibility = View.VISIBLE
+                sv_video.setImageURI(square.sVideoUrl)
+            }else{
+                rl_vidoe.visibility = View.GONE
+            }
+        }else if(square.iResourceType==4){
+            rv_images.visibility = View.GONE
+            rl_vidoe.visibility = View.GONE
+            //4、语音
+            if(!TextUtils.isEmpty(square.sVoiceUrl)){
+                rl_root_audio.visibility = View.VISIBLE
+            }else{
+                rl_root_audio.visibility = View.GONE
+            }
+            if(square.isPlaying){
+                startPlayAudioView(iv_playaudio)
+            }else{
+                stopPlayAudioView(iv_playaudio)
+            }
+
+            if(!TextUtils.equals("",square.sVoiceLength)){
+                var voicelength:Int
+                try{
+                    voicelength = square.sVoiceLength.toInt()
+                }catch (e:Exception){
+                    voicelength = 0
+                }
+                var param = rl_play_audio.layoutParams
+                param.width = (resources.getDimensionPixelSize(R.dimen.width_100) + resources.getDimensionPixelSize(R.dimen.width_100)/60*voicelength)
+                rl_play_audio.layoutParams = param
+                tv_audio_time.text="${square.sVoiceLength}”"
+            }else{
+                tv_audio_time.text="0”"
+            }
+            Log.i("trendView","动态类型=${square.iResourceType},音频所属人:${square.name},内容：${square.content},音频链接=${square.sVoiceUrl}")
+        }else{
+            rv_images.visibility = View.GONE
+            rl_vidoe.visibility = View.GONE
+            rl_root_audio.visibility = View.GONE
         }
-        mImages.clear()
-        val images = square.imgUrl?.split(",")
-        if (images != null) {
-            mImages.addAll(images.toList())
-        }
-        val d = rv_images.getItemDecorationAt(0)
-        if (d != null) {
-            rv_images.removeItemDecoration(d)
-        }
-        if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
-            rv_images.layoutManager = GridLayoutManager(context,2)
-            rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),2)
-        } else {
-            rv_images.layoutManager = GridLayoutManager(context,3)
-            rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
-        }
-        imageAdapter.notifyDataSetChanged()
+
         tv_appraise.isSelected = TextUtils.equals(square.isupvote,"1")
         tv_comment.text = if ((square.commentCount?:0) > 0) {
             square.commentCount.toString()
@@ -238,13 +318,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
         commentAdapter.setSquareUserId(square.userid.toString(),1)
         commentAdapter.notifyDataSetChanged()
-
-        Log.i("trendView",square.content+"播放是否"+square.isPlaying)
-        if(square.isPlaying){
-            startPlayAudioView(iv_playaudio)
-        }else{
-            stopPlayAudioView(iv_playaudio)
-        }
     }
 
 

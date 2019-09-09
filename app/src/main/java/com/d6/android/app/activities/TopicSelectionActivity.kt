@@ -12,12 +12,11 @@ import com.d6.android.app.adapters.TopicSelectionAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.FriendBean
+import com.d6.android.app.models.TopicBean
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.d6.android.app.utils.Const.CHOOSE_TOPIC
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.hideSoftKeyboard
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_topicselection.*
@@ -32,7 +31,7 @@ class TopicSelectionActivity : BaseActivity() {
     }
 
     private var pageNum = 1
-    private var mTopicsSelections = ArrayList<String>()
+    private var mTopicsSelections = ArrayList<TopicBean>()
 
     private val topicSelectionAdapter by lazy {
         TopicSelectionAdapter(mTopicsSelections)
@@ -58,16 +57,9 @@ class TopicSelectionActivity : BaseActivity() {
             finish()
         }
 
-        mTopicsSelections.add("#夏日小美好")
-        mTopicsSelections.add("#男生动态")
-        mTopicsSelections.add("#今天晚上吃什么")
-        mTopicsSelections.add("#速度与激情")
-        mTopicsSelections.add("#好听的主题曲")
-        mTopicsSelections.add("#减肥")
-
         initRecyclerView()
 //        dialog()
-//        pullDownRefresh()
+        pullDownRefresh()
     }
 
     private fun initRecyclerView() {
@@ -96,11 +88,11 @@ class TopicSelectionActivity : BaseActivity() {
         swipeRefreshLayout.addItemDecoration(item)
     }
 
-    private fun getData(uname:String) {
-        Request.findUserFriends(userId,uname,pageNum).request(this) { _, data ->
+    private fun getData() {
+        Request.findTopicListByPage(getLoginToken(),pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 swipeRefreshLayout.visibility = View.VISIBLE
-//                mFriends.clear()
+                mTopicsSelections.clear()
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
@@ -113,26 +105,19 @@ class TopicSelectionActivity : BaseActivity() {
                     swipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {
-//                mFriends.addAll(data.list.results)
+                mTopicsSelections.addAll(data.list.results)
             }
-//            if (mChooseFriends.size > 0) {
-//                for (bean in mFriends) {
-//                    if (mChooseFriends.contains(bean)) {
-//                        bean.iIsChecked = 1
-//                    }
-//                }
-//            }
-//            friendsAdapter.notifyDataSetChanged()
+            topicSelectionAdapter.notifyDataSetChanged()
         }
     }
 
     fun pullDownRefresh() {
         pageNum = 1
-        getData("")
+        getData()
     }
 
     fun loadMore() {
         pageNum++
-        getData("")
+        getData()
     }
 }

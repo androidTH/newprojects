@@ -24,6 +24,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.DateType
 import com.d6.android.app.models.FriendBean
+import com.d6.android.app.models.Imagelocals
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
@@ -32,6 +33,7 @@ import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.utils.Const.dateTypesDefault
 import com.d6.android.app.utils.Const.dateTypesSelected
+import com.d6.android.app.widget.ObserverManager
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -41,11 +43,13 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 自主发布约会
  */
-class PublishFindDateActivity : BaseActivity() {
+class PublishFindDateActivity : BaseActivity(), Observer {
 
     private val mImages = ArrayList<AddImage>()
     private val mDateTypes = ArrayList<DateType>()
@@ -82,6 +86,22 @@ class PublishFindDateActivity : BaseActivity() {
     private var selectedDateType: DateType? = null
     private var REQUEST_CHOOSECODE:Int=10
 
+
+    override fun update(o: Observable?, arg: Any?) {
+        var mImagelocal = arg as Imagelocals
+        if(mImagelocal.mType == 0){
+            mImages.removeAt(mImagelocal.position)
+        }else if(mImagelocal.mType == 1){
+            mImages.clear()
+            mImagelocal.mUrls.forEach {
+                val image = AddImage("file://${it}")
+                image.path = it
+                mImages.add(image)
+            }
+            mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))
+        }
+        addAdapter.notifyDataSetChanged()
+    }
     private  var mChooseFriends = ArrayList<FriendBean>()
 
     private val mDateFriendsQuickAdapter by lazy{
@@ -96,6 +116,7 @@ class PublishFindDateActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_publish_find_date)
         immersionBar.init()
+        ObserverManager.getInstance().addObserver(this)
         RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
                 locationClient.setLocationListener {
@@ -151,7 +172,6 @@ class PublishFindDateActivity : BaseActivity() {
                     ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
                     ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
             )
-//            startActivityForResult<SelectPhotoDialog>(0)
         }
         mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))//ic_add_bg
         addAdapter.notifyDataSetChanged()
@@ -450,7 +470,6 @@ class PublishFindDateActivity : BaseActivity() {
             CreateDateOfPics(content)
         } else {
             var userIds = getShareUserId(mChooseFriends)
-            Log.i("notificeMyFriends",userIds)
             Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
                 showToast("发布成功")
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {

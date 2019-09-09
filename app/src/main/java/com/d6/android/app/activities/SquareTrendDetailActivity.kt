@@ -29,8 +29,6 @@ import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.AppUtils.Companion.context
-import com.pili.pldroid.player.PLOnInfoListener
-import com.pili.pldroid.player.PLOnInfoListener.*
 import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.item_audio.view.*
 import org.greenrobot.eventbus.Subscribe
@@ -131,7 +129,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         }
 
         headerView.mTrendDetailView.onTogglePlay {
-            var proxyUrl = getProxyUrl(this,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
+//            var proxyUrl = getProxyUrl(this,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
+            var proxyUrl = getProxyUrl(this,it.sVoiceUrl)
             mAudioMedio.setAudioPath(proxyUrl)
             if(mAudioMedio.onTogglePlay()){
                 startPlayAudioView()
@@ -231,19 +230,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             }
 
             override fun onInfo(var1: Int, var2: Int) {
-                when (var1) {
-                    MEDIA_INFO_STATE_CHANGED_PAUSED->{
-                        stopPlayAudioView()
-                    }
-                    MEDIA_INFO_AUDIO_FRAME_RENDERING->{
-
-                    }
-                    MEDIA_INFO_CACHED_COMPLETE->{
-                        stopPlayAudioView()
-                    }
-                    else -> {
-                    }
-                }
             }
 
             override fun onCompletion() {

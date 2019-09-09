@@ -7,4 +7,6 @@
     <string name="action_done">Done</string>
     <string name="photo_unit">Shot</string>
     <string name="tip_take_photo">Take photo</string>
+    <string name="tip_video_maxtime">Time is max 15s</string>
+    <string name="tip_video_mintime">Time is max 3s</string>
 </resources>

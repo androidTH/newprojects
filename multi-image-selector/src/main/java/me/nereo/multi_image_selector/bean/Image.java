@@ -3,6 +3,7 @@ package me.nereo.multi_image_selector.bean;
 import me.nereo.multi_image_selector.utils.TimeUtils;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+import static me.nereo.multi_image_selector.utils.TimeUtils.setTimeToMinute;
 import static me.nereo.multi_image_selector.utils.TimeUtils.timeToMinute;
 
 /**
@@ -15,7 +16,7 @@ public class Image {
     public long time;
     public int mediaType;
     public long mSize;
-    public String duration;
+    public long duration;
 
     public Image(String path, String name, long time,int mimeType,long size){
         this.path = path;
@@ -39,7 +40,11 @@ public class Image {
         return super.equals(o);
     }
 
-    public String getGuration(){
+    public long getGuration(){
        return duration;
+    }
+
+    public String timeToMinutes(){
+        return setTimeToMinute(getGuration());
     }
 }

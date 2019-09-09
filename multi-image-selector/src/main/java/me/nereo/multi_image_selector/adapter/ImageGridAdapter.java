@@ -236,7 +236,7 @@ public class ImageGridAdapter extends BaseAdapter {
 
             if(data.mediaType==3){
                mVideoInfo.setVisibility(View.VISIBLE);
-               mTvVideoTime.setText(TimeUtils.timeToMinute(data.path));
+               mTvVideoTime.setText(data.duration+"");
             }else{
                 mVideoInfo.setVisibility(View.GONE);
             }

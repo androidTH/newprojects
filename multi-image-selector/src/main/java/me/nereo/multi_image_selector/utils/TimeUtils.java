@@ -33,7 +33,7 @@ public class TimeUtils {
         return "1970-01-01";
     }
 
-    public static String timeToMinute(String path) {
+    public static long timeToMinute(String path) {
         MediaMetadataRetriever retr = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
             retr = new MediaMetadataRetriever();
@@ -47,15 +47,26 @@ public class TimeUtils {
                     second = Long.valueOf(retr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000;
                 }
             }
-            if (second < 60) {
-                return "00:" + oneToTwo(second);
-            } else if (second < 3600) {
-                return oneToTwo(second / 60) + ":" + oneToTwo(second % 60);
-            } else {
-                return oneToTwo(second / 3600) + ":" + oneToTwo((second % 3600) / 60) + ":" + oneToTwo((second % 3600) % 60);
-            }
+            return second;
+//            if (second < 60) {
+//                return "00:" + oneToTwo(second);
+//            } else if (second < 3600) {
+//                return oneToTwo(second / 60) + ":" + oneToTwo(second % 60);
+//            } else {
+//                return oneToTwo(second / 3600) + ":" + oneToTwo((second % 3600) / 60) + ":" + oneToTwo((second % 3600) % 60);
+//            }
         }else {
-            return "";
+            return 0;
+        }
+    }
+
+    public static String setTimeToMinute(long second){
+        if (second < 60) {
+            return "00:" + oneToTwo(second);
+        } else if (second < 3600) {
+            return oneToTwo(second / 60) + ":" + oneToTwo(second % 60);
+        } else {
+            return oneToTwo(second / 3600) + ":" + oneToTwo((second % 3600) / 60) + ":" + oneToTwo((second % 3600) % 60);
         }
     }
 

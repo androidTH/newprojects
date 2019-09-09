@@ -12,13 +12,17 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
+import com.d6.android.app.models.Imagelocals
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.MaxEditTextWatcher
+import com.d6.android.app.widget.ObserverManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_my_info.*
+import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivityForResult
@@ -30,7 +34,7 @@ import java.util.*
 /**
  *我的个人信息
  */
-class MyInfoActivity : BaseActivity() {
+class MyInfoActivity : BaseActivity(),Observer{
 
     private val SEX_REQUEST_CODE = 9
     private val CONSTELLATION_REQUEST_CODE = 10
@@ -48,6 +52,19 @@ class MyInfoActivity : BaseActivity() {
         MyImageAdapter(mImagesData)
     }
 
+    private var MAXPICS = 9
+
+    override fun update(o: Observable?, arg: Any?) {
+        var mImagelocal = arg as Imagelocals
+        if(mImagelocal.mType == 1){
+            var localImages = ArrayList<String>()
+            mImagelocal.mUrls.forEach {
+                localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+            }
+            updateImages(localImages)
+        }
+    }
+
     private var sex: String = "1"
     private var headFilePath: String? = null
     private var calendar = Calendar.getInstance()
@@ -55,6 +72,7 @@ class MyInfoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_info)
         immersionBar.init()
+        ObserverManager.getInstance().addObserver(this)
 
         rv_edit_images.setHasFixedSize(true)
         rv_edit_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -73,11 +91,15 @@ class MyInfoActivity : BaseActivity() {
                     startActivityForResult<ImagePagerActivity>(22, "data" to it, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position, "delete" to true)
                 }
             } else {
-                if (mImagesData.size >= 9) {
-                    toast("最多上传8张图片")
+                if (mImagesData.size > MAXPICS) {//最多9张
+                    showToast("最多上传9张图片")
                     return@setOnItemClickListener
                 }
-                startActivityForResult<SelectPhotoDialog>(8)
+                val c = (MAXPICS - mImagesData.size + 1)
+                startActivityForResult<MultiImageSelectorActivity>(8
+                        , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
+                        ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                )
             }
         }
 
@@ -234,8 +256,6 @@ class MyInfoActivity : BaseActivity() {
                 val path = data.getStringExtra(SelectPhotoDialog.PATH)
                 startActivityForResult<CropImageActivity>(1, "scale" to 1f, "uri" to path)
             } else if (requestCode == 1) {
-//                headFilePath = data?.getStringExtra("path")
-//                headView.setImageURI("file://$headFilePath")
                 var path = data?.getStringExtra("path")
                 var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
                 param.index = 0
@@ -243,20 +263,17 @@ class MyInfoActivity : BaseActivity() {
                 param.images.add(path)
                 startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             }else if (requestCode == 8 && data != null) {//选择图片
-                val path = data.getStringExtra(SelectPhotoDialog.PATH)
-//                updateImages(path)
-                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
-                param.index = 0
-                param.type = Const.User.SELECTIMAGE
-                param.images.add(path)
-                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
+                var result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+                var localImages = ArrayList<String>()
+                result.forEach {
+                    localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+                }
+                updateImages(localImages)
             }else if(requestCode==22){
                  refreshImages(data!!.getSerializableExtra("data") as UserData)
             }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
                 var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
-                if(param.type.equals(Const.User.SELECTIMAGE)){
-                    updateImages(param.images[param.index])
-                }else if(param.type.equals(Const.User.HEADERIMAGE)){
+                if (param.type.equals(Const.User.HEADERIMAGE)) {
                     headFilePath = param.images[param.index]
                     headView.setImageURI("file://$headFilePath")
                 }
@@ -275,10 +292,39 @@ class MyInfoActivity : BaseActivity() {
         }
     }
 
-    private fun updateImages(path: String) {
-        Flowable.just(path).flatMap {
-            val file = BitmapUtils.compressImageFile(path)
-            Request.uploadFile(file)
+//    private fun updateImages(path: String) {
+//        Flowable.just(path).flatMap {
+//            val file = BitmapUtils.compressImageFile(path)
+//            Request.uploadFile(file)
+//        }.flatMap {
+//            if (userData.userpics.isNullOrEmpty()) {
+//                userData.userpics = it
+//            } else {
+//                userData.userpics = userData.userpics + "," + it
+//            }
+//            Request.updateUserInfo(userData)
+//        }.request(this) { _, _ ->
+//            refreshImages(userData)
+//        }
+//    }
+
+    private fun updateImages(mImages:ArrayList<String>) {
+        dialog()
+        Flowable.fromIterable(mImages).subscribeOn(Schedulers.io()).flatMap {
+            //压缩
+            val b = BitmapUtils.compressImageFile(it)
+            Flowable.just(b)
+        }.flatMap {
+            Request.uploadFile(it)
+        }.toList().toFlowable().flatMap {
+            val sb = StringBuilder()
+            it.forEach {
+                sb.append(it).append(",")
+            }
+            if (sb.isNotEmpty()) {
+                sb.deleteCharAt(sb.length - 1)
+            }
+            Flowable.just(sb.toString())
         }.flatMap {
             if (userData.userpics.isNullOrEmpty()) {
                 userData.userpics = it
@@ -299,7 +345,9 @@ class MyInfoActivity : BaseActivity() {
                 mImagesData.add(AddImage(it))
             }
         }
-        mImagesData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+        if(MAXPICS!=mImagesData.size){
+            mImagesData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+        }
         myImageAdapter.notifyDataSetChanged()
     }
 

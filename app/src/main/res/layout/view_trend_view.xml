@@ -15,6 +15,7 @@
         android:layout_below="@+id/comment_line"
         android:layout_alignParentRight="true"
         android:background="@mipmap/feed_topfeed_icon"
+        android:visibility="invisible"
         android:paddingLeft="@dimen/margin_15" />
     <RelativeLayout
         android:id="@+id/rl_square"
@@ -133,11 +134,29 @@
 
             <include
                 layout="@layout/item_audio" />
+            <RelativeLayout
+                android:id="@+id/rl_vidoe"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:visibility="gone">
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sv_video"
+                    style="@style/DefaultImageStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:viewAspectRatio="1" />
+                <ImageView
+                    android:id="@+id/iv_video_play"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/feed_play_icon"/>
+            </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_images"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_images"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/ll_square"
@@ -155,7 +174,8 @@
                     android:drawableLeft="@mipmap/local_feedlist_icon"
                     android:drawablePadding="@dimen/margin_2"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:text="武汉"
+                    android:background="@drawable/shape_radius12_f6"
+                    android:padding="@dimen/margin_5"
                     android:textStyle="bold"
                     android:textColor="@color/color_333333"
                     android:textSize="12sp" />
@@ -164,9 +184,10 @@
                     android:id="@+id/tv_topic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/shape_radius12_f6"
+                    android:padding="@dimen/margin_5"
                     android:drawableLeft="@mipmap/tag_list_icon"
                     android:drawablePadding="@dimen/margin_3"
-                    android:text="夏日的小美好"
                     android:textStyle="bold"
                     android:textColor="@color/color_333333"
                     android:textSize="12sp" />

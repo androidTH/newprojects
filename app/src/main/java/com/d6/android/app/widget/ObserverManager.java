@@ -1,6 +1,9 @@
 package com.d6.android.app.widget;
 
+import com.d6.android.app.activities.MyInfoActivity;
+import com.d6.android.app.activities.PublishFindDateActivity;
 import com.d6.android.app.activities.ReleaseNewTrendsActivity;
+import com.d6.android.app.activities.UserInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,12 @@ public class ObserverManager extends Observable {
         super.notifyObservers(arg);
         for(Observer observer : mListObservers){
             if(observer instanceof ReleaseNewTrendsActivity){
+                observer.update(this,arg);
+            }else if(observer instanceof PublishFindDateActivity){
+                observer.update(this,arg);
+            }else if(observer instanceof UserInfoActivity){
+                observer.update(this,arg);
+            }else if(observer instanceof MyInfoActivity){
                 observer.update(this,arg);
             }
         }

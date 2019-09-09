@@ -3,17 +3,17 @@ package com.d6.android.app.activities
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.SquareTypeBean
+import com.d6.android.app.models.TopicBean
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.getLocalUserId
-import com.d6.android.app.utils.hideSoftKeyboard
-import com.d6.android.app.utils.isCheckOnLineAuthUser
-import com.d6.android.app.utils.setLeftDrawable
+import com.d6.android.app.recoder.AudioPlayListener
+import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_filtersquares.*
 import org.jetbrains.anko.startActivityForResult
@@ -27,12 +27,22 @@ class FilterSquaresActivity : BaseActivity() {
 
     private var pageNum = 1
 
-    private val mSquareType by lazy{
-        intent.getParcelableExtra("squaretype") as SquareTypeBean
+    private val mTopicType by lazy {
+        intent.getParcelableExtra("squaretype") as TopicBean
+    }
+    private val mSquares = ArrayList<Square>()
+    private var sex = 2
+    private var sTopicId = ""
+    private var sCity = ""
+
+    //播放录音
+    private var playIndex = -1
+    private var playSquare:Square? = null
+
+    private val mAudioMedio by lazy{
+        AudioPlayUtils(this)
     }
 
-    private val mSquares = ArrayList<Square>()
-    private var type = 2
     private val squareAdapter by lazy {
         SquareAdapter(mSquares)
     }
@@ -50,20 +60,105 @@ class FilterSquaresActivity : BaseActivity() {
 
         iv_back_close.setOnClickListener {
             hideSoftKeyboard(it)
+
             finish()
         }
 
-        try{
-            filter_squretitle.text = mSquareType.getmName()
-            var leftDrawable = ContextCompat.getDrawable(this,mSquareType.getmResId())
-            setLeftDrawable(leftDrawable,filter_squretitle)
-        }catch (e:Exception){
+        try {
+            filter_squretitle.text = mTopicType.sTopicName
+            if (mTopicType.mResId != -1) {
+                var leftDrawable = ContextCompat.getDrawable(this, mTopicType.mResId)
+                setLeftDrawable(leftDrawable, filter_squretitle)
+                rl_topicinfo.visibility = View.GONE
+                sex = mTopicType.sId.toInt()
+            } else {
+                rl_topicinfo.visibility = View.VISIBLE
+                tv_topic_desc.text = mTopicType.sTopicDesc
+                var leftDrawable = ContextCompat.getDrawable(this, R.mipmap.tag_list_icon)
+                setLeftDrawable(leftDrawable, filter_squretitle)
+                sTopicId = mTopicType.sId
+            }
+        } catch (e: Exception) {
             e.printStackTrace()
+            sex = 2
         }
 
         initRecyclerView()
         dialog()
         pullDownRefresh()
+
+        setAudioListener()
+    }
+
+
+    /**
+     * 设置音频播放监听
+     */
+    private fun setAudioListener(){
+        mAudioMedio.setmAudioListener(object: AudioPlayListener {
+            override fun onPrepared(var1: Int) {
+
+            }
+
+            override fun onBufferingUpdate(var1: Int) {
+
+            }
+
+            override fun onInfo(var1: Int, var2: Int) {
+                when (var1) {
+                    AudioPlayUtils.MEDIA_INFO_STATE_CHANGED_PAUSED ->{
+                        playSquare?.let {
+                            it.isPlaying = false
+                            mSquares[playIndex] = it
+                            squareAdapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+
+            override fun onCompletion() {
+                playSquare?.let {
+                    it.isPlaying = false
+                    mSquares[playIndex] = it
+                    squareAdapter.notifyDataSetChanged()
+                }
+            }
+        })
+
+        squareAdapter.setOnSquareAudioToggleClick { position, square ->
+            playSquare = square
+            playSquare?.let {
+                if(!it.isPlaying){
+                    it.isPlaying = true
+                    mSquares[position]= it
+                    if(playIndex>=0&&playIndex!=position){
+                        mSquares[playIndex].isPlaying = false
+                    }
+                    squareAdapter.notifyDataSetChanged()
+                    playIndex = position
+                }
+            }
+
+            var proxyUrl =  getProxyUrl(this,square.sVoiceUrl)
+            mAudioMedio.singleAudioPlay(proxyUrl)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mAudioMedio.onDestoryAudio()
+        if(playIndex!=-1){
+            playSquare?.let {
+                it.isPlaying = false
+                mSquares[playIndex] = it
+                squareAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mAudioMedio.onDestoryAudio()
     }
 
     private fun initRecyclerView() {
@@ -84,9 +179,12 @@ class FilterSquaresActivity : BaseActivity() {
     }
 
     private fun getSquareList() {
-        Request.getSquareList(getLocalUserId(), "", pageNum, 2,sex = type).request(this,false,success={ _, data ->
+        Request.getFindSquareList(getLocalUserId(), "", pageNum, 2, sex = sex,sTopicId = sTopicId,sCity = sCity).request(this, false, success = { _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
+                playIndex = -1
+                mAudioMedio.onClickStop()
+                swipeRefreshLayout_square.isRefreshing = false
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
@@ -99,7 +197,7 @@ class FilterSquaresActivity : BaseActivity() {
                 mSquares.addAll(data.list.results)
             }
             squareAdapter.notifyDataSetChanged()
-        }){code,msg->
+        }) { code, msg ->
             toast(msg)
         }
     }

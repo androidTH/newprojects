@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.FilterSquaresActivity
@@ -19,12 +21,10 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Banner
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.SquareTypeBean
+import com.d6.android.app.models.TopicBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.recoder.AudioPlayListener
-import com.d6.android.app.utils.AudioPlayUtils
-import com.d6.android.app.utils.getLocalUserId
-import com.d6.android.app.utils.getProxyUrl
-import com.d6.android.app.utils.isCheckOnLineAuthUser
+import com.d6.android.app.utils.*
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.pili.pldroid.player.PLOnInfoListener
@@ -65,7 +65,7 @@ class SquareFragment : RecyclerFragment() {
     }
 
 
-    private var mSquareTypes= ArrayList<SquareTypeBean>()
+    private var mSquareTypes= ArrayList<TopicBean>()
 
     private var mBanners = ArrayList<Banner>()
 
@@ -111,15 +111,21 @@ class SquareFragment : RecyclerFragment() {
 
         squareAdapter.setOnSquareAudioToggleClick { position, square ->
             var proxyUrl:String?=null
-            if(position==0){
-                 proxyUrl = getProxyUrl(activity,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
-            }else if(position==1){
-                 proxyUrl = getProxyUrl(activity,"http://music.163.com/song/media/outer/url?id=317151.mp3")
-            }else{
-                proxyUrl = getProxyUrl(activity,"http://music.163.com/song/media/outer/url?id=281951.mp3")
-            }
-
-            mAudioMedio.singleAudioPlay(proxyUrl)
+//            if(position == 0){
+//                 proxyUrl =  getProxyUrl(activity,square.sVoiceUrl)
+//            } else if(position==2){
+//                 proxyUrl = getProxyUrl(activity,"http://p22l7xdxa.bkt.clouddn.com/1567847506099.mp3")
+//            }else if(position==1){
+//                 proxyUrl = getProxyUrl(activity,"http://music.163.com/song/media/outer/url?id=317151.mp3")
+//            }else if(position==3){
+//                proxyUrl = getProxyUrl(activity,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
+//            }else{
+//                proxyUrl = getProxyUrl(activity,"http://music.163.com/song/media/outer/url?id=281951.mp3")
+//            }
+//            Log.i("squareAdapter","音频地址"+square.sVoiceUrl)
+//            if(square.sVoiceUrl.isNotEmpty()){
+//
+//            }
             playSquare = square
             playSquare?.let {
                 if(!it.isPlaying){
@@ -132,19 +138,17 @@ class SquareFragment : RecyclerFragment() {
                     playIndex = position
                 }
             }
+            proxyUrl =  getProxyUrl(activity,square.sVoiceUrl)
+            mAudioMedio.singleAudioPlay(proxyUrl)
         }
 
-        mSquareTypes.add(SquareTypeBean(R.mipmap.like_list_icon,"喜欢"))
-        mSquareTypes.add(SquareTypeBean(R.mipmap.square_list_icon,"男生动态"))
-        mSquareTypes.add(SquareTypeBean(R.mipmap.girl_list_icon,"女生动态"))
-        mSquareTypes.add(SquareTypeBean(R.mipmap.tag_list_icon,"夏日的小美好"))
-        mSquareTypes.add(SquareTypeBean(R.mipmap.tag_list_icon,"夏日的小美好"))
-        mSquareTypes.add(SquareTypeBean(R.mipmap.tag_list_icon,"夏日的小美好"))
-        mSquareTypes.add(SquareTypeBean(R.mipmap.tag_list_icon,"夏日的小美好"))
+        mSquareTypes.add(TopicBean("2",R.mipmap.like_list_icon,"喜欢"))
+        mSquareTypes.add(TopicBean("1",R.mipmap.square_list_icon,"男生动态"))
+        mSquareTypes.add(TopicBean("0",R.mipmap.girl_list_icon,"女生动态"))
+
 
         headerView.rv_choose_squaretype.setHasFixedSize(true)
         headerView.rv_choose_squaretype.layoutManager = FlexboxLayoutManager(context)
-        headerView.rv_choose_squaretype.adapter = mSquareTypeAdapter
 
         mSquareTypeAdapter.setOnItemClickListener { view, position ->
             activity.isCheckOnLineAuthUser(this, getLocalUserId()) {
@@ -156,8 +160,20 @@ class SquareFragment : RecyclerFragment() {
 
         mIsDismissDialog = true
         getData()
+        getTopicBanner()
 
         setAudioListener()
+    }
+
+    private fun getTopicBanner(){
+        Request.findTopicBannerList(getLoginToken()).request(this,false,success={_,data->
+            if(data!=null){
+                data.list?.let {
+                    mSquareTypes.addAll(it)
+                    headerView.rv_choose_squaretype.adapter = mSquareTypeAdapter
+                }
+            }
+        })
     }
 
     //筛选
@@ -228,40 +244,22 @@ class SquareFragment : RecyclerFragment() {
 
             override fun onInfo(var1: Int, var2: Int) {
                 when (var1) {
-                    PLOnInfoListener.MEDIA_INFO_STATE_CHANGED_PAUSED ->{
-//                        stopPlayAudioView()
+                    AudioPlayUtils.MEDIA_INFO_STATE_CHANGED_PAUSED ->{
                         playSquare?.let {
                             it.isPlaying = false
                             mSquares[playIndex] = it
                             squareAdapter.notifyDataSetChanged()
                         }
-                    }
-
-                    MEDIA_INFO_AUDIO_RENDERING_START->{
-//                        playSquare?.let {
-//                            it.isPlaying = true
-//                            mSquares[playIndex] = it
-//                            squareAdapter.notifyDataSetChanged()
-//                        }
-                    }
-
-                    PLOnInfoListener.MEDIA_INFO_AUDIO_FRAME_RENDERING ->{
-
-                    }
-                    PLOnInfoListener.MEDIA_INFO_CACHED_COMPLETE ->{
-                        playSquare?.let {
-                            it.isPlaying = false
-                            mSquares[playIndex] = it
-                            squareAdapter.notifyDataSetChanged()
-                        }
-                    }
-                    else -> {
                     }
                 }
             }
 
             override fun onCompletion() {
-//                stopPlayAudioView()
+                playSquare?.let {
+                    it.isPlaying = false
+                    mSquares[playIndex] = it
+                    squareAdapter.notifyDataSetChanged()
+                }
             }
         })
     }
@@ -275,12 +273,21 @@ class SquareFragment : RecyclerFragment() {
         super.onPause()
         headerView.mBanner.stopTurning()
         mAudioMedio.onDestoryAudio()
+        if(playIndex!=-1){
+            playSquare?.let {
+                it.isPlaying = false
+                mSquares[playIndex] = it
+                squareAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun getSquareList() {
         Request.getSquareList(getLocalUserId(), classId, pageNum, 2,sex = type).request(this,false,success={ _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
+                playIndex = -1
+                mAudioMedio.onClickStop()
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {

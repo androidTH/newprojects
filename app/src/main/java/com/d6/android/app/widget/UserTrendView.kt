@@ -1,28 +1,30 @@
 package com.d6.android.app.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.support.annotation.IdRes
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.d6.android.app.R
+import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
-import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
+import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_user_trend_view.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.*
 import org.jetbrains.anko.find
-import org.jetbrains.anko.support.v4.dip
 
 /**
  * Created on 2017/12/17.
@@ -89,6 +91,18 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
                    sendFlowerAction?.onSendFlowerClicker(it)
                }
         }
+
+        rl_play_audio.setOnClickListener {
+            square?.let {
+                mTogglePlay?.onTogglePlay(it)
+            }
+        }
+
+        rl_vidoe_user.setOnClickListener {
+            square?.let {
+                (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl)
+            }
+        }
     }
 
     /**
@@ -129,29 +143,88 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         tv_content.text = square.content
 
-        if (square.sSourceSquarePics.isNullOrEmpty()) {
-            rv_images.gone()
-        } else {
-            rv_images.visible()
-        }
-        mImages.clear()
-        val images = square.sSourceSquarePics?.split(",")
-        if (images != null) {
-            mImages.addAll(images.toList())
-        }
-        val d = rv_images.getItemDecorationAt(0)
-        if (d != null) {
-            rv_images.removeItemDecoration(d)
-        }
-        if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
-            rv_images.layoutManager = GridLayoutManager(context,2)
-            rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))
-        } else {
-            rv_images.layoutManager = GridLayoutManager(context,3)
-            rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
+        if(square.iResourceType==2){
+            rl_vidoe_user.visibility = View.GONE
+            rl_root_audio.visibility = View.GONE
+
+            if (square.sSourceSquarePics.isNullOrEmpty()) {
+                rv_images.gone()
+            } else {
+                rv_images.visible()
+            }
+            mImages.clear()
+            val images = square.sSourceSquarePics?.split(",")
+            if (images != null) {
+                mImages.addAll(images.toList())
+            }
+            val d = rv_images.getItemDecorationAt(0)
+            if (d != null) {
+                rv_images.removeItemDecoration(d)
+            }
+            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
+                rv_images.layoutManager = GridLayoutManager(context,2)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))
+            } else {
+                rv_images.layoutManager = GridLayoutManager(context,3)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
+            }
+            imageAdapter.notifyDataSetChanged()
+        }else if(square.iResourceType==3){
+            rv_images.visibility = View.GONE
+            rl_root_audio.visibility = View.GONE
+
+            rl_vidoe_user.visibility = View.VISIBLE
+            sv_video_user.setImageURI(square.sVideoUrl)
+
+        }else if(square.iResourceType==4){
+            rv_images.visibility = View.GONE
+            rl_vidoe_user.visibility = View.GONE
+
+            rl_root_audio.visibility = View.VISIBLE
+
+            if(square.isPlaying){
+                startPlayAudioView(iv_playaudio)
+            }else{
+                stopPlayAudioView(iv_playaudio)
+            }
+
+            if(!TextUtils.equals("",square.sVoiceLength)){
+                var voicelength:Int
+                try{
+                    voicelength = square.sVoiceLength.toInt()
+                }catch (e:Exception){
+                    voicelength = 0
+                }
+                var param = rl_play_audio.layoutParams
+                param.width = (resources.getDimensionPixelSize(R.dimen.width_100) + resources.getDimensionPixelSize(R.dimen.width_100)/60*voicelength)
+                rl_play_audio.layoutParams = param
+                tv_audio_time.text="${square.sVoiceLength}”"
+            }else{
+                tv_audio_time.text="0”"
+            }
+
+            Log.i("usertrendView","动态类型=${square.iResourceType},音频所属人${square.name},音频链接=${square.sVoiceUrl}")
+        }else{
+            rv_images.visibility = View.GONE
+            rl_vidoe_user.visibility = View.GONE
+
+            rl_root_audio.visibility = View.GONE
         }
 
-        imageAdapter.notifyDataSetChanged()
+        if(TextUtils.isEmpty(square.sTopicName)){
+            tv_topic_name.visibility = View.GONE
+        }else{
+            tv_topic_name.visibility = View.VISIBLE
+            tv_topic_name.text = square.sTopicName
+        }
+
+        if(TextUtils.isEmpty(square.city)){
+            tv_square_city.visibility = View.GONE
+        }else{
+            tv_square_city.visibility = View.VISIBLE
+            tv_square_city.text = square.city
+        }
+
 //        tv_appraise.text = square.appraiseCount.toString()
         tv_appraise.isSelected = TextUtils.equals(square.isupvote,"1")
 //        tv_comment.text = square.commentCount.toString()
@@ -212,6 +285,19 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         find<View>(viewIdRes).gone()
     }
 
+    //开始播放音频
+    fun startPlayAudioView(view:ImageView){
+        iv_playaudio.setImageResource(R.drawable.drawable_play_voice)
+        starPlayDrawableAnim(view)
+    }
+
+    //停止播放音频
+    fun stopPlayAudioView(view:ImageView){
+        stopPlayDrawableAnim(view)
+        iv_playaudio.setImageResource(R.mipmap.liveroom_recording3)
+    }
+
+
     fun setFlowerClick(flower:(square:Square)->Unit){
         this.sendFlowerAction = object : SendFlowerClickListener{
             override fun onSendFlowerClicker(square: Square) {
@@ -243,10 +329,19 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
+    fun onTogglePlay(action:(square:Square)->Unit) {
+        this.mTogglePlay = object : TogglePlay {
+            override fun onTogglePlay(square: Square) {
+                action(square)
+            }
+        }
+    }
+
     private var action:PraiseClickListener?=null
     private var deleteAction:DeleteClick?=null
     private var onItemClick:OnItemClick?=null
     private var sendFlowerAction:SendFlowerClickListener?=null
+    private var mTogglePlay:TogglePlay?=null
 
     interface SendFlowerClickListener{
         fun onSendFlowerClicker(square:Square)
@@ -261,6 +356,10 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
     }
     interface OnItemClick{
         fun onClick(view: View,square: Square)
+    }
+
+    interface TogglePlay{
+        fun onTogglePlay(square: Square)
     }
 
     private var textClickedListener: CustomLinkMovementMethod.TextClickedListener? = null

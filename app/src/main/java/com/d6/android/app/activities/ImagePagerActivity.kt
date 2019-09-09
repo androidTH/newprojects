@@ -101,8 +101,10 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }
             dialog()
             user.userpics = imgs.toString()
-            Request.updateUserInfo(user).request(this){_,_->
-                setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to user)))
+            Request.updateUserInfo(user).request(this){_,data->
+                data?.let {
+                    setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to it)))
+                }
                 onBackPressed()
             }
         }

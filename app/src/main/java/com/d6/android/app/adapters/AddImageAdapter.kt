@@ -4,6 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.d6.android.app.R
+import com.d6.android.app.activities.ImageLocalPagerActivity
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.AddImage
@@ -12,6 +14,7 @@ import com.d6.android.app.utils.screenWidth
 import com.d6.android.app.utils.visible
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.dip
+import org.jetbrains.anko.startActivityForResult
 
 /**
  *
@@ -42,12 +45,25 @@ class AddImageAdapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage>(
         imageView.setOnClickListener {
             if (data.type == 1) {
                 listener?.onAddClick()
+            }else{
+                startActivity(mData,position)
             }
         }
+
         ivDeleteView.setOnClickListener {
             mData.remove(data)
             notifyDataSetChanged()
         }
+    }
+
+    fun startActivity(mData:ArrayList<AddImage>,pos:Int){
+        var resultList = ArrayList<String>()
+        mData.forEach {
+            if(it.type!=1){
+                resultList.add(it.imgUrl.replace("file://",""))
+            }
+        }
+        (context as BaseActivity).startActivityForResult<ImageLocalPagerActivity>(1000, ImageLocalPagerActivity.TYPE to 0,ImageLocalPagerActivity.CURRENT_POSITION to pos,ImageLocalPagerActivity.URLS to resultList,"delete" to true)
     }
 
     fun setOnAddClickListener(l:()->Unit){
