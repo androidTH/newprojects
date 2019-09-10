@@ -1,0 +1,48 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/jinjiarui/Downloads/JiaoZiVideoPlayer-develop/jiaozivideoplayer/build/intermediates/res/merged/release/values-tr/values-tr.xml",
+            "map": [
+                {
+                    "source": "/Users/jinjiarui/Downloads/JiaoZiVideoPlayer-develop/jiaozivideoplayer/src/main/res/values-tr/strings.xml",
+                    "from": {
+                        "startLines": "7,5,6,2,4,3,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "375,283,333,55,227,168,449",
+                        "endColumns": "73,49,41,112,55,58,66",
+                        "endOffsets": "444,328,370,163,278,222,511"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,129,179,221,334,390,449",
+                        "endColumns": "73,49,41,112,55,58,66",
+                        "endOffsets": "124,174,216,329,385,444,511"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/jinjiarui/Downloads/JiaoZiVideoPlayer-develop/jiaozivideoplayer/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-tr/values-tr.xml",
+            "map": [
+                {
+                    "source": "/Users/jinjiarui/Downloads/JiaoZiVideoPlayer-develop/jiaozivideoplayer/src/main/res/values-tr/strings.xml",
+                    "from": {
+                        "startLines": "7,5,6,2,4,3,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "375,283,333,55,227,168,449",
+                        "endColumns": "73,49,41,112,55,58,66",
+                        "endOffsets": "444,328,370,163,278,222,511"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,129,179,221,334,390,449",
+                        "endColumns": "73,49,41,112,55,58,66",
+                        "endOffsets": "124,174,216,329,385,444,511"
+                    }
+                }
+            ]
+        }
+    ]
+}
