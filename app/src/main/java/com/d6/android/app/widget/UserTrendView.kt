@@ -1,6 +1,7 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.support.annotation.IdRes
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -19,6 +20,8 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_user_trend_view.view.*
 import org.jetbrains.anko.backgroundDrawable
@@ -170,11 +173,24 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             }
             imageAdapter.notifyDataSetChanged()
         }else if(square.iResourceType==3){
+
+
+
             rv_images.visibility = View.GONE
             rl_root_audio.visibility = View.GONE
 
             rl_vidoe_user.visibility = View.VISIBLE
-            sv_video_user.setImageURI(square.sVideoUrl)
+            FrescoUtils.loadImage(context,square.sVideoPicUrl,object: IResult<Bitmap> {
+                override fun onResult(result: Bitmap?) {
+                    result?.let {
+                        if(it.height>it.width){
+                            sv_video_user.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
+                        }else{
+                            sv_video_user.setImageBitmap(it)
+                        }
+                    }
+                }
+            })
 
         }else if(square.iResourceType==4){
             rv_images.visibility = View.GONE

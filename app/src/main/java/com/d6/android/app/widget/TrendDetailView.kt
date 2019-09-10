@@ -1,6 +1,7 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
@@ -9,12 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
+import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_detail_view.view.*
 import org.jetbrains.anko.backgroundDrawable
@@ -87,6 +91,12 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
           square?.let {
               mTogglePlay?.onTogglePlay(it)
           }
+        }
+
+        rl_vidoe_details.setOnClickListener {
+            square?.let {
+                (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl)
+            }
         }
 
     }
@@ -173,7 +183,18 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             rl_root_audio.visibility = View.GONE
 
             rl_vidoe_details.visibility = View.VISIBLE
-            sv_video_details.setImageURI(square.sVideoUrl)
+
+            FrescoUtils.loadImage(context,square.sVideoPicUrl,object: IResult<Bitmap> {
+                override fun onResult(result: Bitmap?) {
+                    result?.let {
+                        if(it.height>it.width){
+                            sv_video_details.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
+                        }else{
+                            sv_video_details.setImageBitmap(it)
+                        }
+                    }
+                }
+            })
 
         }else if(square.iResourceType==4){
             rv_images.visibility = View.GONE

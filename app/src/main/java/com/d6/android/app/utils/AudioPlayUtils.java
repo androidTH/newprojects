@@ -11,8 +11,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.d6.android.app.recoder.AudioPlayListener;
-import com.pili.pldroid.player.AVOptions;
-
 import java.io.IOException;
 
 /**
@@ -26,7 +24,6 @@ public class AudioPlayUtils {
     private static final String TAG = AudioPlayUtils.class.getSimpleName();
 
 
-    private AVOptions mAVOptions;
     private MediaPlayer mMediaPlayer;
 
     private Context mContext;

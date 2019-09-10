@@ -27,8 +27,6 @@ import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.pili.pldroid.player.PLOnInfoListener
-import com.pili.pldroid.player.PLOnInfoListener.MEDIA_INFO_AUDIO_RENDERING_START
 import io.rong.eventbus.EventBus
 import kotlinx.android.synthetic.main.header_square_list.view.*
 import org.greenrobot.eventbus.Subscribe

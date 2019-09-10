@@ -143,6 +143,7 @@ dependencies {
     compile project(':sticker')
     compile project(':library')
     compile project(':update-app')
+    compile project(':jiaozivideoplayer')
 
     //下拉刷新库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-28'
@@ -189,9 +190,12 @@ dependencies {
     //    annotationProcessor("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
 
     //    compileOnly("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
-    implementation files('libs/pldroid-player-2.1.8.jar')
+//    implementation files('libs/pldroid-player-2.1.8.jar')
 
     implementation 'com.kailashdabhi:om-recorder:1.1.0'
+
+    implementation 'com.github.adrielcafe:ffmpeg-android-java:2a627f6ecd@aar'
+
 
 }
 

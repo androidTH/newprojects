@@ -750,7 +750,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 mAudioMedio.onClickStop()
                 mSquares.clear()
             }
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data.list?.results?.isEmpty()) {
                 if (pageNum > 1) {
                     mSwipeRefreshLayout.setLoadMoreText("没有更多了")
                     pageNum--

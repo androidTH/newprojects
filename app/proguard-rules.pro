@@ -278,5 +278,7 @@ public static final int *;
 -keep interface me.jessyan.autosize.** { *; }
 
 #七牛混淆
--keep class com.pili.pldroid.player.** { *; }
--keep class com.qiniu.qplayer.mediaEngine.MediaPlayer{*;}
+#-keep class com.pili.pldroid.player.** { *; }
+#-keep class com.qiniu.qplayer.mediaEngine.MediaPlayer{*;}
+
+-keep public class cn.jzvd.JZMediaSystem {*; }

@@ -7,14 +7,20 @@ import android.graphics.Matrix
 import android.graphics.Point
 import android.media.ExifInterface
 import android.os.Build
+import android.os.Environment
 import android.view.WindowManager
 import java.io.*
 import java.math.BigDecimal
+
+
 
 /**
  *
  */
 object BitmapUtils {
+
+    var MINWIDTH = 480
+    var MINHEIGHT = 720
 
     data class FileInfo(val path:String){
         var width:Int=0
@@ -200,5 +206,51 @@ object BitmapUtils {
             sampleSize = sampleSize shl 1
         }
         return sampleSize
+    }
+
+    @Throws(IOException::class)
+    public fun getcalculateBitmapSampleSize(file: File): List<Int> {
+        var inputStream: InputStream? = null
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        try {
+            inputStream = FileInputStream(file)
+            BitmapFactory.decodeStream(inputStream, null, options) // Just get image size
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close()
+                } catch (t: Throwable) {
+                    // Do nothing
+                }
+            }
+        }
+        val sampleSize: List<Int> = listOf(options.outWidth,options.outHeight)
+        return sampleSize
+    }
+
+    public fun saveImageToFile(bmp:Bitmap):String{
+        val appDir = File(Environment.getExternalStorageDirectory(), "d6")
+        // 测试由此抽象路径名表示的文件或目录是否存在
+        if (!appDir.exists()) {
+            //如果不存在，则创建由此抽象路径名命名的目录
+
+            appDir.mkdir()
+        }
+        // 然后自定义图片的文件名称
+        val fileName = System.currentTimeMillis().toString() + ".jpg"
+        // 创建file对象
+        val file = File(appDir, fileName)
+        try {
+            val fos = FileOutputStream(file)
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+            fos.flush()
+            fos.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+       return file.path
     }
 }

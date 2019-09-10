@@ -17,6 +17,7 @@ public class Image {
     public int mediaType;
     public long mSize;
     public long duration;
+    public int id;
 
     public Image(String path, String name, long time,int mimeType,long size){
         this.path = path;

@@ -374,7 +374,10 @@
         <activity android:name=".activities.ScreeningAreaActivity"
             android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.DateAuthSucessActivity"/>
-        <activity android:name=".activities.SimplePlayer"/>
+        <activity android:name=".activities.SimplePlayer"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/imageactivity"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"

@@ -66,11 +66,12 @@ public class VideosLoader extends LoaderM implements LoaderManager.LoaderCallbac
             long dateTime = cursor.getLong(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[2]));
             int mediaType = cursor.getInt(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[3]));
             long size = cursor.getLong(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[4]));
-            int id= cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
 
             if (size < 1) continue;
             String dirName=getParent(path);
             Image media=new Image(path,name,dateTime,mediaType,size);
+            media.id = id;
             allFolder.addMedias(media);
 
             int index=hasDir(folders,dirName);

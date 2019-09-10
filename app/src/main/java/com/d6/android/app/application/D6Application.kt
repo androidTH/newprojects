@@ -22,6 +22,8 @@ import cn.liaox.cachelib.cache.NetworkCache
 import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
+import com.d6.android.app.audioconverter.AndroidAudioConverter
+import com.d6.android.app.audioconverter.callback.ILoadCallback
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
@@ -126,6 +128,21 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         if(isMainProcess()){
             OpenInstall.init(this)
         }
+
+        loadAudioConvert()
+    }
+
+    /**
+     * 加载转码工具
+     */
+    private fun loadAudioConvert(){
+        AndroidAudioConverter.load(this, object : ILoadCallback{
+            override fun onFailure(error: Exception?) {
+            }
+
+            override fun onSuccess() {
+            }
+        })
     }
 
     override fun attachBaseContext(base: Context?) {

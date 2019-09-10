@@ -3,10 +3,13 @@ package com.d6.android.app.activities
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.media.MediaPlayer
+import android.media.ThumbnailUtils
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -17,15 +20,15 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.RelativeLayout
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
-import com.d6.android.app.application.D6Application.Companion.getProxy
+import com.d6.android.app.audioconverter.AndroidAudioConverter
+import com.d6.android.app.audioconverter.callback.IConvertCallback
+import com.d6.android.app.audioconverter.model.AudioFormat
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommonTipDialog
-import com.d6.android.app.dialogs.DialogYesOrNo
 import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
@@ -42,7 +45,10 @@ import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.diskcache.DiskFileUtils
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.zhy.http.okhttp.utils.ImageUtils
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
@@ -50,6 +56,7 @@ import kotlinx.android.synthetic.main.item_audio_square.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_IMAGE_VIDEO
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_VIDEO
+import me.nereo.multi_image_selector.utils.FileUtils
 import me.nereo.multi_image_selector.utils.FileUtils.getCacheDirectory
 import omrecorder.AudioChunk
 import omrecorder.OmRecorder
@@ -111,6 +118,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     private var sVideoUrl:String = ""
     private var sVideoPicUrl:String = ""
     private var sVoiceUrl:String = ""
+    private var VideoPaths:ArrayList<String> = ArrayList<String>()
+    private var mVideoWidth:Int = 0
+    private var mVideoHeight:Int = 0
 
     /**
      * 删除图片后更新数据
@@ -179,7 +189,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
         tv_address.text = city
 
-        RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
+        RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.RECORD_AUDIO).subscribe {
             if (it) {
                 startLocation()
             } else {
@@ -511,13 +521,17 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                     tv_release.backgroundResource = R.drawable.shape_10r_orange
                 }
             }else if(requestCode == REQUESTCODE_VIDEO && data != null){
-                val result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+                VideoPaths = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+//                VideoPaths = result[0].split(FileUtils.VideoThumbnail)
                 mImages.clear()
-                result.forEach {
-                    val image = AddImage("file://$it",2)
-                    image.path = it
-                    mImages.add(image)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
-                }
+                val image = AddImage("file://${VideoPaths[0]}",2)
+                image.path = VideoPaths[0]
+                mImages.add(image)
+                var mBitmap = ThumbnailUtils.createVideoThumbnail(VideoPaths[0],0)
+                VideoPaths.add(BitmapUtils.saveImageToFile(mBitmap))
+                mVideoHeight = mBitmap.height
+                mVideoWidth = mBitmap.width
+                Log.i("releaseautio","${VideoPaths[1]}视频地址:${VideoPaths[0]},视频的宽：${mVideoWidth},高：${mVideoHeight}")
 //                mImages.clear()
 //                val selectedFilepath = GetPathFromUri.getPath(this, data.data)
 //                Log.i("onActivityResult","视频路径${selectedFilepath}")
@@ -633,7 +647,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                     this.city
                 }
 //                var userIds = getShareUserId(mChooseFriends)
-                Request.releaseSquare(userId, tagId, city, it, content,"",iIsAnonymous,sTopicId,"","","","")
+                Request.releaseSquare(userId, tagId, city, it, content,"",iIsAnonymous,sTopicId,"","","","","","")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -665,28 +679,52 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
         dialog()
         if (DiskFileUtils.IsExists(fileAudioPath)) {//有语音
-            val temp = File(fileAudioPath)
-                Request.uploadFile(temp,1).flatMap {
-                    Log.i("releaseautio","音频地址:"+it)
-                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","",it,mVoiceLength)
-            }.request(this,false,success= { _, data ->
-                showToast("发布成功")
-                DiskFileUtils.deleteSingleFile(fileAudioPath)
-                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
-                    showTips(data,"发布约会奖励积分","10")
-                }
-                syncChat(this,"dynamic",sex,userId)
-                setResult(Activity.RESULT_OK)
-                finish()
-            }){code,resMsg->
-                if(code == 2){
-                    val commonTiphDialog = CommonTipDialog()
-                    commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
-                    commonTiphDialog.show(supportFragmentManager, "resMsg")
-                }
-            }
+            AudioConvert(content)
         } else {
             addTextSquare(content)
+        }
+    }
+
+    private fun AudioConvert(content:String){
+        val callback = object : IConvertCallback {
+            override fun onSuccess(convertedFile: File) {
+                ConvertSuccess(convertedFile,content)
+            }
+
+            override fun onFailure(error: Exception) {
+                toast("ERROR: " + error.message)
+            }
+        }
+
+        AndroidAudioConverter.with(this)
+                .setFile(File(fileAudioPath))
+                .setFormat(AudioFormat.MP3)
+                .setCallback(callback)
+                .convert()
+    }
+
+    /**
+     * 音频转码成功
+     */
+    private fun ConvertSuccess(file:File,content:String){
+        Request.uploadFile(file,1).flatMap {
+            Log.i("releaseautio","${fileAudioPath}音频地址:"+it)
+            Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength)
+        }.request(this,false,success= { _, data ->
+            showToast("发布成功")
+            DiskFileUtils.deleteSingleFile(fileAudioPath)
+            if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+                showTips(data,"发布约会奖励积分","10")
+            }
+            syncChat(this,"dynamic",sex,userId)
+            setResult(Activity.RESULT_OK)
+            finish()
+        }){code,resMsg->
+            if(code == 2){
+                val commonTiphDialog = CommonTipDialog()
+                commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
+                commonTiphDialog.show(supportFragmentManager, "resMsg")
+            }
         }
     }
 
@@ -702,9 +740,18 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         dialog()
         if (mImages[0].type==2) {//有视频
             val temp = File(mImages[0].path)
-            Request.uploadFile(temp,1).flatMap {
-                Log.i("releaseautio","视频地址"+it)
-                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it,"","","")
+            Flowable.fromIterable(VideoPaths).subscribeOn(Schedulers.io()).flatMap {
+                //压缩
+                val b = File(it)
+                Flowable.just(b)
+            }.flatMap {
+                Log.i("releaseautio","地址"+it.path)
+                Request.uploadFile(it)
+            }.toList().toFlowable().flatMap {
+                Flowable.just(it)
+            }.flatMap {
+               Log.i("releaseautio",it[1]+"视频地址"+it[0]+"视频宽度:${mVideoWidth}")
+               Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -720,6 +767,25 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                     commonTiphDialog.show(supportFragmentManager, "resMsg")
                 }
             }
+
+//            Request.uploadFile(temp,1).flatMap {
+//                Log.i("releaseautio","视频地址"+it)
+//                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it,"","","","","")
+//            }.request(this,false,success= { _, data ->
+//                showToast("发布成功")
+//                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+//                    showTips(data,"发布约会奖励积分","10")
+//                }
+//                syncChat(this,"dynamic",sex,userId)
+//                setResult(Activity.RESULT_OK)
+//                finish()
+//            }){code,resMsg->
+//                if(code == 2){
+//                    val commonTiphDialog = CommonTipDialog()
+//                    commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
+//                    commonTiphDialog.show(supportFragmentManager, "resMsg")
+//                }
+//            }
         } else {
             addTextSquare(content)
         }
@@ -731,7 +797,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         } else {
             this.city
         }
-        Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","").request(this,false,success={
+        Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","").request(this,false,success={
             _, data ->
             showToast("发布成功")
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -830,6 +896,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
     override fun onBackPressed() {
         super.onBackPressed()
+        stopPlaying()
         DiskFileUtils.deleteSingleFile(fileAudioPath)
     }
 

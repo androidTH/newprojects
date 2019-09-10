@@ -110,7 +110,7 @@ interface ApiServices {
 
     @POST("backstage/square/add")
     fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String, @Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int,
-                      @Query("sTopicId") sTopicId:String,@Query("sVideoUrl") sVideoUrl:String,@Query("sVideoPicUrl") sVideoPicUrl:String,@Query("sVoiceUrl") sVoiceUrl:String,@Query("sVoiceLength") sVoiceLength:String
+                      @Query("sTopicId") sTopicId:String,@Query("sVideoUrl") sVideoUrl:String,@Query("sVideoPicUrl") sVideoPicUrl:String,@Query("sVideoWidth") sVideoWidth:String,@Query("sVideoHeight") sVideoHeight:String,@Query("sVoiceUrl") sVoiceUrl:String,@Query("sVoiceLength") sVoiceLength:String
                       ,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/selfabout/add")

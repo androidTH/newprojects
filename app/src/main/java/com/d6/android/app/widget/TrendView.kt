@@ -1,6 +1,7 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.support.annotation.IdRes
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -21,6 +22,8 @@ import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
 import org.jetbrains.anko.*
@@ -227,12 +230,24 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             rv_images.visibility = View.GONE
             rl_root_audio.visibility = View.GONE
 
-            if(square.sVideoUrl.isNotEmpty()){
+            if(square.sVideoPicUrl.isNotEmpty()){
                 rl_vidoe.visibility = View.VISIBLE
-                sv_video.setImageURI(square.sVideoUrl)
+//                sv_video.setImageURI(square.sVideoPicUrl)
+                FrescoUtils.loadImage(context,square.sVideoPicUrl,object: IResult<Bitmap> {
+                    override fun onResult(result: Bitmap?) {
+                        result?.let {
+                            if(it.height>it.width){
+                                sv_video.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
+                            }else{
+                                sv_video.setImageBitmap(it)
+                            }
+                        }
+                    }
+                })
             }else{
                 rl_vidoe.visibility = View.GONE
             }
+            Log.i("trendView","动态类型=${square.iResourceType},视频所属人:${square.name},内容：${square.content},${square.sVideoUrl}视频链接,图片链接=${square.sVideoPicUrl}")
         }else if(square.iResourceType==4){
             rv_images.visibility = View.GONE
             rl_vidoe.visibility = View.GONE

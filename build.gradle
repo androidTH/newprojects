@@ -29,6 +29,7 @@ allprojects {
         mavenCentral()
         maven {url 'http://developer.huawei.com/repo/'}
         maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://jitpack.io' }
     }
 }
 

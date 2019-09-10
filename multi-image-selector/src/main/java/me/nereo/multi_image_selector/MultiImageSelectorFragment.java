@@ -513,8 +513,9 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
                     resultList.add(image.path);
                     mPreviewBtn.setEnabled(true);
                     mPreviewBtn.setText(getResources().getString(R.string.preview) + "(" + resultList.size() + ")");
+//                    String thumpath = FileUtils.getAlbumPath(getActivity(),image.id);
                     if (mCallback != null) {
-                        mCallback.onImageSelected(image.path);
+                        mCallback.onImageSelected(image.path);//FileUtils.VideoThumbnail+thumpath
                     }
                 }
                 mImageAdapter.select(image);
