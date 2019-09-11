@@ -3,13 +3,10 @@ package com.d6.android.app.activities
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.media.ThumbnailUtils
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -45,19 +42,13 @@ import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.diskcache.DiskFileUtils
-import com.d6.android.app.widget.frescohelper.FrescoUtils
-import com.d6.android.app.widget.frescohelper.IResult
 import com.tbruyelle.rxpermissions2.RxPermissions
-import com.zhy.http.okhttp.utils.ImageUtils
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import kotlinx.android.synthetic.main.item_audio_square.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
-import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_IMAGE_VIDEO
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_VIDEO
-import me.nereo.multi_image_selector.utils.FileUtils
-import me.nereo.multi_image_selector.utils.FileUtils.getCacheDirectory
 import omrecorder.AudioChunk
 import omrecorder.OmRecorder
 import omrecorder.PullTransport
@@ -161,8 +152,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         addAdapter.notifyDataSetChanged()
         tv_back.setOnClickListener {
             mKeyboardKt.hideKeyboard(it)
-            selectAudio()
-            finish()
+            onBackPressed()
         }
 
         locationClient.setLocationListener {
@@ -835,8 +825,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             addTextSquare(content)
         }
     }
-
-
 
     private fun getLocalFriendsCount(){
         Request.findUserFriends(userId,"",1).request(this) { _, data ->

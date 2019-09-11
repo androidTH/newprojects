@@ -44,7 +44,7 @@ class ImageFragment : BaseNoBarFragment() {
             url = ""
         }
         val hierarchy = GenericDraweeHierarchyBuilder(resources)
-                .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
+                .setActualImageScaleType(ScalingUtils.ScaleType.CENTER_INSIDE)
                 .setProgressBarImage(ProgressBarDrawable())
                 .build()
         val uri = Uri.parse(url)

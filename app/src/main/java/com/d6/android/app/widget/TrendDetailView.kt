@@ -151,34 +151,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         tv_sub_title.text = sub
         tv_content.text = square.content
-
-        if(square.iResourceType==2){
-            rl_vidoe_details.visibility = View.GONE
-            rl_root_audio.visibility = View.GONE
-
-            if (square.imgUrl.isNullOrEmpty()) {
-                rv_images.gone()
-            } else {
-                rv_images.visible()
-            }
-            mImages.clear()
-            val images = square.imgUrl?.split(",")
-            if (images != null) {
-                mImages.addAll(images.toList())
-            }
-            val d = rv_images.getItemDecorationAt(0)
-            if (d != null) {
-                rv_images.removeItemDecoration(d)
-            }
-            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
-                rv_images.layoutManager = GridLayoutManager(context,2)
-                rv_images.addItemDecoration(SpacesItemDecoration(dip(4),2))
-            } else {
-                rv_images.layoutManager = GridLayoutManager(context,3)
-                rv_images.addItemDecoration(SpacesItemDecoration(dip(4),3))
-            }
-            imageAdapter.notifyDataSetChanged()
-        }else if(square.iResourceType==3){
+        if(square.iResourceType==3){
             rv_images.visibility = View.GONE
             rl_root_audio.visibility = View.GONE
 
@@ -219,6 +192,32 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             } else {
                 tv_audio_time.text = "0”"
             }
+        }else{
+            rl_vidoe_details.visibility = View.GONE
+            rl_root_audio.visibility = View.GONE
+
+            if (square.imgUrl.isNullOrEmpty()) {
+                rv_images.gone()
+            } else {
+                rv_images.visible()
+            }
+            mImages.clear()
+            val images = square.imgUrl?.split(",")
+            if (images != null) {
+                mImages.addAll(images.toList())
+            }
+            val d = rv_images.getItemDecorationAt(0)
+            if (d != null) {
+                rv_images.removeItemDecoration(d)
+            }
+            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
+                rv_images.layoutManager = GridLayoutManager(context, 2)
+                rv_images.addItemDecoration(SpacesItemDecoration(dip(4), 2))
+            } else {
+                rv_images.layoutManager = GridLayoutManager(context, 3)
+                rv_images.addItemDecoration(SpacesItemDecoration(dip(4), 3))
+            }
+            imageAdapter.notifyDataSetChanged()
         }
 
         if(TextUtils.isEmpty(square.sTopicName)){

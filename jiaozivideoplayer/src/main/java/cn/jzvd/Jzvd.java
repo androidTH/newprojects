@@ -149,6 +149,10 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         setUp(new JZDataSource(url, title), screen);
     }
 
+    public void setUp(String url, String title, int screen,boolean loop) {
+        setUp(new JZDataSource(url, title,loop), screen);
+    }
+
     public void setUp(JZDataSource jzDataSource, int screen) {
         setUp(jzDataSource, screen, JZMediaSystem.class);
     }

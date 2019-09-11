@@ -196,36 +196,8 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_content.visibility = View.VISIBLE
             tv_content.text = square.content
         }
-
         //1、文字  2、图片 4、语音 ，新发布的这样区分，之前的为0
-        if(square.iResourceType==2){
-            rl_vidoe.visibility = View.GONE
-            rl_root_audio.visibility = View.GONE
-            //2、图片
-            if (square.imgUrl.isNullOrEmpty()) {
-                rv_images.gone()
-            } else {
-                rv_images.visible()
-            }
-            mImages.clear()
-            val images = square.imgUrl?.split(",")
-            if (images != null) {
-                mImages.addAll(images.toList())
-            }
-
-            val d = rv_images.getItemDecorationAt(0)
-            if (d != null) {
-                rv_images.removeItemDecoration(d)
-            }
-            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
-                rv_images.layoutManager = GridLayoutManager(context,2)
-                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),2)
-            } else {
-                rv_images.layoutManager = GridLayoutManager(context,3)
-                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
-            }
-            imageAdapter.notifyDataSetChanged()
-        }else if(square.iResourceType==3){
+        if(square.iResourceType==3){
             //3、视频
             rv_images.visibility = View.GONE
             rl_root_audio.visibility = View.GONE
@@ -279,9 +251,34 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }
             Log.i("trendView","动态类型=${square.iResourceType},音频所属人:${square.name},内容：${square.content},音频链接=${square.sVoiceUrl}")
         }else{
-            rv_images.visibility = View.GONE
+            // 1或者2
             rl_vidoe.visibility = View.GONE
             rl_root_audio.visibility = View.GONE
+
+            //2、图片
+            if (square.imgUrl.isNullOrEmpty()) {
+                rv_images.gone()
+            } else {
+                rv_images.visible()
+            }
+            mImages.clear()
+            val images = square.imgUrl?.split(",")
+            if (images != null) {
+                mImages.addAll(images.toList())
+            }
+
+            val d = rv_images.getItemDecorationAt(0)
+            if (d != null) {
+                rv_images.removeItemDecoration(d)
+            }
+            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
+                rv_images.layoutManager = GridLayoutManager(context, 2)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),2)
+            } else {
+                rv_images.layoutManager = GridLayoutManager(context, 3)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
+            }
+            imageAdapter.notifyDataSetChanged()
         }
 
         tv_appraise.isSelected = TextUtils.equals(square.isupvote,"1")

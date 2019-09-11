@@ -13,6 +13,7 @@ import com.d6.android.app.widget.photodrag.PhotoDragDelegate;
 import com.d6.android.app.widget.photodrag.PhotoDragHelper;
 import com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout;
 
+import cn.jzvd.JZDataSource;
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
 
@@ -37,7 +38,7 @@ public class SimplePlayer extends VideoPlayerBaseActivity {
 
         String videoPath = getIntent().getStringExtra("videoPath");
         String proxyUrl =  getProxyUrl(this,videoPath);
-        myJzvdStd.setUp(proxyUrl,"", JzvdStd.SCREEN_NORMAL);
+        myJzvdStd.setUp(proxyUrl,"", JzvdStd.SCREEN_NORMAL,true);
 
         mPhotoDragRL.setDragListener(new PhotoDragHelper().setOnDragListener(new PhotoDragHelper.OnDragListener(){
 

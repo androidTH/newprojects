@@ -146,35 +146,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         tv_content.text = square.content
 
-        if(square.iResourceType==2){
-            rl_vidoe_user.visibility = View.GONE
-            rl_root_audio.visibility = View.GONE
-
-            if (square.sSourceSquarePics.isNullOrEmpty()) {
-                rv_images.gone()
-            } else {
-                rv_images.visible()
-            }
-            mImages.clear()
-            val images = square.sSourceSquarePics?.split(",")
-            if (images != null) {
-                mImages.addAll(images.toList())
-            }
-            val d = rv_images.getItemDecorationAt(0)
-            if (d != null) {
-                rv_images.removeItemDecoration(d)
-            }
-            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
-                rv_images.layoutManager = GridLayoutManager(context,2)
-                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))
-            } else {
-                rv_images.layoutManager = GridLayoutManager(context,3)
-                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
-            }
-            imageAdapter.notifyDataSetChanged()
-        }else if(square.iResourceType==3){
-
-
+        if(square.iResourceType==3){
 
             rv_images.visibility = View.GONE
             rl_root_audio.visibility = View.GONE
@@ -221,10 +193,33 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 
             Log.i("usertrendView","动态类型=${square.iResourceType},音频所属人${square.name},音频链接=${square.sVoiceUrl}")
         }else{
-            rv_images.visibility = View.GONE
             rl_vidoe_user.visibility = View.GONE
-
             rl_root_audio.visibility = View.GONE
+//            if(square.iResourceType==2||square.iResourceType==1){
+
+            if (square.sSourceSquarePics.isNullOrEmpty()) {
+                rv_images.gone()
+            } else {
+                rv_images.visible()
+            }
+            mImages.clear()
+            val images = square.sSourceSquarePics?.split(",")
+            if (images != null) {
+                mImages.addAll(images.toList())
+            }
+            val d = rv_images.getItemDecorationAt(0)
+            if (d != null) {
+                rv_images.removeItemDecoration(d)
+            }
+            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
+                rv_images.layoutManager = GridLayoutManager(context, 2)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))
+            } else {
+                rv_images.layoutManager = GridLayoutManager(context, 3)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
+            }
+            imageAdapter.notifyDataSetChanged()
+//            }else
         }
 
         if(TextUtils.isEmpty(square.sTopicName)){

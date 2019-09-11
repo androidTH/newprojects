@@ -4,13 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+    <!--<com.d6.android.app.widget.convenientbanner.ConvenientBanner-->
+        <!--android:id="@+id/mBanner"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:minHeight="90dp"-->
+        <!--app:autoTurningTime="3000"-->
+        <!--app:canLoop="true" />-->
+    <View
+        android:id="@+id/banner_line_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_8"
+        android:background="@color/color_F5F5F5" />
+
+    <com.d6.android.app.widget.layoutbanner.BannerLayout
         android:id="@+id/mBanner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="90dp"
-        app:autoTurningTime="3000"
-        app:canLoop="true" />
+        android:layout_height="160dp"
+        android:layout_below="@+id/banner_line_top"
+        android:background="@color/color_F5F5F5"
+        app:autoPlaying="true"
+        app:centerScale="1.0"
+        app:itemSpace="10"
+        app:moveSpeed="1.3"/>
 
     <View
         android:id="@+id/banner_line"
@@ -24,8 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/banner_line"
-        android:paddingTop="@dimen/margin_5"
-        android:paddingBottom="@dimen/margin_20"
+        android:paddingBottom="@dimen/margin_10"
         android:paddingLeft="@dimen/margin_15"
         android:background="@color/white">
 

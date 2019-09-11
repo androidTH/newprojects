@@ -25,6 +25,13 @@ public class JZDataSource {
         currentUrlIndex = 0;
     }
 
+    public JZDataSource(String url, String title,boolean looping) {
+        urlsMap.put(URL_KEY_DEFAULT, url);
+        this.title = title;
+        currentUrlIndex = 0;
+        this.looping = looping;
+    }
+
     public JZDataSource(Object url) {
         urlsMap.put(URL_KEY_DEFAULT, url);
         currentUrlIndex = 0;

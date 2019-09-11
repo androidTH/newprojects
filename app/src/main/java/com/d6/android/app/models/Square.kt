@@ -17,7 +17,7 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var classesName: String? = ""
     @SerializedName("userclassesname")
     var userclassesname:String?=""
-    @SerializedName("coverurl")
+    @SerializedName("squarepics")
     var imgUrl: String? = ""//图片集
     @SerializedName("squarecity")
     var city: String? = ""
@@ -31,7 +31,7 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var age: String? = ""
     var iFlowerCount:Int?=0
     var iIsSendFlower:Int?=0 //iIsSendFlower 大于0送过花，等于0没送过
-    var sSourceSquarePics:String?=""
+    var sSourceSquarePics:String?="" //原图链接
     var userclassesid:String?=""
     var screen:String?=""
     var iIsAnonymous:Int?=0 //1、匿名  2、非匿名状态
