@@ -130,6 +130,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
 
         loadAudioConvert()
+//        BigImageViewer.initialize(FrescoImageLoader.with(this))
     }
 
     /**

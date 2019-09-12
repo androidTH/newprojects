@@ -196,11 +196,16 @@ dependencies {
 
     implementation 'com.github.adrielcafe:ffmpeg-android-java:2a627f6ecd@aar'
 
-//    implementation 'com.github.bumptech.glide:glide:4.8.0'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-//    implementation 'com.github.bumptech.glide:okhttp3-integration:4.8.0'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+//    implementation 'com.github.piasy:BigImageViewer:1.5.7'
 //
-//    implementation 'com.github.SherlockGougou:BigImageViewPager:v4_4.1.0'
+//    implementation 'com.github.piasy:FrescoImageLoader:1.5.7'
+
+//// progress pie indicator
+//    implementation 'com.github.piasy:ProgressPieIndicator:1.5.7'
+//
+//  support thumbnail, gif and webp with Fresco
+//    implementation 'com.github.piasy:FrescoImageViewFactory:1.5.7'
 
 }
 
