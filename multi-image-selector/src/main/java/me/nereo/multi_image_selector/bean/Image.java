@@ -1,7 +1,5 @@
 package me.nereo.multi_image_selector.bean;
 
-import me.nereo.multi_image_selector.utils.TimeUtils;
-
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 import static me.nereo.multi_image_selector.utils.TimeUtils.setTimeToMinute;
 import static me.nereo.multi_image_selector.utils.TimeUtils.timeToMinute;

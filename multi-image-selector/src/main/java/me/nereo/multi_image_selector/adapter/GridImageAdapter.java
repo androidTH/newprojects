@@ -155,6 +155,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         Uri uri = Uri.parse("file://"+data.path);
+
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
                 .setLocalThumbnailPreviewsEnabled(true)
                 .setResizeOptions(new ResizeOptions(mGridWidth,mGridWidth))

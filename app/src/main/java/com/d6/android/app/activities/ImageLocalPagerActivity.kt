@@ -41,7 +41,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_localimage_pager)
-        immersionBar.fitsSystemWindows(true).statusBarColor(R.color.colorPrimaryDark).statusBarDarkFont(false).init()
+        noTitleBar()
         tv_close.setOnClickListener {
             onBackPressed()
         }

@@ -22,11 +22,15 @@ public class VideosLoader extends LoaderM implements LoaderManager.LoaderCallbac
 
     private final String[] VIDEO_PROJECTION = {
             MediaStore.Files.FileColumns.DATA,
-            MediaStore.Files.FileColumns.DISPLAY_NAME,
-            MediaStore.Files.FileColumns.DATE_ADDED,
             MediaStore.Files.FileColumns.MEDIA_TYPE,
             MediaStore.Files.FileColumns.SIZE,
             MediaStore.Files.FileColumns._ID };
+
+//    MediaStore.Files.FileColumns.DISPLAY_NAME,
+//    MediaStore.Files.FileColumns.DATE_ADDED,
+
+    String[] thumbColumns = {MediaStore.Video.Thumbnails.DATA,
+            MediaStore.Video.Thumbnails.VIDEO_ID};
 
     Context mContext;
     DataCallback mLoader;
@@ -62,15 +66,15 @@ public class VideosLoader extends LoaderM implements LoaderManager.LoaderCallbac
         while (cursor.moveToNext()){
 
             String path = cursor.getString(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[0]));
-            String name = cursor.getString(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[1]));
-            long dateTime = cursor.getLong(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[2]));
-            int mediaType = cursor.getInt(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[3]));
-            long size = cursor.getLong(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[4]));
-            int id = cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+//            String name = cursor.getString(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[1]));
+//            long dateTime = cursor.getLong(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[2]));
+//            int mediaType = cursor.getInt(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[1]));
+            long size = cursor.getLong(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[2]));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(VIDEO_PROJECTION[3]));
 
             if (size < 1) continue;
-            String dirName=getParent(path);
-            Image media=new Image(path,name,dateTime,mediaType,size);
+            String dirName= getParent(path);
+            Image media=new Image(path,"",0,3,size);
             media.id = id;
             allFolder.addMedias(media);
 

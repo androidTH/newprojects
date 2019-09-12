@@ -94,7 +94,6 @@ class ImageFragment : BaseNoBarFragment() {
                     } else {
                         sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
                         sampimgview.setImage(ImageSource.bitmap(it))
-                        sampimgview
                         sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
                     }
                 }
