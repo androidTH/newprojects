@@ -6,12 +6,11 @@
     android:orientation="horizontal">
     <android.support.v7.widget.AppCompatTextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/margin_20"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
-        android:paddingTop="4dp"
         android:textColor="@color/color_333333"
         android:textSize="12sp"
-        android:text=""
+        android:gravity="center_vertical"
         android:id="@+id/tv_content"/>
 </LinearLayout>

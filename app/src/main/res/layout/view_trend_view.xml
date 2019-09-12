@@ -206,32 +206,42 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_content"
             android:layout_marginTop="4dp"
-            android:background="@drawable/shape_coment_bg"
-            android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:paddingTop="1dp"
-            android:paddingRight="5dp"
-            android:paddingBottom="2dp"
-            android:visibility="gone">
+            android:paddingBottom="2dp">
+            <View
+                android:id="@+id/view_comment_left"
+                android:layout_width="@dimen/margin_5"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_3"
+                android:layout_marginBottom="@dimen/margin_3"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/shape_coment_bg" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_comment"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_all_comment"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5"
-                android:layout_marginBottom="@dimen/margin_5"
-                android:drawableRight="@mipmap/ic_arrow_right_orange"
-                android:text="查看全部条评论"
-                android:textColor="@color/orange_f6a"
-                android:textStyle="bold"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/margin_3"
+                android:paddingRight="5dp">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_all_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:drawableRight="@mipmap/ic_arrow_right_orange"
+                    android:text="查看全部条评论"
+                    android:textColor="@color/orange_f6a"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
         <TextView
             android:id="@+id/tv_redflower"
             android:layout_width="wrap_content"
