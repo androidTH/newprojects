@@ -242,15 +242,20 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }
 
             override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
-                var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_gray)
+                var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_icon)
                 setLeftDrawable(drawable,tv_img)
-                tv_img.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
+                tv_img.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
 
-                var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_gray)
+                var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_icon)
                 setLeftDrawable(drawablevideo,tv_video)
-                tv_video.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
+                tv_video.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
 
-                setPanelIsNotShow(false)
+                rl_recoder.visibility = View.GONE
+                var drawableRecoder = ContextCompat.getDrawable(context, R.mipmap.input_addvoice_icon)
+                setLeftDrawable(drawableRecoder,tv_recoder)
+                tv_recoder.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+
+//                setPanelIsNotShow(false)
             }
         })
 
@@ -386,6 +391,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
         if(intent.hasExtra("from")){
             mFrom = intent.getStringExtra("from")
+        }
+
+        if(intent.hasExtra("topicname")){
+            tv_topic_choose.text = "#${intent.getStringExtra("topicname")}"
+            sTopicId = intent.getStringExtra("topicId")
         }
 
         if(TextUtils.equals("otherActivity",mFrom)){
@@ -550,7 +560,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }else if(requestCode==REQUEST_TOPICCODE&&data!=null){
                 var mTopicBean = data.getParcelableExtra<TopicBean>(Const.CHOOSE_TOPIC)
                 if(mTopicBean!=null){
-                    tv_topic_choose.text = mTopicBean.sTopicName
+                    tv_topic_choose.text = "#${mTopicBean.sTopicName}"
                     sTopicId = mTopicBean.sId
                 }
             }
@@ -913,6 +923,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 tv_delete_audio.visibility = View.VISIBLE
                 setRlPlayAudioWidth()
                 tv_audio_time.text = "${mVoiceLength}”"
+
+                //显示软键盘
+                showSoftInput(et_content)
             }else{
                 record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
                 toast(getString(R.string.string_warm_voicetime))
@@ -1024,7 +1037,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 it.start()
                 it.setOnCompletionListener(this@ReleaseNewTrendsActivity)
             }
-            tv_recoder_time.setText("点击开始录制")
+            tv_recoder_time.setText(resources.getString(R.string.string_record_audio))
             playerSecondsElapsed = 0
             startTimer()
         } catch (e: Exception) {

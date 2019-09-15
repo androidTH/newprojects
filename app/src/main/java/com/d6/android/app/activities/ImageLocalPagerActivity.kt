@@ -21,6 +21,7 @@ import com.d6.android.app.utils.visible
 import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import kotlinx.android.synthetic.main.activity_localimage_pager.*
 import com.d6.android.app.widget.ObserverManager
+import com.gyf.barlibrary.ImmersionBar
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.startActivityForResult
@@ -41,28 +42,26 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_localimage_pager)
-        noTitleBar()
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.color_CC111111).init()
         tv_close.setOnClickListener {
-            onBackPressed()
-        }
-
-        tv_dowork.setOnClickListener {
             if(type==0){
                 var mImagelocals = Imagelocals(urls,1,0)
                 ObserverManager.getInstance().notifyObservers(mImagelocals)
-                finish()
+                onBackPressed()
             }else{
-                FinishActivityManager.getManager().finishActivity(MultiImageSelectorActivity::class.java)
-                mNoChooseUrls.forEach {
-                    urls.remove(it)
-                }
-                var mImagelocals = Imagelocals(urls,1,0)
-                ObserverManager.getInstance().notifyObservers(mImagelocals)
-//                tv_dowork.postDelayed(Runnable {
-//
-//                },300)
-                finish()
+                onBackPressed()
             }
+        }
+
+        tv_dowork.setOnClickListener {
+            FinishActivityManager.getManager().finishActivity(MultiImageSelectorActivity::class.java)
+            mNoChooseUrls.forEach {
+                urls.remove(it)
+            }
+            var mImagelocals = Imagelocals(urls, 1, 0)
+            ObserverManager.getInstance().notifyObservers(mImagelocals)
+            onBackPressed()
         }
 
         tv_edittiezhi.setOnClickListener {
@@ -116,6 +115,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             setLeftDrawable(mDrawable, tv_check)
         }else{
             tv_check.visibility = View.GONE
+            tv_dowork.visibility = View.GONE
             tv_delete.visibility = View.VISIBLE
         }
 
@@ -162,7 +162,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_pages.text = String.format("%d/%d", size,urls!!.size)
             tv_dowork.text = "完成·${urls.size}"
         } else {
-            finish()
+            onBackPressed()
         }
     }
 

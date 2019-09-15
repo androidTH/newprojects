@@ -80,7 +80,6 @@
             android:paddingRight="30dp"
             android:paddingBottom="@dimen/margin_12"
             android:text="@string/string_like"
-            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="15sp" />
 

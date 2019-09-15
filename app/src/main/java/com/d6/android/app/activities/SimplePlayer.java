@@ -2,6 +2,7 @@ package com.d6.android.app.activities;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -35,11 +36,18 @@ public class SimplePlayer extends VideoPlayerBaseActivity {
         mPhotoDragRL = findViewById(R.id.root_videodrag);
         mRelativePlay = findViewById(R.id.activity_play);
 
-
-        String videoPath = getIntent().getStringExtra("videoPath");
-        String proxyUrl =  getProxyUrl(this,videoPath);
-        myJzvdStd.setUp(proxyUrl,"", JzvdStd.SCREEN_NORMAL,true);
-
+        try{
+            String videoPath = getIntent().getStringExtra("videoPath");
+            String videoType = getIntent().getStringExtra("videoType");
+            if(TextUtils.equals("1",videoType)){
+                String proxyUrl =  getProxyUrl(this,videoPath);
+                myJzvdStd.setUp(proxyUrl,"", JzvdStd.SCREEN_NORMAL,true);
+            }else{
+                myJzvdStd.setUp(videoPath,"", JzvdStd.SCREEN_NORMAL,true);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         mPhotoDragRL.setDragListener(new PhotoDragHelper().setOnDragListener(new PhotoDragHelper.OnDragListener(){
 
             @Override

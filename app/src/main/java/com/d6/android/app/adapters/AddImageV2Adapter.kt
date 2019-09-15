@@ -87,7 +87,7 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
     }
 
     fun startVideoActivity(path:String){
-        (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to path)
+        (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to path,"videoType" to "0")
     }
 
     fun setOnAddClickListener(l:(type:Int)->Unit){

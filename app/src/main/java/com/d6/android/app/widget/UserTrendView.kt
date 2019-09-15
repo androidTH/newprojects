@@ -103,7 +103,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         rl_vidoe_user.setOnClickListener {
             square?.let {
-                (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl)
+                (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl,"videoType" to "1")
             }
         }
     }

@@ -3,6 +3,7 @@
     android:id="@+id/photo_drag_relaivelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@android:color/black">
 
     <android.support.v4.view.ViewPager
@@ -12,7 +13,7 @@
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="@dimen/title_bar_size"
-       android:layout_marginTop="@dimen/margin_25">
+       android:background="@color/color_CC111111">
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
@@ -64,24 +65,27 @@
       <TextView
           android:id="@+id/tv_edittiezhi"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
+          android:layout_height="match_parent"
           android:textColor="@color/white"
           android:textStyle="bold"
           android:drawableLeft="@mipmap/edit_tiezi"
-          android:layout_marginLeft="@dimen/margin_20"
           android:drawablePadding="@dimen/margin_5"
+          android:paddingLeft="@dimen/margin_15"
+          android:paddingRight="@dimen/margin_10"
           android:textSize="15sp"
+          android:gravity="center_vertical"
           android:text="贴纸/打码"/>
 
        <TextView
            android:id="@+id/tv_dowork"
            android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
+           android:layout_height="match_parent"
            android:textColor="@color/color_F7B500"
            android:layout_alignParentRight="true"
            android:textStyle="bold"
            android:layout_marginRight="@dimen/margin_20"
            android:textSize="15sp"
+           android:gravity="center_vertical"
            android:text="完成·"/>
    </RelativeLayout>
 </com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout>

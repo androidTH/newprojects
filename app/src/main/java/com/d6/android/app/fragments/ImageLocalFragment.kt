@@ -102,9 +102,9 @@ class ImageLocalFragment : BaseNoBarFragment() {
             }
         })
 
-        sampimgview.setOnClickListener {
-            activity.onBackPressed()
-        }
+//        sampimgview.setOnClickListener {
+//            activity.onBackPressed()
+//        }
     }
 
     override fun onFirstVisibleToUser() {

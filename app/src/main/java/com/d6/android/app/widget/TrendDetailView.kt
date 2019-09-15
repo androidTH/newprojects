@@ -95,7 +95,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         rl_vidoe_details.setOnClickListener {
             square?.let {
-                (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl)
+                (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl,"videoType" to "1")
             }
         }
 

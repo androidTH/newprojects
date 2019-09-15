@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.d6.android.app.R
+import com.d6.android.app.activities.FilterSquaresActivity
 import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareCommentAdapter
@@ -21,6 +22,8 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
+import com.d6.android.app.models.SquareTypeBean
+import com.d6.android.app.models.TopicBean
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
@@ -117,9 +120,25 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
                 rl_vidoe.setOnClickListener {
                     square?.let {
-                        (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl)
+                        (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl,"videoType" to "1")
                     }
                 }
+
+                tv_square_address.setOnClickListener {
+                    square?.let {
+                        var mSquareType = TopicBean("-2",R.mipmap.local_feedlist_icon,"${it.city}")
+                        mSquareType.city = "${it.city}"
+                        (context as BaseActivity).startActivity<FilterSquaresActivity>("squaretype" to mSquareType)
+                    }
+                }
+
+                tv_topic.setOnClickListener {
+                    square?.let {
+                        var mSquareType = TopicBean(it.sTopicId,-1,it.sTopicName)
+                        (context as BaseActivity).startActivity<FilterSquaresActivity>("squaretype" to mSquareType)
+                    }
+                }
+
             }
 
     /**
@@ -313,7 +332,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 rv_comment.gone()
                 ll_comments.gone()
             }
-            if (it > 2) {
+            if (it > 3) {
                 tv_all_comment.text = String.format("查看全部%s条评论",it)
                 tv_all_comment.visible()
             } else {
@@ -322,8 +341,8 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
         mComments.clear()
         if (square.comments != null) {
-            if(square.comments.size>2){
-                mComments.addAll(square.comments.subList(0,2))
+            if(square.comments.size>3){
+                mComments.addAll(square.comments.subList(0,3))
             }else{
                 mComments.addAll(square.comments)
             }

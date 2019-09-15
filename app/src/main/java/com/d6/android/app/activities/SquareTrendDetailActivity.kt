@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
@@ -283,6 +284,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     squareDetailCommentAdapter.setIsMySquare(it.userid.toString())
                     headerView.mTrendDetailView.update(it)
                     setTitleBold(it.name,true)
+                    titleBar.titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,17f)
                     titleBar.titleView.setOnClickListener {
                         startActivity<UserInfoActivity>("id" to id)
                     }

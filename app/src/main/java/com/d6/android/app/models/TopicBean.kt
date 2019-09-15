@@ -21,6 +21,7 @@ data class TopicBean(@SerializedName("sId")var sId:String = "",var mResId:Int= -
     @SerializedName("sTopicDesc")var sTopicDesc:String=""
     @SerializedName("iCreateUserid")var iCreateUserid:Int?=0
     @SerializedName("iIsshow")var iIsshow:Int = 0
+    var city:String=""
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
@@ -29,6 +30,7 @@ data class TopicBean(@SerializedName("sId")var sId:String = "",var mResId:Int= -
         sTopicDesc = parcel.readString()
         iCreateUserid = parcel.readValue(Int::class.java.classLoader) as? Int
         iIsshow = parcel.readInt()
+        city = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -38,6 +40,7 @@ data class TopicBean(@SerializedName("sId")var sId:String = "",var mResId:Int= -
         parcel.writeString(sTopicDesc)
         parcel.writeValue(iCreateUserid)
         parcel.writeInt(iIsshow)
+        parcel.writeString(city)
     }
 
     override fun describeContents(): Int {

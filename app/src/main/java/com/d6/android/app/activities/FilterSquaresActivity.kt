@@ -3,6 +3,7 @@ package com.d6.android.app.activities
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareAdapter
@@ -16,6 +17,7 @@ import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_filtersquares.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import java.lang.Exception
@@ -30,10 +32,12 @@ class FilterSquaresActivity : BaseActivity() {
     private val mTopicType by lazy {
         intent.getParcelableExtra("squaretype") as TopicBean
     }
+
     private val mSquares = ArrayList<Square>()
     private var sex = 2
     private var sTopicId = ""
     private var sCity = ""
+    private var mTypeName:String = ""
 
     //播放录音
     private var playIndex = -1
@@ -54,7 +58,7 @@ class FilterSquaresActivity : BaseActivity() {
 
         add_square.setOnClickListener {
             isCheckOnLineAuthUser(this, getLocalUserId()) {
-                startActivityForResult<ReleaseNewTrendsActivity>(1)
+                startActivity<ReleaseNewTrendsActivity>("topicname" to mTypeName,"topicId" to sTopicId)
             }
         }
 
@@ -70,13 +74,26 @@ class FilterSquaresActivity : BaseActivity() {
                 var leftDrawable = ContextCompat.getDrawable(this, mTopicType.mResId)
                 setLeftDrawable(leftDrawable, filter_squretitle)
                 rl_topicinfo.visibility = View.GONE
-                sex = mTopicType.sId.toInt()
-            } else {
+                if(TextUtils.equals("-1",mTopicType.sId)){
+                    sex = 2
+                    sTopicId = "1"
+                }else if(TextUtils.equals("-2",mTopicType.sId)){
+                    sCity = mTopicType.city
+                }else{
+                    sex = mTopicType.sId.toInt()
+                }
+            }else {
                 rl_topicinfo.visibility = View.VISIBLE
-                tv_topic_desc.text = mTopicType.sTopicDesc
+                if(mTopicType.sTopicDesc.isNotEmpty()){
+                    tv_topic_desc.text = mTopicType.sTopicDesc
+                }else{
+                    tv_topic_desc.visibility = View.GONE
+                }
+
                 var leftDrawable = ContextCompat.getDrawable(this, R.mipmap.tag_list_icon)
                 setLeftDrawable(leftDrawable, filter_squretitle)
                 sTopicId = mTopicType.sId
+                mTypeName = mTopicType.sTopicName
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -89,7 +106,6 @@ class FilterSquaresActivity : BaseActivity() {
 
         setAudioListener()
     }
-
 
     /**
      * 设置音频播放监听

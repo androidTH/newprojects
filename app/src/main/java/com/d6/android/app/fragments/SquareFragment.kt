@@ -60,9 +60,6 @@ class SquareFragment : RecyclerFragment() {
         return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-
-    private var mSquareTypes= ArrayList<TopicBean>()
-
     private var mBanners = ArrayList<Banner>()
     private val mSquareTopBannerAdapter by lazy{
         SquareBannerQuickAdapter(mBanners)
@@ -73,6 +70,8 @@ class SquareFragment : RecyclerFragment() {
         SquareAdapter(mSquares)
     }
 
+
+    private var mSquareTypes= ArrayList<TopicBean>()
     private val mSquareTypeAdapter by lazy{
         SquareTypeAdapter(mSquareTypes)
     }
@@ -141,7 +140,7 @@ class SquareFragment : RecyclerFragment() {
             mAudioMedio.singleAudioPlay(proxyUrl)
         }
 
-        mSquareTypes.add(TopicBean("2",R.mipmap.like_list_icon,"喜欢"))
+        mSquareTypes.add(TopicBean("-1",R.mipmap.like_list_icon,"喜欢"))
         mSquareTypes.add(TopicBean("1",R.mipmap.square_list_icon,"男生动态"))
         mSquareTypes.add(TopicBean("0",R.mipmap.girl_list_icon,"女生动态"))
 

@@ -17,7 +17,7 @@ class TopicSelectionAdapter(mData:ArrayList<TopicBean>): HFRecyclerAdapter<Topic
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: TopicBean) {
-        holder.setText(R.id.tv_topicname,data.sTopicName)
+        holder.setText(R.id.tv_topicname,"#${data.sTopicName}")
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {

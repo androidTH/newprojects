@@ -285,8 +285,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/margin_5"
-                android:textColor="@color/color_CDCDCD"
-                android:drawableLeft="@mipmap/input_addpic_gray"
+                android:textColor="@color/color_F7AB00"
+                android:drawableLeft="@mipmap/input_addpic_icon"
                 android:gravity="center"
                 android:textSize="12sp"
                 android:text="图片" />
@@ -299,8 +299,8 @@
                 android:layout_marginLeft="@dimen/margin_35"
                 android:layout_marginRight="@dimen/margin_35"
                 android:drawablePadding="@dimen/margin_5"
-                android:textColor="@color/color_CDCDCD"
-                android:drawableLeft="@mipmap/input_addvideo_gray"
+                android:textColor="@color/color_F7AB00"
+                android:drawableLeft="@mipmap/input_addvideo_icon"
                 android:textSize="12sp"
                 android:gravity="center"
                 android:text="视频" />
@@ -312,10 +312,10 @@
                 android:layout_height="wrap_content"
                 android:text="录音"
                 android:drawablePadding="@dimen/margin_5"
-                android:drawableLeft="@mipmap/input_addvideo_gray_icon"
+                android:drawableLeft="@mipmap/input_addvoice_icon"
                 android:textSize="12sp"
                 android:gravity="center"
-                android:textColor="@color/color_CDCDCD"/>
+                android:textColor="@color/color_F7AB00"/>
             <!--input_addvideo_gray_icon-->
         </LinearLayout>
 
@@ -338,7 +338,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_15"
-                android:text="点击开始录制"
+                android:text="@string/string_record_audio"
                 android:textColor="@color/color_888888"
                 android:textSize="12sp" />
 

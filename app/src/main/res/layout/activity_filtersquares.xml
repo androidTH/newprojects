@@ -28,7 +28,7 @@
             android:textStyle="bold"
             android:textColor="@color/color_black"
             android:textSize="15sp"
-            android:text="夏日的小美好"/>
+            android:text=""/>
         <TextView
             android:id="@+id/add_square"
             android:layout_width="wrap_content"
@@ -44,19 +44,20 @@
    <RelativeLayout
        android:id="@+id/rl_topicinfo"
        android:layout_width="match_parent"
-       android:layout_height="70dp"
+       android:layout_height="wrap_content"
        android:background="@color/white">
        <TextView
            android:id="@+id/tv_topic_desc"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_centerInParent="true"
+           android:layout_marginTop="@dimen/margin_15"
+           android:layout_marginBottom="@dimen/margin_15"
            android:layout_marginRight="@dimen/margin_20"
            android:layout_marginLeft="@dimen/margin_20"
            android:textColor="@color/color_333333"
            android:textSize="14sp"
-           android:gravity="center"
-           android:text="小美好​​阳光是夏日里最美好的风景，伴着轻风空气中都充满了暖洋洋的幸福味道。"/>
+           android:gravity="center"/>
    </RelativeLayout>
 
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
