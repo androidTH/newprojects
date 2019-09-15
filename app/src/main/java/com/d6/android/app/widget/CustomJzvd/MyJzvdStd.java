@@ -5,7 +5,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.d6.android.app.R;
 
@@ -17,6 +19,9 @@ import cn.jzvd.JzvdStd;
  * Created by Nathen on 2017/7/2.
  */
 public class MyJzvdStd extends JzvdStd {
+
+    private LinearLayout mStartLinearLayout;
+
     public MyJzvdStd(Context context) {
         super(context);
     }
@@ -28,6 +33,7 @@ public class MyJzvdStd extends JzvdStd {
     @Override
     public void init(Context context) {
         super.init(context);
+        mStartLinearLayout = findViewById(R.id.start_layout);
     }
 
     @Override
@@ -38,6 +44,10 @@ public class MyJzvdStd extends JzvdStd {
             Log.i(TAG, "onClick: fullscreen button");
         } else if (i == R.id.start) {
             Log.i(TAG, "onClick: start button");
+        }else if(i==R.id.surface_container){
+            if(mOnBlankView!=null){
+                mOnBlankView.onClosePlayer();
+            }
         }
     }
 
@@ -57,7 +67,6 @@ public class MyJzvdStd extends JzvdStd {
                     break;
             }
         }
-
         return false;
     }
 
@@ -107,30 +116,40 @@ public class MyJzvdStd extends JzvdStd {
     public void onStateNormal() {
         super.onStateNormal();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void onStatePreparing() {
         super.onStatePreparing();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void onStatePlaying() {
         super.onStatePlaying();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void onStatePause() {
         super.onStatePause();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void onStateError() {
         super.onStateError();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -138,6 +157,8 @@ public class MyJzvdStd extends JzvdStd {
         super.onStateAutoComplete();
         Log.i(TAG, "Auto complete");
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     //changeUiTo 真能能修改ui的方法
@@ -145,42 +166,56 @@ public class MyJzvdStd extends JzvdStd {
     public void changeUiToNormal() {
         super.changeUiToNormal();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void changeUiToPreparing() {
         super.changeUiToPreparing();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void changeUiToPlayingShow() {
         super.changeUiToPlayingShow();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void changeUiToPlayingClear() {
         super.changeUiToPlayingClear();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void changeUiToPauseShow() {
         super.changeUiToPauseShow();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void changeUiToPauseClear() {
         super.changeUiToPauseClear();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
     public void changeUiToComplete() {
         super.changeUiToComplete();
         bottomContainer.setVisibility(View.GONE);
+        bottomProgressBar.setVisibility(View.GONE);
+        startButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -198,4 +233,13 @@ public class MyJzvdStd extends JzvdStd {
         super.onError(what, extra);
     }
 
+    private onBlankView mOnBlankView;
+
+    public void setmOnBlankView(onBlankView mOnBlankView) {
+        this.mOnBlankView = mOnBlankView;
+    }
+
+    public interface onBlankView{
+        void onClosePlayer();
+    }
 }

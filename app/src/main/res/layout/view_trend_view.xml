@@ -10,8 +10,8 @@
         android:background="@color/color_F5F5F5"/>
     <TextView
         android:id="@+id/tv_topfeed"
-        android:layout_width="29dp"
-        android:layout_height="29dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_below="@+id/comment_line"
         android:layout_alignParentRight="true"
         android:background="@mipmap/feed_topfeed_icon"

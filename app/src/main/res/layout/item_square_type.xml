@@ -14,8 +14,8 @@
         android:gravity="center"
         android:textColor="@color/color_333333"
         android:drawablePadding="@dimen/margin_5"
-        android:drawableLeft="@mipmap/tag_list_icon"
-        android:textSize="12sp"
+        android:drawableLeft="@mipmap/tag_list_bigicon"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:text="身高"/>
 </RelativeLayout>

@@ -218,6 +218,15 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }
         }
 
+        tv_topic_choose.setOnClickListener {
+            var topicname = tv_topic_choose.text.toString()
+            if(topicname.isNotEmpty()){
+                tv_topic_choose.text = ""
+                sTopicId = ""
+                tv_topic_choose.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//R.mipmap.ic_add1
+            }
+        }
+
         et_content.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(s: Editable?) =
                     if(s.isNullOrEmpty() || TextUtils.isEmpty(et_content.text)){
@@ -396,6 +405,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         if(intent.hasExtra("topicname")){
             tv_topic_choose.text = "#${intent.getStringExtra("topicname")}"
             sTopicId = intent.getStringExtra("topicId")
+            tv_topic_choose.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)//R.mipmap.ic_add1
         }
 
         if(TextUtils.equals("otherActivity",mFrom)){
@@ -562,6 +572,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 if(mTopicBean!=null){
                     tv_topic_choose.text = "#${mTopicBean.sTopicName}"
                     sTopicId = mTopicBean.sId
+                    tv_topic_choose.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)//R.mipmap.ic_add1
                 }
             }
         }

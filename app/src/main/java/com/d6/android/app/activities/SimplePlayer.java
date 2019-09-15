@@ -21,7 +21,7 @@ import cn.jzvd.JzvdStd;
 import static com.d6.android.app.utils.UtilKt.getProxyUrl;
 
 
-public class SimplePlayer extends VideoPlayerBaseActivity {
+public class SimplePlayer extends VideoPlayerBaseActivity implements View.OnClickListener {
 
     private static final String TAG = SimplePlayer.class.getSimpleName();
     private MyJzvdStd myJzvdStd;
@@ -68,6 +68,12 @@ public class SimplePlayer extends VideoPlayerBaseActivity {
             }
         }));
 
+        myJzvdStd.setmOnBlankView(new MyJzvdStd.onBlankView() {
+            @Override
+            public void onClosePlayer() {
+                onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -91,5 +97,12 @@ public class SimplePlayer extends VideoPlayerBaseActivity {
         }
         super.onBackPressed();
         overridePendingTransition(R.anim.img_fade_in, R.anim.img_fade_out);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.activity_play){
+            onBackPressed();
+        }
     }
 }

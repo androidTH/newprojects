@@ -140,9 +140,9 @@ class SquareFragment : RecyclerFragment() {
             mAudioMedio.singleAudioPlay(proxyUrl)
         }
 
-        mSquareTypes.add(TopicBean("-1",R.mipmap.like_list_icon,"喜欢"))
+        mSquareTypes.add(TopicBean("-1",R.mipmap.like_list_bigicon,"喜欢"))
         mSquareTypes.add(TopicBean("1",R.mipmap.square_list_icon,"男生动态"))
-        mSquareTypes.add(TopicBean("0",R.mipmap.girl_list_icon,"女生动态"))
+        mSquareTypes.add(TopicBean("0",R.mipmap.girl_list_bigicon,"女生动态"))
 
 
         headerView.rv_choose_squaretype.setHasFixedSize(true)

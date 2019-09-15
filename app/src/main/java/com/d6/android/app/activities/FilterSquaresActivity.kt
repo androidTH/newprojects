@@ -90,7 +90,7 @@ class FilterSquaresActivity : BaseActivity() {
                     tv_topic_desc.visibility = View.GONE
                 }
 
-                var leftDrawable = ContextCompat.getDrawable(this, R.mipmap.tag_list_icon)
+                var leftDrawable = ContextCompat.getDrawable(this, R.mipmap.tag_list_bigicon)
                 setLeftDrawable(leftDrawable, filter_squretitle)
                 sTopicId = mTopicType.sId
                 mTypeName = mTopicType.sTopicName

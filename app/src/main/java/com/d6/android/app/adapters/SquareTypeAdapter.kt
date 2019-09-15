@@ -20,7 +20,7 @@ class SquareTypeAdapter(mData:ArrayList<TopicBean>): BaseRecyclerAdapter<TopicBe
             var drawable = ContextCompat.getDrawable(context,data.mResId)
             setLeftDrawable(drawable,contentView)
         }else{
-            var drawable = ContextCompat.getDrawable(context,R.mipmap.tag_list_icon)
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.tag_list_bigicon)
             setLeftDrawable(drawable,contentView)
         }
     }
