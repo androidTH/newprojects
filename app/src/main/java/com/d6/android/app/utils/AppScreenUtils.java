@@ -52,6 +52,11 @@ public class AppScreenUtils
 		return outMetrics.heightPixels;
 	}
 
+	public static float getPhoneRatio(Context context) {
+		return ((float) getScreenHeight(context)) / ((float) getScreenWidth(context));
+	}
+
+
 	/**
 	 * 获得状态栏的高度
 	 * 

@@ -24,7 +24,7 @@ class AddImageAdapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage>(
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val holder = super.onCreateViewHolder(parent, viewType)
         val rootLayout = holder.bind<View>(R.id.root_layout)
-        val size = (context.screenWidth()-2*context.dip(16)-2*context.dip(12)-4*context.dip(6))/5
+        val size = (context.screenWidth()-2*context.dip(16)-2*context.dip(12)-4*context.dip(6))/3
         rootLayout.layoutParams.width = size
         rootLayout.layoutParams.height = size
         rootLayout.requestLayout()

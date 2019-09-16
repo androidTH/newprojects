@@ -9,6 +9,7 @@ import android.media.ExifInterface
 import android.os.Build
 import android.os.Environment
 import android.view.WindowManager
+import com.d6.android.app.widget.ScreenUtil
 import java.io.*
 import java.math.BigDecimal
 
@@ -39,35 +40,38 @@ object BitmapUtils {
             var scale = 1f
             val min = Math.min(options.outWidth, options.outHeight)
             val max = Math.max(options.outWidth, options.outHeight)
-            if (min >= 800) {
-                scale = max / 800f
-            } else if (max >= 1200) {
-                scale = max / 1200f
-            }
-            val sampleSize = BigDecimal(scale.toDouble()).setScale(0, BigDecimal.ROUND_HALF_UP).toInt()
-            options.inPreferredConfig = Bitmap.Config.RGB_565
-            options.inJustDecodeBounds = false
-            options.inSampleSize = sampleSize
-            options.inPurgeable = true
-            options.inInputShareable = true
-            tempBitmap = BitmapFactory.decodeFile(filePath,
-                    options)
-            val width = options.outWidth
-            val height = options.outHeight
-            fileInfo.width = width
-            fileInfo.height = height
+            if(options.outHeight<=ScreenUtil.getScreenHeight(AppUtils.context)){
+                if (min >= 800) {
+                    scale = max / 800f
+                } else if (max >= 1200) {
+                    scale = max / 1200f
+                }
+                val sampleSize = BigDecimal(scale.toDouble()).setScale(0, BigDecimal.ROUND_HALF_UP).toInt()
+                options.inPreferredConfig = Bitmap.Config.RGB_565
+                options.inJustDecodeBounds = false
+                options.inSampleSize = sampleSize
+                options.inPurgeable = true
+                options.inInputShareable = true
+                tempBitmap = BitmapFactory.decodeFile(filePath,
+                        options)
+                val width = options.outWidth
+                val height = options.outHeight
+                fileInfo.width = width
+                fileInfo.height = height
 
-            val degree = readPictureDegree(filePath)
-            tempBitmap = adjustPhotoRotation(tempBitmap, degree)
-            val baos = ByteArrayOutputStream()
-            tempBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos)
-            val file = File(AppUtils.PICDIR)
-            if (!file.exists()) {
-                file.mkdirs()
+                val degree = readPictureDegree(filePath)
+                tempBitmap = adjustPhotoRotation(tempBitmap, degree)
+                val baos = ByteArrayOutputStream()
+                tempBitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos)
+                val file = File(AppUtils.PICDIR)
+                if (!file.exists()) {
+                    file.mkdirs()
+                }
+                fos = FileOutputStream(path)
+                fos.write(baos.toByteArray())
+            }else{
+                return FileInfo(filePath)
             }
-            fos = FileOutputStream(path)
-            fos.write(baos.toByteArray())
-
         } catch (e: Exception) {
             e.printStackTrace()
         } catch (e: OutOfMemoryError) {
@@ -208,27 +212,105 @@ object BitmapUtils {
         return sampleSize
     }
 
-    @Throws(IOException::class)
-    public fun getcalculateBitmapSampleSize(file: File): List<Int> {
-        var inputStream: InputStream? = null
+    fun getcalculateBitmapSampleSize(filePath:String?): List<Int> {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         try {
-            inputStream = FileInputStream(file)
-            BitmapFactory.decodeStream(inputStream, null, options) // Just get image size
+            BitmapFactory.decodeFile(filePath, options) // Just get image size
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
-        } finally {
-            if (inputStream != null) {
+        }
+        var sampleSize: List<Int> = listOf(options.outWidth,options.outHeight)
+        return sampleSize
+    }
+
+
+    fun getWidthHeight(imagePath: String):List<Int> {
+        if (imagePath.isEmpty()) {
+            return listOf(0, 0)
+        }
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        try {
+            val originBitmap = BitmapFactory.decodeFile(imagePath, options)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        // 使用第一种方式获取原始图片的宽高
+        var srcWidth = options.outWidth
+        var srcHeight = options.outHeight
+
+        // 使用第二种方式获取原始图片的宽高
+        if (srcHeight == -1 || srcWidth == -1) {
+            try {
+                val exifInterface = ExifInterface(imagePath)
+                srcHeight = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_LENGTH, ExifInterface.ORIENTATION_NORMAL)
+                srcWidth = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_WIDTH, ExifInterface.ORIENTATION_NORMAL)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+        }
+
+        // 使用第三种方式获取原始图片的宽高
+        if (srcWidth <= 0 || srcHeight <= 0) {
+            val bitmap2 = BitmapFactory.decodeFile(imagePath)
+            if (bitmap2 != null) {
+                srcWidth = bitmap2.width
+                srcHeight = bitmap2.height
                 try {
-                    inputStream.close()
-                } catch (t: Throwable) {
-                    // Do nothing
+                    if (!bitmap2.isRecycled) {
+                        bitmap2.recycle()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
+
             }
         }
-        val sampleSize: List<Int> = listOf(options.outWidth,options.outHeight)
-        return sampleSize
+        val orient = getOrientation(imagePath)
+        return if (orient == 90 || orient == 270) {
+            listOf(srcHeight, srcWidth)
+        } else
+            listOf(srcWidth, srcHeight)
+    }
+
+    fun getOrientation(imagePath: String): Int {
+        val degree = 0
+        try {
+            val exifInterface = ExifInterface(imagePath)
+            val orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+            when (orientation) {
+                ExifInterface.ORIENTATION_ROTATE_90 -> return 90
+                ExifInterface.ORIENTATION_ROTATE_180 -> return 180
+                ExifInterface.ORIENTATION_ROTATE_270 -> return 270
+                else -> return 0
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return 0
+    }
+
+    fun isLongImage(context: Context, imagePath: String): Boolean {
+        val wh = getWidthHeight(imagePath)
+        val w = wh[0].toFloat()
+        val h = wh[1].toFloat()
+        val imageRatio = h / w
+        val phoneRatio = AppScreenUtils.getPhoneRatio(context.applicationContext) + 0.1f
+        val isLongImage = w > 0 && h > 0 && h > w && imageRatio >= phoneRatio
+        return isLongImage
+    }
+
+    fun isLongImage(context: Context,wh:List<Int>): Boolean {
+        val w = wh[0].toFloat()
+        val h = wh[1].toFloat()
+        val imageRatio = h / w
+        val phoneRatio = AppScreenUtils.getPhoneRatio(context.applicationContext) + 0.1f
+        val isLongImage = w > 0 && h > 0 && h > w && imageRatio >= phoneRatio
+        return isLongImage
     }
 
     public fun saveImageToFile(bmp:Bitmap):String{

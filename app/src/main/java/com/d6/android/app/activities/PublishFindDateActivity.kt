@@ -156,9 +156,9 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         }
 
         rv_images.setHasFixedSize(true)
-        rv_images.layoutManager = GridLayoutManager(this, 5)
+        rv_images.layoutManager = GridLayoutManager(this, 3)
         rv_images.adapter = addAdapter
-        rv_images.addItemDecoration(SpacesItemDecoration(dip(6)))
+        rv_images.addItemDecoration(SpacesItemDecoration(dip(6),3))
         addAdapter.setOnAddClickListener {
             if (mImages.size >= 10) {//最多9张
                 showToast("最多上传9张图片")

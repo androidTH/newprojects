@@ -134,7 +134,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
                 tv_topic.setOnClickListener {
                     square?.let {
-                        var mSquareType = TopicBean(it.sTopicId,-1,it.sTopicName)
+                        var mSquareType:TopicBean
+                        if(!it.sTopicId.isNullOrEmpty()){
+                            mSquareType = TopicBean(it.sTopicId,-1,it.sTopicName)
+                        }else{
+                            mSquareType = TopicBean("",-1,it.sTopicName)
+                        }
                         (context as BaseActivity).startActivity<FilterSquaresActivity>("squaretype" to mSquareType)
                     }
                 }

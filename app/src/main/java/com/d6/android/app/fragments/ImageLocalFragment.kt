@@ -8,21 +8,15 @@ import android.support.v4.app.Fragment
 import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseNoBarFragment
-import com.d6.android.app.utils.AppScreenUtils
+import com.d6.android.app.utils.AppUtils
+import com.d6.android.app.utils.BitmapUtils
+import com.d6.android.app.widget.ScreenUtil
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.ImageViewState
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.drawable.ProgressBarDrawable
-import com.facebook.drawee.drawable.ScalingUtils
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
-import com.facebook.drawee.interfaces.DraweeController
-import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor
-import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_image.*
-
 /**
  * 图片Fragment
  */
@@ -54,57 +48,25 @@ class ImageLocalFragment : BaseNoBarFragment() {
     }
 
     fun setNewPic(path:String?,isBlur:Boolean){
-//        val hierarchy = GenericDraweeHierarchyBuilder(resources)
-//                .setActualImageScaleType(ScalingUtils.ScaleType.FIT_XY)
-//                .setProgressBarImage(ProgressBarDrawable())
-//                .build()
-//        val uri = Uri.parse(path)
-//        val request = ImageRequestBuilder.newBuilderWithSource(uri)
-//                .setPostprocessor(IterativeBoxBlurPostProcessor(3, 5))
-//                .build()
-//
-//        val ctrl: DraweeController
-//        //模糊
-//        ctrl = if (isBlur) {
-//            Fresco.newDraweeControllerBuilder()
-//                    .setImageRequest(request)
-//                    .setTapToRetryEnabled(true)
-//                    .build()
-//        } else {
-//            Fresco.newDraweeControllerBuilder()
-//                    .setUri("file://"+uri)
-//                    .setTapToRetryEnabled(true)
-//                    .build()
-//        }
-//        zoomDrawee.hierarchy = hierarchy
-//        zoomDrawee.controller = ctrl
-//        zoomDrawee.setOnClickListener { activity.onBackPressed() }
-
         sampimgview.setMaxScale(15f)
         sampimgview.setZoomEnabled(true)
         FrescoUtils.loadImage(context,"file://"+path,object: IResult<Bitmap> {
             override fun onResult(result: Bitmap?) {
                 result?.let {
-                    var sWidth  = it.width
-                    var sHeight = it.height
-                    val width = AppScreenUtils.getScreenWidth(context)
-                    val height = AppScreenUtils.getScreenHeight(context)
-                    val scaleW = width / sWidth.toFloat()
-                    if (sHeight <= height) {
+                    var mlistWH = BitmapUtils.getWidthHeight("${path}")
+                    val width = ScreenUtil.getScreenWidth(AppUtils.context)
+                    val scaleW = width / mlistWH[0].toFloat()
+                    if (BitmapUtils.isLongImage(context,mlistWH)) {
+                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
+                        sampimgview.setImage(ImageSource.uri("${path}"))
+                        sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
+                    } else {
                         sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
                         sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
-                    } else {
-                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
-                        sampimgview.setImage(ImageSource.bitmap(it))
-                        sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
                     }
                 }
             }
         })
-
-//        sampimgview.setOnClickListener {
-//            activity.onBackPressed()
-//        }
     }
 
     override fun onFirstVisibleToUser() {

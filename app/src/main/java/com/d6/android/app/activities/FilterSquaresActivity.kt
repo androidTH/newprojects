@@ -195,7 +195,7 @@ class FilterSquaresActivity : BaseActivity() {
     }
 
     private fun getSquareList() {
-        Request.getFindSquareList(getLocalUserId(), "", pageNum, 2, sex = sex,sTopicId = sTopicId,sCity = sCity).request(this, false, success = { _, data ->
+        Request.getFindSquareList(getLocalUserId(), "", pageNum, 3, sex = sex,sTopicId = sTopicId,sCity = sCity).request(this, false, success = { _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
                 playIndex = -1
@@ -211,10 +211,14 @@ class FilterSquaresActivity : BaseActivity() {
                 }
             } else {
                 mSquares.addAll(data.list.results)
+                if(data?.list.totalPage==1){
+                    swipeRefreshLayout_square.setLoadMoreText("没有更多了")
+                }
             }
             squareAdapter.notifyDataSetChanged()
         }) { code, msg ->
             toast(msg)
+            swipeRefreshLayout_square.setLoadMoreText("没有更多了")
         }
     }
 

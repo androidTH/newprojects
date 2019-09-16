@@ -289,7 +289,7 @@ class SquareFragment : RecyclerFragment() {
     }
 
     private fun getSquareList() {
-        Request.getSquareList(getLocalUserId(), classId, pageNum, 2,sex = type).request(this,false,success={ _, data ->
+        Request.getSquareList(getLocalUserId(), classId, pageNum, 3,sex = type).request(this,false,success={ _, data ->
             if (pageNum == 1) {
                 mSquares.clear()
                 playIndex = -1
