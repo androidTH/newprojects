@@ -32,7 +32,7 @@ class AddImageAdapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage>(
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: AddImage) {
-        val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
+        val imageView = holder.run { bind<SimpleDraweeView>(R.id.imageView) }
         val ivDeleteView = holder.bind<ImageView>(R.id.ivDeleteView)
         if (data.type == 1) {//添加。
             ivDeleteView.gone()
@@ -51,8 +51,9 @@ class AddImageAdapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage>(
         }
 
         ivDeleteView.setOnClickListener {
-            mData.remove(data)
-            notifyDataSetChanged()
+//            mData.remove(data)
+//            notifyDataSetChanged()
+            startActivity(mData,position)
         }
     }
 

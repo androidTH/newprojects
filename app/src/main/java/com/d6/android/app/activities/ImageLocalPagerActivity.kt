@@ -73,22 +73,22 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
         }
 
-        photo_drag_relaivelayout.setDragListener(PhotoDragHelper().setOnDragListener(object : PhotoDragHelper.OnDragListener {
-
-            override fun getDragView(): View {
-                return mImageViewPager
-            }
-
-            override fun onAlpha(alpha: Float) {
-                photo_drag_relaivelayout.setAlpha(alpha)
-            }
-
-            override fun onAnimationEnd(mSlop: Boolean) {
-                if (mSlop) {
-                    onBackPressed()
-                }
-            }
-        }))
+//        photo_drag_relaivelayout.setDragListener(PhotoDragHelper().setOnDragListener(object : PhotoDragHelper.OnDragListener {
+//
+//            override fun getDragView(): View {
+//                return mImageViewPager
+//            }
+//
+//            override fun onAlpha(alpha: Float) {
+//                photo_drag_relaivelayout.setAlpha(alpha)
+//            }
+//
+//            override fun onAnimationEnd(mSlop: Boolean) {
+//                if (mSlop) {
+//                    onBackPressed()
+//                }
+//            }
+//        }))
 
         initData()
     }

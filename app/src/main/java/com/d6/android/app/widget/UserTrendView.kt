@@ -41,10 +41,6 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         SquareImageAdapter(mImages,1)
     }
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
-
     private val mComments = ArrayList<Comment>()
     private val commentAdapter by lazy {
         SquareCommentAdapter(mComments)
@@ -163,7 +159,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
                     }
                 }
             })
-
+            Log.i("usertrendView","动态类型=${square.iResourceType},音频所属人${square.name},音频链接=${square.sVoiceUrl}")
         }else if(square.iResourceType==4){
             rv_images.visibility = View.GONE
             rl_vidoe_user.visibility = View.GONE

@@ -379,7 +379,7 @@ inline fun Activity.isVipUser(next: () -> Unit) {
 }
 
 inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String,from:String="nomine", crossinline next: () -> Unit) {
-    Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
+    Request.getUserInfoDetail(userId).request(requestManager,true,success = {msg,data->
             data?.let {
                 if (it.userclassesid == "7") {
                     saveUserInfo(it)
@@ -394,7 +394,7 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
 //                      this.startActivity<DateAuthStateActivity>()
                     }
                 }else{
-                    next();
+                    next()
                 }
             }
     })
@@ -772,7 +772,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                  * 网络请求之前
                  */
                 public override fun onBefore() {
-                    activity.dialog()
+//                    activity.dialog()
                 }
 
                 /**

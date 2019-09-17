@@ -246,8 +246,7 @@
     </style>
 
     <style name="selectedBaseDialog" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/color_80000000</item>
         <item name="colorAccent">@color/color_F7AB00</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTitleBackgroundStyle">@android:color/transparent</item>
@@ -395,6 +394,10 @@
     </style>
 
     <style name="translucent" parent="AppTheme">
+    </style>
+
+    <style name="selectedDialog" parent="selectedBaseDialog">
+        <item name="android:windowAnimationStyle">@style/Base.Animation.Dialog.Style</item>
     </style>
 
     <!--SWITCH-->

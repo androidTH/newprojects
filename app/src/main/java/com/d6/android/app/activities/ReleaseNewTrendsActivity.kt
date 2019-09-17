@@ -119,7 +119,16 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     override fun update(o: Observable?, arg: Any?) {
           var mImagelocal = arg as Imagelocals
           if(mImagelocal.mType == 0){
-              mImages.removeAt(mImagelocal.position)
+              mImages.filter { it.type!=1 }.map {
+                  if(mImages.size>mImagelocal.position){
+                      mImages.removeAt(mImagelocal.position)
+                  }
+              }
+
+              if(mImages.size==1){
+                 mImages.clear()
+                 setPanelTitleUI(4)
+              }
           }else if(mImagelocal.mType == 1){
               mImages.clear()
               mImagelocal.mUrls.forEach {
@@ -127,7 +136,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                   image.path = it
                   mImages.add(image)
               }
-              mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+              mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))
           }
           addAdapter.notifyDataSetChanged()
     }
@@ -145,10 +154,12 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         addAdapter.setOnAddClickListener {
             if(it==1){
                 addImagesToSquare(tv_img)
+            }else if(it==2){
+                setPanelTitleUI(4)
             }
         }
 
-        mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))//ic_add_bg
+        //mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 0))//ic_add_bg
         addAdapter.notifyDataSetChanged()
         tv_back.setOnClickListener {
             mKeyboardKt.hideKeyboard(it)
@@ -247,24 +258,30 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         var mSoftKeyboardStateHelper = SoftKeyboardStateHelper(et_content)
         mSoftKeyboardStateHelper.addSoftKeyboardStateListener(object: SoftKeyboardStateHelper.SoftKeyboardStateListener{
             override fun onSoftKeyboardClosed() {
-
             }
 
             override fun onSoftKeyboardOpened(keyboardHeightInPx: Int) {
-                var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_icon)
-                setLeftDrawable(drawable,tv_img)
-                tv_img.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
 
-                var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_icon)
-                setLeftDrawable(drawablevideo,tv_video)
-                tv_video.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                if(mImages.size>=1&&mImages[0].type==0){
+                    setPanelTitleUI(1)
+                }else if(mImages.size>=1&&mImages[0].type==2){
+                    setPanelTitleUI(2)
+                }else if(DiskFileUtils.IsExists(fileAudioPath)){
+                    var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_gray)
+                    setLeftDrawable(drawable,tv_img)
+                    tv_img.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
 
-                rl_recoder.visibility = View.GONE
-                var drawableRecoder = ContextCompat.getDrawable(context, R.mipmap.input_addvoice_icon)
-                setLeftDrawable(drawableRecoder,tv_recoder)
-                tv_recoder.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                    var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_gray)
+                    setLeftDrawable(drawablevideo,tv_video)
+                    tv_video.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
 
-//                setPanelIsNotShow(false)
+                    rl_recoder.visibility = View.GONE
+                    var drawableRecoder = ContextCompat.getDrawable(context, R.mipmap.input_addvoice_icon)
+                    setLeftDrawable(drawableRecoder,tv_recoder)
+                    tv_recoder.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                }else{
+                    setPanelTitleUI(4)
+                }
             }
         })
 
@@ -282,11 +299,15 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
 
         tv_recoder.setOnClickListener {
-            if(mImages[0].type==0){
+            if(mImages.size>=1&&mImages[0].type==0){
                 clearImgsOrVideoDialog(it,"图片、视频、语音不能同时添加，是否清空已添加的图片")
-            }else if(mImages[0].type==2){
+            }else if(mImages.size>=1&&mImages[0].type==2){
                 clearImgsOrVideoDialog(it,"图片、视频、语音不能同时添加，是否清空已添加的视频")
             }else{
+                if(DiskFileUtils.IsExists(fileAudioPath)){
+                    toast("不能重复添加语音")
+                    return@setOnClickListener
+                }
                 hideSoftKeyboard(it)
                 rl_recoder.postDelayed(Runnable {
                     setPanelTitleUI(3)
@@ -299,6 +320,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             rl_play_audio.visibility = View.INVISIBLE
             stopPlaying()
             DiskFileUtils.deleteSingleFile(fileAudioPath)
+            tv_release.backgroundResource = R.drawable.shape_10r_grey
+
+            setPanelTitleUI(4)
         }
 
         rl_play_audio.setOnClickListener {
@@ -340,13 +364,14 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
 
         tv_video.setOnClickListener {
-            if(mImages[0].type==0){
+            if(mImages.size>=1&&mImages[0].type==0){
                 var  mDialogYesOrNo = getDialogIsorNot(this,1,"图片、视频、语音不能同时添加，是否清空已添加的图片")
                 mDialogYesOrNo.setDialogListener { p, s ->
                     mImages.clear()
-                    mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+//                    mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                     addAdapter.notifyDataSetChanged()
                     addVideo(it)
+                    setPanelTitleUI(4)
                     mDialogYesOrNo.dismissAllowingStateLoss()
                 }
             }else if(DiskFileUtils.IsExists(fileAudioPath)){
@@ -357,9 +382,14 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                     tv_delete_audio.visibility = View.GONE
                     rl_play_audio.visibility = View.GONE
                     addVideo(it)
+                    setPanelTitleUI(4)
                     mDialogYesOrNo.dismissAllowingStateLoss()
                 }
             }else{
+                if(mImages.size>0&&mImages[0].type==2){
+                    toast("不能重复添加视频")
+                    return@setOnClickListener
+                }
                 addVideo(it)
             }
         }
@@ -424,14 +454,15 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     }
 
     private fun addImagesToSquare(it:View){
-        if(mImages[0].type==2){
+        if(mImages.size>=1&&mImages[0].type==2){
             //图片、视频、语音不能同时添加，是否清空已添加的xx
             var  mDialogYesOrNo =  getDialogIsorNot(this,1,"图片、视频、语音不能同时添加，是否清空已添加的视频")
             mDialogYesOrNo.setDialogListener { p, s ->
                 mImages.clear()
-                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+//                mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 addAdapter.notifyDataSetChanged()
                 addImages(it)
+                setPanelTitleUI(4)
                 mDialogYesOrNo.dismissAllowingStateLoss()
             }
         }else if(DiskFileUtils.IsExists(fileAudioPath)){
@@ -442,6 +473,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 tv_delete_audio.visibility = View.GONE
                 rl_play_audio.visibility = View.GONE
                 addImages(it)
+                setPanelTitleUI(4)
                 mDialogYesOrNo.dismissAllowingStateLoss()
             }
         }else{
@@ -454,7 +486,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         var  mDialogYesOrNo =  getDialogIsorNot(this,1,msg)
         mDialogYesOrNo.setDialogListener { p, s ->
             mImages.clear()
-            mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+//            mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
             addAdapter.notifyDataSetChanged()
             mDialogYesOrNo.dismissAllowingStateLoss()
 
@@ -467,11 +499,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
     private fun addVideo(it:View){
         hideSoftKeyboard(it)
-        setPanelTitleUI(2)
+        //移除
 //        val paths = mImages.filter { it.type != 1 }.map { it.path }
 //        val urls = ArrayList<String>(paths)
         startActivityForResult<MultiImageSelectorActivity>(REQUESTCODE_VIDEO
-                , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
+                , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_SINGLE
                 , MultiImageSelectorActivity.EXTRA_SELECT_COUNT to 1, MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to false
                 , MultiImageSelectorActivity.SELECT_MODE to PICKER_VIDEO
         )
@@ -488,8 +520,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     }
 
     private fun addImages(it:View){
-        hideSoftKeyboard(it)
-        setPanelTitleUI(1)
+        hideSoftKeyboard(it) //移除
         if (mImages.size >= 10) {//最多9张
             showToast("最多上传9张图片")
             return
@@ -528,6 +559,8 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 addAdapter.notifyDataSetChanged()
                 if(mImages.size > 1){
+//                    setPanelTitleUI(1)
+                    showSoftInput(et_content)
                     tv_release.backgroundResource = R.drawable.shape_10r_orange
                 }
             }else if(requestCode == REQUESTCODE_VIDEO && data != null){
@@ -551,7 +584,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 //                    mImages.add(image)
 //                }
                 addAdapter.notifyDataSetChanged()
-                if(mImages.size > 1){
+                if(mImages.size == 1){
+                    showSoftInput(et_content)
+//                    setPanelTitleUI(2)
                     tv_release.backgroundResource = R.drawable.shape_10r_orange
                 }
             }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
@@ -620,6 +655,19 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             setLeftDrawable(drawablevideo,tv_video)
             tv_video.textColor = ContextCompat.getColor(context,R.color.color_CDCDCD)
             setPanelIsNotShow(rl_recoder.visibility == View.GONE)
+        }else if(type==4){
+            var drawable = ContextCompat.getDrawable(context,R.mipmap.input_addpic_icon)
+            setLeftDrawable(drawable,tv_img)
+            tv_img.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+
+            var drawablevideo = ContextCompat.getDrawable(context,R.mipmap.input_addvideo_icon)
+            setLeftDrawable(drawablevideo,tv_video)
+            tv_video.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+
+            rl_recoder.visibility = View.GONE
+            var drawableRecoder = ContextCompat.getDrawable(context, R.mipmap.input_addvoice_icon)
+            setLeftDrawable(drawableRecoder,tv_recoder)
+            tv_recoder.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
         }
     }
 
@@ -628,11 +676,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
      */
     private fun publish() {
         val content = et_content.text.toString().trim()
-        if (content.isEmpty() && mImages.size <= 1) {
-            showToast("请输入内容或上传图片")
-            return
-        }
-
         dialog()
         if (mImages.size > 1) {//有图片
             val temp = mImages.filter { it.type != 1 }
@@ -684,10 +727,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
      */
     fun submitAudioSquare(){
         val content = et_content.text.toString().trim()
-        if (content.isEmpty()) {
-            showToast("请输入内容")
-            return
-        }
         dialog()
         if (DiskFileUtils.IsExists(fileAudioPath)) {//有语音
             AudioConvert(content)
@@ -744,10 +783,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
      */
     fun submitVideoSquare(){
         val content = et_content.text.toString().trim()
-        if (content.isEmpty()) {
-            showToast("请输入内容")
-            return
-        }
         dialog()
         if (mImages[0].type==2) {//有视频
             val temp = File(mImages[0].path)
@@ -766,7 +801,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
-                    showTips(data,"发布约会奖励积分","10")
+                     showTips(data,"发布约会奖励积分","10")
                 }
                 syncChat(this,"dynamic",sex,userId)
                 setResult(Activity.RESULT_OK)
@@ -802,7 +837,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
     }
 
-    public fun addTextSquare(content:String){
+    fun addTextSquare(content:String){
+        if (content.isEmpty()) {
+            showToast("请输入内容")
+            return
+        }
         val city = if (cityType == 0) {
             ""
         } else {
@@ -828,12 +867,12 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
 
     private fun submitAddSquare(){
-        if (mImages[0].type == 0) {
+        if (mImages.size>0&&mImages[0].type == 0) {
             publish()
         } else if (DiskFileUtils.IsExists(fileAudioPath)) {
             //发布语音动态
             submitAudioSquare()
-        } else if (mImages[0].type == 2) {
+        } else if (mImages.size>0&&mImages[0].type == 2) {
             submitVideoSquare()
         } else {
             //发布文字
@@ -937,6 +976,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
                 //显示软键盘
                 showSoftInput(et_content)
+                if(DiskFileUtils.IsExists(fileAudioPath)){
+                    tv_release.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_orange)
+                }
             }else{
                 record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
                 toast(getString(R.string.string_warm_voicetime))
@@ -1113,7 +1155,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             if (isRecording) {
                 recorderSecondsElapsed = recorderSecondsElapsed+1
                 if(recorderSecondsElapsed<=MAXTIME){
-                    tv_recoder_time.text = "正在录制·${recorderSecondsElapsed}S"
+                    tv_recoder_time.text = "正在录制·${recorderSecondsElapsed}”"
                     mVoiceLength = "${recorderSecondsElapsed}"
                 }else{
                     setAudioView(isRecording)

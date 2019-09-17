@@ -17,6 +17,7 @@ import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_filtersquares.*
+import kotlinx.android.synthetic.main.layout_filtersqure_header.view.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
@@ -43,6 +44,10 @@ class FilterSquaresActivity : BaseActivity() {
     private var playIndex = -1
     private var playSquare:Square? = null
 
+    private val headerView by lazy {
+        layoutInflater.inflate(R.layout.layout_filtersqure_header, swipeRefreshLayout_square.mRecyclerView, false)
+    }
+
     private val mAudioMedio by lazy{
         AudioPlayUtils(this)
     }
@@ -56,6 +61,19 @@ class FilterSquaresActivity : BaseActivity() {
         setContentView(R.layout.activity_filtersquares)
         immersionBar.init()
 
+        squareAdapter.setOnItemClickListener { _, position ->
+            val square = mSquares[position]
+            square.id?.let {
+                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+            }
+        }
+
+        squareAdapter.setOnSquareDetailsClick { position, square ->
+            square.id?.let {
+                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+            }
+        }
+
         add_square.setOnClickListener {
             isCheckOnLineAuthUser(this, getLocalUserId()) {
                 startActivity<ReleaseNewTrendsActivity>("topicname" to mTypeName,"topicId" to sTopicId)
@@ -68,12 +86,21 @@ class FilterSquaresActivity : BaseActivity() {
             finish()
         }
 
+        initRecyclerView()
+        setHeaderView()
+//        dialog()
+        pullDownRefresh()
+
+        setAudioListener()
+    }
+
+    private fun setHeaderView(){
         try {
             filter_squretitle.text = mTopicType.sTopicName
             if (mTopicType.mResId != -1) {
                 var leftDrawable = ContextCompat.getDrawable(this, mTopicType.mResId)
                 setLeftDrawable(leftDrawable, filter_squretitle)
-                rl_topicinfo.visibility = View.GONE
+                headerView.rl_topicinfo.visibility = View.GONE
                 if(TextUtils.equals("-1",mTopicType.sId)){
                     sex = 2
                     sTopicId = "1"
@@ -83,11 +110,12 @@ class FilterSquaresActivity : BaseActivity() {
                     sex = mTopicType.sId.toInt()
                 }
             }else {
-                rl_topicinfo.visibility = View.VISIBLE
                 if(mTopicType.sTopicDesc.isNotEmpty()){
-                    tv_topic_desc.text = mTopicType.sTopicDesc
+                    headerView.rl_topicinfo.visibility = View.VISIBLE
+                    headerView.tv_topic_desc.text = mTopicType.sTopicDesc
+                    squareAdapter.setHeaderView(headerView)
                 }else{
-                    tv_topic_desc.visibility = View.GONE
+                    headerView.rl_topicinfo.visibility = View.GONE
                 }
 
                 var leftDrawable = ContextCompat.getDrawable(this, R.mipmap.tag_list_bigicon)
@@ -99,12 +127,6 @@ class FilterSquaresActivity : BaseActivity() {
             e.printStackTrace()
             sex = 2
         }
-
-        initRecyclerView()
-        dialog()
-        pullDownRefresh()
-
-        setAudioListener()
     }
 
     /**

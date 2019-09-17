@@ -40,6 +40,7 @@
             android:textColor="@color/orange_f6a"
             android:layout_alignParentRight="true"
             android:paddingRight="12dp"
+            android:padding="@dimen/margin_12"
             android:id="@+id/iv_right"
             android:visibility="gone"/>
 

@@ -37,17 +37,17 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         val ivDeleteView = holder.bind<ImageView>(R.id.ivDeleteView)
         val ivVideoPlay = holder.bind<ImageView>(R.id.iv_video_play)
+        imageView.visibility = View.VISIBLE
         if (data.type == 1) {//添加。
             ivDeleteView.gone()
             ivVideoPlay.gone()
-            ivVideoPlay.visibility = View.GONE
             imageView.setImageResource(R.mipmap.comment_addphoto_icon)
         } else if(data.type==2){
             ivVideoPlay.visibility = View.VISIBLE
             ivDeleteView.visibility = View.VISIBLE
             imageView.setImageURI(data.imgUrl)
             ivDeleteView.setImageResource(R.mipmap.deleted_video_bg)
-        } else {
+        }else {
             ivVideoPlay.visibility = View.GONE
             ivDeleteView.visible()
             ivDeleteView.setImageResource(R.mipmap.comment_photo_edit)
@@ -68,8 +68,9 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
         ivDeleteView.setOnClickListener {
             if(data.type==2){
                 mData.remove(data)
-                mData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 notifyDataSetChanged()
+                listener?.onAddClick(data.type)
+//                mData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
             }else{
                 startActivity(mData,position)
             }

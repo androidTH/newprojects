@@ -288,6 +288,7 @@
                 android:drawableLeft="@mipmap/input_addpic_icon"
                 android:gravity="center"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 android:text="图片" />
             <!--input_addpic_icon-->
 
@@ -302,6 +303,7 @@
                 android:drawableLeft="@mipmap/input_addvideo_icon"
                 android:textSize="12sp"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:text="视频" />
             <!--input_addvideo_icon-->
 
@@ -314,6 +316,7 @@
                 android:drawableLeft="@mipmap/input_addvoice_icon"
                 android:textSize="12sp"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:textColor="@color/color_F7AB00"/>
             <!--input_addvideo_gray_icon-->
         </LinearLayout>
