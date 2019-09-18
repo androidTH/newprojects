@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -14,6 +15,8 @@ import com.d6.android.app.utils.BitmapUtils
 import com.d6.android.app.utils.getSDFreeSize
 import com.d6.android.app.widget.ClipImageBorderView
 import com.d6.android.app.widget.ClipZoomImageView
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import io.reactivex.Flowable
 import io.reactivex.FlowableSubscriber
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -98,11 +101,19 @@ class CropImageActivity : TitleActivity() {
         mZoomImageView.setImageScale(scale)
         mClipImageView.setImageScale(scale)
         val uri = intent.getStringExtra("uri")
+        Log.i("onActivityResult","${uri}requestcoce")
         if (uri != null) {
-            bitmap = BitmapUtils.decodeBitmapFromPath(this, uri)
-            if (bitmap == null) {
-                toast("无法打开图片，请检查是否开启读取权限！")
-            }
+            FrescoUtils.loadImage(this,"file://"+uri,object: IResult<Bitmap> {
+                override fun onResult(result: Bitmap?) {
+                    result?.let {
+                        if (result == null) {
+                            toast("无法打开图片，请检查是否开启读取权限！")
+                        }
+                        mZoomImageView.imageBitmap = it
+                    }
+                }
+            })
+//            bitmap = BitmapUtils.decodeBitmapFromPath(this, uri)
             mZoomImageView.imageBitmap = bitmap
         }
 

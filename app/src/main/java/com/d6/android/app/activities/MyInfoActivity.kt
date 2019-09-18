@@ -1,8 +1,12 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
@@ -39,6 +43,8 @@ class MyInfoActivity : BaseActivity(),Observer{
     private val SEX_REQUEST_CODE = 9
     private val CONSTELLATION_REQUEST_CODE = 10
     private val AREA_REQUEST_CODE = 11
+
+    private var tempFile: File? = null
 
     private val userData by lazy {
         intent.getSerializableExtra("data") as UserData
@@ -112,7 +118,33 @@ class MyInfoActivity : BaseActivity(),Observer{
         }
 
         tv_edit_headview.setOnClickListener {
-            startActivityForResult<SelectPhotoDialog>(0)
+//            startActivityForResult<SelectPhotoDialog>(0)
+            var mSelectPhotoDialog = SelectPhotosDialog()
+            mSelectPhotoDialog.show(supportFragmentManager,"dsate")
+            mSelectPhotoDialog.setDialogListener { p, s ->
+               if(p==0){
+                   AppUtils.initFilePath()
+                   val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                   val fileName = System.currentTimeMillis().toString() + ".jpg"
+                   tempFile = File(AppUtils.PICDIR, fileName)
+                   val u = Uri.fromFile(tempFile)
+                   intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0)
+                   //7.0崩溃问题
+                   if (Build.VERSION.SDK_INT < 24) {
+                       intent.putExtra(MediaStore.EXTRA_OUTPUT, u)
+                   } else {
+                       val contentValues = ContentValues(1)
+                       contentValues.put(MediaStore.Images.Media.DATA, tempFile?.absolutePath)
+                       val uri = this@MyInfoActivity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                       intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                   }
+                   startActivityForResult(intent, 0)
+               }else{
+                   val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)// 调用android的图库
+                   intent.type = "image/*"
+                   startActivityForResult(intent, 1)
+               }
+            }
         }
 
         tv_inputaddress.setOnClickListener {
@@ -252,17 +284,45 @@ class MyInfoActivity : BaseActivity(),Observer{
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 0 && data != null) {
-                val path = data.getStringExtra(SelectPhotoDialog.PATH)
-                startActivityForResult<CropImageActivity>(1, "scale" to 1f, "uri" to path)
-            } else if (requestCode == 1) {
+            if (requestCode == 0) {
+//                val path = data.getStringExtra(SelectPhotoDialog.PATH)
+                startActivityForResult<CropImageActivity>(3, "scale" to 1f, "uri" to tempFile!!.absolutePath)
+            } else if(requestCode==1){
+                val uri = data!!.data
+                if (uri != null) {
+                    val path = getUrlPath(uri)
+                    if (path != null) {
+                        val typeIndex = path.lastIndexOf(".")
+                        if (typeIndex != -1) {
+                            val fileType = path.substring(typeIndex + 1).toLowerCase(Locale.CHINA)
+                            //某些设备选择图片是可以选择一些非图片的文件。然后发送出去或出错。这里简单的通过匹配后缀名来判断是否是图片文件
+                            //如果是图片文件则发送。反之给出提示
+                            if (fileType == "jpg" || fileType == "gif"
+                                    || fileType == "png" || fileType == "jpeg"
+                                    || fileType == "bmp" || fileType == "wbmp"
+                                    || fileType == "ico" || fileType == "jpe") {
+                                startActivityForResult<CropImageActivity>(3, "scale" to 1f, "uri" to path)
+                                //			                        	cropImage(path);
+                                //			                        	BitmapUtil.getInstance(this).loadImage(iv_image, path);
+                            } else {
+                                toast("无法识别的图片类型！")
+                            }
+                        } else {
+                            toast("无法识别的图片类型！")
+                        }
+                    } else {
+                        toast("无法识别的图片类型或路径！")
+                    }
+                }
+            }else if (requestCode == 3) {
                 var path = data?.getStringExtra("path")
                 var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
                 param.index = 0
                 param.type = Const.User.HEADERIMAGE
                 param.images.add(path)
                 startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
-            }else if (requestCode == 8 && data != null) {//选择图片
+            }else if (requestCode == 8 && data != null) {
+                    //选择图片
                 var result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
                 var localImages = ArrayList<String>()
                 result.forEach {
