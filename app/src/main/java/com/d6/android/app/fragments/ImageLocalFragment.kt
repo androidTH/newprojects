@@ -7,9 +7,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import com.d6.android.app.R
+import com.d6.android.app.activities.ImageLocalPagerActivity
 import com.d6.android.app.base.BaseNoBarFragment
+import com.d6.android.app.models.Imagelocals
 import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.BitmapUtils
+import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.ScreenUtil
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
@@ -69,7 +72,9 @@ class ImageLocalFragment : BaseNoBarFragment() {
         })
 
         sampimgview.setOnClickListener {
-            activity.onBackPressed()
+//            var mImagelocals = Imagelocals(urls,1,0)
+//            ObserverManager.getInstance().notifyObservers(mImagelocals)
+            (activity as ImageLocalPagerActivity).closeImageLocalPager()
         }
     }
 

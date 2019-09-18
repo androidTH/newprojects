@@ -57,6 +57,8 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default);
+        // 完成按钮
+        mSubmitButton = (Button) findViewById(R.id.commit);
 
         Intent intent = getIntent();
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
@@ -65,7 +67,10 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
 
         if(mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {
+            mSubmitButton.setVisibility(View.VISIBLE);
             resultList = intent.getStringArrayListExtra(EXTRA_DEFAULT_SELECTED_LIST);
+        }else{
+            mSubmitButton.setVisibility(View.GONE);
         }
 
         Bundle bundle = new Bundle();
@@ -94,8 +99,6 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
             }
         });
 
-        // 完成按钮
-        mSubmitButton = (Button) findViewById(R.id.commit);
         if(resultList == null || resultList.size()<=0){
             mSubmitButton.setText(R.string.action_done);
             mSubmitButton.setEnabled(false);

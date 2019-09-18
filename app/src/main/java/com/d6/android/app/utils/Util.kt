@@ -355,6 +355,7 @@ inline fun Activity.isAuthUser(from:String="nomine",next: () -> Unit) {
 //            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
 //            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
             this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+//            this.startActivity<OpenMemberShipActivity>()
         }else{
             this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //             this.startActivity<DateAuthStateActivity>()

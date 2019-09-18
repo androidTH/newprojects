@@ -45,13 +45,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         ImmersionBar.with(this)
                 .statusBarColor(R.color.color_CC111111).init()
         tv_close.setOnClickListener {
-            if(type==0){
-                var mImagelocals = Imagelocals(urls,1,0)
-                ObserverManager.getInstance().notifyObservers(mImagelocals)
-                onBackPressed()
-            }else{
-                onBackPressed()
-            }
+            closeImageLocalPager()
         }
 
         tv_dowork.setOnClickListener {
@@ -121,7 +115,11 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
         tv_delete.setOnClickListener {
             var p = mImageViewPager.currentItem
-            delete(p)
+            if(urls.size>p){
+                delete(p)
+            } else {
+                onBackPressed()
+            }
         }
 
         tv_check.setOnClickListener {
@@ -177,6 +175,17 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         return flag
     }
 
+    //关闭本页面
+    fun closeImageLocalPager(){
+        if(type==0){
+            var mImagelocals = Imagelocals(urls,1,0)
+            ObserverManager.getInstance().notifyObservers(mImagelocals)
+            onBackPressed()
+        }else{
+            onBackPressed()
+        }
+    }
+
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
 
     }
@@ -190,6 +199,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     override fun onPageScrollStateChanged(state: Int) {
 
     }
+
 
     override fun onBackPressed() {
         finish()

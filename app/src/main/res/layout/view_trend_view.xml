@@ -10,8 +10,8 @@
         android:background="@color/color_F5F5F5"/>
     <TextView
         android:id="@+id/tv_topfeed"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/comment_line"
         android:layout_alignParentRight="true"
         android:background="@mipmap/feed_topfeed_icon"
@@ -64,9 +64,10 @@
             android:id="@+id/tv_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_3"
-            android:layout_toRightOf="@+id/tv_name"
+            android:layout_below="@+id/tv_name"
+            android:layout_toRightOf="@+id/headView"
             android:drawableRight="@drawable/sex_selector" />
+        <!--android:layout_toRightOf="@+id/tv_name"-->
 
         <TextView
             android:id="@+id/tv_vip"
@@ -74,9 +75,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="@dimen/margin_5"
-            android:layout_toRightOf="@+id/tv_sex"
             android:textColor="@color/orange_f6a"
+            android:layout_alignBottom="@+id/headView"
+            android:layout_toRightOf="@+id/tv_sex"
             android:textSize="8sp" />
+        <!--android:layout_toRightOf="@+id/tv_sex"-->
         <!--android:background="@drawable/shape_4r_white"-->
 
         <TextView
@@ -89,18 +92,6 @@
             android:paddingLeft="@dimen/margin_15"
             android:paddingTop="@dimen/margin_10"
             android:paddingRight="@dimen/margin_5" />
-
-        <TextView
-            android:id="@+id/tv_sub_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_name"
-            android:layout_alignBottom="@+id/headView"
-            android:layout_marginRight="80dp"
-            android:singleLine="true"
-            android:text="--"
-            android:textColor="@color/color_888888"
-            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_attention"
@@ -149,7 +140,7 @@
                     android:id="@+id/sv_video"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="matrix"/>
+                    android:scaleType="centerCrop"/>
                 <ImageView
                     android:id="@+id/iv_video_play"
                     android:layout_width="40dp"
@@ -242,13 +233,27 @@
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_comments"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:textColor="@color/color_999999"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="--" />
         <TextView
             android:id="@+id/tv_redflower"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_comments"
             android:layout_toLeftOf="@+id/tv_comment"
-            android:layout_marginRight="@dimen/margin_50"
+            android:layout_marginRight="@dimen/margin_40"
             android:layout_marginTop="@dimen/margin_10"
             android:drawableLeft="@drawable/ic_redflower_selector"
             android:drawablePadding="4dp"
@@ -264,8 +269,8 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_below="@+id/ll_comments"
+            android:layout_toLeftOf="@+id/tv_appraise"
             android:layout_marginTop="@dimen/margin_10"
-            android:layout_centerHorizontal="true"
             android:drawableLeft="@mipmap/ic_comment"
             android:drawablePadding="4dp"
             android:gravity="center"
@@ -279,9 +284,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_comments"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/margin_40"
             android:layout_marginTop="@dimen/margin_15"
-            android:layout_toRightOf="@+id/tv_comment"
-            android:layout_marginLeft="@dimen/margin_50"
             android:drawableLeft="@drawable/ic_praise_selector"
             android:drawablePadding="4dp"
             android:paddingLeft="@dimen/margin_8"
@@ -289,5 +294,7 @@
             android:text="0"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
+        <!--android:layout_toRightOf="@+id/tv_comment"-->
+
     </RelativeLayout>
 </RelativeLayout>

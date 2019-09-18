@@ -109,21 +109,6 @@ class SquareFragment : RecyclerFragment() {
 
         squareAdapter.setOnSquareAudioToggleClick { position, square ->
             var proxyUrl:String?=null
-//            if(position == 0){
-//                 proxyUrl =  getProxyUrl(activity,square.sVoiceUrl)
-//            } else if(position==2){
-//                 proxyUrl = getProxyUrl(activity,"http://p22l7xdxa.bkt.clouddn.com/1567847506099.mp3")
-//            }else if(position==1){
-//                 proxyUrl = getProxyUrl(activity,"http://music.163.com/song/media/outer/url?id=317151.mp3")
-//            }else if(position==3){
-//                proxyUrl = getProxyUrl(activity,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
-//            }else{
-//                proxyUrl = getProxyUrl(activity,"http://music.163.com/song/media/outer/url?id=281951.mp3")
-//            }
-//            Log.i("squareAdapter","音频地址"+square.sVoiceUrl)
-//            if(square.sVoiceUrl.isNotEmpty()){
-//
-//            }
             playSquare = square
             playSquare?.let {
                 if(!it.isPlaying){
@@ -149,11 +134,10 @@ class SquareFragment : RecyclerFragment() {
         headerView.rv_choose_squaretype.layoutManager = FlexboxLayoutManager(context) as RecyclerView.LayoutManager?
 
         mSquareTypeAdapter.setOnItemClickListener { view, position ->
-            activity.isCheckOnLineAuthUser(this, getLocalUserId()) {
-//                startActivityForResult<ReleaseNewTrendsActivity>(1)
+//            activity.isCheckOnLineAuthUser(this, getLocalUserId()) {
                 var mSqureType = mSquareTypes.get(position)
                 startActivity<FilterSquaresActivity>("squaretype" to mSqureType)
-            }
+//            }
         }
 
         mIsDismissDialog = true

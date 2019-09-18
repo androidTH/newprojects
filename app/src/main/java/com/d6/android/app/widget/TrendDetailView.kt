@@ -143,13 +143,13 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.app_vip)
         }
 
-        val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime?.interval()
-        } else {
-            String.format("%s | %s",square.updatetime?.interval(),square.city)
-        }
+//        val sub = if (square.city.isNullOrEmpty()) {
+//            square.updatetime?.interval()
+//        } else {
+//            String.format("%s | %s",square.updatetime?.interval(),square.city)
+//        }
 
-        tv_sub_title.text = sub
+        tv_sub_title.text = square.updatetime?.interval()
         tv_content.text = square.content
         if(square.iResourceType==3){
             rv_images.visibility = View.GONE

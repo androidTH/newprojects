@@ -90,7 +90,10 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     override fun update(o: Observable?, arg: Any?) {
         var mImagelocal = arg as Imagelocals
         if(mImagelocal.mType == 0){
-            mImages.removeAt(mImagelocal.position)
+            if(mImages.size>mImagelocal.position){
+                mImages.removeAt(mImagelocal.position)
+            }
+            Log.i("update","长度：${mImages.size}")
         }else if(mImagelocal.mType == 1){
             mImages.clear()
             mImagelocal.mUrls.forEach {

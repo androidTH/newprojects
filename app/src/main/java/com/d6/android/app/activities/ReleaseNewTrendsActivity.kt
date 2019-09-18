@@ -566,15 +566,21 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }else if(requestCode == REQUESTCODE_VIDEO && data != null){
                 VideoPaths = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
 //                VideoPaths = result[0].split(FileUtils.VideoThumbnail)
-                mImages.clear()
-                val image = AddImage("file://${VideoPaths[0]}",2)
-                image.path = VideoPaths[0]
-                mImages.add(image)
                 var mBitmap = ThumbnailUtils.createVideoThumbnail(VideoPaths[0],0)
-                VideoPaths.add(BitmapUtils.saveImageToFile(mBitmap))
-                mVideoHeight = mBitmap.height
-                mVideoWidth = mBitmap.width
-                Log.i("releaseautio","${VideoPaths[1]}视频地址:${VideoPaths[0]},视频的宽：${mVideoWidth},高：${mVideoHeight}")
+                if(mBitmap!=null){
+                    mImages.clear()
+                    val image = AddImage("file://${VideoPaths[0]}",2)
+                    image.path = VideoPaths[0]
+                    mImages.add(image)
+                    VideoPaths.add(BitmapUtils.saveImageToFile(mBitmap))
+                    mVideoHeight = mBitmap.height
+                    mVideoWidth = mBitmap.width
+                    mBitmap.recycle()
+                    addAdapter.notifyDataSetChanged()
+                    Log.i("releaseautio","${VideoPaths[1]}视频地址:${VideoPaths[0]},视频的宽：${mVideoWidth},高：${mVideoHeight}")
+                }else{
+                    toast(getString(R.string.video_error_string))
+                }
 //                mImages.clear()
 //                val selectedFilepath = GetPathFromUri.getPath(this, data.data)
 //                Log.i("onActivityResult","视频路径${selectedFilepath}")
@@ -583,7 +589,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 //                    image.path = selectedFilepath
 //                    mImages.add(image)
 //                }
-                addAdapter.notifyDataSetChanged()
                 if(mImages.size == 1){
                     showSoftInput(et_content)
 //                    setPanelTitleUI(2)
@@ -729,7 +734,11 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         val content = et_content.text.toString().trim()
         dialog()
         if (DiskFileUtils.IsExists(fileAudioPath)) {//有语音
-            AudioConvert(content)
+            if(fileAudioPath.endsWith(".wav")){
+                AudioConvert(content)
+            }else{
+                ConvertSuccess(File(fileAudioPath),content)
+            }
         } else {
             addTextSquare(content)
         }
@@ -742,7 +751,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }
 
             override fun onFailure(error: Exception) {
-                toast("ERROR: " + error.message)
+
             }
         }
 
@@ -946,6 +955,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         super.onBackPressed()
         stopPlaying()
         DiskFileUtils.deleteSingleFile(fileAudioPath)
+        DiskFileUtils.deleteSingleFile(Environment.getExternalStorageDirectory().toString() + "/recorded_audio.wav")
     }
 
     override fun onDestroy() {
@@ -978,6 +988,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 showSoftInput(et_content)
                 if(DiskFileUtils.IsExists(fileAudioPath)){
                     tv_release.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_orange)
+                    tv_release.postDelayed(Runnable {
+                        AudioLocalConvert()
+                    },300)
                 }
             }else{
                 record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
@@ -987,6 +1000,33 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             circlebarview.startDefaultProgress()
             record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal_press)
         }
+    }
+
+    //录音完成进行本地转码
+    private fun AudioLocalConvert(){
+        val callback = object : IConvertCallback {
+            override fun onSuccess(convertedFile: File) {
+//                DiskFileUtils.deleteSingleFile(fileAudioPath)
+                fileAudioPath = convertedFile.path
+                audio_loading.visibility = View.GONE
+                rl_play_audio.isEnabled = true
+                Log.i("fileAudioPath","转码路径：${fileAudioPath}")
+            }
+
+            override fun onFailure(error: Exception) {
+                audio_loading.visibility = View.GONE
+                rl_play_audio.isEnabled = true
+                Log.i("fileAudioPath","${error.message}")
+            }
+        }
+
+        AndroidAudioConverter.with(this)
+                .setFile(File(fileAudioPath))
+                .setFormat(AudioFormat.MP3)
+                .setCallback(callback)
+                .convert()
+        audio_loading.visibility = View.VISIBLE
+        rl_play_audio.isEnabled = false
     }
 
     //设置播放录音条的宽度
@@ -1017,6 +1057,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
     //录制
     fun toggleRecording() {
+        fileAudioPath = Environment.getExternalStorageDirectory().toString() + "/recorded_audio.wav"
         stopPlaying()
         RecoderUtil.wait(100, Runnable {
             if (isRecording) {
@@ -1085,6 +1126,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             stopRecording()
             player = MediaPlayer()
             player?.let {
+                Log.i("fileAudioPath","路径：${fileAudioPath}")
                 it.setDataSource(fileAudioPath)//"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3  fileAudioPath
                 it.prepare()
                 it.start()

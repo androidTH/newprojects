@@ -133,12 +133,12 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
 
-        val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime?.interval()
-        } else {
-            String.format("%s | %s",square.updatetime?.interval(),square.city)
-        }
-        tv_createtime.text = sub
+//        val sub = if (square.city.isNullOrEmpty()) {
+//            square.updatetime?.interval()
+//        } else {
+//            String.format("%s | %s",square.updatetime?.interval(),square.city)
+//        }
+        tv_createtime.text = square.updatetime?.interval()
 
         tv_content.text = square.content
 
