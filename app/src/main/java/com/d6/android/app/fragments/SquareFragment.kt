@@ -70,7 +70,6 @@ class SquareFragment : RecyclerFragment() {
         SquareAdapter(mSquares)
     }
 
-
     private var mSquareTypes= ArrayList<TopicBean>()
     private val mSquareTypeAdapter by lazy{
         SquareTypeAdapter(mSquareTypes)

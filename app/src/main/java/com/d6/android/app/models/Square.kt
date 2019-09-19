@@ -45,4 +45,6 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var iResourceType:Int = -1 // 1、文字  2、图片 3、视频 4、语音 ，新发布的这样区分，之前的为0
     var orders:Int= 1// orders <=0 置顶
     var sVoiceLength:String = ""
+    var sVideoWidth:String =""
+    var sVideoHeight:String = ""
 }

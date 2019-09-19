@@ -35,6 +35,11 @@ class PointsAdapter(mData: ArrayList<UserPoints>) : HFRecyclerAdapter<UserPoints
         if (data.iType == 16 || data.iType == 17||data.iType==18) {
             data.sPointdesc?.let {
                 var index = it.indexOf("@${data.sSendUserName}")
+                index = if(index==-1){
+                    0
+                }else{
+                    index
+                }
                 var str = it.replace("@${data.sSendUserName}", "${data.sSendUserName}")
                 var span = SpannableStringBuilder(str)
                 var len = (index + data.sSendUserName.length)

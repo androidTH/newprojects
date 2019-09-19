@@ -989,7 +989,7 @@ fun getLevelDrawableOfClassName(name:String,mContext:Context):Drawable?{
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
     } else if (name.indexOf("入群")!=-1) {
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
-    }else if (name.indexOf("app")!=-1) {
+    }else if (name.indexOf("APP")!=-1) {
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.app_vip)
     }
    return mDrawable

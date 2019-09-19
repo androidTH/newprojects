@@ -163,7 +163,13 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                         if(it.height>it.width){
                             sv_video_details.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
                         }else{
-                            sv_video_details.setImageBitmap(it)
+                            if(square.sVideoWidth.isNotEmpty()&&square.sVideoHeight.isNotEmpty()){
+                                var sWidth = square.sVideoWidth.toInt()
+                                var sHeight = square.sVideoHeight.toInt()
+                                sv_video_details.setImageBitmap(Bitmap.createScaledBitmap(it,sWidth,sHeight,false))
+                            }else{
+                                sv_video_details.setImageBitmap(it)
+                            }
                         }
                     }
                 }

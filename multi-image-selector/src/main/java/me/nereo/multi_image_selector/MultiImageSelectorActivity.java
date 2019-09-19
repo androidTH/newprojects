@@ -69,7 +69,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         if(mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {
             mSubmitButton.setVisibility(View.VISIBLE);
             resultList = intent.getStringArrayListExtra(EXTRA_DEFAULT_SELECTED_LIST);
-        }else{
+        }else if(mode==MODE_SINGLE){
             mSubmitButton.setVisibility(View.GONE);
         }
 

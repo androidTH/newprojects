@@ -236,7 +236,13 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                             if(it.height>it.width){
                                 sv_video.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
                             }else{
-                                sv_video.setImageBitmap(it)
+                                if(square.sVideoWidth.isNotEmpty()&&square.sVideoHeight.isNotEmpty()){
+                                    var sWidth = square.sVideoWidth.toInt()
+                                    var sHeight = square.sVideoHeight.toInt()
+                                    sv_video.setImageBitmap(Bitmap.createScaledBitmap(it,sWidth,sHeight,false))
+                                }else{
+                                    sv_video.setImageBitmap(it)
+                                }
                             }
                         }
                     }
@@ -244,7 +250,8 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }else{
                 rl_vidoe.visibility = View.GONE
             }
-            Log.i("trendView","动态类型=${square.iResourceType},视频所属人:${square.name},内容：${square.content},${square.sVideoUrl}视频链接,图片链接=${square.sVideoPicUrl}")
+            Log.i("trendView","动态类型=${square.iResourceType},视频所属人:${square.name},内容：${square.content},${square.sVideoUrl}视频链接," +
+                    "图片链接=${square.sVideoPicUrl},图片宽高${square.sVideoWidth},${square.sVideoHeight}")
         }else if(square.iResourceType==4){
             rv_images.visibility = View.GONE
             rl_vidoe.visibility = View.GONE

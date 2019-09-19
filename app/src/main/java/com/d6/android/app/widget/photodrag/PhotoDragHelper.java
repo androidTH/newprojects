@@ -66,7 +66,9 @@ public class PhotoDragHelper implements OnPhotoDragListener {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        mListener.onAnimationEnd(isExit);
+                        if(mListener!=null){
+                            mListener.onAnimationEnd(isExit);
+                        }
                     }
                 });
                 mBackOrExitAnimator.start();

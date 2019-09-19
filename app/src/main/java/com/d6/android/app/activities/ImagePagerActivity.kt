@@ -37,7 +37,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_delete.setOnClickListener {
             val p = mImageViewPager.currentItem
             urls?.let {
-                delete(it[p])
+                if(it.size>p){
+                    delete(it[p])
+                }
             }
         }
 

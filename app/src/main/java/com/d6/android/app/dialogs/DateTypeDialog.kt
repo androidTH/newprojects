@@ -70,7 +70,9 @@ class DateTypeDialog : DialogFragment() {
         tv_wxcopy.setOnClickListener {
             val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             // 将文本内容放到系统剪贴板里。
-            cm.text = tv_wxhintnum.text.trim()
+            if(tv_wxhintnum!=null){
+                cm.text = tv_wxhintnum.text.trim()
+            }
             WXAPIFactory.createWXAPI(context,"wx43d13a711f68131c").openWXApp()
             toast("微信号已复制到剪切板")
             dialogListener?.onClick(2,"wxcopy")
