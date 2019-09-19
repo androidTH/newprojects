@@ -213,7 +213,7 @@ class RecommendDateActivity : BaseActivity() {
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
             if(position == -3){
                 city = ""
-                tv_date_city.text = getString(R.string.string_area)
+                tv_date_city.text = getString(R.string.string_area_city)
             }else{
                 city = string
                 tv_date_city.text = string
