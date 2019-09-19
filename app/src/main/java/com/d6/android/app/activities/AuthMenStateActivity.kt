@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
@@ -15,6 +17,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
 import com.d6.android.app.adapters.MemberCommentHolder
 import com.d6.android.app.adapters.MemberLevelAdapter
+import com.d6.android.app.adapters.TeQuanQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.easypay.EasyPay
@@ -25,7 +28,6 @@ import com.d6.android.app.easypay.enums.HttpType
 import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.AppMemberPrice
 import com.d6.android.app.models.MemberBean
 import com.d6.android.app.models.MemberComment
 import com.d6.android.app.net.API
@@ -34,17 +36,18 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.GridItemDecoration
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.fm.openinstall.OpenInstall
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_auth_state.*
 import kotlinx.android.synthetic.main.include_member.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 
 
 /**
@@ -77,6 +80,11 @@ class AuthMenStateActivity : BaseActivity() {
 
     var mComments = ArrayList<MemberComment>()
 
+    private var mListTQ = ArrayList<String>()
+    private val mTeQuanQuickAdapter by lazy{
+        TeQuanQuickAdapter(mListTQ)
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,89 +112,59 @@ class AuthMenStateActivity : BaseActivity() {
         }
 
         ll_openmemeber.setOnClickListener {
-            if(mMemberPriceList.size!=0){
-            var member = mMemberPriceList.get(rv_viptypes.currentItem)
-            if(member.ids!=22&&member.ids!=23&&member.ids!=31){
-                if(member!=null){
-                    member.iAndroidPrice?.let {
-                        var ids = member.ids
-                        ids?.let { it1 -> buyRedFlowerPay(it, areaName, it1, member.classesname.toString()) }
-                    }
-                }
-//                mOpenMemberShipDialog = OpenMemberShipDialog()
-//                mOpenMemberShipDialog.arguments = bundleOf("members" to mMemberPriceList)
-//                mOpenMemberShipDialog.show(supportFragmentManager,OpenMemberShipDialog::class.java.toString())
-//                mOpenMemberShipDialog.setDialogListener { p, s ->
-//                    if(p==2001){
-//                        startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE)
-//                    }else{
-//                        var memberBean = mMemberPriceList.get(p)
-//                        var classId = memberBean.ids.toString()
-//                        if(TextUtils.equals("22",classId)||TextUtils.equals("23",classId)){
-//                            if(TextUtils.isEmpty(areaName)){
-//                                toast("请选择约会地区，不同地区价格稍有差异")
-//                            }else{
-//                                memberBean.iAndroidPrice?.let {
-//                                    var price = it
-//                                    memberBean.ids?.let {
-//                                        buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
-//                                    }
-//                                }
-//                            }
-//                        }else if(classId.isNotEmpty()){
-//                            memberBean.iAndroidPrice?.let {
-//                                var price = it
-//                                memberBean.ids?.let {
-//                                    buyRedFlowerPay(price,areaName,it,memberBean.classesname.toString())
-//                                }
-//                            }
-//                        }
+            startActivity<OpenMemberShipActivity>()
+//            if(mMemberPriceList.size!=0){
+//            var member = mMemberPriceList.get(rv_viptypes.currentItem)
+//            if(member.ids!=22&&member.ids!=23&&member.ids!=31){
+//                if(member!=null){
+//                    member.iAndroidPrice?.let {
+//                        var ids = member.ids
+//                        ids?.let { it1 -> buyRedFlowerPay(it, areaName, it1, member.classesname.toString()) }
 //                    }
 //                }
-//                areaName = ""
-            }else if(member.ids==31){
-                 mAppMemberDialog  = AppMemberDialog()
-                 var desc = member.sTitle
-                 mAppMemberDialog?.let {
-                     it.arguments = bundleOf("bean" to member, "desc" to "${desc}")
-                     it.show(supportFragmentManager,AppMemberDialog::class.java.toString())
-                     it.setDialogListener { p, s ->
-                         if (p == 1000) {
-
-                         } else {
-                             //支付
-                             if(!TextUtils.isEmpty(s)){
-                                 var pirce =s?.let { it.toInt() }
-                                 member.ids?.let {
-                                     buyRedFlowerPay(pirce,"",it,member.classesname.toString())
-                                 }
-                             }
-                         }
-                     }
-                 }
-
-            }else {
-                mSilverMemberDialog = SilverMemberDialog()
-                mSilverMemberDialog?.let {
-                    if (member != null) {
-                        it.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${member.sTitle}")
-                    }
-                    it.show(supportFragmentManager, SilverMemberDialog::class.java.toString())
-                    it.setDialogListener { p, s ->
-                        if (p == 1000) {
-                            //支付
-                            member.ids?.let {
-                                var price = s.toString().toInt()
-                                buyRedFlowerPay(price, areaName, it, member.classesname.toString())
-                            }
-                        } else if (p == 2001) {
-                            startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE_SILIVER)
-                        }
-                    }
-                    areaName = ""
-                }
-            }
-            }
+//            }else if(member.ids==31){
+//                 mAppMemberDialog  = AppMemberDialog()
+//                 var desc = member.sTitle
+//                 mAppMemberDialog?.let {
+//                     it.arguments = bundleOf("bean" to member, "desc" to "${desc}")
+//                     it.show(supportFragmentManager,AppMemberDialog::class.java.toString())
+//                     it.setDialogListener { p, s ->
+//                         if (p == 1000) {
+//
+//                         } else {
+//                             //支付
+//                             if(!TextUtils.isEmpty(s)){
+//                                 var pirce =s?.let { it.toInt() }
+//                                 member.ids?.let {
+//                                     buyRedFlowerPay(pirce,"",it,member.classesname.toString())
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//
+//            }else {
+//                mSilverMemberDialog = SilverMemberDialog()
+//                mSilverMemberDialog?.let {
+//                    if (member != null) {
+//                        it.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${member.sTitle}")
+//                    }
+//                    it.show(supportFragmentManager, SilverMemberDialog::class.java.toString())
+//                    it.setDialogListener { p, s ->
+//                        if (p == 1000) {
+//                            //支付
+//                            member.ids?.let {
+//                                var price = s.toString().toInt()
+//                                buyRedFlowerPay(price, areaName, it, member.classesname.toString())
+//                            }
+//                        } else if (p == 2001) {
+//                            startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE_SILIVER)
+//                        }
+//                    }
+//                    areaName = ""
+//                }
+//            }
+//            }
         }
 
         if(TextUtils.equals("mine",from)){
@@ -206,18 +184,18 @@ class AuthMenStateActivity : BaseActivity() {
                 .setMinScale(1.0f)
                 .build())
         rv_viptypes.addOnItemChangedListener { viewHolder, adapterPosition ->
-            Log.i("AuthMenStateActivity","位置${adapterPosition}")
-            if(mMemberPriceList!=null&&mMemberPriceList.size>0){
-                var member = mMemberPriceList.get(rv_viptypes.currentItem)
-                tv_openmember.text = "开通${member.classesname}"
-                if(member.ids==31){
-                    tv_member_showdes.text = "(低至¥${member.iAndroidPrice}元/月)"
-                }else if(member.ids==22||member.ids==23){
-                    tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
-                }else{
-                    tv_member_showdes.text = "(¥${member.iAndroidPrice}元)"
-                }
-            }
+
+//            if(mMemberPriceList!=null&&mMemberPriceList.size>0){
+//                var member = mMemberPriceList.get(rv_viptypes.currentItem)
+//                tv_openmember.text = "开通${member.classesname}"
+//                if(member.ids==31){
+//                    tv_member_showdes.text = "(低至¥${member.iAndroidPrice}元/月)"
+//                }else if(member.ids==22||member.ids==23){
+//                    tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
+//                }else{
+//                    tv_member_showdes.text = "(¥${member.iAndroidPrice}元)"
+//                }
+//            }
         }
         mComments.add(MemberComment(getString(R.string.string_man_firstcomment),
                 API.BASE_URL +"static/image/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
@@ -226,6 +204,27 @@ class AuthMenStateActivity : BaseActivity() {
         mComments.add(MemberComment(getString(R.string.string_man_lastcomment),
                 API.BASE_URL +"static/image/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
         setMemeberComemnt()
+
+        mListTQ.add("APP会员")
+        mListTQ.add("普通会员")
+        mListTQ.add("入群会员")
+        mListTQ.add("白银会员")
+        mListTQ.add("黄金会员")
+        mListTQ.add("钻石会员")
+        mListTQ.add("私人定制")
+
+        rv_grid_tq.setHasFixedSize(true)
+        rv_grid_tq.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
+        rv_grid_tq.adapter = mTeQuanQuickAdapter
+        var divider = GridItemDecoration.Builder(this)
+                .setHorizontalSpan(R.dimen.margin_1)
+                .setVerticalSpan(R.dimen.margin_1)
+                .setColorResource(R.color.color_F5F5F5)
+                .setShowLastLine(false)
+                .setShowVerticalLine(false)
+                .build()
+        rv_grid_tq.addItemDecoration(divider)
+        rv_grid_tq.isNestedScrollingEnabled = false
     }
 
     private fun setMemeberComemnt(){
