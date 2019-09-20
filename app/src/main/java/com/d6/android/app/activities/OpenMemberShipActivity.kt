@@ -35,8 +35,11 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
+import com.d6.android.app.widget.CustomToast
+import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_openmember_ship.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivityForResult
 
 /**
  * 开通会员
@@ -107,38 +110,95 @@ class OpenMemberShipActivity : BaseActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-
+                if(mMemberPriceList!=null&&mMemberPriceList.size>0){
+                    setButtonContent(position)
+                }
             }
         })
 
+        ll_openmemeber_ship.setOnClickListener {
+            if (mMemberPriceList!=null&&mMemberPriceList.size > 0) {
+                var member = mMemberPriceList.get(viewpager_membership.currentItem)
+                if (member.ids != 22 && member.ids != 23 && member.ids != 31) {
+                    if (member != null) {
+                        member.iAndroidPrice?.let {
+                            var ids = member.ids
+                            ids?.let { it1 -> buyRedFlowerPay(it, areaName, it1, member.classesname.toString()) }
+                        }
+                    }
+                } else if (member.ids == 31) {
+                    mAppMemberDialog = AppMemberDialog()
+                    var desc = member.sTitle
+                    mAppMemberDialog?.let {
+                        it.arguments = bundleOf("bean" to member, "desc" to "${desc}")
+                        it.show(supportFragmentManager, AppMemberDialog::class.java.toString())
+                        it.setDialogListener { p, s ->
+                            if (p == 1000) {
+
+                            } else {
+                                //支付
+                                if (!TextUtils.isEmpty(s)) {
+                                    var pirce = s?.let { it.toInt() }
+                                    member.ids?.let {
+                                        buyRedFlowerPay(pirce, "", it, member.classesname.toString())
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                } else {
+                    mSilverMemberDialog = SilverMemberDialog()
+                    mSilverMemberDialog?.let {
+                        if (member != null) {
+                            it.arguments = bundleOf("ids" to "${member.ids}", "desc" to "${member.sTitle}")
+                        }
+                        it.show(supportFragmentManager, SilverMemberDialog::class.java.toString())
+                        it.setDialogListener { p, s ->
+                            if (p == 1000) {
+                                //支付
+                                member.ids?.let {
+                                    var price = s.toString().toInt()
+                                    buyRedFlowerPay(price, areaName, it, member.classesname.toString())
+                                }
+                            } else if (p == 2001) {
+                                startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE_SILIVER)
+                            }
+                        }
+                        areaName = ""
+                    }
+                }
+            }
+        }
+
       getMemberPriceList()
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        member_banner.startTurning()
-    }
-
-    override fun onStop() {
-        super.onStop()
-//        member_banner.stopTurning()
     }
 
     private fun getMemberPriceList() {
         Request.findUserClasses(getLoginToken()).request(this){ msg, data->
             data?.list?.let {
                 mMemberPriceList = it
-                it.forEach {
-                    mFragments.add(MemberShipQuickFragment.newInstance(it.classesname.toString(),it.sDesc.toString()))
+                if(mMemberPriceList!=null&&mMemberPriceList.size>0){
+                    it.forEach {
+                        mFragments.add(MemberShipQuickFragment.newInstance(it,it.sDesc.toString()))
+                    }
+                    viewpager_membership.adapter = MemberShipPageAdapter(supportFragmentManager,mFragments,mMemberPriceList)
+                    viewpager_membership.offscreenPageLimit = mFragments.size
+                    setButtonContent(0)
                 }
-                viewpager_membership.adapter = MemberShipPageAdapter(supportFragmentManager,mFragments,mMemberPriceList)
-                viewpager_membership.offscreenPageLimit = mFragments.size
-//                mMemberLevelAdapter.setNewData(mMemberPriceList)
-//                if(mMemberPriceList!=null){
-//                    var mMemberBean = mMemberPriceList.get(0)
-//                    tv_openmember.text = "开通"
-//                }
             }
+        }
+    }
+
+    private fun setButtonContent(position:Int){
+        var mMemberBean = mMemberPriceList.get(position)
+        tv_openmember.text = "开通${mMemberBean.classesname}"
+        if(mMemberBean.ids==31){
+            tv_member_showdes.text = "·低至¥${mMemberBean.iAndroidPrice}元/月"
+        }else if(mMemberBean.ids==22||mMemberBean.ids==23){
+            tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
+        }else{
+            tv_member_showdes.text = "·¥${mMemberBean.iAndroidPrice}元"
         }
     }
 
@@ -170,7 +230,7 @@ class OpenMemberShipActivity : BaseActivity() {
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?,orderId:String) {
                 if(!TextUtils.isEmpty(orderId)){
-//                    checkOrderStatus(orderId)
+                    checkOrderStatus(orderId)
                 }
             }
 
@@ -183,6 +243,36 @@ class OpenMemberShipActivity : BaseActivity() {
                 payResultDialog.show(supportFragmentManager, "fd")
             }
         })
+    }
+
+    /**
+     * 检查订单的状态
+     */
+    private fun checkOrderStatus(orderId:String){
+        Request.getOrderById(orderId).request(this,false,success={msg,data->
+            if(mAppMemberDialog!=null){
+                mAppMemberDialog?.let {
+                    it.dismissAllowingStateLoss()
+                }
+            }
+
+            if(mSilverMemberDialog!=null){
+                mSilverMemberDialog?.let {
+                    it.dismissAllowingStateLoss()
+                }
+            }
+            ISNOTBUYMEMBER = 1
+//            ns_auth_mem.visibility = View.GONE
+//            ll_bottom.visibility = View.GONE
+//            member.visibility = View.VISIBLE
+            var payResultDialog = PayResultDialog()
+            payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
+            payResultDialog.show(supportFragmentManager, "fd")
+            getUserInfo()
+            OpenInstall.reportEffectPoint("open_vip",1)//会员转化
+        }){code,msg->
+            CustomToast.showToast(msg)
+        }
     }
 
 
@@ -244,7 +334,7 @@ class OpenMemberShipActivity : BaseActivity() {
             }else if(requestCode==AREA_REQUEST_CODE_SILIVER){
                 areaName = data!!.getStringExtra("area")
                 if (mSilverMemberDialog != null) {
-//                    mSilverMemberDialog?.setAddressd(areaName, rv_viptypes.currentItem)
+                    mSilverMemberDialog?.setAddressd(areaName, viewpager_membership.currentItem)
                 }
             }
         }

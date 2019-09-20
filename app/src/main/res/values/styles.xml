@@ -495,7 +495,8 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
 
-    <style name="tab_openmember" >
+    <style name="tab_openmember">
         <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

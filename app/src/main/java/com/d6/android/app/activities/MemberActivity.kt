@@ -128,7 +128,6 @@ class MemberActivity : BaseActivity() {
         mService5.mClassTag = "微信"
         mService5.mClassType = 2
 
-
         var mService6 = MemberServiceBean("0")
         mService6.mResId = R.mipmap.vippage_tequan_hy
         mService6.mClassName = "会员入档"

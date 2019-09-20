@@ -185,18 +185,17 @@ class AuthMenStateActivity : BaseActivity() {
                 .setMinScale(1.0f)
                 .build())
         rv_viptypes.addOnItemChangedListener { viewHolder, adapterPosition ->
-
-//            if(mMemberPriceList!=null&&mMemberPriceList.size>0){
-//                var member = mMemberPriceList.get(rv_viptypes.currentItem)
-//                tv_openmember.text = "开通${member.classesname}"
-//                if(member.ids==31){
-//                    tv_member_showdes.text = "(低至¥${member.iAndroidPrice}元/月)"
-//                }else if(member.ids==22||member.ids==23){
-//                    tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
-//                }else{
-//                    tv_member_showdes.text = "(¥${member.iAndroidPrice}元)"
-//                }
-//            }
+            if(mMemberPriceList!=null&&mMemberPriceList.size>0){
+                var member = mMemberPriceList.get(rv_viptypes.currentItem)
+                tv_openmember.text = "开通${member.classesname}"
+                if(member.ids==31){
+                    tv_member_showdes.text = "(低至¥${member.iAndroidPrice}元/月)"
+                }else if(member.ids==22||member.ids==23){
+                    tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
+                }else{
+                    tv_member_showdes.text = "(¥${member.iAndroidPrice}元)"
+                }
+            }
         }
         mComments.add(MemberComment(getString(R.string.string_man_firstcomment),
                 API.BASE_URL +"static/image/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
@@ -363,10 +362,10 @@ class AuthMenStateActivity : BaseActivity() {
             data?.list?.let {
                 mMemberPriceList = it
                 mMemberLevelAdapter.setNewData(mMemberPriceList)
-//                if(mMemberPriceList!=null){
-//                    var mMemberBean = mMemberPriceList.get(0)
-//                    tv_openmember.text = "开通"
-//                }
+                if(mMemberPriceList!=null){
+                    var mMemberBean = mMemberPriceList.get(0)
+                    tv_openmember.text = "开通"
+                }
             }
         }
     }

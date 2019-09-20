@@ -285,8 +285,11 @@ class FindDateDetailActivity : TitleActivity() {
 //        }
 //    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        mHandler = null
+    override fun onBackPressed() {
+        super.onBackPressed()
+        rv_images
+        imgAdapter.mData.clear()
+        finish()
+        System.gc();
     }
 }

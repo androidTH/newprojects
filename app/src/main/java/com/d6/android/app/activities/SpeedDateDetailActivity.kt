@@ -277,4 +277,11 @@ class SpeedDateDetailActivity : TitleActivity() {
 //            btn_contact.text = "联系客服"
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        imgAdapter.mData.clear()
+        finish()
+        System.gc();
+    }
 }
