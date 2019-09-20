@@ -288,5 +288,8 @@ class FindDateDetailActivity : TitleActivity() {
     override fun onDestroy() {
         super.onDestroy()
 //        mHandler = null
+        imgAdapter.mData.clear()
+        finish()
+        System.gc();
     }
 }

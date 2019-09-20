@@ -228,6 +228,8 @@ class RecommendDateActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mRecommentTypes.clear()
+        mFragments.clear()
         immersionBar.destroy()
     }
 }
