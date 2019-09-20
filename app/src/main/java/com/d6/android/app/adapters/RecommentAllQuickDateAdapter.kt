@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.graphics.Bitmap
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.util.Log
@@ -11,8 +12,11 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.models.MyDate
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.imageBitmap
 
 /**
  * jinjiarui
@@ -23,6 +27,13 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
         val imageView = helper.getView<SimpleDraweeView>(R.id.imageView)
         data.lookpics?.let {
             imageView.setImageURI(it)
+//            FrescoUtils.loadImage(mContext,it,object:IResult<Bitmap>{
+//                override fun onResult(result: Bitmap?) {
+//                    result?.let {
+//                        imageView.imageBitmap = it
+//                    }
+//                }
+//            })
             Log.i("recoment","${it}")
         }
         val nameView = helper.getView<TextView>(R.id.tv_name)

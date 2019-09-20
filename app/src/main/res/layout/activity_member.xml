@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F6F7FA"
+    android:background="@color/color_F7AB00"
     tools:context=".activities.AuthWomenStateActivity">
     <include layout="@layout/include_member"/>
     <TextView
