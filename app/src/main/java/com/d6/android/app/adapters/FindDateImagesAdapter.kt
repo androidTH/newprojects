@@ -2,6 +2,7 @@ package com.d6.android.app.adapters
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Animatable
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.Nullable
@@ -117,6 +118,24 @@ class FindDateImagesAdapter(mData: ArrayList<String>) : BaseRecyclerAdapter<Stri
 
         imageView.setOnClickListener {
             context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mData, ImagePagerActivity.CURRENT_POSITION to position)
+        }
+    }
+
+    override fun onViewRecycled(holder: ViewHolder?) {
+        super.onViewRecycled(holder)
+
+    }
+
+    fun releaseImageViewResouce(imageView:ImageView) {
+        if (imageView == null)
+            return;
+        var drawable = imageView.getDrawable()
+        if (drawable != null) {
+            var bitmapDrawable = drawable as BitmapDrawable
+            var bitmap = bitmapDrawable.getBitmap()
+            if (bitmap != null && !bitmap.isRecycled()) {
+                bitmap.recycle()
+            }
         }
     }
 }
