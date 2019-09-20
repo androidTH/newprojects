@@ -10,6 +10,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseNoBarFragment
 import com.d6.android.app.utils.AppScreenUtils
 import com.d6.android.app.utils.BitmapUtils
+import com.d6.android.app.utils.BitmapUtils.clearBitmap
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.davemorrissey.labs.subscaleview.ImageSource
@@ -103,6 +104,7 @@ class ImageFragment : BaseNoBarFragment() {
             }
         })
         sampimgview.setOnClickListener {
+            sampimgview.recycle()
             activity.onBackPressed()
         }
     }

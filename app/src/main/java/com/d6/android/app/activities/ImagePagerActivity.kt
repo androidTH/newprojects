@@ -6,6 +6,8 @@ import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewPager
+import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.ImagePagerAdapter
@@ -16,6 +18,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.visible
 import com.d6.android.app.widget.photodrag.PhotoDragHelper
+import com.facebook.drawee.backends.pipeline.Fresco
 import kotlinx.android.synthetic.main.activity_image_pager.*
 import org.jetbrains.anko.bundleOf
 import java.lang.StringBuilder
@@ -123,7 +126,12 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     }
 
+
     override fun onBackPressed() {
+        urls.clear()
+        Fresco.getImagePipeline().clearMemoryCaches()
+        photo_drag_relaivelayout.removeAllViews()
+        Log.i("onBackPressed", "------")
         finish()
         overridePendingTransition(R.anim.img_fade_in, R.anim.img_fade_out)
     }

@@ -5,10 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.Point
+import android.graphics.drawable.BitmapDrawable
 import android.media.ExifInterface
 import android.os.Build
 import android.os.Environment
 import android.view.WindowManager
+import android.widget.ImageView
 import com.d6.android.app.widget.ScreenUtil
 import java.io.*
 import java.math.BigDecimal
@@ -334,5 +336,17 @@ object BitmapUtils {
             e.printStackTrace()
         }
        return file.path
+    }
+
+
+    fun clearBitmap(imageView:ImageView){
+        if (imageView == null) return
+        var drawable = imageView.drawable
+        if (drawable != null && drawable is BitmapDrawable) {
+            var bitmap = drawable.bitmap
+            if (bitmap != null && !bitmap.isRecycled) {
+                bitmap.recycle()
+            }
+        }
     }
 }

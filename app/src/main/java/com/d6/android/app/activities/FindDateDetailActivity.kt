@@ -17,6 +17,7 @@ import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -287,9 +288,9 @@ class FindDateDetailActivity : TitleActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        rv_images
+        Fresco.getImagePipeline().clearMemoryCaches()
         imgAdapter.mData.clear()
+        System.gc()
         finish()
-        System.gc();
     }
 }
