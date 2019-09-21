@@ -1,5 +1,7 @@
 package com.d6.android.app.fragments
 
+import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
@@ -184,10 +186,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         checkPushIsNotShow()
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//    }
-
     private fun checkPushIsNotShow() {
         if (isNotificationEnabled(context)) {
             headerView.rl_msg_tips.visibility = View.GONE
@@ -266,36 +264,39 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     /**
      * 密聊是否显示和未读消息数量
      */
-    private fun getNMChat(){
-          mNMUnReadTotal = 0
-          Log.i("messagefragment","ssssss${mUnConversations.size}")
-          if(mUnConversations!=null&&mUnConversations.size>0){
-              headerView.rl_unknowchat.visibility = View.VISIBLE
-              headerView.line_mchat.visibility = View.VISIBLE
+    private fun getNMChat() {
+        mNMUnReadTotal = 0
+        Log.i("messagefragment", "ssssss${mUnConversations.size}")
+        if (swiprefreshRecyclerlayout_msg.mRecyclerView.hasPendingAdapterUpdates()) {
+            swiprefreshRecyclerlayout_msg.setLayoutManager(LinearLayoutManager(context))
+        }
+        if (mUnConversations != null && mUnConversations.size > 0) {
+            headerView.rl_unknowchat.visibility = View.VISIBLE
+            headerView.line_mchat.visibility = View.VISIBLE
 
-              for(c:Conversation in mUnConversations){
-                  if(c.unreadMessageCount>0){
-                      mNMUnReadTotal  = mNMUnReadTotal + c.unreadMessageCount
-                  }
-              }
+            for (c: Conversation in mUnConversations) {
+                if (c.unreadMessageCount > 0) {
+                    mNMUnReadTotal = mNMUnReadTotal + c.unreadMessageCount
+                }
+            }
 
-              if(mNMUnReadTotal>0){
-                  headerView.iv3_unreadnum.visibility = View.VISIBLE
-                  headerView.iv3_unreadnum.text = "${mNMUnReadTotal}"
-              }else{
-                  headerView.iv3_unreadnum.visibility = View.GONE
-              }
-              var mConv = mUnConversations.get(0)
-              val provider = RongContext.getInstance().getMessageTemplate(mConv.latestMessage.javaClass)
-              if (provider != null) {
-                  headerView.tv_content3.text= provider.getContentSummary(context,mConv.latestMessage)
-              }
-          }else{
-              if(headerView!=null){
-                  headerView.rl_unknowchat.visibility = View.GONE
-                  headerView.line_mchat.visibility = View.GONE
-              }
-          }
+            if (mNMUnReadTotal > 0) {
+                headerView.iv3_unreadnum.visibility = View.VISIBLE
+                headerView.iv3_unreadnum.text = "${mNMUnReadTotal}"
+            } else {
+                headerView.iv3_unreadnum.visibility = View.GONE
+            }
+            var mConv = mUnConversations.get(0)
+            val provider = RongContext.getInstance().getMessageTemplate(mConv.latestMessage.javaClass)
+            if (provider != null) {
+                headerView.tv_content3.text = provider.getContentSummary(context, mConv.latestMessage)
+            }
+        } else {
+            if (headerView != null) {
+                headerView.rl_unknowchat.visibility = View.GONE
+                headerView.line_mchat.visibility = View.GONE
+            }
+        }
     }
 
     private fun setIsTopConversation(){

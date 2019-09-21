@@ -223,6 +223,8 @@ class FilterSquaresActivity : BaseActivity() {
                 playIndex = -1
                 mAudioMedio.onClickStop()
                 swipeRefreshLayout_square.isRefreshing = false
+                rl_friends_empty.visibility = View.GONE
+                swipeRefreshLayout_square.visibility = View.VISIBLE
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
@@ -230,6 +232,10 @@ class FilterSquaresActivity : BaseActivity() {
                     pageNum--
                 } else {
                     swipeRefreshLayout_square.setLoadMoreText("暂无数据")
+                }
+                if(pageNum==1){
+                    rl_friends_empty.visibility = View.VISIBLE
+                    swipeRefreshLayout_square.visibility = View.GONE
                 }
             } else {
                 mSquares.addAll(data.list.results)

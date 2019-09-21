@@ -202,6 +202,8 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
 
     override fun onBackPressed() {
+        urls.clear()
+        mListFragment.clear()
         finish()
         overridePendingTransition(R.anim.img_fade_in, R.anim.img_fade_out)
     }
