@@ -25,9 +25,6 @@ import org.jetbrains.anko.wrapContent
  */
 class SilverMemberDialog : DialogFragment() {
 
-    private var mMemberPriceList = ArrayList<MemberBean>()
-    var mMemberShipAdapter: MemberShipAdapter?=null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.Dialog)
@@ -75,17 +72,17 @@ class SilverMemberDialog : DialogFragment() {
             }
         }
 
-        tv_wxpay_member.text = "微信支付"
+        tv_wxpay_member.text = "确定支付"
     }
 
     fun setAddressd(address:String,currentIndex:Int){
         if(TextUtils.equals(address,"不限地区")){
             tv_choose_address.text = "地区"
-            tv_wxpay_member.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_8054)
-            tv_wxpay_member.text = "微信支付"
+            tv_wxpay_member.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_80_orange)
+            tv_wxpay_member.text = "确定支付"
         }else{
             tv_choose_address.text = address
-            tv_wxpay_member.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_54)
+            tv_wxpay_member.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_f7a)
             getAreaNameMemberPriceList(address,currentIndex)
         }
     }
@@ -96,7 +93,7 @@ class SilverMemberDialog : DialogFragment() {
             Request.findUserClasses(getLoginToken(),areaName).request(it){ msg, data->
                 data?.list?.let {
                     var memberBean = it.get(currentIndex)
-                    tv_wxpay_member.text = "微信支付·¥${memberBean.iAndroidPrice}"
+                    tv_wxpay_member.text = "确定支付·¥${memberBean.iAndroidPrice}"
                     tv_slivemember_price.text = "${memberBean.iAndroidPrice}"
                 }
             }

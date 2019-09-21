@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareAdapter
@@ -230,13 +231,13 @@ class FilterSquaresActivity : BaseActivity() {
                 if (pageNum > 1) {
                     swipeRefreshLayout_square.setLoadMoreText("没有更多了")
                     pageNum--
-                } else {
-                    swipeRefreshLayout_square.setLoadMoreText("暂无数据")
                 }
-                if(pageNum==1){
+                if(data?.list?.totalPage==0){
                     rl_friends_empty.visibility = View.VISIBLE
                     swipeRefreshLayout_square.visibility = View.GONE
+//                    swipeRefreshLayout_square.setLoadMoreText("暂无数据")
                 }
+                Log.i("FilterSquaresActivity","总页数：${data?.list?.totalPage}")
             } else {
                 mSquares.addAll(data.list.results)
                 if(data?.list.totalPage==1){
