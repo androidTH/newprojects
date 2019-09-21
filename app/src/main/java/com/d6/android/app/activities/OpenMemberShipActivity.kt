@@ -38,8 +38,12 @@ import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.widget.CustomToast
 import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_openmember_ship.*
+import me.nereo.multi_image_selector.MultiImageSelectorActivity
+import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.support.v4.startActivity
 
 /**
  * 开通会员
@@ -160,6 +164,15 @@ class OpenMemberShipActivity : BaseActivity() {
                                 member.ids?.let {
                                     var price = s.toString().toInt()
                                     buyRedFlowerPay(price, areaName, it, member.classesname.toString())
+//                                    FinishActivityManager.getManager().finishActivity(AuthMenStateActivity::class.java)
+//                                    var payResultDialog = PayResultDialog()
+//                                    payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
+//                                    payResultDialog.show(supportFragmentManager, "fd")
+//                                    payResultDialog.setDialogListener { p, s ->
+//                                        startActivity<MemberActivity>()
+//                                        onBackPressed()
+//                                    }
+
                                 }
                             } else if (p == 2001) {
                                 startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE_SILIVER)
@@ -265,11 +278,16 @@ class OpenMemberShipActivity : BaseActivity() {
 //            ns_auth_mem.visibility = View.GONE
 //            ll_bottom.visibility = View.GONE
 //            member.visibility = View.VISIBLE
+            OpenInstall.reportEffectPoint("open_vip",1)//会员转化
+            FinishActivityManager.getManager().finishActivity(AuthMenStateActivity::class.java)
             var payResultDialog = PayResultDialog()
             payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
             payResultDialog.show(supportFragmentManager, "fd")
-            getUserInfo()
-            OpenInstall.reportEffectPoint("open_vip",1)//会员转化
+            payResultDialog.setDialogListener { p, s ->
+                startActivity<MemberActivity>()
+                onBackPressed()
+            }
+//            getUserInfo()
         }){code,msg->
             CustomToast.showToast(msg)
         }

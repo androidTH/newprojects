@@ -47,6 +47,7 @@ import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_auth_state.*
 import kotlinx.android.synthetic.main.include_member.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
+import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.*
 
@@ -218,6 +219,8 @@ class AuthMenStateActivity : BaseActivity() {
                 .build()
         rv_grid_tq.addItemDecoration(divider)
         rv_grid_tq.isNestedScrollingEnabled = false
+
+        FinishActivityManager.getManager().addActivity(this)
     }
 
 
