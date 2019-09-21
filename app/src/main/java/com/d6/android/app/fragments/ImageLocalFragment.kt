@@ -19,6 +19,7 @@ import com.d6.android.app.widget.frescohelper.IResult
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.ImageViewState
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.facebook.drawee.backends.pipeline.Fresco
 import kotlinx.android.synthetic.main.fragment_image.*
 /**
  * 图片Fragment
@@ -74,6 +75,7 @@ class ImageLocalFragment : BaseNoBarFragment() {
         sampimgview.setOnClickListener {
 //            var mImagelocals = Imagelocals(urls,1,0)
 //            ObserverManager.getInstance().notifyObservers(mImagelocals)
+            Fresco.getImagePipeline().clearMemoryCaches()
             (activity as ImageLocalPagerActivity).closeImageLocalPager()
         }
     }
