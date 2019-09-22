@@ -508,4 +508,7 @@ object Request {
     //查询动态
     fun getFindSquareList(accountId: String, classesid: String?, pageNum: Int,limit: Int = 0,sex: Int = 2,sTopicId:String,sCity:String)
             =RRetrofit.instance().create(ApiServices::class.java).getFindSquareList(accountId, classesid, pageNum,limit = limit,sex= sex,sTopicId = sTopicId,sCity = sCity)
+
+    fun findYKUserClasses(ids:String,sLoginToken:String,sAreaName:String="")=RRetrofit.instance().create(ApiServices::class.java).findYKUserClasses(ids,sLoginToken,sAreaName)
+
 }

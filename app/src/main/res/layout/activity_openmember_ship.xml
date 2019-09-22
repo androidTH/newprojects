@@ -58,7 +58,6 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager_membership"
         android:layout_below="@+id/rl_openmber_tab"
-        android:paddingTop="@dimen/margin_10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

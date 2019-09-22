@@ -4,76 +4,88 @@
     android:layout_height="wrap_content"
     android:background="@color/color_F6F7FA">
 
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_membership_viptq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_10"
-            android:textColor="@color/color_333333"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/rl_membership_vipfw"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_below="@+id/tv_membership_viptq"
-            android:layout_marginTop="@dimen/margin_5"
-            android:gravity="center_horizontal">
-
-            <TextView
-                android:id="@+id/tv_ztnums"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="有限期: 可选"
-                android:textColor="@color/color_666666"
-                android:textSize="10sp" />
-            <!--android:layout_toLeftOf="@+id/view_middle"-->
-
-            <!--<View-->
-            <!--android:id="@+id/view_middle"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_centerInParent="true"/>-->
-            <!--android:layout_toRightOf="@+id/view_middle"-->
-
-            <TextView
-                android:id="@+id/tv_endtime"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_20"
-                android:gravity="center_vertical"
-                android:text="服务范围: 全球"
-                android:textColor="@color/color_666666"
-                android:textSize="10sp" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/view_line_openmember"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_1"
-            android:layout_below="@+id/rl_membership_vipfw"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@color/color_F5F5F5" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_openmember_fragment"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/view_line_openmember" />
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="@color/white">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_1"
-            android:layout_below="@+id/rv_openmember_fragment"
-            android:background="@color/color_F5F5F5" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_membership_viptq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_10"
+                android:textColor="@color/color_333333"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/rl_membership_vipfw"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/tv_membership_viptq"
+                android:layout_marginTop="@dimen/margin_5"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/tv_ztnums"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="有限期: 可选"
+                    android:textColor="@color/color_666666"
+                    android:textSize="10sp" />
+                <!--android:layout_toLeftOf="@+id/view_middle"-->
+
+                <!--<View-->
+                <!--android:id="@+id/view_middle"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_centerInParent="true"/>-->
+                <!--android:layout_toRightOf="@+id/view_middle"-->
+
+                <TextView
+                    android:id="@+id/tv_endtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_20"
+                    android:gravity="center_vertical"
+                    android:text="服务范围: 全球"
+                    android:textColor="@color/color_666666"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_line_openmember"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_1"
+                android:layout_below="@+id/rl_membership_vipfw"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@color/color_F5F5F5" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_openmember_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_line_openmember" />
+
+            <View
+                android:id="@+id/view_bottomfragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_1"
+                android:layout_below="@+id/rv_openmember_fragment"
+                android:background="@color/color_F5F5F5" />
+
+            <View
+                android:layout_below="@+id/view_bottomfragment"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/color_F6F7FA" />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>
