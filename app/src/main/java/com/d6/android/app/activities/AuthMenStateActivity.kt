@@ -14,10 +14,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import com.d6.android.app.R
-import com.d6.android.app.adapters.AuthTipsQuickAdapter
-import com.d6.android.app.adapters.MemberCommentHolder
-import com.d6.android.app.adapters.MemberLevelAdapter
-import com.d6.android.app.adapters.TeQuanQuickAdapter
+import com.d6.android.app.adapters.*
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.easypay.EasyPay
@@ -42,6 +39,7 @@ import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.fm.openinstall.OpenInstall
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_auth_state.*
@@ -81,6 +79,10 @@ class AuthMenStateActivity : BaseActivity() {
     private var ISNOTBUYMEMBER = 0 //0 没有购买
 
     var mComments = ArrayList<MemberComment>()
+    var mListPicsInfo = ArrayList<String>()
+    private val mPicsInfoAdapter by lazy{
+        VipPicsInfoQuickAdapter(mListPicsInfo)
+    }
 
     private var mListTQ = ArrayList<MemberServiceBean>()
     private val mTeQuanQuickAdapter by lazy{
@@ -304,6 +306,29 @@ class AuthMenStateActivity : BaseActivity() {
         mListTQ.add(mService6)
         mListTQ.add(mService7)
         mListTQ.add(mService8)
+
+        rv_vip_pics.setHasFixedSize(true)
+        rv_vip_pics.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv_vip_pics.isNestedScrollingEnabled = false
+
+        Request.getInfo(Const.PIECES_VIP_INSTRODUCE).request(this) { _, data ->
+            data?.let {
+//                val womanWeChat = data.optString("ext1")
+//                val manWeChat = data.optString("ext2")
+               mListPicsInfo.add("http://image.d6-zone.com/1568862136573.jpg")
+               mListPicsInfo.add("http://image.d6-zone.com/1568862136573.jpg")
+               mListPicsInfo.add("http://image.d6-zone.com/1568862136573.jpg")
+               mListPicsInfo.add("http://image.d6-zone.com/1568862136573.jpg")
+               rv_vip_pics.adapter = mPicsInfoAdapter
+            }
+        }
+
+        mPicsInfoAdapter.setOnItemChildClickListener { adapter, view, position ->
+            if(view.id==R.id.iv_video_play){
+//                var videoUrl = mListPicsInfo.get(position)
+                startActivity<SimplePlayer>("videoPath" to "http://image.d6-zone.com/1568862136529.mp4","videoType" to "1")
+            }
+        }
     }
 
     private fun setMemeberComemnt(){
@@ -513,6 +538,8 @@ class AuthMenStateActivity : BaseActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        rv_vip_pics.adapter = null
+        Fresco.getImagePipeline().clearMemoryCaches()
         if(ISNOTBUYMEMBER==0){
             pushCustomerMessage(this,getLocalUserId(),7,""){
             }

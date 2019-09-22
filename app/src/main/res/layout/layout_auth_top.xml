@@ -234,6 +234,10 @@
         android:background="@color/white"
         android:paddingBottom="@dimen/margin_15"
         android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_vip_pics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
       <RelativeLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"

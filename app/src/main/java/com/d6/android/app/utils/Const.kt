@@ -51,6 +51,7 @@ object Const {
     val XIAOMIAPPKEY = "5141774885078"
     val SERVICE_WECHAT_CODE = "service_wechat_code"
     val SCORE_EXPLAIN_CODE = "integral_explain"
+    val PIECES_VIP_INSTRODUCE = "vip_introduce"
 
     // APP_ID 替换为你的应用从官方网站申请到的合法appId
     @JvmField
