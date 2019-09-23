@@ -20,7 +20,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/margin_10"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -91,25 +90,17 @@
                     android:textSize="12sp"
                     android:visibility="gone" />
                 <View
+                    android:id="@+id/view_rg_line"
                     android:layout_below="@+id/tv_speed_date_more"
                     android:layout_width="match_parent"
                     android:layout_marginTop="@dimen/margin_10"
                     android:layout_height="@dimen/margin_15"
                     android:background="@color/color_E9E9E9" />
-            </RelativeLayout>
-            <!--70dp-->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="75dp"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/shape_4r_f5f5"
-                android:paddingTop="@dimen/margin_8">
-
-                <!--android:drawableLeft="@mipmap/title_label_icon"-->
 
                 <TextView
                     android:id="@+id/tv_newest_date"
+                    android:layout_below="@+id/view_rg_line"
+                    android:layout_marginTop="@dimen/margin_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/margin_5"
@@ -132,17 +123,25 @@
                     android:text="已有xxx人约会成功"
                     android:textColor="@color/color_888888"
                     android:textSize="12sp"/>
+            </RelativeLayout>
+            <!--70dp-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white">
+                <!--android:background="@drawable/shape_4r_f5f5"-->
+                <!--android:paddingTop="@dimen/margin_8"-->
+                <!--android:drawableLeft="@mipmap/title_label_icon"-->
+                <!--android:layout_below="@+id/tv_newest_date"-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_below="@+id/tv_newest_date"
-                    android:layout_marginTop="@dimen/margin_3">
-
+                    android:layout_height="45dp">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_5"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/margin_8"
                         android:layout_marginRight="@dimen/margin_8"
                         android:layout_toLeftOf="@+id/tv_date_city">
@@ -151,6 +150,7 @@
                             android:id="@+id/tab_home_date"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
                             android:scrollbars="horizontal"
                             app:tabGravity="center"
                             app:tabIndicatorColor="@color/color_F7AB00"
@@ -177,7 +177,6 @@
                         android:gravity="center"
                         android:text="地区"
                         android:textColor="@color/color_F7AB00"
-                        android:paddingBottom="@dimen/margin_3"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
