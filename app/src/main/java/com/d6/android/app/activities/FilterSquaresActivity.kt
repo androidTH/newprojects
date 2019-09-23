@@ -230,12 +230,11 @@ class FilterSquaresActivity : BaseActivity() {
                 if (pageNum > 1) {
                     swipeRefreshLayout_square.setLoadMoreText("没有更多了")
                     pageNum--
-                } else {
-                    swipeRefreshLayout_square.setLoadMoreText("暂无数据")
                 }
-                if(pageNum==1){
+                if(data?.list?.totalPage==0){
                     rl_friends_empty.visibility = View.VISIBLE
                     swipeRefreshLayout_square.visibility = View.GONE
+//                    swipeRefreshLayout_square.setLoadMoreText("暂无数据")
                 }
             } else {
                 mSquares.addAll(data.list.results)
