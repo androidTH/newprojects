@@ -33,6 +33,7 @@ import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.d6.android.app.widget.WrapContentLinearLayoutManager
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
@@ -138,7 +139,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             finish()
         }
 
-        mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))
+        mSwipeRefreshLayout.setLayoutManager(WrapContentLinearLayoutManager(this))
         squareAdapter.setHeaderView(headerView)
         mSwipeRefreshLayout.setAdapter(squareAdapter)
         mSwipeRefreshLayout.setOnRefreshListener(this)

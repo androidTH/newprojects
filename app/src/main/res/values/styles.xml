@@ -498,5 +498,6 @@
     <style name="tab_openmember">
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_F7AB00</item>
     </style>
 </resources>

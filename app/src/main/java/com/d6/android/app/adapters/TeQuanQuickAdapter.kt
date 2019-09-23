@@ -35,6 +35,14 @@ class TeQuanQuickAdapter(data: List<MemberTeQuan>) : BaseQuickAdapter<MemberTeQu
             tv_tqtag.textColor = ContextCompat.getColor(mContext,R.color.color_FE7254)
             tv_tqtag.text = "人工"
         }
+
+        if(data.iStatus!=1){
+            tv_tqname.textColor = ContextCompat.getColor(mContext,R.color.color_C1C0C0)
+            tv_tqdesc.textColor = ContextCompat.getColor(mContext,R.color.color_C1C0C0)
+        }else{
+            tv_tqname.textColor = ContextCompat.getColor(mContext,R.color.color_black)
+            tv_tqdesc.textColor = ContextCompat.getColor(mContext,R.color.color_888888)
+        }
         tv_tqname.text = data.sMemberTitle
         tv_tqdesc.text = data.sMemberDesc
     }

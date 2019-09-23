@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
@@ -29,7 +28,6 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_auth_women_state.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
 import org.jetbrains.anko.startActivity
-
 
 /**
  * 约会认证情况

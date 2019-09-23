@@ -1120,7 +1120,7 @@ public class TabLayout extends HorizontalScrollView {
         selectTab(tab, true);
     }
 
-    void selectTab(final Tab tab, boolean updateIndicator) {
+    public void selectTab(final Tab tab, boolean updateIndicator) {
         final Tab currentTab = mSelectedTab;
 
         if (currentTab == tab) {

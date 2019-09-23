@@ -67,7 +67,6 @@ class MemberActivity : BaseActivity() {
 
         rv_member_tq.setHasFixedSize(true)
         rv_member_tq.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
-        rv_member_tq.adapter = mTeQuanQuickAdapter
         var divider = GridItemDecoration.Builder(this)
                 .setHorizontalSpan(R.dimen.margin_1)
                 .setVerticalSpan(R.dimen.margin_1)
@@ -134,6 +133,7 @@ class MemberActivity : BaseActivity() {
                                 }
                             }
                             mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+                            rv_member_tq.adapter = mTeQuanQuickAdapter
                         }
 
                 }

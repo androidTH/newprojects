@@ -5,6 +5,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -12,6 +14,8 @@ import android.text.Html
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
 import com.d6.android.app.adapters.MemberCommentHolder
@@ -44,6 +48,7 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.textColor
 
 /**
  * 开通会员
@@ -103,7 +108,25 @@ class OpenMemberShipActivity : BaseActivity() {
         mComments.add(MemberComment(getString(R.string.string_man_lastcomment),
                 API.BASE_URL +"static/image/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
 
-        tab_membership.setupWithViewPager(viewpager_membership)
+//        tab_membership.setupWithViewPager(viewpager_membership)
+        tab_membership.addOnTabSelectedListener(object: com.d6.android.app.widget.tablayout.TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
+                tab?.let {
+                    setTabSelected(true,it)
+                    viewpager_membership.setCurrentItem(it.getPosition())
+                }
+            }
+
+            override fun onTabUnselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
+                tab?.let {
+                    setTabSelected(false,it)
+                }
+            }
+        })
         viewpager_membership.addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -115,6 +138,9 @@ class OpenMemberShipActivity : BaseActivity() {
 
             override fun onPageSelected(position: Int) {
                 if(mMemberPriceList!=null&&mMemberPriceList.size>0){
+                    tab_membership.getTabAt(position)?.let {
+                        tab_membership.selectTab(it,true)
+                    }
                     setButtonContent(position)
                 }
             }
@@ -187,6 +213,17 @@ class OpenMemberShipActivity : BaseActivity() {
       getMemberPriceList()
     }
 
+    private fun setTabSelected(flag: Boolean, tab: com.d6.android.app.widget.tablayout.TabLayout.Tab) {
+        var tv = tab.getCustomView()!!.findViewById<TextView>(R.id.tv_tab)
+        var paint = tv.getPaint()
+        paint.setFakeBoldText(flag)
+        if (flag) {
+            tv.textColor = ContextCompat.getColor(this, R.color.color_F7AB00)
+        } else {
+            tv.textColor = ContextCompat.getColor(this, R.color.color_666666)
+        }
+    }
+
     private fun getMemberPriceList() {
         Request.findUserClasses(getLoginToken()).request(this){ msg, data->
             data?.list?.let {
@@ -194,6 +231,18 @@ class OpenMemberShipActivity : BaseActivity() {
                 if(mMemberPriceList!=null&&mMemberPriceList.size>0){
                     it.forEach {
                         mFragments.add(MemberShipQuickFragment.newInstance(it,it.sDesc.toString()))
+                        var tab = tab_membership.newTab()
+                        var inflater = View.inflate(this,R.layout.tab_item,null)
+                        var title = inflater.findViewById<TextView>(R.id.tv_tab)
+                        var iv_tuijian = inflater.findViewById<ImageView>(R.id.iv_tag)
+                        if(it.classesname!!.startsWith("APP")){
+                            iv_tuijian.visibility = View.VISIBLE
+                        }else{
+                            iv_tuijian.visibility = View.GONE
+                        }
+                        title.text = it.classesname
+                        tab.setCustomView(inflater)
+                        tab_membership.addTab(tab)
                     }
                     viewpager_membership.adapter = MemberShipPageAdapter(supportFragmentManager,mFragments,mMemberPriceList)
                     viewpager_membership.offscreenPageLimit = mFragments.size
