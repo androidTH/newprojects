@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.*
@@ -218,12 +219,11 @@ class AuthMenStateActivity : BaseActivity() {
         Request.getInfo(Const.PIECES_VIP_INSTRODUCE).request(this) { _, data ->
             data?.let {
 //                val womanWeChat = data.optString("ext1")
-//                val manWeChat = data.optString("ext2")
-               mListPicsInfo.add("http://image.d6-zone.com/1568862136573.jpg")
-               mListPicsInfo.add("http://image.d6-zone.com/1568862136573.jpg")
-               mListPicsInfo.add("http://image.d6-zone.com/1568862136573.jpg")
-               mListPicsInfo.add("http://image.d6-zone.com/1568862136573.jpg")
-               rv_vip_pics.adapter = mPicsInfoAdapter
+
+                var pics = data.optString("picUrl")
+                Log.i("pics", "picUrl=${pics}")
+                mListPicsInfo.addAll(pics.split(",") as ArrayList<String>)
+                rv_vip_pics.adapter = mPicsInfoAdapter
             }
         }
 

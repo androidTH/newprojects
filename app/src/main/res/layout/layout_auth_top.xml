@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:banner="http://schemas.android.com/apk/res-auto">
@@ -243,14 +244,16 @@
           android:layout_height="wrap_content"
           android:layout_marginTop="@dimen/margin_10"
           android:layout_marginLeft="@dimen/margin_15">
-          <TextView
+          <ImageView
               android:id="@+id/tv_q"
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/margin_5"
+              android:src="@mipmap/qa_q"/>
           <TextView
               android:id="@+id/tv_qcontent"
               android:layout_toRightOf="@+id/tv_q"
-              android:layout_marginLeft="@dimen/margin_15"
+              android:layout_marginLeft="@dimen/margin_10"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="15sp"
@@ -259,15 +262,16 @@
           <TextView
               android:id="@+id/tv_a"
               android:layout_below="@+id/tv_q"
-              android:layout_marginTop="@dimen/margin_5"
+              android:layout_marginTop="@dimen/margin_8"
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
+              android:layout_height="wrap_content"
+              android:drawableLeft="@mipmap/qa_a"/>
           <TextView
               android:id="@+id/tv_acontent"
               android:layout_below="@+id/tv_q"
               android:layout_toRightOf="@+id/tv_a"
               android:layout_marginTop="@dimen/margin_5"
-              android:layout_marginLeft="@dimen/margin_15"
+              android:layout_marginLeft="@dimen/margin_10"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:textSize="13sp"
@@ -279,14 +283,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginLeft="@dimen/margin_15">
-            <TextView
+            <ImageView
                 android:id="@+id/tv_q0"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:src="@mipmap/qa_q"/>
             <TextView
                 android:id="@+id/tv_q0content"
                 android:layout_toRightOf="@+id/tv_q0"
-                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -295,15 +301,16 @@
             <TextView
                 android:id="@+id/tv_a0"
                 android:layout_below="@+id/tv_q0"
-                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/qa_a"/>
             <TextView
                 android:id="@+id/tv_a0content"
                 android:layout_below="@+id/tv_q0"
                 android:layout_toRightOf="@+id/tv_a0"
                 android:layout_marginTop="@dimen/margin_5"
-                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
@@ -316,14 +323,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginLeft="@dimen/margin_15">
-            <TextView
+            <ImageView
                 android:id="@+id/tv_q1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:src="@mipmap/qa_q"/>
             <TextView
                 android:id="@+id/tv_q1content"
                 android:layout_toRightOf="@+id/tv_q1"
-                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -332,15 +341,16 @@
             <TextView
                 android:id="@+id/tv_a1"
                 android:layout_below="@+id/tv_q1"
-                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/qa_a"/>
             <TextView
                 android:id="@+id/tv_a1content"
                 android:layout_below="@+id/tv_q1"
                 android:layout_toRightOf="@+id/tv_a1"
                 android:layout_marginTop="@dimen/margin_5"
-                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
