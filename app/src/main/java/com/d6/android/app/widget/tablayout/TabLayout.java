@@ -156,6 +156,7 @@ public class TabLayout extends HorizontalScrollView {
     static final int MOTION_NON_ADJACENT_OFFSET = 24;
 
     private static final int ANIMATION_DURATION = 300;
+    private boolean IsNotFirstCenter=false;
 
     private static final Pools.Pool<Tab> sTabPool = new Pools.SynchronizedPool<>(16);
 
@@ -330,6 +331,8 @@ public class TabLayout extends HorizontalScrollView {
 
         mTabTextAppearance = a.getResourceId(R.styleable.TabLayout_tabTextAppearance,
                 R.style.TextAppearance_Design_Tab);
+
+        IsNotFirstCenter = a.getBoolean(R.styleable.TabLayout_tabIsNotFirstCenter,IsNotFirstCenter);
 
         // Text colors/sizes come from the text appearance first
         final TypedArray ta = context.obtainStyledAttributes(mTabTextAppearance,
@@ -2054,8 +2057,14 @@ public class TabLayout extends HorizontalScrollView {
                     int width = mIndicatorRight - mIndicatorLeft;
                     //Tab的中心点的坐标（mIndicatorRight-width/2也是）
                     int tabCenter = mIndicatorLeft+width/2;
-                    RectF oval3 = new RectF(tabCenter-mTabLineOffset, getHeight() - mSelectedIndicatorHeight,
-                            mIndicatorRight-width/2+mTabLineOffset, getHeight());
+                    RectF oval3;
+                    if(IsNotFirstCenter&&getSelectedTabPosition()==0){
+                        oval3 = new RectF(tabCenter-mTabLineOffset-25, getHeight() - mSelectedIndicatorHeight,
+                                mIndicatorRight-width/2+mTabLineOffset-25, getHeight());
+                    }else{
+                        oval3 = new RectF(tabCenter-mTabLineOffset, getHeight() - mSelectedIndicatorHeight,
+                                mIndicatorRight-width/2+mTabLineOffset, getHeight());
+                    }
                     canvas.drawRoundRect(oval3,30,30,mSelectedIndicatorPaint);
                 }
             }

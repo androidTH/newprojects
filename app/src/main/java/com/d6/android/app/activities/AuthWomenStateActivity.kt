@@ -6,11 +6,13 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
 import com.d6.android.app.adapters.MemberCommentHolder
 import com.d6.android.app.adapters.TeQuanQuickAdapter
+import com.d6.android.app.adapters.VipPicsInfoQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.WomenAuthDialog
 import com.d6.android.app.extentions.request
@@ -43,6 +45,10 @@ class AuthWomenStateActivity : BaseActivity() {
     private var ISNOTBUYMEMBER = 0 //0 没有咨询客服
     private var wanshanziliao = 0 //资料完成度
 
+    var mListPicsInfo = ArrayList<String>()
+    private val mPicsInfoAdapter by lazy{
+        VipPicsInfoQuickAdapter(mListPicsInfo)
+    }
     private var mListTQ = ArrayList<MemberTeQuan>()
     private val mTeQuanQuickAdapter by lazy{
         TeQuanQuickAdapter(mListTQ)
@@ -96,6 +102,7 @@ class AuthWomenStateActivity : BaseActivity() {
 
         setMemeberComemnt()
 
+        setData()
         var divider = GridItemDecoration.Builder(this)
                 .setHorizontalSpan(R.dimen.margin_1)
                 .setVerticalSpan(R.dimen.margin_1)
@@ -107,6 +114,27 @@ class AuthWomenStateActivity : BaseActivity() {
         rv_grid_tq.isNestedScrollingEnabled = false
     }
 
+    private fun setData(){
+        rv_vip_pics.setHasFixedSize(true)
+        rv_vip_pics.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv_vip_pics.isNestedScrollingEnabled = false
+
+        Request.getInfo(Const.PIECES_VIP_INSTRODUCE).request(this) { _, data ->
+            data?.let {
+                var pics = data.optString("picUrl")
+                Log.i("pics", "picUrl=${pics}")
+                mListPicsInfo.addAll(pics.split(",") as ArrayList<String>)
+                rv_vip_pics.adapter = mPicsInfoAdapter
+            }
+        }
+
+        mPicsInfoAdapter.setOnItemChildClickListener { adapter, view, position ->
+            if(view.id==R.id.iv_video_play){
+//                var videoUrl = mListPicsInfo.get(position)
+                startActivity<SimplePlayer>("videoPath" to "http://image.d6-zone.com/1568862136529.mp4","videoType" to "1")
+            }
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -183,21 +211,20 @@ class AuthWomenStateActivity : BaseActivity() {
     }
 
     private fun getMemberLevel(userclassId:String?) {
-        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
-            data?.list?.let {
-                var memberBean = it.get(0)
-//                it.forEach {
-                memberBean?.let {
-                        it.sDesc?.let {
-                            var mTipsData = it.split("<br/>")
-                            rv_women_memberdesc.setHasFixedSize(true)
-                            rv_women_memberdesc.isNestedScrollingEnabled = false
-                            rv_women_memberdesc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                            rv_women_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
-                    }
-                }
-            }
-        }
+//        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
+//            data?.list?.let {
+//                var memberBean = it.get(0)
+//                memberBean?.let {
+//                        it.sDesc?.let {
+//                            var mTipsData = it.split("<br/>")
+//                            rv_women_memberdesc.setHasFixedSize(true)
+//                            rv_women_memberdesc.isNestedScrollingEnabled = false
+//                            rv_women_memberdesc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+//                            rv_women_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
+//                    }
+//                }
+//            }
+//        }
 
         Request.findYKUserClasses("7", getLoginToken()).request(this) { msg, data ->
             data?.let {

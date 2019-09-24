@@ -464,6 +464,7 @@
         <attr name="tabPaddingEnd" format="dimension" />
         <attr name="tabPaddingBottom" format="dimension" />
         <attr name="tabPadding" format="dimension" />
+        <attr name="tabIsNotFirstCenter" format="boolean"></attr>
 
         <!--底部分隔栏的颜色-->
         <attr name="bottomLineColor" format="color" />

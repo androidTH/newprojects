@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.d6.android.app.R
@@ -233,7 +234,11 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 FrescoUtils.loadImage(context,square.sVideoPicUrl,object: IResult<Bitmap> {
                     override fun onResult(result: Bitmap?) {
                         result?.let {
+//                            var params = sv_video.layoutParams
+//                            params.height =  WindowManager.LayoutParams.WRAP_CONTENT
                             if(it.height>it.width){
+//                                params.width = WindowManager.LayoutParams.WRAP_CONTENT
+//                                sv_video.layoutParams = params
                                 sv_video.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
                             }else{
                                 if(square.sVideoWidth.isNotEmpty()&&square.sVideoHeight.isNotEmpty()){
@@ -243,6 +248,9 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                                 }else{
                                     sv_video.setImageBitmap(it)
                                 }
+//                                params.width = WindowManager.LayoutParams.MATCH_PARENT
+//                                sv_video.layoutParams = params
+//                                sv_video.setImageBitmap(it)
                             }
                         }
                     }

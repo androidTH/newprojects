@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.activities.SimplePlayer
@@ -160,7 +161,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             FrescoUtils.loadImage(context,square.sVideoPicUrl,object: IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
+//                        var params = sv_video_details.layoutParams
+//                        params.height =  WindowManager.LayoutParams.WRAP_CONTENT
                         if(it.height>it.width){
+//                            params.width = WindowManager.LayoutParams.WRAP_CONTENT
+//                            sv_video_details.layoutParams = params
                             sv_video_details.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
                         }else{
                             if(square.sVideoWidth.isNotEmpty()&&square.sVideoHeight.isNotEmpty()){
@@ -170,6 +175,9 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                             }else{
                                 sv_video_details.setImageBitmap(it)
                             }
+//                            params.width = WindowManager.LayoutParams.MATCH_PARENT
+//                            sv_video_details.layoutParams = params
+//                            sv_video_details.setImageBitmap(it)
                         }
                     }
                 }

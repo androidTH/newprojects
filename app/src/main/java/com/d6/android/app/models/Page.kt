@@ -5,6 +5,7 @@ package com.d6.android.app.models
  */
 data class Page<T>(val list:ListBean<T>?){
     val count:Int?=0
+    var iAllAppointCount:Int?=0
 }
 
 data class ListBean<T>(val pageNum:Int? = 1,

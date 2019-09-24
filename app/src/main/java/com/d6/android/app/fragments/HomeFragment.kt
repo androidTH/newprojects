@@ -52,6 +52,10 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 //        context.sendBroadcast(intent)
     }
 
+    override fun showAllDateNums(type: String, count: Int) {
+        tv_datacount.text = "已有${count}人约会成功"
+    }
+
     var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8))
 
     private val mSelfDateTypes = ArrayList<DateType>()
@@ -115,6 +119,14 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 SelfPullDateFragment.instance("8")
         )
 
+        mFragments[0].setRenGongBackGround(this)
+        mFragments[1].setRenGongBackGround(this)
+        mFragments[2].setRenGongBackGround(this)
+        mFragments[3].setRenGongBackGround(this)
+        mFragments[4].setRenGongBackGround(this)
+        mFragments[5].setRenGongBackGround(this)
+        mFragments[6].setRenGongBackGround(this)
+
         for (i in 0..(showDateTypes.size-1)) {
             var dt = showDateTypes[i]
             if(i==0){
@@ -172,20 +184,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 showArea()
             }
         }
-
-//        tv_datetype.setOnClickListener {
-//                val filterDateTypeDialog = FilterDateTypeDialog()
-//                filterDateTypeDialog.show(childFragmentManager, "ftd")
-//                filterDateTypeDialog.setDialogListener { p, s ->
-//                    if(p==5){
-//                        type = 0
-//                    }else{
-//                        type = p
-//                    }
-//                    tv_datetype.text = s
-//                    getFragment()
-//                }
-//        }
 
         mPopupArea = AreaSelectedPopup.create(activity)
                 .setDimView(mSwipeRefreshLayout)
@@ -315,9 +313,9 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             }else{
                 type.toString()
             }
-            mSelfPullDateFragment.refresh(area ,dateType)
-            mSelfPullDateFragment.setRenGongBackGround(this)
+//            it.setRenGongBackGround(this)
             appBarLayout.addOnOffsetChangedListener(this)
+            it.refresh(area ,dateType)
         }
     }
 
@@ -346,22 +344,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             }
         })
     }
-
-
-//    private fun setSearChUI(clickIndex:Int,iconFlag:Boolean){
-//        if(clickIndex == 0){
-//            var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.titlemore_icon)
-//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-//            tv_date_city.setCompoundDrawables(null,null,drawable,null)
-//            tv_date_city.textColor = if(iconFlag) ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
-//        }else if(clickIndex == 1){
-//            var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.titlemore_icon)
-//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-//            tv_datetype.setCompoundDrawables(null,null,drawable,null)
-//            tv_datetype.textColor = if(iconFlag) ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
-//        }
-//    }
-
 
     private fun getSpeedData() {
         Request.findLookAboutList(userId).request(this,success = { _, data ->

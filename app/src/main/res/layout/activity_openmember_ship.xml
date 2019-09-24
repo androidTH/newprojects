@@ -51,6 +51,7 @@
             app:tabIndicatorColor="@color/color_F7AB00"
             app:tabIndicatorHeight="3dp"
             app:tabLineOffset="@dimen/margin_20"
+            app:tabIsNotFirstCenter="true"
             app:tabSelectedTextColor="@color/color_F7AB00"
             app:tabTextColor="@color/color_666666" />
     </RelativeLayout>

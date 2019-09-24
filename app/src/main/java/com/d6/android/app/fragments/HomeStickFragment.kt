@@ -53,6 +53,10 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
 //        context.sendBroadcast(intent)
     }
 
+    override fun showAllDateNums(type: String, count: Int) {
+
+    }
+
     var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8))
 
     private val mSelfDateTypes = ArrayList<DateType>()

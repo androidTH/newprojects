@@ -84,61 +84,70 @@ class MemberActivity : BaseActivity() {
     }
 
     private fun getMemberLevel(userclassId:String?,sex:String?) {
-        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
-            data?.list?.let {
-                it.forEach {
-                        if(TextUtils.equals(it.ids.toString(),userclassId.toString())){
-                            tv_viptq.text = "会员可享受超12项特权"
-                            if(TextUtils.equals("0",sex.toString())){
-                                it.sDesc?.let {
-                                    var mTipsData = it.split("<br/>")
-                                    rv_men_memberdesc.setHasFixedSize(true)
-                                    rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-                                    rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
-                                }
-                                tv_data_address.visibility= View.GONE
-                                tv_mem_memberztnums.visibility = View.GONE
-                                view_line.visibility = View.GONE
-                                view_line02.visibility = View.GONE
-                                tv_men_member_remark.visibility = View.GONE
-
-                            }else{
-                                if(TextUtils.isEmpty(it.sRemark)){
-                                    view_line02.visibility = View.GONE
-                                    tv_men_member_remark.visibility = View.GONE
-                                }else{
-                                    view_line02.visibility = View.VISIBLE
-                                    tv_men_member_remark.visibility = View.VISIBLE
-                                    tv_men_member_remark.text = it.sRemark
-                                }
-
-                                it.sDesc?.let {
-                                    var mTipsData = it.split("<br/>")
-                                    rv_men_memberdesc.setHasFixedSize(true)
-                                    rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-                                    rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
-                                }
-
-                                if(TextUtils.equals("1",sex.toString())){
-                                    tv_data_address.text = it.sServiceArea
-                                    if(it.iRecommendCount!!>0){
-                                        view_line.visibility = View.VISIBLE
-                                        tv_mem_memberztnums.visibility = View.VISIBLE
-                                        AppUtils.setMemberNums(this, 2,"直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
-                                    }
-
-                                    if(!TextUtils.isEmpty(it.sServiceArea)){
-                                        tv_data_address.visibility =View.VISIBLE
-                                    }
-                                }
-                            }
-                            mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
-                            rv_member_tq.adapter = mTeQuanQuickAdapter
-                        }
-
-                }
+        Request.findYKUserClasses("${userclassId}",getLoginToken()).request(this){ msg, data->
+            data?.let {
+                mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+                tv_viptq.text = "会员可享受超12项特权"
+                mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+                rv_member_tq.adapter = mTeQuanQuickAdapter
             }
         }
+
+//        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
+//            data?.list?.let {
+//                it.forEach {
+//                        if(TextUtils.equals(it.ids.toString(),userclassId.toString())){
+//                            tv_viptq.text = "会员可享受超12项特权"
+//                            if(TextUtils.equals("0",sex.toString())){
+//                                it.sDesc?.let {
+//                                    var mTipsData = it.split("<br/>")
+//                                    rv_men_memberdesc.setHasFixedSize(true)
+//                                    rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+//                                    rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
+//                                }
+//                                tv_data_address.visibility= View.GONE
+//                                tv_mem_memberztnums.visibility = View.GONE
+//                                view_line.visibility = View.GONE
+//                                view_line02.visibility = View.GONE
+//                                tv_men_member_remark.visibility = View.GONE
+//
+//                            }else{
+//                                if(TextUtils.isEmpty(it.sRemark)){
+//                                    view_line02.visibility = View.GONE
+//                                    tv_men_member_remark.visibility = View.GONE
+//                                }else{
+//                                    view_line02.visibility = View.VISIBLE
+//                                    tv_men_member_remark.visibility = View.VISIBLE
+//                                    tv_men_member_remark.text = it.sRemark
+//                                }
+//
+//                                it.sDesc?.let {
+//                                    var mTipsData = it.split("<br/>")
+//                                    rv_men_memberdesc.setHasFixedSize(true)
+//                                    rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+//                                    rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
+//                                }
+//
+//                                if(TextUtils.equals("1",sex.toString())){
+//                                    tv_data_address.text = it.sServiceArea
+//                                    if(it.iRecommendCount!!>0){
+//                                        view_line.visibility = View.VISIBLE
+//                                        tv_mem_memberztnums.visibility = View.VISIBLE
+//                                        AppUtils.setMemberNums(this, 2,"直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
+//                                    }
+//
+//                                    if(!TextUtils.isEmpty(it.sServiceArea)){
+//                                        tv_data_address.visibility =View.VISIBLE
+//                                    }
+//                                }
+//                            }
+//                            mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+//                            rv_member_tq.adapter = mTeQuanQuickAdapter
+//                        }
+//
+//                }
+//            }
+//        }
     }
 
     private fun getUserInfo() {
