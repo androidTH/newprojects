@@ -229,7 +229,6 @@ class AuthMenStateActivity : BaseActivity() {
 
         mPicsInfoAdapter.setOnItemChildClickListener { adapter, view, position ->
             if(view.id==R.id.iv_video_play){
-//                var videoUrl = mListPicsInfo.get(position)
                 startActivity<SimplePlayer>("videoPath" to "http://image.d6-zone.com/1568862136529.mp4","videoType" to "1")
             }
         }
@@ -293,6 +292,7 @@ class AuthMenStateActivity : BaseActivity() {
         Request.findYKUserClasses("7",getLoginToken()).request(this){ msg, data->
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+                tv_tqnums.text = "${mListTQ.size}项会员特权打造不一样的会员体验"
                 rv_grid_tq.setHasFixedSize(true)
                 rv_grid_tq.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
                 rv_grid_tq.adapter = mTeQuanQuickAdapter

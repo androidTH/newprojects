@@ -377,11 +377,11 @@
             android:layout_marginTop="@dimen/margin_13">
 
             <ImageView
-                android:layout_width="130dp"
+                android:layout_width="120dp"
                 android:layout_height="8dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_15"
-                android:background="@drawable/shape_noradius_orange" />
+                android:background="@drawable/shape_noradius_80orange" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -395,11 +395,11 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_tqnums"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_5"
-            android:text="16项会员特权打造不一样的会员体验"
             android:textColor="@color/color_888888"
             android:textSize="12sp"
             android:layout_marginBottom="@dimen/margin_10"/>

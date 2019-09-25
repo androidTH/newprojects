@@ -18,6 +18,7 @@
             app:layout_behavior="com.d6.android.app.utils.MyBehavior">
 
             <RelativeLayout
+                android:id="@+id/rl_rgservice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -126,11 +127,11 @@
             </RelativeLayout>
             <!--70dp-->
             <RelativeLayout
+                android:id="@+id/rl_date_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_gravity="center_vertical"
-                android:background="@color/white">
+                android:layout_gravity="center_vertical">
                 <!--android:background="@drawable/shape_4r_f5f5"-->
                 <!--android:paddingTop="@dimen/margin_8"-->
                 <!--android:drawableLeft="@mipmap/title_label_icon"-->

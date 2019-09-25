@@ -1,8 +1,10 @@
 package com.d6.android.app.fragments
 
 import android.Manifest
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -27,6 +29,7 @@ import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.toast
 
@@ -42,11 +45,13 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     override fun showBackground(mUpDown: Boolean) {
 //        mHomeIsUpDown = mUpDown
-//        if(mUpDown){
+        if(mUpDown){
+            rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.white)
 //            immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
-//        }else{
+        }else{
+            rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.trans_parent)
 //            immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
-//        }
+        }
 //        var intent = Intent(Const.HOMEDATE_STATEBAR)
 //        intent.putExtra(ISUPDOWN,mHomeIsUpDown)
 //        context.sendBroadcast(intent)
@@ -372,6 +377,12 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
         mSwipeRefreshLayout.isEnabled = verticalOffset >= 0
+        if(rl_rgservice.height == Math.abs(verticalOffset)){
+            rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.white)
+        }else{
+            rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.trans_parent)
+        }
+        Log.i("onOffsetChanged","${rl_rgservice.height}数值：${verticalOffset}")
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

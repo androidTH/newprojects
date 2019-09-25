@@ -1,39 +1,44 @@
 package com.d6.android.app.adapters
 
 import android.support.v4.content.ContextCompat
-import android.widget.ImageView
+import android.view.View
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.models.MemberTeQuan
+import com.d6.android.app.utils.Const.CONST_RES_MIPMAP
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.textColor
 
 /**
  * jinjiarui
  */
-class TeQuanQuickAdapter(data: List<MemberTeQuan>) : BaseQuickAdapter<MemberTeQuan, BaseViewHolder>(R.layout.item_men_auth, data) {
+class TeQuanQuickAdapter(data: List<MemberTeQuan>,IsNotShow:Boolean=true) : BaseQuickAdapter<MemberTeQuan, BaseViewHolder>(R.layout.item_men_auth, data) {
 
+    private var mIsNotShow = IsNotShow
     override fun convert(helper: BaseViewHolder, data:MemberTeQuan) {
         val iv_tqicon = helper.getView<SimpleDraweeView>(R.id.iv_tqicon)
         val tv_tqname = helper.getView<TextView>(R.id.tv_tqname)
-        val tv_tqtag = helper.getView<TextView>(R.id.tv_tqtag)
+        val iv_tqtag = helper.getView<SimpleDraweeView>(R.id.iv_tqtag)
         val tv_tqdesc = helper.getView<TextView>(R.id.tv_tqdesc)
-//        simpleDraweeView.setImageURI(data.picurl)
-        iv_tqicon.setImageURI(data.sMemberPic)
+//      simpleDraweeView.setImageURI(data.picurl)
+        if(data.sMemberPic.isNotEmpty()){
+            iv_tqicon.setImageURI(data.sMemberPic)
+        }
+
         if(data.iMemberType==1){
-            tv_tqtag.background = ContextCompat.getDrawable(mContext,R.drawable.shape_orange_2r_f7a)
-            tv_tqtag.textColor = ContextCompat.getColor(mContext,R.color.color_F7AB00)
-            tv_tqtag.text = "APP"
+            iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_app)
         }else if(data.iMemberType==2){
-            tv_tqtag.background = ContextCompat.getDrawable(mContext,R.drawable.shape_64b_2r)
-            tv_tqtag.textColor = ContextCompat.getColor(mContext,R.color.color_64BA0A)
-            tv_tqtag.text = "微信"
+            iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_wechat)
         }else if(data.iMemberType==3){
-            tv_tqtag.background = ContextCompat.getDrawable(mContext,R.drawable.shape_fe7_2r)
-            tv_tqtag.textColor = ContextCompat.getColor(mContext,R.color.color_FE7254)
-            tv_tqtag.text = "人工"
+            iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_rengong)
+        }
+
+        if(mIsNotShow){
+            iv_tqtag.visibility= View.VISIBLE
+        }else{
+            iv_tqtag.visibility= View.GONE
         }
 
         if(data.iStatus!=1){

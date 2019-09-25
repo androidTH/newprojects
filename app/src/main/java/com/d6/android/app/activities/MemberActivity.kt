@@ -35,7 +35,7 @@ class MemberActivity : BaseActivity() {
 
     private var mListTQ = ArrayList<MemberTeQuan>()
     private val mTeQuanQuickAdapter by lazy{
-        TeQuanQuickAdapter(mListTQ)
+        TeQuanQuickAdapter(mListTQ,false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

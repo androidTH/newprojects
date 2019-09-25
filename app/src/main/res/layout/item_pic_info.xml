@@ -15,10 +15,18 @@
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true" />
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_bg"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--android:adjustViewBounds="true"-->
+        <!--android:background="@color/color_80000000"/>-->
     <ImageView
         android:id="@+id/iv_video_play"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerInParent="true"
-        android:src="@mipmap/feed_play_icon"/>
+        android:visibility="gone"
+        android:src="@mipmap/fuwu_player"/>
 </RelativeLayout>

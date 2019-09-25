@@ -16,15 +16,19 @@ class VipPicsInfoQuickAdapter(data: List<String>) : BaseQuickAdapter<String, Bas
 
     override fun convert(helper: BaseViewHolder, data: String) {
         var pic_simpledraweeview = helper.getView<ImageView>(R.id.pic_simpledraweeview)
+        var iv_bg = helper.getView<ImageView>(R.id.iv_bg)
         FrescoUtils.loadImage(mContext,data,object:IResult<Bitmap>{
             override fun onResult(result: Bitmap?) {
                 result?.let {
                     pic_simpledraweeview.setImageBitmap(it)
+//                    var layoutparams = iv_bg.layoutParams
+//                    layoutparams.height = it.height
+//                    iv_bg.layoutParams = layoutparams
                 }
             }
         })
 //        pic_simpledraweeview.setImageURI(data)
-        helper.setGone(R.id.iv_video_play,true)
-        helper.addOnClickListener(R.id.iv_video_play)
+        helper.setGone(R.id.iv_video_play,false)
+//        helper.addOnClickListener(R.id.iv_video_play)
     }
 }
