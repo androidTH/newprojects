@@ -87,18 +87,22 @@ class ImageFragment : BaseNoBarFragment() {
         FrescoUtils.loadImage(context,url,object: IResult<Bitmap> {
             override fun onResult(result: Bitmap?) {
                 result?.let {
-                    var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(
-                            SimpleCacheKey(url)) as FileBinaryResource
-                    var mlistWH = BitmapUtils.getWidthHeight(resource.getFile().path)
-                    val width = AppScreenUtils.getScreenWidth(context)
-                    val scaleW = width / mlistWH[0].toFloat()
-                    if (BitmapUtils.isLongImage(context,mlistWH)) {
-                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
-                        sampimgview.setImage(ImageSource.uri(resource.getFile().path))
-                        sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
-                    } else {
-                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
-                        sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
+                    var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(SimpleCacheKey(url))
+                    if(resource!=null){
+                        var  fileResouce= resource as FileBinaryResource
+                        var mlistWH = BitmapUtils.getWidthHeight(fileResouce.getFile().path)
+                        val width = AppScreenUtils.getScreenWidth(context)
+                        val scaleW = width / mlistWH[0].toFloat()
+                        if (BitmapUtils.isLongImage(context,mlistWH)) {
+                            sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
+                            sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
+                            sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
+                        } else {
+                            sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
+                            sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
+                        }
+                    }else{
+                        sampimgview.setImage(ImageSource.bitmap(it))
                     }
                 }
             }

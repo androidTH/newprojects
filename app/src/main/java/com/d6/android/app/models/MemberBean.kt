@@ -9,7 +9,7 @@ import android.os.Parcelable
  *     desc   :
  *     version:
  */
-class MemberBean(var ids:Int?=0):Parcelable{
+data class MemberBean(var ids:Int?=0):Parcelable{
     var iAddPoint:String?=""
     var sAddPointDesc:String?=""
     var classesname:String?=""

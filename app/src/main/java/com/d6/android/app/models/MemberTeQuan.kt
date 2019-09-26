@@ -9,7 +9,7 @@ import android.os.Parcelable
  *     desc   :
  *     version:
  */
-class MemberTeQuan(var sId:String) :Parcelable {
+data class MemberTeQuan(var sId:String) :Parcelable {
     var iMemberType:Int =-1 //1 app 2 微信 3 人工
     var sMemberTitle:String="" //会员身份
     var sMemberDesc:String = ""// "显示“会员”专属身份，随处可见",
@@ -29,9 +29,9 @@ class MemberTeQuan(var sId:String) :Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(sId)
         parcel.writeInt(iMemberType)
-        parcel.writeString(sMemberTitle)
-        parcel.writeString(sMemberDesc)
-        parcel.writeString(sMemberPic)
+        parcel.writeString(if(sMemberTitle==null)"" else sMemberTitle)
+        parcel.writeString(if(sMemberDesc==null) "" else sMemberDesc)
+        parcel.writeString(if(sMemberPic==null)"" else sMemberPic)
         parcel.writeInt(iStatus)
         parcel.writeInt(iOrder)
     }

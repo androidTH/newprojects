@@ -191,8 +191,10 @@ class SetUserInfoActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 0) {
+                if (tempFile != null && tempFile!!.exists()) {
+                    startActivityForResult<CropImageActivity>(1, "scale" to 1f, "uri" to tempFile!!.absolutePath)
+                }
 //                val path = data.getStringExtra(SelectPhotoDialog.PATH)
-                startActivityForResult<CropImageActivity>(1, "scale" to 1f, "uri" to tempFile!!.absolutePath)
             } else if (requestCode == 1) {
                 headFilePath = data?.getStringExtra("path")
                 headView.setImageURI("file://$headFilePath")

@@ -382,7 +382,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }else{
             rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.trans_parent)
         }
-        Log.i("onOffsetChanged","${rl_rgservice.height}数值：${verticalOffset}")
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

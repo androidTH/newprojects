@@ -229,7 +229,7 @@ class AuthWomenStateActivity : BaseActivity() {
         Request.findYKUserClasses("7", getLoginToken()).request(this) { msg, data ->
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
-                tv_tqnums.text = "${mListTQ.size}项会员特权打造不一样的会员体验"
+                tv_tqnums.text = "可享${mListTQ.size}项特权"
                 rv_grid_tq.setHasFixedSize(true)
                 rv_grid_tq.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
                 rv_grid_tq.adapter = mTeQuanQuickAdapter

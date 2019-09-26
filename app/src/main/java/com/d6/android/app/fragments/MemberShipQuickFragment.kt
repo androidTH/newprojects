@@ -62,7 +62,7 @@ class MemberShipQuickFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mMemberBean?.let {
-            tv_membership_viptq.text = "${it.classesname} ${it.sTitle}"
+            tv_membership_viptq.text = "${it.sTitle}"//${it.classesname}
 
             if (TextUtils.isEmpty(it.sServiceArea)) {
                 tv_endtime.setVisibility(View.GONE)

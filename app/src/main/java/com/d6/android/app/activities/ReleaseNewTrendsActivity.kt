@@ -49,6 +49,7 @@ import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import kotlinx.android.synthetic.main.item_audio_square.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_VIDEO
+import me.nereo.multi_image_selector.utils.FinishActivityManager
 import omrecorder.AudioChunk
 import omrecorder.OmRecorder
 import omrecorder.PullTransport
@@ -433,9 +434,12 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
 
         if(intent.hasExtra("topicname")){
-            tv_topic_choose.text = "#${intent.getStringExtra("topicname")}"
+            var topicname = intent.getStringExtra("topicname")
             sTopicId = intent.getStringExtra("topicId")
-            tv_topic_choose.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)//R.mipmap.ic_add1
+            if(topicname.isNotEmpty()){
+                tv_topic_choose.text = "#${topicname}"
+                tv_topic_choose.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)//R.mipmap.ic_add1
+            }
         }
 
         if(TextUtils.equals("otherActivity",mFrom)){
@@ -714,6 +718,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 }
                 syncChat(this,"dynamic",sex,userId)
                 setResult(Activity.RESULT_OK)
+//                FinishActivityManager.getManager().finishActivity()
                 finish()
             }){code,resMsg->
                 if(code == 2){
@@ -777,6 +782,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }
             syncChat(this,"dynamic",sex,userId)
             setResult(Activity.RESULT_OK)
+//            FinishActivityManager.getManager().finishActivity()
             finish()
         }){code,resMsg->
             if(code == 2){
@@ -814,6 +820,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 }
                 syncChat(this,"dynamic",sex,userId)
                 setResult(Activity.RESULT_OK)
+//                FinishActivityManager.getManager().finishActivity()
                 finish()
             }){code,resMsg->
                 if(code == 2){
@@ -864,6 +871,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }
             syncChat(this,"dynamic",sex,userId)
             setResult(Activity.RESULT_OK)
+//            FinishActivityManager.getManager().finishActivity()
             finish()
         }){code,resMsg->
             if(code == 2){

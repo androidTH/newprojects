@@ -35,7 +35,7 @@ class MemberActivity : BaseActivity() {
 
     private var mListTQ = ArrayList<MemberTeQuan>()
     private val mTeQuanQuickAdapter by lazy{
-        TeQuanQuickAdapter(mListTQ,false)
+        TeQuanQuickAdapter(mListTQ,true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,8 +87,7 @@ class MemberActivity : BaseActivity() {
         Request.findYKUserClasses("${userclassId}",getLoginToken()).request(this){ msg, data->
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
-                tv_viptq.text = "会员可享受超12项特权"
-                mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+                tv_viptq.text = "可享受超${mListTQ.size}项特权"
                 rv_member_tq.adapter = mTeQuanQuickAdapter
             }
         }

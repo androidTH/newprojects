@@ -285,8 +285,10 @@ class MyInfoActivity : BaseActivity(),Observer{
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 0) {
+                if (tempFile != null && tempFile!!.exists()) {
+                    startActivityForResult<CropImageActivity>(3, "scale" to 1f, "uri" to tempFile!!.absolutePath)
+                }
 //                val path = data.getStringExtra(SelectPhotoDialog.PATH)
-                startActivityForResult<CropImageActivity>(3, "scale" to 1f, "uri" to tempFile!!.absolutePath)
             } else if(requestCode==1){
                 val uri = data!!.data
                 if (uri != null) {

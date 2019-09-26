@@ -112,7 +112,7 @@ class AuthMenStateActivity : BaseActivity() {
         }
 
         ll_openmemeber.setOnClickListener {
-            startActivity<OpenMemberShipActivity>()
+            startActivity<OpenMemberShipActivity>("list" to mMemberPriceList)
 //            if(mMemberPriceList.size!=0){
 //            var member = mMemberPriceList.get(rv_viptypes.currentItem)
 //            if(member.ids!=22&&member.ids!=23&&member.ids!=31){
@@ -212,10 +212,6 @@ class AuthMenStateActivity : BaseActivity() {
 
 
     private fun setData(){
-        rv_vip_pics.setHasFixedSize(true)
-        rv_vip_pics.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rv_vip_pics.isNestedScrollingEnabled = false
-
         Request.getInfo(Const.PIECES_VIP_INSTRODUCE).request(this) { _, data ->
             data?.let {
 //                val womanWeChat = data.optString("ext1")
@@ -224,6 +220,9 @@ class AuthMenStateActivity : BaseActivity() {
                 Log.i("pics", "picUrl=${pics}")
                 mListPicsInfo.addAll(pics.split(",") as ArrayList<String>)
                 rv_vip_pics.adapter = mPicsInfoAdapter
+                rv_vip_pics.setHasFixedSize(true)
+                rv_vip_pics.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                rv_vip_pics.isNestedScrollingEnabled = false
             }
         }
 
@@ -292,7 +291,7 @@ class AuthMenStateActivity : BaseActivity() {
         Request.findYKUserClasses("7",getLoginToken()).request(this){ msg, data->
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
-                tv_tqnums.text = "${mListTQ.size}项会员特权打造不一样的会员体验"
+                tv_tqnums.text = "可享${mListTQ.size}项特权"
                 rv_grid_tq.setHasFixedSize(true)
                 rv_grid_tq.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
                 rv_grid_tq.adapter = mTeQuanQuickAdapter
@@ -305,12 +304,12 @@ class AuthMenStateActivity : BaseActivity() {
                         .build()
                 rv_grid_tq.addItemDecoration(divider)
                 rv_grid_tq.isNestedScrollingEnabled = false
-//                mMemberPriceList = it
-//                mMemberLevelAdapter.setNewData(mMemberPriceList)
-//                if(mMemberPriceList!=null){
-//                    var mMemberBean = mMemberPriceList.get(0)
-//                    tv_openmember.text = "开通"
-//                }
+            }
+        }
+
+        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
+            data?.list?.let {
+                mMemberPriceList = it
             }
         }
     }

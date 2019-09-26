@@ -9,7 +9,7 @@ import android.os.Parcelable
  *     desc   :
  *     version:
  */
-class AppMemberPrice(var sProductId:String) :Parcelable {
+data class AppMemberPrice(var sProductId:String) :Parcelable {
 
     var sEnableDateDesc:String?=""
     var iAndroidPrice:Int? = -1
@@ -25,10 +25,10 @@ class AppMemberPrice(var sProductId:String) :Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(sProductId)
-        parcel.writeString(sEnableDateDesc)
-        parcel.writeValue(iAndroidPrice)
-        parcel.writeString(sAndroidPriceDiscount)
-        parcel.writeString(sAndroidPriceDiscountDesc)
+        parcel.writeString(if(sEnableDateDesc==null)"" else sEnableDateDesc)
+        parcel.writeValue(if(iAndroidPrice==null)"" else iAndroidPrice)
+        parcel.writeString(if(sAndroidPriceDiscount==null)"" else sAndroidPriceDiscount)
+        parcel.writeString(if(sAndroidPriceDiscountDesc==null)"" else sAndroidPriceDiscountDesc)
     }
 
     override fun describeContents(): Int {

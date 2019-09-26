@@ -42,7 +42,6 @@ import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.widget.CustomToast
 import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_openmember_ship.*
-import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -59,11 +58,11 @@ class OpenMemberShipActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val from by lazy{
+    private val from by lazy {
         intent.getStringExtra(NO_VIP_FROM_TYPE)
     }
 
-    private val mMemberLevelAdapter by lazy{
+    private val mMemberLevelAdapter by lazy {
         MemberLevelAdapter(mMemberPriceList)
     }
 
@@ -71,9 +70,9 @@ class OpenMemberShipActivity : BaseActivity() {
     private val AREA_REQUEST_CODE_SILIVER = 12
     private var mMemberPriceList = ArrayList<MemberBean>()
 
-    private var mOpenMemberShipDialog:OpenMemberShipDialog?=null
-    private var mSilverMemberDialog:SilverMemberDialog?=null
-    private var mAppMemberDialog:AppMemberDialog?=null
+    private var mOpenMemberShipDialog: OpenMemberShipDialog? = null
+    private var mSilverMemberDialog: SilverMemberDialog? = null
+    private var mAppMemberDialog: AppMemberDialog? = null
     private var areaName = ""
 
     private var ISNOTBUYMEMBER = 0 //0 没有购买
@@ -102,32 +101,32 @@ class OpenMemberShipActivity : BaseActivity() {
 //        }
 
         mComments.add(MemberComment(getString(R.string.string_man_firstcomment),
-                API.BASE_URL +"static/image/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
+                API.BASE_URL + "static/image/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
         mComments.add(MemberComment(getString(R.string.string_man_secondcomment),
-                API.BASE_URL +"static/image/006lz966ly8g2vdezyk2aj30u00u0ac7.jpg"))
+                API.BASE_URL + "static/image/006lz966ly8g2vdezyk2aj30u00u0ac7.jpg"))
         mComments.add(MemberComment(getString(R.string.string_man_lastcomment),
-                API.BASE_URL +"static/image/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
+                API.BASE_URL + "static/image/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
 
 //        tab_membership.setupWithViewPager(viewpager_membership)
-        tab_membership.addOnTabSelectedListener(object: com.d6.android.app.widget.tablayout.TabLayout.OnTabSelectedListener {
+        tab_membership.addOnTabSelectedListener(object : com.d6.android.app.widget.tablayout.TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
 
             }
 
             override fun onTabSelected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
                 tab?.let {
-                    setTabSelected(true,it)
+                    setTabSelected(true, it)
                     viewpager_membership.setCurrentItem(it.getPosition())
                 }
             }
 
             override fun onTabUnselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
                 tab?.let {
-                    setTabSelected(false,it)
+                    setTabSelected(false, it)
                 }
             }
         })
-        viewpager_membership.addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
+        viewpager_membership.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -137,9 +136,9 @@ class OpenMemberShipActivity : BaseActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                if(mMemberPriceList!=null&&mMemberPriceList.size>0){
+                if (mMemberPriceList != null && mMemberPriceList.size > 0) {
                     tab_membership.getTabAt(position)?.let {
-                        tab_membership.selectTab(it,true)
+                        tab_membership.selectTab(it, true)
                     }
                     setButtonContent(position)
                 }
@@ -147,7 +146,7 @@ class OpenMemberShipActivity : BaseActivity() {
         })
 
         ll_openmemeber_ship.setOnClickListener {
-            if (mMemberPriceList!=null&&mMemberPriceList.size > 0) {
+            if (mMemberPriceList != null && mMemberPriceList.size > 0) {
                 var member = mMemberPriceList.get(viewpager_membership.currentItem)
                 if (member.ids != 22 && member.ids != 23 && member.ids != 31) {
                     if (member != null) {
@@ -209,8 +208,8 @@ class OpenMemberShipActivity : BaseActivity() {
                 }
             }
         }
-
-      getMemberPriceList()
+        mMemberPriceList = intent.getParcelableArrayListExtra<MemberBean>("list")
+        getMemberPriceList()
     }
 
     private fun setTabSelected(flag: Boolean, tab: com.d6.android.app.widget.tablayout.TabLayout.Tab) {
@@ -225,46 +224,67 @@ class OpenMemberShipActivity : BaseActivity() {
     }
 
     private fun getMemberPriceList() {
-        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
-            data?.list?.let {
-                mMemberPriceList = it
-                if(mMemberPriceList!=null&&mMemberPriceList.size>0){
-                    it.forEach {
-                        mFragments.add(MemberShipQuickFragment.newInstance(it,it.sDesc.toString()))
-                        var tab = tab_membership.newTab()
-                        var inflater = View.inflate(this,R.layout.tab_item,null)
-                        var title = inflater.findViewById<TextView>(R.id.tv_tab)
-                        var iv_tuijian = inflater.findViewById<ImageView>(R.id.iv_tag)
-                        if(it.classesname!!.startsWith("APP")){
-                            iv_tuijian.visibility = View.VISIBLE
-                        }else{
-                            iv_tuijian.visibility = View.GONE
-                        }
-                        title.text = it.classesname
-                        tab.setCustomView(inflater)
-                        tab_membership.addTab(tab)
+        try{
+            if (mMemberPriceList != null && mMemberPriceList.size > 0) {
+                InitUIData()
+            } else {
+                dialog()
+                Request.findUserClasses(getLoginToken()).request(this) { msg, data ->
+                    data?.list?.let {
+                        mMemberPriceList = it
+                        InitUIData()
                     }
-                    viewpager_membership.adapter = MemberShipPageAdapter(supportFragmentManager,mFragments,mMemberPriceList)
-                    viewpager_membership.offscreenPageLimit = mFragments.size
-                    setButtonContent(0)
+                }
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+            dialog()
+            Request.findUserClasses(getLoginToken()).request(this) { msg, data ->
+                data?.list?.let {
+                    mMemberPriceList = it
+                    InitUIData()
                 }
             }
         }
     }
 
-    private fun setButtonContent(position:Int){
-        var mMemberBean = mMemberPriceList.get(position)
-        tv_openmember.text = "开通${mMemberBean.classesname}"
-        if(mMemberBean.ids==31){
-            tv_member_showdes.text = "·低至¥${mMemberBean.iAndroidPrice}元/月"
-        }else if(mMemberBean.ids==22||mMemberBean.ids==23){
-            tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
-        }else{
-            tv_member_showdes.text = "·¥${mMemberBean.iAndroidPrice}元"
+
+    private fun InitUIData() {
+        if (mMemberPriceList != null && mMemberPriceList.size > 0) {
+            mMemberPriceList.forEach {
+                mFragments.add(MemberShipQuickFragment.newInstance(it, it.sDesc.toString()))
+                var tab = tab_membership.newTab()
+                var inflater = View.inflate(this, R.layout.tab_item, null)
+                var title = inflater.findViewById<TextView>(R.id.tv_tab)
+                var iv_tuijian = inflater.findViewById<ImageView>(R.id.iv_tag)
+                if (it.classesname!!.startsWith("APP")) {
+                    iv_tuijian.visibility = View.VISIBLE
+                } else {
+                    iv_tuijian.visibility = View.GONE
+                }
+                title.text = it.classesname
+                tab.setCustomView(inflater)
+                tab_membership.addTab(tab)
+            }
+            viewpager_membership.adapter = MemberShipPageAdapter(supportFragmentManager, mFragments, mMemberPriceList)
+            viewpager_membership.offscreenPageLimit = mFragments.size
+            setButtonContent(0)
         }
     }
 
-    private fun buyRedFlowerPay(price:Int?,sAreaName:String,userclassId:Int,userclassname:String){
+    private fun setButtonContent(position: Int) {
+        var mMemberBean = mMemberPriceList.get(position)
+        tv_openmember.text = "开通${mMemberBean.classesname}"
+        if (mMemberBean.ids == 31) {
+            tv_member_showdes.text = "· 低至¥${mMemberBean.iAndroidPrice}元/月"
+        } else if (mMemberBean.ids == 22 || mMemberBean.ids == 23) {
+            tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
+        } else {
+            tv_member_showdes.text = "· ¥${mMemberBean.iAndroidPrice}元"
+        }
+    }
+
+    private fun buyRedFlowerPay(price: Int?, sAreaName: String, userclassId: Int, userclassname: String) {
         val params = PayParams.Builder(this)
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
@@ -290,8 +310,8 @@ class OpenMemberShipActivity : BaseActivity() {
             override fun onPayInfoRequestFailure() {
             }
         }).toPay(object : OnPayResultListener {
-            override fun onPaySuccess(payWay: PayWay?,orderId:String) {
-                if(!TextUtils.isEmpty(orderId)){
+            override fun onPaySuccess(payWay: PayWay?, orderId: String) {
+                if (!TextUtils.isEmpty(orderId)) {
                     checkOrderStatus(orderId)
                 }
             }
@@ -310,15 +330,15 @@ class OpenMemberShipActivity : BaseActivity() {
     /**
      * 检查订单的状态
      */
-    private fun checkOrderStatus(orderId:String){
-        Request.getOrderById(orderId).request(this,false,success={msg,data->
-            if(mAppMemberDialog!=null){
+    private fun checkOrderStatus(orderId: String) {
+        Request.getOrderById(orderId).request(this, false, success = { msg, data ->
+            if (mAppMemberDialog != null) {
                 mAppMemberDialog?.let {
                     it.dismissAllowingStateLoss()
                 }
             }
 
-            if(mSilverMemberDialog!=null){
+            if (mSilverMemberDialog != null) {
                 mSilverMemberDialog?.let {
                     it.dismissAllowingStateLoss()
                 }
@@ -327,7 +347,7 @@ class OpenMemberShipActivity : BaseActivity() {
 //            ns_auth_mem.visibility = View.GONE
 //            ll_bottom.visibility = View.GONE
 //            member.visibility = View.VISIBLE
-            OpenInstall.reportEffectPoint("open_vip",1)//会员转化
+            OpenInstall.reportEffectPoint("open_vip", 1)//会员转化
             FinishActivityManager.getManager().finishActivity(AuthMenStateActivity::class.java)
             var payResultDialog = PayResultDialog()
             payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
@@ -337,31 +357,31 @@ class OpenMemberShipActivity : BaseActivity() {
                 onBackPressed()
             }
 //            getUserInfo()
-        }){code,msg->
+        }) { code, msg ->
             CustomToast.showToast(msg)
         }
     }
 
 
     private fun getUserInfo() {
-        Request.getUserInfo("",userId).request(this, success = { _, data ->
+        Request.getUserInfo("", userId).request(this, success = { _, data ->
             data?.let {
-//                vipheaderview.setImageURI(data.picUrl)
+                //                vipheaderview.setImageURI(data.picUrl)
 //                tv_viplevel.text = data.classesname
                 data.dUserClassEndTime?.let {
-                    if(it>0){
+                    if (it > 0) {
 //                        tv_vipendtime.text = "到期时间：${data.dUserClassEndTime.toTime(timeFormat)}"
-                    }else{
+                    } else {
 //                        tv_vipendtime.text = ""
                     }
                 }
 
                 mMemberPriceList.forEach {
-                    if(TextUtils.equals(it.ids.toString(),data.userclassesid.toString())){
-                        if(TextUtils.isEmpty(it.sRemark)){
+                    if (TextUtils.equals(it.ids.toString(), data.userclassesid.toString())) {
+                        if (TextUtils.isEmpty(it.sRemark)) {
 //                            view_line02.visibility = View.GONE
 //                            tv_men_member_remark.visibility = View.GONE
-                        }else{
+                        } else {
 //                            view_line02.visibility = View.VISIBLE
 //                            tv_men_member_remark.visibility = View.VISIBLE
 //                            tv_men_member_remark.text = it.sRemark
@@ -376,7 +396,7 @@ class OpenMemberShipActivity : BaseActivity() {
 //                        tv_mem_memberztnums.visibility = View.VISIBLE
 //                        tv_data_address.visibility =View.VISIBLE
 //                        view_line.visibility = View.VISIBLE
-                        if(TextUtils.equals("1",it.sex.toString())){
+                        if (TextUtils.equals("1", it.sex.toString())) {
 //                            tv_data_address.text = it.sServiceArea
 //                            AppUtils.setMemberNums(this,2, "直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
                         }
@@ -389,16 +409,16 @@ class OpenMemberShipActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == AREA_REQUEST_CODE){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == AREA_REQUEST_CODE) {
                 var city = data!!.getStringExtra("area")
-                if(!TextUtils.equals(city,"不限地区")){
+                if (!TextUtils.equals(city, "不限地区")) {
                     areaName = city
                     if (mOpenMemberShipDialog != null) {
                         mOpenMemberShipDialog?.setAddressd(areaName)
                     }
                 }
-            }else if(requestCode==AREA_REQUEST_CODE_SILIVER){
+            } else if (requestCode == AREA_REQUEST_CODE_SILIVER) {
                 areaName = data!!.getStringExtra("area")
                 if (mSilverMemberDialog != null) {
                     mSilverMemberDialog?.setAddressd(areaName, viewpager_membership.currentItem)
@@ -409,8 +429,8 @@ class OpenMemberShipActivity : BaseActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if(ISNOTBUYMEMBER==0){
-            pushCustomerMessage(this,getLocalUserId(),7,""){
+        if (ISNOTBUYMEMBER == 0) {
+            pushCustomerMessage(this, getLocalUserId(), 7, "") {
             }
         }
     }

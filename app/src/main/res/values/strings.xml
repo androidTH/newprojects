@@ -150,4 +150,5 @@
     <string name="string_warm_voicetime">语音时长不能小于3s</string>
     <string name="video_error_string">视频选择错误</string>
     <string name="string_area_city">地区</string>
+    <string name="string_service_desc">以高质量的服务为核心宗旨</string>
 </resources>
