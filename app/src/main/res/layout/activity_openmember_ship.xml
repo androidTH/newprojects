@@ -91,28 +91,29 @@
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/shape_orange"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_openmember"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/height_30"
-                android:layout_marginLeft="@dimen/margin_20"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_gravity="center" />
 
             <!--android:layout_marginLeft="@dimen/margin_5"-->
 
-            <TextView
-                android:id="@+id/tv_member_showdes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_3"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+            <!--<TextView-->
+                <!--android:id="@+id/tv_member_showdes"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/margin_3"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="14sp"-->
+                <!--android:textStyle="bold" />-->
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

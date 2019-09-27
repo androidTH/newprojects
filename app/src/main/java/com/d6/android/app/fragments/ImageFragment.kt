@@ -63,6 +63,7 @@ class ImageFragment : BaseNoBarFragment() {
 //        val uri = Uri.parse(url)
 //        val request = ImageRequestBuilder.newBuilderWithSource(uri)
 //                .setPostprocessor(IterativeBoxBlurPostProcessor(3, 5))
+//                .setResizeOptions()
 //                .build()
 //
 //        val ctrl: DraweeController
@@ -102,7 +103,9 @@ class ImageFragment : BaseNoBarFragment() {
                             sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
                         }
                     }else{
-                        sampimgview.setImage(ImageSource.bitmap(it))
+                        if(it!=null){
+                            sampimgview.setImage(ImageSource.bitmap(it))
+                        }
                     }
                 }
             }

@@ -147,7 +147,7 @@ class SettingActivity : TitleActivity() {
             }else{
                 "${install_data01}正式环境${install_data02}"
             }
-            tv_blacklist.visibility = View.VISIBLE
+            tv_blacklist.visibility = View.GONE
         }else{
             tv_blacklist.visibility = View.GONE
         }

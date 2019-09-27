@@ -315,7 +315,7 @@ class MineFragment : BaseFragment() {
                     if (TextUtils.equals("0", mData!!.screen) || mData!!.screen.isNullOrEmpty()) {
                         img_auther.visibility = View.GONE
                     } else if (TextUtils.equals("1", mData!!.screen)) {
-                        img_auther.setImageResource(R.mipmap.video_small)
+                        img_auther.setImageResource(R.mipmap.video_big)
                         img_auther.visibility = View.VISIBLE
                     } else if (TextUtils.equals("3", mData!!.screen)) {
                         img_auther.visibility = View.GONE
@@ -326,8 +326,9 @@ class MineFragment : BaseFragment() {
                 }
 
                 if(TextUtils.equals("0",it.isValid)){
-                    img_auther.visibility = View.VISIBLE
-                    img_auther.setImageResource(R.mipmap.official_forbidden_icon)
+                    img_auther.visibility = View.GONE
+                    img_mine_official.visibility = View.VISIBLE
+                    img_mine_official.setImageResource(R.mipmap.official_forbidden_icon)
                 }
 
                 var drawable: Drawable? = null

@@ -12,6 +12,7 @@ import com.d6.android.app.models.MemberTeQuan
 import com.d6.android.app.widget.GridItemDecoration
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.layout_memebership_one.*
+import kotlinx.android.synthetic.main.openmember_header_item.view.*
 
 /**
  * 人工推荐
@@ -23,6 +24,9 @@ class MemberShipQuickFragment : BaseFragment() {
     }
 
     private var mMemberBean:MemberBean?=null
+    private val headerView by lazy {
+        layoutInflater.inflate(R.layout.openmember_header_item,null,false)
+    }
 
     private var mListTQ = ArrayList<MemberTeQuan>()
 
@@ -50,45 +54,39 @@ class MemberShipQuickFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             mMemberBean = it.getParcelable(ARG_PARAM1)
-//            iLookType = it.getString(ARG_PARAM1)
-//            sPlace = it.getString(ARG_PARAM2)
         }
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mMemberBean?.let {
-            tv_membership_viptq.text = "${it.sTitle}"//${it.classesname}
+           tv_membership_viptq.text = "${it.sTitle}"//${it.classesname}
 
             if (TextUtils.isEmpty(it.sServiceArea)) {
                 tv_endtime.setVisibility(View.GONE)
             } else {
                 tv_endtime.setText(it.sServiceArea)
             }
-//           if(it.iRecommendCount==0){
-//               tv_ztnums.text = "无直推"
-//           }else{
-//               tv_ztnums.text = "直推次数:${it.iRecommendCount}"
-//           }
             tv_ztnums.text = "有效期: ${it.sEnableDateDesc}"
         }
         setData()
-        rv_openmember_fragment.setHasFixedSize(true)
-        rv_openmember_fragment.layoutManager = GridLayoutManager(context, 3) as RecyclerView.LayoutManager?
-        rv_openmember_fragment.adapter = mTeQuanQuickAdapter
-        var divider = GridItemDecoration.Builder(context)
-                .setHorizontalSpan(R.dimen.margin_1)
-                .setVerticalSpan(R.dimen.margin_1)
-                .setColorResource(R.color.color_F5F5F5)
-                .setShowLastLine(false)
-                .setShowVerticalLine(false)
-                .build()
-        rv_openmember_fragment.addItemDecoration(divider)
-        rv_openmember_fragment.isNestedScrollingEnabled = false
+        tv_membership_viptq.postDelayed(object:Runnable{
+            override fun run() {
+                rv_openmember_fragment.setHasFixedSize(true)
+                rv_openmember_fragment.layoutManager = GridLayoutManager(context, 3) as RecyclerView.LayoutManager?
+                rv_openmember_fragment.adapter = mTeQuanQuickAdapter
+//        mTeQuanQuickAdapter.setHeaderView(headerView)
+                var divider = GridItemDecoration.Builder(context)
+                        .setHorizontalSpan(R.dimen.margin_1)
+                        .setVerticalSpan(R.dimen.margin_1)
+                        .setColorResource(R.color.color_F5F5F5)
+                        .setShowLastLine(false)
+                        .setShowVerticalLine(false)
+                        .build()
+                rv_openmember_fragment.addItemDecoration(divider)
+                rv_openmember_fragment.isNestedScrollingEnabled = false
+            }
+        },100)
     }
 
     private fun setData(){

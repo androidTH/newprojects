@@ -83,10 +83,9 @@
                 <ImageView
                     android:id="@+id/img_auther"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/margin_15"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:src="@mipmap/video_small"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:src="@mipmap/video_big"
                     android:visibility="visible" />
 
                 <ImageView

@@ -26,12 +26,13 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
                 <!--android:drawableLeft="@mipmap/title_label_icon"-->
 
+                <!--android:drawableLeft="@mipmap/xz_icon"-->
+
                 <TextView
                     android:id="@+id/tv_speed_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:drawableLeft="@mipmap/xz_icon"
                     android:drawablePadding="@dimen/margin_5"
                     android:paddingTop="@dimen/padding_12"
                     android:paddingBottom="@dimen/margin_8"
@@ -98,6 +99,8 @@
                     android:layout_height="@dimen/margin_15"
                     android:background="@color/color_E9E9E9" />
 
+                <!--android:drawableLeft="@mipmap/yuehui_mian"-->
+
                 <TextView
                     android:id="@+id/tv_newest_date"
                     android:layout_below="@+id/view_rg_line"
@@ -105,7 +108,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/margin_5"
-                    android:drawableLeft="@mipmap/yuehui_mian"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:textColor="@color/color_333333"
                     android:textSize="15sp"

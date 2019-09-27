@@ -95,11 +95,6 @@ class OpenMemberShipActivity : BaseActivity() {
             })
         }
 
-//        tv_wechat_kf.setOnClickListener {
-//            var mWeChatKfDialog = WeChatKFDialog()
-//            mWeChatKfDialog.show(supportFragmentManager,"wechatkf")
-//        }
-
         mComments.add(MemberComment(getString(R.string.string_man_firstcomment),
                 API.BASE_URL + "static/image/574421cfgw1ep2mr2retuj21kw2dcnnc.jpg"))
         mComments.add(MemberComment(getString(R.string.string_man_secondcomment),
@@ -226,7 +221,11 @@ class OpenMemberShipActivity : BaseActivity() {
     private fun getMemberPriceList() {
         try{
             if (mMemberPriceList != null && mMemberPriceList.size > 0) {
-                InitUIData()
+                tv_openmember.postDelayed(object:Runnable{
+                    override fun run() {
+                        InitUIData()
+                    }
+                }, 100)
             } else {
                 dialog()
                 Request.findUserClasses(getLoginToken()).request(this) { msg, data ->
@@ -247,7 +246,6 @@ class OpenMemberShipActivity : BaseActivity() {
             }
         }
     }
-
 
     private fun InitUIData() {
         if (mMemberPriceList != null && mMemberPriceList.size > 0) {
@@ -274,14 +272,15 @@ class OpenMemberShipActivity : BaseActivity() {
 
     private fun setButtonContent(position: Int) {
         var mMemberBean = mMemberPriceList.get(position)
-        tv_openmember.text = "开通${mMemberBean.classesname}"
+        var openmemberdesc = "开通${mMemberBean.classesname}"
         if (mMemberBean.ids == 31) {
-            tv_member_showdes.text = "· 低至¥${mMemberBean.iAndroidPrice}元/月"
+            openmemberdesc = "${openmemberdesc}· 低至¥${mMemberBean.iAndroidPrice}元/月"
         } else if (mMemberBean.ids == 22 || mMemberBean.ids == 23) {
-            tv_member_showdes.text = ""//据说80%会员都约到了心仪的TA
+            openmemberdesc = "${openmemberdesc}" //据说80%会员都约到了心仪的TA
         } else {
-            tv_member_showdes.text = "· ¥${mMemberBean.iAndroidPrice}元"
+            openmemberdesc = "${openmemberdesc}· ¥${mMemberBean.iAndroidPrice}元"
         }
+        tv_openmember.text = openmemberdesc
     }
 
     private fun buyRedFlowerPay(price: Int?, sAreaName: String, userclassId: Int, userclassname: String) {
@@ -356,54 +355,8 @@ class OpenMemberShipActivity : BaseActivity() {
                 startActivity<MemberActivity>()
                 onBackPressed()
             }
-//            getUserInfo()
         }) { code, msg ->
             CustomToast.showToast(msg)
-        }
-    }
-
-
-    private fun getUserInfo() {
-        Request.getUserInfo("", userId).request(this, success = { _, data ->
-            data?.let {
-                //                vipheaderview.setImageURI(data.picUrl)
-//                tv_viplevel.text = data.classesname
-                data.dUserClassEndTime?.let {
-                    if (it > 0) {
-//                        tv_vipendtime.text = "到期时间：${data.dUserClassEndTime.toTime(timeFormat)}"
-                    } else {
-//                        tv_vipendtime.text = ""
-                    }
-                }
-
-                mMemberPriceList.forEach {
-                    if (TextUtils.equals(it.ids.toString(), data.userclassesid.toString())) {
-                        if (TextUtils.isEmpty(it.sRemark)) {
-//                            view_line02.visibility = View.GONE
-//                            tv_men_member_remark.visibility = View.GONE
-                        } else {
-//                            view_line02.visibility = View.VISIBLE
-//                            tv_men_member_remark.visibility = View.VISIBLE
-//                            tv_men_member_remark.text = it.sRemark
-                        }
-                        it.sDesc?.let {
-                            var mTipsData = it.split("<br/>")
-//                            rv_men_memberdesc.setHasFixedSize(true)
-//                            rv_men_memberdesc.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-//                            rv_men_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
-                        }
-
-//                        tv_mem_memberztnums.visibility = View.VISIBLE
-//                        tv_data_address.visibility =View.VISIBLE
-//                        view_line.visibility = View.VISIBLE
-                        if (TextUtils.equals("1", it.sex.toString())) {
-//                            tv_data_address.text = it.sServiceArea
-//                            AppUtils.setMemberNums(this,2, "直推次数: " + it.iRecommendCount!!, 0, 5, tv_mem_memberztnums)
-                        }
-                    }
-                }
-            }
-        }) { _, _ ->
         }
     }
 
@@ -439,5 +392,9 @@ class OpenMemberShipActivity : BaseActivity() {
         super.onDestroy()
         immersionBar?.destroy()
         areaName = ""
+        mMemberPriceList.clear()
+        mOpenMemberShipDialog = null
+        mSilverMemberDialog= null
+        mAppMemberDialog= null
     }
 }

@@ -212,6 +212,11 @@ class AuthMenStateActivity : BaseActivity() {
 
 
     private fun setData(){
+        rv_vip_pics.setHasFixedSize(true)
+        rv_vip_pics.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv_vip_pics.isNestedScrollingEnabled = false
+        rv_vip_pics.adapter = mPicsInfoAdapter
+
         Request.getInfo(Const.PIECES_VIP_INSTRODUCE).request(this) { _, data ->
             data?.let {
 //                val womanWeChat = data.optString("ext1")
@@ -219,10 +224,7 @@ class AuthMenStateActivity : BaseActivity() {
                 var pics = data.optString("picUrl")
                 Log.i("pics", "picUrl=${pics}")
                 mListPicsInfo.addAll(pics.split(",") as ArrayList<String>)
-                rv_vip_pics.adapter = mPicsInfoAdapter
-                rv_vip_pics.setHasFixedSize(true)
-                rv_vip_pics.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                rv_vip_pics.isNestedScrollingEnabled = false
+                mPicsInfoAdapter.notifyDataSetChanged()
             }
         }
 
@@ -291,7 +293,7 @@ class AuthMenStateActivity : BaseActivity() {
         Request.findYKUserClasses("7",getLoginToken()).request(this){ msg, data->
             data?.let {
                 mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
-                tv_tqnums.text = "可享${mListTQ.size}项特权"
+                tv_tqnums.text = "${mListTQ.size}项会员特权打造不一样的会员体验"
                 rv_grid_tq.setHasFixedSize(true)
                 rv_grid_tq.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
                 rv_grid_tq.adapter = mTeQuanQuickAdapter
@@ -454,8 +456,7 @@ class AuthMenStateActivity : BaseActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        rv_vip_pics.adapter = null
-        Fresco.getImagePipeline().clearMemoryCaches()
+//        Fresco.getImagePipeline().clearMemoryCaches()
         if(ISNOTBUYMEMBER==0){
             pushCustomerMessage(this,getLocalUserId(),7,""){
             }
@@ -465,6 +466,9 @@ class AuthMenStateActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         immersionBar?.destroy()
+        rv_vip_pics.adapter = null
+        rv_grid_tq.adapter = null
+//        Fresco.getImagePipeline().clearMemoryCaches()
         areaName = ""
     }
 }

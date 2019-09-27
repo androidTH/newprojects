@@ -3,6 +3,7 @@ package com.d6.android.app.activities
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -132,13 +133,17 @@ class MyInfoActivity : BaseActivity(),Observer{
                    //7.0崩溃问题
                    if (Build.VERSION.SDK_INT < 24) {
                        intent.putExtra(MediaStore.EXTRA_OUTPUT, u)
+                       startActivityForResult(intent, 0)
                    } else {
-                       val contentValues = ContentValues(1)
-                       contentValues.put(MediaStore.Images.Media.DATA, tempFile?.absolutePath)
-                       val uri = this@MyInfoActivity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-                       intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                       var list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+                       if(list.size>0) {
+                           val contentValues = ContentValues(1)
+                           contentValues.put(MediaStore.Images.Media.DATA, tempFile?.absolutePath)
+                           val uri = this@MyInfoActivity.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                           intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+                           startActivityForResult(intent, 0)
+                       }
                    }
-                   startActivityForResult(intent, 0)
                }else{
                    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)// 调用android的图库
                    intent.type = "image/*"
