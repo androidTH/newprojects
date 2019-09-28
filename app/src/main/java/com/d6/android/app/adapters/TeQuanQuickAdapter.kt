@@ -27,14 +27,6 @@ class TeQuanQuickAdapter(data: List<MemberTeQuan>,IsNotShow:Boolean=true) : Base
             iv_tqicon.setImageURI(data.sMemberPic)
         }
 
-        if(data.iMemberType==1){
-            iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_app)
-        }else if(data.iMemberType==2){
-            iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_wechat)
-        }else if(data.iMemberType==3){
-            iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_rengong)
-        }
-
         if(mIsNotShow){
             iv_tqtag.visibility= View.VISIBLE
         }else{
@@ -44,9 +36,23 @@ class TeQuanQuickAdapter(data: List<MemberTeQuan>,IsNotShow:Boolean=true) : Base
         if(data.iStatus!=1){
             tv_tqname.textColor = ContextCompat.getColor(mContext,R.color.color_C1C0C0)
             tv_tqdesc.textColor = ContextCompat.getColor(mContext,R.color.color_C1C0C0)
+            if(data.iMemberType==1){
+                iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_app_gray)
+            }else if(data.iMemberType==2){
+                iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_wechat_gray)
+            }else if(data.iMemberType==3){
+                iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_rengong_gray)
+            }
         }else{
             tv_tqname.textColor = ContextCompat.getColor(mContext,R.color.color_black)
             tv_tqdesc.textColor = ContextCompat.getColor(mContext,R.color.color_888888)
+            if(data.iMemberType==1){
+                iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_app)
+            }else if(data.iMemberType==2){
+                iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_wechat)
+            }else if(data.iMemberType==3){
+                iv_tqtag.setImageURI(CONST_RES_MIPMAP+R.mipmap.jiaobiao_rengong)
+            }
         }
         tv_tqname.text = data.sMemberTitle
         tv_tqdesc.text = data.sMemberDesc

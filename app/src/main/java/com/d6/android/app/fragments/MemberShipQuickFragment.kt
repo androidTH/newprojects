@@ -12,7 +12,6 @@ import com.d6.android.app.models.MemberTeQuan
 import com.d6.android.app.widget.GridItemDecoration
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.layout_memebership_one.*
-import kotlinx.android.synthetic.main.openmember_header_item.view.*
 
 /**
  * 人工推荐

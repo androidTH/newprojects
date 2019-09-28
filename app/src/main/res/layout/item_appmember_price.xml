@@ -7,10 +7,12 @@
     android:background="@drawable/shape_white_ef">
     <TextView
         android:id="@+id/tv_discount"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/margin_20"
         android:background="@drawable/shape_10r_ff4b"
         android:layout_gravity="right"
+        android:paddingLeft="@dimen/margin_5"
+        android:paddingRight="@dimen/margin_5"
         android:gravity="center"
         android:textSize="10sp"
         android:textColor="@color/white" />
