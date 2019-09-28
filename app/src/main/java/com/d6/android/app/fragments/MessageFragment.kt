@@ -93,7 +93,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             startActivity<UnKnowChatActivity>()
         }
 
-        headerView.iv_msgtip_close.setOnClickListener {AudioPlayUtilsAudioPlayUtils
+        headerView.iv_msgtip_close.setOnClickListener {
             headerView.rl_msg_tips.visibility = View.GONE
             SPUtils.instance().put(PUSH_ISNOTSHOW,System.currentTimeMillis()).apply()
         }
