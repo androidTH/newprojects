@@ -58,9 +58,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     private var SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
     private var SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
 
-    private val headerView by lazy {
-        layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
-    }
+    private lateinit var headerView: View
 
     override fun contentViewId(): Int {
         return R.layout.message_fragment
@@ -68,9 +66,13 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
     override fun onFirstVisibleToUser() {
         swiprefreshRecyclerlayout_msg.setLayoutManager(LinearLayoutManager(context))
+        headerView = layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
+
         swiprefreshRecyclerlayout_msg.mRecyclerView.addOnItemTouchListener(SwipeItemLayout.OnSwipeItemTouchListener(activity))
         swiprefreshRecyclerlayout_msg.setMode(mode())
-        conversationsAdapter.setHeaderView(headerView)
+        headerView?.let {
+            conversationsAdapter.setHeaderView(it)
+        }
         swiprefreshRecyclerlayout_msg.setAdapter(conversationsAdapter)
         swiprefreshRecyclerlayout_msg.isRefreshing = false
         swiprefreshRecyclerlayout_msg.setOnRefreshListener(this)
@@ -91,14 +93,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             startActivity<UnKnowChatActivity>()
         }
 
-        iv_msg_right.setOnClickListener {
-            startActivity<MessageSettingActivity>()
-        }
-
-        tv_topsearch.setOnClickListener {
-            startActivity<SearchFriendsActivity>()
-        }
-
         headerView.iv_msgtip_close.setOnClickListener {
             headerView.rl_msg_tips.visibility = View.GONE
             SPUtils.instance().put(PUSH_ISNOTSHOW,System.currentTimeMillis()).apply()
@@ -107,6 +101,15 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         headerView.tv_openmsg.setOnClickListener {
             requestNotify(context)
         }
+
+        iv_msg_right.setOnClickListener {
+            startActivity<MessageSettingActivity>()
+        }
+
+        tv_topsearch.setOnClickListener {
+            startActivity<SearchFriendsActivity>()
+        }
+
 
         conversationsAdapter.setOnItemClickListener { _, position ->
             val conversation = mConversations[position]
@@ -269,6 +272,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         Log.i("messagefragment", "ssssss${mUnConversations.size}")
         if (swiprefreshRecyclerlayout_msg.mRecyclerView.hasPendingAdapterUpdates()) {
             swiprefreshRecyclerlayout_msg.setLayoutManager(LinearLayoutManager(context))
+            headerView = layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
         }
         if (mUnConversations != null && mUnConversations.size > 0) {
             headerView.rl_unknowchat.visibility = View.VISIBLE

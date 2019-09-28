@@ -99,6 +99,7 @@ class PayResultDialog : DialogFragment(),RequestManager {
             }
 
             tv_payresult_success_close.setOnClickListener {
+                dialogListener?.onClick(1,"close")
                 dismissAllowingStateLoss()
             }
             countDownTimer.start()
@@ -143,7 +144,7 @@ class PayResultDialog : DialogFragment(),RequestManager {
     private val countDownTimer = object : CountDownTimer(3 * 1000, 1000) {
         override fun onFinish() {
             dialogListener?.onClick(1,"close")
-//            dismissAllowingStateLoss()
+            dismissAllowingStateLoss()
         }
 
         override fun onTick(millisUntilFinished: Long) {

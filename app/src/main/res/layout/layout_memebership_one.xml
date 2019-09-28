@@ -17,15 +17,28 @@
                 android:id="@+id/rl_membership_vipfw"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_2r_26f7a"
+                    android:paddingLeft="@dimen/margin_3"
+                    android:paddingTop="@dimen/margin_2"
+                    android:paddingBottom="@dimen/margin_2"
+                    android:text="有限期 "
+                    android:textColor="@color/color_F7AB00"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
                 <TextView
                     android:id="@+id/tv_ztnums"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="有限期: 可选"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:text="可选"
                     android:textColor="@color/color_333333"
                     android:textStyle="bold"
                     android:textSize="14sp" />
@@ -39,12 +52,25 @@
                 <!--android:layout_toRightOf="@+id/view_middle"-->
 
                 <TextView
-                    android:id="@+id/tv_endtime"
+                    android:id="@+id/tv_servicearea"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_20"
+                    android:background="@drawable/shape_2r_26f7a"
+                    android:paddingLeft="@dimen/margin_3"
+                    android:paddingTop="@dimen/margin_2"
+                    android:paddingBottom="@dimen/margin_2"
+                    android:text="服务范围 "
+                    android:textColor="@color/color_F7AB00"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_endtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="服务范围: 全球"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:text="全球"
                     android:textColor="@color/color_333333"
                     android:textStyle="bold"
                     android:textSize="14sp" />

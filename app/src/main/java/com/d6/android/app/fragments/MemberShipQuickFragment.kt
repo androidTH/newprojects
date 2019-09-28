@@ -12,6 +12,7 @@ import com.d6.android.app.models.MemberTeQuan
 import com.d6.android.app.widget.GridItemDecoration
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.layout_memebership_one.*
+import kotlinx.android.synthetic.main.layout_memebership_one.view.*
 
 /**
  * 人工推荐
@@ -62,11 +63,12 @@ class MemberShipQuickFragment : BaseFragment() {
            tv_membership_viptq.text = "${it.sTitle}"//${it.classesname}
 
             if (TextUtils.isEmpty(it.sServiceArea)) {
-                tv_endtime.setVisibility(View.GONE)
+                tv_endtime.visibility = View.GONE
+                tv_servicearea.visibility = View.GONE
             } else {
                 tv_endtime.setText(it.sServiceArea)
             }
-            tv_ztnums.text = "有效期: ${it.sEnableDateDesc}"
+            tv_ztnums.text = "${it.sEnableDateDesc}"
         }
         setData()
         tv_membership_viptq.postDelayed(object:Runnable{

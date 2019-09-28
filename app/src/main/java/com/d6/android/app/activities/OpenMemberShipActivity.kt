@@ -58,14 +58,6 @@ class OpenMemberShipActivity : BaseActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val from by lazy {
-        intent.getStringExtra(NO_VIP_FROM_TYPE)
-    }
-
-    private val mMemberLevelAdapter by lazy {
-        MemberLevelAdapter(mMemberPriceList)
-    }
-
     private val AREA_REQUEST_CODE = 11
     private val AREA_REQUEST_CODE_SILIVER = 12
     private var mMemberPriceList = ArrayList<MemberBean>()
@@ -274,11 +266,11 @@ class OpenMemberShipActivity : BaseActivity() {
         var mMemberBean = mMemberPriceList.get(position)
         var openmemberdesc = "开通${mMemberBean.classesname}"
         if (mMemberBean.ids == 31) {
-            openmemberdesc = "${openmemberdesc}· 低至¥${mMemberBean.iAndroidPrice}元/月"
+            openmemberdesc = "${openmemberdesc} · 低至¥${mMemberBean.iAndroidPrice}元/月"
         } else if (mMemberBean.ids == 22 || mMemberBean.ids == 23) {
             openmemberdesc = "${openmemberdesc}" //据说80%会员都约到了心仪的TA
         } else {
-            openmemberdesc = "${openmemberdesc}· ¥${mMemberBean.iAndroidPrice}元"
+            openmemberdesc = "${openmemberdesc} · ¥${mMemberBean.iAndroidPrice}元"
         }
         tv_openmember.text = openmemberdesc
     }
