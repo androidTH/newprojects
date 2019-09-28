@@ -59,12 +59,14 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         tv_edittiezhi.setOnClickListener {
-            var path = urls[mImageViewPager.currentItem]
-            var param: BLBeautifyParam = BLBeautifyParam()
-            param.index = 0
-            param.type = Const.User.SELECTIMAGE
-            param.images.add(path.replace("file://", ""))
-            startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
+            if(urls.size>mImageViewPager.currentItem){
+                var path = urls[mImageViewPager.currentItem]
+                var param: BLBeautifyParam = BLBeautifyParam()
+                param.index = 0
+                param.type = Const.User.SELECTIMAGE
+                param.images.add(path.replace("file://", ""))
+                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
+            }
         }
 
 //        photo_drag_relaivelayout.setDragListener(PhotoDragHelper().setOnDragListener(object : PhotoDragHelper.OnDragListener {

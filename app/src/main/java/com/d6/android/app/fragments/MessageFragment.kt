@@ -93,7 +93,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             startActivity<UnKnowChatActivity>()
         }
 
-        headerView.iv_msgtip_close.setOnClickListener {
+        headerView.iv_msgtip_close.setOnClickListener {AudioPlayUtilsAudioPlayUtils
             headerView.rl_msg_tips.visibility = View.GONE
             SPUtils.instance().put(PUSH_ISNOTSHOW,System.currentTimeMillis()).apply()
         }
@@ -275,25 +275,27 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             headerView = layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
         }
         if (mUnConversations != null && mUnConversations.size > 0) {
-            headerView.rl_unknowchat.visibility = View.VISIBLE
-            headerView.line_mchat.visibility = View.VISIBLE
+            if (headerView != null) {
+                headerView.rl_unknowchat.visibility = View.VISIBLE
+                headerView.line_mchat.visibility = View.VISIBLE
 
-            for (c: Conversation in mUnConversations) {
-                if (c.unreadMessageCount > 0) {
-                    mNMUnReadTotal = mNMUnReadTotal + c.unreadMessageCount
+                for (c: Conversation in mUnConversations) {
+                    if (c.unreadMessageCount > 0) {
+                        mNMUnReadTotal = mNMUnReadTotal + c.unreadMessageCount
+                    }
                 }
-            }
 
-            if (mNMUnReadTotal > 0) {
-                headerView.iv3_unreadnum.visibility = View.VISIBLE
-                headerView.iv3_unreadnum.text = "${mNMUnReadTotal}"
-            } else {
-                headerView.iv3_unreadnum.visibility = View.GONE
-            }
-            var mConv = mUnConversations.get(0)
-            val provider = RongContext.getInstance().getMessageTemplate(mConv.latestMessage.javaClass)
-            if (provider != null) {
-                headerView.tv_content3.text = provider.getContentSummary(context, mConv.latestMessage)
+                if (mNMUnReadTotal > 0) {
+                    headerView.iv3_unreadnum.visibility = View.VISIBLE
+                    headerView.iv3_unreadnum.text = "${mNMUnReadTotal}"
+                } else {
+                    headerView.iv3_unreadnum.visibility = View.GONE
+                }
+                var mConv = mUnConversations.get(0)
+                val provider = RongContext.getInstance().getMessageTemplate(mConv.latestMessage.javaClass)
+                if (provider != null) {
+                    headerView.tv_content3.text = provider.getContentSummary(context, mConv.latestMessage)
+                }
             }
         } else {
             if (headerView != null) {
