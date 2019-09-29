@@ -24,7 +24,7 @@ import java.lang.Exception
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import com.bugtags.library.Bugtags
+//import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
 import com.d6.android.app.widget.LoadDialog
 import com.gyf.barlibrary.ImmersionBar
