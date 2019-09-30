@@ -30,7 +30,7 @@ class FollowActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "我喜欢的"
+        setTitleBold("送出的喜欢",true)
         followAdapter.setOnItemClickListener { view, position ->
             val id = mMessages[position].iUserid
             startActivity<UserInfoActivity>("id" to id.toString())
@@ -54,7 +54,7 @@ class FollowActivity : RecyclerActivity() {
                     mSwipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {
-                mMessages.addAll(data.list.results)
+                data.list.results?.let { mMessages.addAll(it) }
             }
             followAdapter.notifyDataSetChanged()
         }

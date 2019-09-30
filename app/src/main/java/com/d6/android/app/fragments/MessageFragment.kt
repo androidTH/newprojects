@@ -32,6 +32,7 @@ import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
 import org.jetbrains.anko.support.v4.startActivity
+import java.lang.Exception
 
 /**
  * 消息列表页
@@ -274,8 +275,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             swiprefreshRecyclerlayout_msg.setLayoutManager(LinearLayoutManager(context))
             headerView = layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
         }
-        if (mUnConversations != null && mUnConversations.size > 0) {
-            if (headerView != null) {
+        try {
+            if (mUnConversations != null && mUnConversations.size > 0) {
                 headerView.rl_unknowchat.visibility = View.VISIBLE
                 headerView.line_mchat.visibility = View.VISIBLE
 
@@ -296,12 +297,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 if (provider != null) {
                     headerView.tv_content3.text = provider.getContentSummary(context, mConv.latestMessage)
                 }
-            }
-        } else {
-            if (headerView != null) {
+            } else {
                 headerView.rl_unknowchat.visibility = View.GONE
                 headerView.line_mchat.visibility = View.GONE
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

@@ -74,17 +74,31 @@ class DialogCashMoney : DialogFragment(), RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var cashmoney = "0"
+        var type = -1
         try{
             cashmoney =  if(arguments.containsKey("cashmoney")){
                 arguments.getString("cashmoney")
             }else{
                 "0"
             }
+            type = arguments.getInt("type")
         }catch (e:Exception){
             e.printStackTrace()
             cashmoney = "0"
         }
+
         tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
+        tv_redheartnums.text = "：${cashmoney}"
+
+        if(type==2){
+            tv_cashmeny_tips.text = "提现将收取20%的手续费，单次最低提现额度20朵小红花，最高200朵小红花"
+            linear_redhearliked.visibility = View.GONE
+            tv_redheartliked.visibility = View.VISIBLE
+        }else{
+            tv_cashmeny_tips.text = "提现将收取20%的手续费，最低提现金额20元"
+            linear_redhearliked.visibility = View.VISIBLE
+            tv_redheartliked.visibility = View.GONE
+        }
 
         tv_close.setOnClickListener {
             KeyboardktUtils().hideKeyboard(it)

@@ -253,9 +253,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_comments"
-            android:layout_toLeftOf="@+id/tv_comment"
+            android:layout_toLeftOf="@+id/tv_appraise"
             android:layout_marginRight="@dimen/margin_40"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_15"
             android:drawableLeft="@drawable/ic_redflower_selector"
             android:drawablePadding="4dp"
             android:gravity="center"
@@ -266,32 +266,32 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_below="@+id/ll_comments"
-            android:layout_toLeftOf="@+id/tv_appraise"
-            android:layout_marginTop="@dimen/margin_10"
-            android:drawableLeft="@mipmap/ic_comment"
-            android:drawablePadding="4dp"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:text="0"
-            android:textColor="@color/color_888888"
-            android:textSize="12sp" />
-
-        <TextView
             android:id="@+id/tv_appraise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_comments"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/margin_40"
+            android:layout_toLeftOf="@+id/tv_comment"
+            android:layout_marginRight="@dimen/margin_40"
             android:layout_marginTop="@dimen/margin_15"
             android:drawableLeft="@drawable/ic_praise_selector"
             android:drawablePadding="4dp"
             android:paddingLeft="@dimen/margin_8"
             android:gravity="center"
+            android:text="0"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/ll_comments"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_10"
+            android:drawableLeft="@mipmap/ic_comment"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
             android:text="0"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />

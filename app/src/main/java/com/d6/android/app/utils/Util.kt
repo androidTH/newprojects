@@ -46,6 +46,7 @@ import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
@@ -1148,6 +1149,10 @@ fun removeKFService(mOtherUserId:String):Boolean{
 
 fun getSelfDateDialog():Boolean{
    return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
+}
+
+fun getIsNotFirstDialog():Boolean{
+    return SPUtils.instance().getBoolean(IS_FIRST_SHOW_FINDDIALOG+getLocalUserId(),true)
 }
 
 fun starPlayDrawableAnim(mImageView:ImageView) {

@@ -57,25 +57,22 @@ class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
 
         tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
 
-        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
+        var  tv_sendliked= holder.bind<TextView>(R.id.tv_sendliked)
+        tv_sendliked.text = "${23}"
 
-        if(data.iIsFollow == 0){
-            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
-            mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
-            mTvFollow.setText("喜欢")
-        }else{
-            mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
-            mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-            mTvFollow.setText("已喜欢")
-        }
-
-//        mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
-//        mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-//        mTvFollow.setText("已喜欢")
-
-        mTvFollow.setOnClickListener(this)
-        mTvFollow.setTag(data)
-        sysErr(data.toString()+"--------url----->"+data.sPicUrl.isNullOrEmpty())
+//        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
+//
+//        if(data.iIsFollow == 0){
+//            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
+//            mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
+//            mTvFollow.setText("喜欢")
+//        }else{
+//            mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
+//            mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
+//            mTvFollow.setText("已喜欢")
+//        }
+//        mTvFollow.setOnClickListener(this)
+//        mTvFollow.setTag(data)
     }
 
     override fun onClick(v: View?) {

@@ -186,7 +186,7 @@
         android:layout_height="25dp"
         android:layout_below="@+id/ll_content"
         android:layout_marginTop="8dp"
-        android:layout_toLeftOf="@+id/tv_comment"
+        android:layout_toLeftOf="@+id/tv_appraise"
         android:layout_marginRight="@dimen/margin_40"
         android:drawableLeft="@drawable/ic_redflower_selector"
         android:drawablePadding="4dp"
@@ -196,12 +196,12 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/tv_comment"
+        android:id="@+id/tv_appraise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_content"
-        android:layout_toLeftOf="@+id/tv_appraise"
-        android:drawableLeft="@mipmap/ic_comment"
+        android:layout_toLeftOf="@+id/tv_comment"
+        android:drawableLeft="@drawable/ic_praise_selector"
         android:drawablePadding="4dp"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"
@@ -211,13 +211,13 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/tv_appraise"
+        android:id="@+id/tv_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_content"
+        android:drawableLeft="@mipmap/ic_comment"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/margin_40"
-        android:drawableLeft="@drawable/ic_praise_selector"
         android:drawablePadding="4dp"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"

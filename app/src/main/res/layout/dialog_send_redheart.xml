@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_white_8r"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_20">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/iv_redheart_headView"
+            style="@style/DefaultCircleHeadStyle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_15" />
+
+        <TextView
+            android:id="@+id/tv_redheart_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:text="-----"
+            android:textColor="@color/color_666666"
+            android:textStyle="bold"
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/tv_redheart_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:layout_marginLeft="@dimen/margin_25"
+            android:layout_marginRight="@dimen/margin_25"
+            android:drawablePadding="@dimen/margin_5"
+            android:text="红心送的越多，将会把你优先推荐给TA，回复你的概率越高"
+            android:textColor="@color/color_333333"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="14sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_send_redheart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:layout_marginRight="@dimen/margin_20" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_25">
+            <TextView
+                android:id="@+id/tv_redheart_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_666666"
+                android:drawableRight="@mipmap/redheart_small"
+                android:drawablePadding="@dimen/margin_5"
+                android:textSize="12sp"
+                android:text="剩余20"/>
+            <TextView
+                android:id="@+id/tv_redheart_gobuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_F7AB00"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:background="@drawable/shape_orange_2r_radius"
+                android:padding="@dimen/margin_5"
+                android:textSize="12sp"
+                android:text="点击购买"/>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/ic_close_orange2"/>
+</RelativeLayout>

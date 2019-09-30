@@ -82,13 +82,60 @@
             android:text="可提现金额：¥"/>
 
         <TextView
+            android:id="@+id/tv_redheartliked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_3"
             android:text="1朵小红花=1元"
             android:textColor="@color/color_888888"
             android:layout_marginLeft="@dimen/margin_8"
+            android:visibility="gone"
             android:textSize="12sp" />
+       <LinearLayout
+           android:id="@+id/linear_redhearliked"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="@dimen/margin_10"
+           android:orientation="horizontal">
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/margin_3"
+               android:text="我的"
+               android:textColor="@color/color_888888"
+               android:textSize="12sp" />
+
+           <TextView
+               android:id="@+id/tv_redheartnums"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/margin_3"
+               android:drawableLeft="@mipmap/redheart_small"
+               android:drawablePadding="@dimen/margin_3"
+               android:text=":"
+               android:textColor="@color/color_888888"
+               android:layout_marginLeft="@dimen/margin_2"
+               android:textSize="12sp" />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/margin_3"
+               android:drawablePadding="@dimen/margin_5"
+               android:text="(10"
+               android:textColor="@color/color_888888"
+               android:layout_marginLeft="@dimen/margin_8"
+               android:textSize="12sp" />
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/margin_3"
+               android:drawableLeft="@mipmap/redheart_small"
+               android:drawablePadding="@dimen/margin_3"
+               android:text="=1元)"
+               android:textColor="@color/color_888888"
+               android:layout_marginLeft="@dimen/margin_8"
+               android:textSize="12sp" />
+       </LinearLayout>
 
         <EditText
             android:id="@+id/et_cash_input"
@@ -104,11 +151,13 @@
             android:textColor="@color/color_333333"
             android:textColorHint="@color/color_999999"
             android:textSize="17sp" />
+
         <TextView
+            android:id="@+id/tv_cashmeny_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
-            android:text="提现将收取20%的手续费，单次最低提现额度20朵小红花，最高200朵小红花"
+            android:text="提现将收取20%的手续费，最低提现金额20元"
             android:textColor="@color/color_888888"
             android:layout_marginLeft="@dimen/margin_10"
             android:textSize="12sp" />

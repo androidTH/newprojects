@@ -153,11 +153,11 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
                     holder.mTvReceivedFlowerNums.setText(String.valueOf(nums));
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
 //                  strDir=userInfo.getName()+"给你分享了一条动态";
-                    textView.setText("你给"+receivename+"打赏了"+nums+"朵小红花");
+                    textView.setText("你给"+receivename+"打赏了"+nums+"个红心");
                 } catch (JSONException e) {
                     e.printStackTrace();
                     UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                    textView.setText("你给"+userInfo.getName()+"打赏了"+nums+"朵小红花");
+                    textView.setText("你给"+userInfo.getName()+"打赏了"+nums+"个红心");
                     holder.mTvReceivedFlowerNums.setText(String.valueOf(nums));
                 }
 //                ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);

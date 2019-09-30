@@ -33,6 +33,7 @@ import java.io.File
  * 图片Fragment
  */
 class ImageFragment : BaseNoBarFragment() {
+
     companion object {
         fun newInstance(url: String, isBlur: Boolean): Fragment {
             val imageFragment = ImageFragment()
@@ -45,6 +46,12 @@ class ImageFragment : BaseNoBarFragment() {
     }
 
     override fun contentViewId() = R.layout.fragment_image
+
+    private val width by lazy{
+        if(activity!=null){
+            AppScreenUtils.getScreenWidth(activity)
+        }
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -64,10 +71,10 @@ class ImageFragment : BaseNoBarFragment() {
                 result?.let {
                     var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(SimpleCacheKey(url))
                     if(resource!=null){
-                        var  fileResouce= resource as FileBinaryResource
+                        var fileResouce= resource as FileBinaryResource
                         var mlistWH = BitmapUtils.getWidthHeight(fileResouce.getFile().path)
-                        val width = AppScreenUtils.getScreenWidth(context)
-                        val scaleW = width / mlistWH[0].toFloat()
+                        var width = AppScreenUtils.getScreenWidth(activity)
+                        var scaleW = width / mlistWH[0].toFloat()
                         if (BitmapUtils.isLongImage(context,mlistWH)) {
                             sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
                             sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))

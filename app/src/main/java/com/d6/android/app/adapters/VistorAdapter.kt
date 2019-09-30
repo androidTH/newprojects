@@ -62,20 +62,19 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
             tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
         }
 
-        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
-
-        if(TextUtils.equals("0",data.isFollow)){
-            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
-            mTvFollow.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-            mTvFollow.setText("喜欢")
-        }else{
-            mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
-            mTvFollow.textColor = ContextCompat.getColor(context,R.color.color_DFE1E5)
-            mTvFollow.setText("已喜欢")
-        }
-
-        mTvFollow.setOnClickListener(this)
-        mTvFollow.setTag(data)
+//        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
+//
+//        if(TextUtils.equals("0",data.isFollow)){
+//            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
+//            mTvFollow.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+//            mTvFollow.setText("喜欢")
+//        }else{
+//            mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
+//            mTvFollow.textColor = ContextCompat.getColor(context,R.color.color_DFE1E5)
+//            mTvFollow.setText("已喜欢")
+//        }
+//        mTvFollow.setOnClickListener(this)
+//        mTvFollow.setTag(data)
     }
 
     override fun onClick(v: View?) {

@@ -27,18 +27,23 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
+import com.d6.android.app.widget.gift.CustormAnim
+import com.d6.android.app.widget.gift.GiftControl
+import com.d6.android.app.widget.gift.GiftModel
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
 import me.jessyan.autosize.internal.CustomAdapt
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
@@ -94,6 +99,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
     var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
+    //礼物
+    private var giftControl: GiftControl? = null
 
     override fun contentViewId() = R.layout.fragment_date
 
@@ -118,9 +125,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                     if(mDates.size>0){
                         var findDate = mDates.get(scrollPosition-1)
                         if(findDate.iIsFans==1){
-                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.like_complte))
+                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
                         }else{
-                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.discover_like_button))
+                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
                         }
                     }
                 }
@@ -153,7 +160,30 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             if(mDates.isNotEmpty()){
                 addFollow()
             }
+
+            addGiftNums(1,false)
+
+//            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+//            mSendRedHeartEndDialog.show(childFragmentManager,"redheartendDialog")
+
+            if(getIsNotFirstDialog()){
+                var mRedHeartGuideDialog = RedHeartGuideDialog()
+                mRedHeartGuideDialog.show(childFragmentManager,"redheartguideDialog")
+                SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG+getLocalUserId(),false).apply()
+            }
         }
+
+        fb_heat_like.setOnLongClickListener(object:View.OnLongClickListener{
+            override fun onLongClick(v: View?): Boolean {
+                var mSendLoveHeartDialog = SendLoveHeartDialog()
+                if (mDates.size > mRecyclerView.currentItem) {
+                    var findDate = mDates.get(mRecyclerView.currentItem)
+                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${findDate.accountId}")
+                }
+                mSendLoveHeartDialog.show(childFragmentManager,"sendloveheartDialog")
+                return true
+            }
+        })
 
         fb_find_chat.setOnClickListener {
 //            activity.isNoAuthToChat("5") {
@@ -194,6 +224,38 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                 .apply()
 
         getProvinceData()
+
+        initGift()
+    }
+
+    private fun initGift(){
+        giftControl = GiftControl(context)
+        giftControl?.let {
+            it.setGiftLayout(ll_gift_parent, 1)
+                    .setHideMode(false)
+                    .setCustormAnim(CustormAnim())
+        }
+    }
+
+    //连击礼物数量
+    private fun addGiftNums(giftnum:Int,currentStart: Boolean = false){
+        if (giftnum == 0) {
+            return
+        } else {
+            giftControl?.let {
+                //这里最好不要直接new对象
+                var giftModel = GiftModel()
+                giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
+                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                        .setCurrentStart(currentStart)
+                if (currentStart) {
+                    giftModel.setHitCombo(giftnum)
+                }
+                //giftModel.setJumpCombo(10);
+               it.loadGift(giftModel)
+               Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
+            }
+        }
     }
 
     fun refresh(){
@@ -276,7 +338,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                 fb_unlike.visible()
                 btn_like.visible()
                 fb_heat_like.visible()
-                fb_find_chat.visible()
+                fb_find_chat.gone()
                 if(pageNum == 1){
                    mDates.clear()
                 }
@@ -285,9 +347,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                     joinInCard()
                     var findDate = mDates.get(0)
                     if(findDate.iIsFans==1){
-                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.like_complte))
+                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))//like_complte
                     }else{
-                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.discover_like_button))
+                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))//discover_like_button
                     }
                 }
                 mRecyclerView.adapter.notifyDataSetChanged()
@@ -339,7 +401,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             if(findDate.iIsFans==0){
                 Request.getAddFollow(userId, findDate.accountId.toString()).request(this, true) { s: String?, jsonObject: JsonObject? ->
                     //toast("$s,$jsonObject")
-                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.like_complte))
+                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
                     mDates.get(scrollPosition).iIsFans = 1
                     doAnimation()
 //                    doNextCard()
@@ -348,7 +410,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             }else{
                 Request.getDelFollow(userId, findDate.accountId.toString()).request(this,true) { s: String?, jsonObject: JsonObject? ->
                     mDates.get(scrollPosition).iIsFans = 0
-                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.discover_like_button))
+                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
 //                    doNextCard()
                 }
             }

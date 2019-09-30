@@ -104,10 +104,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="43dp"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/discover_back_button" />
-
+                android:src="@mipmap/toleft_button" />
+            <!--discover_back_button-->
             <ImageButton
                 android:id="@+id/fb_find_chat"
                 android:layout_width="wrap_content"
@@ -117,26 +117,25 @@
                 android:layout_marginRight="20dp"
                 android:background="@android:color/transparent"
                 android:src="@mipmap/find_chat_button"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <ImageButton
                 android:id="@+id/fb_heat_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="74dp"
+                android:layout_height="74dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="43dp"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/discover_like_button" />
+                android:src="@mipmap/center_like_button" />
+            <!--discover_like_button-->
 
             <ImageButton
                 android:id="@+id/btn_like"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="5dp"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/discover_next_button" />
+                android:src="@mipmap/toright_button" />
 
         </LinearLayout>
     </RelativeLayout>
@@ -146,4 +145,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
+    <LinearLayout
+        android:id="@+id/ll_gift_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="220dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
 </RelativeLayout>

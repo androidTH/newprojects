@@ -28,12 +28,21 @@ public class AppScreenUtils
 	 * @param context
 	 * @return
 	 */
-	public static int getScreenWidth(Context context)
-	{
-		WindowManager wm = (WindowManager) context
-				.getSystemService(Context.WINDOW_SERVICE);
-		DisplayMetrics outMetrics = new DisplayMetrics();
-		wm.getDefaultDisplay().getMetrics(outMetrics);
+	public static int getScreenWidth(Context context) {
+		DisplayMetrics outMetrics;
+		try{
+			if(context!=null){
+				WindowManager wm = (WindowManager) context
+						.getSystemService(Context.WINDOW_SERVICE);
+				outMetrics = new DisplayMetrics();
+				wm.getDefaultDisplay().getMetrics(outMetrics);
+			}else{
+				return 1920;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return 1920;
+		}
 		return outMetrics.widthPixels;
 	}
 

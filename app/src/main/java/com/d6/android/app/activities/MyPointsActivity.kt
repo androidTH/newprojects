@@ -139,31 +139,44 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_cash_money.setOnClickListener {
-              val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-              if(TextUtils.equals("7",className)){
-                  var mYKCashMoneyDialog =  YKCashMoneyDialog()
-                  mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to "你当前是游客身份，提现需要核实身份，请联系客服")
-                  mYKCashMoneyDialog.show(supportFragmentManager,"YKCashMoneyDialog")
-                  mYKCashMoneyDialog.setDialogListener { p, s ->
-                      pushCustomerMessage(this,userId,6,""){
-                          chatService(this)
-                      }
-                  }
-              }else{
-                  if(!TextUtils.equals("0",mHeaderView.tv_redflowernums.text.toString())){
-                      var dialogCashMoney = DialogCashMoney()
-                      mUserInfo?.let {
-                          dialogCashMoney.arguments = bundleOf("cashmoney" to  mHeaderView.tv_redflowernums.text.toString())
-                          dialogCashMoney.show(supportFragmentManager,"cashmoney")
-                          dialogCashMoney.setDialogListener { p, s ->
-                              //var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
+              doCashMoney(1) //体现红心
+        }
+        mHeaderView.tv_cash_money_redflower.setOnClickListener {
+             doCashMoney(2) //提现红花
+        }
+    }
+
+
+    private fun doCashMoney(type:Int){
+        val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+        if(TextUtils.equals("7",className)){
+            var mYKCashMoneyDialog =  YKCashMoneyDialog()
+            mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to "你当前是游客身份，提现需要核实身份，请联系客服")
+            mYKCashMoneyDialog.show(supportFragmentManager,"YKCashMoneyDialog")
+            mYKCashMoneyDialog.setDialogListener { p, s ->
+                pushCustomerMessage(this,userId,6,""){
+                    chatService(this)
+                }
+            }
+        }else{
+            var nums = if(type==2){
+                mHeaderView.tv_redflowernums.text.toString()
+            }else{
+                mHeaderView.tv_redheartnums.text.toString()
+            }
+            if(!TextUtils.equals("0",nums)){
+                var dialogCashMoney = DialogCashMoney()
+                mUserInfo?.let {
+                    dialogCashMoney.arguments = bundleOf("cashmoney" to  "${nums}","type" to type)
+                    dialogCashMoney.show(supportFragmentManager,"cashmoney")
+                    dialogCashMoney.setDialogListener { p, s ->
+                        //var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
 //                    mHeaderView.tv_redflowernums.text = redflowerNums.toString()
-                              getUserInfo()
-                              getData()
-                          }
-                      }
-                  }
-              }
+                        getUserInfo()
+                        getData()
+                    }
+                }
+            }
         }
     }
 
@@ -206,7 +219,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     if(it.iInviteCount>0){
                         var style = SpannableStringBuilder("累计邀请: ${it.iInviteCount}人")
                         style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        mHeaderView.tv_redwallet_nums.text = style
+//                        mHeaderView.tv_redwallet_nums.text = style
                     }
                     if(it.iInviteFlower>0||it.iInvitePoint>0){
                         var str = "累计收益: ${it.iInviteFlower}朵小红花 ${it.iInvitePoint}积分"
@@ -214,7 +227,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         var style = SpannableStringBuilder("累计收益: ${it.iInviteFlower}朵小红花 ${it.iInvitePoint}积分")
                         style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 6, str.length - 7 - len , Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this,R.color.color_F7AB00)), 12, str.length-2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        mHeaderView.tv_redwallet_points.text = style
+//                        mHeaderView.tv_redwallet_points.text = style
                     }
                     mInviteLinkBean = it
                 }
@@ -382,6 +395,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 mHeaderView.iv_wallet_headView.setImageURI(it.picUrl)
                 mHeaderView.tv_wallet_username.text = it.name
 
+                mHeaderView.tv_redheartnums.text = it.iFlowerCount.toString()
                 mHeaderView.tv_redflowernums.text = it.iFlowerCount.toString()
 
                 if(TextUtils.equals("0",it.iFlowerCount.toString())){

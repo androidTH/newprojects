@@ -36,6 +36,7 @@
                 android:layout_marginRight="@dimen/margin_5"
                 android:singleLine="true"
                 android:text="--"
+                android:textSize="15sp"
                 android:textColor="@color/color_black" />
 
             <TextView
@@ -77,20 +78,36 @@
             android:textSize="12sp" />
     </LinearLayout>
 
+    <!--<TextView-->
+        <!--android:id="@+id/tv_follow"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:background="@drawable/shape_10r_fans"-->
+        <!--android:paddingLeft="@dimen/margin_15"-->
+        <!--android:paddingTop="@dimen/margin_5"-->
+        <!--android:paddingRight="@dimen/margin_15"-->
+        <!--android:paddingBottom="@dimen/margin_5"-->
+        <!--android:text="已关注"-->
+        <!--android:textColor="@color/color_DFE1E5"-->
+        <!--android:textSize="12sp" />-->
+
     <TextView
-        android:id="@+id/tv_follow"
+        android:id="@+id/tv_sendliked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/shape_10r_fans"
         android:paddingLeft="@dimen/margin_15"
         android:paddingTop="@dimen/margin_5"
         android:paddingRight="@dimen/margin_15"
         android:paddingBottom="@dimen/margin_5"
-        android:text="已关注"
-        android:textColor="@color/color_DFE1E5"
-        android:textSize="12sp" />
+        android:drawableRight="@mipmap/redheart_small"
+        android:drawablePadding="@dimen/margin_5"
+        android:text="23"
+        android:textColor="@color/color_black"
+        android:textSize="15sp" />
     <!--android:background="@drawable/shape_10r_fans"-->
     <!--android:textColor="@color/color_DFE1E5"-->
 </RelativeLayout>
