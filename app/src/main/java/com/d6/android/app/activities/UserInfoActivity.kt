@@ -222,7 +222,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }
 
-        iv_sendflower.setOnClickListener {
+        iv_sendredheart.setOnClickListener {
             mData?.let {
                 it.accountId?.let {
                     var dialogSendRedFlowerDialog = SendRedFlowerDialog()
@@ -298,8 +298,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_msg.visibility = View.VISIBLE
             deletePic = true
             mImages.add(AddImage("res:///" + myImageAdapter.mRes, 1))
-            headerView.tv_user_follow_tips.text = "我喜欢的"
-            headerView.tv_user_fans_tips.text = "喜欢我的"
+            headerView.tv_user_follow_tips.text = "送出"
+            headerView.tv_user_fans_tips.text = "收到"
             headerView.rel_add_square.visibility = View.VISIBLE
             headerView.rl_userinfo_date.visibility = View.GONE
         } else {
@@ -307,8 +307,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_more.visibility =View.VISIBLE
             tv_msg.visibility = View.GONE
             headerView.rel_add_square.visibility = View.GONE
-            headerView.tv_user_follow_tips.text = "TA喜欢的"
-            headerView.tv_user_fans_tips.text = "喜欢TA的"
+            headerView.tv_user_follow_tips.text = "送出"
+            headerView.tv_user_fans_tips.text = "收到"
             deletePic = false
             addVistor()
         }
@@ -684,7 +684,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
                         tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
                     } else {
-                        tv_like.visibility = View.VISIBLE
+                        tv_like.visibility = View.GONE
                         tv_like.text = resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
                         tv_like.textColor = ContextCompat.getColor(context, R.color.white)
@@ -887,7 +887,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
         } else {
-            tv_like.visibility = View.VISIBLE
+            tv_like.visibility = View.GONE
 
             tv_like.text = resources.getString(R.string.string_like)
             tv_like.backgroundResource = R.drawable.shape_20r_ff6

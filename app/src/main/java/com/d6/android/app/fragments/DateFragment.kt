@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import com.amap.api.location.AMapLocationClient
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
@@ -37,6 +39,7 @@ import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
+import com.d6.android.app.widget.gift.animutils.GiftAnimationUtil
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.rong.imkit.RongIM
@@ -255,6 +258,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                it.loadGift(giftModel)
                Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
             }
+
+            doAnimation()
         }
     }
 
@@ -358,29 +363,34 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
     }
 
     private fun doAnimation(){
-        iv_date_redheart.setImageResource(R.mipmap.animation_redheart)
-        val holder1 = PropertyValuesHolder.ofFloat("scaleX", 0.0f, 3.0f)
-        val holder2 = PropertyValuesHolder.ofFloat("scaleY", 0.0f, 3.0f)
-        val holder3 = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f)
-        val animator = ObjectAnimator.ofPropertyValuesHolder(iv_date_redheart, holder1, holder2, holder3)
-        animator.duration = 500
-        animator.start()
-        animator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animator) {
-            }
-
-            override fun onAnimationCancel(animation: Animator) {
-
-            }
-
-            override fun onAnimationRepeat(animation: Animator) {
-
-            }
-        })
+//        iv_date_redheart.setImageResource(R.mipmap.animation_redheart)
+//        var imageView = ImageView()
+//        val lp = ll_bottom.getLayoutParams() as RelativeLayout.LayoutParams//两个参数分别是layout_width,layout_height
+//        lp.addRule(RelativeLayout.CENTER_VERTICAL)
+//        ll_bottom.addView(imageView)
+        loveheart.showAnimationRedHeart(fb_heat_like)
+//        val holder1 = PropertyValuesHolder.ofFloat("scaleX", 0.0f, 3.0f)
+//        val holder2 = PropertyValuesHolder.ofFloat("scaleY", 0.0f, 3.0f)
+//        val holder3 = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f)
+//        val animator = ObjectAnimator.ofPropertyValuesHolder(iv_date_redheart, holder1, holder2, holder3)
+//        animator.duration = 500
+//        animator.start()
+//        animator.addListener(object : Animator.AnimatorListener {
+//            override fun onAnimationStart(animation: Animator) {
+//
+//            }
+//
+//            override fun onAnimationEnd(animation: Animator) {
+//            }
+//
+//            override fun onAnimationCancel(animation: Animator) {
+//
+//            }
+//
+//            override fun onAnimationRepeat(animation: Animator) {
+//
+//            }
+//        })
     }
 
     fun doNextCard(){
@@ -399,11 +409,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         if(mDates.size > scrollPosition){
             var findDate = mDates.get(scrollPosition)
             if(findDate.iIsFans==0){
-                Request.getAddFollow(userId, findDate.accountId.toString()).request(this, true) { s: String?, jsonObject: JsonObject? ->
+                Request.getAddFollow(userId, findDate.accountId.toString()).request(this, false) { s: String?, jsonObject: JsonObject? ->
                     //toast("$s,$jsonObject")
                     fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
                     mDates.get(scrollPosition).iIsFans = 1
-                    doAnimation()
+//                    doAnimation()
 //                    doNextCard()
                     showTips(jsonObject, "", "")
                 }

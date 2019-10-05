@@ -81,37 +81,36 @@
             android:paddingBottom="@dimen/margin_12"
             android:text="@string/string_like"
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_siliao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginRight="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_8"
             android:layout_marginBottom="@dimen/margin_18"
-            android:layout_toRightOf="@+id/tv_like"
             android:background="@drawable/shape_20r_orange"
             android:drawableLeft="@mipmap/siliao_icon"
             android:drawablePadding="@dimen/margin_5"
             android:gravity="center"
-            android:paddingLeft="30dp"
-            android:paddingTop="@dimen/margin_10"
-            android:paddingRight="30dp"
-            android:paddingBottom="@dimen/margin_10"
+            android:paddingLeft="60dp"
+            android:paddingTop="@dimen/margin_8"
+            android:paddingRight="60dp"
+            android:paddingBottom="@dimen/margin_8"
             android:text="@string/string_siliao"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
         <ImageView
-            android:id="@+id/iv_sendflower"
-            android:layout_width="62dp"
-            android:layout_height="62dp"
+            android:id="@+id/iv_sendredheart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/tv_siliao"
-            android:paddingBottom="@dimen/margin_13"
-            android:src="@mipmap/flowers_button_seleted" />
+            android:paddingBottom="10dp"
+            android:src="@mipmap/taren_redbutton" />
         <!--flowers_button_seleted-->
     </RelativeLayout>
 </RelativeLayout>

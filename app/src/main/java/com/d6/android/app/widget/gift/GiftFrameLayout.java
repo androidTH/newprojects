@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,6 +24,8 @@ import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.widget.gift.animutils.GiftAnimationUtil;
+
+import java.util.Random;
 
 
 /**
@@ -52,7 +56,7 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
     private Runnable mCurrentAnimRunnable;
 
     RelativeLayout anim_rl;
-    ImageView anim_gift, anim_light, anim_header;
+    ImageView anim_gift, anim_light, anim_header,iv_animation_redheart;
     TextView anim_nickname, anim_sign;
     StrokeTextView anim_num;
 
@@ -116,6 +120,7 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
         anim_gift = (ImageView) rootView.findViewById(R.id.giftIv);
         anim_light = (ImageView) rootView.findViewById(R.id.light);
         anim_num = (StrokeTextView) rootView.findViewById(R.id.animation_num);
+//        iv_animation_redheart = (ImageView) rootView.findViewById(R.id.iv_animation_redheart);
         anim_header = (ImageView) rootView.findViewById(R.id.headIv);
         anim_nickname = (TextView) rootView.findViewById(R.id.nickNameTv);
         anim_sign = (TextView) rootView.findViewById(R.id.infoTv);
@@ -557,5 +562,83 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
         } else {
             return anim.endAnim(this, rootView);
         }
+    }
+
+    float[] num = {-30, -20, 0, 20, 30};//随机心形图片角度
+
+    public void showRedHeartAnimation(ImageView iv_animation_redheart){
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(scale(iv_animation_redheart, "scaleX", 2f, 0.9f, 100, 0))
+                .with(scale(iv_animation_redheart, "scaleY", 2f, 0.9f, 100, 0))
+                .with(rotation(iv_animation_redheart, 0, 0, num[new Random().nextInt(4)]))
+                .with(alpha(iv_animation_redheart, 0, 1, 100, 0))
+                .with(scale(iv_animation_redheart, "scaleX", 0.9f, 1, 50, 150))
+                .with(scale(iv_animation_redheart, "scaleY", 0.9f, 1, 50, 150))
+                .with(translationY(iv_animation_redheart, 0, -600, 800, 400))
+                .with(alpha(iv_animation_redheart, 1, 0, 300, 400))
+                .with(scale(iv_animation_redheart, "scaleX", 1, 3f, 700, 400))
+                .with(scale(iv_animation_redheart, "scaleY", 1, 3f, 700, 400));
+
+        animatorSet.start();
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+//                removeViewInLayout(iv_animation_redheart);
+            }
+        });
+    }
+
+    public ObjectAnimator scale(View view, String propertyName, float from, float to, long time, long delayTime) {
+        ObjectAnimator translation = ObjectAnimator.ofFloat(view
+                , propertyName
+                , from, to);
+        translation.setInterpolator(new LinearInterpolator());
+        translation.setStartDelay(delayTime);
+        translation.setDuration(time);
+        return translation;
+    }
+
+    public ObjectAnimator translationX(View view, float from, float to, long time, long delayTime) {
+        ObjectAnimator translation = ObjectAnimator.ofFloat(view
+                , "translationX"
+                , from, to);
+        translation.setInterpolator(new LinearInterpolator());
+        translation.setStartDelay(delayTime);
+        translation.setDuration(time);
+        return translation;
+    }
+
+    public  ObjectAnimator translationY(View view, float from, float to, long time, long delayTime) {
+        ObjectAnimator translation = ObjectAnimator.ofFloat(view
+                , "translationY"
+                , from, to);
+        translation.setInterpolator(new LinearInterpolator());
+        translation.setStartDelay(delayTime);
+        translation.setDuration(time);
+        return translation;
+    }
+
+    public  ObjectAnimator alpha(View view, float from, float to, long time, long delayTime) {
+        ObjectAnimator translation = ObjectAnimator.ofFloat(view
+                , "alpha"
+                , from, to);
+        translation.setInterpolator(new LinearInterpolator());
+        translation.setStartDelay(delayTime);
+        translation.setDuration(time);
+        return translation;
+    }
+
+    public  ObjectAnimator rotation(View view, long time, long delayTime, float... values) {
+        ObjectAnimator rotation = ObjectAnimator.ofFloat(view, "rotation", values);
+        rotation.setDuration(time);
+        rotation.setStartDelay(delayTime);
+        rotation.setInterpolator(new TimeInterpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return input;
+            }
+        });
+        return rotation;
     }
 }

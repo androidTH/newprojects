@@ -20,6 +20,7 @@
     <!--https://github.com/boycy815/PinchImageView-->
     <!--https://github.com/APLK/RichTextView-->
     <!--https://github.com/kaisengao/KsgLikeView#ksglikeview-->
+    <!--https://github.com/venshine/GoodView-->
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

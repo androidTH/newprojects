@@ -55,6 +55,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private var mInviteLinkBean:InviteLinkBean? = null
 
     lateinit var mPointsListDialog: PointsListDialog
+    lateinit var mRedHeartListDialog: RedHeartListDialog
 
     private val mPointsAdapter by lazy {
         PointsAdapter(mUserPoints)
@@ -109,6 +110,23 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //              mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
                 mPointsListDialog.show(supportFragmentManager, "c")
                 mPointsListDialog.setOnPayListener { p, data ->
+                    payMoney(data)
+                }
+            }else{
+                val commonTiphDialog = CommonTipDialog()
+                commonTiphDialog.arguments = bundleOf("resMsg" to "请联系微信客服开通会员后进行充值～")
+                commonTiphDialog.show(supportFragmentManager, "resMsg")
+//                CustomToast.showToast("请联系微信客服开通会员后进行充值～")
+            }
+        }
+
+        mHeaderView.tv_recharge_redheart.setOnClickListener {
+            val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+            if (!TextUtils.equals(className,"7")) {
+                mRedHeartListDialog = RedHeartListDialog()
+//              mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
+                mRedHeartListDialog.show(supportFragmentManager, "c")
+                mRedHeartListDialog.setOnPayListener { p, data ->
                     payMoney(data)
                 }
             }else{

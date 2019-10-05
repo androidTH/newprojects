@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/rl_points_top"
         android:layout_width="match_parent"
-        android:layout_height="310dp"
+        android:layout_height="290dp"
         android:background="@mipmap/icon_wallet_bg">
 
         <RelativeLayout
@@ -101,7 +101,7 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:drawableLeft="@mipmap/intergal_small_coin"
-                android:drawablePadding="@dimen/margin_5"
+                android:drawablePadding="@dimen/margin_3"
                 android:gravity="center_vertical"
                 android:text="可用积分"
                 android:textColor="@color/white"
@@ -173,10 +173,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_marginBottom="@dimen/margin_10"
-                android:drawableLeft="@mipmap/small_flower_icon"
-                android:drawablePadding="@dimen/margin_5"
+                android:drawableLeft="@mipmap/intergal_smallheart_coin"
+                android:drawablePadding="@dimen/margin_3"
                 android:gravity="center_vertical"
-                android:text="红心"
+                android:text="爱心"
                 android:textColor="@color/white"
                 android:textSize="10dp" />
 
@@ -189,11 +189,27 @@
                 android:layout_marginBottom="@dimen/margin_10"
                 android:visibility="gone"
                 android:id="@+id/tv_work_checkin_tips"/>
-
+            <TextView
+                android:id="@+id/tv_recharge_redheart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_20r_white"
+                android:paddingLeft="15dp"
+                android:paddingTop="@dimen/margin_5"
+                android:paddingRight="15dp"
+                android:paddingBottom="@dimen/margin_5"
+                android:text="充值"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:textColor="@color/color_FF5A5A"
+                android:textStyle="bold"
+                android:textSize="15sp" />
             <TextView
                 android:id="@+id/tv_cash_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_recharge_redheart"
                 android:background="@drawable/shape_20r_stroke_white"
                 android:paddingLeft="15dp"
                 android:paddingTop="@dimen/margin_5"
@@ -203,8 +219,8 @@
                 android:textColor="@color/color_96FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold"
+                android:layout_marginTop="@dimen/margin_10"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_10"/>
             <!--android:background="@drawable/shape_20r_stroke_fe6"-->
             <!--android:textColor="@color/white"-->
@@ -213,15 +229,17 @@
         <RelativeLayout
             android:id="@+id/rl_redflower_cashmoney"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="45dp"
+            android:background="@drawable/shape_4r_f5"
             android:layout_below="@+id/rl_recharge"
             android:layout_marginLeft="@dimen/margin_8"
             android:layout_marginRight="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_5"
             android:layout_marginBottom="@dimen/margin_10"
-            android:background="@drawable/shape_4r_fe"
             android:gravity="center_horizontal"
             android:paddingLeft="@dimen/margin_10">
+            <!--android:background="@drawable/shape_4r_fe"-->
+
 
             <!--shape_4r_fe-->
 
@@ -235,9 +253,9 @@
                 android:gravity="center_vertical"
                 android:layout_centerVertical="true"
                 android:text="小红花"
-                android:textColor="@color/white"
+                android:textColor="@color/color_black"
                 android:textStyle="bold"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_redflowernums"
@@ -246,7 +264,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="--"
-                android:textColor="@color/white"
+                android:textColor="@color/color_black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -254,18 +272,17 @@
                 android:id="@+id/tv_cash_money_redflower"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_20r_stroke_fe6"
                 android:paddingLeft="15dp"
                 android:paddingTop="@dimen/margin_5"
-                android:paddingRight="15dp"
+                android:paddingRight="@dimen/margin_10"
                 android:paddingBottom="@dimen/margin_5"
                 android:text="提现"
-                android:textColor="@color/color_96FFFFFF"
+                android:textColor="@color/color_FE6E17"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_10"/>
+                android:layout_marginRight="@dimen/margin_5"/>
             <!--android:background="@drawable/shape_20r_stroke_fe6"-->
             <!--android:textColor="@color/white"-->
         </RelativeLayout>

@@ -57,7 +57,6 @@
         android:layout_height="0.5dp"
         android:layout_below="@+id/mTitleBar"
         android:background="@color/color_e6e6e6" />
-
     <RelativeLayout
         android:id="@+id/rl_date"
         android:layout_width="match_parent"
@@ -145,6 +144,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
+
+    <com.d6.android.app.widget.LoveHeart
+        android:id="@+id/loveheart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="120dp"/>
     <LinearLayout
         android:id="@+id/ll_gift_parent"
         android:layout_width="match_parent"

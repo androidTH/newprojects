@@ -37,7 +37,6 @@
             android:textStyle="bold"
             android:gravity="center_horizontal"
             android:textColor="@color/color_333333"
-            android:text="ss"
             android:textSize="15sp" />
         <View
             android:layout_marginTop="@dimen/margin_20"

@@ -10,13 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
-import com.d6.android.app.activities.MyDateActivity
-import com.d6.android.app.adapters.MemberDescHolder
+import com.d6.android.app.adapters.RedHeartGuideHolder
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.MemberDesc
-import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
@@ -24,7 +21,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.redheartguide_dialog.*
 import org.jetbrains.anko.support.v4.dip
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
@@ -34,6 +30,10 @@ import org.jetbrains.anko.wrapContent
 class RedHeartGuideDialog : DialogFragment(),RequestManager {
 
     var mMemberDesc = ArrayList<MemberDesc>()
+
+    private val mUserSex by lazy {
+        SPUtils.instance().getString(Const.User.USER_SEX)
+    }
 
     private val compositeDisposable by lazy {
         CompositeDisposable()
@@ -75,34 +75,38 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        var from  = arguments.getString(Const.NO_VIP_FROM_TYPE)
 
-//        if(TextUtils.equals("mine",from)){
-//            tv_member.text = "会员有价 情缘无价"
-//        }else{
-//            tv_member.text = "成为会员后即可使用该功能"
-//        }
-        mMemberDesc.add(MemberDesc("人工精准匹配约会，超高成功率","专属客服匹配","res:///"+R.mipmap.windows_tz1))
-        mMemberDesc.add(MemberDesc("直接开聊拒绝骚扰","一对一私聊",
-                "res:///"+R.mipmap.windows_tz2))
-        mMemberDesc.add(MemberDesc("多金？有颜？总有一个是你的菜","优质会员任你挑",
-                "res:///"+R.mipmap.windows_tz3))
-        mMemberDesc.add(MemberDesc("提供交友、线上群聊、线下聚会、酒店旅行折扣","私人定制服务",
-                "res:///"+R.mipmap.windows_tz4))
+        if(TextUtils.equals("0",mUserSex)){
+            mMemberDesc.add(MemberDesc("","资料完成度越高，收到的红心越多","res:///"+R.mipmap.poppic_d,R.mipmap.poppic_d))
+            mMemberDesc.add(MemberDesc("","送的越多回复你的概率越高",
+                    "res:///"+R.mipmap.poppic_e,R.mipmap.poppic_e))
+            mMemberDesc.add(MemberDesc("","首次赠送10颗红心用完可充值",
+                    "res:///"+R.mipmap.poppic_f,R.mipmap.poppic_f))
+            setShowTips(0, "资料完成度越高，收到的红心越多")
+        }else{
+            mMemberDesc.add(MemberDesc("","相互喜欢即可解锁聊天","res:///"+R.mipmap.poppic_a,R.mipmap.poppic_a))
+            mMemberDesc.add(MemberDesc("","收到的红心可前往[钱包]中提现",
+                    "res:///"+R.mipmap.poppic_b,R.mipmap.poppic_b))
+            mMemberDesc.add(MemberDesc("","首次赠送10颗红心用完可充值",
+                    "res:///"+R.mipmap.poppic_c,R.mipmap.poppic_c))
+
+            setShowTips(0, "相互喜欢即可解锁聊天")
+        }
 
         member_banner.setPages(
                 object : CBViewHolderCreator {
-                    override fun createHolder(itemView: View): MemberDescHolder {
-                        return MemberDescHolder(itemView)
+                    override fun createHolder(itemView: View): RedHeartGuideHolder {
+                        return RedHeartGuideHolder(itemView)
                     }
 
                     override fun getLayoutId(): Int {
-                        return R.layout.item_member_banner
+                        return R.layout.item_redheart_banner
                     }
                 },mMemberDesc)
 
         member_banner.setOnPageChangeListener(object: OnPageChangeListener {
             override fun onPageSelected(index: Int) {
+                var title = mMemberDesc.get(index).title
                 when(index){
                     0-> {
                         if(tv_numone_member!=null){
@@ -115,10 +119,7 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
                         if(tv_numthree_member!=null){
                             tv_numthree_member.isEnabled = true
                         }
-
-                        if(tv_numfour_member!=null){
-                            tv_numfour_member.isEnabled = true
-                        }
+                        setShowTips(0, title)
                     }
                     1->{
                         if(tv_numone_member!=null){
@@ -131,13 +132,9 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
                         if(tv_numthree_member!=null){
                             tv_numthree_member.isEnabled = true
                         }
-
-                        if(tv_numfour_member!=null){
-                            tv_numfour_member.isEnabled = true
-                        }
+                        setShowTips(1,title)
                     }
                     2->{
-
                         if(tv_numone_member!=null){
                             tv_numone_member.isEnabled = true
                         }
@@ -149,26 +146,7 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
                             tv_numthree_member.isEnabled = false
                         }
 
-                        if(tv_numfour_member!=null){
-                            tv_numfour_member.isEnabled = true
-                        }
-                    }
-                    3->{
-
-                        if(tv_numone_member!=null){
-                            tv_numone_member.isEnabled = true
-                        }
-                        if(tv_numtwo_member!=null){
-                            tv_numtwo_member.isEnabled = true
-                        }
-
-                        if(tv_numthree_member!=null){
-                            tv_numthree_member.isEnabled = true
-                        }
-
-                        if(tv_numfour_member!=null){
-                            tv_numfour_member.isEnabled = false
-                        }
+                        setShowTips(2,title)
                     }
                 }
             }
@@ -181,12 +159,23 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
         })
 
         tv_know.setOnClickListener {
-               isBaseActivity {
-                   it.pushCustomerMessage(it, getLocalUserId(),1,"",next = {
-                       chatService(it)
-                       dismissAllowingStateLoss()
-                   })
-               }
+            dismissAllowingStateLoss()
+//               isBaseActivity {
+//                   it.pushCustomerMessage(it, getLocalUserId(),1,"",next = {
+//                       chatService(it)
+//                       dismissAllowingStateLoss()
+//                   })
+//               }
+        }
+    }
+
+    private fun setShowTips(index:Int,content:String){
+        if(index==0){
+            tv_banner_desc.text = "${content}"
+        }else if(index==1){
+            tv_banner_desc.text = "${content}"
+        }else if(index==2){
+            tv_banner_desc.text = "${content}"
         }
     }
 
@@ -198,64 +187,6 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
     override fun onStop() {
         super.onStop()
         member_banner.startTurning()
-    }
-
-    private fun getAuthState() {
-        if (context is BaseActivity) {
-            (context as BaseActivity).dialog(canCancel = false)
-        }
-        val userId = SPUtils.instance().getString(Const.User.USER_ID)
-        Request.getAuthState(userId).request(this){ _, data->
-//            if (data != null) {
-//                val wanshanziliao = data.optDouble("wanshanziliao")
-//                if (wanshanziliao < 8) {//资料完善程度大于=80%
-//                    startActivity<DateAuthStateActivity>()
-//                    return@request
-//                }
-//                val lianxifangshi = data.optInt("lianxifangshi")
-//                if (lianxifangshi == 0) {
-//                    startActivity<DateAuthStateActivity>()
-//                    return@request
-//                }
-//
-//                val qurenzheng = data.optInt("qurenzheng")
-//                if (qurenzheng == 0) {
-//                    startActivity<DateAuthStateActivity>()
-//                    return@request
-//                }
-//
-//                startActivity<MyDateActivity>()
-//
-//            } else {
-//                startActivity<DateAuthStateActivity>()
-//            }
-
-            if (data != null) {
-                val wanshanziliao = data.optDouble("wanshanziliao")
-                if (wanshanziliao < 8) {//资料完善程度大于=80%
-                    startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "0")
-                    return@request
-                }
-                val lianxifangshi = data.optInt("lianxifangshi")
-                if (lianxifangshi == 0) {
-                    startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "0")
-                    return@request
-                }
-
-                val qurenzheng = data.optInt("qurenzheng")
-                if (qurenzheng == 0) {
-                    startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "0")
-                    return@request
-                }
-
-                startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "1")
-
-            } else {//startActivity<DateAuthStateActivity>
-                startActivity<MyDateActivity>("whetherOrNotToBeCertified" to "0")
-            }
-
-
-        }
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {

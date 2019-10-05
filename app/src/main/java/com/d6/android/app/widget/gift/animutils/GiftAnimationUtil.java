@@ -1,13 +1,18 @@
 package com.d6.android.app.widget.gift.animutils;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.TimeInterpolator;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.Random;
 
 /**
  * Created by KathLine on 2017/1/8.
@@ -122,6 +127,85 @@ public class GiftAnimationUtil {
         animSet.play(animator5).after(animator4);
         animSet.start();
         return animSet;
+    }
+
+
+    static float[] num = {-30, -20, 0, 20, 30};//随机心形图片角度
+
+    public static void showRedHeartAnimation(ImageView iv_animation_redheart){
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(scale(iv_animation_redheart, "scaleX", 2f, 0.9f, 100, 0))
+                .with(scale(iv_animation_redheart, "scaleY", 2f, 0.9f, 100, 0))
+                .with(rotation(iv_animation_redheart, 0, 0, num[new Random().nextInt(4)]))
+                .with(alpha(iv_animation_redheart, 0, 1, 100, 0))
+                .with(scale(iv_animation_redheart, "scaleX", 0.9f, 1, 50, 150))
+                .with(scale(iv_animation_redheart, "scaleY", 0.9f, 1, 50, 150))
+                .with(translationY(iv_animation_redheart, 0, -600, 800, 400))
+                .with(alpha(iv_animation_redheart, 1, 0, 300, 400))
+                .with(scale(iv_animation_redheart, "scaleX", 1, 3f, 700, 400))
+                .with(scale(iv_animation_redheart, "scaleY", 1, 3f, 700, 400));
+
+        animatorSet.start();
+        animatorSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+//                removeViewInLayout(iv_animation_redheart);
+            }
+        });
+    }
+
+    public static ObjectAnimator scale(View view, String propertyName, float from, float to, long time, long delayTime) {
+        ObjectAnimator translation = ObjectAnimator.ofFloat(view
+                , propertyName
+                , from, to);
+        translation.setInterpolator(new LinearInterpolator());
+        translation.setStartDelay(delayTime);
+        translation.setDuration(time);
+        return translation;
+    }
+
+    public static ObjectAnimator translationX(View view, float from, float to, long time, long delayTime) {
+        ObjectAnimator translation = ObjectAnimator.ofFloat(view
+                , "translationX"
+                , from, to);
+        translation.setInterpolator(new LinearInterpolator());
+        translation.setStartDelay(delayTime);
+        translation.setDuration(time);
+        return translation;
+    }
+
+    public static ObjectAnimator translationY(View view, float from, float to, long time, long delayTime) {
+        ObjectAnimator translation = ObjectAnimator.ofFloat(view
+                , "translationY"
+                , from, to);
+        translation.setInterpolator(new LinearInterpolator());
+        translation.setStartDelay(delayTime);
+        translation.setDuration(time);
+        return translation;
+    }
+
+    public static ObjectAnimator alpha(View view, float from, float to, long time, long delayTime) {
+        ObjectAnimator translation = ObjectAnimator.ofFloat(view
+                , "alpha"
+                , from, to);
+        translation.setInterpolator(new LinearInterpolator());
+        translation.setStartDelay(delayTime);
+        translation.setDuration(time);
+        return translation;
+    }
+
+    public static ObjectAnimator rotation(View view, long time, long delayTime, float... values) {
+        ObjectAnimator rotation = ObjectAnimator.ofFloat(view, "rotation", values);
+        rotation.setDuration(time);
+        rotation.setStartDelay(delayTime);
+        rotation.setInterpolator(new TimeInterpolator() {
+            @Override
+            public float getInterpolation(float input) {
+                return input;
+            }
+        });
+        return rotation;
     }
 
 }

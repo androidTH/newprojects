@@ -112,6 +112,7 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
 
     public void loadGift(GiftModel gift) {
         loadGift(gift, true);
+
     }
 
     /**

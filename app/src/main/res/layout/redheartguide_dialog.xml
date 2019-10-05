@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/color_EFEFEF"
     app:cardCornerRadius="@dimen/margin_10">
 
     <RelativeLayout
@@ -25,27 +25,45 @@
             android:layout_marginRight="15dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_member"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="情缘无价 会员有价"
-                android:textColor="@color/color_333333"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-              <View
-                  android:layout_width="match_parent"
-                  android:layout_height="0.5dp"
-                  android:layout_marginTop="@dimen/margin_13"
-                  android:layout_marginBottom="@dimen/margin_13"
-                  android:background="@color/color_ECECEC"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_member"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="真"
+                    android:textColor="@color/color_333333"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_3"
+                    android:layout_marginRight="@dimen/margin_3"
+                    android:src="@mipmap/redheart_small"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="实意"
+                    android:textColor="@color/color_333333"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/margin_13"
+                android:layout_marginBottom="@dimen/margin_13"
+                android:background="@color/color_1A000000" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginTop="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_5"
                 android:lineSpacingExtra="@dimen/margin_5"
                 android:text="随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗红心=1毛钱，容易获得对方的青睐"
@@ -56,17 +74,28 @@
             android:id="@+id/member_banner"
             android:layout_below="@+id/ll_content"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="180dp"
             android:layout_marginLeft="@dimen/margin_25"
             android:layout_marginRight="@dimen/margin_25"
             banner:autoTurningTime="3000"
             banner:canLoop="true" />
 
+        <TextView
+            android:id="@+id/tv_banner_desc"
+            android:layout_below="@+id/member_banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_8"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
         <LinearLayout
-            android:layout_below="@+id/ll_content"
+            android:id="@+id/ll_dots"
+            android:layout_below="@+id/tv_banner_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="@dimen/margin_8"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -93,20 +122,20 @@
                 android:layout_marginRight="@dimen/margin_5"
                 android:background="@drawable/shape_dot_selector" />
 
-            <TextView
-                android:id="@+id/tv_numfour_member"
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:background="@drawable/shape_dot_selector" />
+            <!--<TextView-->
+                <!--android:id="@+id/tv_numfour_member"-->
+                <!--android:layout_width="5dp"-->
+                <!--android:layout_height="5dp"-->
+                <!--android:background="@drawable/shape_dot_selector" />-->
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_know"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_50"
-            android:layout_below="@+id/member_banner"
+            android:layout_below="@+id/ll_dots"
             android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_15"
             android:background="@drawable/shape_orange"
             android:gravity="center"
