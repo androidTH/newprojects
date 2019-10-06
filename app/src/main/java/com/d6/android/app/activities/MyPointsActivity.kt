@@ -25,6 +25,7 @@ import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.setTextViewSpannable
+import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_mypoints.*
@@ -121,20 +122,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_recharge_redheart.setOnClickListener {
-            val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
-            if (!TextUtils.equals(className,"7")) {
-                mRedHeartListDialog = RedHeartListDialog()
-//              mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
-                mRedHeartListDialog.show(supportFragmentManager, "c")
-                mRedHeartListDialog.setOnPayListener { p, data ->
-                    payMoney(data)
-                }
-            }else{
-                val commonTiphDialog = CommonTipDialog()
-                commonTiphDialog.arguments = bundleOf("resMsg" to "请联系微信客服开通会员后进行充值～")
-                commonTiphDialog.show(supportFragmentManager, "resMsg")
-//                CustomToast.showToast("请联系微信客服开通会员后进行充值～")
-            }
+            redHeartList()
         }
 
         mHeaderView.tv_privilege.setOnClickListener {
@@ -157,10 +145,15 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         mHeaderView.tv_cash_money.setOnClickListener {
-              doCashMoney(1) //体现红心
+              doCashMoney(1) //提现爱心
         }
         mHeaderView.tv_cash_money_redflower.setOnClickListener {
              doCashMoney(2) //提现红花
+        }
+
+        var fromType = intent.getStringExtra("fromType")
+        if(TextUtils.equals(SENDLOVEHEART_DIALOG,fromType)){
+           redHeartList()
         }
     }
 
@@ -203,6 +196,23 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         getUserInfo()
         getData()
         getAccountInviteLink()
+    }
+
+    private fun redHeartList(){
+        val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+        if (!TextUtils.equals(className,"7")) {
+            mRedHeartListDialog = RedHeartListDialog()
+//              mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
+            mRedHeartListDialog.show(supportFragmentManager, "c")
+            mRedHeartListDialog.setOnPayListener { p, data ->
+                payMoney(data)
+            }
+        }else{
+            val commonTiphDialog = CommonTipDialog()
+            commonTiphDialog.arguments = bundleOf("resMsg" to "请联系微信客服开通会员后进行充值～")
+            commonTiphDialog.show(supportFragmentManager, "resMsg")
+//                CustomToast.showToast("请联系微信客服开通会员后进行充值～")
+        }
     }
 
     private fun loginforPoint(){

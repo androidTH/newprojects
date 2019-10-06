@@ -306,7 +306,7 @@ class MineFragment : BaseFragment() {
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
                 AppUtils.setUserWallet( context,"积分 ${it.iPoint.toString()}",0 ,2 ,tv_points)
-                AppUtils.setUserWallet( context,"小红花 ${it.iFlowerCount.toString()}",0 ,3 ,tv_redflowernums)
+                AppUtils.setUserWallet( context,"爱心 ${it.iFlowerCount.toString()}",0 ,3 ,tv_redflowernums)
 
                 if(TextUtils.equals(getLocalUserId(), Const.CustomerServiceId)||TextUtils.equals(getLocalUserId(), Const.CustomerServiceWomenId)){
                     img_auther.visibility = View.GONE

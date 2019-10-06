@@ -1,7 +1,6 @@
 package com.d6.android.app.fragments
 
 import android.Manifest
-import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.v4.content.ContextCompat
@@ -32,6 +31,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.toast
+import java.lang.Exception
 
 /**
  * 主页
@@ -229,17 +229,21 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     private fun getProvinceData() {
-        if (cityJson.isNullOrEmpty()) {
-            getServiceProvinceData()
-        } else {
-            if (!TextUtils.equals(getTodayTime(), lastTime)) {
+        try{
+            if (TextUtils.isEmpty(cityJson)) {
                 getServiceProvinceData()
             } else {
-                var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-                setLocationCity()
-                ProvinceData!!.add(0,province)
-                mPopupArea.setData(ProvinceData)
+                if (!TextUtils.equals(getTodayTime(), lastTime)) {
+                    getServiceProvinceData()
+                } else {
+                    var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                    setLocationCity()
+                    ProvinceData!!.add(0,province)
+                    mPopupArea.setData(ProvinceData)
+                }
             }
+        }catch (e:Exception){
+            getServiceProvinceData()
         }
     }
 

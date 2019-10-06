@@ -31,6 +31,7 @@ import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.bean.CustomSystemMessage
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import com.d6.android.app.widget.badge.DisplayUtil
@@ -83,7 +84,8 @@ class SendLoveHeartDialog : DialogFragment() {
 
         tv_redheart_gobuy.setOnClickListener {
              isBaseActivity {
-                 startActivity<MyPointsActivity>()
+                 startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
+                 dismissAllowingStateLoss()
              }
         }
 //        tv_wx_pay_flower.setOnClickListener {

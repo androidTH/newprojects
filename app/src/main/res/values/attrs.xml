@@ -119,4 +119,13 @@
         <attr name="outerColor" format="color|reference" />
         <attr name="innnerColor" format="color|reference" />
     </declare-styleable>
+
+    <declare-styleable name="TextInlineImage">
+        <attr name="imageSize" format="dimension" />
+        <attr name="imageAlignment" format="enum">
+            <enum name="center" value="0"/>
+            <enum name="baseline" value="1"/>
+            <enum name="bottom" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>

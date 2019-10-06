@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_fans_count"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/likeme"
+                    android:text="收到爱心"
                     android:textColor="@color/color_888888"
                     android:textSize="10sp" />
             </RelativeLayout>
@@ -267,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_follow_count"
                     android:layout_centerHorizontal="true"
-                    android:text="@string/Ilike"
+                    android:text="送出爱心"
                     android:textColor="@color/color_888888"
                     android:textSize="10sp" />
             </RelativeLayout>
@@ -576,9 +576,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/small_flower_newicon"
+                android:drawableLeft="@mipmap/redheart_small"
                 android:drawablePadding="@dimen/margin_5"
-                android:text="小红花:0"
+                android:text="爱心:0"
                 android:textColor="@color/color_888888"
                 android:textSize="14sp" />
         </LinearLayout>

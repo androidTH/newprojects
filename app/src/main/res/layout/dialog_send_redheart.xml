@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
             android:textColor="@color/color_666666"
             android:textStyle="bold"
             android:textSize="12sp" />
-        <TextView
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_redheart_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,12 +41,13 @@
             android:layout_marginBottom="@dimen/margin_15"
             android:layout_marginLeft="@dimen/margin_25"
             android:layout_marginRight="@dimen/margin_25"
-            android:drawablePadding="@dimen/margin_5"
-            android:text="红心送的越多，将会把你优先推荐给TA，回复你的概率越高"
+            android:text="[img src=redheart_small/] 送的越多，将会把你优先推荐给TA，回复你的概率越高"
             android:textColor="@color/color_333333"
             android:textStyle="bold"
             android:gravity="center"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            app:imageSize="18dp"
+            app:imageAlignment="center"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_send_redheart"

@@ -47,7 +47,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         if(data.isTop){
             tv_conversation_type.visibility = View.VISIBLE
             swipeItemLayout.backgroundColor = ContextCompat.getColor(context,R.color.color_05000000)
-            tv_conversation_type.text=context.getString(R.string.string_conversation_type)
+            tv_conversation_type.text= context.getString(R.string.string_conversation_type)
             var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_chat)
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
             tv_conversation_type.setCompoundDrawables(drawable, null, null, null)

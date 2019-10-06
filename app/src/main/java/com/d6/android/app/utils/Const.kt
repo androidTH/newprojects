@@ -217,4 +217,7 @@ object Const {
 
     @JvmField
     var LOGIN_FOR_POINT_NEW="loginForPointNew"
+
+    @JvmField
+    var SENDLOVEHEART_DIALOG ="sendLoveHeartDialog"//来自于送爱心dialog
 }

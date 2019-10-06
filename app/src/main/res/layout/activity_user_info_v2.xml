@@ -113,4 +113,21 @@
             android:src="@mipmap/taren_redbutton" />
         <!--flowers_button_seleted-->
     </RelativeLayout>
+
+    <com.d6.android.app.widget.LoveHeart
+        android:id="@+id/userinfo_loveheart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp"/>
+    <LinearLayout
+        android:id="@+id/ll_gift_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
 </RelativeLayout>

@@ -34,6 +34,9 @@ import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.d6.android.app.widget.WrapContentLinearLayoutManager
+import com.d6.android.app.widget.gift.CustormAnim
+import com.d6.android.app.widget.gift.GiftControl
+import com.d6.android.app.widget.gift.GiftModel
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
@@ -42,6 +45,8 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
+import kotlinx.android.synthetic.main.activity_user_info_v2.ll_gift_parent
+import kotlinx.android.synthetic.main.fragment_date.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
@@ -223,13 +228,22 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         iv_sendredheart.setOnClickListener {
-            mData?.let {
-                it.accountId?.let {
-                    var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-                    dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 3, "userId" to it)
-                    dialogSendRedFlowerDialog.show(supportFragmentManager, "sendflower")
-                }
-            }
+//            mData?.let {
+//                it.accountId?.let {
+//                    var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+//                    dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 3, "userId" to it)
+//                    dialogSendRedFlowerDialog.show(supportFragmentManager, "sendflower")
+//                }
+//            }
+
+            addGiftNums(1,false)
+        }
+
+        iv_sendredheart.setOnLongClickListener {
+            var mSendLoveHeartDialog = SendLoveHeartDialog()
+            mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
+            mSendLoveHeartDialog.show(supportFragmentManager,"sendloveheartDialog")
+            true
         }
 
         tv_more.setOnClickListener {
@@ -311,12 +325,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             headerView.tv_user_fans_tips.text = "收到"
             deletePic = false
             addVistor()
+
+            initGift()
         }
 
         getUserInfo()
         getUserFollowAndFansandVistor()
 
         setAudioListener()
+
     }
 
     private fun setAudioListener(){
@@ -971,6 +988,39 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     override fun onLoadMore() {
         pageNum++
         getTrendData()
+    }
+
+    //礼物
+    private var giftControl: GiftControl? = null
+
+    private fun initGift(){
+        giftControl = GiftControl(context)
+        giftControl?.let {
+            it.setGiftLayout(ll_gift_parent, 1)
+                    .setHideMode(false)
+                    .setCustormAnim(CustormAnim())
+        }
+    }
+    //连击礼物数量
+    private fun addGiftNums(giftnum:Int,currentStart: Boolean = false){
+        if (giftnum == 0) {
+            return
+        } else {
+            giftControl?.let {
+                //这里最好不要直接new对象
+                var giftModel = GiftModel()
+                giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
+                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                        .setCurrentStart(currentStart)
+                if (currentStart) {
+                    giftModel.setHitCombo(giftnum)
+                }
+                //giftModel.setJumpCombo(10);
+                it.loadGift(giftModel)
+                Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
+            }
+            userinfo_loveheart.showAnimationRedHeart(fb_heat_like)
+        }
     }
 
     override fun onDestroy() {

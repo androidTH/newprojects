@@ -28,6 +28,7 @@ import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_image.*
 import java.io.File
+import java.lang.Exception
 
 /**
  * 图片Fragment
@@ -76,9 +77,15 @@ class ImageFragment : BaseNoBarFragment() {
                         var width = AppScreenUtils.getScreenWidth(activity)
                         var scaleW = width / mlistWH[0].toFloat()
                         if (BitmapUtils.isLongImage(context,mlistWH)) {
-                            sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
-                            sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
-                            sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
+                            try{
+                                sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
+                                sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
+                                sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
+                            }catch (e: Exception){
+                                e.printStackTrace()
+                                sampimgview.recycle()
+                                activity.onBackPressed()
+                            }
                         } else {
                             sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
                             sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
@@ -96,7 +103,9 @@ class ImageFragment : BaseNoBarFragment() {
             }
         })
         sampimgview.setOnClickListener {
-            sampimgview.recycle()
+            if(sampimgview!=null){
+                sampimgview.recycle()
+            }
             activity.onBackPressed()
         }
     }

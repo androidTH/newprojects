@@ -307,12 +307,15 @@ object BitmapUtils {
     }
 
     fun isLongImage(context: Context,wh:List<Int>): Boolean {
-        val w = wh[0].toFloat()
-        val h = wh[1].toFloat()
-        val imageRatio = h / w
-        val phoneRatio = AppScreenUtils.getPhoneRatio(context.applicationContext) + 0.1f
-        val isLongImage = w > 0 && h > 0 && h > w && imageRatio >= phoneRatio
-        return isLongImage
+        if(context!=null){
+            val w = wh[0].toFloat()
+            val h = wh[1].toFloat()
+            val imageRatio = h / w
+            val phoneRatio = AppScreenUtils.getPhoneRatio(context.applicationContext) + 0.1f
+            val isLongImage = w > 0 && h > 0 && h > w && imageRatio >= phoneRatio
+            return isLongImage
+        }
+        return false
     }
 
     public fun saveImageToFile(bmp:Bitmap):String{

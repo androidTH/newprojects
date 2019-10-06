@@ -77,17 +77,17 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
         super.onViewCreated(view, savedInstanceState)
 
         if(TextUtils.equals("0",mUserSex)){
-            mMemberDesc.add(MemberDesc("","资料完成度越高，收到的红心越多","res:///"+R.mipmap.poppic_d,R.mipmap.poppic_d))
+            mMemberDesc.add(MemberDesc("","资料完成度越高，收到的 [img src=redheart_small/] 越多","res:///"+R.mipmap.poppic_d,R.mipmap.poppic_d))
             mMemberDesc.add(MemberDesc("","送的越多回复你的概率越高",
                     "res:///"+R.mipmap.poppic_e,R.mipmap.poppic_e))
-            mMemberDesc.add(MemberDesc("","首次赠送10颗红心用完可充值",
+            mMemberDesc.add(MemberDesc("","首次赠送10颗 [img src=redheart_small/] 用完可充值",
                     "res:///"+R.mipmap.poppic_f,R.mipmap.poppic_f))
-            setShowTips(0, "资料完成度越高，收到的红心越多")
+            setShowTips(0, "资料完成度越高，收到的 [img src=redheart_small/] 越多")
         }else{
             mMemberDesc.add(MemberDesc("","相互喜欢即可解锁聊天","res:///"+R.mipmap.poppic_a,R.mipmap.poppic_a))
-            mMemberDesc.add(MemberDesc("","收到的红心可前往[钱包]中提现",
+            mMemberDesc.add(MemberDesc("","收到的 [img src=redheart_small/] 可前往[钱包]中提现",
                     "res:///"+R.mipmap.poppic_b,R.mipmap.poppic_b))
-            mMemberDesc.add(MemberDesc("","首次赠送10颗红心用完可充值",
+            mMemberDesc.add(MemberDesc("","首次赠送10颗 [img src=redheart_small/] 用完可充值",
                     "res:///"+R.mipmap.poppic_c,R.mipmap.poppic_c))
 
             setShowTips(0, "相互喜欢即可解锁聊天")
