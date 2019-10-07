@@ -22,6 +22,7 @@
 
             <RelativeLayout
                 android:id="@+id/ll_service"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/auth_women_top"
@@ -47,6 +48,7 @@
 
             <TextView
                 android:id="@+id/tv_wxkftips"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_service"
@@ -58,6 +60,7 @@
 
             <RelativeLayout
                 android:id="@+id/ll_regong"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_wxkftips"

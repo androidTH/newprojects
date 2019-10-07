@@ -19,10 +19,10 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/vipheaderview"
             style="@style/DefaultCircleHeadStyle"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_45" />
+            android:layout_marginTop="@dimen/height_65" />
 
         <TextView
             android:id="@+id/tv_viplevel"
@@ -31,9 +31,9 @@
             android:layout_below="@+id/vipheaderview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_6"
-            android:text=""
             android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textStyle="bold"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_vipendtime"
@@ -43,14 +43,26 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_6"
             android:text=""
+            android:visibility="gone"
             android:textColor="@color/color_CCFFFFFF"
             android:textSize="11sp" />
 
+        <TextView
+            android:id="@+id/tv_viptq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_vipendtime"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_3"
+            android:text=""
+            android:textColor="@color/color_CCFFFFFF"
+            android:textSize="11sp" />
         <LinearLayout
             android:id="@+id/ll_member_rg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_vipendtime"
+            android:layout_below="@+id/tv_viptq"
+            android:visibility="gone"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginRight="@dimen/margin_10"
@@ -185,197 +197,12 @@
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/shape_10r_white"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/margin_20">
-
-            <RelativeLayout
-                android:id="@+id/ll_hy"
+            android:orientation="vertical">
+            <!--android:paddingBottom="@dimen/margin_20"-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_member_tq"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_vipfk"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_10">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="8dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/margin_30"
-                    android:background="@drawable/shape_noradius_orange" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/margin_16"
-                    android:text="会员特权"
-                    android:textColor="@color/color_black"
-                    android:textSize="17sp" />
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_6"
-                android:text="会员可享超过12项特权"
-                android:textColor="@color/color_888888"
-                android:textSize="12sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_20"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginRight="@dimen/margin_20"
-                android:background="@drawable/shape_whitebg_5r"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/margin_15">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_20"
-                            android:src="@mipmap/vippage_tequan_rg" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:text="人工客服匹配"
-                            android:textColor="@color/color_888888"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_20"
-                            android:src="@mipmap/vippage_tequan_sl" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:text="解锁私聊"
-                            android:textColor="@color/color_888888"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_20"
-                            android:src="@mipmap/vippage_tequan_yh" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:text="自主约会"
-                            android:textColor="@color/color_888888"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_20"
-                            android:src="@mipmap/vippage_tequan_dt" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:text="发布动态"
-                            android:textColor="@color/color_888888"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_20"
-                            android:src="@mipmap/vippage_tequan_fk" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:text="查看访客"
-                            android:textColor="@color/color_888888"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_20"
-                            android:src="@mipmap/vippage_tequan_sf" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:text="专属会员身份"
-                            android:textColor="@color/color_888888"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
@@ -385,24 +212,29 @@
             android:layout_below="@+id/ll_hy_tq"
             android:layout_marginTop="@dimen/margin_22"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="咨询会员问题可 "
-                android:textColor="@color/color_666666"
-                android:textStyle="bold"
-                android:textSize="14sp" />
+                android:text="联系专属微信客服即可享受特权中的微信人工服务 "
+                android:textColor="@color/color_CCFFFFFF"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:textSize="12sp" />
 
+            <!--android:background="@drawable/shape_orange_4r"-->
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="联系客服"
-                android:background="@drawable/shape_orange_4r"
-                android:textColor="@color/white"
+                android:id="@+id/tv_wechat_zskf"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_40"
+                android:text="专属微信客服"
+                android:textColor="@color/color_F7AB00"
                 android:paddingTop="@dimen/margin_2"
+                android:background="@drawable/shape_white_5r"
                 android:paddingBottom="@dimen/margin_2"
+                android:gravity="center"
                 android:paddingLeft="@dimen/margin_5"
                 android:paddingRight="@dimen/margin_5"
                 android:textStyle="bold"

@@ -1,11 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textColor="@color/color_F7B500"
-         android:textSize="20sp"
-         android:text="dsddsfsdfsdf"/>
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:background="@color/color_F6F7FA">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="@color/white">
+            <LinearLayout
+                android:id="@+id/rl_membership_vipfw"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_2r_26f7a"
+                    android:paddingLeft="@dimen/margin_3"
+                    android:paddingTop="@dimen/margin_2"
+                    android:paddingBottom="@dimen/margin_2"
+                    android:text="有限期 "
+                    android:textColor="@color/color_F7AB00"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_ztnums"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:text="可选"
+                    android:textColor="@color/color_333333"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+                <!--android:layout_toLeftOf="@+id/view_middle"-->
+
+                <!--<View-->
+                <!--android:id="@+id/view_middle"-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_centerInParent="true"/>-->
+                <!--android:layout_toRightOf="@+id/view_middle"-->
+
+                <TextView
+                    android:id="@+id/tv_servicearea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_20"
+                    android:background="@drawable/shape_2r_26f7a"
+                    android:paddingLeft="@dimen/margin_3"
+                    android:paddingTop="@dimen/margin_2"
+                    android:paddingBottom="@dimen/margin_2"
+                    android:text="服务范围 "
+                    android:textColor="@color/color_F7AB00"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_endtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:text="全球"
+                    android:textColor="@color/color_333333"
+                    android:textStyle="bold"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_membership_viptq"
+                android:layout_below="@+id/rl_membership_vipfw"
+                android:layout_marginTop="@dimen/margin_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/color_888888"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view_line_openmember"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_1"
+                android:layout_below="@+id/tv_membership_viptq"
+                android:layout_marginTop="@dimen/margin_10"
+                android:background="@color/color_F5F5F5" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_openmember_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_line_openmember" />
+
+            <View
+                android:id="@+id/view_bottomfragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_1"
+                android:layout_below="@+id/rv_openmember_fragment"
+                android:background="@color/color_F5F5F5" />
+
+            <View
+                android:layout_below="@+id/view_bottomfragment"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@color/color_F6F7FA" />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

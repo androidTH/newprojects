@@ -72,9 +72,9 @@
         android:layout_marginTop="@dimen/margin_20"
         android:layout_marginLeft="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_20"
-        android:background="@drawable/shape_4r_8054"
+        android:background="@drawable/shape_4r_80_orange"
         android:gravity="center"
-        android:text="微信支付"
+        android:text="确定支付"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="17sp" />

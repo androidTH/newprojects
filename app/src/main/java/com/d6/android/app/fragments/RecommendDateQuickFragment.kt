@@ -126,7 +126,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
             dateAdapter.notifyDataSetChanged()
         }
 
-        if(dateAdapter.data.size==0){
+        if(dateAdapter.data.size==0&&activity!=null){
             dateAdapter.emptyView = LayoutInflater.from(activity).inflate(R.layout.no_empty_layout,null)
         }
     }

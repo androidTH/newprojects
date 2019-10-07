@@ -84,8 +84,9 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_10"
             android:textColor="@color/white"
+            android:textStyle="bold"
             android:background="@drawable/shape_10r_orange"
-            android:text="发起约会" />
+            android:text="+ 发起约会" />
     </RelativeLayout>
     <View style="@style/view_line_h"
         android:layout_below="@+id/titleBar"

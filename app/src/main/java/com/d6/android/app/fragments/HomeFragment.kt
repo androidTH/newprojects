@@ -1,8 +1,10 @@
 package com.d6.android.app.fragments
 
 import android.Manifest
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -27,6 +29,7 @@ import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.toast
 
@@ -42,14 +45,20 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     override fun showBackground(mUpDown: Boolean) {
 //        mHomeIsUpDown = mUpDown
-//        if(mUpDown){
+        if(mUpDown){
+            rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.white)
 //            immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
-//        }else{
+        }else{
+            rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.trans_parent)
 //            immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
-//        }
+        }
 //        var intent = Intent(Const.HOMEDATE_STATEBAR)
 //        intent.putExtra(ISUPDOWN,mHomeIsUpDown)
 //        context.sendBroadcast(intent)
+    }
+
+    override fun showAllDateNums(type: String, count: Int) {
+        tv_datacount.text = "已有${count}人约会成功"
     }
 
     var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8))
@@ -115,6 +124,14 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 SelfPullDateFragment.instance("8")
         )
 
+        mFragments[0].setRenGongBackGround(this)
+        mFragments[1].setRenGongBackGround(this)
+        mFragments[2].setRenGongBackGround(this)
+        mFragments[3].setRenGongBackGround(this)
+        mFragments[4].setRenGongBackGround(this)
+        mFragments[5].setRenGongBackGround(this)
+        mFragments[6].setRenGongBackGround(this)
+
         for (i in 0..(showDateTypes.size-1)) {
             var dt = showDateTypes[i]
             if(i==0){
@@ -172,20 +189,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 showArea()
             }
         }
-
-//        tv_datetype.setOnClickListener {
-//                val filterDateTypeDialog = FilterDateTypeDialog()
-//                filterDateTypeDialog.show(childFragmentManager, "ftd")
-//                filterDateTypeDialog.setDialogListener { p, s ->
-//                    if(p==5){
-//                        type = 0
-//                    }else{
-//                        type = p
-//                    }
-//                    tv_datetype.text = s
-//                    getFragment()
-//                }
-//        }
 
         mPopupArea = AreaSelectedPopup.create(activity)
                 .setDimView(mSwipeRefreshLayout)
@@ -315,9 +318,9 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             }else{
                 type.toString()
             }
-            mSelfPullDateFragment.refresh(area ,dateType)
-            mSelfPullDateFragment.setRenGongBackGround(this)
+//            it.setRenGongBackGround(this)
             appBarLayout.addOnOffsetChangedListener(this)
+            it.refresh(area ,dateType)
         }
     }
 
@@ -347,22 +350,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         })
     }
 
-
-//    private fun setSearChUI(clickIndex:Int,iconFlag:Boolean){
-//        if(clickIndex == 0){
-//            var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.titlemore_icon)
-//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-//            tv_date_city.setCompoundDrawables(null,null,drawable,null)
-//            tv_date_city.textColor = if(iconFlag) ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
-//        }else if(clickIndex == 1){
-//            var drawable = if(iconFlag) ContextCompat.getDrawable(activity,R.mipmap.ic_arrow_up_orange)else ContextCompat.getDrawable(activity,R.mipmap.titlemore_icon)
-//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-//            tv_datetype.setCompoundDrawables(null,null,drawable,null)
-//            tv_datetype.textColor = if(iconFlag) ContextCompat.getColor(context,R.color.color_F7AB00) else ContextCompat.getColor(context,R.color.color_black)
-//        }
-//    }
-
-
     private fun getSpeedData() {
         Request.findLookAboutList(userId).request(this,success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false
@@ -390,6 +377,11 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
         mSwipeRefreshLayout.isEnabled = verticalOffset >= 0
+        if(rl_rgservice.height == Math.abs(verticalOffset)){
+            rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.white)
+        }else{
+            rl_date_title.backgroundColor = ContextCompat.getColor(context,R.color.trans_parent)
+        }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

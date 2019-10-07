@@ -107,7 +107,7 @@ class FindDateImagesAdapter(mData: ArrayList<String>) : BaseRecyclerAdapter<Stri
 
 //        imageView.setImageURI(data)
 
-
+        Log.i("recoment","图片尺寸：${data}")
         FrescoUtils.loadImage(context,data,object:IResult<Bitmap>{
             override fun onResult(result: Bitmap?) {
                 result?.let {

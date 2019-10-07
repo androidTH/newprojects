@@ -1,9 +1,12 @@
 package com.d6.android.app.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareAdapter
@@ -18,6 +21,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_filtersquares.*
 import kotlinx.android.synthetic.main.layout_filtersqure_header.view.*
+import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
@@ -76,7 +80,8 @@ class FilterSquaresActivity : BaseActivity() {
 
         add_square.setOnClickListener {
             isCheckOnLineAuthUser(this, getLocalUserId()) {
-                startActivity<ReleaseNewTrendsActivity>("topicname" to mTypeName,"topicId" to sTopicId)
+//                FinishActivityManager.getManager().addActivity(this)
+                startActivityForResult<ReleaseNewTrendsActivity>(1,"topicname" to mTypeName,"topicId" to sTopicId)
             }
         }
 
@@ -92,6 +97,7 @@ class FilterSquaresActivity : BaseActivity() {
         pullDownRefresh()
 
         setAudioListener()
+
     }
 
     private fun setHeaderView(){
@@ -194,6 +200,15 @@ class FilterSquaresActivity : BaseActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1) {
+                pullDownRefresh()
+            }
+        }
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         mAudioMedio.onDestoryAudio()
@@ -233,8 +248,12 @@ class FilterSquaresActivity : BaseActivity() {
                 }
                 if(data?.list?.totalPage==0){
                     rl_friends_empty.visibility = View.VISIBLE
+                    if(data.iFollowCount>0){
+                        tv_filtersquare_empty.text = "暂无动态"
+                    }else{
+                        tv_filtersquare_empty.text = "你还没有喜欢的TA，喜欢后TA的动态将会出现在这里"
+                    }
                     swipeRefreshLayout_square.visibility = View.GONE
-//                    swipeRefreshLayout_square.setLoadMoreText("暂无数据")
                 }
             } else {
                 mSquares.addAll(data.list.results)

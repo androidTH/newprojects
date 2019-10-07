@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import com.d6.android.app.R
@@ -151,7 +152,11 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             FrescoUtils.loadImage(context,square.sVideoPicUrl,object: IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
+//                        var params = sv_video_user.layoutParams
+//                        params.height =  WindowManager.LayoutParams.WRAP_CONTENT
                         if(it.height>it.width){
+//                            params.width = WindowManager.LayoutParams.WRAP_CONTENT
+//                            sv_video_user.layoutParams = params
                             sv_video_user.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
                         }else{
                             if(square.sVideoWidth.isNotEmpty()&&square.sVideoHeight.isNotEmpty()){
@@ -161,6 +166,10 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
                             }else{
                                 sv_video_user.setImageBitmap(it)
                             }
+
+//                            params.width = WindowManager.LayoutParams.MATCH_PARENT
+//                            sv_video_user.layoutParams = params
+//                            sv_video_user.setImageBitmap(it)
                         }
                     }
                 }

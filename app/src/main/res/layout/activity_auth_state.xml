@@ -21,6 +21,7 @@
 
             <RelativeLayout
                 android:id="@+id/ll_service"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/auth_top"
@@ -49,6 +50,7 @@
                 android:layout_below="@+id/ll_service"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/margin_6"
+                android:visibility="gone"
                 android:text="专属微信客服为你服务"
                 android:textColor="@color/color_888888"
                 android:textSize="12sp" />
@@ -56,6 +58,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_below="@+id/ll_service"
                 android:layout_marginTop="@dimen/height_40">
                 <com.d6.android.app.widget.gallery.DiscreteScrollView
@@ -105,16 +108,18 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="开通会员"/>
 
             <TextView
                 android:id="@+id/tv_member_showdes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_5"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/color_FFEABA"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:text="据说80%会员都约到了心仪的TA"/>
         </LinearLayout>
     </LinearLayout>
     <include

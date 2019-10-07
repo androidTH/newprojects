@@ -307,6 +307,7 @@
     <View
         android:id="@+id/line_mchat"
         style="@style/view_line_h"
-        android:layout_marginLeft="25dp" />
+        android:layout_marginLeft="25dp"
+        android:visibility="gone"/>
 
 </LinearLayout>

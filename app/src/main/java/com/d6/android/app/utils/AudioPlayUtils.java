@@ -90,8 +90,6 @@ public class AudioPlayUtils {
                 }
                 mMediaPlayer.setDataSource(mAudioPath);
                 mMediaPlayer.prepare();
-            }else{
-                NToast.showToast(mContext,"音频地址为空", Toast.LENGTH_SHORT);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -142,6 +142,12 @@ class SelfPullDateFragment : RecyclerFragment() {
                 mFindDates.addAll(data.list.results)
             }
             dateAdapter.notifyDataSetChanged()
+            if(mRenGongBackground!=null){
+                var count = data?.iAllAppointCount
+                if (count != null) {
+                    mRenGongBackground?.showAllDateNums("${dateType}",count.toInt())
+                }
+            }
         }
     }
 
@@ -149,6 +155,7 @@ class SelfPullDateFragment : RecyclerFragment() {
 
     interface RenGongBackground{
         fun showBackground(mUpDown:Boolean)
+        fun showAllDateNums(type:String,count:Int)
     }
 
     fun setRenGongBackGround(renGongBackground: RenGongBackground){

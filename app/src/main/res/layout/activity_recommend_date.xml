@@ -92,12 +92,12 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="@mipmap/overlap"
-            android:drawableRight="@mipmap/icon_recomend_down"
+            android:drawableRight="@mipmap/downmore_icon"
             android:layout_centerVertical="true"
             android:paddingRight="@dimen/margin_10"
             android:text="地区"
             android:gravity="center"
-            android:textColor="@color/color_999999"
+            android:textColor="@color/color_F7AB00"
             android:textSize="14sp"
             android:textStyle="bold" />
     </RelativeLayout>

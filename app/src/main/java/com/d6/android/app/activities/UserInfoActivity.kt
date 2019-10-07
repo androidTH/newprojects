@@ -45,6 +45,7 @@ import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
+import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -266,6 +267,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         headerView.rel_add_square.setOnClickListener {
             //发布动态
+//            FinishActivityManager.getManager().addActivity(this)
             startActivityForResult<ReleaseNewTrendsActivity>(3)
         }
 
@@ -919,6 +921,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }else if (requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE && data != null) {
 //                var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
 //                updateImages(param.images[param.index])
+            }else if(requestCode == 3){
+                pageNum=1
+                getTrendData()
             }
         }
     }

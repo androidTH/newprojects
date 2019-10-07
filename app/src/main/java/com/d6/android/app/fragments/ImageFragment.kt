@@ -6,10 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseNoBarFragment
 import com.d6.android.app.utils.AppScreenUtils
 import com.d6.android.app.utils.BitmapUtils
+import com.d6.android.app.utils.BitmapUtils.clearBitmap
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.davemorrissey.labs.subscaleview.ImageSource
@@ -55,54 +57,71 @@ class ImageFragment : BaseNoBarFragment() {
         } else {
             url = ""
         }
-//        val hierarchy = GenericDraweeHierarchyBuilder(resources)
-//                .setActualImageScaleType(ScalingUtils.ScaleType.FIT_START)
-//                .setProgressBarImage(ProgressBarDrawable())
-//                .build()
-//        val uri = Uri.parse(url)
-//        val request = ImageRequestBuilder.newBuilderWithSource(uri)
-//                .setPostprocessor(IterativeBoxBlurPostProcessor(3, 5))
-//                .build()
-//
-//        val ctrl: DraweeController
-//        //模糊
-//        ctrl = if (isBlur) {
-//            Fresco.newDraweeControllerBuilder()
-//                    .setImageRequest(request)
-//                    .setTapToRetryEnabled(true)
-//                    .build()
-//        } else {
-//            Fresco.newDraweeControllerBuilder()
-//                    .setUri(uri)
-//                    .setTapToRetryEnabled(true)
-//                    .build()
-//        }
-//        zoomDrawee.hierarchy = hierarchy
-//        zoomDrawee.controller = ctrl
-//        zoomDrawee.setOnClickListener { activity.onBackPressed() }
-
         sampimgview.setMaxScale(15f)
         sampimgview.setZoomEnabled(true)
         FrescoUtils.loadImage(context,url,object: IResult<Bitmap> {
             override fun onResult(result: Bitmap?) {
                 result?.let {
-                    var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(
-                            SimpleCacheKey(url)) as FileBinaryResource
-                    var mlistWH = BitmapUtils.getWidthHeight(resource.getFile().path)
-                    val width = AppScreenUtils.getScreenWidth(context)
-                    val scaleW = width / mlistWH[0].toFloat()
-                    if (BitmapUtils.isLongImage(context,mlistWH)) {
-                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
-                        sampimgview.setImage(ImageSource.uri(resource.getFile().path))
-                        sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
-                    } else {
-                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
-                        sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
+                    var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(SimpleCacheKey(url))
+                    if(resource!=null){
+                        var  fileResouce= resource as FileBinaryResource
+                        var mlistWH = BitmapUtils.getWidthHeight(fileResouce.getFile().path)
+                        val width = AppScreenUtils.getScreenWidth(context)
+                        val scaleW = width / mlistWH[0].toFloat()
+                        if (BitmapUtils.isLongImage(context,mlistWH)) {
+                            sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
+                            sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
+                            sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
+                        } else {
+                            sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
+                            sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
+                        }
+                    }else{
+                        if(it!=null){
+                            sampimgview.setImage(ImageSource.bitmap(it))
+                        }else{
+                            sampimgview.visibility = View.GONE
+                            zoomDrawee.visibility = View.VISIBLE
+                            setZoomableDraweeView("${url}",isBlur)
+                        }
                     }
                 }
             }
         })
         sampimgview.setOnClickListener {
+            sampimgview.recycle()
+            activity.onBackPressed()
+        }
+    }
+
+
+    private fun setZoomableDraweeView(url:String,isBlur:Boolean){
+        val hierarchy = GenericDraweeHierarchyBuilder(resources)
+                .setActualImageScaleType(ScalingUtils.ScaleType.FIT_START)
+                .setProgressBarImage(ProgressBarDrawable())
+                .build()
+        val uri = Uri.parse(url)
+        val request = ImageRequestBuilder.newBuilderWithSource(uri)
+                .setPostprocessor(IterativeBoxBlurPostProcessor(3, 5))
+                .build()
+
+        val ctrl: DraweeController
+        //模糊
+        ctrl = if (isBlur) {
+            Fresco.newDraweeControllerBuilder()
+                    .setImageRequest(request)
+                    .setTapToRetryEnabled(true)
+                    .build()
+        } else {
+            Fresco.newDraweeControllerBuilder()
+                    .setUri(uri)
+                    .setTapToRetryEnabled(true)
+                    .build()
+        }
+        zoomDrawee.hierarchy = hierarchy
+        zoomDrawee.controller = ctrl
+        zoomDrawee.setOnClickListener {
+            Fresco.getImagePipeline().clearMemoryCaches()
             activity.onBackPressed()
         }
     }

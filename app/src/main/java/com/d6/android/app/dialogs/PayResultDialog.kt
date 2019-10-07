@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.dialog_payresult_layout.*
 import kotlinx.android.synthetic.main.dialog_payresult_success_layout.*
 import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -69,11 +70,12 @@ class PayResultDialog : DialogFragment(),RequestManager {
         if(TextUtils.equals(payResult.toString(), PAY_SUCCESS)){
             dialog.window.setLayout((screenWidth() * 0.8f).toInt(), wrapContent)
             dialog.window.setGravity(Gravity.CENTER)
+            dialog.setCanceledOnTouchOutside(false)
         }else{
             dialog.window.setLayout(matchParent, resources.getDimensionPixelSize(R.dimen.height_300))
             dialog.window.setGravity(Gravity.BOTTOM)
+            dialog.setCanceledOnTouchOutside(true)
         }
-        dialog.setCanceledOnTouchOutside(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -97,6 +99,7 @@ class PayResultDialog : DialogFragment(),RequestManager {
             }
 
             tv_payresult_success_close.setOnClickListener {
+                dialogListener?.onClick(1,"close")
                 dismissAllowingStateLoss()
             }
             countDownTimer.start()
@@ -140,6 +143,7 @@ class PayResultDialog : DialogFragment(),RequestManager {
 
     private val countDownTimer = object : CountDownTimer(3 * 1000, 1000) {
         override fun onFinish() {
+            dialogListener?.onClick(1,"close")
             dismissAllowingStateLoss()
         }
 

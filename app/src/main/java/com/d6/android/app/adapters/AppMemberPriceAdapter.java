@@ -51,9 +51,10 @@ public class AppMemberPriceAdapter extends BaseQuickAdapter<AppMemberPrice,BaseV
     protected void convert(BaseViewHolder helper, AppMemberPrice item) {
         TextView tvDiscount = helper.getView(R.id.tv_discount);
         if(TextUtils.isEmpty(item.getSAndroidPriceDiscount())){
-            tvDiscount.setVisibility(View.INVISIBLE);
+            tvDiscount.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_10r_f7a_bleft));
+            tvDiscount.setText("新用户专享");
         }else{
-            tvDiscount.setVisibility(View.VISIBLE);
+            tvDiscount.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_10r_ff4b));
             tvDiscount.setText(item.getSAndroidPriceDiscount());
         }
         helper.setText(R.id.tv_appmember_time, item.getSEnableDateDesc());

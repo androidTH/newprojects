@@ -464,6 +464,7 @@
         <attr name="tabPaddingEnd" format="dimension" />
         <attr name="tabPaddingBottom" format="dimension" />
         <attr name="tabPadding" format="dimension" />
+        <attr name="tabIsNotFirstCenter" format="boolean"></attr>
 
         <!--底部分隔栏的颜色-->
         <attr name="bottomLineColor" format="color" />
@@ -495,7 +496,9 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
 
-    <style name="tab_openmember" >
+    <style name="tab_openmember">
         <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/color_F7AB00</item>
     </style>
 </resources>

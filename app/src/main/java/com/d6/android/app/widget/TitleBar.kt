@@ -43,7 +43,7 @@ class TitleBar : RelativeLayout {
     }
     val titleView: EditText by lazy {
         editText {
-            setTextSize(TypedValue.COMPLEX_UNIT_DIP,20f)
+            setTextSize(TypedValue.COMPLEX_UNIT_DIP,17f)
             maxLines = 1
             ellipsize = TextUtils.TruncateAt.END
             gravity = Gravity.CENTER

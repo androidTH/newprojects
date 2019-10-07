@@ -90,22 +90,22 @@ class AppMemberDialog : DialogFragment() {
                 it.notifyDataSetChanged()
 
                 if(it.selectedIndex!=-1){
-                    tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_54)
+                    tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_f7a)
                     var price =it.data[position].iAndroidPrice
-                    tv_wxpay_appmember.text = "微信支付·¥${price}"
+                    tv_wxpay_appmember.text = "确定支付·¥${price}"
                     tv_wxpay_price.text = "${price}"
                 }else{
-                    tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_8054)
-                    tv_wxpay_appmember.text = "微信支付"
+                    tv_wxpay_appmember.background = ContextCompat.getDrawable(context,R.drawable.shape_4r_80_orange)
+                    tv_wxpay_appmember.text = "确定支付"
                 }
             }
         }
 
         mAppMemberPriceAdapter?.let {
             var mAppMemberPrice = it.data[0]
-            tv_wxpay_appmember.background = ContextCompat.getDrawable(context, R.drawable.shape_4r_54)
+            tv_wxpay_appmember.background = ContextCompat.getDrawable(context, R.drawable.shape_4r_f7a)
             var price = mAppMemberPrice.iAndroidPrice
-            tv_wxpay_appmember.text = "微信支付·¥${price}"
+            tv_wxpay_appmember.text = "确定支付·¥${price}"
             tv_wxpay_price.text = "${price}"
         }
     }

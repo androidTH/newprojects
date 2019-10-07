@@ -515,4 +515,9 @@ interface ApiServices {
     @POST("backstage/square/findByPage")
     fun getFindSquareList(@Query("userid") accountId: String, @Query("classesid") classesid: String?, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE, @Query("limit") limit: Int = 0, @Query("sex") sex: Int = 2, @Query("sTopicId") sTopicId:String, @Query("sCity") sCity:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<Square>>>
 
+
+    //2.10.0接口
+    @POST("backstage/userclasses/find")
+    fun findYKUserClasses(@Query("ids") ids:String,@Query("sLoginToken")sLoginToken:String,@Query("sAreaName") sAreaName:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<MemberBean>>
+
 }

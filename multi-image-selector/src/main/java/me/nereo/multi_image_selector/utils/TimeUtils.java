@@ -42,9 +42,13 @@ public class TimeUtils {
             File file = new File(path);
             long second = 0;
             if (file.exists() && file.length() > 0) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
-                    retr.setDataSource(path);
-                    second = Long.valueOf(retr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000;
+                try{
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD_MR1) {
+                        retr.setDataSource(path);
+                        second = Long.valueOf(retr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000;
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
             }
             return second;

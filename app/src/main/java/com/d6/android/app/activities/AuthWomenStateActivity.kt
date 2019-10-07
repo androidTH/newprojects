@@ -2,6 +2,7 @@ package com.d6.android.app.activities
 
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -10,22 +11,26 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AuthTipsQuickAdapter
 import com.d6.android.app.adapters.MemberCommentHolder
+import com.d6.android.app.adapters.TeQuanQuickAdapter
+import com.d6.android.app.adapters.VipPicsInfoQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.WomenAuthDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.MemberComment
+import com.d6.android.app.models.MemberTeQuan
 import com.d6.android.app.net.API.BASE_URL
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.GridItemDecoration
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
+import com.facebook.drawee.backends.pipeline.Fresco
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_auth_women_state.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
 import org.jetbrains.anko.startActivity
-
 
 /**
  * 约会认证情况
@@ -40,6 +45,15 @@ class AuthWomenStateActivity : BaseActivity() {
 
     private var ISNOTBUYMEMBER = 0 //0 没有咨询客服
     private var wanshanziliao = 0 //资料完成度
+
+    var mListPicsInfo = ArrayList<String>()
+    private val mPicsInfoAdapter by lazy{
+        VipPicsInfoQuickAdapter(mListPicsInfo)
+    }
+    private var mListTQ = ArrayList<MemberTeQuan>()
+    private val mTeQuanQuickAdapter by lazy{
+        TeQuanQuickAdapter(mListTQ)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +102,40 @@ class AuthWomenStateActivity : BaseActivity() {
                 BASE_URL+"static/image/9ba8d31djw8f9ocv5yysfj20e80doaar.jpg"))
 
         setMemeberComemnt()
+
+        setData()
+        var divider = GridItemDecoration.Builder(this)
+                .setHorizontalSpan(R.dimen.margin_1)
+                .setVerticalSpan(R.dimen.margin_1)
+                .setColorResource(R.color.color_F5F5F5)
+                .setShowLastLine(false)
+                .setShowVerticalLine(false)
+                .build()
+        rv_grid_tq.addItemDecoration(divider)
+        rv_grid_tq.isNestedScrollingEnabled = false
+    }
+
+    private fun setData(){
+        rv_vip_pics.setHasFixedSize(true)
+        rv_vip_pics.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv_vip_pics.isNestedScrollingEnabled = false
+        rv_vip_pics.adapter = mPicsInfoAdapter
+
+        Request.getInfo(Const.PIECES_VIP_INSTRODUCE).request(this) { _, data ->
+            data?.let {
+                var pics = data.optString("picUrl")
+                Log.i("pics", "picUrl=${pics}")
+                mListPicsInfo.addAll(pics.split(",") as ArrayList<String>)
+                mPicsInfoAdapter.notifyDataSetChanged()
+            }
+        }
+
+        mPicsInfoAdapter.setOnItemChildClickListener { adapter, view, position ->
+            if(view.id==R.id.iv_video_play){
+//                var videoUrl = mListPicsInfo.get(position)
+                startActivity<SimplePlayer>("videoPath" to "http://image.d6-zone.com/1568862136529.mp4","videoType" to "1")
+            }
+        }
     }
 
     override fun onResume() {
@@ -165,19 +213,28 @@ class AuthWomenStateActivity : BaseActivity() {
     }
 
     private fun getMemberLevel(userclassId:String?) {
-        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
-            data?.list?.let {
-                var memberBean = it.get(0)
-//                it.forEach {
-                memberBean?.let {
-                        it.sDesc?.let {
-                            var mTipsData = it.split("<br/>")
-                            rv_women_memberdesc.setHasFixedSize(true)
-                            rv_women_memberdesc.isNestedScrollingEnabled = false
-                            rv_women_memberdesc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                            rv_women_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
-                    }
-                }
+//        Request.findUserClasses(getLoginToken()).request(this){ msg, data->
+//            data?.list?.let {
+//                var memberBean = it.get(0)
+//                memberBean?.let {
+//                        it.sDesc?.let {
+//                            var mTipsData = it.split("<br/>")
+//                            rv_women_memberdesc.setHasFixedSize(true)
+//                            rv_women_memberdesc.isNestedScrollingEnabled = false
+//                            rv_women_memberdesc.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+//                            rv_women_memberdesc.adapter = AuthTipsQuickAdapter(mTipsData)
+//                    }
+//                }
+//            }
+//        }
+
+        Request.findYKUserClasses("7", getLoginToken()).request(this) { msg, data ->
+            data?.let {
+                mListTQ = it.lstMembers as ArrayList<MemberTeQuan>
+                tv_tqnums.text = "${mListTQ.size}项会员特权打造不一样的会员体验"
+                rv_grid_tq.setHasFixedSize(true)
+                rv_grid_tq.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
+                rv_grid_tq.adapter = mTeQuanQuickAdapter
             }
         }
     }
@@ -203,5 +260,8 @@ class AuthWomenStateActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         immersionBar?.destroy()
+        rv_vip_pics.adapter = null
+        rv_grid_tq.adapter = null
+//        Fresco.getImagePipeline().clearMemoryCaches()
     }
 }

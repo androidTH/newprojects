@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.util.Log
+import android.view.ViewGroup
 
 import com.d6.android.app.fragments.ImageFragment
 import com.d6.android.app.utils.Const
@@ -37,5 +38,12 @@ class ImagePagerAdapter(fm: FragmentManager, urls: List<String>?) : FragmentPage
 
     override fun getCount(): Int {
         return urls.size
+    }
+
+    override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
+        super.destroyItem(container, position, `object`)
+        container?.let {
+            container.removeAllViews()
+        }
     }
 }
