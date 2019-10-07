@@ -414,16 +414,13 @@ inline fun Activity.isNoAuthToChat(requestManager: RequestManager, userId:String
     })
 }
 
-
 inline fun Activity.LocalUserIsNoAuth(crossinline next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (!TextUtils.equals(className,"7")) {
         next()
     }else{
         if(this is AppCompatActivity){
-            val commonTiphDialog = CommonTipDialog()
-            commonTiphDialog.arguments = bundleOf("resMsg" to "请联系微信客服开通会员后进行充值～")
-            commonTiphDialog.show(this.supportFragmentManager, "resMsg")
+            getDialogCommonTips(this as BaseActivity,"请联系微信客服开通会员后进行充值～")
         }
     }
 }
@@ -1201,6 +1198,14 @@ fun getDialogIsorNot(activity: BaseActivity,code:Int,msg:String): DialogYesOrNo{
     mDialogYesOrNo.show(activity.supportFragmentManager, "dialogyesorno")
     return mDialogYesOrNo
 }
+
+fun getDialogCommonTips(activity: BaseActivity,msg:String): CommonTipDialog{
+    var commonTiphDialog = CommonTipDialog()
+    commonTiphDialog.arguments = bundleOf("resMsg" to "请联系微信客服开通会员后进行充值～")
+    commonTiphDialog.show(activity.supportFragmentManager, "resMsg")
+    return commonTiphDialog
+}
+
 fun getProxyUrl(mConent:Context,url:String):String?{
     var  proxy = D6Application.getProxy(mConent)
     return proxy?.getProxyUrl(url)
