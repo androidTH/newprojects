@@ -160,30 +160,32 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         }
 
         fb_heat_like.setOnClickListener {
-            if(mDates.isNotEmpty()){
-                addFollow()
-            }
-
-            addGiftNums(1,false)
-
+            activity.LocalUserIsNoAuth(){
+                if(mDates.isNotEmpty()){
+                    addFollow()
+                }
+                addGiftNums(1,false)
 //            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
 //            mSendRedHeartEndDialog.show(childFragmentManager,"redheartendDialog")
 
-            if(getIsNotFirstDialog()){
-                var mRedHeartGuideDialog = RedHeartGuideDialog()
-                mRedHeartGuideDialog.show(childFragmentManager,"redheartguideDialog")
-                SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG+getLocalUserId(),false).apply()
+                if(getIsNotFirstDialog()){
+                    var mRedHeartGuideDialog = RedHeartGuideDialog()
+                    mRedHeartGuideDialog.show(childFragmentManager,"redheartguideDialog")
+                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG+getLocalUserId(),false).apply()
+                }
             }
         }
 
         fb_heat_like.setOnLongClickListener(object:View.OnLongClickListener{
             override fun onLongClick(v: View?): Boolean {
-                var mSendLoveHeartDialog = SendLoveHeartDialog()
-                if (mDates.size > mRecyclerView.currentItem) {
-                    var findDate = mDates.get(mRecyclerView.currentItem)
-                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${findDate.accountId}")
+                activity.LocalUserIsNoAuth {
+                    var mSendLoveHeartDialog = SendLoveHeartDialog()
+                    if (mDates.size > mRecyclerView.currentItem) {
+                        var findDate = mDates.get(mRecyclerView.currentItem)
+                        mSendLoveHeartDialog.arguments = bundleOf("userId" to "${findDate.accountId}")
+                    }
+                    mSendLoveHeartDialog.show(childFragmentManager,"sendloveheartDialog")
                 }
-                mSendLoveHeartDialog.show(childFragmentManager,"sendloveheartDialog")
                 return true
             }
         })

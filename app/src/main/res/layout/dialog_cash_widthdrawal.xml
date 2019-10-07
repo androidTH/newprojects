@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -97,44 +98,18 @@
            android:layout_height="wrap_content"
            android:layout_marginLeft="@dimen/margin_10"
            android:orientation="horizontal">
-           <TextView
+           <com.d6.android.app.widget.textinlineimage.TextInlineImage
+               android:id="@+id/tv_redheart_nums"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:layout_marginTop="@dimen/margin_3"
-               android:text="我的"
+               android:layout_marginLeft="@dimen/margin_5"
+               android:layout_marginRight="@dimen/margin_5"
+               android:lineSpacingExtra="@dimen/margin_5"
+               android:text="我的 [img src=redheart_small/] : 50（10=1元）"
                android:textColor="@color/color_888888"
-               android:textSize="12sp" />
-
-           <TextView
-               android:id="@+id/tv_redheartnums"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="@dimen/margin_3"
-               android:drawableLeft="@mipmap/redheart_small"
-               android:drawablePadding="@dimen/margin_3"
-               android:text=":"
-               android:textColor="@color/color_888888"
-               android:layout_marginLeft="@dimen/margin_2"
-               android:textSize="12sp" />
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="@dimen/margin_3"
-               android:drawablePadding="@dimen/margin_5"
-               android:text="(10"
-               android:textColor="@color/color_888888"
-               android:layout_marginLeft="@dimen/margin_8"
-               android:textSize="12sp" />
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="@dimen/margin_3"
-               android:drawableLeft="@mipmap/redheart_small"
-               android:drawablePadding="@dimen/margin_3"
-               android:text="=1元)"
-               android:textColor="@color/color_888888"
-               android:layout_marginLeft="@dimen/margin_8"
-               android:textSize="12sp" />
+               android:textSize="12sp"
+               app:imageSize="0dp"
+               app:imageAlignment="center"/>
        </LinearLayout>
 
         <EditText

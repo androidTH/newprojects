@@ -38,6 +38,8 @@ object Const {
         var  SLOGINTOKEN ="sLoginToken"
 }
 
+    var WEIXINID = "wx43d13a711f68131c"
+    var WEIXINSECERT= "00537b54033cd022ceda1894bae5ebf5"
     val SQUAREMSG_LAST_TIME = "Square_lastTime" //广场消息时间
     val SYSMSG_LAST_TIME = "SysMsylastTime"//系统消息时间
     val NEW_MESSAGE = "com.d6.app.new_msg"

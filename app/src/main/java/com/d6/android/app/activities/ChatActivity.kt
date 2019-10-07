@@ -422,7 +422,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //
 //                }
             relative_tips_bottom.visibility = View.VISIBLE
-            tv_apply_sendflower.visibility = View.VISIBLE
+            tv_apply_sendflower.visibility = View.GONE//2.11.0
             tv_openchat_apply_bottom.visibility = View.GONE
             tv_openchat_tips_title_bottom.text = getString(R.string.string_appaying_openchat)
             tv_openchat_tips_bottom.text = getString(R.string.string_give_redflower)
@@ -495,7 +495,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 }else if(code== 2){//已申请私聊且对方还未通过
                     relative_tips_bottom.visibility = View.VISIBLE
                     tv_openchat_apply_bottom.visibility = View.GONE
-                    tv_apply_sendflower.visibility = View.VISIBLE
+                    tv_apply_sendflower.visibility = View.GONE //2.11.0
                     tv_apply_sendflower.text = resources.getText(R.string.string_applay_sendredflower)
 
                     tv_openchat_tips_title_bottom.text = getString(R.string.string_appaying_openchat)

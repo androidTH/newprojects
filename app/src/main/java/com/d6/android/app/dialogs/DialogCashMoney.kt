@@ -88,7 +88,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         }
 
         tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
-        tv_redheartnums.text = "：${cashmoney}"
+        tv_redheart_nums.text = "我的 [img src=redheart_small/] : ${cashmoney}（10 [img src=redheart_small/]=1元）"
 
         if(type==2){
             tv_cashmeny_tips.text = "提现将收取20%的手续费，单次最低提现额度20朵小红花，最高200朵小红花"

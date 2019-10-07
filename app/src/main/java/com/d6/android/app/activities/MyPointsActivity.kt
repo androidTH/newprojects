@@ -426,13 +426,13 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 mHeaderView.tv_redheartnums.text = it.iFlowerCount.toString()
                 mHeaderView.tv_redflowernums.text = it.iFlowerCount.toString()
 
-                if(TextUtils.equals("0",it.iFlowerCount.toString())){
-                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_fe6)
-                    mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.color_96FFFFFF)
-                }else{
-                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_white)
-                    mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.white)
-                }
+//                if(TextUtils.equals("0",it.iFlowerCount.toString())){
+//                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_fe6)
+//                    mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.color_96FFFFFF)
+//                }else{
+//                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_white)
+//                    mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.white)
+//                }
 
 //                if (TextUtils.equals(it.sex, "0")) {
 //                    mHeaderView.ll_huiyuan_info.visibility = View.GONE

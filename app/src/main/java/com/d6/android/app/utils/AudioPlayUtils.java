@@ -35,7 +35,6 @@ public class AudioPlayUtils {
     private PhoneStateListener mPhoneStateListener;
     public static final int MEDIA_INFO_STATE_CHANGED_PAUSED = 30008;
 
-
     public AudioPlayUtils(Context context){
         this.mContext = context;
         this.mAudioPath = "";
@@ -43,17 +42,25 @@ public class AudioPlayUtils {
     }
 
     private void initAudio(){
-//        mAVOptions = new AVOptions();
-//        mAVOptions.setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
-//        mAVOptions.setInteger(AVOptions.KEY_MEDIACODEC, 0);
-//        mAVOptions.setInteger(AVOptions.KEY_START_POSITION, 0* 1000);
-
-        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         startTelephonyListener();
     }
 
+    private void AudioManagerStop(){
+        if(mContext!=null){
+            AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.requestAudioFocus(null, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+        }
+    }
+
+    private void AudioManagerRelase(){
+        if(mContext!=null){
+            AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.abandonAudioFocus(null);
+        }
+    }
+
     public void singleAudioPlay(String audioPath){
+        AudioManagerStop();
         if(!TextUtils.equals(mAudioPath,audioPath)){
             this.mAudioPath = audioPath;
             onClickStop();
@@ -68,6 +75,7 @@ public class AudioPlayUtils {
     }
 
     public void setAudioPath(String audioPath){
+         AudioManagerStop();
          if(!TextUtils.equals(mAudioPath,audioPath)){
              this.mAudioPath = audioPath;
              prepare();
@@ -159,8 +167,7 @@ public class AudioPlayUtils {
     public void onDestoryAudio(){
         stopTelephonyListener();
         release();
-        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.abandonAudioFocus(null);
+        AudioManagerRelase();
     }
 
     /**
@@ -238,6 +245,7 @@ public class AudioPlayUtils {
         public void onCompletion(MediaPlayer mp) {
             if(mAudioListener!=null){
                 mAudioListener.onCompletion();
+                AudioManagerRelase();
             }
             Log.d(TAG, "Play Completed !");
             onClickStop();

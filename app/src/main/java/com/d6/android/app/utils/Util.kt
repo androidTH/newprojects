@@ -414,6 +414,20 @@ inline fun Activity.isNoAuthToChat(requestManager: RequestManager, userId:String
     })
 }
 
+
+inline fun Activity.LocalUserIsNoAuth(crossinline next: () -> Unit) {
+    val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+    if (!TextUtils.equals(className,"7")) {
+        next()
+    }else{
+        if(this is AppCompatActivity){
+            val commonTiphDialog = CommonTipDialog()
+            commonTiphDialog.arguments = bundleOf("resMsg" to "请联系微信客服开通会员后进行充值～")
+            commonTiphDialog.show(this.supportFragmentManager, "resMsg")
+        }
+    }
+}
+
 inline fun Activity.doAuthUser(next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7") {

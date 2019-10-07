@@ -86,7 +86,6 @@ public class TextInlineImage extends AppCompatTextView {
                 }else{
                     width = (int) imageSize;
                     height = (int)imageSize;
-
                 }
                 imageDrawable.setBounds(0, 0, width, height);
                 ImageSpan imageSpan = getImageSpan(imageDrawable);
