@@ -109,7 +109,9 @@ interface ApiServices {
                            , @Query("guoneiarea") guoneiarea: String? = null, @Query("guowaiarea") guowaiarea: String? = null, @Query("arrayuserclassesid") arrayUserClassesId: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<MyDate>>>
 
     @POST("backstage/square/add")
-    fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String, @Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String, @Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int,
+                      @Query("sTopicId") sTopicId:String,@Query("sVideoUrl") sVideoUrl:String,@Query("sVideoPicUrl") sVideoPicUrl:String,@Query("sVideoWidth") sVideoWidth:String,@Query("sVideoHeight") sVideoHeight:String,@Query("sVoiceUrl") sVoiceUrl:String,@Query("sVoiceLength") sVoiceLength:String
+                      ,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/selfabout/add")
     fun releaseSelfAbout(@Query("userid") userid: String, @Query("content") content: String?, @Query("handlookwhere") handlookwhere: String?
@@ -500,5 +502,17 @@ interface ApiServices {
     //5、查询当日任务和完成情况
     @POST("backstage/userpoint/findTodayTask")
     fun findUserPointStatus(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<TaskList<TaskBean>>>
+
+    //2.9.0
+    //话题列表
+    @POST("backstage/basetopic/findTopicListByPage")
+    fun findTopicListByPage(@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<TopicBean>>>
+
+    @POST("backstage/basetopic/findTopicBannerList")
+    fun findTopicBannerList(@Query("sLoginToken")sLoginToken:String):Flowable<Response<TopicList<TopicBean>>>
+
+    //动态查询
+    @POST("backstage/square/findByPage")
+    fun getFindSquareList(@Query("userid") accountId: String, @Query("classesid") classesid: String?, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE, @Query("limit") limit: Int = 0, @Query("sex") sex: Int = 2, @Query("sTopicId") sTopicId:String, @Query("sCity") sCity:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<Square>>>
 
 }

@@ -145,4 +145,9 @@
     <string name="str_invite_top_des2"><![CDATA[· 好友购买会员，即奖励会员费20%小红花给你，最高封顶2000朵小红花]]></string>
     <string name="checkin_content">会员福利，签到即可领取双倍积分</string>
     <string name="string_tasks">做任务</string>
+    <string name="string_topicselection">选择话题</string>
+    <string name="string_record_audio">按住开始录制</string>
+    <string name="string_warm_voicetime">语音时长不能小于3s</string>
+    <string name="video_error_string">视频选择错误</string>
+    <string name="string_area_city">地区</string>
 </resources>

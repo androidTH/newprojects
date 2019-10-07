@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
@@ -25,6 +27,9 @@ import java.util.List;
 
 import me.nereo.multi_image_selector.R;
 import me.nereo.multi_image_selector.bean.Image;
+import me.nereo.multi_image_selector.utils.TimeUtils;
+
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
 
 /**
  *
@@ -60,8 +65,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * @author zhy
      *
      */
-    public interface OnItemClickListener
-    {
+    public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
     private OnItemClickListener mOnItemClickListener;
@@ -70,8 +74,7 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * 设置OnItemClickListener
      * @param mOnItemClickListener OnItemClickListener
      */
-    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener)
-    {
+    public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;
     }
 
@@ -94,13 +97,10 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 //        System.err.println("11111----->"+position);
         //如果设置了回调，则设置点击事件
-        if (mOnItemClickListener != null)
-        {
-            holder.itemView.setOnClickListener(new View.OnClickListener()
-            {
+        if (mOnItemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
+                public void onClick(View v){
 //                    if ()
                     mOnItemClickListener.onItemClick(holder.itemView,position);
                 }
@@ -111,7 +111,6 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             if (showCamera && position == 0){
                 return;
             }
-
             Image image = mImages.get(showCamera?position-1:position);
             bindData((ViewHolder) holder, image);
         }
@@ -129,6 +128,9 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         SimpleDraweeView image = holder.bind(R.id.image);
         ImageView indicator= holder.bind(R.id.checkmark);
         View mask= holder.bind(R.id.mask);
+
+        RelativeLayout mVideoInfo = holder.bind(R.id.video_info);
+        TextView mTvVideoTime = holder.bind(R.id.tv_videotime);
         // 处理单选和多选状态
         if(showSelectIndicator){
             indicator.setVisibility(View.VISIBLE);
@@ -145,7 +147,15 @@ public class GridImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             indicator.setVisibility(View.GONE);
         }
 
+        if(data.mediaType == MEDIA_TYPE_VIDEO){
+            mVideoInfo.setVisibility(View.VISIBLE);
+            mTvVideoTime.setText(data.timeToMinutes());
+        }else{
+            mVideoInfo.setVisibility(View.GONE);
+        }
+
         Uri uri = Uri.parse("file://"+data.path);
+
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
                 .setLocalThumbnailPreviewsEnabled(true)
                 .setResizeOptions(new ResizeOptions(mGridWidth,mGridWidth))

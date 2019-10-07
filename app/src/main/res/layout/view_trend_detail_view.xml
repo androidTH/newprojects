@@ -4,83 +4,74 @@
     android:id="@+id/root_commentlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/padding_16"
     android:paddingLeft="@dimen/padding_16"
+    android:paddingTop="@dimen/padding_16"
     android:paddingRight="@dimen/padding_16"
     android:paddingBottom="@dimen/margin_5">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/headView"
         style="@style/DefaultNoHeadStyle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         app:roundAsCircle="true" />
 
     <ImageView
         android:id="@+id/img_auther"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/margin_15"
-        android:layout_marginLeft="@dimen/margin_37"
-        android:layout_marginTop="@dimen/height_30"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="@dimen/margin_20"
         android:src="@mipmap/video_small"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxWidth="180dp"
-        android:layout_marginRight="6dp"
         android:layout_marginTop="2dp"
+        android:layout_marginRight="6dp"
         android:layout_toRightOf="@+id/headView"
-        android:singleLine="true"
-        android:textSize="15sp"
         android:ellipsize="end"
-        android:text="------" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tv_name"
-        android:layout_marginTop="@dimen/margin_3"
-        android:drawableRight="@drawable/sex_selector"
-        android:id="@+id/tv_sex"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_5"
-        android:layout_marginLeft="6dp"
-        android:layout_toRightOf="@+id/tv_sex"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:textColor="@color/orange_f6a"
-        android:textSize="8sp"
-        android:id="@+id/tv_vip"/>
-
-    <TextView
-        android:id="@+id/tv_sub_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/headView"
-        android:layout_alignLeft="@+id/tv_name"
-        android:layout_marginBottom="2dp"
-        android:layout_marginRight="80dp"
+        android:maxWidth="180dp"
         android:singleLine="true"
-        android:text="--"
-        android:textColor="@color/textColor99"
-        android:textSize="14sp" />
+        android:text="------"
+        android:textColor="@color/color_black"
+        android:textSize="15sp" />
 
     <TextView
+        android:id="@+id/tv_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_toRightOf="@+id/headView"
+        android:drawableRight="@drawable/sex_selector" />
+
+    <TextView
+        android:id="@+id/tv_vip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_alignBottom="@+id/headView"
+        android:layout_toRightOf="@+id/tv_sex"
+        android:textColor="@color/orange_f6a"
+        android:textSize="8sp" />
+
+    <!--android:paddingLeft="5dp"-->
+    <!--android:paddingRight="5dp"-->
+
+    <TextView
+        android:id="@+id/tv_delete"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/margin_25"
         android:layout_alignParentRight="true"
-        android:paddingRight="@dimen/margin_10"
+        android:background="@mipmap/discuss_more_gray"
         android:paddingLeft="@dimen/margin_15"
         android:paddingTop="@dimen/margin_10"
-        android:background="@mipmap/discuss_more_gray"
-        android:id="@+id/tv_delete" />
+        android:paddingRight="@dimen/margin_10" />
 
     <TextView
         android:id="@+id/tv_attention"
@@ -92,9 +83,9 @@
         android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:visibility="invisible"
         android:text="关注"
-        android:textColor="@color/orange_f6a" />
+        android:textColor="@color/orange_f6a"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/ll_content"
@@ -107,85 +98,131 @@
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="-----------------" />
+            android:layout_marginBottom="8dp"
+            android:text="-----------------"
+            android:textSize="14sp" />
 
+        <include layout="@layout/item_audio" />
+
+        <RelativeLayout
+            android:id="@+id/rl_vidoe_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <!--<com.facebook.drawee.view.SimpleDraweeView-->
+                <!--android:id="@+id/sv_video_details"-->
+                <!--style="@style/DefaultImageStyle"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:viewAspectRatio="1" />-->
+            <ImageView
+                android:id="@+id/sv_video_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/iv_video_play"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/feed_play_icon"/>
+        </RelativeLayout>
         <android.support.v7.widget.RecyclerView
-            android:layout_marginTop="8dp"
             android:id="@+id/rv_images"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/ll_square"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/tv_square_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_15"
+                android:drawableLeft="@mipmap/local_feedlist_icon"
+                android:drawablePadding="@dimen/margin_2"
+                android:background="@drawable/shape_radius12_f6"
+                android:padding="@dimen/margin_5"
+                android:textColor="@color/color_333333"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_topic_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/tag_list_icon"
+                android:background="@drawable/shape_radius12_f6"
+                android:padding="@dimen/margin_5"
+                android:drawablePadding="@dimen/margin_3"
+                android:textColor="@color/color_333333"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_sub_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_content"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:textColor="@color/color_999999"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/tv_redflower"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:id="@+id/tv_redflower"
-        android:text="0"
-        android:textColor="@color/textColor99"
-        android:layout_toLeftOf="@+id/tv_appraise"
+        android:layout_below="@+id/ll_content"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@+id/tv_comment"
+        android:layout_marginRight="@dimen/margin_40"
         android:drawableLeft="@drawable/ic_redflower_selector"
         android:drawablePadding="4dp"
-        android:layout_marginTop="8dp"
-        android:textSize="14sp"
         android:gravity="center"
-        android:layout_marginRight="@dimen/margin_16"
         android:paddingLeft="8dp"
-        android:layout_below="@+id/ll_content"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_appraise"
-        android:text="0"
         android:textColor="@color/textColor99"
-        android:layout_toLeftOf="@+id/tv_comment"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="8dp"
-        android:drawableLeft="@drawable/ic_praise_selector"
-        android:drawablePadding="4dp"
-        android:textSize="14sp"
-        android:layout_below="@+id/ll_content"/>
-    <View android:layout_width="1px"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tv_comment"
-        android:layout_alignLeft="@+id/tv_comment"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"
-        android:layout_alignTop="@+id/tv_comment"
-        android:background="@color/dividing_line_color"/>
+        android:textSize="12sp" />
+
     <TextView
+        android:id="@+id/tv_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_comment"
-        android:text="0"
+        android:layout_below="@+id/ll_content"
+        android:layout_toLeftOf="@+id/tv_appraise"
         android:drawableLeft="@mipmap/ic_comment"
         android:drawablePadding="4dp"
-        android:layout_alignParentRight="true"
-        android:textSize="14sp"
-        android:textColor="@color/textColor99"
+        android:paddingLeft="8dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="8dp"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:layout_below="@+id/ll_content"/>
+        android:gravity="center"
+        android:textColor="@color/textColor99"
+        android:textSize="12sp" />
+
     <TextView
+        android:id="@+id/tv_appraise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_tag"
-        android:layout_alignTop="@+id/tv_appraise"
-        android:layout_alignBottom="@+id/tv_appraise"
-        android:gravity="center_vertical"
-        android:layout_alignLeft="@+id/tv_name"
-        android:textSize="13sp"
-        android:visibility="gone"
-        android:textColor="@color/color_369"
-        android:text="#心动故事#"/>
-
-    <View style="@style/view_line_h"
-        android:id="@+id/comment_line"
-        android:layout_below="@+id/tv_appraise"
-        android:layout_marginTop="@dimen/margin_5"
-        android:visibility="gone"/>
+        android:layout_below="@+id/ll_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/margin_40"
+        android:drawableLeft="@drawable/ic_praise_selector"
+        android:drawablePadding="4dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center"
+        android:textColor="@color/textColor99"
+        android:textSize="12sp" />
 </RelativeLayout>

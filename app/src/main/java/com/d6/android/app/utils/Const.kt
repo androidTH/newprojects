@@ -148,6 +148,9 @@ object Const {
     val PUSH_ISNOTSHOW="push_isnotshow"
     @JvmField
     var CHOOSE_Friends="choosefriends"
+
+    @JvmField
+    var CHOOSE_TOPIC="choosetopic"
     @JvmField
     var USERINFO_PERCENT = "userinfo_percent"
     @JvmField

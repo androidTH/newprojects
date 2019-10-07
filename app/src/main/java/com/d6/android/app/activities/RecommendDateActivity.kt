@@ -21,6 +21,7 @@ import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_RGDIALOG
 import com.d6.android.app.utils.Const.User.USER_CLASS_ID
 import com.d6.android.app.utils.Const.User.USER_HEAD
 import com.d6.android.app.widget.diskcache.DiskFileUtils
+import com.facebook.drawee.backends.pipeline.Fresco
 import kotlinx.android.synthetic.main.activity_recommend_date.*
 import org.jetbrains.anko.startActivity
 
@@ -213,7 +214,7 @@ class RecommendDateActivity : BaseActivity() {
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
             if(position == -3){
                 city = ""
-                tv_date_city.text = "地区"
+                tv_date_city.text = getString(R.string.string_area_city)
             }else{
                 city = string
                 tv_date_city.text = string
@@ -228,6 +229,9 @@ class RecommendDateActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mRecommentTypes.clear()
+        mFragments.clear()
+        Fresco.getImagePipeline().clearMemoryCaches()
         immersionBar.destroy()
     }
 }

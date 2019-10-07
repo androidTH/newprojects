@@ -1,9 +1,11 @@
 package com.d6.android.app.adapters
 
 import android.support.v4.content.ContextCompat
+import android.text.Spannable
 import android.text.TextPaint
 import android.text.TextUtils
 import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -71,6 +73,8 @@ class SquareCommentAdapter(mData:ArrayList<Comment>): HFRecyclerAdapter<Comment>
             name = "${data.name}"
         }
 
+        var replyName = ""
+
         val spanText = if (data.replyUserId.isNullOrEmpty()) {
             val content = String.format("%s: %s",name,data.content)
             val length = name.length
@@ -78,7 +82,6 @@ class SquareCommentAdapter(mData:ArrayList<Comment>): HFRecyclerAdapter<Comment>
                     .click(0,length,TextClickableSpan(data.userId,data.iIsAnonymous))
                     .build()
         } else {
-            var replyName = ""
             if(data.iIsReplyAnonymous==1){
                 if(TextUtils.equals(data.replyUserId, mSquareUserId)){
                     replyName = "${data.replyName}贴主"
@@ -112,6 +115,7 @@ class SquareCommentAdapter(mData:ArrayList<Comment>): HFRecyclerAdapter<Comment>
                     .build()
         }
 
+        spanText.setSpan(ForegroundColorSpan(ContextCompat.getColor(context,R.color.color_666666)), 0,name.length + replyName.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
 
         contentView.text = spanText
     }

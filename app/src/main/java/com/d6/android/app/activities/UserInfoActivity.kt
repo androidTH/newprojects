@@ -25,32 +25,38 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
+import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.d6.android.app.widget.WrapContentLinearLayoutManager
 import com.google.gson.JsonObject
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
+import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
-import kotlinx.android.synthetic.main.header_user_info_layout.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
+import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  *
  */
-class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshListener {
+class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshListener, Observer {
 
     private val id by lazy {
         intent.getStringExtra("id")
@@ -61,6 +67,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private var mData: UserData? = null
+    private var MAXPICS = 9
 
     private var pageNum = 1
 
@@ -74,6 +81,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private val squareAdapter by lazy {
         MySquareAdapter(mSquares, 0)
     }
+
     private val mImages = ArrayList<AddImage>()
 
     private val mPicsWall = ArrayList<AddImage>()
@@ -95,10 +103,28 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         ColorDrawable(Color.WHITE).mutate()
     }
 
+    private val mAudioMedio by lazy{
+        AudioPlayUtils(this)
+    }
+
+    //播放录音
+    private var playIndex = -1
+    private var playSquare:Square? = null
+
+    override fun update(o: Observable?, arg: Any?) {
+        var mImagelocal = arg as Imagelocals
+        if(mImagelocal.mType == 1){
+            var localImages = ArrayList<String>()
+            mImagelocal.mUrls.forEach {
+                localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+            }
+            updateImages(localImages)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_info_v2)
-
         immersionBar
                 .fitsSystemWindows(false)
                 .statusBarColor(R.color.trans_parent)
@@ -107,15 +133,20 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .keyboardEnable(true)
                 .init()
         EventBus.getDefault().register(this)
+        ObserverManager.getInstance().addObserver(this)
 
         tv_back.setOnClickListener {
             finish()
         }
 
-        mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))
+        mSwipeRefreshLayout.setLayoutManager(WrapContentLinearLayoutManager(this))
         squareAdapter.setHeaderView(headerView)
         mSwipeRefreshLayout.setAdapter(squareAdapter)
         mSwipeRefreshLayout.setOnRefreshListener(this)
+//        mSwipeRefreshLayout.addItemDecoration(HorizontalDividerItemDecoration.Builder(context)
+//                .size(15)
+//                .color(ContextCompat.getColor(context, R.color.color_F5F5F5))
+//                .build())
 
         headerView.rv_my_images.setHasFixedSize(true)
         headerView.rv_my_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -145,11 +176,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     startActivityForResult<ImagePagerActivity>(22,  "data" to it,ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position,"delete" to deletePic)
                 }
             }else{
-                if (mImages.size >= 9) {
-                    toast("最多上传8张图片")
+                if (mImages.size > MAXPICS) {//最多9张
+                    showToast("最多上传9张图片")
                     return@setOnItemClickListener
                 }
-                startActivityForResult<SelectPhotoDialog>(8)
+                val c = (MAXPICS - mImages.size+1)
+                startActivityForResult<MultiImageSelectorActivity>(8
+                        , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
+                        ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                )
             }
         }
         headerView.rv_tags.setHasFixedSize(true)
@@ -278,6 +313,75 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         getUserInfo()
         getUserFollowAndFansandVistor()
+
+        setAudioListener()
+    }
+
+    private fun setAudioListener(){
+        mAudioMedio.setmAudioListener(object: AudioPlayListener {
+            override fun onPrepared(var1: Int) {
+
+            }
+
+            override fun onBufferingUpdate(var1: Int) {
+
+            }
+
+            override fun onInfo(var1: Int, var2: Int) {
+                when (var1) {
+                    AudioPlayUtils.MEDIA_INFO_STATE_CHANGED_PAUSED ->{
+                        playSquare?.let {
+                            it.isPlaying = false
+                            mSquares[playIndex] = it
+                            squareAdapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+
+            override fun onCompletion() {
+                playSquare?.let {
+                    it.isPlaying = false
+                    mSquares[playIndex] = it
+                    squareAdapter.notifyDataSetChanged()
+                }
+            }
+        })
+
+        squareAdapter.setOnSquareAudioToggleClick { position, square ->
+            playSquare = square
+            playSquare?.let {
+                if(!it.isPlaying){
+                    it.isPlaying = true
+                    mSquares[position]= it
+                    if(playIndex>=0&&playIndex!=position){
+                        mSquares[playIndex].isPlaying = false
+                    }
+                    squareAdapter.notifyDataSetChanged()
+                    playIndex = position
+                }
+            }
+
+            var proxyUrl =  getProxyUrl(this,square.sVoiceUrl)
+            mAudioMedio.singleAudioPlay(proxyUrl)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mAudioMedio.onDestoryAudio()
+        if(playIndex!=-1){
+            playSquare?.let {
+                it.isPlaying = false
+                mSquares[playIndex] = it
+                squareAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mAudioMedio.onDestoryAudio()
     }
 
     private fun createGroupName(){
@@ -480,58 +584,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 }
 
-//                } else {
-//                    headerView.img_other_auther.visibility = View.GONE
-//                    headerView.img_date_auther.visibility = View.GONE
-//                }
-
                 headerView.img_other_auther.setOnClickListener {
                     toast(getString(R.string.string_auth))
                 }
-
-//                headerView.tv_other_auther_sign.setOnClickListener {
-//                    startActivity<DateAuthStateActivity>()
-//                }
-
-//                headerView.tv_vip.text = String.format("%s", it.classesname+it.userclassesid)
-                //22普通 23白银 24黄金 25钻石 26私人  7游客
-//                if (TextUtils.equals("0", it.sex)) {//女性
-//                    //27入门 28中级  29优质
-////                   tv_vip.text = String.format("%s", it.classesname)
-//                    if(TextUtils.equals(it.userclassesid,"27")){
-////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_primary))
-//                        headerView.tv_vip.backgroundDrawable =  ContextCompat.getDrawable(this,R.mipmap.gril_cj)
-//                    }else if(TextUtils.equals(it.userclassesid,"28")){
-////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_middle))
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_zj)
-//                    }else if(TextUtils.equals(it.userclassesid,"29")){
-////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.gril_gj)
-//                    }else if(TextUtils.equals(it.userclassesid,"7")){
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
-//                    }
-//                } else {
-//                    if(TextUtils.equals(it.userclassesid.toString(),"22")){
-////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_ordinary)
-//                    }else if(TextUtils.equals(it.userclassesid,"23")){
-////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_silver)
-//                    }else if(TextUtils.equals(it.userclassesid,"24")){
-////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_gold)
-//                    }else if(TextUtils.equals(it.userclassesid,"25")){
-////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_zs)
-//                    }else if(TextUtils.equals(it.userclassesid,"26")){
-////                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.vip_private)
-//                    }else if(TextUtils.equals(it.userclassesid,"7")){
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.youke_icon)
-//                    }else if(TextUtils.equals(it.userclassesid,"30")){
-//                        headerView.tv_vip.backgroundDrawable = ContextCompat.getDrawable(this,R.mipmap.ruqun_icon)
-//                    }
-//                }
 
                 var drawable = getLevelDrawable(it.userclassesid.toString(),this)
                 headerView.tv_vip.backgroundDrawable = drawable
@@ -627,6 +682,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
                         tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
                     } else {
+                        tv_like.visibility = View.VISIBLE
                         tv_like.text = resources.getString(R.string.string_like)
                         tv_like.backgroundResource = R.drawable.shape_20r_ff6
                         tv_like.textColor = ContextCompat.getColor(context, R.color.white)
@@ -659,7 +715,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
         if(deletePic){
             headerView.rv_my_images.visibility = View.VISIBLE
-            mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
+            if(MAXPICS!=mImages.size){
+                mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
+            }
         }
         myImageAdapter.notifyDataSetChanged()
     }
@@ -688,9 +746,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.getMySquares(userId, id, 0, pageNum).request(this, success = { _, data ->
             mSwipeRefreshLayout.isRefreshing = false//15717
             if (pageNum == 1) {
+                playIndex = -1
+                mAudioMedio.onClickStop()
                 mSquares.clear()
             }
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data.list?.results?.isEmpty()) {
                 if (pageNum > 1) {
                     mSwipeRefreshLayout.setLoadMoreText("没有更多了")
                     pageNum--
@@ -773,7 +833,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
-
             var drawable = ContextCompat.getDrawable(context, R.mipmap.icon_like_button)
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
             tv_like.setCompoundDrawables(drawable, null, null, null);
@@ -826,6 +885,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
         } else {
+            tv_like.visibility = View.VISIBLE
+
             tv_like.text = resources.getString(R.string.string_like)
             tv_like.backgroundResource = R.drawable.shape_20r_ff6
             tv_like.textColor = ContextCompat.getColor(context, R.color.white)
@@ -841,26 +902,45 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             if(requestCode == 22||requestCode==0){
                 onRefresh()
             }else if (requestCode == 8 && data != null) {//选择图片
-                val path = data.getStringExtra(SelectPhotoDialog.PATH)
-//               updateImages(path)
-                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
-                param.index = 0
-                param.type = Const.User.SELECTIMAGE
-                param.images.add(path)
-                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
+                val result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+                var localImages = ArrayList<String>()
+                result.forEach {
+                    localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+                }
+                updateImages(localImages)
+
+//                val path = data.getStringExtra(SelectPhotoDialog.PATH)
+//                updateImages(path)
+//                var param: BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
+//                param.index = 0
+//                param.type = Const.User.SELECTIMAGE
+//                param.images.add(path)
+//                startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             }else if (requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE && data != null) {
-                var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
-                updateImages(param.images[param.index])
+//                var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
+//                updateImages(param.images[param.index])
             }
         }
     }
 
-    private fun updateImages(path: String) {
+    private fun updateImages(mImages:ArrayList<String>) {
         val userData = mData ?: return
         dialog()
-        Flowable.just(path).flatMap {
-            val file = BitmapUtils.compressImageFile(path)
-            Request.uploadFile(file)
+        Flowable.fromIterable(mImages).subscribeOn(Schedulers.io()).flatMap {
+            //压缩
+            val b = BitmapUtils.compressImageFile(it)
+            Flowable.just(b)
+        }.flatMap {
+            Request.uploadFile(it)
+        }.toList().toFlowable().flatMap {
+            val sb = StringBuilder()
+            it.forEach {
+                sb.append(it).append(",")
+            }
+            if (sb.isNotEmpty()) {
+                sb.deleteCharAt(sb.length - 1)
+            }
+            Flowable.just(sb.toString())
         }.flatMap {
             if (userData.userpics.isNullOrEmpty()) {
                 userData.userpics = it

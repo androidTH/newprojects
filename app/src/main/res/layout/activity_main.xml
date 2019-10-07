@@ -22,14 +22,15 @@
             android:layout_centerInParent="true"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/padding_16"
-            android:textSize="20dp"
+            android:textSize="17sp"
             android:id="@+id/tv_title1"
             android:visibility="gone"
             android:drawablePadding="@dimen/margin_3"
-            android:drawableRight="@mipmap/ic_arrow_down"
             android:textStyle="bold"
             android:text=""
+            android:textColor="@color/color_black"
             android:gravity="center_vertical|left"/>
+        <!--android:drawableRight="@mipmap/ic_arrow_down"-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -39,6 +40,7 @@
             android:textColor="@color/orange_f6a"
             android:layout_alignParentRight="true"
             android:paddingRight="12dp"
+            android:padding="@dimen/margin_12"
             android:id="@+id/iv_right"
             android:visibility="gone"/>
 

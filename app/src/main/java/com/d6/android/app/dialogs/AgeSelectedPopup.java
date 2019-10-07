@@ -17,9 +17,7 @@ public class AgeSelectedPopup extends BasePopup<AgeSelectedPopup> implements Vie
     private static final String TAG = "AgeSelectedPopup";
 
     private Context mContext;
-    private LinearLayout mLinearAges;
     private TextView mTvAllAges;
-    private TextView mTvAge01;
     private TextView mTvAge02;
     private TextView mTvAge03;
     private TextView mTvAge04;
@@ -46,15 +44,12 @@ public class AgeSelectedPopup extends BasePopup<AgeSelectedPopup> implements Vie
 
     @Override
     protected void initViews(View view, AgeSelectedPopup basePopup) {
-         mLinearAges = findViewById(R.id.ll_ages);
          mTvAllAges = findViewById(R.id.tv_allages);
-         mTvAge01 = findViewById(R.id.tv_age01);
          mTvAge02 = findViewById(R.id.tv_age02);
          mTvAge03 = findViewById(R.id.tv_age03);
          mTvAge04 = findViewById(R.id.tv_age04);
          mTvAge05 = findViewById(R.id.tv_age05);
          mTvAllAges.setOnClickListener(this);
-         mTvAge01.setOnClickListener(this);
          mTvAge02.setOnClickListener(this);
          mTvAge03.setOnClickListener(this);
          mTvAge04.setOnClickListener(this);
@@ -66,10 +61,7 @@ public class AgeSelectedPopup extends BasePopup<AgeSelectedPopup> implements Vie
         if(v.getId() == R.id.tv_allages){
             position = 0;
             str = "不限";
-        }else if(v.getId() == R.id.tv_age01){
-            position = 1;
-            str = "18岁以下";
-        }else if(v.getId() == R.id.tv_age02){
+        }if(v.getId() == R.id.tv_age02){
             position = 2;
             str = "18-25岁";
         }else if(v.getId() == R.id.tv_age03){

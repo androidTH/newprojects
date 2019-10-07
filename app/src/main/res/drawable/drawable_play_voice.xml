@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/audio_animation"
+    android:oneshot="false" >
+    <item
+        android:drawable="@mipmap/liveroom_recording1"
+        android:duration="100"/>
+    <item
+        android:drawable="@mipmap/liveroom_recording2"
+        android:duration="200"/>
+    <item
+        android:drawable="@mipmap/liveroom_recording3"
+        android:duration="300"/>
+</animation-list>

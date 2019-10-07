@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_marginRight="@dimen/margin_15"
+    android:layout_marginTop="@dimen/margin_15"
+    android:background="@drawable/shape_radius12_f6"
+    android:padding="@dimen/margin_5"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_square_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/color_333333"
+        android:drawablePadding="@dimen/margin_5"
+        android:drawableLeft="@mipmap/tag_list_bigicon"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="身高"/>
+</RelativeLayout>

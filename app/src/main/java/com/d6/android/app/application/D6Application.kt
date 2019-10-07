@@ -22,6 +22,8 @@ import cn.liaox.cachelib.cache.NetworkCache
 //import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
+import com.d6.android.app.audioconverter.AndroidAudioConverter
+import com.d6.android.app.audioconverter.callback.ILoadCallback
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
@@ -31,6 +33,7 @@ import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.RongUtils.getConnectCallback
+import com.danikula.videocache.HttpProxyCacheServer
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
 import com.umeng.commonsdk.UMConfigure
@@ -63,6 +66,13 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
     companion object {
         var isChooseLoginPage = false
         var systemTime = 0L
+        fun getProxy(mContent: Context): HttpProxyCacheServer? {
+            var app = mContent.applicationContext as D6Application
+            if (app.proxy == null) {
+                app.proxy = app.newProxy()
+            }
+            return app.proxy
+        }
     }
 
     override fun getSPName() = "com.d6.android.data"
@@ -118,12 +128,34 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         if(isMainProcess()){
             OpenInstall.init(this)
         }
+
+        loadAudioConvert()
+//        BigImageViewer.initialize(FrescoImageLoader.with(this))
+    }
+
+    /**
+     * 加载转码工具
+     */
+    private fun loadAudioConvert(){
+        AndroidAudioConverter.load(this, object : ILoadCallback{
+            override fun onFailure(error: Exception?) {
+            }
+
+            override fun onSuccess() {
+            }
+        })
     }
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
     }
+
+    private var proxy:HttpProxyCacheServer?=null
+
+	private fun newProxy():HttpProxyCacheServer{
+		return HttpProxyCacheServer(this);
+	}
 
     private fun getCurProcessName(context: Context): String? {
         val pid = android.os.Process.myPid()
@@ -245,7 +277,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                     }else if(TextUtils.equals("4",type)){
                         RongUtils.setConversationTop(this,message.conversationType,message.targetId,false)
                     }else if(TextUtils.equals("5",type)){//约会 同意
-                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+message.targetId,true).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
                         SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
                     }else if(TextUtils.equals("6",type)){//约会 拒绝
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,false).apply()
@@ -415,4 +447,5 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
         return false
     }
+
 }

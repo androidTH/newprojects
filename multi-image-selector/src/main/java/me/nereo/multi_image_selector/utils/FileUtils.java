@@ -2,7 +2,11 @@ package me.nereo.multi_image_selector.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.media.ThumbnailUtils;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.SyncStateContract;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -18,6 +22,8 @@ public class FileUtils {
 
     private static final String JPEG_FILE_PREFIX = "IMG_";
     private static final String JPEG_FILE_SUFFIX = ".jpg";
+
+    public static final String VideoThumbnail = "_VideoThumbnail_";
 
     public static File createTmpFile(Context context) throws IOException{
         File dir = null;
@@ -126,4 +132,22 @@ public class FileUtils {
         return perm == PackageManager.PERMISSION_GRANTED;
     }
 
+    public static String getAlbumPath(Context context,int videoId){
+        String albumPath = "";
+        Cursor thumbCursor = null;
+        try {
+            thumbCursor = context.getApplicationContext().getContentResolver().query(
+                    MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI,
+                    null, MediaStore.Video.Thumbnails.VIDEO_ID
+                            + "=" + videoId, null, null);
+            if (thumbCursor.moveToFirst()) {
+                albumPath = thumbCursor.getString(thumbCursor
+                        .getColumnIndex(MediaStore.Video.Thumbnails.DATA));
+
+            }
+        } finally {
+            if (thumbCursor != null) thumbCursor.close();
+        }
+        return albumPath;
+    }
 }

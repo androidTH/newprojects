@@ -111,7 +111,7 @@ class SquareMainFragment : BaseFragment(), ViewPager.OnPageChangeListener {
 //            scrollToPosition(0)
 //        }
         mSquareTags.add(SquareTag("", "全部"))
-        mViewPager.adapter.notifyDataSetChanged()
+        mViewPager.adapter?.notifyDataSetChanged()
         mViewPager.currentItem = 0
         scrollToPosition(0)
     }

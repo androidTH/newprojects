@@ -75,6 +75,10 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                 }
             }
         }
+
+        trendView.onTogglePlay {
+            mOnSquareAudioTogglePlay?.onSquareAudioPlayClick(position,it)
+        }
     }
 
     fun setUserInfo(data: UserData){
@@ -153,5 +157,19 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                 l(position)
             }
         }
+    }
+
+    fun setOnSquareAudioToggleClick(action:(position:Int,square:Square)->Unit) {
+        this.mOnSquareAudioTogglePlay = object : OnSquareAudioTogglePlay {
+            override fun onSquareAudioPlayClick(position: Int, square: Square) {
+                action(position, square)
+            }
+        }
+    }
+
+    private var mOnSquareAudioTogglePlay:OnSquareAudioTogglePlay?=null
+
+    interface OnSquareAudioTogglePlay{
+        fun onSquareAudioPlayClick(position:Int,square: Square)
     }
 }

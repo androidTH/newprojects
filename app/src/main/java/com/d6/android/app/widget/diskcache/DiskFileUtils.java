@@ -114,4 +114,25 @@ public class DiskFileUtils {
         }
         return mDiskLruCacheHelper;
     }
+
+    public static Boolean deleteSingleFile(String filePathName){
+        File file =new  File(filePathName);
+        if (file.exists() && file.isFile()) {
+            if (file.delete()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public static Boolean IsExists(String filePathName){
+        File file =new  File(filePathName);
+        if (file.exists() && file.isFile()) {
+            return true;
+        }
+        return false;
+    }
 }

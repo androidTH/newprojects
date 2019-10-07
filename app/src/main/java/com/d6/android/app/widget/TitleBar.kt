@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
 import org.jetbrains.anko.*
@@ -24,7 +25,7 @@ import java.util.*
  * 标题栏
  * Created by liaoxiang on 16/3/22.
  */
-class TitleBar : FrameLayout {
+class TitleBar : RelativeLayout {
 
     constructor(context: Context):super(context)
     constructor(context: Context,attributeSet: AttributeSet):super(context,attributeSet)
@@ -56,10 +57,11 @@ class TitleBar : FrameLayout {
         layoutParams = ViewGroup.LayoutParams(LayoutParams.MATCH_PARENT, dip(46))
         //添加leftView
         leftView
-        val param = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT)
+        val param = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT)
         param.bottomMargin = dip(4)
         param.topMargin = dip(4)
-        param.gravity = Gravity.CENTER_VERTICAL
+//        param.gravity = Gravity.CENTER_VERTICAL
+        param.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE)
         showLeft(hasLeft)
         leftView.setPadding(dip(16), 0, dip(8), 0)
         leftView.layoutParams = param
@@ -67,10 +69,11 @@ class TitleBar : FrameLayout {
         leftView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.back, 0, 0, 0)
         //添加TitleView
         titleView.setPadding(dip(4), 0, dip(4), 0)
-        val param1 = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+        val param1 = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT)
         param1.bottomMargin = dip(4)
         param1.topMargin = dip(4)
-        param1.gravity = Gravity.CENTER_VERTICAL
+        param1.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+//        param1.gravity = Gravity.CENTER_VERTICAL
         titleView.layoutParams = param1
 
         //默认不可输入
@@ -95,22 +98,22 @@ class TitleBar : FrameLayout {
         if (isHasRight) {
             for (view in rightViews) {
                 if (view.visibility != View.GONE) {
-                    val rightMargin = (view.layoutParams as FrameLayout.LayoutParams).rightMargin
+                    val rightMargin = (view.layoutParams as RelativeLayout.LayoutParams).rightMargin
                     val temp = rw
                     if (rightMargin != temp) {
-                        (view.layoutParams as FrameLayout.LayoutParams).rightMargin = temp
+                        (view.layoutParams as RelativeLayout.LayoutParams).rightMargin = temp
                     }
                     rw += view.measuredWidth + 5
                 }
             }
         }
-        val leftMargin = (titleView.layoutParams as FrameLayout.LayoutParams).leftMargin
-        val rightMargin = (titleView.layoutParams as FrameLayout.LayoutParams).rightMargin
+        val leftMargin = (titleView.layoutParams as RelativeLayout.LayoutParams).leftMargin
+        val rightMargin = (titleView.layoutParams as RelativeLayout.LayoutParams).rightMargin
         val newMargin = Math.max(lw, rw) + 5
 //                System.err.println("onlayout-------$leftMargin--->$rightMargin")
         if (leftMargin != newMargin || rightMargin != newMargin) {
-            (titleView.layoutParams as FrameLayout.LayoutParams).leftMargin = newMargin
-            (titleView.layoutParams as FrameLayout.LayoutParams).rightMargin = newMargin
+            (titleView.layoutParams as RelativeLayout.LayoutParams).leftMargin = newMargin
+            (titleView.layoutParams as RelativeLayout.LayoutParams).rightMargin = newMargin
             titleView.requestLayout()
         }
     }
@@ -146,10 +149,11 @@ class TitleBar : FrameLayout {
         val w = rightViews
                 .filter { it.visibility != View.GONE }
                 .sumBy { it.measuredWidth + 5 }
-        val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT)
+        val params = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.MATCH_PARENT)
 
         params.rightMargin = w
-        params.gravity = Gravity.RIGHT or Gravity.CENTER_VERTICAL
+//        params. = Gravity.RIGHT or Gravity.CENTER_VERTICAL
+        params.addRule(ALIGN_PARENT_RIGHT, RelativeLayout.TRUE)
         val rightView = TextView(context)
         if (title != null) {
             rightView.text = title

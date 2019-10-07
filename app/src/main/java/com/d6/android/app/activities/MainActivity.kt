@@ -14,10 +14,8 @@ import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.CheckInPointsDialog
 import com.d6.android.app.dialogs.FilterTrendDialog
 import com.d6.android.app.dialogs.LoginOutTipDialog
-import com.d6.android.app.dialogs.RewardTipsDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
 import com.d6.android.app.models.FollowFansVistor
@@ -77,6 +75,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     private var token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
 
     private var filterTrendDialog:FilterTrendDialog?=null
+    private var token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
 
     private val broadcast by lazy {
         object : BroadcastReceiver() {
@@ -751,6 +750,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
         }
     }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 12) {

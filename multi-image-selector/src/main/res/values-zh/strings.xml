@@ -7,4 +7,6 @@
     <string name="action_done">完成</string>
     <string name="photo_unit">张</string>
     <string name="tip_take_photo">拍摄照片</string>
+    <string name="tip_video_maxtime">视频时长不能大于15s</string>
+    <string name="tip_video_mintime">视频时长不能小于3s</string>
 </resources>

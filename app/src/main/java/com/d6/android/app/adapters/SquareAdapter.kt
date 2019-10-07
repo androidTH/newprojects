@@ -15,7 +15,9 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.showTips
+import com.d6.android.app.utils.starPlayDrawableAnim
 import com.d6.android.app.widget.TrendView
+import kotlinx.android.synthetic.main.item_audio.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
@@ -70,8 +72,13 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
             dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 2,"userId" to it.userid.toString(),"square" to it)
             dialogSendRedFlowerDialog.show((context as BaseActivity).supportFragmentManager,"sendflower")
         }
-    }
 
+        trendView.onTogglePlay {
+            mOnSquareAudioTogglePlay?.onSquareAudioPlayClick(position,it)
+        }
+
+//        trendView.startPlayAudioView(trendView.iv_playaudio)
+    }
 
     //举报
     private fun startActivity(id:String,tipType:String){
@@ -121,10 +128,23 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
         }
     }
 
+    fun setOnSquareAudioToggleClick(action:(position:Int,square:Square)->Unit) {
+        this.mOnSquareAudioTogglePlay = object : OnSquareAudioTogglePlay {
+            override fun onSquareAudioPlayClick(position: Int, square: Square) {
+                action(position, square)
+            }
+        }
+    }
+
     private var mOnSquareDetailsClick: OnSquareDetailsClick?=null
+    private var mOnSquareAudioTogglePlay:OnSquareAudioTogglePlay?=null
 
     interface OnSquareDetailsClick{
         fun onSquareDetails(position:Int,square: Square)
+    }
+
+    interface OnSquareAudioTogglePlay{
+        fun onSquareAudioPlayClick(position:Int,square: Square)
     }
 
     private var clickListener: OnItemClickListener? = null

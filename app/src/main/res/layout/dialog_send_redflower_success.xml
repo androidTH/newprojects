@@ -79,6 +79,7 @@
                 android:layout_alignParentBottom="true"
                 android:drawableLeft="@mipmap/icon_like_button"
                 android:drawablePadding="@dimen/margin_5"
+                android:visibility="gone"
                 android:text="@string/string_like"/>
             <TextView
                 android:id="@+id/tv_sendflower_success_siliao"

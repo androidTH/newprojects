@@ -48,7 +48,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 }
                 is ConnectException -> {
                     if(NetworkUtils.hasInternet(AppUtils.context)){
-                        msg = Error.SERVER_ERROR
+                        msg = ""//Error.SERVER_ERROR
                     }else{
                         msg = Error.NET_ERROR
                     }
@@ -64,7 +64,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 }
                 is HttpException -> {
                     Log.i("RxExtentions","HttpException${t.code()}")
-                    msg = ""//Error.SERVER_ERROR
+                    msg = "" //Error.SERVER_ERROR
                     val tCode = t.code()
                     if (tCode == 401) {
                         //未通过服务端认证。需前往登录

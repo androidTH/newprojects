@@ -16,6 +16,7 @@ import cn.liaox.cachelib.bean.UserBean
 import com.alibaba.fastjson.JSONObject
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
+import com.d6.android.app.activities.SelectPhotoDialog
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.MySquareAdapter
 import com.d6.android.app.adapters.UserTagAdapter

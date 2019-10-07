@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_root_audio"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:visibility="gone"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rl_play_audio"
+        android:layout_width="100dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/shape_17r_26">
+        <ImageView
+            android:id="@+id/iv_playaudio"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_25"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_12"
+            android:src="@mipmap/liveroom_recording3" />
+
+        <TextView
+            android:id="@+id/tv_audio_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:textColor="@color/color_F7AB00"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+</LinearLayout>

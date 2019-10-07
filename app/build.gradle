@@ -6,16 +6,16 @@ apply plugin: 'com.bugtags.library.plugin'
 
 android {
     useLibrary 'org.apache.http.legacy'
-    compileSdkVersion 26
+    compileSdkVersion 28
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
 
     defaultConfig {
         applicationId "com.d6.android.app"
         minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 43 //32 2.2.1
-        versionName "2.8.0"
+        targetSdkVersion 28
+        versionCode 45 //44 2.9.0
+        versionName "2.9.1"
         // Enabling multiDex support.
         multiDexEnabled true
         ndk {
@@ -67,6 +67,7 @@ android {
         main {
             jni.srcDirs = []
             jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['src/main/jniLibs']
         }
     }
 
@@ -142,11 +143,13 @@ dependencies {
     compile project(':sticker')
     compile project(':library')
     compile project(':update-app')
+    compile project(':jiaozivideoplayer')
 
     //下拉刷新库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-28'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-28'
-//    implementation 'com.qianwen:update-app:3.5.2'
+
+    //    implementation 'com.qianwen:update-app:3.5.2'
     implementation 'com.qianwen:okhttp-utils:3.8.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
@@ -173,12 +176,37 @@ dependencies {
     implementation 'com.umeng.umsdk:push:5.0.2'
     implementation files('libs/OpenInstall_v2.2.2.jar')
     implementation 'com.airbnb.android:lottie:2.3.0'
-
     implementation 'me.jessyan:autosize:1.1.2'
+    implementation 'com.danikula:videocache:2.7.1'
 
-//    implementation("com.tencent.tinker:tinker-android-loader:${TINKER_VERSION}") { changing = true }
-//    annotationProcessor("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
-//    compileOnly("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
+    //    implementation 'com.shuyu:gsyVideoPlayer-java:7.0.2'
+
+    //    implementation 'com.shuyu:GSYVideoPlayer-exo2:7.0.2'
+
+    //    implementation 'com.shuyu:gsyVideoPlayer-armv5:7.0.2'
+
+    //    implementation("com.tencent.tinker:tinker-android-loader:${TINKER_VERSION}") { changing = true }
+
+    //    annotationProcessor("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
+
+    //    compileOnly("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
+//    implementation files('libs/pldroid-player-2.1.8.jar')
+
+    implementation 'com.kailashdabhi:om-recorder:1.1.0'
+
+    implementation 'com.github.adrielcafe:ffmpeg-android-java:2a627f6ecd@aar'
+
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+//    implementation 'com.github.piasy:BigImageViewer:1.5.7'
+//
+//    implementation 'com.github.piasy:FrescoImageLoader:1.5.7'
+
+//// progress pie indicator
+//    implementation 'com.github.piasy:ProgressPieIndicator:1.5.7'
+//
+//  support thumbnail, gif and webp with Fresco
+//    implementation 'com.github.piasy:FrescoImageViewFactory:1.5.7'
+
 }
 
 //def gitSha() {

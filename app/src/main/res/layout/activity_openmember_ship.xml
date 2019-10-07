@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_F6F7FA"
+    tools:context=".activities.OpenMemberShipActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_openmember_title"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_size">
+        <TextView
+            android:id="@+id/tv_membership_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/back"
+            android:paddingLeft="@dimen/padding_16"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:textSize="17sp"
+            android:id="@+id/tv_title"
+            android:text="开通会员"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_openmber_tab"
+        android:layout_below="@+id/rl_openmember_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <com.d6.android.app.widget.tablayout.TabLayout
+            android:id="@+id/tab_membership"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:tabPaddingStart="0dp"
+            app:tabPaddingEnd="0dp"
+            app:tabMode="scrollable"
+            app:tabGravity="center"
+            app:tabTextAppearance="@style/tab_openmember"
+            android:scrollbars="horizontal"
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/color_F7AB00"
+            app:tabIndicatorHeight="3dp"
+            app:tabLineOffset="@dimen/margin_20"
+            app:tabSelectedTextColor="@color/color_F7AB00"
+            app:tabTextColor="@color/color_666666" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_membership"
+        android:layout_below="@+id/rl_openmber_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_55"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_zxkf_men"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_40"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:background="@drawable/shape_5r_solid_white"
+            android:gravity="center"
+            android:padding="@dimen/margin_8"
+            android:text="咨询客服"
+            android:textColor="@color/color_F7AB00"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/ll_openmemeber"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_40"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:background="@drawable/shape_orange"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_openmember"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/height_30"
+                android:layout_marginLeft="@dimen/margin_20"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_member_showdes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
+

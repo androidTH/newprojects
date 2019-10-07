@@ -10,6 +10,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -18,6 +19,7 @@ import android.os.StatFs
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.Settings
+import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -26,16 +28,15 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.d6.android.app.BuildConfig
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.CheckInPointsDialog
-import com.d6.android.app.dialogs.DateErrorDialog
-import com.d6.android.app.dialogs.DialogUpdateApp
-import com.d6.android.app.dialogs.MemberDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.*
@@ -108,7 +109,7 @@ fun Context.screenWidth(): Int {
     return dm.widthPixels
 }
 
-fun Fragment.screenWidth(): Int = activity.screenWidth()
+fun Fragment.screenWidth(): Int = activity!!.screenWidth()
 
 fun View.screenWidth(): Int = context.screenWidth()
 
@@ -118,7 +119,7 @@ fun Context.screenHeight(): Int {
     return dm.heightPixels
 }
 
-fun Fragment.screenHeight(): Int = context.screenHeight()
+fun Fragment.screenHeight(): Int = context!!.screenHeight()
 
 fun View.screenHeight(): Int = context.screenHeight()
 
@@ -192,7 +193,7 @@ fun View?.invisible() {
 }
 
 fun Fragment.callPhone(phone: String?) {
-    activity.callPhone(phone)
+    activity?.callPhone(phone)
 }
 
 fun Activity.getUrlPath(imageUri: Uri?): String? {
@@ -354,6 +355,7 @@ inline fun Activity.isAuthUser(from:String="nomine",next: () -> Unit) {
 //            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
 //            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
             this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+//            this.startActivity<OpenMemberShipActivity>()
         }else{
             this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //             this.startActivity<DateAuthStateActivity>()
@@ -378,7 +380,7 @@ inline fun Activity.isVipUser(next: () -> Unit) {
 }
 
 inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String,from:String="nomine", crossinline next: () -> Unit) {
-    Request.getUserInfoDetail(userId).request(requestManager,false,success = {msg,data->
+    Request.getUserInfoDetail(userId).request(requestManager,true,success = {msg,data->
             data?.let {
                 if (it.userclassesid == "7") {
                     saveUserInfo(it)
@@ -393,7 +395,7 @@ inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId
 //                      this.startActivity<DateAuthStateActivity>()
                     }
                 }else{
-                    next();
+                    next()
                 }
             }
     })
@@ -771,7 +773,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                  * 网络请求之前
                  */
                 public override fun onBefore() {
-                    activity.dialog()
+//                    activity.dialog()
                 }
 
                 /**
@@ -987,7 +989,7 @@ fun getLevelDrawableOfClassName(name:String,mContext:Context):Drawable?{
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
     } else if (name.indexOf("入群")!=-1) {
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
-    }else if (name.indexOf("app")!=-1) {
+    }else if (name.indexOf("APP")!=-1) {
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.app_vip)
     }
    return mDrawable
@@ -1146,4 +1148,41 @@ fun removeKFService(mOtherUserId:String):Boolean{
 
 fun getSelfDateDialog():Boolean{
    return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
+}
+
+fun starPlayDrawableAnim(mImageView:ImageView) {
+    var animationDrawable = mImageView.drawable as AnimationDrawable
+    if (animationDrawable.isRunning()) {
+        animationDrawable.stop()   //停止播放逐帧动画。
+    }
+    animationDrawable.start() //开始播放逐帧动画
+}
+
+fun stopPlayDrawableAnim(mImageView:ImageView) {
+    mImageView.setImageResource(R.drawable.drawable_play_voice)
+    var animationDrawable = mImageView.drawable as AnimationDrawable
+    if (animationDrawable.isRunning()) {
+        animationDrawable.stop()   //停止播放逐帧动画。
+    }
+}
+
+fun setLeftDrawable(drawable:Drawable,textView: TextView){
+    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+    textView.setCompoundDrawables(drawable, null, null, null)
+}
+
+fun setRightDrawable(drawable:Drawable,textView: TextView){
+    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+    textView.setCompoundDrawables(null, null, drawable, null)
+}
+
+fun getDialogIsorNot(activity: BaseActivity,code:Int,msg:String): DialogYesOrNo{
+    var mDialogYesOrNo = DialogYesOrNo()
+    mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg)
+    mDialogYesOrNo.show(activity.supportFragmentManager, "dialogyesorno")
+    return mDialogYesOrNo
+}
+fun getProxyUrl(mConent:Context,url:String):String?{
+    var  proxy = D6Application.getProxy(mConent)
+    return proxy?.getProxyUrl(url)
 }

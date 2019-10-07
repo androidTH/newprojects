@@ -2,7 +2,6 @@
 <com.d6.android.app.widget.TrendView
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:id="@+id/mTrendView"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp">
+    android:layout_height="wrap_content">
 
 </com.d6.android.app.widget.TrendView>

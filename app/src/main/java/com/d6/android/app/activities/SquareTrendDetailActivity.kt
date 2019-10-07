@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
@@ -27,8 +28,10 @@ import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
 import com.d6.android.app.dialogs.SendRedFlowerDialog
 import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.eventbus.FlowerMsgEvent
+import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.AppUtils.Companion.context
 import io.rong.eventbus.EventBus
+import kotlinx.android.synthetic.main.item_audio.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
@@ -47,8 +50,13 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private val position by lazy{
         intent.getIntExtra("position",-1)
     }
+
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
+    private val mAudioMedio by lazy{
+        AudioPlayUtils(this)
     }
 
     private var pageNum = 1
@@ -60,6 +68,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         SquareDetailCommentAdapter(mComments)
     }
     private var mSquare:Square?=null
+
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.header_square_detail, mSwipeRefreshLayout.mRecyclerView, false)
     }
@@ -73,8 +82,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_square_detail)
         immersionBar.init()
-//        titleBar.addRightButton(rightId = R.mipmap.discuss_more_gray, onClickListener = View.OnClickListener {
-//        })
+//        var drawable = ContextCompat.getDrawable(this,R.mipmap.titlemore_small_icon)
+//        setRightDrawable(drawable,titleBar.titleView)
         EventBus.getDefault().register(this@SquareTrendDetailActivity)
 
         mSwipeRefreshLayout.setLayoutManager(LinearLayoutManager(this))
@@ -118,6 +127,17 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 } else if (p == 1) {
                     delSquare()
                 }
+            }
+        }
+
+        headerView.mTrendDetailView.onTogglePlay {
+//            var proxyUrl = getProxyUrl(this,"http://sc1.111ttt.cn/2017/1/05/09/298092035545.mp3")
+            var proxyUrl = getProxyUrl(this,it.sVoiceUrl)
+            mAudioMedio.setAudioPath(proxyUrl)
+            if(mAudioMedio.onTogglePlay()){
+                startPlayAudioView()
+            }else{
+                stopPlayAudioView()
             }
         }
 
@@ -194,10 +214,42 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         iIsAnonymous = 2
         getData()
+
+        setAudioListener()
     }
 
-    override fun onResume() {
-        super.onResume()
+    /**
+     * 设置音频播放监听
+     */
+    private fun setAudioListener(){
+        mAudioMedio.setmAudioListener(object:AudioPlayListener{
+            override fun onPrepared(var1: Int) {
+
+            }
+
+            override fun onBufferingUpdate(var1: Int) {
+
+            }
+
+            override fun onInfo(var1: Int, var2: Int) {
+            }
+
+            override fun onCompletion() {
+                stopPlayAudioView()
+            }
+        })
+    }
+
+    //开始播放音频
+    private fun startPlayAudioView(){
+        headerView.mTrendDetailView.iv_playaudio.setImageResource(R.drawable.drawable_play_voice)
+        starPlayDrawableAnim(headerView.mTrendDetailView.iv_playaudio)
+    }
+
+    //停止播放音频
+    private fun stopPlayAudioView(){
+        stopPlayDrawableAnim(headerView.mTrendDetailView.iv_playaudio)
+        headerView.mTrendDetailView.iv_playaudio.setImageResource(R.mipmap.liveroom_recording3)
     }
 
     private fun setInputState(p:Int){
@@ -222,12 +274,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
         iIsAnonymous = p
     }
-//    private fun showSoftInput() {
-//        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        //显示软键盘
-//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
-//        et_content.requestFocus()
-//    }
 
     private fun getData() {
         if (id.isNotEmpty()) {
@@ -237,6 +283,11 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                     mSquare = it
                     squareDetailCommentAdapter.setIsMySquare(it.userid.toString())
                     headerView.mTrendDetailView.update(it)
+                    setTitleBold(it.name,true)
+                    titleBar.titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP,17f)
+                    titleBar.titleView.setOnClickListener {
+                        startActivity<UserInfoActivity>("id" to id)
+                    }
                     mComments.clear()
                     if (it.comments == null || it.comments.isEmpty()) {
                         mSwipeRefreshLayout.setLoadMoreText("暂无评论")
@@ -422,6 +473,11 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             showToast("删除成功")
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mAudioMedio.onDestoryAudio()
     }
 
     override fun onDestroy() {

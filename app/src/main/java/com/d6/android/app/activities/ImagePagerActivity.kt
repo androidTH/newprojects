@@ -2,6 +2,8 @@ package com.d6.android.app.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.view.View
@@ -27,8 +29,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_pager)
-        immersionBar.fitsSystemWindows(true).
-                statusBarColor(R.color.colorPrimaryDark).statusBarDarkFont(false).init()
+        noTitleBar()
         tv_close.setOnClickListener {
             onBackPressed()
         }
@@ -36,7 +37,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_delete.setOnClickListener {
             val p = mImageViewPager.currentItem
             urls?.let {
-                delete(it[p])
+                if(it.size>p){
+                    delete(it[p])
+                }
             }
         }
 
@@ -99,8 +102,10 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }
             dialog()
             user.userpics = imgs.toString()
-            Request.updateUserInfo(user).request(this){_,_->
-                setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to user)))
+            Request.updateUserInfo(user).request(this){_,data->
+                data?.let {
+                    setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to it)))
+                }
                 onBackPressed()
             }
         }

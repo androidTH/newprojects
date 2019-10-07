@@ -1,6 +1,7 @@
 package com.d6.android.app.widget
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
@@ -9,17 +10,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
+import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
+import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_detail_view.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
+import java.lang.Exception
 
 /**
  * Created on 2017/12/17.
@@ -29,7 +35,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
     private var square: Square? = null
     private val mImages = ArrayList<String>()
     private val imageAdapter by lazy {
-        SquareImageAdapter(mImages)
+        SquareImageAdapter(mImages,1)
     }
     init {
         LayoutInflater.from(context).inflate(R.layout.view_trend_detail_view, this, true)
@@ -62,6 +68,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                 }
             }
         }
+
         tv_redflower.setOnClickListener {
             square?.let {
                 sendFlowerClick?.onSendFlowerClick(it)
@@ -77,6 +84,18 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         tv_delete.setOnClickListener {
             square?.let {
                 mDeleteClick?.onDelete(it)
+            }
+        }
+
+        rl_play_audio.setOnClickListener {
+          square?.let {
+              mTogglePlay?.onTogglePlay(it)
+          }
+        }
+
+        rl_vidoe_details.setOnClickListener {
+            square?.let {
+                (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to it.sVideoUrl,"videoType" to "1")
             }
         }
 
@@ -124,35 +143,103 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.app_vip)
         }
 
-        val sub = if (square.city.isNullOrEmpty()) {
-            square.updatetime?.interval()
-        } else {
-            String.format("%s | %s",square.updatetime?.interval(),square.city)
-        }
-        tv_sub_title.text = sub
+//        val sub = if (square.city.isNullOrEmpty()) {
+//            square.updatetime?.interval()
+//        } else {
+//            String.format("%s | %s",square.updatetime?.interval(),square.city)
+//        }
+
+        tv_sub_title.text = square.updatetime?.interval()
         tv_content.text = square.content
-        if (square.imgUrl.isNullOrEmpty()) {
-            rv_images.gone()
-        } else {
-            rv_images.visible()
+        if(square.iResourceType==3){
+            rv_images.visibility = View.GONE
+            rl_root_audio.visibility = View.GONE
+
+            rl_vidoe_details.visibility = View.VISIBLE
+
+            FrescoUtils.loadImage(context,square.sVideoPicUrl,object: IResult<Bitmap> {
+                override fun onResult(result: Bitmap?) {
+                    result?.let {
+                        if(it.height>it.width){
+                            sv_video_details.setImageBitmap(Bitmap.createScaledBitmap(it,BitmapUtils.MINWIDTH,BitmapUtils.MINHEIGHT,false))
+                        }else{
+                            if(square.sVideoWidth.isNotEmpty()&&square.sVideoHeight.isNotEmpty()){
+                                var sWidth = square.sVideoWidth.toInt()
+                                var sHeight = square.sVideoHeight.toInt()
+                                sv_video_details.setImageBitmap(Bitmap.createScaledBitmap(it,sWidth,sHeight,false))
+                            }else{
+                                sv_video_details.setImageBitmap(it)
+                            }
+                        }
+                    }
+                }
+            })
+
+        }else if(square.iResourceType==4){
+            rv_images.visibility = View.GONE
+            rl_vidoe_details.visibility = View.GONE
+
+            if(!TextUtils.isEmpty(square.sVoiceUrl)){
+                rl_root_audio.visibility = View.VISIBLE
+            }else{
+                rl_root_audio.visibility = View.GONE
+            }
+            if (!TextUtils.equals("", square.sVoiceLength)) {
+                var voicelength:Int
+                try {
+                    voicelength = square.sVoiceLength.toInt()
+                } catch (e: Exception) {
+                    voicelength = 0
+                }
+                var param = rl_play_audio.layoutParams
+                param.width = (resources.getDimensionPixelSize(R.dimen.width_100) + resources.getDimensionPixelSize(R.dimen.width_100) / 60 * voicelength)
+                rl_play_audio.layoutParams = param
+                tv_audio_time.text = "${square.sVoiceLength}”"
+            } else {
+                tv_audio_time.text = "0”"
+            }
+        }else{
+            rl_vidoe_details.visibility = View.GONE
+            rl_root_audio.visibility = View.GONE
+
+            if (square.imgUrl.isNullOrEmpty()) {
+                rv_images.gone()
+            } else {
+                rv_images.visible()
+            }
+            mImages.clear()
+            val images = square.imgUrl?.split(",")
+            if (images != null) {
+                mImages.addAll(images.toList())
+            }
+            val d = rv_images.getItemDecorationAt(0)
+            if (d != null) {
+                rv_images.removeItemDecoration(d)
+            }
+            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
+                rv_images.layoutManager = GridLayoutManager(context, 2)
+                rv_images.addItemDecoration(SpacesItemDecoration(dip(4), 2))
+            } else {
+                rv_images.layoutManager = GridLayoutManager(context, 3)
+                rv_images.addItemDecoration(SpacesItemDecoration(dip(4), 3))
+            }
+            imageAdapter.notifyDataSetChanged()
         }
-        mImages.clear()
-        val images = square.imgUrl?.split(",")
-        if (images != null) {
-            mImages.addAll(images.toList())
+
+        if(TextUtils.isEmpty(square.sTopicName)){
+            tv_topic_name.visibility = View.GONE
+        }else{
+            tv_topic_name.visibility = View.VISIBLE
+            tv_topic_name.text = square.sTopicName
         }
-        val d = rv_images.getItemDecorationAt(0)
-        if (d != null) {
-            rv_images.removeItemDecoration(d)
+
+        if(TextUtils.isEmpty(square.city)){
+            tv_square_city.visibility = View.GONE
+        }else{
+            tv_square_city.visibility = View.VISIBLE
+            tv_square_city.text = square.city
         }
-        if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
-            rv_images.layoutManager = GridLayoutManager(context,2)
-            rv_images.addItemDecoration(SpacesItemDecoration(dip(4),2))
-        } else {
-            rv_images.layoutManager = GridLayoutManager(context,3)
-            rv_images.addItemDecoration(SpacesItemDecoration(dip(4),3))
-        }
-        imageAdapter.notifyDataSetChanged()
+
 //        tv_appraise.text = square.appraiseCount.toString()
         tv_appraise.isSelected = TextUtils.equals(square.isupvote,"1")
 //        tv_comment.text = square.commentCount.toString()
@@ -178,20 +265,6 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         } else {
             false
         }
-
-        if (!square.classesName.isNullOrEmpty()) {
-            tv_tag.text = String.format("#%s#",square.classesName)
-        } else {
-            tv_tag.text = ""
-        }
-
-//        square.commentCount?.let {
-//            if (it > 0) {
-//                comment_line.visible()
-//            } else {
-//                comment_line.gone()
-//            }
-//        }
     }
 
     fun updateFlowerCount(square: Square){
@@ -247,11 +320,20 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    fun onTogglePlay(action:(square:Square)->Unit) {
+        this.mTogglePlay = object : TogglePlay {
+            override fun onTogglePlay(square: Square) {
+                action(square)
+            }
+        }
+    }
+
     private var action:Action?=null
     private var actionCommentClick:DoCommentClick?=null
     private var actiToggleSoftClick:onToggleSoftInput?=null
     private var sendFlowerClick:DoSendFlowerClick?=null
     private var mDeleteClick:DeleteClick?=null
+    private var mTogglePlay:TogglePlay?=null
 
     interface Action{
         fun onPraiseClick(square: Square)
@@ -271,5 +353,9 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     interface DeleteClick{
         fun onDelete(square: Square)
+    }
+
+    interface TogglePlay{
+        fun onTogglePlay(square: Square)
     }
 }

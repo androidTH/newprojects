@@ -150,6 +150,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        dateAdapter.data.clear()
         immersionBar.destroy()
     }
 

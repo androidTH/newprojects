@@ -22,7 +22,8 @@ object Request {
 
     const val PAGE_SIZE = 20
 
-    fun uploadFile(file: File): Flowable<String> {
+    //0图片 1是视频 语音
+    fun uploadFile(file: File,type:Int = 0): Flowable<String> {
         return RRetrofit.instance().create(ApiServices::class.java).getQiniuToken().ioScheduler().flatMap {
             if (it.res == 1) {
                 val upload = UploadManager()
@@ -34,7 +35,12 @@ object Request {
                     sysErr("--->" + info.response)
                     if (info.isOK) {
                         val key = info.response.optString("key")
-                        it.onNext("http://p22l7xdxa.bkt.clouddn.com/$key")
+                        if(type!=0){
+//                            it.onNext("http://video.d6-zone.com/$key")
+                            it.onNext("http://image.d6-zone.com/$key")
+                        }else{
+                            it.onNext("http://image.d6-zone.com/$key")
+                        }
                         it.onComplete()
                     } else {
                         it.onError(ResultException("上传失败！"))
@@ -184,8 +190,10 @@ object Request {
                            , area: String? = null, outArea: String? = null, arrayUserClassesId: String? = null, pageSize: Int = PAGE_SIZE) =
             RRetrofit.instance().create(ApiServices::class.java).getSelfReleaseList(pageNum, beginTime, endTime, area, outArea, arrayUserClassesId, pageSize)
 
-    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String,iIsAnonymous:Int) =
-            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser,iIsAnonymous)
+    fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String,iIsAnonymous:Int
+                      ,sTopicId:String,sVideoUrl:String,sVideoPicUrl:String,sVideoWidth:String,sVideoHeight:String,sVoiceUrl:String,sVoiceLength:String) =
+            RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser,iIsAnonymous,
+                    sTopicId,sVideoUrl,sVideoPicUrl,sVideoWidth,sVideoHeight,sVoiceUrl,sVoiceLength)
 
     fun releaseSelfAbout(userId: String, outArea: String?, area: String?, city: String?, beginTime: String?, endTime: String?, content: String, imgUrl: String?) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSelfAbout(userId, content, outArea, area, city, beginTime, endTime, imgUrl)
@@ -491,4 +499,13 @@ object Request {
 
     //查询当日任务和完成情况
     fun findUserPointStatus(sLoginToken: String)=RRetrofit.instance().create(ApiServices::class.java).findUserPointStatus(sLoginToken)
+
+    //2.9.0
+    fun findTopicListByPage(sLoginToken:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findTopicListByPage(sLoginToken,pageNum)
+
+    fun findTopicBannerList(sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).findTopicBannerList(sLoginToken)
+
+    //查询动态
+    fun getFindSquareList(accountId: String, classesid: String?, pageNum: Int,limit: Int = 0,sex: Int = 2,sTopicId:String,sCity:String)
+            =RRetrofit.instance().create(ApiServices::class.java).getFindSquareList(accountId, classesid, pageNum,limit = limit,sex= sex,sTopicId = sTopicId,sCity = sCity)
 }

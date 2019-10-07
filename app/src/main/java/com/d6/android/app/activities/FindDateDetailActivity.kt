@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.CardChatManTagAdapter
@@ -18,6 +17,7 @@ import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -286,8 +286,11 @@ class FindDateDetailActivity : TitleActivity() {
 //        }
 //    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-//        mHandler = null
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Fresco.getImagePipeline().clearMemoryCaches()
+        imgAdapter.mData.clear()
+        System.gc()
+        finish()
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.d6.android.app">
 
     <!--https://github.com/lihangleo2/ShadowLayout-->
@@ -14,6 +15,9 @@
     <!--https://github.com/bravoborja/ReadMoreTextView-->
     <!--https://github.com/Zhaoss/WeiXinRecordedDemo-->
     <!--等级进度 https://www.jianshu.com/p/9e774990bdb5-->
+    <!--https://github.com/xfans/VoiceWaveView-->
+    <!--大图：https://www.jianshu.com/p/b15e65791c3f-->
+    <!--https://github.com/boycy815/PinchImageView-->
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -42,6 +46,12 @@
     <!--微信支付权限-->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
+    <!--七牛播放器权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+     <!--录制权限-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
     <!--小米推送权限-->
     <permission android:name="com.d6.android.app.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
@@ -52,6 +62,7 @@
     <!--如果是安卓8.0，应用编译配置的targetSdkVersion>=26，请务必添加以下权限 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!--<uses-sdk tools:overrideLibrary="com.shuyu.gsyvideoplayer,com.shuyu.gsyvideoplayer.armv5,com.shuyu.gsy.base,shuyu.com.androidvideocache"/>-->
 
     <application
         android:name=".application.D6Application"
@@ -210,7 +221,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SelectPhotoDialog"
-            android:theme="@style/Dialog" />
+            android:screenOrientation="portrait"
+            android:theme="@style/selectedDialog" />
         <activity
             android:name=".activities.CropImageActivity"
             android:screenOrientation="portrait" />
@@ -273,6 +285,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/imageactivity"/>
         <activity
+            android:name=".activities.ImageLocalPagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/imageactivity">
+            <intent-filter>
+                <action android:name="android.intent.action.ImageLocalPagerActivity" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
         <activity android:name=".activities.MessageDetailActivity" />
@@ -293,6 +314,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".activities.DateAuthStateActivity" />
         <activity android:name=".activities.AuthMenStateActivity" />
+        <activity android:name=".activities.OpenMemberShipActivity" />
         <activity android:name=".activities.AuthWomenStateActivity" />
         <activity android:name=".activities.MemberActivity" />
         <activity android:name=".activities.MyDateActivity" />
@@ -301,6 +323,10 @@
         <activity android:name=".activities.FansActivity"/>
         <activity android:name=".activities.FollowActivity"/>
         <activity android:name=".activities.VistorsActivity"/>
+        <activity android:name=".activities.FilterSquaresActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".activities.ChooseFriendsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
@@ -309,6 +335,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".activities.TopicSelectionActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activities.ShareFriendsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
@@ -348,6 +376,10 @@
         <activity android:name=".activities.ScreeningAreaActivity"
             android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.DateAuthSucessActivity"/>
+        <activity android:name=".activities.SimplePlayer"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/imageactivity"/>
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"

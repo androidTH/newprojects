@@ -4,7 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.d6.android.app.R
-import com.d6.android.app.activities.BLBeautifyImageActivity
+import com.d6.android.app.activities.ImageLocalPagerActivity
+import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
@@ -14,10 +15,8 @@ import com.d6.android.app.utils.screenWidth
 import com.d6.android.app.utils.visible
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.dip
-import org.jetbrains.anko.imageBitmap
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 
 /**
  *
@@ -37,43 +36,65 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
     override fun onBind(holder: ViewHolder, position: Int, data: AddImage) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         val ivDeleteView = holder.bind<ImageView>(R.id.ivDeleteView)
+        val ivVideoPlay = holder.bind<ImageView>(R.id.iv_video_play)
+        imageView.visibility = View.VISIBLE
         if (data.type == 1) {//添加。
             ivDeleteView.gone()
+            ivVideoPlay.gone()
             imageView.setImageResource(R.mipmap.comment_addphoto_icon)
-        } else {
+        } else if(data.type==2){
+            ivVideoPlay.visibility = View.VISIBLE
+            ivDeleteView.visibility = View.VISIBLE
+            imageView.setImageURI(data.imgUrl)
+            ivDeleteView.setImageResource(R.mipmap.deleted_video_bg)
+        }else {
+            ivVideoPlay.visibility = View.GONE
             ivDeleteView.visible()
+            ivDeleteView.setImageResource(R.mipmap.comment_photo_edit)
+            ivVideoPlay.gone()
             imageView.setImageURI(data.imgUrl)
         }
 
         imageView.setOnClickListener {
             if (data.type == 1) {
-                listener?.onAddClick()
+                listener?.onAddClick(data.type)
+            }else if(data.type==2){
+                startVideoActivity(data.path)
             }else{
                 startActivity(mData,position)
             }
         }
+
         ivDeleteView.setOnClickListener {
-//            mData.remove(data)
-//            notifyDataSetChanged()
-            startActivity(mData,position)
+            if(data.type==2){
+                mData.remove(data)
+                notifyDataSetChanged()
+                listener?.onAddClick(data.type)
+//                mData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+            }else{
+                startActivity(mData,position)
+            }
         }
     }
 
     fun startActivity(mData:ArrayList<AddImage>,pos:Int){
-        var param:BLBeautifyParam = BLBeautifyParam()//data.imgUrl.replace("file://","")
-        param.index = pos
+        var resultList = ArrayList<String>()
         mData.forEach {
-            if(it.type == 0){
-                param.images.add(it.imgUrl.replace("file://",""))
+            if(it.type!=1){
+                resultList.add(it.imgUrl.replace("file://",""))
             }
         }
-        (context as BaseActivity).startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE,BLBeautifyParam.KEY to param);
+        (context as BaseActivity).startActivityForResult<ImageLocalPagerActivity>(1000, ImageLocalPagerActivity.TYPE to 0,ImageLocalPagerActivity.CURRENT_POSITION to pos,ImageLocalPagerActivity.URLS to resultList,"delete" to true)
     }
 
-    fun setOnAddClickListener(l:()->Unit){
+    fun startVideoActivity(path:String){
+        (context as BaseActivity).startActivity<SimplePlayer>("videoPath" to path,"videoType" to "0")
+    }
+
+    fun setOnAddClickListener(l:(type:Int)->Unit){
         listener = object : OnViewClickListener {
-            override fun onAddClick() {
-                l()
+            override fun onAddClick(type:Int) {
+                l(type)
             }
         }
     }
@@ -81,6 +102,6 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
     private var listener: OnViewClickListener?=null
 
     interface OnViewClickListener{
-        fun onAddClick()
+        fun onAddClick(type:Int)
     }
 }

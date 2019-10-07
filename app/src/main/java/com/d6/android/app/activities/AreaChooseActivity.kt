@@ -199,7 +199,7 @@ class AreaChooseActivity : BaseActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        overridePendingTransition(0, R.anim.dd_menu_out);
+        overridePendingTransition(0, R.anim.dd_menu_out)
     }
 
     override fun onDestroy() {

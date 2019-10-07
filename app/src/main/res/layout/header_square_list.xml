@@ -1,19 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <!--<android.support.v7.widget.RecyclerView-->
+
+    <!--<com.d6.android.app.widget.convenientbanner.ConvenientBanner-->
         <!--android:id="@+id/mBanner"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:minHeight="90dp" />-->
-    <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+        <!--android:minHeight="90dp"-->
+        <!--app:autoTurningTime="3000"-->
+        <!--app:canLoop="true" />-->
+    <View
+        android:id="@+id/banner_line_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_8"
+        android:background="@color/color_F5F5F5" />
+
+    <com.d6.android.app.widget.layoutbanner.BannerLayout
         android:id="@+id/mBanner"
         android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@+id/banner_line_top"
+        android:background="@color/color_F5F5F5"
+        app:autoPlaying="true"
+        app:centerScale="1.0"
+        app:itemSpace="10"
+        app:moveSpeed="1.3"/>
+
+    <View
+        android:id="@+id/banner_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_10"
+        android:layout_below="@+id/mBanner"
+        android:background="@color/color_F5F5F5" />
+
+    <RelativeLayout
+        android:id="@+id/rl_square_type"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="90dp"
-        app:canLoop="true"
-        app:autoTurningTime="3000"/>
-</FrameLayout>
+        android:layout_below="@+id/banner_line"
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_15"
+        android:background="@color/white">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_choose_squaretype"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</RelativeLayout>
