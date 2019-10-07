@@ -32,6 +32,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.CheckInPointsDialog
 import com.d6.android.app.dialogs.DateErrorDialog
 import com.d6.android.app.dialogs.DialogUpdateApp
 import com.d6.android.app.dialogs.MemberDialog
@@ -574,7 +575,6 @@ fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
         if(!TextUtils.isEmpty(pointDesc)){
             CustomToast.success("$pointDesc", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
         }
-
     } else if(!TextUtils.isEmpty(desc)){
         CustomToast.success("$desc+$iAddPoint", R.mipmap.popup_money_icon, Toast.LENGTH_LONG, true).show()
     }
@@ -739,16 +739,16 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                  * @param updateAppManager app更新管理器
                  */
                 public override fun hasNewApp(updateApp: UpdateAppBean, updateAppManager: UpdateAppManager) {
-                    if(AppUtils.compareVersion(updateApp.newVersion, AppUpdateUtils.getVersionName(activity))==1){
+//                    if(AppUtils.compareVersion(updateApp.newVersion, AppUpdateUtils.getVersionName(activity))==1) {
                         var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
-                        if(TextUtils.equals(activity::class.java.simpleName,from)){
+                        if (TextUtils.equals(activity::class.java.simpleName, from)) {
                             var mDialogUpdateApp = DialogUpdateApp()
                             mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
                             mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
                             mDialogUpdateApp.setDialogListener { p, s ->
                                 updateAppManager.download()
                             }
-                        }else if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
+                        } else if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
                             //自定义对话框
                             var mDialogUpdateApp = DialogUpdateApp()
                             mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
@@ -764,7 +764,7 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                                 updateAppManager.download()
                             }
                         }
-                    }
+//                    }
                 }
 
                 /**
@@ -1030,13 +1030,6 @@ fun showFloatManService():Boolean{
     return false
 }
 
-fun removeKFService(mOtherUserId:String):Boolean{
-    if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
-        return true
-    }
-    return false
-}
-
 /**
  * 获得版本名称
  *
@@ -1141,6 +1134,14 @@ fun sendOutgoingSystemMessage(msg:String,type:String,message:Message){
 
         }
     })
+}
+
+
+fun removeKFService(mOtherUserId:String):Boolean{
+    if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+        return true
+    }
+    return false
 }
 
 fun getSelfDateDialog():Boolean{

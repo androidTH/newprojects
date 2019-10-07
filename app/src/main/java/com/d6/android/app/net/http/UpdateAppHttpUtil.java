@@ -1,6 +1,7 @@
 package com.d6.android.app.net.http;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.vector.update_app.HttpManager;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -83,6 +84,7 @@ public class UpdateAppHttpUtil implements HttpManager {
      */
     @Override
     public void download(@NonNull String url, @NonNull String path, @NonNull String fileName, @NonNull final FileCallback callback) {
+        Log.i("download",url+"到了这里");
         OkHttpUtils.get()
                 .url(url)
                 .build()
@@ -94,6 +96,7 @@ public class UpdateAppHttpUtil implements HttpManager {
 
                     @Override
                     public void onError(Call call, Response response, Exception e, int id) {
+                        Log.i("download",response.message()+"到了这里"+response.code());
                         callback.onError(validateError(e, response));
                     }
 

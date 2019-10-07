@@ -77,8 +77,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/chat_title"
                 android:layout_centerHorizontal="true"
-                android:text="客服工作时间上午9:00-凌晨1:30，其他时间可留言"
                 android:textColor="@color/color_666666"
+                android:drawablePadding="@dimen/margin_5"
                 android:visibility="gone"
                 android:textSize="10sp" />
         </RelativeLayout>

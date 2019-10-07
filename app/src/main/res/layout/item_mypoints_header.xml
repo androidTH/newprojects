@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="@dimen/margin_10"
@@ -8,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/rl_points_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="225dp"
         android:background="@mipmap/icon_wallet_bg">
 
         <RelativeLayout
@@ -80,27 +81,19 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true" />
 
-        <LinearLayout
-            android:layout_width="150dp"
-            android:layout_height="140dp"
+        <RelativeLayout
+            android:id="@+id/rl_recharge"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
             android:layout_below="@+id/rl_user_info"
             android:layout_marginTop="@dimen/margin_20"
-            android:layout_marginRight="@dimen/margin_10"
-            android:layout_marginBottom="@dimen/margin_30"
+            android:layout_marginRight="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_10"
             android:layout_toLeftOf="@+id/iv_middle"
+            android:paddingLeft="@dimen/margin_10"
             android:background="@drawable/shape_6r_orange"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_mypointnums"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:text="--"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+            android:gravity="center_horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,8 +105,26 @@
                 android:gravity="center_vertical"
                 android:text="可用积分"
                 android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textSize="10dp" />
 
+            <TextView
+                android:id="@+id/tv_mypointnums"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="--"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/color_9CFFFFFF"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:id="@+id/tv_work_tips"/>
             <TextView
                 android:id="@+id/tv_recharge"
                 android:layout_width="wrap_content"
@@ -124,27 +135,31 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="@dimen/margin_5"
                 android:text="充值"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_10"
                 android:textColor="@color/color_F79C00"
                 android:textSize="15sp" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="150dp"
-            android:layout_height="140dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
             android:layout_below="@+id/rl_user_info"
-            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_8"
+            android:layout_marginRight="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_20"
-            android:layout_marginBottom="@dimen/margin_30"
+            android:layout_marginBottom="@dimen/margin_10"
             android:layout_toRightOf="@+id/iv_middle"
             android:background="@drawable/shape_4r_fe"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:paddingLeft="@dimen/margin_10">
 
             <TextView
                 android:id="@+id/tv_redflowernums"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
+                android:layout_centerVertical="true"
                 android:text="--"
                 android:textColor="@color/white"
                 android:textSize="25sp"
@@ -160,7 +175,17 @@
                 android:gravity="center_vertical"
                 android:text="小红花"
                 android:textColor="@color/white"
-                android:textSize="15dp" />
+                android:textSize="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/color_9CFFFFFF"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:visibility="gone"
+                android:id="@+id/tv_work_checkin_tips"/>
 
             <TextView
                 android:id="@+id/tv_cash_money"
@@ -173,9 +198,20 @@
                 android:paddingBottom="@dimen/margin_5"
                 android:text="提现"
                 android:textColor="@color/color_96FFFFFF"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_10"/>
             <!--android:textColor="@color/white"-->
-        </LinearLayout>
+        </RelativeLayout>
+        <TextView
+            android:layout_below="@+id/rl_recharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="10sp"
+            android:textColor="@color/color_888888"
+            android:text="奖励的积分每周日24:00清零，记得及时使用哦"/>
 
         <View
             android:id="@+id/view_top_bottom"
@@ -213,4 +249,206 @@
             android:layout_marginBottom="@dimen/margin_15"
             android:textSize="11sp" />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_mypoints_checkin"
+        android:layout_below="@+id/rl_redwallet"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_70"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
+        android:visibility="gone"
+        android:background="@drawable/shape_white_6r">
+       <ImageView
+           android:id="@+id/iv_everydaycheck"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerVertical="true"
+           android:layout_marginRight="@dimen/margin_10"
+           android:src="@mipmap/everydaycheck_icon"/>
+        <TextView
+            android:id="@+id/tv_checkin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="每天签到"
+            android:textSize="15sp"
+            android:textColor="@color/color_black"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_toRightOf="@id/iv_everydaycheck"/>
+        <TextView
+            android:id="@+id/tv_checkin_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="会员福利，签到即可领取大额积分"
+            android:textSize="11sp"
+            android:textColor="@color/color_888888"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:layout_toRightOf="@id/iv_everydaycheck"/>
+        <TextView
+            android:id="@+id/tv_checkin_add_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_F7AB00"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_work_checkin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_13r_orange"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="@dimen/margin_3"
+            android:paddingBottom="@dimen/margin_3"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_8"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:visibility="visible"
+            android:text="@string/string_tasks"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_mypoints_square"
+        android:layout_below="@+id/rl_mypoints_checkin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_70"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
+        android:visibility="gone"
+        android:background="@drawable/shape_white_6r">
+        <ImageView
+            android:id="@+id/iv_square_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:src="@mipmap/dynamiccondition_icon"/>
+        <TextView
+            android:id="@+id/tv_square_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发布动态"
+            android:textSize="15sp"
+            android:textColor="@color/color_black"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_toRightOf="@id/iv_square_icon"/>
+        <TextView
+            android:id="@+id/tv_square_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="会员福利，签到即可领取大额积分"
+            android:textSize="11sp"
+            android:textColor="@color/color_888888"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:layout_toRightOf="@id/iv_square_icon"/>
+        <TextView
+            android:id="@+id/tv_square_add_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_F7AB00"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_work_square"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_13r_orange"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="@dimen/margin_3"
+            android:paddingBottom="@dimen/margin_3"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_8"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:text="@string/string_tasks"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_mypoints_createdate"
+        android:layout_below="@+id/rl_mypoints_square"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_70"
+        android:layout_marginBottom="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
+        android:visibility="gone"
+        android:background="@drawable/shape_white_6r">
+        <ImageView
+            android:id="@+id/iv_createdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:src="@mipmap/date_icon"/>
+        <TextView
+            android:id="@+id/tv_createdate_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发布约会"
+            android:textSize="15sp"
+            android:textColor="@color/color_black"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_toRightOf="@id/iv_createdate"/>
+        <TextView
+            android:id="@+id/tv_createdate_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="每天第一次发布约会即可获得50积分"
+            android:textSize="11sp"
+            android:textColor="@color/color_888888"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:layout_toRightOf="@id/iv_createdate"/>
+        <TextView
+            android:id="@+id/tv_createdate_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_F7AB00"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tv_work_createdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_13r_orange"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingTop="@dimen/margin_3"
+            android:paddingBottom="@dimen/margin_3"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingRight="@dimen/margin_8"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:text="@string/string_tasks"/>
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="收益记录"
+        android:textSize="15sp"
+        android:textColor="@color/color_black"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_below="@id/rl_mypoints_createdate"
+        android:layout_marginTop="@dimen/margin_15"/>
 </RelativeLayout>

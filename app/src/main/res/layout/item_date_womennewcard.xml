@@ -132,6 +132,7 @@
             android:gravity="right"
             android:text="广州"
             android:textColor="@color/color_888888"
+            android:maxLength="5"
             android:ellipsize="end"
             android:textSize="12sp" />
 

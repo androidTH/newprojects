@@ -12,7 +12,6 @@ import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.RecommendDateAdapter
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.MyDate
 import com.d6.android.app.net.Request
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
@@ -20,15 +19,15 @@ import android.view.Gravity
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.adapters.HomeDatePageAdapter
 import com.d6.android.app.dialogs.*
-import com.d6.android.app.models.City
-import com.d6.android.app.models.DateType
-import com.d6.android.app.models.Province
+import com.d6.android.app.models.*
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.LOGIN_FOR_POINT_NEW
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -324,16 +323,26 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     private fun loginforPoint(){
         Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
-            showTips(data,"","")
             if (data != null) {
-                var pointDesc = data.optString("sAddPointDesc")
                 var sLoginToken = data.optString("sLoginToken")
-                if (!TextUtils.isEmpty(pointDesc)) {
+                var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
+                if (lstTask!=null&&lstTask.size>0) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
                     SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
                     SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+                    SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
+                    var today = getTodayTime()
+                    var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW+getLocalUserId(),"")
+                    if(!TextUtils.equals(today,yesterday)){
+                        var mCheckInPointsDialog = CheckInPointsDialog()
+                        mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
+                        mCheckInPointsDialog.show(childFragmentManager,"rewardtips")
+                        mCheckInPointsDialog.setDialogListener { p, s ->
+                            mCheckInPointsDialog.dismissAllowingStateLoss()
+                        }
+                        SPUtils.instance().put(LOGIN_FOR_POINT_NEW+getLocalUserId(), getTodayTime()).apply()
+                    }
                 }
-                SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
             }
         })
     }

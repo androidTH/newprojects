@@ -25,7 +25,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW_MSG
-import com.d6.android.app.utils.Const.ISUPDOWN
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
@@ -75,6 +74,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     private var unReadDateMsg:Int=-1
     private var unReadMsgNum:Int=0
     private var unReadServiceMsgNum:Int=0//男游客浮动移除
+    private var token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
 
     private var filterTrendDialog:FilterTrendDialog?=null
 
@@ -341,7 +341,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
         titleBar.visibility = View.VISIBLE
 
-        val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
         if (token.isNotEmpty()) {
             judgeDataB()
             val uid = SPUtils.instance().getString(Const.User.USER_ID)
@@ -351,6 +350,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
             RongIM.connect(token, object : RongIMClient.ConnectCallback() {
                 override fun onSuccess(p0: String?) {
+
                 }
 
                 override fun onError(p0: RongIMClient.ErrorCode?) {
@@ -377,11 +377,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         getPermission()
 
         RongIM.setGroupInfoProvider(this,true)
-
-//
-//        var mRewardTipsDialog = CheckInPointsDialog()
-//        mRewardTipsDialog.arguments = bundleOf("points" to "20")
-//        mRewardTipsDialog.show(supportFragmentManager,"rewardtips")
     }
 
     fun judgeDataB() {
@@ -413,7 +408,24 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
         unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()
-        getUnReadCount()
+        reconnect()
+    }
+
+    private fun reconnect() {
+        if(RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED){
+            getUnReadCount()
+        }else{
+            RongIM.connect(token, object : RongIMClient.ConnectCallback() {
+                override fun onTokenIncorrect() {}
+
+                override fun onSuccess(s: String) {
+                    getUnReadCount()
+                }
+
+                override fun onError(e: RongIMClient.ErrorCode) {
+                }
+            })
+        }
     }
 
     fun setBottomBarNormal(tabIndex:Int){
@@ -498,7 +510,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
 
             override fun onError(p0: RongIMClient.ErrorCode?) {
-
+                Log.i("messagesssssss","错误：${p0.toString()}")
             }
 
         }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
@@ -584,23 +596,24 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             Log.i("messagesssssss","${unReadMsgNum}显示")
             if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 //无数据
-               // unReadMsgNum = unReadMsgNum - unReadServiceMsgNum//2.5移除
                 if(unReadMsgNum > 0){
                   if(unReadMsgNum>=99){
                         view.text = "99+"
                     }else{
                         view.text = "${unReadMsgNum}"
                     }
-//                    unReadMsgNum = 0 // 注释
                     view?.visible()
                 }else{
                     view?.gone()
                 }
+                Log.i("messagesssssss","${unReadMsgNum}square----")
             } else {
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }
+
+                Log.i("messagesssssss","${unReadMsgNum}square")
 //                unReadMsgNum = unReadMsgNum + data.count!!.toInt() - unReadServiceMsgNum//2.5移除
                 unReadMsgNum = unReadMsgNum + data.count!!.toInt()
                 if(unReadMsgNum>0){

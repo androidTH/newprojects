@@ -105,13 +105,18 @@ class InviteGoodFriendsActivity : BaseActivity(){
         }
         mHandler = DoHandler(this)
 
-//        var mInviteLinkBean = intent.getParcelableExtra<InviteLinkBean>("bean")
-//        if(mInviteLinkBean!=null){
-//            setInviteGoodFriendsUI(mInviteLinkBean)
-//        }else{
-//            getAccountInviteLink()
-//        }
-        getAccountInviteLink()
+        try{
+            var mInviteLinkBean = intent.getParcelableExtra<InviteLinkBean>("bean")
+            if(mInviteLinkBean!=null){
+                setInviteGoodFriendsUI(mInviteLinkBean)
+            }else{
+                getAccountInviteLink()
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+            getAccountInviteLink()
+        }
+
     }
 
     private fun getAccountInviteLink(){

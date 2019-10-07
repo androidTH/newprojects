@@ -18,6 +18,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.rong.bean.RecommentType
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_RGDIALOG
+import com.d6.android.app.utils.Const.User.USER_CLASS_ID
 import com.d6.android.app.utils.Const.User.USER_HEAD
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import kotlinx.android.synthetic.main.activity_recommend_date.*
@@ -49,6 +50,10 @@ class RecommendDateActivity : BaseActivity() {
 
     private var userJson = SPUtils.instance().getString(Const.USERINFO)
     private var mUserInfo = GsonHelper.getGson().fromJson(userJson, UserData::class.java)
+
+    private val userclassId by lazy{
+        SPUtils.instance().getString(USER_CLASS_ID)
+    }
 
     private val showRGDialog by lazy{
         SPUtils.instance().getBoolean(IS_FIRST_SHOW_RGDIALOG+getLocalUserId(),true)
@@ -156,16 +161,16 @@ class RecommendDateActivity : BaseActivity() {
             }
         })
 
-        if(TextUtils.equals(mUserInfo.userclassesid,"7")){
+        if(TextUtils.equals(userclassId,"7")){
             ll_userlevel.visibility = View.GONE
 //            recomend_level.visibility = View.GONE
 //            tv_userlevel.text = "联系客服"
         }else{
             ll_userlevel.visibility = View.VISIBLE
             recomend_level.setImageURI(headerUrl)
-            if(TextUtils.equals(mUserInfo.userclassesid,"29")){
+            if(TextUtils.equals(userclassId,"29")){
                 tv_userlevel.text = "高级会员"
-            }else if(TextUtils.equals(mUserInfo.userclassesid,"27")){
+            }else if(TextUtils.equals(userclassId,"27")){
                 tv_userlevel.text = "初级会员"
             }else{
                 tv_userlevel.text = mUserInfo.classesname

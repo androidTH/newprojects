@@ -64,7 +64,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 }
                 is HttpException -> {
                     Log.i("RxExtentions","HttpException${t.code()}")
-                    msg = Error.SERVER_ERROR
+                    msg = ""//Error.SERVER_ERROR
                     val tCode = t.code()
                     if (tCode == 401) {
                         //未通过服务端认证。需前往登录
@@ -117,7 +117,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                         }
                     }
                 }else{
-                    if (showToast) {////-2 该用户已注销
+                    if (showToast&&msg.isNotEmpty()) {////-2 该用户已注销
                         requestManager.showToast(msg)
                     }
                 }

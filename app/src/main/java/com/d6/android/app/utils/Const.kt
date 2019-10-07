@@ -208,4 +208,7 @@ object Const {
 
     @JvmField
     var INSTALL_DATA02 = "install_data02"
+
+    @JvmField
+    var LOGIN_FOR_POINT_NEW="loginForPointNew"
 }

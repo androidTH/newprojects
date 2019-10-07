@@ -260,7 +260,6 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ message.targetId,true).apply()
                         SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+message.targetId,false).apply()
                     }
-                    Log.i("ffffffffff","${tipsMessage.content}type${type}")
                 }
             }
         }
@@ -329,7 +328,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         connectionStatus?.let {
             if (connectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT) {
                 quit()
-            }else if(connectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.TOKEN_INCORRECT){
+            }else if(connectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.TOKEN_INCORRECT||connectionStatus==RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED){
                 val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
                 if(!TextUtils.isEmpty(token)){
                     RongIM.connect(token,getConnectCallback())

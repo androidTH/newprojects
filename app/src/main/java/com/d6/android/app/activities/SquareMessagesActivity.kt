@@ -26,7 +26,7 @@ class SquareMessagesActivity : RecyclerActivity() {
         title = "动态消息"
         adapter.setOnItemClickListener { view, position ->
             val squareMessage = mMessages[position]
-            startActivity<SquareTrendDetailActivity>("id" to squareMessage.url,"position" to position)
+            startActivity<SquareTrendDetailActivity>("id" to "${squareMessage.url}","position" to position)
         }
         addItemDecoration()
         getData()

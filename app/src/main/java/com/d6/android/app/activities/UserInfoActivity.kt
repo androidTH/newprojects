@@ -250,8 +250,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //            getTrendDetail(square.id?:""){
 //                startActivityForResult<TrendDetailActivity>(18,"data" to it)
 //            }
-            startActivity<SquareTrendDetailActivity>("id" to (square.id
-                    ?: ""), "position" to position)
+            startActivity<SquareTrendDetailActivity>("id" to "${square.id}", "position" to position)
         }
 
 //        dialog()

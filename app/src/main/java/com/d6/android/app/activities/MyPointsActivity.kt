@@ -20,10 +20,7 @@ import com.d6.android.app.easypay.enums.HttpType
 import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.InviteLinkBean
-import com.d6.android.app.models.PointRule
-import com.d6.android.app.models.UserData
-import com.d6.android.app.models.UserPoints
+import com.d6.android.app.models.*
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -45,6 +42,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
+    private val mLocalSex by lazy{
+        SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
     private var mUserInfo: UserData? =null
@@ -77,7 +78,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             if(mUserPoints.iType!=16&&mUserPoints.iType!=17&&mUserPoints.iType!=18){
                 mUserPoints.sResourceId.let {
                     if(!it.isNullOrEmpty()){
-                        startActivity<SquareTrendDetailActivity>("id" to it.toString())
+                        startActivity<SquareTrendDetailActivity>("id" to "${it}")
                     }
                 }
             }else if(mUserPoints.iType==16||mUserPoints.iType==17||mUserPoints.iType==18){
@@ -122,6 +123,21 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             startActivity<PrivilegeDescActivity>()
         }
 
+        mHeaderView.tv_work_createdate.setOnClickListener {
+            startActivity<ReleaseNewTrendsActivity>()
+        }
+
+        mHeaderView.tv_work_square.setOnClickListener {
+            startActivity<PublishFindDateActivity>()
+        }
+
+        mHeaderView.tv_work_checkin.setOnClickListener {
+            loginforPoint()
+//            var mCheckInPointsDialog = CheckInPointsDialog()
+//            mCheckInPointsDialog.arguments = bundleOf("points" to "20")
+//            mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")
+        }
+
         mHeaderView.tv_cash_money.setOnClickListener {
               val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
               if(TextUtils.equals("7",className)){
@@ -149,15 +165,39 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                   }
               }
         }
-        getUserInfo()
     }
 
     override fun onResume() {
         super.onResume()
+        getUserInfo()
         getData()
         getAccountInviteLink()
     }
 
+    private fun loginforPoint(){
+        Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
+            if (data != null) {
+                var sLoginToken = data.optString("sLoginToken")
+                var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
+                if (lstTask!=null&&lstTask.size>0) {
+                    SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
+                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
+                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+
+                    var mCheckInPointsDialog = CheckInPointsDialog()
+                    mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
+                    mCheckInPointsDialog.show(supportFragmentManager,"rewardtips")
+                    SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
+                    mCheckInPointsDialog.setDialogListener { p, s ->
+                        mHeaderView.tv_work_checkin.visibility = View.GONE
+                        mHeaderView.tv_checkin_add_points.visibility = View.VISIBLE
+                        mHeaderView.tv_checkin_add_points.text = "+${s}积分"
+                        mCheckInPointsDialog.dismissAllowingStateLoss()
+                    }
+                }
+            }
+        })
+    }
 
     private fun getAccountInviteLink(){
         Request.getAccountInviteLink(getLoginToken()).request(this,false,success={msg,data->
@@ -182,6 +222,78 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }){code,msg->
 
         }
+    }
+
+    private fun getTaskList(){
+        Request.findUserPointStatus(getLoginToken()).request(this,false,success={msg,data->
+            data?.lstTask.let {
+                if(it!=null){
+                    for (taskBean:TaskBean in it){
+                        if(taskBean.iType == 1){
+                            mHeaderView.rl_mypoints_checkin.visibility = View.VISIBLE
+
+                            mHeaderView.tv_checkin_title.text = taskBean.sTitle
+                            mHeaderView.tv_checkin_desc.text = taskBean.sDesc
+                            if(taskBean.iIsfinish==2){
+                                //是否签到 1、完成 2、未签到
+                                mHeaderView.tv_work_checkin.visibility = View.VISIBLE
+                                mHeaderView.tv_checkin_add_points.visibility = View.GONE
+                            }else{
+                                mHeaderView.tv_work_checkin.visibility = View.GONE
+                                mHeaderView.tv_checkin_add_points.visibility = View.VISIBLE
+                                mHeaderView.tv_checkin_add_points.text = "+${taskBean.iPoint}积分"
+                            }
+                        }else if(taskBean.iType==2){
+                            mHeaderView.rl_mypoints_square.visibility = View.VISIBLE
+                            mHeaderView.tv_square_title.text = taskBean.sTitle
+                            mHeaderView.tv_square_desc.text = taskBean.sDesc
+                            if(taskBean.iIsfinish==2){
+                                mHeaderView.tv_work_square.visibility = View.VISIBLE
+                                mHeaderView.tv_square_add_points.visibility = View.GONE
+                            }else{
+                                mHeaderView.tv_work_square.visibility = View.GONE
+                                mHeaderView.tv_square_add_points.visibility = View.VISIBLE
+                                mHeaderView.tv_square_add_points.text = "+${taskBean.iPoint}积分"
+                            }
+                        }else if(taskBean.iType==3){
+                            mHeaderView.rl_mypoints_createdate.visibility = View.VISIBLE
+                            mHeaderView.tv_createdate_title.text = taskBean.sTitle
+                            mHeaderView.tv_createdate_desc.text = taskBean.sDesc
+                            if(taskBean.iIsfinish==2){
+                                mHeaderView.tv_work_createdate.visibility = View.VISIBLE
+                                mHeaderView.tv_createdate_points.visibility = View.GONE
+                            }else{
+                                mHeaderView.tv_work_createdate.visibility = View.GONE
+                                mHeaderView.tv_createdate_points.visibility = View.VISIBLE
+                                mHeaderView.tv_createdate_points.text = "+${taskBean.iPoint}积分"
+                            }
+
+                        }
+                    }
+                }else{
+                    mHeaderView.rl_mypoints_checkin.visibility = View.GONE
+                    mHeaderView.rl_mypoints_square.visibility = View.GONE
+                    mHeaderView.rl_mypoints_createdate.visibility = View.GONE
+                }
+            }
+        })
+    }
+
+
+    private fun doCheckIn(){
+        Request.signPoint(getLoginToken()).request(this,success={_,data->
+            data?.let {
+                var mRewardTipsDialog = RewardTipsDialog()
+                var iAddPoint = it.optInt("iAddPoint")
+                var sAddPointDesc = it.optString("sAddPointDesc")
+                mRewardTipsDialog.arguments = bundleOf("points" to "${iAddPoint}")
+                mRewardTipsDialog.show(supportFragmentManager,"rewardtipsdialog")
+
+                mHeaderView.tv_work_checkin.visibility = View.GONE
+                mHeaderView.tv_checkin_add_points.visibility = View.VISIBLE
+                mHeaderView.tv_checkin_add_points.text = "+${iAddPoint}积分"
+            }
+        })
     }
 
     private fun getData() {
@@ -286,12 +398,30 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
 //                }
 
+                if(it.iWeekTaskPoint>0){
+                    mHeaderView.tv_work_tips.text = "奖励积分：${it.iWeekTaskPoint}积分"
+                }
+
+                if(it.iTaskFlower>0){
+                    mHeaderView.tv_work_checkin_tips.text = "做任务得奖励：+${it.iTaskFlower}朵红花"
+                }
+
                 if(!TextUtils.equals(it.userclassesid, "7")){
-                    mHeaderView.view_top_bottom.visibility = View.VISIBLE
-                    mHeaderView.rl_redwallet.visibility = View.VISIBLE
+                    if(TextUtils.equals(mLocalSex,"1")){
+                        mHeaderView.rl_mypoints_checkin.visibility = View.GONE
+                        mHeaderView.rl_mypoints_square.visibility = View.GONE
+                        mHeaderView.rl_mypoints_createdate.visibility = View.GONE
+                    }
+                    if(!TextUtils.equals(mLocalSex,"1")){
+                        getTaskList()
+                    }
                 }else{
+                    mHeaderView.view_top_bottom.visibility = View.VISIBLE
                     mHeaderView.rl_redwallet.visibility = View.GONE
-                    mHeaderView.view_top_bottom.visibility = View.GONE
+
+                    mHeaderView.rl_mypoints_checkin.visibility = View.GONE
+                    mHeaderView.rl_mypoints_square.visibility = View.GONE
+                    mHeaderView.rl_mypoints_createdate.visibility = View.GONE
                 }
 
                 mUserInfo = data

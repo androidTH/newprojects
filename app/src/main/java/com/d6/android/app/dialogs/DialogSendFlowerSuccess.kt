@@ -71,9 +71,15 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         var id = arguments.getString("userId")
         var nums = arguments.getString("nums")
+        var mToFromType = arguments.getInt("ToFromType")
         tv_sendflower_nums.text = nums
+
+        if (mToFromType == 5) {
+            tv_sendflower_success_siliao.visibility = View.GONE
+        }
 
         tv_close.setOnClickListener { dismissAllowingStateLoss() }
 
@@ -103,6 +109,8 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
                 iv_sendflower_success_headView.setImageURI(it.picUrl)
                 if(it.iIsFollow !=null) {
                     if (it.iIsFollow == 1) {
+                        tv_sendflower_success_like.visibility = View.GONE
+
                         tv_sendflower_success_like.setCompoundDrawables(null,null,null,null);
                         tv_sendflower_success_like.text = resources.getString(R.string.string_liked)
                         tv_sendflower_success_like.backgroundResource = R.drawable.shape_20r_33ff6452
@@ -110,6 +118,7 @@ class DialogSendFlowerSuccess : DialogFragment(),RequestManager {
 
                         tv_sendflower_success_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_8),resources.getDimensionPixelSize(R.dimen.margin_20),resources.getDimensionPixelSize(R.dimen.margin_8))
                         tv_sendflower_success_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_40),resources.getDimensionPixelSize(R.dimen.margin_8),resources.getDimensionPixelSize(R.dimen.padding_40),resources.getDimensionPixelSize(R.dimen.margin_8))
+
                     }else{
                         tv_sendflower_success_like.text= resources.getString(R.string.string_like)
                         tv_sendflower_success_like.backgroundResource = R.drawable.shape_20r_ff6

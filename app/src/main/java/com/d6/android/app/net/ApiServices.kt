@@ -1,5 +1,6 @@
 package com.d6.android.app.net
 
+import bolts.Task
 import com.d6.android.app.models.*
 import com.d6.android.app.utils.getAppVersion
 import com.d6.android.app.utils.getLoginToken
@@ -481,5 +482,23 @@ interface ApiServices {
     //获取推荐页的信息
     @POST("backstage/account/getAccountInviteLink")
     fun getAccountInviteLink(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<InviteLinkBean>>
+
+
+    //2.8.0
+    //签到
+    @POST("backstage/new_login/signPoint")
+    fun signPoint(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //修改在线状态 1、不在线 2、在线
+    @POST("backstage/account/updateUserOnline")
+    fun updateUserOnline(@Query("sLoginToken")sLoginToken:String, @Query("iOnline") iOnline:Int, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //1、检查客服是否在线
+    @POST("backstage/account/checkUserOnline")
+    fun checkUserOnline(@Query("sLoginToken")sLoginToken:String, @Query("iUserid") iUserid:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //5、查询当日任务和完成情况
+    @POST("backstage/userpoint/findTodayTask")
+    fun findUserPointStatus(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<TaskList<TaskBean>>>
 
 }

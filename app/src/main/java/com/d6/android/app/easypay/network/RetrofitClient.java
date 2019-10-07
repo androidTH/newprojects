@@ -57,7 +57,7 @@ public class RetrofitClient implements NetworkClientInterf {
         PrePayInfoService service = retrofit.create(PrePayInfoService.class);
         Call<ResponseBody> call=null;
         if(payParams.getType()==1){
-            call = service.postBuyFlower(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiFlowerCount());
+            call = service.postBuyFlower(payParams.getiUserid(),payParams.getiSendUserid(),payParams.getsResourceid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiFlowerCount());
         }else if(payParams.getType() == 0){
             call = service.postPrePayInfo(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
         }else if(payParams.getType()==2){

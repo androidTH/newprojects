@@ -31,13 +31,6 @@ import java.util.concurrent.TimeUnit
  */
 class RewardTipsDialog : DialogFragment(),RequestManager {
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
-
-    private var myAppointment:MyAppointment?=null
-    private var fromType = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.FadeDialog)
@@ -75,7 +68,7 @@ class RewardTipsDialog : DialogFragment(),RequestManager {
 
         var content = "积分 +${point}"
         var span = SpannableStringBuilder(content)
-        span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.color_F7AB00)),content.length - point.length, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.color_F7AB00)),content.length - point.length-1, content.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_reward_points.text = span
     }
 

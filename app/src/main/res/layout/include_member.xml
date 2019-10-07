@@ -121,7 +121,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginTop="15dp"
-                android:text=""
                 android:visibility="gone"
                 android:textColor="@color/color_black"
                 android:textSize="15sp"

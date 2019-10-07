@@ -3,7 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
-import android.text.TextUtils
+import android.support.v4.content.ContextCompat
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,16 +12,16 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.IntegralExplain
-import com.d6.android.app.models.MyAppointment
+import com.d6.android.app.models.TaskBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_checkin_points.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -29,12 +29,8 @@ import org.jetbrains.anko.wrapContent
  */
 class CheckInPointsDialog : DialogFragment(),RequestManager {
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
 
-    private var fromType = ""
-
+    private var checkInDays = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.FadeDialog)
@@ -63,8 +59,43 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        fromType = arguments.getString("fromType","")
-        tv_checkin.setOnClickListener {
+        var listTask = if (arguments != null) {
+            arguments.getParcelableArrayList<TaskBean>("beans") as ArrayList<TaskBean>
+        } else {
+            null
+        }
+
+        if(listTask!=null){
+            for(taskBean in listTask){
+                if(taskBean.iType==1){
+                    if(taskBean.iIsfinish==1&&taskBean.iDay==1){
+                        checkInDays = taskBean.iDay
+                        rl_first_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+                        tv_first_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                        tv_first_checkin_points.text = "+${taskBean.iPoint}积分"
+                    }else if(taskBean.iIsfinish==1&&taskBean.iDay==2){
+                        checkInDays = taskBean.iDay
+                        rl_second_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+                        tv_second_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                        tv_second_checkin_points.text = "+${taskBean.iPoint}积分"
+                    }else if(taskBean.iIsfinish==1&&taskBean.iDay==3){
+                        checkInDays = taskBean.iDay
+                        rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.day3coin_empty_yetbg)
+                        iv_checkinthree.background = ContextCompat.getDrawable(context,R.mipmap.checkin3_icon_color)
+                        tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                        tv_three_checkin_points.text = "+${taskBean.iPoint}积分"
+                    }
+
+                    if (checkInDays > 0) {
+                        tv_checkin_days.text = "已签到${checkInDays}天，连续3天将获得双倍积分奖励"
+                    } else {
+                        tv_checkin_days.text = "连续3天将获得双倍积分奖励"
+                    }
+                }
+            }
+        }
+
+        tv_checkin_action.setOnClickListener {
              dismissAllowingStateLoss()
         }
 
@@ -72,15 +103,35 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-       if(arguments !=null){
+        rl_first_day.setOnClickListener {
 
+        }
+
+        rl_second_day.setOnClickListener {
+
+        }
+
+        rl_three_day.setOnClickListener {
+
+        }
+
+        tv_checkin_action.setOnClickListener {
+            showRewardTipsDialog("150")
         }
     }
 
-    private fun getData() {
-        dismissAllowingStateLoss()
+    private fun showRewardTipsDialog(points:String){
         isBaseActivity {
-
+            Request.signPoint(getLoginToken()).request(it,success={_,data->
+                 data?.let {
+                     var mRewardTipsDialog = RewardTipsDialog()
+                     var iAddPoint = it.optInt("iAddPoint")
+                     dialogListener?.onClick(1,"${iAddPoint}")
+                     var sAddPointDesc = it.optString("sAddPointDesc")
+                     mRewardTipsDialog.arguments = bundleOf("points" to "${iAddPoint}")
+                     mRewardTipsDialog.show((context as BaseActivity).supportFragmentManager,"rewardtipsdialog")
+                 }
+            })
         }
     }
 

@@ -164,6 +164,7 @@
             android:text="--"
             android:textColor="@color/textColor99"
             android:textSize="11sp"
+            android:maxLength="5"
             android:visibility="gone" />
 
         <!--<ImageView-->

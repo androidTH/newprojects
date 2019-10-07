@@ -480,4 +480,15 @@ object Request {
 
     fun getAccountInviteLink(sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getAccountInviteLink(sLoginToken)
 
+    //签到
+    fun signPoint(sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).signPoint(sLoginToken)
+
+    //客服修改在线状态
+    fun updateUserOnline(sLoginToken:String,iOnline:Int) = RRetrofit.instance().create(ApiServices::class.java).updateUserOnline(sLoginToken,iOnline)
+
+    //检查客服是否在线
+    fun checkUserOnline(sLoginToken:String,iUserid:String)= RRetrofit.instance().create(ApiServices::class.java).checkUserOnline(sLoginToken,iUserid)
+
+    //查询当日任务和完成情况
+    fun findUserPointStatus(sLoginToken: String)=RRetrofit.instance().create(ApiServices::class.java).findUserPointStatus(sLoginToken)
 }

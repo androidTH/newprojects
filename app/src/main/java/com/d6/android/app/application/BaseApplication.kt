@@ -7,8 +7,6 @@ import com.d6.android.app.utils.AppUtils
  *
  */
 abstract class BaseApplication : Application() {
-    var sysTime:Long = 0
-
     override fun onCreate() {
         super.onCreate()
         AppUtils.init(this)

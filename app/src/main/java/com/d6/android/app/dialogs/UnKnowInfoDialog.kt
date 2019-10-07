@@ -93,7 +93,7 @@ class UnKnowInfoDialog : DialogFragment(), RequestManager {
     private fun getUserInfo() {
         isBaseActivity {
             Request.getUserInfo(getLocalUserId(),otherUserId).request(it, success = { _, data ->
-                data?.let {
+                data?.let{
                     if (tv_unknow_sex != null) {
                         tv_unknow_sex.isSelected = TextUtils.equals("0", it.sex)
                         it.age?.let {

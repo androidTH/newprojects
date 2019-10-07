@@ -311,7 +311,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private fun praise(square: Square) {
         dialog()
         Request.addPraise(userId, square.id).request(this,true) { msg, jsonObject ->
-            showToast("点赞成功")
             square.isupvote = "1"
             square.appraiseCount = (square.appraiseCount?:0)+1
             headerView.mTrendDetailView.update(square)
@@ -326,7 +325,6 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     private fun cancelPraise(square: Square) {
         dialog()
         Request.cancelPraise(userId, square.id).request(this) { msg, _ ->
-            showToast("取消点赞")
             square.isupvote = "0"
             square.appraiseCount = if(((square.appraiseCount?:0)-1)<0) 0 else (square.appraiseCount?:0)-1
             mSquare?.appraiseCount = square.appraiseCount
