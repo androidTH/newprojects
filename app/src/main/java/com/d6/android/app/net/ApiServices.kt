@@ -520,4 +520,31 @@ interface ApiServices {
     @POST("backstage/userclasses/find")
     fun findYKUserClasses(@Query("ids") ids:String,@Query("sLoginToken")sLoginToken:String,@Query("sAreaName") sAreaName:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<MemberBean>>
 
+    //2.11.0接口
+    @POST("backstage/userloverule/find")
+    fun findUserLoveRule(@Query("sLoginToken")sLoginToken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<ArrayList<LoveHeartRule>>>
+
+    //提现爱心接口
+    @POST("backstage/userloverule/withDrawLovePoint")
+    fun doCashMoneyOfLoveHeart(@Query("iUserid") iUserid:String, @Query("iLovePoint") iLovePoint:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //赠送红心 iType：赠送的入口 1、动态 2、卡片 3、主页 4、聊天
+    @POST("backstage/userloverule/sendLovePoint")
+    fun sendLovePoint(@Query("sLoginToken")sLoginToken:String,@Query("iReceiveUserid") iReceiveUserid:String,@Query("iLovePoint") iLovePoint:Int,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //查询我发送的爱心列表
+    @POST("backstage/userloverule/findSendLoveList")
+    fun findSendLoveList(@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
+
+    //查询收到的爱心列表
+    @POST("backstage/userloverule/findReceiveLoveList")
+    fun findReceiveLoveList(@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
+
+    //查询打码用户资料需要支付的积分数量
+    @POST("backstage/userloverule/getLovePointQueryAuth")
+    fun getLovePointQueryAuth(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
+    //支付积分查看打码用户
+    @POST("backstage/userloverule/loveUserQueryPayPoint")
+    fun loveUserQueryPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
 }

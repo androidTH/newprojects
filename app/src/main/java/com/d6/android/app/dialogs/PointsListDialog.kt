@@ -72,7 +72,7 @@ class PointsListDialog : DialogFragment(),RequestManager {
 
     private var mPointsRule =  ArrayList<PointRule>()
     private val mPRAdapter by lazy {
-        RedHeartRuleAdapter(mPointsRule)
+        PointRuleAdapter(mPointsRule)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

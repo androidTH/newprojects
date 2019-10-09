@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
+import com.d6.android.app.net.Request;
 import com.d6.android.app.widget.gift.animutils.GiftAnimationUtil;
 
 import java.util.Random;

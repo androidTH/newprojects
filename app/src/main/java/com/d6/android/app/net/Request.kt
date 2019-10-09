@@ -511,4 +511,21 @@ object Request {
 
     fun findYKUserClasses(ids:String,sLoginToken:String,sAreaName:String="")=RRetrofit.instance().create(ApiServices::class.java).findYKUserClasses(ids,sLoginToken,sAreaName)
 
+    //2.11.0
+    fun findUserLoveRule(sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).findUserLoveRule(sLoginToken)
+
+    fun doCashMoneyOfLoveHeart(iUserid:String,iLoveHeartCount:String)=RRetrofit.instance().create(ApiServices::class.java).doCashMoneyOfLoveHeart(iUserid,iLoveHeartCount)
+
+    //赠送红心
+    fun sendLovePoint(sLoginToken:String,iReceiveUserid:String,iLovePoint:Int,iType:Int)= RRetrofit.instance().create(ApiServices::class.java).sendLovePoint(sLoginToken,iReceiveUserid,iLovePoint,iType)
+
+    fun findSendLoveList(sLoginToken:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findSendLoveList(sLoginToken,pageNum)
+
+    fun findReceiveLoveList(sLoginToken: String,pageNum: Int)=RRetrofit.instance().create(ApiServices::class.java).findReceiveLoveList(sLoginToken,pageNum)
+
+    //查询打码用户资料需要支付的积分数量
+    fun getLovePointQueryAuth(sLoginToken: String,iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getLovePointQueryAuth(sLoginToken,iUserid)
+
+    //支付积分查看打码用户
+    fun loveUserQueryPayPoint(sLoginToken: String,iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).loveUserQueryPayPoint(sLoginToken,iUserid)
 }

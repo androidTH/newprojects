@@ -7,6 +7,8 @@ data class Page<T>(val list:ListBean<T>?){
     val count:Int?=0
     var iAllAppointCount:Int?=0
     var iFollowCount:Int=-1
+    var iAllReceiveLovePoint:Int = -1
+    var unreadlist:ArrayList<LoveHeartFans>?=null
 }
 
 data class ListBean<T>(val pageNum:Int? = 1,

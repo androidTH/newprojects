@@ -62,6 +62,8 @@ public class RetrofitClient implements NetworkClientInterf {
             call = service.postPrePayInfo(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
         }else if(payParams.getType()==2){
             call = service.postAddUserClass(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getsAreaName(),payParams.getiUserclassid());
+        }else if(payParams.getType()==3){
+            call = service.buyLoveHeart(payParams.getsUserLoginToken(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
         }
         call.enqueue(new Callback<ResponseBody>() {
             @Override

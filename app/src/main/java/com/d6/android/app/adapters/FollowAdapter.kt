@@ -10,6 +10,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
+import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
@@ -19,7 +20,7 @@ import org.jetbrains.anko.backgroundDrawable
 /**
  *粉丝
  */
-class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layout.item_list_follows) ,View.OnClickListener{
+class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_follows) ,View.OnClickListener{
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -29,15 +30,15 @@ class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
-    override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
-        holder.setText(R.id.tv_name,data.sUserName)
+    override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
+        holder.setText(R.id.tv_name,data.sSendUserName)
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")
         headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.gexingqianming.isNullOrEmpty()){
-            tv_userinfo.text = data.gexingqianming
+        if(!data.sPointdesc.isNullOrEmpty()){
+            tv_userinfo.text = data.sPointdesc
             tv_userinfo.visibility = View.VISIBLE
         }else{
             tv_userinfo.visibility = View.GONE
@@ -55,10 +56,10 @@ class FollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
 //            tv_vip.visibility = View.VISIBLE
 //        }
 
-        tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
+        tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid,context)
 
         var  tv_sendliked= holder.bind<TextView>(R.id.tv_sendliked)
-        tv_sendliked.text = "${23}"
+        tv_sendliked.text = "${data.iPoint}"
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //

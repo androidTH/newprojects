@@ -85,6 +85,11 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
                 }
             }else if(type == 2){
                 OpenAnonymousPayPoint()
+            }else if(type==3){
+                if (dialogListener != null) {
+                    dialogListener?.onClick(type, "success")
+                    dismissAllowingStateLoss()
+                }
             }else{
                 dismissAllowingStateLoss()
                 if (dialogListener != null) {
@@ -121,7 +126,6 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
                 showToast(msg)
             }
         }
-
     }
 
     private var dialogListener: OnDialogListener? = null

@@ -306,7 +306,10 @@ class MineFragment : BaseFragment() {
 
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
                 AppUtils.setUserWallet( context,"积分 ${it.iPoint.toString()}",0 ,2 ,tv_points)
-                AppUtils.setUserWallet( context,"爱心 ${it.iFlowerCount.toString()}",0 ,3 ,tv_redflowernums)
+                AppUtils.setUserWallet( context,"爱心 ${it.iLovePoint}",0 ,3 ,tv_redflowernums)
+
+                tv_fans_count.text = "${data.iReceiveLovePoint}"
+                tv_follow_count.text = "${data.iSendLovePoint}"
 
                 if(TextUtils.equals(getLocalUserId(), Const.CustomerServiceId)||TextUtils.equals(getLocalUserId(), Const.CustomerServiceWomenId)){
                     img_auther.visibility = View.GONE
@@ -455,9 +458,9 @@ class MineFragment : BaseFragment() {
         Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this, success = { s: String?, data: FollowFansVistor? ->
             // toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
-                tv_fans_count.text = data.iFansCountAll.toString()
-                tv_follow_count.text = data.iFollowCount.toString()
-                tv_vistor_count.text = data.iVistorCountAll.toString()
+//                tv_fans_count.text = data.iFansCountAll.toString()
+//                tv_follow_count.text = data.iFollowCount.toString()
+                tv_vistor_count.text = "${data.iVistorCountAll}"
                 showLikeWarm(false,data.iFansCount!!.toInt(),it.iPointNew!!.toInt(),data.iVistorCount!!.toInt())
             }
         })

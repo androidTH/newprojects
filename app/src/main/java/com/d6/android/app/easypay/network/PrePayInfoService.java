@@ -41,4 +41,6 @@ public interface PrePayInfoService {
     @POST("backstage/order/addUserClass")
     Call<ResponseBody> postAddUserClass(@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype,@Query("iPrice") int iPrice,@Query("sAreaName") String sAreaName,@Query("iUserclassid") int iUserclassid);
 
+    @POST("backstage/order/addLovePoint")
+    Call<ResponseBody> buyLoveHeart(@Query("sLoginToken") String sLoginToken, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iLoveCount") int iLoveCount);
 }

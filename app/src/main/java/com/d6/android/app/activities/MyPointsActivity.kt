@@ -56,7 +56,9 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private var mInviteLinkBean:InviteLinkBean? = null
 
     lateinit var mPointsListDialog: PointsListDialog
+    fun IsNotNullPointsListDialog()=::mPointsListDialog.isInitialized
     lateinit var mRedHeartListDialog: RedHeartListDialog
+    fun IsNotNullRedHeartListDialog()=::mRedHeartListDialog.isInitialized
 
     private val mPointsAdapter by lazy {
         PointsAdapter(mUserPoints)
@@ -111,7 +113,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //              mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
                 mPointsListDialog.show(supportFragmentManager, "c")
                 mPointsListDialog.setOnPayListener { p, data ->
-                    payMoney(data)
+                    payMoney(data.iPoint,data.iPrice,0,"积分")
                 }
             }else{
                 val commonTiphDialog = CommonTipDialog()
@@ -202,10 +204,9 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
         if (!TextUtils.equals(className,"7")) {
             mRedHeartListDialog = RedHeartListDialog()
-//              mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
             mRedHeartListDialog.show(supportFragmentManager, "c")
             mRedHeartListDialog.setOnPayListener { p, data ->
-                payMoney(data)
+                payMoney(data.iLoveCount,data.iPrice,3,"爱心")
             }
         }else{
             val commonTiphDialog = CommonTipDialog()
@@ -357,19 +358,20 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
     }
 
-    private fun payMoney(pointRule: PointRule) {
+    private fun payMoney(iPoint:Int?,iPrice:Int?,buyType:Int,goodsName:String) {
         val params = PayParams.Builder(this)
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
                 .UserId(userId.toInt())
-                .iPoint(pointRule.iPoint)
-                .goodsPrice(pointRule.iPrice)// 单位为：分 pointRule.iPrice
-                .goodsName("")
+                .setSUserLoginToken(getLoginToken())
+                .iPoint(iPoint)
+                .goodsPrice(iPrice)// 单位为：分 pointRule.iPrice
+                .goodsName(goodsName)
                 .goodsIntroduction("")
                 .httpType(HttpType.Post)
                 .httpClientType(NetworkClientType.Retrofit)
                 .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
-                .setType(0)
+                .setType(buyType)
                 .build()
         EasyPay.newInstance(params).requestPayInfo(object : OnPayInfoRequestListener {
             override fun onPayInfoRequetStart() {
@@ -404,7 +406,14 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
      */
     private fun getOrderStatus(orderId:String){
         Request.getOrderById(orderId).request(this,false,success={msg,data->
-            mPointsListDialog.dismissAllowingStateLoss()
+            if(IsNotNullPointsListDialog()){
+                mPointsListDialog.dismissAllowingStateLoss()
+            }
+
+            if(IsNotNullRedHeartListDialog()){
+                mRedHeartListDialog.dismissAllowingStateLoss()
+            }
+
             getUserInfo()
             var payResultDialog = PayResultDialog()
             payResultDialog.arguments = bundleOf("buyType" to "points" ,"payresult" to "wx_pay_success")
@@ -418,13 +427,13 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.getUserInfo("", userId).request(this, success = { _, data ->
             data?.let {
                 mUserInfo = it
-                mHeaderView.tv_mypointnums.text = it.iPoint.toString()
+                mHeaderView.tv_mypointnums.text = "${it.iPoint}"
                 SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
                 mHeaderView.iv_wallet_headView.setImageURI(it.picUrl)
                 mHeaderView.tv_wallet_username.text = it.name
 
-                mHeaderView.tv_redheartnums.text = it.iFlowerCount.toString()
-                mHeaderView.tv_redflowernums.text = it.iFlowerCount.toString()
+                mHeaderView.tv_redheartnums.text = "${it.iLovePoint}"
+                mHeaderView.tv_redflowernums.text = "${it.iFlowerCount}"
 
 //                if(TextUtils.equals("0",it.iFlowerCount.toString())){
 //                    mHeaderView.tv_cash_money.backgroundDrawable = ContextCompat.getDrawable(this, R.drawable.shape_20r_stroke_fe6)

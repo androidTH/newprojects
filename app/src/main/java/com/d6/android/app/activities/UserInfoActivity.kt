@@ -330,7 +330,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         getUserInfo()
-        getUserFollowAndFansandVistor()
+//        getUserFollowAndFansandVistor()
 
         setAudioListener()
 
@@ -710,6 +710,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                     }
                 }
+
+                headerView.tv_user_fans_count.text = "${data.iReceiveLovePoint}"
+                headerView.tv_user_follow_count.text = "${data.iSendLovePoint}"
             }
         }) { code, msg ->
             if(code==2){
@@ -999,6 +1002,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             it.setGiftLayout(ll_gift_parent, 1)
                     .setHideMode(false)
                     .setCustormAnim(CustormAnim())
+            it.setmGiftAnimationEndListener {
+                Request.sendLovePoint(getLoginToken(),"${id}",it,3).request(this,true,success={_,data->
+
+                })
+            }
         }
     }
     //连击礼物数量

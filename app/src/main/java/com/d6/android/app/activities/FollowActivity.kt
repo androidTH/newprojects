@@ -7,10 +7,13 @@ import com.d6.android.app.adapters.FollowAdapter
 import com.d6.android.app.base.RecyclerActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
+import com.d6.android.app.models.LoveHeartFans
+import com.d6.android.app.models.LoveHeartRule
 import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getLoginToken
 import com.qamaster.android.ui.ScreenshotEditorActivity.startActivity
 import org.jetbrains.anko.startActivity
 
@@ -19,7 +22,7 @@ class FollowActivity : RecyclerActivity() {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
     private var pageNum = 1
-    private val mMessages = ArrayList<Fans>()
+    private val mMessages = ArrayList<LoveHeartFans>()
     private val followAdapter by lazy {
         FollowAdapter(mMessages)
     }
@@ -41,12 +44,12 @@ class FollowActivity : RecyclerActivity() {
     }
 
     private fun getData() {
-
-        Request.getFindMyFollows(userId, pageNum).request(this) { _, data ->
+        //getFindMyFollows
+        Request.findSendLoveList(getLoginToken(),pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mMessages.clear()
             }
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data.list?.results.isEmpty()) {
                 if (pageNum > 1) {
                     mSwipeRefreshLayout.setLoadMoreText("没有更多了")
                     pageNum--
@@ -54,7 +57,7 @@ class FollowActivity : RecyclerActivity() {
                     mSwipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {
-                data.list.results?.let { mMessages.addAll(it) }
+                data.list?.results?.let { mMessages.addAll(it) }
             }
             followAdapter.notifyDataSetChanged()
         }

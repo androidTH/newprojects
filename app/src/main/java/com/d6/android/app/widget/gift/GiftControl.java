@@ -112,7 +112,6 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
 
     public void loadGift(GiftModel gift) {
         loadGift(gift, true);
-
     }
 
     /**
@@ -301,10 +300,10 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
 
     @Override
     public void dismiss(GiftFrameLayout giftFrameLayout) {
-        reStartAnimation(giftFrameLayout, giftFrameLayout.getIndex());
+        reStartAnimation(giftFrameLayout, giftFrameLayout.getIndex(),giftFrameLayout.getGiftCount());
     }
 
-    private void reStartAnimation(final GiftFrameLayout giftFrameLayout, final int index) {
+    private void reStartAnimation(final GiftFrameLayout giftFrameLayout, final int index,final int giftCount) {
         //动画结束，这时不能触发连击动画
         giftFrameLayout.setCurrentShowStatus(false);
         Log.d(TAG, "reStartAnimation: 动画结束");
@@ -313,12 +312,15 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
             animatorSet.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    Log.i(TAG, "礼物动画dismiss: index = " + index);
+                    Log.i(TAG, giftCount+"礼物动画dismiss: index = " + index);
                     //动画完全结束
                     giftFrameLayout.CurrentEndStatus(true);
                     giftFrameLayout.setGiftViewEndVisibility(isEmpty());
                     mGiftLayoutParent.removeView(giftFrameLayout);
                     showGift();
+                    if(mGiftAnimationEndListener!=null){
+                        mGiftAnimationEndListener.getGiftCount(giftCount);
+                    }
                 }
             });
         }
@@ -357,5 +359,19 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
         } else {
             return false;
         }
+    }
+
+    private GiftAnimationEndListener mGiftAnimationEndListener;
+
+    public GiftAnimationEndListener getmGiftAnimationEndListener() {
+        return mGiftAnimationEndListener;
+    }
+
+    public void setmGiftAnimationEndListener(GiftAnimationEndListener mGiftAnimationEndListener) {
+        this.mGiftAnimationEndListener = mGiftAnimationEndListener;
+    }
+
+    public interface GiftAnimationEndListener {
+        void getGiftCount(int giftCount);
     }
 }

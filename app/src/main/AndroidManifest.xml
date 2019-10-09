@@ -22,6 +22,7 @@
     <!--https://github.com/APLK/RichTextView-->
     <!--https://github.com/kaisengao/KsgLikeView#ksglikeview-->
     <!--https://github.com/venshine/GoodView-->
+    <!--https://github.com/quiph/RecyclerView-FastScroller-->
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

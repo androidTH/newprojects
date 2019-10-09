@@ -161,9 +161,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
 
         fb_heat_like.setOnClickListener {
             activity.LocalUserIsNoAuth(){
-                if(mDates.isNotEmpty()){
-                    addFollow()
-                }
                 addGiftNums(1,false)
 //            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
 //            mSendRedHeartEndDialog.show(childFragmentManager,"redheartendDialog")
@@ -239,6 +236,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             it.setGiftLayout(ll_gift_parent, 1)
                     .setHideMode(false)
                     .setCustormAnim(CustormAnim())
+            it.setmGiftAnimationEndListener {
+                if(mDates.isNotEmpty()){
+                    addFollow(it)
+                }
+            }
         }
     }
 
@@ -406,26 +408,29 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         }
     }
 
-    private fun addFollow(){
+    private fun addFollow(giftCount:Int){
         scrollPosition = mRecyclerView.currentItem
         if(mDates.size > scrollPosition){
             var findDate = mDates.get(scrollPosition)
-            if(findDate.iIsFans==0){
-                Request.getAddFollow(userId, findDate.accountId.toString()).request(this, false) { s: String?, jsonObject: JsonObject? ->
-                    //toast("$s,$jsonObject")
-                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
-                    mDates.get(scrollPosition).iIsFans = 1
-//                    doAnimation()
-//                    doNextCard()
-                    showTips(jsonObject, "", "")
-                }
-            }else{
-                Request.getDelFollow(userId, findDate.accountId.toString()).request(this,true) { s: String?, jsonObject: JsonObject? ->
-                    mDates.get(scrollPosition).iIsFans = 0
-                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
-//                    doNextCard()
-                }
-            }
+            Request.sendLovePoint(getLoginToken(),"${findDate.accountId}",giftCount,1).request(this,true,success={_,data->
+                Log.i("GiftControl","礼物数量${giftCount}")
+            })
+//            if(findDate.iIsFans==0){
+//                Request.getAddFollow(userId, findDate.accountId.toString()).request(this, false) { s: String?, jsonObject: JsonObject? ->
+//                    //toast("$s,$jsonObject")
+//                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
+//                    mDates.get(scrollPosition).iIsFans = 1
+////                    doAnimation()
+////                    doNextCard()
+//                    showTips(jsonObject, "", "")
+//                }
+//            }else{
+//                Request.getDelFollow(userId, findDate.accountId.toString()).request(this,true) { s: String?, jsonObject: JsonObject? ->
+//                    mDates.get(scrollPosition).iIsFans = 0
+//                    fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources,R.mipmap.center_like_button))
+////                    doNextCard()
+//                }
+//            }
         }
     }
 

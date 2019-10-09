@@ -39,6 +39,7 @@ public class PayParams {
     private int iUserclassid;
     private int iSendUserid;
     private String sResourceid;
+    private String sUserLoginToken;
 
     public Activity getActivity() {
         return mActivity;
@@ -176,6 +177,15 @@ public class PayParams {
         this.sResourceid = sResourceid;
     }
 
+
+    public String getsUserLoginToken() {
+        return sUserLoginToken == null ? "" : sUserLoginToken;
+    }
+
+    public void setsUserLoginToken(String sUserLoginToken) {
+        this.sUserLoginToken = sUserLoginToken;
+    }
+
     public static class Builder {
         Activity mActivity;
         String wechatAppId;
@@ -194,6 +204,7 @@ public class PayParams {
         int iUserclassid;
         int iSendUserid;
         String sResourceid;
+        String sUserLoginToken;
 
         public Builder(Activity activity) {
             mActivity = activity;
@@ -278,6 +289,11 @@ public class PayParams {
             return this;
         }
 
+        public PayParams.Builder setSUserLoginToken(String userLoginToken){
+            sUserLoginToken = userLoginToken;
+            return this;
+        }
+
         public PayParams build() {
             PayParams params = new PayParams();
 
@@ -298,6 +314,7 @@ public class PayParams {
             params.setiUserclassid(iUserclassid);
             params.setiSendUserid(iSendUserid);
             params.setsResourceid(sResourceid);
+            params.setsUserLoginToken(sUserLoginToken);
             return params;
         }
 

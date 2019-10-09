@@ -37,13 +37,13 @@
         android:layout_marginTop="@dimen/margin_5"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginRight="@dimen/margin_15"
-        android:layout_marginBottom="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_5"
         android:id="@+id/swiprl_redheart_list"
         android:layout_below="@+id/tv_redheart_title"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="25dp"
         android:gravity="center"
         android:paddingLeft="12dp"
         android:text="10红心=1元，充值越多优惠越大哦"

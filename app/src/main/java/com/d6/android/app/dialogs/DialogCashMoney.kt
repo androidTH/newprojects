@@ -138,7 +138,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                     var mCashMoney = money.toInt()
                     if (mCashMoney <= cashmoney.toFloat()) {
                         if(mCashMoney>= 20){
-                            doCashMoney(money)
+                            doCashMoney(money,type)
                         }else{
                             showToast("最低提现金额不能小于20元！")
                         }
@@ -239,7 +239,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
     /**
      * 提现
      */
-    private fun doCashMoney(money:String){
+    private fun doCashMoney(money:String,type:Int){
         isBaseActivity {
 //            var mYKCashMoneyDialog =  YKCashMoneyDialog()
 //            mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to "你提现的额度已经达到限额，请联系客服提现")
@@ -251,24 +251,42 @@ class DialogCashMoney : DialogFragment(), RequestManager {
 //            }
 
             it.dialog()
-            Request.doCashMoney(userId,money).request(this,false,success={msg,data->
-                it.dismissDialog()
-                showToast("提现成功")
-                dialogListener?.onClick(1,money)
-                dismissAllowingStateLoss()
-            }){code,msg->
-//                showToast(msg)
-                it.dismissDialog()
-
-                var mYKCashMoneyDialog =  YKCashMoneyDialog()
-                mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to msg)
-                mYKCashMoneyDialog.show(it.supportFragmentManager,"YKCashMoneyDialog")
-                mYKCashMoneyDialog.setDialogListener { p, s ->
-                    it.pushCustomerMessage(this,userId,6,""){
-                        chatService(it)
+            if(type==2){
+                Request.doCashMoney(userId,money).request(this,false,success={msg,data->
+                    it.dismissDialog()
+                    showToast("提现成功")
+                    dialogListener?.onClick(1,money)
+                    dismissAllowingStateLoss()
+                }){code,msg->
+                    it.dismissDialog()
+                    var mYKCashMoneyDialog =  YKCashMoneyDialog()
+                    mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to msg)
+                    mYKCashMoneyDialog.show(it.supportFragmentManager,"YKCashMoneyDialog")
+                    mYKCashMoneyDialog.setDialogListener { p, s ->
+                        it.pushCustomerMessage(this,userId,6,""){
+                            chatService(it)
+                        }
+                    }
+                }
+            }else{
+                Request.doCashMoneyOfLoveHeart(userId,money).request(this,false,success={msg,data->
+                    it.dismissDialog()
+                    showToast("提现成功")
+                    dialogListener?.onClick(1,money)
+                    dismissAllowingStateLoss()
+                }){code,msg->
+                    it.dismissDialog()
+                    var mYKCashMoneyDialog =  YKCashMoneyDialog()
+                    mYKCashMoneyDialog.arguments = bundleOf("title" to "提示","content" to msg)
+                    mYKCashMoneyDialog.show(it.supportFragmentManager,"YKCashMoneyDialog")
+                    mYKCashMoneyDialog.setDialogListener { p, s ->
+                        it.pushCustomerMessage(this,userId,6,""){
+                            chatService(it)
+                        }
                     }
                 }
             }
+
         }
     }
 

@@ -9,7 +9,9 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.request
+import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.Fans
+import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
@@ -19,7 +21,7 @@ import org.jetbrains.anko.backgroundDrawable
 /**
  *粉丝
  */
-class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
+class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -29,16 +31,24 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
-    override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
-        holder.setText(R.id.tv_name,data.sUserName)
-        val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
+    override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
+        if(data.iIsCode==1){
+            holder.setText(R.id.tv_name,"****")
+            val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
+            headView.setImageURI(data.sPicUrl)
+            headView.showBlur(data.sPicUrl)
+        }else{
+            holder.setText(R.id.tv_name,data.sSendUserName)
+            val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
+            headView.setImageURI(data.sPicUrl)
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")
-        headView.setImageURI(data.sPicUrl)
+
+        }
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.gexingqianming.isNullOrEmpty()){
+        if(!data.sPointdesc.isNullOrEmpty()){
             tv_userinfo.visibility = View.VISIBLE
-            tv_userinfo.text = data.gexingqianming
+            tv_userinfo.text = data.sPointdesc
         }else{
             tv_userinfo.visibility = View.GONE
         }
@@ -56,7 +66,7 @@ class FansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layou
         }
 
         var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
-        tv_receivedliked.text = "${34}"
+        tv_receivedliked.text = "${data.iPoint}"
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //        if(data.iIsFollow == 0){

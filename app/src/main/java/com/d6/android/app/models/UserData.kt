@@ -72,6 +72,10 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iAnonymousCount:Int?=-1
     var iWeekTaskPoint:Int = -1
     var iTaskFlower:Int=-1
+    var iLovePoint:Int = -1 //红心数量
+    var iSendLovePoint:Int = -1//发送的红心数量
+    var iReceiveLovePoint:Int = -1 //收到的红心数量
+
 
     override fun toString(): String {
 

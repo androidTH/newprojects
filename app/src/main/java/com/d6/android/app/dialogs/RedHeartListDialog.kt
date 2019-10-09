@@ -14,9 +14,12 @@ import com.d6.android.app.adapters.RedHeartRuleAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.models.LoveHeartRule
 import com.d6.android.app.models.PointRule
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.OnDialogListener
+import com.d6.android.app.utils.getLocalUserId
+import com.d6.android.app.utils.getLoginToken
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_redheartlist_layout.*
@@ -44,9 +47,9 @@ class RedHeartListDialog : DialogFragment(),RequestManager {
     private val compositeDisposable = CompositeDisposable()
 
 
-    private var mPointsRule =  ArrayList<PointRule>()
+    private var mLoveHeartRules =  ArrayList<LoveHeartRule>()
     private val mPRAdapter by lazy {
-        RedHeartRuleAdapter(mPointsRule)
+        RedHeartRuleAdapter(mLoveHeartRules)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,20 +74,19 @@ class RedHeartListDialog : DialogFragment(),RequestManager {
         tv_redheart_close.setOnClickListener { dismissAllowingStateLoss() }
         swiprl_redheart_list.adapter = mPRAdapter
         mPRAdapter.setOnItemClickListener { view, position ->
-            var pointRule = mPointsRule.get(position)
-            if(mOnPayListerner!=null&&pointRule!=null){
-                mOnPayListerner.onPayClick(position, pointRule)
+            var loveHeartRule = mLoveHeartRules.get(position)
+            if(mOnPayListerner!=null&&loveHeartRule!=null){
+                mOnPayListerner.onPayClick(position, loveHeartRule)
             }
-//            payMoney(pointRule);
         }
         getData()
     }
 
     private fun getData() {
-        Request.getPointsRule().request(this){_,data->
+        Request.findUserLoveRule(getLoginToken()).request(this){ _, data->
             if(data!=null){
                 data.let {
-                    mPointsRule.addAll(it)
+                    mLoveHeartRules.addAll(it)
                     mPRAdapter.notifyDataSetChanged()
                 }
             }
@@ -104,13 +106,13 @@ class RedHeartListDialog : DialogFragment(),RequestManager {
     lateinit var mOnPayListerner:OnPayListener
 
     interface OnPayListener{
-        fun onPayClick(position: Int,pointRule:PointRule)
+        fun onPayClick(position: Int,loveHeartRule:LoveHeartRule)
     }
 
-    fun setOnPayListener(l: (p: Int, data: PointRule) -> Unit){
+    fun setOnPayListener(l: (p: Int, data: LoveHeartRule) -> Unit){
         this.mOnPayListerner = object :OnPayListener{
-            override fun onPayClick(position: Int, pointRule: PointRule) {
-                l(position,pointRule)
+            override fun onPayClick(position: Int, loveHeartRule: LoveHeartRule) {
+                l(position,loveHeartRule)
             }
         }
 
