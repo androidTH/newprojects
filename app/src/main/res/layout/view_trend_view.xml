@@ -296,6 +296,17 @@
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
         <!--android:layout_toRightOf="@+id/tv_comment"-->
-
+        <LinearLayout
+            android:id="@+id/square_gift_parent"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_above="@+id/tv_comment"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:orientation="vertical"/>
+        <com.d6.android.app.widget.LoveHeart
+            android:id="@+id/square_loveheart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tv_comment"  />
     </RelativeLayout>
 </RelativeLayout>

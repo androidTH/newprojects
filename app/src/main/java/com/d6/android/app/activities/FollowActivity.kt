@@ -35,11 +35,15 @@ class FollowActivity : RecyclerActivity() {
         super.onCreate(savedInstanceState)
         setTitleBold("送出的喜欢",true)
         followAdapter.setOnItemClickListener { view, position ->
-            val id = mMessages[position].iUserid
+            val id = mMessages[position].iSenduserid
             startActivity<UserInfoActivity>("id" to id.toString())
         }
         addItemDecoration()
         dialog()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getData()
     }
 
@@ -58,6 +62,9 @@ class FollowActivity : RecyclerActivity() {
                 }
             } else {
                 data.list?.results?.let { mMessages.addAll(it) }
+                if(data.list?.totalPage==1){
+                    mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                }
             }
             followAdapter.notifyDataSetChanged()
         }

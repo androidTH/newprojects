@@ -26,6 +26,8 @@ import com.d6.android.app.easypay.enums.NetworkClientType
 import com.d6.android.app.easypay.enums.PayWay
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.FlowerRule
+import com.d6.android.app.models.LoveHeartRule
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
@@ -55,8 +57,9 @@ class SendLoveHeartDialog : DialogFragment() {
 
     private var mBuyRedHeartAdapter: BuyRedHeartAdapter?=null
     private var mToFromType = 0//1 动态详情页送小红花 2 动态列表送小红花 3 聊天输入框扩展框 4 个人信息页动态送小红花 5 申请私聊送小红花
-    private var mFlowerCount:String=""
+    private var mSendLoveHeartCount:Int? = -1
     private var mSquare:Square? = null
+    private var mLoveHeartList=ArrayList<LoveHeartRule>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,18 +112,52 @@ class SendLoveHeartDialog : DialogFragment() {
 
         mBuyRedHeartAdapter?.setOnItemClickListener() { adapter, view, position ->
             mBuyRedHeartAdapter?.let {
-                     if(it.selectedIndex == position){
-                         it.selectedIndex= -1
-                     }else{
-                         it.selectedIndex = position
-                         mFlowerCount = it.data.get(position).iFlowerCount.toString()
-                     }
-                     it.notifyDataSetChanged()
-                 }
+                //                     if(it.selectedIndex == position){
+//                         it.selectedIndex= -1
+//                     }else{
+//                         it.selectedIndex = position
+//                         mFlowerCount = it.data.get(position).iLoveCount
+//                     }
+//                     it.notifyDataSetChanged()
+                mSendLoveHeartCount = it.data.get(position).iLoveCount
+                dialogListener?.onClick(mSendLoveHeartCount!!.toInt(), "")
+                dismissAllowingStateLoss()
+            }
         }
         getUserInfo(id)
-        getFlowerList()
+        setLoveHeartData()
+//        getFlowerList()
 //        sendSysMessage(id)
+    }
+
+    private fun setLoveHeartData(){
+        var mLoveHeartRule1 = LoveHeartRule("1")
+        mLoveHeartRule1.iLoveCount = 10
+
+        var mLoveHeartRule2 = LoveHeartRule("1")
+        mLoveHeartRule2.iLoveCount = 36
+
+        var mLoveHeartRule3 = LoveHeartRule("1")
+        mLoveHeartRule3.iLoveCount = 66
+
+        var mLoveHeartRule4 = LoveHeartRule("1")
+        mLoveHeartRule4.iLoveCount = 99
+
+        var mLoveHeartRule5 = LoveHeartRule("1")
+        mLoveHeartRule5.iLoveCount = 520
+
+        var mLoveHeartRule6 = LoveHeartRule("1")
+        mLoveHeartRule6.iLoveCount = 1314
+
+        mLoveHeartList.add(mLoveHeartRule1)
+        mLoveHeartList.add(mLoveHeartRule2)
+        mLoveHeartList.add(mLoveHeartRule3)
+        mLoveHeartList.add(mLoveHeartRule4)
+        mLoveHeartList.add(mLoveHeartRule5)
+        mLoveHeartList.add(mLoveHeartRule6)
+        mBuyRedHeartAdapter?.let {
+            it.setNewData(mLoveHeartList)
+        }
     }
 
     private fun getUserInfo(id: String) {
@@ -128,6 +165,13 @@ class SendLoveHeartDialog : DialogFragment() {
             data?.let {
                 iv_redheart_headView.setImageURI(it.picUrl)
                 tv_redheart_name.text = it.name
+                tv_redheart_count.text = "剩余${it.iLovePoint}"
+            }
+        })
+
+        Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
+            data?.let {
+                tv_redheart_count.text = "剩余${it.iLovePoint}"
             }
         })
     }
@@ -135,7 +179,7 @@ class SendLoveHeartDialog : DialogFragment() {
     private fun getFlowerList(){
         Request.getUserFlower().request((context as BaseActivity),false,success = {msg,data->
             mBuyRedHeartAdapter?.let {
-                it.setNewData(data)
+//                it.setNewData(data)
             }
         })
     }

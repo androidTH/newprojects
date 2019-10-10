@@ -86,6 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_12"
+        android:visibility="gone"
         android:src="@mipmap/redheart_small"/>
 <!--<com.d6.android.app.widget.LoveHeart-->
     <!--android:id="@+id/loveheart"-->

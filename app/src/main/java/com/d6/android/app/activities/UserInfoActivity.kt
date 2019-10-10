@@ -236,12 +236,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                }
 //            }
 
-            addGiftNums(1,false)
+            addGiftNums(1,false,false)
         }
 
         iv_sendredheart.setOnLongClickListener {
             var mSendLoveHeartDialog = SendLoveHeartDialog()
             mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
+            mSendLoveHeartDialog.setDialogListener { p, s ->
+                addGiftNums(p,false,true)
+            }
             mSendLoveHeartDialog.show(supportFragmentManager,"sendloveheartDialog")
             true
         }
@@ -1003,14 +1006,21 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     .setHideMode(false)
                     .setCustormAnim(CustormAnim())
             it.setmGiftAnimationEndListener {
-                Request.sendLovePoint(getLoginToken(),"${id}",it,3).request(this,true,success={_,data->
+                Request.sendLovePoint(getLoginToken(),"${id}",it,3,"").request(this,true,success={_,data->
 
-                })
+                }){code,msg->
+                    if(code==2){
+                        var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                        mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                    }else if(code==3){
+
+                    }
+                }
             }
         }
     }
     //连击礼物数量
-    private fun addGiftNums(giftnum:Int,currentStart: Boolean = false){
+    private fun addGiftNums(giftnum:Int,currentStart: Boolean = false,JumpCombo:Boolean = false){
         if (giftnum == 0) {
             return
         } else {
@@ -1023,7 +1033,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if (currentStart) {
                     giftModel.setHitCombo(giftnum)
                 }
-                //giftModel.setJumpCombo(10);
+                if(JumpCombo){
+                    giftModel.setJumpCombo(giftnum)
+                }
                 it.loadGift(giftModel)
                 Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
             }

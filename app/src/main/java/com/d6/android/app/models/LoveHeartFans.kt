@@ -27,6 +27,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
     @SerializedName("sSex") var sSex:String="" //: "0",
     @SerializedName("sPicUrl") var sPicUrl:String = ""// "http://p22l7xdxa.bkt.clouddn.com/1556507697336.jpg",
 //    "iAllLovePoint": null,
+    @SerializedName("iAllLovePoint") var iAllLovePoint:Int = -1
     @SerializedName("userclassesid") var userclassesid:String="" //: "29",
     @SerializedName("nianling") var nianling:String="" //"26",
     //"gexingqianming": null,
@@ -49,6 +50,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         userclassesname = parcel.readString()
         ziwojieshao = parcel.readString()
         iIsCode = parcel.readInt()
+        iAllLovePoint = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -58,6 +60,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         parcel.writeString(sPointdesc)
         parcel.writeInt(iPoint)
         parcel.writeInt(iIsCode)
+        parcel.writeInt(iAllLovePoint)
         parcel.writeString(sSendUserName)
         parcel.writeString(sSex)
         parcel.writeString(sPicUrl)

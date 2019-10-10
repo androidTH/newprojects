@@ -113,10 +113,17 @@ public class LoveHeart extends RelativeLayout {
 //        params.leftMargin = (int) location[0] - 150;
 //        params.topMargin = (int)location[1] - 300;
 //        imageView.setLayoutParams(params);
-
         LayoutParams params = new LayoutParams(250, 250);
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        if(view==null){
+            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        }else{
+            int[] location = new int[2];
+            view.getLocationOnScreen(location);
+            params.leftMargin = (int) location[0] - 100;
+            params.topMargin = (int) location[1] - 200;
+            imageView.setLayoutParams(params);
+        }
         imageView.setLayoutParams(params);
         imageView.setImageDrawable(getResources().getDrawable(R.mipmap.animation_redheart));
         addView(imageView);

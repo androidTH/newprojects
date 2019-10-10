@@ -530,7 +530,7 @@ interface ApiServices {
 
     //赠送红心 iType：赠送的入口 1、动态 2、卡片 3、主页 4、聊天
     @POST("backstage/userloverule/sendLovePoint")
-    fun sendLovePoint(@Query("sLoginToken")sLoginToken:String,@Query("iReceiveUserid") iReceiveUserid:String,@Query("iLovePoint") iLovePoint:Int,@Query("iType") iType:Int,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun sendLovePoint(@Query("sLoginToken")sLoginToken:String, @Query("iReceiveUserid") iReceiveUserid:String, @Query("iLovePoint") iLovePoint:Int, @Query("iType") iType:Int,@Query("sResourceid")sResourceid:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //查询我发送的爱心列表
     @POST("backstage/userloverule/findSendLoveList")

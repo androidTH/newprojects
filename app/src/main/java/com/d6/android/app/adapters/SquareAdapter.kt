@@ -8,15 +8,15 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.SendRedFlowerDialog
+import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.showTips
-import com.d6.android.app.utils.starPlayDrawableAnim
+import com.d6.android.app.utils.*
 import com.d6.android.app.widget.TrendView
+import com.d6.android.app.widget.gift.CustormAnim
+import com.d6.android.app.widget.gift.GiftControl
 import kotlinx.android.synthetic.main.item_audio.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -32,6 +32,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
         trendView.update(data)
+        trendView.initGiftControl()
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {
                 cancelPraise(data)
@@ -67,10 +68,14 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
             }
         }
 
-        trendView.sendFlowerClick {
-            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-            dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 2,"userId" to it.userid.toString(),"square" to it)
-            dialogSendRedFlowerDialog.show((context as BaseActivity).supportFragmentManager,"sendflower")
+        trendView.sendFlowerClick { square, lovePoint ->
+//            trendView.addGiftNums(1,false,false)
+//            trendView.doLoveHeartAnimation()
+//            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+//            dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 2,"userId" to it.userid.toString(),"square" to it)
+//            dialogSendRedFlowerDialog.show((context as BaseActivity).supportFragmentManager,"sendflower")
+
+            sendLoveHeart(square,lovePoint)
         }
 
         trendView.onTogglePlay {
@@ -83,6 +88,21 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     //举报
     private fun startActivity(id:String,tipType:String){
         context.startActivity<ReportActivity>("id" to id, "tiptype" to tipType)
+    }
+
+    private fun sendLoveHeart(square:Square,lovePoint:Int){
+        isBaseActivity {
+            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->
+
+            }){code,msg->
+                if (code == 2) {
+                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                    mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
+                } else if (code == 3) {
+
+                }
+            }
+        }
     }
 
     private fun praise(square: Square) {

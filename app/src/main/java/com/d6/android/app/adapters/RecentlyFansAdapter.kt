@@ -22,7 +22,7 @@ import org.jetbrains.anko.backgroundDrawable
 /**
  *粉丝
  */
-class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
+class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -67,8 +67,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         }
 
         var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
-        tv_receivedliked.text = "${data.iAllLovePoint}"
-        Log.i("fansAdapter","数量${data.iAllLovePoint}")
+        tv_receivedliked.text = "${data.iPoint}"
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //        if(data.iIsFollow == 0){

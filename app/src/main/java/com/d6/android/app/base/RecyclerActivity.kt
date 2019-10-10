@@ -2,6 +2,7 @@ package com.d6.android.app.base
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
@@ -75,6 +76,13 @@ abstract class RecyclerActivity : TitleActivity() {
 
     }
 
+    protected fun getItemDecoration(colorId:Int = R.color.dividing_line_color, size:Int=1):HorizontalDividerItemDecoration{
+        var item = HorizontalDividerItemDecoration.Builder(this)
+                .size(size)
+                .color(ContextCompat.getColor(this,colorId))
+                .build()
+        return item
+    }
     /**
      * 水平分割线，默认1px，颜色为dividing_line_color
      */

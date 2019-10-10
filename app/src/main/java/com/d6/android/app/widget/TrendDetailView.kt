@@ -16,10 +16,15 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UnKnowInfoDialog
+import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
+import com.d6.android.app.widget.gift.CustormAnim
+import com.d6.android.app.widget.gift.GiftControl
+import com.d6.android.app.widget.gift.GiftModel
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_detail_view.view.*
 import org.jetbrains.anko.backgroundDrawable
@@ -72,7 +77,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         tv_redflower.setOnClickListener {
             square?.let {
-                sendFlowerClick?.onSendFlowerClick(it)
+                addGiftNums(1,false,false)
             }
         }
 
@@ -275,6 +280,57 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    //礼物
+    private var giftControl: GiftControl? = null
+
+    fun initGiftControl(){
+        if(giftControl==null){
+            giftControl = GiftControl(context)
+            giftControl?.let {
+                it.setGiftLayout(squaredetails_gift_parent, 1)
+                        .setHideMode(false)
+                        .setCustormAnim(CustormAnim())
+                it.setmGiftAnimationEndListener {
+                    var lovePoint = it
+                    square?.let {
+                        sendFlowerClick?.onSendFlowerClick(it,lovePoint)
+                    }
+//                    var squareId = square?.let {
+//                        it.id
+//                    }
+                }
+            }
+        }
+    }
+
+    private fun doLoveHeartAnimation(){
+        squaredetails_loveheart.showAnimationRedHeart(tv_redflower)
+    }
+
+    //连击礼物数量
+    fun addGiftNums(giftnum: Int, currentStart: Boolean = false,JumpCombo:Boolean = false) {
+        if (giftnum == 0) {
+            return
+        } else {
+            giftControl?.let {
+                //这里最好不要直接new对象
+                var giftModel = GiftModel()
+                giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
+                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                        .setCurrentStart(currentStart)
+                if (currentStart) {
+                    giftModel.setHitCombo(giftnum)
+                }
+                if(JumpCombo){
+                    giftModel.setJumpCombo(giftnum)
+                }
+                it.loadGift(giftModel)
+            }
+
+            doLoveHeartAnimation()
+        }
+    }
+
     fun updateFlowerCount(square: Square){
         tv_redflower.text = if((square.iFlowerCount?:0)>0){
             square.iFlowerCount.toString()
@@ -296,10 +352,10 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
-    fun setOnSendFlowerClick(sendFlowerClick:(square:Square)->Unit){
+    fun setOnSendFlowerClick(sendFlowerClick:(square:Square,lovePoint:Int)->Unit){
         this.sendFlowerClick = object :DoSendFlowerClick{
-            override fun onSendFlowerClick(square: Square) {
-                sendFlowerClick(square)
+            override fun onSendFlowerClick(square: Square,lovePoint:Int) {
+                sendFlowerClick(square,lovePoint)
             }
         }
     }
@@ -348,7 +404,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
     }
 
     interface DoSendFlowerClick{
-        fun onSendFlowerClick(square:Square)
+        fun onSendFlowerClick(square:Square,lovePoint:Int)
     }
 
     interface DoCommentClick{

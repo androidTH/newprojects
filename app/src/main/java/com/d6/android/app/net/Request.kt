@@ -517,7 +517,7 @@ object Request {
     fun doCashMoneyOfLoveHeart(iUserid:String,iLoveHeartCount:String)=RRetrofit.instance().create(ApiServices::class.java).doCashMoneyOfLoveHeart(iUserid,iLoveHeartCount)
 
     //赠送红心
-    fun sendLovePoint(sLoginToken:String,iReceiveUserid:String,iLovePoint:Int,iType:Int)= RRetrofit.instance().create(ApiServices::class.java).sendLovePoint(sLoginToken,iReceiveUserid,iLovePoint,iType)
+    fun sendLovePoint(sLoginToken:String,iReceiveUserid:String,iLovePoint:Int,iType:Int,sResourceid:String)= RRetrofit.instance().create(ApiServices::class.java).sendLovePoint(sLoginToken,iReceiveUserid,iLovePoint,iType,sResourceid)
 
     fun findSendLoveList(sLoginToken:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findSendLoveList(sLoginToken,pageNum)
 

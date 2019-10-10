@@ -62,8 +62,11 @@ class OpenDatePointNoEnoughDialog : DialogFragment(),RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         var point = arguments.getString("point")
         var remainPoint = arguments.getString("remainPoint")
+        var type = arguments.getInt("type",0)
+
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
@@ -72,8 +75,13 @@ class OpenDatePointNoEnoughDialog : DialogFragment(),RequestManager {
             context.startActivity<MyPointsActivity>()
             dismissAllowingStateLoss()
         }
-        tv_mypointnums.text = "${point}积分"
-        tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),remainPoint)
+        if(type==0){
+            tv_mypointnums.text = "${point}积分"
+            tv_tishi_point.text = String.format(resources.getString(R.string.string_balance),remainPoint)
+        }else if(type==1){
+            tv_mypointnums.text = "${point}爱心"
+            tv_tishi_point.text = String.format(resources.getString(R.string.string_balance_loveheart),remainPoint)
+        }
     }
 
     private fun getData() {

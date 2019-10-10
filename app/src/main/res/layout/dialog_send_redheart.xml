@@ -68,7 +68,7 @@
                 android:drawableRight="@mipmap/redheart_small"
                 android:drawablePadding="@dimen/margin_5"
                 android:textSize="12sp"
-                android:text="剩余20"/>
+                android:text="剩余"/>
             <TextView
                 android:id="@+id/tv_redheart_gobuy"
                 android:layout_width="wrap_content"

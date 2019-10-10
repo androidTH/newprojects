@@ -1,10 +1,13 @@
 package com.d6.android.app.activities
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.FansAdapter
+import com.d6.android.app.adapters.RecentlyFansAdapter
 import com.d6.android.app.base.RecyclerActivity
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
@@ -15,16 +18,13 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLoginToken
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.header_receiverliked.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
 
 class FansActivity : RecyclerActivity() {
-
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
 
     private val mHeaderView by lazy{
         layoutInflater.inflate(R.layout.header_receiverliked,mSwipeRefreshLayout.mRecyclerView,false)
@@ -42,7 +42,7 @@ class FansActivity : RecyclerActivity() {
 
     private val mHeaderFans = ArrayList<LoveHeartFans>()
     private val mHeaderLikedAdapter by lazy {
-        FansAdapter(mHeaderFans)
+        RecentlyFansAdapter(mHeaderFans)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +51,7 @@ class FansActivity : RecyclerActivity() {
         fansAdapter.setOnItemClickListener { view, position ->
             var fans = mMessages[position]
             if(fans.iIsCode!=1){
-                val id = mMessages[position].iUserid
+                val id = mMessages[position].iSenduserid
                 startActivity<UserInfoActivity>("id" to id.toString())
             }else{
                 DoSeeUserInfo(fans)
@@ -61,7 +61,7 @@ class FansActivity : RecyclerActivity() {
         mHeaderLikedAdapter.setOnItemClickListener { view, position ->
             var fans = mHeaderFans[position]
             if(fans.iIsCode!=1){
-                val id = mMessages[position].iUserid
+                val id = mHeaderFans[position].iSenduserid
                 startActivity<UserInfoActivity>("id" to id.toString())
             }else{
                 DoSeeUserInfo(fans)
@@ -72,11 +72,16 @@ class FansActivity : RecyclerActivity() {
         if(mHeaderFans!=null){
             mHeaderView.rv_receivedliked.setHasFixedSize(true)
             mHeaderView.rv_receivedliked.layoutManager = LinearLayoutManager(this)
+            mHeaderView.rv_receivedliked.addItemDecoration(getItemDecoration())
             mHeaderView.rv_receivedliked.adapter = mHeaderLikedAdapter
         }
 
         addItemDecoration()
         dialog()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getData()
     }
 
@@ -100,8 +105,20 @@ class FansActivity : RecyclerActivity() {
                     it.list?.results?.let {
                         mMessages.addAll(it)
                     }
-                    it.unreadlist?.let { it1 -> mHeaderFans.addAll(it1) }
-                    mHeaderLikedAdapter.notifyDataSetChanged()
+
+                    it.unreadlist?.let { it1 ->
+                        if(it1.size>0){
+                            mHeaderFans.addAll(it1)
+                            mHeaderLikedAdapter.notifyDataSetChanged()
+                        }else{
+                            mHeaderView.tv_receiveliked_title.visibility = View.GONE
+                            mHeaderView.rv_receivedliked.visibility = View.GONE
+                        }
+                    }
+
+                    if(it.list?.totalPage==1){
+                        mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                    }
                 }
                 fansAdapter.notifyDataSetChanged()
             }
@@ -109,8 +126,8 @@ class FansActivity : RecyclerActivity() {
     }
 
     private fun DoSeeUserInfo(loveHeartFans:LoveHeartFans){
-        Request.getLovePointQueryAuth(getLoginToken(),"${loveHeartFans.iUserid}").request(this,false,success={_,data->
-            startActivity<UserInfoActivity>("id" to "${loveHeartFans.iUserid}")
+        Request.getLovePointQueryAuth(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
+            startActivity<UserInfoActivity>("id" to "${loveHeartFans.iSenduserid}")
 
         }){code,msg->
             if(code==2){
@@ -122,8 +139,8 @@ class FansActivity : RecyclerActivity() {
                     var vistorUserDialog = VistorPayPointDialog()
                     vistorUserDialog.arguments = bundleOf("point" to "${iAddPoint}", "pointdesc" to sAddPointDesc, "type" to 3)
                     vistorUserDialog.setDialogListener { p, s ->
-                        Request.loveUserQueryPayPoint(getLoginToken(),"${loveHeartFans.iUserid}").request(this,false,success={_,data->
-                            startActivity<UserInfoActivity>("id" to "${loveHeartFans.iUserid}")
+                        Request.loveUserQueryPayPoint(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
+                            startActivity<UserInfoActivity>("id" to "${loveHeartFans.iSenduserid}")
                         })
                     }
                     vistorUserDialog.show(supportFragmentManager, "unknow")
@@ -135,7 +152,7 @@ class FansActivity : RecyclerActivity() {
                     var iAddPoint = jsonObject.getString("iAddPoint")
                     var iRemainPoint = jsonObject.getString("iRemainPoint")
                     var openErrorDialog = OpenDatePointNoEnoughDialog()
-                    openErrorDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint)
+                    openErrorDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 1)
                     openErrorDialog.show(supportFragmentManager, "d")
                 }
             }

@@ -35,6 +35,7 @@
     <string name="string_pointdesc">本次约会预付%1$s积分,查看我的积分</string>
     <string name="string_pointlow">你当前积分为%1$s积分,申请赴约需要消耗%2$s积分。点击"充值"可获得更多积分,为了不错过心仪的TA。</string>
     <string name="string_balance">积分不足,你的剩余积分%1$s分</string>
+    <string name="string_balance_loveheart">爱心不足,你的剩余爱心%1$s</string>
     <string name="string_senddatefail">申请失败</string>
     <string name="senddatepointlow">申请失败,积分余额不足</string>
     <string name="vistorpointlow">查看访客失败,积分余额不足</string>

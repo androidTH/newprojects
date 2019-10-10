@@ -15,6 +15,7 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareDetailCommentAdapter
 import com.d6.android.app.base.TitleActivity
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
@@ -23,10 +24,6 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_square_detail.*
 import kotlinx.android.synthetic.main.header_square_detail.view.*
-import com.d6.android.app.dialogs.CommentDelDialog
-import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
-import com.d6.android.app.dialogs.SendRedFlowerDialog
-import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.AppUtils.Companion.context
@@ -100,10 +97,20 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             }
         }
 
-        headerView.mTrendDetailView.setOnSendFlowerClick {
-            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-            dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 1,"userId" to it.userid.toString(),"squareId" to it.id.toString())
-            dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
+        headerView.mTrendDetailView.setOnSendFlowerClick { square, lovePoint ->
+//            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+//            dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 1,"userId" to it.userid.toString(),"squareId" to it.id.toString())
+//            dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
+            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(this,false,success={_,Data->
+
+            }){code,msg->
+                if (code == 2) {
+                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                    mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                } else if (code == 3) {
+
+                }
+            }
         }
 
         headerView.mTrendDetailView.setOnCommentClick {
@@ -213,6 +220,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         }
 
         iIsAnonymous = 2
+        headerView.mTrendDetailView.initGiftControl()
         getData()
 
         setAudioListener()

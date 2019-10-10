@@ -428,7 +428,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             data?.let {
                 mUserInfo = it
                 mHeaderView.tv_mypointnums.text = "${it.iPoint}"
-                SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
+                SPUtils.instance().put(Const.User.USERPOINTS_NUMS, "${it.iPoint}").apply()
+                SPUtils.instance().put(Const.User.USERLOVE_NUMS, it.iLovePoint).apply()
                 mHeaderView.iv_wallet_headView.setImageURI(it.picUrl)
                 mHeaderView.tv_wallet_username.text = it.name
 

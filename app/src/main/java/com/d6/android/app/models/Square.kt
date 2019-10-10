@@ -47,4 +47,5 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var sVoiceLength:String = ""
     var sVideoWidth:String =""
     var sVideoHeight:String = ""
+    var iLovePoint:Int = -1
 }

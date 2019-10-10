@@ -124,14 +124,6 @@ fun Fragment.screenHeight(): Int = context!!.screenHeight()
 
 fun View.screenHeight(): Int = context.screenHeight()
 
-private var mUserId = ""
-fun getLocalUserId():String{
-    if(TextUtils.isEmpty(mUserId)){
-        mUserId = SPUtils.instance().getString(Const.User.USER_ID)
-    }
-    return mUserId
-}
-
 fun getIsOpenUnKnow():String{
     return SPUtils.instance().getString(Const.CHECK_OPEN_UNKNOW)
 }
@@ -164,6 +156,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_DATACOMPLETION, obj.iDatacompletion)
             .put(Const.User.USER_MESSAGESETTING,"${obj.iMessageSetting}")
             .put(Const.User.USERPOINTS_NUMS,"${obj.iPoint}")
+            .put(Const.User.USERLOVE_NUMS,obj.iLovePoint)
 //            .put(Const.User.IS_LOGIN, true)
             .put(Const.User.SLOGINTOKEN,obj.sLoginToken)
             .apply()
@@ -1057,8 +1050,14 @@ fun getAppVersion():String{
     return mVersion
 }
 
+private var mUserId = ""
+fun getLocalUserId():String{
+    if(TextUtils.isEmpty(mUserId)){
+        mUserId = SPUtils.instance().getString(Const.User.USER_ID)
+    }
+    return mUserId
+}
 private var sLoginToken = ""
-
 fun getLoginToken():String{
     if(sLoginToken.isNullOrEmpty()){
         //"70CDE1CA39B0C087E664AAC7126FB04E5F4CA06A2371790EA1CE43F08C83D6558E67C773E5F243D7451624FCA50D3059C14656CF3C5D4E977027A55834EBC8E9"

@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.d6.android.app.R;
 import com.d6.android.app.models.FlowerRule;
+import com.d6.android.app.models.LoveHeartRule;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * desc   :
  * version:
  */
-public class BuyRedHeartAdapter extends BaseQuickAdapter<FlowerRule,BaseViewHolder> {
+public class BuyRedHeartAdapter extends BaseQuickAdapter<LoveHeartRule,BaseViewHolder> {
 
     public int getSelectedIndex() {
         return selectedIndex;
@@ -29,11 +30,11 @@ public class BuyRedHeartAdapter extends BaseQuickAdapter<FlowerRule,BaseViewHold
 
     private int selectedIndex = -1;
 
-    public BuyRedHeartAdapter(int layoutResId, @Nullable List<FlowerRule> data) {
+    public BuyRedHeartAdapter(int layoutResId, @Nullable List<LoveHeartRule> data) {
         super(layoutResId, data);
     }
 
-    public BuyRedHeartAdapter(@Nullable List<FlowerRule> data) {
+    public BuyRedHeartAdapter(@Nullable List<LoveHeartRule> data) {
         this(R.layout.item_red_heart,data);
     }
 
@@ -42,13 +43,13 @@ public class BuyRedHeartAdapter extends BaseQuickAdapter<FlowerRule,BaseViewHold
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, FlowerRule item) {
+    protected void convert(BaseViewHolder helper, LoveHeartRule item) {
          View view = helper.getView(R.id.ll_redheart_item);
-         if(selectedIndex == helper.getAdapterPosition()){
-             view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_1stroke_1a));
-         }else{
-             view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_white_ef));
-         }
-         helper.setText(R.id.tv_redheartnums,item.getIFlowerCount().toString());
+//         if(selectedIndex == helper.getAdapterPosition()){
+//             view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_1stroke_1a));
+//         }else{
+//             view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_white_ef));
+//         }
+         helper.setText(R.id.tv_redheartnums,item.getILoveCount()+"");
     }
 }

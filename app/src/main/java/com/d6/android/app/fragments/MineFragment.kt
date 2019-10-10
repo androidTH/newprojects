@@ -304,7 +304,7 @@ class MineFragment : BaseFragment() {
                     }
                 }
 
-                SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
+//                SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
                 AppUtils.setUserWallet( context,"积分 ${it.iPoint.toString()}",0 ,2 ,tv_points)
                 AppUtils.setUserWallet( context,"爱心 ${it.iLovePoint}",0 ,3 ,tv_redflowernums)
 

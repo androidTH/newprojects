@@ -35,6 +35,7 @@ object Const {
         var  HEADERIMAGE ="headerimage"
         var  SELECTIMAGE ="selectimage"
         var  USERPOINTS_NUMS = "UserPointNums"//用户积分数量
+        var  USERLOVE_NUMS = "UserLoveNums"//用户爱心数量
         var  SLOGINTOKEN ="sLoginToken"
 }
 
