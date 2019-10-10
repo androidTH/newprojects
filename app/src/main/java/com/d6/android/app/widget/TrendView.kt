@@ -336,8 +336,8 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             ""
         }
 
-        tv_redflower.text = if((square.iFlowerCount?:0)>0){
-           square.iFlowerCount.toString()
+        tv_redflower.text = if((square.iLovePoint?:0)>0){
+           "${square.iLovePoint}"
         }else{
             ""
         }

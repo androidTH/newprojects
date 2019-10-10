@@ -8,7 +8,6 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,11 @@ import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.rong.bean.CustomMessage;
+import com.d6.android.app.rong.bean.LoveHeartMessage;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.AndroidEmoji;
@@ -35,26 +37,26 @@ import io.rong.imlib.model.UserInfo;
  * Created by Beyond on 2016/12/5.
  */
 
-@ProviderTag(messageContent = CustomMessage.class, showReadState = true)
-public class CustomMessageProvider extends IContainerItemProvider.MessageProvider<CustomMessage>{
+@ProviderTag(messageContent = LoveHeartMessage.class, showReadState = true)
+public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProvider<CustomMessage>{
     private static final String TAG = "CustomMessageProvider";
 
     private static class ViewHolder {
         TextView mTvMsgContent;
-        TextView mTvReceivedFlowerNums;
+        TextView mTvReceivedLoveHeartNums;
         boolean longClick;
 //        SimpleDraweeView simpleDraweeView;
-        LinearLayout mLl_CustomMsg_Body;
+        LinearLayout mLl_LoveHeart_Body;
     }
 
     @Override
     public View newView(Context context, ViewGroup group) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_rong_custommsg, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_rong_loveheartmsg, null);
 
-        CustomMessageProvider.ViewHolder holder = new CustomMessageProvider.ViewHolder();
-        holder.mTvMsgContent = view.findViewById(R.id.tv_rongcustommsg_content);
-        holder.mLl_CustomMsg_Body = view.findViewById(R.id.ll_custommsg_body);
-        holder.mTvReceivedFlowerNums = view.findViewById(R.id.tv_receivedflower_nums);
+        LoveHeartMessageProvider.ViewHolder holder = new LoveHeartMessageProvider.ViewHolder();
+        holder.mTvMsgContent = view.findViewById(R.id.tv_rongloveheart_content);
+        holder.mLl_LoveHeart_Body = view.findViewById(R.id.ll_loveheart_body);
+        holder.mTvReceivedLoveHeartNums = view.findViewById(R.id.tv_receivedloveheart_nums);
 //        holder.simpleDraweeView = view.findViewById(R.id.iv_rong_custommsg_pic);
         view.setTag(holder);
         return view;
@@ -85,7 +87,7 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
     @Override
     public void onItemLongClick(final View view, int position, final CustomMessage content, final UIMessage message) {
 
-        CustomMessageProvider.ViewHolder holder = (CustomMessageProvider.ViewHolder) view.getTag();
+        LoveHeartMessageProvider.ViewHolder holder = (LoveHeartMessageProvider.ViewHolder) view.getTag();
         holder.longClick = true;
         if (view instanceof TextView) {
             CharSequence text = ((TextView) view).getText();
@@ -139,9 +141,9 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
 
     @Override
     public void bindView(final View v, int position, final CustomMessage content, final UIMessage data) {
-        CustomMessageProvider.ViewHolder holder = (CustomMessageProvider.ViewHolder) v.getTag();
+        LoveHeartMessageProvider.ViewHolder holder = (LoveHeartMessageProvider.ViewHolder) v.getTag();
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
-            holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
+            holder.mLl_LoveHeart_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
             TextView textView = holder.mTvMsgContent;
 //            textView.setText(content.getContent());
             if(!TextUtils.isEmpty(content.getExtra())){
@@ -150,28 +152,26 @@ public class CustomMessageProvider extends IContainerItemProvider.MessageProvide
                     JSONObject jsonObject = new JSONObject(content.getExtra());
                     nums = jsonObject.getInt("nums");
                     String receivename = jsonObject.getString("receiveusername");
-                    holder.mTvReceivedFlowerNums.setText(String.valueOf(nums));
+                    holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
 //                  strDir=userInfo.getName()+"给你分享了一条动态";
-                    textView.setText("你给"+receivename+"打赏了"+nums+"朵小红花");
+                    textView.setText("你给"+receivename+"打赏了"+nums+"爱心");
                 } catch (JSONException e) {
                     e.printStackTrace();
                     UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                    textView.setText("你给"+userInfo.getName()+"打赏了"+nums+"朵小红花");
-                    holder.mTvReceivedFlowerNums.setText(String.valueOf(nums));
+                    textView.setText("你给"+userInfo.getName()+"打赏了"+nums+"爱心");
+                    holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
                 }
-//                ImgTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),ImgTxtMessage.class);
-//                holder.mTvReceivedFlowerNums.setText(msg.getNums());
             }
         } else {
-            holder.mLl_CustomMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+            holder.mLl_LoveHeart_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
             TextView textView = holder.mTvMsgContent;
             textView.setText(content.getContent());
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
                     String num = jsonObject.getString("nums");
-                    holder.mTvReceivedFlowerNums.setText(num);
+                    holder.mTvReceivedLoveHeartNums.setText(num);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

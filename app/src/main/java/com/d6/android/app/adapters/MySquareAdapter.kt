@@ -8,12 +8,14 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.SendRedFlowerDialog
+import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.dialogs.ShareFriendsDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.getLocalUserId
+import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.UserTrendView
 import org.jetbrains.anko.bundleOf
@@ -31,6 +33,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         data.sex = mUserData?.sex
         data.age = mUserData?.age
         trendView.update(data,if (type==0) 1 else 0 )
+        trendView.initGiftControl()
         val count = data.appraiseCount ?: 0
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {
@@ -47,8 +50,8 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
             mOnItemClickListener?.onItemClick(v,position)
         }
 
-        trendView.setFlowerClick {
-            sendFlower(it)
+        trendView.setFlowerClick { square, lovePoint ->
+            sendFlower(square,lovePoint)
         }
 
         trendView.setDeleteClick {
@@ -85,20 +88,30 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
            this.mUserData = data
     }
 
-    private fun sendFlower(square:Square){
+    private fun sendFlower(square:Square,lovePoint:Int){
         isBaseActivity {
-            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-            mData?.let {
-                dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 4,"userId" to square.userid.toString(),"square" to square)
-            }
-            dialogSendRedFlowerDialog.show(it.supportFragmentManager,"sendflower")
+//            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+//            mData?.let {
+//                dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 4,"userId" to square.userid.toString(),"square" to square)
+//            }
+//            dialogSendRedFlowerDialog.show(it.supportFragmentManager,"sendflower")
+//
+//            dialogSendRedFlowerDialog.setDialogListener { p, s ->
+//                mData?.let {
+//                    var index = it.indexOf(square)
+//                    it.get(index).iFlowerCount = s.toString().toInt()+square.iFlowerCount!!.toInt()
+//                    it.get(index).iIsSendFlower = 1
+//                    notifyItemChanged(index+1)
+//                }
+//            }
+            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->
 
-            dialogSendRedFlowerDialog.setDialogListener { p, s ->
-                mData?.let {
-                    var index = it.indexOf(square)
-                    it.get(index).iFlowerCount = s.toString().toInt()+square.iFlowerCount!!.toInt()
-                    it.get(index).iIsSendFlower = 1
-                    notifyItemChanged(index+1)
+            }){code,msg->
+                if (code == 2) {
+                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                    mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
+                } else if (code == 3) {
+
                 }
             }
         }

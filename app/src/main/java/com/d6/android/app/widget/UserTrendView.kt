@@ -23,6 +23,9 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
+import com.d6.android.app.widget.gift.CustormAnim
+import com.d6.android.app.widget.gift.GiftControl
+import com.d6.android.app.widget.gift.GiftModel
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_user_trend_view.view.*
 import org.jetbrains.anko.backgroundDrawable
@@ -87,9 +90,10 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
 
         tv_redflower.setOnClickListener {
-               square?.let {
-                   sendFlowerAction?.onSendFlowerClicker(it)
-               }
+//               square?.let {
+//                   sendFlowerAction?.onSendFlowerClicker(it)
+//               }
+            addGiftNums(1,false,false)
         }
 
         rl_play_audio.setOnClickListener {
@@ -261,8 +265,8 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             ""
         }
 
-        tv_redflower.text = if((square.iFlowerCount ?:0)> 0){
-            square.iFlowerCount.toString()
+        tv_redflower.text = if((square.iLovePoint ?:0)> 0){
+            "${square.iLovePoint}"
         }else{
             ""
         }
@@ -303,6 +307,56 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //        commentAdapter.notifyDataSetChanged()
     }
 
+
+    //礼物
+    private var giftControl: GiftControl? = null
+
+    fun initGiftControl(){
+        if(giftControl==null){
+            giftControl = GiftControl(context)
+            giftControl?.let {
+                it.setGiftLayout(usersquare_gift_parent, 1)
+                        .setHideMode(false)
+                        .setCustormAnim(CustormAnim())
+                it.setmGiftAnimationEndListener {
+                    var lovePoint = it
+                    square?.let {
+                        sendFlowerAction?.onSendFlowerClicker(it,lovePoint)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun doLoveHeartAnimation(){
+        usersquare_loveheart.showAnimationRedHeart(tv_redflower)
+    }
+
+    //连击礼物数量
+    fun addGiftNums(giftnum: Int, currentStart: Boolean = false,JumpCombo:Boolean = false) {
+        if (giftnum == 0) {
+            return
+        } else {
+            giftControl?.let {
+                //这里最好不要直接new对象
+                var giftModel = GiftModel()
+                giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
+                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                        .setCurrentStart(currentStart)
+                if (currentStart) {
+                    giftModel.setHitCombo(giftnum)
+                }
+                if(JumpCombo){
+                    giftModel.setJumpCombo(giftnum)
+                }
+                it.loadGift(giftModel)
+                Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
+            }
+
+            doLoveHeartAnimation()
+        }
+    }
+
     fun hide(@IdRes viewIdRes: Int) {
         find<View>(viewIdRes).gone()
     }
@@ -320,10 +374,10 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
 
-    fun setFlowerClick(flower:(square:Square)->Unit){
+    fun setFlowerClick(flower:(square:Square,lovePoint:Int)->Unit){
         this.sendFlowerAction = object : SendFlowerClickListener{
-            override fun onSendFlowerClicker(square: Square) {
-                flower(square)
+            override fun onSendFlowerClicker(square: Square,lovePoint:Int) {
+                flower(square,lovePoint)
             }
         }
     }
@@ -366,7 +420,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
     private var mTogglePlay:TogglePlay?=null
 
     interface SendFlowerClickListener{
-        fun onSendFlowerClicker(square:Square)
+        fun onSendFlowerClicker(square:Square,lovePoint:Int)
     }
 
     interface PraiseClickListener{

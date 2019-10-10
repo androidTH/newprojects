@@ -10,6 +10,7 @@ import com.d6.android.app.rong.bean.CustomMessage;
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage;
 import com.d6.android.app.rong.bean.CustomSystemMessage;
 import com.d6.android.app.rong.bean.LookDateMsgContent;
+import com.d6.android.app.rong.bean.LoveHeartMessage;
 import com.d6.android.app.rong.bean.SpeedDateMsgContent;
 import com.d6.android.app.rong.bean.SquareMsgContent;
 import com.d6.android.app.rong.bean.TipsMessage;
@@ -22,6 +23,7 @@ import com.d6.android.app.rong.provider.CustomMessageProvider;
 import com.d6.android.app.rong.provider.CustomUnKnowMessageProvider;
 import com.d6.android.app.rong.provider.GroupUnKnowMessageProvider;
 import com.d6.android.app.rong.provider.LookDateMsgProvider;
+import com.d6.android.app.rong.provider.LoveHeartMessageProvider;
 import com.d6.android.app.rong.provider.SpeedDateMsgProvider;
 import com.d6.android.app.rong.provider.SquareMsgProvider;
 import com.d6.android.app.rong.provider.TipsMessageProvider;
@@ -80,6 +82,7 @@ public class RongPlugin {
                 RongExtensionManager.getInstance().registerExtensionModule(new D6ExtensionModule());
             }
         }
+        RongIM.registerMessageType(LoveHeartMessage.class);
         RongIM.registerMessageType(CustomMessage.class);
         RongIM.registerMessageType(TipsMessage.class);
         RongIM.registerMessageType(UnknownMessage.class);
@@ -93,6 +96,7 @@ public class RongPlugin {
         RongIM.registerMessageType(GroupUnKnowTipsMessage.class);
         RongIM.registerMessageType(CustomSystemMessage.class);
 
+        RongIM.registerMessageTemplate(new LoveHeartMessageProvider());
         RongIM.registerMessageTemplate(new CustomMessageProvider());
         RongIM.registerMessageTemplate(new TipsMessageProvider());
         RongIM.registerMessageTemplate(new CustomUnKnowMessageProvider());
