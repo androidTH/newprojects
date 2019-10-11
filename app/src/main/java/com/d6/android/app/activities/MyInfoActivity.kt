@@ -115,7 +115,9 @@ class MyInfoActivity : BaseActivity(),Observer{
             finish()
         }
         tv_save.setOnClickListener {
-            saveInfo()
+            if(!isFastClick()){
+                saveInfo()
+            }
         }
 
         tv_edit_headview.setOnClickListener {

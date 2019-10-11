@@ -36,6 +36,9 @@ import com.d6.android.app.utils.Const.SEND_FIRST_PRIVATE_TIPSMESSAGE
 import com.d6.android.app.utils.Const.SEND_GROUP_TIPSMESSAGE
 import com.d6.android.app.utils.Const.WHO_ANONYMOUS
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.gift.CustormAnim
+import com.d6.android.app.widget.gift.GiftControl
+import com.d6.android.app.widget.gift.GiftModel
 import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
@@ -92,6 +95,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
     private var mOtherUserId = ""
     private var mWhoanonymous = "1" //1我自己匿名   2对方匿名
+
+    //礼物
+    private var giftControl: GiftControl? = null
 
     /**
      * 会话类型
@@ -317,6 +323,23 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //            }
         }
 
+
+        iv_privatechat_sendredheart.setOnClickListener {
+             addGiftNums(1,false,false)
+        }
+
+        iv_privatechat_sendredheart.setOnLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(v: View?): Boolean {
+                    var mSendLoveHeartDialog = SendLoveHeartDialog()
+                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
+                    mSendLoveHeartDialog.setDialogListener { p, s ->
+                        addGiftNums(p, false,true)
+                    }
+                    mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
+                return true
+            }
+        })
+
         tv_datechat_content.setEllipsize(TextUtils.TruncateAt.END);//收起
         tv_datechat_content.maxLines = 2
 
@@ -332,7 +355,53 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         getOtherUser()
 
+        initGift()
 //        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
+    }
+
+
+    private fun initGift() {
+        giftControl = GiftControl(this)
+        giftControl?.let {
+            it.setGiftLayout(ll_privatechat_gift_parent, 1)
+                    .setHideMode(false)
+                    .setCustormAnim(CustormAnim())
+            it.setmGiftAnimationEndListener {
+                Request.sendLovePoint(getLoginToken(), "${mOtherUserId}",it, 4,"").request(this, true, success = { _, data ->
+                    Log.i("GiftControl", "礼物数量${it}")
+                }) { code, msg ->
+                    if (code == 2||code==3) {
+                        var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                        mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                    }
+                }
+                }
+            }
+    }
+
+    //连击礼物数量
+    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false,JumpCombo:Boolean = false) {
+        if (giftnum == 0) {
+            return
+        } else {
+            giftControl?.let {
+                //这里最好不要直接new对象
+                var giftModel = GiftModel()
+                giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
+                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                        .setCurrentStart(currentStart)
+                if (currentStart) {
+                    giftModel.setHitCombo(giftnum)
+                }
+                if(JumpCombo){
+                    giftModel.setJumpCombo(giftnum)
+                }
+                it.loadGift(giftModel)
+                Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
+            }
+
+            loveheart_privatechat.showAnimationRedHeart(null)
+        }
     }
 
     //检查客服是否在线

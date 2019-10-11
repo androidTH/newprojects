@@ -95,10 +95,6 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
             }
         }
 
-        tv_checkin_action.setOnClickListener {
-             dismissAllowingStateLoss()
-        }
-
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
@@ -116,6 +112,7 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
         }
 
         tv_checkin_action.setOnClickListener {
+            tv_checkin_action.isEnabled = false
             showRewardTipsDialog("150")
         }
     }

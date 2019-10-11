@@ -184,8 +184,10 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
         tv_release.setOnClickListener {
             isCheckOnLineAuthUser(this,userId){
-                submitAddSquare()
-                mKeyboardKt.toggleSoftInput(it)
+                if(!isFastClick()){
+                    submitAddSquare()
+                    mKeyboardKt.toggleSoftInput(it)
+                }
             }
         }
 

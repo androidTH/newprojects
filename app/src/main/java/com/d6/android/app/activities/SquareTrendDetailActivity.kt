@@ -102,7 +102,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 //            dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 1,"userId" to it.userid.toString(),"squareId" to it.id.toString())
 //            dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(this,false,success={_,Data->
-
+                EventBus.getDefault().post(FlowerMsgEvent(lovePoint))
             }){code,msg->
                 if (code == 2) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
@@ -465,8 +465,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(flowerEvent: FlowerMsgEvent){
             mSquare?.let {
-                it.iFlowerCount = it.iFlowerCount!!.toInt() + flowerEvent.count
-                it.iIsSendFlower=1
+                it.iLovePoint = it.iLovePoint!!.toInt() + flowerEvent.count
+//                it.iFlowerCount = it.iFlowerCount!!.toInt() + flowerEvent.count
+//                it.iIsSendFlower=1
                 updateBean()
                 headerView.mTrendDetailView.updateFlowerCount(it)
             }

@@ -418,11 +418,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             Request.sendLovePoint(getLoginToken(), "${findDate.accountId}", giftCount, 2,"").request(this, true, success = { _, data ->
                 Log.i("GiftControl", "礼物数量${giftCount}")
             }) { code, msg ->
-                if (code == 2) {
+                if (code == 2||code == 3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
-                } else if (code == 3) {
-
                 }
             }
 //            if(findDate.iIsFans==0){

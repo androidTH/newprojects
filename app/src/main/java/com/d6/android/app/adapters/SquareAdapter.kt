@@ -10,6 +10,7 @@ import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.SendRedFlowerDialog
 import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.dialogs.ShareFriendsDialog
+import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
@@ -18,6 +19,7 @@ import com.d6.android.app.widget.TrendView
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import kotlinx.android.synthetic.main.item_audio.view.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 
@@ -93,7 +95,9 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     private fun sendLoveHeart(square:Square,lovePoint:Int){
         isBaseActivity {
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->
-
+                square.iLovePoint = lovePoint+square.iLovePoint!!.toInt()
+                notifyDataSetChanged()
+//                EventBus.getDefault().post(FlowerMsgEvent(lovePoint,square))
             }){code,msg->
                 if (code == 2) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()

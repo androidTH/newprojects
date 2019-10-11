@@ -304,9 +304,10 @@ class SquareFragment : RecyclerFragment() {
                 mSquares.get(positon).commentCount = mSquare.commentCount
                 mSquares.get(positon).isupvote = mSquare.isupvote
                 mSquares.get(positon).appraiseCount = mSquare.appraiseCount
+                mSquares.get(positon).iLovePoint = mSquare.iLovePoint
 //                mSquares.get(positon).comments = mSquare.comments
-                mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
-                mSquares.get(positon).iIsSendFlower = mSquare.iIsSendFlower
+//                mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
+//                mSquares.get(positon).iIsSendFlower = mSquare.iIsSendFlower
                 squareAdapter.notifyDataSetChanged()
             }
         }
@@ -317,8 +318,10 @@ class SquareFragment : RecyclerFragment() {
         if(flowerEvent.getmSquare()!=null){
             var index = mSquares.indexOf(flowerEvent.getmSquare())
             if(mSquares!=null&&mSquares.size>index){
-                mSquares.get(index).iFlowerCount = flowerEvent.getmSquare().iFlowerCount
-                mSquares.get(index).iIsSendFlower = 1
+//                mSquares.get(index).iFlowerCount = flowerEvent.getmSquare().iFlowerCount
+//                mSquares.get(index).iIsSendFlower = 1
+
+                mSquares.get(index).iLovePoint = flowerEvent.getmSquare().iLovePoint
                 squareAdapter.notifyDataSetChanged()
             }
         }

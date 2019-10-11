@@ -80,6 +80,7 @@ class SendLoveHeartDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var id =  arguments.getString("userId")
+        var ToFromType = arguments.getInt("ToFromType",0)
 
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
@@ -112,16 +113,25 @@ class SendLoveHeartDialog : DialogFragment() {
 
         mBuyRedHeartAdapter?.setOnItemClickListener() { adapter, view, position ->
             mBuyRedHeartAdapter?.let {
-                //                     if(it.selectedIndex == position){
-//                         it.selectedIndex= -1
-//                     }else{
-//                         it.selectedIndex = position
-//                         mFlowerCount = it.data.get(position).iLoveCount
-//                     }
-//                     it.notifyDataSetChanged()
                 mSendLoveHeartCount = it.data.get(position).iLoveCount
-                dialogListener?.onClick(mSendLoveHeartCount!!.toInt(), "")
-                dismissAllowingStateLoss()
+                if(ToFromType!=1){
+                    mSendLoveHeartCount = it.data.get(position).iLoveCount
+                    dialogListener?.onClick(mSendLoveHeartCount!!.toInt(), "")
+                    dismissAllowingStateLoss()
+                }else{
+                    isBaseActivity {
+                        Request.sendLovePoint(getLoginToken(), "${id}", mSendLoveHeartCount!!.toInt(), 4,"").request(it, false, success = { _, data ->
+                            Log.i("GiftControl", "礼物数量${mSendLoveHeartCount}")
+                            dismissAllowingStateLoss()
+                        }) { code, msg ->
+                            if (code == 2||code==3) {
+                                var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                                mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
+                                dismissAllowingStateLoss()
+                            }
+                        }
+                    }
+                }
             }
         }
         getUserInfo(id)

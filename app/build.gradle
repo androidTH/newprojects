@@ -22,6 +22,7 @@ android {
             abiFilters "armeabi" //"armeabi"//'arm64-v8a'//'x86', 'x86_64', 'mips', 'mips64'
         }
 
+//        resConfigs("zh-rCN")
     }
 
     signingConfigs {

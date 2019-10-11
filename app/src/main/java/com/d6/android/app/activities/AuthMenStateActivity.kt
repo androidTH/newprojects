@@ -112,7 +112,9 @@ class AuthMenStateActivity : BaseActivity() {
         }
 
         ll_openmemeber.setOnClickListener {
-            startActivity<OpenMemberShipActivity>("list" to mMemberPriceList)
+            if(!isFastClick()){
+                startActivity<OpenMemberShipActivity>("list" to mMemberPriceList)
+            }
 //            if(mMemberPriceList.size!=0){
 //            var member = mMemberPriceList.get(rv_viptypes.currentItem)
 //            if(member.ids!=22&&member.ids!=23&&member.ids!=31){

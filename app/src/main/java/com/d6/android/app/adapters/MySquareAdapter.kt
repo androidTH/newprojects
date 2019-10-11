@@ -105,7 +105,11 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 //                }
 //            }
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->
-
+                mData?.let {
+                    var index = it.indexOf(square)
+                    it.get(index).iLovePoint = lovePoint+square.iLovePoint!!.toInt()
+                    notifyItemChanged(index+1,"dddsasdf")
+                }
             }){code,msg->
                 if (code == 2) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()

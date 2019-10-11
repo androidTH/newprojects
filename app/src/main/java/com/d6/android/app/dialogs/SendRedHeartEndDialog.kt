@@ -57,7 +57,7 @@ class SendRedHeartEndDialog : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tv_redheart_contact.setOnClickListener {
+        rl_buy.setOnClickListener {
             isBaseActivity {
 //                chatService(it)
                 startActivity<MyPointsActivity>()

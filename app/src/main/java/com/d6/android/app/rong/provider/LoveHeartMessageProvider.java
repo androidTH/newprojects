@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
-import com.d6.android.app.rong.bean.CustomMessage;
 import com.d6.android.app.rong.bean.LoveHeartMessage;
 
 import org.json.JSONException;
@@ -38,8 +37,8 @@ import io.rong.imlib.model.UserInfo;
  */
 
 @ProviderTag(messageContent = LoveHeartMessage.class, showReadState = true)
-public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProvider<CustomMessage>{
-    private static final String TAG = "CustomMessageProvider";
+public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProvider<LoveHeartMessage>{
+    private static final String TAG = "LoveHeartMessageProvider";
 
     private static class ViewHolder {
         TextView mTvMsgContent;
@@ -63,7 +62,7 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
     }
 
     @Override
-    public Spannable getContentSummary(CustomMessage data) {
+    public Spannable getContentSummary(LoveHeartMessage data) {
         if (data == null)
             return null;
 
@@ -78,14 +77,14 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
     }
 
     @Override
-    public void onItemClick(View view, int position, CustomMessage content, UIMessage message) {
+    public void onItemClick(View view, int position, LoveHeartMessage content, UIMessage message) {
         Intent intent = new Intent();
         intent.setAction("com.d6.android.app.activities.MyPointsActivity");
         view.getContext().startActivity(intent);
     }
 
     @Override
-    public void onItemLongClick(final View view, int position, final CustomMessage content, final UIMessage message) {
+    public void onItemLongClick(final View view, int position, final LoveHeartMessage content, final UIMessage message) {
 
         LoveHeartMessageProvider.ViewHolder holder = (LoveHeartMessageProvider.ViewHolder) view.getTag();
         holder.longClick = true;
@@ -129,7 +128,7 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                 if (which == 0) {
                     @SuppressWarnings("deprecation")
                     ClipboardManager clipboard = (ClipboardManager) view.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    clipboard.setText(((CustomMessage) content).getContent());
+                    clipboard.setText(((LoveHeartMessage) content).getContent());
                 } else if (which == 1) {
                     RongIM.getInstance().deleteMessages(new int[] {message.getMessageId()}, null);
                 } else if (which == 2) {
@@ -140,7 +139,7 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
     }
 
     @Override
-    public void bindView(final View v, int position, final CustomMessage content, final UIMessage data) {
+    public void bindView(final View v, int position, final LoveHeartMessage content, final UIMessage data) {
         LoveHeartMessageProvider.ViewHolder holder = (LoveHeartMessageProvider.ViewHolder) v.getTag();
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             holder.mLl_LoveHeart_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
