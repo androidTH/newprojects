@@ -18,6 +18,7 @@ import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
@@ -94,6 +95,18 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //                   sendFlowerAction?.onSendFlowerClicker(it)
 //               }
             addGiftNums(1,false,false)
+        }
+
+        tv_redflower.setOnLongClickListener {
+            square?.let {
+                var mSendLoveHeartDialog = SendLoveHeartDialog()
+                mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                mSendLoveHeartDialog.setDialogListener { p, s ->
+                    addGiftNums(p, false, true)
+                }
+                mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
+            }
+            true
         }
 
         rl_play_audio.setOnClickListener {

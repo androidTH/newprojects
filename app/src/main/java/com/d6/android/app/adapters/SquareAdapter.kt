@@ -71,12 +71,11 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
         }
 
         trendView.sendFlowerClick { square, lovePoint ->
-//            trendView.addGiftNums(1,false,false)
+            //            trendView.addGiftNums(1,false,false)
 //            trendView.doLoveHeartAnimation()
 //            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
 //            dialogSendRedFlowerDialog.arguments= bundleOf("ToFromType" to 2,"userId" to it.userid.toString(),"square" to it)
 //            dialogSendRedFlowerDialog.show((context as BaseActivity).supportFragmentManager,"sendflower")
-
             sendLoveHeart(square,lovePoint)
         }
 
@@ -99,11 +98,9 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
                 notifyDataSetChanged()
 //                EventBus.getDefault().post(FlowerMsgEvent(lovePoint,square))
             }){code,msg->
-                if (code == 2) {
+                if (code == 2||code==3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
-                } else if (code == 3) {
-
                 }
             }
         }

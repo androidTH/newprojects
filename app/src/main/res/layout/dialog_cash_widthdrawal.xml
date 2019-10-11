@@ -120,7 +120,7 @@
             android:layout_marginTop="@dimen/margin_15"
             android:background="@drawable/shape_6r_ef"
             android:hint="请输入提现金额"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:paddingLeft="@dimen/margin_8"
             android:paddingRight="@dimen/margin_10"
             android:textColor="@color/color_333333"
@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_20"
-            android:text="提现将收取20%的手续费，最低提现金额20元"
+            android:text="提现将收取20%的手续费，最低提现金额0元"
             android:textColor="@color/color_888888"
             android:layout_marginLeft="@dimen/margin_10"
             android:textSize="12sp" />

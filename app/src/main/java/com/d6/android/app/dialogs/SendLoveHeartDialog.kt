@@ -78,9 +78,14 @@ class SendLoveHeartDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        var id =  arguments.getString("userId")
-        var ToFromType = arguments.getInt("ToFromType",0)
+        var id =  ""
+        var ToFromType = 0
+        try{
+            id =  arguments.getString("userId")
+            ToFromType = arguments.getInt("ToFromType",0)
+        }catch(e:Exception){
+            e.printStackTrace()
+        }
 
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
@@ -175,7 +180,6 @@ class SendLoveHeartDialog : DialogFragment() {
             data?.let {
                 iv_redheart_headView.setImageURI(it.picUrl)
                 tv_redheart_name.text = it.name
-                tv_redheart_count.text = "剩余${it.iLovePoint}"
             }
         })
 

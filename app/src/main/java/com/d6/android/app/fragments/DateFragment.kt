@@ -415,7 +415,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         scrollPosition = mRecyclerView.currentItem
         if (mDates.size > scrollPosition) {
             var findDate = mDates.get(scrollPosition)
-            Request.sendLovePoint(getLoginToken(), "${findDate.accountId}", giftCount, 2,"").request(this, true, success = { _, data ->
+            Request.sendLovePoint(getLoginToken(), "${findDate.accountId}", giftCount, 2,"").request(this, false, success = { _, data ->
                 Log.i("GiftControl", "礼物数量${giftCount}")
             }) { code, msg ->
                 if (code == 2||code == 3) {

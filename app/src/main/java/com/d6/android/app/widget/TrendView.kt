@@ -20,6 +20,7 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
@@ -114,6 +115,18 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                     square?.let {
                         addGiftNums(1,false,false)
                     }
+                }
+
+                tv_redflower.setOnLongClickListener {
+                    square?.let {
+                        var mSendLoveHeartDialog = SendLoveHeartDialog()
+                        mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                        mSendLoveHeartDialog.setDialogListener { p, s ->
+                            addGiftNums(p, false,true)
+                        }
+                        mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
+                    }
+                    true
                 }
 
                 rl_play_audio.setOnClickListener {
@@ -445,6 +458,9 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             override fun onSendFlowerClick(square: Square,lovePoint:Int) {
                 flowerAction(square,lovePoint)
             }
+//            override fun onSendLoveLongClick(square: Square, lovePoint: Int) {
+//                loveHeartAction(square,lovePoint)
+//            }
         }
     }
 
@@ -498,6 +514,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     interface SendFlowerClickListener{
         fun onSendFlowerClick(square: Square,lovePoint:Int)
+//        fun onSendLoveLongClick(square: Square,lovePoint:Int)
     }
 
     interface PraiseClickListener{

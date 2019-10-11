@@ -63,9 +63,9 @@ import kotlin.collections.ArrayList
 class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayoutChangeListener {
 
     private var TAG = "ChatActivity"
-    public var sendCount: Int = 0
-    public var SendMsgTotal:Int = 3
-    public var sAppointmentSignupId:String = ""
+    var sendCount: Int = 0
+    var SendMsgTotal:Int = 3
+    var sAppointmentSignupId:String = ""
 
     private var IsAgreeChat:Boolean = true //true 代表需要判断聊天次数 false代表不用判断聊天次数
     private var iType:Int=1 //1、私聊 2、匿名组
@@ -367,7 +367,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     .setHideMode(false)
                     .setCustormAnim(CustormAnim())
             it.setmGiftAnimationEndListener {
-                Request.sendLovePoint(getLoginToken(), "${mOtherUserId}",it, 4,"").request(this, true, success = { _, data ->
+                Request.sendLovePoint(getLoginToken(), "${mOtherUserId}",it, 4,"").request(this, false, success = { _, data ->
                     Log.i("GiftControl", "礼物数量${it}")
                 }) { code, msg ->
                     if (code == 2||code==3) {

@@ -46,7 +46,6 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.activity_user_info_v2.ll_gift_parent
-import kotlinx.android.synthetic.main.fragment_date.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
@@ -1006,7 +1005,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     .setHideMode(false)
                     .setCustormAnim(CustormAnim())
             it.setmGiftAnimationEndListener {
-                Request.sendLovePoint(getLoginToken(),"${id}",it,3,"").request(this,true,success={_,data->
+                Request.sendLovePoint(getLoginToken(),"${id}",it,3,"").request(this,false,success={_,data->
 
                 }){code,msg->
                     if(code==2){
@@ -1037,9 +1036,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     giftModel.setJumpCombo(giftnum)
                 }
                 it.loadGift(giftModel)
-                Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
             }
-            userinfo_loveheart.showAnimationRedHeart(fb_heat_like)
+            userinfo_loveheart.showAnimationRedHeart(null)
         }
     }
 

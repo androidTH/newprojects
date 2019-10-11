@@ -104,11 +104,9 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(this,false,success={_,Data->
                 EventBus.getDefault().post(FlowerMsgEvent(lovePoint))
             }){code,msg->
-                if (code == 2) {
+                if (code == 2||code==3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
-                } else if (code == 3) {
-
                 }
             }
         }

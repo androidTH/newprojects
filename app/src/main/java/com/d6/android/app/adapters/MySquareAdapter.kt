@@ -111,11 +111,9 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                     notifyItemChanged(index+1,"dddsasdf")
                 }
             }){code,msg->
-                if (code == 2) {
+                if (code == 2||code==3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
-                } else if (code == 3) {
-
                 }
             }
         }

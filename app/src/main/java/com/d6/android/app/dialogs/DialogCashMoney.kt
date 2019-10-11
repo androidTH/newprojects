@@ -45,6 +45,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
 
     private var userJson = SPUtils.instance().getString(Const.USERINFO)
     private var mUserInfo = GsonHelper.getGson().fromJson(userJson,UserData::class.java)
+    private var mLoveHeartMoney:Float = 0.0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,17 +88,20 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             cashmoney = "0"
         }
 
-        tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
         tv_redheart_nums.text = "我的 [img src=redheart_small/] : ${cashmoney}（10 [img src=redheart_small/]=1元）"
 
         if(type==2){
-            tv_cashmeny_tips.text = "提现将收取20%的手续费，单次最低提现额度20朵小红花，最高200朵小红花"
+            tv_cashmeny_tips.text = "提现将收取20%的手续费，单次最低提现额度0朵小红花，最高200朵小红花"
             linear_redhearliked.visibility = View.GONE
             tv_redheartliked.visibility = View.VISIBLE
+            mLoveHeartMoney = cashmoney.toFloat()
+            tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
         }else{
-            tv_cashmeny_tips.text = "提现将收取20%的手续费，最低提现金额20元"
+            tv_cashmeny_tips.text = "提现将收取20%的手续费，最低提现金额5元"
             linear_redhearliked.visibility = View.VISIBLE
             tv_redheartliked.visibility = View.GONE
+            mLoveHeartMoney = (cashmoney.toFloat()/10.0).toFloat()
+            tv_cash_money.text = String.format(getString(R.string.string_cash_money),mLoveHeartMoney)
         }
 
         tv_close.setOnClickListener {
@@ -135,12 +139,21 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             if(!TextUtils.isEmpty(mUserInfo.wxname)){
                 var money = et_cash_input.text.toString().trim()
                 if(!TextUtils.isEmpty(money)){
-                    var mCashMoney = money.toInt()
-                    if (mCashMoney <= cashmoney.toFloat()) {
-                        if(mCashMoney>= 20){
-                            doCashMoney(money,type)
+                    var mCashMoney = money.toFloat()
+                    if (mCashMoney <= mLoveHeartMoney) {
+                        if(type==2){
+                            if(mCashMoney> 0){
+                                doCashMoney(money,type)
+                            }else{
+                                showToast("最低提现金额不能小于0元！")
+                            }
                         }else{
-                            showToast("最低提现金额不能小于20元！")
+                            if(mCashMoney>=5){
+                                money = "${(mCashMoney*10).toInt()}"
+                                doCashMoney(money,type)
+                            }else{
+                                showToast("最低提现金额不能小于5元！")
+                            }
                         }
                     } else {
                         showToast("提现金额必须小于可提金额！")

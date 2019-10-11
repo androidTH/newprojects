@@ -570,35 +570,30 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                     tv_release.backgroundResource = R.drawable.shape_10r_orange
                 }
             }else if(requestCode == REQUESTCODE_VIDEO && data != null){
-                VideoPaths = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
-//                VideoPaths = result[0].split(FileUtils.VideoThumbnail)
-                var mBitmap = ThumbnailUtils.createVideoThumbnail(VideoPaths[0],0)
-                if(mBitmap!=null){
-                    mImages.clear()
-                    val image = AddImage("file://${VideoPaths[0]}",2)
-                    image.path = VideoPaths[0]
-                    mImages.add(image)
-                    VideoPaths.add(BitmapUtils.saveImageToFile(mBitmap))
-                    mVideoHeight = mBitmap.height
-                    mVideoWidth = mBitmap.width
-                    mBitmap.recycle()
-                    addAdapter.notifyDataSetChanged()
-                    Log.i("releaseautio","${VideoPaths[1]}视频地址:${VideoPaths[0]},视频的宽：${mVideoWidth},高：${mVideoHeight}")
-                }else{
-                    toast(getString(R.string.video_error_string))
-                }
-//                mImages.clear()
-//                val selectedFilepath = GetPathFromUri.getPath(this, data.data)
-//                Log.i("onActivityResult","视频路径${selectedFilepath}")
-//                if (selectedFilepath != null && "" != selectedFilepath) {
-//                    val image = AddImage("file://${selectedFilepath}",2)
-//                    image.path = selectedFilepath
-//                    mImages.add(image)
-//                }
-                if(mImages.size == 1){
-                    showSoftInput(et_content)
+                try{
+                    VideoPaths = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+                    var mBitmap = ThumbnailUtils.createVideoThumbnail(VideoPaths[0],0)
+                    if(mBitmap!=null){
+                        mImages.clear()
+                        val image = AddImage("file://${VideoPaths[0]}",2)
+                        image.path = VideoPaths[0]
+                        mImages.add(image)
+                        VideoPaths.add(BitmapUtils.saveImageToFile(mBitmap))
+                        mVideoHeight = mBitmap.height
+                        mVideoWidth = mBitmap.width
+                        mBitmap.recycle()
+                        addAdapter.notifyDataSetChanged()
+                        Log.i("releaseautio","${VideoPaths[1]}视频地址:${VideoPaths[0]},视频的宽：${mVideoWidth},高：${mVideoHeight}")
+                    }else{
+                        toast(getString(R.string.video_error_string))
+                    }
+                    if(mImages.size == 1){
+                        showSoftInput(et_content)
 //                    setPanelTitleUI(2)
-                    tv_release.backgroundResource = R.drawable.shape_10r_orange
+                        tv_release.backgroundResource = R.drawable.shape_10r_orange
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
                 }
             }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
                 var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);

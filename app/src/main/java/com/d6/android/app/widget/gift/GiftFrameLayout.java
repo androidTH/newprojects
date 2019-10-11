@@ -49,7 +49,7 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
     /**
      * 礼物展示时间
      */
-    public static final int GIFT_DISMISS_TIME = 3000;
+    public static final int GIFT_DISMISS_TIME = 800;
     private static final int INTERVAL = 299;
     /**
      * 当前动画runnable

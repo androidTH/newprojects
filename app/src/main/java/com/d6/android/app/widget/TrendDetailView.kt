@@ -15,6 +15,7 @@ import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
@@ -79,6 +80,18 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             square?.let {
                 addGiftNums(1,false,false)
             }
+        }
+
+        tv_redflower.setOnLongClickListener {
+            square?.let {
+                var mSendLoveHeartDialog = SendLoveHeartDialog()
+                mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                mSendLoveHeartDialog.setDialogListener { p, s ->
+                    addGiftNums(p, false, true)
+                }
+                mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
+            }
+            true
         }
 
         tv_comment.setOnClickListener {
