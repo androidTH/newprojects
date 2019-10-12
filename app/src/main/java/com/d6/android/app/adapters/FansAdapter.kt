@@ -47,9 +47,12 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
 
         }
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.sPointdesc.isNullOrEmpty()){
+        if(!data.gexingqianming.isNullOrEmpty()){
             tv_userinfo.visibility = View.VISIBLE
-            tv_userinfo.text = data.sPointdesc
+            tv_userinfo.text = data.gexingqianming
+        }else if(!data.ziwojieshao.isNullOrEmpty()){
+            tv_userinfo.text = data.ziwojieshao
+            tv_userinfo.visibility = View.VISIBLE
         }else{
             tv_userinfo.visibility = View.GONE
         }

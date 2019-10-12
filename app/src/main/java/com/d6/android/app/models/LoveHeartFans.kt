@@ -30,7 +30,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
     @SerializedName("iAllLovePoint") var iAllLovePoint:Int = -1
     @SerializedName("userclassesid") var userclassesid:String="" //: "29",
     @SerializedName("nianling") var nianling:String="" //"26",
-    //"gexingqianming": null,
+    @SerializedName("gexingqianming") var gexingqianming:String = ""
     @SerializedName("screen") var screen:String="" //: "1",
     @SerializedName("userclassesname") var userclassesname:String="" //"userclassesname": "优质会员",
     @SerializedName("ziwojieshao") var ziwojieshao:String = ""// "ziwojieshao": "人工客服在线时间早9点－晚1点，官方客服Vx:dkn042"
@@ -46,6 +46,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         sPicUrl = parcel.readString()
         userclassesid = parcel.readString()
         nianling = parcel.readString()
+        gexingqianming = parcel.readString()
         screen = parcel.readString()
         userclassesname = parcel.readString()
         ziwojieshao = parcel.readString()
@@ -66,6 +67,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         parcel.writeString(sPicUrl)
         parcel.writeString(userclassesid)
         parcel.writeString(nianling)
+        parcel.writeString(gexingqianming)
         parcel.writeString(screen)
         parcel.writeString(userclassesname)
         parcel.writeString(ziwojieshao)

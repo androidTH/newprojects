@@ -26,10 +26,6 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
-    private val sex by lazy{
-        SPUtils.instance().getString(Const.User.USER_SEX)
-    }
-
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
         holder.setText(R.id.tv_name,data.sSendUserName)
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
@@ -37,8 +33,11 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
 //        tv_time.text = data.dJointime.toTime("MM.dd")
         headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.sPointdesc.isNullOrEmpty()){
-            tv_userinfo.text = data.sPointdesc
+        if(!data.gexingqianming.isNullOrEmpty()){
+            tv_userinfo.text = data.gexingqianming
+            tv_userinfo.visibility = View.VISIBLE
+        }else if(!data.ziwojieshao.isNullOrEmpty()){
+            tv_userinfo.text = data.ziwojieshao
             tv_userinfo.visibility = View.VISIBLE
         }else{
             tv_userinfo.visibility = View.GONE

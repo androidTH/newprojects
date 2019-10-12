@@ -92,10 +92,12 @@ class PayResultDialog : DialogFragment(),RequestManager {
         if(TextUtils.equals(payResult.toString(), PAY_SUCCESS)){
             iv_payresult_success_icon.imageResource= R.mipmap.intergral_successful_icon
             var pointType = arguments.getString("buyType")
-            if(TextUtils.equals(pointType,"point")){
+            if(TextUtils.equals(pointType,"point")){//0 积分
                 tv_paysuccess_title.textResource = R.string.str_points_pay_success
             }else if(TextUtils.equals(pointType,"memeber")){
                 tv_paysuccess_title.text = getString(R.string.string_memeber_success)
+            }else if(TextUtils.equals(pointType,"3")){ //爱心
+                tv_paysuccess_title.text = getString(R.string.string_lovepoints)
             }
 
             tv_payresult_success_close.setOnClickListener {

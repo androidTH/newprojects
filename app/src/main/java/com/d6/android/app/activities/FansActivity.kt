@@ -118,6 +118,8 @@ class FansActivity : RecyclerActivity() {
 
                     if(it.list?.totalPage==1){
                         mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                    }else{
+                        mSwipeRefreshLayout.setLoadMoreText("上拉加载更多")
                     }
                 }
                 fansAdapter.notifyDataSetChanged()

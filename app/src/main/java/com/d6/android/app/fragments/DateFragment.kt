@@ -157,11 +157,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         fb_heat_like.setOnClickListener {
             activity.LocalUserIsNoAuth() {
                 addGiftNums(1, false,false)
-                if (getIsNotFirstDialog()) {
-                    var mRedHeartGuideDialog = RedHeartGuideDialog()
-                    mRedHeartGuideDialog.show(childFragmentManager, "redheartguideDialog")
-                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), false).apply()
-                }
             }
         }
 
@@ -240,6 +235,12 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
 //                        var mSendRedHeartEndDialog = SendRedHeartEndDialog()
 //                        mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
 //                    }
+                }
+
+                if (getIsNotFirstDialog()) {
+                    var mRedHeartGuideDialog = RedHeartGuideDialog()
+                    mRedHeartGuideDialog.show(childFragmentManager, "redheartguideDialog")
+                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), false).apply()
                 }
             }
         }

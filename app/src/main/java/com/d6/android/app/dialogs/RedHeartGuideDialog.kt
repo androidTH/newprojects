@@ -77,20 +77,25 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
         super.onViewCreated(view, savedInstanceState)
 
         if(TextUtils.equals("0",mUserSex)){
-            mMemberDesc.add(MemberDesc("","资料完成度越高，收到的 [img src=redheart_small/] 越多","res:///"+R.mipmap.poppic_d,R.mipmap.poppic_d))
-            mMemberDesc.add(MemberDesc("","送的越多回复你的概率越高",
-                    "res:///"+R.mipmap.poppic_e,R.mipmap.poppic_e))
-            mMemberDesc.add(MemberDesc("","首次赠送10颗 [img src=redheart_small/] 用完可充值",
-                    "res:///"+R.mipmap.poppic_f,R.mipmap.poppic_f))
-            setShowTips(0, "资料完成度越高，收到的 [img src=redheart_small/] 越多")
-        }else{
-            mMemberDesc.add(MemberDesc("","相互喜欢即可解锁聊天","res:///"+R.mipmap.poppic_a,R.mipmap.poppic_a))
-            mMemberDesc.add(MemberDesc("","收到的 [img src=redheart_small/] 可前往[钱包]中提现",
-                    "res:///"+R.mipmap.poppic_b,R.mipmap.poppic_b))
-            mMemberDesc.add(MemberDesc("","首次赠送10颗 [img src=redheart_small/] 用完可充值",
-                    "res:///"+R.mipmap.poppic_c,R.mipmap.poppic_c))
+            tv_content.text = "随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱。当你收到别人赠送的 [img src=redheart_small/] 后， 记得礼尚往来哦"
 
-            setShowTips(0, "相互喜欢即可解锁聊天")
+            mMemberDesc.add(MemberDesc("随处可见的“点赞党”已经让人厌恶，平台鼓励有价喜欢，一颗 [img src=redheart_small/] =1毛钱。当你收到别人赠送的 [img src=redheart_small/] 后， 记得礼尚往来哦","互相喜欢即可解锁聊天",
+                    "res:///"+R.mipmap.poppic_a,R.mipmap.poppic_a))
+            mMemberDesc.add(MemberDesc("随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐",
+                    "资料完成度越高，收到的 [img src=redheart_small/] 越多",
+                    "res:///"+R.mipmap.poppic_c,R.mipmap.poppic_c))
+            mMemberDesc.add(MemberDesc("随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐","收到的 [img src=redheart_small/] 可前往[钱包]中提现","res:///"+R.mipmap.poppic_b,R.mipmap.poppic_b))
+            setShowTips(0,"随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐","互相喜欢即可解锁聊天")
+        }else{
+            tv_content.text = "随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐"
+
+            mMemberDesc.add(MemberDesc("随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐","互相喜欢即可解锁聊天","res:///"+R.mipmap.poppic_a,R.mipmap.poppic_a))
+            mMemberDesc.add(MemberDesc("随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐","送的越多回复你的概率越高",
+                    "res:///"+R.mipmap.poppic_d,R.mipmap.poppic_d))//收到的 [img src=redheart_small/] 可前往[钱包]中提现
+            mMemberDesc.add(MemberDesc("随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐","首次赠送10颗 [img src=redheart_small/] 用完可充值",
+                    "res:///"+R.mipmap.poppic_f,R.mipmap.poppic_f))
+
+            setShowTips(0,"随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐","互相喜欢即可解锁聊天")
         }
 
         member_banner.setPages(
@@ -106,7 +111,7 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
 
         member_banner.setOnPageChangeListener(object: OnPageChangeListener {
             override fun onPageSelected(index: Int) {
-                var title = mMemberDesc.get(index).title
+                var  mMemberDesc = mMemberDesc.get(index)
                 when(index){
                     0-> {
                         if(tv_numone_member!=null){
@@ -119,7 +124,7 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
                         if(tv_numthree_member!=null){
                             tv_numthree_member.isEnabled = true
                         }
-                        setShowTips(0, title)
+                        setShowTips(0, mMemberDesc.content,mMemberDesc.title)
                     }
                     1->{
                         if(tv_numone_member!=null){
@@ -132,7 +137,7 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
                         if(tv_numthree_member!=null){
                             tv_numthree_member.isEnabled = true
                         }
-                        setShowTips(1,title)
+                        setShowTips(1, mMemberDesc.content,mMemberDesc.title)
                     }
                     2->{
                         if(tv_numone_member!=null){
@@ -146,7 +151,7 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
                             tv_numthree_member.isEnabled = false
                         }
 
-                        setShowTips(2,title)
+                        setShowTips(2, mMemberDesc.content,mMemberDesc.title)
                     }
                 }
             }
@@ -169,13 +174,16 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
         }
     }
 
-    private fun setShowTips(index:Int,content:String){
+    private fun setShowTips(index:Int,content:String,title:String){
         if(index==0){
-            tv_banner_desc.text = "${content}"
+//            tv_content.text = "${content}"
+            tv_banner_desc.text = "${title}"
         }else if(index==1){
-            tv_banner_desc.text = "${content}"
+//            tv_content.text = "${content}"
+            tv_banner_desc.text = "${title}"
         }else if(index==2){
-            tv_banner_desc.text = "${content}"
+//            tv_content.text = "${content}"
+            tv_banner_desc.text = "${title}"
         }
     }
 

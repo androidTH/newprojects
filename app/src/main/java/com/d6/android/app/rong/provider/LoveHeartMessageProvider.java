@@ -8,6 +8,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,12 @@ import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imkit.utilities.OptionsPopupDialog;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
+
+import static com.d6.android.app.utils.UtilKt.getLocalUserId;
 
 /**
  * Created by Beyond on 2016/12/5.
@@ -65,8 +69,8 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
     public Spannable getContentSummary(LoveHeartMessage data) {
         if (data == null)
             return null;
-
         String content = data.getContent();
+//        Log.i("loveHeartMessage",getLocalUserId()+"sendUserId=");
         if (content != null) {
             if (content.length() > 100) {
                 content = content.substring(0, 100);
@@ -74,6 +78,11 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
             return new SpannableString(AndroidEmoji.ensure(content));
         }
         return null;
+    }
+
+    @Override
+    public Spannable getSummary(UIMessage data) {
+        return super.getSummary(data);
     }
 
     @Override
@@ -154,26 +163,31 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                     holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
 //                  strDir=userInfo.getName()+"给你分享了一条动态";
-                    textView.setText("你给"+receivename+"打赏了"+nums+"爱心");
+                    textView.setText("你给"+receivename+"打赏了"+nums+"颗爱心");
                 } catch (JSONException e) {
                     e.printStackTrace();
                     UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                    textView.setText("你给"+userInfo.getName()+"打赏了"+nums+"爱心");
+                    textView.setText("你给"+userInfo.getName()+"打赏了"+nums+"颗爱心");
                     holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
                 }
             }
         } else {
             holder.mLl_LoveHeart_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
             TextView textView = holder.mTvMsgContent;
-            textView.setText(content.getContent());
+            String num = "1";
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
-                    String num = jsonObject.getString("nums");
+                    num = jsonObject.getString("nums");
+                    String sendusername = jsonObject.getString("sendusername");
+                    textView.setText(sendusername+"给你打赏了"+num+"颗爱心");
                     holder.mTvReceivedLoveHeartNums.setText(num);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+                textView.setText(userInfo.getName()+"给你打赏了"+num+"颗爱心");
+                holder.mTvReceivedLoveHeartNums.setText(num);
             }
         }
     }

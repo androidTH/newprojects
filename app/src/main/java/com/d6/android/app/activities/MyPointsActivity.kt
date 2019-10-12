@@ -386,7 +386,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?,orderId:String) {
                 if(!TextUtils.isEmpty(orderId)){
-                    getOrderStatus(orderId)
+                    getOrderStatus(orderId,buyType)
                 }
             }
 
@@ -404,7 +404,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     /**
      * 获取支付状态
      */
-    private fun getOrderStatus(orderId:String){
+    private fun getOrderStatus(orderId:String,buyType:Int){
         Request.getOrderById(orderId).request(this,false,success={msg,data->
             if(IsNotNullPointsListDialog()){
                 mPointsListDialog.dismissAllowingStateLoss()
@@ -416,7 +416,11 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
             getUserInfo()
             var payResultDialog = PayResultDialog()
-            payResultDialog.arguments = bundleOf("buyType" to "points" ,"payresult" to "wx_pay_success")
+            if(buyType==0){
+                payResultDialog.arguments = bundleOf("buyType" to "points" ,"payresult" to "wx_pay_success")
+            }else{
+                payResultDialog.arguments = bundleOf("buyType" to "${buyType}" ,"payresult" to "wx_pay_success")
+            }
             payResultDialog.show(supportFragmentManager, "fd")
         }){code,msg->
             showToast(msg)

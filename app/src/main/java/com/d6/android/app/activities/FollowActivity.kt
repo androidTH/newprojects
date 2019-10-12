@@ -64,6 +64,8 @@ class FollowActivity : RecyclerActivity() {
                 data.list?.results?.let { mMessages.addAll(it) }
                 if(data.list?.totalPage==1){
                     mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                }else {
+                    mSwipeRefreshLayout.setLoadMoreText("上拉加载更多")
                 }
             }
             followAdapter.notifyDataSetChanged()

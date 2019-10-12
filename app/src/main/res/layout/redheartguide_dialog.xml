@@ -61,14 +61,16 @@
                 android:layout_marginBottom="@dimen/margin_13"
                 android:background="@color/color_1A000000" />
             <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginRight="@dimen/margin_5"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
                 android:lineSpacingExtra="@dimen/margin_5"
-                android:text="随处可见的“点赞党”已经让人厌恶，请让对方看到你的真心实意，送出你的小心，一颗 [img src=redheart_small/] =1毛钱，容易获得对方的青睐"
+                android:text=""
                 android:textColor="@color/color_black"
                 android:textSize="15sp"
+                android:gravity="center"
                 app:imageSize="0dp"
                 app:imageAlignment="center"/>
         </LinearLayout>
@@ -77,8 +79,8 @@
             android:layout_below="@+id/ll_content"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:layout_marginLeft="@dimen/margin_25"
-            android:layout_marginRight="@dimen/margin_25"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:layout_marginRight="@dimen/margin_20"
             banner:autoTurningTime="3000"
             banner:canLoop="true" />
 

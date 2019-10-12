@@ -152,4 +152,5 @@
     <string name="video_error_string">视频选择错误</string>
     <string name="string_area_city">地区</string>
     <string name="string_service_desc">以高质量的服务为核心宗旨</string>
+    <string name="string_lovepoints">爱心充值成功</string>
 </resources>

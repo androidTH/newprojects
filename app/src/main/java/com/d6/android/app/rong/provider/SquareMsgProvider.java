@@ -144,7 +144,7 @@ public class SquareMsgProvider extends IContainerItemProvider.MessageProvider<Sq
                     holder.mTvDynamicVip.setVisibility(View.GONE);
                 }
 
-                holder.mTvDynamicRedflower.setText(String.valueOf(mSquareMsg.getIFlowerCount()));
+                holder.mTvDynamicRedflower.setText(String.valueOf(mSquareMsg.getILovePoint()));//getIFlowerCount()
                 holder.mTvDynamicAppraise.setText(String.valueOf(mSquareMsg.getAppraiseCount()));
                 holder.mTvDynamicComment.setText(String.valueOf(mSquareMsg.getCommentCount()));
 
