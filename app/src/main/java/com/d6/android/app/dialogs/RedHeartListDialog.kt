@@ -59,7 +59,7 @@ class RedHeartListDialog : DialogFragment(),RequestManager {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout(matchParent, resources.getDimensionPixelSize(R.dimen.height_300))
+        dialog.window.setLayout(matchParent, resources.getDimensionPixelSize(R.dimen.height_250))
         dialog.window.setGravity(Gravity.BOTTOM)
         dialog.setCanceledOnTouchOutside(true)
     }

@@ -18,6 +18,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLoginToken
+import com.d6.android.app.utils.isAuthUser
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.header_receiverliked.view.*
 import org.jetbrains.anko.bundleOf
@@ -54,7 +55,9 @@ class FansActivity : RecyclerActivity() {
                 val id = mMessages[position].iSenduserid
                 startActivity<UserInfoActivity>("id" to id.toString())
             }else{
-                DoSeeUserInfo(fans)
+                isAuthUser() {
+                    DoSeeUserInfo(fans)
+                }
             }
         }
 
@@ -64,7 +67,9 @@ class FansActivity : RecyclerActivity() {
                 val id = mHeaderFans[position].iSenduserid
                 startActivity<UserInfoActivity>("id" to id.toString())
             }else{
-                DoSeeUserInfo(fans)
+                isAuthUser(){
+                    DoSeeUserInfo(fans)
+                }
             }
         }
         fansAdapter.setHeaderView(mHeaderView)
@@ -92,7 +97,7 @@ class FansActivity : RecyclerActivity() {
                 if (pageNum == 1) {
                     mMessages.clear()
                     mHeaderFans.clear()
-                    mHeaderView.tv_receivedliked_nums.text = "${it.iAllReceiveLovePoint}"
+                    mHeaderView.tv_receivedliked_nums.text = "累计收到 ${it.iAllReceiveLovePoint} [img src=redheart_small/]，相互喜欢即可解锁聊天"
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
                     if (pageNum > 1) {
@@ -130,7 +135,6 @@ class FansActivity : RecyclerActivity() {
     private fun DoSeeUserInfo(loveHeartFans:LoveHeartFans){
         Request.getLovePointQueryAuth(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
             startActivity<UserInfoActivity>("id" to "${loveHeartFans.iSenduserid}")
-
         }){code,msg->
             if(code==2){
                 if(msg.isNotEmpty()){

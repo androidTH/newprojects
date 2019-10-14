@@ -69,7 +69,7 @@ public class GiftFrameLayout extends FrameLayout implements Handler.Callback {
     /**
      * 礼物连击数
      */
-    private int mGiftCount;
+    private int mGiftCount=0;
     /**
      * 当前播放连击数
      */

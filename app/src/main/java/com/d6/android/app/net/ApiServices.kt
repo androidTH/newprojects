@@ -210,7 +210,7 @@ interface ApiServices {
     fun getDelFollow(@Query("userid") userid:String,@Query("followuserid") followuserid:String?,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //查询我的关注,粉丝访客个数
-    @POST("backstage/statistic/find")
+    @POST("backstage/statistic/find")//statistic
     fun getUserFollowAndFansandVistor(@Query("userid") userid:String?,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<FollowFansVistor>>
 
     @POST("backstage/follow/findMyFans")
@@ -534,11 +534,11 @@ interface ApiServices {
 
     //查询我发送的爱心列表
     @POST("backstage/userloverule/findSendLoveList")
-    fun findSendLoveList(@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
+    fun findSendLoveList(@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 20,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
 
     //查询收到的爱心列表
     @POST("backstage/userloverule/findReceiveLoveList")
-    fun findReceiveLoveList(@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
+    fun findReceiveLoveList(@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 20,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
 
     //查询打码用户资料需要支付的积分数量
     @POST("backstage/userloverule/getLovePointQueryAuth")
@@ -547,4 +547,5 @@ interface ApiServices {
     //支付积分查看打码用户
     @POST("backstage/userloverule/loveUserQueryPayPoint")
     fun loveUserQueryPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+
 }

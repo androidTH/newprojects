@@ -58,6 +58,7 @@ class SendLoveHeartDialog : DialogFragment() {
     private var mBuyRedHeartAdapter: BuyRedHeartAdapter?=null
     private var mToFromType = 0//1 动态详情页送小红花 2 动态列表送小红花 3 聊天输入框扩展框 4 个人信息页动态送小红花 5 申请私聊送小红花
     private var mSendLoveHeartCount:Int? = -1
+    private var mLocalUserLoveHeartCount:Int? = -1
     private var mSquare:Square? = null
     private var mLoveHeartList=ArrayList<LoveHeartRule>()
 
@@ -118,11 +119,23 @@ class SendLoveHeartDialog : DialogFragment() {
 
         mBuyRedHeartAdapter?.setOnItemClickListener() { adapter, view, position ->
             mBuyRedHeartAdapter?.let {
-                mSendLoveHeartCount = it.data.get(position).iLoveCount
+                if(it.selectedIndex == position){
+                    it.selectedIndex= -1
+                }else{
+                    it.selectedIndex = position
+                    mSendLoveHeartCount = it.data.get(position).iLoveCount
+                }
+                it.notifyDataSetChanged()
                 if(ToFromType!=1){
                     mSendLoveHeartCount = it.data.get(position).iLoveCount
-                    dialogListener?.onClick(mSendLoveHeartCount!!.toInt(), "")
-                    dismissAllowingStateLoss()
+                    mSendLoveHeartCount?.let {
+                        if(it<=mLocalUserLoveHeartCount!!.toInt()){
+                            dialogListener?.onClick(it, "")
+                            dismissAllowingStateLoss()
+                        }else{
+                            ll_user_lovepoint.visibility = View.VISIBLE
+                        }
+                    }
                 }else{
                     isBaseActivity {
                         Request.sendLovePoint(getLoginToken(), "${id}", mSendLoveHeartCount!!.toInt(), 4,"").request(it, false, success = { _, data ->
@@ -185,7 +198,9 @@ class SendLoveHeartDialog : DialogFragment() {
 
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-                tv_redheart_count.text = "剩余${it.iLovePoint}"
+                mLocalUserLoveHeartCount = it.iLovePoint
+                tv_redheart_count.text = "剩余${mLocalUserLoveHeartCount}"
+
             }
         })
     }

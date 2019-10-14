@@ -69,6 +69,8 @@
 
     <!--<uses-sdk tools:overrideLibrary="com.shuyu.gsyvideoplayer,com.shuyu.gsyvideoplayer.armv5,com.shuyu.gsy.base,shuyu.com.androidvideocache"/>-->
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:name=".application.D6Application"
         android:allowBackup="true"

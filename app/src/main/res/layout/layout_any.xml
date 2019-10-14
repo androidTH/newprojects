@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:background="@color/trans_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/square_gift_parent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"/>
+    <com.d6.android.app.widget.LoveHeart
+        android:id="@+id/square_loveheart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

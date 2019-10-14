@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.activities.FilterSquaresActivity
@@ -21,6 +22,7 @@ import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.SendLoveHeartDialog
+import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
@@ -32,6 +34,10 @@ import com.d6.android.app.widget.frescohelper.IResult
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
+import com.d6.android.app.widget.popup.EasyPopup
+import com.d6.android.app.widget.popup.XGravity
+import com.d6.android.app.widget.popup.YGravity
+import com.d6.android.app.widget.popup.mLoveHeartPopu
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
 import org.jetbrains.anko.*
@@ -45,6 +51,8 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     private var square: Square? = null
     private val mImages = ArrayList<String>()
+//    private var localLoveHeartNums =
+    private var sendLoveHeartNums = 1
 
     private val imageAdapter by lazy {
         SquareImageAdapter(mImages,1)
@@ -110,21 +118,43 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                     }
                 }
 
-
                 tv_redflower.setOnClickListener {
-                    square?.let {
-                        addGiftNums(1,false,false)
+                    (context as BaseActivity).isAuthUser() {
+                        if(getLocalUserLoveHeart()>0){
+                            if(sendLoveHeartNums <= getLocalUserLoveHeart()){
+                                sendLoveHeartNums = sendLoveHeartNums+1
+                                addGiftNums(1, false, false)
+                                VibrateHelp.Vibrate((context as BaseActivity), VibrateHelp.time50)
+                            }else{
+                                var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                                mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                            }
+                        }else{
+                            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                            mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                        }
+//                        var view = it
+//                        mAbovePop?.let {
+//                            if (!it.isShowing) {
+//                                it.addGiftNums(1, false, false)
+//                                it.showAtAnchorView(view, YGravity.ABOVE, XGravity.CENTER)
+//                            } else {
+//                                it.addGiftNums(1, false, false)
+//                            }
+//                        }
                     }
                 }
 
                 tv_redflower.setOnLongClickListener {
-                    square?.let {
-                        var mSendLoveHeartDialog = SendLoveHeartDialog()
-                        mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
-                        mSendLoveHeartDialog.setDialogListener { p, s ->
-                            addGiftNums(p, false,true)
+                    (context as BaseActivity).isAuthUser(){
+                        square?.let {
+                            var mSendLoveHeartDialog = SendLoveHeartDialog()
+                            mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                            mSendLoveHeartDialog.setDialogListener { p, s ->
+                                addGiftNums(p, false,true)
+                            }
+                            mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
                         }
-                        mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
                     }
                     true
                 }
@@ -356,7 +386,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
 
         //iIsSendFlower 大于0送过花，等于0没送过
-        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) == 0) {
             true
         } else {
             false
@@ -386,6 +416,28 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
         commentAdapter.setSquareUserId(square.userid.toString(),1)
         commentAdapter.notifyDataSetChanged()
+//        aa()
+    }
+
+    private var mAbovePop: mLoveHeartPopu? = null
+    private fun aa(){
+//        mAbovePop = EasyPopup.create()
+//                .setContentView(context, R.layout.layout_any)
+//                .setFocusAndOutsideEnable(true)
+//                .setOnDismissListener(PopupWindow.OnDismissListener {
+//
+//                })
+//                .setOnViewListener { view, popup ->
+//
+//                }
+//                .apply()
+
+        mAbovePop = mLoveHeartPopu.create(context)
+                .setFocusAndOutsideEnable(true)
+                .setOnDismissListener(PopupWindow.OnDismissListener {
+
+                })
+                .apply()
     }
 
     //礼物
@@ -403,6 +455,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                     square?.let {
                         SendFlowerAction?.onSendFlowerClick(it,lovePoint)
                     }
+                    sendLoveHeartNums = 1
                 }
             }
         }

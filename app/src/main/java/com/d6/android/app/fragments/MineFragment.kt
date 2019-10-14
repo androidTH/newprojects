@@ -305,11 +305,11 @@ class MineFragment : BaseFragment() {
                 }
 
 //                SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()
-                AppUtils.setUserWallet( context,"积分 ${it.iPoint.toString()}",0 ,2 ,tv_points)
-                AppUtils.setUserWallet( context,"爱心 ${it.iLovePoint}",0 ,3 ,tv_redflowernums)
+                AppUtils.setUserWallet(context,"积分 ${it.iPoint.toString()}",0 ,2 ,tv_points)
+                AppUtils.setUserWallet(context,"喜欢 ${it.iLovePoint}",0 ,3 ,tv_redflowernums)
 
-                tv_fans_count.text = "${data.iReceiveLovePoint}"
-                tv_follow_count.text = "${data.iSendLovePoint}"
+                tv_fans_count.text = "${data.iReceiveLovePoint} [img src=redheart_small/]"
+                tv_follow_count.text = "${data.iSendLovePoint} [img src=redheart_small/]"
 
                 if(TextUtils.equals(getLocalUserId(), Const.CustomerServiceId)||TextUtils.equals(getLocalUserId(), Const.CustomerServiceWomenId)){
                     img_auther.visibility = View.GONE
@@ -456,12 +456,18 @@ class MineFragment : BaseFragment() {
     //关注粉丝访客
     fun getUserFollowAndFansandVistor() {
         Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this, success = { s: String?, data: FollowFansVistor? ->
-            // toast("$s,${data?.iFansCount},${data?.iFansCountAll},${data?.iUserid}")
             data?.let {
 //                tv_fans_count.text = data.iFansCountAll.toString()
 //                tv_follow_count.text = data.iFollowCount.toString()
-                tv_vistor_count.text = "${data.iVistorCountAll}"
-                showLikeWarm(false,data.iFansCount!!.toInt(),it.iPointNew!!.toInt(),data.iVistorCount!!.toInt())
+//                showLikeWarm(false,0,it.iPointNew!!.toInt(),data.iVistorCount!!.toInt())
+                var point = it.iPointNew!!.toInt()
+                var iVistorCount = it.iVistorCount!!.toInt()
+                Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this,false,success= { msg, data ->
+                    data?.let {
+                        tv_vistor_count.text = "${data.iReceiveNewLovePoint}"
+                        showLikeWarm(false,data.iReceiveNewLovePoint,point,iVistorCount)
+                    }
+                })
             }
         })
     }

@@ -89,6 +89,7 @@
             android:textColor="@color/color_999999"
             android:textSize="@dimen/textSize"
             android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/ll_bottom"
             android:layout_width="wrap_content"
@@ -137,6 +138,21 @@
                 android:src="@mipmap/toright_button" />
 
         </LinearLayout>
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/popwindow_bg"
+            android:layout_above="@+id/ll_bottom"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="40dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/margin_10"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="-25dp"
+            android:visibility="gone"
+            android:id="@+id/tv_redheart_guide"/>
     </RelativeLayout>
 
     <ImageView

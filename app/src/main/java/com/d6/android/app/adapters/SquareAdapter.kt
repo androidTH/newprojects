@@ -93,15 +93,26 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
 
     private fun sendLoveHeart(square:Square,lovePoint:Int){
         isBaseActivity {
+            square.iLovePoint = lovePoint+square.iLovePoint!!.toInt()
+            square.iSendLovePoint = 0
+            notifyDataSetChanged()
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->
-                square.iLovePoint = lovePoint+square.iLovePoint!!.toInt()
-                notifyDataSetChanged()
+//                square.iLovePoint = lovePoint+square.iLovePoint!!.toInt() 2.11
+//                notifyDataSetChanged()   2.11
 //                EventBus.getDefault().post(FlowerMsgEvent(lovePoint,square))
+                Request.getUserInfo("", getLocalUserId()).request(it,false,success = { _, data ->
+                    data?.let {
+                        SPUtils.instance().put(Const.User.USERLOVE_NUMS,it.iLovePoint).apply()
+                    }
+                })
             }){code,msg->
                 if (code == 2||code==3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
                 }
+                square.iLovePoint = square.iLovePoint!!.toInt()-lovePoint
+                square.iSendLovePoint = -1
+                notifyDataSetChanged()
             }
         }
     }

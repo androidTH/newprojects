@@ -16,6 +16,7 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.SendLoveHeartDialog
+import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
@@ -44,6 +45,10 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
     private val imageAdapter by lazy {
         SquareImageAdapter(mImages,1)
     }
+
+    private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
+    private var sendLoveHeartNums = 1
+
     init {
         LayoutInflater.from(context).inflate(R.layout.view_trend_detail_view, this, true)
 
@@ -77,19 +82,33 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }
 
         tv_redflower.setOnClickListener {
-            square?.let {
-                addGiftNums(1,false,false)
+            (context as BaseActivity).isAuthUser(){
+                if(localLoveHeartNums>0){
+                    if(sendLoveHeartNums <= localLoveHeartNums){
+                        sendLoveHeartNums = sendLoveHeartNums+1
+                        addGiftNums(1,false,false)
+                        VibrateHelp.Vibrate((context as BaseActivity),VibrateHelp.time50)
+                    }else{
+                        var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                        mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                    }
+                }else{
+                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                    mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                }
             }
         }
 
         tv_redflower.setOnLongClickListener {
-            square?.let {
-                var mSendLoveHeartDialog = SendLoveHeartDialog()
-                mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
-                mSendLoveHeartDialog.setDialogListener { p, s ->
-                    addGiftNums(p, false, true)
+            (context as BaseActivity).isAuthUser(){
+                square?.let {
+                    var mSendLoveHeartDialog = SendLoveHeartDialog()
+                    mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                    mSendLoveHeartDialog.setDialogListener { p, s ->
+                        addGiftNums(p, false, true)
+                    }
+                    mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
                 }
-                mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
             }
             true
         }
@@ -286,7 +305,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             ""
         }
 
-        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) == 0) {
             true
         } else {
             false
@@ -308,6 +327,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                     square?.let {
                         sendFlowerClick?.onSendFlowerClick(it,lovePoint)
                     }
+                    localLoveHeartNums = localLoveHeartNums - lovePoint
+                    if(localLoveHeartNums<=0){
+                        localLoveHeartNums=0
+                    }
+                    sendLoveHeartNums = 1
 //                    var squareId = square?.let {
 //                        it.id
 //                    }
@@ -350,11 +374,11 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 //        }else{
 //            ""
 //        }
-//        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
-//            true
-//        } else {
-//            false
-//        }
+        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) == 0) {
+            true
+        } else {
+            false
+        }
 
         tv_redflower.text = if((square.iLovePoint?:0)>0){
             "${square.iLovePoint}"

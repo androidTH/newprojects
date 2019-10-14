@@ -14,6 +14,8 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
+import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.widget.CustomToast
@@ -104,13 +106,28 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 //                    notifyItemChanged(index+1)
 //                }
 //            }
+            mData?.let {
+                var index = it.indexOf(square)
+                it.get(index).iLovePoint = lovePoint+square.iLovePoint!!.toInt()
+                it.get(index).iSendLovePoint = 0
+                notifyItemChanged(index+1,"dddsasdf")
+            }
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->
+                var activity = it
                 mData?.let {
-                    var index = it.indexOf(square)
-                    it.get(index).iLovePoint = lovePoint+square.iLovePoint!!.toInt()
-                    notifyItemChanged(index+1,"dddsasdf")
+                    Request.getUserInfo("", getLocalUserId()).request(activity,false,success = { _, data ->
+                        data?.let {
+                            SPUtils.instance().put(Const.User.USERLOVE_NUMS,it.iLovePoint).apply()
+                        }
+                    })
                 }
             }){code,msg->
+                mData?.let {
+                    var index = it.indexOf(square)
+                    it.get(index).iLovePoint = square.iLovePoint!!.toInt()-lovePoint
+                    it.get(index).iSendLovePoint = -1
+                    notifyItemChanged(index+1,"dddsasdf")
+                }
                 if (code == 2||code==3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")

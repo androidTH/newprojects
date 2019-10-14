@@ -76,7 +76,7 @@
         android:layout_centerHorizontal="true"
         android:text="x 1"
         android:textColor="@color/color_FF4133"
-        android:textSize="25sp"
+        android:textSize="22sp"
         app:innnerColor="@color/color_FF4133"
         app:outerColor="@color/color_FF4133" />
 

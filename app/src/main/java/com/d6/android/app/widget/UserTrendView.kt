@@ -19,6 +19,7 @@ import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.SendLoveHeartDialog
+import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
@@ -40,6 +41,7 @@ import org.jetbrains.anko.find
  */
 class UserTrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
 
+    private var sendLoveHeartNums = 1
     private var square: Square? = null
     private val mImages = ArrayList<String>()
     private val imageAdapter by lazy {
@@ -94,17 +96,33 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //               square?.let {
 //                   sendFlowerAction?.onSendFlowerClicker(it)
 //               }
-            addGiftNums(1,false,false)
+            (context as BaseActivity).isAuthUser(){
+                if(getLocalUserLoveHeart()>0){
+                    if(sendLoveHeartNums <= getLocalUserLoveHeart()){
+                        addGiftNums(1,false,false)
+                        VibrateHelp.Vibrate((context as BaseActivity),VibrateHelp.time50)
+                    }else{
+                        var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                        mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                    }
+                }else{
+                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                    mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                }
+
+            }
         }
 
         tv_redflower.setOnLongClickListener {
-            square?.let {
-                var mSendLoveHeartDialog = SendLoveHeartDialog()
-                mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
-                mSendLoveHeartDialog.setDialogListener { p, s ->
-                    addGiftNums(p, false, true)
+            (context as BaseActivity).isAuthUser(){
+                square?.let {
+                    var mSendLoveHeartDialog = SendLoveHeartDialog()
+                    mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                    mSendLoveHeartDialog.setDialogListener { p, s ->
+                        addGiftNums(p, false, true)
+                    }
+                    mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
                 }
-                mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
             }
             true
         }
@@ -290,7 +308,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //            tv_redflower.visibility = View.VISIBLE
 //        }
 
-        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) == 0) {
             true
         } else {
             false
@@ -336,6 +354,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
                     square?.let {
                         sendFlowerAction?.onSendFlowerClicker(it,lovePoint)
                     }
+                    sendLoveHeartNums = 1
                 }
             }
         }

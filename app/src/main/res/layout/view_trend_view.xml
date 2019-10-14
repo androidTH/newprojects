@@ -253,7 +253,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_comments"
-            android:layout_toLeftOf="@+id/tv_appraise"
+            android:layout_toLeftOf="@+id/tv_comment"
             android:layout_marginRight="@dimen/margin_40"
             android:layout_marginTop="@dimen/margin_12"
             android:drawableLeft="@drawable/ic_redflower_selector"
@@ -266,12 +266,27 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/tv_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/ll_comments"
+            android:layout_toLeftOf="@+id/tv_appraise"
+            android:layout_marginTop="@dimen/margin_12"
+            android:drawableLeft="@mipmap/ic_comment"
+            android:layout_marginRight="@dimen/margin_40"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:text="0"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/tv_appraise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_comments"
-            android:layout_toLeftOf="@+id/tv_comment"
-            android:layout_marginRight="@dimen/margin_40"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/margin_15"
             android:drawableLeft="@drawable/ic_praise_selector"
             android:drawablePadding="4dp"
@@ -280,33 +295,20 @@
             android:text="0"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_below="@+id/ll_comments"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/margin_10"
-            android:drawableLeft="@mipmap/ic_comment"
-            android:drawablePadding="4dp"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:text="0"
-            android:textColor="@color/color_888888"
-            android:textSize="12sp" />
         <!--android:layout_toRightOf="@+id/tv_comment"-->
         <LinearLayout
             android:id="@+id/square_gift_parent"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="65dp"
             android:layout_above="@+id/tv_comment"
-            android:layout_marginBottom="@dimen/margin_20"
             android:orientation="vertical"/>
         <com.d6.android.app.widget.LoveHeart
             android:id="@+id/square_loveheart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="-38dp"
             android:layout_above="@+id/tv_comment"  />
     </RelativeLayout>
 </RelativeLayout>

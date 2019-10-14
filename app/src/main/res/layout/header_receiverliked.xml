@@ -14,12 +14,11 @@
             android:layout_height="match_parent"
             android:textColor="@color/color_666666"
             android:gravity="center"
-            android:drawableRight="@mipmap/redheart_small"
             android:drawablePadding="@dimen/margin_6"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:text="累计收到"/>
-        <TextView
+            android:text=""/>
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked_nums"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -27,7 +26,7 @@
             android:gravity="center"
             android:drawablePadding="@dimen/margin_5"
             android:layout_marginLeft="@dimen/margin_6"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:text=""/>
     </LinearLayout>

@@ -45,11 +45,11 @@ public class BuyRedHeartAdapter extends BaseQuickAdapter<LoveHeartRule,BaseViewH
     @Override
     protected void convert(BaseViewHolder helper, LoveHeartRule item) {
          View view = helper.getView(R.id.ll_redheart_item);
-//         if(selectedIndex == helper.getAdapterPosition()){
-//             view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_1stroke_1a));
-//         }else{
-//             view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_white_ef));
-//         }
+         if(selectedIndex == helper.getAdapterPosition()){
+             view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_1stroke_1a));
+         }else{
+             view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_white_ef));
+         }
          helper.setText(R.id.tv_redheartnums,item.getILoveCount()+"");
     }
 }

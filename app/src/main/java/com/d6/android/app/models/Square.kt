@@ -48,4 +48,5 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var sVideoWidth:String =""
     var sVideoHeight:String = ""
     var iLovePoint:Int? = -1
+    var iSendLovePoint:Int?=0 //0表示已赠送
 }

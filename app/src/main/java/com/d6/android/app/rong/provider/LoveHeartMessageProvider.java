@@ -163,11 +163,11 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                     holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
 //                  strDir=userInfo.getName()+"给你分享了一条动态";
-                    textView.setText("你给"+receivename+"打赏了"+nums+"颗爱心");
+                    textView.setText("你给"+receivename+"赠送了"+nums+"颗爱心");
                 } catch (JSONException e) {
                     e.printStackTrace();
                     UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                    textView.setText("你给"+userInfo.getName()+"打赏了"+nums+"颗爱心");
+                    textView.setText("你给"+userInfo.getName()+"赠送了"+nums+"颗爱心");
                     holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
                 }
             }
@@ -180,13 +180,13 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                     JSONObject jsonObject =new JSONObject(content.getExtra());
                     num = jsonObject.getString("nums");
                     String sendusername = jsonObject.getString("sendusername");
-                    textView.setText(sendusername+"给你打赏了"+num+"颗爱心");
+                    textView.setText(sendusername+"给你赠送了"+num+"颗爱心");
                     holder.mTvReceivedLoveHeartNums.setText(num);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                textView.setText(userInfo.getName()+"给你打赏了"+num+"颗爱心");
+                textView.setText(userInfo.getName()+"给你赠送了"+num+"颗爱心");
                 holder.mTvReceivedLoveHeartNums.setText(num);
             }
         }

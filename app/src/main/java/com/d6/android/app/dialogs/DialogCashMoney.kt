@@ -33,6 +33,9 @@ import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
 import org.jetbrains.anko.wrapContent
+import com.d6.android.app.widget.DecimalInputTextWatcher
+
+
 
 /**
  * 提现
@@ -116,6 +119,8 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                 weChatLogin()
             }
         }
+
+        et_cash_input.addTextChangedListener(DecimalInputTextWatcher(DecimalInputTextWatcher.Type.decimal, 1));
 
         et_cash_input.addTextChangedListener(object : TextWatcher {
 
@@ -230,7 +235,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
     private fun getUserInfo() {
         Request.getUserInfo("", userId).request(this, success = { _, data ->
             data?.let {
-                if (it.wxname.isNullOrEmpty()) {
+                if (it.wxname.isNullOrEmpty()||it.wxid.isNullOrEmpty()||it.wxpic.isNullOrEmpty()) {
                     iv_cash_headView.setImageURI(Uri.parse("res://" + context.getPackageName() + "/" + R.mipmap.unbound_wechat_icon))
                     tv_bindwx.backgroundDrawable = ContextCompat.getDrawable(context, R.drawable.shape_6r_oc)
                     tv_bindwx.textColor = ContextCompat.getColor(context, R.color.white)

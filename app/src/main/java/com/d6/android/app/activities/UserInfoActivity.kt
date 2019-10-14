@@ -71,6 +71,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
+    private var sendLoveHeartNums = 1
+
     private var mData: UserData? = null
     private var MAXPICS = 9
 
@@ -234,17 +237,32 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                    dialogSendRedFlowerDialog.show(supportFragmentManager, "sendflower")
 //                }
 //            }
-
-            addGiftNums(1,false,false)
+            isAuthUser {
+                if(localLoveHeartNums>0){
+                    if(sendLoveHeartNums <= localLoveHeartNums){
+                        sendLoveHeartNums = sendLoveHeartNums+1
+                        addGiftNums(1,false,false)
+                        VibrateHelp.Vibrate(this,VibrateHelp.time50)
+                    }else{
+                        var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                        mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                    }
+                }else{
+                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                    mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                }
+            }
         }
 
         iv_sendredheart.setOnLongClickListener {
-            var mSendLoveHeartDialog = SendLoveHeartDialog()
-            mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
-            mSendLoveHeartDialog.setDialogListener { p, s ->
-                addGiftNums(p,false,true)
+            isAuthUser {
+                var mSendLoveHeartDialog = SendLoveHeartDialog()
+                mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
+                mSendLoveHeartDialog.setDialogListener { p, s ->
+                    addGiftNums(p,false,true)
+                }
+                mSendLoveHeartDialog.show(supportFragmentManager,"sendloveheartDialog")
             }
-            mSendLoveHeartDialog.show(supportFragmentManager,"sendloveheartDialog")
             true
         }
 
@@ -1006,13 +1024,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     .setCustormAnim(CustormAnim())
             it.setmGiftAnimationEndListener {
                 Request.sendLovePoint(getLoginToken(),"${id}",it,3,"").request(this,false,success={_,data->
-
+                    sendLoveHeartNums = 1
+                    Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
+                        data?.let {
+                            SPUtils.instance().put(Const.User.USERLOVE_NUMS,it.iLovePoint).apply()
+                            localLoveHeartNums = it.iLovePoint
+                        }
+                    })
                 }){code,msg->
-                    if(code==2){
+                    sendLoveHeartNums = 1
+                    if(code==2||code==3){
                         var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                         mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
-                    }else if(code==3){
-
                     }
                 }
             }

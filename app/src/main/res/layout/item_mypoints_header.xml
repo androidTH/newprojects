@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/rl_points_top"
         android:layout_width="match_parent"
-        android:layout_height="290dp"
+        android:layout_height="wrap_content"
         android:background="@mipmap/icon_wallet_bg">
 
         <RelativeLayout
@@ -176,7 +176,7 @@
                 android:drawableLeft="@mipmap/intergal_smallheart_coin"
                 android:drawablePadding="@dimen/margin_3"
                 android:gravity="center_vertical"
-                android:text="爱心"
+                android:text="@string/string_redloveheart"
                 android:textColor="@color/white"
                 android:textSize="10dp" />
 
@@ -198,7 +198,7 @@
                 android:paddingTop="@dimen/margin_5"
                 android:paddingRight="15dp"
                 android:paddingBottom="@dimen/margin_5"
-                android:text="充值"
+                android:text="购买"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_10"
@@ -216,12 +216,13 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="@dimen/margin_5"
                 android:text="提现"
-                android:textColor="@color/color_96FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_10"/>
+            <!--color_96FFFFFF-->
             <!--android:background="@drawable/shape_20r_stroke_fe6"-->
             <!--android:textColor="@color/white"-->
         </RelativeLayout>
@@ -237,6 +238,7 @@
             android:layout_marginTop="@dimen/margin_5"
             android:layout_marginBottom="@dimen/margin_10"
             android:gravity="center_horizontal"
+            android:visibility="gone"
             android:paddingLeft="@dimen/margin_10">
             <!--android:background="@drawable/shape_4r_fe"-->
 
@@ -291,10 +293,12 @@
         <TextView
             android:layout_below="@+id/rl_redflower_cashmoney"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:textSize="10sp"
             android:textColor="@color/color_888888"
+            android:layout_marginBottom="@dimen/margin_20"
             android:text="奖励的积分每周日24:00清零，记得及时使用哦"/>
 
         <View

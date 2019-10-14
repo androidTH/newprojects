@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.d6.android.app.utils.UtilKt.is500sFastClick;
+
 /**
  * Created by KathLine on 2017/1/8.
  */
@@ -112,6 +114,27 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
 
     public void loadGift(GiftModel gift) {
         loadGift(gift, true);
+    }
+
+    GiftFrameLayout giftFrameLayout;
+    public void loadNoAnimaGift(GiftModel gift){
+        if (mGiftQueue != null) {
+            if (mGiftQueue.size() == 0) {
+                Log.d(TAG, "addGiftQueue---集合个数：" + mGiftQueue.size() + ",礼物：" + gift.getGiftId());
+                mGiftQueue.add(gift);
+                giftFrameLayout = new GiftFrameLayout(mContext);
+                giftFrameLayout.setIndex(0);
+                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mGiftLayoutParent.getLayoutParams();//两个参数分别是layout_width,layout_height
+                lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);//这个就是添加其他属性的，这个是在父元素的底部。
+                mGiftLayoutParent.addView(giftFrameLayout);
+            }
+        }
+
+        if(is500sFastClick()){
+            giftFrameLayout.startAnimation(custormAnim);
+        }else{
+            giftFrameLayout.comboEndAnim();
+        }
     }
 
     /**

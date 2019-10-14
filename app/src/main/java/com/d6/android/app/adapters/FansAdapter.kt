@@ -33,11 +33,15 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
+        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
+
         if(data.iIsCode==1){
             holder.setText(R.id.tv_name,"****")
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
             headView.setImageURI(data.sPicUrl)
             headView.showBlur(data.sPicUrl)
+            tv_userinfo.text = "相互喜欢即可解锁聊天 "
+            tv_userinfo.visibility = View.VISIBLE
         }else{
             holder.setText(R.id.tv_name,data.sSendUserName)
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
@@ -45,16 +49,15 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")
 
-        }
-        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.gexingqianming.isNullOrEmpty()){
-            tv_userinfo.visibility = View.VISIBLE
-            tv_userinfo.text = data.gexingqianming
-        }else if(!data.ziwojieshao.isNullOrEmpty()){
-            tv_userinfo.text = data.ziwojieshao
-            tv_userinfo.visibility = View.VISIBLE
-        }else{
-            tv_userinfo.visibility = View.GONE
+            if(!data.gexingqianming.isNullOrEmpty()){
+                tv_userinfo.visibility = View.VISIBLE
+                tv_userinfo.text = data.gexingqianming
+            }else if(!data.ziwojieshao.isNullOrEmpty()){
+                tv_userinfo.text = data.ziwojieshao
+                tv_userinfo.visibility = View.VISIBLE
+            }else{
+                tv_userinfo.visibility = View.GONE
+            }
         }
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)

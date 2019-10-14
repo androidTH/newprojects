@@ -322,6 +322,7 @@ class SquareFragment : RecyclerFragment() {
 //                mSquares.get(index).iIsSendFlower = 1
 
                 mSquares.get(index).iLovePoint = flowerEvent.getmSquare().iLovePoint
+                mSquares.get(index).iSendLovePoint = 0
                 squareAdapter.notifyDataSetChanged()
             }
         }

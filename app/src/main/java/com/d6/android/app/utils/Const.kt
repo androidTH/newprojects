@@ -14,6 +14,7 @@ object Const {
         val IS_FIRST_SHOW_RGDIALOG="isFirstShowRGDialog"
         val IS_FIRST_SHOW_SELFDATEDIALOG="isFirstShowSelfDateDialog"
         val IS_FIRST_SHOW_FINDDIALOG="isFirstShowFindDialog"
+        val IS_FIRST_FAST_CLICK="isFirstFastClick"
         @JvmField
         val USER_ID="userId"
         val USER_SEX="userSex"

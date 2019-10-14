@@ -21,6 +21,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
@@ -34,6 +35,8 @@ import com.d6.android.app.widget.gift.GiftModel
 import com.d6.android.app.widget.gift.animutils.GiftAnimationUtil
 import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.Flowable
+import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
@@ -42,6 +45,7 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.textColor
+import java.util.concurrent.TimeUnit
 
 /**
  * 约会
@@ -75,9 +79,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
-    private val localLoveHeartNums by lazy {
-        SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
-    }
+    private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
+    private var sendLoveHeartNums = 1
 
     private val locationClient by lazy {
         AMapLocationClient(activity)
@@ -93,6 +96,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
     }
 
+    private var IsNotFastClick:Boolean = false
     private var pageNum = 1
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
@@ -155,14 +159,27 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         }
 
         fb_heat_like.setOnClickListener {
-            activity.LocalUserIsNoAuth() {
-                addGiftNums(1, false,false)
+            activity.isAuthUser() {
+                if(localLoveHeartNums>0){
+                    if(sendLoveHeartNums <= localLoveHeartNums){
+                        sendLoveHeartNums = sendLoveHeartNums+1
+                        addGiftNums(1, false,false)
+                        IsNotFastClick = is500sFastClick()
+                        VibrateHelp.Vibrate(activity,VibrateHelp.time50)
+                    }else{
+                        var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                        mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
+                    }
+                }else{
+                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                    mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
+                }
             }
         }
 
         fb_heat_like.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
-                activity.LocalUserIsNoAuth {
+                activity.isAuthUser() {
                     var mSendLoveHeartDialog = SendLoveHeartDialog()
                     if (mDates.size > mRecyclerView.currentItem) {
                         var findDate = mDates.get(mRecyclerView.currentItem)
@@ -237,13 +254,39 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
 //                    }
                 }
 
-                if (getIsNotFirstDialog()) {
+                var clickNums = getIsNotFirstDialog()
+                var mIsFirstFastClick = getIsNotFirstFastClick()
+                tv_redheart_guide.visibility=View.GONE
+                if (clickNums==0&&!IsNotFastClick) {
                     var mRedHeartGuideDialog = RedHeartGuideDialog()
                     mRedHeartGuideDialog.show(childFragmentManager, "redheartguideDialog")
-                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), false).apply()
+                    ++clickNums
+                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(),clickNums).apply()
+                }else if(clickNums==1&&!IsNotFastClick){
+                    tv_redheart_guide.visibility=View.VISIBLE
+                    tv_redheart_guide.text = "气泡-连击可以送出多个 [img src=redheart_small/]"
+                    ++clickNums
+                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(),clickNums).apply()
+                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
+                }else if(it>=3&&!mIsFirstFastClick){
+                    tv_redheart_guide.visibility=View.VISIBLE
+                    tv_redheart_guide.text = "长按可以直接选择520、1314"
+                    SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(),true).apply()
+                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 }
             }
         }
+    }
+
+    private val diposable = object : DisposableSubscriber<Long>() {
+        override fun onComplete() {}
+        override fun onError(t: Throwable?) {}
+        override fun onNext(t: Long) {
+            if (t == 3L) {
+                tv_redheart_guide.visibility=View.GONE
+            }
+        }
+
     }
 
     //连击礼物数量
@@ -266,7 +309,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                 it.loadGift(giftModel)
                 Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
             }
-
             doAnimation()
         }
     }
@@ -416,9 +458,18 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         scrollPosition = mRecyclerView.currentItem
         if (mDates.size > scrollPosition) {
             var findDate = mDates.get(scrollPosition)
+
             Request.sendLovePoint(getLoginToken(), "${findDate.accountId}", giftCount, 2,"").request(this, false, success = { _, data ->
                 Log.i("GiftControl", "礼物数量${giftCount}")
+                sendLoveHeartNums = 1
+                Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
+                    data?.let {
+                        SPUtils.instance().put(Const.User.USERLOVE_NUMS,it.iLovePoint).apply()
+                        localLoveHeartNums = it.iLovePoint
+                    }
+                })
             }) { code, msg ->
+                sendLoveHeartNums = 1
                 if (code == 2||code == 3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")

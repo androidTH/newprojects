@@ -198,8 +198,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
+                    android:layout_below="@+id/tv_fans_name"
                     android:layout_toRightOf="@+id/tv_fans_count"
                     android:background="@drawable/shape_4r_orange"
+                    android:layout_marginLeft="@dimen/margin_2"
                     android:paddingLeft="4dp"
                     android:paddingTop="1dp"
                     android:paddingRight="4dp"
@@ -209,22 +211,23 @@
                     android:textSize="10sp"
                     android:visibility="gone" />
 
-                <TextView
+                <com.d6.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_fans_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_fans_name"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_black"
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/tv_fans_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_fans_count"
                     android:layout_centerHorizontal="true"
-                    android:text="收到爱心"
+                    android:text="收到"
                     android:textColor="@color/color_888888"
                     android:textSize="10sp" />
             </RelativeLayout>
@@ -241,8 +244,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
+                    android:layout_below="@+id/tv_followname"
                     android:layout_toRightOf="@+id/tv_follow_count"
                     android:background="@drawable/shape_4r_orange"
+                    android:layout_marginLeft="@dimen/margin_2"
                     android:paddingLeft="4dp"
                     android:paddingTop="1dp"
                     android:paddingRight="4dp"
@@ -252,22 +257,23 @@
                     android:textSize="10sp"
                     android:visibility="gone" />
 
-                <TextView
+                <com.d6.android.app.widget.textinlineimage.TextInlineImage
                     android:id="@+id/tv_follow_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/tv_followname"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_black"
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/tv_followname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_follow_count"
                     android:layout_centerHorizontal="true"
-                    android:text="送出爱心"
+                    android:text="送出"
                     android:textColor="@color/color_888888"
                     android:textSize="10sp" />
             </RelativeLayout>
@@ -279,14 +285,23 @@
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/margin_15">
-
+                <TextView
+                    android:id="@+id/tv_vistor_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="访客"
+                    android:textColor="@color/color_888888"
+                    android:textSize="10sp" />
                 <TextView
                     android:id="@+id/tv_vcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
+                    android:layout_below="@+id/tv_vistor_name"
                     android:layout_toRightOf="@+id/tv_vistor_count"
                     android:background="@drawable/shape_4r_orange"
+                    android:layout_marginLeft="@dimen/margin_2"
                     android:paddingLeft="6dp"
                     android:paddingTop="1dp"
                     android:paddingRight="6dp"
@@ -300,20 +315,12 @@
                     android:id="@+id/tv_vistor_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_vistor_name"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:text="0"
-                    android:textColor="@color/color_333333"
+                    android:textColor="@color/color_black"
                     android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_vistor_count"
-                    android:layout_centerHorizontal="true"
-                    android:text="访客"
-                    android:textColor="@color/color_888888"
-                    android:textSize="10sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -578,7 +585,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@mipmap/redheart_small"
                 android:drawablePadding="@dimen/margin_5"
-                android:text="爱心:0"
+                android:text="@string/string_redloveheart"
                 android:textColor="@color/color_888888"
                 android:textSize="14sp" />
         </LinearLayout>

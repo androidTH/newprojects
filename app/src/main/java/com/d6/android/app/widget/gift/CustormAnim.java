@@ -83,7 +83,7 @@ public class CustormAnim implements ICustormAnim {
         PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f);
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(giftFrameLayout,alpha);//translationY,
         animator.setStartDelay(0);
-        animator.setDuration(700);
+        animator.setDuration(300);
 
 //        translationY = PropertyValuesHolder.ofFloat("translationY", -50, -100);
 //        alpha = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0f);

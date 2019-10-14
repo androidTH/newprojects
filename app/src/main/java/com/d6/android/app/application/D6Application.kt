@@ -22,6 +22,7 @@ import cn.liaox.cachelib.cache.NetworkCache
 import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
+import com.d6.android.app.activities.WebViewActivity
 import com.d6.android.app.audioconverter.AndroidAudioConverter
 import com.d6.android.app.audioconverter.callback.ILoadCallback
 import com.d6.android.app.net.Request
@@ -34,6 +35,8 @@ import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.danikula.videocache.HttpProxyCacheServer
+//import com.didichuxing.doraemonkit.DoraemonKit
+//import com.didichuxing.doraemonkit.ui.base.BaseActivity
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
 import com.umeng.commonsdk.UMConfigure
@@ -51,6 +54,7 @@ import io.rong.imlib.model.*
 import io.rong.message.TextMessage
 import io.rong.push.RongPushClient
 import io.rong.push.pushconfig.PushConfig
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.lang.Exception
@@ -131,6 +135,15 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 
         loadAudioConvert()
 //        BigImageViewer.initialize(FrescoImageLoader.with(this))
+
+//        DoraemonKit.install(this)
+//
+//        // H5任意门功能需要，非必须
+//        DoraemonKit.setWebDoorCallback { context, url ->
+//            context?.let {
+//                startActivity<WebViewActivity>("title" to "DoraemonKit", "url" to url)
+//            }
+//        }
     }
 
     /**

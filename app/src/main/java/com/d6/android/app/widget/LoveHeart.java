@@ -113,7 +113,7 @@ public class LoveHeart extends RelativeLayout {
 //        params.leftMargin = (int) location[0] - 150;
 //        params.topMargin = (int)location[1] - 300;
 //        imageView.setLayoutParams(params);
-        LayoutParams params = new LayoutParams(250, 250);
+        LayoutParams params = new LayoutParams(200, 200);
         if(view==null){
             params.addRule(RelativeLayout.CENTER_HORIZONTAL);
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -145,9 +145,9 @@ public class LoveHeart extends RelativeLayout {
                 //透明度动画 , 透明度从1-0
                 .with(alpha(imageView, 1, 0, 400, 400))
                 //缩放动画 , X轴1倍放大至3倍
-                .with(scaleXY(imageView, "scaleX", 1, 3f, 800, 400))
+                .with(scaleXY(imageView, "scaleX", 1, 2f, 800, 400))
                 //缩放动画 , Y轴1倍放大至3倍
-                .with(scaleXY(imageView, "scaleY", 1, 3f, 800, 400));
+                .with(scaleXY(imageView, "scaleY", 1, 2f, 800, 400));
         animatorSet.start();
         animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override

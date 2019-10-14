@@ -46,6 +46,7 @@ import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
+import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.utils.JsonUtil.containsEmoji
@@ -617,7 +618,9 @@ fun getDiskLruCacheHelper(context: Context): DiskLruCacheHelper? {
 }
 
 private val MIN_DELAY_TIME= 1000  // 两次点击间隔不能少于1000ms
+private val MIN_DELAY_500STIME= 500  // 两次点击间隔不能少于1000ms
 private var lastClickTime:Long = 0
+private var last500ClickTime:Long = 0
 
 /**
  * 防止多次点击
@@ -629,6 +632,16 @@ fun isFastClick():Boolean {
         flag = false
     }
     lastClickTime = currentClickTime
+    return flag
+}
+
+fun is500sFastClick():Boolean {
+    var flag = true
+    var currentClickTime = System.currentTimeMillis()
+    if ((currentClickTime - last500ClickTime) >= MIN_DELAY_500STIME) {
+        flag = false
+    }
+    last500ClickTime = currentClickTime
     return flag
 }
 
@@ -1050,6 +1063,10 @@ fun getAppVersion():String{
     return mVersion
 }
 
+fun getLocalUserLoveHeart():Int{
+    return SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
+}
+
 private var mUserId = ""
 fun getLocalUserId():String{
     if(TextUtils.isEmpty(mUserId)){
@@ -1161,8 +1178,12 @@ fun getSelfDateDialog():Boolean{
    return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
 }
 
-fun getIsNotFirstDialog():Boolean{
-    return SPUtils.instance().getBoolean(IS_FIRST_SHOW_FINDDIALOG+getLocalUserId(),true)
+fun getIsNotFirstDialog():Int{
+    return SPUtils.instance().getInt(IS_FIRST_SHOW_FINDDIALOG+getLocalUserId(),0)
+}
+
+fun getIsNotFirstFastClick():Boolean{
+    return SPUtils.instance().getBoolean(IS_FIRST_FAST_CLICK+getLocalUserId(),false)
 }
 
 fun starPlayDrawableAnim(mImageView:ImageView) {
@@ -1209,3 +1230,4 @@ fun getProxyUrl(mConent:Context,url:String):String?{
     var  proxy = D6Application.getProxy(mConent)
     return proxy?.getProxyUrl(url)
 }
+
