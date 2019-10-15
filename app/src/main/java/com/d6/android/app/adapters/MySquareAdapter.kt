@@ -35,7 +35,6 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         data.sex = mUserData?.sex
         data.age = mUserData?.age
         trendView.update(data,if (type==0) 1 else 0 )
-        trendView.initGiftControl()
         val count = data.appraiseCount ?: 0
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {

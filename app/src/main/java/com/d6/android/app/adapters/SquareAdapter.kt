@@ -34,7 +34,6 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
         trendView.update(data)
-        trendView.initGiftControl()
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {
                 cancelPraise(data)

@@ -528,15 +528,20 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this,success = { s:String?, data: FollowFansVistor?->
             data?.let {
                 val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_red) as TextView
-                if (it.iFansCount!!>0||it.iVistorCount!!>0) {
+                var mFollowFansVistor = it
+                Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this,false,success= { msg, data ->
+                    data?.let {
+                        if (it.iReceiveNewLovePoint!!>0||mFollowFansVistor.iVistorCount!!>0) {
 //                    view.visibility = View.VISIBLE
-                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
-                    if (fragment != null && fragment is MineFragment) {
-                        fragment.showLikeWarm(true,it.iFansCount!!.toInt(), it.iPointNew!!.toInt(), it.iVistorCount!!.toInt())
+                            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
+                            if (fragment != null && fragment is MineFragment) {
+                                fragment.showLikeWarm(true,it.iReceiveNewLovePoint, mFollowFansVistor.iPointNew!!.toInt(), mFollowFansVistor.iVistorCount!!.toInt())
+                            }
+                        } else {
+                            view.visibility = View.GONE
+                        }
                     }
-                } else {
-                    view.visibility = View.GONE
-                }
+                })
             }
         })
     }

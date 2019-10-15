@@ -82,7 +82,7 @@ class FollowActivity : RecyclerActivity() {
     private fun getUserInfo(){
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this,false,success= { msg, data ->
             data?.let {
-                mHeaderView.tv_sendliked_nums.text = "累计送出 ${it.iSendLovePoint} [img src=redheart_small/]，相互喜欢即可解锁聊天"
+                mHeaderView.tv_sendliked_nums.text = "${it.iSendLovePoint} [img src=redheart_small/]"
             }
         })
     }

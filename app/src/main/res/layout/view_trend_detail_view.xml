@@ -235,7 +235,7 @@
         android:id="@+id/squaredetails_loveheart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="-36dp"
+        android:layout_marginBottom="-40dp"
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_above="@+id/tv_comment" />
 

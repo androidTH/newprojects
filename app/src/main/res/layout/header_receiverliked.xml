@@ -14,10 +14,10 @@
             android:layout_height="match_parent"
             android:textColor="@color/color_666666"
             android:gravity="center"
-            android:drawablePadding="@dimen/margin_6"
+            android:layout_marginRight="@dimen/margin_5"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:text=""/>
+            android:text="累计收到"/>
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked_nums"
             android:layout_width="wrap_content"
@@ -25,10 +25,18 @@
             android:textColor="@color/color_black"
             android:gravity="center"
             android:drawablePadding="@dimen/margin_5"
-            android:layout_marginLeft="@dimen/margin_6"
-            android:textSize="14sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/color_666666"
+            android:gravity="center"
+            android:drawablePadding="@dimen/margin_6"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="，相互喜欢即可解锁聊天"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tv_receiveliked_title"
@@ -45,6 +53,7 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"/>
     <TextView
+        android:id="@+id/tv_liked_order"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_25"
         android:textColor="@color/color_888888"

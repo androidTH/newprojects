@@ -149,7 +149,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                     (context as BaseActivity).isAuthUser(){
                         square?.let {
                             var mSendLoveHeartDialog = SendLoveHeartDialog()
-                            mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                            mSendLoveHeartDialog.arguments = bundleOf("userId" to "${it.userid}")
                             mSendLoveHeartDialog.setDialogListener { p, s ->
                                 addGiftNums(p, false,true)
                             }
@@ -190,7 +190,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                         (context as BaseActivity).startActivity<FilterSquaresActivity>("squaretype" to mSquareType)
                     }
                 }
-
             }
 
     /**
@@ -416,7 +415,8 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
         commentAdapter.setSquareUserId(square.userid.toString(),1)
         commentAdapter.notifyDataSetChanged()
-//        aa()
+
+        initGiftControl()
     }
 
     private var mAbovePop: mLoveHeartPopu? = null

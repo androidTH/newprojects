@@ -113,6 +113,9 @@ public class LoveHeart extends RelativeLayout {
 //        params.leftMargin = (int) location[0] - 150;
 //        params.topMargin = (int)location[1] - 300;
 //        imageView.setLayoutParams(params);
+        if (imageView == null) {
+            imageView = new ImageView(mContext);
+        }
         LayoutParams params = new LayoutParams(200, 200);
         if(view==null){
             params.addRule(RelativeLayout.CENTER_HORIZONTAL);
@@ -120,18 +123,22 @@ public class LoveHeart extends RelativeLayout {
         }else{
             int[] location = new int[2];
             view.getLocationOnScreen(location);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             params.leftMargin = (int) location[0] - 100;
             params.topMargin = (int) location[1] - 200;
             imageView.setLayoutParams(params);
         }
         imageView.setLayoutParams(params);
         imageView.setImageDrawable(getResources().getDrawable(R.mipmap.animation_redheart));
+        if(getChildCount()>0){
+            removeView(imageView);
+        }
         addView(imageView);
 
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(scaleXY(imageView, "scaleX", 2f, 0.9f, 100, 0))
+        animatorSet.play(scaleXY(imageView, "scaleX", 1.8f, 0.9f, 100, 0))
                 //缩放动画 , Y轴2倍缩小至0.9倍
-                .with(scaleXY(imageView, "scaleY", 2f, 0.9f, 100, 0))
+                .with(scaleXY(imageView, "scaleY", 1.8f, 0.9f, 100, 0))
                 //旋转动画 , 随机旋转角度
                 .with(rotation(imageView, 0, 0))
                 //透明度动画 , 透明度从0-1
@@ -145,9 +152,9 @@ public class LoveHeart extends RelativeLayout {
                 //透明度动画 , 透明度从1-0
                 .with(alpha(imageView, 1, 0, 400, 400))
                 //缩放动画 , X轴1倍放大至3倍
-                .with(scaleXY(imageView, "scaleX", 1, 2f, 800, 400))
+                .with(scaleXY(imageView, "scaleX", 1, 1.8f, 800, 400))
                 //缩放动画 , Y轴1倍放大至3倍
-                .with(scaleXY(imageView, "scaleY", 1, 2f, 800, 400));
+                .with(scaleXY(imageView, "scaleY", 1, 1.8f, 800, 400));
         animatorSet.start();
         animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override

@@ -69,6 +69,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                 startActivityForResult<MyInfoActivity>(Const.DOUPDATEUSERINFOCODE, "data" to it, "images" to mImages)
             }
         }
+        hideRedHeartGuide()
     }
 
     private val userId by lazy {
@@ -140,22 +141,26 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             activity.isCheckOnLineAuthUser(this, userId) {
                 showArea(it)
             }
+            hideRedHeartGuide()
         }
 
         tv_xingzuo.setOnClickListener {
             activity.isCheckOnLineAuthUser(this, userId) {
                 showConstellations(it)
             }
+            hideRedHeartGuide()
         }
 
         tv_type.setOnClickListener {
             activity.isCheckOnLineAuthUser(this, userId) {
                 showAges(it)
             }
+            hideRedHeartGuide()
         }
 
         btn_like.setOnClickListener {
             doNextCard()
+            hideRedHeartGuide()
         }
 
         fb_heat_like.setOnClickListener {
@@ -174,6 +179,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
                 }
+                hideRedHeartGuide()
             }
         }
 
@@ -189,6 +195,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                         addGiftNums(p, false,true)
                     }
                     mSendLoveHeartDialog.show(childFragmentManager, "sendloveheartDialog")
+                    hideRedHeartGuide()
                 }
                 return true
             }
@@ -214,6 +221,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                     mRecyclerView.smoothScrollToPosition(scrollPosition)
                 }
             }
+            hideRedHeartGuide()
+        }
+
+        root_find.setOnClickListener {
+            hideRedHeartGuide()
         }
 
         showDialog()
@@ -256,7 +268,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
 
                 var clickNums = getIsNotFirstDialog()
                 var mIsFirstFastClick = getIsNotFirstFastClick()
-                tv_redheart_guide.visibility=View.GONE
                 if (clickNums==0&&!IsNotFastClick) {
                     var mRedHeartGuideDialog = RedHeartGuideDialog()
                     mRedHeartGuideDialog.show(childFragmentManager, "redheartguideDialog")
@@ -267,12 +278,12 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                     tv_redheart_guide.text = "气泡-连击可以送出多个 [img src=redheart_small/]"
                     ++clickNums
                     SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(),clickNums).apply()
-                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
+//                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 }else if(it>=3&&!mIsFirstFastClick){
                     tv_redheart_guide.visibility=View.VISIBLE
                     tv_redheart_guide.text = "长按可以直接选择520、1314"
                     SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(),true).apply()
-                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
+//                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 }
             }
         }
@@ -283,10 +294,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         override fun onError(t: Throwable?) {}
         override fun onNext(t: Long) {
             if (t == 3L) {
-                tv_redheart_guide.visibility=View.GONE
+                hideRedHeartGuide()
             }
         }
 
+    }
+
+    private fun hideRedHeartGuide(){
+        tv_redheart_guide.visibility=View.GONE
     }
 
     //连击礼物数量

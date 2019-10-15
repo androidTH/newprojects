@@ -101,11 +101,10 @@
         android:layout_centerVertical="true"
         android:paddingLeft="@dimen/margin_15"
         android:paddingTop="@dimen/margin_5"
-        android:paddingRight="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_5"
         android:paddingBottom="@dimen/margin_5"
         android:drawableRight="@mipmap/redheart_small"
         android:drawablePadding="@dimen/margin_5"
-        android:text="23"
         android:textColor="@color/color_black"
         android:textSize="15sp" />
     <!--android:background="@drawable/shape_10r_fans"-->

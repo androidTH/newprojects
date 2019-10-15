@@ -97,7 +97,7 @@ class FansActivity : RecyclerActivity() {
                 if (pageNum == 1) {
                     mMessages.clear()
                     mHeaderFans.clear()
-                    mHeaderView.tv_receivedliked_nums.text = "累计收到 ${it.iAllReceiveLovePoint} [img src=redheart_small/]，相互喜欢即可解锁聊天"
+                    mHeaderView.tv_receivedliked_nums.text ="${it.iAllReceiveLovePoint} [img src=redheart_small/]"
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
                     if (pageNum > 1) {
@@ -105,6 +105,10 @@ class FansActivity : RecyclerActivity() {
                         pageNum--
                     } else {
                         mSwipeRefreshLayout.setLoadMoreText("暂无数据")
+                        mHeaderView.tv_receiveliked_title.visibility = View.GONE
+                        mHeaderView.tv_liked_order.visibility = View.GONE
+                        mHeaderView.rv_receivedliked.visibility = View.GONE
+                        mHeaderView.tv_liked_order.visibility = View.GONE
                     }
                 } else {
                     it.list?.results?.let {
@@ -118,7 +122,13 @@ class FansActivity : RecyclerActivity() {
                         }else{
                             mHeaderView.tv_receiveliked_title.visibility = View.GONE
                             mHeaderView.rv_receivedliked.visibility = View.GONE
+                            mHeaderView.rv_receivedliked.visibility = View.GONE
                         }
+                    }
+                    if(it.unreadlist==null){
+                        mHeaderView.tv_receiveliked_title.visibility = View.GONE
+                        mHeaderView.rv_receivedliked.visibility = View.GONE
+                        mHeaderView.rv_receivedliked.visibility = View.GONE
                     }
 
                     if(it.list?.totalPage==1){

@@ -117,7 +117,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
             (context as BaseActivity).isAuthUser(){
                 square?.let {
                     var mSendLoveHeartDialog = SendLoveHeartDialog()
-                    mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${it.userid}")
                     mSendLoveHeartDialog.setDialogListener { p, s ->
                         addGiftNums(p, false, true)
                     }
@@ -336,6 +336,8 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //            mComments.addAll(square.comments)
 //        }
 //        commentAdapter.notifyDataSetChanged()
+
+        initGiftControl()
     }
 
 

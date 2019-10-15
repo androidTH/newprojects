@@ -103,7 +103,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             (context as BaseActivity).isAuthUser(){
                 square?.let {
                     var mSendLoveHeartDialog = SendLoveHeartDialog()
-                    mSendLoveHeartDialog.arguments = bundleOf("id" to "${it.userid}")
+                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${it.userid}")
                     mSendLoveHeartDialog.setDialogListener { p, s ->
                         addGiftNums(p, false, true)
                     }
