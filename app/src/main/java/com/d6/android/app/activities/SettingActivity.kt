@@ -66,6 +66,14 @@ class SettingActivity : TitleActivity() {
 //            startActivity<SimplePlayer>()
         }
 
+        tv_oldfans.setOnClickListener {
+            startActivity<OldFansActivity>()
+        }
+
+        tv_oldfollow.setOnClickListener {
+            startActivity<OldFollowActivity>()
+        }
+
         rl_my_info.setOnClickListener {
             mData?.let {
                 mImages.clear()

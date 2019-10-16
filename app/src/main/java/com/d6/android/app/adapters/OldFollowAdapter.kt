@@ -2,7 +2,6 @@ package com.d6.android.app.adapters
 
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
@@ -10,7 +9,6 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.request
-import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
@@ -22,7 +20,7 @@ import org.jetbrains.anko.backgroundDrawable
 /**
  *粉丝
  */
-class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
+class OldFollowAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layout.item_list_follows) ,View.OnClickListener{
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -32,51 +30,36 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
-    override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
-        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-
-        if(data.iIsCode==1){
-            holder.setText(R.id.tv_name,"****")
-            val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-            headView.setImageURI(data.sPicUrl)
-            headView.showBlur(data.sPicUrl)
-            tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "
-            tv_userinfo.visibility = View.VISIBLE
-        }else{
-            holder.setText(R.id.tv_name,data.sSendUserName)
-            val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-            headView.setImageURI(data.sPicUrl)
+    override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
+        holder.setText(R.id.tv_name,data.sUserName)
+        val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")
-
-            if(!data.gexingqianming.isNullOrEmpty()){
-                tv_userinfo.visibility = View.VISIBLE
-                tv_userinfo.text = data.gexingqianming
-            }else if(!data.ziwojieshao.isNullOrEmpty()){
-                tv_userinfo.text = data.ziwojieshao
-                tv_userinfo.visibility = View.VISIBLE
-            }else{
-                tv_userinfo.visibility = View.GONE
-            }
+        headView.setImageURI(data.sPicUrl)
+        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
+        if(!data.gexingqianming.isNullOrEmpty()){
+            tv_userinfo.text = data.gexingqianming
+            tv_userinfo.visibility = View.VISIBLE
+        }else{
+            tv_userinfo.visibility = View.GONE
         }
+
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
-        if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
-            tv_vip.text = String.format("%s", data.userclassesname)
-            tv_vip.visibility =View.GONE
-        } else {
+//        if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
 //            tv_vip.text = String.format("%s", data.userclassesname)
-            tv_vip.visibility = View.VISIBLE
-            tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
-        }
+//            tv_vip.visibility =View.GONE
+//        } else {
+//            tv_vip.text = String.format("%s", data.userclassesname)
+//            tv_vip.visibility = View.VISIBLE
+//        }
 
-        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
-        tv_receivedliked.text = "${data.iAllLovePoint}"
-        Log.i("fansAdapter","数量${data.iAllLovePoint}")
+        tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
+//
 //        if(data.iIsFollow == 0){
 //            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
 //            mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
@@ -86,12 +69,20 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
 //            mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
 //            mTvFollow.setText("已喜欢")
 //        }
+
+//        mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
+//        mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
+//        mTvFollow.setText("已喜欢")
+
 //        mTvFollow.setOnClickListener(this)
 //        mTvFollow.setTag(data)
+        sysErr(data.toString()+"--------url----->"+data.sPicUrl.isNullOrEmpty())
     }
 
     override fun onClick(v: View?) {
         var fans= (v as TextView).tag as Fans
+//        delFollow(fans,v)
+
         if(fans.iIsFollow == 0){
             addFollow(fans,v)
         }else {

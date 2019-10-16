@@ -275,13 +275,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                     SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(),clickNums).apply()
                 }else if(clickNums==1&&!IsNotFastClick){
                     tv_redheart_guide.visibility=View.VISIBLE
-                    tv_redheart_guide.text = "气泡-连击可以送出多个 [img src=redheart_small/]"
+                    tv_redheart_guide.text = "连击可以送出多个喜欢"
                     ++clickNums
                     SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(),clickNums).apply()
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 }else if(it>=3&&!mIsFirstFastClick){
                     tv_redheart_guide.visibility=View.VISIBLE
-                    tv_redheart_guide.text = "长按可以直接选择520、1314"
+                    tv_redheart_guide.text = "长按可以快捷选择520、1314个喜欢"
                     SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(),true).apply()
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 }

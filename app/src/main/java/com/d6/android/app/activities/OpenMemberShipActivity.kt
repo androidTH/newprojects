@@ -174,8 +174,10 @@ class OpenMemberShipActivity : BaseActivity() {
                             if (p == 1000) {
                                 //支付
                                 member.ids?.let {
-                                    var price = s.toString().toInt()
-                                    buyRedFlowerPay(price, areaName, it, member.classesname.toString())
+                                    if(!TextUtils.equals("",s)){
+                                        var price = s.toString().toInt()
+                                        buyRedFlowerPay(price, areaName, it, member.classesname.toString())
+                                    }
 //                                    FinishActivityManager.getManager().finishActivity(AuthMenStateActivity::class.java)
 //                                    var payResultDialog = PayResultDialog()
 //                                    payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")

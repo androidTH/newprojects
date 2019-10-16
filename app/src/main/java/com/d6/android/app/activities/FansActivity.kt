@@ -15,10 +15,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.getLoginToken
-import com.d6.android.app.utils.isAuthUser
+import com.d6.android.app.utils.*
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.header_receiverliked.view.*
 import org.jetbrains.anko.bundleOf
@@ -72,6 +69,7 @@ class FansActivity : RecyclerActivity() {
                 }
             }
         }
+
         fansAdapter.setHeaderView(mHeaderView)
 
         if(mHeaderFans!=null){
@@ -91,7 +89,6 @@ class FansActivity : RecyclerActivity() {
     }
 
     private fun getData() {
-        //Request.getFindMyFans
         Request.findReceiveLoveList(getLoginToken(),pageNum).request(this) { _, data ->
             data?.let {
                 if (pageNum == 1) {
@@ -139,6 +136,12 @@ class FansActivity : RecyclerActivity() {
                 }
                 fansAdapter.notifyDataSetChanged()
             }
+        }
+    }
+
+    private fun getOldLiked(){
+        Request.getFindMyFans(getLocalUserId(),pageNum).request(this){ _, data->
+
         }
     }
 

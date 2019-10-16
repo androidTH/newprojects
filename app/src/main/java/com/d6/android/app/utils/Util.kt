@@ -959,28 +959,32 @@ inline fun Activity.pushCustomerMessage(requestManager: RequestManager, userId:S
 
 fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
     var mDrawable:Drawable? = null
-    if (TextUtils.equals(levelId, "27")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_cj)
-    } else if (TextUtils.equals(levelId, "28")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_zj)
-    } else if (TextUtils.equals(levelId, "29")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_gj)
-    } else if (TextUtils.equals(levelId, "22")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
-    } else if (TextUtils.equals(levelId, "23")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
-    } else if (TextUtils.equals(levelId, "24")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
-    } else if (TextUtils.equals(levelId, "25")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
-    } else if (TextUtils.equals(levelId, "26")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
-    } else if (TextUtils.equals(levelId, "7")) {
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
-    } else if(TextUtils.equals(levelId, "30")){
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
-    } else if(TextUtils.equals(levelId, "31")){
-        mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.app_vip)
+    try{
+        if (TextUtils.equals("27",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_cj)
+        } else if (TextUtils.equals( "28",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_zj)
+        } else if (TextUtils.equals("29",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.gril_gj)
+        } else if (TextUtils.equals("22",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
+        } else if (TextUtils.equals("23",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
+        } else if (TextUtils.equals("24",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
+        } else if (TextUtils.equals( "25",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
+        } else if (TextUtils.equals("26",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
+        } else if (TextUtils.equals("7",levelId)) {
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.youke_icon)
+        } else if(TextUtils.equals("30",levelId)){
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
+        } else if(TextUtils.equals("31",levelId)){
+            mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.app_vip)
+        }
+    }catch (e:java.lang.Exception){
+        e.printStackTrace()
     }
     return mDrawable
 }

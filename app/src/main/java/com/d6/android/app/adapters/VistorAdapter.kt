@@ -62,6 +62,9 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
             tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
         }
 
+        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
+        tv_receivedliked.visibility = View.GONE
+
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //
 //        if(TextUtils.equals("0",data.isFollow)){

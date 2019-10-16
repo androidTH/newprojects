@@ -22,7 +22,7 @@ import org.jetbrains.anko.backgroundDrawable
 /**
  *粉丝
  */
-class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
+class OldFansAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -32,32 +32,16 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
-    override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
+    override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
+        holder.setText(R.id.tv_name,data.sUserName)
+        val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
+        headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-
-        if(data.iIsCode==1){
-            holder.setText(R.id.tv_name,"****")
-            val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-            headView.setImageURI(data.sPicUrl)
-            headView.showBlur(data.sPicUrl)
-            tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "
+        if(!data.gexingqianming.isNullOrEmpty()){
             tv_userinfo.visibility = View.VISIBLE
+            tv_userinfo.text = data.gexingqianming
         }else{
-            holder.setText(R.id.tv_name,data.sSendUserName)
-            val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-            headView.setImageURI(data.sPicUrl)
-//        val tv_time =holder.bind<TextView>(R.id.tv_time)
-//        tv_time.text = data.dJointime.toTime("MM.dd")
-
-            if(!data.gexingqianming.isNullOrEmpty()){
-                tv_userinfo.visibility = View.VISIBLE
-                tv_userinfo.text = data.gexingqianming
-            }else if(!data.ziwojieshao.isNullOrEmpty()){
-                tv_userinfo.text = data.ziwojieshao
-                tv_userinfo.visibility = View.VISIBLE
-            }else{
-                tv_userinfo.visibility = View.GONE
-            }
+            tv_userinfo.visibility = View.GONE
         }
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
@@ -71,10 +55,6 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             tv_vip.visibility = View.VISIBLE
             tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
         }
-
-        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
-        tv_receivedliked.text = "${data.iAllLovePoint}"
-        Log.i("fansAdapter","数量${data.iAllLovePoint}")
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //        if(data.iIsFollow == 0){

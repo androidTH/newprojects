@@ -214,6 +214,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                        fragment0.onFirstVisibleToUser()
 //                    }
                     tv_find_tab.visibility = View.VISIBLE
+                    getUserInfoUnMsg()
                 }
                 TextUtils.equals(it, tabTexts[2]) -> {
                     immersionBar.init()
@@ -235,6 +236,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                        showToast("dddd")
 //                    }
                     tv_square_tab.visibility = View.VISIBLE
+                    getUserInfoUnMsg()
                 }
 
                 TextUtils.equals(it, tabTexts[3]) -> {
@@ -247,6 +249,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_msg_setting, 0)
 //                    iv_right.text = "发布"
                     tv_title1.text = ""
+                    getUserInfoUnMsg()
                 }
                 TextUtils.equals(it, tabTexts[4]) -> {
                     immersionBar.init()

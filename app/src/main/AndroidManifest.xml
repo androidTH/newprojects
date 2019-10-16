@@ -329,6 +329,8 @@
         <activity android:name=".activities.BLBeautifyImageActivity"/>
         <activity android:name=".activities.FansActivity"/>
         <activity android:name=".activities.FollowActivity"/>
+        <activity android:name=".activities.OldFansActivity"/>
+        <activity android:name=".activities.OldFollowActivity"/>
         <activity android:name=".activities.VistorsActivity"/>
         <activity android:name=".activities.FilterSquaresActivity"
             android:screenOrientation="portrait"

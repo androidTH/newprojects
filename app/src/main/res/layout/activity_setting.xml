@@ -38,14 +38,14 @@
                         style="@style/DefaultCircleHeadStyle"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                     <ImageView
                         android:id="@+id/img_auther"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/margin_15"
                         android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -126,6 +126,33 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_oldfollow"
+                    style="@style/mineTextStyle"
+                    android:drawableLeft="@mipmap/my_melike_icon"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:text="我喜欢的" />
+
+                <TextView
+                    android:id="@+id/tv_oldfans"
+                    style="@style/mineTextStyle"
+                    android:layout_below="@+id/tv_oldfollow"
+                    android:drawableLeft="@mipmap/my_likeme_icon"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:text="喜欢我的" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_oldfollow"
+                    android:layout_marginLeft="45dp"
+                    android:background="@color/color_EFEFEF" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -144,16 +171,16 @@
                     android:layout_below="@+id/tv_contact_us"
                     android:drawableLeft="@mipmap/my_contactus_icon"
                     android:drawablePadding="@dimen/margin_16"
-                    android:visibility="gone"
-                    android:text="在线客服" />
+                    android:text="在线客服"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/tv_contact_us"
                     android:layout_marginLeft="45dp"
-                    android:visibility="gone"
-                    android:background="@color/color_EFEFEF" />
+                    android:background="@color/color_EFEFEF"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -196,9 +223,9 @@
 
                 <RelativeLayout
                     android:id="@+id/rl_checkversion"
-                    android:layout_below="@+id/tv_feedback"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_feedback">
 
                     <TextView
                         android:id="@+id/tv_aboutUs"
@@ -206,16 +233,17 @@
                         android:drawableLeft="@mipmap/my_aboutus_icon"
                         android:drawablePadding="@dimen/margin_16"
                         android:text="关于我们" />
+
                     <TextView
                         android:id="@+id/tv_versionname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:padding="@dimen/margin_8"
-                        android:textColor="@color/color_888888"
+                        android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/margin_20"
-                        android:text=""/>
+                        android:padding="@dimen/margin_8"
+                        android:text=""
+                        android:textColor="@color/color_888888" />
                 </RelativeLayout>
 
                 <View
@@ -247,8 +275,8 @@
                 android:layout_marginTop="8dp"
                 android:drawableLeft="@mipmap/my_blacklist_icon"
                 android:drawablePadding="@dimen/margin_16"
-                android:visibility="visible"
-                android:text="测试" />
+                android:text="测试"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/btn_sign_out"

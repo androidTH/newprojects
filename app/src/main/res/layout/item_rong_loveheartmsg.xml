@@ -12,9 +12,10 @@
         android:id="@+id/tv_rongloveheart_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="200dp"
         android:textSize="17sp"
         android:textColor="@color/color_333333"
-        android:text="----"/>
+        android:text=""/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,16 +38,10 @@
             android:textColor="@color/color_999999"
             android:textSize="15sp"
             android:text="X"/>
-        <!--<com.facebook.drawee.view.SimpleDraweeView-->
-            <!--android:id="@+id/iv_rong_custommsg_pic"-->
-            <!--style="@style/DefaultCircleHeadStyle"-->
-            <!--android:layout_width="20dp"-->
-            <!--android:layout_height="20dp"-->
-            <!--android:src="@mipmap/feed_flowers_seleted"/>-->
         <ImageView
             android:layout_width="@dimen/margin_30"
             android:layout_height="@dimen/margin_30"
-            android:src="@mipmap/redheart_small"/>
+            android:src="@mipmap/animation_redheart"/>
     </LinearLayout>
 
 </LinearLayout>

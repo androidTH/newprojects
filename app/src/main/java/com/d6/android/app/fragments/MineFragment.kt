@@ -462,9 +462,9 @@ class MineFragment : BaseFragment() {
 //                showLikeWarm(false,0,it.iPointNew!!.toInt(),data.iVistorCount!!.toInt())
                 var point = it.iPointNew!!.toInt()
                 var iVistorCount = it.iVistorCount!!.toInt()
+                tv_vistor_count.text = "${it.iVistorCountAll}"
                 Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this,false,success= { msg, data ->
                     data?.let {
-                        tv_vistor_count.text = "${data.iReceiveNewLovePoint}"
                         showLikeWarm(false,data.iReceiveNewLovePoint,point,iVistorCount)
                     }
                 })

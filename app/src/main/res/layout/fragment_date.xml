@@ -153,6 +153,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="-25dp"
             android:visibility="gone"
+            android:paddingRight="@dimen/margin_8"
             android:id="@+id/tv_redheart_guide"/>
     </RelativeLayout>
 

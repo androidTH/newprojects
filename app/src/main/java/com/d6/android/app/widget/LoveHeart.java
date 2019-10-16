@@ -136,25 +136,25 @@ public class LoveHeart extends RelativeLayout {
         addView(imageView);
 
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(scaleXY(imageView, "scaleX", 1.8f, 0.9f, 100, 0))
+        animatorSet.play(scaleXY(imageView, "scaleX", 1.5f, 0.5f, 100, 0))
                 //缩放动画 , Y轴2倍缩小至0.9倍
-                .with(scaleXY(imageView, "scaleY", 1.8f, 0.9f, 100, 0))
+                .with(scaleXY(imageView, "scaleY", 1.5f, 0.5f, 100, 0))
                 //旋转动画 , 随机旋转角度
                 .with(rotation(imageView, 0, 0))
                 //透明度动画 , 透明度从0-1
                 .with(alpha(imageView, 0, 1, 100, 0))
                 //缩放动画 , X轴0.9倍缩小至1倍
-                .with(scaleXY(imageView, "scaleX", 0.9f, 1, 50, 150))
+                .with(scaleXY(imageView, "scaleX", 0.5f, 0.6f, 50, 150))
                 //缩放动画 , Y轴0.9倍缩小至1倍
-                .with(scaleXY(imageView, "scaleY", 0.9f, 1, 50, 150))
+                .with(scaleXY(imageView, "scaleY", 0.5f, 0.6f, 50, 150))
                 //平移动画 , Y轴从0向上移动700单位
-                .with(translationY(imageView, "translationY", 0, -700, 800, 400))
+                .with(translationY(imageView, "translationY", 0, -600, 800, 400))
                 //透明度动画 , 透明度从1-0
                 .with(alpha(imageView, 1, 0, 400, 400))
                 //缩放动画 , X轴1倍放大至3倍
-                .with(scaleXY(imageView, "scaleX", 1, 1.8f, 800, 400))
+                .with(scaleXY(imageView, "scaleX", 0.75f, 1.5f, 800, 400))
                 //缩放动画 , Y轴1倍放大至3倍
-                .with(scaleXY(imageView, "scaleY", 1, 1.8f, 800, 400));
+                .with(scaleXY(imageView, "scaleY", 0.75f, 1.5f, 800, 400));
         animatorSet.start();
         animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
