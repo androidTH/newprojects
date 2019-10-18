@@ -14,7 +14,7 @@
         android:paddingRight="@dimen/margin_5"
         android:gravity="center"
         android:layout_margin="4dp"
-        android:textColor="@color/color_999999"
+        android:textColor="@color/white"
         android:drawablePadding="@dimen/margin_5"
         android:textSize="12sp"
         android:text="身高"/>

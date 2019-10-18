@@ -330,6 +330,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             rl_doaction.visibility = View.GONE
             tv_more.visibility =View.GONE
             tv_msg.visibility = View.VISIBLE
+            tv_online_time.visibility = View.GONE
             deletePic = true
             mImages.add(AddImage("res:///" + myImageAdapter.mRes, 1))
             headerView.tv_user_follow_tips.text = "送出"
@@ -340,6 +341,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             rl_doaction.visibility = View.VISIBLE
             tv_more.visibility =View.VISIBLE
             tv_msg.visibility = View.GONE
+            tv_online_time.visibility = View.VISIBLE
+            var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_online)
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+            tv_online_time.setCompoundDrawables(drawable,null,null,null)
+            tv_online_time.text = "当前在线"
             headerView.rel_add_square.visibility = View.GONE
             headerView.tv_user_follow_tips.text = "送出"
             headerView.tv_user_fans_tips.text = "收到"

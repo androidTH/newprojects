@@ -19,6 +19,7 @@ import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
+import com.d6.android.app.utils.getLevelDrawable
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
@@ -121,17 +122,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             var tv_women_vip = holder.bind<TextView>(R.id.tv_vip)
             tv_women_vip.visibility = View.VISIBLE
-            if(TextUtils.equals(data.userclassesid,"27")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_primary))
-                tv_women_vip.backgroundDrawable =  ContextCompat.getDrawable(context,R.mipmap.gril_cj)
-            }else if(TextUtils.equals(data.userclassesid,"28")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_middle))
-                tv_women_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_zj)
-            }else if(TextUtils.equals(data.userclassesid,"29")){
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_senior))
-                tv_women_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_gj)
-            }else if(TextUtils.equals(data.userclassesid,"7")){
-                tv_women_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
+            var drawable = getLevelDrawable(data.userclassesid,context)
+            if(drawable!=null){
+                tv_women_vip.backgroundDrawable = drawable
             }else{
                 tv_women_vip.backgroundDrawable = null
                 tv_women_vip.visibility = View.GONE
@@ -143,7 +136,6 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 if (TextUtils.equals("0", data.nianling)) {
                     tv_woman_age.text = ""
                 } else {
-                    Log.i("ffff","${data.name}+${data.nianling}")
                     tv_woman_age.text = data.nianling
                 }
             }
@@ -158,21 +150,21 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             if (!data.egagementtext.isNullOrEmpty()) {
                 if(!TextUtils.equals("null",data.egagementtext)){
-                    tv_content.visibility = View.VISIBLE
+                    tv_content.visibility = View.GONE
                     tv_content.text =  data.egagementtext
                 }else{
                     tv_content.visibility = View.GONE
                 }
             } else if (!(data.gexingqianming.isNullOrEmpty())) {
                 if(!TextUtils.equals("null",data.gexingqianming)){
-                    tv_content.visibility = View.VISIBLE
+                    tv_content.visibility = View.GONE
                     tv_content.text = data.gexingqianming
                 }else{
                     tv_content.visibility = View.GONE
                 }
             }else if(!data.ziwojieshao.isNullOrEmpty()){
                 if(!TextUtils.equals("null",data.ziwojieshao)){
-                    tv_content.visibility = View.VISIBLE
+                    tv_content.visibility = View.GONE
                     tv_content.text = data.ziwojieshao
                 }else{
                     tv_content.visibility = View.GONE
@@ -191,9 +183,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
             if (data.iVistorCountAll >= 50) {
-                tv_vistorfollownums.text = "访客·${data.iVistorCountAll} 喜欢TA的·${data.iFansCountAll}人"
+                tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iFansCountAll}     访客·${data.iVistorCountAll}"
             } else {
-                tv_vistorfollownums.text = "喜欢TA的·${data.iFansCountAll}人"
+                tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iFansCountAll}"
             }
         }
 
@@ -280,12 +272,12 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
         var tv_job = holder.bind<TextView>(R.id.tv_man_pecfect_job)
         if (!data.zhiye.isNullOrEmpty()) {
-            AppUtils.setTvTag(context, "职业 ${data.zhiye}", 0, 2, tv_job)
+            AppUtils.setTvNewTag(context, "职业 ${data.zhiye}", 0, 2, tv_job)
         }
 
         var tv_zuojia = holder.bind<TextView>(R.id.tv_man_pecfect_zuojia)
         if (!data.zuojia.isNullOrEmpty()) {
-            AppUtils.setTvTag(context, "座驾 ${data.zuojia}", 0, 2, tv_zuojia)
+            AppUtils.setTvNewTag(context, "座驾 ${data.zuojia}", 0, 2, tv_zuojia)
         }
 
         var tv_aihao = holder.bind<TextView>(R.id.tv_man_pecfect_aihao)
@@ -297,7 +289,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 for (str in mHobbies) {
                     sb.append("${str} ")
                 }
-                AppUtils.setTvTag(context, sb.toString(), 0, 2, tv_aihao)
+                AppUtils.setTvNewTag(context, sb.toString(), 0, 2, tv_aihao)
             }
         }
 

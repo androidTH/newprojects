@@ -25,40 +25,26 @@ import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
-import com.d6.android.app.widget.gift.animutils.GiftAnimationUtil
-import com.google.gson.JsonObject
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
-import me.jessyan.autosize.internal.CustomAdapt
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.textColor
-import java.util.concurrent.TimeUnit
 
 /**
  * 约会
  */
-class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, CustomAdapt {
-
-    override fun isBaseOnWidth(): Boolean {
-        return false
-    }
-
-    override fun getSizeInDp(): Float {
-        return 667.0f
-    }
+class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
 
     override fun onItemClick(view: View?, position: Int) {
         if (view?.id == R.id.cardView) {
@@ -78,6 +64,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
 
     private val sex by lazy {
         SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
+    private val heardPic by lazy{
+        SPUtils.instance().getString(Const.User.USER_HEAD)
     }
 
     private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
@@ -102,6 +92,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
     var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
+
     //礼物
     private var giftControl: GiftControl? = null
 
@@ -113,7 +104,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         mRecyclerView.setSlideOnFling(false)
         mRecyclerView.setItemTransitionTimeMillis(150)
         mRecyclerView.setItemTransformer(ScaleTransformer.Builder()
-                .setMinScale(0.9f)
+                .setMinScale(1.0f)
+                .setMaxScale(1.0f)
                 .build())
 
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -224,6 +216,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             hideRedHeartGuide()
         }
 
+        tv_mycard.setOnClickListener {
+           startActivity<MyCardActivity>()
+        }
+
         root_find.setOnClickListener {
             hideRedHeartGuide()
         }
@@ -247,6 +243,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
         getProvinceData()
 
         initGift()
+
+        loading_headView.setImageURI(heardPic)
     }
 
     private fun initGift() {
@@ -329,7 +327,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
     }
 
     fun refresh() {
-        showDialog()
+//        showDialog()
         pageNum = 1
         if (pageNum == 1) {
             mDates.clear()
@@ -373,6 +371,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
      * 搜索
      */
     fun getData(city: String = "", xingzuo: String = "", agemin: String = "", agemax: String = "", lat: String = "", lon: String = "") {
+        rl_loading.visibility = View.VISIBLE
+        find_waveview.start()
         if (mDates.size == 0) {
             tv_main_card_bg_im_id.gone()
             tv_main_card_Bg_tv_id.gone()
@@ -382,6 +382,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             fb_find_chat.gone()
         }
         Request.findAccountCardListPage(userId, city, "", xingzuo, agemin, agemax, lat, lon, pageNum).request(this) { _, data ->
+            rl_loading.visibility = View.GONE
+            find_waveview.stop()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum == 1) {
                     mRecyclerView.visibility = View.GONE
@@ -399,7 +401,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                     fb_unlike.visible()
                     btn_like.visible()
                     fb_heat_like.visible()
-                    fb_find_chat.visible()
+                    fb_find_chat.gone()
                 }
             } else {
                 mRecyclerView.visibility = View.VISIBLE
@@ -412,9 +414,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
                 if (pageNum == 1) {
                     mDates.clear()
                 }
-                mDates.addAll(data.list.results)
+                data.list.results?.let { mDates.addAll(it) }
                 if (pageNum == 1) {
-                    joinInCard()
+//                    joinInCard()
                     var findDate = mDates.get(0)
                     if (findDate.iIsFans == 1) {
                         fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//like_complte
@@ -548,8 +550,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener, Cu
             if (!TextUtils.isEmpty(UserInfoJson)) {
                 mUserInfoData = GsonHelper.getGson().fromJson(UserInfoJson, UserData::class.java)
                 mUserInfoData?.let {
-                    //                    showToast("完成度${it.iDatacompletion}")
-                    if (it.iDatacompletion < 60) {
+                    if (it.iDatacompletion < 1100) {
                         var mFindDate: FindDate = FindDate(it.accountId)
                         setFindDate(mFindDate, it)
                         if (mDates.size > 4) {

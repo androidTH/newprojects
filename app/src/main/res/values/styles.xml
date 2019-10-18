@@ -115,6 +115,15 @@
         <item name="roundingBorderColor">@color/color_1A000000</item>
     </style>
 
+    <style name="newmandateDefaultHeadStyle">
+        <!--headempty_grayicon-->
+        <item name="failureImage">@color/color_33FFFFFF</item>
+        <item name="placeholderImage">@color/color_33FFFFFF</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+        <item name="viewAspectRatio">1</item>
+    </style>
+
     <style name="DefaultmanCircle" parent="manDefaultHeadStyle">
         <item name="roundAsCircle">true</item>
     </style>
@@ -361,6 +370,17 @@
     <style name="tv_tags_iconright">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/color_333333</item>
+    </style>
+
+
+    <style name="tv_tags_iconbfffffff">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_BFFFFFFF</item>
+    </style>
+
+    <style name="tv_tags_iconbwhite">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="tv_userinfotags_iconleft">

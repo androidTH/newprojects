@@ -301,20 +301,32 @@
                 android:text="地区"
                 android:textColor="@color/color_333333"
                 android:layout_below="@+id/tv_job"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
+            <RelativeLayout
                 android:layout_alignRight="@+id/tv_address"
-                android:id="@+id/tv_inputaddress"
-                android:layout_marginLeft="96dp"
-                android:singleLine="true"
-                android:hint="请输入"
-                android:background="@null"
-                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_alignBottom="@+id/tv_address"
                 android:layout_alignTop="@+id/tv_address"
-                android:gravity="center_vertical"
-                android:textColor="@color/color_666666" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:id="@+id/tv_inputaddress"
+                    android:layout_marginLeft="96dp"
+                    android:singleLine="true"
+                    android:hint="请输入"
+                    android:background="@null"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/color_666666" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/color_C1C1C1"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:text="打开D6时自动获取当前地区"/>
+            </RelativeLayout>
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_address"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"/>

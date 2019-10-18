@@ -1,57 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_find"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/mTitleBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
+        android:orientation="horizontal"
         android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tv_city"
+        <RelativeLayout
+            android:id="@+id/bar_left"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_35"
-            android:drawableRight="@mipmap/ic_arrow_down"
-            android:drawablePadding="@dimen/margin_5"
-            android:gravity="center"
-            android:maxLength="10"
-            android:text="地区"
-            android:textColor="@color/color_black"
-            android:textSize="@dimen/textSize"
-            android:textStyle="bold" />
+            android:layout_marginLeft="@dimen/margin_20"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableRight="@mipmap/ic_arrow_down"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center"
+                android:maxLength="10"
+                android:text="地区"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_xingzuo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:drawableRight="@mipmap/ic_arrow_down"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center"
+                android:maxLength="10"
+                android:text="会员等级"
+                android:textColor="@color/color_black"
+                android:textSize="@dimen/textSize"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:drawableRight="@mipmap/ic_arrow_down"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center"
+                android:text="@string/string_age"
+                android:textColor="@color/textColor"
+                android:textSize="@dimen/textSize"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_xingzuo"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_mycard"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:drawableRight="@mipmap/ic_arrow_down"
-            android:drawablePadding="@dimen/margin_5"
-            android:gravity="center"
-            android:maxLength="10"
-            android:text="星座"
-            android:textColor="@color/color_black"
-            android:textSize="@dimen/textSize"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_type"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/bar_left"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_35"
-            android:drawableRight="@mipmap/ic_arrow_down"
             android:drawablePadding="@dimen/margin_5"
             android:gravity="center"
-            android:text="@string/string_age"
-            android:textColor="@color/textColor"
-            android:textSize="@dimen/textSize"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:text="我的卡片"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/textSize"/>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -67,9 +87,10 @@
 
         <com.d6.android.app.widget.gallery.DiscreteScrollView
             android:id="@+id/mRecyclerView"
-            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_2"
             android:layout_width="match_parent"
-            android:layout_height="450dp"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="120dp"/>
 
         <ImageView
             android:id="@+id/tv_main_card_bg_im_id"
@@ -91,11 +112,34 @@
             android:textSize="@dimen/textSize"
             android:visibility="gone" />
 
+        <RelativeLayout
+            android:id="@+id/rl_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:background="@mipmap/find_loading_bg">
+            <com.d6.android.app.widget.WaveView
+                android:id="@+id/find_waveview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:wave_color="@color/color_F7AB00"
+                app:wave_coreImageRadius="90"
+                app:wave_width="90"/>
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/loading_headView"
+                style="@style/DefaultCircleHeadStyle"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:roundAsCircle="true"/>
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/ll_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mRecyclerView"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_32"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_10">
 
@@ -157,24 +201,18 @@
             android:id="@+id/tv_redheart_guide"/>
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/iv_date_redheart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
-
     <com.d6.android.app.widget.LoveHeart
         android:id="@+id/loveheart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="120dp"/>
+        android:layout_marginBottom="45dp"/>
     <LinearLayout
         android:id="@+id/ll_gift_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="135dp"
         android:orientation="vertical"/>
 </RelativeLayout>
