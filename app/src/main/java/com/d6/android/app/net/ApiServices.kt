@@ -291,12 +291,12 @@ interface ApiServices {
 
     //同城
     @POST("backstage/account/updateUserPosition")
-    fun updateUserPosition(@Query("iUserid") iUserid:String,@Query("sPosition") sPosition:String,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun updateUserPosition(@Query("iUserid") iUserid:String, @Query("sPosition") sPosition:String, @Query("lat") lat:String, @Query("lon") lon:String, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //发现约会
     @POST("backstage/account/findAccountCardListPage")
     fun findAccountCardListPage(@Query("iUserid") iUserid:String, @Query("sCity") scity:String,
-                                @Query("sex") sex:String, @Query("xingzuo") xingzuo:String, @Query("agemin") agemin:String, @Query("agemax") agemax:String,
+                                @Query("sex") sex:String, @Query("userclassesid") userclassesid:String, @Query("agemin") agemin:String, @Query("agemax") agemax:String,
                                 @Query("lat") lat:String, @Query("lon") lon:String,
                                 @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<FindDate>>>
 
@@ -542,10 +542,14 @@ interface ApiServices {
 
     //查询打码用户资料需要支付的积分数量
     @POST("backstage/userloverule/getLovePointQueryAuth")
-    fun getLovePointQueryAuth(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+    fun getLovePointQueryAuth(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //支付积分查看打码用户
     @POST("backstage/userloverule/loveUserQueryPayPoint")
-    fun loveUserQueryPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String):Flowable<Response<JsonObject>>
+    fun loveUserQueryPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
+    //2.12.0
+    //更新用户卡片是否允许发现中查看
+    @POST("backstage/account/updateCardIsFind")
+    fun updateCardIsFind(@Query("sLoginToken")sLoginToken:String, @Query("iIsFind")iIsFind:Int, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }

@@ -17,6 +17,7 @@ object Const {
         val IS_FIRST_FAST_CLICK="isFirstFastClick"
         @JvmField
         val USER_ID="userId"
+        @JvmField
         val USER_SEX="userSex"
         val USER_PHONE="userPhone"
         val USER_CLASS_ID="userClassID"

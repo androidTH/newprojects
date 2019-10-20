@@ -172,5 +172,4 @@ abstract class BaseFragment : Fragment() ,RequestManager{
     override fun showToast(msg: String) {
         toast(msg)
     }
-
 }

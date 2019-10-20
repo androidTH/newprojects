@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.base.BaseActivity
@@ -271,7 +272,12 @@ class MyInfoActivity : BaseActivity(),Observer{
         tv_constellation1.text = userData.constellation
         tv_intro1.setText(userData.intro)
         et_zuojia.setText(userData.zuojia)
-        tv_inputaddress.text = userData.city
+        if("${userData.city}".isNullOrEmpty()){
+            tv_address_tips.visibility = View.GONE
+        }else{
+            tv_inputaddress.text = userData.city
+            tv_address_tips.visibility = View.VISIBLE
+        }
 
         //顶部添加提示文案：完成度复用旧版算法
         //-60%：😔资料完成度：xx% 要约别人先完善自己
@@ -357,6 +363,7 @@ class MyInfoActivity : BaseActivity(),Observer{
             }else if(requestCode == AREA_REQUEST_CODE){
                 var area = data!!.getStringExtra("area")
                 tv_inputaddress.text = area
+                tv_address_tips.visibility = View.VISIBLE
             }
         }
     }

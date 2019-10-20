@@ -20,6 +20,9 @@ import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLevelDrawable
+import com.d6.android.app.widget.convenientbanner.ConvenientBanner
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
@@ -28,6 +31,8 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
     private val mTags = ArrayList<UserTag>()
     var iDateComlete: Int = 0
+
+    private val mBannerImages = ArrayList<String>()
 
     private var userId = SPUtils.instance().getString(Const.User.USER_ID)//35598
 
@@ -76,25 +81,73 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             }
 
             rv_mydate_tags.adapter = CardTagAdapter(mTags)
-
             val tv_indexofpics = holder.bind<TextView>(R.id.tv_indexofpics)
             val bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
             if (!TextUtils.equals(data.userpics, "null")) {
                 if (TextUtils.isEmpty(data.userpics)) {
+//                    mBannerImages.clear()
+//                    mBannerImages.add(data.picUrl)
                     bigImgView.setImageURI(data.picUrl)
                     tv_indexofpics.visibility = View.GONE
                 } else {
                     var images = data.userpics.split(",")
                     if (images.size > 0) {
+//                        mBannerImages.clear()
+//                        mBannerImages.addAll(images)
                         bigImgView.setImageURI(images[0])
                     }
                     tv_indexofpics.visibility = View.VISIBLE
                     tv_indexofpics.setText("1/${images.size}")
                 }
             } else {
+//                mBannerImages.clear()
+//                mBannerImages.add(data.picUrl)
                 bigImgView.setImageURI(data.picUrl)
                 tv_indexofpics.visibility = View.GONE
             }
+
+//            var bannerImages = holder.bind<ConvenientBanner<String>>(R.id.banner_grils)
+//            bannerImages.setPages(
+//                    object : CBViewHolderCreator {
+//                        override fun createHolder(itemView: View): WomenFindHolder {
+//                            return WomenFindHolder(itemView)
+//                        }
+//
+//                        override fun getLayoutId(): Int {
+//                            return R.layout.item_findwomenbanner
+//                        }
+//                    },mBannerImages)
+//
+//            bannerImages.setOnPageChangeListener(object: OnPageChangeListener {
+//                override fun onPageSelected(index: Int) {
+//                    when(index){
+//                        0-> {
+////                            tv_numone.isEnabled = false
+////                            tv_numtwo.isEnabled = true
+////                            tv_numthree.isEnabled = true
+//                        }
+//                        1->{
+////                            tv_numone.isEnabled = true
+////                            tv_numtwo.isEnabled = false
+////                            tv_numthree.isEnabled = true
+//                        }
+//                        2->{
+////                            tv_numone.isEnabled = true
+////                            tv_numtwo.isEnabled = true
+////                            tv_numthree.isEnabled = false
+//                        }
+//                    }
+//                }
+//
+//                override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+//                }
+//
+//                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+//                }
+//            })
+
+//            bannerImages.startTurning()
+
 
             val headView = holder.bind<SimpleDraweeView>(R.id.headView)
             headView.setImageURI(data.picUrl)
@@ -183,9 +236,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
             if (data.iVistorCountAll >= 50) {
-                tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iFansCountAll}     访客·${data.iVistorCountAll}"
+                tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
             } else {
-                tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iFansCountAll}"
+                tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iReceiveLovePoint}"
             }
         }
 

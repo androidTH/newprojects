@@ -3,15 +3,20 @@ package com.d6.android.app.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.text.TextPaint
 import android.text.TextUtils
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
+import com.d6.android.app.adapters.DanmaKuViewHolder
 import com.d6.android.app.adapters.DateCardAdapter
 import com.d6.android.app.adapters.DateWomanCardAdapter
 import com.d6.android.app.base.BaseFragment
@@ -26,6 +31,8 @@ import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.diskcache.DiskFileUtils
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.d6.android.app.widget.gift.CustormAnim
@@ -36,10 +43,27 @@ import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
+import master.flame.danmaku.controller.IDanmakuView
+import master.flame.danmaku.danmaku.loader.IllegalDataException
+import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory
+import master.flame.danmaku.danmaku.model.BaseDanmaku
+import master.flame.danmaku.danmaku.model.DanmakuTimer
+import master.flame.danmaku.danmaku.model.IDanmakus
+import master.flame.danmaku.danmaku.model.IDisplayer
+import master.flame.danmaku.danmaku.model.android.AndroidDisplayer
+import master.flame.danmaku.danmaku.model.android.DanmakuContext
+import master.flame.danmaku.danmaku.model.android.Danmakus
+import master.flame.danmaku.danmaku.model.android.ViewCacheStuffer
+import master.flame.danmaku.danmaku.parser.BaseDanmakuParser
+import master.flame.danmaku.danmaku.util.SystemClock
+import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.textColor
+import java.io.InputStream
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 约会
@@ -115,7 +139,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
                     scrollPosition = mRecyclerView.currentItem + 1
                     if ((mDates.size - scrollPosition) <= 2) {
                         pageNum++
-                        getData(city, xingzuo, agemin, agemax)
+                        getData(city, userclassesid, agemin, agemax)
                     }
                     if (mDates.size > 0) {
                         var findDate = mDates.get(scrollPosition - 1)
@@ -173,6 +197,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
                 }
                 hideRedHeartGuide()
             }
+            var b = it.tag
+            timer.cancel()
+            if(b==null){
+                timer = Timer()
+                timer.schedule(AsyncAddTask(), 0, 1000)
+                it.tag = true
+            }else{
+                it.tag = false
+            }
         }
 
         fb_heat_like.setOnLongClickListener(object : View.OnLongClickListener {
@@ -225,7 +258,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         }
 
         showDialog()
-        getData(city, xingzuo, agemin, agemax)
+        getData(city, userclassesid, agemin, agemax)
         checkLocation()
 
         mPopupAges = AgeSelectedPopup.create(activity)
@@ -245,6 +278,107 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         initGift()
 
         loading_headView.setImageURI(heardPic)
+
+        initDanMu()
+    }
+
+    private var mDanmakuContext: DanmakuContext? = null
+    private var mParser: BaseDanmakuParser? = null
+
+    private fun initDanMu(){
+        val maxLinesPair = HashMap<Int, Int>()
+        maxLinesPair[BaseDanmaku.TYPE_SCROLL_RL] = 3 // 滚动弹幕最大显示5行
+        // 设置是否禁止重叠
+        val overlappingEnablePair = HashMap<Int, Boolean>()
+        overlappingEnablePair[BaseDanmaku.TYPE_SCROLL_RL] = true
+        overlappingEnablePair[BaseDanmaku.TYPE_FIX_TOP] = true
+        mDanmakuContext = DanmakuContext.create()
+        mDanmakuContext?.let {
+            it.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3f).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.5f).setScaleTextSize(1.2f)
+                    .setCacheStuffer(object: ViewCacheStuffer<DanmaKuViewHolder>() {
+                        override fun onBindViewHolder(viewType: Int, viewHolder: DanmaKuViewHolder?, danmaku: BaseDanmaku?, displayerConfig: AndroidDisplayer.DisplayerConfig?, paint: TextPaint?) {
+                            if (paint != null)
+                                danmaku?.let {
+                                    viewHolder?.mText?.paint?.set(paint)
+                                    viewHolder?.mText?.text = danmaku.text
+                                    viewHolder?.mText?.setTextColor(danmaku.textColor)
+                                    viewHolder?.mText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize)
+                                    FrescoUtils.loadImage(activity,"http://ww2.sinaimg.cn/large/610dc034jw1fa42ktmjh4j20u011hn8g.jpg",object: IResult<Bitmap>{
+                                        override fun onResult(result: Bitmap?) {
+//                                            viewHolder?.mIcon?.setImageBitmap(CircleBitmapTransform.transform(result))
+                                        }
+                                    })
+                                }
+                        }
+
+                        override fun onCreateViewHolder(viewType: Int): DanmaKuViewHolder {
+                            return DanmaKuViewHolder(View.inflate(activity, R.layout.layout_view_cache, null))
+                        }
+
+                        override fun prepare(danmaku: BaseDanmaku?, fromWorkerThread: Boolean) {
+                            super.prepare(danmaku, fromWorkerThread)
+                        }
+
+                        override fun releaseResource(danmaku: BaseDanmaku?) {
+                            super.releaseResource(danmaku)
+                        }
+
+                    }, null)
+                    .setMaximumLines(maxLinesPair)
+                    .preventOverlapping(overlappingEnablePair);
+        }
+        if (sv_danmaku != null) {
+            mParser = createParser(null)
+            sv_danmaku.setCallback(object : master.flame.danmaku.controller.DrawHandler.Callback {
+                override fun updateTimer(timer: DanmakuTimer) {
+
+                }
+
+                override fun drawingFinished() {
+
+                }
+
+                override fun danmakuShown(danmaku: BaseDanmaku) {
+                    //                    Log.d("DFM", "danmakuShown(): text=" + danmaku.text);
+                }
+
+                override fun prepared() {
+                    sv_danmaku.start()
+                }
+            })
+            sv_danmaku.setOnDanmakuClickListener(object : IDanmakuView.OnDanmakuClickListener {
+
+                override fun onDanmakuClick(danmakus: IDanmakus): Boolean {
+                    Log.d("DFM", "onDanmakuClick: danmakus size:" + danmakus.size())
+                    val latest = danmakus.last()
+                    if (null != latest) {
+                        Log.d("DFM", "onDanmakuClick: text of latest danmaku:" + latest!!.text)
+                        return true
+                    }
+                    return false
+                }
+
+                override fun onDanmakuLongClick(danmakus: IDanmakus): Boolean {
+                    return false
+                }
+
+                override fun onViewClick(view: IDanmakuView): Boolean {
+                    return false
+                }
+            })
+            sv_danmaku.prepare(mParser, mDanmakuContext)
+            sv_danmaku.showFPS(false)
+            sv_danmaku.enableDanmakuDrawingCache(true)
+        }
+    }
+
+    private fun createParser(stream: InputStream?): BaseDanmakuParser {
+        return object : BaseDanmakuParser() {
+
+            override fun parse(): Danmakus {
+                return Danmakus()
+            }
+        }
     }
 
     private fun initGift() {
@@ -287,17 +421,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         }
     }
 
-    private val diposable = object : DisposableSubscriber<Long>() {
-        override fun onComplete() {}
-        override fun onError(t: Throwable?) {}
-        override fun onNext(t: Long) {
-            if (t == 3L) {
-                hideRedHeartGuide()
-            }
-        }
-
-    }
-
     private fun hideRedHeartGuide(){
         tv_redheart_guide.visibility=View.GONE
     }
@@ -332,7 +455,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         if (pageNum == 1) {
             mDates.clear()
         }
-        getData(city, xingzuo, agemin, agemax)
+        getData(city, userclassesid, agemin, agemax)
     }
 
     fun setAdapter() {
@@ -370,7 +493,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
     /**
      * 搜索
      */
-    fun getData(city: String = "", xingzuo: String = "", agemin: String = "", agemax: String = "", lat: String = "", lon: String = "") {
+    fun getData(city: String = "", userclassesid: String = "", agemin: String = "", agemax: String = "", lat: String = "", lon: String = "") {
         rl_loading.visibility = View.VISIBLE
         find_waveview.start()
         if (mDates.size == 0) {
@@ -381,7 +504,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
             fb_heat_like.gone()
             fb_find_chat.gone()
         }
-        Request.findAccountCardListPage(userId, city, "", xingzuo, agemin, agemax, lat, lon, pageNum).request(this) { _, data ->
+        Request.findAccountCardListPage(userId, city, "", userclassesid, agemin, agemax, lat, lon, pageNum).request(this) { _, data ->
             rl_loading.visibility = View.GONE
             find_waveview.stop()
             if (data?.list?.results == null || data.list.results.isEmpty()) {
@@ -430,34 +553,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
     }
 
     private fun doAnimation() {
-//        iv_date_redheart.setImageResource(R.mipmap.animation_redheart)
-//        var imageView = ImageView()
-//        val lp = ll_bottom.getLayoutParams() as RelativeLayout.LayoutParams//两个参数分别是layout_width,layout_height
-//        lp.addRule(RelativeLayout.CENTER_VERTICAL)
-//        ll_bottom.addView(imageView)
         loveheart.showAnimationRedHeart(null)
-//        val holder1 = PropertyValuesHolder.ofFloat("scaleX", 0.0f, 3.0f)
-//        val holder2 = PropertyValuesHolder.ofFloat("scaleY", 0.0f, 3.0f)
-//        val holder3 = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f)
-//        val animator = ObjectAnimator.ofPropertyValuesHolder(iv_date_redheart, holder1, holder2, holder3)
-//        animator.duration = 500
-//        animator.start()
-//        animator.addListener(object : Animator.AnimatorListener {
-//            override fun onAnimationStart(animation: Animator) {
-//
-//            }
-//
-//            override fun onAnimationEnd(animation: Animator) {
-//            }
-//
-//            override fun onAnimationCancel(animation: Animator) {
-//
-//            }
-//
-//            override fun onAnimationRepeat(animation: Animator) {
-//
-//            }
-//        })
     }
 
     fun doNextCard() {
@@ -466,7 +562,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
             mRecyclerView.smoothScrollToPosition(scrollPosition)
             if ((mDates.size - scrollPosition) <= 2) {
                 pageNum++
-                getData(city, xingzuo, agemin, agemax)
+                getData(city, userclassesid, agemin, agemax)
             }
         }
     }
@@ -532,10 +628,29 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (sv_danmaku != null && sv_danmaku.isPrepared() && sv_danmaku.isPaused()) {
+            sv_danmaku.resume();
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (sv_danmaku != null && sv_danmaku.isPrepared()) {
+            sv_danmaku.pause()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         immersionBar.destroy()
         locationClient.onDestroy()
+
+        if (sv_danmaku != null) {
+            // dont forget release!
+            sv_danmaku.release()
+        }
     }
 
     private val mImages = ArrayList<AddImage>()
@@ -653,7 +768,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
     lateinit var mPopupArea: AreaSelectedPopup
     var ageIndex = -1;
     var constellationIndex = -1
-    var xingzuo: String = ""
+    var userclassesid: String = ""
     var agemin: String = ""
     var agemax: String = ""
     var areaIndex = -3
@@ -690,7 +805,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
             if (pageNum == 1) {
                 mDates.clear()
             }
-            getData(city, xingzuo, agemin, agemax, lat, lon)
+            getData(city, userclassesid, agemin, agemax, lat, lon)
         }
 
         mPopupArea.setOnDismissListener {
@@ -713,11 +828,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
             constellationIndex = position
             if (constellationIndex == 0) {
                 constellationIndex = -1
-                tv_xingzuo.text = "星座"
-                xingzuo = ""
+                tv_xingzuo.text = "会员等级"
+                userclassesid = ""
                 setSearChUI(1, false)
             } else {
-                xingzuo = string
+                userclassesid = "${position}"
                 tv_xingzuo.text = string
                 setSearChUI(1, true)
             }
@@ -725,7 +840,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
             if (pageNum == 1) {
                 mDates.clear()
             }
-            getData(city, xingzuo, agemin, agemax)
+            getData(city, userclassesid, agemin, agemax)
         }
 
         mPopupConstellation.setOnDismissListener {
@@ -776,7 +891,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
             if (pageNum == 1) {
                 mDates.clear()
             }
-            getData(city, xingzuo, agemin, agemax)
+            getData(city, userclassesid, agemin, agemax)
         }
 
         mPopupAges.setOnDismissListener {
@@ -821,5 +936,37 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
             tv_city.textColor = ContextCompat.getColor(context, R.color.color_black)
             tv_xingzuo.textColor = ContextCompat.getColor(context, R.color.color_black)
         }
+    }
+
+
+    internal var timer = Timer()
+
+    internal inner class AsyncAddTask : TimerTask() {
+
+        override fun run() {
+            for (i in 0..19) {
+                addDanmaku(false)
+                SystemClock.sleep(800)
+            }
+        }
+    }
+
+    private fun addDanmaku(islive: Boolean) {
+        val danmaku = mDanmakuContext!!.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL)
+        if (danmaku == null || sv_danmaku == null) {
+            return
+        }
+        danmaku!!.text = "xxxx：送了她55颗 [img src=redheart_small/]"
+        danmaku!!.padding = 5
+        danmaku!!.priority = 0  // 可能会被各种过滤器过滤并隐藏显示
+        danmaku!!.isLive = islive
+        danmaku!!.setTime(sv_danmaku.getCurrentTime() + 1200)
+        danmaku!!.textSize = 12f * (mParser!!.getDisplayer().density - 0.6f)
+        danmaku!!.textColor = ContextCompat.getColor(activity,R.color.color_333333)
+        danmaku!!.textShadowColor = 0
+        danmaku!!.underlineColor = 0
+        danmaku!!.borderColor = 0
+        danmaku!!.padding = 5
+        sv_danmaku.addDanmaku(danmaku)
     }
 }

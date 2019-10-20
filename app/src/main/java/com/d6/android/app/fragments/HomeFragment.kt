@@ -224,8 +224,18 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 locationClient.stopLocation()
                 SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
                 SPUtils.instance().put(USER_PROVINCE,it.province).apply()
+                getUserLocation(it.city,"${it.latitude}","${it.longitude}")
             }
         }
+    }
+
+    /**
+     * 经纬度提交给服务端
+     */
+    private fun getUserLocation(city:String,lat:String,lon:String){
+        Request.updateUserPosition(getLocalUserId(),city,lat,lon).request(this,false,success={_,data->
+            toast("定位成功")
+        })
     }
 
     private fun getProvinceData() {

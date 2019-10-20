@@ -319,13 +319,14 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/color_666666" />
                 <TextView
+                    android:id="@+id/tv_address_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="44dp"
                     android:gravity="center_vertical"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/color_C1C1C1"
                     android:layout_marginRight="@dimen/margin_10"
-                    android:text="打开D6时自动获取当前地区"/>
+                    android:text="打开D6时将会自动获取你当前所在地"/>
             </RelativeLayout>
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_address"

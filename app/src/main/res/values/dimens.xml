@@ -76,6 +76,8 @@
     <dimen name="height_100">100dp</dimen>
     <dimen name="height_120">120dp</dimen>
     <dimen name="height_250">250dp</dimen>
+    <dimen name="height_200">200dp</dimen>
+    <dimen name="height_210">210dp</dimen>
     <dimen name="height_300">300dp</dimen>
     <dimen name="height_330">330dp</dimen>
     <dimen name="height_400">400dp</dimen>

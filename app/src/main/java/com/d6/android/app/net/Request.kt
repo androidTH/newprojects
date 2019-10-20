@@ -2,6 +2,7 @@ package com.d6.android.app.net
 
 import com.d6.android.app.models.Response
 import com.d6.android.app.models.UserData
+import com.d6.android.app.utils.getAppVersion
 import com.d6.android.app.utils.getFileSuffix
 import com.d6.android.app.utils.ioScheduler
 import com.d6.android.app.utils.sysErr
@@ -355,12 +356,12 @@ object Request {
     fun queryAppointmentPoint(userId:String,iAppointUserid:String)=RRetrofit.instance().create(ApiServices::class.java).queryAppointmentPoint(userId,iAppointUserid)
 
     //更新地理未知
-    fun updateUserPosition(iUserid:String,sPosition:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sPosition)
+    fun updateUserPosition(iUserid:String,sPosition:String,lat:String,lon:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sPosition,lat,lon)
 
     //发现约会
     fun findAccountCardListPage(userId:String,sCity:String,
-                                sex:String,xingzuo:String,agemin:String,agemax:String,lat:String,lon:String
-                                ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,xingzuo,agemin,agemax,lat,lon,pageNum)
+                                sex:String,userclassesid:String,agemin:String,agemax:String,lat:String,lon:String
+                                ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,userclassesid,agemin,agemax,lat,lon,pageNum)
 
     //绑定手机号
     fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String,sChannelId:String?,sInviteCode:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic,sChannelId,sInviteCode)
@@ -528,4 +529,8 @@ object Request {
 
     //支付积分查看打码用户
     fun loveUserQueryPayPoint(sLoginToken: String,iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).loveUserQueryPayPoint(sLoginToken,iUserid)
+
+    //更新用户卡片是否允许发现中查看
+    fun updateCardIsFind(sLoginToken:String, iIsFind:Int)=RRetrofit.instance().create(ApiServices::class.java).updateCardIsFind(sLoginToken,iIsFind)
+
 }

@@ -360,6 +360,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         setAudioListener()
 
+        checkUserOnline()
     }
 
     private fun setAudioListener(){
@@ -437,7 +438,26 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }){code,msg->
             Log.i("createGroupName","fail${msg}")//保存失败
         }
+    }
 
+    private fun checkUserOnline(){
+        Request.checkUserOnline(getLoginToken(),id).request(this,success={ _, data->
+            data?.let {
+                var iOnline = it.optInt("iOnline")
+                var lastLoginTime = it.optString("lastLoginTime")
+                if(iOnline==1){
+                    var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_offline)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+//                    tv_service_time.setCompoundDrawables(drawable,null,null,null)
+//                    tv_service_time.text = "离线:客服工作时间上午9:00-凌晨1:30, 可给客服留言"
+                }else{
+                    var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_online)
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+//                    tv_service_time.setCompoundDrawables(drawable,null,null,null)
+//                    tv_service_time.text = "人工在线"
+                }
+            }
+        })
     }
 
     private fun setTitleBgAlpha(alpha: Int) {

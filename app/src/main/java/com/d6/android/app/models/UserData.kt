@@ -43,8 +43,8 @@ data class UserData(val accountId: String? = "") : Serializable {
     var egagementtext: String? = ""
     var openEgagementflag: String? = ""
     var egagementwx: String? = ""
-    var userhandlookwhere: String? = ""
-    var userlookwhere: String? = ""
+    var userhandlookwhere: String? = ""//国外区域
+    var userlookwhere: String? = ""//国内区域
     var egagementtype: Int? = 0
     var iIsFollow:Int? = 0
     var iPoint:Int? = 0
@@ -76,7 +76,10 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iSendLovePoint:Int = -1//发送的红心数量
     var iReceiveLovePoint:Int = -1 //收到的红心数量
     var iReceiveNewLovePoint:Int = -1 //收到的红心数量
-
+    var iLastDayExposureCount:Int = 0 //昨天卡片曝光量
+    var iAllExposureCount:Int = 0 //总得卡片曝光量
+    var iLastDayReceiveLovePoint:Int = 0 //昨日收到的喜欢数量
+    var iIsFind:Int = -1 //1、显示 2、不显示
 
     override fun toString(): String {
 

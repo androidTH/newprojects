@@ -207,10 +207,10 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
                 if (data.iVistorCountAll > 50) {
                     tv_linetime.text = "在线时间"
-                    tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iFansCountAll}     访客·${data.iVistorCountAll}"
+                    tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
                 } else {
                     tv_linetime.text = "在线时间"
-                    tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iFansCountAll}"
+                    tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
                 }
 
                 if (!data.nianling.isNullOrEmpty()) {
@@ -390,10 +390,10 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
         if (data.iVistorCountAll > 50) {
             tv_linetime.text = "在线时间"
-            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iFansCountAll}     访客·${data.iVistorCountAll}"
+            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
         } else {
             tv_linetime.text = "在线时间"
-            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iFansCountAll}"
+            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
         }
         val tv_newage = holder.bind<TextView>(R.id.tv_newage)
         if (!data.nianling.isNullOrEmpty()) {
@@ -526,9 +526,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_women_perfect_vistorfollownums)
         tv_women_perfect_online_time.text = "在线时间"
         if (data.iVistorCountAll >= 50) {
-            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iFansCountAll}    访客·${data.iVistorCountAll} "
+            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}    访客·${data.iVistorCountAll} "
         } else {
-            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iFansCountAll}"
+            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
         }
     }
 }

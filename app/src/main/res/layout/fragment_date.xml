@@ -92,6 +92,11 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="120dp"/>
 
+        <master.flame.danmaku.ui.widget.DanmakuView
+            android:id="@+id/sv_danmaku"
+            android:layout_width="match_parent"
+            android:layout_height="220dp" />
+
         <ImageView
             android:id="@+id/tv_main_card_bg_im_id"
             android:layout_width="match_parent"
