@@ -272,10 +272,10 @@ class MyInfoActivity : BaseActivity(),Observer{
         tv_constellation1.text = userData.constellation
         tv_intro1.setText(userData.intro)
         et_zuojia.setText(userData.zuojia)
-        if("${userData.city}".isNullOrEmpty()){
+        if("${userData.area}".isNullOrEmpty()){
             tv_address_tips.visibility = View.GONE
         }else{
-            tv_inputaddress.text = userData.city
+            tv_inputaddress.text = userData.area
             tv_address_tips.visibility = View.VISIBLE
         }
 

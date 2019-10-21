@@ -20,9 +20,6 @@ import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLevelDrawable
-import com.d6.android.app.widget.convenientbanner.ConvenientBanner
-import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
-import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
@@ -158,7 +155,6 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 holder.setText(R.id.tv_name, data.name)
             }
 
-
             val img_date_womenauther = holder.bind<ImageView>(R.id.img_date_womenauther)
 
             if(TextUtils.equals("0",data!!.screen)|| data!!.screen.isNullOrEmpty()){
@@ -240,6 +236,13 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             } else {
                 tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iReceiveLovePoint}"
             }
+            var tv_online_time = holder.bind<TextView>(R.id.tv_online_time)
+            if(data.sOnlineMsg.isNullOrEmpty()){
+                tv_online_time.visibility = View.GONE
+            }else{
+                tv_online_time.visibility = View.VISIBLE
+            }
+            tv_online_time.text = "${data.sOnlineMsg}"
         }
 
         val onClickListener = View.OnClickListener {
@@ -306,19 +309,19 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
         mTags.clear()
         if (!data.shengao.isNullOrEmpty()) {
-            mTags.add(UserTag("身高 ${data.shengao}", R.mipmap.boy_stature_icon))
+            mTags.add(UserTag("身高 ${data.shengao}", R.mipmap.boy_stature_icon,2))
         }
 
         if (!data.tizhong.isNullOrEmpty()) {
-            mTags.add(UserTag("体重 ${data.tizhong}", R.mipmap.boy_weight_icon))
+            mTags.add(UserTag("体重 ${data.tizhong}", R.mipmap.boy_weight_icon,2))
         }
 
         if (!data.xingzuo.isNullOrEmpty()) {
-            mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_icon))
+            mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_icon,2))
         }
 
         if (!data.city.isNullOrEmpty()) {
-            mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_icon))
+            mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_icon,2))
         }
 
         rv_local_user_tags.adapter = CardManTagAdapter(mTags)

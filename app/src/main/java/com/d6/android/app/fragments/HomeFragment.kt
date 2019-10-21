@@ -234,7 +234,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
      */
     private fun getUserLocation(city:String,lat:String,lon:String){
         Request.updateUserPosition(getLocalUserId(),city,lat,lon).request(this,false,success={_,data->
-            toast("定位成功")
         })
     }
 

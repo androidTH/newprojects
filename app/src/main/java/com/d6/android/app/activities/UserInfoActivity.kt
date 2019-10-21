@@ -342,10 +342,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_more.visibility =View.VISIBLE
             tv_msg.visibility = View.GONE
             tv_online_time.visibility = View.VISIBLE
-            var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_online)
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-            tv_online_time.setCompoundDrawables(drawable,null,null,null)
-            tv_online_time.text = "当前在线"
             headerView.rel_add_square.visibility = View.GONE
             headerView.tv_user_follow_tips.text = "送出"
             headerView.tv_user_fans_tips.text = "收到"
@@ -353,14 +349,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             addVistor()
 
             initGift()
+
+            checkUserOnline()
         }
 
         getUserInfo()
 //        getUserFollowAndFansandVistor()
 
         setAudioListener()
-
-        checkUserOnline()
     }
 
     private fun setAudioListener(){
@@ -444,17 +440,20 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.checkUserOnline(getLoginToken(),id).request(this,success={ _, data->
             data?.let {
                 var iOnline = it.optInt("iOnline")
-                var lastLoginTime = it.optString("lastLoginTime")
+                var sOnlineMsg = it.optString("sOnlineMsg")
                 if(iOnline==1){
-                    var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_offline)
+                    tv_online_time.visibility = View.GONE
+                } else if (iOnline == 2) {
+                    var drawable = ContextCompat.getDrawable(this, R.drawable.shape_dot_online)
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-//                    tv_service_time.setCompoundDrawables(drawable,null,null,null)
-//                    tv_service_time.text = "离线:客服工作时间上午9:00-凌晨1:30, 可给客服留言"
-                }else{
-                    var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_online)
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-//                    tv_service_time.setCompoundDrawables(drawable,null,null,null)
-//                    tv_service_time.text = "人工在线"
+                    tv_online_time.setCompoundDrawables(drawable, null, null, null)
+                    tv_online_time.visibility = View.VISIBLE
+                    tv_online_time.textColor = ContextCompat.getColor(this, R.color.white)
+                    tv_online_time.text = sOnlineMsg
+                } else if (iOnline == 3) {
+                    tv_online_time.visibility = View.VISIBLE
+                    tv_online_time.textColor = ContextCompat.getColor(this, R.color.color_80FFFFFF)
+                    tv_online_time.text = sOnlineMsg
                 }
             }
         })
@@ -567,8 +566,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //                headerView.headView.hierarchy = getHierarchy(it.sex.toString())
                 headerView.headView.setImageURI(it.picUrl)
 
-                Log.i("minefragment","个人中心头像url=${it.picUrl}")
-
                 headerView.tv_nick.text = it.name
                 if (!TextUtils.isEmpty(it.intro)) {
                     headerView.tv_signature.text = it.intro
@@ -673,6 +670,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_whiteicon))
                 }
 
+                if(!it.job.isNullOrEmpty()){
+                    mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_whiteicon))
+                }
+
+                if(!it.userlookwhere.isNullOrEmpty()||!it.userhandlookwhere.isNullOrEmpty()){
+                    mTags.add(UserTag("约会地 ${it.userlookwhere} ${it.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+                }
+
                 if(mTags.size==0){
                     headerView.rv_tags.visibility = View.GONE
                 }else{
@@ -681,11 +686,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 userTagAdapter.notifyDataSetChanged()
 
-                if (!it.job.isNullOrEmpty()) {
-                    AppUtils.setUserInfoTvTag(this, "职业 ${it.job}", 0, 2, headerView.tv_job)
-                } else {
-                    headerView.tv_job.visibility = View.GONE
-                }
+//                if (!it.job.isNullOrEmpty()) {
+//                    AppUtils.setUserInfoTvTag(this, "职业 ${it.job}", 0, 2, headerView.tv_job)
+//                } else {
+//                    headerView.tv_job.visibility = View.GONE
+//                }
 
                 if (!it.zuojia.isNullOrEmpty()) {
                     AppUtils.setUserInfoTvTag(this, "座驾 ${it.zuojia}", 0, 2, headerView.tv_zuojia)

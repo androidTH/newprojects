@@ -533,4 +533,6 @@ object Request {
     //更新用户卡片是否允许发现中查看
     fun updateCardIsFind(sLoginToken:String, iIsFind:Int)=RRetrofit.instance().create(ApiServices::class.java).updateCardIsFind(sLoginToken,iIsFind)
 
+    fun findReceiveLoveHeartList(iUserid:String,sLoginToken:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findReceiveLoveHeartList(iUserid,sLoginToken,pageNum)
+
 }

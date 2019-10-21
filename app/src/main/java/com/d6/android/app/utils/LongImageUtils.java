@@ -187,15 +187,15 @@ public class LongImageUtils {
 
         mTags.clear();
         if (!TextUtils.isEmpty(mData.getHeight())) {
-            mTags.add(new UserTag("身高 " + mData.getHeight(), R.mipmap.boy_stature_icon));
+            mTags.add(new UserTag("身高 " + mData.getHeight(), R.mipmap.boy_stature_icon,2));
         }
 
         if (!TextUtils.isEmpty(mData.getWeight())) {
-            mTags.add(new UserTag("体重 " + mData.getWeight(), R.mipmap.boy_weight_grayicon));
+            mTags.add(new UserTag("体重 " + mData.getWeight(), R.mipmap.boy_weight_grayicon,2));
         }
 
         if (!TextUtils.isEmpty(mData.getXingzuo())) {
-            mTags.add(new UserTag("星座 " + mData.getXingzuo(), R.mipmap.boy_profession_icon));
+            mTags.add(new UserTag("星座 " + mData.getXingzuo(), R.mipmap.boy_profession_icon,2));
         }
 
         if(TextUtils.equals(type,"FindDateDetailActivity")){
@@ -203,7 +203,7 @@ public class LongImageUtils {
             date_type.setText(String.format("觅约：%s", mData.getLooknumber()));
             tv_content.setText(mData.getLookfriendstand());
             if (!TextUtils.isEmpty(mData.getCity())) {
-                mTags.add(new UserTag("地区 " + mData.getCity(), R.mipmap.boy_constellation_icon));
+                mTags.add(new UserTag("地区 " + mData.getCity(), R.mipmap.boy_constellation_icon,2));
             }
         }else{
             ll5.setVisibility(View.VISIBLE);
@@ -214,7 +214,7 @@ public class LongImageUtils {
             tv_content.setText(mData.getSpeedcontent());
 
             if (!TextUtils.isEmpty(mData.getSpeedcity())) {
-                mTags.add(new UserTag("地区 " + mData.getSpeedcity(), R.mipmap.boy_constellation_icon));
+                mTags.add(new UserTag("地区 " + mData.getSpeedcity(), R.mipmap.boy_constellation_icon,2));
             }
 
         }

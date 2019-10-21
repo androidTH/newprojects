@@ -63,7 +63,7 @@
             android:textSize="12sp"
             android:gravity="center"
             android:drawablePadding="@dimen/margin_3"
-            android:drawableLeft="@drawable/shape_dot_online"
+            android:textStyle="bold"
             android:textColor="@color/white"/>
     </RelativeLayout>
 

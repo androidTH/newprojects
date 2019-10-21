@@ -59,6 +59,7 @@ data class FindDate(var accountId:String?="") :Parcelable {
         var lstUserid =null
         var iIsFans:Int=-1 //0代表没有喜欢 1代表已喜欢
         var iReceiveLovePoint:Int = -1 //添加收到的喜欢总数
+        var sOnlineMsg:String=""
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         loginName = parcel.readString()

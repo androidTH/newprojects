@@ -180,6 +180,7 @@
             android:drawableLeft="@mipmap/boy_profession_whiteicon"
             android:drawablePadding="@dimen/margin_5"
             android:text="职业 "
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="14sp" />
 

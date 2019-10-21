@@ -174,19 +174,19 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
 
                 mTags.clear();
                 if (!TextUtils.isEmpty(mUserData.getHeight())) {
-                    mTags.add(new UserTag("身高:" + mUserData.getHeight(), R.drawable.shape_tag_bg_1));
+                    mTags.add(new UserTag("身高:" + mUserData.getHeight(), R.drawable.shape_tag_bg_1,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getWeight())) {
-                    mTags.add(new UserTag("体重:" + mUserData.getWeight(), R.drawable.shape_tag_bg_2));
+                    mTags.add(new UserTag("体重:" + mUserData.getWeight(), R.drawable.shape_tag_bg_2,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getJob())) {
-                    mTags.add(new UserTag(mUserData.getJob(), R.drawable.shape_tag_bg_3));
+                    mTags.add(new UserTag(mUserData.getJob(), R.drawable.shape_tag_bg_3,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getConstellation())) {
-                    mTags.add(new UserTag(mUserData.getConstellation(), R.drawable.shape_tag_bg_5));
+                    mTags.add(new UserTag(mUserData.getConstellation(), R.drawable.shape_tag_bg_5,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getHobbit())) {
@@ -194,7 +194,7 @@ public class BusinessCardFMsgProvider extends IContainerItemProvider.MessageProv
                     if (mHobbies != null) {
                         for (int i = 0; i < mHobbies.length; i++) {
                             if (!TextUtils.isEmpty(mHobbies[i])) {
-                                mTags.add(new UserTag(mHobbies[i], R.drawable.shape_tag_bg_6));
+                                mTags.add(new UserTag(mHobbies[i], R.drawable.shape_tag_bg_6,2));
                             }
                         }
                     }

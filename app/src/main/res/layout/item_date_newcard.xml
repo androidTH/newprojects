@@ -145,7 +145,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/shape_dot_online"
-                        android:text="当前在线"
                         android:textColor="@color/white"
                         android:drawablePadding="@dimen/margin_5"
                         android:layout_marginRight="@dimen/margin_10"
@@ -230,6 +229,7 @@
                 android:drawableLeft="@mipmap/boy_profession_whiteicon"
                 android:drawablePadding="@dimen/margin_5"
                 android:text="职业 "
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

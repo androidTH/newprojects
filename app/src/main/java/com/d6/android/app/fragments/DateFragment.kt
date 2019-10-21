@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.os.AsyncTask
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.TextPaint
@@ -62,13 +63,14 @@ import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.textColor
 import java.io.InputStream
+import java.sql.Time
 import java.util.*
 import kotlin.collections.ArrayList
 
 /**
  * 约会
  */
-class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
+class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun onItemClick(view: View?, position: Int) {
         if (view?.id == R.id.cardView) {
@@ -90,7 +92,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
-    private val heardPic by lazy{
+    private val heardPic by lazy {
         SPUtils.instance().getString(Const.User.USER_HEAD)
     }
 
@@ -111,8 +113,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
     }
 
-    private var IsNotFastClick:Boolean = false
+    private var IsNotFastClick: Boolean = false
     private var pageNum = 1
+    private var DANMU_pageNum = 1
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
     var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
@@ -142,12 +145,17 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
                         getData(city, userclassesid, agemin, agemax)
                     }
                     if (mDates.size > 0) {
-                        var findDate = mDates.get(scrollPosition - 1)
-                        if (findDate.iIsFans == 1) {
-                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))
-                        } else {
-                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))
+                        if(TextUtils.equals(sex, "1")){
+                            sv_danmaku.removeAllDanmakus(true)
+                            var findDate = mDates.get(scrollPosition - 1)
+                            DANMU_pageNum = 1
+                            getFindReceiveLoveHeart("${findDate.accountId}")
                         }
+//                        if (findDate.iIsFans == 1) {
+//                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))
+//                        } else {
+//                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))
+//                        }
                     }
                 }
             }
@@ -181,30 +189,21 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
 
         fb_heat_like.setOnClickListener {
             activity.isAuthUser() {
-                if(localLoveHeartNums>0){
-                    if(sendLoveHeartNums <= localLoveHeartNums){
-                        sendLoveHeartNums = sendLoveHeartNums+1
-                        addGiftNums(1, false,false)
+                if (localLoveHeartNums > 0) {
+                    if (sendLoveHeartNums <= localLoveHeartNums) {
+                        sendLoveHeartNums = sendLoveHeartNums + 1
+                        addGiftNums(1, false, false)
                         IsNotFastClick = is500sFastClick()
-                        VibrateHelp.Vibrate(activity,VibrateHelp.time50)
-                    }else{
+                        VibrateHelp.Vibrate(activity, VibrateHelp.time50)
+                    } else {
                         var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                         mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
                     }
-                }else{
+                } else {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
                 }
                 hideRedHeartGuide()
-            }
-            var b = it.tag
-            timer.cancel()
-            if(b==null){
-                timer = Timer()
-                timer.schedule(AsyncAddTask(), 0, 1000)
-                it.tag = true
-            }else{
-                it.tag = false
             }
         }
 
@@ -217,7 +216,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
                         mSendLoveHeartDialog.arguments = bundleOf("userId" to "${findDate.accountId}")
                     }
                     mSendLoveHeartDialog.setDialogListener { p, s ->
-                        addGiftNums(p, false,true)
+                        addGiftNums(p, false, true)
                     }
                     mSendLoveHeartDialog.show(childFragmentManager, "sendloveheartDialog")
                     hideRedHeartGuide()
@@ -250,7 +249,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         }
 
         tv_mycard.setOnClickListener {
-           startActivity<MyCardActivity>()
+            startActivity<MyCardActivity>()
         }
 
         root_find.setOnClickListener {
@@ -285,7 +284,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
     private var mDanmakuContext: DanmakuContext? = null
     private var mParser: BaseDanmakuParser? = null
 
-    private fun initDanMu(){
+    private fun initDanMu() {
         val maxLinesPair = HashMap<Int, Int>()
         maxLinesPair[BaseDanmaku.TYPE_SCROLL_RL] = 3 // 滚动弹幕最大显示5行
         // 设置是否禁止重叠
@@ -295,7 +294,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         mDanmakuContext = DanmakuContext.create()
         mDanmakuContext?.let {
             it.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3f).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.5f).setScaleTextSize(1.2f)
-                    .setCacheStuffer(object: ViewCacheStuffer<DanmaKuViewHolder>() {
+                    .setCacheStuffer(object : ViewCacheStuffer<DanmaKuViewHolder>() {
                         override fun onBindViewHolder(viewType: Int, viewHolder: DanmaKuViewHolder?, danmaku: BaseDanmaku?, displayerConfig: AndroidDisplayer.DisplayerConfig?, paint: TextPaint?) {
                             if (paint != null)
                                 danmaku?.let {
@@ -303,7 +302,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
                                     viewHolder?.mText?.text = danmaku.text
                                     viewHolder?.mText?.setTextColor(danmaku.textColor)
                                     viewHolder?.mText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize)
-                                    FrescoUtils.loadImage(activity,"http://ww2.sinaimg.cn/large/610dc034jw1fa42ktmjh4j20u011hn8g.jpg",object: IResult<Bitmap>{
+                                    FrescoUtils.loadImage(activity, "http://ww2.sinaimg.cn/large/610dc034jw1fa42ktmjh4j20u011hn8g.jpg", object : IResult<Bitmap> {
                                         override fun onResult(result: Bitmap?) {
 //                                            viewHolder?.mIcon?.setImageBitmap(CircleBitmapTransform.transform(result))
                                         }
@@ -400,33 +399,33 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
 
                 var clickNums = getIsNotFirstDialog()
                 var mIsFirstFastClick = getIsNotFirstFastClick()
-                if (clickNums==0&&!IsNotFastClick) {
+                if (clickNums == 0 && !IsNotFastClick) {
                     var mRedHeartGuideDialog = RedHeartGuideDialog()
                     mRedHeartGuideDialog.show(childFragmentManager, "redheartguideDialog")
                     ++clickNums
-                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(),clickNums).apply()
-                }else if(clickNums==1&&!IsNotFastClick){
-                    tv_redheart_guide.visibility=View.VISIBLE
+                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), clickNums).apply()
+                } else if (clickNums == 1 && !IsNotFastClick) {
+                    tv_redheart_guide.visibility = View.VISIBLE
                     tv_redheart_guide.text = "连击可以送出多个喜欢"
                     ++clickNums
-                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(),clickNums).apply()
+                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), clickNums).apply()
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
-                }else if(it>=3&&!mIsFirstFastClick){
-                    tv_redheart_guide.visibility=View.VISIBLE
+                } else if (it >= 3 && !mIsFirstFastClick) {
+                    tv_redheart_guide.visibility = View.VISIBLE
                     tv_redheart_guide.text = "长按可以快捷选择520、1314个喜欢"
-                    SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(),true).apply()
+                    SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(), true).apply()
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 }
             }
         }
     }
 
-    private fun hideRedHeartGuide(){
-        tv_redheart_guide.visibility=View.GONE
+    private fun hideRedHeartGuide() {
+        tv_redheart_guide.visibility = View.GONE
     }
 
     //连击礼物数量
-    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false,JumpCombo:Boolean = false) {
+    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false, JumpCombo: Boolean = false) {
         if (giftnum == 0) {
             return
         } else {
@@ -439,7 +438,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
                 if (currentStart) {
                     giftModel.setHitCombo(giftnum)
                 }
-                if(JumpCombo){
+                if (JumpCombo) {
                     giftModel.setJumpCombo(giftnum)
                 }
                 it.loadGift(giftModel)
@@ -455,11 +454,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         if (pageNum == 1) {
             mDates.clear()
         }
+        sv_danmaku.removeAllDanmakus(true)
         getData(city, userclassesid, agemin, agemax)
     }
 
     fun setAdapter() {
         if (TextUtils.equals(sex, "0")) {
+            sv_danmaku.visibility = View.GONE
             mRecyclerView.adapter = DateCardAdapter(mDates)
         } else {
             mRecyclerView.adapter = DateWomanCardAdapter(mDates)
@@ -541,10 +542,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
                 if (pageNum == 1) {
 //                    joinInCard()
                     var findDate = mDates.get(0)
-                    if (findDate.iIsFans == 1) {
-                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//like_complte
-                    } else {
-                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//discover_like_button
+//                    if (findDate.iIsFans == 1) {
+//                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//like_complte
+//                    } else {
+//                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//discover_like_button
+//                    }
+                    if(TextUtils.equals(sex, "1")){
+                        getFindReceiveLoveHeart(findDate.accountId.toString())
                     }
                 }
                 mRecyclerView.adapter.notifyDataSetChanged()
@@ -572,18 +576,18 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         if (mDates.size > scrollPosition) {
             var findDate = mDates.get(scrollPosition)
 
-            Request.sendLovePoint(getLoginToken(), "${findDate.accountId}", giftCount, 2,"").request(this, false, success = { _, data ->
+            Request.sendLovePoint(getLoginToken(), "${findDate.accountId}", giftCount, 2, "").request(this, false, success = { _, data ->
                 Log.i("GiftControl", "礼物数量${giftCount}")
                 sendLoveHeartNums = 1
-                Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
+                Request.getUserInfo("", getLocalUserId()).request(this, false, success = { _, data ->
                     data?.let {
-                        SPUtils.instance().put(Const.User.USERLOVE_NUMS,it.iLovePoint).apply()
+                        SPUtils.instance().put(Const.User.USERLOVE_NUMS, it.iLovePoint).apply()
                         localLoveHeartNums = it.iLovePoint
                     }
                 })
             }) { code, msg ->
                 sendLoveHeartNums = 1
-                if (code == 2||code == 3) {
+                if (code == 2 || code == 3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
                 }
@@ -938,35 +942,66 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener{
         }
     }
 
+    private val mReceiveLoveHearts = ArrayList<LoveHeartFans>()
 
-    internal var timer = Timer()
+    private fun getFindReceiveLoveHeart(iUserId: String) {
+        Request.findReceiveLoveHeartList(iUserId, getLoginToken(), DANMU_pageNum).request(this, false, success = { _, data ->
+            data?.let {
+                if (DANMU_pageNum == 1) {
+                    mReceiveLoveHearts.clear()
+                }
+                if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
+                    if (DANMU_pageNum > 1) {
+                        DANMU_pageNum--
+                    } else {
 
-    internal inner class AsyncAddTask : TimerTask() {
+                    }
+                } else {
+                    it.list?.results?.let {
+                        mReceiveLoveHearts.addAll(it)
+                    }
+                }
 
-        override fun run() {
-            for (i in 0..19) {
-                addDanmaku(false)
-                SystemClock.sleep(800)
+                if (data.list?.totalPage == 1) {
+                    addDanMuTask()
+                } else {
+                    addDanMuTask()
+                }
+            }
+        }) { code, msg ->
+
+        }
+    }
+
+    private fun addDanMuTask() {
+        for (i in 0..(mReceiveLoveHearts.size - 1)) {
+            if (mReceiveLoveHearts.size > i) {
+                addDanmaku(mReceiveLoveHearts.get(i), false)
+            }
+            if (mReceiveLoveHearts.size - i == 5) {
+                DANMU_pageNum = DANMU_pageNum + 1
+                Log.i("datefragment", "----------${DANMU_pageNum}")
             }
         }
     }
 
-    private fun addDanmaku(islive: Boolean) {
+    private fun addDanmaku(loveHeartFans: LoveHeartFans, islive: Boolean) {
         val danmaku = mDanmakuContext!!.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL)
         if (danmaku == null || sv_danmaku == null) {
             return
         }
-        danmaku!!.text = "xxxx：送了她55颗 [img src=redheart_small/]"
+        danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.iAllLovePoint}颗 [img src=redheart_small/]"
         danmaku!!.padding = 5
         danmaku!!.priority = 0  // 可能会被各种过滤器过滤并隐藏显示
         danmaku!!.isLive = islive
         danmaku!!.setTime(sv_danmaku.getCurrentTime() + 1200)
         danmaku!!.textSize = 12f * (mParser!!.getDisplayer().density - 0.6f)
-        danmaku!!.textColor = ContextCompat.getColor(activity,R.color.color_333333)
+        danmaku!!.textColor = ContextCompat.getColor(activity, R.color.color_333333)
         danmaku!!.textShadowColor = 0
         danmaku!!.underlineColor = 0
         danmaku!!.borderColor = 0
         danmaku!!.padding = 5
+        danmaku!!.tag = loveHeartFans.sPicUrl
         sv_danmaku.addDanmaku(danmaku)
     }
 }

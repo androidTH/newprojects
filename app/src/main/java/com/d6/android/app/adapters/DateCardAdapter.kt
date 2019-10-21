@@ -119,14 +119,22 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon))
                 }
 
+                if(!data.zhiye.isNullOrEmpty()){
+                    mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
+                }
+
+                if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
+                    mTags.add(UserTag("约会地 ${data.userlookwhere} ${data.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+                }
+
                 rv_mydate_tags.adapter = CardManTagAdapter(mTags)
 
-                var tv_job = holder.bind<TextView>(R.id.tv_job)
-                if (!data.zhiye.isNullOrEmpty()) {
-                    AppUtils.setTvNewTag(context, "职业 ${data.zhiye}", 0, 2, tv_job)
-                } else {
-                    tv_job.visibility = View.GONE
-                }
+//                var tv_job = holder.bind<TextView>(R.id.tv_job)
+//                if (!data.zhiye.isNullOrEmpty()) {
+//                    AppUtils.setTvNewTag(context, "职业 ${data.zhiye}", 0, 2, tv_job)
+//                } else {
+//                    tv_job.visibility = View.GONE
+//                }
 
                 var tv_zuojia = holder.bind<TextView>(R.id.tv_zuojia)
                 if (!data.zuojia.isNullOrEmpty()) {
@@ -205,11 +213,15 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 var tv_linetime = holder.bind<TextView>(R.id.tv_vistor_count)
                 var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_like_count)
 
+                if(data.sOnlineMsg.isNullOrEmpty()){
+                    tv_linetime.visibility = View.GONE
+                }else{
+                    tv_linetime.visibility = View.VISIBLE
+                }
+                tv_linetime.text = "${data.sOnlineMsg}"
                 if (data.iVistorCountAll > 50) {
-                    tv_linetime.text = "在线时间"
                     tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
                 } else {
-                    tv_linetime.text = "在线时间"
                     tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
                 }
 
@@ -322,14 +334,22 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon))
         }
 
+        if(!data.zhiye.isNullOrEmpty()){
+            mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
+        }
+
+        if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
+            mTags.add(UserTag("约会地 ${data.userlookwhere} ${data.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+        }
+
         rv_mydate_newtags.adapter = CardManTagAdapter(mTags)
 
-        var tv_newjob = holder.bind<TextView>(R.id.tv_newjob)
-        if (!data.zhiye.isNullOrEmpty()) {
-            AppUtils.setTvNewTag(context, "职业 ${data.zhiye}", 0, 2, tv_newjob)
-        } else {
-            tv_newjob.visibility = View.GONE
-        }
+//        var tv_newjob = holder.bind<TextView>(R.id.tv_newjob)
+//        if (!data.zhiye.isNullOrEmpty()) {
+//            AppUtils.setTvNewTag(context, "职业 ${data.zhiye}", 0, 2, tv_newjob)
+//        } else {
+//            tv_newjob.visibility = View.GONE
+//        }
 
         var tv_newzuojia = holder.bind<TextView>(R.id.tv_newzuojia)
         if (!data.zuojia.isNullOrEmpty()) {
@@ -386,13 +406,17 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }
 
         var tv_linetime = holder.bind<TextView>(R.id.tv_linetime)
-        var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_loveheart_vistor)
+        if(data.sOnlineMsg.isNullOrEmpty()){
+            tv_linetime.visibility = View.GONE
+        }else{
+            tv_linetime.visibility = View.VISIBLE
+        }
 
+        var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_loveheart_vistor)
+        tv_linetime.text = "${data.sOnlineMsg}"
         if (data.iVistorCountAll > 50) {
-            tv_linetime.text = "在线时间"
             tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
         } else {
-            tv_linetime.text = "在线时间"
             tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
         }
         val tv_newage = holder.bind<TextView>(R.id.tv_newage)

@@ -17,6 +17,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     val phone: String? = ""
     var sex: String? = "" //0 是女 1是男
     var city: String? = ""
+    @SerializedName("sPosition")
     var area: String? = ""
     @SerializedName("xingquaihao")
     var hobbit: String? = ""

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewTreeObserver
@@ -11,6 +12,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.CardTagAdapter
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.adapters.UserTagAdapter
+import com.d6.android.app.adapters.WomenFindHolder
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
@@ -21,6 +23,8 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_mycard.*
@@ -33,6 +37,7 @@ import java.lang.StringBuilder
 class MyCardActivity : BaseActivity() {
 
     private val mTags = ArrayList<UserTag>()
+    private var mWomenBanners = ArrayList<String>()
 
     private val userTagAdapter by lazy {
         UserTagAdapter(mTags)
@@ -188,27 +193,59 @@ class MyCardActivity : BaseActivity() {
                 }
             }
         }
-        rv_grils_tags.adapter = CardTagAdapter(mTags)
 
+        rv_grils_tags.adapter = CardTagAdapter(mTags)
         if (!TextUtils.equals(it.userpics, "null")) {
-            if (TextUtils.isEmpty(it.userpics)) {
-                imageView.setImageURI(it.picUrl)
-                tv_indexofpics.visibility = View.GONE
-            } else {
+            if (!TextUtils.isEmpty(it.userpics)) {
                 var images = it.userpics?.split(",")
-                if (images != null) {
-                    if (images.size > 0) {
-                        imageView.setImageURI(images[0])
-                    }
-                }
-                tv_indexofpics.visibility = View.VISIBLE
-                if (images != null) {
-                    tv_indexofpics.setText("1/${images.size}")
+                if (images != null&&images.size>0) {
+                    mWomenBanners.addAll(images)
                 }
             }
         } else {
-            imageView.setImageURI(it.picUrl)
-            tv_indexofpics.visibility = View.GONE
+            mWomenBanners.add("${it.picUrl}")
+        }
+        banner_grils.setPages(
+                object : CBViewHolderCreator {
+                    override fun createHolder(itemView: View): WomenFindHolder {
+                        return WomenFindHolder(itemView)
+                    }
+
+                    override fun getLayoutId(): Int {
+                        return R.layout.item_findwomenbanner
+                    }
+                }, mWomenBanners)
+
+        banner_grils.setOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageSelected(index: Int) {
+                when (index) {
+                    0 -> {
+//                            tv_numone.isEnabled = false
+//                            tv_numtwo.isEnabled = true
+//                            tv_numthree.isEnabled = true
+                    }
+                    1 -> {
+//                            tv_numone.isEnabled = true
+//                            tv_numtwo.isEnabled = false
+//                            tv_numthree.isEnabled = true
+                    }
+                    2 -> {
+//                            tv_numone.isEnabled = true
+//                            tv_numtwo.isEnabled = true
+//                            tv_numthree.isEnabled = false
+                    }
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            }
+        })
+
+        if(mWomenBanners.size>1){
+            banner_grils.startTurning()
         }
 
         if (it.name?.length ?:0 >= 8) {
@@ -216,21 +253,6 @@ class MyCardActivity : BaseActivity() {
         } else {
             tv_grilname.text = it.name
         }
-
-
-//        val img_date_womenauther = holder.bind<ImageView>(R.id.img_date_womenauther)
-//
-//        if(TextUtils.equals("0",data!!.screen)|| data!!.screen.isNullOrEmpty()){
-//            img_date_womenauther.visibility = View.GONE
-//        }else if(TextUtils.equals("1",data!!.screen)){
-//            img_date_womenauther.visibility = View.VISIBLE
-//            img_date_womenauther.setImageResource(R.mipmap.video_small)
-//        }else if(TextUtils.equals("3",data!!.screen)){
-//            img_date_womenauther.visibility = View.GONE
-//            img_date_womenauther.setImageResource(R.mipmap.renzheng_small)
-//        }else{
-//            img_date_womenauther.visibility = View.GONE
-//        }
 
         tv_grilvip.visibility = View.VISIBLE
         var drawable = getLevelDrawable("${it.userclassesid}",this)
@@ -389,6 +411,14 @@ class MyCardActivity : BaseActivity() {
             mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_whiteicon))
         }
 
+        if(!it.job.isNullOrEmpty()){
+            mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_whiteicon))
+        }
+
+        if(!it.userlookwhere.isNullOrEmpty()||!it.userhandlookwhere.isNullOrEmpty()){
+            mTags.add(UserTag("约会地 ${it.userlookwhere} ${it.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+        }
+
         if(mTags.size==0){
             rv_tags.visibility = View.GONE
         }else{
@@ -397,11 +427,11 @@ class MyCardActivity : BaseActivity() {
 
         userTagAdapter.notifyDataSetChanged()
 
-        if (!it.job.isNullOrEmpty()) {
-            AppUtils.setUserInfoTvTag(this, "职业 ${it.job}", 0, 2, tv_job)
-        } else {
-            tv_job.visibility = View.GONE
-        }
+//        if (!it.job.isNullOrEmpty()) {
+//            AppUtils.setUserInfoTvTag(this, "职业 ${it.job}", 0, 2, tv_job)
+//        } else {
+//            tv_job.visibility = View.GONE
+//        }
 
         if (!it.zuojia.isNullOrEmpty()) {
             AppUtils.setUserInfoTvTag(this, "座驾 ${it.zuojia}", 0, 2, tv_zuojia)

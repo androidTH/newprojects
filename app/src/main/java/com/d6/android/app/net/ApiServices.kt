@@ -552,4 +552,8 @@ interface ApiServices {
     //更新用户卡片是否允许发现中查看
     @POST("backstage/account/updateCardIsFind")
     fun updateCardIsFind(@Query("sLoginToken")sLoginToken:String, @Query("iIsFind")iIsFind:Int, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //
+    @POST("backstage/userloverule/findReceiveLoveListByUserid")
+    fun findReceiveLoveHeartList(@Query("iUserid") iUserid:String,@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 20,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
 }

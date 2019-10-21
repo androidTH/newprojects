@@ -24,9 +24,7 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.AppUtils.Companion.setTextViewSpannable
 import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
-import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import kotlinx.android.synthetic.main.activity_mypoints.*
 import kotlinx.android.synthetic.main.item_mypoints_header.view.*

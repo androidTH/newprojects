@@ -18,7 +18,7 @@ class UserTagAdapter(mData:ArrayList<UserTag>): BaseRecyclerAdapter<UserTag>(mDa
         var drawable = ContextCompat.getDrawable(context,data.color)
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
         contentView.setCompoundDrawables(drawable,null,null,null)
-        contentView.text = data.content
-        AppUtils.setUserInfoTvTag(context,data.content,0,2,contentView)
+        contentView.text="${data.content}"
+        AppUtils.setUserInfoTvTag(context,data.content,0,data.len,contentView)
     }
 }

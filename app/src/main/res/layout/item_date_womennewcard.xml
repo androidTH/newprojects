@@ -142,7 +142,6 @@
                     android:drawableLeft="@drawable/shape_dot_online"
                     android:drawablePadding="@dimen/margin_3"
                     android:gravity="center"
-                    android:text="当前在线"
                     android:textColor="@color/white"
                     android:layout_marginRight="@dimen/margin_15"
                     android:textSize="12sp" />
@@ -185,12 +184,12 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_mydate_tags"
-                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginTop="@dimen/margin_5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_content"
                 android:layout_marginBottom="@dimen/margin_10"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="12dp" />
         </RelativeLayout>
     </RelativeLayout>
 

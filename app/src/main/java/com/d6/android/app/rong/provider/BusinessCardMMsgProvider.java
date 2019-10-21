@@ -202,27 +202,27 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
 
                 mTags.clear();
                 if (!TextUtils.isEmpty(mUserData.getHeight())) {
-                    mTags.add(new UserTag("身高 " + mUserData.getHeight(), R.mipmap.boy_stature_icon));
+                    mTags.add(new UserTag("身高 " + mUserData.getHeight(), R.mipmap.boy_stature_icon,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getWeight())) {
-                    mTags.add(new UserTag("体重 " + mUserData.getWeight(), R.mipmap.boy_weight_grayicon));
+                    mTags.add(new UserTag("体重 " + mUserData.getWeight(), R.mipmap.boy_weight_grayicon,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getJob())) {
-                    mTags.add(new UserTag("职业 " + mUserData.getJob(), R.mipmap.boy_profession_icon));
+                    mTags.add(new UserTag("职业 " + mUserData.getJob(), R.mipmap.boy_profession_icon,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getConstellation())) {
-                    mTags.add(new UserTag("星座 " + mUserData.getConstellation(), R.mipmap.boy_constellation_icon));
+                    mTags.add(new UserTag("星座 " + mUserData.getConstellation(), R.mipmap.boy_constellation_icon,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getCity())) {
-                    mTags.add(new UserTag("地区 " + mUserData.getCity(), R.mipmap.boy_area_icon));
+                    mTags.add(new UserTag("地区 " + mUserData.getCity(), R.mipmap.boy_area_icon,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getZuojia())) {
-                    mTags.add(new UserTag("座驾 " + mUserData.getZuojia(), R.mipmap.boy_car_icon));
+                    mTags.add(new UserTag("座驾 " + mUserData.getZuojia(), R.mipmap.boy_car_icon,2));
                 }
 
                 if (!TextUtils.isEmpty(mUserData.getHobbit())) {
@@ -230,7 +230,7 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                     StringBuilder sb = new StringBuilder();
                     sb.append("爱好 ");
                     sb.append(mHobbies);
-                    mTags.add(new UserTag(sb.toString(), R.mipmap.boy_hobby_icon));
+                    mTags.add(new UserTag(sb.toString(), R.mipmap.boy_hobby_icon,2));
                 }
 
                 if (mTags.size() == 0) {

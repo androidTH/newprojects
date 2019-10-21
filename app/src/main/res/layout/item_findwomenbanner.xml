@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/imageView"
     style="@style/DefaultImageStyle"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:roundAsCircle="false"
+    app:roundedCornerRadius="@dimen/margin_10">
 
 </com.facebook.drawee.view.SimpleDraweeView>
