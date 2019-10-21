@@ -666,8 +666,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mTags.add(UserTag("星座 ${it.constellation}", R.mipmap.boy_constellation_whiteicon))
                 }
 
-                if (!it.city.isNullOrEmpty()) {
-                    mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_whiteicon))
+                if (!it.area.isNullOrEmpty()) {
+                    mTags.add(UserTag("地区 ${it.area}", R.mipmap.boy_area_whiteicon))
                 }
 
                 if(!it.job.isNullOrEmpty()){

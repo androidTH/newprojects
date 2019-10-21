@@ -81,6 +81,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iAllExposureCount:Int = 0 //总得卡片曝光量
     var iLastDayReceiveLovePoint:Int = 0 //昨日收到的喜欢数量
     var iIsFind:Int = -1 //1、显示 2、不显示
+    var sOnlineMsg:String = ""
 
     override fun toString(): String {
 

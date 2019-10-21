@@ -629,13 +629,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             immersionBar.init()
+            sv_danmaku.resume()
         }
     }
 
     override fun onResume() {
         super.onResume()
         if (sv_danmaku != null && sv_danmaku.isPrepared() && sv_danmaku.isPaused()) {
-            sv_danmaku.resume();
+            sv_danmaku.resume()
         }
     }
 

@@ -308,8 +308,12 @@ class MyCardActivity : BaseActivity() {
         if (TextUtils.equals("null", it.userhandlookwhere)) {
             it.userhandlookwhere = ""
         }
+        if(it.sOnlineMsg.isNullOrEmpty()){
+            tv_online_time.visibility = View.GONE
+        }
+        tv_online_time.text = "${it.sOnlineMsg}"
 
-        tv_city.text = it.city
+        tv_city.text = it.area
         if (it.iVistorCountAll >= 50) {
             tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${it.iFansCountAll}     访客·${it.iVistorCountAll}"
         } else {
@@ -329,19 +333,13 @@ class MyCardActivity : BaseActivity() {
             tv_other_auther_sign.text = "本宝宝还没想到好的自我介绍~"
         }
 
-        tv_likehe.text = "喜欢TA·${it.iLovePoint}  访客·${it.iVistorCountAll}"
-//                it.isValid?.let {
-//                    if (TextUtils.equals("1", it)) {
-//                        rl_prompt.visibility = View.GONE
-//                        var lp = RelativeLayout.LayoutParams(rl_headView.layoutParams)
-//                        lp?.let {
-//                            lp.topMargin = resources.getDimensionPixelOffset(R.dimen.height_75)
-//                            lp.leftMargin = resources.getDimensionPixelOffset(R.dimen.margin16dp)
-//                            lp.rightMargin = resources.getDimensionPixelOffset(R.dimen.margin_6)
-//                        }
-//                        headerView.rl_headView.layoutParams = lp
-//                    }
-//                }
+        if(it.sOnlineMsg.isNullOrEmpty()){
+            tv_onlinetime_men.visibility = View.GONE
+        }
+
+        tv_onlinetime_men.text = "${it.sOnlineMsg}"
+
+        tv_likehe.text = "收到 [img src=redheart_small/] · ${it.iLovePoint}  访客·${it.iVistorCountAll}"
 
         tv_sex.isSelected = TextUtils.equals("0", it.sex)
         it.age?.let {
@@ -407,8 +405,8 @@ class MyCardActivity : BaseActivity() {
             mTags.add(UserTag("星座 ${it.constellation}", R.mipmap.boy_constellation_whiteicon))
         }
 
-        if (!it.city.isNullOrEmpty()) {
-            mTags.add(UserTag("地区 ${it.city}", R.mipmap.boy_area_whiteicon))
+        if (!it.area.isNullOrEmpty()) {
+            mTags.add(UserTag("地区 ${it.area}", R.mipmap.boy_area_whiteicon))
         }
 
         if(!it.job.isNullOrEmpty()){

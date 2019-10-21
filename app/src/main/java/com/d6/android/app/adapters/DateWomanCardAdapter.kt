@@ -232,9 +232,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
             if (data.iVistorCountAll >= 50) {
-                tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
+                tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
             } else {
-                tv_vistorfollownums.text = "收到 [img src=redheart_small/] ·${data.iReceiveLovePoint}"
+                tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
             }
             var tv_online_time = holder.bind<TextView>(R.id.tv_online_time)
             if(data.sOnlineMsg.isNullOrEmpty()){

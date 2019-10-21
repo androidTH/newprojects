@@ -154,7 +154,7 @@
         android:layout_marginLeft="@dimen/margin_5"
         android:layout_marginTop="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_5"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_bg"
@@ -246,16 +246,33 @@
                 android:textSize="10dp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_likehe"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_my_info"
             android:layout_alignLeft="@+id/ll_my_info"
             android:layout_marginTop="@dimen/margin_10"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_onlinetime_men"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_15"
+                android:drawableLeft="@drawable/shape_dot_online"
+                android:drawablePadding="@dimen/margin_3"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_likehe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_other_auther_sign"
@@ -412,7 +429,6 @@
                     android:layout_marginRight="8dp"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
-                    android:text="你哈啊"
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     android:textStyle="bold" />
@@ -468,7 +484,6 @@
                         android:drawablePadding="@dimen/margin_3"
                         android:gravity="center"
                         android:text="当前在线"
-                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
 

@@ -31,9 +31,9 @@ public class ConstellationSelectedPopup extends BasePopup<ConstellationSelectedP
 
     private String mLocalUseSex = SPUtils.Companion.instance().getString(Const.User.USER_SEX,"1");
 
-    private MemberChoose constellations[] = {new MemberChoose("不限","不限",0),new MemberChoose("只看会员","只看会员",1), new MemberChoose("中级会员","中级会员及以上",28),new MemberChoose("高级会员","高级会员及以上",29)};
+    private MemberChoose constellations[] = {new MemberChoose("不限","不限",0),new MemberChoose("只看会员","只看会员",31), new MemberChoose("中级会员","中级会员及以上",28),new MemberChoose("高级会员","高级会员及以上",29)};
 //    private String constellationsmen[] = {MemberChoose("不限","不限",0), MemberChoose("只看会员","只看会员",0), "普通会员及以上", "入群会员及以上","白银会员及以上","黄金会员及以上","钻石会员及以上","私人订制及以上"};
-    private MemberChoose constellationsmen[] = {new MemberChoose("不限","不限",0), new MemberChoose("只看会员","只看会员",1),new MemberChoose("普通会员","普通会员及以上",22) ,new MemberChoose("入群会员","入群会员及以上",30),new MemberChoose("白银会员","白银会员及以上",23),new MemberChoose("黄金会员","黄金会员及以上",24),new MemberChoose("钻石会员","钻石会员及以上",25),new MemberChoose("私人订制","私人订制及以上",26)};
+    private MemberChoose constellationsmen[] = {new MemberChoose("不限","不限",0), new MemberChoose("只看会员","只看会员",27),new MemberChoose("普通会员","普通会员及以上",22) ,new MemberChoose("入群会员","入群会员及以上",30),new MemberChoose("白银会员","白银会员及以上",23),new MemberChoose("黄金会员","黄金会员及以上",24),new MemberChoose("钻石会员","钻石会员及以上",25),new MemberChoose("私人订制","私人订制及以上",26)};
     private Context mContext;
     private RecyclerView mRvConstellation;
     private MemberChooseQuickDateAdapter mAdapter;
