@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.View
 import com.d6.android.app.R
+import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.base.BaseNoBarFragment
 import com.d6.android.app.utils.AppScreenUtils
 import com.d6.android.app.utils.BitmapUtils
@@ -48,12 +49,6 @@ class ImageFragment : BaseNoBarFragment() {
 
     override fun contentViewId() = R.layout.fragment_image
 
-    private val width by lazy{
-        if(activity!=null){
-            AppScreenUtils.getScreenWidth(activity)
-        }
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -69,36 +64,41 @@ class ImageFragment : BaseNoBarFragment() {
         sampimgview.setZoomEnabled(true)
         FrescoUtils.loadImage(context,url,object: IResult<Bitmap> {
             override fun onResult(result: Bitmap?) {
-                result?.let {
-                    var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(SimpleCacheKey(url))
-                    if(resource!=null){
-                        var fileResouce= resource as FileBinaryResource
-                        var mlistWH = BitmapUtils.getWidthHeight(fileResouce.getFile().path)
-                        var width = AppScreenUtils.getScreenWidth(activity)
-                        var scaleW = width / mlistWH[0].toFloat()
-                        if (BitmapUtils.isLongImage(context,mlistWH)) {
-                            try{
-                                sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
-                                sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
-                                sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
-                            }catch (e: Exception){
-                                e.printStackTrace()
-                                sampimgview.recycle()
-                                activity.onBackPressed()
+                try{
+                    result?.let {
+                        var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(SimpleCacheKey(url))
+                        if(resource!=null){
+                            var fileResouce= resource as FileBinaryResource
+                            var mlistWH = BitmapUtils.getWidthHeight(fileResouce.getFile().path)
+                            var width = AppScreenUtils.getScreenWidth(activity)
+                            var scaleW = width / mlistWH[0].toFloat()
+                            if (BitmapUtils.isLongImage(context,mlistWH)) {
+                                try{
+                                    sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
+                                    sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
+                                    sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
+                                }catch (e: Exception){
+                                    e.printStackTrace()
+                                    sampimgview.recycle()
+                                    (activity as ImagePagerActivity).onBackPressed()
+                                }
+                            } else {
+                                sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
+                                sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
                             }
-                        } else {
-                            sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
-                            sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
-                        }
-                    }else{
-                        if(it!=null){
-                            sampimgview.setImage(ImageSource.bitmap(it))
                         }else{
-                            sampimgview.visibility = View.GONE
-                            zoomDrawee.visibility = View.VISIBLE
-                            setZoomableDraweeView("${url}",isBlur)
+                            if(it!=null){
+                                sampimgview.setImage(ImageSource.bitmap(it))
+                            }else{
+                                sampimgview.visibility = View.GONE
+                                zoomDrawee.visibility = View.VISIBLE
+                                setZoomableDraweeView("${url}",isBlur)
+                            }
                         }
                     }
+                }catch(e:Exception){
+                    e.printStackTrace()
+                    (activity as ImagePagerActivity).onBackPressed()
                 }
             }
         })
@@ -138,7 +138,7 @@ class ImageFragment : BaseNoBarFragment() {
         zoomDrawee.controller = ctrl
         zoomDrawee.setOnClickListener {
             Fresco.getImagePipeline().clearMemoryCaches()
-            activity.onBackPressed()
+            (activity as ImagePagerActivity).onBackPressed()
         }
     }
 

@@ -308,99 +308,99 @@
             android:layout_alignParentBottom="true"
             android:background="@color/color_F5F5F5" />
     </RelativeLayout>
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/rl_redwallet"-->
-        <!--android:layout_below="@+id/rl_points_top"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="129dp">-->
-       <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-           <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-           <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-           <!--&lt;!&ndash;android:background="@mipmap/invite_banner"/>&ndash;&gt;-->
-        <!--<TextView-->
-            <!--android:id="@+id/tv_redwallet_nums"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:textColor="@color/color_999999"-->
-            <!--android:layout_marginLeft="@dimen/margin_18"-->
-            <!--android:layout_marginBottom="@dimen/margin_15"-->
-            <!--android:textSize="11sp"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/tv_redwallet_points"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_toRightOf="@+id/tv_redwallet_nums"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:textColor="@color/color_999999"-->
-            <!--android:layout_marginLeft="@dimen/margin_10"-->
-            <!--android:layout_marginBottom="@dimen/margin_15"-->
-            <!--android:textSize="11sp" />-->
-    <!--</RelativeLayout>-->
-
     <RelativeLayout
         android:id="@+id/rl_redwallet"
         android:layout_below="@+id/rl_points_top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_70"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginTop="@dimen/margin_10"
-        android:paddingLeft="@dimen/margin_10"
-        android:paddingRight="@dimen/margin_10"
-        android:background="@drawable/shape_white_6r">
-        <ImageView
-            android:id="@+id/iv_redwalletcheck"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_10"
-            android:src="@mipmap/inbitefriends_icon"/>
+        android:layout_height="129dp">
+       <ImageView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@mipmap/invite_banner"/>
         <TextView
-            android:id="@+id/tv_redwallet_friends"
+            android:id="@+id/tv_redwallet_nums"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="邀请好友"
-            android:textSize="15sp"
-            android:textColor="@color/color_black"
-            android:layout_marginTop="@dimen/margin_15"
-            android:layout_toRightOf="@id/iv_redwalletcheck"/>
-        <TextView
-            android:id="@+id/tv_redwallet_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="邀请好友入会最高可获得1600元"
-            android:textSize="11sp"
-            android:textColor="@color/color_888888"
             android:layout_alignParentBottom="true"
+            android:textColor="@color/color_999999"
+            android:layout_marginLeft="@dimen/margin_18"
             android:layout_marginBottom="@dimen/margin_15"
-            android:layout_toRightOf="@id/iv_redwalletcheck"/>
+            android:textSize="11sp"/>
         <TextView
-            android:id="@+id/tv_redwallet_add_points"
+            android:id="@+id/tv_redwallet_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_F7AB00"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textStyle="bold"
-            android:textSize="13sp"/>
-        <TextView
-            android:id="@+id/tv_redwallet_checkin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_13r_orange"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingTop="@dimen/margin_3"
-            android:paddingBottom="@dimen/margin_3"
-            android:paddingLeft="@dimen/margin_8"
-            android:paddingRight="@dimen/margin_8"
-            android:textStyle="bold"
-            android:textSize="12sp"
-            android:visibility="visible"
-            android:text="去邀请"/>
+            android:layout_toRightOf="@+id/tv_redwallet_nums"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/color_999999"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:textSize="11sp" />
     </RelativeLayout>
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_redwallet"-->
+        <!--android:layout_below="@+id/rl_points_top"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/padding_70"-->
+        <!--android:layout_marginLeft="@dimen/margin_10"-->
+        <!--android:layout_marginRight="@dimen/margin_10"-->
+        <!--android:layout_marginTop="@dimen/margin_10"-->
+        <!--android:paddingLeft="@dimen/margin_10"-->
+        <!--android:paddingRight="@dimen/margin_10"-->
+        <!--android:background="@drawable/shape_white_6r">-->
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_redwalletcheck"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="@dimen/margin_10"-->
+            <!--android:src="@mipmap/inbitefriends_icon"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_redwallet_friends"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="邀请好友"-->
+            <!--android:textSize="15sp"-->
+            <!--android:textColor="@color/color_black"-->
+            <!--android:layout_marginTop="@dimen/margin_15"-->
+            <!--android:layout_toRightOf="@id/iv_redwalletcheck"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_redwallet_desc"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="邀请好友入会最高可获得1600元"-->
+            <!--android:textSize="11sp"-->
+            <!--android:textColor="@color/color_888888"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="@dimen/margin_15"-->
+            <!--android:layout_toRightOf="@id/iv_redwalletcheck"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_redwallet_add_points"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/color_F7AB00"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textSize="13sp"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/tv_redwallet_checkin"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:background="@drawable/shape_13r_orange"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:paddingTop="@dimen/margin_3"-->
+            <!--android:paddingBottom="@dimen/margin_3"-->
+            <!--android:paddingLeft="@dimen/margin_8"-->
+            <!--android:paddingRight="@dimen/margin_8"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textSize="12sp"-->
+            <!--android:visibility="visible"-->
+            <!--android:text="去邀请"/>-->
+    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/rl_mypoints_checkin"
