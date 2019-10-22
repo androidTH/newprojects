@@ -9,10 +9,7 @@ import android.text.TextUtils
 import android.view.View
 import android.view.ViewTreeObserver
 import com.d6.android.app.R
-import com.d6.android.app.adapters.CardTagAdapter
-import com.d6.android.app.adapters.MyImageAdapter
-import com.d6.android.app.adapters.UserTagAdapter
-import com.d6.android.app.adapters.WomenFindHolder
+import com.d6.android.app.adapters.*
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.extentions.showBlur
@@ -28,6 +25,7 @@ import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_mycard.*
+import kotlinx.android.synthetic.main.layout_men_date_big.*
 import org.jetbrains.anko.*
 import java.lang.StringBuilder
 
@@ -38,6 +36,7 @@ class MyCardActivity : BaseActivity() {
 
     private val mTags = ArrayList<UserTag>()
     private var mWomenBanners = ArrayList<String>()
+    private var showLayoutStyle = 1
 
     private val userTagAdapter by lazy {
         UserTagAdapter(mTags)
@@ -81,9 +80,16 @@ class MyCardActivity : BaseActivity() {
 
         if(TextUtils.equals(mLocalUserSex,"0")){
             rl_userinfo_card.visibility = View.GONE
+            rl_big_mendate_layout.visibility = View.GONE
             rl_mycard_women.visibility = View.VISIBLE
         }else{
-            rl_userinfo_card.visibility = View.VISIBLE
+            if(showLayoutStyle==1){
+                rl_userinfo_card.visibility = View.GONE
+                rl_userinfo_bigcard.visibility = View.VISIBLE
+            }else{
+                rl_userinfo_card.visibility = View.VISIBLE
+                rl_userinfo_bigcard.visibility = View.GONE
+            }
             rl_mycard_women.visibility = View.GONE
         }
 
@@ -152,7 +158,11 @@ class MyCardActivity : BaseActivity() {
                 if(TextUtils.equals(mLocalUserSex,"0")){
                    setGrilsInfo(it)
                 }else{
-                   setMenInfo(it)
+                    if(showLayoutStyle==1){
+                        showBigLayout(it)
+                    }else{
+                        setMenInfo(it)
+                    }
                 }
             }
         }) { code, msg ->
@@ -485,6 +495,160 @@ class MyCardActivity : BaseActivity() {
             rv_my_images.visibility = View.GONE
         }
         myImageAdapter.notifyDataSetChanged()
+    }
+
+    private fun showBigLayout(data:UserData){
+        iv_big_bg.showBlur(data.picUrl)
+        if (!TextUtils.equals(data.userpics, "null")) {
+            if (!TextUtils.isEmpty(data.userpics)) {
+                var imglist = data.userpics?.split(",")
+                if (imglist!= null) {
+                    if(imglist.size==1){
+                        sdv_one.setImageURI(imglist[0])
+                    }else if(imglist.size==2){
+                        sdv_one.setImageURI(imglist[0])
+                        sdv_two.setImageURI(imglist[1])
+                    }else if(imglist.size==3){
+                        sdv_one.setImageURI(imglist[0])
+                        sdv_two.setImageURI(imglist[1])
+                        sdv_three.setImageURI(imglist[2])
+                    }else if(imglist.size==4){
+                        sdv_one.setImageURI(imglist[0])
+                        sdv_two.setImageURI(imglist[1])
+                        sdv_three.setImageURI(imglist[2])
+                        sdv_four.setImageURI(imglist[3])
+                    }else{
+                        sdv_one.setImageURI(imglist[0])
+                        sdv_two.setImageURI(imglist[1])
+                        sdv_three.setImageURI(imglist[2])
+                        sdv_four.setImageURI(imglist[3])
+                        sdv_five.setImageURI(imglist[4])
+                    }
+                }
+            }
+        }
+
+        rv_mydate_newtags.setHasFixedSize(true)
+        rv_mydate_newtags.layoutManager = GridLayoutManager(this, 2)
+        rv_mydate_newtags.isNestedScrollingEnabled = false
+        mTags.clear()
+        if (!data.height.isNullOrEmpty()) {
+            mTags.add(UserTag("身高 ${data.height}", R.mipmap.boy_stature_whiteicon))
+        }
+
+        if (!data.weight.isNullOrEmpty()) {
+            mTags.add(UserTag("体重 ${data.weight}", R.mipmap.boy_weight_whiteicon))
+        }
+
+        if (!data.constellation.isNullOrEmpty()) {
+            mTags.add(UserTag("星座 ${data.constellation}", R.mipmap.boy_constellation_whiteicon))
+        }
+
+        if (!data.city.isNullOrEmpty()) {
+            mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon))
+        }
+
+        if(!data.job.isNullOrEmpty()){
+            mTags.add(UserTag("职业 ${data.job}", R.mipmap.boy_profession_whiteicon))
+        }
+
+        if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
+            mTags.add(UserTag("约会地 ${data.userlookwhere} ${data.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+        }
+
+        rv_mydate_newtags.adapter = CardManTagAdapter(mTags)
+
+        if (!data.zuojia.isNullOrEmpty()) {
+            AppUtils.setTvNewTag(this, "座驾 ${data.zuojia}", 0, 2, tv_newzuojia)
+        } else {
+            tv_newzuojia.visibility = View.GONE
+        }
+
+        if (!data.hobbit.isNullOrEmpty()) {
+            var sb = StringBuffer()
+            sb.append("爱好 ")
+            var mHobbies = data.hobbit?.replace("#", ",")?.split(",")
+            if (mHobbies != null) {
+                for (str in mHobbies) {
+                    sb.append("${str} ")
+                }
+                AppUtils.setTvNewTag(this, sb.toString(), 0, 2, tv_newaihao)
+            }
+        } else {
+            tv_newaihao.visibility = View.GONE
+        }
+
+        newheadView.setImageURI(data.picUrl)
+
+        if (TextUtils.equals("0", data!!.screen) || data!!.screen.isNullOrEmpty()) {
+            img_date_newmenauther.visibility = View.GONE
+        } else if (TextUtils.equals("1", data!!.screen)) {
+            img_date_newmenauther.setImageResource(R.mipmap.video_small)
+        } else if (TextUtils.equals("3", data!!.screen)) {
+            img_date_newmenauther.visibility = View.GONE
+            img_date_newmenauther.setImageResource(R.mipmap.renzheng_small)
+        } else {
+            img_date_newmenauther.visibility = View.GONE
+        }
+
+        if ("${data.name}".length >= 7) {
+            tv_newname.text = "${"${data.name}".substring(0, 6)}..."
+        } else {
+            tv_newname.text = data.name
+        }
+
+        tv_newvip.visibility = View.VISIBLE
+        var drawable = getLevelDrawable("${data.userclassesid}",this)
+        if(drawable==null){
+            tv_newvip.backgroundDrawable = null
+            tv_newvip.visibility = View.GONE
+        }else{
+            tv_newvip.backgroundDrawable = drawable
+        }
+
+        if(data.sOnlineMsg.isNullOrEmpty()){
+            tv_linetime.visibility = View.GONE
+        }else{
+            tv_linetime.visibility = View.VISIBLE
+        }
+        tv_linetime.text = "${data.sOnlineMsg}"
+
+        if (data.iVistorCountAll > 50) {
+            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
+        } else {
+            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+        }
+        if (!data.age.isNullOrEmpty()) {
+            if (TextUtils.equals("0", "${data.age}")) {
+                tv_newage.text = ""
+            } else {
+                tv_newage.text = "${data.age}"
+            }
+        }
+        tv_newage.isSelected = TextUtils.equals("0", data.sex)
+
+        tv_newcontent.visibility = View.VISIBLE
+        if (!data.egagementtext.isNullOrEmpty()) {
+            if (!TextUtils.equals("null", data.egagementtext)) {
+                tv_newcontent.text =  "${data.egagementtext}"
+            } else {
+                tv_newcontent.visibility = View.GONE
+            }
+        } else if (!(data.signature.isNullOrEmpty())) {
+            if (!TextUtils.equals("null", data.signature)) {
+                tv_newcontent.text =  "${data.signature}"
+            } else {
+                tv_newcontent.visibility = View.GONE
+            }
+        } else if (!data.intro.isNullOrEmpty()) {
+            if (!TextUtils.equals("null", data.intro)) {
+                tv_newcontent.text =  "${ data.intro}"
+            } else {
+                tv_newcontent.visibility = View.GONE
+            }
+        } else {
+            tv_newcontent.visibility = View.GONE
+        }
     }
 
     private fun updateIsFind(iIsFind:Int){

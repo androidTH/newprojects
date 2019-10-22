@@ -228,7 +228,13 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             if (TextUtils.equals("null", data.userhandlookwhere)) {
                 data.userhandlookwhere = ""
             }
-            holder.setText(R.id.tv_city, data.city)
+
+            if(data.iPositionType==1){
+                holder.setText(R.id.tv_city, data.city)
+            }else{
+                holder.setText(R.id.tv_city, data.sPosition)
+            }
+
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
             if (data.iVistorCountAll >= 50) {

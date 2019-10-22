@@ -18,6 +18,6 @@ class CardManTagAdapter(mData:ArrayList<UserTag>): BaseRecyclerAdapter<UserTag>(
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
         contentView.setCompoundDrawables(drawable,null,null,null)
         contentView.text = data.content
-        AppUtils.setTvNewTag(context,data.content,0,2,contentView)
+        AppUtils.setTvNewTag(context,data.content,0,data.len,contentView)
     }
 }

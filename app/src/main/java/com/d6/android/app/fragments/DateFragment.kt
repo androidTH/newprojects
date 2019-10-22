@@ -504,6 +504,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             btn_like.gone()
             fb_heat_like.gone()
             fb_find_chat.gone()
+            if (TextUtils.equals(sex, "1")) {
+                sv_danmaku.removeAllDanmakus(true)
+                mReceiveLoveHearts.clear()
+            }
         }
         Request.findAccountCardListPage(userId, city, "", userclassesid, agemin, agemax, lat, lon, pageNum).request(this) { _, data ->
             rl_loading.visibility = View.GONE
@@ -810,6 +814,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             if (pageNum == 1) {
                 mDates.clear()
             }
+
             getData(city, userclassesid, agemin, agemax, lat, lon)
         }
 
