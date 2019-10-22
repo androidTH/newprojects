@@ -10,6 +10,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.hideSoftKeyboard
 import kotlinx.android.synthetic.main.activity_feed_back.*
 import org.jetbrains.anko.toast
+import java.lang.Exception
 
 /**
  * 举报
@@ -22,13 +23,15 @@ class ReportActivity : TitleActivity() {
     private val id by lazy {
         intent.getStringExtra("id")
     }
+
     private val tiptype by lazy{
-        if(intent.hasExtra("tiptype")){
+        try{
             intent.getStringExtra("tiptype")
-        }else{
+        }catch(e: Exception){
             ""
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feed_back)
