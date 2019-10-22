@@ -96,10 +96,11 @@
 
         <master.flame.danmaku.ui.widget.DanmakuView
             android:id="@+id/sv_danmaku"
+            android:layout_marginTop="@dimen/margin_25"
             android:layout_marginLeft="@dimen/margin_5"
             android:layout_marginRight="@dimen/margin_5"
             android:layout_width="match_parent"
-            android:layout_height="220dp" />
+            android:layout_height="80dp" />
 
         <ImageView
             android:id="@+id/tv_main_card_bg_im_id"

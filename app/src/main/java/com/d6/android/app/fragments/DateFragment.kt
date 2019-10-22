@@ -4,9 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.AsyncTask
+import android.os.Handler
+import android.os.Message
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.text.TextPaint
@@ -45,8 +45,6 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
 import master.flame.danmaku.controller.IDanmakuView
-import master.flame.danmaku.danmaku.loader.IllegalDataException
-import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory
 import master.flame.danmaku.danmaku.model.BaseDanmaku
 import master.flame.danmaku.danmaku.model.DanmakuTimer
 import master.flame.danmaku.danmaku.model.IDanmakus
@@ -57,13 +55,11 @@ import master.flame.danmaku.danmaku.model.android.Danmakus
 import master.flame.danmaku.danmaku.model.android.ViewCacheStuffer
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser
 import master.flame.danmaku.danmaku.util.SystemClock
-import org.jetbrains.anko.appcompat.v7.Appcompat
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.textColor
 import java.io.InputStream
-import java.sql.Time
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -146,9 +142,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     }
                     if (mDates.size > 0) {
                         if(TextUtils.equals(sex, "1")){
-                            sv_danmaku.removeAllDanmakus(true)
+                            clearDanMu()
                             var findDate = mDates.get(scrollPosition - 1)
-                            DANMU_pageNum = 1
                             getFindReceiveLoveHeart("${findDate.accountId}")
                         }
 //                        if (findDate.iIsFans == 1) {
@@ -454,7 +449,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if (pageNum == 1) {
             mDates.clear()
         }
-        sv_danmaku.removeAllDanmakus(true)
+        clearDanMu()
         getData(city, userclassesid, agemin, agemax)
     }
 
@@ -642,12 +637,20 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if (sv_danmaku != null && sv_danmaku.isPrepared() && sv_danmaku.isPaused()) {
             sv_danmaku.resume()
         }
+        if(mDanMuHandler!=null){
+            if(mReceiveLoveHearts!=null&&mReceiveLoveHearts.size>0){
+               mDanMuHandler.sendEmptyMessage(0)
+            }
+        }
     }
 
     override fun onPause() {
         super.onPause()
         if (sv_danmaku != null && sv_danmaku.isPrepared()) {
             sv_danmaku.pause()
+        }
+        if(mDanMuHandler!=null){
+           mDanMuHandler.removeCallbacksAndMessages(null)
         }
     }
 
@@ -948,7 +951,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
     }
 
-    private val mReceiveLoveHearts = ArrayList<LoveHeartFans>()
+    private var mReceiveLoveHearts = ArrayList<LoveHeartFans>()
+    private var  mDanMuIndex = 0
 
     private fun getFindReceiveLoveHeart(iUserId: String) {
         Request.findReceiveLoveHeartList(iUserId, getLoginToken(), DANMU_pageNum).request(this, false, success = { _, data ->
@@ -957,21 +961,20 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     mReceiveLoveHearts.clear()
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
-                    if (DANMU_pageNum > 1) {
+                    if(DANMU_pageNum > 1) {
                         DANMU_pageNum--
-                    } else {
+                    }else{
 
                     }
                 } else {
                     it.list?.results?.let {
                         mReceiveLoveHearts.addAll(it)
                     }
-                }
+                    if (DANMU_pageNum == 1) {
+                        sendDanMu()
+                    }else{
 
-                if (data.list?.totalPage == 1) {
-                    addDanMuTask()
-                } else {
-                    addDanMuTask()
+                    }
                 }
             }
         }) { code, msg ->
@@ -979,14 +982,29 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
     }
 
-    private fun addDanMuTask() {
-        for (i in 0..(mReceiveLoveHearts.size - 1)) {
-            if (mReceiveLoveHearts.size > i) {
-                addDanmaku(mReceiveLoveHearts.get(i), false)
-            }
-            if (mReceiveLoveHearts.size - i == 5) {
-                DANMU_pageNum = DANMU_pageNum + 1
-                Log.i("datefragment", "----------${DANMU_pageNum}")
+    private fun sendDanMu(){
+        if(mReceiveLoveHearts!=null&&mReceiveLoveHearts.size>0){
+            mDanMuHandler.sendEmptyMessage(0)
+        }
+    }
+
+    private var mDanMuHandler:DanMuHandler  = DanMuHandler()
+
+    internal inner class DanMuHandler : Handler(){
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            if(msg?.what==0){
+                if ((mReceiveLoveHearts.size-1) >= mDanMuIndex) {
+                    addDanmaku(mReceiveLoveHearts.get(mDanMuIndex), false)
+                    mDanMuIndex = mDanMuIndex +1
+                    mDanMuHandler.sendEmptyMessageDelayed(0,1000)
+                }
+                Log.i("datefragment","${mReceiveLoveHearts.size}--${mDanMuIndex}")
+                if (mReceiveLoveHearts.size - mDanMuIndex == 5) {
+                    DANMU_pageNum = DANMU_pageNum + 1
+                    var findDate = mDates.get(mRecyclerView.currentItem)
+                    getFindReceiveLoveHeart("${findDate.accountId}")
+                }
             }
         }
     }
@@ -998,7 +1016,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
         danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.iAllLovePoint}颗 [img src=redheart_small/]"
         danmaku!!.padding = 5
-        danmaku!!.priority = 0  // 可能会被各种过滤器过滤并隐藏显示
+        danmaku!!.priority = 2  // 可能会被各种过滤器过滤并隐藏显示
         danmaku!!.isLive = islive
         danmaku!!.setTime(sv_danmaku.getCurrentTime() + 1200)
         danmaku!!.textSize = 12f * (mParser!!.getDisplayer().density - 0.6f)
@@ -1009,5 +1027,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         danmaku!!.padding = 5
         danmaku!!.tag = loveHeartFans.sPicUrl
         sv_danmaku.addDanmaku(danmaku)
+    }
+
+    private fun clearDanMu(){
+        mDanMuHandler.removeCallbacksAndMessages(null)
+        sv_danmaku.removeAllDanmakus(true)
+        mReceiveLoveHearts.clear()
+        DANMU_pageNum = 1
+        mDanMuIndex = 0
     }
 }
