@@ -6,8 +6,12 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewTreeObserver
+import android.widget.ImageView
+import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.adapters.*
 import com.d6.android.app.base.BaseActivity
@@ -172,6 +176,9 @@ class MyCardActivity : BaseActivity() {
         }
     }
 
+
+    private var mPointViews = ArrayList<View>()
+
     private fun setGrilsInfo(it:UserData){
         rv_grils_tags.setHasFixedSize(true)
         rv_grils_tags.layoutManager = FlexboxLayoutManager(this)
@@ -205,6 +212,7 @@ class MyCardActivity : BaseActivity() {
         }
 
         rv_grils_tags.adapter = CardTagAdapter(mTags)
+        mWomenBanners.clear()
         if (!TextUtils.equals(it.userpics, "null")) {
             if (!TextUtils.isEmpty(it.userpics)) {
                 var images = it.userpics?.split(",")
@@ -215,6 +223,20 @@ class MyCardActivity : BaseActivity() {
         } else {
             mWomenBanners.add("${it.picUrl}")
         }
+
+        mPointViews.clear()
+        ll_bannerlines.removeAllViews()
+        for(index in 0..mWomenBanners.size-1){
+            var mBannerLine = LayoutInflater.from(this).inflate(R.layout.layout_bannerline,ll_bannerlines,false)
+            if(index==0){
+                mBannerLine.isEnabled = true
+            }else{
+                mBannerLine.isEnabled = false
+            }
+            mPointViews.add(mBannerLine)
+            ll_bannerlines.addView(mBannerLine)
+        }
+
         banner_grils.setPages(
                 object : CBViewHolderCreator {
                     override fun createHolder(itemView: View): WomenFindHolder {
@@ -228,21 +250,10 @@ class MyCardActivity : BaseActivity() {
 
         banner_grils.setOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageSelected(index: Int) {
-                when (index) {
-                    0 -> {
-//                            tv_numone.isEnabled = false
-//                            tv_numtwo.isEnabled = true
-//                            tv_numthree.isEnabled = true
-                    }
-                    1 -> {
-//                            tv_numone.isEnabled = true
-//                            tv_numtwo.isEnabled = false
-//                            tv_numthree.isEnabled = true
-                    }
-                    2 -> {
-//                            tv_numone.isEnabled = true
-//                            tv_numtwo.isEnabled = true
-//                            tv_numthree.isEnabled = false
+                for (t in 0..mPointViews.size-1) {
+                    mPointViews[t].isEnabled = true
+                    if (index != t) {
+                        mPointViews[t].isEnabled = false
                     }
                 }
             }
