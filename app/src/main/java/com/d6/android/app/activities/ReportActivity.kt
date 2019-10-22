@@ -10,6 +10,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.hideSoftKeyboard
 import kotlinx.android.synthetic.main.activity_feed_back.*
 import org.jetbrains.anko.toast
+import java.lang.Exception
 
 /**
  * 举报
@@ -23,9 +24,9 @@ class ReportActivity : TitleActivity() {
         intent.getStringExtra("id")
     }
     private val tiptype by lazy{
-        if(intent.hasExtra("tiptype")){
-            intent.getStringExtra("tiptype")
-        }else{
+        try{
+           intent.getStringExtra("tiptype")
+        }catch(e:Exception){
             ""
         }
     }

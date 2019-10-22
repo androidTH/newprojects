@@ -84,7 +84,9 @@ class ImageFragment : BaseNoBarFragment() {
                                 }
                             } else {
                                 sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
-                                sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
+                                sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
+//                                sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
+//                                sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
                             }
                         }else{
                             if(it!=null){
