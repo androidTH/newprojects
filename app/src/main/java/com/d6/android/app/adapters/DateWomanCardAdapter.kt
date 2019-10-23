@@ -19,6 +19,7 @@ import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.BitmapUtils.clearBitmap
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
@@ -31,7 +32,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
     private val mTags = ArrayList<UserTag>()
     var iDateComlete: Int = 0
 
-    private val mBannerImages = ArrayList<String>()
+    private var mBannerImages = ArrayList<String>()
 
     private var userId = SPUtils.instance().getString(Const.User.USER_ID)//35598
 
@@ -82,17 +83,16 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             rv_mydate_tags.adapter = CardTagAdapter(mTags)
             val tv_indexofpics = holder.bind<TextView>(R.id.tv_indexofpics)
             var bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
-            var iv_wh = holder.bind<ImageView>(R.id.iv_wh)
+            val iv_wh = holder.bind<ImageView>(R.id.iv_wh)
+            mBannerImages.clear()
             if (!TextUtils.equals(data.userpics, "null")) {
                 if (TextUtils.isEmpty(data.userpics)) {
-                    mBannerImages.clear()
                     mBannerImages.add(data.picUrl)
 //                    bigImgView.setImageURI(data.picUrl)
                     tv_indexofpics.visibility = View.GONE
                 } else {
                     var images = data.userpics.split(",")
                     if (images.size > 0) {
-                        mBannerImages.clear()
                         mBannerImages.addAll(images)
 //                        bigImgView.setImageURI(images[0])
                     }
@@ -100,12 +100,11 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     tv_indexofpics.setText("1/${images.size}")
                 }
             } else {
-                mBannerImages.clear()
                 mBannerImages.add(data.picUrl)
 //                bigImgView.setImageURI(data.picUrl)
                 tv_indexofpics.visibility = View.GONE
             }
-
+            clearBitmap(iv_wh)
             Log.i("recoment","图片尺寸：${data}")
             FrescoUtils.loadImage(context,mBannerImages[0],object: IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {

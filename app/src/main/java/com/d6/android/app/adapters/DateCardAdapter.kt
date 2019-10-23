@@ -233,10 +233,10 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     tv_linetime.text = "${data.sOnlineMsg}"
                 }
 
-                if (data.iVistorCountAll > 50) {
-                    tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
+                if (data.iVistorCountAll >= 10) {
+                    tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
                 } else {
-                    tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+                    tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
                 }
 
                 if (!data.nianling.isNullOrEmpty()) {
@@ -448,10 +448,10 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
         var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_loveheart_vistor)
 
-        if (data.iVistorCountAll > 50) {
-            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
+        if (data.iVistorCountAll >= 10) {
+            tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
         } else {
-            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+            tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
         }
         val tv_newage = holder.bind<TextView>(R.id.tv_newage)
         if (!data.nianling.isNullOrEmpty()) {
@@ -583,10 +583,10 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         val tv_women_perfect_online_time = holder.bind<TextView>(R.id.tv_women_perfect_online_time)
         val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_women_perfect_vistorfollownums)
         tv_women_perfect_online_time.text = "在线时间"
-        if (data.iVistorCountAll >= 50) {
-            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}    访客·${data.iVistorCountAll} "
+        if (data.iVistorCountAll >= 10) {
+            tv_vistorfollownums.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}    访客·${data.iVistorCountAll} "
         } else {
-            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+            tv_vistorfollownums.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
         }
     }
 }

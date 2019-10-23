@@ -340,10 +340,10 @@ class MyCardActivity : BaseActivity() {
         }
 
         tv_city.text = it.area
-        if (it.iVistorCountAll >= 50) {
-            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${it.iFansCountAll}     访客·${it.iVistorCountAll}"
+        if (it.iVistorCountAll >= 10) {
+            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${it.iReceiveLovePoint}     访客·${it.iVistorCountAll}"
         } else {
-            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${it.iFansCountAll}"
+            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${it.iReceiveLovePoint}"
         }
     }
 
@@ -369,7 +369,11 @@ class MyCardActivity : BaseActivity() {
             tv_onlinetime_men.text = "${it.sOnlineMsg}"
         }
 
-        tv_likehe.text = "收到 [img src=redheart_small/] · ${it.iLovePoint}  访客·${it.iVistorCountAll}"
+        if (it.iVistorCountAll >= 10) {
+            tv_likehe.text = "送出 [img src=redheart_small/] · ${it.iSendLovePoint}     访客·${it.iVistorCountAll}"
+        } else {
+            tv_likehe.text = "送出 [img src=redheart_small/] · ${it.iSendLovePoint}"
+        }
 
         tv_sex.isSelected = TextUtils.equals("0", it.sex)
         it.age?.let {
@@ -636,11 +640,12 @@ class MyCardActivity : BaseActivity() {
             tv_linetime.text = "${data.sOnlineMsg}"
         }
 
-        if (data.iVistorCountAll > 50) {
-            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
+        if (data.iVistorCountAll >= 10) {
+            tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iSendLovePoint}     访客·${data.iVistorCountAll}"
         } else {
-            tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+            tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iSendLovePoint}"
         }
+
         if (!data.age.isNullOrEmpty()) {
             if (TextUtils.equals("0", "${data.age}")) {
                 tv_newage.text = ""

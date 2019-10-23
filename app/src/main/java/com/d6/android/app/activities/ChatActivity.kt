@@ -349,8 +349,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         if (TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)) {
             root_date_chat.visibility = View.GONE
             tv_service_time.visibility = View.VISIBLE
-            checkServiceUserOnline(mOtherUserId)
         }
+
+        checkServiceUserOnline(mOtherUserId)
 
         enterActivity()
 
@@ -412,16 +413,31 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         Request.checkUserOnline(getLoginToken(),iUserId).request(this,success={ _, data->
             data?.let {
                 var iOnline = it.optInt("iOnline")
+                var sOnlineMsg = it.optString("sOnlineMsg")
                 if(iOnline==1){
-                    var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_offline)
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-                    tv_service_time.setCompoundDrawables(drawable,null,null,null)
-                    tv_service_time.text = "离线:客服工作时间上午9:00-凌晨1:30, 可给客服留言"
+                    if(TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+                        var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_offline)
+                        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+                        tv_service_time.setCompoundDrawables(drawable,null,null,null)
+                        tv_service_time.text = "离线:客服工作时间上午9:00-凌晨1:30, 可给客服留言"
+                    }else{
+                        tv_service_time.visibility = View.GONE
+                    }
                 }else{
-                    var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_online)
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-                    tv_service_time.setCompoundDrawables(drawable,null,null,null)
-                    tv_service_time.text = "人工在线"
+                    if(TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+                        var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_online)
+                        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+                        tv_service_time.setCompoundDrawables(drawable,null,null,null)
+                        tv_service_time.text = "人工在线"
+                    }else{
+                      if(iOnline==2){
+                          var drawable = ContextCompat.getDrawable(this, R.drawable.shape_dot_online)
+                          setLeftDrawable(drawable,tv_service_time)
+                          tv_service_time.text = sOnlineMsg
+                      }else if(iOnline==3){
+                          tv_service_time.text = sOnlineMsg
+                      }
+                    }
                 }
             }
         })

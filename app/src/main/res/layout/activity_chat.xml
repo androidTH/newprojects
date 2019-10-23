@@ -78,7 +78,7 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/color_666666"
                 android:drawablePadding="@dimen/margin_5"
-                android:visibility="gone"
+                android:textStyle="bold"
                 android:textSize="10sp" />
         </RelativeLayout>
 
