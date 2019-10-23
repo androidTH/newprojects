@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -18,10 +19,7 @@ import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
-import com.d6.android.app.utils.AppUtils
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.getLevelDrawable
+import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
@@ -123,8 +121,18 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
                 }
 
-                if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
-                    mTags.add(UserTag("约会地 ${data.userlookwhere} ${data.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+                var sb = StringBuffer()
+                sb.append("约会地")
+                if(!data.userlookwhere.isNullOrEmpty()){
+                    sb.append(" ${data.userlookwhere}")
+                }
+
+                if(!data.userhandlookwhere.isNullOrEmpty()){
+                    sb.append("、${data.userhandlookwhere}")
+                }
+
+                if(sb.length>3){
+                    mTags.add(UserTag("${sb}", R.mipmap.boy_datearea_whiteicon,3))
                 }
 
                 rv_mydate_tags.adapter = CardManTagAdapter(mTags)
@@ -217,8 +225,14 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     tv_linetime.visibility = View.GONE
                 }else{
                     tv_linetime.visibility = View.VISIBLE
+                    if(data.sOnlineMsg.indexOf(context.getString(R.string.string_nowonline))!=-1){
+                        setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_linetime)
+                    }else{
+                        setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_linetime)
+                    }
+                    tv_linetime.text = "${data.sOnlineMsg}"
                 }
-                tv_linetime.text = "${data.sOnlineMsg}"
+
                 if (data.iVistorCountAll > 50) {
                     tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
                 } else {
@@ -338,8 +352,22 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
         }
 
-        if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
-            mTags.add(UserTag("约会地 ${data.userlookwhere} ${data.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+//        if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
+//            mTags.add(UserTag("约会地 ${data.userlookwhere} ${data.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+//        }
+
+        var sb = StringBuffer()
+        sb.append("约会地")
+        if(!data.userlookwhere.isNullOrEmpty()){
+            sb.append(" ${data.userlookwhere}")
+        }
+
+        if(!data.userhandlookwhere.isNullOrEmpty()){
+            sb.append("、${data.userhandlookwhere}")
+        }
+
+        if(sb.length>3){
+            mTags.add(UserTag("${sb}", R.mipmap.boy_datearea_whiteicon,3))
         }
 
         rv_mydate_newtags.adapter = CardManTagAdapter(mTags)
@@ -410,10 +438,16 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             tv_linetime.visibility = View.GONE
         }else{
             tv_linetime.visibility = View.VISIBLE
+            if(data.sOnlineMsg.indexOf(context.getString(R.string.string_nowonline))!=-1){
+                setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_linetime)
+            }else{
+                setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_linetime)
+            }
+            tv_linetime.text = "${data.sOnlineMsg}"
         }
 
         var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_loveheart_vistor)
-        tv_linetime.text = "${data.sOnlineMsg}"
+
         if (data.iVistorCountAll > 50) {
             tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
         } else {

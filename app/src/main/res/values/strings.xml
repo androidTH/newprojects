@@ -155,4 +155,5 @@
     <string name="string_lovepoints">爱心充值成功</string>
     <string name="string_redloveheart">喜欢</string>
     <string name="string_mycard">我的卡片</string>
+    <string name="string_nowonline">当前状态</string>
 </resources>

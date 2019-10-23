@@ -121,8 +121,8 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="10dp"
+                        android:layout_height="match_parent"
                         android:layout_below="@+id/tv_vistor_count"
                         android:text="访客"
                         android:textColor="@color/color_888888"
@@ -144,7 +144,6 @@
                         android:id="@+id/tv_vistor_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/shape_dot_online"
                         android:textColor="@color/white"
                         android:drawablePadding="@dimen/margin_5"
                         android:layout_marginRight="@dimen/margin_10"
@@ -239,7 +238,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_job"
                 android:layout_marginLeft="@dimen/margin_25"
-                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_5"
                 android:layout_marginRight="@dimen/margin_25"
                 android:drawableLeft="@mipmap/boy_car_whiteicon"
                 android:drawablePadding="@dimen/margin_5"

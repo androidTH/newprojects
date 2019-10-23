@@ -150,7 +150,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
             }
 
-            Request.findGroupDescByGroupId(getLocalUserId(), mTargetId).request(this, false, success = { msg, data ->
+            Request.findGroupDescByGroupId(getLoginToken(), mTargetId).request(this, false, success = { msg, data ->
                 data?.let {
                     var group = Group(it.sId, it.sGroupName, Uri.parse(it.sGroupPicUrl))
                     RongIM.getInstance().refreshGroupInfoCache(group)

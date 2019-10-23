@@ -29,7 +29,7 @@ import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import kotlinx.android.synthetic.main.activity_mycard.*
-import kotlinx.android.synthetic.main.layout_men_date_big.*
+import kotlinx.android.synthetic.main.layout_mycard_big.*
 import org.jetbrains.anko.*
 import java.lang.StringBuilder
 
@@ -331,8 +331,13 @@ class MyCardActivity : BaseActivity() {
         }
         if(it.sOnlineMsg.isNullOrEmpty()){
             tv_online_time.visibility = View.GONE
+        }else{
+            tv_online_time.visibility = View.VISIBLE
+            if(it.sOnlineMsg.indexOf(resources.getString(R.string.string_nowonline))!=-1){
+                setLeftDrawable(ContextCompat.getDrawable(this,R.drawable.shape_dot_online),tv_online_time)
+            }
+            tv_online_time.text = "${it.sOnlineMsg}"
         }
-        tv_online_time.text = "${it.sOnlineMsg}"
 
         tv_city.text = it.area
         if (it.iVistorCountAll >= 50) {
@@ -356,9 +361,13 @@ class MyCardActivity : BaseActivity() {
 
         if(it.sOnlineMsg.isNullOrEmpty()){
             tv_onlinetime_men.visibility = View.GONE
+        }else{
+            tv_onlinetime_men.visibility = View.VISIBLE
+            if(it.sOnlineMsg.indexOf(resources.getString(R.string.string_nowonline))!=-1){
+                setLeftDrawable(ContextCompat.getDrawable(this,R.drawable.shape_dot_online),tv_onlinetime_men)
+            }
+            tv_onlinetime_men.text = "${it.sOnlineMsg}"
         }
-
-        tv_onlinetime_men.text = "${it.sOnlineMsg}"
 
         tv_likehe.text = "收到 [img src=redheart_small/] · ${it.iLovePoint}  访客·${it.iVistorCountAll}"
 
@@ -621,8 +630,11 @@ class MyCardActivity : BaseActivity() {
             tv_linetime.visibility = View.GONE
         }else{
             tv_linetime.visibility = View.VISIBLE
+            if(data.sOnlineMsg.indexOf(resources.getString(R.string.string_nowonline))!=-1){
+                setLeftDrawable(ContextCompat.getDrawable(this,R.drawable.shape_dot_online),tv_linetime)
+            }
+            tv_linetime.text = "${data.sOnlineMsg}"
         }
-        tv_linetime.text = "${data.sOnlineMsg}"
 
         if (data.iVistorCountAll > 50) {
             tv_loveheart_vistor.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"

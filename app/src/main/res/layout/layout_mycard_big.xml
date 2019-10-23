@@ -90,7 +90,6 @@
                     android:id="@+id/tv_linetime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/shape_dot_online"
                     android:drawablePadding="@dimen/margin_5"
                     android:layout_marginRight="@dimen/margin_8"
                     android:text=""

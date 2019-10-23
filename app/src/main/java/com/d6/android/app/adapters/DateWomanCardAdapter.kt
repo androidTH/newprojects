@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.graphics.Bitmap
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -14,15 +15,16 @@ import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
-import com.d6.android.app.utils.AppUtils
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.getLevelDrawable
+import com.d6.android.app.utils.*
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.imageBitmap
 
 class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_womennewcard) {
 
@@ -79,29 +81,44 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             rv_mydate_tags.adapter = CardTagAdapter(mTags)
             val tv_indexofpics = holder.bind<TextView>(R.id.tv_indexofpics)
-            val bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
+            var bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
+            var iv_wh = holder.bind<ImageView>(R.id.iv_wh)
             if (!TextUtils.equals(data.userpics, "null")) {
                 if (TextUtils.isEmpty(data.userpics)) {
-//                    mBannerImages.clear()
-//                    mBannerImages.add(data.picUrl)
-                    bigImgView.setImageURI(data.picUrl)
+                    mBannerImages.clear()
+                    mBannerImages.add(data.picUrl)
+//                    bigImgView.setImageURI(data.picUrl)
                     tv_indexofpics.visibility = View.GONE
                 } else {
                     var images = data.userpics.split(",")
                     if (images.size > 0) {
-//                        mBannerImages.clear()
-//                        mBannerImages.addAll(images)
-                        bigImgView.setImageURI(images[0])
+                        mBannerImages.clear()
+                        mBannerImages.addAll(images)
+//                        bigImgView.setImageURI(images[0])
                     }
                     tv_indexofpics.visibility = View.VISIBLE
                     tv_indexofpics.setText("1/${images.size}")
                 }
             } else {
-//                mBannerImages.clear()
-//                mBannerImages.add(data.picUrl)
-                bigImgView.setImageURI(data.picUrl)
+                mBannerImages.clear()
+                mBannerImages.add(data.picUrl)
+//                bigImgView.setImageURI(data.picUrl)
                 tv_indexofpics.visibility = View.GONE
             }
+
+            Log.i("recoment","图片尺寸：${data}")
+            FrescoUtils.loadImage(context,mBannerImages[0],object: IResult<Bitmap> {
+                override fun onResult(result: Bitmap?) {
+                    result?.let {
+                        if(it.width>it.height){
+                            bigImgView.showBlur(mBannerImages[0])
+                            iv_wh.setImageBitmap(it)
+                        }else{
+                            bigImgView.setImageURI(mBannerImages[0])
+                        }
+                    }
+                }
+            })
 
 //            var bannerImages = holder.bind<ConvenientBanner<String>>(R.id.banner_grils)
 //            bannerImages.setPages(
@@ -247,8 +264,13 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 tv_online_time.visibility = View.GONE
             }else{
                 tv_online_time.visibility = View.VISIBLE
+                if(data.sOnlineMsg.indexOf(context.getString(R.string.string_nowonline))!=-1){
+                    setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_online_time)
+                }else{
+                    setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_online_time)
+                }
+                tv_online_time.text = "${data.sOnlineMsg}"
             }
-            tv_online_time.text = "${data.sOnlineMsg}"
         }
 
         val onClickListener = View.OnClickListener {
