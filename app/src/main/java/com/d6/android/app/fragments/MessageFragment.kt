@@ -351,14 +351,20 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         data.count.toString()
                     }
                     if ((data.count ?: 0) > 0) {
-                        headerView.iv1_sys_num.visibility = View.VISIBLE
-                        headerView.iv1_sys_num.text = c
+                        if(IsNotNullHeaderiew()){
+                            headerView.iv1_sys_num.visibility = View.VISIBLE
+                            headerView.iv1_sys_num.text = c
+                        }
                     } else {
-                        headerView.iv1_sys_num.visibility = View.GONE
+                        if(IsNotNullHeaderiew()){
+                            headerView.iv1_sys_num.visibility = View.GONE
+                        }
                     }
                     var sysmsg = data.list.results[0]
-                    headerView.tv_content1.text = sysmsg.content
-                    headerView.tv_systemmsg_time.text = DateToolUtils.getConversationFormatDate(sysmsg.createTime!!.toLong(),false, context)
+                    if(IsNotNullHeaderiew()){
+                        headerView.tv_content1.text = sysmsg.content
+                        headerView.tv_systemmsg_time.text = DateToolUtils.getConversationFormatDate(sysmsg.createTime!!.toLong(),false, context)
+                    }
                 }
             }
         }

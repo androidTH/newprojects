@@ -1071,6 +1071,22 @@ fun getLocalUserLoveHeart():Int{
     return SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
 }
 
+private var mUserHeardPic = ""
+fun getLocalUserHeadPic():String{
+    if(TextUtils.isEmpty(mUserHeardPic)){
+        mUserHeardPic = SPUtils.instance().getString(Const.User.USER_HEAD)
+    }
+    return mUserHeardPic
+}
+
+private var mUserName = ""
+fun getLocalUserName():String{
+    if(TextUtils.isEmpty(mUserName)){
+        mUserName = SPUtils.instance().getString(Const.User.USER_NICK)
+    }
+    return mUserName
+}
+
 private var mUserId = ""
 fun getLocalUserId():String{
     if(TextUtils.isEmpty(mUserId)){
@@ -1090,6 +1106,8 @@ fun getLoginToken():String{
 fun clearLoginToken(){
     sLoginToken = ""
     mUserId = ""
+    mUserName = ""
+    mUserHeardPic = ""
 }
 
 //false 正式环境 true 测试环境

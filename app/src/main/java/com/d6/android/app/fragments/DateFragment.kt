@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.AsyncTask
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.ContextCompat
@@ -114,7 +113,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var DANMU_pageNum = 1
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
-    var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
+    private var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
 
     //礼物
     private var giftControl: GiftControl? = null
@@ -297,7 +296,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                                     viewHolder?.mText?.text = danmaku.text
                                     viewHolder?.mText?.setTextColor(danmaku.textColor)
                                     viewHolder?.mText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize)
-                                    FrescoUtils.loadImage(activity, "http://ww2.sinaimg.cn/large/610dc034jw1fa42ktmjh4j20u011hn8g.jpg", object : IResult<Bitmap> {
+                                    FrescoUtils.loadImage(activity, "", object : IResult<Bitmap> {
                                         override fun onResult(result: Bitmap?) {
 //                                            viewHolder?.mIcon?.setImageBitmap(CircleBitmapTransform.transform(result))
                                         }
@@ -445,6 +444,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     fun refresh() {
 //        showDialog()
+        tv_redheart_guide.visibility = View.GONE
         pageNum = 1
         if (pageNum == 1) {
             mDates.clear()
@@ -584,6 +584,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         localLoveHeartNums = it.iLovePoint
                     }
                 })
+
+                var mLoveHeartFan = LoveHeartFans("${findDate.accountId}".toInt())
+                mLoveHeartFan.sSendUserName = getLocalUserName()
+                mLoveHeartFan.sPicUrl = getLocalUserHeadPic()
+                mLoveHeartFan.iAllLovePoint = giftCount
+                mReceiveLoveHearts.add(mLoveHeartFan)
+//                addDanmaku(mLoveHeartFans,false)
             }) { code, msg ->
                 sendLoveHeartNums = 1
                 if (code == 2 || code == 3) {

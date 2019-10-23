@@ -85,8 +85,12 @@ class ImageFragment : BaseNoBarFragment() {
                                     sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
                                 }catch (e: Exception){
                                     e.printStackTrace()
-                                    sampimgview.recycle()
-                                    (activity as ImagePagerActivity).onBackPressed()
+                                    if(sampimgview!=null){
+                                        sampimgview.recycle()
+                                    }
+                                    if(activity!=null){
+                                        (activity as ImagePagerActivity).onBackPressed()
+                                    }
                                 }
                             } else {
                                 sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
@@ -106,7 +110,9 @@ class ImageFragment : BaseNoBarFragment() {
                     }
                 }catch(e:Exception){
                     e.printStackTrace()
-                    (activity as ImagePagerActivity).onBackPressed()
+                    if(activity!=null){
+                        (activity as ImagePagerActivity).onBackPressed()
+                    }
                 }
             }
         })
@@ -115,7 +121,9 @@ class ImageFragment : BaseNoBarFragment() {
             if(sampimgview!=null){
                 sampimgview.recycle()
             }
-            (activity as ImagePagerActivity).onBackPressed()
+            if(activity!=null){
+                (activity as ImagePagerActivity).onBackPressed()
+            }
         }
     }
 
@@ -146,7 +154,9 @@ class ImageFragment : BaseNoBarFragment() {
         zoomDrawee.controller = ctrl
         zoomDrawee.setOnClickListener {
             Fresco.getImagePipeline().clearMemoryCaches()
-            activity.onBackPressed()
+            if(activity!=null){
+                (activity as ImagePagerActivity).onBackPressed()
+            }
         }
     }
 
