@@ -479,7 +479,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 }else{
                     mHeaderView.view_top_bottom.visibility = View.VISIBLE
-                    mHeaderView.rl_redwallet.visibility = View.GONE
+//                    mHeaderView.rl_redwallet.visibility = View.GONE
 
                     mHeaderView.rl_mypoints_checkin.visibility = View.GONE
                     mHeaderView.rl_mypoints_square.visibility = View.GONE
