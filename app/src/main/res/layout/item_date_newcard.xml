@@ -23,6 +23,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <!--<ImageView-->
+            <!--android:id="@+id/imageViewbg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:layout_centerInParent="true"/>-->
         <include layout="@layout/layout_men_date_big" />
 
         <RelativeLayout

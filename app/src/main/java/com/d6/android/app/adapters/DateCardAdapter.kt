@@ -1,15 +1,14 @@
 package com.d6.android.app.adapters
 
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
@@ -20,8 +19,13 @@ import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.BitmapUtils.clearBitmap
+import com.d6.android.app.widget.blurry.Blurry
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
+import kotlinx.android.synthetic.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
 
@@ -35,8 +39,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     private var mLayoutNormal = 0 //0 大布局 1 小布局
 
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
-        val rl_man_card = holder.bind<RelativeLayout>(R.id.rl_man_card)
-        val rl_women_perfect = holder.bind<RelativeLayout>(R.id.rl_women_perfect)
+        var rl_man_card = holder.bind<RelativeLayout>(R.id.rl_man_card)
+        var rl_women_perfect = holder.bind<RelativeLayout>(R.id.rl_women_perfect)
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             rl_man_card.visibility = View.GONE
             rl_women_perfect.visibility = View.VISIBLE
@@ -166,8 +170,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     tv_aihao.visibility = View.GONE
                 }
 
-                val headView = holder.bind<SimpleDraweeView>(R.id.headView)
-                headView.setImageURI(data.picUrl)
+                holder.bind<SimpleDraweeView>(R.id.headView).also {
+                    it.setImageURI(data.picUrl)
+                }
 
                 val img_date_menauther = holder.bind<ImageView>(R.id.img_date_menauther)
 
@@ -283,16 +288,22 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             }
         }
 
+        var imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
+//            var imageViewbg = holder.bind<ImageView>(R.id.imageViewbg)
+        imageView.showBlur(data.picUrl)
+
         val onClickListener = View.OnClickListener {
             mOnItemClickListener?.onItemClick(it, position)
         }
         holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)
         holder.bind<TextView>(R.id.tv_perfect_userinfo).setOnClickListener(onClickListener)
-        var imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
-        imageView.showBlur(data.picUrl)
     }
 
     fun mShowBigLayout(holder: ViewHolder, position: Int, data: FindDate) {
+//        holder.setIsRecyclable(false)
+        val newheadView = holder.bind<SimpleDraweeView>(R.id.newheadView)
+        newheadView.setImageURI(data.picUrl)
+
         val rv_mydate_newtags = holder.bind<RecyclerView>(R.id.rv_mydate_newtags)
         var sdv_one = holder.bind<SimpleDraweeView>(R.id.sdv_one)
         var sdv_two = holder.bind<SimpleDraweeView>(R.id.sdv_two)
@@ -305,18 +316,28 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 if (imglist.size!= 0) {
                     if(imglist.size==1){
                         sdv_one.setImageURI(imglist[0])
+                        sdv_two.setImageURI("")
+                        sdv_three.setImageURI("")
+                        sdv_four.setImageURI("")
+                        sdv_five.setImageURI("")
                     }else if(imglist.size==2){
                         sdv_one.setImageURI(imglist[0])
                         sdv_two.setImageURI(imglist[1])
+                        sdv_three.setImageURI("")
+                        sdv_four.setImageURI("")
+                        sdv_five.setImageURI("")
                     }else if(imglist.size==3){
                         sdv_one.setImageURI(imglist[0])
                         sdv_two.setImageURI(imglist[1])
                         sdv_three.setImageURI(imglist[2])
+                        sdv_four.setImageURI("")
+                        sdv_five.setImageURI("")
                     }else if(imglist.size==4){
                         sdv_one.setImageURI(imglist[0])
                         sdv_two.setImageURI(imglist[1])
                         sdv_three.setImageURI(imglist[2])
                         sdv_four.setImageURI(imglist[3])
+                        sdv_five.setImageURI("")
                     }else{
                         sdv_one.setImageURI(imglist[0])
                         sdv_two.setImageURI(imglist[1])
@@ -324,8 +345,26 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                         sdv_four.setImageURI(imglist[3])
                         sdv_five.setImageURI(imglist[4])
                     }
+                }else{
+                    sdv_one.setImageURI(data.picUrl)
+                    sdv_two.setImageURI("")
+                    sdv_three.setImageURI("")
+                    sdv_four.setImageURI("")
+                    sdv_five.setImageURI("")
                 }
+            }else{
+                sdv_one.setImageURI("")
+                sdv_two.setImageURI("")
+                sdv_three.setImageURI("")
+                sdv_four.setImageURI("")
+                sdv_five.setImageURI("")
             }
+        }else{
+            sdv_one.setImageURI("")
+            sdv_two.setImageURI("")
+            sdv_three.setImageURI("")
+            sdv_four.setImageURI("")
+            sdv_five.setImageURI("")
         }
 
         rv_mydate_newtags.setHasFixedSize(true)
@@ -400,9 +439,6 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         } else {
             tv_newaihao.visibility = View.GONE
         }
-
-        val newheadView = holder.bind<SimpleDraweeView>(R.id.newheadView)
-        newheadView.setImageURI(data.picUrl)
 
         val img_date_newmenauther = holder.bind<ImageView>(R.id.img_date_newmenauther)
 

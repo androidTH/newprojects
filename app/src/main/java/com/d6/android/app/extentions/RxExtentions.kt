@@ -68,7 +68,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                     val tCode = t.code()
                     if (tCode == 401) {
                         //未通过服务端认证。需前往登录
-                        msg = "登录信息已过期,请重新登录"
+                        msg = "[${tCode}]登录信息已过期,请重新登录"
                         if (!D6Application.isChooseLoginPage) {
                             D6Application.isChooseLoginPage = true
                             SPUtils.instance().remove(Const.User.USER_ID)
@@ -118,7 +118,7 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                     }
                 }else{
                     if (showToast&&msg.isNotEmpty()) {////-2 该用户已注销
-                        requestManager.showToast(msg)
+                        requestManager.showToast("${msg}")
                     }
                 }
             }
@@ -136,10 +136,10 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 if(t.data!=null&&t.data!="null"){
                     error(t.res, t.data.toString())
                     if (showToast) {
-                        requestManager.showToast(t.resMsg.toString())
+                        requestManager.showToast("[${t.res}]${t.resMsg}")
                     }
                 }else{
-                    onError(ResultException(t.res, t.resMsg))
+                    onError(ResultException(t.res, "[${t.res}]${t.resMsg}"))
                 }
             }
         }

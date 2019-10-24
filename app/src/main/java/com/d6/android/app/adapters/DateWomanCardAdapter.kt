@@ -109,7 +109,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             FrescoUtils.loadImage(context,mBannerImages[0],object: IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
-                        if(it.width>it.height){
+                        if(it.width>=it.height){
                             bigImgView.showBlur(mBannerImages[0])
                             iv_wh.setImageBitmap(it)
                         }else{
