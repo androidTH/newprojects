@@ -30,6 +30,7 @@ import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
+import com.d6.android.app.widget.DanMuImageWare
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
@@ -39,7 +40,7 @@ import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.subscribers.DisposableSubscriber
+import io.rong.imageloader.core.ImageLoader
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
@@ -57,6 +58,7 @@ import master.flame.danmaku.danmaku.util.SystemClock
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
 import java.io.InputStream
 import java.util.*
@@ -114,6 +116,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
     private var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
+//    private var mIconWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, getResources().getDisplayMetrics()).toInt()
 
     //礼物
     private var giftControl: GiftControl? = null
@@ -244,6 +247,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         tv_mycard.setOnClickListener {
             startActivity<MyCardActivity>()
+//            startActivity<D6LoveHeartListActivity>()
         }
 
         root_find.setOnClickListener {
@@ -296,11 +300,21 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                                     viewHolder?.mText?.text = danmaku.text
                                     viewHolder?.mText?.setTextColor(danmaku.textColor)
                                     viewHolder?.mText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize)
-                                    FrescoUtils.loadImage(activity, "", object : IResult<Bitmap> {
-                                        override fun onResult(result: Bitmap?) {
+                                    var bitmap: Bitmap? = null
+                                    val imageWare = danmaku.tag as DanMuImageWare
+                                    if (imageWare != null) {
+                                        bitmap = imageWare.bitmap
+                                    }
+                                    if (bitmap != null) {
+                                        viewHolder?.mIcon?.setImageBitmap(bitmap)
+                                    } else {
+                                        viewHolder?.mIcon?.setImageResource(R.mipmap.default_head)
+                                    }
+//                                    FrescoUtils.loadImage(activity, it.tag as String, object : IResult<Bitmap> {
+//                                        override fun onResult(result: Bitmap?) {
 //                                            viewHolder?.mIcon?.setImageBitmap(CircleBitmapTransform.transform(result))
-                                        }
-                                    })
+//                                        }
+//                                    })
                                 }
                         }
 
@@ -309,12 +323,34 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         }
 
                         override fun prepare(danmaku: BaseDanmaku?, fromWorkerThread: Boolean) {
-                            super.prepare(danmaku, fromWorkerThread)
+                            danmaku?.let {
+                                if (it.isTimeOut()) {
+                                    return
+                                }
+                                var imageWare: DanMuImageWare? = danmaku.tag as DanMuImageWare
+//                                if (imageWare == null) {
+//                                    imageWare = DanMuImageWare(avatar, danmaku, mIconWidth, mIconWidth, mDanmakuView)
+//                                    danmaku.setTag(imageWare)
+//                                }
+//                                if (it.text.toString().contains("textview")) {
+//                                    Log.e("DFM", "onAsyncLoadResource======>" + danmaku.tag + "url:" + imageWare!!.getImageUri())
+//                                }
+
+//                                    FrescoUtils.loadImage(activity, imageWare!!.getImageUri(), object : IResult<Bitmap> {
+//                                        override fun onResult(result: Bitmap?) {
+//                                            result?.let {
+//                                                imageWare.bitmap = it
+//                                            }
+//                                        }
+//                                    })
+                                ImageLoader.getInstance().displayImage(imageWare!!.getImageUri(), imageWare)
+                            }
                         }
 
                         override fun releaseResource(danmaku: BaseDanmaku?) {
                             super.releaseResource(danmaku)
                         }
+
 
                     }, null)
                     .setMaximumLines(maxLinesPair)
@@ -596,6 +632,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 if (code == 2 || code == 3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
+                }else{
+                    toast(msg)
                 }
             }
 //            if(findDate.iIsFans==0){
@@ -1032,7 +1070,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         danmaku!!.underlineColor = 0
         danmaku!!.borderColor = 0
         danmaku!!.padding = 5
-        danmaku!!.tag = loveHeartFans.sPicUrl
+        danmaku!!.tag = DanMuImageWare(loveHeartFans.sPicUrl,danmaku,30,30,sv_danmaku)
         sv_danmaku.addDanmaku(danmaku)
     }
 

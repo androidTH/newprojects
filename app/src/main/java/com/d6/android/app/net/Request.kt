@@ -356,7 +356,7 @@ object Request {
     fun queryAppointmentPoint(userId:String,iAppointUserid:String)=RRetrofit.instance().create(ApiServices::class.java).queryAppointmentPoint(userId,iAppointUserid)
 
     //更新地理未知
-    fun updateUserPosition(iUserid:String,sPosition:String,lat:String,lon:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sPosition,lat,lon)
+    fun updateUserPosition(iUserid:String,sProvince:String,sCountry:String,sPosition:String,lat:String,lon:String)=RRetrofit.instance().create(ApiServices::class.java).updateUserPosition(iUserid,sProvince,sCountry,sPosition,lat,lon)
 
     //发现约会
     fun findAccountCardListPage(userId:String,sCity:String,

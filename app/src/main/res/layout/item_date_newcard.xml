@@ -258,7 +258,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_zuojia"
                 android:layout_marginLeft="@dimen/margin_25"
-                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_5"
                 android:layout_marginRight="@dimen/margin_25"
                 android:drawableLeft="@mipmap/boy_hobby_whiteicon"
                 android:drawablePadding="@dimen/margin_5"

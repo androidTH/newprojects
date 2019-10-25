@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.item_audio.view.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 /**
  *
@@ -95,7 +96,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
             square.iLovePoint = lovePoint+square.iLovePoint!!.toInt()
             square.iSendLovePoint = 0
             notifyDataSetChanged()
-            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->
+            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,true,success={_,Data->
 //                square.iLovePoint = lovePoint+square.iLovePoint!!.toInt() 2.11
 //                notifyDataSetChanged()   2.11
 //                EventBus.getDefault().post(FlowerMsgEvent(lovePoint,square))
@@ -108,6 +109,8 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
                 if (code == 2||code==3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
+                }else{
+                    it.toast(msg)
                 }
                 square.iLovePoint = square.iLovePoint!!.toInt()-lovePoint
                 square.iSendLovePoint = -1

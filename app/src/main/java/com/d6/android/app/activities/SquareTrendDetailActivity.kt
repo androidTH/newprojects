@@ -112,6 +112,8 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 if (code == 2||code==3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                }else{
+                    toast(msg)
                 }
             }
         }

@@ -23,7 +23,7 @@
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="match_parent"-->
             <!--app:canLoop="true"-->
-            <!--app:autoTurningTime="3000"/>-->
+            <!--app:autoTurningTime="2000"/>-->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imageView"
             style="@style/DefaultImageStyle"

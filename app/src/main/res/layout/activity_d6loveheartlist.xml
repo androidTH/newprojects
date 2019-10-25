@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/color_F6F7FA"
+    tools:context=".activities.OpenMemberShipActivity">
+
+    <RelativeLayout
+        android:id="@+id/rl_openmember_title"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_size">
+        <TextView
+            android:id="@+id/tv_membership_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/back"
+            android:paddingLeft="@dimen/padding_16"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:textSize="17sp"
+            android:id="@+id/tv_title"
+            android:text="D6榜单"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_openmber_tab"
+        android:layout_below="@+id/rl_openmember_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <com.d6.android.app.widget.tablayout.TabLayout
+            android:id="@+id/tab_loveheartitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            app:tabPaddingStart="0dp"
+            app:tabPaddingEnd="0dp"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabTextAppearance="@style/tab_openmember"
+            android:scrollbars="horizontal"
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/color_F7AB00"
+            app:tabIndicatorHeight="3dp"
+            app:tabLineOffset="@dimen/margin_20"
+            app:tabSelectedTextColor="@color/color_F7AB00"
+            app:tabTextColor="@color/color_666666" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_loveheart"
+        android:layout_below="@+id/rl_openmber_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
+

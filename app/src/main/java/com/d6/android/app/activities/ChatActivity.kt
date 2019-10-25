@@ -377,6 +377,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     if (code == 2||code==3) {
                         var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                         mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                    }else{
+                        toast(msg)
                     }
                 }
                 }

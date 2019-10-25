@@ -22,6 +22,7 @@ import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.UserTrendView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 /**
  *动态
@@ -130,6 +131,8 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                 if (code == 2||code==3) {
                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                     mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
+                }else{
+                    it.toast(msg)
                 }
             }
         }

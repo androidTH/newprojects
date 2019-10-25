@@ -48,6 +48,7 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -146,6 +147,8 @@ class SendLoveHeartDialog : DialogFragment() {
                                 var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                                 mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
                                 dismissAllowingStateLoss()
+                            }else{
+                                it.toast(msg)
                             }
                         }
                     }

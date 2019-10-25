@@ -125,18 +125,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
                 }
 
-                var sb = StringBuffer()
-                sb.append("约会地")
-                if(!data.userlookwhere.isNullOrEmpty()){
-                    sb.append(" ${data.userlookwhere}")
-                }
-
-                if(!data.userhandlookwhere.isNullOrEmpty()){
-                    sb.append("、${data.userhandlookwhere}")
-                }
-
-                if(sb.length>3){
-                    mTags.add(UserTag("${sb}", R.mipmap.boy_datearea_whiteicon,3))
+                if(!data.city.isNullOrEmpty()){
+                    mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
                 }
 
                 rv_mydate_tags.adapter = CardManTagAdapter(mTags)
@@ -391,22 +381,22 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
         }
 
-//        if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
-//            mTags.add(UserTag("约会地 ${data.userlookwhere} ${data.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+//        var sb = StringBuffer()
+//        sb.append("约会地")
+//        if(!data.userlookwhere.isNullOrEmpty()){
+//            sb.append(" ${data.userlookwhere}")
+//        }
+//
+//        if(!data.userhandlookwhere.isNullOrEmpty()){
+//            sb.append("、${data.userhandlookwhere}")
+//        }
+//
+//        if(sb.length>3){
+//            mTags.add(UserTag("${sb}", R.mipmap.boy_datearea_whiteicon,3))
 //        }
 
-        var sb = StringBuffer()
-        sb.append("约会地")
-        if(!data.userlookwhere.isNullOrEmpty()){
-            sb.append(" ${data.userlookwhere}")
-        }
-
-        if(!data.userhandlookwhere.isNullOrEmpty()){
-            sb.append("、${data.userhandlookwhere}")
-        }
-
-        if(sb.length>3){
-            mTags.add(UserTag("${sb}", R.mipmap.boy_datearea_whiteicon,3))
+        if(!data.city.isNullOrEmpty()){
+            mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
         }
 
         rv_mydate_newtags.adapter = CardManTagAdapter(mTags)

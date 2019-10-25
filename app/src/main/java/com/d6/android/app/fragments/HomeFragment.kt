@@ -224,7 +224,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 locationClient.stopLocation()
                 SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
                 SPUtils.instance().put(USER_PROVINCE,it.province).apply()
-                getUserLocation(it.city,"${it.latitude}","${it.longitude}")
+                getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
             }
         }
     }
@@ -232,8 +232,8 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     /**
      * 经纬度提交给服务端
      */
-    private fun getUserLocation(city:String,lat:String,lon:String){
-        Request.updateUserPosition(getLocalUserId(),city,lat,lon).request(this,false,success={_,data->
+    private fun getUserLocation(city:String,sProvince:String,sCountry:String,lat:String,lon:String){
+        Request.updateUserPosition(getLocalUserId(),sProvince,sCountry,city,lat,lon).request(this,false,success={_,data->
         })
     }
 

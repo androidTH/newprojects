@@ -291,7 +291,7 @@ interface ApiServices {
 
     //同城
     @POST("backstage/account/updateUserPosition")
-    fun updateUserPosition(@Query("iUserid") iUserid:String, @Query("sPosition") sPosition:String, @Query("lat") lat:String, @Query("lon") lon:String, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun updateUserPosition(@Query("iUserid") iUserid:String,@Query("sProvince") sProvince:String,@Query("sCountry") sCountry:String, @Query("sPosition") sPosition:String, @Query("lat") lat:String, @Query("lon") lon:String, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //发现约会
     @POST("backstage/account/findAccountCardListPage")

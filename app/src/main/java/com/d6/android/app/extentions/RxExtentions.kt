@@ -136,10 +136,10 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                 if(t.data!=null&&t.data!="null"){
                     error(t.res, t.data.toString())
                     if (showToast) {
-                        requestManager.showToast("[${t.res}]${t.resMsg}")
+                        requestManager.showToast("${t.resMsg}")
                     }
                 }else{
-                    onError(ResultException(t.res, "[${t.res}]${t.resMsg}"))
+                    onError(ResultException(t.res, "${t.resMsg}"))
                 }
             }
         }

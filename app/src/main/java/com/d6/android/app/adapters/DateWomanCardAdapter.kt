@@ -20,6 +20,8 @@ import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.BitmapUtils.clearBitmap
+import com.d6.android.app.widget.convenientbanner.ConvenientBanner
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
@@ -105,7 +107,6 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 tv_indexofpics.visibility = View.GONE
             }
             clearBitmap(iv_wh)
-            Log.i("recoment","图片尺寸：${data}")
             FrescoUtils.loadImage(context,mBannerImages[0],object: IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
@@ -118,7 +119,10 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     }
                 }
             })
-
+            //简单使用
+//        mBanners.setImages()
+//                .setImageLoader(FrescoImageLoader())
+//                .start()
 //            var bannerImages = holder.bind<ConvenientBanner<String>>(R.id.banner_grils)
 //            bannerImages.setPages(
 //                    object : CBViewHolderCreator {
@@ -251,24 +255,35 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 holder.setText(R.id.tv_city, data.sPosition)
             }
 
-
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
-            if (data.iVistorCountAll >= 50) {
-                tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
-            } else {
-                tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
-            }
+            var ll_user_vistorfollownums = holder.bind<LinearLayout>(R.id.ll_user_vistorfollownums)
+            tv_vistorfollownums.visibility = View.VISIBLE
             var tv_online_time = holder.bind<TextView>(R.id.tv_online_time)
             if(data.sOnlineMsg.isNullOrEmpty()){
                 tv_online_time.visibility = View.GONE
+                ll_user_vistorfollownums.visibility = View.GONE
             }else{
                 tv_online_time.visibility = View.VISIBLE
+                ll_user_vistorfollownums.visibility = View.VISIBLE
                 if(data.sOnlineMsg.indexOf(context.getString(R.string.string_nowonline))!=-1){
                     setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_online_time)
                 }else{
                     setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_online_time)
                 }
                 tv_online_time.text = "${data.sOnlineMsg}"
+            }
+
+            if (data.iVistorCountAll >= 50) {
+                ll_user_vistorfollownums.visibility = View.VISIBLE
+                tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
+            } else {
+                if(data.iReceiveLovePoint > 0){
+                    ll_user_vistorfollownums.visibility = View.VISIBLE
+                    tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+                }else{
+                    ll_user_vistorfollownums.visibility = View.GONE
+                    tv_vistorfollownums.visibility = View.GONE
+                }
             }
         }
 
