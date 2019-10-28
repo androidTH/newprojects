@@ -100,7 +100,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             mLoveHeartMoney = cashmoney.toFloat()
             tv_cash_money.text = String.format(getString(R.string.string_cash_money), cashmoney)
         }else{
-            tv_cashmeny_tips.text = "提现将收取20%的手续费，最低提现金额5元"
+            tv_cashmeny_tips.text = "提现将收取20%的手续费，最低提现金额10元"
             linear_redhearliked.visibility = View.VISIBLE
             tv_redheartliked.visibility = View.GONE
             mLoveHeartMoney = (cashmoney.toFloat()/10.0).toFloat()
@@ -153,11 +153,11 @@ class DialogCashMoney : DialogFragment(), RequestManager {
                                 showToast("最低提现金额不能小于0元！")
                             }
                         }else{
-                            if(mCashMoney>=5){
+                            if(mCashMoney>=10){
                                 money = "${(mCashMoney*10).toInt()}"
                                 doCashMoney(money,type)
                             }else{
-                                showToast("最低提现金额不能小于5元！")
+                                showToast("最低提现金额不能小于10元！")
                             }
                         }
                     } else {

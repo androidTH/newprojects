@@ -366,7 +366,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         val head = SPUtils.instance().getString(Const.User.USER_HEAD)
         date_headView.setImageURI(head)
 
-        getUserInfo()
+        date_headView.postDelayed(object:Runnable{
+            override fun run() {
+                getUserInfo()
+            }
+        },300)
 
 //        UnReadMessageCountChangedObserver()
 
@@ -464,6 +468,13 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
         })
     }
+
+//    private fun updateDateNotice(){
+//        var fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
+//        if (fragment != null && fragment is DateFragment) {
+//            fragment.showNotice(false)
+//        }
+//    }
 
     private fun getUserQueryAnonymous(){
         Request.getUserQueryAnonymous(getLoginToken()).request(this,false,success={msg,jsonobject->

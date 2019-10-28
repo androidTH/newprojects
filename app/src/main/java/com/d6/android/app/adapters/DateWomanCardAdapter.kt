@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -27,7 +28,6 @@ import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.imageBitmap
 
 class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_womennewcard) {
 
@@ -55,34 +55,55 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             rv_mydate_tags.isNestedScrollingEnabled = false
 
             mTags.clear()
+            var sblens = StringBuffer()
             if (!data.shengao.isNullOrEmpty()) {
+                sblens.append("身高:${data.shengao}")
                 mTags.add(UserTag("身高:${data.shengao}", R.drawable.shape_tag_bg_1))
             }
 
             if (!data.tizhong.isNullOrEmpty()) {
+                sblens.append("体重:${data.tizhong}")
                 mTags.add(UserTag("体重:${data.tizhong}", R.drawable.shape_tag_bg_2))
             }
 
             if (!data.zhiye.isNullOrEmpty()) {
+                sblens.append("${data.zhiye}")
                 mTags.add(UserTag(data.zhiye, R.drawable.shape_tag_bg_3))
             }
 
             if (!data.xingzuo.isNullOrEmpty()) {
+                sblens.append("${data.xingzuo}")
                 mTags.add(UserTag(data.xingzuo ?: "", R.drawable.shape_tag_bg_5))
             }
 
-            if (!data.xingquaihao.isNullOrEmpty()) {
-                var mHobbies = data.xingquaihao?.replace("#", ",")?.split(",")
-                if (mHobbies != null) {
-                    for (str in mHobbies) {
-                        if (!TextUtils.isEmpty(str)) {
-                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
+            if(sblens.length<31){
+                if (!data.xingquaihao.isNullOrEmpty()) {
+                    var mHobbies = data.xingquaihao?.replace("#", ",")?.split(",")
+                    if (mHobbies != null) {
+                        for (str in mHobbies) {
+                            if (!TextUtils.isEmpty(str)) {
+                                sblens.append("${str}")
+                                if(sblens.length<31){
+                                    mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
+                                }else{
+                                    break
+                                }
+                            }
                         }
                     }
                 }
             }
 
+//            Log.i("ddddddddddddddd","${sblens.length}")
             rv_mydate_tags.adapter = CardTagAdapter(mTags)
+//            rv_mydate_tags.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
+//                override fun onGlobalLayout() {
+//                    var layoutparams = rv_mydate_tags.layoutParams
+////                    layoutparams.height =
+//                    Log.i("ddddddddddddddd","${data.name}高度：${rv_mydate_tags.measuredHeight}")
+//                }
+//            })
+
             val tv_indexofpics = holder.bind<TextView>(R.id.tv_indexofpics)
             var bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
             val iv_wh = holder.bind<ImageView>(R.id.iv_wh)
@@ -98,6 +119,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                         mBannerImages.addAll(images)
 //                        bigImgView.setImageURI(images[0])
                     }
+                    mBannerImages.add(0,data.picUrl)
                     tv_indexofpics.visibility = View.VISIBLE
                     tv_indexofpics.setText("1/${images.size}")
                 }
@@ -112,7 +134,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     result?.let {
                         if(it.width>=it.height){
                             bigImgView.showBlur(mBannerImages[0])
-                            iv_wh.setImageBitmap(it)
+                            if(it!=null){
+                                iv_wh.setImageBitmap(it)
+                            }
                         }else{
                             bigImgView.setImageURI(mBannerImages[0])
                         }
@@ -273,18 +297,36 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 tv_online_time.text = "${data.sOnlineMsg}"
             }
 
-            if (data.iVistorCountAll >= 50) {
-                ll_user_vistorfollownums.visibility = View.VISIBLE
-                tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
-            } else {
-                if(data.iReceiveLovePoint > 0){
-                    ll_user_vistorfollownums.visibility = View.VISIBLE
-                    tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
-                }else{
-                    ll_user_vistorfollownums.visibility = View.GONE
-                    tv_vistorfollownums.visibility = View.GONE
-                }
+            var sblove = StringBuffer()
+            if(data.iReceiveLovePoint>=10){
+                sblove.append("收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     ")
             }
+
+            if(data.iVistorCountAll>=10){
+                sblove.append("访客·${data.iVistorCountAll}")
+            }
+
+            if(sblove.toString().length>0){
+                ll_user_vistorfollownums.visibility = View.VISIBLE
+                tv_vistorfollownums.visibility = View.VISIBLE
+                tv_vistorfollownums.text="${sblove}"
+            }else{
+                ll_user_vistorfollownums.visibility = View.GONE
+                tv_vistorfollownums.visibility = View.GONE
+            }
+
+//            if (data.iVistorCountAll >= 10&&data.iReceiveLovePoint>=10) {
+//                ll_user_vistorfollownums.visibility = View.VISIBLE
+//                tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
+//            } else {
+//                if(data.iReceiveLovePoint >= 10){
+//                    ll_user_vistorfollownums.visibility = View.VISIBLE
+//                    tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+//                }else{
+//                    ll_user_vistorfollownums.visibility = View.GONE
+//                    tv_vistorfollownums.visibility = View.GONE
+//                }
+//            }
         }
 
         val onClickListener = View.OnClickListener {

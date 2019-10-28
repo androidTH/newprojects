@@ -28,6 +28,7 @@ import com.d6.android.app.widget.frescohelper.IResult
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
+import com.umeng.socialize.utils.Log.toast
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_user_trend_view.view.*
 import org.jetbrains.anko.backgroundDrawable
@@ -96,21 +97,24 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //               square?.let {
 //                   sendFlowerAction?.onSendFlowerClicker(it)
 //               }
-            (context as BaseActivity).isAuthUser(){
-                if(getLocalUserLoveHeart()>0){
-                    if(sendLoveHeartNums <= getLocalUserLoveHeart()){
-                        addGiftNums(1,false,false)
-                        VibrateHelp.Vibrate((context as BaseActivity),VibrateHelp.time50)
+                (context as BaseActivity).isAuthUser(){
+                    if (!TextUtils.equals(getLocalUserId(), "${square?.userid}")) {
+                        if (getLocalUserLoveHeart() > 0) {
+                            if (sendLoveHeartNums <= getLocalUserLoveHeart()) {
+                                addGiftNums(1, false, false)
+                                VibrateHelp.Vibrate((context as BaseActivity), VibrateHelp.time50)
+                            } else {
+                                var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                                mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                            }
+                        } else {
+                            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                            mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                        }
                     }else{
-                        var mSendRedHeartEndDialog = SendRedHeartEndDialog()
-                        mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                        (context as BaseActivity).toast(context.getString(R.string.string_liked_give_other))
                     }
-                }else{
-                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
-                    mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
                 }
-
-            }
         }
 
         tv_redflower.setOnLongClickListener {

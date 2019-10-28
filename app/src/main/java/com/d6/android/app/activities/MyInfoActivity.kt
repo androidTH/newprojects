@@ -259,7 +259,9 @@ class MyInfoActivity : BaseActivity(),Observer{
 //        tv_signature1.setText(userData.signature)
 //        tv_city1.setText(userData.city)
 //        tv_area1.setText(userData.area)
-        tv_birthday1.text = userData.birthday
+        if(!userData.birthday.isNullOrEmpty()){
+            tv_birthday1.text = userData.birthday
+        }
         tv_height1.text = userData.height
         tv_weight1.text = userData.weight
 //        tv_age1.setText(userData.age)

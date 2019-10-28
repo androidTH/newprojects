@@ -28,6 +28,8 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDLASTDAYNOTICEDIALOG
+import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDNOTICEDIALOG
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.DanMuImageWare
@@ -95,6 +97,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
     private var sendLoveHeartNums = 1
+    private var mTotalPages = -1
 
     private val locationClient by lazy {
         AMapLocationClient(activity)
@@ -137,9 +140,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     scrollPosition = mRecyclerView.currentItem + 1
-                    if ((mDates.size - scrollPosition) <= 2) {
+                    if ((mDates.size - scrollPosition) == 1) {
                         pageNum++
-                        getData(city, userclassesid, agemin, agemax)
+                        if(pageNum<=mTotalPages){
+                            getData(city, userclassesid, agemin, agemax)
+                        }
                     }
                     if (mDates.size > 0) {
                         if(TextUtils.equals(sex, "1")){
@@ -245,6 +250,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
 
         tv_mycard.setOnClickListener {
+            iv_mycade_newnotice.visibility = View.GONE
+            SPUtils.instance().put(IS_FIRST_SHOW_FINDLASTDAYNOTICEDIALOG + getLocalUserId(),System.currentTimeMillis()).apply()
             startActivity<MyCardActivity>()
 //            startActivity<D6LoveHeartListActivity>()
         }
@@ -253,7 +260,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             hideRedHeartGuide()
         }
 
-        showDialog()
+//        showDialog()
         getData(city, userclassesid, agemin, agemax)
         checkLocation()
 
@@ -276,6 +283,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         loading_headView.setImageURI(heardPic)
 
         initDanMu()
+
     }
 
     private var mDanmakuContext: DanmakuContext? = null
@@ -378,6 +386,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     Log.d("DFM", "onDanmakuClick: danmakus size:" + danmakus.size())
                     val latest = danmakus.last()
                     if (null != latest) {
+                        startActivity<UserInfoActivity>("id" to "${latest.userId}")
                         Log.d("DFM", "onDanmakuClick: text of latest danmaku:" + latest!!.text)
                         return true
                     }
@@ -540,6 +549,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         Request.findAccountCardListPage(userId, city, "", userclassesid, agemin, agemax, lat, lon, pageNum).request(this) { _, data ->
             rl_loading.visibility = View.GONE
             find_waveview.stop()
+            mTotalPages = data?.list?.totalPage!!
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum == 1) {
                     mRecyclerView.visibility = View.GONE
@@ -557,8 +567,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     fb_unlike.visible()
                     btn_like.visible()
                     fb_heat_like.visible()
-                    fb_find_chat.gone()
+                    fb_find_chat.visible()
                 }
+                Log.i("ffffffff","${data?.list?.totalPage}---${pageNum}")
             } else {
                 mRecyclerView.visibility = View.VISIBLE
                 tv_main_card_bg_im_id.gone()
@@ -566,7 +577,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 fb_unlike.visible()
                 btn_like.visible()
                 fb_heat_like.visible()
-                fb_find_chat.gone()
+                fb_find_chat.visible()
                 if (pageNum == 1) {
                     mDates.clear()
                 }
@@ -621,7 +632,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 var mLoveHeartFan = LoveHeartFans("${findDate.accountId}".toInt())
                 mLoveHeartFan.sSendUserName = getLocalUserName()
                 mLoveHeartFan.sPicUrl = getLocalUserHeadPic()
-                mLoveHeartFan.iAllLovePoint = giftCount
+                mLoveHeartFan.iPoint = giftCount
+                mLoveHeartFan.iSenduserid = "${getLocalUserId()}".toInt()
 
                 if(mReceiveLoveHearts.size>0){
                     Log.i("dateFragment","这里了----大于")
@@ -661,17 +673,43 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private fun showDatePayPointDialog(name: String, id: String) {
-        activity.isCheckOnLineAuthUser(this, userId) {
-            Request.getApplyStatus(userId, id, 1).request(this, false, success = { msg, jsonObjetct ->
-                jsonObjetct?.let {
-                    var code = it.optInt("code")
-                    if (code != 7) {
-                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
-                    }
-                }
-            })
+        activity.isAuthUser{
+            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//            Request.getApplyStatus(userId, id, 1).request(this, false, success = { msg, jsonObjetct ->
+//                jsonObjetct?.let {
+//                    var code = it.optInt("code")
+//                    if (code != 7) {
+//                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
+//                    }
+//                }
+//            })
 //            RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, id, name)
         }
+    }
+
+    fun showNotice(){
+        Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
+            data?.let {
+                if(getOneDay(SPUtils.instance().getLong(IS_FIRST_SHOW_FINDLASTDAYNOTICEDIALOG + getLocalUserId(), System.currentTimeMillis()))){
+                    if(it.iLastDayExposureCount>0){
+                        iv_mycade_newnotice.visibility = View.VISIBLE
+                    }else{
+                        iv_mycade_newnotice.visibility = View.GONE
+                    }
+                }else{
+                    iv_mycade_newnotice.visibility = View.GONE
+                }
+                tv_mycard.postDelayed(object:Runnable{
+                    override fun run() {
+                        var flag = SPUtils.instance().getBoolean(IS_FIRST_SHOW_FINDNOTICEDIALOG + getLocalUserId(),false)
+                        if(!flag){
+                            iv_mycade_newnotice.visibility = View.VISIBLE
+                            SPUtils.instance().put(IS_FIRST_SHOW_FINDNOTICEDIALOG + getLocalUserId(), true).apply()
+                        }
+                    }
+                },300)
+            }
+        })
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -692,6 +730,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                mDanMuHandler.sendEmptyMessage(0)
             }
         }
+
+        showNotice()
     }
 
     override fun onPause() {
@@ -845,8 +885,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             var lat = ""
             var lon = ""
             if (areaIndex == -1) {
-                tv_city.text = "同城"
                 city = string
+                tv_city.text = city //"同城"
                 lat = mLat
                 lon = mLon
                 setSearChUI(0, true)
@@ -1066,7 +1106,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if (danmaku == null || sv_danmaku == null) {
             return
         }
-        danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.iAllLovePoint}颗"
+        danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.iPoint}颗"
         danmaku!!.padding = 5
         danmaku!!.priority = 0 //可能会被各种过滤器过滤并隐藏显示
         danmaku!!.isLive = islive
@@ -1077,6 +1117,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         danmaku!!.underlineColor = 0
         danmaku!!.borderColor = 0
         danmaku!!.padding = 5
+        danmaku!!.userId = loveHeartFans.iSenduserid!!
         danmaku!!.tag = DanMuImageWare(loveHeartFans.sPicUrl,danmaku,30,30,sv_danmaku)
         sv_danmaku.addDanmaku(danmaku)
     }

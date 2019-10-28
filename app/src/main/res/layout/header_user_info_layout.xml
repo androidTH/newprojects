@@ -215,6 +215,7 @@
             android:drawablePadding="@dimen/margin_5"
             android:text="座驾"
             android:textColor="@color/color_40FFFFFF"
+            android:visibility="gone"
             android:textSize="14sp" />
 
         <TextView
@@ -230,6 +231,7 @@
             android:singleLine="true"
             android:text="爱好 "
             android:textColor="@color/color_40FFFFFF"
+            android:visibility="gone"
             android:textSize="14sp" />
     </LinearLayout>
 

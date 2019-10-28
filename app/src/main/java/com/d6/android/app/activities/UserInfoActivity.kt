@@ -440,10 +440,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         Request.checkUserOnline(getLoginToken(),id).request(this,success={ _, data->
             data?.let {
                 var iOnline = it.optInt("iOnline")
-                var sOnlineMsg = it.optString("sOnlineMsg")
                 if(iOnline==1){
                     tv_online_time.visibility = View.GONE
                 } else if (iOnline == 2) {
+                    var sOnlineMsg = it.optString("sOnlineMsg")
                     var drawable = ContextCompat.getDrawable(this, R.drawable.shape_dot_online)
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
                     tv_online_time.setCompoundDrawables(drawable, null, null, null)
@@ -451,6 +451,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     tv_online_time.textColor = ContextCompat.getColor(this, R.color.white)
                     tv_online_time.text = sOnlineMsg
                 } else if (iOnline == 3) {
+                    var sOnlineMsg = it.optString("sOnlineMsg")
                     tv_online_time.visibility = View.VISIBLE
                     tv_online_time.textColor = ContextCompat.getColor(this, R.color.color_80FFFFFF)
                     tv_online_time.text = sOnlineMsg
@@ -468,7 +469,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_orange, 0)
             tv_back.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.navigation_back_white, 0)
             immersionBar.statusBarDarkFont(true).init()
+            tv_online_time.visibility = View.GONE
         } else {
+            tv_online_time.visibility = View.VISIBLE
             tv_msg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.mycenter_edit, 0)
             tv_more.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_more_white, 0)
             tv_back.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.navigation_back_white, 0)
@@ -674,8 +677,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_whiteicon))
                 }
 
-                if(!it.userlookwhere.isNullOrEmpty()||!it.userhandlookwhere.isNullOrEmpty()){
-                    mTags.add(UserTag("约会地 ${it.userlookwhere} ${it.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
+                if(!it.city.isNullOrEmpty()){
+                    mTags.add(UserTag("约会地 ${it.city}}", R.mipmap.boy_datearea_whiteicon,3))
                 }
 
                 if(mTags.size==0){

@@ -97,7 +97,7 @@ class ShareFriendsDialog : DialogFragment() {
                 if(TextUtils.isEmpty(sAppointmentSignupId)){
                     tv_deldate.visibility = View.VISIBLE
                 }else{
-                    ll_action.visibility = View.GONE
+                    ll_action.visibility = View.VISIBLE
                 }
                 Log.i("shareFriends","sid=${sAppointmentSignupId}")
             }else{

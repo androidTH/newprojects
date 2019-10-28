@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_20"
+            android:layout_marginRight="@dimen/margin_15"
             android:layout_weight="2">
 
             <TextView
@@ -60,18 +61,32 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_mycard"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
+        <RelativeLayout
             android:layout_toRightOf="@+id/bar_left"
             android:layout_alignParentRight="true"
-            android:drawablePadding="@dimen/margin_5"
-            android:gravity="center"
-            android:text="我的卡片"
-            android:textColor="@color/color_black"
-            android:textStyle="bold"
-            android:textSize="@dimen/textSize"/>
+            android:layout_width="100dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_mycard"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center"
+                android:text="我的卡片"
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
+                android:textSize="@dimen/textSize"/>
+
+            <ImageView
+                android:id="@+id/iv_mycade_newnotice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_10"
+                android:src="@mipmap/mycenter_top_newnotice"/>
+        </RelativeLayout>
     </LinearLayout>
 
     <View
@@ -172,8 +187,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="20dp"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/find_chat_button"
-                android:visibility="gone" />
+                android:src="@mipmap/find_chat_button" />
 
             <ImageButton
                 android:id="@+id/fb_heat_like"
@@ -194,22 +208,22 @@
                 android:src="@mipmap/toright_button" />
 
         </LinearLayout>
+
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:id="@+id/tv_redheart_guide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/popwindow_bg"
             android:layout_above="@+id/ll_bottom"
-            android:layout_centerHorizontal="true"
-            android:paddingLeft="40dp"
+            android:layout_marginLeft="125dp"
+            android:background="@mipmap/popwindow_bg"
             android:gravity="center_vertical"
+            android:paddingLeft="40dp"
+            android:paddingRight="@dimen/margin_8"
             android:paddingBottom="@dimen/margin_10"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:layout_marginBottom="-25dp"
-            android:visibility="gone"
-            android:paddingRight="@dimen/margin_8"
-            android:id="@+id/tv_redheart_guide"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
     <com.d6.android.app.widget.LoveHeart

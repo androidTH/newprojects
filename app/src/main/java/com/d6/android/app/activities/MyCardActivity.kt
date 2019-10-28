@@ -146,18 +146,19 @@ class MyCardActivity : BaseActivity() {
                         sw_card_off.isChecked = false
                     }
                 }
-                var sb = StringBuilder()
+                var Allsb = StringBuilder()
                 if(it.iAllExposureCount>0){
-                    sb.append("累计获得了${it.iAllExposureCount}次曝光，")
+                    tv_allexposure.visibility = View.VISIBLE
+                    Allsb.append("累计获得了${it.iAllExposureCount}次曝光，收到${it.iReceiveLovePoint}个喜欢")
                 }
-                sb.append("收到${it.iReceiveLovePoint}个喜欢")
-                tv_allexposure.text = sb.toString()
+                tv_allexposure.text = Allsb.toString()
 
                 var lastdaysb =StringBuffer()
                 if(it.iLastDayExposureCount>0){
-                    lastdaysb.append("昨日获得${it.iAllExposureCount}次曝光，")
+                    tv_lastdayexposure.visibility = View.VISIBLE
+                    lastdaysb.append("昨日获得${it.iLastDayExposureCount}次曝光，收到${it.iLastDayReceiveLovePoint}个喜欢")
                 }
-                lastdaysb.append("收到${it.iLastDayReceiveLovePoint}个喜欢")
+
                 tv_lastdayexposure.text = lastdaysb.toString()
                 if(TextUtils.equals(mLocalUserSex,"0")){
                    setGrilsInfo(it)
@@ -218,7 +219,11 @@ class MyCardActivity : BaseActivity() {
                 var images = it.userpics?.split(",")
                 if (images != null&&images.size>0) {
                     mWomenBanners.addAll(images)
+                }else{
+                    mWomenBanners.add("${it.picUrl}")
                 }
+            }else{
+                mWomenBanners.add("${it.picUrl}")
             }
         } else {
             mWomenBanners.add("${it.picUrl}")
@@ -340,8 +345,8 @@ class MyCardActivity : BaseActivity() {
         }
 
         tv_city.text = it.area
-        if (it.iVistorCountAll >= 10) {
-            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${it.iReceiveLovePoint}     访客·${it.iVistorCountAll}"
+        if (it.iVistorCountAll >= 0) {
+            tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${it.iReceiveLovePoint}    访客·${it.iVistorCountAll}"
         } else {
             tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${it.iReceiveLovePoint}"
         }
@@ -369,7 +374,7 @@ class MyCardActivity : BaseActivity() {
             tv_onlinetime_men.text = "${it.sOnlineMsg}"
         }
 
-        if (it.iVistorCountAll >= 10) {
+        if (it.iVistorCountAll >= 0) {
             tv_likehe.text = "送出 [img src=redheart_small/] · ${it.iSendLovePoint}     访客·${it.iVistorCountAll}"
         } else {
             tv_likehe.text = "送出 [img src=redheart_small/] · ${it.iSendLovePoint}"
@@ -428,28 +433,28 @@ class MyCardActivity : BaseActivity() {
 //                tv_date_vip.backgroundDrawable = drawable
 
         mTags.clear()
-        if (!it.height.isNullOrEmpty()) {
+//        if (!it.height.isNullOrEmpty()) {
             mTags.add(UserTag("身高 ${it.height}", R.mipmap.boy_stature_whiteicon))
-        }
-        if (!it.weight.isNullOrEmpty()) {
+//        }
+//        if (!it.weight.isNullOrEmpty()) {
             mTags.add(UserTag("体重 ${it.weight}", R.mipmap.boy_weight_whiteicon))
-        }
+//        }
 
-        if (!it.constellation.isNullOrEmpty()) {
+//        if (!it.constellation.isNullOrEmpty()) {
             mTags.add(UserTag("星座 ${it.constellation}", R.mipmap.boy_constellation_whiteicon))
-        }
+//        }
 
-        if (!it.area.isNullOrEmpty()) {
+//        if (!it.area.isNullOrEmpty()) {
             mTags.add(UserTag("地区 ${it.area}", R.mipmap.boy_area_whiteicon))
-        }
+//        }
 
-        if(!it.job.isNullOrEmpty()){
+//        if(!it.job.isNullOrEmpty()){
             mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_whiteicon))
-        }
+//        }
 
-        if(!it.userlookwhere.isNullOrEmpty()||!it.userhandlookwhere.isNullOrEmpty()){
-            mTags.add(UserTag("约会地 ${it.userlookwhere} ${it.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
-        }
+//        if(!it.userlookwhere.isNullOrEmpty()||!it.userhandlookwhere.isNullOrEmpty()){
+            mTags.add(UserTag("约会地 ${it.city}", R.mipmap.boy_datearea_whiteicon,3))
+//        }
 
         if(mTags.size==0){
             rv_tags.visibility = View.GONE
@@ -468,7 +473,8 @@ class MyCardActivity : BaseActivity() {
         if (!it.zuojia.isNullOrEmpty()) {
             AppUtils.setUserInfoTvTag(this, "座驾 ${it.zuojia}", 0, 2, tv_zuojia)
         } else {
-            tv_zuojia.visibility = View.GONE
+            tv_zuojia.text = "座驾"
+            tv_zuojia.visibility = View.VISIBLE
         }
 
         if (!it.hobbit.isNullOrEmpty()) {
@@ -488,7 +494,8 @@ class MyCardActivity : BaseActivity() {
                 AppUtils.setUserInfoTvTag(this, sb.toString(), 0, 2, tv_aihao)
             }
         } else {
-            tv_aihao.visibility = View.GONE
+            tv_aihao.text = "爱好"
+            tv_aihao.visibility = View.VISIBLE
         }
 
         if (!TextUtils.equals("null", it.userpics)) {
@@ -556,36 +563,37 @@ class MyCardActivity : BaseActivity() {
         rv_mydate_newtags.layoutManager = GridLayoutManager(this, 2)
         rv_mydate_newtags.isNestedScrollingEnabled = false
         mTags.clear()
-        if (!data.height.isNullOrEmpty()) {
+//        if (!data.height.isNullOrEmpty()) {
             mTags.add(UserTag("身高 ${data.height}", R.mipmap.boy_stature_whiteicon))
-        }
+//        }
 
-        if (!data.weight.isNullOrEmpty()) {
+//        if (!data.weight.isNullOrEmpty()) {
             mTags.add(UserTag("体重 ${data.weight}", R.mipmap.boy_weight_whiteicon))
-        }
+//        }
 
-        if (!data.constellation.isNullOrEmpty()) {
+//        if (!data.constellation.isNullOrEmpty()) {
             mTags.add(UserTag("星座 ${data.constellation}", R.mipmap.boy_constellation_whiteicon))
-        }
+//        }
 
-        if (!data.city.isNullOrEmpty()) {
-            mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon))
-        }
+//        if (!data.city.isNullOrEmpty()) {
+            mTags.add(UserTag("地区 ${data.area}", R.mipmap.boy_area_whiteicon))
+//        }
 
-        if(!data.job.isNullOrEmpty()){
+//        if(!data.job.isNullOrEmpty()){
             mTags.add(UserTag("职业 ${data.job}", R.mipmap.boy_profession_whiteicon))
-        }
+//        }
 
-        if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
-            mTags.add(UserTag("约会地 ${data.userlookwhere} ${data.userhandlookwhere}", R.mipmap.boy_datearea_whiteicon,3))
-        }
+//        if(!data.userlookwhere.isNullOrEmpty()||!data.userhandlookwhere.isNullOrEmpty()){
+            mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
+//        }
 
         rv_mydate_newtags.adapter = CardManTagAdapter(mTags)
 
         if (!data.zuojia.isNullOrEmpty()) {
             AppUtils.setTvNewTag(this, "座驾 ${data.zuojia}", 0, 2, tv_newzuojia)
         } else {
-            tv_newzuojia.visibility = View.GONE
+            tv_newzuojia.text = "座驾"
+            tv_newzuojia.visibility = View.VISIBLE
         }
 
         if (!data.hobbit.isNullOrEmpty()) {
@@ -599,7 +607,8 @@ class MyCardActivity : BaseActivity() {
                 AppUtils.setTvNewTag(this, sb.toString(), 0, 2, tv_newaihao)
             }
         } else {
-            tv_newaihao.visibility = View.GONE
+            tv_newaihao.text = "爱好"
+            tv_newaihao.visibility = View.VISIBLE
         }
 
         newheadView.setImageURI(data.picUrl)
@@ -640,8 +649,8 @@ class MyCardActivity : BaseActivity() {
             tv_linetime.text = "${data.sOnlineMsg}"
         }
 
-        if (data.iVistorCountAll >= 10) {
-            tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iSendLovePoint}     访客·${data.iVistorCountAll}"
+        if (data.iVistorCountAll >= 0) {
+            tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iSendLovePoint}    访客·${data.iVistorCountAll}"
         } else {
             tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iSendLovePoint}"
         }

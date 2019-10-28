@@ -1,7 +1,5 @@
 package com.d6.android.app.adapters
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -19,13 +17,8 @@ import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.BitmapUtils.clearBitmap
-import com.d6.android.app.widget.blurry.Blurry
-import com.d6.android.app.widget.frescohelper.FrescoUtils
-import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
-import kotlinx.android.synthetic.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
 
@@ -105,29 +98,29 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 rv_mydate_tags.isNestedScrollingEnabled = false
 
                 mTags.clear()
-                if (!data.shengao.isNullOrEmpty()) {
+//                if (!data.shengao.isNullOrEmpty()) {
                     mTags.add(UserTag("身高 ${data.shengao}", R.mipmap.boy_stature_whiteicon))
-                }
+//                }
 
-                if (!data.tizhong.isNullOrEmpty()) {
+//                if (!data.tizhong.isNullOrEmpty()) {
                     mTags.add(UserTag("体重 ${data.tizhong}", R.mipmap.boy_weight_whiteicon))
-                }
+//                }
 
-                if (!data.xingzuo.isNullOrEmpty()) {
+//                if (!data.xingzuo.isNullOrEmpty()) {
                     mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_whiteicon))
-                }
+//                }
 
-                if (!data.city.isNullOrEmpty()) {
+//                if (!data.city.isNullOrEmpty()) {
                     mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon))
-                }
+//                }
 
-                if(!data.zhiye.isNullOrEmpty()){
+//                if(!data.zhiye.isNullOrEmpty()){
                     mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
-                }
+//                }
 
-                if(!data.city.isNullOrEmpty()){
+//                if(!data.city.isNullOrEmpty()){
                     mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
-                }
+//                }
 
                 rv_mydate_tags.adapter = CardManTagAdapter(mTags)
 
@@ -142,7 +135,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 if (!data.zuojia.isNullOrEmpty()) {
                     AppUtils.setTvNewTag(context, "座驾 ${data.zuojia}", 0, 2, tv_zuojia)
                 } else {
-                    tv_zuojia.visibility = View.GONE
+                    AppUtils.setTvNewTag(context, "座驾 ", 0, 2, tv_zuojia)
+                    tv_zuojia.visibility = View.VISIBLE
                 }
 
                 var tv_aihao = holder.bind<TextView>(R.id.tv_aihao)
@@ -157,7 +151,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                         AppUtils.setTvNewTag(context, sb.toString(), 0, 2, tv_aihao)
                     }
                 } else {
-                    tv_aihao.visibility = View.GONE
+                    AppUtils.setTvNewTag(context, "爱好 ", 0, 2, tv_aihao)
+                    tv_aihao.visibility = View.VISIBLE
                 }
 
                 holder.bind<SimpleDraweeView>(R.id.headView).also {
@@ -228,10 +223,24 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     tv_linetime.text = "${data.sOnlineMsg}"
                 }
 
+                var sblove = StringBuffer()
+                if(data.iReceiveLovePoint>=10){
+                    sblove.append("送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     ")
+                }
+
                 if (data.iVistorCountAll >= 10) {
-                    tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
-                } else {
-                    tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+                    sblove.append("访客·${data.iVistorCountAll}")
+//                    tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
+                }
+//                else {
+//                    tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+//                }
+
+                if(sblove.toString().length>0){
+                    tv_loveheart_vistor.visibility = View.VISIBLE
+                    tv_loveheart_vistor.text = sblove.toString()
+                }else{
+                    tv_loveheart_vistor.visibility = View.GONE
                 }
 
                 if (!data.nianling.isNullOrEmpty()) {
@@ -361,25 +370,25 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         rv_mydate_newtags.layoutManager = GridLayoutManager(context, 2)
         rv_mydate_newtags.isNestedScrollingEnabled = false
         mTags.clear()
-        if (!data.shengao.isNullOrEmpty()) {
+//        if (!data.shengao.isNullOrEmpty()) {
             mTags.add(UserTag("身高 ${data.shengao}", R.mipmap.boy_stature_whiteicon))
-        }
+//        }
 
-        if (!data.tizhong.isNullOrEmpty()) {
+//        if (!data.tizhong.isNullOrEmpty()) {
             mTags.add(UserTag("体重 ${data.tizhong}", R.mipmap.boy_weight_whiteicon))
-        }
+//        }
 
-        if (!data.xingzuo.isNullOrEmpty()) {
+//        if (!data.xingzuo.isNullOrEmpty()) {
             mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_whiteicon))
-        }
+//        }
 
-        if (!data.city.isNullOrEmpty()) {
+//        if (!data.city.isNullOrEmpty()) {
             mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon))
-        }
+//        }
 
-        if(!data.zhiye.isNullOrEmpty()){
+//        if(!data.zhiye.isNullOrEmpty()){
             mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
-        }
+//        }
 
 //        var sb = StringBuffer()
 //        sb.append("约会地")
@@ -395,9 +404,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 //            mTags.add(UserTag("${sb}", R.mipmap.boy_datearea_whiteicon,3))
 //        }
 
-        if(!data.city.isNullOrEmpty()){
+//        if(!data.city.isNullOrEmpty()){
             mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
-        }
+//        }
 
         rv_mydate_newtags.adapter = CardManTagAdapter(mTags)
 
@@ -412,7 +421,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         if (!data.zuojia.isNullOrEmpty()) {
             AppUtils.setTvNewTag(context, "座驾 ${data.zuojia}", 0, 2, tv_newzuojia)
         } else {
-            tv_newzuojia.visibility = View.GONE
+            AppUtils.setTvNewTag(context, "座驾", 0, 2, tv_newzuojia)
+            tv_newzuojia.visibility = View.VISIBLE
         }
 
         var tv_newaihao = holder.bind<TextView>(R.id.tv_newaihao)
@@ -427,7 +437,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 AppUtils.setTvNewTag(context, sb.toString(), 0, 2, tv_newaihao)
             }
         } else {
-            tv_newaihao.visibility = View.GONE
+            AppUtils.setTvNewTag(context, "爱好", 0, 2, tv_newaihao)
+            tv_newaihao.visibility = View.VISIBLE
         }
 
         val img_date_newmenauther = holder.bind<ImageView>(R.id.img_date_newmenauther)
@@ -474,11 +485,22 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
         var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_loveheart_vistor)
 
-        if (data.iVistorCountAll >= 10) {
-            tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
-        } else {
-            tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+        var sblove = StringBuffer()
+        if(data.iReceiveLovePoint>=10){
+            sblove.append("送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     ")
         }
+
+        if (data.iVistorCountAll >= 10) {
+            sblove.append("访客·${data.iVistorCountAll}")
+        }
+
+        if(sblove.toString().length>0){
+            tv_loveheart_vistor.visibility = View.VISIBLE
+            tv_loveheart_vistor.text = "${sblove}"
+        }else{
+            tv_loveheart_vistor.visibility = View.GONE
+        }
+
         val tv_newage = holder.bind<TextView>(R.id.tv_newage)
         if (!data.nianling.isNullOrEmpty()) {
             if (TextUtils.equals("0", data.nianling.toString())) {
@@ -490,27 +512,26 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         tv_newage.isSelected = TextUtils.equals("0", data.sex)
 
         var  tv_newcontent = holder.bind<TextView>(R.id.tv_newcontent)
-        tv_newcontent.visibility = View.VISIBLE
         if (!data.egagementtext.isNullOrEmpty()) {
             if (!TextUtils.equals("null", data.egagementtext)) {
                 tv_newcontent.text =  "${data.egagementtext}"
             } else {
-                tv_newcontent.visibility = View.GONE
+                tv_newcontent.text = ""
             }
         } else if (!(data.gexingqianming.isNullOrEmpty())) {
             if (!TextUtils.equals("null", data.gexingqianming)) {
                 tv_newcontent.text =  "${data.gexingqianming}"
             } else {
-                tv_newcontent.visibility = View.GONE
+                tv_newcontent.text = ""
             }
         } else if (!data.ziwojieshao.isNullOrEmpty()) {
             if (!TextUtils.equals("null", data.ziwojieshao)) {
                 tv_newcontent.text =  "${ data.ziwojieshao}"
             } else {
-                tv_newcontent.visibility = View.GONE
+                tv_newcontent.text = ""
             }
         } else {
-            tv_newcontent.visibility = View.GONE
+            tv_newcontent.text = ""
         }
     }
 

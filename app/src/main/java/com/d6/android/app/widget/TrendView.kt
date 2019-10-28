@@ -120,18 +120,22 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
                 tv_redflower.setOnClickListener {
                     (context as BaseActivity).isAuthUser() {
-                        if(getLocalUserLoveHeart()>0){
-                            if(sendLoveHeartNums <= getLocalUserLoveHeart()){
-                                sendLoveHeartNums = sendLoveHeartNums+1
-                                addGiftNums(1, false, false)
-                                VibrateHelp.Vibrate((context as BaseActivity), VibrateHelp.time50)
+                        if(!TextUtils.equals(getLocalUserId(),"${square?.userid}")){
+                            if(getLocalUserLoveHeart()>0){
+                                if(sendLoveHeartNums <= getLocalUserLoveHeart()){
+                                    sendLoveHeartNums = sendLoveHeartNums+1
+                                    addGiftNums(1, false, false)
+                                    VibrateHelp.Vibrate((context as BaseActivity), VibrateHelp.time50)
+                                }else{
+                                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                                    mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                                }
                             }else{
                                 var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                                 mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
                             }
                         }else{
-                            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
-                            mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                            (context as BaseActivity).toast(context.getString(R.string.string_liked_give_other))
                         }
 //                        var view = it
 //                        mAbovePop?.let {

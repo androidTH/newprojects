@@ -112,7 +112,6 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -207,5 +206,6 @@
             android:drawableLeft="@mipmap/boy_hobby_whiteicon"
             android:drawablePadding="@dimen/margin_5"
             android:textColor="@color/white"
+            android:text="爱好"
             android:textSize="14sp" />
 </RelativeLayout>

@@ -96,7 +96,6 @@
                 android:layout_marginLeft="@dimen/margin_15"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
-                android:text="你哈啊"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -157,7 +156,7 @@
                     android:id="@+id/tv_vistorfollownums"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="收到[img src=redheart_small/]·50     访客·189"
+                    android:text="[img src=redheart_small/]   "
                     android:textColor="@color/white"
                     android:textSize="12dp" />
             </LinearLayout>
@@ -167,12 +166,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/rl_date_womenheadView"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/margin_35"
+                android:layout_marginTop="@dimen/margin_20"
                 android:layout_marginRight="16dp"
                 android:ellipsize="end"
                 android:gravity="right"
                 android:maxLength="5"
-                android:text="广州"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -189,7 +187,6 @@
                 android:textColor="@color/white"
                 android:visibility="gone"
                 android:textSize="12sp" />
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_mydate_tags"
                 android:layout_marginTop="@dimen/margin_5"

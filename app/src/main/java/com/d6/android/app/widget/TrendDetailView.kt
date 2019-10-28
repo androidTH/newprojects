@@ -29,10 +29,7 @@ import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_detail_view.view.*
-import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.*
 import java.lang.Exception
 
 /**
@@ -73,7 +70,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                 val id = it.userid?:""
                 if(it.iIsAnonymous==1){
                     var mUnknowDialog = UnKnowInfoDialog()
-                    mUnknowDialog.arguments = bundleOf("otheruserId" to id)
+                    mUnknowDialog.arguments = bundleOf("otheruserId" to "${id}")
                     mUnknowDialog.show((context as BaseActivity).supportFragmentManager,"unknowDialog")
                 }else{
                     context.startActivity<UserInfoActivity>("id" to id)
@@ -83,18 +80,22 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 
         tv_redflower.setOnClickListener {
             (context as BaseActivity).isAuthUser(){
-                if(localLoveHeartNums>0){
-                    if(sendLoveHeartNums <= localLoveHeartNums){
-                        sendLoveHeartNums = sendLoveHeartNums+1
-                        addGiftNums(1,false,false)
-                        VibrateHelp.Vibrate((context as BaseActivity),VibrateHelp.time50)
+                if(!TextUtils.equals(getLocalUserId(),"${square?.userid}")){
+                    if(localLoveHeartNums>0){
+                        if(sendLoveHeartNums <= localLoveHeartNums){
+                            sendLoveHeartNums = sendLoveHeartNums+1
+                            addGiftNums(1,false,false)
+                            VibrateHelp.Vibrate((context as BaseActivity),VibrateHelp.time50)
+                        }else{
+                            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                            mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                        }
                     }else{
                         var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                         mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
                     }
                 }else{
-                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
-                    mSendRedHeartEndDialog.show((context as BaseActivity).supportFragmentManager, "redheartendDialog")
+                    (context as BaseActivity).toast(context.getString(R.string.string_liked_give_other))
                 }
             }
         }

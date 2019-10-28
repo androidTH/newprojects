@@ -415,7 +415,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         Request.checkUserOnline(getLoginToken(),iUserId).request(this,success={ _, data->
             data?.let {
                 var iOnline = it.optInt("iOnline")
-                var sOnlineMsg = it.optString("sOnlineMsg")
                 if(iOnline==1){
                     if(TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
                         var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_offline)
@@ -426,6 +425,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         tv_service_time.visibility = View.GONE
                     }
                 }else{
+                    var sOnlineMsg = it.optString("sOnlineMsg")
                     if(TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
                         var drawable = ContextCompat.getDrawable(this,R.drawable.shape_dot_online)
                         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
