@@ -73,8 +73,10 @@ public class DanMuImageWare extends NonViewAware {
 //        if (this.danmaku.text.toString().contains("textview")) {
 //            Log.e("DFM", (SystemClock.uptimeMillis() - this.start) + "ms=====> inside" + danmaku.tag + ":" + danmaku.getActualTime() + ",url: bitmap" + (bitmap == null));
 //        }
-        this.bitmap = CircleBitmapTransform.transform(bitmap);
+//        CircleBitmapTransform.transform(bitmap)
+        this.bitmap = bitmap;
         IDanmakuView danmakuView = danmakuViewRef.get();
+//        danmaku.measureResetFlag++;
         if (danmakuView != null) {
             danmakuView.invalidateDanmaku(danmaku, true);
         }

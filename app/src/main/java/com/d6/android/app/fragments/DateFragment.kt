@@ -116,7 +116,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
     private var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
-//    private var mIconWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30f, getResources().getDisplayMetrics()).toInt()
 
     //礼物
     private var giftControl: GiftControl? = null
@@ -286,7 +285,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         val maxLinesPair = HashMap<Int, Int>()
         maxLinesPair[BaseDanmaku.TYPE_SCROLL_RL] = 3 // 滚动弹幕最大显示5行
         // 设置是否禁止重叠
-        val overlappingEnablePair = HashMap<Int, Boolean>()
+        var overlappingEnablePair = HashMap<Int, Boolean>()
         overlappingEnablePair[BaseDanmaku.TYPE_SCROLL_RL] = true
         overlappingEnablePair[BaseDanmaku.TYPE_FIX_TOP] = true
         mDanmakuContext = DanmakuContext.create()
@@ -300,15 +299,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                                     viewHolder?.mText?.text = danmaku.text
                                     viewHolder?.mText?.setTextColor(danmaku.textColor)
                                     viewHolder?.mText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize)
-                                    var bitmap: Bitmap? = null
                                     val imageWare = danmaku.tag as DanMuImageWare
                                     if (imageWare != null) {
-                                        bitmap = imageWare.bitmap
-                                    }
-                                    if (bitmap != null) {
-                                        viewHolder?.mIcon?.setImageBitmap(bitmap)
-                                    } else {
-                                        viewHolder?.mIcon?.setImageResource(R.mipmap.default_head)
+                                        if (imageWare.bitmap != null) {
+                                            viewHolder?.mIcon?.setImageBitmap(imageWare.bitmap)
+                                        } else {
+                                            viewHolder?.mIcon?.setImageResource(R.mipmap.default_head)
+                                        }
                                     }
 //                                    FrescoUtils.loadImage(activity, it.tag as String, object : IResult<Bitmap> {
 //                                        override fun onResult(result: Bitmap?) {
@@ -354,7 +351,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
                     }, null)
                     .setMaximumLines(maxLinesPair)
-                    .preventOverlapping(overlappingEnablePair);
+                    .preventOverlapping(overlappingEnablePair)
         }
         if (sv_danmaku != null) {
             mParser = createParser(null)
@@ -625,7 +622,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 mLoveHeartFan.sSendUserName = getLocalUserName()
                 mLoveHeartFan.sPicUrl = getLocalUserHeadPic()
                 mLoveHeartFan.iAllLovePoint = giftCount
-                mReceiveLoveHearts.add(mLoveHeartFan)
+
+                if(mReceiveLoveHearts.size>0){
+                    Log.i("dateFragment","这里了----大于")
+                    mReceiveLoveHearts.add(mLoveHeartFan)
+                }else{
+                    Log.i("dateFragment","这里了----")
+                    addDanmaku(mLoveHeartFan,1,false)
+                }
+                Log.i("dateFragment","数量${mReceiveLoveHearts.size}----")
 //                addDanmaku(mLoveHeartFans,false)
             }) { code, msg ->
                 sendLoveHeartNums = 1
@@ -1040,9 +1045,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             super.handleMessage(msg)
             if(msg?.what==0){
                 if ((mReceiveLoveHearts.size-1) >= mDanMuIndex) {
-                    addDanmaku(mReceiveLoveHearts.get(mDanMuIndex), false)
+                    addDanmaku(mReceiveLoveHearts.get(mDanMuIndex),mDanMuIndex, false)
                     mDanMuIndex = mDanMuIndex +1
                     mDanMuHandler.sendEmptyMessageDelayed(0,1000)
+                }else{
+                    mReceiveLoveHearts.clear()
                 }
                 Log.i("datefragment","${mReceiveLoveHearts.size}--${mDanMuIndex}")
                 if (mReceiveLoveHearts.size - mDanMuIndex == 5) {
@@ -1054,16 +1061,16 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
     }
 
-    private fun addDanmaku(loveHeartFans: LoveHeartFans, islive: Boolean) {
+    private fun addDanmaku(loveHeartFans: LoveHeartFans,index:Int, islive: Boolean) {
         val danmaku = mDanmakuContext!!.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL)
         if (danmaku == null || sv_danmaku == null) {
             return
         }
-        danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.iAllLovePoint}颗 [img src=redheart_small/]"
+        danmaku!!.text = "${loveHeartFans.sSendUserName}：送了${loveHeartFans.iAllLovePoint}颗"
         danmaku!!.padding = 5
-        danmaku!!.priority = 2  // 可能会被各种过滤器过滤并隐藏显示
+        danmaku!!.priority = 0 //可能会被各种过滤器过滤并隐藏显示
         danmaku!!.isLive = islive
-        danmaku!!.setTime(sv_danmaku.getCurrentTime() + 1200)
+        danmaku!!.setTime(sv_danmaku.getCurrentTime() + index*300)
         danmaku!!.textSize = 12f * (mParser!!.getDisplayer().density - 0.6f)
         danmaku!!.textColor = ContextCompat.getColor(activity, R.color.color_333333)
         danmaku!!.textShadowColor = 0
