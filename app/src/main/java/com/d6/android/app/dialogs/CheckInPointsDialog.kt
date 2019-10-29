@@ -58,41 +58,43 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        try {
+            var listTask = if (arguments != null) {
+                arguments.getParcelableArrayList<TaskBean>("beans") as ArrayList<TaskBean>
+            } else {
+                null
+            }
+            if(listTask!=null){
+                for(taskBean in listTask){
+                    if(taskBean.iType==1){
+                        if(taskBean.iIsfinish==1&&taskBean.iDay==1){
+                            checkInDays = taskBean.iDay
+                            rl_first_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+                            tv_first_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                            tv_first_checkin_points.text = "+${taskBean.iPoint}积分"
+                        }else if(taskBean.iIsfinish==1&&taskBean.iDay==2){
+                            checkInDays = taskBean.iDay
+                            rl_second_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
+                            tv_second_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                            tv_second_checkin_points.text = "+${taskBean.iPoint}积分"
+                        }else if(taskBean.iIsfinish==1&&taskBean.iDay==3){
+                            checkInDays = taskBean.iDay
+                            rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.day3coin_empty_yetbg)
+                            iv_checkinthree.background = ContextCompat.getDrawable(context,R.mipmap.checkin3_icon_color)
+                            tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                            tv_three_checkin_points.text = "+${taskBean.iPoint}积分"
+                        }
 
-        var listTask = if (arguments != null) {
-            arguments.getParcelableArrayList<TaskBean>("beans") as ArrayList<TaskBean>
-        } else {
-            null
-        }
-
-        if(listTask!=null){
-            for(taskBean in listTask){
-                if(taskBean.iType==1){
-                    if(taskBean.iIsfinish==1&&taskBean.iDay==1){
-                        checkInDays = taskBean.iDay
-                        rl_first_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
-                        tv_first_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-                        tv_first_checkin_points.text = "+${taskBean.iPoint}积分"
-                    }else if(taskBean.iIsfinish==1&&taskBean.iDay==2){
-                        checkInDays = taskBean.iDay
-                        rl_second_day.background = ContextCompat.getDrawable(context,R.mipmap.daycoin_bg_get)
-                        tv_second_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-                        tv_second_checkin_points.text = "+${taskBean.iPoint}积分"
-                    }else if(taskBean.iIsfinish==1&&taskBean.iDay==3){
-                        checkInDays = taskBean.iDay
-                        rl_three_day.background = ContextCompat.getDrawable(context,R.mipmap.day3coin_empty_yetbg)
-                        iv_checkinthree.background = ContextCompat.getDrawable(context,R.mipmap.checkin3_icon_color)
-                        tv_three_checkin_points.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
-                        tv_three_checkin_points.text = "+${taskBean.iPoint}积分"
-                    }
-
-                    if (checkInDays > 0) {
-                        tv_checkin_days.text = "已签到${checkInDays}天，连续3天将获得双倍积分奖励"
-                    } else {
-                        tv_checkin_days.text = "连续3天将获得双倍积分奖励"
+                        if (checkInDays > 0) {
+                            tv_checkin_days.text = "已签到${checkInDays}天，连续3天将获得双倍积分奖励"
+                        } else {
+                            tv_checkin_days.text = "连续3天将获得双倍积分奖励"
+                        }
                     }
                 }
             }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
 
         tv_close.setOnClickListener {
