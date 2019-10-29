@@ -94,7 +94,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     private fun sendLoveHeart(square:Square,lovePoint:Int){
         isBaseActivity {
             square.iLovePoint = lovePoint+square.iLovePoint!!.toInt()
-            square.iSendLovePoint = 0
+            square.iSendLovePoint = lovePoint
             notifyDataSetChanged()
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,true,success={_,Data->
 //                square.iLovePoint = lovePoint+square.iLovePoint!!.toInt() 2.11

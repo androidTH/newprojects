@@ -111,7 +111,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 //                }
 
 //                if (!data.city.isNullOrEmpty()) {
-                    mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon))
+                    mTags.add(UserTag("地区 ${data.sPosition}", R.mipmap.boy_area_whiteicon))
 //                }
 
 //                if(!data.zhiye.isNullOrEmpty()){
@@ -211,16 +211,17 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 var tv_linetime = holder.bind<TextView>(R.id.tv_vistor_count)
                 var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_like_count)
 
-                if(data.sOnlineMsg.isNullOrEmpty()){
+                if(data.iOnline==1){
                     tv_linetime.visibility = View.GONE
                 }else{
                     tv_linetime.visibility = View.VISIBLE
-                    if(data.sOnlineMsg.indexOf(context.getString(R.string.string_nowonline))!=-1){
+                    if(data.iOnline==2){
                         setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_linetime)
+                        tv_linetime.text = "当前状态·${data.sOnlineMsg}"
                     }else{
                         setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_linetime)
+                        tv_linetime.text = "在线时间·${data.sOnlineMsg}"
                     }
-                    tv_linetime.text = "${data.sOnlineMsg}"
                 }
 
                 var sblove = StringBuffer()
@@ -274,17 +275,17 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     holder.setText(R.id.tv_content, "")
                 }
             }
+        }
 
-            var rl_perfect_womanuserinfo = holder.bind<RelativeLayout>(R.id.rl_perfect_womenuserinfo)
-            if (position == 4 && TextUtils.equals(data.accountId, userId)) {
-                if (iDateComlete < 60) {
-                    rl_perfect_womanuserinfo.visibility = View.VISIBLE
-                } else {
-                    rl_perfect_womanuserinfo.visibility = View.GONE
-                }
+        var rl_perfect_womanuserinfo = holder.bind<RelativeLayout>(R.id.rl_perfect_womenuserinfo)
+        if (position == 4 && TextUtils.equals(data.accountId, userId)) {
+            if (iDateComlete < 60) {
+                rl_perfect_womanuserinfo.visibility = View.VISIBLE
             } else {
                 rl_perfect_womanuserinfo.visibility = View.GONE
             }
+        } else {
+            rl_perfect_womanuserinfo.visibility = View.GONE
         }
 
         var imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
@@ -383,7 +384,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 //        }
 
 //        if (!data.city.isNullOrEmpty()) {
-            mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon))
+            mTags.add(UserTag("地区 ${data.sPosition}", R.mipmap.boy_area_whiteicon))
 //        }
 
 //        if(!data.zhiye.isNullOrEmpty()){
@@ -471,16 +472,17 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }
 
         var tv_linetime = holder.bind<TextView>(R.id.tv_linetime)
-        if(data.sOnlineMsg.isNullOrEmpty()){
+        if(data.iOnline==1){
             tv_linetime.visibility = View.GONE
         }else{
             tv_linetime.visibility = View.VISIBLE
-            if(data.sOnlineMsg.indexOf(context.getString(R.string.string_nowonline))!=-1){
+            if(data.iOnline==2){
                 setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_linetime)
+                tv_linetime.text = "当前状态·${data.sOnlineMsg}"
             }else{
                 setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_linetime)
+                tv_linetime.text = "在线时间·${data.sOnlineMsg}"
             }
-            tv_linetime.text = "${data.sOnlineMsg}"
         }
 
         var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_loveheart_vistor)
@@ -629,11 +631,27 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         holder.setText(R.id.tv_women_perfect_city, a)
         val tv_women_perfect_online_time = holder.bind<TextView>(R.id.tv_women_perfect_online_time)
         val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_women_perfect_vistorfollownums)
-        tv_women_perfect_online_time.text = "在线时间"
-        if (data.iVistorCountAll >= 10) {
-            tv_vistorfollownums.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}    访客·${data.iVistorCountAll} "
-        } else {
-            tv_vistorfollownums.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
+        if(data.iOnline==0){
+            tv_women_perfect_online_time.visibility = View.GONE
+        }else{
+            if(data.iOnline==2){
+                setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_women_perfect_online_time)
+                tv_women_perfect_online_time.text = "当前状态·${data.sOnlineMsg}"
+            }else{
+                tv_women_perfect_online_time.text = "在线时间·${data.sOnlineMsg}"
+            }
+        }
+        var sbwomen = StringBuffer()
+        if(data.iReceiveLovePoint>=10){
+            sbwomen.append("送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}    ")
+        }
+
+        if(data.iVistorCountAll >= 10){
+            sbwomen.append("访客·${data.iVistorCountAll}")
+        }
+
+        if(sbwomen.length>0){
+            tv_vistorfollownums.text = "${sbwomen}"
         }
     }
 }

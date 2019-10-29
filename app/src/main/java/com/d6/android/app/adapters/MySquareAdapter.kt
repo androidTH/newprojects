@@ -109,7 +109,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
             mData?.let {
                 var index = it.indexOf(square)
                 it.get(index).iLovePoint = lovePoint+square.iLovePoint!!.toInt()
-                it.get(index).iSendLovePoint = 0
+                it.get(index).iSendLovePoint = lovePoint
                 notifyItemChanged(index+1,"dddsasdf")
             }
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->

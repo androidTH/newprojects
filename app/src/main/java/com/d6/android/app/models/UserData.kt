@@ -82,6 +82,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iLastDayReceiveLovePoint:Int = 0 //昨日收到的喜欢数量
     var iIsFind:Int = -1 //1、显示 2、不显示
     var sOnlineMsg:String = ""
+    var iOnline:Int = -1
 
     override fun toString(): String {
 

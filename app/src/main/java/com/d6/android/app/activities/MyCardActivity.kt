@@ -334,14 +334,16 @@ class MyCardActivity : BaseActivity() {
         if (TextUtils.equals("null", it.userhandlookwhere)) {
             it.userhandlookwhere = ""
         }
-        if(it.sOnlineMsg.isNullOrEmpty()){
+        if(it.iOnline==1){
             tv_online_time.visibility = View.GONE
         }else{
             tv_online_time.visibility = View.VISIBLE
-            if(it.sOnlineMsg.indexOf(resources.getString(R.string.string_nowonline))!=-1){
+            if(it.iOnline==2){
                 setLeftDrawable(ContextCompat.getDrawable(this,R.drawable.shape_dot_online),tv_online_time)
+                tv_online_time.text = "当前状态·${it.sOnlineMsg}"
+            }else{
+                tv_online_time.text = "在线时间·${it.sOnlineMsg}"
             }
-            tv_online_time.text = "${it.sOnlineMsg}"
         }
 
         tv_city.text = it.area
@@ -364,14 +366,16 @@ class MyCardActivity : BaseActivity() {
             tv_other_auther_sign.text = "本宝宝还没想到好的自我介绍~"
         }
 
-        if(it.sOnlineMsg.isNullOrEmpty()){
+        if(it.iOnline==1){
             tv_onlinetime_men.visibility = View.GONE
         }else{
             tv_onlinetime_men.visibility = View.VISIBLE
-            if(it.sOnlineMsg.indexOf(resources.getString(R.string.string_nowonline))!=-1){
+            if(it.iOnline==2){
                 setLeftDrawable(ContextCompat.getDrawable(this,R.drawable.shape_dot_online),tv_onlinetime_men)
+                tv_onlinetime_men.text = "当前状态·${it.sOnlineMsg}"
+            }else{
+                tv_onlinetime_men.text = "在线时间·${it.sOnlineMsg}"
             }
-            tv_onlinetime_men.text = "${it.sOnlineMsg}"
         }
 
         if (it.iVistorCountAll >= 0) {
@@ -639,14 +643,16 @@ class MyCardActivity : BaseActivity() {
             tv_newvip.backgroundDrawable = drawable
         }
 
-        if(data.sOnlineMsg.isNullOrEmpty()){
+        if(data.iOnline==1){
             tv_linetime.visibility = View.GONE
         }else{
             tv_linetime.visibility = View.VISIBLE
-            if(data.sOnlineMsg.indexOf(resources.getString(R.string.string_nowonline))!=-1){
+            if(data.iOnline==2){
                 setLeftDrawable(ContextCompat.getDrawable(this,R.drawable.shape_dot_online),tv_linetime)
+                tv_linetime.text = "当前状态·${data.sOnlineMsg}"
+            }else{
+                tv_linetime.text = "在线时间·${data.sOnlineMsg}"
             }
-            tv_linetime.text = "${data.sOnlineMsg}"
         }
 
         if (data.iVistorCountAll >= 0) {

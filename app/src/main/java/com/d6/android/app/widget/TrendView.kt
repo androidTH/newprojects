@@ -389,7 +389,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         }
 
         //iIsSendFlower 大于0送过花，等于0没送过
-        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) == 0) {
+        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) > 0) {
             true
         } else {
             false

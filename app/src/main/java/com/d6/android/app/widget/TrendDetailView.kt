@@ -306,7 +306,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             ""
         }
 
-        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) == 0) {
+        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) > 0) {
             true
         } else {
             false
@@ -375,7 +375,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 //        }else{
 //            ""
 //        }
-        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) == 0) {
+        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) > 0) {
             true
         } else {
             false

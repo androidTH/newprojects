@@ -283,22 +283,23 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             var ll_user_vistorfollownums = holder.bind<LinearLayout>(R.id.ll_user_vistorfollownums)
             tv_vistorfollownums.visibility = View.VISIBLE
             var tv_online_time = holder.bind<TextView>(R.id.tv_online_time)
-            if(data.sOnlineMsg.isNullOrEmpty()){
+            if(data.iOnline==1){
                 tv_online_time.visibility = View.GONE
                 ll_user_vistorfollownums.visibility = View.GONE
             }else{
                 tv_online_time.visibility = View.VISIBLE
                 ll_user_vistorfollownums.visibility = View.VISIBLE
-                if(data.sOnlineMsg.indexOf(context.getString(R.string.string_nowonline))!=-1){
+                if(data.iOnline==2){
                     setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_online_time)
+                    tv_online_time.text = "当前状态·${data.sOnlineMsg}"
                 }else{
                     setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_online_time)
+                    tv_online_time.text = "在线时间·${data.sOnlineMsg}"
                 }
-                tv_online_time.text = "${data.sOnlineMsg}"
             }
 
             var sblove = StringBuffer()
-            if(data.iReceiveLovePoint>=10){
+            if(data.iReceiveLovePoint>0){
                 sblove.append("收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     ")
             }
 
@@ -335,6 +336,8 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
         var rl_perfect_womanuserinfo = holder.bind<RelativeLayout>(R.id.rl_perfect_manuserinfo)
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
+            var men_bg = holder.bind<SimpleDraweeView>(R.id.men_bg)
+            men_bg.showBlur(data.picUrl)
             if (iDateComlete < 60) {
                 rl_perfect_womanuserinfo.visibility = View.VISIBLE
             } else {
@@ -392,33 +395,37 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         rv_local_user_tags.isNestedScrollingEnabled = false
 
         mTags.clear()
-        if (!data.shengao.isNullOrEmpty()) {
-            mTags.add(UserTag("身高 ${data.shengao}", R.mipmap.boy_stature_icon,2))
-        }
+//        if (!data.shengao.isNullOrEmpty()) {
+            mTags.add(UserTag("身高 ${data.shengao}", R.mipmap.boy_stature_whiteicon,2))
+//        }
 
-        if (!data.tizhong.isNullOrEmpty()) {
-            mTags.add(UserTag("体重 ${data.tizhong}", R.mipmap.boy_weight_icon,2))
-        }
+//        if (!data.tizhong.isNullOrEmpty()) {
+            mTags.add(UserTag("体重 ${data.tizhong}", R.mipmap.boy_weight_whiteicon,2))
+//        }
 
-        if (!data.xingzuo.isNullOrEmpty()) {
-            mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_icon,2))
-        }
+//        if (!data.xingzuo.isNullOrEmpty()) {
+            mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_whiteicon,2))
+//        }
 
-        if (!data.city.isNullOrEmpty()) {
-            mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_icon,2))
-        }
+//        if (!data.city.isNullOrEmpty()) {
+            mTags.add(UserTag("地区 ${data.city}", R.mipmap.boy_area_whiteicon,2))
+//        }
+
+          mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
+
+         mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
 
         rv_local_user_tags.adapter = CardManTagAdapter(mTags)
 
-        var tv_job = holder.bind<TextView>(R.id.tv_man_pecfect_job)
-        if (!data.zhiye.isNullOrEmpty()) {
-            AppUtils.setTvNewTag(context, "职业 ${data.zhiye}", 0, 2, tv_job)
-        }
+//        var tv_job = holder.bind<TextView>(R.id.tv_man_pecfect_job)
+//        if (!data.zhiye.isNullOrEmpty()) {
+//            AppUtils.setTvNewTag(context, "职业 ${data.zhiye}", 0, 2, tv_job)
+//        }
 
         var tv_zuojia = holder.bind<TextView>(R.id.tv_man_pecfect_zuojia)
-        if (!data.zuojia.isNullOrEmpty()) {
+//        if (!data.zuojia.isNullOrEmpty()) {
             AppUtils.setTvNewTag(context, "座驾 ${data.zuojia}", 0, 2, tv_zuojia)
-        }
+//        }
 
         var tv_aihao = holder.bind<TextView>(R.id.tv_man_pecfect_aihao)
         if (!data.xingquaihao.isNullOrEmpty()) {
@@ -477,19 +484,37 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         val tv_age = holder.bind<TextView>(R.id.tv_man_pecfect_age)
 
         var ll_vistor = holder.bind<LinearLayout>(R.id.ll_man_pecfert_vistor)
-        var ll_like = holder.bind<LinearLayout>(R.id.ll_man_pecfert_like)
-        var tv_vistor_count = holder.bind<TextView>(R.id.tv_vistor_man_pecfert_count)
-        var tv_like_count = holder.bind<TextView>(R.id.tv_like_man_pecfert_count)
+        var tv_men_love_visitors = holder.bind<TextView>(R.id.tv_men_love_visitors)
+        var sbmenlove = StringBuffer()
+        if(data.iReceiveLovePoint>0){
+            sbmenlove.append("收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     ")
+        }
 
-        if (data.iVistorCountAll > 50) {
-            ll_like.visibility = View.VISIBLE
-            ll_vistor.visibility = View.VISIBLE
-            tv_vistor_count.text = "${data.iVistorCountAll}"
-            tv_like_count.text = "${data.iFansCountAll}"
-        } else {
-            ll_like.visibility = View.VISIBLE
-            ll_vistor.visibility = View.GONE
-            tv_like_count.text = "${data.iFansCountAll}"
+        if(data.iVistorCountAll>=10){
+            sbmenlove.append("访客·${data.iVistorCountAll}")
+        }
+
+        if(sbmenlove.toString().length>0){
+//            ll_vistor.visibility = View.VISIBLE
+            tv_men_love_visitors.text = "${sbmenlove}"
+        }else{
+//            ll_vistor.visibility = View.GONE
+            tv_men_love_visitors.text = ""
+        }
+
+        var tv_editmen_onlinetime = holder.bind<TextView>(R.id.tv_editmen_onlinetime)
+
+        if(data.iOnline==1){
+            tv_editmen_onlinetime.visibility = View.GONE
+        }else{
+            tv_editmen_onlinetime.visibility = View.VISIBLE
+            if(data.iOnline==1){
+                setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_editmen_onlinetime)
+                tv_editmen_onlinetime.text = "当前状态·${data.sOnlineMsg}"
+            }else{
+                setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_editmen_onlinetime)
+                tv_editmen_onlinetime.text = "在线时间·${data.sOnlineMsg}"
+            }
         }
 
         if (!data.nianling.isNullOrEmpty()) {

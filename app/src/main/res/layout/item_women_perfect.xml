@@ -19,8 +19,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rgpic_bg"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_rgpic_bg">
         <TextView
             android:id="@+id/tv_women_perfect_name"
             android:layout_width="wrap_content"
@@ -130,51 +130,50 @@
             android:layout_marginBottom="@dimen/margin_15"
             android:minHeight="30dp"
             android:paddingLeft="16dp" />
-
-        <RelativeLayout
-            android:id="@+id/rl_perfect_womenuserinfo"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/shape_orange_e6"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tv01"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_30"
-                android:text="你的资料太少了,被人无情的跳过"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv02"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv01"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_10"
-                android:text="完善你的资料,可获得更多异性青睐哦"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_perfect_userinfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv02"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_15"
-                android:background="@drawable/shape_20r_white"
-                android:paddingLeft="@dimen/margin_10"
-                android:paddingTop="@dimen/margin_5"
-                android:paddingRight="@dimen/margin_10"
-                android:paddingBottom="@dimen/margin_5"
-                android:text="去完善"
-                android:textColor="@color/color_F7AB00" />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_perfect_womenuserinfo"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_orange_e6"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_30"
+            android:text="你的资料太少了,被人无情的跳过"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv01"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="完善你的资料,可获得更多异性青睐哦"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_perfect_userinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv02"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_15"
+            android:background="@drawable/shape_20r_white"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5"
+            android:text="去完善"
+            android:textColor="@color/color_F7AB00" />
     </RelativeLayout>
 </RelativeLayout>

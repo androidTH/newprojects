@@ -150,7 +150,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         if(TextUtils.equals(sex, "1")){
                             clearDanMu()
                             var findDate = mDates.get(scrollPosition - 1)
-                            getFindReceiveLoveHeart("${findDate.accountId}")
+                            if((scrollPosition - 1) == 4 && !TextUtils.equals(findDate.accountId, getLocalUserId())){
+                                getFindReceiveLoveHeart("${findDate.accountId}")
+                            }
                         }
 //                        if (findDate.iIsFans == 1) {
 //                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))
@@ -583,7 +585,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 }
                 data.list.results?.let { mDates.addAll(it) }
                 if (pageNum == 1) {
-//                    joinInCard()
+                    joinInCard()
                     var findDate = mDates.get(0)
 //                    if (findDate.iIsFans == 1) {
 //                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//like_complte
@@ -772,10 +774,12 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         setFindDate(mFindDate, it)
                         if (mDates.size > 4) {
                             mDates.add(4, mFindDate)
+                            var dataCompletion:Double =(it.iDatacompletion/120.0)
+                            var percent = Math.round((dataCompletion*100)).toInt()
                             if (TextUtils.equals(sex, "0")) {
-                                (mRecyclerView.adapter as DateCardAdapter).iDateComlete = it.iDatacompletion
+                                (mRecyclerView.adapter as DateCardAdapter).iDateComlete = percent
                             } else {
-                                (mRecyclerView.adapter as DateWomanCardAdapter).iDateComlete = it.iDatacompletion
+                                (mRecyclerView.adapter as DateWomanCardAdapter).iDateComlete = percent
                             }
                         }
                     }
@@ -802,6 +806,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         mFindDate.xingquaihao = it.hobbit.toString()
         mFindDate.iVistorCountAll = it.iVistorCountAll
         mFindDate.iFansCountAll = it.iFansCountAll
+        mFindDate.sOnlineMsg = it.sOnlineMsg
+        mFindDate.iOnline = it.iOnline
+        mFindDate.sPosition = "${it.area}"
         mImages.clear()
         if (!it.userpics.isNullOrEmpty()) {
             val images = it.userpics!!.split(",")
