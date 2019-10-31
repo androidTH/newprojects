@@ -40,7 +40,7 @@ class MyCardActivity : BaseActivity() {
 
     private val mTags = ArrayList<UserTag>()
     private var mWomenBanners = ArrayList<String>()
-    private var showLayoutStyle = 1
+    private var showLayoutStyle = AppUtils.getWHRatio()
 
     private val userTagAdapter by lazy {
         UserTagAdapter(mTags)
@@ -77,17 +77,16 @@ class MyCardActivity : BaseActivity() {
 
         tv_adduserinfo.setOnClickListener {
             mData?.let {
-                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
+                startActivityForResult<MyInfoActivity>(0, "data" to it, ("images" to mImages) as Pair<String, Any>)
             }
         }
-
 
         if(TextUtils.equals(mLocalUserSex,"0")){
             rl_userinfo_card.visibility = View.GONE
             rl_big_mendate_layout.visibility = View.GONE
             rl_mycard_women.visibility = View.VISIBLE
         }else{
-            if(showLayoutStyle==1){
+            if(showLayoutStyle> 2.0f){
                 rl_userinfo_card.visibility = View.GONE
                 rl_userinfo_bigcard.visibility = View.VISIBLE
             }else{
@@ -163,7 +162,7 @@ class MyCardActivity : BaseActivity() {
                 if(TextUtils.equals(mLocalUserSex,"0")){
                    setGrilsInfo(it)
                 }else{
-                    if(showLayoutStyle==1){
+                    if(showLayoutStyle> 2.0f){
                         showBigLayout(it)
                     }else{
                         setMenInfo(it)
@@ -186,11 +185,11 @@ class MyCardActivity : BaseActivity() {
         rv_grils_tags.isNestedScrollingEnabled = false
         mTags.clear()
         if (!it.height.isNullOrEmpty()) {
-            mTags.add(UserTag("身高:${it.height}", R.drawable.shape_tag_bg_1))
+            mTags.add(UserTag("身高 ${it.height}", R.drawable.shape_tag_bg_1))
         }
 
         if (!it.weight.isNullOrEmpty()) {
-            mTags.add(UserTag("体重:${it.weight}", R.drawable.shape_tag_bg_2))
+            mTags.add(UserTag("体重 ${it.weight}", R.drawable.shape_tag_bg_2))
         }
 
         if (!it.job.isNullOrEmpty()) {
@@ -502,11 +501,13 @@ class MyCardActivity : BaseActivity() {
             tv_aihao.visibility = View.VISIBLE
         }
 
-        if (!TextUtils.equals("null", it.userpics)) {
-            refreshImages(it)
-        }else{
-            rv_my_images.visibility = View.GONE
-        }
+//        if (!TextUtils.equals("null", it.userpics)) {
+//            refreshImages(it)
+//        }else{
+//            rv_my_images.visibility = View.GONE
+//        }
+
+        refreshImages(it)
 
         rl_userinfo_card.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -527,7 +528,8 @@ class MyCardActivity : BaseActivity() {
                 }
             }
         }else{
-            rv_my_images.visibility = View.GONE
+            mImages.add(AddImage("$[userData.picUrl"))
+            rv_my_images.visibility = View.VISIBLE
         }
         myImageAdapter.notifyDataSetChanged()
     }
@@ -628,11 +630,13 @@ class MyCardActivity : BaseActivity() {
             img_date_newmenauther.visibility = View.GONE
         }
 
-        if ("${data.name}".length >= 7) {
-            tv_newname.text = "${"${data.name}".substring(0, 6)}..."
-        } else {
-            tv_newname.text = data.name
-        }
+//        if ("${data.name}".length >= 7) {
+//            tv_newname.text = "${"${data.name}".substring(0, 6)}..."
+//        } else {
+//            tv_newname.text = data.name
+//        }
+
+        tv_newname.text = data.name
 
         tv_newvip.visibility = View.VISIBLE
         var drawable = getLevelDrawable("${data.userclassesid}",this)

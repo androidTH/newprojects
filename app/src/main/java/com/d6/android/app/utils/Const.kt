@@ -227,4 +227,5 @@ object Const {
 
     @JvmField
     var SENDLOVEHEART_DIALOG ="sendLoveHeartDialog"//来自于送爱心dialog
+
 }

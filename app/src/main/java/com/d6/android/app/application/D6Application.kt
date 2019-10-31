@@ -144,6 +144,8 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 //                startActivity<WebViewActivity>("title" to "DoraemonKit", "url" to url)
 //            }
 //        }
+
+//        AppUtils.setHWRatio(this)
     }
 
     /**

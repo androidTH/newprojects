@@ -156,7 +156,9 @@ class MyInfoActivity : BaseActivity(),Observer{
         }
 
         tv_inputaddress.setOnClickListener {
-            startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
+            if ("${userData.area}"=="null"||"${userData.area}".isNullOrEmpty()) {
+                startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
+            }
         }
 
         tv_sex1.setOnClickListener {
@@ -277,8 +279,12 @@ class MyInfoActivity : BaseActivity(),Observer{
         if("${userData.area}".isNullOrEmpty()){
             tv_address_tips.visibility = View.GONE
         }else{
-            tv_inputaddress.text = userData.area
-            tv_address_tips.visibility = View.VISIBLE
+            if("${userData.area}"!="null"){
+                tv_inputaddress.text = userData.area
+                tv_address_tips.visibility = View.VISIBLE
+            }else{
+                tv_address_tips.visibility = View.GONE
+            }
         }
 
         //顶部添加提示文案：完成度复用旧版算法

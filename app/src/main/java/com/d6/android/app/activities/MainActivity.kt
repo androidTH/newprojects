@@ -381,6 +381,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         getPermission()
 
         RongIM.setGroupInfoProvider(this,true)
+
+        AppUtils.setHWRatio(this)
+        Log.i("mainActivity","realHeight:${AppScreenUtils.getScreenRealHeight(this)} ------${AppScreenUtils.getNavigationBarHeight(this)},displayheight:${AppScreenUtils.getScreenHeight(this)}---状态栏高度：${AppScreenUtils.getStatusHeight(this)}")
     }
 
     fun judgeDataB() {

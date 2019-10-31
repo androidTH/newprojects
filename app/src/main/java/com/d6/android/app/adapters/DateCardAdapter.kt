@@ -5,8 +5,10 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
@@ -29,7 +31,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     private var userId = SPUtils.instance().getString(Const.User.USER_ID)//35598
 
     var iDateComlete: Int = 0
-    private var mLayoutNormal = 0 //0 大布局 1 小布局
+    private var mLayoutNormal = AppUtils.getWHRatio() //0 大布局 1 小布局
 
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         var rl_man_card = holder.bind<RelativeLayout>(R.id.rl_man_card)
@@ -43,7 +45,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             rl_women_perfect.visibility = View.GONE
             val rl_small_mendate_layout = holder.bind<RelativeLayout>(R.id.rl_small_mendate_layout)
             val rl_big_mendate_layout = holder.bind<RelativeLayout>(R.id.rl_big_mendate_layout)
-            if (mLayoutNormal == 0) {
+            Log.i("mLayoutNormal","ssss${mLayoutNormal}")
+            if (mLayoutNormal > 2.0f) {
                 rl_small_mendate_layout.visibility = View.GONE
                 rl_big_mendate_layout.visibility = View.VISIBLE
                 mShowBigLayout(holder, position, data)
@@ -52,47 +55,43 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 rl_big_mendate_layout.visibility = View.GONE
                 val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
                 val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
-                val nomg_line = holder.bind<View>(R.id.noimg_line)
+//                val nomg_line = holder.bind<View>(R.id.noimg_line)
+                mImages.clear()
                 if (!TextUtils.equals(data.userpics, "null")) {
                     if (TextUtils.isEmpty(data.userpics)) {
-                        mImages.clear()
-                        rv_mydate_images.visibility = View.INVISIBLE
-                        nomg_line.visibility = View.VISIBLE
+                        mImages.add(data.picUrl)
+                        rv_mydate_images.visibility = View.VISIBLE
+//                        nomg_line.visibility = View.GONE
                     } else {
                         var imglist = data.userpics.split(",")
                         if (imglist.size == 0) {
-                            mImages.clear()
-                            rv_mydate_images.visibility = View.INVISIBLE
-                            nomg_line.visibility = View.GONE
-                        } else {
-                            nomg_line.visibility = View.GONE
+                            mImages.add(data.picUrl)
                             rv_mydate_images.visibility = View.VISIBLE
-                            rv_mydate_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                            rv_mydate_images.setHasFixedSize(true)
+//                            nomg_line.visibility = View.GONE
+                        } else {
+//                            nomg_line.visibility = View.GONE
                             mImages.clear()
                             if (imglist.size >= 4) {
                                 mImages.addAll(imglist.toList().subList(0, 4))
                             } else {
                                 mImages.addAll(imglist.toList())
                             }
-
-                            rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
-                            (rv_mydate_images.adapter as DatelmageAdapter).setOnItemClickListener { adapter, view, p ->
-                                //                            var index=  mData.indexOf(data)
-//                            var mFindDate=  mData.get(index)
-                                context.startActivity<UserInfoActivity>("id" to data.accountId.toString())
-//                            var mShowPics = data.userpics.split(",")
-//                            CustomToast.showToast("${data.name}=${position}=${mFindDate.name}")
-//                            context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mShowPics, ImagePagerActivity.CURRENT_POSITION to p)
-                            }
                         }
                     }
                 } else {
-                    mImages.clear()
-                    rv_mydate_images.visibility = View.INVISIBLE
-                    nomg_line.visibility = View.GONE
+                    mImages.add(data.picUrl)
+                    rv_mydate_images.visibility = View.VISIBLE
+//                    nomg_line.visibility = View.VISIBLE
                 }
 
+                rv_mydate_images.visibility = View.VISIBLE
+                rv_mydate_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                rv_mydate_images.setHasFixedSize(true)
+
+                rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
+                (rv_mydate_images.adapter as DatelmageAdapter).setOnItemClickListener { adapter, view, p ->
+                    context.startActivity<UserInfoActivity>("id" to data.accountId.toString())
+                }
                 rv_mydate_tags.setHasFixedSize(true)
                 rv_mydate_tags.layoutManager = GridLayoutManager(context, 2)
                 rv_mydate_tags.isNestedScrollingEnabled = false
@@ -114,9 +113,15 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     mTags.add(UserTag("地区 ${data.sPosition}", R.mipmap.boy_area_whiteicon))
 //                }
 
-//                if(!data.zhiye.isNullOrEmpty()){
-                    mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
-//                }
+                if(!data.zhiye.isNullOrEmpty()){
+                    if(data.zhiye.length>6){
+                        mTags.add(UserTag("职业 ${data.zhiye.subSequence(0,6)}...", R.mipmap.boy_profession_whiteicon))
+                    }else{
+                        mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
+                    }
+                }else{
+                    mTags.add(UserTag("职业", R.mipmap.boy_profession_whiteicon))
+                }
 
 //                if(!data.city.isNullOrEmpty()){
                     mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
@@ -181,19 +186,14 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 var tv_vip = holder.bind<TextView>(R.id.tv_vip)
                 tv_vip.visibility = View.VISIBLE
                 if (TextUtils.equals(data.userclassesid.toString(), "22")) {
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_ordinary))
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
                 } else if (TextUtils.equals(data.userclassesid, "23")) {
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_silver))
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_silver)
                 } else if (TextUtils.equals(data.userclassesid, "24")) {
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_gold))
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_gold)
                 } else if (TextUtils.equals(data.userclassesid, "25")) {
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_diamonds))
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_zs)
                 } else if (TextUtils.equals(data.userclassesid, "26")) {
-//                        headerView.tv_vip.text = String.format("%s",getString(R.string.string_private))
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_private)
                 } else if (TextUtils.equals(data.userclassesid, "7")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.youke_icon)
@@ -208,21 +208,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
                 val tv_age = holder.bind<TextView>(R.id.tv_age)
 
+                var ll_like = holder.bind<LinearLayout>(R.id.ll_like)
                 var tv_linetime = holder.bind<TextView>(R.id.tv_vistor_count)
                 var tv_loveheart_vistor = holder.bind<TextView>(R.id.tv_like_count)
-
-                if(data.iOnline==1){
-                    tv_linetime.visibility = View.GONE
-                }else{
-                    tv_linetime.visibility = View.VISIBLE
-                    if(data.iOnline==2){
-                        setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_linetime)
-                        tv_linetime.text = "当前状态·${data.sOnlineMsg}"
-                    }else{
-                        setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_linetime)
-                        tv_linetime.text = "在线时间·${data.sOnlineMsg}"
-                    }
-                }
 
                 var sblove = StringBuffer()
                 if(data.iReceiveLovePoint>=10){
@@ -231,17 +219,30 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 
                 if (data.iVistorCountAll >= 10) {
                     sblove.append("访客·${data.iVistorCountAll}")
-//                    tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
                 }
-//                else {
-//                    tv_loveheart_vistor.text = "送出 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
-//                }
 
                 if(sblove.toString().length>0){
+                    ll_like.visibility = View.VISIBLE
                     tv_loveheart_vistor.visibility = View.VISIBLE
                     tv_loveheart_vistor.text = sblove.toString()
                 }else{
+                    ll_like.visibility = View.GONE
                     tv_loveheart_vistor.visibility = View.GONE
+                }
+
+                if(data.iOnline==1){
+                    tv_linetime.visibility = View.GONE
+                    ll_like.visibility = View.GONE
+                }else{
+                    tv_linetime.visibility = View.VISIBLE
+                    ll_like.visibility = View.VISIBLE
+                    if(data.iOnline==2){
+                        setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_online),tv_linetime)
+                        tv_linetime.text ="当前状态·${data.sOnlineMsg}"
+                    }else{
+                        setLeftDrawable(ContextCompat.getDrawable(context,R.drawable.shape_dot_translate),tv_linetime)
+                        tv_linetime.text ="在线时间·${data.sOnlineMsg}"
+                    }
                 }
 
                 if (!data.nianling.isNullOrEmpty()) {
@@ -300,7 +301,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     }
 
     fun mShowBigLayout(holder: ViewHolder, position: Int, data: FindDate) {
-//        holder.setIsRecyclable(false)
+
         val newheadView = holder.bind<SimpleDraweeView>(R.id.newheadView)
         newheadView.setImageURI(data.picUrl)
 
@@ -387,9 +388,15 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             mTags.add(UserTag("地区 ${data.sPosition}", R.mipmap.boy_area_whiteicon))
 //        }
 
-//        if(!data.zhiye.isNullOrEmpty()){
-            mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
-//        }
+        if(!data.zhiye.isNullOrEmpty()){
+            if(data.zhiye.length>6){
+                mTags.add(UserTag("职业 ${data.zhiye.subSequence(0,6)}...", R.mipmap.boy_profession_whiteicon))
+            }else{
+                mTags.add(UserTag("职业 ${data.zhiye}", R.mipmap.boy_profession_whiteicon))
+            }
+        }else{
+            mTags.add(UserTag("职业", R.mipmap.boy_profession_whiteicon))
+        }
 
 //        var sb = StringBuffer()
 //        sb.append("约会地")
@@ -455,11 +462,13 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             img_date_newmenauther.visibility = View.GONE
         }
 
-        if (data.name.length >= 7) {
-            holder.setText(R.id.tv_newname, "${data.name.substring(0, 6)}...")
-        } else {
-            holder.setText(R.id.tv_newname, data.name)
-        }
+//        if (data.name.length >= 7) {
+//            holder.setText(R.id.tv_newname, "${data.name.substring(0, 6)}...")
+//        } else {
+//            holder.setText(R.id.tv_newname, data.name)
+//        }
+
+        holder.setText(R.id.tv_newname, data.name)
 
         var tv_newvip = holder.bind<TextView>(R.id.tv_newvip)
         tv_newvip.visibility = View.VISIBLE

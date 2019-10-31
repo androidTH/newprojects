@@ -57,13 +57,13 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             mTags.clear()
             var sblens = StringBuffer()
             if (!data.shengao.isNullOrEmpty()) {
-                sblens.append("身高:${data.shengao}")
-                mTags.add(UserTag("身高:${data.shengao}", R.drawable.shape_tag_bg_1))
+                sblens.append("身高 ${data.shengao}")
+                mTags.add(UserTag("身高 ${data.shengao}", R.drawable.shape_tag_bg_1))
             }
 
             if (!data.tizhong.isNullOrEmpty()) {
-                sblens.append("体重:${data.tizhong}")
-                mTags.add(UserTag("体重:${data.tizhong}", R.drawable.shape_tag_bg_2))
+                sblens.append("体重 ${data.tizhong}")
+                mTags.add(UserTag("体重 ${data.tizhong}", R.drawable.shape_tag_bg_2))
             }
 
             if (!data.zhiye.isNullOrEmpty()) {
@@ -93,8 +93,6 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     }
                 }
             }
-
-//            Log.i("ddddddddddddddd","${sblens.length}")
             rv_mydate_tags.adapter = CardTagAdapter(mTags)
 //            rv_mydate_tags.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
 //                override fun onGlobalLayout() {
@@ -120,8 +118,12 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 //                        bigImgView.setImageURI(images[0])
                     }
                     mBannerImages.add(0,data.picUrl)
-                    tv_indexofpics.visibility = View.VISIBLE
-                    tv_indexofpics.setText("1/${images.size}")
+                    if(images.size>1){
+                        tv_indexofpics.visibility = View.VISIBLE
+                        tv_indexofpics.setText("1/${images.size}")
+                    }else{
+                        tv_indexofpics.visibility = View.GONE
+                    }
                 }
             } else {
                 mBannerImages.add(data.picUrl)
@@ -132,12 +134,14 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             FrescoUtils.loadImage(context,mBannerImages[0],object: IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
-                        if(it.width>=it.height){
-                            bigImgView.showBlur(mBannerImages[0])
-                            if(it!=null){
+                        if (it != null) {
+                            if (it.width >= it.height) {
+                                bigImgView.showBlur(mBannerImages[0])
                                 iv_wh.setImageBitmap(it)
+                            }else{
+                                bigImgView.setImageURI(mBannerImages[0])
                             }
-                        }else{
+                        } else {
                             bigImgView.setImageURI(mBannerImages[0])
                         }
                     }

@@ -1,15 +1,9 @@
 package com.d6.android.app.utils
 
-import android.annotation.TargetApi
-import android.app.AppOpsManager
-import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.net.Uri
-import android.os.Build
 import android.os.Environment
+import android.support.annotation.NonNull
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
@@ -19,10 +13,9 @@ import com.d6.android.app.R
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import java.io.File
-import android.os.Build.VERSION_CODES.KITKAT
-import android.provider.Settings
 import android.util.Log
 import com.facebook.common.internal.Preconditions
+import java.math.BigDecimal
 
 
 /**
@@ -180,6 +173,31 @@ class AppUtils {
             } else {
                 return if (diff > 0) 1 else -1
             }
+        }
+
+        private var HWRatio = 1.0f
+        fun setHWRatio(context:Context){
+            if(HWRatio==1.0f){
+                HWRatio = AppScreenUtils.getPhoneRatio(context)
+            }
+        }
+
+        fun setRealHWRatio(context:Context){
+            if(HWRatio==1.0f){
+                HWRatio = AppScreenUtils.getPhoneRealRatio(context)
+            }
+        }
+
+        fun setHWRatio(context:Context,isShow:Boolean,navHeight:Int){
+            if(HWRatio==1.0f){
+                HWRatio = AppScreenUtils.getPhoneRealRatio(context,isShow,navHeight)
+            }
+        }
+
+        fun getWHRatio():Float{
+            var bigDecimal =BigDecimal(HWRatio.toDouble())
+            Log.i("mLayoutNormal","${HWRatio}")
+            return bigDecimal.setScale(1,BigDecimal.ROUND_HALF_UP).toFloat()
         }
     }
 }

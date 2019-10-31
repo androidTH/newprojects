@@ -56,7 +56,6 @@ import master.flame.danmaku.danmaku.model.android.DanmakuContext
 import master.flame.danmaku.danmaku.model.android.Danmakus
 import master.flame.danmaku.danmaku.model.android.ViewCacheStuffer
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser
-import master.flame.danmaku.danmaku.util.SystemClock
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -140,7 +139,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     scrollPosition = mRecyclerView.currentItem + 1
-                    if ((mDates.size - scrollPosition) == 1) {
+                    if ((mDates.size - scrollPosition) == 0) {
                         pageNum++
                         if(pageNum<=mTotalPages){
                             getData(city, userclassesid, agemin, agemax)
@@ -309,12 +308,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                                     viewHolder?.mText?.text = danmaku.text
                                     viewHolder?.mText?.setTextColor(danmaku.textColor)
                                     viewHolder?.mText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize)
-                                    val imageWare = danmaku.tag as DanMuImageWare
-                                    if (imageWare != null) {
-                                        if (imageWare.bitmap != null) {
-                                            viewHolder?.mIcon?.setImageBitmap(imageWare.bitmap)
-                                        } else {
-                                            viewHolder?.mIcon?.setImageResource(R.mipmap.default_head)
+                                    if(danmaku.tag!=null){
+                                        val imageWare = danmaku.tag as DanMuImageWare
+                                        if (imageWare != null) {
+                                            if (imageWare.bitmap != null) {
+                                                viewHolder?.mIcon?.setImageBitmap(imageWare.bitmap)
+                                            } else {
+                                                viewHolder?.mIcon?.setImageResource(R.mipmap.default_head)
+                                            }
                                         }
                                     }
 //                                    FrescoUtils.loadImage(activity, it.tag as String, object : IResult<Bitmap> {

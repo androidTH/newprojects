@@ -1,173 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_big_mendate_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/margin_15"
     android:layout_marginTop="20dp"
-    android:layout_marginRight="@dimen/margin_15"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_marginRight="@dimen/margin_15">
+
+    <LinearLayout
+        android:id="@+id/ll_date_newmenheadView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_date_menheadView"
+            android:layout_width="70dp"
+            android:layout_height="70dp">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/newheadView"
+                style="@style/DefaultCircleHeadStyle"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:roundAsCircle="true" />
+
+            <ImageView
+                android:id="@+id/img_date_newmenauther"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_15"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_newname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/ll_date_newmenheadView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_newage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_sex_circle_bg_selector"
+                android:drawableLeft="@drawable/sex_white_selector"
+                android:drawablePadding="1dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="3dp"
+                android:paddingTop="0.5dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="0.5dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_newvip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_newlike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_linetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_8"
+                android:drawableLeft="@drawable/shape_dot_online"
+                android:drawablePadding="@dimen/margin_5"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_loveheart_vistor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_newcontent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_marginTop="@dimen/margin_10"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_date_menheadView"
-                android:layout_width="70dp"
-                android:layout_height="70dp">
+    <!--android:layout_below="@+id/ll_date_newmenheadView"-->
+    <!--android:layout_marginTop="@dimen/margin_15"-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_date_newmenheadView"
+        android:layout_marginTop="@dimen/margin_15">
 
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/newheadView"
-                    style="@style/DefaultCircleHeadStyle"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    app:roundAsCircle="true" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_one"
+            style="@style/newmandateDefaultHeadStyle"
+            android:layout_width="161dp"
+            android:layout_height="161dp"
+            android:layout_marginRight="@dimen/margin_5" />
 
-                <ImageView
-                    android:id="@+id/img_date_newmenauther"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/margin_15"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:visibility="gone" />
-            </RelativeLayout>
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_two"
+            style="@style/newmandateDefaultHeadStyle"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_toRightOf="@+id/sdv_one" />
 
-            <TextView
-                android:id="@+id/tv_newname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5"
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_three"
+            style="@style/newmandateDefaultHeadStyle"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_below="@+id/sdv_two"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_toRightOf="@+id/sdv_one" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5"
-                android:orientation="horizontal">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_four"
+            style="@style/newmandateDefaultHeadStyle"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:layout_toRightOf="@+id/sdv_two" />
 
-                <TextView
-                    android:id="@+id/tv_newage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/ic_sex_circle_bg_selector"
-                    android:drawableLeft="@drawable/sex_white_selector"
-                    android:drawablePadding="1dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="3dp"
-                    android:paddingTop="0.5dp"
-                    android:paddingRight="3dp"
-                    android:paddingBottom="0.5dp"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_five"
+            style="@style/newmandateDefaultHeadStyle"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_below="@+id/sdv_four"
+            android:layout_toRightOf="@+id/sdv_three" />
+    </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tv_newvip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp"
-                    android:textColor="@color/white"
-                    android:textSize="11sp" />
-            </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="@dimen/margin_15">
 
-            <LinearLayout
-                android:id="@+id/ll_newlike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_linetime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/shape_dot_online"
-                    android:drawablePadding="@dimen/margin_5"
-                    android:layout_marginRight="@dimen/margin_8"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <com.d6.android.app.widget.textinlineimage.TextInlineImage
-                    android:id="@+id/tv_loveheart_vistor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_newcontent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <RelativeLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/sdv_one"
-                    android:layout_width="161dp"
-                    android:layout_height="161dp"
-                    android:layout_marginRight="@dimen/margin_5"
-                    style="@style/newmandateDefaultHeadStyle"/>
-
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/sdv_two"
-                    android:layout_width="78dp"
-                    android:layout_height="78dp"
-                    android:layout_marginRight="@dimen/margin_5"
-                    android:layout_marginBottom="@dimen/margin_5"
-                    style="@style/newmandateDefaultHeadStyle"
-                    android:layout_toRightOf="@+id/sdv_one" />
-
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/sdv_three"
-                    android:layout_width="78dp"
-                    android:layout_height="78dp"
-                    style="@style/newmandateDefaultHeadStyle"
-                    android:layout_below="@+id/sdv_two"
-                    android:layout_marginRight="@dimen/margin_5"
-                    android:layout_toRightOf="@+id/sdv_one" />
-
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/sdv_four"
-                    android:layout_width="78dp"
-                    android:layout_height="78dp"
-                    style="@style/newmandateDefaultHeadStyle"
-                    android:layout_marginBottom="@dimen/margin_5"
-                    android:layout_toRightOf="@+id/sdv_two" />
-
-                <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/sdv_five"
-                    android:layout_width="78dp"
-                    android:layout_height="78dp"
-                    style="@style/newmandateDefaultHeadStyle"
-                    android:layout_below="@+id/sdv_four"
-                    android:layout_toRightOf="@+id/sdv_three" />
-            </RelativeLayout>
-        </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_mydate_newtags"
-            android:layout_marginTop="@dimen/margin_15"
-            android:layout_below="@+id/ll_date_newmenheadView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15" />
 
         <TextView
             android:id="@+id/tv_newjob"
@@ -179,9 +190,9 @@
             android:drawableLeft="@mipmap/boy_profession_whiteicon"
             android:drawablePadding="@dimen/margin_5"
             android:text="职业 "
-            android:visibility="gone"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_newzuojia"
@@ -205,7 +216,8 @@
             android:layout_marginRight="@dimen/margin_25"
             android:drawableLeft="@mipmap/boy_hobby_whiteicon"
             android:drawablePadding="@dimen/margin_5"
-            android:textColor="@color/white"
             android:text="爱好"
+            android:textColor="@color/white"
             android:textSize="14sp" />
+    </RelativeLayout>
 </RelativeLayout>
