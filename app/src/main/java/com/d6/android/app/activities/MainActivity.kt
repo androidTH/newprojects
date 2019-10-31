@@ -382,7 +382,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         RongIM.setGroupInfoProvider(this,true)
 
-        AppUtils.setHWRatio(this)
+        AppUtils.setRealHWRatio(this)
+
+        toast("高宽比：${AppUtils.getWHRatio()},高：${AppScreenUtils.getScreenRealHeight(this)},底部装导航栏${AppScreenUtils.getNavigationBarHeight(this)}")
         Log.i("mainActivity","realHeight:${AppScreenUtils.getScreenRealHeight(this)} ------${AppScreenUtils.getNavigationBarHeight(this)},displayheight:${AppScreenUtils.getScreenHeight(this)}---状态栏高度：${AppScreenUtils.getStatusHeight(this)}")
     }
 

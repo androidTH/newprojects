@@ -23,6 +23,7 @@ import com.d6.android.app.dialogs.*
 import com.d6.android.app.models.*
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.LOGIN_FOR_POINT_NEW
+import com.d6.android.app.utils.Const.User.ISNOTLOCATION
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.dateTypes
@@ -216,6 +217,9 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         RxPermissions(activity).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
                 startLocation()
+                SPUtils.instance().put(ISNOTLOCATION,false).apply()
+            }else{
+                SPUtils.instance().put(ISNOTLOCATION,true).apply()
             }
         }
 

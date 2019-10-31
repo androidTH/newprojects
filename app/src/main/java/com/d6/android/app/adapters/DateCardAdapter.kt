@@ -1,5 +1,7 @@
 package com.d6.android.app.adapters
 
+import android.graphics.Bitmap
+import android.os.AsyncTask
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -19,10 +21,12 @@ import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.BLUR_50
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
+import kotlin.collections.ArrayList
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
 
@@ -36,6 +40,10 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
     override fun onBind(holder: ViewHolder, position: Int, data: FindDate) {
         var rl_man_card = holder.bind<RelativeLayout>(R.id.rl_man_card)
         var rl_women_perfect = holder.bind<RelativeLayout>(R.id.rl_women_perfect)
+        var imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
+        var index = data.picUrl.indexOf("?")
+        var url = data.picUrl.subSequence(0,index)
+        imageView.setImageURI("${url}${BLUR_50}")
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             rl_man_card.visibility = View.GONE
             rl_women_perfect.visibility = View.VISIBLE
@@ -55,7 +63,6 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 rl_big_mendate_layout.visibility = View.GONE
                 val rv_mydate_images = holder.bind<RecyclerView>(R.id.rv_mydate_images)
                 val rv_mydate_tags = holder.bind<RecyclerView>(R.id.rv_mydate_tags)
-//                val nomg_line = holder.bind<View>(R.id.noimg_line)
                 mImages.clear()
                 if (!TextUtils.equals(data.userpics, "null")) {
                     if (TextUtils.isEmpty(data.userpics)) {
@@ -288,12 +295,24 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         } else {
             rl_perfect_womanuserinfo.visibility = View.GONE
         }
-
-        var imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
 //            var imageViewbg = holder.bind<ImageView>(R.id.imageViewbg)
-        imageView.showBlur(data.picUrl)
+//        FrescoUtils.loadImage(context,data.picUrl,object: IResult<Bitmap> {
+//            override fun onResult(result: Bitmap?) {
+//                result?.let {
+//                    if (it != null) {
+//                        Observable.create(object : ObservableOnSubscribe<Bitmap> {
+//                            override fun subscribe(p0: ObservableEmitter<Bitmap>) {
+//                                AppUtils.fastblur(it, 40)?.let { it1 -> p0.onNext(it1) }
+//                            }
+//                        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
+//                            imageView.setImageBitmap(it)
+//                        }
+//                    }
+//                }
+//            }
+//        })
 
-        val onClickListener = View.OnClickListener {
+            val onClickListener = View.OnClickListener {
             mOnItemClickListener?.onItemClick(it, position)
         }
         holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)

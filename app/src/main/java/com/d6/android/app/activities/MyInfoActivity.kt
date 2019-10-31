@@ -22,6 +22,7 @@ import com.d6.android.app.models.Imagelocals
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.User.ISNOTLOCATION
 import com.d6.android.app.widget.MaxEditTextWatcher
 import com.d6.android.app.widget.ObserverManager
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
@@ -158,6 +159,11 @@ class MyInfoActivity : BaseActivity(),Observer{
         tv_inputaddress.setOnClickListener {
             if ("${userData.area}"=="null"||"${userData.area}".isNullOrEmpty()) {
                 startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
+            }else{
+                var isnolocation = SPUtils.instance().getBoolean(ISNOTLOCATION,true)
+                if(isnolocation){
+                    startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
+                }
             }
         }
 
@@ -281,7 +287,12 @@ class MyInfoActivity : BaseActivity(),Observer{
         }else{
             if("${userData.area}"!="null"){
                 tv_inputaddress.text = userData.area
-                tv_address_tips.visibility = View.VISIBLE
+                var isnolocation = SPUtils.instance().getBoolean(ISNOTLOCATION,true)
+                if(isnolocation){
+                    tv_address_tips.visibility = View.GONE
+                }else{
+                    tv_address_tips.visibility = View.VISIBLE
+                }
             }else{
                 tv_address_tips.visibility = View.GONE
             }

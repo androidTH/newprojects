@@ -196,12 +196,13 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.RECORD_AUDIO).subscribe {
             if (it) {
                 startLocation()
+                SPUtils.instance().put(Const.User.ISNOTLOCATION,false).apply()
             } else {
                 cityType=0
                 toast("没有定位权限")
                 tv_address.text = "添加地址"
                 tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//R.mipmap.ic_add1
-
+                SPUtils.instance().put(Const.User.ISNOTLOCATION,true).apply()
             }
         }
 

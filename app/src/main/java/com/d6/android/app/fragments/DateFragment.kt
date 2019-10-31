@@ -512,6 +512,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         RxPermissions(activity).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
                 startLocation()
+                SPUtils.instance().put(Const.User.ISNOTLOCATION,false).apply()
+            }else{
+                SPUtils.instance().put(Const.User.ISNOTLOCATION,true).apply()
             }
         }
 

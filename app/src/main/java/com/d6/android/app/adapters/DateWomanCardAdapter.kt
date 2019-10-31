@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -16,13 +15,11 @@ import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.BitmapUtils.clearBitmap
-import com.d6.android.app.widget.convenientbanner.ConvenientBanner
-import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import com.d6.android.app.utils.Const.BLUR_50
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
@@ -94,16 +91,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 }
             }
             rv_mydate_tags.adapter = CardTagAdapter(mTags)
-//            rv_mydate_tags.viewTreeObserver.addOnGlobalLayoutListener(object: ViewTreeObserver.OnGlobalLayoutListener {
-//                override fun onGlobalLayout() {
-//                    var layoutparams = rv_mydate_tags.layoutParams
-////                    layoutparams.height =
-//                    Log.i("ddddddddddddddd","${data.name}高度：${rv_mydate_tags.measuredHeight}")
-//                }
-//            })
 
             val tv_indexofpics = holder.bind<TextView>(R.id.tv_indexofpics)
-            var bigImgView = holder.bind<SimpleDraweeView>(R.id.imageView)
+            var bigImgView = holder.run { bind<SimpleDraweeView>(R.id.imageView) }
             val iv_wh = holder.bind<ImageView>(R.id.iv_wh)
             mBannerImages.clear()
             if (!TextUtils.equals(data.userpics, "null")) {
@@ -136,7 +126,10 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     result?.let {
                         if (it != null) {
                             if (it.width >= it.height) {
-                                bigImgView.showBlur(mBannerImages[0])
+                                var index = mBannerImages[0].indexOf("?")
+                                var url = mBannerImages[0].subSequence(0,index)
+                                bigImgView.setImageURI("${url}${BLUR_50}")
+                                Log.i("DateWomanCard","${url}")
                                 iv_wh.setImageBitmap(it)
                             }else{
                                 bigImgView.setImageURI(mBannerImages[0])
@@ -294,7 +287,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         var rl_perfect_womanuserinfo = holder.bind<RelativeLayout>(R.id.rl_perfect_manuserinfo)
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             var men_bg = holder.bind<SimpleDraweeView>(R.id.men_bg)
-            men_bg.showBlur(data.picUrl)
+            var index = data.picUrl.indexOf("?")
+            var url = data.picUrl.subSequence(0,index)
+            men_bg.setImageURI("${url}${BLUR_50}")
             if (iDateComlete < 60) {
                 rl_perfect_womanuserinfo.visibility = View.VISIBLE
             } else {

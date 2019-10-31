@@ -17,6 +17,8 @@ object Const {
         val IS_FIRST_SHOW_FINDNOTICEDIALOG="isFirstShowFindNoticDialog"
         val IS_FIRST_SHOW_FINDLASTDAYNOTICEDIALOG="isFirstShowFindLastDayNoticDialog"
         val IS_FIRST_FAST_CLICK="isFirstFastClick"
+        val ISNOTLOCATION = "isnolocation"
+
         @JvmField
         val USER_ID="userId"
         @JvmField
@@ -140,6 +142,7 @@ object Const {
     val Pic_Size_wh300 = "?imageView2/0/w/300/h/300"
     @JvmField
     val Pic_Size_wh500 = "?imageView2/0/w/500/h/500"
+    val BLUR_50 = "?imageMogr2/blur/50x30"
 
     @JvmField
     val Pic_Thumbnail_Size_wh200  = "?imageMogr2/auto-orient/thumbnail/200x200/quality/100"
