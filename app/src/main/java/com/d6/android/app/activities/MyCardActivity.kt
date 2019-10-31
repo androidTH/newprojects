@@ -218,6 +218,7 @@ class MyCardActivity : BaseActivity() {
                 var images = it.userpics?.split(",")
                 if (images != null&&images.size>0) {
                     mWomenBanners.addAll(images)
+                    mWomenBanners.add("${it.picUrl}")
                 }else{
                     mWomenBanners.add("${it.picUrl}")
                 }

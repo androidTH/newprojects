@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:layout_marginLeft="@dimen/margin_2"
     android:layout_marginRight="@dimen/margin_2"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/color_666666"
     app:cardCornerRadius="9dp"
     app:cardElevation="0dp"
     app:cardMaxElevation="@dimen/margin_5">
@@ -29,13 +29,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
+            android:scaleType="centerInside"
             android:adjustViewBounds="true"
             android:layout_centerInParent="true"
+            app:viewAspectRatio="1.2"
             android:id="@+id/iv_wh"/>
+
+        <!--app:viewAspectRatio="0.9"-->
 
         <TextView
             android:id="@+id/tv_indexofpics"

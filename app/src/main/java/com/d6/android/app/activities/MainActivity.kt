@@ -384,8 +384,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         AppUtils.setRealHWRatio(this)
 
-        toast("高宽比：${AppUtils.getWHRatio()},高：${AppScreenUtils.getScreenRealHeight(this)},底部装导航栏${AppScreenUtils.getNavigationBarHeight(this)}")
-        Log.i("mainActivity","realHeight:${AppScreenUtils.getScreenRealHeight(this)} ------${AppScreenUtils.getNavigationBarHeight(this)},displayheight:${AppScreenUtils.getScreenHeight(this)}---状态栏高度：${AppScreenUtils.getStatusHeight(this)}")
+//        toast("高宽比：${AppUtils.getWHRatio()},高：${AppScreenUtils.getScreenRealHeight(this)},底部装导航栏${AppScreenUtils.getNavigationBarHeight(this)}")
+//        Log.i("mainActivity","realHeight:${AppScreenUtils.getScreenRealHeight(this)} ------${AppScreenUtils.getNavigationBarHeight(this)},displayheight:${AppScreenUtils.getScreenHeight(this)}---状态栏高度：${AppScreenUtils.getStatusHeight(this)}")
     }
 
     fun judgeDataB() {
@@ -398,7 +398,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
 
         Request.findDatingMeList(SPUtils.instance().getString(Const.User.USER_ID),1).request(this){_,data->
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
+            if (data?.list?.results == null || data?.list?.results.isEmpty()) {
                 SPUtils.instance().put(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME,false).apply()
             }else{
                 SPUtils.instance().put(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME,true).apply()

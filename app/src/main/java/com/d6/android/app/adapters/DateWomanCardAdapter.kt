@@ -94,7 +94,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             val tv_indexofpics = holder.bind<TextView>(R.id.tv_indexofpics)
             var bigImgView = holder.run { bind<SimpleDraweeView>(R.id.imageView) }
-            val iv_wh = holder.bind<ImageView>(R.id.iv_wh)
+            val iv_wh = holder.bind<SimpleDraweeView>(R.id.iv_wh)
             mBannerImages.clear()
             if (!TextUtils.equals(data.userpics, "null")) {
                 if (TextUtils.isEmpty(data.userpics)) {
@@ -117,24 +117,24 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 }
             } else {
                 mBannerImages.add(data.picUrl)
-//                bigImgView.setImageURI(data.picUrl)
                 tv_indexofpics.visibility = View.GONE
             }
-            clearBitmap(iv_wh)
-            FrescoUtils.loadImage(context,mBannerImages[0],object: IResult<Bitmap> {
+            FrescoUtils.loadImage(context, mBannerImages[0], object : IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
                         if (it != null) {
                             if (it.width >= it.height) {
+                                iv_wh.visibility = View.VISIBLE
                                 var index = mBannerImages[0].indexOf("?")
-                                var url = mBannerImages[0].subSequence(0,index)
+                                var url = mBannerImages[0].subSequence(0, index)
                                 bigImgView.setImageURI("${url}${BLUR_50}")
-                                Log.i("DateWomanCard","${url}")
-                                iv_wh.setImageBitmap(it)
-                            }else{
+                                iv_wh.setImageURI(mBannerImages[0])
+                            } else {
+                                iv_wh.visibility = View.GONE
                                 bigImgView.setImageURI(mBannerImages[0])
                             }
                         } else {
+                            iv_wh.visibility = View.GONE
                             bigImgView.setImageURI(mBannerImages[0])
                         }
                     }

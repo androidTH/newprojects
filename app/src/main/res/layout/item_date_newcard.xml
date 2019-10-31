@@ -7,7 +7,7 @@
     android:layout_gravity="center"
     android:layout_marginLeft="@dimen/margin_2"
     android:layout_marginRight="@dimen/margin_2"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/color_666666"
     app:cardCornerRadius="@dimen/margin_10"
     app:cardElevation="0dp"
     app:cardMaxElevation="@dimen/margin_5">
@@ -20,6 +20,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imageView"
             style="@style/DefaultImageStyle"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -176,8 +177,8 @@
                 android:layout_above="@+id/rlssss"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/margin_20"
-                android:paddingRight="@dimen/margin_16"
+                android:paddingLeft="@dimen/margin_18"
+                android:paddingRight="@dimen/margin_15"
                 android:orientation="vertical">
                 <View
                     android:layout_width="match_parent"

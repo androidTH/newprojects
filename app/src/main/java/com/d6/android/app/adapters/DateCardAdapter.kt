@@ -22,10 +22,18 @@ import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.BLUR_50
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
+import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
+import java.util.*
 import kotlin.collections.ArrayList
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
@@ -44,6 +52,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         var index = data.picUrl.indexOf("?")
         var url = data.picUrl.subSequence(0,index)
         imageView.setImageURI("${url}${BLUR_50}")
+        Log.i("DateCardAdapter","${data.name}----${data.picUrl}")
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             rl_man_card.visibility = View.GONE
             rl_women_perfect.visibility = View.VISIBLE
@@ -53,7 +62,6 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             rl_women_perfect.visibility = View.GONE
             val rl_small_mendate_layout = holder.bind<RelativeLayout>(R.id.rl_small_mendate_layout)
             val rl_big_mendate_layout = holder.bind<RelativeLayout>(R.id.rl_big_mendate_layout)
-            Log.i("mLayoutNormal","ssss${mLayoutNormal}")
             if (mLayoutNormal > 2.0f) {
                 rl_small_mendate_layout.visibility = View.GONE
                 rl_big_mendate_layout.visibility = View.VISIBLE
@@ -295,14 +303,14 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         } else {
             rl_perfect_womanuserinfo.visibility = View.GONE
         }
-//            var imageViewbg = holder.bind<ImageView>(R.id.imageViewbg)
+
 //        FrescoUtils.loadImage(context,data.picUrl,object: IResult<Bitmap> {
 //            override fun onResult(result: Bitmap?) {
 //                result?.let {
 //                    if (it != null) {
 //                        Observable.create(object : ObservableOnSubscribe<Bitmap> {
 //                            override fun subscribe(p0: ObservableEmitter<Bitmap>) {
-//                                AppUtils.fastblur(it, 40)?.let { it1 -> p0.onNext(it1) }
+//                                AppUtils.fastblur(it, 45)?.let { it1 -> p0.onNext(it1) }
 //                            }
 //                        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe {
 //                            imageView.setImageBitmap(it)

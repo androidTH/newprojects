@@ -9,6 +9,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
@@ -208,18 +209,32 @@ public class AppScreenUtils
 			String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
 			//判断是否隐藏了底部虚拟导航
 			int navigationBarIsMin = 0;
+			String brand = Build.BRAND;
+			String mDeviceInfo;
+			if (brand.equalsIgnoreCase("HUAWEI")) {
+				mDeviceInfo = "navigationbar_is_min";
+			} else if (brand.equalsIgnoreCase("XIAOMI")) {
+				mDeviceInfo = "force_fsg_nav_bar";
+			} else if (brand.equalsIgnoreCase("VIVO")) {
+				mDeviceInfo = "navigation_gesture_on";
+			} else if (brand.equalsIgnoreCase("OPPO")) {
+				mDeviceInfo = "navigation_gesture_on";
+			} else {
+				mDeviceInfo = "navigationbar_is_min";
+			}
 			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 				navigationBarIsMin = Settings.System.getInt(context.getContentResolver(),
-						"navigationbar_is_min", 0);
+						mDeviceInfo, 0);
 			} else {
 				navigationBarIsMin = Settings.Global.getInt(context.getContentResolver(),
-						"navigationbar_is_min", 0);
+						mDeviceInfo, 0);
 			}
 			if ("1".equals(navBarOverride) || 1 == navigationBarIsMin) {
 				hasNavigationBar = false;
 			} else if ("0".equals(navBarOverride)) {
 				hasNavigationBar = true;
 			}
+			Log.i("AppScreenUtils", Build.MANUFACTURER+"ddddd"+brand);
 		} catch (Exception e) {
 		}
 		return hasNavigationBar;

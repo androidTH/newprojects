@@ -2,6 +2,7 @@ package com.d6.android.app.utils
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Environment
 import android.support.annotation.NonNull
 import android.text.SpannableString
@@ -199,6 +200,16 @@ class AppUtils {
             Log.i("mLayoutNormal","${HWRatio}")
             return bigDecimal.setScale(1,BigDecimal.ROUND_HALF_UP).toFloat()
         }
+
+//        fun getPhoneType():Boolean{
+//            var model = android.os.Build.MODEL
+//            var  manufacturer = Build.MANUFACTURER;
+//            if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+//                return true;
+//            }
+//            Log.i("phoneTyep","${model}---${manufacturer}")
+//            return false;
+//        }
 
     fun fastblur(sentBitmap: Bitmap, radius: Int): Bitmap? {
 
