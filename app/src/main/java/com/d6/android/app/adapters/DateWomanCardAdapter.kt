@@ -147,53 +147,6 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     }
                 }
             })
-            //简单使用
-//        mBanners.setImages()
-//                .setImageLoader(FrescoImageLoader())
-//                .start()
-//            var bannerImages = holder.bind<ConvenientBanner<String>>(R.id.banner_grils)
-//            bannerImages.setPages(
-//                    object : CBViewHolderCreator {
-//                        override fun createHolder(itemView: View): WomenFindHolder {
-//                            return WomenFindHolder(itemView)
-//                        }
-//
-//                        override fun getLayoutId(): Int {
-//                            return R.layout.item_findwomenbanner
-//                        }
-//                    },mBannerImages)
-//
-//            bannerImages.setOnPageChangeListener(object: OnPageChangeListener {
-//                override fun onPageSelected(index: Int) {
-//                    when(index){
-//                        0-> {
-////                            tv_numone.isEnabled = false
-////                            tv_numtwo.isEnabled = true
-////                            tv_numthree.isEnabled = true
-//                        }
-//                        1->{
-////                            tv_numone.isEnabled = true
-////                            tv_numtwo.isEnabled = false
-////                            tv_numthree.isEnabled = true
-//                        }
-//                        2->{
-////                            tv_numone.isEnabled = true
-////                            tv_numtwo.isEnabled = true
-////                            tv_numthree.isEnabled = false
-//                        }
-//                    }
-//                }
-//
-//                override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-//                }
-//
-//                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-//                }
-//            })
-
-//            bannerImages.startTurning()
-
-
             val headView = holder.bind<SimpleDraweeView>(R.id.headView)
             headView.setImageURI(data.picUrl)
 
