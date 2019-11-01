@@ -24,13 +24,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <!--<ImageView-->
-            <!--android:id="@+id/imageViewbg"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:scaleType="fitXY"-->
-            <!--android:layout_centerInParent="true"/>-->
-
         <include layout="@layout/layout_men_date_big" />
 
         <RelativeLayout
@@ -174,7 +167,7 @@
                 android:textSize="14sp" />
             <LinearLayout
                 android:layout_below="@+id/tv_content"
-                android:layout_above="@+id/rlssss"
+                android:layout_above="@+id/rl_men_samal_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_18"
@@ -196,7 +189,7 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/rlssss"
+                android:id="@+id/rl_men_samal_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="@dimen/margin_15"
@@ -253,6 +246,12 @@
                     android:textSize="14sp" />
             </RelativeLayout>
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/imageViewbg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_9r_black_33"/>
     </RelativeLayout>
 
     <include

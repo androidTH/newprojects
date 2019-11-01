@@ -124,9 +124,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_whiteicon))
 //                }
 
-//                if (!data.city.isNullOrEmpty()) {
+                if (!data.city.isNullOrEmpty()) {
                     mTags.add(UserTag("地区 ${data.sPosition}", R.mipmap.boy_area_whiteicon))
-//                }
+                }else{
+                    mTags.add(UserTag("地区", R.mipmap.boy_area_whiteicon))
+                }
 
                 if(!data.zhiye.isNullOrEmpty()){
                     if(data.zhiye.length>6){
@@ -138,9 +140,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     mTags.add(UserTag("职业", R.mipmap.boy_profession_whiteicon))
                 }
 
-//                if(!data.city.isNullOrEmpty()){
+                if(!data.city.isNullOrEmpty()){
                     mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
-//                }
+                }else{
+                    mTags.add(UserTag("约会地 ", R.mipmap.boy_datearea_whiteicon,3))
+                }
 
                 rv_mydate_tags.adapter = CardManTagAdapter(mTags)
 
@@ -324,6 +328,9 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             mOnItemClickListener?.onItemClick(it, position)
         }
         holder.bind<View>(R.id.cardView).setOnClickListener(onClickListener)
+        holder.bind<View>(R.id.rl_small_mendate_layout).setOnClickListener(onClickListener)
+        holder.bind<View>(R.id.imageViewbg).setOnClickListener(onClickListener)
+        holder.bind<View>(R.id.rl_big_mendate_layout).setOnClickListener(onClickListener)
         holder.bind<TextView>(R.id.tv_perfect_userinfo).setOnClickListener(onClickListener)
     }
 
@@ -411,9 +418,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
             mTags.add(UserTag("星座 ${data.xingzuo}", R.mipmap.boy_constellation_whiteicon))
 //        }
 
-//        if (!data.city.isNullOrEmpty()) {
+        if (!data.city.isNullOrEmpty()) {
             mTags.add(UserTag("地区 ${data.sPosition}", R.mipmap.boy_area_whiteicon))
-//        }
+        }else{
+            mTags.add(UserTag("地区", R.mipmap.boy_area_whiteicon))
+        }
 
         if(!data.zhiye.isNullOrEmpty()){
             if(data.zhiye.length>6){
@@ -439,9 +448,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
 //            mTags.add(UserTag("${sb}", R.mipmap.boy_datearea_whiteicon,3))
 //        }
 
-//        if(!data.city.isNullOrEmpty()){
+        if(!data.city.isNullOrEmpty()){
             mTags.add(UserTag("约会地 ${data.city}", R.mipmap.boy_datearea_whiteicon,3))
-//        }
+        }else{
+            mTags.add(UserTag("约会地", R.mipmap.boy_datearea_whiteicon,3))
+        }
 
         rv_mydate_newtags.adapter = CardManTagAdapter(mTags)
 

@@ -32,13 +32,11 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerInside"
             android:adjustViewBounds="true"
             android:layout_centerInParent="true"
-            app:viewAspectRatio="1.2"
             android:id="@+id/iv_wh"/>
 
-        <!--app:viewAspectRatio="0.9"-->
+        <!--app:viewAspectRatio="1.2"-->
 
         <TextView
             android:id="@+id/tv_indexofpics"

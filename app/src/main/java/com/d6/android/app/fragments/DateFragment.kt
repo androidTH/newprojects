@@ -3,7 +3,6 @@ package com.d6.android.app.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.ContextCompat
@@ -71,7 +70,7 @@ import kotlin.collections.ArrayList
 class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun onItemClick(view: View?, position: Int) {
-        if (view?.id == R.id.cardView) {
+        if (view?.id == R.id.cardView||view?.id==R.id.rl_small_mendate_layout||view?.id==R.id.imageViewbg||view?.id==R.id.rl_big_mendate_layout) {
             val dateBean = mDates[position]
             startActivity<UserInfoActivity>("id" to dateBean.accountId.toString())
         } else if (view?.id == R.id.tv_perfect_userinfo) {

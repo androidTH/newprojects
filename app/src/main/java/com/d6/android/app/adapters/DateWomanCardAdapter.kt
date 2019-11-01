@@ -265,19 +265,6 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                 ll_user_vistorfollownums.visibility = View.GONE
                 tv_vistorfollownums.visibility = View.GONE
             }
-
-//            if (data.iVistorCountAll >= 10&&data.iReceiveLovePoint>=10) {
-//                ll_user_vistorfollownums.visibility = View.VISIBLE
-//                tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}     访客·${data.iVistorCountAll}"
-//            } else {
-//                if(data.iReceiveLovePoint >= 10){
-//                    ll_user_vistorfollownums.visibility = View.VISIBLE
-//                    tv_vistorfollownums.text = "收到 [img src=redheart_small/] · ${data.iReceiveLovePoint}"
-//                }else{
-//                    ll_user_vistorfollownums.visibility = View.GONE
-//                    tv_vistorfollownums.visibility = View.GONE
-//                }
-//            }
         }
 
         val onClickListener = View.OnClickListener {

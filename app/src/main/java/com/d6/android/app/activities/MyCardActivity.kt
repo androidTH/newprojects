@@ -448,9 +448,11 @@ class MyCardActivity : BaseActivity() {
             mTags.add(UserTag("星座 ${it.constellation}", R.mipmap.boy_constellation_whiteicon))
 //        }
 
-//        if (!it.area.isNullOrEmpty()) {
+        if (!it.area.isNullOrEmpty()) {
             mTags.add(UserTag("地区 ${it.area}", R.mipmap.boy_area_whiteicon))
-//        }
+        }else{
+            mTags.add(UserTag("地区", R.mipmap.boy_area_whiteicon))
+        }
 
 //        if(!it.job.isNullOrEmpty()){
             mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_whiteicon))

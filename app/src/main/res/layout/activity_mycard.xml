@@ -77,7 +77,7 @@
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_5"
             android:lines="2"
-            android:text="资料完成度需达30%且上传图片墙"
+            android:text="资料完成度需达30%"
             android:textColor="@color/color_888888"
             android:textSize="12sp"
             android:visibility="gone" />
@@ -289,6 +289,7 @@
             android:textColor="@color/white"
             android:textSize="14sp" />
 
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_my_images"
             android:layout_width="match_parent"
@@ -296,10 +297,10 @@
             android:layout_below="@+id/tv_other_auther_sign"
             android:layout_marginTop="@dimen/margin_15"
             android:layout_marginBottom="@dimen/margin_8"
-            android:minHeight="66dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:visibility="visible" />
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_tags"
@@ -345,7 +346,7 @@
                 android:drawableLeft="@mipmap/boy_car_whiteicon"
                 android:drawablePadding="@dimen/margin_5"
                 android:text="座驾"
-                android:textColor="@color/color_40FFFFFF"
+                android:textColor="@color/color_BFFFFFFF"
                 android:textSize="14sp" />
 
             <TextView
@@ -360,7 +361,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="爱好 "
-                android:textColor="@color/color_40FFFFFF"
+                android:textColor="@color/color_BFFFFFFF"
                 android:textSize="14sp" />
         </LinearLayout>
 
