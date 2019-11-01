@@ -109,7 +109,6 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                         mBannerImages.addAll(images)
 //                        bigImgView.setImageURI(images[0])
                     }
-                    mBannerImages.add(0,data.picUrl)
                     if(images.size>1){
                         tv_indexofpics.visibility = View.VISIBLE
                         tv_indexofpics.setText("1/${images.size}")
