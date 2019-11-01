@@ -61,6 +61,7 @@ import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
 import java.io.InputStream
+import java.lang.Exception
 import java.util.*
 import java.util.stream.Collectors
 import kotlin.collections.ArrayList
@@ -119,7 +120,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var mDates = ArrayList<FindDate>()
     private var scrollPosition = 0
     private var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
-
     //礼物
     private var giftControl: GiftControl? = null
 
@@ -141,10 +141,11 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     scrollPosition = mRecyclerView.currentItem + 1
                     if ((mDates.size - scrollPosition) == 0) {
-                            pageNum++
-                            if (pageNum <= mTotalPages) {
-                                getData(city, userclassesid, agemin, agemax)
-                            }
+                        pageNum++
+                        if (pageNum <= mTotalPages) {
+                            setLoadingShow()
+                            getData(city, userclassesid, agemin, agemax)
+                        }
                     }
                     if (mDates.size > 0) {
                         if(TextUtils.equals(sex, "1")){
@@ -263,6 +264,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
 
 //        showDialog()
+        setLoadingShow()
         getData(city, userclassesid, agemin, agemax)
         checkLocation()
 
@@ -496,6 +498,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             mDates.clear()
         }
         clearDanMu()
+        setLoadingShow()
         getData(city, userclassesid, agemin, agemax)
     }
 
@@ -535,13 +538,16 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         locationClient.startLocation()
     }
 
+
+    private fun setLoadingShow(){
+        rl_loading.visibility = View.VISIBLE
+        mRecyclerView.visibility = View.GONE
+        find_waveview.start()
+    }
     /**
      * 搜索
      */
     fun getData(city: String = "", userclassesid: String = "", agemin: String = "", agemax: String = "", lat: String = "", lon: String = "") {
-        rl_loading.visibility = View.VISIBLE
-        mRecyclerView.visibility = View.GONE
-        find_waveview.start()
         if (mDates.size == 0) {
             tv_main_card_bg_im_id.gone()
             tv_main_card_Bg_tv_id.gone()
@@ -600,16 +606,23 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     if (pageNum == 1) {
                         joinInCard()
                         var findDate = mDates.get(0)
-//                    if (findDate.iIsFans == 1) {
-//                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//like_complte
-//                    } else {
-//                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//discover_like_button
-//                    }
                         if (TextUtils.equals(sex, "1")) {
                             getFindReceiveLoveHeart(findDate.accountId.toString())
                         }
                     }
                     mRecyclerView.adapter.notifyDataSetChanged()
+                    if(pageNum!=1){
+                        try{
+                            mRecyclerView.postDelayed(object:Runnable{
+                                override fun run() {
+                                    scrollPosition = mRecyclerView.currentItem + 1
+                                    mRecyclerView.smoothScrollToPosition(scrollPosition)
+                                }
+                            },200)
+                        }catch (e:Exception){
+                            e.printStackTrace()
+                        }
+                    }
                 }
             }
     }
@@ -620,11 +633,13 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     fun doNextCard() {
         scrollPosition = mRecyclerView.currentItem + 1
-        if (mDates.isNotEmpty() && (mDates.size - scrollPosition) == 0) {
-            mRecyclerView.smoothScrollToPosition(scrollPosition)
+        if (mDates.isNotEmpty() && (mDates.size - scrollPosition) >= 0) {
             if ((mDates.size - scrollPosition) ==0) {
                 pageNum++
+                setLoadingShow()
                 getData(city, userclassesid, agemin, agemax)
+            }else{
+                mRecyclerView.smoothScrollToPosition(scrollPosition)
             }
         }
     }
@@ -927,7 +942,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             if (pageNum == 1) {
                 mDates.clear()
             }
-
+            setLoadingShow()
             getData(city, userclassesid, agemin, agemax, lat, lon)
         }
 
@@ -963,6 +978,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             if (pageNum == 1) {
                 mDates.clear()
             }
+            setLoadingShow()
             getData(city, userclassesid, agemin, agemax)
         }
 
@@ -1014,6 +1030,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             if (pageNum == 1) {
                 mDates.clear()
             }
+            setLoadingShow()
             getData(city, userclassesid, agemin, agemax)
         }
 
