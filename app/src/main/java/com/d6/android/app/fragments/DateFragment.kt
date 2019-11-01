@@ -634,11 +634,12 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     fun doNextCard() {
         scrollPosition = mRecyclerView.currentItem + 1
         if (mDates.isNotEmpty() && (mDates.size - scrollPosition) >= 0) {
-            mRecyclerView.smoothScrollToPosition(scrollPosition)
             if ((mDates.size - scrollPosition) ==0) {
                 pageNum++
                 setLoadingShow()
                 getData(city, userclassesid, agemin, agemax)
+            }else{
+                mRecyclerView.smoothScrollToPosition(scrollPosition)
             }
         }
     }
