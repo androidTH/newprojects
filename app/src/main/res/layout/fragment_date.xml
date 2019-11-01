@@ -142,7 +142,7 @@
             android:id="@+id/rl_loading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             android:background="@mipmap/find_loading_bg">
             <com.d6.android.app.widget.WaveView
                 android:id="@+id/find_waveview"

@@ -148,14 +148,14 @@ class MyCardActivity : BaseActivity() {
                 var Allsb = StringBuilder()
                 if(it.iAllExposureCount>0){
                     tv_allexposure.visibility = View.VISIBLE
-                    Allsb.append("累计获得了${it.iAllExposureCount}次曝光，收到${it.iReceiveLovePoint}个喜欢")
+                    Allsb.append("累计获得了${it.iAllExposureCount}次曝光，收到${it.iReceiveLovePoint}个喜欢[img src=redheart_small/]")
                 }
                 tv_allexposure.text = Allsb.toString()
 
                 var lastdaysb =StringBuffer()
                 if(it.iLastDayExposureCount>0){
                     tv_lastdayexposure.visibility = View.VISIBLE
-                    lastdaysb.append("昨日获得${it.iLastDayExposureCount}次曝光，收到${it.iLastDayReceiveLovePoint}个喜欢")
+                    lastdaysb.append("昨日获得${it.iLastDayExposureCount}次曝光，收到${it.iLastDayReceiveLovePoint}个喜欢[img src=redheart_small/]")
                 }
 
                 tv_lastdayexposure.text = lastdaysb.toString()

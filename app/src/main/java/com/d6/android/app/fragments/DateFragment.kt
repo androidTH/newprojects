@@ -62,7 +62,9 @@ import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.textColor
 import java.io.InputStream
 import java.util.*
+import java.util.stream.Collectors
 import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 /**
  * 约会
@@ -139,10 +141,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     scrollPosition = mRecyclerView.currentItem + 1
                     if ((mDates.size - scrollPosition) == 0) {
-                        pageNum++
-                        if(pageNum<=mTotalPages){
-                            getData(city, userclassesid, agemin, agemax)
-                        }
+                            pageNum++
+                            if (pageNum <= mTotalPages) {
+                                getData(city, userclassesid, agemin, agemax)
+                            }
                     }
                     if (mDates.size > 0) {
                         if(TextUtils.equals(sex, "1")){
@@ -538,6 +540,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
      */
     fun getData(city: String = "", userclassesid: String = "", agemin: String = "", agemax: String = "", lat: String = "", lon: String = "") {
         rl_loading.visibility = View.VISIBLE
+        mRecyclerView.visibility = View.GONE
         find_waveview.start()
         if (mDates.size == 0) {
             tv_main_card_bg_im_id.gone()
@@ -552,19 +555,30 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             }
         }
         Request.findAccountCardListPage(userId, city, "", userclassesid, agemin, agemax, lat, lon, pageNum).request(this) { _, data ->
-            rl_loading.visibility = View.GONE
-            find_waveview.stop()
-            mTotalPages = data?.list?.totalPage!!
-            if (data?.list?.results == null || data.list.results.isEmpty()) {
-                if (pageNum == 1) {
-                    mRecyclerView.visibility = View.GONE
+                rl_loading.visibility = View.GONE
+                find_waveview.stop()
+                mRecyclerView.visibility = View.VISIBLE
+                mTotalPages = data?.list?.totalPage!!
+                Log.i("DateFragment", "${data?.list?.totalPage}---${pageNum}")
+                if (data?.list?.results == null || data.list.results.isEmpty()) {
+                    if (pageNum == 1) {
+                        mRecyclerView.visibility = View.GONE
 //                    tv_tip.gone()
-                    tv_main_card_bg_im_id.visible()
-                    tv_main_card_Bg_tv_id.visible()
-                    fb_unlike.gone()
-                    btn_like.gone()
-                    fb_heat_like.gone()
-                    fb_find_chat.gone()
+                        tv_main_card_bg_im_id.visible()
+                        tv_main_card_Bg_tv_id.visible()
+                        fb_unlike.gone()
+                        btn_like.gone()
+                        fb_heat_like.gone()
+                        fb_find_chat.gone()
+                    } else {
+                        mRecyclerView.visibility = View.VISIBLE
+                        tv_main_card_bg_im_id.gone()
+                        tv_main_card_Bg_tv_id.gone()
+                        fb_unlike.visible()
+                        btn_like.visible()
+                        fb_heat_like.visible()
+                        fb_find_chat.visible()
+                    }
                 } else {
                     mRecyclerView.visibility = View.VISIBLE
                     tv_main_card_bg_im_id.gone()
@@ -573,35 +587,31 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     btn_like.visible()
                     fb_heat_like.visible()
                     fb_find_chat.visible()
-                }
-                Log.i("ffffffff","${data?.list?.totalPage}---${pageNum}")
-            } else {
-                mRecyclerView.visibility = View.VISIBLE
-                tv_main_card_bg_im_id.gone()
-                tv_main_card_Bg_tv_id.gone()
-                fb_unlike.visible()
-                btn_like.visible()
-                fb_heat_like.visible()
-                fb_find_chat.visible()
-                if (pageNum == 1) {
-                    mDates.clear()
-                }
-                data.list.results?.let { mDates.addAll(it) }
-                if (pageNum == 1) {
-                    joinInCard()
-                    var findDate = mDates.get(0)
+                    if (pageNum == 1) {
+                        mDates.clear()
+                    }
+
+                    data.list.results?.let {
+                        mDates.addAll(it)
+                        var h = LinkedHashSet<FindDate>(mDates)
+                        mDates.clear()
+                        mDates.addAll(h.toList())
+                    }
+                    if (pageNum == 1) {
+                        joinInCard()
+                        var findDate = mDates.get(0)
 //                    if (findDate.iIsFans == 1) {
 //                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//like_complte
 //                    } else {
 //                        fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))//discover_like_button
 //                    }
-                    if(TextUtils.equals(sex, "1")){
-                        getFindReceiveLoveHeart(findDate.accountId.toString())
+                        if (TextUtils.equals(sex, "1")) {
+                            getFindReceiveLoveHeart(findDate.accountId.toString())
+                        }
                     }
+                    mRecyclerView.adapter.notifyDataSetChanged()
                 }
-                mRecyclerView.adapter.notifyDataSetChanged()
             }
-        }
     }
 
     private fun doAnimation() {
@@ -610,9 +620,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     fun doNextCard() {
         scrollPosition = mRecyclerView.currentItem + 1
-        if (mDates.isNotEmpty() && (mDates.size - scrollPosition) >= 1) {
+        if (mDates.isNotEmpty() && (mDates.size - scrollPosition) == 0) {
             mRecyclerView.smoothScrollToPosition(scrollPosition)
-            if ((mDates.size - scrollPosition) <= 2) {
+            if ((mDates.size - scrollPosition) ==0) {
                 pageNum++
                 getData(city, userclassesid, agemin, agemax)
             }

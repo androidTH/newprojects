@@ -177,7 +177,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                         for (str in mHobbies) {
                             sb.append("${str} ")
                         }
-                        AppUtils.setTvNewTag(context, sb.toString(), 0, 2, tv_aihao)
+                        if(sb.length>14){
+                            AppUtils.setTvNewTag(context, "${sb.substring(0,14)}...", 0, 2, tv_aihao)
+                        }else {
+                            AppUtils.setTvNewTag(context, sb.toString(), 0, 2, tv_aihao)
+                        }
                     }
                 } else {
                     AppUtils.setTvNewTag(context, "爱好 ", 0, 2, tv_aihao)
@@ -485,7 +489,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 for (str in mHobbies) {
                     sb.append("${str} ")
                 }
-                AppUtils.setTvNewTag(context, sb.toString(), 0, 2, tv_newaihao)
+                if(sb.length>14){
+                    AppUtils.setTvNewTag(context, "${sb.substring(0,14)}...", 0, 2, tv_newaihao)
+                }else{
+                    AppUtils.setTvNewTag(context, "${sb}", 0, 2, tv_newaihao)
+                }
             }
         } else {
             AppUtils.setTvNewTag(context, "爱好", 0, 2, tv_newaihao)
