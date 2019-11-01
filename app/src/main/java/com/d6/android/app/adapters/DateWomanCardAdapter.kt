@@ -15,11 +15,13 @@ import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.BitmapUtils.clearBitmap
 import com.d6.android.app.utils.Const.BLUR_50
+import com.d6.android.app.utils.Const.D6_WWW_TAG
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
@@ -127,7 +129,11 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                                 iv_wh.visibility = View.VISIBLE
                                 var index = mBannerImages[0].indexOf("?")
                                 var url = mBannerImages[0].subSequence(0, index)
-                                bigImgView.setImageURI("${url}${BLUR_50}")
+                                if(url.contains(D6_WWW_TAG)){
+                                    bigImgView.showBlur(mBannerImages[0])
+                                }else{
+                                    bigImgView.setImageURI("${url}${BLUR_50}")
+                                }
                                 iv_wh.setImageURI(mBannerImages[0])
                             } else {
                                 iv_wh.visibility = View.GONE

@@ -22,6 +22,7 @@ import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.BLUR_50
+import com.d6.android.app.utils.Const.D6_WWW_TAG
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
@@ -51,7 +52,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         var imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         var index = data.picUrl.indexOf("?")
         var url = data.picUrl.subSequence(0,index)
-        imageView.setImageURI("${url}${BLUR_50}")
+        if(url.contains(D6_WWW_TAG)){
+            imageView.showBlur("${data.picUrl}")
+        }else{
+            imageView.setImageURI("${url}${BLUR_50}")
+        }
         Log.i("DateCardAdapter","${data.name}----${data.picUrl}")
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             rl_man_card.visibility = View.GONE
