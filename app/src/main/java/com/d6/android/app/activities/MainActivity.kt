@@ -71,7 +71,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     private val tabImages = arrayOf(R.drawable.home_speed_date_selector,R.drawable.home_square_selector,R.drawable.home_main_selector
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
     private val fragmentArray = arrayOf<Class<*>>(DateFragment::class.java, SquareMainFragment::class.java,
-            HomeFragment::class.java, MessageFragment::class.java,MineFragment::class.java)
+            ServiceFragment::class.java, MessageFragment::class.java,MineFragment::class.java)
     private var unReadDateMsg:Int=-1
     private var unReadMsgNum:Int=0
     private var unReadServiceMsgNum:Int=0//男游客浮动移除
@@ -180,6 +180,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             tv_date_tab.visibility = View.GONE
             tv_find_tab.visibility = View.INVISIBLE
             tv_square_tab.visibility = View.INVISIBLE
+            tabhost.backgroundColor = ContextCompat.getColor(this,R.color.white)
+            view_line_h.visibility = View.VISIBLE
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
                     immersionBar.init()
@@ -209,6 +211,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     getUserInfoUnMsg()
                 }
                 TextUtils.equals(it, tabTexts[2]) -> {
+                    tabhost.backgroundColor = ContextCompat.getColor(this,R.color.color_282828)
+                    view_line_h.visibility = View.INVISIBLE
+                    titleBar.visibility = View.GONE
                     tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
                     tv_title.visible()
                     tv_create_date.visible()

@@ -25,6 +25,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.LOGIN_FOR_POINT_NEW
 import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDLASTDAYNOTICEDIALOG
@@ -282,6 +283,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         getProvinceData()
 
+        loginforPoint()
+
         initGift()
 
         loading_headView.setImageURI(heardPic)
@@ -531,6 +534,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 mLon = it.longitude.toString()
                 SPUtils.instance().put(USER_PROVINCE, it.province).apply()
                 SPUtils.instance().put(USER_ADDRESS, it.city).apply() //it.city
+                getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
             }
         }
     }
@@ -538,6 +542,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private fun startLocation() {
         locationClient.stopLocation()
         locationClient.startLocation()
+    }
+
+    /**
+     * 经纬度提交给服务端
+     */
+    private fun getUserLocation(city:String,sProvince:String,sCountry:String,lat:String,lon:String){
+        Request.updateUserPosition(getLocalUserId(),sProvince,sCountry,city,lat,lon).request(this,false,success={_,data->
+        })
     }
 
 
@@ -762,7 +774,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                mDanMuHandler.sendEmptyMessage(0)
             }
         }
-
         showNotice()
     }
 
@@ -785,6 +796,32 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             // dont forget release!
             sv_danmaku.release()
         }
+    }
+
+    private fun loginforPoint(){
+        Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
+            if (data != null) {
+                var sLoginToken = data.optString("sLoginToken")
+                var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
+                if (lstTask!=null&&lstTask.size>0) {
+                    SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
+                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
+                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+                    SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
+                    var today = getTodayTime()
+                    var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW+getLocalUserId(),"")
+                    if(!TextUtils.equals(today,yesterday)){
+                        var mCheckInPointsDialog = CheckInPointsDialog()
+                        mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
+                        mCheckInPointsDialog.show(childFragmentManager,"rewardtips")
+                        mCheckInPointsDialog.setDialogListener { p, s ->
+                            mCheckInPointsDialog.dismissAllowingStateLoss()
+                        }
+                        SPUtils.instance().put(LOGIN_FOR_POINT_NEW+getLocalUserId(), getTodayTime()).apply()
+                    }
+                }
+            }
+        })
     }
 
     private val mImages = ArrayList<AddImage>()
@@ -850,17 +887,22 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     private fun getProvinceData() {
-        if (cityJson.isNullOrEmpty()) {
-            getServiceProvinceData()
-        } else {
-            if (!TextUtils.equals(getTodayTime(), lastTime)) {
+        try{
+            if (TextUtils.isEmpty(cityJson)) {
                 getServiceProvinceData()
             } else {
-                var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-                setLocationCity()
-                ProvinceData?.add(0, province)
-                mPopupArea.setData(ProvinceData)
+                if (!TextUtils.equals(getTodayTime(), lastTime)) {
+                    getServiceProvinceData()
+                } else {
+                    var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                    setLocationCity()
+                    ProvinceData?.add(0, province)
+                    mPopupArea.setData(ProvinceData)
+                }
             }
+        }catch(e:Exception){
+            e.printStackTrace()
+            getServiceProvinceData()
         }
     }
 

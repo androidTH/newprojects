@@ -131,6 +131,7 @@
             android:textSize="9sp" />
     </RelativeLayout>
     <View
+        android:id="@+id/view_line_h"
         android:layout_above="@android:id/tabhost"
         style="@style/view_line_h" />
 
