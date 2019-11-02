@@ -152,6 +152,15 @@
                     android:background="@color/color_EFEFEF" />
             </RelativeLayout>
 
+            <TextView
+                android:id="@+id/tv_yinsi_setting"
+                style="@style/mineTextStyle"
+                android:layout_marginTop="8dp"
+                android:drawableLeft="@mipmap/center_yinsi"
+                android:drawablePadding="@dimen/margin_16"
+                android:text="隐私设置"
+                android:visibility="visible" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -172,7 +181,7 @@
                     android:drawableLeft="@mipmap/my_contactus_icon"
                     android:drawablePadding="@dimen/margin_16"
                     android:text="在线客服"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <View
                     android:layout_width="match_parent"
@@ -180,7 +189,7 @@
                     android:layout_below="@+id/tv_contact_us"
                     android:layout_marginLeft="45dp"
                     android:background="@color/color_EFEFEF"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -270,19 +279,12 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_blacklist"
-                style="@style/mineTextStyle"
-                android:layout_marginTop="8dp"
-                android:drawableLeft="@mipmap/my_blacklist_icon"
-                android:drawablePadding="@dimen/margin_16"
-                android:text="测试"
-                android:visibility="visible" />
-
-            <TextView
                 android:id="@+id/btn_sign_out"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
                 android:background="@drawable/shape_setting_bg"
                 android:gravity="center"
                 android:text="退出登录"

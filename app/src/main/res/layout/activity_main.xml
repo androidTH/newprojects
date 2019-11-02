@@ -41,6 +41,7 @@
             android:layout_alignParentRight="true"
             android:paddingRight="12dp"
             android:padding="@dimen/margin_12"
+            android:layout_marginRight="@dimen/margin_10"
             android:id="@+id/iv_right"
             android:visibility="gone"/>
 
@@ -147,8 +148,9 @@
             android:layout_height="0dp"
             android:layout_weight="0"/>
     </com.d6.android.app.widget.FragmentTabHost>
+
     <TextView
-        android:id="@+id/tv_date_tab"
+        android:id="@+id/tv_find_tab"
         android:layout_alignParentBottom="true"
         android:layout_width="40dp"
         android:layout_height="45dp"
@@ -158,28 +160,29 @@
         android:background="@color/trans_parent"
         android:layout_marginLeft="@dimen/margin_18"
         android:textColor="@color/orange_f6a"
-        android:gravity="center_horizontal"/>
-    <TextView
-        android:id="@+id/tv_find_tab"
-        android:layout_toRightOf="@+id/tv_date_tab"
-        android:layout_alignParentBottom="true"
-        android:layout_width="40dp"
-        android:layout_height="45dp"
-        android:textSize="14dp"
-        android:drawablePadding="2dp"
-        android:visibility="invisible"
-        android:background="@color/trans_parent"
-        android:textColor="@color/orange_f6a"
-        android:layout_marginLeft="@dimen/margin_25"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal" />
 
     <TextView
         android:layout_alignParentBottom="true"
         android:layout_width="40dp"
         android:layout_height="45dp"
         android:id="@+id/tv_square_tab"
+        android:layout_toRightOf="@+id/tv_find_tab"
         android:textSize="14dp"
+        android:drawablePadding="2dp"
+        android:visibility="invisible"
+        android:background="@color/trans_parent"
+        android:textColor="@color/orange_f6a"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/tv_date_tab"
+        android:layout_alignParentBottom="true"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
         android:layout_centerHorizontal="true"
+        android:textSize="14dp"
         android:drawablePadding="2dp"
         android:visibility="gone"
         android:background="@color/trans_parent"

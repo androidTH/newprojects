@@ -1,58 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="160dp"
+    android:layout_width="145dp"
     android:id="@+id/ll_root"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
-
     <!--ic_popup_bg-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="40dp"
         android:background="@mipmap/top_background"
-        android:layout_marginRight="@dimen/margin_15"
         android:orientation="vertical"
-        android:layout_height="130dp">
+        android:layout_height="110dp">
         <TextView
             android:id="@+id/tv_create_square"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_25"
-            android:drawablePadding="5dp"
+            android:layout_marginTop="@dimen/margin_15"
+            android:drawablePadding="8dp"
             android:drawableLeft="@mipmap/top_dongtai"
             android:textStyle="bold"
             android:gravity="center"
             android:paddingBottom="8dp"
-            android:paddingLeft="15dp"
+            android:paddingLeft="12dp"
             android:textColor="@color/color_FFFDF8"
             android:textSize="15sp"
             android:layout_gravity="center_horizontal"
-            android:paddingRight="15dp"
-            android:paddingTop="7dp"
+            android:paddingRight="12dp"
+            android:paddingTop="8dp"
             android:text="发布动态" />
 
         <TextView
             android:id="@+id/tv_create_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_12"
-            android:paddingRight="15dp"
-            android:drawablePadding="5dp"
+            android:layout_marginTop="@dimen/margin_10"
+            android:drawablePadding="8dp"
             android:gravity="center"
             android:drawableLeft="@mipmap/top_yuehui"
             android:textColor="@color/color_FFFDF8"
             android:textStyle="bold"
             android:textSize="15sp"
             android:paddingBottom="8dp"
-            android:paddingTop="7dp"
+            android:paddingTop="8dp"
             android:text="发起约会" />
-        <!--<ImageView style="@style/ImageView_h"-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:background="#f8f7f6"/>-->
     </LinearLayout>
 
 </LinearLayout>

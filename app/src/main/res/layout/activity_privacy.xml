@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F5F5F5"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_back_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:padding="@dimen/margin_8"
+            android:src="@mipmap/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:text="隐私设置"
+            android:textColor="@color/color_black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_EAEAEA" />
+
+    <RelativeLayout
+        android:id="@+id/rl_customerservice"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_tips_center"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="在发现中呈现"
+            android:textColor="@color/color_black"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <com.d6.android.app.widget.switchbutton.SwitchButton
+            android:id="@+id/sw_card_off"
+            style="@style/SwitchButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:checked="true"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            app:kswAnimationDuration="300"
+            app:kswBackDrawable="@drawable/ios_mine_drawable"
+            app:kswBackMeasureRatio="1.7"
+            app:kswThumbDrawable="@drawable/shape_switchthum" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:background="@color/color_EFEFEF" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_joinlist"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="进入榜单"
+            android:textColor="@color/color_black"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <com.d6.android.app.widget.switchbutton.SwitchButton
+            android:id="@+id/sw_list_off"
+            style="@style/SwitchButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:checked="true"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            app:kswAnimationDuration="300"
+            app:kswBackDrawable="@drawable/ios_mine_drawable"
+            app:kswBackMeasureRatio="1.7"
+            app:kswThumbDrawable="@drawable/shape_switchthum" />
+    </RelativeLayout>
+</LinearLayout>

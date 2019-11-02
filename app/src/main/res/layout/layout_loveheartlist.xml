@@ -9,5 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_line_openmember" />
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color_E6FFFFFF"
+        android:layout_alignParentBottom="true">
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:textColor="@color/color_666666"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+            android:text="10颗 [img src=redheart_small/]=1元，如对榜单有疑问可联系客服"/>
+    </RelativeLayout>
 </RelativeLayout>
