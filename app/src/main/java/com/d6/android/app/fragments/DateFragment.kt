@@ -338,7 +338,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                                 if (it.isTimeOut()) {
                                     return
                                 }
-                                var imageWare: DanMuImageWare? = danmaku.tag as DanMuImageWare
+                                if(danmaku.tag!=null){
+                                    var imageWare: DanMuImageWare? = danmaku.tag as DanMuImageWare
+                                    ImageLoader.getInstance().displayImage(imageWare!!.getImageUri(), imageWare)
+                                }
 //                                if (imageWare == null) {
 //                                    imageWare = DanMuImageWare(avatar, danmaku, mIconWidth, mIconWidth, mDanmakuView)
 //                                    danmaku.setTag(imageWare)
@@ -354,7 +357,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //                                            }
 //                                        }
 //                                    })
-                                ImageLoader.getInstance().displayImage(imageWare!!.getImageUri(), imageWare)
                             }
                         }
 

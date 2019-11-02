@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.d6.android.app.R
+import com.d6.android.app.activities.D6LoveHeartListActivity
 import com.d6.android.app.activities.FilterSquaresActivity
 import com.d6.android.app.activities.MainActivity
 import com.d6.android.app.activities.SquareTrendDetailActivity
@@ -128,7 +129,6 @@ class SquareFragment : RecyclerFragment() {
         mSquareTypes.add(TopicBean("1",R.mipmap.square_list_icon,"男生动态"))
         mSquareTypes.add(TopicBean("0",R.mipmap.girl_list_bigicon,"女生动态"))
 
-
         headerView.rv_choose_squaretype.setHasFixedSize(true)
         headerView.rv_choose_squaretype.layoutManager = FlexboxLayoutManager(context) as RecyclerView.LayoutManager?
 
@@ -138,6 +138,18 @@ class SquareFragment : RecyclerFragment() {
                 startActivity<FilterSquaresActivity>("squaretype" to mSqureType)
 //            }
         }
+
+        headerView.rl_date_list.setOnClickListener {
+
+        }
+
+        headerView.rl_bangdan.setOnClickListener {
+            startActivity<D6LoveHeartListActivity>()
+        }
+
+        headerView.sv_date01.setImageURI(getLocalUserHeadPic())
+        headerView.sv_date02.setImageURI(getLocalUserHeadPic())
+        headerView.sv_date03.setImageURI(getLocalUserHeadPic())
 
         mIsDismissDialog = true
         getData()

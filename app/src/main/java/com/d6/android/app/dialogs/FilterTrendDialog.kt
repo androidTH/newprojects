@@ -31,11 +31,10 @@ class FilterTrendDialog : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         immersionBar
                 .fitsSystemWindows(true).init()
-        dialog.window.setLayout(dip(133), wrapContent)
-        dialog.window.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL)
+        dialog.window.setLayout(dip(145), wrapContent)
+        dialog.window.setGravity(Gravity.RIGHT or Gravity.TOP)
         dialog.setCanceledOnTouchOutside(true)
     }
 
@@ -45,18 +44,13 @@ class FilterTrendDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tv_edit.setOnClickListener {
-            dialogListener?.onClick(2, "")
-            dismissAllowingStateLoss()
-        }
-
-        tv_setting.setOnClickListener {
-            dialogListener?.onClick(1, "")
-            dismissAllowingStateLoss()
-        }
-
-        tv_cancel.setOnClickListener {
+        tv_create_square.setOnClickListener {
             dialogListener?.onClick(0, "")
+            dismissAllowingStateLoss()
+        }
+
+        tv_create_date.setOnClickListener {
+            dialogListener?.onClick(1, "")
             dismissAllowingStateLoss()
         }
 
