@@ -127,7 +127,11 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                             if (it.width >= it.height) {
                                 iv_wh.visibility = View.VISIBLE
                                 var index = mBannerImages[0].indexOf("?")
-                                var url = mBannerImages[0].subSequence(0, index)
+                                var url = if(index!=-1){
+                                    mBannerImages[0].subSequence(0, index)
+                                }else{
+                                    mBannerImages[0]
+                                }
                                 if(url.contains(D6_WWW_TAG)){
                                     bigImgView.showBlur(mBannerImages[0])
                                 }else{
@@ -280,7 +284,11 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
         if (position == 4 && TextUtils.equals(data.accountId, userId)) {
             var men_bg = holder.bind<SimpleDraweeView>(R.id.men_bg)
             var index = data.picUrl.indexOf("?")
-            var url = data.picUrl.subSequence(0,index)
+            var url = if(index!=-1){
+                data.picUrl.subSequence(0,index)
+            }else{
+                data.picUrl
+            }
             men_bg.setImageURI("${url}${BLUR_50}")
             if (iDateComlete < 60) {
                 rl_perfect_womanuserinfo.visibility = View.VISIBLE

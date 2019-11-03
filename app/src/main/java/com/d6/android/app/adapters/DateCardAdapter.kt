@@ -51,7 +51,11 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         var rl_women_perfect = holder.bind<RelativeLayout>(R.id.rl_women_perfect)
         var imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         var index = data.picUrl.indexOf("?")
-        var url = data.picUrl.subSequence(0,index)
+        var url = if(index!=-1){
+            data.picUrl.subSequence(0,index)
+        }else{
+            data.picUrl
+        }
         if(url.contains(D6_WWW_TAG)){
             imageView.showBlur("${data.picUrl}")
         }else{
