@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters
 
+import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.activities.UserInfoActivity
@@ -19,17 +20,25 @@ import org.jetbrains.anko.startActivity
 class SquareMessageAdapter(mData:ArrayList<SquareMessage>): HFRecyclerAdapter<SquareMessage>(mData, R.layout.item_list_square_msg) {
 
     override fun onBind(holder: ViewHolder, position: Int, data: SquareMessage) {
-        holder.setText(R.id.tv_content,data.content)
         holder.setText(R.id.tv_name,data.title)
         holder.setText(R.id.tv_time,data.createTime?.interval())
         val headView = holder.bind<SimpleDraweeView>(R.id.headView)
         headView.setImageURI(data.userPic)
 
+        var tv_content = holder.bind<TextView>(R.id.tv_content)
+        if(data.content.isNullOrEmpty()){
+            tv_content.visibility = View.GONE
+        }else{
+            tv_content.visibility = View.VISIBLE
+        }
+
+        tv_content.text = data.content
+
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         val textContent = holder.bind<TextView>(R.id.tv_square_content)
         textContent.text = data.squareContent
 
-        sysErr(data.toString()+"--------url----->"+data.replypicUrl.isNullOrEmpty())
+        sysErr(data.squareContent+"--------url----->"+data.replypicUrl.isNullOrEmpty())
         if (data.replypicUrl.isNullOrEmpty()) {
             imageView.invisible()
             textContent.gone()

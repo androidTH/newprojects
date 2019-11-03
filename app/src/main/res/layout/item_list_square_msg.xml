@@ -12,32 +12,38 @@
         android:layout_marginRight="8dp"
         android:id="@+id/headView"
         app:roundedCornerRadius="26dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="--"
-        android:layout_marginBottom="6dp"
-        android:textColor="@color/color_black"
-        android:singleLine="true"
-        android:layout_toRightOf="@+id/headView"
-        android:textSize="15sp"
-        android:id="@+id/tv_name"/>
-    <TextView
+
+    <LinearLayout
+        android:id="@+id/linear_userinfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_content"
-        android:layout_alignLeft="@+id/tv_name"
-        android:layout_marginRight="88dp"
-        android:text="--"
-        android:textColor="@color/color_333333"
-        android:layout_below="@+id/tv_name"
-        android:textSize="12sp"
-        android:layout_marginBottom="6dp"/>
+        android:layout_height="45dp"
+        android:layout_toRightOf="@+id/headView"
+        android:layout_marginRight="75dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:layout_above="@+id/tv_time"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_black"
+            android:singleLine="true"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:id="@+id/tv_name"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_content"
+            android:textColor="@color/color_333333"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_name"
-        android:layout_below="@+id/tv_content"
+        android:layout_alignLeft="@+id/linear_userinfo"
+        android:layout_below="@+id/headView"
         android:textColor="@color/color_888888"
         android:id="@+id/tv_time"
         android:text="--"
