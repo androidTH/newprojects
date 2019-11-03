@@ -377,6 +377,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.RecommendDateActivity"/>
+        <activity android:name=".activities.AppointmentActivity"/>
         <activity android:name=".activities.PointExplainActivity"/>
         <activity android:name=".activities.MenMemberActivity"/>
         <activity android:name=".activities.PrivilegeDescActivity"/>

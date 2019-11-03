@@ -7,10 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.d6.android.app.R
-import com.d6.android.app.activities.D6LoveHeartListActivity
-import com.d6.android.app.activities.FilterSquaresActivity
-import com.d6.android.app.activities.MainActivity
-import com.d6.android.app.activities.SquareTrendDetailActivity
+import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.NetWorkImageHolder
 import com.d6.android.app.adapters.SquareAdapter
 import com.d6.android.app.adapters.SquareBannerQuickAdapter
@@ -140,7 +137,7 @@ class SquareFragment : RecyclerFragment() {
         }
 
         headerView.rl_date_list.setOnClickListener {
-
+            startActivity<AppointmentActivity>()
         }
 
         headerView.rl_bangdan.setOnClickListener {

@@ -55,7 +55,7 @@
     <RelativeLayout
         android:id="@+id/ll_rgchoose"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="@dimen/margin_10">
 
         <LinearLayout
@@ -66,18 +66,19 @@
             <com.d6.android.app.widget.tablayout.TabLayout
                 android:id="@+id/tab_recommentdate"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
                 android:scrollbars="horizontal"
-                app:tabBackground="@color/color_black"
+                app:tabBackground="@drawable/tablayout_background"
                 app:tabGravity="center"
                 app:tabIndicatorColor="@color/color_F7AB00"
-                app:tabIndicatorHeight="3dp"
-                app:tabLineOffset="@dimen/margin_20"
+                app:tabIndicatorHeight="0dp"
+                app:tabLineOffset="@dimen/margin_15"
                 app:tabMaxWidth="@dimen/margin_45"
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="0dp"
                 app:tabPaddingStart="0dp"
-                app:tabSelectedTextColor="@color/color_F7AB00"
+                app:tabTextAppearance="@style/tab_home_date"
+                app:tabSelectedTextColor="@color/white"
                 app:tabTextColor="@color/white" />
         </LinearLayout>
 
@@ -86,13 +87,13 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:background="@mipmap/overlap"
+            android:drawableTint="@color/color_999999"
             android:drawableRight="@mipmap/downmore_icon"
             android:gravity="center"
             android:paddingRight="@dimen/margin_10"
             android:text="地区"
-            android:textColor="@color/color_F7AB00"
+            android:textColor="@color/color_999999"
             android:textSize="14sp"
             android:textStyle="bold" />
     </RelativeLayout>

@@ -296,7 +296,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         tv_date_tab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
-            if (fragment != null && fragment is HomeFragment) {
+            if (fragment != null && fragment is ServiceFragment) {
                 fragment.refresh()
             }
         }

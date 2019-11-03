@@ -103,7 +103,15 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
 
     fun getFindRecommend(ilookType: String="", city: String=""):RecommendDateQuickFragment{
         pageNum = 1
-        pullRefresh(ilookType,city)
+        mSwipeRefreshLayout.isRefreshing = true
+        if(pageNum==1){
+            mBaseRecyclerView.scrollToPosition(0)
+        }
+        mSwipeRefreshLayout.postDelayed(object:Runnable{
+            override fun run() {
+                pullRefresh(ilookType,city)
+            }
+        },600)
         return this
     }
 

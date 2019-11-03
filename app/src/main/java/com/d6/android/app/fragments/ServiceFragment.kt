@@ -219,7 +219,12 @@ class ServiceFragment : BaseFragment() ,ViewPager.OnPageChangeListener{
     }
 
     fun refresh(){
-
+        mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,city)
+//        viewpager_recommenddate.postDelayed(object:Runnable{
+//            override fun run() {
+//                mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,city)
+//            }
+//        },600)
     }
 
     //设置定位城市
