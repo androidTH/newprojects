@@ -80,6 +80,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
+                    unReadMsgNum = 0
                     getSysLastOne()
                 }
             }
@@ -596,7 +597,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSysMsg(data)
                 }
-                unReadMsgNum  =unReadMsgNum + data.count!!.toInt()
+                unReadMsgNum  = unReadMsgNum + data.count!!.toInt()
                 Log.i("messagesssssss","${unReadMsgNum}显示SystemMessages${data.count}")
                 getSquareMsg()
 //                if ((data.count ?: 0) > 0) {
@@ -624,7 +625,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     }else{
                         view.text = "${unReadMsgNum}"
                     }
-//                    unReadMsgNum = 0 // 注释
                     view?.visible()
                 }else{
                     view?.gone()
@@ -634,7 +634,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }
-//                unReadMsgNum = unReadMsgNum + data.count!!.toInt() - unReadServiceMsgNum//2.5移除
                 unReadMsgNum = unReadMsgNum + data.count!!.toInt()
                 if(unReadMsgNum>0){
                     if(unReadMsgNum>=99){

@@ -151,7 +151,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         if(TextUtils.equals(sex, "1")){
                             clearDanMu()
                             var findDate = mDates.get(scrollPosition - 1)
-                            if((scrollPosition - 1) == 4 && !TextUtils.equals(findDate.accountId, getLocalUserId())){
+                            if((scrollPosition - 1) != 4 || !TextUtils.equals(findDate.accountId, getLocalUserId())){
                                 getFindReceiveLoveHeart("${findDate.accountId}")
                             }
                         }

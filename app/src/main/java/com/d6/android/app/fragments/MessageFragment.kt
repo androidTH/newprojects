@@ -176,8 +176,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //            conversation.unreadMessageCount = 0
 //        }
         getData()
-        getSysLastOne(SysMsg_time.toString())
-        getSquareMsg(SquareMsg_time.toString())
 
         if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
             tv_topsearch.visibility = View.VISIBLE
@@ -186,6 +184,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         }
 
         checkPushIsNotShow()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getSysLastOne(SysMsg_time.toString())
+        getSquareMsg(SquareMsg_time.toString())
     }
 
     private fun checkPushIsNotShow() {
@@ -348,7 +352,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                     var c = if ((data.count ?: 0) > 99) {
                         "99+"
                     } else {
-                        data.count.toString()
+                        "${data.count}"
                     }
                     if ((data.count ?: 0) > 0) {
                         if(IsNotNullHeaderiew()){
@@ -378,7 +382,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                     var c = if ((data.count ?: 0) > 99) {
                         "99+"
                     } else {
-                        data.count.toString()
+                        "${data.count}"
                     }
                     if ((data.count ?: 0) > 0) {
                         headerView.iv2_square_num.visibility = View.VISIBLE
@@ -392,7 +396,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                     }else{
                         headerView.tv_content2.text = squaremsg.content
                     }
-
+                    Log.i("messsage","time:${DateToolUtils.getConversationFormatDate(squaremsg.createTime!!.toLong(),false, context)}")
                     headerView.tv_squaremsg_time.text = DateToolUtils.getConversationFormatDate(squaremsg.createTime!!.toLong(),false, context)
                 }
             }
