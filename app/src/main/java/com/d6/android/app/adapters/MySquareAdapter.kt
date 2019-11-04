@@ -19,6 +19,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.DateOfSquareView
 import com.d6.android.app.widget.UserTrendView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -33,9 +34,19 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<UserTrendView>(R.id.mTrendView)
+        val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
         data.sex = mUserData?.sex
         data.age = mUserData?.age
-        trendView.update(data,if (type==0) 1 else 0 )
+
+        if(position%2==0){
+            trendView.visibility = View.VISIBLE
+            dateofsquare_view.visibility = View.GONE
+            trendView.update(data,if (type==0) 1 else 0 )
+        }else{
+            trendView.visibility = View.GONE
+            dateofsquare_view.visibility = View.VISIBLE
+        }
+
         val count = data.appraiseCount ?: 0
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {

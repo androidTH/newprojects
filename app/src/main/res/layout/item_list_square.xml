@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.d6.android.app.widget.TrendView
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:id="@+id/mTrendView"
-    android:layout_height="wrap_content">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_F5F5F5">
+    <com.d6.android.app.widget.TrendView
+        android:id="@+id/mTrendView"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.d6.android.app.widget.TrendView>
 
-</com.d6.android.app.widget.TrendView>
+    <com.d6.android.app.widget.DateOfSquareView
+        android:layout_width="match_parent"
+        android:id="@+id/dateofsquare_view"
+        android:layout_height="wrap_content">
+    </com.d6.android.app.widget.DateOfSquareView>
+</FrameLayout>

@@ -15,6 +15,7 @@
         android:id="@+id/banner_line_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_8"
+        android:visibility="gone"
         android:background="@color/color_F5F5F5" />
 
     <com.d6.android.app.widget.layoutbanner.BannerLayout
@@ -23,6 +24,7 @@
         android:layout_height="160dp"
         android:layout_below="@+id/banner_line_top"
         android:background="@color/color_F5F5F5"
+        android:visibility="gone"
         app:autoPlaying="true"
         app:centerScale="1.0"
         app:itemSpace="10"
@@ -31,7 +33,7 @@
     <View
         android:id="@+id/banner_line"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_10"
+        android:layout_height="@dimen/margin_12"
         android:layout_below="@+id/mBanner"
         android:background="@color/color_F5F5F5" />
 
@@ -39,9 +41,9 @@
         android:id="@+id/ll_topshow"
         android:layout_below="@+id/banner_line"
         android:layout_width="match_parent"
-        android:paddingBottom="@dimen/margin_10"
+        android:paddingBottom="@dimen/margin_12"
         android:background="@color/color_F5F5F5"
-        android:layout_height="70dp"
+        android:layout_height="72dp"
         android:paddingLeft="@dimen/margin_12"
         android:paddingRight="@dimen/margin_12"
         android:orientation="horizontal">

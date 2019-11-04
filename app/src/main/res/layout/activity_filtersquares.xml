@@ -37,7 +37,8 @@
             android:layout_centerInParent="true"
             android:textSize="15sp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_15"
+            android:padding="@dimen/margin_12"
+            android:layout_marginRight="@dimen/margin_10"
             android:drawableLeft="@mipmap/ic_add_orange"/>
     </RelativeLayout>
 

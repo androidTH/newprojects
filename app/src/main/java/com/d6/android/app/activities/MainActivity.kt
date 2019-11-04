@@ -85,6 +85,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
+                    unReadMsgNum=0
                     getSysLastOne()
                 }
             }

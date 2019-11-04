@@ -194,7 +194,6 @@ class SquareFragment : RecyclerFragment() {
                     val ids = banner.newsid ?: ""
                     startActivity<SquareTrendDetailActivity>("id" to "${ids}", "position" to position)
                 }
-
 //                headerView.mBanner.setPages(
 //                        object : CBViewHolderCreator {
 //                            override fun createHolder(itemView: View): NetWorkImageHolder {
@@ -221,8 +220,8 @@ class SquareFragment : RecyclerFragment() {
 
     private fun getData() {
         if (pageNum == 1) {
-            getBanner()
-        } else {
+//            getBanner()
+            mIsDismissDialog = false
             getSquareList()
         }
     }
@@ -360,7 +359,7 @@ class SquareFragment : RecyclerFragment() {
     override fun loadMore() {
         super.loadMore()
         pageNum++
-        getData()
+        getSquareList()
     }
 
     override fun onDestroy() {

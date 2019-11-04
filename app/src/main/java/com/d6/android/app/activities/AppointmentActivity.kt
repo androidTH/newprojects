@@ -102,7 +102,7 @@ class AppointmentActivity : BaseActivity() {
         }
 
         mPopupArea = AreaSelectedPopup.create(this)
-                .setDimView(ll_recomment_root)
+                .setDimView(viewpager_appointment)
                 .apply()
 
         if(!TextUtils.equals(getTodayTime(),lastTime)){
@@ -205,7 +205,7 @@ class AppointmentActivity : BaseActivity() {
 
 
     private fun showArea(){
-        mPopupArea.showAsDropDown(rl_appointment_title,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
+        mPopupArea.showAsDropDown(rl_appointment_title,0,0)
 
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
             if(position == -1){

@@ -29,20 +29,19 @@ import org.jetbrains.anko.startActivity
 /**
  * Created on 2017/12/17.
  */
-class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
+class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private var myDate: MyAppointment? = null
     private val mImages = ArrayList<String>()
     private val imageAdapter by lazy {
         SelfReleaselmageAdapter(mImages,1)
     }
+
     init {
-        LayoutInflater.from(context).inflate(R.layout.view_self_release_view, this, true)
+        LayoutInflater.from(context).inflate(R.layout.view_dateofsquare_view, this, true)
         rv_images.setHasFixedSize(true)
-//        rv_images.layoutManager = GridLayoutManager(context, 3)
         rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_images.adapter = imageAdapter
-//        rv_images.addItemDecoration(SpacesItemDecoration(dip(4)))
     }
 
     fun update(myAppointment: MyAppointment) {
@@ -62,18 +61,6 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
                 }
             }
         })
-//        val start = myAppointment.dStarttime.toString()?.parserTime("yyyy-MM-dd")
-//        val end = myAppointment.dEndtime.toString()?.parserTime("yyyy-MM-dd")
-//        val time = String.format("%s-%s",start?.toTime("MM.dd"),end?.toTime("MM.dd"))
-//        val time = String.format("%s",(start - end)/(1000 * 60 * 60 * 24))
-//        val s = if (myDate.city.isNullOrEmpty()) {
-//            time
-//        } else {
-//            time+" | " +myDate.city
-//        }
-//        tv_sub_title.text = SpanBuilder(s)
-//                .color(context,0,time.length,R.color.color_369)
-//                .build()
 
         tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()-1]
         var index = myAppointment.iAppointType!!.toInt()-1
@@ -126,33 +113,6 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-//        tv_date_vip.visibility = View.VISIBLE
-//        if(TextUtils.equals(myAppointment.userclassesid.toString(),"27")){
-//            tv_date_vip.backgroundDrawable =  ContextCompat.getDrawable(context,R.mipmap.gril_cj)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"28")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_zj)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"29")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_gj)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"22")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"23")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"24")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"25")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"26")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"30")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
-//        }else{
-//            tv_date_vip.visibility = View.GONE
-//        }
-
         tv_date_vip.backgroundDrawable = getLevelDrawable(myAppointment.userclassesid.toString(),context)
 
         if(TextUtils.equals(CustomerServiceId,myAppointment.iAppointUserid.toString())||TextUtils.equals(CustomerServiceWomenId,myAppointment.iAppointUserid.toString())){
@@ -180,20 +140,6 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
                 tv_date_nums.text = ""
             }
         }
-
-//            if (TextUtils.equals("0", myAppointment.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
-//                img_other_auther.visibility = View.GONE
-//                img_date_auther.visibility = View.GONE
-//                if (TextUtils.equals("3", it.screen)) {
-//                    tv_other_auther_sign.visibility = View.GONE
-//                } else {
-//                    tv_other_auther_sign.visibility = View.GONE
-//                }
-//            } else if (TextUtils.equals("1", data.screen)) {
-//                img_other_auther.visibility = View.VISIBLE
-//                img_date_auther.visibility = View.VISIBLE
-//                tv_other_auther_sign.visibility = View.GONE
-//            }
     }
 
     public fun sendDateListener(action:(myAppointment: MyAppointment)->Unit) {

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SquareAdapter
 import com.d6.android.app.base.BaseActivity
@@ -19,6 +20,9 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.d6.android.app.widget.popup.EasyPopup
+import com.d6.android.app.widget.popup.XGravity
+import com.d6.android.app.widget.popup.YGravity
 import kotlinx.android.synthetic.main.activity_filtersquares.*
 import kotlinx.android.synthetic.main.layout_filtersqure_header.view.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
@@ -47,6 +51,7 @@ class FilterSquaresActivity : BaseActivity() {
     //播放录音
     private var playIndex = -1
     private var playSquare:Square? = null
+    private var mCirclePop: EasyPopup?=null
 
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.layout_filtersqure_header, swipeRefreshLayout_square.mRecyclerView, false)
@@ -79,9 +84,9 @@ class FilterSquaresActivity : BaseActivity() {
         }
 
         add_square.setOnClickListener {
-            isCheckOnLineAuthUser(this, getLocalUserId()) {
-//                FinishActivityManager.getManager().addActivity(this)
-                startActivityForResult<ReleaseNewTrendsActivity>(1,"topicname" to mTypeName,"topicId" to sTopicId)
+            var view = it
+            mCirclePop?.let {
+                it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -30,-10)
             }
         }
 
@@ -98,6 +103,7 @@ class FilterSquaresActivity : BaseActivity() {
 
         setAudioListener()
 
+        initPopup()
     }
 
     private fun setHeaderView(){
@@ -229,6 +235,32 @@ class FilterSquaresActivity : BaseActivity() {
             }
         })
         swipeRefreshLayout_square.mRecyclerView.itemAnimator.changeDuration = 0
+    }
+
+    private fun initPopup(){
+        mCirclePop = EasyPopup.create()
+                .setContentView(this, R.layout.popup_release_layout)
+                .setAnimationStyle(R.style.RightTop2PopAnim)
+                .setOnViewListener { view, popup ->
+                    var tv_create_square = view.findViewById<TextView>(R.id.tv_create_square)
+                    tv_create_square.setOnClickListener {
+                        isCheckOnLineAuthUser(this, getLocalUserId()) {
+                            startActivityForResult<PublishFindDateActivity>(10)
+                        }
+                        mCirclePop!!.dismiss()
+                    }
+
+                    var tv_create_date = view.findViewById<TextView>(R.id.tv_create_date)
+                    tv_create_date.setOnClickListener {
+                        isCheckOnLineAuthUser(this, getLocalUserId()){
+                            startActivityForResult<PublishFindDateActivity>(10)
+                        }
+                        mCirclePop!!.dismiss()
+                    }
+                }
+                //是否允许点击PopupWindow之外的地方消失
+                .setFocusAndOutsideEnable(true)
+                .apply()
     }
 
     private fun getSquareList() {

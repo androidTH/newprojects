@@ -2,10 +2,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_marginRight="@dimen/margin_15"
-    android:layout_marginTop="@dimen/margin_15"
+    android:layout_marginRight="@dimen/margin_10"
+    android:layout_marginTop="@dimen/margin_13"
     android:background="@drawable/shape_radius12_f6"
-    android:padding="@dimen/margin_5"
+    android:paddingTop="@dimen/margin_3"
+    android:paddingBottom="@dimen/margin_3"
+    android:paddingLeft="@dimen/margin_5"
+    android:paddingRight="@dimen/margin_5"
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/tv_square_type"

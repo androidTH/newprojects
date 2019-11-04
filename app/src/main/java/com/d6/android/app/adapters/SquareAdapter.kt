@@ -15,6 +15,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.DateOfSquareView
 import com.d6.android.app.widget.TrendView
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
@@ -34,7 +35,16 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
 
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
-        trendView.update(data)
+        val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
+        if(position%2==0){
+            dateofsquare_view.visibility = View.GONE
+            trendView.visibility = View.VISIBLE
+            trendView.update(data)
+        }else{
+            dateofsquare_view.visibility = View.VISIBLE
+            trendView.visibility = View.GONE
+//            dateofsquare_view.update()
+        }
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {
                 cancelPraise(data)
