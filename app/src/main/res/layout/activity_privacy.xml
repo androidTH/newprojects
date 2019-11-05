@@ -121,4 +121,51 @@
             app:kswBackMeasureRatio="1.7"
             app:kswThumbDrawable="@drawable/shape_switchthum" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:background="@color/color_EFEFEF" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:id="@+id/tv_loveisvisible"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="隐私[img src=redheart_small/]的赠送记录"
+            android:textColor="@color/color_black"
+            android:textSize="15sp"
+            android:visibility="visible" />
+
+        <com.d6.android.app.widget.switchbutton.SwitchButton
+            android:id="@+id/sw_loveisvisible"
+            style="@style/SwitchButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:checked="true"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="9sp"
+            app:kswAnimationDuration="300"
+            app:kswBackDrawable="@drawable/ios_mine_drawable"
+            app:kswBackMeasureRatio="1.7"
+            app:kswThumbDrawable="@drawable/shape_switchthum" />
+    </RelativeLayout>
 </LinearLayout>

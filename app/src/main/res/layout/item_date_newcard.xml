@@ -185,8 +185,10 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_mydate_images"
                     android:layout_width="match_parent"
-                    android:layout_height="78dp"
-                    android:minHeight="78dp" />
+                    android:layout_height="88dp"
+                    android:background="@drawable/shapecard_2r_33"
+                    android:padding="@dimen/margin_5"
+                    android:minHeight="88dp" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

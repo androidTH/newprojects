@@ -124,6 +124,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_date_newmenheadView"
+        android:background="@drawable/shapecard_2r_33"
+        android:padding="@dimen/margin_5"
         android:layout_marginTop="@dimen/margin_15">
 
         <com.facebook.drawee.view.SimpleDraweeView

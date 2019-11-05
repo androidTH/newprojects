@@ -55,6 +55,7 @@ class MyCardActivity : BaseActivity() {
 
     private val myImageAdapter by lazy {
         MyImageAdapter(mImages)
+//        DatelmageAdapter(mImages)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

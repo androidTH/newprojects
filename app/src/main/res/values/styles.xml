@@ -117,8 +117,8 @@
 
     <style name="newmandateDefaultHeadStyle">
         <!--headempty_grayicon-->
-        <item name="failureImage">@color/color_33FFFFFF</item>
-        <item name="placeholderImage">@color/color_33FFFFFF</item>
+        <!--<item name="failureImage">@color/color_33FFFFFF</item>-->
+        <!--<item name="placeholderImage">@color/color_33FFFFFF</item>-->
         <item name="placeholderImageScaleType">fitCenter</item>
         <item name="failureImageScaleType">fitCenter</item>
         <item name="viewAspectRatio">1</item>

@@ -44,6 +44,14 @@ class PrivacySettingActivity : BaseActivity() {
             }
         }
 
+        sw_loveisvisible.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+
+            }else{
+
+            }
+        }
+
         getUserInfo()
     }
 

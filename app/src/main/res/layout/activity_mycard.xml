@@ -297,8 +297,10 @@
             android:layout_below="@+id/tv_other_auther_sign"
             android:layout_marginTop="@dimen/margin_15"
             android:layout_marginBottom="@dimen/margin_8"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:background="@drawable/shapecard_2r_33"
+            android:padding="@dimen/margin_5"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:visibility="visible" />
 
 
