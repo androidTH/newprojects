@@ -12,6 +12,7 @@ import com.d6.android.app.adapters.HomeDatePageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.AreaSelectedPopup
 import com.d6.android.app.dialogs.RenGongDateDialog
+import com.d6.android.app.dialogs.SelectedSexPopup
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.SelfPullDateFragment
 import com.d6.android.app.models.City
@@ -68,6 +69,11 @@ class AppointmentActivity : BaseActivity() {
     private var type: Int = 0
 
     lateinit var mPopupArea: AreaSelectedPopup
+    fun IsNotNullPopupArea()=::mPopupArea.isInitialized
+    lateinit var mPopupSex:SelectedSexPopup
+    fun IsNotNullPopupSex()=::mPopupSex.isInitialized
+
+    private var mSelectedSex = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,13 +86,17 @@ class AppointmentActivity : BaseActivity() {
 
         tv_date_city.setOnClickListener {
             isAuthUser(){
-               showArea()
+                if(IsNotNullPopupArea()){
+                    showArea()
+                }
             }
         }
 
         tv_date_sex.setOnClickListener {
             isAuthUser(){
-
+                if(IsNotNullPopupSex()){
+                    showSex()
+                }
             }
         }
 
@@ -99,24 +109,6 @@ class AppointmentActivity : BaseActivity() {
         tv_recomendtitle.setOnClickListener {
             var mRgDateDialog = RenGongDateDialog()
             mRgDateDialog.show(supportFragmentManager,"RgDateDailog")
-        }
-
-        mPopupArea = AreaSelectedPopup.create(this)
-                .setDimView(viewpager_appointment)
-                .apply()
-
-        if(!TextUtils.equals(getTodayTime(),lastTime)){
-            getProvinceData()
-        }else{
-            try{
-                var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-                setLocationCity()
-                ProvinceData?.add(0,province)
-                mPopupArea.setData(ProvinceData)
-            }catch(e:Exception){
-                e.printStackTrace()
-                getProvinceData()
-            }
         }
 
         var mFragments = listOf(
@@ -179,6 +171,34 @@ class AppointmentActivity : BaseActivity() {
         }
 
         checkLocation()
+
+        viewpager_appointment.postDelayed(object:Runnable{
+            override fun run() {
+                mPopupArea = AreaSelectedPopup.create(this@AppointmentActivity)
+                        .setDimView(viewpager_appointment)
+                        .apply()
+
+                mPopupSex = SelectedSexPopup.create(this@AppointmentActivity)
+                        .setDimView(viewpager_appointment)
+                        .apply()
+
+                if(!TextUtils.equals(getTodayTime(),lastTime)){
+                    getProvinceData()
+                }else{
+                    try{
+                        var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
+                        setLocationCity()
+                        ProvinceData?.add(0,province)
+                        if(IsNotNullPopupArea()){
+                            mPopupArea.setData(ProvinceData)
+                        }
+                    }catch(e:Exception){
+                        e.printStackTrace()
+                        getProvinceData()
+                    }
+                }
+            }
+        },200)
     }
 
     private fun getProvinceData() {
@@ -187,7 +207,9 @@ class AppointmentActivity : BaseActivity() {
                 DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 setLocationCity()
                 it.add(0,province)
-                mPopupArea.setData(it)
+                if(IsNotNullPopupArea()){
+                    mPopupArea.setData(it)
+                }
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND, getTodayTime()).apply()
             }
         }
@@ -206,7 +228,6 @@ class AppointmentActivity : BaseActivity() {
 
     private fun showArea(){
         mPopupArea.showAsDropDown(rl_appointment_title,0,0)
-
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
             if(position == -1){
                 tv_date_city.text = "同城"
@@ -229,6 +250,23 @@ class AppointmentActivity : BaseActivity() {
         }
     }
 
+    private fun showSex() {
+        mPopupSex.showAsDropDown(rl_appointment_title, 0,0)
+        mPopupSex.setOnPopupItemClick { basePopup, position, string ->
+            mSelectedSex = position
+            if (mSelectedSex == -1) {
+                tv_date_sex.text = getString(R.string.string_sex)
+            }else{
+                tv_date_sex.text = string
+            }
+            getFragment()
+        }
+
+        mPopupSex.setOnDismissListener {
+
+        }
+    }
+
     private fun getFragment(){
         var mSelfPullDateFragment:SelfPullDateFragment = supportFragmentManager.fragments[pageSelected] as SelfPullDateFragment
         mSelfPullDateFragment?.let {
@@ -239,7 +277,7 @@ class AppointmentActivity : BaseActivity() {
             }else{
                 type.toString()
             }
-            it.refresh(area ,dateType)
+            it.refresh(area ,dateType,mSelectedSex)
         }
     }
 

@@ -49,6 +49,7 @@ class SelfPullDateFragment : RecyclerFragment() {
     private var area: String? = ""
     private var areaType: Int? = 1
     private var dateType: String? =""
+    private var mSex:Int= -1
 
     private var pageNum = 1
     private val mFindDates = ArrayList<MyAppointment>()
@@ -118,9 +119,10 @@ class SelfPullDateFragment : RecyclerFragment() {
         getData()
     }
 
-    fun refresh(city: String?, datetype: String) {
+    fun refresh(city: String?, datetype: String,sex:Int= -1) {
         this.area = city
         this.dateType = datetype
+        this.mSex = sex
         pageNum = 1
         getData()
     }

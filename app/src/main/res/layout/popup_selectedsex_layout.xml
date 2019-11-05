@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_ages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!--android:background="@drawable/popup_bg2"-->
+            <TextView
+                android:id="@+id/tv_all"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="8dp"
+                android:lineSpacingExtra="4dp"
+                android:text="全部"
+                android:textColor="@color/color_black"
+                android:textSize="15sp" />
+
+            <ImageView style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_men"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:text="男"/>
+
+            <ImageView style="@style/ImageView_h" />
+
+            <TextView
+                android:id="@+id/tv_women"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_50"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="7dp"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:text="女"/>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>
