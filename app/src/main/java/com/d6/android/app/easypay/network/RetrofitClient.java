@@ -59,9 +59,9 @@ public class RetrofitClient implements NetworkClientInterf {
         if(payParams.getType()==1){
             call = service.postBuyFlower(payParams.getiUserid(),payParams.getiSendUserid(),payParams.getsResourceid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiFlowerCount());
         }else if(payParams.getType() == 0){
-            call = service.postPrePayInfo(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
+            call = service.postPrePayInfo(payParams.getsUserLoginToken(),payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
         }else if(payParams.getType()==2){
-            call = service.postAddUserClass(payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getsAreaName(),payParams.getiUserclassid());
+            call = service.postAddUserClass(payParams.getsUserLoginToken(),payParams.getiUserid(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getsAreaName(),payParams.getiUserclassid());
         }else if(payParams.getType()==3){
             call = service.buyLoveHeart(payParams.getsUserLoginToken(),Integer.valueOf(payParams.getPayWay().toString()),payParams.getGoodsPrice(),payParams.getiPoint());
         }

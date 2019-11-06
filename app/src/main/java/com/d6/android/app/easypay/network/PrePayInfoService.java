@@ -33,13 +33,13 @@ public interface PrePayInfoService {
 
     //创建订单
     @POST("backstage/order/add")
-    Call<ResponseBody> postPrePayInfo(@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iPoint") int iPoint);
+    Call<ResponseBody> postPrePayInfo(@Query("sLoginToken") String sLoginToken,@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iPoint") int iPoint);
 
     @POST("backstage/order/addFlower")
     Call<ResponseBody> postBuyFlower(@Query("iUserid") int iUserid,@Query("iSendUserid") int iSendUserid,@Query("sResourceid") String sResourceid,@Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iFlowerCount") int iFlowerCount);
 
     @POST("backstage/order/addUserClass")
-    Call<ResponseBody> postAddUserClass(@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype,@Query("iPrice") int iPrice,@Query("sAreaName") String sAreaName,@Query("iUserclassid") int iUserclassid);
+    Call<ResponseBody> postAddUserClass(@Query("sLoginToken") String sLoginToken,@Query("iUserid") int iUserid, @Query("iOrdertype") int iOrdertype,@Query("iPrice") int iPrice,@Query("sAreaName") String sAreaName,@Query("iUserclassid") int iUserclassid);
 
     @POST("backstage/order/addLovePoint")
     Call<ResponseBody> buyLoveHeart(@Query("sLoginToken") String sLoginToken, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iLoveCount") int iLoveCount);

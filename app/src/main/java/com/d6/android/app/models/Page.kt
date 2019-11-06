@@ -9,6 +9,7 @@ data class Page<T>(val list:ListBean<T>?){
     var iFollowCount:Int=-1
     var iAllReceiveLovePoint:Int = -1
     var unreadlist:ArrayList<LoveHeartFans>?=null
+    var iMyOrder:Int=-1
 }
 
 data class ListBean<T>(val pageNum:Int? = 1,

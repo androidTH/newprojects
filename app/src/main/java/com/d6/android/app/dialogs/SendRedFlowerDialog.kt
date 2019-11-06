@@ -191,6 +191,7 @@ class SendRedFlowerDialog : DialogFragment() {
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
                 .UserId(userId.toInt())
+                .setSUserLoginToken(getLoginToken())
                 .setSendUserid(receiverUserId.toInt())
                 .setSResourceid(sResourceid)
                 .iFlowerCount(flowerCount)

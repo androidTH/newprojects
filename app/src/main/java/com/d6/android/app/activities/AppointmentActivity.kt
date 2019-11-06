@@ -259,6 +259,8 @@ class AppointmentActivity : BaseActivity() {
             }else{
                 tv_date_sex.text = string
             }
+
+
             getFragment()
         }
 

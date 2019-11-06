@@ -97,7 +97,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         mPushAgent.register(object : IUmengRegisterCallback {
 
             override fun onSuccess(deviceToken: String) {
-                SPUtils.instance().put(Const.User.DEVICETOKEN, deviceToken)
+                SPUtils.instance().put(Const.User.DEVICETOKEN, deviceToken).apply()
                 //注册成功会返回device token ArblO5X82GPZtR8dvWGOMXlPXpdJsOcOdTAoti6gm_ew
             }
 

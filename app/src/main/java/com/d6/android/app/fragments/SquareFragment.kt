@@ -93,14 +93,18 @@ class SquareFragment : RecyclerFragment() {
         squareAdapter.setHeaderView(headerView)
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
-            square.id?.let {
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+            if(square.classesid!=66){
+                square.id?.let {
+                    startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+                }
             }
         }
 
         squareAdapter.setOnSquareDetailsClick { position, square ->
-            square.id?.let {
-                startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+            if(square.classesid!=66){
+                square.id?.let {
+                    startActivityForResult<SquareTrendDetailActivity>(1,"id" to "${it}","position" to position)
+                }
             }
         }
 

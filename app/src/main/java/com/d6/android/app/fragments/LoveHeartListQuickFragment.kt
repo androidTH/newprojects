@@ -1,17 +1,28 @@
 package com.d6.android.app.fragments
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.BangdanListAdapter
 import com.d6.android.app.adapters.RecentlyFansAdapter
 import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.extentions.request
+import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
+import com.d6.android.app.utils.getLevelDrawable
 import com.d6.android.app.utils.getLoginToken
+import com.d6.android.app.utils.getUserSex
 import kotlinx.android.synthetic.main.item_loveheart.view.*
+import kotlinx.android.synthetic.main.item_loveheart.view.tv_name
+import kotlinx.android.synthetic.main.item_loveheart.view.tv_sex
+import kotlinx.android.synthetic.main.item_loveheart.view.tv_userinfo
+import kotlinx.android.synthetic.main.item_loveheart.view.user_headView
+import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.textColor
 
 /**
  * 榜单
@@ -44,16 +55,16 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
     }
 
     private var titleName:String?= ""
-    private var type:String = "1"
+    private var type:Int = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             titleName = it.getString(ARG_PARAM1)
-            type = it.getString(ARG_PARAM2)
+            type = it.getInt(ARG_PARAM2)
         }
     }
-
+    //你开启了在榜单中隐藏身份
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         addItemDecoration(1,R.color.dividing_line_color,0)
@@ -61,11 +72,16 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
     }
 
     override fun onFirstVisibleToUser() {
-            getData()
+        if (type == 1) {
+            headerView.tv_loveheart_title.text = "榜单以送出的 [img src=redheart_small/] 数排名"
+        } else {
+            headerView.tv_loveheart_title.text = "榜单以收到的 [img src=redheart_small/] 数排名"
+        }
+        getData()
     }
 
     private fun getData() {
-        Request.findReceiveLoveList(getLoginToken(),pageNum).request(this) { _, data ->
+        Request.findLoveListing(getLoginToken(),type,pageNum).request(this) { _, data ->
             data?.let {
                 if (pageNum == 1) {
                     mMessages.clear()
@@ -77,25 +93,25 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
                         pageNum--
                     } else {
                         mSwipeRefreshLayout.setLoadMoreText("暂无数据")
-                        headerView.rv_loveheart_top.visibility = View.GONE
+//                        headerView.rv_loveheart_top.visibility = View.GONE
                     }
                 } else {
                     it.list?.results?.let {
                         mMessages.addAll(it)
                     }
 
-                    it.unreadlist?.let { it1 ->
-                        if(it1.size>0){
-                            mHeaderFans.addAll(it1)
-                            mHeaderLikedAdapter.notifyDataSetChanged()
-                        }else{
-                            headerView.rv_loveheart_top.visibility = View.GONE
-                        }
-                    }
+//                    it.unreadlist?.let { it1 ->
+//                        if(it1.size>0){
+////                            mHeaderFans.addAll(it1)
+//                            mHeaderLikedAdapter.notifyDataSetChanged()
+//                        }else{
+////                            headerView.rv_loveheart_top.visibility = View.GONE
+//                        }
+//                    }
 
-                    if(it.unreadlist==null){
-                        headerView.rv_loveheart_top.visibility = View.GONE
-                    }
+//                    if(it.unreadlist==null){
+//                        headerView.rv_loveheart_top.visibility = View.GONE
+//                    }
 
                     if(it.list?.totalPage==1){
                         mSwipeRefreshLayout.setLoadMoreText("没有更多了")
@@ -104,11 +120,64 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
                     }
                 }
                 listAdapter.notifyDataSetChanged()
+                if(it.iMyOrder>=0){
+                    updateTopBangDan(mMessages[it.iMyOrder],it.iMyOrder)
+                }
             }
         }
     }
 
+    private fun updateTopBangDan(loveHearFans:LoveHeartFans,position:Int){
 
+        if(loveHearFans.iListSetting==2){
+            headerView.tv_name.text = "*****"
+            headerView.user_headView.showBlur(loveHearFans.sPicUrl)
+            headerView.tv_userinfo.text = "你开启了在榜单中隐藏身份"
+            headerView.tv_userinfo.visibility = View.VISIBLE
+        }else{
+            headerView.tv_name.text = loveHearFans.sSendUserName
+            headerView.user_headView.setImageURI(loveHearFans.sPicUrl)
+
+            if(!loveHearFans.gexingqianming.isNullOrEmpty()){
+                headerView.tv_userinfo.visibility = View.VISIBLE
+                headerView.tv_userinfo.text = loveHearFans.gexingqianming
+            }else if(!loveHearFans.ziwojieshao.isNullOrEmpty()){
+                headerView.tv_userinfo.text = loveHearFans.ziwojieshao
+                headerView.tv_userinfo.visibility = View.VISIBLE
+            }else{
+                headerView.tv_userinfo.visibility = View.GONE
+            }
+        }
+
+
+        headerView.tv_sex.isSelected = TextUtils.equals("0", loveHearFans.sSex)
+        headerView.tv_sex.text = loveHearFans.nianling
+        if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(loveHearFans.sSex, "0")) {//0 女 1 男
+//            tv_vip.text = String.format("%s", data.userclassesname)
+            headerView.tv_vip.visibility =View.GONE
+        } else {
+//            tv_vip.text = String.format("%s", data.userclassesname)
+            headerView.tv_vip.visibility = View.VISIBLE
+            headerView.tv_vip.backgroundDrawable = getLevelDrawable("${loveHearFans.userclassesid}",context)
+        }
+
+        headerView.tv_receivedliked.text = "${loveHearFans.iAllLovePoint}"
+        if(position==0){
+            headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_FF4500)
+        }else if(position==1){
+            headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_BE34FF)
+        }else if(position==2){
+            headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_34B1FF)
+        }else{
+            headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_888888)
+        }
+
+        if(position<9){
+            headerView.tv_order.text = "0${position+1}"
+        }else{
+            headerView.tv_order.text = "${position+1}"
+        }
+    }
     override fun pullDownRefresh() {
         super.pullDownRefresh()
         pageNum=1
@@ -128,12 +197,12 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: String, param2: Int) =
                 LoveHeartListQuickFragment().apply {
                     arguments = Bundle().apply {
-                        putString(ARG_PARAM2, param2)
 //                        putParcelable(ARG_PARAM1,param1)
                         putString(ARG_PARAM1,param1)
+                        putInt(ARG_PARAM2, param2)
                     }
                 }
     }

@@ -31,8 +31,8 @@ class D6LoveHeartListActivity : BaseActivity() {
         mTitles.add("魅力榜")
         mTitles.add("土豪棒")
 
-        mFragments.add(LoveHeartListQuickFragment.newInstance("魅力榜","1"))
-        mFragments.add(LoveHeartListQuickFragment.newInstance("土豪棒","2"))
+        mFragments.add(LoveHeartListQuickFragment.newInstance("魅力榜",2))
+        mFragments.add(LoveHeartListQuickFragment.newInstance("土豪棒",1))
         viewpager_loveheart.adapter = LoveHeartPageAdapter(supportFragmentManager,mFragments,mTitles)
         viewpager_loveheart.offscreenPageLimit = mFragments.size
 

@@ -56,7 +56,7 @@ interface ApiServices {
     @POST("backstage/imessage/del")
     fun deleteSysMsg(@Query("userid") userid:String,@Query("ids") ids:String?,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
-    @POST("backstage/square/findByPage")
+    @POST("backstage/square/findByPageNew")
     fun getSquareList(@Query("userid") accountId: String, @Query("classesid") classesid: String?, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE, @Query("limit") limit: Int = 0, @Query("sex") sex: Int = 2,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<Square>>>
 
     @POST("backstage/square/find")
@@ -254,7 +254,7 @@ interface ApiServices {
 
     //自主约会
     @POST("backstage/appointment/findAppointmentListByPage")
-    fun findAppointmentList(@Query("iUserid") userid:String, @Query("iAppointType") iAppointType:String?, @Query("sPlace") sPlace:String?, @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<MyAppointment>>>;
+    fun findAppointmentList(@Query("iUserid") userid:String, @Query("iAppointType") iAppointType:String?, @Query("sPlace") sPlace:String?,@Query("sex") sex:String, @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<MyAppointment>>>;
 
     //我的约会
     @POST("backstage/appointment/findMyAppointmentListByPage")
@@ -511,9 +511,8 @@ interface ApiServices {
     fun findTopicBannerList(@Query("sLoginToken")sLoginToken:String):Flowable<Response<TopicList<TopicBean>>>
 
     //动态查询
-    @POST("backstage/square/findByPage")
+    @POST("backstage/square/findByPageNew")
     fun getFindSquareList(@Query("userid") accountId: String, @Query("classesid") classesid: String?, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE, @Query("limit") limit: Int = 0, @Query("sex") sex: Int = 2, @Query("sTopicId") sTopicId:String, @Query("sCity") sCity:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<Square>>>
-
 
     //2.10.0接口
     @POST("backstage/userclasses/find")
@@ -555,4 +554,14 @@ interface ApiServices {
     //
     @POST("backstage/userloverule/findReceiveLoveListByUserid")
     fun findReceiveLoveHeartList(@Query("iUserid") iUserid:String,@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 20,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
+
+    //更新用户是否显示在榜单中
+    @POST("backstage/account/updateListSetting")
+    fun updateListSetting(@Query("sLoginToken")sLoginToken:String, @Query("iListSetting") iListSetting:Int, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @POST("backstage/account/updateSendPointShow")
+    fun updateSendPointShow(@Query("sLoginToken")sLoginToken:String, @Query("iSendPointShow") iSendPointShow:Int, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @POST("backstage/userloverule/findLoveListing")
+    fun findLoveListing(@Query("sLoginToken")sLoginToken:String, @Query("iSex") iSex:Int,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 20,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
 }

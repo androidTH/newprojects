@@ -7,23 +7,25 @@ import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.dialogs.SendRedFlowerDialog
-import com.d6.android.app.dialogs.SendRedHeartEndDialog
-import com.d6.android.app.dialogs.ShareFriendsDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.DateOfSquareView
 import com.d6.android.app.widget.TrendView
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
+import com.umeng.socialize.utils.Log.toast
 import kotlinx.android.synthetic.main.item_audio.view.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
+import org.json.JSONObject
 
 /**
  *
@@ -36,15 +38,16 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
         val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
-        if(position%2==0){
+        if(data.classesid==66){
+            dateofsquare_view.visibility = View.VISIBLE
+            trendView.visibility = View.GONE
+            dateofsquare_view.update(data)
+        }else{
             dateofsquare_view.visibility = View.GONE
             trendView.visibility = View.VISIBLE
             trendView.update(data)
-        }else{
-            dateofsquare_view.visibility = View.VISIBLE
-            trendView.visibility = View.GONE
-//            dateofsquare_view.update()
         }
+
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {
                 cancelPraise(data)
@@ -93,6 +96,24 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
             mOnSquareAudioTogglePlay?.onSquareAudioPlayClick(position,it)
         }
 
+
+        dateofsquare_view.sendDateListener {
+            var appointment = it
+            isBaseActivity {
+                it.isAuthUser {
+                    if(!TextUtils.equals(getLocalUserId(),appointment.userid)){
+                        signUpDate(appointment)
+                    }else{
+                       it.toast("自己的约会禁止邀约")
+                    }
+                }
+            }
+        }
+
+        dateofsquare_view.setDeleteClick {
+            doReport("${it.userid}","${it.sAppointmentId}",it.iIsAnonymous!!.toInt(),data)
+        }
+
 //        trendView.startPlayAudioView(trendView.iv_playaudio)
     }
 
@@ -125,6 +146,67 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
                 square.iLovePoint = square.iLovePoint!!.toInt()-lovePoint
                 square.iSendLovePoint = -1
                 notifyDataSetChanged()
+            }
+        }
+    }
+
+    private fun signUpDate(myAppointment:Square) {
+        Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.userid}").request(context as BaseActivity, false, success = { msg, data ->
+            val dateDialog = OpenDateDialog()
+            var appoinment = MyAppointment(myAppointment.id)
+            appoinment.iAppointUserid = myAppointment.userid?.toInt()
+            appoinment.sAppointUserName = myAppointment.name
+            dateDialog.arguments = bundleOf("data" to appoinment, "explain" to data!!)
+            dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+//            var dateInfo = RengGongDialog()
+//            var dateInfo = SelfDateDialog()
+//            dateInfo.show((context as BaseActivity).supportFragmentManager, "rg")
+            dateDialog.setDialogListener { p, s ->
+                mData.remove(myAppointment)
+                notifyDataSetChanged()
+            }
+        }) { code, msg ->
+            if (code == 2) {
+                var openErrorDialog = OpenDateErrorDialog()
+                var jsonObject = JSONObject(msg)
+                var resMsg = jsonObject.optString("resMsg")
+                openErrorDialog.arguments = bundleOf("code" to code, "msg" to resMsg)
+                openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            }else if(code==3){
+                var  mDialogYesOrNo = DialogYesOrNo()
+                var appoinment = MyAppointment(myAppointment.id)
+                appoinment.iAppointUserid = myAppointment.userid?.toInt()
+                appoinment.sAppointUserName = myAppointment.name
+                mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg,"data" to appoinment)
+                mDialogYesOrNo.show((context as BaseActivity).supportFragmentManager, "dialogyesorno")
+                mDialogYesOrNo.setDialogListener { p, s ->
+                    mData.remove(myAppointment)
+                    notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
+    private fun doReport(userid:String,sDateId:String,iType:Int,data:Square){
+        val squareActionDialog = ShareFriendsDialog()
+        squareActionDialog.arguments = bundleOf("from" to "selfPullDate","id" to userid,"sResourceId" to sDateId)
+        squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
+        squareActionDialog.setDialogListener { p, s ->
+            if (p == 0) {
+                mData?.let {
+                    startActivity(sDateId, "3")
+                }
+            }else if(p==2){
+                isBaseActivity {
+                    Request.addBlackList(userId, userid,iType).request(it) { _, _ ->
+                        CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
+                    }
+                }
+            }else if(p==1){
+                isBaseActivity {
+                    //删除的方法
+                    delete(data)
+                }
             }
         }
     }

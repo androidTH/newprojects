@@ -245,6 +245,7 @@ class SendLoveHeartDialog : DialogFragment() {
                 .payWay(PayWay.WechatPay)
                 .UserId(getLocalUserId().toInt())
                 .setSendUserid(receiverUserId.toInt())
+                .setSUserLoginToken(getLoginToken())
                 .setSResourceid(sResourceid)
                 .iFlowerCount(flowerCount)
                 .goodsPrice(flowerCount)// 单位为：分 pointRule.iPrice

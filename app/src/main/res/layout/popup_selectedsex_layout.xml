@@ -43,7 +43,7 @@
                 android:paddingTop="7dp"
                 android:textColor="@color/color_black"
                 android:textSize="15sp"
-                android:text="男"/>
+                android:text="只看男生"/>
 
             <ImageView style="@style/ImageView_h" />
 
@@ -60,7 +60,7 @@
                 android:paddingTop="7dp"
                 android:textColor="@color/color_black"
                 android:textSize="15sp"
-                android:text="女"/>
+                android:text="只看女生"/>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

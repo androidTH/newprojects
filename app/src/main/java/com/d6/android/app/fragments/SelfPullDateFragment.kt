@@ -49,7 +49,7 @@ class SelfPullDateFragment : RecyclerFragment() {
     private var area: String? = ""
     private var areaType: Int? = 1
     private var dateType: String? =""
-    private var mSex:Int= -1
+    private var mSex:String = ""
 
     private var pageNum = 1
     private val mFindDates = ArrayList<MyAppointment>()
@@ -122,13 +122,17 @@ class SelfPullDateFragment : RecyclerFragment() {
     fun refresh(city: String?, datetype: String,sex:Int= -1) {
         this.area = city
         this.dateType = datetype
-        this.mSex = sex
+        this.mSex = if(sex!=-1){
+            "${sex}"
+        }else{
+            ""
+        }
         pageNum = 1
         getData()
     }
 
     private fun getData() {
-        Request.findAppointmentList(userId,dateType,area,pageNum).request(this) { _, data ->
+        Request.findAppointmentList(userId,dateType,area,"${mSex}",pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFindDates.clear()
 //                mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)

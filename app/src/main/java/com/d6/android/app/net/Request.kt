@@ -326,7 +326,7 @@ object Request {
     fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?,sAppointUser:String,iIsAnonymous:Int)=RRetrofit.instance().
             create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic,sAppointUser,iIsAnonymous)
     //自主约会
-    fun findAppointmentList(userid: String,iAppointType:String?, sPlace:String?,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAppointmentList(userid,iAppointType ,sPlace,pageNum)
+    fun findAppointmentList(userid: String,iAppointType:String?, sPlace:String?,sex:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAppointmentList(userid,iAppointType ,sPlace,sex,pageNum)
 
     //我的约会
     fun findMyAppointmentList(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findMyAppointmentList(userid , pageNum)
@@ -534,5 +534,11 @@ object Request {
     fun updateCardIsFind(sLoginToken:String, iIsFind:Int)=RRetrofit.instance().create(ApiServices::class.java).updateCardIsFind(sLoginToken,iIsFind)
 
     fun findReceiveLoveHeartList(iUserid:String,sLoginToken:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findReceiveLoveHeartList(iUserid,sLoginToken,pageNum)
+
+    fun updateListSetting(sLoginToken:String,iListSetting:Int) = RRetrofit.instance().create(ApiServices::class.java).updateListSetting(sLoginToken,iListSetting)
+
+    fun updateSendPointShow(sLoginToken:String,iSendPointShow:Int) = RRetrofit.instance().create(ApiServices::class.java).updateSendPointShow(sLoginToken,iSendPointShow)
+
+    fun findLoveListing(sLoginToken:String,iSex:Int,pageNum: Int = 1)= RRetrofit.instance().create(ApiServices::class.java).findLoveListing(sLoginToken,iSex,pageNum)
 
 }

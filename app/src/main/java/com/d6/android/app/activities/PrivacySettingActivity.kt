@@ -38,17 +38,17 @@ class PrivacySettingActivity : BaseActivity() {
 
         sw_list_off.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-
+                updateListSetting(1)
             }else{
-
+                updateListSetting(2)
             }
         }
 
         sw_loveisvisible.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-
+                updateSendPointShow(1)
             }else{
-
+                updateSendPointShow(2)
             }
         }
 
@@ -62,6 +62,18 @@ class PrivacySettingActivity : BaseActivity() {
                     sw_card_off.isChecked = true
                 }else{
                     sw_card_off.isChecked = false
+                }
+
+                if(it.iListSetting==1){
+                    sw_list_off.isChecked = true
+                }else{
+                    sw_list_off.isChecked = false
+                }
+
+                if(it.iSendPointShow==1){
+                    sw_loveisvisible.isChecked = true
+                }else{
+                    sw_loveisvisible.isChecked = false
                 }
 
             }
@@ -78,4 +90,15 @@ class PrivacySettingActivity : BaseActivity() {
         })
     }
 
+    private fun updateListSetting(iListSetting:Int){
+        Request.updateListSetting(getLoginToken(),iListSetting).request(this,false,success={_,data->
+
+        })
+    }
+
+    private fun updateSendPointShow(iSendPointShow:Int){
+        Request.updateSendPointShow(getLoginToken(),iSendPointShow).request(this,false,success={_,data->
+
+        })
+    }
 }

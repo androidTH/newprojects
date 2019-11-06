@@ -49,4 +49,11 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var sVideoHeight:String = ""
     var iLovePoint:Int? = -1
     var iSendLovePoint:Int?=0 //0表示已赠送
+
+    var classesid:Int?=-1 //66约会
+    var sAppointmentId:String?=""
+    var iAppointType:Int?=-1 //约会类型
+    var dEndtime:Long =0  //"dEndtime":1539855678000,//约会截至时间
+    var dStarttime:Long = 0
+    var iAppointmentSignupCount:Int?=-1
 }

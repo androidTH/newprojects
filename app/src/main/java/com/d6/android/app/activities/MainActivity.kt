@@ -759,7 +759,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 mExitTime = System.currentTimeMillis()
             } else {
                 moveTaskToBack(true)
-//                finish()
+                finish()
             }
             return true
         }

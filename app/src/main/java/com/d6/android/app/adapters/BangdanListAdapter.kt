@@ -18,6 +18,7 @@ import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.textColor
 
 /**
  *粉丝
@@ -35,8 +36,8 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
 
-        if(data.iIsCode==1){
-            holder.setText(R.id.tv_name,"****")
+        if(data.iListSetting==2){
+            holder.setText(R.id.tv_name,"*****")
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
             headView.setImageURI(data.sPicUrl)
             headView.showBlur(data.sPicUrl)
@@ -59,6 +60,8 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
                 tv_userinfo.visibility = View.GONE
             }
         }
+
+
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         tv_sex.text = data.nianling
@@ -76,7 +79,21 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
         tv_receivedliked.text = "${data.iAllLovePoint}"
 
         var tv_order = holder.bind<TextView>(R.id.tv_order)
-        tv_order.text = "${position}"
+        if(position==0){
+            tv_order.textColor = ContextCompat.getColor(context,R.color.color_FF4500)
+        }else if(position==1){
+            tv_order.textColor = ContextCompat.getColor(context,R.color.color_BE34FF)
+        }else if(position==2){
+            tv_order.textColor = ContextCompat.getColor(context,R.color.color_34B1FF)
+        }else{
+            tv_order.textColor = ContextCompat.getColor(context,R.color.color_888888)
+        }
+
+        if(position<9){
+            tv_order.text = "0${position+1}"
+        }else{
+            tv_order.text = "${position+1}"
+        }
     }
 
     override fun onClick(v: View?) {

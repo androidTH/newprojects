@@ -20,7 +20,7 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
-import kotlinx.android.synthetic.main.view_self_release_view.view.*
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
@@ -31,7 +31,7 @@ import org.jetbrains.anko.startActivity
  */
 class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
 
-    private var myDate: MyAppointment? = null
+    private var myDate: Square? = null
     private val mImages = ArrayList<String>()
     private val imageAdapter by lazy {
         SelfReleaselmageAdapter(mImages,1)
@@ -44,15 +44,15 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
         rv_images.adapter = imageAdapter
     }
 
-    fun update(myAppointment: MyAppointment) {
+    fun update(date: Square) {
         this.myDate = myDate
-        headView.setImageURI(myAppointment.sAppointmentPicUrl)
-        tv_name.text = myAppointment.sAppointUserName
-        tv_date_user_sex.isSelected = myAppointment.iSex == 0
+        headView.setImageURI(date.picUrl)
+        tv_name.text = date.name
+        tv_date_user_sex.isSelected = TextUtils.equals("0",date.sex)
         headView.setOnClickListener(OnClickListener {
-            val id =myAppointment.iAppointUserid
+            val id = date.userid
             isBaseActivity {
-                if(myAppointment.iIsAnonymous==1){
+                if(date.iIsAnonymous==1){
                     var mUnknowDialog = UnKnowInfoDialog()
                     mUnknowDialog.arguments = bundleOf("otheruserId" to id.toString())
                     mUnknowDialog.show(it.supportFragmentManager,"unknowDialog")
@@ -62,8 +62,8 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         })
 
-        tv_datetype_name.text = Const.dateTypes[myAppointment.iAppointType!!.toInt()-1]
-        var index = myAppointment.iAppointType!!.toInt()-1
+        tv_datetype_name.text = Const.dateTypes[date.iAppointType!!.toInt()-1]
+        var index = date.iAppointType!!.toInt()-1
         if(index!= Const.dateTypesBig.size){
             var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[index])
             drawable?.setBounds(0, 0, drawable?.getMinimumWidth(), drawable?.getMinimumHeight());// 设置边界
@@ -71,32 +71,41 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
         }
 
-        if(!myAppointment.iAge.toString().isNullOrEmpty()){
-            if(myAppointment.iAge!=null){
-                myAppointment.iAge?.let {
-                    if(it>0){
-//                        sb.append("${myAppointment.iAge}岁")
-                        tv_date_user_sex.text = "${myAppointment.iAge}"
-                    }
+        if(!date.age.toString().isNullOrEmpty()){
+            if(date.age!=null){
+                date.age?.let {
+                    tv_date_user_sex.text = "${date.age}"
+//                    if(it>0){
+//                        tv_date_user_sex.text = "${date.age}"
+//                    }
                 }
             }
         }
 
-        var time = converTime(myAppointment.dEndtime)
-        tv_time_long.text="倒计时：${time}"
+        var time = converToDays(date.dEndtime)
+        if(time>0){
+            tv_time_long.visibility = View.VISIBLE
+            tv_send_date.visibility = View.VISIBLE
+            iv_date_timeout.visibility = View.GONE
+            tv_time_long.text="倒计时：${time}天"
+        }else{
+            tv_time_long.visibility = View.GONE
+            tv_send_date.visibility = View.GONE
+            iv_date_timeout.visibility = View.VISIBLE
+        }
 
-        tv_self_address.text = "约会地点：${myAppointment.sPlace}"
+        tv_self_address.text = "约会地点：${date.city}"
 
-        tv_content.text = myAppointment.sDesc
+        tv_content.text = date.content
 
-        if (myAppointment.sAppointPic.isNullOrEmpty()) {
+        if (date.imgUrl.isNullOrEmpty()) {
             rv_images.gone()
         } else {
             rv_images.visible()
         }
 
         mImages.clear()
-        val images = myAppointment.sAppointPic?.split(",")
+        val images = date.imgUrl?.split(",")
         if (images != null) {
             mImages.addAll(images.toList())
         }
@@ -104,28 +113,28 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
         imageAdapter.notifyDataSetChanged()
         tv_send_date.setOnClickListener {
             mSendDateClick?.let {
-                it.onDateClick(myAppointment)
+                it.onDateClick(date)
             }
         }
         tv_date_more.setOnClickListener {
             deleteAction?.let {
-                it.onDelete(myAppointment)
+                it.onDelete(date)
             }
         }
 
-        tv_date_vip.backgroundDrawable = getLevelDrawable(myAppointment.userclassesid.toString(),context)
+        tv_date_vip.backgroundDrawable = getLevelDrawable(date.userclassesid.toString(),context)
 
-        if(TextUtils.equals(CustomerServiceId,myAppointment.iAppointUserid.toString())||TextUtils.equals(CustomerServiceWomenId,myAppointment.iAppointUserid.toString())){
+        if(TextUtils.equals(CustomerServiceId,date.userid.toString())||TextUtils.equals(CustomerServiceWomenId,date.userid.toString())){
             iv_self_servicesign.visibility = View.VISIBLE
             img_self_auther.visibility = View.GONE
         }else{
             iv_self_servicesign.visibility = View.GONE
-            if(TextUtils.equals("0",myAppointment!!.screen)|| myAppointment!!.screen.isNullOrEmpty()){
+            if(TextUtils.equals("0",date!!.screen)|| date!!.screen.isNullOrEmpty()){
                 img_self_auther.visibility = View.GONE
-            }else if(TextUtils.equals("1",myAppointment!!.screen)){
+            }else if(TextUtils.equals("1",date!!.screen)){
                 img_self_auther.visibility = View.VISIBLE
                 img_self_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.video_small)
-            }else if(TextUtils.equals("3",myAppointment!!.screen)){
+            }else if(TextUtils.equals("3",date!!.screen)){
                 img_self_auther.visibility = View.GONE
                 img_self_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.renzheng_small)
             }else{
@@ -133,7 +142,7 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        myAppointment.iAppointmentSignupCount?.let {
+        date.iAppointmentSignupCount?.let {
             if(it>0){
                 tv_date_nums.text = "累计${it}人邀约"
             }else{
@@ -142,17 +151,17 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
     }
 
-    public fun sendDateListener(action:(myAppointment: MyAppointment)->Unit) {
+    public fun sendDateListener(action:(myAppointment: Square)->Unit) {
         mSendDateClick = object : sendDateClickListener {
-            override fun onDateClick(myAppointment: MyAppointment) {
+            override fun onDateClick(myAppointment: Square) {
                 action(myAppointment)
             }
         }
     }
 
-    fun setDeleteClick(action:(myAppointment: MyAppointment)->Unit){
+    fun setDeleteClick(action:(myAppointment: Square)->Unit){
         this.deleteAction = object :DeleteClick {
-            override fun onDelete(myAppointment: MyAppointment) {
+            override fun onDelete(myAppointment: Square) {
                 action(myAppointment)
             }
         }
@@ -162,11 +171,11 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
     private var deleteAction: DeleteClick?=null
 
     interface sendDateClickListener{
-        fun onDateClick(myAppointment: MyAppointment)
+        fun onDateClick(myAppointment: Square)
     }
 
     interface DeleteClick{
-        fun onDelete(myAppointment: MyAppointment)
+        fun onDelete(myAppointment: Square)
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {

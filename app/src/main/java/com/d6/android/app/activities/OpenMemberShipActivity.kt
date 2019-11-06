@@ -282,6 +282,7 @@ class OpenMemberShipActivity : BaseActivity() {
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
                 .UserId(userId.toInt())
+                .setSUserLoginToken(getLoginToken())
                 .goodsPrice(price)// 单位为：分 pointRule.iPrice
                 .goodsName(userclassname)
                 .goodsIntroduction("会员等级充值")

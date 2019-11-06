@@ -117,6 +117,16 @@ fun isDateOneBigger(str1:String,str2:String):Boolean{
     return isBigger
 }
 
+fun converToDays(timestamp: Long): Long {
+    val currentSeconds = System.currentTimeMillis()
+    val timeGap = (timestamp -currentSeconds)/1000 // 与现在时间相差秒数
+    var timeStr: Long = 0
+    if (timeGap > 24 * 60 * 60) {// 1天以上
+        timeStr = (timeGap / (24 * 60 * 60))
+    }
+    return timeStr
+}
+
 fun converTime(timestamp: Long): String {
     val currentSeconds = System.currentTimeMillis()
     val timeGap = (timestamp -currentSeconds)/1000 // 与现在时间相差秒数
