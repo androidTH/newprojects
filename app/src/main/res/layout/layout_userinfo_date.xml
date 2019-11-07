@@ -206,5 +206,14 @@
                 android:drawableLeft="@mipmap/date_button"
                 android:textColor="@color/color_333333" />
         </RelativeLayout>
+        <ImageView
+            android:id="@+id/iv_date_timeout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-20dp"
+            android:layout_below="@+id/ll_content"
+            android:layout_marginRight="@dimen/margin_8"
+            android:src="@mipmap/yiguoqi_bg"/>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

@@ -551,7 +551,7 @@ interface ApiServices {
     @POST("backstage/account/updateCardIsFind")
     fun updateCardIsFind(@Query("sLoginToken")sLoginToken:String, @Query("iIsFind")iIsFind:Int, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
-    //
+    //3.0.0
     @POST("backstage/userloverule/findReceiveLoveListByUserid")
     fun findReceiveLoveHeartList(@Query("iUserid") iUserid:String,@Query("sLoginToken")sLoginToken:String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 20,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
 
@@ -564,4 +564,8 @@ interface ApiServices {
 
     @POST("backstage/userloverule/findLoveListing")
     fun findLoveListing(@Query("sLoginToken")sLoginToken:String, @Query("iSex") iSex:Int,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 20,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
+
+    //混合流广场顶部数据
+    @POST("backstage/square/findSquareTop")
+    fun findSquareTop(@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }

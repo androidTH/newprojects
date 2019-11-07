@@ -82,12 +82,20 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        var time = converToDays(date.dEndtime)
-        if(time>0){
-            tv_time_long.visibility = View.VISIBLE
-            tv_send_date.visibility = View.VISIBLE
-            iv_date_timeout.visibility = View.GONE
-            tv_time_long.text="倒计时：${time}天"
+        var time  = converToDays(date.dEndtime)
+        tv_time_long.visibility = View.VISIBLE
+        tv_send_date.visibility = View.VISIBLE
+        iv_date_timeout.visibility = View.GONE
+        if(time[0]==1){
+            tv_time_long.text="倒计时：${time[1]}天"
+        }else if(time[0]==2){
+            tv_time_long.text="倒计时：${time[1]}小时"
+        }else if(time[0]==3){
+            tv_time_long.text="倒计时：${time[1]}分钟"
+        }else if(time[0]==-1){
+            tv_time_long.visibility = View.GONE
+            tv_send_date.visibility = View.GONE
+            iv_date_timeout.visibility = View.VISIBLE
         }else{
             tv_time_long.visibility = View.GONE
             tv_send_date.visibility = View.GONE

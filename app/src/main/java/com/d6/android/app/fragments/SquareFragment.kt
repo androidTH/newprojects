@@ -148,10 +148,6 @@ class SquareFragment : RecyclerFragment() {
             startActivity<D6LoveHeartListActivity>()
         }
 
-        headerView.sv_date01.setImageURI(getLocalUserHeadPic())
-        headerView.sv_date02.setImageURI(getLocalUserHeadPic())
-        headerView.sv_date03.setImageURI(getLocalUserHeadPic())
-
         mIsDismissDialog = true
         getData()
         getTopicBanner()
@@ -162,12 +158,14 @@ class SquareFragment : RecyclerFragment() {
     private fun getTopicBanner(){
         Request.findTopicBannerList(getLoginToken()).request(this,false,success={_,data->
             if(data!=null){
+                mSquareTypes.clear()
                 data.list?.let {
                     mSquareTypes.addAll(it)
                     headerView.rv_choose_squaretype.adapter = mSquareTypeAdapter
                 }
             }
         })
+        getSquareTop()
     }
 
     //筛选
@@ -222,10 +220,34 @@ class SquareFragment : RecyclerFragment() {
         }
     }
 
+    private fun getSquareTop(){
+        Request.findSquareTop().request(this,false,success={_,data->
+              data?.let {
+                  var iAppointmentSignupCount = it.optInt("iAppointmentSignupCount")
+                  headerView.tv_date_count.text = "已有${iAppointmentSignupCount}人约会成功"
+                  var coverurl = it.optString("coverurl")
+                  var picUrl = it.optString("picUrl")
+                  if(coverurl.isNotEmpty()){
+                      var imglist = coverurl.split(",")
+                      headerView.sv_date01.setImageURI(imglist[0])
+                      headerView.sv_date02.setImageURI(imglist[1])
+                      headerView.sv_date03.setImageURI(imglist[2])
+                  }
+                  if(picUrl.isNotEmpty()){
+                      var imglist = picUrl.split(",")
+                      headerView.sv_list01.setImageURI(imglist[0])
+                      headerView.sv_list02.setImageURI(imglist[1])
+                      headerView.sv_list03.setImageURI(imglist[2])
+                  }
+              }
+        })
+    }
+
     private fun getData() {
         if (pageNum == 1) {
 //            getBanner()
             mIsDismissDialog = false
+            getTopicBanner()
             getSquareList()
         }
     }

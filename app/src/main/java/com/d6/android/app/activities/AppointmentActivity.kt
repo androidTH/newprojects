@@ -4,7 +4,6 @@ import android.Manifest
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
-import android.view.Gravity
 import android.view.View
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
@@ -31,6 +30,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_appointment.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.startActivityForResult
 
 /**
  * 约会
@@ -97,6 +97,12 @@ class AppointmentActivity : BaseActivity() {
                 if(IsNotNullPopupSex()){
                     showSex()
                 }
+            }
+        }
+
+        tv_add_date.setOnClickListener {
+            isCheckOnLineAuthUser(this, getLocalUserId()){
+                startActivityForResult<PublishFindDateActivity>(10)
             }
         }
 

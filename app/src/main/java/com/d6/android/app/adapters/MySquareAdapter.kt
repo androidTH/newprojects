@@ -108,7 +108,12 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         }
 
         dateofsquare_view.setDeleteClick {
-            doReport("${it.userid}","${it.sAppointmentId}",it.iIsAnonymous!!.toInt(),data)
+            if(it.iIsAnonymous!=null){
+                doReport("${it.userid}","${it.sAppointmentId}",it.iIsAnonymous!!.toInt(),data)
+            }else{
+                doReport("${it.userid}","${it.sAppointmentId}",2,data)
+            }
+
         }
     }
 

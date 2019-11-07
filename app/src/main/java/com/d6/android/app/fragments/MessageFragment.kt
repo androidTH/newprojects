@@ -380,20 +380,27 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                     } else {
                         data.count.toString()
                     }
-                    if ((data.count ?: 0) > 0) {
-                        headerView.iv2_square_num.visibility = View.VISIBLE
-                        headerView.iv2_square_num.text = c
-                    } else {
-                        headerView.iv2_square_num.visibility = View.GONE
+                    if(IsNotNullHeaderiew()){
+                        if ((data.count ?: 0) > 0) {
+                            headerView.iv2_square_num.visibility = View.VISIBLE
+                            headerView.iv2_square_num.text = c
+                        } else {
+                            headerView.iv2_square_num.visibility = View.GONE
+                        }
                     }
                     var squaremsg = it.results[0];
                     if(squaremsg.content.isNullOrEmpty()){
-                        headerView.tv_content2.text = squaremsg.title
+                        if(IsNotNullHeaderiew()){
+                            headerView.tv_content2.text = squaremsg.title
+                        }
                     }else{
-                        headerView.tv_content2.text = squaremsg.content
+                        if(IsNotNullHeaderiew()){
+                            headerView.tv_content2.text = squaremsg.content
+                        }
                     }
-
-                    headerView.tv_squaremsg_time.text = DateToolUtils.getConversationFormatDate(squaremsg.createTime!!.toLong(),false, context)
+                    if(IsNotNullHeaderiew()){
+                        headerView.tv_squaremsg_time.text = DateToolUtils.getConversationFormatDate(squaremsg.createTime!!.toLong(),false, context)
+                    }
                 }
             }
         }

@@ -541,4 +541,5 @@ object Request {
 
     fun findLoveListing(sLoginToken:String,iSex:Int,pageNum: Int = 1)= RRetrofit.instance().create(ApiServices::class.java).findLoveListing(sLoginToken,iSex,pageNum)
 
+    fun findSquareTop()=RRetrofit.instance().create(ApiServices::class.java).findSquareTop()
 }

@@ -118,7 +118,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:text="已有2864人约会成功"
                 android:textColor="@color/color_BFFFFFFF"
                 android:layout_marginBottom="@dimen/margin_6"
                 android:layout_marginLeft="@dimen/margin_10"

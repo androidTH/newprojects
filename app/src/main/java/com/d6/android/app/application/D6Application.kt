@@ -105,7 +105,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             }
         })
 
-        if (applicationInfo.packageName == getCurProcessName(applicationContext)) {
+        if (applicationInfo.packageName.equals(getCurProcessName(applicationContext))) {
 //            RongPushClient.registerHWPush(this);
             var config = PushConfig.Builder().enableMiPush(Const.XIAOMIAPPID, Const.XIAOMIAPPKEY).build()
             RongPushClient.setPushConfig(config)

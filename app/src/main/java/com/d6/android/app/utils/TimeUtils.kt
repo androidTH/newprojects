@@ -1,6 +1,7 @@
 package com.d6.android.app.utils
 
 import android.content.Context
+import android.util.SparseArray
 import com.umeng.message.common.UmengMessageDeviceConfig.getTimeString
 import io.rong.imkit.R
 import io.rong.imkit.utils.RongDateUtils
@@ -8,6 +9,7 @@ import io.rong.imkit.utils.RongDateUtils.judgeDate
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 时间处理
@@ -117,12 +119,26 @@ fun isDateOneBigger(str1:String,str2:String):Boolean{
     return isBigger
 }
 
-fun converToDays(timestamp: Long): Long {
+fun converToDays(timestamp: Long): ArrayList<Int> {
     val currentSeconds = System.currentTimeMillis()
     val timeGap = (timestamp -currentSeconds)/1000 // 与现在时间相差秒数
-    var timeStr: Long = 0
+    var timeStr:ArrayList<Int> = ArrayList()
     if (timeGap > 24 * 60 * 60) {// 1天以上
-        timeStr = (timeGap / (24 * 60 * 60))
+        var time =  (timeGap / (24 * 60 * 60))
+        timeStr.add(1)
+        timeStr.add(time.toInt())
+    }else if (timeGap > 60 * 60) {// 1小时-24小时
+        var time = (timeGap / (60 * 60)) //小时
+        timeStr.add(2)
+        timeStr.add(time.toInt())
+    } else if (timeGap > 60) {// 1分钟-59分钟
+        var time = (timeGap / 60) //+ "分钟"
+        timeStr.add(3)
+        timeStr.add(time.toInt())
+    } else {// 1秒钟-59秒钟
+        var time:Long = -1 //0 秒
+        timeStr.add(time.toInt())
+        timeStr.add(time.toInt())
     }
     return timeStr
 }

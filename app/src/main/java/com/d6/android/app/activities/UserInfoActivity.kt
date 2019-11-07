@@ -533,8 +533,21 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             headerView.tv_sub_title.visibility = View.GONE
         }
 
-        var time = converTime(myAppointment.dEndtime)
-        headerView.tv_time_long.text = "倒计时·${time}"
+        var time  = converToDays(myAppointment.dEndtime)
+        if(time[0]==1){
+            headerView.tv_time_long.text = "倒计时·${time[1]}天"
+            headerView.iv_date_timeout.visibility = View.GONE
+        }else if(time[0]==2){
+            headerView.tv_time_long.text = "倒计时·${time[1]}小时"
+            headerView.iv_date_timeout.visibility = View.GONE
+        }else if(time[0]==3){
+            headerView.tv_time_long.text = "倒计时·${time[1]}分钟"
+            headerView.iv_date_timeout.visibility = View.GONE
+        }else{
+            headerView.tv_time_long.visibility = View.GONE
+            headerView.tv_send_date.visibility = View.GONE
+            headerView.iv_date_timeout.visibility = View.VISIBLE
+        }
 
         headerView.tv_self_address.text = "约会地点·${myAppointment.sPlace}"
 
@@ -739,15 +752,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 squareAdapter.setUserInfo(mData!!)
                 getTrendData()
 
-                if (it.appointment != null) {
-                    headerView.rl_userinfo_date.visibility = View.VISIBLE
-                    headerView.date_headView.setImageURI(it.picUrl)
-                    headerView.tv_name.text = it.name
-                    headerView.tv_user_date_sex.isSelected = TextUtils.equals("0", it.sex)
-                    setDateInfo(it.appointment)
-                } else {
-                    headerView.rl_userinfo_date.visibility = View.GONE
-                }
+//                if (it.appointment != null) {
+//                    headerView.rl_userinfo_date.visibility = View.VISIBLE
+//                    headerView.date_headView.setImageURI(it.picUrl)
+//                    headerView.tv_name.text = it.name
+//                    headerView.tv_user_date_sex.isSelected = TextUtils.equals("0", it.sex)
+//                    setDateInfo(it.appointment)
+//                } else {
+//                    headerView.rl_userinfo_date.visibility = View.GONE
+//                }
 
                 if (data.iIsFollow != null) {
                     if (data.iIsFollow == 1) {
