@@ -1,4 +1,5 @@
 package com.d6.android.app.rong.plugin;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.DefaultExtensionModule;
@@ -6,6 +7,8 @@ import io.rong.imkit.RongExtension;
 import io.rong.imkit.emoticon.IEmoticonTab;
 import io.rong.imkit.plugin.CombineLocationPlugin;
 import io.rong.imkit.plugin.IPluginModule;
+import io.rong.imkit.plugin.ImagePlugin;
+import io.rong.imkit.widget.provider.FilePlugin;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 
@@ -76,12 +79,17 @@ public class D6ExtensionModule extends DefaultExtensionModule {
 //                }
 //            }
 //            return pluginModules;
-//        } else {
+//        } else {MyDateListActivity
 //            return super.getPluginModules(conversationType);
 //        }
-        List<IPluginModule> pluginModuleList = super.getPluginModules(conversationType);
+//        List<IPluginModule> pluginModuleList = super.getPluginModules(conversationType);
 //        pluginModuleList.add(new CombineLocationPlugin());
-        pluginModuleList.add(new FlowerPluginModule());
+//        pluginModuleList.add(new FlowerPluginModule());
+
+        List<IPluginModule> pluginModuleList = new ArrayList<>();
+        pluginModuleList.add(new ImagePlugin());
+        pluginModuleList.add(new FilePlugin());
+//        pluginModuleList.add(new FlowerPluginModule());
         return pluginModuleList;
 //        return super.getPluginModules(conversationType);
     }

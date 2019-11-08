@@ -626,16 +626,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     }
                     mRecyclerView.adapter.notifyDataSetChanged()
                     if(pageNum!=1){
-                        try{
-                            mRecyclerView.postDelayed(object:Runnable{
-                                override fun run() {
-                                    scrollPosition = mRecyclerView.currentItem + 1
+                        mRecyclerView.postDelayed(object : Runnable {
+                            override fun run() {
+                                scrollPosition = mRecyclerView.currentItem + 1
+                                if (mDates.size > scrollPosition) {
                                     mRecyclerView.smoothScrollToPosition(scrollPosition)
                                 }
-                            },200)
-                        }catch (e:Exception){
-                            e.printStackTrace()
-                        }
+                            }
+                        }, 200)
                     }
                 }
             }

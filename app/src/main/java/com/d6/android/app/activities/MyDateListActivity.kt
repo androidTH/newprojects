@@ -81,8 +81,10 @@ class MyDateListActivity : SmartRecyclerActivity() {
             if(requestCode == 2000){
                 data?.let {
                     var position = data.getIntExtra("index",0)
-                    mMyAppointments.removeAt(position)
-                    myDateAdapter.notifyItemRemoved(position)
+                    if(mMyAppointments.size>0){
+                        mMyAppointments.removeAt(position)
+                        myDateAdapter.notifyItemRemoved(position)
+                    }
                 }
             }
         }

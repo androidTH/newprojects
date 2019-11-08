@@ -80,11 +80,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         var cashmoney = "0"
         var type = -1
         try{
-            cashmoney =  if(arguments.containsKey("cashmoney")){
-                arguments.getString("cashmoney")
-            }else{
-                "0"
-            }
+            cashmoney = arguments.getString("cashmoney")
             type = arguments.getInt("type")
         }catch (e:Exception){
             e.printStackTrace()

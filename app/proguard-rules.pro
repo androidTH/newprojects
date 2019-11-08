@@ -282,3 +282,13 @@ public static final int *;
 #-keep class com.qiniu.qplayer.mediaEngine.MediaPlayer{*;}
 
 -keep public class cn.jzvd.JZMediaSystem {*; }
+
+-keepattributes LineNumberTable,SourceFile
+-keep class com.bugtags.library.** {*;}
+-dontwarn com.bugtags.library.**
+-keep class io.bugtags.** {*;}
+-dontwarn io.bugtags.**
+-dontwarn org.apache.http.**
+-dontwarn android.net.http.AndroidHttpClient
+
+-keep class com.github.hiteshsondhi88.libffmpeg.*{*;}

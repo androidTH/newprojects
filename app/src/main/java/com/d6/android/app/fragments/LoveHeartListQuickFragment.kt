@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
+import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.BangdanListAdapter
 import com.d6.android.app.adapters.RecentlyFansAdapter
 import com.d6.android.app.base.RecyclerFragment
@@ -14,6 +15,7 @@ import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.getLevelDrawable
+import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.utils.getUserSex
 import kotlinx.android.synthetic.main.item_loveheart.view.*
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.item_loveheart.view.tv_sex
 import kotlinx.android.synthetic.main.item_loveheart.view.tv_userinfo
 import kotlinx.android.synthetic.main.item_loveheart.view.user_headView
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.textColor
 
 /**
@@ -64,11 +67,22 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
             type = it.getInt(ARG_PARAM2)
         }
     }
+
     //你开启了在榜单中隐藏身份
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         addItemDecoration(1,R.color.dividing_line_color,0)
         listAdapter.setHeaderView(headerView)
+        listAdapter.setOnItemClickListener { view, position ->
+            var loveHeartFans = mMessages[position]
+            if(loveHeartFans.iListSetting==2){
+
+            }else{
+
+            }
+            val id = loveHeartFans.iUserid
+            startActivity<UserInfoActivity>("id" to "${id}")
+        }
     }
 
     override fun onFirstVisibleToUser() {
@@ -132,8 +146,19 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
         if(loveHearFans.iListSetting==2){
             headerView.tv_name.text = "*****"
             headerView.user_headView.showBlur(loveHearFans.sPicUrl)
-            headerView.tv_userinfo.text = "你开启了在榜单中隐藏身份"
-            headerView.tv_userinfo.visibility = View.VISIBLE
+            if(TextUtils.equals("${loveHearFans.iUserid}", getLocalUserId())){
+                headerView.tv_userinfo.text = "你开启了在榜单中隐藏身份"
+            }else{
+                if(!loveHearFans.gexingqianming.isNullOrEmpty()){
+                    headerView.tv_userinfo.visibility = View.VISIBLE
+                    headerView.tv_userinfo.text = loveHearFans.gexingqianming
+                }else if(!loveHearFans.ziwojieshao.isNullOrEmpty()){
+                    headerView.tv_userinfo.text = loveHearFans.ziwojieshao
+                    headerView.tv_userinfo.visibility = View.VISIBLE
+                }else{
+                    headerView.tv_userinfo.visibility = View.GONE
+                }
+            }
         }else{
             headerView.tv_name.text = loveHearFans.sSendUserName
             headerView.user_headView.setImageURI(loveHearFans.sPicUrl)
@@ -176,6 +201,15 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
             headerView.tv_order.text = "0${position+1}"
         }else{
             headerView.tv_order.text = "${position+1}"
+        }
+
+        headerView.ll_loveheart.setOnClickListener {
+            if(loveHearFans.iListSetting==2){
+
+            }else{
+
+            }
+            startActivity<UserInfoActivity>("id" to "${loveHearFans.iUserid}")
         }
     }
     override fun pullDownRefresh() {

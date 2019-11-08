@@ -37,24 +37,6 @@ class D6LoveHeartListActivity : BaseActivity() {
         viewpager_loveheart.offscreenPageLimit = mFragments.size
 
         tab_loveheartitle.setupWithViewPager(viewpager_loveheart)
-//        tab_membership.addOnTabSelectedListener(object : com.d6.android.app.widget.tablayout.TabLayout.OnTabSelectedListener {
-//            override fun onTabReselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
-//
-//            }
-//
-//            override fun onTabSelected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
-//                tab?.let {
-//                    setTabSelected(true, it)
-//                    viewpager_membership.setCurrentItem(it.getPosition())
-//                }
-//            }
-//
-//            override fun onTabUnselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
-//                tab?.let {
-//                    setTabSelected(false, it)
-//                }
-//            }
-//        })
     }
 
     private fun setTabSelected(flag: Boolean, tab: com.d6.android.app.widget.tablayout.TabLayout.Tab) {
