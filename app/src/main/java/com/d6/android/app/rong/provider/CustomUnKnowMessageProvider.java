@@ -17,6 +17,7 @@ import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imkit.widget.provider.UnknownMessageItemProvider;
+import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UnknownMessage;
 import io.rong.imlib.model.UserInfo;
@@ -37,12 +38,29 @@ public class CustomUnKnowMessageProvider extends UnknownMessageItemProvider {
 
     public void bindView(View v, int position, MessageContent content, UIMessage message) {
         ViewHolder viewHolder = (ViewHolder) v.getTag();
-        viewHolder.contentTextView.setText(R.string.string_unknowmessage);
-        viewHolder.contentTextView.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
-        UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(message.getTargetId());
-        if (userInfo != null) {
-            viewHolder.mHeaderView.setAvatar(userInfo.getPortraitUri());
-        }
+       if(message.getMessageDirection() == Message.MessageDirection.SEND){
+           viewHolder.tv_leftunknowmsg.setVisibility(View.GONE);
+           viewHolder.mLeftHeaderView.setVisibility(View.GONE);
+           viewHolder.mRightHeaderView.setVisibility(View.VISIBLE);
+           viewHolder.tv_rightunknowmsg.setVisibility(View.VISIBLE);
+           viewHolder.tv_rightunknowmsg.setText(R.string.string_unknowmessage);
+           viewHolder.tv_rightunknowmsg.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
+           UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(message.getSenderUserId());
+           if (userInfo != null) {
+               viewHolder.mRightHeaderView.setAvatar(userInfo.getPortraitUri());
+           }
+       }else{
+           viewHolder.mLeftHeaderView.setVisibility(View.VISIBLE);
+           viewHolder.mRightHeaderView.setVisibility(View.GONE);
+           viewHolder.tv_leftunknowmsg.setVisibility(View.VISIBLE);
+           viewHolder.tv_rightunknowmsg.setVisibility(View.GONE);
+           viewHolder.tv_leftunknowmsg.setText(R.string.string_unknowmessage);
+           viewHolder.tv_leftunknowmsg.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+           UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(message.getTargetId());
+           if (userInfo != null) {
+               viewHolder.mLeftHeaderView.setAvatar(userInfo.getPortraitUri());
+           }
+       }
     }
 
     public Spannable getContentSummary(MessageContent data) {
@@ -55,16 +73,20 @@ public class CustomUnKnowMessageProvider extends UnknownMessageItemProvider {
     public View newView(Context context, ViewGroup group) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_rongunknowmsg, (ViewGroup) null);
         ViewHolder viewHolder = new ViewHolder();
-        viewHolder.contentTextView =view.findViewById(R.id.tv_unknowmsg);
-        viewHolder.mHeaderView = view.findViewById(R.id.leftheader);
-        viewHolder.contentTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        viewHolder.tv_leftunknowmsg =view.findViewById(R.id.tv_leftunknowmsg);
+        viewHolder.mLeftHeaderView = view.findViewById(R.id.leftheader);
+        viewHolder.tv_rightunknowmsg =view.findViewById(R.id.tv_rightunknowmsg);
+        viewHolder.mRightHeaderView = view.findViewById(R.id.rightheader);
+//        viewHolder.tv_rightunknowmsg.setMovementMethod(LinkMovementMethod.getInstance());
         view.setTag(viewHolder);
         return view;
     }
 
     private static class ViewHolder {
-        TextView contentTextView;
-        AsyncImageView mHeaderView;
+        TextView tv_leftunknowmsg;
+        AsyncImageView mLeftHeaderView;
+        TextView tv_rightunknowmsg;
+        AsyncImageView mRightHeaderView;
 
         private ViewHolder() {
         }
