@@ -11,7 +11,6 @@
     <!-- 获取机型信息权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 录音 -->
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -24,6 +23,8 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!-- 适配 Android 8.0 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application>
 
@@ -45,6 +46,7 @@
 
         <activity
             android:name="io.rong.imkit.plugin.image.PictureSelectorActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
@@ -54,6 +56,7 @@
         <!-- 开发者可以修改 RongBaseActivity 的 rc_base_activity_layout 布局文件调整 actionbar-->
         <activity
             android:name="io.rong.imkit.tools.RongWebviewActivity"
+            android:exported="false"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="io.rong.imkit.intent.action.webview" />
@@ -72,6 +75,7 @@
 
         <activity
             android:name="io.rong.imkit.activity.PicturePagerActivity"
+            android:exported="false"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="io.rong.imkit.intent.action.picturepagerview" />
@@ -85,7 +89,9 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name="io.rong.imkit.activity.FileManagerActivity" />
         <activity android:name="io.rong.imkit.activity.FileListActivity" />
-        <activity android:name="io.rong.imkit.activity.FilePreviewActivity" >
+        <activity android:name="io.rong.imkit.activity.FilePreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="io.rong.imkit.intent.action.openfile" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -96,6 +102,6 @@
             android:name=".activity.CSLeaveMessageActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"/>
-    </application>
 
+    </application>
 </manifest>
