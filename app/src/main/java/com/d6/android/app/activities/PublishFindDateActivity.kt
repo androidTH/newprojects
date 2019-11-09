@@ -439,7 +439,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             syncChat(this,"date",sex,userId)
 //            setResult(Activity.RESULT_OK)
 //            startActivity<MyDateListActivity>()
-            startActivity<AppointmentActivity>()
+            startActivity<AppointmentActivity>("from"  to "PublishFindDateActivity")
             finish()
         }) { code, msg ->
             if (code == 0) {
@@ -483,7 +483,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 syncChat(this,"date",sex,userId)
 //                setResult(Activity.RESULT_OK)
 //                startActivity<MyDateListActivity>()
-                startActivity<AppointmentActivity>()
+                startActivity<AppointmentActivity>("from"  to "PublishFindDateActivity")
                 finish()
             }) { code, msg ->
                 if (code == 0) {

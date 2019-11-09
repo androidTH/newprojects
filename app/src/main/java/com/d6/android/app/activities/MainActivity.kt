@@ -699,8 +699,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                if (fragment != null && fragment is SpeedDateFragment) {
 //                    fragment.refresh(area, areaType, typeIds, vipIds)
 //                }
-            } else if (requestCode == 1) {
-                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
+            } else if (requestCode == 1) {//||requestCode==10
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
                 if (fragment != null && fragment is SquareMainFragment) {
                     fragment.refresh()
                 }
@@ -759,7 +759,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 mExitTime = System.currentTimeMillis()
             } else {
                 moveTaskToBack(true)
-                finish()
+//                finish()
             }
             return true
         }

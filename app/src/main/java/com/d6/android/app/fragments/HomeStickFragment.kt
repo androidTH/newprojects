@@ -113,13 +113,13 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
         }
 
         var mFragments = listOf(
-                SelfPullDateFragment.instance(""),
-                SelfPullDateFragment.instance("6"),
-                SelfPullDateFragment.instance("2"),
-                SelfPullDateFragment.instance("1"),
-                SelfPullDateFragment.instance("3"),
-                SelfPullDateFragment.instance("7"),
-                SelfPullDateFragment.instance("8")
+                SelfPullDateFragment.instance("",1),
+                SelfPullDateFragment.instance("6",1),
+                SelfPullDateFragment.instance("2",1),
+                SelfPullDateFragment.instance("1",1),
+                SelfPullDateFragment.instance("3",1),
+                SelfPullDateFragment.instance("7",1),
+                SelfPullDateFragment.instance("8",1)
         )
 
         for (i in 0..(showDateTypes.size-1)) {

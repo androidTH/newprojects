@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.activities.MainActivity
@@ -13,11 +14,8 @@ import com.d6.android.app.dialogs.SelfDateDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.getLocalUserId
-import com.d6.android.app.utils.getSelfDateDialog
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 
 /**
@@ -28,10 +26,11 @@ class SelfPullDateFragment : RecyclerFragment() {
     private var mIsUpDown:Boolean = false //true 向上 false 向下
 
     companion object {
-        fun instance(type: String): SelfPullDateFragment {
+        fun instance(type: String,selectedSex:Int):SelfPullDateFragment {
             val fragment = SelfPullDateFragment()
             val b = Bundle()
             b.putString("type", type)
+            b.putInt("sex",selectedSex)
             fragment.arguments = b
             return fragment
         }
@@ -67,6 +66,11 @@ class SelfPullDateFragment : RecyclerFragment() {
 
         arguments?.let {
             dateType= it.getString("type")
+            mSex = if(it.getInt("sex")!=-1){
+                "${it.getInt("sex")}"
+            }else{
+                ""
+            }
         }
     }
 
@@ -108,7 +112,12 @@ class SelfPullDateFragment : RecyclerFragment() {
                 }
             }
         })
-        getData()
+
+        mSwipeRefreshLayout.postDelayed(object:Runnable{
+            override fun run() {
+                getData()
+            }
+        },200)
     }
 
     override fun onFirstVisibleToUser() {
@@ -127,8 +136,12 @@ class SelfPullDateFragment : RecyclerFragment() {
         }else{
             ""
         }
-        pageNum = 1
-        getData()
+        mSwipeRefreshLayout.isRefreshing = true
+        mSwipeRefreshLayout.postDelayed(object:Runnable{
+            override fun run() {
+                pullDownRefresh()
+            }
+        },600)
     }
 
     private fun getData() {

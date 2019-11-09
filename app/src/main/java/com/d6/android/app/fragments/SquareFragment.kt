@@ -141,7 +141,7 @@ class SquareFragment : RecyclerFragment() {
         }
 
         headerView.rl_date_list.setOnClickListener {
-            startActivity<AppointmentActivity>()
+            startActivity<AppointmentActivity>("from"  to "SquareFragment")
         }
 
         headerView.rl_bangdan.setOnClickListener {

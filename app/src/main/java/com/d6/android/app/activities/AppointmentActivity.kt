@@ -74,11 +74,47 @@ class AppointmentActivity : BaseActivity() {
     fun IsNotNullPopupSex()=::mPopupSex.isInitialized
 
     private var mSelectedSex = -1
+    private var from = "SquareFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_appointment)
         immersionBar.init()
+
+        from = intent.getStringExtra("from")
+
+        if (TextUtils.equals(from, "SquareFragment")) {
+            if (TextUtils.equals("0", getUserSex())) {
+                tv_date_sex.text = "男生"
+                mSelectedSex = 1
+            } else {
+                tv_date_sex.text = "女生"
+                mSelectedSex = 0
+            }
+        } else if (TextUtils.equals(from, "PublishFindDateActivity")) {
+            tv_date_sex.text = "全部"
+            mSelectedSex = -1
+        }
+
+        var mFragments = listOf(
+                SelfPullDateFragment.instance("", mSelectedSex),
+                SelfPullDateFragment.instance("6", mSelectedSex),
+                SelfPullDateFragment.instance("2", mSelectedSex),
+                SelfPullDateFragment.instance("1", mSelectedSex),
+                SelfPullDateFragment.instance("3", mSelectedSex),
+                SelfPullDateFragment.instance("7", mSelectedSex),
+                SelfPullDateFragment.instance("8", mSelectedSex)
+        )
+
+        for (i in 0..(showDateTypes.size - 1)) {
+            var dt = showDateTypes[i]
+            if (i == 0) {
+                dt.dateTypeName = "全部"
+            } else {
+                dt.dateTypeName = Const.dateTypes[dt.type - 1]
+            }
+            mSelfDateTypes.add(dt)
+        }
 
         iv_back_close.setOnClickListener {
             finish()
@@ -115,26 +151,6 @@ class AppointmentActivity : BaseActivity() {
         tv_recomendtitle.setOnClickListener {
             var mRgDateDialog = RenGongDateDialog()
             mRgDateDialog.show(supportFragmentManager,"RgDateDailog")
-        }
-
-        var mFragments = listOf(
-                SelfPullDateFragment.instance(""),
-                SelfPullDateFragment.instance("6"),
-                SelfPullDateFragment.instance("2"),
-                SelfPullDateFragment.instance("1"),
-                SelfPullDateFragment.instance("3"),
-                SelfPullDateFragment.instance("7"),
-                SelfPullDateFragment.instance("8")
-        )
-
-        for (i in 0..(showDateTypes.size-1)) {
-            var dt = showDateTypes[i]
-            if(i==0){
-                dt.dateTypeName = "全部"
-            }else{
-                dt.dateTypeName = Const.dateTypes[dt.type-1]
-            }
-            mSelfDateTypes.add(dt)
         }
 
         viewpager_appointment.adapter = HomeDatePageAdapter(supportFragmentManager,mFragments,mSelfDateTypes)
@@ -265,8 +281,6 @@ class AppointmentActivity : BaseActivity() {
             }else{
                 tv_date_sex.text = string
             }
-
-
             getFragment()
         }
 
