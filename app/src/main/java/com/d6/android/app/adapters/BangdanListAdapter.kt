@@ -41,8 +41,21 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
             headView.setImageURI(data.sPicUrl)
             headView.showBlur(data.sPicUrl)
-            tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "
-            tv_userinfo.visibility = View.VISIBLE
+            if(TextUtils.equals("${data.iUserid}", getLocalUserId())){
+                tv_userinfo.text = "你开启了在榜单中隐藏身份"
+                tv_userinfo.visibility = View.VISIBLE
+            }else{
+//                tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "
+                if(!data.gexingqianming.isNullOrEmpty()){
+                    tv_userinfo.visibility = View.VISIBLE
+                    tv_userinfo.text = data.gexingqianming
+                }else if(!data.ziwojieshao.isNullOrEmpty()){
+                    tv_userinfo.text = data.ziwojieshao
+                    tv_userinfo.visibility = View.VISIBLE
+                }else{
+                    tv_userinfo.visibility = View.GONE
+                }
+            }
         }else{
             holder.setText(R.id.tv_name,data.sSendUserName)
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)

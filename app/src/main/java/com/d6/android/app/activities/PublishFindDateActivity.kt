@@ -43,6 +43,7 @@ import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.support.v4.startActivity
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -438,6 +439,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             syncChat(this,"date",sex,userId)
 //            setResult(Activity.RESULT_OK)
 //            startActivity<MyDateListActivity>()
+            startActivity<AppointmentActivity>()
             finish()
         }) { code, msg ->
             if (code == 0) {
@@ -481,6 +483,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 syncChat(this,"date",sex,userId)
 //                setResult(Activity.RESULT_OK)
 //                startActivity<MyDateListActivity>()
+                startActivity<AppointmentActivity>()
                 finish()
             }) { code, msg ->
                 if (code == 0) {

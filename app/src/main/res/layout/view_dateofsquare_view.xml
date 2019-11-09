@@ -165,6 +165,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/time_list_icon"
                 android:drawablePadding="@dimen/margin_3"
+                android:layout_marginRight="@dimen/margin_15"
                 android:textStyle="bold"
                 android:textColor="@color/color_888888"
                 android:textSize="12sp" />
@@ -173,7 +174,6 @@
                 android:id="@+id/tv_self_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_15"
                 android:drawableLeft="@mipmap/local_list_icon"
                 android:drawablePadding="@dimen/margin_2"
                 android:textStyle="bold"

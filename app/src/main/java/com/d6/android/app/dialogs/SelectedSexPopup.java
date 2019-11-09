@@ -53,10 +53,10 @@ public class SelectedSexPopup extends BasePopup<SelectedSexPopup> implements Vie
     public void onClick(View v) {
         if(v.getId() == R.id.tv_men){
             position = 1;
-            str = "只看男生";
+            str = "男生";
         }else if(v.getId() == R.id.tv_women){
             position = 0;
-            str = "只看女生";
+            str = "女生";
         }else if(v.getId()==R.id.tv_all){
             position = -1;
             str = "全部";

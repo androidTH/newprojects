@@ -7,7 +7,9 @@ import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.adapters.LoveHeartPageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.base.RecyclerFragment
 import com.d6.android.app.fragments.LoveHeartListQuickFragment
+import com.d6.android.app.fragments.ManyLoveHeartListQuickFragment
 import kotlinx.android.synthetic.main.activity_d6loveheartlist.*
 import org.jetbrains.anko.textColor
 
@@ -17,7 +19,7 @@ import org.jetbrains.anko.textColor
 class D6LoveHeartListActivity : BaseActivity() {
 
     private var mTitles = ArrayList<String>()
-    private var mFragments = ArrayList<LoveHeartListQuickFragment>()
+    private var mFragments = ArrayList<RecyclerFragment>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +31,10 @@ class D6LoveHeartListActivity : BaseActivity() {
         }
 
         mTitles.add("魅力榜")
-        mTitles.add("土豪棒")
+        mTitles.add("土豪榜")
 
         mFragments.add(LoveHeartListQuickFragment.newInstance("魅力榜",2))
-        mFragments.add(LoveHeartListQuickFragment.newInstance("土豪棒",1))
+        mFragments.add(ManyLoveHeartListQuickFragment.newInstance("土豪榜",1))
         viewpager_loveheart.adapter = LoveHeartPageAdapter(supportFragmentManager,mFragments,mTitles)
         viewpager_loveheart.offscreenPageLimit = mFragments.size
 

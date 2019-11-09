@@ -38,17 +38,17 @@ class PrivacySettingActivity : BaseActivity() {
 
         sw_list_off.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-                updateListSetting(1)
-            }else{
                 updateListSetting(2)
+            }else{
+                updateListSetting(1)
             }
         }
 
         sw_loveisvisible.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-                updateSendPointShow(1)
-            }else{
                 updateSendPointShow(2)
+            }else{
+                updateSendPointShow(1)
             }
         }
 
@@ -65,15 +65,15 @@ class PrivacySettingActivity : BaseActivity() {
                 }
 
                 if(it.iListSetting==1){
-                    sw_list_off.isChecked = true
-                }else{
                     sw_list_off.isChecked = false
+                }else{
+                    sw_list_off.isChecked = true
                 }
 
                 if(it.iSendPointShow==1){
-                    sw_loveisvisible.isChecked = true
-                }else{
                     sw_loveisvisible.isChecked = false
+                }else{
+                    sw_loveisvisible.isChecked = true
                 }
 
             }

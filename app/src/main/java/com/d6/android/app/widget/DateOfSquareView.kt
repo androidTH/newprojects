@@ -62,8 +62,14 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         })
 
-        tv_datetype_name.text = Const.dateTypes[date.iAppointType!!.toInt()-1]
-        var index = date.iAppointType!!.toInt()-1
+        var index = 1
+        if(!TextUtils.equals("null","${date.iAppointType}")){
+            index = date.iAppointType!!.toInt()-1
+            tv_datetype_name.text = Const.dateTypes[index]
+        }else{
+            tv_datetype_name.text = Const.dateTypes[0]
+            index = 0
+        }
         if(index!= Const.dateTypesBig.size){
             var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[index])
             drawable?.setBounds(0, 0, drawable?.getMinimumWidth(), drawable?.getMinimumHeight());// 设置边界

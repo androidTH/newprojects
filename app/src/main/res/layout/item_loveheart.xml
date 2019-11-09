@@ -11,7 +11,8 @@
         android:id="@+id/tv_loveheart_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_25"
-        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginBottom="@dimen/margin_5"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/margin_10"
         android:textColor="@color/color_888888"
@@ -22,12 +23,12 @@
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="wrap_content"/>-->
     <RelativeLayout
+        android:id="@+id/rl_list_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@color/white"
-        android:layout_marginBottom="@dimen/margin_10"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        android:layout_marginBottom="@dimen/margin_10">
         <TextView
             android:id="@+id/tv_order"
             android:layout_width="wrap_content"

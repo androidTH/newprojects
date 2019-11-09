@@ -855,6 +855,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     data.list.results?.let { it1 -> mSquares.addAll(it1) }
                     squareAdapter.notifyDataSetChanged()
                 }
+
+                if(data.list?.totalPage==1){
+                    mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                }else{
+                    mSwipeRefreshLayout.setLoadMoreText("上拉加载更多")
+                }
             }
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false

@@ -113,7 +113,7 @@ class ServiceFragment : BaseFragment() ,ViewPager.OnPageChangeListener{
         if(TextUtils.equals(userclassId,"7")){
             ll_userlevel.visibility = View.GONE
         }else{
-            ll_userlevel.visibility = View.VISIBLE
+            ll_userlevel.visibility = View.GONE
             recomend_level.setImageURI(getLocalUserHeadPic())
             if(TextUtils.equals(userclassId,"29")){
                 tv_userlevel.text = "高级会员"

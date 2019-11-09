@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_F5F5F5"
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_15"
-            android:text="在发现中呈现"
+            android:text="不在【发现】中展示"
             android:textColor="@color/color_black"
             android:textSize="15sp"
             android:visibility="visible" />
@@ -99,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_15"
-            android:text="进入榜单"
+            android:text="榜单中隐藏身份"
             android:textColor="@color/color_black"
             android:textSize="15sp"
             android:visibility="visible" />
@@ -146,7 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_15"
-            android:text="隐藏[img src=redheart_small/]的赠送记录"
+            android:text="弹幕中隐藏[img src=redheart_small/]的赠送记录"
             android:textColor="@color/color_black"
             android:textSize="15sp"
             android:visibility="visible" />

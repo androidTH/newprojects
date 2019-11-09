@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -55,18 +56,18 @@
     <RelativeLayout
         android:id="@+id/ll_rgchoose"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="38dp"
         android:layout_marginLeft="@dimen/margin_10">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginRight="@dimen/height_65">
 
             <com.d6.android.app.widget.tablayout.TabLayout
                 android:id="@+id/tab_recommentdate"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="27dp"
                 android:scrollbars="horizontal"
                 app:tabBackground="@drawable/tablayout_background"
                 app:tabGravity="center"
@@ -77,7 +78,7 @@
                 app:tabMode="scrollable"
                 app:tabPaddingEnd="0dp"
                 app:tabPaddingStart="0dp"
-                app:tabTextAppearance="@style/tab_home_date"
+                app:tabTextAppearance="@style/tab_service_date"
                 app:tabSelectedTextColor="@color/white"
                 app:tabTextColor="@color/white" />
         </LinearLayout>
@@ -85,7 +86,7 @@
         <TextView
             android:id="@+id/tv_service_city"
             android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_height="27dp"
             android:layout_alignParentRight="true"
             android:background="@mipmap/overlap"
             android:drawableTint="@color/color_999999"

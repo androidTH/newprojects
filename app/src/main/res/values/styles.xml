@@ -508,6 +508,10 @@
     </declare-styleable>
     
     <style name="tab_home_date" >
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="tab_service_date" >
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>

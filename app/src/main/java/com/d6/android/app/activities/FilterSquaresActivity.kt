@@ -245,7 +245,7 @@ class FilterSquaresActivity : BaseActivity() {
                     var tv_create_square = view.findViewById<TextView>(R.id.tv_create_square)
                     tv_create_square.setOnClickListener {
                         isCheckOnLineAuthUser(this, getLocalUserId()) {
-                            startActivityForResult<PublishFindDateActivity>(10)
+                            startActivityForResult<ReleaseNewTrendsActivity>(1)
                         }
                         mCirclePop!!.dismiss()
                     }

@@ -30,7 +30,7 @@ import org.jetbrains.anko.textColor
 /**
  * 榜单
  */
-class LoveHeartListQuickFragment : RecyclerFragment() {
+class ManyLoveHeartListQuickFragment : RecyclerFragment() {
 
     override fun setAdapter(): RecyclerView.Adapter<*> {
         return listAdapter
@@ -83,17 +83,14 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
             val id = loveHeartFans.iUserid
             startActivity<UserInfoActivity>("id" to "${id}")
         }
-
-        headerView.tv_loveheart_title.text = "榜单以收到的 [img src=redheart_small/] 数排名"
+        headerView.tv_loveheart_title.text = "榜单以送出的 [img src=redheart_small/] 数排名"
     }
 
     override fun onFirstVisibleToUser() {
-        if (type == 2) {
-            if(TextUtils.equals("0", getUserSex())){
-                headerView.rl_list_top.visibility = View.VISIBLE
-            }else{
-                headerView.rl_list_top.visibility = View.GONE
-            }
+        if (TextUtils.equals("0", getUserSex())) {
+            headerView.rl_list_top.visibility = View.GONE
+        } else {
+            headerView.rl_list_top.visibility = View.VISIBLE
         }
         getData()
     }
@@ -103,7 +100,7 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
             data?.let {
                 if (pageNum == 1) {
                     mMessages.clear()
-                    mHeaderFans.clear()
+//                    mHeaderFans.clear()
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
                     if (pageNum > 1) {
@@ -126,12 +123,12 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
                 }
                 listAdapter.notifyDataSetChanged()
 
-                if(it.iMyOrder>0&&it.iMyOrder<mMessages.size){
+                if(it.iMyOrder>0&&it.iMyOrder>0&&it.iMyOrder<mMessages.size){
                     updateTopBangDan(mMessages[it.iMyOrder-1],it.iMyOrder)
                     if(TextUtils.equals("0", getUserSex())){
-                        headerView.rl_list_top.visibility = View.VISIBLE
-                    }else{
                         headerView.rl_list_top.visibility = View.GONE
+                    }else{
+                        headerView.rl_list_top.visibility = View.VISIBLE
                     }
                 }
             }
@@ -139,7 +136,6 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
     }
 
     private fun updateTopBangDan(loveHearFans:LoveHeartFans,position:Int){
-
         if(loveHearFans.iListSetting==2){
             headerView.tv_name.text = "*****"
             headerView.user_headView.showBlur(loveHearFans.sPicUrl)
@@ -229,7 +225,7 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: Int) =
-                LoveHeartListQuickFragment().apply {
+                ManyLoveHeartListQuickFragment().apply {
                     arguments = Bundle().apply {
 //                        putParcelable(ARG_PARAM1,param1)
                         putString(ARG_PARAM1,param1)
