@@ -459,7 +459,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 } else if (it >= 3 && !mIsFirstFastClick) {
                     tv_redheart_guide.visibility = View.VISIBLE
-                    tv_redheart_guide.text = "长按可以快捷选择520、1314个喜欢"
+                    tv_redheart_guide.text = "长按可快捷选择520、1314个喜欢"
                     SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(), true).apply()
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 }
