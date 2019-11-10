@@ -92,7 +92,7 @@ class AppointmentActivity : BaseActivity() {
                 mSelectedSex = 0
             }
         } else if (TextUtils.equals(from, "PublishFindDateActivity")) {
-            tv_date_sex.text = "全部"
+            tv_date_sex.text = getString(R.string.string_sex)
             mSelectedSex = -1
         }
 

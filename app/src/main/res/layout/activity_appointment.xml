@@ -94,7 +94,7 @@
                 <com.d6.android.app.widget.tablayout.TabLayout
                     android:id="@+id/tab_home_date"
                     android:layout_width="match_parent"
-                    android:layout_height="27dp"
+                    android:layout_height="26dp"
                     android:layout_gravity="center_vertical"
                     android:scrollbars="horizontal"
                     app:tabGravity="center"

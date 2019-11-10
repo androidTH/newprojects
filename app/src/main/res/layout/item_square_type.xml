@@ -4,9 +4,9 @@
     android:layout_width="wrap_content"
     android:layout_marginRight="@dimen/margin_10"
     android:layout_marginTop="@dimen/margin_13"
-    android:background="@drawable/shape_radius12_f6"
-    android:paddingTop="@dimen/margin_3"
-    android:paddingBottom="@dimen/margin_3"
+    android:background="@drawable/shape_radius14_f0"
+    android:paddingTop="@dimen/margin_2"
+    android:paddingBottom="@dimen/margin_2"
     android:paddingLeft="@dimen/margin_5"
     android:paddingRight="@dimen/margin_5"
     android:layout_height="wrap_content">

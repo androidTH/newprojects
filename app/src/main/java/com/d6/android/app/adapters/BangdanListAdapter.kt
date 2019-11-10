@@ -41,37 +41,45 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
             headView.setImageURI(data.sPicUrl)
             headView.showBlur(data.sPicUrl)
-            if(TextUtils.equals("${data.iUserid}", getLocalUserId())){
-                tv_userinfo.text = "你开启了在榜单中隐藏身份"
-                tv_userinfo.visibility = View.VISIBLE
-            }else{
+            tv_userinfo.visibility = View.GONE
+//            if(TextUtils.equals("${data.iUserid}", getLocalUserId())){
+//                tv_userinfo.text = "你开启了在榜单中隐藏身份"
+//                tv_userinfo.visibility = View.VISIBLE
+//            }else{
+//                tv_userinfo.visibility = View.GONE
 //                tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "
-                if(!data.gexingqianming.isNullOrEmpty()){
-                    tv_userinfo.visibility = View.VISIBLE
-                    tv_userinfo.text = data.gexingqianming
-                }else if(!data.ziwojieshao.isNullOrEmpty()){
-                    tv_userinfo.text = data.ziwojieshao
-                    tv_userinfo.visibility = View.VISIBLE
-                }else{
-                    tv_userinfo.visibility = View.GONE
-                }
-            }
+//                if(!data.gexingqianming.isNullOrEmpty()){
+//                    tv_userinfo.visibility = View.VISIBLE
+//                    tv_userinfo.text = data.gexingqianming
+//                }else if(!data.ziwojieshao.isNullOrEmpty()){
+//                    tv_userinfo.text = data.ziwojieshao
+//                    tv_userinfo.visibility = View.VISIBLE
+//                }else{
+//                    tv_userinfo.visibility = View.GONE
+//                }
+//            }
         }else{
+//            if(data.sSendUserName.length>10){
+//                holder.setText(R.id.tv_name,"${data.sSendUserName.subSequence(0,10)}...")
+//            }else{
+//                holder.setText(R.id.tv_name,data.sSendUserName)
+//            }
             holder.setText(R.id.tv_name,data.sSendUserName)
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
             headView.setImageURI(data.sPicUrl)
+            tv_userinfo.visibility = View.GONE
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")
 
-            if(!data.gexingqianming.isNullOrEmpty()){
-                tv_userinfo.visibility = View.VISIBLE
-                tv_userinfo.text = data.gexingqianming
-            }else if(!data.ziwojieshao.isNullOrEmpty()){
-                tv_userinfo.text = data.ziwojieshao
-                tv_userinfo.visibility = View.VISIBLE
-            }else{
-                tv_userinfo.visibility = View.GONE
-            }
+//            if(!data.gexingqianming.isNullOrEmpty()){
+//                tv_userinfo.visibility = View.VISIBLE
+//                tv_userinfo.text = data.gexingqianming
+//            }else if(!data.ziwojieshao.isNullOrEmpty()){
+//                tv_userinfo.text = data.ziwojieshao
+//                tv_userinfo.visibility = View.VISIBLE
+//            }else{
+//                tv_userinfo.visibility = View.GONE
+//            }
         }
 
 

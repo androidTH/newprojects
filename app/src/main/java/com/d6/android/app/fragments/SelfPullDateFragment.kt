@@ -137,6 +137,7 @@ class SelfPullDateFragment : RecyclerFragment() {
             ""
         }
         mSwipeRefreshLayout.isRefreshing = true
+        mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
         mSwipeRefreshLayout.postDelayed(object:Runnable{
             override fun run() {
                 pullDownRefresh()

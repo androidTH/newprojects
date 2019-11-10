@@ -61,11 +61,23 @@
         android:layout_below="@+id/rl_openmber_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <RelativeLayout
+    <!--android:background="@mipmap/topshadow_png"-->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/color_E6FFFFFF"
+        android:layout_height="60dp"
+        android:elevation="@dimen/margin_2"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@mipmap/topshadow_png"/>
+        <RelativeLayout
+            android:background="@color/color_E6FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:elevation="@dimen/margin_2"
+            android:layout_alignParentBottom="true">
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,6 +89,7 @@
             android:textStyle="bold"
             android:layout_centerInParent="true"
             android:text="10颗 [img src=redheart_small/]=1元，如对榜单有疑问可联系客服"/>
-    </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
 

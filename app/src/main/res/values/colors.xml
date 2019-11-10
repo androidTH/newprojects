@@ -135,6 +135,7 @@
     <color name="color_FF4500">#FF4500</color>
     <color name="color_BE34FF">#BE34FF</color>
     <color name="color_34B1FF">#34B1FF</color>
+    <color name="color_F0F0F2">#F0F0F2</color>
 
     <color name="color_bbbbbb">#BBBBBB</color>
     <color name="color_DBDBDB">#DBDBDB</color>
@@ -160,5 +161,8 @@
     <color name="color_8950EC">#8950EC</color>
     <color name="color_B594EC">#B594EC</color>
 
-
+    <color name="my_bg_start">#E0563F</color>
+    <color name="my_bg_end">#FF7954</color>
+    <color name="my_bg_selected_start">#B63C27</color>
+    <color name="my_bg_selected_end">#E95A33</color>
 </resources>

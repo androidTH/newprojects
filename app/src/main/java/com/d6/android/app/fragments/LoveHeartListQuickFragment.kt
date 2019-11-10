@@ -76,13 +76,10 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
         listAdapter.setHeaderView(headerView)
         listAdapter.setOnItemClickListener { view, position ->
             var loveHeartFans = mMessages[position]
-            if(loveHeartFans.iListSetting==2){
-
-            }else{
-
+            if(loveHeartFans.iListSetting!=2){
+                val id = loveHeartFans.iUserid
+                startActivity<UserInfoActivity>("id" to "${id}")
             }
-            val id = loveHeartFans.iUserid
-            startActivity<UserInfoActivity>("id" to "${id}")
         }
 
         headerView.tv_loveheart_title.text = "榜单以收到的 [img src=redheart_small/] 数排名"
@@ -127,13 +124,15 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
                 }
                 listAdapter.notifyDataSetChanged()
 
-                if(it.iMyOrder>0){
+                if(it.iMyOrder>100){
                     updateTopBangDan(it.iMyOrder)
                     if(TextUtils.equals("0", getUserSex())){
                         headerView.rl_list_top.visibility = View.VISIBLE
                     }else{
                         headerView.rl_list_top.visibility = View.GONE
                     }
+                }else{
+                    headerView.rl_list_top.visibility = View.GONE
                 }
             }
         }
@@ -142,63 +141,64 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
     private fun updateTopBangDan(position:Int){
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
             data?.let {
-                if(it.iListSetting==2){
-                    headerView.tv_name.text = "*****"
-                    headerView.user_headView.showBlur(it.picUrl)
-                    headerView.tv_userinfo.visibility = View.VISIBLE
-                    headerView.tv_userinfo.text = "你开启了在榜单中隐藏身份"
-                }else{
+                if(it.iReceiveLovePoint>0){
                     headerView.tv_name.text = it.name
                     headerView.user_headView.setImageURI(it.picUrl)
-                    if(!it.signature.isNullOrEmpty()){
+                    if(it.iListSetting==2){
+//                    headerView.tv_name.text = "*****"
+//                    headerView.user_headView.showBlur(it.picUrl)
                         headerView.tv_userinfo.visibility = View.VISIBLE
-                        headerView.tv_userinfo.text = it.signature
-                    }else if(!it.intro.isNullOrEmpty()){
-                        headerView.tv_userinfo.text = it.intro
-                        headerView.tv_userinfo.visibility = View.VISIBLE
+                        headerView.tv_userinfo.text = "你开启了在榜单中隐藏身份"
                     }else{
                         headerView.tv_userinfo.visibility = View.GONE
+//                    if(!it.signature.isNullOrEmpty()){
+//                        headerView.tv_userinfo.visibility = View.VISIBLE
+//                        headerView.tv_userinfo.text = it.signature
+//                    }else if(!it.intro.isNullOrEmpty()){
+//                        headerView.tv_userinfo.text = it.intro
+//                        headerView.tv_userinfo.visibility = View.VISIBLE
+//                    }else{
+//                        headerView.tv_userinfo.visibility = View.GONE
+//                    }
                     }
-                }
 
 
-                headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
-                headerView.tv_sex.text = it.age
-                if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(it.sex, "0")) {//0 女 1 男
+                    headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
+                    headerView.tv_sex.text = it.age
+                    if (TextUtils.equals("1", getUserSex())&& TextUtils.equals(it.sex, "0")) {//0 女 1 男
 //            tv_vip.text = String.format("%s", data.userclassesname)
-                    headerView.tv_vip.visibility =View.GONE
-                } else {
+                        headerView.tv_vip.visibility =View.GONE
+                    } else {
 //            tv_vip.text = String.format("%s", data.userclassesname)
-                    headerView.tv_vip.visibility = View.VISIBLE
-                    headerView.tv_vip.backgroundDrawable = getLevelDrawable("${it.userclassesid}",context)
-                }
+                        headerView.tv_vip.visibility = View.VISIBLE
+                        headerView.tv_vip.backgroundDrawable = getLevelDrawable("${it.userclassesid}",context)
+                    }
 
-                headerView.tv_receivedliked.text = "${it.iReceiveLovePoint}"
-                if(position==1){
-                    headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_FF4500)
-                }else if(position==2){
-                    headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_BE34FF)
-                }else if(position==3){
-                    headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_34B1FF)
-                }else{
-                    headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_888888)
-                }
-
-                if(position<9){
-                    headerView.tv_order.text = "0${position}"
-                }else{
-                    headerView.tv_order.text = "${position}"
-                }
-
-                headerView.ll_loveheart.setOnClickListener {
-                    if(data.iListSetting==2){
-
+                    headerView.tv_receivedliked.text = "${it.iReceiveLovePoint}"
+                    if(position==1){
+                        headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_FF4500)
+                    }else if(position==2){
+                        headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_BE34FF)
+                    }else if(position==3){
+                        headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_34B1FF)
                     }else{
-
+                        headerView.tv_order.textColor = ContextCompat.getColor(context,R.color.color_888888)
                     }
-                    startActivity<UserInfoActivity>("id" to "${data.accountId}")
-                }
 
+                    if(position<9){
+                        headerView.tv_order.text = "0${position}"
+                    }else{
+                        headerView.tv_order.text = "${position}"
+                    }
+
+                    headerView.ll_loveheart.setOnClickListener {
+                        if(data.iListSetting!=2){
+                            startActivity<UserInfoActivity>("id" to "${data.accountId}")
+                        }
+                    }
+                }else{
+                    headerView.rl_list_top.visibility = View.GONE
+                }
             }
         }) { code, msg ->
             if(code==2){
