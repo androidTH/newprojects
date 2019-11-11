@@ -34,13 +34,11 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
-        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-
+        var tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
+        var headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
         if(data.iListSetting==2){
-            holder.setText(R.id.tv_name,"*****")
-            val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-            headView.setImageURI(data.sPicUrl)
             headView.showBlur(data.sPicUrl)
+            holder.setText(R.id.tv_name,"*****")
             tv_userinfo.visibility = View.GONE
 //            if(TextUtils.equals("${data.iUserid}", getLocalUserId())){
 //                tv_userinfo.text = "你开启了在榜单中隐藏身份"
@@ -59,14 +57,8 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
 //                }
 //            }
         }else{
-//            if(data.sSendUserName.length>10){
-//                holder.setText(R.id.tv_name,"${data.sSendUserName.subSequence(0,10)}...")
-//            }else{
-//                holder.setText(R.id.tv_name,data.sSendUserName)
-//            }
-            holder.setText(R.id.tv_name,data.sSendUserName)
-            val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
             headView.setImageURI(data.sPicUrl)
+            holder.setText(R.id.tv_name,data.sSendUserName)
             tv_userinfo.visibility = View.GONE
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")

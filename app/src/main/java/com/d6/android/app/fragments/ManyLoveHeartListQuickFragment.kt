@@ -85,11 +85,11 @@ class ManyLoveHeartListQuickFragment : RecyclerFragment() {
     }
 
     override fun onFirstVisibleToUser() {
-        if (TextUtils.equals("0", getUserSex())) {
-            headerView.rl_list_top.visibility = View.GONE
-        } else {
-            headerView.rl_list_top.visibility = View.VISIBLE
-        }
+//        if (TextUtils.equals("0", getUserSex())) {
+//            headerView.rl_list_top.visibility = View.GONE
+//        } else {
+//            headerView.rl_list_top.visibility = View.VISIBLE
+//        }
         getData()
     }
 
@@ -121,15 +121,10 @@ class ManyLoveHeartListQuickFragment : RecyclerFragment() {
                 }
                 listAdapter.notifyDataSetChanged()
 
-                if(it.iMyOrder>100){
-                    updateTopBangDan(it.iMyOrder)
-                    if(TextUtils.equals("0", getUserSex())){
-                        headerView.rl_list_top.visibility = View.GONE
-                    }else{
-                        headerView.rl_list_top.visibility = View.VISIBLE
+                if(it.iMyOrder>0){
+                    if(TextUtils.equals("1", getUserSex())){
+                        updateTopBangDan(it.iMyOrder)
                     }
-                }else{
-                    headerView.rl_list_top.visibility = View.GONE
                 }
             }
         }
@@ -138,7 +133,7 @@ class ManyLoveHeartListQuickFragment : RecyclerFragment() {
     private fun updateTopBangDan(position:Int){
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
             data?.let {
-                   if(it.iSendLovePoint>0){
+                       headerView.rl_list_top.visibility = View.VISIBLE
                        headerView.tv_name.text = it.name
                        headerView.user_headView.setImageURI(it.picUrl)
                        if(it.iListSetting==2){
@@ -185,7 +180,11 @@ class ManyLoveHeartListQuickFragment : RecyclerFragment() {
                        if(position<9){
                            headerView.tv_order.text = "0${position}"
                        }else{
-                           headerView.tv_order.text = "${position}"
+                           if(position>100||it.iSendLovePoint==0){
+                               headerView.tv_order.text = "--"
+                           }else{
+                               headerView.tv_order.text = "${position}"
+                           }
                        }
 
                        headerView.ll_loveheart.setOnClickListener {
@@ -193,9 +192,6 @@ class ManyLoveHeartListQuickFragment : RecyclerFragment() {
                                startActivity<UserInfoActivity>("id" to "${data.accountId}")
                            }
                        }
-                   }else{
-                       headerView.rl_list_top.visibility = View.GONE
-                   }
             }
         }) { code, msg ->
             if(code==2){

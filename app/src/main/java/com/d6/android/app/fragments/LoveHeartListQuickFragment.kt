@@ -86,13 +86,6 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
     }
 
     override fun onFirstVisibleToUser() {
-        if (type == 2) {
-            if(TextUtils.equals("0", getUserSex())){
-                headerView.rl_list_top.visibility = View.VISIBLE
-            }else{
-                headerView.rl_list_top.visibility = View.GONE
-            }
-        }
         getData()
     }
 
@@ -124,15 +117,10 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
                 }
                 listAdapter.notifyDataSetChanged()
 
-                if(it.iMyOrder>100){
-                    updateTopBangDan(it.iMyOrder)
+                if(it.iMyOrder>0){
                     if(TextUtils.equals("0", getUserSex())){
-                        headerView.rl_list_top.visibility = View.VISIBLE
-                    }else{
-                        headerView.rl_list_top.visibility = View.GONE
+                        updateTopBangDan(it.iMyOrder)
                     }
-                }else{
-                    headerView.rl_list_top.visibility = View.GONE
                 }
             }
         }
@@ -141,27 +129,15 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
     private fun updateTopBangDan(position:Int){
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this, success = { _, data ->
             data?.let {
-                if(it.iReceiveLovePoint>0){
+                    headerView.rl_list_top.visibility = View.VISIBLE
                     headerView.tv_name.text = it.name
                     headerView.user_headView.setImageURI(it.picUrl)
                     if(it.iListSetting==2){
-//                    headerView.tv_name.text = "*****"
-//                    headerView.user_headView.showBlur(it.picUrl)
                         headerView.tv_userinfo.visibility = View.VISIBLE
                         headerView.tv_userinfo.text = "你开启了在榜单中隐藏身份"
                     }else{
                         headerView.tv_userinfo.visibility = View.GONE
-//                    if(!it.signature.isNullOrEmpty()){
-//                        headerView.tv_userinfo.visibility = View.VISIBLE
-//                        headerView.tv_userinfo.text = it.signature
-//                    }else if(!it.intro.isNullOrEmpty()){
-//                        headerView.tv_userinfo.text = it.intro
-//                        headerView.tv_userinfo.visibility = View.VISIBLE
-//                    }else{
-//                        headerView.tv_userinfo.visibility = View.GONE
-//                    }
                     }
-
 
                     headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
                     headerView.tv_sex.text = it.age
@@ -188,7 +164,11 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
                     if(position<9){
                         headerView.tv_order.text = "0${position}"
                     }else{
-                        headerView.tv_order.text = "${position}"
+                        if(position>100||it.iReceiveLovePoint==0){
+                            headerView.tv_order.text = "--"
+                        }else{
+                            headerView.tv_order.text = "${position}"
+                        }
                     }
 
                     headerView.ll_loveheart.setOnClickListener {
@@ -196,9 +176,6 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
                             startActivity<UserInfoActivity>("id" to "${data.accountId}")
                         }
                     }
-                }else{
-                    headerView.rl_list_top.visibility = View.GONE
-                }
             }
         }) { code, msg ->
             if(code==2){
