@@ -26,6 +26,7 @@ import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.INSTALL_DATA02
 import com.umeng.message.PushAgent
 import io.rong.callkit.RongCallAction
+import io.rong.callkit.RongCallKit
 import io.rong.callkit.RongVoIPIntent
 import io.rong.calllib.RongCallClient
 import io.rong.calllib.RongCallCommon
@@ -269,13 +270,15 @@ class SettingActivity : TitleActivity() {
             return
         }
 
-        var intent = Intent(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)
-        intent.putExtra("conversationType", Conversation.ConversationType.PRIVATE.getName().toLowerCase(Locale.US))
-        intent.putExtra("targetId", "103162")
-        intent.putExtra("callAction", RongCallAction.ACTION_OUTGOING_CALL.getName())
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.setPackage(packageName)
-        applicationContext.startActivity(intent)
+//        var intent = Intent(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)
+//        intent.putExtra("conversationType", Conversation.ConversationType.PRIVATE.getName().toLowerCase(Locale.US))
+//        intent.putExtra("targetId", "103162")
+//        intent.putExtra("callAction", RongCallAction.ACTION_OUTGOING_CALL.getName())
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//        intent.setPackage(packageName)
+//        applicationContext.startActivity(intent)
+
+        RongCallKit.startSingleCall(this,"103162", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO)
     }
 
 
