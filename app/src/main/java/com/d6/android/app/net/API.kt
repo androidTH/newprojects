@@ -17,8 +17,8 @@ object API {
     /**
      * 正式环境
      */
-//    const val BASE_URL = "https://www.d6-zone.com/JyPhone/"
-//    const val STATIC_BASE_URL = "https://www.d6-zone.com/JyD6/#/"
+    const val BASE_URL = "https://www.d6-zone.com/JyPhone/"
+    const val STATIC_BASE_URL = "https://www.d6-zone.com/JyD6/#/"
 
 //    val BASE_ URL = if(getDebugMode()) "http://47.105.50.76/JyPhone/" else "https://www.d6-zone.com/JyPhone/"
 }
