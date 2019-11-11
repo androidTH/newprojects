@@ -25,12 +25,21 @@ import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.INSTALL_DATA02
 import com.umeng.message.PushAgent
+import io.rong.callkit.RongCallAction
+import io.rong.callkit.RongVoIPIntent
+import io.rong.calllib.RongCallClient
+import io.rong.calllib.RongCallCommon
 import io.rong.imkit.RongIM
+import io.rong.imlib.RongIMClient
+import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_setting.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.toast
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SettingActivity : TitleActivity() {
 
@@ -49,6 +58,8 @@ class SettingActivity : TitleActivity() {
         SPUtils.instance().getString(INSTALL_DATA02)
     }
 
+    val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_setting)
@@ -64,6 +75,12 @@ class SettingActivity : TitleActivity() {
             startActivity<ContactUsActivity>()
 //            startActivity<ChooseFriendsActivity>()
 //            startActivity<SimplePlayer>()
+
+            if (RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
+                startVoice()
+            } else {
+                reconnect(token)
+            }
         }
 
         tv_oldfans.setOnClickListener {
@@ -223,6 +240,44 @@ class SettingActivity : TitleActivity() {
             mSwipeRefreshLayout.isRefreshing = false
         }
     }
+
+    private fun reconnect(token: String) {
+        RongIM.connect(token, object : RongIMClient.ConnectCallback() {
+            override fun onTokenIncorrect() {}
+
+            override fun onSuccess(s: String) {
+                startVoice()
+            }
+
+            override fun onError(e: RongIMClient.ErrorCode) {
+            }
+        })
+    }
+
+    fun startVoice() {
+        val profile = RongCallClient.getInstance().getCallSession()
+        if (profile != null && profile!!.getActiveTime() > 0) {
+            if (profile!!.getMediaType() == RongCallCommon.CallMediaType.AUDIO)
+                toast(getString(io.rong.callkit.R.string.rc_voip_call_audio_start_fail))
+            else
+                toast(getString(io.rong.callkit.R.string.rc_voip_call_video_start_fail))
+            return
+        }
+
+        if(!NetworkUtils.hasInternet(this)){
+            toast(getString(io.rong.callkit.R.string.rc_voip_call_network_error))
+            return
+        }
+
+        var intent = Intent(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)
+        intent.putExtra("conversationType", Conversation.ConversationType.PRIVATE.getName().toLowerCase(Locale.US))
+        intent.putExtra("targetId", "103162")
+        intent.putExtra("callAction", RongCallAction.ACTION_OUTGOING_CALL.getName())
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.setPackage(packageName)
+        applicationContext.startActivity(intent)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

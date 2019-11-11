@@ -186,6 +186,10 @@
 -dontnote com.google.android.gms.gcm.**
 -dontnote io.rong.**
 
+-keep class cn.rongcloud.rtc.*{*;}
+-keep class cn.rongcloud.rtc.core.**  { *; }
+-keep class cn.rongcloud.rtc.engine.binstack.json.**  { *; }
+
 # VoIP
 -keep class io.agora.rtc.** {*;}
 
