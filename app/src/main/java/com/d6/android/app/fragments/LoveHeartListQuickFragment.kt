@@ -94,7 +94,6 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
             data?.let {
                 if (pageNum == 1) {
                     mMessages.clear()
-                    mHeaderFans.clear()
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
                     if (pageNum > 1) {
@@ -191,8 +190,10 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
 
     override fun loadMore() {
         super.loadMore()
-        pageNum++
-        getData()
+        if(mMessages.size!=100){
+            pageNum++
+            getData()
+        }
     }
 
     override fun onDestroy() {

@@ -207,8 +207,10 @@ class ManyLoveHeartListQuickFragment : RecyclerFragment() {
 
     override fun loadMore() {
         super.loadMore()
-        pageNum++
-        getData()
+        if(mMessages.size!=100){
+            pageNum++
+            getData()
+        }
     }
 
     override fun onDestroy() {
