@@ -33,6 +33,8 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
+    private var listIndex = 0
+
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
         var tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
         var headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
@@ -106,10 +108,28 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
             tv_order.textColor = ContextCompat.getColor(context,R.color.color_888888)
         }
 
-        if(position<9){
-            tv_order.text = "0${position+1}"
+        if(position>0){
+            if(mData[position-1].iAllLovePoint==data.iAllLovePoint){
+                if(position<=9){
+                    tv_order.text = "0${listIndex}"
+                }else{
+                    tv_order.text = "${listIndex}"
+                }
+            }else{
+                listIndex = listIndex +1
+                if(listIndex<=9){
+                    tv_order.text = "0${listIndex}"
+                }else{
+                    tv_order.text = "${listIndex}"
+                }
+            }
         }else{
-            tv_order.text = "${position+1}"
+            listIndex = listIndex +1
+            if(listIndex<=9){
+                tv_order.text = "0${listIndex}"
+            }else{
+                tv_order.text = "${listIndex}"
+            }
         }
     }
 
