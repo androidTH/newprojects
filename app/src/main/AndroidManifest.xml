@@ -161,6 +161,10 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.VoiceChatCreateActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.FeedBackActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -378,6 +382,7 @@
         </activity>
         <activity android:name=".activities.RecommendDateActivity"/>
         <activity android:name=".activities.AppointmentActivity"/>
+        <activity android:name=".activities.AudioChatActivity"/>
         <activity android:name=".activities.PointExplainActivity"/>
         <activity android:name=".activities.MenMemberActivity"/>
         <activity android:name=".activities.PrivilegeDescActivity"/>

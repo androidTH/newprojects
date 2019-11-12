@@ -4,6 +4,7 @@ import com.d6.android.app.activities.MyInfoActivity;
 import com.d6.android.app.activities.PublishFindDateActivity;
 import com.d6.android.app.activities.ReleaseNewTrendsActivity;
 import com.d6.android.app.activities.UserInfoActivity;
+import com.d6.android.app.activities.VoiceChatCreateActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,8 @@ public class ObserverManager extends Observable {
             }else if(observer instanceof UserInfoActivity){
                 observer.update(this,arg);
             }else if(observer instanceof MyInfoActivity){
+                observer.update(this,arg);
+            }else if(observer instanceof VoiceChatCreateActivity){
                 observer.update(this,arg);
             }
         }

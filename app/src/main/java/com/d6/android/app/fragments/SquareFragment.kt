@@ -148,6 +148,10 @@ class SquareFragment : RecyclerFragment() {
             startActivity<D6LoveHeartListActivity>()
         }
 
+        headerView.rl_audio.setOnClickListener {
+            startActivity<AudioChatActivity>("from"  to "SquareFragment")
+        }
+
         mIsDismissDialog = true
         getData()
         getTopicBanner()
@@ -224,7 +228,7 @@ class SquareFragment : RecyclerFragment() {
         Request.findSquareTop().request(this,false,success={_,data->
               data?.let {
                   var iAppointmentSignupCount = it.optInt("iAppointmentSignupCount")
-                  headerView.tv_date_count.text = "已有${iAppointmentSignupCount}人约会成功"
+                  headerView.tv_date_count.text = "${iAppointmentSignupCount}人约会成功"
                   var coverurl = it.optString("coverurl")
                   var picUrl = it.optString("picUrl")
                   if(coverurl.isNotEmpty()){

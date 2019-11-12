@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_F5F5F5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_recomment_root"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_recomend_toolbar"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:id="@+id/iv_back_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:paddingLeft="@dimen/margin_5"
+            android:paddingRight="@dimen/margin_5"
+            android:src="@mipmap/back" />
+
+        <TextView
+            android:id="@+id/tv_recomendtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:drawablePadding="@dimen/margin_5"
+            android:textStyle="bold"
+            android:text="语音连麦"
+            android:textColor="@color/color_black"
+            android:textSize="17sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_add_voicechat"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:drawableLeft="@mipmap/ic_add_orange"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_audio_top"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/color_666666"
+          android:layout_centerVertical="true"
+          android:text="走心聊·拉近彼此的距离"
+          android:layout_marginLeft="@dimen/margin_18"
+          android:textStyle="bold"
+          android:textSize="12sp"/>
+        <TextView
+            android:id="@+id/tv_audio_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:drawableRight="@mipmap/downmore_icon"
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="center"
+            android:text="@string/string_sex"
+            android:textColor="@color/color_F7AB00"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_appointment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
