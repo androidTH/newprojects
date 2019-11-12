@@ -95,7 +95,7 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
             data?.let {
                 if (pageNum == 1) {
                     mMessages.clear()
-                    mHeaderFans.clear()
+//                    mHeaderFans.clear()
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
                     if (pageNum > 1) {
@@ -192,9 +192,11 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
 
     override fun loadMore() {
         super.loadMore()
-        if(mMessages.size!=100){
+        if(mMessages.size<=100){
             pageNum++
             getData()
+        }else{
+            mSwipeRefreshLayout.setLoadMoreText("没有更多了")
         }
     }
 
