@@ -60,6 +60,7 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
 
     private var titleName:String?= ""
     private var type:Int = 2
+    private var noLoad = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,8 +192,10 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
 
     override fun loadMore() {
         super.loadMore()
-        pageNum++
-        getData()
+        if(mMessages.size!=100){
+            pageNum++
+            getData()
+        }
     }
 
     override fun onDestroy() {

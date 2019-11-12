@@ -563,7 +563,7 @@ interface ApiServices {
     fun updateSendPointShow(@Query("sLoginToken")sLoginToken:String, @Query("iSendPointShow") iSendPointShow:Int, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     @POST("backstage/userloverule/findLoveListing")
-    fun findLoveListing(@Query("sLoginToken")sLoginToken:String, @Query("iSex") iSex:Int,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 20,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
+    fun findLoveListing(@Query("sLoginToken")sLoginToken:String, @Query("iSex") iSex:Int,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 50,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<LoveHeartFans>>>
 
     //混合流广场顶部数据
     @POST("backstage/square/findSquareTop")
