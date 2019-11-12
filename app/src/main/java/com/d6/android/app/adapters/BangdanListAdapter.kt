@@ -33,7 +33,7 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
-    private var listIndex = 0
+    private var mHashMap:HashMap<Int,Int> = HashMap()
 
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
         var tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
@@ -110,26 +110,27 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
 
         if(position>0){
             if(mData[position-1].iAllLovePoint==data.iAllLovePoint){
-                if(position<=9){
-                    tv_order.text = "0${listIndex}"
+                mHashMap.put(position,mHashMap.get(position-1)!!.toInt())
+                if(position<9){
+                    tv_order.text = "0${mHashMap.get(position)!!.toInt()}"
                 }else{
-                    tv_order.text = "${listIndex}"
+                    tv_order.text = "${mHashMap.get(position)!!.toInt()}"
                 }
             }else{
-                listIndex = listIndex +1
-                if(listIndex<=9){
-                    tv_order.text = "0${listIndex}"
+                mHashMap.put(position,position+1)
+                if(position<9){
+                    tv_order.text = "0${position+1}"
                 }else{
-                    tv_order.text = "${listIndex}"
+                    tv_order.text = "${position+1}"
                 }
             }
         }else{
-            listIndex = listIndex +1
-            if(listIndex<=9){
-                tv_order.text = "0${listIndex}"
+            if(position<9){
+                tv_order.text = "0${position+1}"
             }else{
-                tv_order.text = "${listIndex}"
+                tv_order.text = "${position+1}"
             }
+            mHashMap.put(position,position+1)
         }
     }
 

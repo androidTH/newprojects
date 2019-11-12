@@ -36,6 +36,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
     @SerializedName("ziwojieshao") var ziwojieshao:String = ""// "ziwojieshao": "人工客服在线时间早9点－晚1点，官方客服Vx:dkn042"
     @SerializedName("iIsCode") var iIsCode:Int = -1 // 2、允许显示用户头像  1、头像和名称打码
     var iListSetting:Int = -1
+    var orderId:Int = -1
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         iSenduserid = parcel.readInt()
@@ -54,6 +55,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         iIsCode = parcel.readInt()
         iAllLovePoint = parcel.readInt()
         iListSetting = parcel.readInt()
+        orderId = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -65,6 +67,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         parcel.writeInt(iIsCode)
         parcel.writeInt(iAllLovePoint)
         parcel.writeInt(iListSetting)
+        parcel.writeInt(orderId)
         parcel.writeString(sSendUserName)
         parcel.writeString(sSex)
         parcel.writeString(sPicUrl)
