@@ -48,14 +48,11 @@ class VoiceChatListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<My
     }
 
     private fun signUpDate(myAppointment:MyAppointment) {
-        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}").request(context as BaseActivity, false, success = { msg, data ->
-            val dateDialog = OpenDateDialog()
-            dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
-            dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
-//            var dateInfo = RengGongDialog()
-//            var dateInfo = SelfDateDialog()
-//            dateInfo.show((context as BaseActivity).supportFragmentManager, "rg")
-            dateDialog.setDialogListener { p, s ->
+        Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.iAppointUserid}").request(context as BaseActivity, false, success = { msg, data ->
+            var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+            mApplyVoiceChatDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
+            mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            mApplyVoiceChatDialog.setDialogListener { p, s ->
                 mData.remove(myAppointment)
                 notifyDataSetChanged()
             }

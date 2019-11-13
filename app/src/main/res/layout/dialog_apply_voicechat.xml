@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="385dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_white_8r"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:gravity="center_horizontal"
+            android:text="申请连麦"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:id="@+id/tv_voicechat_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="本次连麦需要打赏99个[img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
+            android:textSize="15sp"
+            android:textColor="@color/color_333333" />
+
+        <LinearLayout
+            android:id="@+id/ll_voicechat_desc"
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_agree_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center_horizontal"
+                android:text="1.预付99个喜欢"
+                android:textSize="14sp"
+                android:textColor="@color/color_666666" />
+
+            <TextView
+                android:id="@+id/tv_noagree_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_7"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center_horizontal"
+                android:text="2.聊天结束后打赏的喜欢进入对方账户"
+                android:textSize="14sp"
+                android:textColor="@color/color_666666" />
+
+            <TextView
+                android:id="@+id/tv_timeout_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_7"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center_horizontal"
+                android:text="3.如果聊天时间过短，将返还打赏的喜欢"
+                android:textSize="14sp"
+                android:textColor="@color/color_666666" />
+        </LinearLayout>
+
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:id="@+id/tv_action"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="@dimen/margin_30"
+            android:background="@drawable/shape_4r_orange"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="预付99个喜欢 [img src=redheart_small/]"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+        <LinearLayout
+            android:id="@+id/ll_user_lovepoint"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_15">
+            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_redheart_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:drawablePadding="@dimen/margin_5"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="剩余 [img src=redheart_small/] 不足 (剩余30)"/>
+            <TextView
+                android:id="@+id/tv_redheart_gobuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_F7AB00"
+                android:layout_marginLeft="@dimen/margin_8"
+                android:padding="@dimen/margin_5"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:text="点击购买"/>
+            <!--android:background="@drawable/shape_orange_2r_radius"-->
+
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/ic_close_orange2"/>
+</RelativeLayout>
