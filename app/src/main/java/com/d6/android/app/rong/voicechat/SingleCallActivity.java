@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.d6.android.app.R;
 import com.d6.android.app.activities.UserInfoActivity;
+import com.d6.android.app.rong.bean.TipsMessage;
 import com.d6.android.app.widget.blurry.internal.Helper;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -46,6 +48,7 @@ import io.rong.calllib.RongCallCommon;
 import io.rong.calllib.RongCallSession;
 import io.rong.common.RLog;
 import io.rong.imkit.RongContext;
+import io.rong.imkit.RongIM;
 import io.rong.imkit.utilities.PermissionCheckUtil;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
@@ -78,6 +81,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 
     private String targetId = null;
     private RongCallCommon.CallMediaType mediaType;
+    private TimeCountDown mTimeCountDown;
 
     @Override
     final public boolean handleMessage(Message msg) {
@@ -420,6 +424,13 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 //                    GlideUtils.showBlurTransformation(SingleCallActivity.this, iv_icoming_backgroud, null != InviterUserIdInfo ? InviterUserIdInfo.getPortraitUri() : null);
                     Helper.showUrlBlur(iv_icoming_backgroud,InviterUserIdInfo.getPortraitUri().toString(),8,30);
                     mUserInfoContainer.findViewById(R.id.iv_large_preview_Mask).setVisibility(View.VISIBLE);
+
+                    if(mTimeCountDown!=null){
+                        mTimeCountDown.cancel();
+                        mTimeCountDown = null;
+                    }
+                    mTimeCountDown = new TimeCountDown(30000,1000);
+                    mTimeCountDown.start();
                 }
             }
         } catch (Exception e) {
@@ -455,6 +466,11 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             btnLayout.findViewById(R.id.rc_voip_handfree).setVisibility(View.INVISIBLE);
             mButtonContainer.removeAllViews();
             mButtonContainer.addView(btnLayout);
+            sendTipsMessage("你已连麦","你已连麦",callSession.getInviterUserId());
+            if(mTimeCountDown!=null){
+                mTimeCountDown.cancel();
+                mTimeCountDown=null;
+            }
         } else {
             // 二人视频通话接通后 mUserInfoContainer 中更换为无头像的布局
             mUserInfoContainer.removeAllViews();
@@ -682,6 +698,10 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     }
 
     public void onHangupBtnClick(View view) {
+        if(mTimeCountDown!=null){
+            mTimeCountDown.cancel();
+            mTimeCountDown=null;
+        }
         onHangupVoiceChat();
         FinLog.e(TAG, "_挂断单人视频出错 callSession="+(callSession == null)+",isFinishing="+isFinishing);
     }
@@ -772,7 +792,27 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         }
         cancelTime();
 
-//        if (!TextUtils.isEmpty(senderId)) {
+        switch (reason) {
+            case CANCEL:
+                break;
+            case REJECT:
+                sendTipsMessage("你拒绝了对方的连麦","拒绝",senderId);
+//                text = getString(R.string.rc_voip_mo_reject);
+                break;
+            case NO_RESPONSE:
+            case BUSY_LINE:
+//                text = getString(R.string.rc_voip_mo_no_response);
+                break;
+            case REMOTE_BUSY_LINE:
+//                text = getString(R.string.rc_voip_mt_busy);
+                break;
+            case REMOTE_CANCEL:
+            case REMOTE_REJECT:
+                sendTipsMessage("对方已拒绝","拒绝",senderId);
+                break;
+        }
+
+        if (!TextUtils.isEmpty(senderId)) {
 //            CallSTerminateMessage message = new CallSTerminateMessage();
 //            message.setReason(reason);
 //            message.setMediaType(callSession.getMediaType());
@@ -787,7 +827,15 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 //                receivedStatus.setRead();
 //                RongIM.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE, callSession.getTargetId(), senderId, receivedStatus, message, serverTime, null);
 //            }
-//        }
+
+            sendTipsMessage("连麦时长"+extra,extra,senderId);
+        }
+
+        if(mTimeCountDown!=null){
+            mTimeCountDown.cancel();
+            mTimeCountDown=null;
+        }
+
         postRunnableDelay(new Runnable() {
             @Override
             public void run() {
@@ -1028,6 +1076,44 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             startActivity(intent);
         }else if(v.getId()==R.id.ib_voicechat_loveheart){
 
+        }
+    }
+
+    private void sendTipsMessage(String content,String extra,String senderId){
+        if(!TextUtils.isEmpty(extra)){
+            TipsMessage tipsMessage = new TipsMessage();
+            tipsMessage.setContent(content);
+            long serverTime = System.currentTimeMillis() - RongIMClient.getInstance().getDeltaTime();
+            if (senderId.equals(callSession.getSelfUserId())) {
+                RongIM.getInstance().insertOutgoingMessage(Conversation.ConversationType.PRIVATE, callSession.getTargetId(), io.rong.imlib.model.Message.SentStatus.SENT, tipsMessage, serverTime, null);
+            } else {
+                io.rong.imlib.model.Message.ReceivedStatus receivedStatus = new io.rong.imlib.model.Message.ReceivedStatus(0);
+                receivedStatus.setRead();
+                RongIM.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE, callSession.getTargetId(), senderId, receivedStatus, tipsMessage, serverTime, null);
+            }
+        }
+    }
+
+    class TimeCountDown extends CountDownTimer{
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public TimeCountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onFinish() {
+            TextView tv_rc_voip_call_remind_info = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_call_remind_info);
+            tv_rc_voip_call_remind_info.setText("对方手机可能不在身边，暂未接受邀请，你可稍后再试或等待对方回复");
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
         }
     }
 }

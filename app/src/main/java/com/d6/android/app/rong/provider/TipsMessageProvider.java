@@ -75,13 +75,17 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
             TextView textView = holder.mTvMsgContent;
             textView.setText(content.getContent());
             if(!TextUtils.isEmpty(content.getExtra())){
-                TipsTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),TipsTxtMessage.class);
-                if(TextUtils.equals(msg.getType(),"1")){
-                    holder.mTvMsgContent.setVisibility(View.VISIBLE);
-                }else if(TextUtils.equals(msg.getType(),"2")||TextUtils.equals(msg.getType(),"3")){
-                    holder.mTvMsgContent.setVisibility(View.VISIBLE);
+                try{
+                    TipsTxtMessage msg = GsonHelper.getGson().fromJson(content.getExtra(),TipsTxtMessage.class);
+                    if(TextUtils.equals(msg.getType(),"1")){
+                        holder.mTvMsgContent.setVisibility(View.VISIBLE);
+                    }else if(TextUtils.equals(msg.getType(),"2")||TextUtils.equals(msg.getType(),"3")){
+                        holder.mTvMsgContent.setVisibility(View.VISIBLE);
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
                 }
-//                else if(TextUtils.equals(msg.getType(),"4")){
+//               else if(TextUtils.equals(msg.getType(),"4")){
 //                    holder.mTvMsgContent.setVisibility(View.VISIBLE);
 //                }
             }

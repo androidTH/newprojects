@@ -49,6 +49,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="150dp"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginRight="@dimen/margin_25"
         android:layout_below="@+id/voice_voip_call_minimize">
 
         <TextView
@@ -68,8 +70,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_8"
             android:textColor="@color/color_4DFFFFFF"
-            android:layout_marginLeft="@dimen/margin_25"
-            android:layout_marginRight="@dimen/margin_25"
             android:text="新开了家餐厅，环境很不错，特别喜欢吃他们家的甜点，都是法国大厨做的哦。"
             android:textSize="14sp"/>
 
@@ -151,6 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
+            android:gravity="center"
             android:textStyle="bold"
             android:textSize="15sp"
             android:textColor="@color/white"
