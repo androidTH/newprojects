@@ -179,7 +179,7 @@
                 android:drawablePadding="@dimen/margin_2"
                 android:textStyle="bold"
                 android:textColor="@color/color_888888"
-                android:text="申请者需打赏20个喜欢[img src=redheart_small/]"
+                android:text="申请者需打赏20个喜欢 [img src=redheart_small/]"
                 android:textSize="12sp" />
         </LinearLayout>
         <View
@@ -217,7 +217,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-15dp"
         android:layout_below="@+id/ll_content"
         android:layout_marginRight="@dimen/margin_8"
         android:visibility="gone"

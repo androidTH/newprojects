@@ -136,9 +136,9 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        tv_date_vip.backgroundDrawable = getLevelDrawable(date.userclassesid.toString(),context)
+        tv_date_vip.backgroundDrawable = getLevelDrawable("${date.userclassesid}",context)
 
-        if(TextUtils.equals(CustomerServiceId,date.userid.toString())||TextUtils.equals(CustomerServiceWomenId,date.userid.toString())){
+        if(TextUtils.equals(CustomerServiceId,"${date.userid}")||TextUtils.equals(CustomerServiceWomenId,"${date.userid}")){
             iv_self_servicesign.visibility = View.VISIBLE
             img_self_auther.visibility = View.GONE
         }else{

@@ -17,6 +17,7 @@ import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
+import com.d6.android.app.widget.VoiceChatListView
 import com.d6.android.app.widget.VoiceChatView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -31,7 +32,7 @@ class VoiceChatListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<My
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: MyAppointment) {
-        val view = holder.bind<VoiceChatView>(R.id.srv_view)
+        val view = holder.bind<VoiceChatListView>(R.id.srv_view)
         view.update(data)
         view.sendDateListener {
             var appointment = it

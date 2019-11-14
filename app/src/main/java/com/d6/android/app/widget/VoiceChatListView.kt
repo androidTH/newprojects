@@ -29,7 +29,7 @@ import org.jetbrains.anko.startActivity
 /**
  * Created on 2017/12/17.
  */
-class VoiceChatView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
+class VoiceChatListView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private val mImages = ArrayList<String>()
     private val imageAdapter by lazy {
@@ -43,14 +43,14 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
         rv_images.adapter = imageAdapter
     }
 
-    fun update(voiceChatData: Square) {
-        headView.setImageURI(voiceChatData.picUrl)
-        tv_name.text = voiceChatData.name
-        tv_voicechat_user_sex.isSelected = TextUtils.equals("0","${voiceChatData.sex}")
+    fun update(date: MyAppointment) {
+        headView.setImageURI(date.sAppointmentPicUrl)
+        tv_name.text = date.sAppointUserName
+        tv_voicechat_user_sex.isSelected = TextUtils.equals("0","${date.iSex}")
         headView.setOnClickListener(OnClickListener {
-            val id = voiceChatData.userid
+            val id = date.iUserid
             isBaseActivity {
-                if(voiceChatData.iIsAnonymous==1){
+                if(date.iIsAnonymous==1){
                     var mUnknowDialog = UnKnowInfoDialog()
                     mUnknowDialog.arguments = bundleOf("otheruserId" to id.toString())
                     mUnknowDialog.show(it.supportFragmentManager,"unknowDialog")
@@ -60,15 +60,15 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
             }
         })
 
-        if(!voiceChatData.age.toString().isNullOrEmpty()){
-            if(voiceChatData.age!=null){
-                voiceChatData.age?.let {
-                    tv_voicechat_user_sex.text = "${voiceChatData.age}"
+        if(!date.iAge.toString().isNullOrEmpty()){
+            if(date.iAge!=null){
+                date.iAge?.let {
+                    tv_voicechat_user_sex.text = "${date.iAge}"
                 }
             }
         }
 
-        var time  = converToDays(voiceChatData.dEndtime)
+        var time  = converToDays(date.dEndtime)
         tv_time_long.visibility = View.VISIBLE
         tv_send_voicechat.visibility = View.VISIBLE
         iv_voicechat_timeout.visibility = View.GONE
@@ -90,16 +90,16 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
 
 //        tv_voicechat_type.text = "约会地点：${date}"
 
-        tv_content.text = voiceChatData.content
+        tv_content.text = date.sDesc
 
-        if (voiceChatData.imgUrl.isNullOrEmpty()) {
+        if (date.sAppointPic.isNullOrEmpty()) {
             rv_images.gone()
         } else {
             rv_images.visible()
         }
 
         mImages.clear()
-        val images = voiceChatData.imgUrl?.split(",")
+        val images = date.sAppointPic?.split(",")
         if (images != null) {
             mImages.addAll(images.toList())
         }
@@ -107,29 +107,28 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
         imageAdapter.notifyDataSetChanged()
         tv_send_voicechat.setOnClickListener {
             mSendDateClick?.let {
-                it.onDateClick(voiceChatData)
+                it.onDateClick(date)
             }
         }
-
         tv_voicechat_more.setOnClickListener {
             deleteAction?.let {
-                it.onDelete(voiceChatData)
+                it.onDelete(date)
             }
         }
 
-        tv_voicechat_vip.backgroundDrawable = getLevelDrawable("${voiceChatData.userclassesid}",context)
+        tv_voicechat_vip.backgroundDrawable = getLevelDrawable(date.userclassesid.toString(),context)
 
-        if(TextUtils.equals(CustomerServiceId,"${voiceChatData.userid}")||TextUtils.equals(CustomerServiceWomenId,"${voiceChatData.userid}")){
+        if(TextUtils.equals(CustomerServiceId,date.iUserid.toString())||TextUtils.equals(CustomerServiceWomenId,date.iUserid.toString())){
             iv_voicechat_servicesign.visibility = View.VISIBLE
             img_voicechat_auther.visibility = View.GONE
         }else{
             iv_voicechat_servicesign.visibility = View.GONE
-            if(TextUtils.equals("0",voiceChatData!!.screen)|| voiceChatData!!.screen.isNullOrEmpty()){
+            if(TextUtils.equals("0",date!!.screen)|| date!!.screen.isNullOrEmpty()){
                 img_voicechat_auther.visibility = View.GONE
-            }else if(TextUtils.equals("1",voiceChatData!!.screen)){
+            }else if(TextUtils.equals("1",date!!.screen)){
                 img_voicechat_auther.visibility = View.VISIBLE
                 img_voicechat_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.video_small)
-            }else if(TextUtils.equals("3",voiceChatData!!.screen)){
+            }else if(TextUtils.equals("3",date!!.screen)){
                 img_voicechat_auther.visibility = View.GONE
                 img_voicechat_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.renzheng_small)
             }else{
@@ -137,7 +136,7 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
             }
         }
 
-        voiceChatData.iAppointmentSignupCount?.let {
+        date.iAppointmentSignupCount?.let {
             if(it>0){
                 tv_voicechat_nums.text = "累计${it}人邀约"
             }else{
@@ -146,18 +145,18 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
-    public fun sendDateListener(action:(voiceChatData: Square)->Unit) {
+    public fun sendDateListener(action:(myAppointment: MyAppointment)->Unit) {
         mSendDateClick = object : sendDateClickListener {
-            override fun onDateClick(voiceChatData: Square) {
-                action(voiceChatData)
+            override fun onDateClick(myAppointment: MyAppointment) {
+                action(myAppointment)
             }
         }
     }
 
-    fun setDeleteClick(action:(voiceChatData: Square)->Unit){
+    fun setDeleteClick(action:(myAppointment: MyAppointment)->Unit){
         this.deleteAction = object :DeleteClick {
-            override fun onDelete(voiceChatData: Square) {
-                action(voiceChatData)
+            override fun onDelete(myAppointment: MyAppointment) {
+                action(myAppointment)
             }
         }
     }
@@ -166,11 +165,11 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
     private var deleteAction: DeleteClick?=null
 
     interface sendDateClickListener{
-        fun onDateClick(voiceChatData: Square)
+        fun onDateClick(myAppointment: MyAppointment)
     }
 
     interface DeleteClick{
-        fun onDelete(voiceChatData: Square)
+        fun onDelete(myAppointment: MyAppointment)
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {

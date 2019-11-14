@@ -17,6 +17,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.DateOfSquareView
 import com.d6.android.app.widget.TrendView
+import com.d6.android.app.widget.VoiceChatView
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.umeng.socialize.utils.Log.toast
@@ -38,13 +39,22 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
         val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
+        val voicechat_view = holder.bind<VoiceChatView>(R.id.voicechat_view)
         if(data.classesid==66){
             dateofsquare_view.visibility = View.VISIBLE
             trendView.visibility = View.GONE
+            voicechat_view.visibility = View.GONE
             dateofsquare_view.update(data)
+        }else if(position%2==0){
+            voicechat_view.visibility = View.VISIBLE
+            dateofsquare_view.visibility = View.GONE
+            trendView.visibility = View.GONE
+            voicechat_view.update(data)
         }else{
+            voicechat_view.visibility = View.GONE
             dateofsquare_view.visibility = View.GONE
             trendView.visibility = View.VISIBLE
+
             trendView.update(data)
         }
 

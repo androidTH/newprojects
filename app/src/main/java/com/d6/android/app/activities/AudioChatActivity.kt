@@ -43,7 +43,6 @@ class AudioChatActivity : BaseActivity() {
 
     private var userJson = SPUtils.instance().getString(Const.USERINFO)
     private val mSelfDateTypes = ArrayList<DateType>()
-    private var type: Int = 0
     lateinit var mPopupSex:SelectedSexPopup
     fun IsNotNullPopupSex()=::mPopupSex.isInitialized
 
