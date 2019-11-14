@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_redheart_item"
+    android:layout_width="85dp"
+    android:layout_height="85dp"
+    android:orientation="horizontal"
+    android:background="@drawable/shape_4r_ef"
+    android:gravity="center">
+
+    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        android:id="@+id/tv_redheartnums"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/color_333333"
+        android:text=""
+        android:layout_marginRight="@dimen/margin_3"
+        android:drawablePadding="@dimen/margin_3"
+        android:textSize="15sp"/>
+</LinearLayout>

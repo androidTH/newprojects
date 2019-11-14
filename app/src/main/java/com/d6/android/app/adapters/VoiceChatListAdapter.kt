@@ -49,10 +49,23 @@ class VoiceChatListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<My
 
     private fun signUpDate(myAppointment:MyAppointment) {
         Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.iAppointUserid}").request(context as BaseActivity, false, success = { msg, data ->
-            var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-            mApplyVoiceChatDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
-            mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            mApplyVoiceChatDialog.setDialogListener { p, s ->
+//            var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+//            mApplyVoiceChatDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
+//            mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
+//            mApplyVoiceChatDialog.setDialogListener { p, s ->
+//                mData.remove(myAppointment)
+//                notifyDataSetChanged()
+//            }
+//            var mApplyVoiceChatPointsDialog = ApplyVoiceChatPointsDialog()
+//            mApplyVoiceChatPointsDialog.show((context as BaseActivity).supportFragmentManager, "d")
+//            mApplyVoiceChatPointsDialog.setDialogListener { p, s ->
+//                mData.remove(myAppointment)
+//                notifyDataSetChanged()
+//            }
+
+            var mRewardVoiceChatPointsDialog = RewardVoiceChatPointsDialog()
+            mRewardVoiceChatPointsDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            mRewardVoiceChatPointsDialog.setDialogListener { p, s ->
                 mData.remove(myAppointment)
                 notifyDataSetChanged()
             }

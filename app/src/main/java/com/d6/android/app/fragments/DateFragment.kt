@@ -156,11 +156,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                                 getFindReceiveLoveHeart("${findDate.accountId}")
                             }
                         }
-//                        if (findDate.iIsFans == 1) {
-//                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))
-//                        } else {
-//                            fb_heat_like.setImageBitmap(BitmapFactory.decodeResource(resources, R.mipmap.center_like_button))
-//                        }
                     }
                 }
             }

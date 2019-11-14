@@ -43,6 +43,7 @@ public class RongCallProxy implements IRongCallListener {
 //        }
     }
 
+    //电话已拨出。
     @Override
     public void onCallOutgoing(RongCallSession callSession, SurfaceView localVideo) {
         if (mCallListener != null) {
@@ -50,6 +51,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //已建立通话。
     @Override
     public void onCallConnected(RongCallSession callSession, SurfaceView localVideo) {
         if (mCallListener != null) {
@@ -57,6 +59,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //通话结束。
     @Override
     public void onCallDisconnected(RongCallSession callSession, RongCallCommon.CallDisconnectedReason reason) {
         RLog.d(TAG, "RongCallProxy onCallDisconnected mCallListener = " + mCallListener);
@@ -67,6 +70,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //被叫端正在振铃。
     @Override
     public void onRemoteUserRinging(String userId) {
         if (mCallListener != null) {
@@ -74,6 +78,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //被叫端加入通话。
     @Override
     public void onRemoteUserJoined(String userId, RongCallCommon.CallMediaType mediaType, int userType, SurfaceView remoteVideo) {
         if (mCallListener != null) {
@@ -81,6 +86,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //通话中的某一个参与者，邀请好友加入通话，发出邀请请求后，回调 onRemoteUserInvited。
     @Override
     public void onRemoteUserInvited(String userId, RongCallCommon.CallMediaType mediaType) {
         if (mCallListener != null) {
@@ -88,6 +94,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //通话中的远端参与者离开。
     @Override
     public void onRemoteUserLeft(String userId, RongCallCommon.CallDisconnectedReason reason) {
         if (mCallListener != null) {
@@ -95,6 +102,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //当通话中的某一个参与者切换通话类型，例如由 audio 切换至 video，回调 onMediaTypeChanged。
     @Override
     public void onMediaTypeChanged(String userId, RongCallCommon.CallMediaType mediaType, SurfaceView video) {
         if (mCallListener != null) {
@@ -102,6 +110,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //通话过程中，发生异常。
     @Override
     public void onError(RongCallCommon.CallErrorCode errorCode) {
         if (mCallListener != null) {
@@ -109,6 +118,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //远端参与者 camera 状态发生变化时，回调 onRemoteCameraDisabled 通知状态变化。
     @Override
     public void onRemoteCameraDisabled(String userId, boolean disabled) {
         if (mCallListener != null) {

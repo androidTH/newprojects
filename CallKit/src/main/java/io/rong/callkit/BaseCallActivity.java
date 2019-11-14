@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.rongcloud.rtc.utils.FinLog;
 import io.rong.callkit.util.BluetoothUtil;
 import io.rong.callkit.util.CallKitUtils;
 import io.rong.callkit.util.HeadsetPlugReceiver;
@@ -63,10 +64,10 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
     private static final String TAG = "BaseCallActivity";
     private static final String MEDIAPLAYERTAG = "MEDIAPLAYERTAG";
     private final static long DELAY_TIME = 1000;
-    static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 100;
-    static final int REQUEST_CODE_ADD_MEMBER = 110;
+    public static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 100;
+    public static final int REQUEST_CODE_ADD_MEMBER = 110;
     public final int REQUEST_CODE_ADD_MEMBER_NONE=120;
-    static final int VOIP_MAX_NORMAL_COUNT = 6;
+    public static final int VOIP_MAX_NORMAL_COUNT = 6;
 
     private MediaPlayer mMediaPlayer;
     private Vibrator mVibrator;
@@ -86,8 +87,8 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
     protected PowerManager powerManager;
     protected PowerManager.WakeLock wakeLock;
 
-    static final String[] VIDEO_CALL_PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
-    static final String[] AUDIO_CALL_PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
+    public static final String[] VIDEO_CALL_PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA};
+    public static final String[] AUDIO_CALL_PERMISSIONS = {Manifest.permission.RECORD_AUDIO};
 
     public static final int CALL_NOTIFICATION_ID = 4000;
 
@@ -160,7 +161,7 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
         PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         boolean isScreenOn = pm.isScreenOn();
         if (!isScreenOn) {
-            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "bright");
+            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, "bright");
             wl.acquire();
             wl.release();
         }
@@ -613,7 +614,7 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
     }
 
     @TargetApi(23)
-    boolean requestCallPermissions(RongCallCommon.CallMediaType type, int requestCode) {
+    public boolean requestCallPermissions(RongCallCommon.CallMediaType type, int requestCode) {
         String[] permissions = null;
         Log.i(TAG,"BaseActivty requestCallPermissions requestCode="+requestCode);
         if (type.equals(RongCallCommon.CallMediaType.VIDEO) || type.equals(RongCallCommon.CallMediaType.AUDIO)) {
@@ -643,6 +644,7 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
         public void run() {
             time++;
             if (time >= 3600) {
+                onHangupVoiceChat();
                 timeView.setText(String.format("%d:%02d:%02d", time / 3600, (time % 3600) / 60, (time % 60)));
             } else {
                 timeView.setText(String.format("%02d:%02d", (time % 3600) / 60, (time % 60)));
@@ -651,7 +653,7 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
         }
     }
 
-    void onMinimizeClick(View view) {
+    public void onMinimizeClick(View view) {
         if (checkDrawOverlaysPermission(true)) {
             finish();
         } else {
@@ -679,7 +681,9 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
     protected void createPowerManager() {
         if (powerManager == null) {
             powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-            wakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, TAG);
+            if (powerManager != null) {
+                wakeLock = powerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, TAG);
+            }
         }
     }
 
@@ -723,7 +727,11 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
         if (Build.MANUFACTURER.equals("Xiaomi")) {
             return Settings.System.getInt(resolver, "vibrate_in_normal", 0) == 1;
         } else if (Build.MANUFACTURER.equals("smartisan")) {
-            return Settings.Global.getInt(resolver, "telephony_vibration_enabled", 0) == 1;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                return Settings.Global.getInt(resolver, "telephony_vibration_enabled", 0) == 1;
+            }else{
+                return Settings.Global.getInt(resolver, "telephony_vibration_enabled", 0) == 1;
+            }
         } else {
             return Settings.System.getInt(resolver, "vibrate_when_ringing", 0) == 1;
         }
@@ -760,5 +768,17 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
             unregisterReceiver(headsetPlugReceiver);
             headsetPlugReceiver=null;
         }
+    }
+
+    //挂断
+    public void onHangupVoiceChat(){
+        unRegisterHeadsetplugReceiver();
+        RongCallSession session = RongCallClient.getInstance().getCallSession();
+        if (session == null || isFinishing) {
+            finish();
+            return;
+        }
+        RongCallClient.getInstance().hangUpCall(session.getCallId());
+        stopRing();
     }
 }

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -11,20 +13,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyPointsActivity
+import com.d6.android.app.adapters.BuyRedHeartAdapter
+import com.d6.android.app.adapters.BuyRedHeartVoiceChatAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
-import com.d6.android.app.models.MyAppointment
+import com.d6.android.app.models.LoveHeartRule
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
-import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.RxRecyclerViewDividerTool
+import com.d6.android.app.widget.badge.DisplayUtil
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.rong.imkit.RongIM
-import io.rong.imlib.model.Conversation
-import kotlinx.android.synthetic.main.dialog_apply_voicechat.*
-import org.jetbrains.anko.bundleOf
+import kotlinx.android.synthetic.main.dialog_apply_voicechat_points.*
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -33,15 +35,14 @@ import org.jetbrains.anko.support.v4.startActivity
 /**
  * 申请连麦
  */
-class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
+class ApplyVoiceChatPointsDialog : DialogFragment(),RequestManager {
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
-
-    private var myAppointment:MyAppointment?=null
     private var fromType = ""
     private var mLocalUserLoveHeartCount:Int? = -1
+
+    private var mBuyRedHeartVoiceChatAdapter: BuyRedHeartVoiceChatAdapter?=null
+    private var mLoveHeartList=ArrayList<LoveHeartRule>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +55,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout((screenWidth() * 0.8f).toInt()+dip(30), wrapContent)
+        dialog.window.setLayout((screenWidth() * 0.86f).toInt()+dip(30), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
         dialog.setCanceledOnTouchOutside(true)
     }
@@ -66,25 +67,10 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.dialog_apply_voicechat, container, false)
+            inflater?.inflate(R.layout.dialog_apply_voicechat_points, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        myAppointment = if (arguments != null) {
-            arguments.getSerializable("data") as MyAppointment
-        } else {
-            MyAppointment()
-        }
-        fromType = arguments.getString("fromType","")
-        tv_action.setOnClickListener {
-            tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
-            if(TextUtils.isEmpty(fromType)){
-                getData()
-            }else{
-                dialogListener?.onClick(1,myAppointment?.sId.toString())
-                dismissAllowingStateLoss()
-            }
-        }
 
         tv_redheart_gobuy.setOnClickListener {
             isBaseActivity {
@@ -97,6 +83,12 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
+        rv_voicechat_redheart.setHasFixedSize(true)
+        rv_voicechat_redheart.layoutManager = GridLayoutManager(context,3) as RecyclerView.LayoutManager?
+        mBuyRedHeartVoiceChatAdapter = BuyRedHeartVoiceChatAdapter(null)
+        rv_voicechat_redheart.addItemDecoration(RxRecyclerViewDividerTool(DisplayUtil.dpToPx(10)))
+        rv_voicechat_redheart.adapter = mBuyRedHeartVoiceChatAdapter
+
        if(arguments !=null){
 //           var it = arguments.getParcelable("explain") as IntegralExplain
 //           tv_preparepoints.text = "本次申请赴约将预付${it.iAppointPoint}积分,申请成功后先聊一聊再决定是否赴约哦"
@@ -106,6 +98,37 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
         }
 
         getUserInfo()
+        setLoveHeartData()
+    }
+
+    private fun setLoveHeartData(){
+        var mLoveHeartRule1 = LoveHeartRule("1")
+        mLoveHeartRule1.iLoveCount = 1
+
+        var mLoveHeartRule2 = LoveHeartRule("1")
+        mLoveHeartRule2.iLoveCount = 2
+
+        var mLoveHeartRule3 = LoveHeartRule("1")
+        mLoveHeartRule3.iLoveCount = 3
+
+        var mLoveHeartRule4 = LoveHeartRule("1")
+        mLoveHeartRule4.iLoveCount = 4
+
+        var mLoveHeartRule5 = LoveHeartRule("1")
+        mLoveHeartRule5.iLoveCount = 5
+
+        var mLoveHeartRule6 = LoveHeartRule("1")
+        mLoveHeartRule6.iLoveCount = 6
+
+        mLoveHeartList.add(mLoveHeartRule1)
+        mLoveHeartList.add(mLoveHeartRule2)
+        mLoveHeartList.add(mLoveHeartRule3)
+        mLoveHeartList.add(mLoveHeartRule4)
+        mLoveHeartList.add(mLoveHeartRule5)
+        mLoveHeartList.add(mLoveHeartRule6)
+        mBuyRedHeartVoiceChatAdapter?.let {
+            it.setNewData(mLoveHeartList)
+        }
     }
 
     private fun getUserInfo() {
@@ -121,27 +144,6 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
         dismissAllowingStateLoss()
         isBaseActivity {
             //194ecdb4-4809-4b2d-bf32-42a3342964df
-            Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
-//                var openSuccessDialog = OpenDateSuccessDialog()
-//                var sId = data?.optString("sId")
-//                var explain = arguments.getParcelable("explain") as IntegralExplain
-//                openSuccessDialog.arguments = bundleOf("point" to explain.iAppointPoint.toString(),"sId" to sId.toString())
-//                openSuccessDialog.show(it.supportFragmentManager, "d")
-                if(myAppointment?.iIsAnonymous==1){
-                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.GROUP, "anoy_${myAppointment?.iAppointUserid}_${getLocalUserId()}", "匿名")
-                }else{
-                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, "${myAppointment?.iAppointUserid}", "${myAppointment?.sAppointUserName}")
-                }
-                dialogListener?.onClick(2,myAppointment?.sId.toString())
-            }) { code, msg ->
-                if(code == 3){
-                    var openErrorDialog = OpenDateErrorDialog()
-                    openErrorDialog.arguments= bundleOf("code" to code)
-                    openErrorDialog.show(it.supportFragmentManager, "d")
-                }else{
-                    CustomToast.showToast(msg)
-                }
-            }
         }
     }
 

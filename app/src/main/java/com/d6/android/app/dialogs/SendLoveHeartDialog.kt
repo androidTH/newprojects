@@ -45,7 +45,6 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.dialog_send_redheart.*
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.toast

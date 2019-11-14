@@ -23,7 +23,9 @@
             android:layout_marginTop="@dimen/margin_15"
             android:gravity="center_horizontal"
             android:text="申请连麦"
-            android:textSize="16sp"
+            android:textSize="15sp"
+            android:textColor="@color/color_black"
+            android:visibility="gone"
             android:textStyle="bold" />
 
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
@@ -31,72 +33,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/margin_20"
             android:gravity="center_horizontal"
-            android:text="本次连麦需要打赏99个[img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
+            android:text="请预存本次聊天打赏的喜欢数，当预存的喜欢数打赏玩后将自动过期，如果过了有效期，剩余的将会返还"
             android:textSize="15sp"
-            android:textColor="@color/color_333333" />
-
-        <LinearLayout
-            android:id="@+id/ll_voicechat_desc"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_agree_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/margin_5"
-                android:gravity="center_horizontal"
-                android:text="1.预付99个喜欢"
-                android:textSize="14sp"
-                android:textColor="@color/color_666666" />
-
-            <TextView
-                android:id="@+id/tv_noagree_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_7"
-                android:drawablePadding="@dimen/margin_5"
-                android:gravity="center_horizontal"
-                android:text="2.聊天结束后打赏的喜欢进入对方账户"
-                android:textSize="14sp"
-                android:textColor="@color/color_666666" />
-
-            <TextView
-                android:id="@+id/tv_timeout_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_7"
-                android:drawablePadding="@dimen/margin_5"
-                android:gravity="center_horizontal"
-                android:text="3.如果聊天时间过短，将返还打赏的喜欢"
-                android:textSize="14sp"
-                android:textColor="@color/color_666666" />
-        </LinearLayout>
-
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
-            android:id="@+id/tv_action"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="@dimen/margin_30"
-            android:background="@drawable/shape_4r_orange"
-            android:gravity="center"
             android:textStyle="bold"
-            android:text="预付99个喜欢 [img src=redheart_small/]"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:textColor="@color/color_black" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_voicechat_redheart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <LinearLayout
             android:id="@+id/ll_user_lovepoint"
             android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_15">
+            android:layout_marginTop="@dimen/margin_20">
             <com.d6.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_redheart_count"
                 android:layout_width="wrap_content"

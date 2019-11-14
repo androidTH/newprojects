@@ -1,9 +1,17 @@
 package com.d6.android.app.widget.blurry.internal;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.AbstractDraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 /**
  * Copyright (C) 2018 Wasabeef
@@ -44,5 +52,21 @@ public final class Helper {
     AlphaAnimation alpha = new AlphaAnimation(0f, 1f);
     alpha.setDuration(duration);
     v.startAnimation(alpha);
+  }
+
+  public static void showUrlBlur(SimpleDraweeView draweeView, String url, int iterations, int blurRadius) {
+    try {
+      Uri uri = Uri.parse(url);
+      ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+              .setPostprocessor(new IterativeBoxBlurPostProcessor(iterations, blurRadius))
+              .build();
+      AbstractDraweeController controller = Fresco.newDraweeControllerBuilder()
+              .setOldController(draweeView.getController())
+              .setImageRequest(request)
+              .build();
+      draweeView.setController(controller);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
