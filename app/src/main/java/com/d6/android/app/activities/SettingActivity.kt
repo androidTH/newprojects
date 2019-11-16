@@ -18,6 +18,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
+import com.d6.android.app.rong.RongCallKitUtils
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
@@ -76,12 +77,7 @@ class SettingActivity : TitleActivity() {
             startActivity<ContactUsActivity>()
 //            startActivity<ChooseFriendsActivity>()
 //            startActivity<SimplePlayer>()
-
-            if (RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
-                startVoice()
-            } else {
-                reconnect(token)
-            }
+//            RongCallKitUtils.startSingleVoiceChat(this,"103162",RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO)
         }
 
         tv_oldfans.setOnClickListener {
@@ -241,46 +237,6 @@ class SettingActivity : TitleActivity() {
             mSwipeRefreshLayout.isRefreshing = false
         }
     }
-
-    private fun reconnect(token: String) {
-        RongIM.connect(token, object : RongIMClient.ConnectCallback() {
-            override fun onTokenIncorrect() {}
-
-            override fun onSuccess(s: String) {
-                startVoice()
-            }
-
-            override fun onError(e: RongIMClient.ErrorCode) {
-            }
-        })
-    }
-
-    fun startVoice() {
-        val profile = RongCallClient.getInstance().getCallSession()
-        if (profile != null && profile!!.getActiveTime() > 0) {
-            if (profile!!.getMediaType() == RongCallCommon.CallMediaType.AUDIO)
-                toast(getString(io.rong.callkit.R.string.rc_voip_call_audio_start_fail))
-            else
-                toast(getString(io.rong.callkit.R.string.rc_voip_call_video_start_fail))
-            return
-        }
-
-        if(!NetworkUtils.hasInternet(this)){
-            toast(getString(io.rong.callkit.R.string.rc_voip_call_network_error))
-            return
-        }
-
-//        var intent = Intent(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)
-//        intent.putExtra("conversationType", Conversation.ConversationType.PRIVATE.getName().toLowerCase(Locale.US))
-//        intent.putExtra("targetId", "103162")
-//        intent.putExtra("callAction", RongCallAction.ACTION_OUTGOING_CALL.getName())
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//        intent.setPackage(packageName)
-//        applicationContext.startActivity(intent)
-
-        RongCallKit.startSingleCall(this,"103162", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO)
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()

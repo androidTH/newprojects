@@ -71,7 +71,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     private Boolean isInformationShow = false;
     private SurfaceView mLocalVideo = null;
     private boolean muted = false;
-    private boolean handFree = false;
+    private boolean handFree = true;//免提 之前是false  true
     private boolean startForCheckPermissions = false;
     private boolean isReceiveLost = false;
     private boolean isSendLost = false;
@@ -266,7 +266,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         }
 
         if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
-            handFree = false;
+            handFree = true; //之前是false  true
         } else if (mediaType.equals(RongCallCommon.CallMediaType.VIDEO)) {
             handFree = true;
         }
@@ -351,9 +351,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         if (callAction.equals(RongCallAction.ACTION_OUTGOING_CALL)) {
             RelativeLayout layout = buttonLayout.findViewById(io.rong.callkit.R.id.rc_voip_call_mute);
             layout.setVisibility(View.INVISIBLE);
+            buttonLayout.findViewById(io.rong.callkit.R.id.rc_voip_handfree).setVisibility(View.INVISIBLE);
             ImageView button = buttonLayout.findViewById(io.rong.callkit.R.id.rc_voip_call_mute_btn);
             button.setEnabled(false);
-            buttonLayout.findViewById(io.rong.callkit.R.id.rc_voip_handfree).setVisibility(View.INVISIBLE);
         }
 
         if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
@@ -398,6 +398,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 onEventMainThread(headsetInfo);
             }
         }
+
+        Log.i("SinleCallActivity","进入到这里面");
     }
 
 
@@ -509,8 +511,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 
         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         if (audioManager.isWiredHeadsetOn() || BluetoothUtil.hasBluetoothA2dpConnected()) {
-            handFree=false;
-            RongCallClient.getInstance().setEnableSpeakerphone(false);
+            handFree=true;//之前是false
+            RongCallClient.getInstance().setEnableSpeakerphone(handFree); ////之前是false
             ImageView handFreeV=null;
             if(null!=mButtonContainer){
                 handFreeV = mButtonContainer.findViewById(io.rong.callkit.R.id.rc_voip_handfree_btn);
@@ -672,8 +674,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         mButtonContainer.addView(button);
         mButtonContainer.setVisibility(View.VISIBLE);
         // 视频转音频时默认不开启免提
-        handFree = false;
-        RongCallClient.getInstance().setEnableSpeakerphone(false);
+        handFree = false;//之前是false
+        RongCallClient.getInstance().setEnableSpeakerphone(false);//之前是false
         View handFreeV = mButtonContainer.findViewById(io.rong.callkit.R.id.rc_voip_handfree);
         handFreeV.setSelected(handFree);
 
@@ -905,13 +907,14 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         RongCallCommon.CallMediaType mediaType = callSession.getMediaType();
         RongCallAction callAction = RongCallAction.valueOf(getIntent().getStringExtra("callAction"));
         inflater = LayoutInflater.from(this);
+        Log.i("SinleCallActivity","onRestoreFloatBox");
         initView(mediaType, callAction);
         targetId = callSession.getTargetId();
         UserInfo userInfo = RongContext.getInstance().getUserInfoFromCache(targetId);
         if (userInfo != null) {
-            TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
-            userName.setText(userInfo.getName());
             if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
+                TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
+                userName.setText(userInfo.getName());
 //                AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView userPortrait = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 if (userPortrait != null) {
@@ -919,7 +922,12 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                     userPortrait.setOnClickListener(this);
 //                    userPortrait.setAvatar(userInfo.getPortraitUri().toString(), R.drawable.rc_default_portrait);
                 }
+                //增加了这部分
+                mButtonContainer.findViewById(io.rong.callkit.R.id.rc_voip_call_mute).setVisibility(View.INVISIBLE);
+                mButtonContainer.findViewById(io.rong.callkit.R.id.rc_voip_handfree).setVisibility(View.INVISIBLE);
             } else if (mediaType.equals(RongCallCommon.CallMediaType.VIDEO)){
+                TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.rc_voip_user_name);
+                userName.setText(userInfo.getName());
                 if(null!=callAction && callAction.equals(RongCallAction.ACTION_INCOMING_CALL)){
                     ImageView iv_large_preview = mUserInfoContainer.findViewById(R.id.iv_large_preview);
                     iv_large_preview.setVisibility(View.VISIBLE);
@@ -1032,7 +1040,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         FinLog.v("bugtags","Insert="+headsetInfo.isInsert()+",headsetInfo.getType="+headsetInfo.getType().getValue());
         try {
             if(headsetInfo.isInsert()){
-                RongCallClient.getInstance().setEnableSpeakerphone(false);
+                RongCallClient.getInstance().setEnableSpeakerphone(true);//之前是false
                 ImageView handFreeV=null;
                 if(null!=mButtonContainer){
                     handFreeV = mButtonContainer.findViewById(io.rong.callkit.R.id.rc_voip_handfree_btn);
@@ -1054,7 +1062,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                         BluetoothUtil.hasBluetoothA2dpConnected()){
                     return;
                 }
-                RongCallClient.getInstance().setEnableSpeakerphone(false);
+                RongCallClient.getInstance().setEnableSpeakerphone(true);//之前是false
                 ImageView handFreeV = mButtonContainer.findViewById(io.rong.callkit.R.id.rc_voip_handfree_btn);
                 if (handFreeV != null) {
                     handFreeV.setSelected(false);

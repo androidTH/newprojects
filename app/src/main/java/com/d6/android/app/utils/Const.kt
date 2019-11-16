@@ -28,6 +28,7 @@ object Const {
         val USER_TOKEN="userToken"
         val USER_HEAD="userHead"
         val USER_NICK="userNick"
+        @JvmField
         val RONG_TOKEN ="rongToken"
         val USER_ADDRESS = "address"
         val USER_PROVINCE = "province"

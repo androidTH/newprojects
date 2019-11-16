@@ -59,7 +59,7 @@ public class BuyRedHeartVoiceChatAdapter extends BaseQuickAdapter<LoveHeartRule,
              view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_4r_ef));
          }
          if(showModel==0){
-             helper.setText(R.id.tv_redheartnums,"66 [img src=redheart_small/] X"+item.getILoveCount());
+             helper.setText(R.id.tv_redheartnums,item.getSLoveCount());
          }else{
              helper.setText(R.id.tv_redheartnums,String.valueOf(item.getILoveCount())+" [img src=redheart_small/]");
          }

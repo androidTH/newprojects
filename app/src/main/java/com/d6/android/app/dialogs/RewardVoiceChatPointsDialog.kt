@@ -5,6 +5,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -35,7 +36,9 @@ import org.jetbrains.anko.support.v4.startActivity
 class RewardVoiceChatPointsDialog : DialogFragment(),RequestManager {
 
     private var fromType = ""
-    private var mLocalUserLoveHeartCount:Int? = -1
+    private var mLocalUserLoveHeartCount:Int = -1
+
+    private var voicechatType=1
 
     private var mBuyRedHeartVoiceChatAdapter: BuyRedHeartVoiceChatAdapter?=null
     private var mLoveHeartList=ArrayList<LoveHeartRule>()
@@ -69,6 +72,8 @@ class RewardVoiceChatPointsDialog : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+         voicechatType = arguments.getInt("voicechatType")
+
         tv_redheart_gobuy.setOnClickListener {
             isBaseActivity {
                 startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
@@ -80,6 +85,12 @@ class RewardVoiceChatPointsDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
+        if(voicechatType==1){
+            tv_voicechat_reward.text = "申请者需打赏喜欢"
+        }else{
+            tv_voicechat_reward.text = "给申请者打赏喜欢"
+        }
+
         rv_voicechat_redheart.setHasFixedSize(true)
         rv_voicechat_redheart.layoutManager = GridLayoutManager(context,3) as RecyclerView.LayoutManager?
         mBuyRedHeartVoiceChatAdapter = BuyRedHeartVoiceChatAdapter(null)
@@ -87,14 +98,21 @@ class RewardVoiceChatPointsDialog : DialogFragment(),RequestManager {
         rv_voicechat_redheart.addItemDecoration(RxRecyclerViewDividerTool(DisplayUtil.dpToPx(10)))
         rv_voicechat_redheart.adapter = mBuyRedHeartVoiceChatAdapter
 
-       if(arguments !=null){
-//           var it = arguments.getParcelable("explain") as IntegralExplain
-//           tv_preparepoints.text = "本次申请赴约将预付${it.iAppointPoint}积分,申请成功后先聊一聊再决定是否赴约哦"
-//           tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
-//           tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
-//           tv_timeout_points.text = "3天内未回复,返还${it.iAppointPointCancel}积分"
+        mBuyRedHeartVoiceChatAdapter?.setOnItemClickListener { adapter, view, position ->
+            var loveHeartNums = mLoveHeartList.get(position).iLoveCount
+            if (loveHeartNums != null) {
+                if(voicechatType==1){
+                    dialogListener?.onClick(loveHeartNums,"申请者需打赏喜欢 [img src=redheart_small/] ${loveHeartNums}")
+                }else{
+                    if(loveHeartNums<mLocalUserLoveHeartCount){
+                        dialogListener?.onClick(loveHeartNums,"给申请者打赏喜欢 [img src=redheart_small/] ${loveHeartNums}")
+                    }else{
+                        ll_user_lovepoint.visibility = View.VISIBLE
+                        tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
+                    }
+                }
+            }
         }
-
         getUserInfo()
         setLoveHeartData()
     }
@@ -133,7 +151,6 @@ class RewardVoiceChatPointsDialog : DialogFragment(),RequestManager {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
                 mLocalUserLoveHeartCount = it.iLovePoint
-                tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
             }
         })
     }

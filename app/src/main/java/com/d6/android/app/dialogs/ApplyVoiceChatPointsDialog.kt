@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -33,12 +34,13 @@ import org.jetbrains.anko.wrapContent
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
- * 申请连麦
+ * 申请者
  */
 class ApplyVoiceChatPointsDialog : DialogFragment(),RequestManager {
 
     private var fromType = ""
-    private var mLocalUserLoveHeartCount:Int? = -1
+    private var mLocalUserLoveHeartCount:Int = -1
+    private var mMinLoveHeartNums:Int = 1
 
     private var mBuyRedHeartVoiceChatAdapter: BuyRedHeartVoiceChatAdapter?=null
     private var mLoveHeartList=ArrayList<LoveHeartRule>()
@@ -72,6 +74,8 @@ class ApplyVoiceChatPointsDialog : DialogFragment(),RequestManager {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mMinLoveHeartNums = arguments.getInt("lovenums",1)
+
         tv_redheart_gobuy.setOnClickListener {
             isBaseActivity {
                 startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
@@ -88,13 +92,19 @@ class ApplyVoiceChatPointsDialog : DialogFragment(),RequestManager {
         mBuyRedHeartVoiceChatAdapter = BuyRedHeartVoiceChatAdapter(null)
         rv_voicechat_redheart.addItemDecoration(RxRecyclerViewDividerTool(DisplayUtil.dpToPx(10)))
         rv_voicechat_redheart.adapter = mBuyRedHeartVoiceChatAdapter
-
-       if(arguments !=null){
-//           var it = arguments.getParcelable("explain") as IntegralExplain
-//           tv_preparepoints.text = "本次申请赴约将预付${it.iAppointPoint}积分,申请成功后先聊一聊再决定是否赴约哦"
-//           tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
-//           tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
-//           tv_timeout_points.text = "3天内未回复,返还${it.iAppointPointCancel}积分"
+        mBuyRedHeartVoiceChatAdapter?.setOnItemClickListener { adapter, view, position ->
+            var loveHeartMultiple = mLoveHeartList.get(position).iLoveCount
+            var sLoveCount = mLoveHeartList.get(position).sLoveCount
+            if (loveHeartMultiple != null) {
+                var sendLoveHeartTotal = mMinLoveHeartNums*loveHeartMultiple
+                if(sendLoveHeartTotal<mLocalUserLoveHeartCount){
+                    dialogListener?.onClick(loveHeartMultiple,"给申请者打赏喜欢 ${sLoveCount}")
+                    dismissAllowingStateLoss()
+                }else{
+                    ll_user_lovepoint.visibility = View.VISIBLE
+                    tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
+                }
+            }
         }
 
         getUserInfo()
@@ -104,21 +114,27 @@ class ApplyVoiceChatPointsDialog : DialogFragment(),RequestManager {
     private fun setLoveHeartData(){
         var mLoveHeartRule1 = LoveHeartRule("1")
         mLoveHeartRule1.iLoveCount = 1
+        mLoveHeartRule1.sLoveCount = "${mMinLoveHeartNums} [img src=redheart_small/] X1"
 
         var mLoveHeartRule2 = LoveHeartRule("1")
         mLoveHeartRule2.iLoveCount = 2
+        mLoveHeartRule2.sLoveCount = "${mMinLoveHeartNums} [img src=redheart_small/] X2"
 
         var mLoveHeartRule3 = LoveHeartRule("1")
         mLoveHeartRule3.iLoveCount = 3
+        mLoveHeartRule3.sLoveCount = "${mMinLoveHeartNums} [img src=redheart_small/] X3"
 
         var mLoveHeartRule4 = LoveHeartRule("1")
         mLoveHeartRule4.iLoveCount = 4
+        mLoveHeartRule4.sLoveCount = "${mMinLoveHeartNums} [img src=redheart_small/] X4"
 
         var mLoveHeartRule5 = LoveHeartRule("1")
         mLoveHeartRule5.iLoveCount = 5
+        mLoveHeartRule5.sLoveCount = "${mMinLoveHeartNums} [img src=redheart_small/] X5"
 
         var mLoveHeartRule6 = LoveHeartRule("1")
         mLoveHeartRule6.iLoveCount = 6
+        mLoveHeartRule6.sLoveCount = "${mMinLoveHeartNums} [img src=redheart_small/] X6"
 
         mLoveHeartList.add(mLoveHeartRule1)
         mLoveHeartList.add(mLoveHeartRule2)
@@ -135,7 +151,6 @@ class ApplyVoiceChatPointsDialog : DialogFragment(),RequestManager {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
                 mLocalUserLoveHeartCount = it.iLovePoint
-                tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
             }
         })
     }

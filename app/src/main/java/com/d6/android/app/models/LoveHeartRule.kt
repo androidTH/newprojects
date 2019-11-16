@@ -19,12 +19,14 @@ data class LoveHeartRule(@SerializedName("sId")var sId:String):Parcelable{
     var iType:Int?=0
     @SerializedName("sProductId")
     var sProductId:Long?=0
+    var sLoveCount:String=""
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         iPrice = parcel.readValue(Int::class.java.classLoader) as? Int
         iLoveCount = parcel.readValue(Int::class.java.classLoader) as? Int
         iType = parcel.readValue(Int::class.java.classLoader) as? Int
         sProductId = parcel.readValue(Long::class.java.classLoader) as? Long
+        sLoveCount = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -33,6 +35,7 @@ data class LoveHeartRule(@SerializedName("sId")var sId:String):Parcelable{
         parcel.writeValue(iLoveCount)
         parcel.writeValue(iType)
         parcel.writeValue(sProductId)
+        parcel.writeString(sLoveCount)
     }
 
     override fun describeContents(): Int {

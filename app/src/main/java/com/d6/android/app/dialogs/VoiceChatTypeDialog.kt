@@ -60,23 +60,14 @@ class VoiceChatTypeDialog : DialogFragment(),RequestManager {
 
         tv_voicechat_tome.setOnClickListener {
             dialogListener?.onClick(1,"申请者需打赏喜欢 [img src=redheart_small/]")
-            dismissAllowingStateLoss()
         }
 
         tv_voicechat_toyou.setOnClickListener {
             dialogListener?.onClick(2,"给申请者打赏喜欢 [img src=redheart_small/]")
-            dismissAllowingStateLoss()
         }
 
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
-        }
-    }
-
-    private fun getData() {
-        dismissAllowingStateLoss()
-        isBaseActivity {
-            //194ecdb4-4809-4b2d-bf32-42a3342964df
         }
     }
 

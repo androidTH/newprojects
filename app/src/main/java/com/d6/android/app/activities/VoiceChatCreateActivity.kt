@@ -18,8 +18,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.CommonTipDialog
-import com.d6.android.app.dialogs.VoiceChatTypeDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.FriendBean
@@ -74,7 +73,8 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     private var REQUESTCODE_IMAGE = 0
 
     private var sTopicId:String = ""
-    private var mVoiceChatType = 0;
+    private var mVoiceChatType = 0
+    private var loveNums = -1
 
     /**
      * 删除图片后更新数据
@@ -153,19 +153,6 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
 
         tv_address.text = city
 
-        RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.RECORD_AUDIO).subscribe {
-            if (it) {
-                startLocation()
-                SPUtils.instance().put(Const.User.ISNOTLOCATION,false).apply()
-            } else {
-                cityType=0
-                toast("没有定位权限")
-                tv_address.text = "添加地址"
-                tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//R.mipmap.ic_add1
-                SPUtils.instance().put(Const.User.ISNOTLOCATION,true).apply()
-            }
-        }
-
         tv_address.setOnClickListener {
             if (cityType == 1) {//当前显示定位
                 cityType = 0
@@ -190,15 +177,6 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
                         tv_address.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)
                     }
                 }
-            }
-        }
-
-        tv_topic_choose.setOnClickListener {
-            var topicname = tv_topic_choose.text.toString()
-            if(topicname.isNotEmpty()){
-                tv_topic_choose.text = ""
-                sTopicId = ""
-                tv_topic_choose.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.center_moreicon,0)//R.mipmap.ic_add1
             }
         }
 
@@ -227,16 +205,24 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
             startActivityForResult<ChooseFriendsActivity>(REQUEST_CHOOSECODE, CHOOSE_Friends to mChooseFriends)
         }
 
+        tv_topic_choose.setOnClickListener {
+            selecteVoiceChatTime()
+        }
         ll_topic_choose.setOnClickListener {
-            startActivityForResult<TopicSelectionActivity>(REQUEST_TOPICCODE)
+            selecteVoiceChatTime()
         }
 
         ll_voicechat_choose.setOnClickListener {
               var mVoiceChatTypeDialog = VoiceChatTypeDialog()
               mVoiceChatTypeDialog.arguments = bundleOf("chooseType" to "0")
               mVoiceChatTypeDialog.setDialogListener { p, s ->
-                  tv_voicechat_choose.text = s
                   mVoiceChatType = p
+                  if(p==1||p==2){
+                      showRewardVoiceChatPoints(p)
+                      mVoiceChatTypeDialog.dismissAllowingStateLoss()
+                  }else{
+                      tv_voicechat_choose.text = s
+                  }
               }
               mVoiceChatTypeDialog.show(supportFragmentManager,"VoiceChatTypeDialog")
         }
@@ -251,17 +237,41 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
                 }
             }
         }
-
-        if(intent.hasExtra("topicname")){
-            var topicname = intent.getStringExtra("topicname")
-            sTopicId = intent.getStringExtra("topicId")
-            if(topicname.isNotEmpty()){
-                tv_topic_choose.text = "#${topicname}"
-                tv_topic_choose.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.comment_local_del,0)//R.mipmap.ic_add1
-            }
-        }
-
     }
+
+    private fun selecteVoiceChatTime(){
+        var selectVoiceChatTimeDialog = SelectVoiceChatTimeDialog()
+        selectVoiceChatTimeDialog.arguments = bundleOf("data" to "${tv_topic_choose.text}")
+        selectVoiceChatTimeDialog.setDialogListener { p, s ->
+            tv_topic_choose.text = s
+        }
+        selectVoiceChatTimeDialog.show(supportFragmentManager,"time")
+    }
+
+    private fun showRewardVoiceChatPoints(type:Int){
+        var mRewardVoiceChatPointsDialog = RewardVoiceChatPointsDialog()
+        mRewardVoiceChatPointsDialog.arguments = bundleOf("voicechatType" to type)
+        mRewardVoiceChatPointsDialog.show(supportFragmentManager, "d")
+        mRewardVoiceChatPointsDialog.setDialogListener { p, s ->
+            loveNums = p
+            if(type==1){
+                tv_voicechat_choose.text = s
+            }else{
+                appVoiceChatPoints(loveNums)
+            }
+            mRewardVoiceChatPointsDialog.dismissAllowingStateLoss()
+        }
+    }
+
+   private fun appVoiceChatPoints(sendLoveNums:Int){
+       var mApplyVoiceChatPointsDialog = ApplyVoiceChatPointsDialog()
+       mApplyVoiceChatPointsDialog.arguments = bundleOf("lovenums" to sendLoveNums)
+       mApplyVoiceChatPointsDialog.show(supportFragmentManager, "d")
+       mApplyVoiceChatPointsDialog.setDialogListener { p, s ->
+           loveNums = sendLoveNums*p
+           tv_voicechat_choose.text = s
+       }
+   }
 
     private fun addImagesToSquare(){
         addImages()
@@ -281,15 +291,6 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
                 ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
 
         )
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        if(TextUtils.equals("close",IsOpenUnKnow)){
-//            sAddPointDesc = "以匿名身份发布动态"
-//        }else{
-//            getCheckAnonMouseNums()
-//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

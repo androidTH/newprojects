@@ -15,7 +15,7 @@
         android:paddingLeft="@dimen/margin_15"
         android:paddingTop="@dimen/margin_15"
         android:paddingRight="@dimen/margin_15"
-        android:paddingBottom="@dimen/margin_20">
+        android:paddingBottom="@dimen/margin_15">
 
         <TextView
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="@dimen/margin_20"
             android:gravity="center_horizontal"
-            android:text="请预存本次聊天打赏的喜欢数，当预存的喜欢数打赏玩后将自动过期，如果过了有效期，剩余的将会返还"
+            android:text="请预存本次聊天打赏的喜欢数，当预存的喜欢数打赏完后将自动过期，如果过了有效期，剩余的将会返还"
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/color_black" />
@@ -47,11 +47,11 @@
 
         <LinearLayout
             android:id="@+id/ll_user_lovepoint"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_20">
+            android:layout_marginTop="@dimen/margin_15">
             <com.d6.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_redheart_count"
                 android:layout_width="wrap_content"
