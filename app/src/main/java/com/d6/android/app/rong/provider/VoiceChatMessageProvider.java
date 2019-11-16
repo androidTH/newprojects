@@ -2,6 +2,7 @@ package com.d6.android.app.rong.provider;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.text.ClipboardManager;
 import android.text.Selection;
@@ -46,7 +47,7 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
         ImageView mIvLeft;
         ImageView mIvRight;
 //        SimpleDraweeView simpleDraweeView;
-        LinearLayout mLl_VoiceChatMsg_Body;
+        LinearLayout mLL_VoiceChatMsg_Body;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
         VoiceChatMessageProvider.ViewHolder holder = new VoiceChatMessageProvider.ViewHolder();
         holder.mTvVoiceChatTitle = view.findViewById(R.id.tv_voicechat_title);
         holder.mTvVoiceChatContent = view.findViewById(R.id.tv_voicechat_content);
-        holder.mLl_VoiceChatMsg_Body = view.findViewById(R.id.ll_voicechat_body);
+        holder.mLL_VoiceChatMsg_Body = view.findViewById(R.id.ll_voicechat_body);
         holder.mIvLeft = view.findViewById(R.id.iv_left);
         holder.mIvRight = view.findViewById(R.id.iv_right);
 //        holder.simpleDraweeView = view.findViewById(R.id.iv_rong_custommsg_pic);
@@ -81,9 +82,9 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
 
     @Override
     public void onItemClick(View view, int position, VoiceChatMsgContent content, UIMessage message) {
-        Intent intent = new Intent();
-        intent.setAction("com.d6.android.app.activities.MyPointsActivity");
-        view.getContext().startActivity(intent);
+//        Intent intent = new Intent();
+//        intent.setAction("com.d6.android.app.activities.MyPointsActivity");
+//        view.getContext().startActivity(intent);
     }
 
     @Override
@@ -145,7 +146,7 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
     public void bindView(final View v, int position, final VoiceChatMsgContent content, final UIMessage data) {
         VoiceChatMessageProvider.ViewHolder holder = (VoiceChatMessageProvider.ViewHolder) v.getTag();
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
-            holder.mLl_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
+            holder.mLL_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
             TextView textView = holder.mTvVoiceChatContent;
             textView.setText("请求连麦...");
             if(!TextUtils.isEmpty(content.getExtra())){
@@ -153,7 +154,7 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
                 try {
                     JSONObject jsonObject = new JSONObject(content.getExtra());
 //                    nums = jsonObject.getInt("nums");
-                    holder.mTvVoiceChatContent.setText("");
+                    holder.mTvVoiceChatContent.setText("来自加勒比：新开了家餐厅，环境很不错特别喜欢吃他们家的甜点。");
                 } catch (JSONException e) {
                     e.printStackTrace();
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
@@ -161,7 +162,7 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
                 }
             }
         } else {
-            holder.mLl_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+            holder.mLL_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());

@@ -14,6 +14,7 @@ import com.d6.android.app.rong.bean.LoveHeartMessage;
 import com.d6.android.app.rong.bean.SpeedDateMsgContent;
 import com.d6.android.app.rong.bean.SquareMsgContent;
 import com.d6.android.app.rong.bean.TipsMessage;
+import com.d6.android.app.rong.bean.VoiceChatMsgContent;
 import com.d6.android.app.rong.plugin.D6ExtensionModule;
 import com.d6.android.app.rong.provider.AppointmentMsgProvider;
 import com.d6.android.app.rong.provider.BusinessCardFMsgProvider;
@@ -27,6 +28,7 @@ import com.d6.android.app.rong.provider.LoveHeartMessageProvider;
 import com.d6.android.app.rong.provider.SpeedDateMsgProvider;
 import com.d6.android.app.rong.provider.SquareMsgProvider;
 import com.d6.android.app.rong.provider.TipsMessageProvider;
+import com.d6.android.app.rong.provider.VoiceChatMessageProvider;
 
 import java.util.List;
 
@@ -82,6 +84,7 @@ public class RongPlugin {
                 RongExtensionManager.getInstance().registerExtensionModule(new D6ExtensionModule());
             }
         }
+
         RongIM.registerMessageType(LoveHeartMessage.class);
         RongIM.registerMessageType(CustomMessage.class);
         RongIM.registerMessageType(TipsMessage.class);
@@ -95,6 +98,7 @@ public class RongPlugin {
         RongIM.registerMessageType(BusinessCardMMsgContent.class);
         RongIM.registerMessageType(GroupUnKnowTipsMessage.class);
         RongIM.registerMessageType(CustomSystemMessage.class);
+        RongIM.registerMessageType(VoiceChatMsgContent.class);//语音连麦
 
         RongIM.registerMessageTemplate(new LoveHeartMessageProvider());
         RongIM.registerMessageTemplate(new CustomMessageProvider());
@@ -108,6 +112,7 @@ public class RongPlugin {
         RongIM.registerMessageTemplate(new BusinessCardFMsgProvider());//急约
         RongIM.registerMessageTemplate(new BusinessCardMMsgProvider());//急约
         RongIM.registerMessageTemplate(new GroupUnKnowMessageProvider());//群组消息
+        RongIM.registerMessageTemplate(new VoiceChatMessageProvider());//语音连麦
 
     }
 }

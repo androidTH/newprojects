@@ -438,25 +438,26 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
 
     @Override
     protected void onPause() {
-        if (CallKitUtils.shouldShowFloat && !checkingOverlaysPermission) {
-            Bundle bundle = new Bundle();
-            String action = onSaveFloatBoxState(bundle);
-            if (checkDrawOverlaysPermission(true)) {
-                if (action != null) {
-                    bundle.putString("action", action);
-                    showFB(getApplicationContext(),bundle);
-                    int mediaType = bundle.getInt("mediaType");
-                    showOnGoingNotification(getString(R.string.rc_call_on_going),
-                            mediaType == RongCallCommon.CallMediaType.AUDIO.getValue()
-                                    ? getString(R.string.rc_audio_call_on_going) : getString(R.string.rc_video_call_on_going));
-                    if (!isFinishing()) {
-                        finish();
-                    }
-                }
-            } else {
-                Toast.makeText(this, getString(R.string.rc_voip_float_window_not_allowed), Toast.LENGTH_SHORT).show();
-            }
-        }
+          //去除悬浮小窗模式
+//        if (CallKitUtils.shouldShowFloat && !checkingOverlaysPermission) {
+//            Bundle bundle = new Bundle();
+//            String action = onSaveFloatBoxState(bundle);
+//            if (checkDrawOverlaysPermission(true)) {
+//                if (action != null) {
+//                    bundle.putString("action", action);
+//                    showFB(getApplicationContext(),bundle);
+//                    int mediaType = bundle.getInt("mediaType");
+//                    showOnGoingNotification(getString(R.string.rc_call_on_going),
+//                            mediaType == RongCallCommon.CallMediaType.AUDIO.getValue()
+//                                    ? getString(R.string.rc_audio_call_on_going) : getString(R.string.rc_video_call_on_going));
+//                    if (!isFinishing()) {
+//                        finish();
+//                    }
+//                }
+//            } else {
+//                Toast.makeText(this, getString(R.string.rc_voip_float_window_not_allowed), Toast.LENGTH_SHORT).show();
+//            }
+//        }
         super.onPause();
     }
 
@@ -653,12 +654,13 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
         }
     }
 
+    //去除悬浮小窗模式
     public void onMinimizeClick(View view) {
-        if (checkDrawOverlaysPermission(true)) {
-            finish();
-        } else {
-            Toast.makeText(this, getString(R.string.rc_voip_float_window_not_allowed), Toast.LENGTH_SHORT).show();
-        }
+//        if (checkDrawOverlaysPermission(true)) {
+//            finish();
+//        } else {
+//            Toast.makeText(this, getString(R.string.rc_voip_float_window_not_allowed), Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private boolean checkDrawOverlaysPermission(boolean needOpenPermissionSetting) {

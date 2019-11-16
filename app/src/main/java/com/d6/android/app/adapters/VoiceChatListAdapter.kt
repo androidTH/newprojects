@@ -43,11 +43,11 @@ class VoiceChatListAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<My
 
     private fun signUpDate(myAppointment:MyAppointment) {
         var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-        mApplyVoiceChatDialog.arguments = bundleOf("data" to myAppointment,"voicechatType" to "2")
+        mApplyVoiceChatDialog.arguments = bundleOf("data" to myAppointment,"voicechatType" to "0")
         mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
         mApplyVoiceChatDialog.setDialogListener { p, s ->
-            mData.remove(myAppointment)
-            notifyDataSetChanged()
+//            mData.remove(myAppointment)
+//            notifyDataSetChanged()
         }
 //        Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.iAppointUserid}").request(context as BaseActivity, false, success = { msg, data ->
 //            var mApplyVoiceChatDialog = ApplyVoiceChatDialog()

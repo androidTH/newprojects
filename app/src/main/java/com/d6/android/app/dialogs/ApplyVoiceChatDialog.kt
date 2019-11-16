@@ -17,6 +17,8 @@ import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.RongCallKitUtils
+import com.d6.android.app.rong.bean.VoiceChatMsgContent
+import com.d6.android.app.rong.provider.VoiceChatMessageProvider
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
 import com.d6.android.app.widget.CustomToast
@@ -24,7 +26,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.rong.callkit.RongCallKit
 import io.rong.imkit.RongIM
+import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.dialog_apply_voicechat.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
@@ -44,7 +48,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
     private var myAppointment:MyAppointment?=null
     private var voicechatType = "1"
     private var mLocalUserLoveHeartCount:Int = -1
-    private var mMinLoveHeart=99
+    private var mMinLoveHeart = 99
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +111,9 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-        getUserInfo()
+        if(TextUtils.equals(voicechatType,"2")){
+            getUserInfo()
+        }
     }
 
     private fun getUserInfo() {
@@ -130,6 +136,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
         isBaseActivity {
             if(TextUtils.equals(voicechatType,"1")){//1 无需打赏
                 RongCallKitUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO)
+//                sendOutgoingMessage()
                 dismissAllowingStateLoss()
             }else if(TextUtils.equals(voicechatType,"2")){//申请者需要打赏
                 if(mLocalUserLoveHeartCount>mMinLoveHeart){
@@ -138,6 +145,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
                 }
             }else {//申请者可以获得
                 RongCallKitUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO)
+//                sendOutgoingMessage()
                 dismissAllowingStateLoss()
             }
 
@@ -164,6 +172,19 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
 //                }
 //            }
         }
+    }
+
+    private fun sendOutgoingMessage(){
+        var voicechatMsg = VoiceChatMsgContent.obtain("连麦", GsonHelper.getGson().toJson(""))
+        RongIM.getInstance().insertOutgoingMessage(Conversation.ConversationType.PRIVATE, "${myAppointment!!.iAppointUserid}", Message.SentStatus.RECEIVED,voicechatMsg, object : RongIMClient.ResultCallback<Message>() {
+            override fun onSuccess(message: Message) {
+
+            }
+
+            override fun onError(errorCode: RongIMClient.ErrorCode) {
+
+            }
+        })
     }
 
     private fun queryPoints(){
