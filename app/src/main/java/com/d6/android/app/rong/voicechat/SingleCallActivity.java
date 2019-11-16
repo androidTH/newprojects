@@ -1003,14 +1003,22 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         if (isFinishing()) {
             return;
         }
+
         if (targetId != null && targetId.equals(userInfo.getUserId())) {
             TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
             if (userInfo.getName() != null)
                 userName.setText(userInfo.getName());
-                SimpleDraweeView userPortrait =  mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
+                SimpleDraweeView userPortrait = mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
+                SimpleDraweeView iv_icoming_backgroud = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
                 if (userPortrait != null && userInfo.getPortraitUri() != null) {
-                    userPortrait.setImageURI(userInfo.getPortraitUri().toString());
-                    userPortrait.setOnClickListener(this);
+                    //临时使用悬浮窗是否显示的字段判断，悬浮窗打开时，此字段不能再使用
+                    if(!CallKitUtils.shouldShowFloat){
+                        userPortrait.setImageURI(userInfo.getPortraitUri().toString());
+                        userPortrait.setOnClickListener(this);
+                        iv_icoming_backgroud.setVisibility(View.VISIBLE);
+                        Log.i("SinleCallActivity", "onEventMainThread");
+                        Helper.showUrlBlur(iv_icoming_backgroud, userInfo.getPortraitUri().toString(), 8, 30);
+                    }
                 }
 //            AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.rc_voip_user_portrait);
 //            if (userPortrait != null && userInfo.getPortraitUri() != null) {
@@ -1116,7 +1124,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 
         @Override
         public void onFinish() {
-            TextView tv_rc_voip_call_remind_info = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_call_remind_info);
+            TextView tv_rc_voip_call_remind_info =  mUserInfoContainer.findViewById(R.id.voice_voip_call_remind_info);
             tv_rc_voip_call_remind_info.setText("对方手机可能不在身边，暂未接受邀请，你可稍后再试或等待对方回复");
         }
 
