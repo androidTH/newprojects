@@ -135,7 +135,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
 //        dismissAllowingStateLoss()
         isBaseActivity {
             if(TextUtils.equals(voicechatType,"1")){//1 无需打赏
-                RongCallKitUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO)
+                RongCallKitUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,"无需打赏")
 //                sendOutgoingMessage()
                 dismissAllowingStateLoss()
             }else if(TextUtils.equals(voicechatType,"2")){//申请者需要打赏
@@ -144,7 +144,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
                     voicechatType = "3"
                 }
             }else {//申请者可以获得
-                RongCallKitUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO)
+                RongCallKitUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,"申请者可以获得")
 //                sendOutgoingMessage()
                 dismissAllowingStateLoss()
             }

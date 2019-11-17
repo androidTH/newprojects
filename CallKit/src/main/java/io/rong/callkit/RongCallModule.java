@@ -106,6 +106,7 @@ public class RongCallModule implements IExternalModule {
     @Override
     public void onCreate(final Context context) {
         mContext = context;
+        mViewLoaded = true;
         IRongReceivedCallListener callListener = new IRongReceivedCallListener() {
             @Override
             public void onReceivedCall(final RongCallSession callSession) {
@@ -141,7 +142,6 @@ public class RongCallModule implements IExternalModule {
      */
     @Override
     public void onViewCreated() {
-        mViewLoaded = true;
         if (mCallSession != null) {
             startVoIPActivity(mContext, mCallSession, false);
         }

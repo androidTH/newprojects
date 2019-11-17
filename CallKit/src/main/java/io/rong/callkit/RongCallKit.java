@@ -40,7 +40,7 @@ public class RongCallKit {
      * @param targetId  会话 id
      * @param mediaType 会话媒体类型
      */
-    public static void startSingleCall(Context context, String targetId, CallMediaType mediaType) {
+    public static void startSingleCall(Context context, String targetId, CallMediaType mediaType,String extra) {
         if (checkEnvironment(context, mediaType)) {
             String action;
             if (mediaType.equals(CallMediaType.CALL_MEDIA_TYPE_AUDIO)) {
@@ -52,6 +52,7 @@ public class RongCallKit {
             intent.putExtra("conversationType", Conversation.ConversationType.PRIVATE.getName().toLowerCase());
             intent.putExtra("targetId", targetId);
             intent.putExtra("callAction", RongCallAction.ACTION_OUTGOING_CALL.getName());
+            intent.putExtra("extra",extra);
             intent.setPackage(context.getPackageName());
             context.startActivity(intent);
         }

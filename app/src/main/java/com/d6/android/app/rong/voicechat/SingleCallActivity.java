@@ -55,6 +55,8 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
+import static com.d6.android.app.utils.UtilKt.getLocalUserName;
+
 /**
  *
  * voice_voip_call_minimize 之前全是Gone 现在全是visible
@@ -81,6 +83,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 
     private String targetId = null;
     private RongCallCommon.CallMediaType mediaType;
+    private String extra;
     private TimeCountDown mTimeCountDown;
 
     @Override
@@ -117,12 +120,17 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         if (callAction.equals(RongCallAction.ACTION_OUTGOING_CALL)) {
             if (intent.getAction().equals(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)) {
                 mediaType = RongCallCommon.CallMediaType.AUDIO;
+                extra = intent.getStringExtra("extra");
             } else {
                 mediaType = RongCallCommon.CallMediaType.VIDEO;
             }
         } else if (callAction.equals(RongCallAction.ACTION_INCOMING_CALL)) {
             callSession = intent.getParcelableExtra("callSession");
             mediaType = callSession.getMediaType();
+            if(mediaType.equals(RongCallCommon.CallMediaType.AUDIO)){
+                extra = callSession.getExtra();
+            }
+            Log.i("SinleCallActivity","onCreate呼叫");
         } else {
             callSession = RongCallClient.getInstance().getCallSession();
             if (callSession != null) {
@@ -154,12 +162,17 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         if (callAction.equals(RongCallAction.ACTION_OUTGOING_CALL)) {
             if (intent.getAction().equals(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)) {
                 mediaType = RongCallCommon.CallMediaType.AUDIO;
+                extra = intent.getStringExtra("extra");
             } else {
                 mediaType = RongCallCommon.CallMediaType.VIDEO;
             }
         } else if (callAction.equals(RongCallAction.ACTION_INCOMING_CALL)) {
             callSession = intent.getParcelableExtra("callSession");
             mediaType = callSession.getMediaType();
+            if(mediaType.equals(RongCallCommon.CallMediaType.AUDIO)){
+                extra = callSession.getExtra();
+            }
+            Log.i("SinleCallActivity","onNewIntent呼叫"+extra);
         } else {
             callSession = RongCallClient.getInstance().getCallSession();
             mediaType = callSession.getMediaType();
@@ -248,9 +261,14 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             callSession = intent.getParcelableExtra("callSession");
             mediaType = callSession.getMediaType();
             targetId = callSession.getInviterUserId();
+            if(mediaType.equals(RongCallCommon.CallMediaType.AUDIO)){
+                extra = callSession.getExtra();
+            }
+            Log.i("SinleCallActivity","setupIntent呼叫"+extra);
         } else if (callAction.equals(RongCallAction.ACTION_OUTGOING_CALL)) {
             if (intent.getAction().equals(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)) {
                 mediaType = RongCallCommon.CallMediaType.AUDIO;
+                extra = intent.getStringExtra("extra");
             } else {
                 mediaType = RongCallCommon.CallMediaType.VIDEO;
             }
@@ -259,7 +277,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 
             List<String> userIds = new ArrayList<>();
             userIds.add(targetId);
-            RongCallClient.getInstance().startCall(conversationType, targetId, userIds, null, mediaType, null);
+            RongCallClient.getInstance().startCall(conversationType, targetId, userIds, null, mediaType, extra);
         } else { // resume call
             callSession = RongCallClient.getInstance().getCallSession();
             mediaType = callSession.getMediaType();
@@ -281,10 +299,12 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                     userPortrait.setOnClickListener(this);
 //                    userPortrait.setResource(userInfo.getPortraitUri().toString(), R.drawable.rc_default_portrait);
                 }
-                userPortrait.setOnClickListener(this);
                 TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
                 userName.setText(userInfo.getName());
-
+                TextView localUserName = mUserInfoContainer.findViewById(R.id.tv_localusername);
+                localUserName.setText(getLocalUserName());
+                TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
+                tv_voicechat_desc.setText(extra);
                 SimpleDraweeView iv_icoming_backgroud=(SimpleDraweeView)mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
                 iv_icoming_backgroud.setVisibility(View.VISIBLE);
                 Log.i("SinleCallActivity","头像"+userInfo.getPortraitUri());
@@ -651,6 +671,10 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
             userName.setText(userInfo.getName());
             if (callSession.getMediaType().equals(RongCallCommon.CallMediaType.AUDIO)) {
+                TextView localUserName = (TextView) mUserInfoContainer.findViewById(R.id.tv_localusername);
+                localUserName.setText(getLocalUserName());
+                TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
+                tv_voicechat_desc.setText(extra);
 //                AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView userPortrait = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 if (userPortrait != null) {
@@ -913,8 +937,12 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         UserInfo userInfo = RongContext.getInstance().getUserInfoFromCache(targetId);
         if (userInfo != null) {
             if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
+                TextView localUserName = (TextView) mUserInfoContainer.findViewById(R.id.tv_localusername);
+                localUserName.setText(getLocalUserName());
                 TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
                 userName.setText(userInfo.getName());
+                TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
+                tv_voicechat_desc.setText(extra);
 //                AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView userPortrait = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 if (userPortrait != null) {
@@ -1005,11 +1033,15 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         }
 
         if (targetId != null && targetId.equals(userInfo.getUserId())) {
-            TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
+            TextView userName = mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
+            TextView localUserName = mUserInfoContainer.findViewById(R.id.tv_localusername);
             if (userInfo.getName() != null)
                 userName.setText(userInfo.getName());
+                localUserName.setText(getLocalUserName());
+                TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
+                tv_voicechat_desc.setText(extra);
                 SimpleDraweeView userPortrait = mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
-                SimpleDraweeView iv_icoming_backgroud = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
+                SimpleDraweeView iv_icoming_backgroud = mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
                 if (userPortrait != null && userInfo.getPortraitUri() != null) {
                     //临时使用悬浮窗是否显示的字段判断，悬浮窗打开时，此字段不能再使用
                     if(!CallKitUtils.shouldShowFloat){

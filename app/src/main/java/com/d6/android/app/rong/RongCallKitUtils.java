@@ -25,15 +25,15 @@ public class RongCallKitUtils {
 
     private static String token = SPUtils.Companion.instance().getString(RONG_TOKEN,"");
 
-    public static void startSingleVoiceChat(Activity activity, String targetId, RongCallKit.CallMediaType CallMediaType){
+    public static void startSingleVoiceChat(Activity activity, String targetId, RongCallKit.CallMediaType CallMediaType,String extra){
         if (RongIM.getInstance().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONNECTED) {
-            startVoice(activity,targetId,CallMediaType);
+            startVoice(activity,targetId,CallMediaType,extra);
         } else {
-            reconnect(activity,targetId,CallMediaType);
+            reconnect(activity,targetId,CallMediaType,extra);
         }
     }
 
-    public static void startVoice(Activity activity,String targetId,RongCallKit.CallMediaType CallMediaType) {
+    public static void startVoice(Activity activity,String targetId,RongCallKit.CallMediaType CallMediaType,String extra) {
         RongCallSession profile = RongCallClient.getInstance().getCallSession();
         if (profile != null && profile.getActiveTime() > 0) {
             if (profile.getMediaType() == RongCallCommon.CallMediaType.AUDIO)
@@ -55,11 +55,11 @@ public class RongCallKitUtils {
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 //        intent.setPackage(packageName)
 //        applicationContext.startActivity(intent)
-
-        RongCallKit.startSingleCall(activity,"103162", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO);
+         //103162
+        RongCallKit.startSingleCall(activity,targetId, CallMediaType,extra);
     }
 
-    private static void reconnect(final Activity activity, final String targetId, final RongCallKit.CallMediaType CallMediaType) {
+    private static void reconnect(final Activity activity, final String targetId, final RongCallKit.CallMediaType CallMediaType, final String extra) {
         RongIM.connect(token,new RongIMClient.ConnectCallback(){
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
@@ -68,7 +68,7 @@ public class RongCallKitUtils {
 
             @Override
             public void onSuccess(String s) {
-                startVoice(activity,targetId,CallMediaType);
+                startVoice(activity,targetId,CallMediaType,extra);
             }
 
             @Override
