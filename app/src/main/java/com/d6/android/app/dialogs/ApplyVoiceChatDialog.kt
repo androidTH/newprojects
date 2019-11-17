@@ -16,12 +16,10 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
-import com.d6.android.app.rong.RongCallKitUtils
+import com.d6.android.app.rong.RongUtils
 import com.d6.android.app.rong.bean.VoiceChatMsgContent
-import com.d6.android.app.rong.provider.VoiceChatMessageProvider
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
-import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.rong.callkit.RongCallKit
@@ -30,7 +28,6 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.dialog_apply_voicechat.*
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -135,7 +132,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
 //        dismissAllowingStateLoss()
         isBaseActivity {
             if(TextUtils.equals(voicechatType,"1")){//1 无需打赏
-                RongCallKitUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,"无需打赏")
+                RongUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,"无需打赏")
 //                sendOutgoingMessage()
                 dismissAllowingStateLoss()
             }else if(TextUtils.equals(voicechatType,"2")){//申请者需要打赏
@@ -144,7 +141,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
                     voicechatType = "3"
                 }
             }else {//申请者可以获得
-                RongCallKitUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,"申请者可以获得")
+                RongUtils.startSingleVoiceChat(it,"${myAppointment!!.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,"申请者可以获得")
 //                sendOutgoingMessage()
                 dismissAllowingStateLoss()
             }

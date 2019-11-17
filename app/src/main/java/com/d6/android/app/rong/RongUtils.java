@@ -21,7 +21,7 @@ import static com.d6.android.app.utils.Const.User.RONG_TOKEN;
  * desc   : 发起连麦的工具类
  * version:
  */
-public class RongCallKitUtils {
+public class RongUtils {
 
     private static String token = SPUtils.Companion.instance().getString(RONG_TOKEN,"");
 
