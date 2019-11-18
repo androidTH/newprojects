@@ -73,6 +73,7 @@ import com.vector.update_app.utils.AppUpdateUtils
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
@@ -810,6 +811,25 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                     }
                 }
             })
+}
+
+fun updateSquareSignUp(activity:Activity,sSquareSignupId:String,iStatus:String,iConnectVoiceLength:Long) {
+    Request.updateSquareSignUp(sSquareSignupId,iStatus,iConnectVoiceLength, getLoginToken()).request(object:RequestManager{
+        override fun onBind(disposable: Disposable) {
+
+        }
+
+        override fun showToast(msg: String) {
+        }
+
+        override fun dismissDialog() {
+
+        }
+    },false,success={ msg, data->
+
+    }){code,msg->
+
+    }
 }
 
 fun getReplace(str:String):String{

@@ -66,12 +66,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     }
 
     private var isUpdown:Boolean = false
-    private val tabTexts = arrayOf( "遇见","广场", "人工服务","消息", "我的")
+    private val tabTexts = arrayOf("约会","遇见","广场","消息", "我的")
 
-    private val tabImages = arrayOf(R.drawable.home_speed_date_selector,R.drawable.home_square_selector,R.drawable.home_main_selector
+    private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
-    private val fragmentArray = arrayOf<Class<*>>(DateFragment::class.java, SquareMainFragment::class.java,
-            ServiceFragment::class.java, MessageFragment::class.java,MineFragment::class.java)
+    private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,DateFragment::class.java, SquareMainFragment::class.java,
+            MessageFragment::class.java,MineFragment::class.java)
     private var unReadDateMsg:Int=-1
     private var unReadMsgNum:Int=0
     private var unReadServiceMsgNum:Int=0//男游客浮动移除
@@ -185,16 +185,28 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             view_line_h.visibility = View.VISIBLE
             when {
                 TextUtils.equals(it, tabTexts[0]) -> {
+                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
+                    tv_title.visible()
+                    tv_create_date.visible()
+                    tv_date_mydate.gone()
+                    date_headView.gone()
+                    setNoticeIsNoShow()
+                    iv_right.gone()
+                    tv_title1.gone()
+                    tv_title.text = "约会"
+                    tv_find_tab.visibility = View.VISIBLE
+                }
+                TextUtils.equals(it, tabTexts[1]) -> {
                     immersionBar.init()
                     titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     titleBar.gone()
                     iv_right.gone()
                     tv_title1.gone()
                     tv_title.text = "D6社区"
-                    tv_find_tab.visibility = View.VISIBLE
+                    tv_square_tab.visibility = View.VISIBLE
                     getUserInfoUnMsg()
                 }
-                TextUtils.equals(it, tabTexts[1]) -> {
+                TextUtils.equals(it, tabTexts[2]) -> {
                     immersionBar.init()
                     titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     tv_create_date.gone()
@@ -208,23 +220,21 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title.text = ""
                     iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.ic_add_orange, 0)
                     tv_title1.text = "广场"
-                    tv_square_tab.visibility = View.VISIBLE
-                    getUserInfoUnMsg()
-                }
-                TextUtils.equals(it, tabTexts[2]) -> {
-                    tabhost.backgroundColor = ContextCompat.getColor(this,R.color.color_282828)
-                    view_line_h.visibility = View.INVISIBLE
-                    titleBar.visibility = View.GONE
-                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
-                    tv_title.visible()
-                    tv_create_date.visible()
-                    tv_date_mydate.visible()
-                    date_headView.visible()
-//                    setNoticeIsNoShow()
-                    iv_right.gone()
-                    tv_title1.gone()
-                    tv_title.text = "人工服务"
                     tv_date_tab.visibility = View.VISIBLE
+                    getUserInfoUnMsg()
+//                    tabhost.backgroundColor = ContextCompat.getColor(this,R.color.color_282828)
+//                    view_line_h.visibility = View.INVISIBLE
+//                    titleBar.visibility = View.GONE
+//                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
+//                    tv_title.visible()
+//                    tv_create_date.visible()
+//                    tv_date_mydate.visible()
+//                    date_headView.visible()
+////                    setNoticeIsNoShow()
+//                    iv_right.gone()
+//                    tv_title1.gone()
+//                    tv_title.text = "人工服务"
+//                    tv_date_tab.visibility = View.VISIBLE
                 }
 
                 TextUtils.equals(it, tabTexts[3]) -> {
@@ -266,8 +276,13 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //        tv_create_date.gone()
 
         tv_create_date.setOnClickListener {
-            isCheckOnLineAuthUser(this, getLocalUserId()){
-                startActivityForResult<PublishFindDateActivity>(10)
+            when (tabhost.currentTab) {
+                0 -> {
+                    var view = it;
+                    mCirclePop?.let {
+                        it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -23,-15)
+                    }
+                }
             }
         }
 
@@ -283,28 +298,28 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         tv_find_tab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
-            if (fragment != null && fragment is DateFragment) {
+            if (fragment != null && fragment is HomeFragment) {
                 fragment.refresh()
             }
         }
 
         tv_square_tab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
-            if (fragment != null && fragment is SquareMainFragment) {
+            if (fragment != null && fragment is DateFragment) {
                 fragment.refresh()
             }
         }
 
         tv_date_tab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
-            if (fragment != null && fragment is ServiceFragment) {
+            if (fragment != null && fragment is SquareMainFragment) {
                 fragment.refresh()
             }
         }
 
         iv_right.setOnClickListener {
             when (tabhost.currentTab) {
-                1 -> {
+                0 -> {
                     var view = it;
                     mCirclePop?.let {
                         it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -23,-15)
@@ -312,7 +327,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 }
                 2 -> {
                     isCheckOnLineAuthUser(this, getLocalUserId()) {
-                        startActivityForResult<FilterActivity>(0)
+                        startActivityForResult<ReleaseNewTrendsActivity>(1)
                     }
                 }
             }
@@ -328,7 +343,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         //默认标题
         tv_title.text = "约会"
         tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
-        titleBar.visibility = View.GONE
+        titleBar.visibility = View.VISIBLE
 
         if (token.isNotEmpty()) {
             judgeDataB()
@@ -351,14 +366,15 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         PushAgent.getInstance(this.applicationContext).addAlias(getLocalUserId(), "D6") { _, _ -> }
         Request.updateDeviceType(getLocalUserId()).request(this, false) { _, _ -> }
 
-        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
-        date_headView.setImageURI(head)
-
-        date_headView.postDelayed(object:Runnable{
-            override fun run() {
-                getUserInfo()
-            }
-        },300)
+        //3.1注释
+//        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
+//        date_headView.setImageURI(head)
+//
+//        date_headView.postDelayed(object:Runnable{
+//            override fun run() {
+//                getUserInfo()
+//            }
+//        },300)
 
 //        UnReadMessageCountChangedObserver()
 
@@ -383,7 +399,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     var tv_create_square = view.findViewById<TextView>(R.id.tv_create_square)
                     tv_create_square.setOnClickListener {
                         isCheckOnLineAuthUser(this, getLocalUserId()) {
-                            startActivityForResult<ReleaseNewTrendsActivity>(1)
+                            startActivityForResult<VoiceChatCreateActivity>(1)
                         }
                         mCirclePop!!.dismiss()
                     }
@@ -411,7 +427,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
 
         Request.findDatingMeList(SPUtils.instance().getString(Const.User.USER_ID),1).request(this){_,data->
-            if (data?.list?.results == null || data?.list?.results.isEmpty()) {
+            if (data?.list?.results == null || data?.list?.results?.isEmpty()) {
                 SPUtils.instance().put(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME,false).apply()
             }else{
                 SPUtils.instance().put(Const.User.SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME,true).apply()
@@ -631,7 +647,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
             Log.i("messagesssssss","${unReadMsgNum}显示")
-            if (data?.list?.results == null || data.list?.results.isEmpty()) {
+            if (data?.list?.results == null || data.list?.results?.isEmpty()) {
                 //无数据
                // unReadMsgNum = unReadMsgNum - unReadServiceMsgNum//2.5移除
                 if(unReadMsgNum > 0){

@@ -85,7 +85,7 @@ class RewardVoiceChatPointsDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-        if(voicechatType==1){
+        if(voicechatType==2){
             tv_voicechat_reward.text = "申请者需打赏喜欢"
         }else{
             tv_voicechat_reward.text = "给申请者打赏喜欢"
@@ -101,7 +101,7 @@ class RewardVoiceChatPointsDialog : DialogFragment(),RequestManager {
         mBuyRedHeartVoiceChatAdapter?.setOnItemClickListener { adapter, view, position ->
             var loveHeartNums = mLoveHeartList.get(position).iLoveCount
             if (loveHeartNums != null) {
-                if(voicechatType==1){
+                if(voicechatType==2){
                     dialogListener?.onClick(loveHeartNums,"申请者需打赏喜欢 [img src=redheart_small/] ${loveHeartNums}")
                 }else{
                     if(loveHeartNums<mLocalUserLoveHeartCount){

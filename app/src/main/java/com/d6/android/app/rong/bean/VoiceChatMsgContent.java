@@ -23,7 +23,7 @@ import io.rong.imlib.model.UserInfo;
  * Created by Beyond on 2016/12/5.
  */
 
-@MessageTag(value = "app:voicechatMsg", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
+@MessageTag(value = "app:connectVoiceMsg", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
 public class VoiceChatMsgContent extends MessageContent {
     private final static String TAG = VoiceChatMsgContent.class.getSimpleName();
 

@@ -88,7 +88,11 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
             iv_voicechat_timeout.visibility = View.VISIBLE
         }
 
-//        tv_voicechat_type.text = "约会地点：${date}"
+        if(voiceChatData.iVoiceConnectType==2){
+            tv_voicechat_type.text = "申请者需打赏${voiceChatData.iPrepayLovepoint}个喜欢 [img src=redheart_small/]"
+        }else{
+            tv_voicechat_type.text = "发布者需打赏${voiceChatData.iOncePayLovePoint}个喜欢 [img src=redheart_small/]"
+        }
 
         tv_content.text = voiceChatData.content
 
@@ -106,8 +110,8 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
 //        Log.i("fff",myAppointment.sSourceAppointPic)
         imageAdapter.notifyDataSetChanged()
         tv_send_voicechat.setOnClickListener {
-            mSendDateClick?.let {
-                it.onDateClick(voiceChatData)
+            mSendVoiceChatClick?.let {
+                it.onVoiceChatClick(voiceChatData)
             }
         }
 
@@ -137,18 +141,18 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
             }
         }
 
-        voiceChatData.iAppointmentSignupCount?.let {
+        voiceChatData.iVoiceConnectSignupCount?.let {
             if(it>0){
-                tv_voicechat_nums.text = "累计${it}人邀约"
+                tv_voicechat_nums.text = "已有${it}人申请连麦"
             }else{
                 tv_voicechat_nums.text = ""
             }
         }
     }
 
-    public fun sendDateListener(action:(voiceChatData: Square)->Unit) {
-        mSendDateClick = object : sendDateClickListener {
-            override fun onDateClick(voiceChatData: Square) {
+    fun sendVoiceChatListener(action:(voiceChatData: Square)->Unit) {
+        mSendVoiceChatClick = object : sendVoiceChatClickListener {
+            override fun onVoiceChatClick(voiceChatData: Square) {
                 action(voiceChatData)
             }
         }
@@ -162,11 +166,11 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
-    private var mSendDateClick:sendDateClickListener?=null
+    private var mSendVoiceChatClick:sendVoiceChatClickListener?=null
     private var deleteAction: DeleteClick?=null
 
-    interface sendDateClickListener{
-        fun onDateClick(voiceChatData: Square)
+    interface sendVoiceChatClickListener{
+        fun onVoiceChatClick(voiceChatData: Square)
     }
 
     interface DeleteClick{

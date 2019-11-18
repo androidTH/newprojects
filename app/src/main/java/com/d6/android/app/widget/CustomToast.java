@@ -181,7 +181,9 @@ public class CustomToast {
 
     @CheckResult
     public static Toast custom(@NonNull Context context, @NonNull String message, Drawable icon, @ColorInt int textColor, @ColorInt int tintColor, int duration, boolean withIcon, boolean shouldTint) {
-        if (currentToast == null) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            currentToast = new Toast(context);
+        } else if (currentToast == null) {
             currentToast = new Toast(context);
         }
         final View toastLayout = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.custom_toast, null);

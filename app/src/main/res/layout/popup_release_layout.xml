@@ -26,7 +26,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingRight="12dp"
             android:paddingTop="8dp"
-            android:text="发布动态" />
+            android:text="发布连麦" />
 
         <TextView
             android:id="@+id/tv_create_date"

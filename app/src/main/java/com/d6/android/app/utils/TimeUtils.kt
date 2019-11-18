@@ -1,6 +1,7 @@
 package com.d6.android.app.utils
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.SparseArray
 import com.umeng.message.common.UmengMessageDeviceConfig.getTimeString
 import io.rong.imkit.R
@@ -210,5 +211,23 @@ var dateHaveHour: DateFormat = SimpleDateFormat("HH:mm", Locale.CHINA)
 fun getTimeHaveHour(timeSign: Long): String {
     val date = Date(timeSign)
     return dateHaveHour.format(date)
+}
+
+fun getTimeInMillis(timeType:String): Long {
+    var calendar = Calendar.getInstance()
+    if(TextUtils.equals(timeType,"2小时")){
+        calendar.add(Calendar.HOUR, 1) //向前走一天
+    }else if(TextUtils.equals(timeType,"12小时")){
+        calendar.add(Calendar.HOUR, 12) //向前走一天
+    }else if(TextUtils.equals(timeType,"1天")){
+        calendar.add(Calendar.DATE, 1) //向前走一天
+    }else if(TextUtils.equals(timeType,"3天")){
+        calendar.add(Calendar.DATE, 3) //向前走一天
+    }else if(TextUtils.equals(timeType,"8天")){
+        calendar.add(Calendar.DATE, 8) //向前走一天
+    }else if(TextUtils.equals(timeType,"30天")){
+        calendar.add(Calendar.DATE, 30) //向前走一天
+    }
+    return calendar.timeInMillis
 }
 

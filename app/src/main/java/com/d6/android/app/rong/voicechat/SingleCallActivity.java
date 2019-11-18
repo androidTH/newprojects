@@ -25,7 +25,10 @@ import android.widget.Toast;
 
 import com.d6.android.app.R;
 import com.d6.android.app.activities.UserInfoActivity;
+import com.d6.android.app.models.VoiceTips;
+import com.d6.android.app.net.Request;
 import com.d6.android.app.rong.bean.TipsMessage;
+import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.blurry.internal.Helper;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -56,6 +59,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
 import static com.d6.android.app.utils.UtilKt.getLocalUserName;
+import static com.d6.android.app.utils.UtilKt.updateSquareSignUp;
 
 /**
  *
@@ -83,7 +87,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 
     private String targetId = null;
     private RongCallCommon.CallMediaType mediaType;
-    private String extra;
+    private VoiceTips mVoiceTips = new VoiceTips();
     private TimeCountDown mTimeCountDown;
 
     @Override
@@ -120,7 +124,10 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         if (callAction.equals(RongCallAction.ACTION_OUTGOING_CALL)) {
             if (intent.getAction().equals(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)) {
                 mediaType = RongCallCommon.CallMediaType.AUDIO;
-                extra = intent.getStringExtra("extra");
+                String extra = intent.getStringExtra("extra");
+                if(!TextUtils.isEmpty(extra)){
+                   mVoiceTips = GsonHelper.getGson().fromJson(extra,VoiceTips.class);
+                }
             } else {
                 mediaType = RongCallCommon.CallMediaType.VIDEO;
             }
@@ -128,9 +135,12 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             callSession = intent.getParcelableExtra("callSession");
             mediaType = callSession.getMediaType();
             if(mediaType.equals(RongCallCommon.CallMediaType.AUDIO)){
-                extra = callSession.getExtra();
+                String extra = callSession.getExtra();
+                if(!TextUtils.isEmpty(extra)){
+                    mVoiceTips = GsonHelper.getGson().fromJson(extra,VoiceTips.class);
+                }
+                Log.i("SinleCallActivity","onCreate呼叫"+extra);
             }
-            Log.i("SinleCallActivity","onCreate呼叫");
         } else {
             callSession = RongCallClient.getInstance().getCallSession();
             if (callSession != null) {
@@ -162,7 +172,10 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         if (callAction.equals(RongCallAction.ACTION_OUTGOING_CALL)) {
             if (intent.getAction().equals(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)) {
                 mediaType = RongCallCommon.CallMediaType.AUDIO;
-                extra = intent.getStringExtra("extra");
+                String extra = intent.getStringExtra("extra");
+                if(!TextUtils.isEmpty(extra)){
+                    mVoiceTips = GsonHelper.getGson().fromJson(extra,VoiceTips.class);
+                }
             } else {
                 mediaType = RongCallCommon.CallMediaType.VIDEO;
             }
@@ -170,9 +183,12 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             callSession = intent.getParcelableExtra("callSession");
             mediaType = callSession.getMediaType();
             if(mediaType.equals(RongCallCommon.CallMediaType.AUDIO)){
-                extra = callSession.getExtra();
+                String extra = callSession.getExtra();
+                if(!TextUtils.isEmpty(extra)){
+                    mVoiceTips = GsonHelper.getGson().fromJson(extra,VoiceTips.class);
+                }
+                Log.i("SinleCallActivity","onNewIntent呼叫"+extra);
             }
-            Log.i("SinleCallActivity","onNewIntent呼叫"+extra);
         } else {
             callSession = RongCallClient.getInstance().getCallSession();
             mediaType = callSession.getMediaType();
@@ -262,13 +278,20 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             mediaType = callSession.getMediaType();
             targetId = callSession.getInviterUserId();
             if(mediaType.equals(RongCallCommon.CallMediaType.AUDIO)){
-                extra = callSession.getExtra();
+                String extra = callSession.getExtra();
+                if(!TextUtils.isEmpty(extra)){
+                    mVoiceTips = GsonHelper.getGson().fromJson(extra,VoiceTips.class);
+                }
+                Log.i("SinleCallActivity","setupIntent呼叫"+extra);
             }
-            Log.i("SinleCallActivity","setupIntent呼叫"+extra);
         } else if (callAction.equals(RongCallAction.ACTION_OUTGOING_CALL)) {
+            String extra = "";
             if (intent.getAction().equals(RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO)) {
                 mediaType = RongCallCommon.CallMediaType.AUDIO;
                 extra = intent.getStringExtra("extra");
+                if(!TextUtils.isEmpty(extra)){
+                    mVoiceTips = GsonHelper.getGson().fromJson(extra,VoiceTips.class);
+                }
             } else {
                 mediaType = RongCallCommon.CallMediaType.VIDEO;
             }
@@ -304,7 +327,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 TextView localUserName = mUserInfoContainer.findViewById(R.id.tv_localusername);
                 localUserName.setText(getLocalUserName());
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(extra);
+                tv_voicechat_desc.setText(mVoiceTips.getsTitle());
                 SimpleDraweeView iv_icoming_backgroud=(SimpleDraweeView)mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
                 iv_icoming_backgroud.setVisibility(View.VISIBLE);
                 Log.i("SinleCallActivity","头像"+userInfo.getPortraitUri());
@@ -453,6 +476,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                     }
                     mTimeCountDown = new TimeCountDown(30000,1000);
                     mTimeCountDown.start();
+
+                    updateSquareSignUp(this,"","1",getTime());
                 }
             }
         } catch (Exception e) {
@@ -674,7 +699,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 TextView localUserName = (TextView) mUserInfoContainer.findViewById(R.id.tv_localusername);
                 localUserName.setText(getLocalUserName());
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(extra);
+                tv_voicechat_desc.setText(mVoiceTips.getsTitle());
 //                AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView userPortrait = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 if (userPortrait != null) {
@@ -740,6 +765,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             return;
         }
         RongCallClient.getInstance().acceptCall(session.getCallId());
+        updateSquareSignUp(this,"","2",getTime());
     }
 
     public void hideVideoCallInformation() {
@@ -819,7 +845,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         cancelTime();
 
         switch (reason) {
-            case CANCEL:
+            case CANCEL: //主动取消
+                updateSquareSignUp(this,"","4",getTime());
                 break;
             case REJECT:
                 sendTipsMessage("你拒绝了对方的连麦","拒绝",senderId);
@@ -835,6 +862,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             case REMOTE_CANCEL:
             case REMOTE_REJECT:
                 sendTipsMessage("对方已拒绝","拒绝",senderId);
+                updateSquareSignUp(this,"","3",getTime());
                 break;
         }
 
@@ -942,7 +970,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
                 userName.setText(userInfo.getName());
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(extra);
+                tv_voicechat_desc.setText(mVoiceTips.getsTitle());
 //                AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView userPortrait = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 if (userPortrait != null) {
@@ -1039,7 +1067,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 userName.setText(userInfo.getName());
                 localUserName.setText(getLocalUserName());
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(extra);
+                tv_voicechat_desc.setText(mVoiceTips.getsTitle());
                 SimpleDraweeView userPortrait = mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView iv_icoming_backgroud = mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
                 if (userPortrait != null && userInfo.getPortraitUri() != null) {

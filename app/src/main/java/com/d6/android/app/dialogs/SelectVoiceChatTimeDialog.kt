@@ -44,7 +44,7 @@ class SelectVoiceChatTimeDialog : DialogFragment() {
 
         tv_sure.setOnClickListener {
             val value = wheelView.currentItem
-            dialogListener?.onClick(0, times[value])
+            dialogListener?.onClick(value, times[value])
             dismissAllowingStateLoss()
         }
 

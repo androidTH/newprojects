@@ -179,7 +179,6 @@
                 android:drawablePadding="@dimen/margin_2"
                 android:textStyle="bold"
                 android:textColor="@color/color_888888"
-                android:text="申请者需打赏20个喜欢 [img src=redheart_small/]"
                 android:textSize="12sp" />
         </LinearLayout>
         <View

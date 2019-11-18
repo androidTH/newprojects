@@ -4,19 +4,13 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.TextUtils
-import android.util.Log
 import com.d6.android.app.R
-import com.d6.android.app.activities.MainActivity
-import com.d6.android.app.adapters.SelfPullDateAdapter
 import com.d6.android.app.adapters.VoiceChatListAdapter
 import com.d6.android.app.base.RecyclerFragment
-import com.d6.android.app.dialogs.SelfDateDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.MyAppointment
+import com.d6.android.app.models.Square
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 
 /**
@@ -38,10 +32,10 @@ class VoiceChatFragment : RecyclerFragment() {
         return LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
-    private var mSex:String = ""
+    private var mSex:Int = 2
 
     private var pageNum = 1
-    private val mVoiceChatDates = ArrayList<MyAppointment>()
+    private val mVoiceChatDates = ArrayList<Square>()
 
     private val mVoiceChatAdapter by lazy {
         VoiceChatListAdapter(mVoiceChatDates)
@@ -56,9 +50,9 @@ class VoiceChatFragment : RecyclerFragment() {
 
         arguments?.let {
             mSex = if(it.getInt("sex")!=-1){
-                "${it.getInt("sex")}"
+                it.getInt("sex")
             }else{
-                ""
+                2
             }
         }
     }
@@ -92,26 +86,27 @@ class VoiceChatFragment : RecyclerFragment() {
             }
         })
 
+    }
+
+    override fun onFirstVisibleToUser() {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         mSwipeRefreshLayout.postDelayed(object:Runnable{
             override fun run() {
-                getData()
+                mSwipeRefreshLayout.isRefreshing = true
+                pullDownRefresh()
             }
         },200)
     }
 
-    override fun onFirstVisibleToUser() {
-    }
-
-    fun refresh() {
-        pageNum = 1
-        getData()
-    }
-
     fun refresh(sex:Int= -1) {
         this.mSex = if(sex!=-1){
-            "${sex}"
+            sex
         }else{
-            ""
+            2
         }
         mSwipeRefreshLayout.isRefreshing = true
         mSwipeRefreshLayout.postDelayed(object:Runnable{
@@ -121,8 +116,8 @@ class VoiceChatFragment : RecyclerFragment() {
         },600)
     }
 
-    private fun getData() {
-        Request.findAppointmentList(getLocalUserId(),"","","${mSex}",pageNum).request(this) { _, data ->
+    private fun getData() {//mSex
+        Request.getSquareList(getLocalUserId(),"67",pageNum,3,1).request(this,false,success={ _, data ->
             if (pageNum == 1) {
                 mVoiceChatDates.clear()
                 mSwipeRefreshLayout.mRecyclerView.scrollToPosition(0)
@@ -138,6 +133,8 @@ class VoiceChatFragment : RecyclerFragment() {
                 mVoiceChatDates.addAll(data.list.results)
             }
             mVoiceChatAdapter.notifyDataSetChanged()
+        }){code,msg->
+            mSwipeRefreshLayout.setLoadMoreText("没有更多了")
         }
     }
 

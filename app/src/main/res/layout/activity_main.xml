@@ -53,6 +53,7 @@
             android:gravity="center"
             android:text="我的约会"
             android:textColor="@color/color_black"
+            android:visibility="gone"
             android:textSize="@dimen/textSize"
             android:textStyle="bold" />
 
@@ -63,6 +64,7 @@
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:visibility="gone"
             android:layout_marginLeft="16dp" />
         <ImageView
             android:id="@+id/iv_mydate_newnotice"
@@ -73,20 +75,18 @@
             android:layout_marginTop="@dimen/margin_10"
             android:src="@mipmap/mycenter_top_newnotice"/>
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:id="@+id/tv_create_date"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="@dimen/margin_5"
-            android:paddingBottom="@dimen/margin_5"
-            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="15dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/orange_f6a"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/margin_12"
             android:layout_marginRight="@dimen/margin_10"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:background="@drawable/shape_10r_orange"
-            android:text="+ 发起约会" />
+            android:drawableLeft="@mipmap/ic_add_orange"/>
+        <!--android:background="@drawable/shape_10r_orange"-->
+        <!--android:text="+ 发起约会"-->
     </RelativeLayout>
     <View style="@style/view_line_h"
         android:layout_below="@+id/titleBar"

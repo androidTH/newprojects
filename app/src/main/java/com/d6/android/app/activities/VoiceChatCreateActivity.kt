@@ -3,7 +3,6 @@ package com.d6.android.app.activities
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.media.ThumbnailUtils
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
@@ -12,6 +11,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
@@ -44,9 +44,6 @@ import kotlin.collections.ArrayList
  */
 class VoiceChatCreateActivity : BaseActivity(),Observer{
 
-    private var tagId: String? = null
-    private var iIsAnonymous:Int = 2
-
     private val mImages = ArrayList<AddImage>()
     private val addAdapter by lazy {
         AddImageV2Adapter(mImages)
@@ -56,10 +53,6 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
 
     private val locationClient by lazy {
         AMapLocationClient(applicationContext)
-    }
-
-    private val sex by lazy{
-        SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
     private var cityType = 1
@@ -73,8 +66,10 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     private var REQUESTCODE_IMAGE = 0
 
     private var sTopicId:String = ""
-    private var mVoiceChatType = 0
+    private var mVoiceChatType = 1
     private var loveNums = -1
+    private var iOncePayLovePoint = -1
+    private var mSelectedTimeIndex:Long= -1
 
     /**
      * 删除图片后更新数据
@@ -145,7 +140,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
         tv_release.setOnClickListener {
             isCheckOnLineAuthUser(this, getLocalUserId()){
                 if(!isFastClick()){
-                    submitAddSquare()
+                    submitAddVoiceChat()
                     mKeyboardKt.toggleSoftInput(it)
                 }
             }
@@ -217,7 +212,8 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
               mVoiceChatTypeDialog.arguments = bundleOf("chooseType" to "0")
               mVoiceChatTypeDialog.setDialogListener { p, s ->
                   mVoiceChatType = p
-                  if(p==1||p==2){
+                  if(p==2||p==3){
+                      loveNums = -1
                       showRewardVoiceChatPoints(p)
                       mVoiceChatTypeDialog.dismissAllowingStateLoss()
                   }else{
@@ -244,6 +240,8 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
         selectVoiceChatTimeDialog.arguments = bundleOf("data" to "${tv_topic_choose.text}")
         selectVoiceChatTimeDialog.setDialogListener { p, s ->
             tv_topic_choose.text = s
+            mSelectedTimeIndex = getTimeInMillis("${s}")
+            Log.i("VoiceChatCreateActivity","时间：${mSelectedTimeIndex}")
         }
         selectVoiceChatTimeDialog.show(supportFragmentManager,"time")
     }
@@ -254,7 +252,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
         mRewardVoiceChatPointsDialog.show(supportFragmentManager, "d")
         mRewardVoiceChatPointsDialog.setDialogListener { p, s ->
             loveNums = p
-            if(type==1){
+            if(type==2){
                 tv_voicechat_choose.text = s
             }else{
                 appVoiceChatPoints(loveNums)
@@ -264,11 +262,12 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     }
 
    private fun appVoiceChatPoints(sendLoveNums:Int){
+       iOncePayLovePoint = -1
        var mApplyVoiceChatPointsDialog = ApplyVoiceChatPointsDialog()
        mApplyVoiceChatPointsDialog.arguments = bundleOf("lovenums" to sendLoveNums)
        mApplyVoiceChatPointsDialog.show(supportFragmentManager, "d")
        mApplyVoiceChatPointsDialog.setDialogListener { p, s ->
-           loveNums = sendLoveNums*p
+           iOncePayLovePoint = sendLoveNums*p
            tv_voicechat_choose.text = s
        }
    }
@@ -358,19 +357,13 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
                 }
                 Flowable.just(sb.toString())
             }.flatMap {
-                val city = if (cityType == 0) {
-                    ""
-                } else {
-                    this.city
-                }
-//                var userIds = getShareUserId(mChooseFriends)
-                Request.releaseSquare(getLocalUserId(), tagId, city, it, content,"",iIsAnonymous,sTopicId,"","","","","","")
+                Request.addConnectVoice(content,mVoiceChatType,loveNums,iOncePayLovePoint,"${mSelectedTimeIndex}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
-                syncChat(this,"dynamic",sex, getLocalUserId())
+//                syncChat(this,"dynamic",sex, getLocalUserId())
                 setResult(Activity.RESULT_OK)
 //                FinishActivityManager.getManager().finishActivity()
                 finish()
@@ -391,20 +384,13 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
             showToast("请输入内容")
             return
         }
-        val city = if (cityType == 0) {
-            ""
-        } else {
-            this.city
-        }
-        Request.releaseSquare(getLocalUserId(), tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","").request(this,false,success={
+        Request.addConnectVoice(content,mVoiceChatType,loveNums,iOncePayLovePoint,"${mSelectedTimeIndex}").request(this,false,success={
             _, data ->
             showToast("发布成功")
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                 showTips(data,"发布约会奖励积分","10")
             }
-            syncChat(this,"dynamic",sex, getLocalUserId())
             setResult(Activity.RESULT_OK)
-//            FinishActivityManager.getManager().finishActivity()
             finish()
         }){code,resMsg->
             if(code == 2){
@@ -416,10 +402,10 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     }
 
 
-    private fun submitAddSquare(){
-        if (mImages.size>0&&mImages[0].type == 0) {
-            publish()
-        } else {
+    private fun submitAddVoiceChat(){
+//        if (mImages.size>0&&mImages[0].type == 0) {
+//            publish()
+//        } else {
             //发布文字
             val content = et_content.text.toString().trim()
             if (content.isEmpty()) {
@@ -428,7 +414,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
             }
             dialog()
             addTextSquare(content)
-        }
+//        }
     }
 
     private fun getLocalFriendsCount(){

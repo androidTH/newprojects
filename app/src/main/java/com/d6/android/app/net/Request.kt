@@ -2,10 +2,7 @@ package com.d6.android.app.net
 
 import com.d6.android.app.models.Response
 import com.d6.android.app.models.UserData
-import com.d6.android.app.utils.getAppVersion
-import com.d6.android.app.utils.getFileSuffix
-import com.d6.android.app.utils.ioScheduler
-import com.d6.android.app.utils.sysErr
+import com.d6.android.app.utils.*
 import com.google.gson.JsonPrimitive
 import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
@@ -542,4 +539,12 @@ object Request {
     fun findLoveListing(sLoginToken:String,iSex:Int,pageNum: Int = 1)= RRetrofit.instance().create(ApiServices::class.java).findLoveListing(sLoginToken,iSex,pageNum)
 
     fun findSquareTop()=RRetrofit.instance().create(ApiServices::class.java).findSquareTop()
+
+    fun addConnectVoice(content:String,iVoiceConnectType:Int,iPrepayLovepoint:Int, iOncePayLovePoint:Int, dEndTime:String)=RRetrofit.instance().create(ApiServices::class.java).addConnectVoice(content,iVoiceConnectType,iPrepayLovepoint,iOncePayLovePoint,dEndTime)
+
+    fun getApplyVoiceSquareLovePoint(iSquareId:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyVoiceSquareLovePoint(iSquareId,sLoginToken)
+
+    fun addVoiceChat(iSquareId:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).addVoiceChat(iSquareId,sLoginToken)
+
+    fun updateSquareSignUp(sSquareSignupId:String,iStatus:String,iConnectVoiceLength:Long,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).updateSquareSignUp(sSquareSignupId,iStatus,iConnectVoiceLength, sLoginToken)
 }

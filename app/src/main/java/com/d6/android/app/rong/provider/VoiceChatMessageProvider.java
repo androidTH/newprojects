@@ -38,7 +38,7 @@ import io.rong.imlib.model.Message;
 
 @ProviderTag(messageContent = VoiceChatMsgContent.class, showReadState = true)
 public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProvider<VoiceChatMsgContent>{
-    private static final String TAG = "CustomMessageProvider";
+    private static final String TAG = VoiceChatMessageProvider.class.getSimpleName();
 
     private static class ViewHolder {
         TextView mTvVoiceChatTitle;

@@ -54,16 +54,16 @@ class VoiceChatTypeDialog : DialogFragment(),RequestManager {
         super.onViewCreated(view, savedInstanceState)
         chooseType = arguments.getString("chooseType","")
         tv_voicechat_nopay.setOnClickListener {
-            dialogListener?.onClick(0,"无需打赏")
+            dialogListener?.onClick(1,"无需打赏")
             dismissAllowingStateLoss()
         }
 
         tv_voicechat_tome.setOnClickListener {
-            dialogListener?.onClick(1,"申请者需打赏喜欢 [img src=redheart_small/]")
+            dialogListener?.onClick(2,"申请者需打赏喜欢 [img src=redheart_small/]")
         }
 
         tv_voicechat_toyou.setOnClickListener {
-            dialogListener?.onClick(2,"给申请者打赏喜欢 [img src=redheart_small/]")
+            dialogListener?.onClick(3,"给申请者打赏喜欢 [img src=redheart_small/]")
         }
 
         tv_close.setOnClickListener {

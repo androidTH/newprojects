@@ -84,9 +84,13 @@ class FilterSquaresActivity : BaseActivity() {
         }
 
         add_square.setOnClickListener {
-            var view = it
-            mCirclePop?.let {
-                it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -30,-10)
+//            var view = it
+//            mCirclePop?.let {
+//                it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -30,-10)
+//            }
+
+            isCheckOnLineAuthUser(this, getLocalUserId()) {
+                startActivityForResult<ReleaseNewTrendsActivity>(1)
             }
         }
 

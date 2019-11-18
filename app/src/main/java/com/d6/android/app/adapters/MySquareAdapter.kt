@@ -17,6 +17,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.DateOfSquareView
 import com.d6.android.app.widget.UserTrendView
+import com.d6.android.app.widget.VoiceChatView
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -32,15 +33,23 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<UserTrendView>(R.id.mTrendView)
         val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
+        val voicechat_view = holder.bind<VoiceChatView>(R.id.voicechat_view)
         data.sex = mUserData?.sex
         data.age = mUserData?.age
 
         if(data.classesid==66){
             trendView.visibility = View.GONE
+            voicechat_view.visibility = View.GONE
             dateofsquare_view.visibility = View.VISIBLE
             dateofsquare_view.update(data)
+        }else if(data.classesid==67){
+            trendView.visibility = View.GONE
+            dateofsquare_view.visibility = View.GONE
+            voicechat_view.visibility = View.VISIBLE
+            voicechat_view.update(data)
         }else{
             trendView.visibility = View.VISIBLE
+            voicechat_view.visibility = View.GONE
             dateofsquare_view.visibility = View.GONE
             trendView.update(data,if (type==0) 1 else 0 )
         }
@@ -113,12 +122,98 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
             }else{
                 doReport("${it.userid}","${it.sAppointmentId}",2,data)
             }
-
         }
+
+        voicechat_view.setDeleteClick {
+            var shareDialog = ShareFriendsDialog()
+            shareDialog.arguments = bundleOf("from" to "mysquare","id" to it.userid.toString(),"sResourceId" to it.id.toString())
+            var squareId = it.id.toString()
+            shareDialog.show((context as BaseActivity).supportFragmentManager, "action")
+            shareDialog.setDialogListener { p, s ->
+                if (p == 0) {
+                    mUserData?.let {
+                        context.startActivity<ReportActivity>("id" to squareId, "tiptype" to "2")
+                    }
+                } else if (p == 1) {
+                    delete(data)
+                }
+            }
+        }
+
+        voicechat_view.sendVoiceChatListener {
+            var square = it
+            isBaseActivity {
+                it.isAuthUser {
+                    if(!TextUtils.equals(getLocalUserId(),square.userid)){
+                        signUpVoiceChat(square)
+                    }else{
+                        it.toast("禁止连麦自己")
+                    }
+                }
+            }
+        }
+
     }
 
     fun setUserInfo(data: UserData){
            this.mUserData = data
+    }
+
+    /**
+     * 连麦
+     */
+    private fun signUpVoiceChat(voiceChat:Square) {
+        Request.getApplyVoiceSquareLovePoint("${voiceChat.id}", getLoginToken()).request(context as BaseActivity, false,success={ msg, data->
+            var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+            mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
+            mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            mApplyVoiceChatDialog.setDialogListener { p, s ->
+                // mData.remove(myAppointment)
+                // notifyDataSetChanged()
+            }
+        }){code,msg->
+            if(code==0){
+                //不允许申请，弹出错误信息
+                var openErrorDialog = OpenDateErrorDialog()
+                var jsonObject = JSONObject(msg)
+                var resMsg = jsonObject.optString("resMsg")
+                openErrorDialog.arguments = bundleOf("code" to 5, "msg" to resMsg)
+                openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            }else if(code==2){
+                //申请需支付爱心 iAddPoint 需要支付的爱心数量
+                var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+//                var jsonObject = JSONObject(msg)
+//                var iAddPoint = jsonObject.optString("iAddPoint")
+                mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
+                mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                mApplyVoiceChatDialog.setDialogListener { p, s ->
+
+                }
+            }else if(code==3){
+                //申请需支付爱心，爱心不足，iAddPoint 需要支付的爱心，iRemainPoint剩余的爱心
+                var mOpenDatePointNoEnoughDialog = OpenDatePointNoEnoughDialog()
+                var jsonObject = JSONObject(msg)
+                var iAddPoint = jsonObject.getString("iAddPoint")
+                var iRemainPoint = jsonObject.getString("iRemainPoint")
+                mOpenDatePointNoEnoughDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 1)
+                mOpenDatePointNoEnoughDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            }else if(code==4){
+                //允许连麦，iAddPoint 为需要打赏的爱心数量
+                var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+                mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
+                mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                mApplyVoiceChatDialog.setDialogListener { p, s ->
+                }
+            }else if(code==5){
+                //res=5，不允许连麦，对方预付的爱心已不足
+                var openErrorDialog = OpenDateErrorDialog()
+                var jsonObject = JSONObject(msg)
+                var resMsg = jsonObject.optString("sAddPointDesc")
+                openErrorDialog.arguments = bundleOf("code" to 5, "msg" to "${resMsg}")
+                openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
+
+            }
+        }
     }
 
     private fun sendFlower(square:Square,lovePoint:Int){
@@ -204,9 +299,6 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
             appoinment.sAppointUserName = myAppointment.name
             dateDialog.arguments = bundleOf("data" to appoinment, "explain" to data!!)
             dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
-//            var dateInfo = RengGongDialog()
-//            var dateInfo = SelfDateDialog()
-//            dateInfo.show((context as BaseActivity).supportFragmentManager, "rg")
             dateDialog.setDialogListener { p, s ->
                 mData.remove(myAppointment)
                 notifyDataSetChanged()

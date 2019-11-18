@@ -134,14 +134,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center_vertical">
-                <!--android:background="@drawable/shape_4r_f5f5"-->
-                <!--android:paddingTop="@dimen/margin_8"-->
-                <!--android:drawableLeft="@mipmap/title_label_icon"-->
-                <!--android:layout_below="@+id/tv_newest_date"-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp">
+                    android:layout_height="40dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -152,7 +148,7 @@
                         <com.d6.android.app.widget.tablayout.TabLayout
                             android:id="@+id/tab_home_date"
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
+                            android:layout_height="27dp"
                             android:layout_gravity="center_vertical"
                             android:scrollbars="horizontal"
                             app:tabGravity="center"
@@ -185,7 +181,6 @@
                 </RelativeLayout>
             </RelativeLayout>
         </android.support.design.widget.AppBarLayout>
-
 
         <android.support.v4.view.ViewPager
             android:id="@+id/mViewPager"
