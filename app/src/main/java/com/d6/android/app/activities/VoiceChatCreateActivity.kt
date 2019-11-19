@@ -241,7 +241,8 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
         selectVoiceChatTimeDialog.setDialogListener { p, s ->
             tv_topic_choose.text = s
             mSelectedTimeIndex = getTimeInMillis("${s}")
-            Log.i("VoiceChatCreateActivity","时间：${mSelectedTimeIndex}")
+            converTime(mSelectedTimeIndex)
+            Log.i("VoiceChatCreateActivity","${converTime(mSelectedTimeIndex)}---时间：${mSelectedTimeIndex}")
         }
         selectVoiceChatTimeDialog.show(supportFragmentManager,"time")
     }

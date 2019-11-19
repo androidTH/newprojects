@@ -560,6 +560,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/rc_file_path" />
         </provider>
+        <!--录音服务-->
+        <service
+            android:name="com.zlw.main.recorderlib.recorder.RecordService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

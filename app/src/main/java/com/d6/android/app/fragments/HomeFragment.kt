@@ -72,6 +72,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     private var type: Int = 0
     private var city: String? = ""
+    private var mDefualtSex = -1
 
 
     private var mSelfPullDateFragment:SelfPullDateFragment?=null
@@ -115,14 +116,19 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 }
         }
 
+        if (TextUtils.equals("0", getUserSex())) {
+            mDefualtSex = 1
+        } else {
+            mDefualtSex = 0
+        }
         var mFragments = listOf(
-                SelfPullDateFragment.instance("",1),
-                SelfPullDateFragment.instance("6",1),
-                SelfPullDateFragment.instance("2",1),
-                SelfPullDateFragment.instance("1",1),
-                SelfPullDateFragment.instance("3",1),
-                SelfPullDateFragment.instance("7",1),
-                SelfPullDateFragment.instance("8",1)
+                SelfPullDateFragment.instance("", mDefualtSex),
+                SelfPullDateFragment.instance("6",mDefualtSex),
+                SelfPullDateFragment.instance("2",mDefualtSex),
+                SelfPullDateFragment.instance("1",mDefualtSex),
+                SelfPullDateFragment.instance("3",mDefualtSex),
+                SelfPullDateFragment.instance("7",mDefualtSex),
+                SelfPullDateFragment.instance("8",mDefualtSex)
         )
 
         mFragments[0].setRenGongBackGround(this)
@@ -170,7 +176,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 }else{
                     type.toString()
                 }
-                mSelfPullDateFragment.refresh("" ,dateType)
+                mSelfPullDateFragment.refresh("" ,dateType,mDefualtSex)
 //                mSelfPullDateFragment.refresh()
             }
 
@@ -337,7 +343,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             }
 //            it.setRenGongBackGround(this)
             appBarLayout.addOnOffsetChangedListener(this)
-            it.refresh(area ,dateType)
+            it.refresh(area ,dateType,mDefualtSex)
         }
     }
 

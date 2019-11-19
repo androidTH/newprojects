@@ -278,8 +278,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         getProvinceData()
 
-        loginforPoint()
-
         initGift()
 
         loading_headView.setImageURI(heardPic)
@@ -789,32 +787,6 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             // dont forget release!
             sv_danmaku.release()
         }
-    }
-
-    private fun loginforPoint(){
-        Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
-            if (data != null) {
-                var sLoginToken = data.optString("sLoginToken")
-                var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
-                if (lstTask!=null&&lstTask.size>0) {
-                    SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
-                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
-                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
-                    SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
-                    var today = getTodayTime()
-                    var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW+getLocalUserId(),"")
-                    if(!TextUtils.equals(today,yesterday)){
-                        var mCheckInPointsDialog = CheckInPointsDialog()
-                        mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
-                        mCheckInPointsDialog.show(childFragmentManager,"rewardtips")
-                        mCheckInPointsDialog.setDialogListener { p, s ->
-                            mCheckInPointsDialog.dismissAllowingStateLoss()
-                        }
-                        SPUtils.instance().put(LOGIN_FOR_POINT_NEW+getLocalUserId(), getTodayTime()).apply()
-                    }
-                }
-            }
-        })
     }
 
     private val mImages = ArrayList<AddImage>()

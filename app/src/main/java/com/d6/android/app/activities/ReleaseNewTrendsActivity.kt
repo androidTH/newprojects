@@ -21,9 +21,8 @@ import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageV2Adapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
-import com.d6.android.app.audioconverter.AndroidAudioConverter
-import com.d6.android.app.audioconverter.callback.IConvertCallback
-import com.d6.android.app.audioconverter.model.AudioFormat
+import com.d6.android.app.application.BaseApplication
+import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.CommonTipDialog
 import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
@@ -34,26 +33,21 @@ import com.d6.android.app.models.Imagelocals
 import com.d6.android.app.models.TopicBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.recoder.RecoderUtil
-import com.d6.android.app.recoder.model.AudioChannel
-import com.d6.android.app.recoder.model.AudioSampleRate
-import com.d6.android.app.recoder.model.AudioSource
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.zlw.main.recorderlib.RecordManager
+import com.zlw.main.recorderlib.recorder.RecordConfig
+import com.zlw.main.recorderlib.recorder.RecordHelper
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import kotlinx.android.synthetic.main.item_audio_square.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_VIDEO
-import me.nereo.multi_image_selector.utils.FinishActivityManager
-import omrecorder.AudioChunk
-import omrecorder.OmRecorder
-import omrecorder.PullTransport
-import omrecorder.Recorder
 import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 import java.io.File
@@ -63,7 +57,7 @@ import kotlin.collections.ArrayList
 /**
  * 发布广场动态
  */
-class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulledListener, MediaPlayer.OnCompletionListener,Observer{
+class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener,Observer{
 
     private var tagId: String? = null
     private var iIsAnonymous:Int = 2
@@ -94,7 +88,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
     private var cityType = 1
     private val mNoticeFriendsQuickAdapter by lazy{
-         NoticeFriendsQuickAdapter(mChooseFriends)
+        NoticeFriendsQuickAdapter(mChooseFriends)
     }
 
     private var MAXTIME = 59 //录音最大时长
@@ -113,33 +107,33 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     private var VideoPaths:ArrayList<String> = ArrayList<String>()
     private var mVideoWidth:Int = 0
     private var mVideoHeight:Int = 0
-
+    private var recordManager:RecordManager?=null
     /**
      * 删除图片后更新数据
      */
     override fun update(o: Observable?, arg: Any?) {
-          var mImagelocal = arg as Imagelocals
-          if(mImagelocal.mType == 0){
-              mImages.filter { it.type!=1 }.map {
-                  if(mImages.size>mImagelocal.position){
-                      mImages.removeAt(mImagelocal.position)
-                  }
-              }
+        var mImagelocal = arg as Imagelocals
+        if(mImagelocal.mType == 0){
+            mImages.filter { it.type!=1 }.map {
+                if(mImages.size>mImagelocal.position){
+                    mImages.removeAt(mImagelocal.position)
+                }
+            }
 
-              if(mImages.size==1){
-                 mImages.clear()
-                 setPanelTitleUI(4)
-              }
-          }else if(mImagelocal.mType == 1){
-              mImages.clear()
-              mImagelocal.mUrls.forEach {
-                  val image = AddImage("file://${it}")
-                  image.path = it
-                  mImages.add(image)
-              }
-              mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))
-          }
-          addAdapter.notifyDataSetChanged()
+            if(mImages.size==1){
+                mImages.clear()
+                setPanelTitleUI(4)
+            }
+        }else if(mImagelocal.mType == 1){
+            mImages.clear()
+            mImagelocal.mUrls.forEach {
+                val image = AddImage("file://${it}")
+                image.path = it
+                mImages.add(image)
+            }
+            mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))
+        }
+        addAdapter.notifyDataSetChanged()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -323,9 +317,12 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             tv_delete_audio.visibility = View.INVISIBLE
             rl_play_audio.visibility = View.INVISIBLE
             stopPlaying()
-            DiskFileUtils.deleteSingleFile(fileAudioPath)
             tv_release.backgroundResource = R.drawable.shape_10r_grey
-
+            tv_release.postDelayed(object:Runnable{
+                override fun run() {
+                    DiskFileUtils.deleteSingleFile(fileAudioPath)
+                }
+            },300)
             setPanelTitleUI(4)
         }
 
@@ -403,22 +400,22 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
 
         ll_unknow_choose.setOnClickListener {
-           var mSelectUnknowDialog = SelectUnKnowTypeDialog()
-           mSelectUnknowDialog.arguments = bundleOf("type" to "ReleaseNewTrends","IsOpenUnKnow" to IsOpenUnKnow,"code" to mRequestCode,"desc" to sAddPointDesc,"iAddPoint" to iAddPoint,"iRemainPoint" to iRemainPoint)
-           mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
-           mSelectUnknowDialog.setDialogListener { p, s ->
-               tv_unknow_choose.text = s
-               if(p==1){
-                   tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
-                   var drawable = ContextCompat.getDrawable(this, R.mipmap.key_small)
-                   tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
-               }else{
-                   tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_333333)
-                   var drawable = ContextCompat.getDrawable(this, R.mipmap.public_small_yellow)
-                   tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
-               }
-               iIsAnonymous = p
-           }
+            var mSelectUnknowDialog = SelectUnKnowTypeDialog()
+            mSelectUnknowDialog.arguments = bundleOf("type" to "ReleaseNewTrends","IsOpenUnKnow" to IsOpenUnKnow,"code" to mRequestCode,"desc" to sAddPointDesc,"iAddPoint" to iAddPoint,"iRemainPoint" to iRemainPoint)
+            mSelectUnknowDialog.show(supportFragmentManager,"unknowdialog")
+            mSelectUnknowDialog.setDialogListener { p, s ->
+                tv_unknow_choose.text = s
+                if(p==1){
+                    tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_8F5A5A)
+                    var drawable = ContextCompat.getDrawable(this, R.mipmap.key_small)
+                    tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
+                }else{
+                    tv_nmtype.textColor = ContextCompat.getColor(this,R.color.color_333333)
+                    var drawable = ContextCompat.getDrawable(this, R.mipmap.public_small_yellow)
+                    tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
+                }
+                iIsAnonymous = p
+            }
         }
 
         rv_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
@@ -458,6 +455,8 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             var drawable = ContextCompat.getDrawable(this, R.mipmap.key_small)
             tv_nmtype.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null)
         }
+
+        initRecording()
     }
 
     private fun addImagesToSquare(it:View){
@@ -607,8 +606,8 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
                 addAdapter.notifyDataSetChanged()
             }else if(requestCode == REQUEST_CHOOSECODE && data!=null){
-                  mChooseFriends = data!!.getParcelableArrayListExtra(CHOOSE_Friends)
-                  mNoticeFriendsQuickAdapter.setNewData(mChooseFriends)
+                mChooseFriends = data!!.getParcelableArrayListExtra(CHOOSE_Friends)
+                mNoticeFriendsQuickAdapter.setNewData(mChooseFriends)
             }else if(requestCode==REQUEST_TOPICCODE&&data!=null){
                 var mTopicBean = data.getParcelableExtra<TopicBean>(Const.CHOOSE_TOPIC)
                 if(mTopicBean!=null){
@@ -737,32 +736,16 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         val content = et_content.text.toString().trim()
         dialog()
         if (DiskFileUtils.IsExists(fileAudioPath)) {//有语音
-            if(fileAudioPath.endsWith(".wav")){
-                AudioConvert(content)
-            }else{
-                ConvertSuccess(File(fileAudioPath),content)
-            }
+//            if(fileAudioPath.endsWith(".wav")){
+//                AudioConvert(content)
+//            }else{
+//                ConvertSuccess(File(fileAudioPath),content)
+//            }
+
+            ConvertSuccess(File(fileAudioPath),content)
         } else {
             addTextSquare(content)
         }
-    }
-
-    private fun AudioConvert(content:String){
-        val callback = object : IConvertCallback {
-            override fun onSuccess(convertedFile: File) {
-                ConvertSuccess(convertedFile,content)
-            }
-
-            override fun onFailure(error: Exception) {
-
-            }
-        }
-
-        AndroidAudioConverter.with(this)
-                .setFile(File(fileAudioPath))
-                .setFormat(AudioFormat.MP3)
-                .setCallback(callback)
-                .convert()
     }
 
     /**
@@ -809,12 +792,12 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
             }.toList().toFlowable().flatMap {
                 Flowable.just(it)
             }.flatMap {
-               Log.i("releaseautio",it[1]+"视频地址"+it[0]+"视频宽度:${mVideoWidth}")
-               Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","")
+                Log.i("releaseautio",it[1]+"视频地址"+it[0]+"视频宽度:${mVideoWidth}")
+                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
-                     showTips(data,"发布约会奖励积分","10")
+                    showTips(data,"发布约会奖励积分","10")
                 }
                 syncChat(this,"dynamic",sex,userId)
                 setResult(Activity.RESULT_OK)
@@ -986,17 +969,15 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         if(Recoding){
             if (recorderSecondsElapsed > MINTIME) {
                 record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
-                tv_delete_audio.visibility = View.VISIBLE
                 setRlPlayAudioWidth()
+                rl_play_audio.visibility = View.VISIBLE
+                tv_delete_audio.visibility = View.VISIBLE
                 tv_audio_time.text = "${mVoiceLength}”"
 
                 //显示软键盘
                 showSoftInput(et_content)
                 if(DiskFileUtils.IsExists(fileAudioPath)){
                     tv_release.backgroundDrawable = ContextCompat.getDrawable(context,R.drawable.shape_10r_orange)
-                    tv_release.postDelayed(Runnable {
-                        AudioLocalConvert()
-                    },300)
                 }
             }else{
                 record.background = ContextCompat.getDrawable(context,R.mipmap.voice_pedestal)
@@ -1008,36 +989,8 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
     }
 
-    //录音完成进行本地转码
-    private fun AudioLocalConvert(){
-        val callback = object : IConvertCallback {
-            override fun onSuccess(convertedFile: File) {
-//                DiskFileUtils.deleteSingleFile(fileAudioPath)
-                fileAudioPath = convertedFile.path
-                audio_loading.visibility = View.GONE
-                rl_play_audio.isEnabled = true
-                Log.i("fileAudioPath","转码路径：${fileAudioPath}")
-            }
-
-            override fun onFailure(error: Exception) {
-                audio_loading.visibility = View.GONE
-                rl_play_audio.isEnabled = true
-                Log.i("fileAudioPath","${error.message}")
-            }
-        }
-
-        AndroidAudioConverter.with(this)
-                .setFile(File(fileAudioPath))
-                .setFormat(AudioFormat.MP3)
-                .setCallback(callback)
-                .convert()
-        audio_loading.visibility = View.VISIBLE
-        rl_play_audio.isEnabled = false
-    }
-
     //设置播放录音条的宽度
     private fun setRlPlayAudioWidth(){
-        rl_play_audio.visibility = View.VISIBLE
         var param = rl_play_audio.layoutParams
         param.width = (resources.getDimensionPixelSize(R.dimen.width_100) + resources.getDimensionPixelSize(R.dimen.width_100)/60*recorderSecondsElapsed)
         rl_play_audio.layoutParams = param
@@ -1049,10 +1002,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     private var playerSecondsElapsed: Int = 0
     private var timer: Timer? = null
     private var player: MediaPlayer? = null
-    private var recorder: Recorder? = null
     private var autoStart: Boolean = false
     private var moveupFlag: Boolean = false
-    private var fileAudioPath = Environment.getExternalStorageDirectory().toString() + "/recorded_audio.wav"
+    private var fileAudioPath = ""
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -1061,13 +1013,31 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         }
     }
 
+    private fun initRecording(){
+        recordManager = RecordManager.getInstance()
+        recordManager?.let {
+            it.init(ReleaseNewTrendsActivity@this.application, false)
+            it.changeFormat(RecordConfig.RecordFormat.MP3)
+            it.changeRecordConfig(it.getRecordConfig().setSampleRate(44100))
+            it.changeRecordConfig(it.getRecordConfig().setEncodingConfig(android.media.AudioFormat.ENCODING_PCM_16BIT))
+            it.setRecordResultListener {
+                fileAudioPath = it.absolutePath
+                Log.i("initRecording","地址：${fileAudioPath}")
+            }
+
+            var recordDir = String.format(Locale.getDefault(), "%s/Record/",
+                    Environment.getExternalStorageDirectory().absolutePath)
+            it.changeRecordDir(recordDir)
+        }
+    }
+
     //录制
     fun toggleRecording() {
-        fileAudioPath = Environment.getExternalStorageDirectory().toString() + "/recorded_audio.wav"
+//        fileAudioPath = Environment.getExternalStorageDirectory().toString() + "/recorded_audio.wav"
+
         stopPlaying()
         RecoderUtil.wait(100, Runnable {
             if (isRecording) {
-//                pauseRecording()
                 setAudioView(isRecording)
                 restartRecording()
             } else {
@@ -1092,8 +1062,8 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
     private fun pauseRecording() {
         isRecording = false
-        if (recorder != null) {
-            recorder?.pauseRecording()
+        if (recordManager != null&&recordManager?.state == RecordHelper.RecordState.RECORDING) {
+            recordManager?.pause()
         }
         stopTimer()
     }
@@ -1113,16 +1083,17 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
     private fun resumeRecording() {
         isRecording = true
 
-        if (recorder == null) {
+        if (recordManager!= null) {
             tv_recoder_time.setText(getString(R.string.string_record_audio))
 
-            recorder = OmRecorder.wav(
-                    PullTransport.Default(RecoderUtil.getMic(AudioSource.MIC, AudioChannel.MONO, AudioSampleRate.HZ_44100), this@ReleaseNewTrendsActivity),
-                    File(fileAudioPath))
+//            recorder = OmRecorder.wav(
+//                    PullTransport.Default(RecoderUtil.getMic(AudioSource.MIC, AudioChannel.MONO, AudioSampleRate.HZ_44100), this@ReleaseNewTrendsActivity),
+//                    File(fileAudioPath))
+            recordManager?.start()
         }
-        recorder?.let {
-            it.resumeRecording()
-        }
+//        recorder?.let {
+//            it.resumeRecording()
+//        }
         startTimer()
     }
 
@@ -1148,17 +1119,20 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
 
     private fun stopRecording() {
         recorderSecondsElapsed = 0
-        if (recorder != null) {
-            recorder?.stopRecording()
-            recorder = null
+        if (recordManager != null) {
+            if (recordManager?.state == RecordHelper.RecordState.IDLE) {
+                return
+            }
+            recordManager?.stop()
         }
         circlebarview.stopProgressNum()
         stopTimer()
     }
 
     private fun stopPlaying() {
-        if (player != null) {
+        if (player != null&&player!!.isPlaying) {
             try {
+                player!!.pause()
                 player!!.stop()
                 player!!.reset()
                 stopPlayAudioView()
@@ -1221,13 +1195,8 @@ class ReleaseNewTrendsActivity : BaseActivity(),PullTransport.OnAudioChunkPulled
         stopRecording()
     }
 
-    override fun onAudioChunkPulled(audioChunk: AudioChunk?) {
-        val amplitude = if (isRecording) audioChunk?.maxAmplitude()?.toFloat() else 0f
-        Log.i("audio", "大小$amplitude")
-    }
-
     override fun onCompletion(mp: MediaPlayer?) {
-        stopPlaying()
+        stopPlayAudioView()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

@@ -1,6 +1,5 @@
 package com.d6.android.app.recoder;
 
-import android.graphics.Color;
 import android.media.AudioFormat;
 import android.os.Handler;
 
@@ -18,15 +17,15 @@ public class RecoderUtil {
         HANDLER.postDelayed(callback, millis);
     }
 
-    public static omrecorder.AudioSource getMic(AudioSource source,
-                                                AudioChannel channel,
-                                                AudioSampleRate sampleRate) {
-        return new omrecorder.AudioSource.Smart(
-                source.getSource(),
-                AudioFormat.ENCODING_PCM_16BIT,
-                channel.getChannel(),
-                sampleRate.getSampleRate());
-    }
+//    public static omrecorder.AudioSource getMic(AudioSource source,
+//                                                AudioChannel channel,
+//                                                AudioSampleRate sampleRate) {
+//        return new omrecorder.AudioSource.Smart(
+//                source.getSource(),
+//                AudioFormat.ENCODING_PCM_16BIT,
+//                channel.getChannel(),
+//                sampleRate.getSampleRate());
+//    }
 
     public static String formatSeconds(int seconds) {
         return getTwoDecimalsValue(seconds / 3600) + ":"

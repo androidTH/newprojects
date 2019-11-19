@@ -296,3 +296,5 @@ public static final int *;
 -dontwarn android.net.http.AndroidHttpClient
 
 -keep class com.github.hiteshsondhi88.libffmpeg.*{*;}
+-keep class com.zlw.main.recorderlib.**{*;}
+-keep class fftlib.*{*;}

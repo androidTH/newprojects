@@ -133,7 +133,6 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             OpenInstall.init(this)
         }
 
-        loadAudioConvert()
 //        BigImageViewer.initialize(FrescoImageLoader.with(this))
 
 //        DoraemonKit.install(this)
@@ -146,19 +145,6 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 //        }
 
 //        AppUtils.setHWRatio(this)
-    }
-
-    /**
-     * 加载转码工具
-     */
-    private fun loadAudioConvert(){
-        AndroidAudioConverter.load(this, object : ILoadCallback{
-            override fun onFailure(error: Exception?) {
-            }
-
-            override fun onSuccess() {
-            }
-        })
     }
 
     override fun attachBaseContext(base: Context?) {
