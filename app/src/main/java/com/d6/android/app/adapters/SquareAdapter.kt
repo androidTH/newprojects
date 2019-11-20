@@ -39,22 +39,15 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
         val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
-        val voicechat_view = holder.bind<VoiceChatView>(R.id.voicechat_view)
+//        val voicechat_view = holder.bind<VoiceChatView>(R.id.voicechat_view)
         if(data.classesid==66){
-            dateofsquare_view.visibility = View.VISIBLE
-            trendView.visibility = View.GONE
-            voicechat_view.visibility = View.GONE
-            dateofsquare_view.update(data)
-        }else if(data.classesid==67){
-            voicechat_view.visibility = View.VISIBLE
             dateofsquare_view.visibility = View.GONE
             trendView.visibility = View.GONE
-            voicechat_view.update(data)
+//            voicechat_view.visibility = View.GONE
+            dateofsquare_view.update(data)
         }else{
-            voicechat_view.visibility = View.GONE
             dateofsquare_view.visibility = View.GONE
             trendView.visibility = View.VISIBLE
-
             trendView.update(data)
         }
 
@@ -123,22 +116,22 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
             doReport("${it.userid}","${it.sAppointmentId}",it.iIsAnonymous!!.toInt(),data)
         }
 
-        voicechat_view.sendVoiceChatListener {
-            var square = it
-            isBaseActivity {
-                it.isAuthUser {
-                    if(!TextUtils.equals(getLocalUserId(),square.userid)){
-                        signUpVoiceChat(square)
-                    }else{
-                        it.toast("禁止连麦自己")
-                    }
-                }
-            }
-        }
-
-        voicechat_view.setDeleteClick {
-            doReport("${it.userid}","${it.sAppointmentId}",it.iIsAnonymous!!.toInt(),data)
-        }
+//        voicechat_view.sendVoiceChatListener {
+//            var square = it
+//            isBaseActivity {
+//                it.isAuthUser {
+//                    if(!TextUtils.equals(getLocalUserId(),square.userid)){
+//                        signUpVoiceChat(square)
+//                    }else{
+//                        it.toast("禁止连麦自己")
+//                    }
+//                }
+//            }
+//        }
+//
+//        voicechat_view.setDeleteClick {
+//            doReport("${it.userid}","${it.sAppointmentId}",it.iIsAnonymous!!.toInt(),data)
+//        }
     }
 
     //举报

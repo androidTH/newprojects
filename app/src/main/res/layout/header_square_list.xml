@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/margin_12"
         android:background="@color/color_F5F5F5"
-        android:layout_height="72dp"
+        android:layout_height="50dp"
         android:paddingLeft="@dimen/margin_12"
         android:paddingRight="@dimen/margin_12"
         android:orientation="horizontal">
@@ -54,27 +54,37 @@
             android:layout_weight="1"
             android:background="@drawable/shape_list_2r_fb">
             <TextView
+                android:id="@+id/tv_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:layout_marginTop="@dimen/margin_15"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:drawableLeft="@mipmap/plaza_bangdan"
-                android:drawablePadding="@dimen/margin_5"
+                android:drawablePadding="@dimen/margin_10"
                 android:textColor="@color/white"
                 android:text="榜单"
                 android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/tv_listname"
+                android:layout_toRightOf="@+id/tv_pic"
+                android:layout_marginLeft="@dimen/margin_12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_centerVertical="true"
+                android:text="魅力榜&amp;土豪榜"
+                android:textColor="@color/color_BFFFFFFF"/>
             <RelativeLayout
                 android:id="@+id/rl_bangdan_headerview"
-                android:layout_marginTop="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_5"
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_width="73dp"
-                android:layout_height="20dp">
+                android:layout_width="90dp"
+                android:layout_height="30dp">
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sv_list03"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
                     app:viewAspectRatio="1.0"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/margin_15"
@@ -84,20 +94,21 @@
                     app:roundAsCircle="true" />
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sv_list02"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
                     app:viewAspectRatio="1.0"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="36dp"
                     android:layout_centerVertical="true"
                     app:roundingBorderColor="@color/white"
                     app:roundingBorderWidth="0.5dp"
                     app:roundAsCircle="true" />
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sv_list01"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
                     app:viewAspectRatio="1.0"
-                    android:layout_marginRight="@dimen/margin_40"
+                    android:layout_marginRight="58dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     app:roundingBorderColor="@color/white"
@@ -111,18 +122,9 @@
                     android:backgroundTint="@color/white"
                     android:background="@mipmap/ic_more_gray"/>
             </RelativeLayout>
-            <TextView
-                android:id="@+id/tv_listname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="魅力榜&amp;土豪榜"
-                android:textColor="@color/color_BFFFFFFF"
-                android:layout_marginBottom="@dimen/margin_6"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_alignParentBottom="true"/>
         </RelativeLayout>
         <View
+            android:visibility="gone"
             android:layout_width="@dimen/margin_5"
             android:layout_height="match_parent"/>
         <RelativeLayout
@@ -130,6 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:visibility="gone"
             android:background="@drawable/shape_audio_2r_f5">
 
             <TextView
@@ -162,6 +165,7 @@
                 android:layout_alignParentBottom="true"/>
         </RelativeLayout>
         <View
+            android:visibility="gone"
             android:layout_width="@dimen/margin_5"
             android:layout_height="match_parent"/>
         <RelativeLayout
@@ -169,6 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:visibility="gone"
             android:background="@drawable/shape_date_2r_f5">
 
             <TextView

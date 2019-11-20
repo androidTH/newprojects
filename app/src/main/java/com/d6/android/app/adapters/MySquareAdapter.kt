@@ -14,17 +14,14 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.widget.CustomToast
-import com.d6.android.app.widget.DateOfSquareView
-import com.d6.android.app.widget.UserTrendView
-import com.d6.android.app.widget.VoiceChatView
+import com.d6.android.app.widget.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 
 /**
- *动态
+ * 动态
  */
 class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapter<Square>(mData, R.layout.item_list_user_square) {
 
@@ -33,7 +30,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<UserTrendView>(R.id.mTrendView)
         val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
-        val voicechat_view = holder.bind<VoiceChatView>(R.id.voicechat_view)
+        val voicechat_view = holder.bind<VoiceChatListView>(R.id.voicechat_view)
         data.sex = mUserData?.sex
         data.age = mUserData?.age
 

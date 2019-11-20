@@ -30,7 +30,7 @@ class VoiceChatListAdapter(mData:ArrayList<Square>): HFRecyclerAdapter<Square>(m
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val view = holder.bind<VoiceChatListView>(R.id.srv_view)
         view.update(data)
-        view.sendDateListener {
+        view.sendVoiceChatListener {
             var appointment = it
             isBaseActivity {
                 it.isAuthUser {

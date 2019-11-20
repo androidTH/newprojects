@@ -126,34 +126,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-//        tv_date_vip.visibility = View.VISIBLE
-//        if(TextUtils.equals(myAppointment.userclassesid.toString(),"27")){
-//            tv_date_vip.backgroundDrawable =  ContextCompat.getDrawable(context,R.mipmap.gril_cj)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"28")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_zj)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"29")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.gril_gj)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"22")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_ordinary)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"23")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_silver)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"24")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_gold)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"25")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_zs)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"26")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.vip_private)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"7")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.youke_icon)
-//        }else if(TextUtils.equals(myAppointment.userclassesid.toString(),"30")){
-//            tv_date_vip.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.ruqun_icon)
-//        }else{
-//            tv_date_vip.visibility = View.GONE
-//        }
-
-        tv_date_vip.backgroundDrawable = getLevelDrawable(myAppointment.userclassesid.toString(),context)
+        tv_date_vip.backgroundDrawable = getLevelDrawable("${myAppointment.userclassesid}",context)
 
         if(TextUtils.equals(CustomerServiceId,myAppointment.iAppointUserid.toString())||TextUtils.equals(CustomerServiceWomenId,myAppointment.iAppointUserid.toString())){
             iv_self_servicesign.visibility = View.VISIBLE

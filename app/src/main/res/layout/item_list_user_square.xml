@@ -15,7 +15,7 @@
         android:id="@+id/dateofsquare_view"
         android:layout_height="wrap_content">
     </com.d6.android.app.widget.DateOfSquareView>
-    <com.d6.android.app.widget.VoiceChatView
+    <com.d6.android.app.widget.VoiceChatListView
         android:id="@+id/voicechat_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

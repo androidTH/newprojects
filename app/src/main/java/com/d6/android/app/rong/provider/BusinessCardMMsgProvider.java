@@ -188,11 +188,11 @@ public class BusinessCardMMsgProvider extends IContainerItemProvider.MessageProv
                             }
 
                             holder.rv_chat_men_images.setAdapter(new ChatDatelmageAdapter((ArrayList) mImages, 1));
-                            ((ChatDatelmageAdapter) holder.rv_chat_men_images.getAdapter()).setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                }
-                            });
+//                            ((ChatDatelmageAdapter) holder.rv_chat_men_images.getAdapter()).setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//                                @Override
+//                                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                                }
+//                            });
                         }
                     }
                 } else {

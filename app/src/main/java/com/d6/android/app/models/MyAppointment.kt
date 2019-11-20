@@ -45,6 +45,12 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
     var screen:String?=""
     @SerializedName("iIsAnonymous")var iIsAnonymous:Int?= 0 //1、匿名  2、非匿名状态
     var dOverduetime:Long=0
+
+    //连麦
+    var iVoiceConnectType:Int?=-1//  连麦类型 1、无需打赏 2、申请者打赏 3、发布者打赏
+    var iPrepayLovepoint:Int?=-1 // 预付打赏喜欢总数
+    var iOncePayLovePoint:Int?=-1 //  单次打赏喜欢个数
+    var iVoiceConnectSignupCount:Int?=-1// 连麦申请个数
 //    @SerializedName("sSourceAppointPic")
 //    var sSourceAppointPic:String?=""
 //    iAppointmentSignupCount

@@ -229,22 +229,22 @@ class SquareFragment : RecyclerFragment() {
               data?.let {
                   var iAppointmentSignupCount = it.optInt("iAppointmentSignupCount")
                   headerView.tv_date_count.text = "${iAppointmentSignupCount}人约会成功"
-                  headerView.rl_bangdan_headerview.visibility = View.INVISIBLE
-                  headerView.rl_date_headerview.visibility = View.INVISIBLE
+                  headerView.rl_bangdan_headerview.visibility = View.VISIBLE
+                  headerView.rl_date_headerview.visibility = View.GONE
 //                  var coverurl = it.optString("coverurl")
-//                  var picUrl = it.optString("picUrl")
+                  var picUrl = it.optString("picUrl")
 //                  if(coverurl.isNotEmpty()){
 //                      var imglist = coverurl.split(",")
 //                      headerView.sv_date01.setImageURI(imglist[0])
 //                      headerView.sv_date02.setImageURI(imglist[1])
 //                      headerView.sv_date03.setImageURI(imglist[2])
 //                  }
-//                  if(picUrl.isNotEmpty()){
-//                      var imglist = picUrl.split(",")
-//                      headerView.sv_list01.setImageURI(imglist[0])
-//                      headerView.sv_list02.setImageURI(imglist[1])
-//                      headerView.sv_list03.setImageURI(imglist[2])
-//                  }
+                  if(picUrl.isNotEmpty()){
+                      var imglist = picUrl.split(",")
+                      headerView.sv_list01.setImageURI(imglist[0])
+                      headerView.sv_list02.setImageURI(imglist[1])
+                      headerView.sv_list03.setImageURI(imglist[2])
+                  }
               }
         })
     }

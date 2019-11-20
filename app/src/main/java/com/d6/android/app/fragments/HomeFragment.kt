@@ -62,7 +62,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         tv_datacount.text = "已有${count}人约会成功"
     }
 
-    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8))
+    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(10),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8))
 
     private val mSelfDateTypes = ArrayList<DateType>()
 
@@ -74,6 +74,8 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     private var city: String? = ""
     private var mDefualtSex = -1
 
+    lateinit var mPopupSex:SelectedSexPopup
+    fun IsNotNullPopupSex()=::mPopupSex.isInitialized
 
     private var mSelfPullDateFragment:SelfPullDateFragment?=null
 //    private var mFragments = ArrayList<SelfPullDateFragment>()
@@ -117,12 +119,15 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
 
         if (TextUtils.equals("0", getUserSex())) {
+            tv_date_sex.text = "男生"
             mDefualtSex = 1
         } else {
+            tv_date_sex.text = "女生"
             mDefualtSex = 0
         }
         var mFragments = listOf(
                 SelfPullDateFragment.instance("", mDefualtSex),
+                SelfPullDateFragment.instance("10",mDefualtSex),
                 SelfPullDateFragment.instance("6",mDefualtSex),
                 SelfPullDateFragment.instance("2",mDefualtSex),
                 SelfPullDateFragment.instance("1",mDefualtSex),
@@ -138,11 +143,14 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         mFragments[4].setRenGongBackGround(this)
         mFragments[5].setRenGongBackGround(this)
         mFragments[6].setRenGongBackGround(this)
+        mFragments[7].setRenGongBackGround(this)
 
         for (i in 0..(showDateTypes.size-1)) {
             var dt = showDateTypes[i]
             if(i==0){
                 dt.dateTypeName = "全部"
+            }else if(i==1){
+                dt.dateTypeName = "连麦"
             }else{
                 dt.dateTypeName = dateTypes[dt.type-1]
             }
@@ -163,6 +171,14 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             startActivity<NewestFindDateActivity>()
         }
 
+        tv_date_sex.setOnClickListener {
+            activity.isAuthUser(){
+                if(IsNotNullPopupSex()){
+                    showSex()
+                }
+            }
+        }
+
         mSwipeRefreshLayout.setOnRefreshListener {
             //            getBanner()
             getSpeedData()
@@ -179,14 +195,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 mSelfPullDateFragment.refresh("" ,dateType,mDefualtSex)
 //                mSelfPullDateFragment.refresh()
             }
-
-//            fragments?.forEach {
-//                if (it != null && !it.isDetached) {
-//                    if (it is SelfPullDateFragment) {
-//                        it.refresh()
-//                    }
-//                }
-//            }
         }
 
         getSpeedData()
@@ -197,12 +205,38 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             }
         }
 
-        mPopupArea = AreaSelectedPopup.create(activity)
-                .setDimView(mSwipeRefreshLayout)
-                .apply()
+        mViewPager.postDelayed(object:Runnable{
+            override fun run() {
+                mPopupArea = AreaSelectedPopup.create(activity)
+                        .setDimView(mSwipeRefreshLayout)
+                        .apply()
+
+                mPopupSex = SelectedSexPopup.create(activity)
+                        .setDimView(mSwipeRefreshLayout)
+                        .apply()
+                getProvinceData()
+            }
+        },200)
+
         loginforPoint()
         checkLocation()
-        getProvinceData()
+    }
+
+    private fun showSex() {
+        mPopupSex.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_73))
+        mPopupSex.setOnPopupItemClick { basePopup, position, string ->
+            mDefualtSex = position
+            if (mDefualtSex == -1) {
+                tv_date_sex.text = getString(R.string.string_sex)
+            }else{
+                tv_date_sex.text = string
+            }
+            getFragment()
+        }
+
+        mPopupSex.setOnDismissListener {
+
+        }
     }
 
     override fun onFirstVisibleToUser() {
@@ -217,7 +251,6 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         locationClient.stopLocation()
         locationClient.startLocation()
     }
-
 
     private fun checkLocation(){
         RxPermissions(activity).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
@@ -304,7 +337,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     lateinit var mPopupArea: AreaSelectedPopup
 
     private fun showArea(){
-        mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_75))
+        mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_73))
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
 
             if(position == -1){

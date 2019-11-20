@@ -381,10 +381,6 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     }
 
     fun addTextSquare(content:String){
-        if (content.isEmpty()) {
-            showToast("请输入内容")
-            return
-        }
         Request.addConnectVoice(content,mVoiceChatType,loveNums,iOncePayLovePoint,"${mSelectedTimeIndex}").request(this,false,success={
             _, data ->
             showToast("发布成功")
@@ -402,7 +398,9 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
         }
     }
 
-
+    /**
+     * 发布连麦
+     */
     private fun submitAddVoiceChat(){
 //        if (mImages.size>0&&mImages[0].type == 0) {
 //            publish()

@@ -33,13 +33,11 @@ import org.jetbrains.anko.wrapContent
 class ShareFriendsDialog : DialogFragment() {
 
     private var mList = ArrayList<FriendBean>()
+    private var userId = ""
+    private var fromType = ""
 
     private val mUserId by lazy{
         getLocalUserId()
-    }
-
-    private val sex by lazy{
-        SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
     private val wxApi by lazy {
@@ -66,12 +64,11 @@ class ShareFriendsDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var userId = if(arguments.containsKey("id")){
-            arguments.getString("id")
-        }else{
-            ""
+        if (arguments != null) {
+            userId = arguments.getString("id", "")
+            fromType = arguments.getString("from","")
         }
-        var fromType = arguments.getString("from")
+
         initRecycler()
         if (TextUtils.equals(mUserId, userId)) {
             rv_chooseuser.visibility = View.VISIBLE
@@ -158,7 +155,7 @@ class ShareFriendsDialog : DialogFragment() {
                 startActivity<ShareFriendsActivity>("iType" to iType,"sResourceId" to sResourceId)
                 dismissAllowingStateLoss()
             } else {
-               shareChat((context as BaseActivity),"dynamic",sex,mUserId)
+               shareChat((context as BaseActivity),"dynamic", getUserSex(),mUserId)
                isBaseActivity {
                    var friendBean = mDialogShareFriendsQuickAdapter.getItem(position)
                    Request.shareMessage(mUserId,iType,sResourceId,friendBean?.iUserid.toString()).request(it,true,success = {msg,data->

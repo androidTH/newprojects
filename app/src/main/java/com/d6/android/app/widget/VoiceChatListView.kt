@@ -110,8 +110,8 @@ class VoiceChatListView @JvmOverloads constructor(context: Context, attrs: Attri
 //        Log.i("fff",myAppointment.sSourceAppointPic)
         imageAdapter.notifyDataSetChanged()
         tv_send_voicechat.setOnClickListener {
-            mSendDateClick?.let {
-                it.onDateClick(voiceChatData)
+            mSendVoiceChatClick?.let {
+                it.onVoiceChatClick(voiceChatData)
             }
         }
 
@@ -150,9 +150,9 @@ class VoiceChatListView @JvmOverloads constructor(context: Context, attrs: Attri
         }
     }
 
-    public fun sendDateListener(action:(voiceChatData: Square)->Unit) {
-        mSendDateClick = object : sendDateClickListener {
-            override fun onDateClick(voiceChatData: Square) {
+    fun sendVoiceChatListener(action:(voiceChatData: Square)->Unit) {
+        mSendVoiceChatClick = object : sendVoiceChatClickListener {
+            override fun onVoiceChatClick(voiceChatData: Square) {
                 action(voiceChatData)
             }
         }
@@ -166,11 +166,11 @@ class VoiceChatListView @JvmOverloads constructor(context: Context, attrs: Attri
         }
     }
 
-    private var mSendDateClick:sendDateClickListener?=null
+    private var mSendVoiceChatClick:sendVoiceChatClickListener?=null
     private var deleteAction: DeleteClick?=null
 
-    interface sendDateClickListener{
-        fun onDateClick(voiceChatData: Square)
+    interface sendVoiceChatClickListener{
+        fun onVoiceChatClick(voiceChatData: Square)
     }
 
     interface DeleteClick{

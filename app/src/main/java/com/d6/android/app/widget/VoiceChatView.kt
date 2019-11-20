@@ -43,12 +43,12 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
         rv_images.adapter = imageAdapter
     }
 
-    fun update(voiceChatData: Square) {
-        headView.setImageURI(voiceChatData.picUrl)
-        tv_name.text = voiceChatData.name
-        tv_voicechat_user_sex.isSelected = TextUtils.equals("0","${voiceChatData.sex}")
+    fun update(voiceChatData: MyAppointment) {
+        headView.setImageURI(voiceChatData.sAppointmentPicUrl)
+        tv_name.text = voiceChatData.sAppointUserName
+        tv_voicechat_user_sex.isSelected = TextUtils.equals("0","${voiceChatData.iSex}")
         headView.setOnClickListener(OnClickListener {
-            val id = voiceChatData.userid
+            val id = voiceChatData.iAppointUserid
             isBaseActivity {
                 if(voiceChatData.iIsAnonymous==1){
                     var mUnknowDialog = UnKnowInfoDialog()
@@ -60,10 +60,10 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
             }
         })
 
-        if(!voiceChatData.age.toString().isNullOrEmpty()){
-            if(voiceChatData.age!=null){
-                voiceChatData.age?.let {
-                    tv_voicechat_user_sex.text = "${voiceChatData.age}"
+        if(!"${voiceChatData.iAge}".isNullOrEmpty()){
+            if(voiceChatData.iAge!=null){
+                voiceChatData.iAge?.let {
+                    tv_voicechat_user_sex.text = "${voiceChatData.iAge}"
                 }
             }
         }
@@ -94,16 +94,16 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
             tv_voicechat_type.text = "发布者需打赏${voiceChatData.iOncePayLovePoint}个喜欢 [img src=redheart_small/]"
         }
 
-        tv_content.text = voiceChatData.content
+        tv_content.text = voiceChatData.sDesc
 
-        if (voiceChatData.imgUrl.isNullOrEmpty()) {
+        if (voiceChatData.sSourceAppointPic.isNullOrEmpty()) {
             rv_images.gone()
         } else {
             rv_images.visible()
         }
 
         mImages.clear()
-        val images = voiceChatData.imgUrl?.split(",")
+        val images = voiceChatData.sSourceAppointPic?.split(",")
         if (images != null) {
             mImages.addAll(images.toList())
         }
@@ -123,7 +123,7 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
 
         tv_voicechat_vip.backgroundDrawable = getLevelDrawable("${voiceChatData.userclassesid}",context)
 
-        if(TextUtils.equals(CustomerServiceId,"${voiceChatData.userid}")||TextUtils.equals(CustomerServiceWomenId,"${voiceChatData.userid}")){
+        if(TextUtils.equals(CustomerServiceId,"${voiceChatData.iAppointUserid}")||TextUtils.equals(CustomerServiceWomenId,"${voiceChatData.iAppointUserid}")){
             iv_voicechat_servicesign.visibility = View.VISIBLE
             img_voicechat_auther.visibility = View.GONE
         }else{
@@ -150,17 +150,17 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
     }
 
-    fun sendVoiceChatListener(action:(voiceChatData: Square)->Unit) {
+    fun sendVoiceChatListener(action:(voiceChatData: MyAppointment)->Unit) {
         mSendVoiceChatClick = object : sendVoiceChatClickListener {
-            override fun onVoiceChatClick(voiceChatData: Square) {
+            override fun onVoiceChatClick(voiceChatData: MyAppointment) {
                 action(voiceChatData)
             }
         }
     }
 
-    fun setDeleteClick(action:(voiceChatData: Square)->Unit){
+    fun setDeleteClick(action:(voiceChatData: MyAppointment)->Unit){
         this.deleteAction = object :DeleteClick {
-            override fun onDelete(voiceChatData: Square) {
+            override fun onDelete(voiceChatData: MyAppointment) {
                 action(voiceChatData)
             }
         }
@@ -170,11 +170,11 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
     private var deleteAction: DeleteClick?=null
 
     interface sendVoiceChatClickListener{
-        fun onVoiceChatClick(voiceChatData: Square)
+        fun onVoiceChatClick(voiceChatData: MyAppointment)
     }
 
     interface DeleteClick{
-        fun onDelete(voiceChatData: Square)
+        fun onDelete(voiceChatData: MyAppointment)
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
