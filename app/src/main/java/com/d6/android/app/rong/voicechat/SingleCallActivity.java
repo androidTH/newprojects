@@ -89,6 +89,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     private RongCallCommon.CallMediaType mediaType;
     private VoiceTips mVoiceTips = new VoiceTips();
     private TimeCountDown mTimeCountDown;
+    private int MINTIME_VOICECHAT = 5;
 
     @Override
     final public boolean handleMessage(Message msg) {
@@ -831,19 +832,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             return;
         }
         senderId = callSession.getInviterUserId();
-        switch (reason) {
-            case HANGUP:
-            case REMOTE_HANGUP:
-                long time = getTime();
-                if (time >= 3600) {
-                    extra = String.format("%d:%02d:%02d", time / 3600, (time % 3600) / 60, (time % 60));
-                } else {
-                    extra = String.format("%02d:%02d", (time % 3600) / 60, (time % 60));
-                }
-                break;
-        }
         cancelTime();
-
+        long duration;
         switch (reason) {
             case CANCEL: //主动取消
                 updateSquareSignUp(this,"","4",getTime());
@@ -851,6 +841,17 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             case REJECT:
                 sendTipsMessage("你拒绝了对方的连麦","拒绝",senderId);
 //                text = getString(R.string.rc_voip_mo_reject);
+                break;
+            case HANGUP:
+                duration = getTime()%60;
+                if(duration<= MINTIME_VOICECHAT){
+                    sendTipsMessage("连麦时常"+String.format("%02d:%02d",0, duration)+"，时常过段，本次将不打赏喜欢","拒绝",senderId);
+                }else{
+                    if (!TextUtils.isEmpty(senderId)) {
+                        extra = getFromatTime(getTime());
+                        sendTipsMessage("连麦时长"+extra,extra,senderId);
+                    }
+                }
                 break;
             case NO_RESPONSE:
             case BUSY_LINE:
@@ -864,9 +865,20 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 sendTipsMessage("对方已拒绝","拒绝",senderId);
                 updateSquareSignUp(this,"","3",getTime());
                 break;
+            case REMOTE_HANGUP:
+                duration= getTime()%60;
+                if(duration<=MINTIME_VOICECHAT){
+                    sendTipsMessage("连麦时常"+String.format("%02d:%02d",0, duration)+"，时常过段，本次将不打赏喜欢","拒绝",senderId);
+                }else{
+                    if (!TextUtils.isEmpty(senderId)) {
+                        extra = getFromatTime(getTime());
+                        sendTipsMessage("连麦时长"+extra,extra,senderId);
+                    }
+                }
+                break;
         }
 
-        if (!TextUtils.isEmpty(senderId)) {
+//        if (!TextUtils.isEmpty(senderId)) {
 //            CallSTerminateMessage message = new CallSTerminateMessage();
 //            message.setReason(reason);
 //            message.setMediaType(callSession.getMediaType());
@@ -881,9 +893,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 //                receivedStatus.setRead();
 //                RongIM.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE, callSession.getTargetId(), senderId, receivedStatus, message, serverTime, null);
 //            }
-
-            sendTipsMessage("连麦时长"+extra,extra,senderId);
-        }
+//            sendTipsMessage("连麦时长"+extra,extra,senderId);
+//        }
 
         if(mTimeCountDown!=null){
             mTimeCountDown.cancel();

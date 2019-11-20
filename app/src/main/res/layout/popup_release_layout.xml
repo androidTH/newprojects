@@ -11,12 +11,11 @@
         android:orientation="vertical"
         android:layout_height="110dp">
         <TextView
-            android:id="@+id/tv_create_square"
+            android:id="@+id/tv_create_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
             android:drawablePadding="8dp"
-            android:drawableLeft="@mipmap/top_dongtai"
             android:textStyle="bold"
             android:gravity="center"
             android:paddingBottom="8dp"
@@ -26,25 +25,31 @@
             android:layout_gravity="center_horizontal"
             android:paddingRight="12dp"
             android:paddingTop="8dp"
-            android:text="发布连麦" />
-
+            android:drawableLeft="@mipmap/top_date"
+            android:text="发起约会" />
+         <View
+             android:layout_gravity="center_horizontal"
+             android:layout_width="90dp"
+             android:layout_marginTop="@dimen/margin_5"
+             android:background="@color/color_1EFFFFFF"
+             android:layout_height="1dp" />
         <TextView
-            android:id="@+id/tv_create_date"
+            android:id="@+id/tv_createvoicechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_5"
             android:drawablePadding="8dp"
             android:gravity="center"
-            android:drawableLeft="@mipmap/top_yuehui"
             android:textColor="@color/color_FFFDF8"
             android:textStyle="bold"
             android:textSize="15sp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:text="发起约会" />
+            android:drawableLeft="@mipmap/top_voicechat"
+            android:text="发布连麦" />
     </LinearLayout>
 
 </LinearLayout>

@@ -644,13 +644,24 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
         @Override
         public void run() {
             time++;
+            timeView.setText(getFromatTime(time));
             if (time >= 3600) {
                 onHangupVoiceChat();
-                timeView.setText(String.format("%d:%02d:%02d", time / 3600, (time % 3600) / 60, (time % 60)));
-            } else {
-                timeView.setText(String.format("%02d:%02d", (time % 3600) / 60, (time % 60)));
             }
             handler.postDelayed(this, 1000);
+        }
+    }
+
+    /**
+     * 时间格式化
+     * @param time
+     * @return
+     */
+    public String getFromatTime(long time){
+        if (time >= 3600) {
+            return String.format("%d:%02d:%02d", time / 3600, (time % 3600) / 60, (time % 60));
+        } else {
+           return String.format("%02d:%02d", (time % 3600) / 60, (time % 60));
         }
     }
 

@@ -23,7 +23,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW_MSG
-import com.d6.android.app.widget.popup.BasePopup
 import com.d6.android.app.widget.popup.EasyPopup
 import com.d6.android.app.widget.popup.XGravity
 import com.d6.android.app.widget.popup.YGravity
@@ -396,16 +395,14 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 .setContentView(this, R.layout.popup_release_layout)
                 .setAnimationStyle(R.style.RightTop2PopAnim)
                 .setOnViewListener { view, popup ->
-                    var tv_create_square = view.findViewById<TextView>(R.id.tv_create_square)
-                    tv_create_square.setOnClickListener {
+                    view.findViewById<TextView>(R.id.tv_createvoicechat).setOnClickListener {
                         isCheckOnLineAuthUser(this, getLocalUserId()) {
                             startActivityForResult<VoiceChatCreateActivity>(1)
                         }
                         mCirclePop!!.dismiss()
                     }
 
-                    var tv_create_date = view.findViewById<TextView>(R.id.tv_create_date)
-                    tv_create_date.setOnClickListener {
+                    view.findViewById<TextView>(R.id.tv_create_date).setOnClickListener {
                         isCheckOnLineAuthUser(this, getLocalUserId()){
                             startActivityForResult<PublishFindDateActivity>(10)
                         }
@@ -647,7 +644,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
             Log.i("messagesssssss","${unReadMsgNum}显示")
-            if (data?.list?.results == null || data.list?.results?.isEmpty()) {
+            if (data?.list?.results == null || data?.list?.results?.isEmpty()) {
                 //无数据
                // unReadMsgNum = unReadMsgNum - unReadServiceMsgNum//2.5移除
                 if(unReadMsgNum > 0){

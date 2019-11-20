@@ -95,8 +95,17 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        var time = converTime(myAppointment.dEndtime)
-        tv_time_long.text="倒计时：${time}"
+        var time  = converToDays(myAppointment.dEndtime)
+        if(time[0]==1){
+            tv_time_long.text = "倒计时·${time[1]}天"
+        }else if(time[0]==2){
+            tv_time_long.text = "倒计时·${time[1]}小时"
+        }else if(time[0]==3){
+            tv_time_long.text = "倒计时·${time[1]}分钟"
+        }else{
+            tv_time_long.visibility = View.GONE
+            tv_send_date.visibility = View.INVISIBLE
+        }
 
         tv_self_address.text = "约会地点：${myAppointment.sPlace}"
 

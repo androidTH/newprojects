@@ -32,9 +32,6 @@ import org.json.JSONObject
  *
  */
 class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData, R.layout.item_list_square) {
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
 
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
@@ -275,7 +272,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
                 }
             }else if(p==2){
                 isBaseActivity {
-                    Request.addBlackList(userId, userid,iType).request(it) { _, _ ->
+                    Request.addBlackList(getLocalUserId(), userid,iType).request(it) { _, _ ->
                         CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
                     }
                 }
@@ -291,7 +288,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     private fun praise(square: Square) {
         isBaseActivity {
             it.dialog()
-            Request.addPraise(userId, square.id).request(it,true) { msg, data ->
+            Request.addPraise(getLocalUserId(), square.id).request(it,true) { msg, data ->
                 showTips(data,"","")
                 square.isupvote = "1"
                 square.appraiseCount = (square.appraiseCount?:0) + 1
@@ -304,7 +301,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     private fun delete(square: Square){
         isBaseActivity {
             it.dialog(canCancel = false)
-            Request.deleteSquare(userId, square.id).request(it) { _, _ ->
+            Request.deleteSquare(getLocalUserId(), square.id).request(it) { _, _ ->
                 it.showToast("删除成功")
                 mData.remove(square)
                 notifyDataSetChanged()
@@ -315,7 +312,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     private fun cancelPraise(square: Square) {
         isBaseActivity {
             it.dialog()
-            Request.cancelPraise(userId, square.id).request(it) { msg, _ ->
+            Request.cancelPraise(getLocalUserId(), square.id).request(it) { msg, _ ->
                 square.isupvote = "0"
                 square.appraiseCount = if (((square.appraiseCount?:0) - 1) < 0) 0 else (square.appraiseCount?:0) - 1
                 notifyDataSetChanged()

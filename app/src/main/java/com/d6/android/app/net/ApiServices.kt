@@ -56,7 +56,7 @@ interface ApiServices {
     @POST("backstage/imessage/del")
     fun deleteSysMsg(@Query("userid") userid:String,@Query("ids") ids:String?,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
-    @POST("backstage/square/findByPageNew")
+    @POST("backstage/square/findByPage")
     fun getSquareList(@Query("userid") accountId: String, @Query("classesid") classesid: String?, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE, @Query("limit") limit: Int = 0, @Query("sex") sex: Int = 2,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<Square>>>
 
     @POST("backstage/square/find")
