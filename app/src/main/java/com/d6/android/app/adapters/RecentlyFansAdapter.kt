@@ -34,17 +34,13 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
 
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
         if(data.iIsCode==1){
-            holder.setText(R.id.tv_name,"****")
+            holder.setText(R.id.tv_name,"神秘人")
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-            headView.setImageURI(data.sPicUrl)
-            headView.showBlur(data.sPicUrl)
+            headView.setImageURI("res://"+R.mipmap.shenmiren_icon)
         }else{
             holder.setText(R.id.tv_name,data.sSendUserName)
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
             headView.setImageURI(data.sPicUrl)
-//        val tv_time =holder.bind<TextView>(R.id.tv_time)
-//        tv_time.text = data.dJointime.toTime("MM.dd")
-
         }
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
         if(!data.sPointdesc.isNullOrEmpty()){

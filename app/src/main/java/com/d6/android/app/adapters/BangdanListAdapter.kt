@@ -2,7 +2,6 @@ package com.d6.android.app.adapters
 
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
@@ -10,7 +9,6 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.request
-import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
@@ -39,9 +37,11 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
         var tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
         var headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
         if(data.iListSetting==2){
-            headView.showBlur(data.sPicUrl)
-            holder.setText(R.id.tv_name,"*****")
-            tv_userinfo.visibility = View.GONE
+//            headView.showBlur(data.sPicUrl)
+            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+            holder.setText(R.id.tv_name,"神秘人")
+            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_8F5A5A)
+            tv_userinfo.visibility = View.VISIBLE
 //            if(TextUtils.equals("${data.iUserid}", getLocalUserId())){
 //                tv_userinfo.text = "你开启了在榜单中隐藏身份"
 //                tv_userinfo.visibility = View.VISIBLE
@@ -61,6 +61,7 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
         }else{
             headView.setImageURI(data.sPicUrl)
             holder.setText(R.id.tv_name,data.sSendUserName)
+            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_black)
             tv_userinfo.visibility = View.GONE
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")

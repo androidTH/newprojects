@@ -16,6 +16,7 @@ import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.textColor
 
 /**
  *粉丝
@@ -27,20 +28,31 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
-        holder.setText(R.id.tv_name,data.sSendUserName)
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-//        val tv_time =holder.bind<TextView>(R.id.tv_time)
-//        tv_time.text = data.dJointime.toTime("MM.dd")
-        headView.setImageURI(data.sPicUrl)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.gexingqianming.isNullOrEmpty()){
-            tv_userinfo.text = data.gexingqianming
-            tv_userinfo.visibility = View.VISIBLE
-        }else if(!data.ziwojieshao.isNullOrEmpty()){
-            tv_userinfo.text = data.ziwojieshao
+        if(data.iIsCode==1){
+            holder.setText(R.id.tv_name,"神秘人")
+            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_8F5A5A)
+            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+            tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "
             tv_userinfo.visibility = View.VISIBLE
         }else{
-            tv_userinfo.visibility = View.GONE
+            holder.setText(R.id.tv_name,data.sSendUserName)
+            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_black)
+//        val tv_time =holder.bind<TextView>(R.id.tv_time)
+//        tv_time.text = data.dJointime.toTime("MM.dd")
+
+            headView.setImageURI(data.sPicUrl)
+            if(!data.gexingqianming.isNullOrEmpty()){
+                tv_userinfo.text = data.gexingqianming
+                tv_userinfo.visibility = View.VISIBLE
+            }else if(!data.ziwojieshao.isNullOrEmpty()){
+                tv_userinfo.text = data.ziwojieshao
+                tv_userinfo.visibility = View.VISIBLE
+            }else{
+                tv_userinfo.visibility = View.GONE
+            }
+
         }
 
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)

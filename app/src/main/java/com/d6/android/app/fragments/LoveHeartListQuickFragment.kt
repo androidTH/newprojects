@@ -82,7 +82,7 @@ class LoveHeartListQuickFragment : RecyclerFragment() {
             }
         }
 
-        headerView.tv_loveheart_title.text = "榜单以收到的 [img src=redheart_small/] 数排名"
+        headerView.tv_loveheart_title.text = "按照用户收到-送出的 [img src=redheart_small/] 数排名"
     }
 
     override fun onFirstVisibleToUser() {
