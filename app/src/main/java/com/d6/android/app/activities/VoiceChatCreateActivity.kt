@@ -215,6 +215,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
                   mVoiceChatType = p
                   if(p==2||p==3){
                       loveNums = 0
+                      iOncePayLovePoint = 0
                       showRewardVoiceChatPoints(p)
                       mVoiceChatTypeDialog.dismissAllowingStateLoss()
                   }else{
@@ -253,22 +254,22 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
         mRewardVoiceChatPointsDialog.show(supportFragmentManager, "d")
         mRewardVoiceChatPointsDialog.setDialogListener { p, s ->
             loveNums = p
+            iOncePayLovePoint = p
             if(type==2){
                 tv_voicechat_choose.text = s
             }else{
-                appVoiceChatPoints(loveNums)
+                appVoiceChatPoints(iOncePayLovePoint)
             }
             mRewardVoiceChatPointsDialog.dismissAllowingStateLoss()
         }
     }
 
    private fun appVoiceChatPoints(sendLoveNums:Int){
-       iOncePayLovePoint = 0
        var mApplyVoiceChatPointsDialog = ApplyVoiceChatPointsDialog()
        mApplyVoiceChatPointsDialog.arguments = bundleOf("lovenums" to sendLoveNums)
        mApplyVoiceChatPointsDialog.show(supportFragmentManager, "d")
        mApplyVoiceChatPointsDialog.setDialogListener { p, s ->
-           iOncePayLovePoint = sendLoveNums*p
+           loveNums = sendLoveNums*p
            tv_voicechat_choose.text = s
        }
    }

@@ -5,6 +5,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,7 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.dialog_apply_voicechat.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
@@ -89,7 +91,7 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
             tv_voicechat_title.text = "为了营造良好的社区氛围，请在聊天中文明用语，如果被对方举报，查实将会有封号的风险"
             tv_action.text = "连麦"
         }else if(TextUtils.equals(voicechatType,"2")){
-            mMinLoveHeart = appointment?.iPrepayLovepoint
+            mMinLoveHeart = appointment?.iOncePayLovePoint
             ll_voicechat_desc.visibility = View.VISIBLE
             tv_agree_points.text = "1.预付${mMinLoveHeart}个喜欢"
             tv_voicechat_title.text = "本次连麦需要打赏${mMinLoveHeart}个 [img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
@@ -102,19 +104,17 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
 
         tv_action.setOnClickListener {
             if(TextUtils.equals(voicechatType,"4")){
-                if(extra.isNotEmpty()){
-                    extra = GsonHelper.getGson().toJson(mVoiceTips)
-                }
+                extra = GsonHelper.getGson().toJson(mVoiceTips)
                 RongD6Utils.startSingleVoiceChat((context as BaseActivity),"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
 //              sendOutgoingMessage()
                 dismissAllowingStateLoss()
             }else{
                 if(TextUtils.equals(voicechatType,"2")){
-                    if(mLocalUserLoveHeartCount> mMinLoveHeart?.toInt() ?: 0){
+                    if(mLocalUserLoveHeartCount>=mMinLoveHeart?.toInt() ?: 0){
                         getData()
                     }
                 }else{
-
+                    getData()
                 }
             }
         }
@@ -130,14 +130,12 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-        if(!TextUtils.equals(voicechatType,"1")){
+        if(TextUtils.equals(voicechatType,"2")){
             getUserInfo()
         }
-        mVoiceTips.setVoiceChatId("${appointment?.sAppointmentSignupId}")
         mVoiceTips.setVoiceChatContent("${appointment?.sDesc}")
         mVoiceTips.setVoiceChatUName("${appointment?.sAppointUserName}")
         appointment?.iVoiceConnectType?.let { mVoiceTips.setVoiceChatType(it) }
-        extra = GsonHelper.getGson().toJson(mVoiceTips)
     }
 
     private fun getUserInfo() {
@@ -156,29 +154,29 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
     private fun getData() {
 //        dismissAllowingStateLoss()
         isBaseActivity {
-            Request.addVoiceChat("${appointment?.sAppointmentSignupId}", getLoginToken()).request(it,false,success={msg,data->
-                if(TextUtils.equals(voicechatType,"1")){
-                    //1 无需打赏
-                    if(extra.isNotEmpty()){
+            var mActivity = it
+            Request.addVoiceChat("${appointment?.sId}", getLoginToken()).request(mActivity,false,success={msg,data->
+                data?.let {
+                    var sAppointSignupId = it.optString("sAppointSignupId")
+                    Log.i("applyvoice","${data}---${sAppointSignupId}")
+                    mVoiceTips.setVoiceChatId("${sAppointSignupId}")
+                    if(TextUtils.equals(voicechatType,"1")){
+                        //1 无需打赏
                         extra = GsonHelper.getGson().toJson(mVoiceTips)
-                    }
-                    RongD6Utils.startSingleVoiceChat(it,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+                        RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
 //                  sendOutgoingMessage()
-                    dismissAllowingStateLoss()
-                }else if(TextUtils.equals(voicechatType,"2")){
-                    //申请者需要打赏
-                    if(mLocalUserLoveHeartCount> mMinLoveHeart?.toInt() ?: 0){
+                        dismissAllowingStateLoss()
+                    }else if(TextUtils.equals(voicechatType,"2")){
+                        //申请者需要打赏
                         tv_action.text = "连麦"
                         voicechatType = "4"
-                    }
-                }else {
-                    //申请者可以获得
-                    if(extra.isNotEmpty()){
+                    }else {
+                        //申请者可以获得
                         extra = GsonHelper.getGson().toJson(mVoiceTips)
-                    }
-                    RongD6Utils.startSingleVoiceChat(it,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+                        RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
 //                  sendOutgoingMessage()
-                    dismissAllowingStateLoss()
+                        dismissAllowingStateLoss()
+                    }
                 }
             }){code,msg->
                 if(code==3||code==4){

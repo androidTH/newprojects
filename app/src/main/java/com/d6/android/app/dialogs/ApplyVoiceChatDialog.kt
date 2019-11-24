@@ -86,7 +86,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
             tv_voicechat_title.text = "为了营造良好的社区氛围，请在聊天中文明用语，如果被对方举报，查实将会有封号的风险"
             tv_action.text = "连麦"
         }else if(TextUtils.equals(voicechatType,"2")){
-            mMinLoveHeart = voiceChat?.iPrepayLovepoint
+            mMinLoveHeart = voiceChat?.iOncePayLovePoint
             tv_agree_points.text = "1.预付${mMinLoveHeart}个喜欢"
             ll_voicechat_desc.visibility = View.VISIBLE
             tv_voicechat_title.text = "本次连麦需要打赏${mMinLoveHeart}个 [img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
@@ -99,14 +99,18 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
 
         tv_action.setOnClickListener {
             if(TextUtils.equals(voicechatType,"4")){
-                if(extra.isNotEmpty()){
-                    extra = GsonHelper.getGson().toJson(mVoiceTips)
-                }
+                extra = GsonHelper.getGson().toJson(mVoiceTips)
                 RongD6Utils.startSingleVoiceChat((context as BaseActivity),"${voiceChat?.userid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
 //              sendOutgoingMessage()
                 dismissAllowingStateLoss()
             }else{
-                getData()
+                if(TextUtils.equals(voicechatType,"2")){
+                    if(mLocalUserLoveHeartCount>=mMinLoveHeart?.toInt() ?: 0){
+                        getData()
+                    }
+                }else{
+                    getData()
+                }
             }
         }
 
@@ -121,15 +125,12 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-        if(!TextUtils.equals(voicechatType,"1")){
+        if(TextUtils.equals(voicechatType,"2")){
             getUserInfo()
         }
-
-        mVoiceTips.setVoiceChatId("${voiceChat?.sAppointmentId}")
         mVoiceTips.setVoiceChatContent("${voiceChat?.content}")
         mVoiceTips.setVoiceChatUName("${voiceChat?.name}")
         mVoiceTips.setVoiceChatType(voiceChat?.iVoiceConnectType!!)
-        extra = GsonHelper.getGson().toJson(mVoiceTips)
     }
 
     private fun getUserInfo() {
@@ -148,29 +149,28 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
     private fun getData() {
 //        dismissAllowingStateLoss()
         isBaseActivity {
-            Request.addVoiceChat("${voiceChat?.sAppointmentId}", getLoginToken()).request(it,false,success={msg,data->
-                if(TextUtils.equals(voicechatType,"1")){
-                    //1 无需打赏
-                    if(extra.isNotEmpty()){
+            var mActivity = it
+            Request.addVoiceChat("${voiceChat?.sAppointmentId}", getLoginToken()).request(mActivity,false,success={msg,data->
+                data?.let {
+                    var sAppointSignupId = it.optString("sAppointSignupId")
+                    mVoiceTips.setVoiceChatId("${sAppointSignupId}")
+                    if(TextUtils.equals(voicechatType,"1")){
+                        //1 无需打赏
                         extra = GsonHelper.getGson().toJson(mVoiceTips)
-                    }
-                    RongD6Utils.startSingleVoiceChat(it,"${voiceChat?.userid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+                        RongD6Utils.startSingleVoiceChat(mActivity,"${voiceChat?.userid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
 //                  sendOutgoingMessage()
-                    dismissAllowingStateLoss()
-                }else if(TextUtils.equals(voicechatType,"2")){
-                    //申请者需要打赏
-                    if(mLocalUserLoveHeartCount> mMinLoveHeart?.toInt() ?: 0){
+                        dismissAllowingStateLoss()
+                    }else if(TextUtils.equals(voicechatType,"2")){
+                        //申请者需要打赏
                         tv_action.text = "连麦"
                         voicechatType = "4"
-                    }
-                }else {
-                    //申请者可以获得
-                    if(extra.isNotEmpty()){
+                    }else {
+                        //申请者可以获得
                         extra = GsonHelper.getGson().toJson(mVoiceTips)
-                    }
-                    RongD6Utils.startSingleVoiceChat(it,"${voiceChat?.userid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+                        RongD6Utils.startSingleVoiceChat(mActivity,"${voiceChat?.userid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
 //                  sendOutgoingMessage()
-                    dismissAllowingStateLoss()
+                        dismissAllowingStateLoss()
+                    }
                 }
             }){code,msg->
                 if(code==3||code==4){

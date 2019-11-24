@@ -117,10 +117,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 mOpenDatePointNoEnoughDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }else if(code==4){
                 //允许连麦，iAddPoint 为需要打赏的爱心数量
-                var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-                mApplyVoiceChatDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
-                mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                mApplyVoiceChatDialog.setDialogListener { p, s ->
+                var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()
+                mApplyVoiceChatOfDateDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
+                mApplyVoiceChatOfDateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                mApplyVoiceChatOfDateDialog.setDialogListener { p, s ->
                 }
             }else if(code==5){
                 //res=5，不允许连麦，对方预付的爱心已不足

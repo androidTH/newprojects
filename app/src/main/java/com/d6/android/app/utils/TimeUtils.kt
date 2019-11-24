@@ -219,15 +219,15 @@ fun getTimeInMillis(timeType:String): Long {
     if(TextUtils.equals(timeType,"2小时")){
         calendar.add(Calendar.HOUR_OF_DAY, 2) //向前走一天
     }else if(TextUtils.equals(timeType,"12小时")){
-        calendar.add(Calendar.HOUR_OF_DAY, 12) //向前走一天
+        calendar.add(Calendar.HOUR_OF_DAY, 13) //向前走一天
     }else if(TextUtils.equals(timeType,"1天")){
-        calendar.add(Calendar.DAY_OF_MONTH, 1) //向前走一天
+        calendar.add(Calendar.DAY_OF_MONTH, 2) //向前走一天
     }else if(TextUtils.equals(timeType,"3天")){
-        calendar.add(Calendar.DAY_OF_MONTH, 3) //向前走一天
+        calendar.add(Calendar.DAY_OF_MONTH, 4) //向前走一天
     }else if(TextUtils.equals(timeType,"8天")){
-        calendar.add(Calendar.DAY_OF_MONTH, 8) //向前走一天
+        calendar.add(Calendar.DAY_OF_MONTH, 9) //向前走一天
     }else if(TextUtils.equals(timeType,"30天")){
-        calendar.add(Calendar.DAY_OF_MONTH, 30) //向前走一天
+        calendar.add(Calendar.DAY_OF_MONTH, 31) //向前走一天
     }
     return calendar.timeInMillis
 }

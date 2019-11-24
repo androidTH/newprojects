@@ -151,32 +151,37 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
             holder.mLL_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
             TextView textView = holder.mTvVoiceChatContent;
             textView.setText("请求连麦...");
-            holder.mTvVoiceChatContent.setText(content.getContent());
+            Log.i("VoiceChat",content.getExtra()+"------");
             if(!TextUtils.isEmpty(content.getExtra())){
 //                int nums = 1;
                 try {
                     JSONObject jsonObject = new JSONObject(content.getExtra());
-//                    nums = jsonObject.getInt("nums");
+                    String sVoiceMsg = jsonObject.getString("sVoiceMsg");
+                    String sCreateUserName = jsonObject.getString("sVoiceUserName");
+                    //sSignUserName
                     Log.i(TAG,"extra="+content.getExtra());
-                    holder.mTvVoiceChatContent.setText("");
+                    holder.mTvVoiceChatContent.setText(sCreateUserName+":"+sVoiceMsg);
                 } catch (JSONException e) {
                     e.printStackTrace();
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                    holder.mTvVoiceChatContent.setText("来自加勒比：新开了家餐厅，环境很不错特别喜欢吃他们家的甜点。");
+                    holder.mTvVoiceChatContent.setText("");
                 }
             }
         } else {
             holder.mLL_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
             holder.mTvVoiceChatContent.setText(content.getContent());
-            Log.i(TAG,"extra="+content.getExtra());
-//            try {
-//                if(!TextUtils.isEmpty(content.getExtra())){
-//                    JSONObject jsonObject =new JSONObject(content.getExtra());
-//                    holder.mTvVoiceChatContent.setText(content.getContent());
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                if(!TextUtils.isEmpty(content.getExtra())){
+                    JSONObject jsonObject =new JSONObject(content.getExtra());
+                    String sVoiceMsg = jsonObject.getString("sVoiceMsg");
+                    String sCreateUserName = jsonObject.getString("sVoiceUserName");
+                    //sSignUserName
+                    Log.i(TAG,"extra="+content.getExtra());
+                    holder.mTvVoiceChatContent.setText(sCreateUserName+":"+sVoiceMsg);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
