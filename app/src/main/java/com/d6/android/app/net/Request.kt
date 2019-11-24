@@ -540,11 +540,11 @@ object Request {
 
     fun findSquareTop()=RRetrofit.instance().create(ApiServices::class.java).findSquareTop()
 
-    fun addConnectVoice(content:String,iVoiceConnectType:Int,iPrepayLovepoint:Int, iOncePayLovePoint:Int, dEndTime:String)=RRetrofit.instance().create(ApiServices::class.java).addConnectVoice(content,iVoiceConnectType,iPrepayLovepoint,iOncePayLovePoint,dEndTime)
+    fun addConnectVoice(userid: String,sDesc: String, iAppointType:Int,iVoiceConnectType:Int,iPrepayLovepoint:Int, iOncePayLovePoint:Int,beginTime: String,dEndTime:String)=RRetrofit.instance().create(ApiServices::class.java).addConnectVoice(userid,sDesc,iAppointType,iVoiceConnectType,iPrepayLovepoint,iOncePayLovePoint,beginTime,dEndTime)
 
-    fun getApplyVoiceSquareLovePoint(iSquareId:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyVoiceSquareLovePoint(iSquareId,sLoginToken)
+    fun getApplyVoiceSquareLovePoint(sAppointmentId:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyVoiceSquareLovePoint(sAppointmentId,sLoginToken)
 
-    fun addVoiceChat(iSquareId:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).addVoiceChat(iSquareId,sLoginToken)
+    fun addVoiceChat(sAppointmentId:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).addVoiceChat(sAppointmentId,sLoginToken)
 
-    fun updateSquareSignUp(sSquareSignupId:String,iStatus:String,iConnectVoiceLength:Long,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).updateSquareSignUp(sSquareSignupId,iStatus,iConnectVoiceLength, sLoginToken)
+    fun updateSquareSignUp(sAppointmentSignupId:String,iStatus:String,iConnectVoiceLength:Long,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).updateSquareSignUp(sAppointmentSignupId,iStatus,iConnectVoiceLength, sLoginToken)
 }

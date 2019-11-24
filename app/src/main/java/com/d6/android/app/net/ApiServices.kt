@@ -570,20 +570,20 @@ interface ApiServices {
     fun findSquareTop(@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //3.1.0
-    // 连麦类型 1、无需打赏 2、申请者打赏 3、发布者打赏
-    @POST("backstage/square/addConnectVoice")
-    fun addConnectVoice(@Query("content") content:String, @Query("iVoiceConnectType") iVoiceConnectType:Int, @Query("iPrepayLovepoint") iPrepayLovepoint:Int, @Query("iOncePayLovePoint") iOncePayLovePoint:Int, @Query("dEndTime") dEndTime:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    // 连麦类型 1、无需打赏 2、申请者打赏 3、发布者打赏  iAppointType 8 连麦
+    @POST("backstage/appointment/add")
+    fun addConnectVoice(@Query("iUserid") userid: String,@Query("sDesc") sDesc: String, @Query("iAppointType") iAppointType:Int, @Query("iVoiceConnectType") iVoiceConnectType:Int, @Query("iPrepayLovepoint") iPrepayLovepoint:Int, @Query("iOncePayLovePoint") iOncePayLovePoint:Int,@Query("dStarttime") beginTime: String, @Query("dEndtime") endTime: String?, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //查询是否允许连麦
     @POST("backstage/squaresignup/getApplyVoiceSquareLovePoint")
-    fun getApplyVoiceSquareLovePoint(@Query("iSquareId") iSquareId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    fun getApplyVoiceSquareLovePoint(@Query("sAppointmentId") sAppointmentId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //报名连麦
     @POST("backstage/squaresignup/add")
-    fun addVoiceChat(@Query("iSquareId") iSquareId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    fun addVoiceChat(@Query("sAppointmentId") sAppointmentId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //连麦申请状态
     //状态 1、发起 2、同意 3、拒绝  4、主动取消  5、过期自动取消 6、完成
     @POST("backstage/squaresignup/updateSquareSignUp")
-    fun updateSquareSignUp(@Query("sSquareSignupId") sSquareSignupId:String,@Query("iStatus") iStatus:String,@Query("iConnectVoiceLength")iConnectVoiceLength:Long,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun updateSquareSignUp(@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("iStatus") iStatus:String,@Query("iConnectVoiceLength")iConnectVoiceLength:Long,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }

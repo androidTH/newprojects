@@ -70,6 +70,8 @@ object Const {
 
     @JvmField
     var dateTypes = arrayOf("旅行","吃饭","电影","看电影","不限","聊天","游戏","健身") // 游戏
+    @JvmField
+    var VoiceChatType = 9;
 
     @JvmField
     var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,

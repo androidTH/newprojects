@@ -50,7 +50,6 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/margin_5"
                 android:gravity="center_horizontal"
-                android:text="1.预付99个喜欢"
                 android:textSize="14sp"
                 android:textColor="@color/color_666666" />
 
@@ -88,7 +87,6 @@
             android:background="@drawable/shape_4r_orange"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="预付99个喜欢 [img src=redheart_small/]"
             android:textColor="@color/white"
             android:textSize="15sp" />
         <LinearLayout

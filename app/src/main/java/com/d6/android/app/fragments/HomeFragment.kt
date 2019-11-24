@@ -26,6 +26,7 @@ import com.d6.android.app.utils.Const.LOGIN_FOR_POINT_NEW
 import com.d6.android.app.utils.Const.User.ISNOTLOCATION
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
+import com.d6.android.app.utils.Const.VoiceChatType
 import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -62,7 +63,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         tv_datacount.text = "已有${count}人约会成功"
     }
 
-    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(10),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8))
+    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(VoiceChatType),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8))
 
     private val mSelfDateTypes = ArrayList<DateType>()
 
@@ -127,7 +128,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
         var mFragments = listOf(
                 SelfPullDateFragment.instance("", mDefualtSex),
-                SelfPullDateFragment.instance("10",mDefualtSex),
+                SelfPullDateFragment.instance("9",mDefualtSex),
                 SelfPullDateFragment.instance("6",mDefualtSex),
                 SelfPullDateFragment.instance("2",mDefualtSex),
                 SelfPullDateFragment.instance("1",mDefualtSex),
@@ -311,15 +312,23 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
     }
 
-    fun refresh(){
+    fun refresh(sex:String,pageSelected:Int){
         appBarLayout.removeOnOffsetChangedListener(this)
         mSwipeRefreshLayout.isEnabled = true
         mSwipeRefreshLayout.isRefreshing = true
         mSwipeRefreshLayout.scrollTo(0,0)
+        if(pageSelected==0){
+            onPageSelected = pageSelected
+            mViewPager.setCurrentItem(onPageSelected)
+        }
         mSwipeRefreshLayout.postDelayed(object:Runnable{
             override fun run() {
                 city = ""
-                type = showDateTypes.get(onPageSelected).type
+                if (TextUtils.equals("-1",sex)) {
+                    tv_date_sex.text = getString(R.string.string_sex)
+                    mDefualtSex = -1
+                }
+//                type = showDateTypes.get(onPageSelected).type
                 getSpeedData()
                 getFragment()
             }

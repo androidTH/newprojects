@@ -83,7 +83,7 @@
             android:textColor="@color/color_8F5A5A"
             android:textSize="10sp"
             android:textStyle="bold"
-            android:text="隐身中"
+            android:text="她隐藏了身份"
             android:singleLine="true"
             android:ellipsize="end"
             android:layout_marginBottom="@dimen/margin_3"/>

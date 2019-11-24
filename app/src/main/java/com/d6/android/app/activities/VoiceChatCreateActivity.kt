@@ -28,6 +28,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
+import com.d6.android.app.utils.Const.VoiceChatType
 import com.d6.android.app.widget.ObserverManager
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
@@ -67,8 +68,8 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
 
     private var sTopicId:String = ""
     private var mVoiceChatType = 1
-    private var loveNums = -1
-    private var iOncePayLovePoint = -1
+    private var loveNums = 0
+    private var iOncePayLovePoint = 0
     private var mSelectedTimeIndex:Long= -1
 
     /**
@@ -213,7 +214,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
               mVoiceChatTypeDialog.setDialogListener { p, s ->
                   mVoiceChatType = p
                   if(p==2||p==3){
-                      loveNums = -1
+                      loveNums = 0
                       showRewardVoiceChatPoints(p)
                       mVoiceChatTypeDialog.dismissAllowingStateLoss()
                   }else{
@@ -241,8 +242,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
         selectVoiceChatTimeDialog.setDialogListener { p, s ->
             tv_topic_choose.text = s
             mSelectedTimeIndex = getTimeInMillis("${s}")
-            converTime(mSelectedTimeIndex)
-            Log.i("VoiceChatCreateActivity","${converTime(mSelectedTimeIndex)}---时间：${mSelectedTimeIndex}")
+            Log.i("VoiceChatCreateActivity","${mSelectedTimeIndex.toDefaultTime()}---时间：${mSelectedTimeIndex}")
         }
         selectVoiceChatTimeDialog.show(supportFragmentManager,"time")
     }
@@ -263,7 +263,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     }
 
    private fun appVoiceChatPoints(sendLoveNums:Int){
-       iOncePayLovePoint = -1
+       iOncePayLovePoint = 0
        var mApplyVoiceChatPointsDialog = ApplyVoiceChatPointsDialog()
        mApplyVoiceChatPointsDialog.arguments = bundleOf("lovenums" to sendLoveNums)
        mApplyVoiceChatPointsDialog.show(supportFragmentManager, "d")
@@ -358,7 +358,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
                 }
                 Flowable.just(sb.toString())
             }.flatMap {
-                Request.addConnectVoice(content,mVoiceChatType,loveNums,iOncePayLovePoint,"${mSelectedTimeIndex}")
+                Request.addConnectVoice(getLocalUserId(),content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis()}","${mSelectedTimeIndex}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -381,7 +381,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     }
 
     fun addTextSquare(content:String){
-        Request.addConnectVoice(content,mVoiceChatType,loveNums,iOncePayLovePoint,"${mSelectedTimeIndex}").request(this,false,success={
+        Request.addConnectVoice(getLocalUserId(),content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mSelectedTimeIndex.toDefaultTime()}").request(this,false,success={
             _, data ->
             showToast("发布成功")
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){

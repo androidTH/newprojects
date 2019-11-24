@@ -219,7 +219,9 @@ class ServiceFragment : BaseFragment() ,ViewPager.OnPageChangeListener{
     }
 
     fun refresh(){
-        mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,city)
+        if(mFragments.size>0){
+            mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,city)
+        }
 //        viewpager_recommenddate.postDelayed(object:Runnable{
 //            override fun run() {
 //                mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,city)

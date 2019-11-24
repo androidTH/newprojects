@@ -7,22 +7,40 @@ package com.d6.android.app.models;
  * version:
  */
 public class VoiceTips {
-    private String sSquareSignupId;
-    private String sTitle;
+    private String VoiceChatUName;
+    private String VoiceChatContent;
+    private String VoiceChatId;
+    private int VoiceChatType;
 
-    public String getsSquareSignupId() {
-        return sSquareSignupId == null ? "" : sSquareSignupId;
+    public String getVoiceChatUName() {
+        return VoiceChatUName == null ? "" : VoiceChatUName;
     }
 
-    public void setsSquareSignupId(String sSquareSignupId) {
-        this.sSquareSignupId = sSquareSignupId;
+    public void setVoiceChatUName(String voiceChatUName) {
+        VoiceChatUName = voiceChatUName;
     }
 
-    public String getsTitle() {
-        return sTitle == null ? "" : sTitle;
+    public String getVoiceChatContent() {
+        return VoiceChatContent == null ? "" : VoiceChatContent;
     }
 
-    public void setsTitle(String sTitle) {
-        this.sTitle = sTitle;
+    public void setVoiceChatContent(String voiceChatContent) {
+        VoiceChatContent = voiceChatContent;
+    }
+
+    public String getVoiceChatId() {
+        return VoiceChatId == null ? "" : VoiceChatId;
+    }
+
+    public void setVoiceChatId(String voiceChatId) {
+        VoiceChatId = voiceChatId;
+    }
+
+    public int getVoiceChatType() {
+        return VoiceChatType;
+    }
+
+    public void setVoiceChatType(int voiceChatType) {
+        VoiceChatType = voiceChatType;
     }
 }

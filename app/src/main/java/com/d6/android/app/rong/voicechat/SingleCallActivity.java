@@ -25,12 +25,19 @@ import android.widget.Toast;
 
 import com.d6.android.app.R;
 import com.d6.android.app.activities.UserInfoActivity;
+import com.d6.android.app.eventbus.LoveHeartMsgEvent;
 import com.d6.android.app.models.VoiceTips;
 import com.d6.android.app.net.Request;
 import com.d6.android.app.rong.bean.TipsMessage;
 import com.d6.android.app.utils.GsonHelper;
+import com.d6.android.app.widget.LoveHeart;
 import com.d6.android.app.widget.blurry.internal.Helper;
+import com.d6.android.app.widget.gift.CustormAnim;
+import com.d6.android.app.widget.gift.GiftControl;
+import com.d6.android.app.widget.gift.GiftModel;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +60,10 @@ import io.rong.common.RLog;
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.utilities.PermissionCheckUtil;
-import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
-import static com.d6.android.app.utils.UtilKt.getLocalUserName;
 import static com.d6.android.app.utils.UtilKt.updateSquareSignUp;
 
 /**
@@ -90,6 +95,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     private VoiceTips mVoiceTips = new VoiceTips();
     private TimeCountDown mTimeCountDown;
     private int MINTIME_VOICECHAT = 5;
+    private LinearLayout mLLGiftParent;
+    private LoveHeart mLoveHeart;
 
     @Override
     final public boolean handleMessage(Message msg) {
@@ -326,9 +333,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
                 userName.setText(userInfo.getName());
                 TextView localUserName = mUserInfoContainer.findViewById(R.id.tv_localusername);
-                localUserName.setText(getLocalUserName());
+                localUserName.setText(mVoiceTips.getVoiceChatUName());
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(mVoiceTips.getsTitle());
+                tv_voicechat_desc.setText(mVoiceTips.getVoiceChatContent());
                 SimpleDraweeView iv_icoming_backgroud=(SimpleDraweeView)mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
                 iv_icoming_backgroud.setVisibility(View.VISIBLE);
                 Log.i("SinleCallActivity","头像"+userInfo.getPortraitUri());
@@ -477,8 +484,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                     }
                     mTimeCountDown = new TimeCountDown(30000,1000);
                     mTimeCountDown.start();
-
-                    updateSquareSignUp(this,"","1",getTime());
+                    if(mVoiceTips!=null){
+                        updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"1",getTime());
+                    }
                 }
             }
         } catch (Exception e) {
@@ -506,6 +514,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             ImageButton ib_voicechat_loveheart= mUserInfoContainer.findViewById(R.id.ib_voicechat_loveheart);
             ib_voicechat_loveheart.setVisibility(View.VISIBLE);
             ib_voicechat_loveheart.setOnClickListener(this);
+            mLLGiftParent = mUserInfoContainer.findViewById(R.id.ll_gift_parent);
+            mLoveHeart = mUserInfoContainer.findViewById(R.id.loveheart);
             //底部按钮
             RelativeLayout btnLayout = (RelativeLayout) inflater.inflate(io.rong.callkit.R.layout.rc_voip_call_bottom_connected_button_layout, null);
             ImageView button = btnLayout.findViewById(io.rong.callkit.R.id.rc_voip_call_mute_btn);
@@ -519,6 +529,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 mTimeCountDown.cancel();
                 mTimeCountDown=null;
             }
+
+            initGift();
         } else {
             // 二人视频通话接通后 mUserInfoContainer 中更换为无头像的布局
             mUserInfoContainer.removeAllViews();
@@ -698,9 +710,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             userName.setText(userInfo.getName());
             if (callSession.getMediaType().equals(RongCallCommon.CallMediaType.AUDIO)) {
                 TextView localUserName = (TextView) mUserInfoContainer.findViewById(R.id.tv_localusername);
-                localUserName.setText(getLocalUserName());
+                localUserName.setText(mVoiceTips.getVoiceChatUName());
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(mVoiceTips.getsTitle());
+                tv_voicechat_desc.setText(mVoiceTips.getVoiceChatContent());
 //                AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView userPortrait = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 if (userPortrait != null) {
@@ -742,6 +754,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             ImageButton ib_voicechat_loveheart= mUserInfoContainer.findViewById(R.id.ib_voicechat_loveheart);
             ib_voicechat_loveheart.setVisibility(View.VISIBLE);
             ib_voicechat_loveheart.setOnClickListener(this);
+            mLLGiftParent = mUserInfoContainer.findViewById(R.id.ll_gift_parent);
+            mLoveHeart = mUserInfoContainer.findViewById(R.id.loveheart);
         }
 
         if (pickupDetector != null) {
@@ -766,7 +780,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             return;
         }
         RongCallClient.getInstance().acceptCall(session.getCallId());
-        updateSquareSignUp(this,"","2",getTime());
+        if(mVoiceTips!=null){
+            updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"2",getTime());
+        }
     }
 
     public void hideVideoCallInformation() {
@@ -836,7 +852,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         long duration;
         switch (reason) {
             case CANCEL: //主动取消
-                updateSquareSignUp(this,"","4",getTime());
+                if(mVoiceTips!=null){
+                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"4",getTime());
+                }
                 break;
             case REJECT:
                 sendTipsMessage("你拒绝了对方的连麦","拒绝",senderId);
@@ -863,7 +881,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             case REMOTE_CANCEL:
             case REMOTE_REJECT:
                 sendTipsMessage("对方已拒绝","拒绝",senderId);
-                updateSquareSignUp(this,"","3",getTime());
+                if(mVoiceTips!=null){
+                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"3",getTime());
+                }
                 break;
             case REMOTE_HANGUP:
                 duration= getTime()%60;
@@ -977,11 +997,11 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         if (userInfo != null) {
             if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
                 TextView localUserName = (TextView) mUserInfoContainer.findViewById(R.id.tv_localusername);
-                localUserName.setText(getLocalUserName());
+                localUserName.setText(mVoiceTips.getVoiceChatUName());
                 TextView userName = (TextView) mUserInfoContainer.findViewById(R.id.voice_voip_user_name);
                 userName.setText(userInfo.getName());
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(mVoiceTips.getsTitle());
+                tv_voicechat_desc.setText(mVoiceTips.getVoiceChatContent());
 //                AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView userPortrait = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 if (userPortrait != null) {
@@ -1076,9 +1096,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             TextView localUserName = mUserInfoContainer.findViewById(R.id.tv_localusername);
             if (userInfo.getName() != null)
                 userName.setText(userInfo.getName());
-                localUserName.setText(getLocalUserName());
+                localUserName.setText(mVoiceTips.getVoiceChatUName());
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(mVoiceTips.getsTitle());
+                tv_voicechat_desc.setText(mVoiceTips.getVoiceChatContent());
                 SimpleDraweeView userPortrait = mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 SimpleDraweeView iv_icoming_backgroud = mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
                 if (userPortrait != null && userInfo.getPortraitUri() != null) {
@@ -1155,6 +1175,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         }
     }
 
+
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.voice_voip_user_portrait){
@@ -1162,7 +1183,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             intent.putExtra("id",targetId);
             startActivity(intent);
         }else if(v.getId()==R.id.ib_voicechat_loveheart){
-
+            addGiftNums(1,false,false);
         }
     }
 
@@ -1201,6 +1222,43 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 
         @Override
         public void onTick(long millisUntilFinished) {
+
+        }
+    }
+
+    private GiftControl giftControl;
+    private void initGift() {
+        giftControl = new GiftControl(this);
+        giftControl.setGiftLayout(mLLGiftParent, 1)
+                    .setHideMode(false)
+                    .setCustormAnim(new CustormAnim());
+        giftControl.setmGiftAnimationEndListener(new GiftControl.GiftAnimationEndListener() {
+            @Override
+            public void getGiftCount(int giftCount) {
+                EventBus.getDefault().post(new LoveHeartMsgEvent(targetId,giftCount));
+            }
+        });
+    }
+
+    //连击礼物数量
+    private void addGiftNums(int giftnum,Boolean currentStart,Boolean JumpCombo) {
+        if (giftnum == 0) {
+            return;
+        } else {
+            if(giftControl!=null){
+                GiftModel giftModel =new GiftModel();
+                giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
+                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                        .setCurrentStart(currentStart);
+                if (currentStart) {
+                    giftModel.setHitCombo(giftnum);
+                }
+                if(JumpCombo){
+                    giftModel.setJumpCombo(giftnum);
+                }
+                giftControl.loadGift(giftModel);
+            }
+            mLoveHeart.showAnimationRedHeart(null);
         }
     }
 }

@@ -31,7 +31,7 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
         if(data.iIsCode==1){
-            holder.setText(R.id.tv_name,"神秘人")
+            holder.setText(R.id.tv_name,"匿名")
             holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_8F5A5A)
             headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
             tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "

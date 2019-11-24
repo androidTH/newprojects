@@ -39,7 +39,7 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
         if(data.iListSetting==2){
 //            headView.showBlur(data.sPicUrl)
             headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
-            holder.setText(R.id.tv_name,"神秘人")
+            holder.setText(R.id.tv_name,"匿名")
             holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_8F5A5A)
             tv_userinfo.visibility = View.VISIBLE
 //            if(TextUtils.equals("${data.iUserid}", getLocalUserId())){
@@ -93,9 +93,9 @@ class BangdanListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Love
 
         var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
         if(TextUtils.equals("0",data.sSex)){
-            tv_receivedliked.text = "收到${data.iAllLovePoint}"
+            tv_receivedliked.text = "收到-送出${data.iAllLovePoint}"
         }else{
-            tv_receivedliked.text = "送出${data.iAllLovePoint}"
+            tv_receivedliked.text = "送出-收到${data.iAllLovePoint}"
         }
 
         var tv_order = holder.bind<TextView>(R.id.tv_order)

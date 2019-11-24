@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.nfc.Tag;
 import android.text.ClipboardManager;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,12 +151,14 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
             holder.mLL_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
             TextView textView = holder.mTvVoiceChatContent;
             textView.setText("请求连麦...");
+            holder.mTvVoiceChatContent.setText(content.getContent());
             if(!TextUtils.isEmpty(content.getExtra())){
 //                int nums = 1;
                 try {
                     JSONObject jsonObject = new JSONObject(content.getExtra());
 //                    nums = jsonObject.getInt("nums");
-                    holder.mTvVoiceChatContent.setText("来自加勒比：新开了家餐厅，环境很不错特别喜欢吃他们家的甜点。");
+                    Log.i(TAG,"extra="+content.getExtra());
+                    holder.mTvVoiceChatContent.setText("");
                 } catch (JSONException e) {
                     e.printStackTrace();
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
@@ -163,15 +167,16 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
             }
         } else {
             holder.mLL_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
-            try {
-                if(!TextUtils.isEmpty(content.getExtra())){
-                    JSONObject jsonObject =new JSONObject(content.getExtra());
-//                    String num = jsonObject.getString("nums");
-                    holder.mTvVoiceChatContent.setText("来自加勒比：新开了家餐厅，环境很不错特别喜欢吃他们家的甜点。");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            holder.mTvVoiceChatContent.setText(content.getContent());
+            Log.i(TAG,"extra="+content.getExtra());
+//            try {
+//                if(!TextUtils.isEmpty(content.getExtra())){
+//                    JSONObject jsonObject =new JSONObject(content.getExtra());
+//                    holder.mTvVoiceChatContent.setText(content.getContent());
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 }

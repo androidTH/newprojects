@@ -121,6 +121,23 @@
             android:visibility="gone"
             android:background="@android:color/transparent"
             android:src="@mipmap/center_like_button" />
+
+        <com.d6.android.app.widget.LoveHeart
+            android:id="@+id/loveheart"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-50dp"
+            android:layout_below="@id/voice_voip_user_name"/>
+
+        <LinearLayout
+            android:id="@+id/ll_gift_parent"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/voice_voip_user_portrait"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"/>
+
         <!--
         android:textColor="#66FFFFFF"
         android:layout_below="@+id/voice_voip_user_name"

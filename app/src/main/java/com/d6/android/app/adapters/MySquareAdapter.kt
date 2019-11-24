@@ -160,7 +160,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
      * 连麦
      */
     private fun signUpVoiceChat(voiceChat:Square) {
-        Request.getApplyVoiceSquareLovePoint("${voiceChat.id}", getLoginToken()).request(context as BaseActivity, false,success={ msg, data->
+        Request.getApplyVoiceSquareLovePoint("${voiceChat.sAppointmentId}", getLoginToken()).request(context as BaseActivity, false,success={ msg, data->
             var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
             mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
             mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")

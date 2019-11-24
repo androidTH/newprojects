@@ -16,6 +16,8 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.FilterTrendDialog
 import com.d6.android.app.dialogs.LoginOutTipDialog
+import com.d6.android.app.dialogs.SendRedHeartEndDialog
+import com.d6.android.app.eventbus.LoveHeartMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.*
 import com.d6.android.app.models.FollowFansVistor
@@ -36,6 +38,9 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Group
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_main.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.json.JSONObject
@@ -298,7 +303,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         tv_find_tab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
             if (fragment != null && fragment is HomeFragment) {
-                fragment.refresh()
+                fragment.refresh(getUserSex(),-1)
             }
         }
 
@@ -388,6 +393,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         AppUtils.setRealHWRatio(this)
 
         initPopup()
+
+        EventBus.getDefault().register(this)
     }
 
     private fun initPopup(){
@@ -700,6 +707,20 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         tabhost.currentTab = index
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(loveHeartMsgEvent: LoveHeartMsgEvent){
+        Request.sendLovePoint(getLoginToken(), "${loveHeartMsgEvent.getmTargetId()}",loveHeartMsgEvent.count, 4,"").request(this, false, success = { _, data ->
+            Log.i("GiftControl", "礼物数量${loveHeartMsgEvent.count}")
+        }) { code, msg ->
+            if (code == 2||code==3) {
+                var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+            }else{
+                toast(msg)
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -713,9 +734,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    fragment.refresh(area, areaType, typeIds, vipIds)
 //                }
             } else if (requestCode == 1) {//||requestCode==10
-                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
-                if (fragment != null && fragment is SquareMainFragment) {
-                    fragment.refresh()
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                if (fragment != null && fragment is HomeFragment) {
+                    fragment.refresh("-1",0)
                 }
             }
         }
@@ -787,6 +808,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         }
         super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
     /**

@@ -107,7 +107,7 @@ class FilterSquaresActivity : BaseActivity() {
 
         setAudioListener()
 
-        initPopup()
+//        initPopup()
     }
 
     private fun setHeaderView(){

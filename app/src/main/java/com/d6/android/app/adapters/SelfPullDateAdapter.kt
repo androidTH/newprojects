@@ -14,6 +14,7 @@ import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
+import com.d6.android.app.utils.Const.VoiceChatType
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
 import com.d6.android.app.widget.VoiceChatView
@@ -35,7 +36,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
     override fun onBind(holder: ViewHolder, position: Int, data: MyAppointment) {
         val view = holder.bind<SelfPullDateView>(R.id.srv_view)
         var voicechat_view = holder.bind<VoiceChatView>(R.id.voicechat_view)
-        if(position%2==0){
+        if(data.iAppointType!=VoiceChatType){
             voicechat_view.visibility = View.GONE
             view.visibility = View.VISIBLE
             view.update(data)
@@ -81,10 +82,10 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
      */
     private fun signUpVoiceChat(appointment: MyAppointment) {
         Request.getApplyVoiceSquareLovePoint("${appointment.sId}", getLoginToken()).request(context as BaseActivity, false,success={ msg, data->
-            var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-            mApplyVoiceChatDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
-            mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            mApplyVoiceChatDialog.setDialogListener { p, s ->
+            var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()
+            mApplyVoiceChatOfDateDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
+            mApplyVoiceChatOfDateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+            mApplyVoiceChatOfDateDialog.setDialogListener { p, s ->
                 // mData.remove(myAppointment)
                 // notifyDataSetChanged()
             }
@@ -98,12 +99,12 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }else if(code==2){
                 //申请需支付爱心 iAddPoint 需要支付的爱心数量
-                var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+                var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()
 //                var jsonObject = JSONObject(msg)
 //                var iAddPoint = jsonObject.optString("iAddPoint")
-                mApplyVoiceChatDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
-                mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                mApplyVoiceChatDialog.setDialogListener { p, s ->
+                mApplyVoiceChatOfDateDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
+                mApplyVoiceChatOfDateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                mApplyVoiceChatOfDateDialog.setDialogListener { p, s ->
 
                 }
             }else if(code==3){

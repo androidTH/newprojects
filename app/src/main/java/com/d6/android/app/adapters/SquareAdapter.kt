@@ -165,63 +165,6 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
     }
 
     /**
-     * 连麦
-     */
-    private fun signUpVoiceChat(voiceChat:Square) {
-        Request.getApplyVoiceSquareLovePoint("${voiceChat.id}", getLoginToken()).request(context as BaseActivity, false,success={ msg, data->
-            var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-            mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
-            mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            mApplyVoiceChatDialog.setDialogListener { p, s ->
-                // mData.remove(myAppointment)
-                // notifyDataSetChanged()
-            }
-        }){code,msg->
-            if(code==0){
-                //不允许申请，弹出错误信息
-                var openErrorDialog = OpenDateErrorDialog()
-                var jsonObject = JSONObject(msg)
-                var resMsg = jsonObject.optString("resMsg")
-                openErrorDialog.arguments = bundleOf("code" to 5, "msg" to resMsg)
-                openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            }else if(code==2){
-                //申请需支付爱心 iAddPoint 需要支付的爱心数量
-                var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-//                var jsonObject = JSONObject(msg)
-//                var iAddPoint = jsonObject.optString("iAddPoint")
-                mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
-                mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                mApplyVoiceChatDialog.setDialogListener { p, s ->
-
-                }
-            }else if(code==3){
-                //申请需支付爱心，爱心不足，iAddPoint 需要支付的爱心，iRemainPoint剩余的爱心
-                var mOpenDatePointNoEnoughDialog = OpenDatePointNoEnoughDialog()
-                var jsonObject = JSONObject(msg)
-                var iAddPoint = jsonObject.getString("iAddPoint")
-                var iRemainPoint = jsonObject.getString("iRemainPoint")
-                mOpenDatePointNoEnoughDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 1)
-                mOpenDatePointNoEnoughDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            }else if(code==4){
-                //允许连麦，iAddPoint 为需要打赏的爱心数量
-                var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-                mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
-                mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
-                mApplyVoiceChatDialog.setDialogListener { p, s ->
-                }
-            }else if(code==5){
-                //res=5，不允许连麦，对方预付的爱心已不足
-                var openErrorDialog = OpenDateErrorDialog()
-                var jsonObject = JSONObject(msg)
-                var resMsg = jsonObject.optString("sAddPointDesc")
-                openErrorDialog.arguments = bundleOf("code" to 5, "msg" to "${resMsg}")
-                openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
-
-            }
-        }
-    }
-
-    /**
      * 约会
      */
     private fun signUpDate(myAppointment:Square) {
