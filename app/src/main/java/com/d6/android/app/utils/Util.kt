@@ -154,6 +154,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_NICK, obj.name)
             .put(Const.User.USER_HEAD, obj.picUrl)
             .put(Const.User.USER_CLASS_ID, obj.userclassesid)
+            .put(Const.User.USER_CLASS_NAME, obj.classesname)
             .put(Const.User.USER_SEX, obj.sex)
             .put(Const.User.USER_SCREENID, obj.screen)
             .put(Const.User.USER_DATACOMPLETION, obj.iDatacompletion)
@@ -827,7 +828,7 @@ fun updateSquareSignUp(activity:Activity,sSquareSignupId:String,iStatus:String,i
 
         }
     },false,success={ msg, data->
-
+       Log.i("updateSquareSignUp","状态：${iStatus}")
     }){code,msg->
 
     }

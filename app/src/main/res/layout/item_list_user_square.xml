@@ -19,4 +19,38 @@
         android:id="@+id/voicechat_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:id="@+id/rl_paypoints"
+        android:layout_marginTop="@dimen/margin_8"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="80dp">
+        <TextView
+            android:id="@+id/tv_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_black"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_13"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:text="打赏小红花后可查看剩余"/>
+         <TextView
+             android:layout_below="@+id/tv_tips"
+             android:layout_marginTop="@dimen/margin_8"
+             android:layout_width="60dp"
+             android:layout_height="wrap_content"
+             android:textSize="15sp"
+             android:textStyle="bold"
+             android:textColor="@color/white"
+             android:layout_centerHorizontal="true"
+             android:paddingLeft="@dimen/margin_5"
+             android:paddingRight="@dimen/margin_5"
+             android:paddingTop="@dimen/margin_6"
+             android:paddingBottom="@dimen/margin_6"
+             android:gravity="center"
+             android:background="@drawable/shape_10r_orange"
+             android:text="打赏"/>
+    </RelativeLayout>
 </FrameLayout>

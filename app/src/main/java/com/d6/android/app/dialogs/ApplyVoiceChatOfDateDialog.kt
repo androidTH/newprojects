@@ -62,7 +62,7 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout((screenWidth() * 0.8f).toInt()+dip(30), wrapContent)
+        dialog.window.setLayout((screenWidth() * 0.83f).toInt()+dip(30), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
         dialog.setCanceledOnTouchOutside(true)
     }
@@ -92,8 +92,8 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
             tv_action.text = "连麦"
         }else if(TextUtils.equals(voicechatType,"2")){
             mMinLoveHeart = appointment?.iOncePayLovePoint
-            ll_voicechat_desc.visibility = View.VISIBLE
             tv_agree_points.text = "1.预付${mMinLoveHeart}个喜欢"
+            ll_voicechat_desc.visibility = View.VISIBLE
             tv_voicechat_title.text = "本次连麦需要打赏${mMinLoveHeart}个 [img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
             tv_action.text ="预付${mMinLoveHeart}个喜欢 [img src=redheart_small/]"
         }else{
@@ -103,15 +103,16 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
         }
 
         tv_action.setOnClickListener {
-            if(TextUtils.equals(voicechatType,"4")){
-                extra = GsonHelper.getGson().toJson(mVoiceTips)
-                RongD6Utils.startSingleVoiceChat((context as BaseActivity),"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
-//              sendOutgoingMessage()
-                dismissAllowingStateLoss()
+            if(TextUtils.equals(voicechatType,"0")){
+                getData()
             }else{
                 if(TextUtils.equals(voicechatType,"2")){
-                    if(mLocalUserLoveHeartCount>=mMinLoveHeart?.toInt() ?: 0){
-                        getData()
+                    if(mLocalUserLoveHeartCount>=mMinLoveHeart?: 0){
+                        tv_action.text = "连麦"
+                        voicechatType = "0"
+                    }else{
+                        ll_user_lovepoint.visibility = View.VISIBLE
+                        tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
                     }
                 }else{
                     getData()
@@ -141,9 +142,9 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
     private fun getUserInfo() {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-                if(it.iLovePoint < mMinLoveHeart?.toInt() ?: 0){
-                    tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
-                }
+//                if(it.iLovePoint < mMinLoveHeart?.toInt() ?: 0){
+//                    tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
+//                }
                 mLocalUserLoveHeartCount = it.iLovePoint
                 ll_user_lovepoint.visibility = View.GONE
                 tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
@@ -160,23 +161,27 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
                     var sAppointSignupId = it.optString("sAppointSignupId")
                     Log.i("applyvoice","${data}---${sAppointSignupId}")
                     mVoiceTips.setVoiceChatId("${sAppointSignupId}")
-                    if(TextUtils.equals(voicechatType,"1")){
-                        //1 无需打赏
-                        extra = GsonHelper.getGson().toJson(mVoiceTips)
-                        RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
-//                  sendOutgoingMessage()
-                        dismissAllowingStateLoss()
-                    }else if(TextUtils.equals(voicechatType,"2")){
-                        //申请者需要打赏
-                        tv_action.text = "连麦"
-                        voicechatType = "4"
-                    }else {
-                        //申请者可以获得
-                        extra = GsonHelper.getGson().toJson(mVoiceTips)
-                        RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
-//                  sendOutgoingMessage()
-                        dismissAllowingStateLoss()
-                    }
+//                    if(TextUtils.equals(voicechatType,"1")){
+//                        //1 无需打赏
+//                        extra = GsonHelper.getGson().toJson(mVoiceTips)
+//                        RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+//                        dismissAllowingStateLoss()
+//                    }else if(TextUtils.equals(voicechatType,"0")){
+//                        //申请者需要打赏
+//                        extra = GsonHelper.getGson().toJson(mVoiceTips)
+//                        RongD6Utils.startSingleVoiceChat((context as BaseActivity),"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+//                        dismissAllowingStateLoss()
+//                    }else {
+//                        //申请者可以获得
+//                        extra = GsonHelper.getGson().toJson(mVoiceTips)
+//                        RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+//                        dismissAllowingStateLoss()
+//                    }
+
+                    extra = GsonHelper.getGson().toJson(mVoiceTips)
+                    RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.PRIVATE, "${appointment?.iAppointUserid}", "${appointment?.sAppointUserName}")
+                    RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+                    dismissAllowingStateLoss()
                 }
             }){code,msg->
                 if(code==3||code==4){
@@ -187,29 +192,6 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
 //                    openErrorDialog.show(it.supportFragmentManager, "d")
                 }
             }
-
-            //194ecdb4-4809-4b2d-bf32-42a3342964df
-//            Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
-////                var openSuccessDialog = OpenDateSuccessDialog()
-////                var sId = data?.optString("sId")
-////                var explain = arguments.getParcelable("explain") as IntegralExplain
-////                openSuccessDialog.arguments = bundleOf("point" to explain.iAppointPoint.toString(),"sId" to sId.toString())
-////                openSuccessDialog.show(it.supportFragmentManager, "d")
-//                if(myAppointment?.iIsAnonymous==1){
-//                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.GROUP, "anoy_${myAppointment?.iAppointUserid}_${getLocalUserId()}", "匿名")
-//                }else{
-//                    RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, "${myAppointment?.iAppointUserid}", "${myAppointment?.sAppointUserName}")
-//                }
-//                dialogListener?.onClick(2,myAppointment?.sId.toString())
-//            }) { code, msg ->
-//                if(code == 3){
-//                    var openErrorDialog = OpenDateErrorDialog()
-//                    openErrorDialog.arguments= bundleOf("code" to code)
-//                    openErrorDialog.show(it.supportFragmentManager, "d")
-//                }else{
-//                    CustomToast.showToast(msg)
-//                }
-//            }
         }
     }
 
@@ -224,27 +206,6 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
 
             }
         })
-    }
-
-    private fun queryPoints(){
-//        isBaseActivity {
-//            Request.queryAppointmentPoint(userId).request(it, success = {msg,data->
-//                data?.let {
-//                    tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
-//                    tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
-//                    tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
-//                    tv_timeout_points.text = "超时未回复,返还${it.iAppointPointCancel}积分"
-//                }
-//            }){code,msg->
-//                if(code == 2){
-//                    toast(msg)
-//                    dismissAllowingStateLoss()
-//                    var openErrorDialog = OpenDateErrorDialog()
-//                    openErrorDialog.arguments= bundleOf("code" to code)
-//                    openErrorDialog.show(it.supportFragmentManager, "d")
-//                }
-//            }
-//        }
     }
 
     private var dialogListener: OnDialogListener? = null

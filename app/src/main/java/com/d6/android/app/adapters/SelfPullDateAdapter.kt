@@ -97,8 +97,8 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 var resMsg = jsonObject.optString("resMsg")
                 openErrorDialog.arguments = bundleOf("code" to 5, "msg" to resMsg)
                 openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            }else if(code==2){
-                //申请需支付爱心 iAddPoint 需要支付的爱心数量
+            }else if(code==2||code==3){
+                //2:申请需支付爱心 iAddPoint 需要支付的爱心数量  3:申请需支付爱心，爱心不足，iAddPoint 需要支付的爱心，iRemainPoint剩余的爱心
                 var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()
 //                var jsonObject = JSONObject(msg)
 //                var iAddPoint = jsonObject.optString("iAddPoint")
@@ -107,14 +107,6 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 mApplyVoiceChatOfDateDialog.setDialogListener { p, s ->
 
                 }
-            }else if(code==3){
-                //申请需支付爱心，爱心不足，iAddPoint 需要支付的爱心，iRemainPoint剩余的爱心
-                var mOpenDatePointNoEnoughDialog = OpenDatePointNoEnoughDialog()
-                var jsonObject = JSONObject(msg)
-                var iAddPoint = jsonObject.getString("iAddPoint")
-                var iRemainPoint = jsonObject.getString("iRemainPoint")
-                mOpenDatePointNoEnoughDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 1)
-                mOpenDatePointNoEnoughDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }else if(code==4){
                 //允许连麦，iAddPoint 为需要打赏的爱心数量
                 var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()

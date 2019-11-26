@@ -1,12 +1,6 @@
 package com.d6.android.app.utils
 
-import android.content.Context
 import android.text.TextUtils
-import android.util.SparseArray
-import com.umeng.message.common.UmengMessageDeviceConfig.getTimeString
-import io.rong.imkit.R
-import io.rong.imkit.utils.RongDateUtils
-import io.rong.imkit.utils.RongDateUtils.judgeDate
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -217,7 +211,7 @@ fun getTimeInMillis(timeType:String): Long {
     var calendar = Calendar.getInstance()
     calendar.time = Date()
     if(TextUtils.equals(timeType,"2小时")){
-        calendar.add(Calendar.HOUR_OF_DAY, 2) //向前走一天
+        calendar.add(Calendar.HOUR_OF_DAY, 3) //向前走一天
     }else if(TextUtils.equals(timeType,"12小时")){
         calendar.add(Calendar.HOUR_OF_DAY, 13) //向前走一天
     }else if(TextUtils.equals(timeType,"1天")){

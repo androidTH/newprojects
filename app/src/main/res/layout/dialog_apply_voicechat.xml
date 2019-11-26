@@ -11,9 +11,9 @@
         android:layout_marginRight="15dp"
         android:background="@drawable/shape_white_8r"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/margin_15"
+        android:paddingLeft="@dimen/margin_13"
         android:paddingTop="@dimen/margin_15"
-        android:paddingRight="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_13"
         android:paddingBottom="@dimen/margin_20">
 
         <TextView
@@ -38,7 +38,7 @@
         <LinearLayout
             android:id="@+id/ll_voicechat_desc"
             android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:visibility="visible"
@@ -63,17 +63,20 @@
                 android:text="2.聊天结束后打赏的喜欢进入对方账户"
                 android:textSize="14sp"
                 android:textColor="@color/color_666666" />
-
-            <TextView
-                android:id="@+id/tv_timeout_points"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_7"
-                android:drawablePadding="@dimen/margin_5"
-                android:gravity="center_horizontal"
-                android:text="3.如果聊天时间过短，将返还打赏的喜欢"
-                android:textSize="14sp"
-                android:textColor="@color/color_666666" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_timeout_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_7"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:gravity="center|right"
+                    android:textSize="14sp"
+                    android:text="3.如果聊天时间过短，将返还打赏的喜欢"
+                    android:textColor="@color/color_666666" />
+            </RelativeLayout>
         </LinearLayout>
 
         <com.d6.android.app.widget.textinlineimage.TextInlineImage

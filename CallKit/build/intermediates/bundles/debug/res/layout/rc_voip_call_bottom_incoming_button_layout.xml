@@ -27,8 +27,8 @@
             android:layout_below="@+id/rc_voip_call_hang_up"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            style="@style/rc_voip_text_style_style"
-            android:text="@string/rc_voip_hangup" />
+            style="@style/rc_voip_text_style_style" />
+        <!--android:text="@string/rc_voip_hangup"-->
     </RelativeLayout>
 
     <RelativeLayout
@@ -50,8 +50,8 @@
             android:layout_below="@+id/rc_voip_call_answer_btn"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="@string/rc_voip_answer"
             style="@style/rc_voip_text_style_style" />
+        <!--android:text="@string/rc_voip_answer"-->
     </RelativeLayout>
 
 </RelativeLayout>

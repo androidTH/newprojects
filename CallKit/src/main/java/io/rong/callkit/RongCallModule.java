@@ -41,7 +41,7 @@ public class RongCallModule implements IExternalModule {
     public void onInitialized(String appKey) {
         RongIM.registerMessageTemplate(new CallEndMessageItemProvider());
         RongIM.registerMessageTemplate(new MultiCallEndMessageProvider());
-        initMissedCallListener();
+//        initMissedCallListener();
     }
 
     private void initMissedCallListener() {

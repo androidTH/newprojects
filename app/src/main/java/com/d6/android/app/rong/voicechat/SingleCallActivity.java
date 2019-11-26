@@ -94,7 +94,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     private RongCallCommon.CallMediaType mediaType;
     private VoiceTips mVoiceTips = new VoiceTips();
     private TimeCountDown mTimeCountDown;
-    private int MINTIME_VOICECHAT = 5;
+    private int MINTIME_VOICECHAT = 10;
     private LinearLayout mLLGiftParent;
     private LoveHeart mLoveHeart;
 
@@ -529,7 +529,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 mTimeCountDown.cancel();
                 mTimeCountDown=null;
             }
-
+            Log.i("SinleCallActivity","onCallConnected");
             initGift();
         } else {
             // 二人视频通话接通后 mUserInfoContainer 中更换为无头像的布局
@@ -780,6 +780,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             return;
         }
         RongCallClient.getInstance().acceptCall(session.getCallId());
+        Log.i("SinleCallActivity","onReceiveBtnClick");
         if(mVoiceTips!=null){
             updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"2",getTime());
         }
@@ -871,6 +872,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                         sendTipsMessage("连麦时长"+extra,extra,senderId);
                     }
                 }
+                updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"6",duration);
                 break;
             case NO_RESPONSE:
             case BUSY_LINE:
@@ -901,6 +903,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                         sendTipsMessage("连麦时长"+extra,extra,senderId);
                     }
                 }
+                updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"6",duration);
                 break;
         }
 
@@ -1223,7 +1226,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         @Override
         public void onFinish() {
             TextView tv_rc_voip_call_remind_info =  mUserInfoContainer.findViewById(R.id.voice_voip_call_remind_info);
-            tv_rc_voip_call_remind_info.setText("对方手机可能不在身边，暂未接受邀请，你可稍后再试或等待对方回复");
+            tv_rc_voip_call_remind_info.setText("对方手机可能不在身边，暂未接受邀请，可稍后再试或等待对方回复");
         }
 
         @Override

@@ -2,6 +2,7 @@ package com.d6.android.app.adapters
 
 import android.text.TextUtils
 import android.view.View
+import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.activities.ReportActivity
 import com.d6.android.app.base.BaseActivity
@@ -31,25 +32,36 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         val trendView = holder.bind<UserTrendView>(R.id.mTrendView)
         val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
         val voicechat_view = holder.bind<VoiceChatListView>(R.id.voicechat_view)
+        val rl_paypoints = holder.bind<RelativeLayout>(R.id.rl_paypoints)
         data.sex = mUserData?.sex
         data.age = mUserData?.age
 
         if(data.classesid==66){
+            rl_paypoints.visibility = View.GONE
             trendView.visibility = View.GONE
             voicechat_view.visibility = View.GONE
             dateofsquare_view.visibility = View.VISIBLE
             dateofsquare_view.update(data)
         }else if(data.classesid==67){
+            rl_paypoints.visibility = View.GONE
             trendView.visibility = View.GONE
             dateofsquare_view.visibility = View.GONE
             voicechat_view.visibility = View.VISIBLE
             voicechat_view.update(data)
         }else{
+            rl_paypoints.visibility = View.GONE
             trendView.visibility = View.VISIBLE
             voicechat_view.visibility = View.GONE
             dateofsquare_view.visibility = View.GONE
             trendView.update(data,if (type==0) 1 else 0 )
         }
+
+//        if(position>=3){
+//            rl_paypoints.visibility = View.VISIBLE
+//            trendView.visibility = View.GONE
+//            voicechat_view.visibility = View.GONE
+//            dateofsquare_view.visibility = View.GONE
+//        }
 
         val count = data.appraiseCount ?: 0
         trendView.setPraiseClick {
@@ -176,24 +188,14 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                 var resMsg = jsonObject.optString("resMsg")
                 openErrorDialog.arguments = bundleOf("code" to 5, "msg" to resMsg)
                 openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            }else if(code==2){
-                //申请需支付爱心 iAddPoint 需要支付的爱心数量
+            }else if(code==2||code==3){
+                //2:申请需支付爱心 iAddPoint 需要支付的爱心数量 3:申请需支付爱心，爱心不足，iAddPoint 需要支付的爱心，iRemainPoint剩余的爱心
                 var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-//                var jsonObject = JSONObject(msg)
-//                var iAddPoint = jsonObject.optString("iAddPoint")
                 mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
                 mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
                 mApplyVoiceChatDialog.setDialogListener { p, s ->
 
                 }
-            }else if(code==3){
-                //申请需支付爱心，爱心不足，iAddPoint 需要支付的爱心，iRemainPoint剩余的爱心
-                var mOpenDatePointNoEnoughDialog = OpenDatePointNoEnoughDialog()
-                var jsonObject = JSONObject(msg)
-                var iAddPoint = jsonObject.getString("iAddPoint")
-                var iRemainPoint = jsonObject.getString("iRemainPoint")
-                mOpenDatePointNoEnoughDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 1)
-                mOpenDatePointNoEnoughDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }else if(code==4){
                 //允许连麦，iAddPoint 为需要打赏的爱心数量
                 var mApplyVoiceChatDialog = ApplyVoiceChatDialog()

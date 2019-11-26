@@ -25,6 +25,7 @@ object Const {
         val USER_SEX="userSex"
         val USER_PHONE="userPhone"
         val USER_CLASS_ID="userClassID"
+        val USER_CLASS_NAME="userClassName"
         val USER_TOKEN="userToken"
         val USER_HEAD="userHead"
         val USER_NICK="userNick"

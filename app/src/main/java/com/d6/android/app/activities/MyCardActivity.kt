@@ -532,7 +532,7 @@ class MyCardActivity : BaseActivity() {
                 }
             }
         }else{
-            mImages.add(AddImage("$[userData.picUrl"))
+            mImages.add(AddImage("${userData.picUrl}"))
             rv_my_images.visibility = View.VISIBLE
         }
         myImageAdapter.notifyDataSetChanged()

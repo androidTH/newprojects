@@ -331,7 +331,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 }
                 2 -> {
                     isCheckOnLineAuthUser(this, getLocalUserId()) {
-                        startActivityForResult<ReleaseNewTrendsActivity>(1)
+                        startActivityForResult<ReleaseNewTrendsActivity>(11)
                     }
                 }
             }
@@ -612,7 +612,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     fun setTrendTitle(p: Int) {
          when (p) {
             0 -> isCheckOnLineAuthUser(this, getLocalUserId()) {
-                startActivityForResult<ReleaseNewTrendsActivity>(1)
+                startActivityForResult<ReleaseNewTrendsActivity>(11)
             }
             1 -> isCheckOnLineAuthUser(this, getLocalUserId()){
                 startActivityForResult<PublishFindDateActivity>(10)
@@ -737,6 +737,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
                 if (fragment != null && fragment is HomeFragment) {
                     fragment.refresh("-1",0)
+                }
+            }else if(requestCode == 11){
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
+                if (fragment != null && fragment is SquareMainFragment) {
+                    fragment.refresh()
                 }
             }
         }
