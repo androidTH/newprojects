@@ -860,9 +860,6 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 //                sendTipsMessage("你取消了对方的连麦","取消",senderId);
                 break;
             case REJECT:
-                if(mVoiceTips!=null){
-                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"3",0);
-                }
 //                sendTipsMessage("你拒绝了对方的连麦","拒绝",senderId);
 //                text = getString(R.string.rc_voip_mo_reject);
                 break;
@@ -893,9 +890,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 break;
             case REMOTE_REJECT:
 //                sendTipsMessage("对方已拒绝","拒绝",senderId);
-//                if(mVoiceTips!=null){
-//                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"3",0);
-//                }
+                if(mVoiceTips!=null){
+                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"3",0);
+                }
                 break;
             case REMOTE_HANGUP:
                 duration= getTime()%60;

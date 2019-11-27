@@ -69,9 +69,7 @@ class VoiceChatListView @JvmOverloads constructor(context: Context, attrs: Attri
         }
 
         var time  = converToDays(voiceChatData.dEndtime)
-        tv_time_long.visibility = View.VISIBLE
-        tv_send_voicechat.visibility = View.VISIBLE
-        iv_voicechat_timeout.visibility = View.GONE
+
         if(time[0]==1){
             tv_time_long.text="倒计时：${time[1]}天"
         }else if(time[0]==2){
@@ -80,13 +78,19 @@ class VoiceChatListView @JvmOverloads constructor(context: Context, attrs: Attri
             tv_time_long.text="倒计时：${time[1]}分钟"
         }else if(time[0]==-1){
             tv_time_long.visibility = View.GONE
+        }else{
+            tv_time_long.visibility = View.GONE
+        }
+
+        if(voiceChatData.iStatus==3){
             tv_send_voicechat.visibility = View.GONE
             iv_voicechat_timeout.visibility = View.VISIBLE
         }else{
-            tv_time_long.visibility = View.GONE
-            tv_send_voicechat.visibility = View.GONE
-            iv_voicechat_timeout.visibility = View.VISIBLE
+            tv_send_voicechat.visibility = View.VISIBLE
+            iv_voicechat_timeout.visibility = View.GONE
         }
+//        Log.i("voicechat","内容：${voiceChatData.content},状态：${voiceChatData.iStatus}")
+
         tv_voicechat_type.visibility = View.VISIBLE
         if(voiceChatData.iVoiceConnectType==2){
             tv_voicechat_type.text = "申请者需打赏${voiceChatData.iOncePayLovePoint}个喜欢 [img src=heart_gray/]"

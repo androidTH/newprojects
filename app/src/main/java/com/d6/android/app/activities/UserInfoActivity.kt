@@ -321,10 +321,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //            getTrendDetail(square.id?:""){
 //                startActivityForResult<TrendDetailActivity>(18,"data" to it)
 //            }
-            if(square.classesid!=66){
+            if(square.classesid!=66&&square.classesid!=67){
                 startActivity<SquareTrendDetailActivity>("id" to "${square.id}", "position" to position)
-            }else{
-//                startActivity<MyDateDetailActivity>("from" to Const.FROM_MY_DATESUCCESS,"sId" to "${square.sAppointmentId}")
             }
         }
 

@@ -1139,8 +1139,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 Log.i("datefragment","${mReceiveLoveHearts.size}--${mDanMuIndex}")
                 if (mReceiveLoveHearts.size - mDanMuIndex == 5) {
                     DANMU_pageNum = DANMU_pageNum + 1
-                    var findDate = mDates.get(mRecyclerView.currentItem)
-                    getFindReceiveLoveHeart("${findDate.accountId}")
+                    if(mDates.size>0&&mDates.size>mRecyclerView.currentItem){
+                        var findDate = mDates.get(mRecyclerView.currentItem)
+                        getFindReceiveLoveHeart("${findDate.accountId}")
+                    }
                 }
             }
         }
