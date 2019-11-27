@@ -96,6 +96,9 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         }
 
         var time  = converToDays(myAppointment.dEndtime)
+        tv_send_date.visibility = View.VISIBLE
+        tv_time_long.visibility = View.VISIBLE
+        iv_date_timeout.visibility = View.GONE
         if(time[0]==1){
             tv_time_long.text = "倒计时·${time[1]}天"
         }else if(time[0]==2){
@@ -105,6 +108,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         }else{
             tv_time_long.visibility = View.GONE
             tv_send_date.visibility = View.INVISIBLE
+            iv_date_timeout.visibility = View.VISIBLE
         }
 
         tv_self_address.text = "约会地点：${myAppointment.sPlace}"

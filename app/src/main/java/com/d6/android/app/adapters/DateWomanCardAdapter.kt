@@ -95,19 +95,17 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             rv_mydate_tags.adapter = CardTagAdapter(mTags)
 
             val tv_indexofpics = holder.bind<TextView>(R.id.tv_indexofpics)
-            var bigImgView = holder.run { bind<SimpleDraweeView>(R.id.imageView) }
+            val bigImgView = holder.run { bind<SimpleDraweeView>(R.id.imageView) }
             val iv_wh = holder.bind<SimpleDraweeView>(R.id.iv_wh)
             mBannerImages.clear()
             if (!TextUtils.equals(data.userpics, "null")) {
                 if (TextUtils.isEmpty(data.userpics)) {
                     mBannerImages.add(data.picUrl)
-//                    bigImgView.setImageURI(data.picUrl)
                     tv_indexofpics.visibility = View.GONE
                 } else {
                     var images = data.userpics.split(",")
                     if (images.size > 0) {
                         mBannerImages.addAll(images)
-//                        bigImgView.setImageURI(images[0])
                     }
                     if(images.size>1){
                         tv_indexofpics.visibility = View.VISIBLE
@@ -149,8 +147,9 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
                     }
                 }
             })
-            val headView = holder.bind<SimpleDraweeView>(R.id.headView)
-            headView.setImageURI(data.picUrl)
+
+//            val headView = holder.bind<SimpleDraweeView>(R.id.headView)
+//            headView.setImageURI(data.picUrl)
 
             if (data.name.length >= 8) {
                 holder.setText(R.id.tv_name, "${data.name.substring(0, 6)}...")

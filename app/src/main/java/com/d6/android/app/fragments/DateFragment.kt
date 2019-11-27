@@ -34,8 +34,6 @@ import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.widget.DanMuImageWare
 import com.d6.android.app.widget.diskcache.DiskFileUtils
-import com.d6.android.app.widget.frescohelper.FrescoUtils
-import com.d6.android.app.widget.frescohelper.IResult
 import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.d6.android.app.widget.gift.CustormAnim
@@ -56,6 +54,7 @@ import master.flame.danmaku.danmaku.model.android.DanmakuContext
 import master.flame.danmaku.danmaku.model.android.Danmakus
 import master.flame.danmaku.danmaku.model.android.ViewCacheStuffer
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser
+import me.jessyan.autosize.AutoSizeConfig
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult

@@ -24,12 +24,15 @@ class PointsAdapter(mData: ArrayList<UserPoints>) : HFRecyclerAdapter<UserPoints
         val tv_mypointstime = holder.bind<TextView>(R.id.tv_mypointstime)
         tv_mypointstime.text = data.dCreatetime.toTime("yyyy.MM.dd HH:mm")
         val tv_nums = holder.bind<TextView>(R.id.tv_nums)
-        if (data.iPointtype == 1 || data.iPointtype == 3 || data.iPointtype == 5) {
+        if (data.iPointtype == 1 || data.iPointtype == 3 || data.iPointtype == 5||data.iPointtype==7||data.iPointtype==9) {
             tv_nums.text = "+${data.iPoint.toString()}"
             tv_nums.textColor = ContextCompat.getColor(context, R.color.color_F7AB00)
-        } else if (data.iPointtype == 2 || data.iPointtype == 4 || data.iPointtype == 6) {
+        } else if (data.iPointtype == 2 || data.iPointtype == 4 || data.iPointtype == 6||data.iPointtype==8||data.iPointtype==10) {
             tv_nums.text = "-${data.iPoint.toString()}"
             tv_nums.textColor = ContextCompat.getColor(context, R.color.color_68BFFF)
+        }else{
+            tv_nums.text = "+${data.iPoint.toString()}"
+            tv_nums.textColor = ContextCompat.getColor(context, R.color.color_F7AB00)
         }
 
         if (data.iType == 16 || data.iType == 17||data.iType==18) {
@@ -49,5 +52,7 @@ class PointsAdapter(mData: ArrayList<UserPoints>) : HFRecyclerAdapter<UserPoints
         }else{
             tv_mypoints_content.text = data.sPointdesc
         }
+
+        Log.i("pointsadpater","${data.iPoint.toString()}--描述：${data.sPointdesc}")
     }
 }

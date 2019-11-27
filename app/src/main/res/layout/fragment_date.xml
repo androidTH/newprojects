@@ -108,7 +108,7 @@
             android:layout_marginRight="@dimen/margin_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="120dp"/>
+            android:layout_marginBottom="115dp"/>
 
         <master.flame.danmaku.ui.widget.DanmakuView
             android:id="@+id/sv_danmaku"
@@ -165,7 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/margin_32"
+            android:layout_marginBottom="@dimen/margin_28"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_10">
 

@@ -76,7 +76,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             }
         }
 
-        if (data.conversationType === Conversation.ConversationType.PRIVATE) {
+        if (data.conversationType == Conversation.ConversationType.PRIVATE) {
             RongUtils.setUserInfo(data.targetId, tv_name, headView)
         }else if(data.conversationType==Conversation.ConversationType.GROUP){
             var groupbean = RongUserInfoManager.getInstance().getGroupInfo(data.targetId)
@@ -94,7 +94,14 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
         if (data.latestMessage != null) {
             val provider = RongContext.getInstance().getMessageTemplate(data.latestMessage.javaClass)
             if (provider != null) {
-                tv_content.text = provider.getContentSummary(context,data.latestMessage)
+                var content = provider.getContentSummary(context,data.latestMessage)
+                if(content.contains("你给${getLocalUserName()}赠送了")){
+                    var startsub = "你给${getLocalUserName()}赠送了"
+                    var end = content.subSequence(startsub.length,content.length)
+                    tv_content.text = "对方给你赠送了${end}"
+                }else{
+                    tv_content.text = content;
+                }
                 tv_time.visibility = View.VISIBLE
             }
         } else {

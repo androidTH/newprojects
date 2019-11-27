@@ -828,7 +828,7 @@ fun updateSquareSignUp(activity:Activity,sSquareSignupId:String,iStatus:String,i
 
         }
     },false,success={ msg, data->
-       Log.i("updateSquareSignUp","状态：${iStatus}")
+       Log.i("updateSquareSignUp","状态：${iStatus},时间：${iConnectVoiceLength}")
     }){code,msg->
 
     }

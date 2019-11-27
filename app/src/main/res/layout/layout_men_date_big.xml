@@ -111,7 +111,7 @@
             android:id="@+id/tv_newcontent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_8"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/white"
@@ -122,11 +122,11 @@
     <!--android:layout_marginTop="@dimen/margin_15"-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="165dp"
         android:layout_below="@+id/ll_date_newmenheadView"
         android:background="@drawable/shapecard_2r_33"
         android:padding="@dimen/margin_5"
-        android:layout_marginTop="@dimen/margin_15">
+        android:layout_marginTop="@dimen/margin_12">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_one"

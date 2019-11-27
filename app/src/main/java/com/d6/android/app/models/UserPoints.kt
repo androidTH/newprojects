@@ -14,8 +14,9 @@ data class UserPoints(@SerializedName("iUserid")var iUserid:Int?) :Parcelable{
      @SerializedName("sId") var sId:String?=""
      @SerializedName("sPointdesc") var sPointdesc:String?=""
      @SerializedName("iPoint") var iPoint:Int?=0
-     @SerializedName("iPointtype") var iPointtype:Int?=1 // 1、充值  2、消费  3、充值购买小红花 4、提现小红花 5、收到小红花 6、赠送小红花
-     @SerializedName("dCreatetime") var dCreatetime:Long?=0
+    // 1、充值  2、消费  3、充值购买小红花 4、提现小红花 5、收到小红花 6、赠送小红花 7、充值红心 8、消费红心 9、收到红心 10、提现红心
+    @SerializedName("dCreatetime") var dCreatetime:Long?=0
+    @SerializedName("iPointtype") var iPointtype:Int?=1
      @SerializedName("sResourceId") var sResourceId:String?=""
      @SerializedName("iSenduserid") var iSenduserid:Int=0
      @SerializedName("iType") var iType:Int = 0 //16、好友注册奖励 17、邀请认证会员奖励小红花 18、邀请够买会员奖励小红花

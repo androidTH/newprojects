@@ -1,5 +1,6 @@
 package com.d6.android.app.dialogs
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
@@ -25,10 +26,12 @@ import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.rong.callkit.RongCallKit
+import io.rong.imkit.RongContext
 import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
+import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.dialog_apply_voicechat.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
@@ -133,6 +136,9 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
         mVoiceTips.setVoiceChatContent("${voiceChat?.content}")
         mVoiceTips.setVoiceChatUName("${voiceChat?.name}")
         mVoiceTips.setVoiceChatType(voiceChat?.iVoiceConnectType!!)
+
+        var info = UserInfo("${voiceChat?.userid}","${voiceChat?.name}", Uri.parse("${voiceChat?.picUrl}"))
+        RongContext.getInstance().currentUserInfo = info
     }
 
     private fun getUserInfo() {

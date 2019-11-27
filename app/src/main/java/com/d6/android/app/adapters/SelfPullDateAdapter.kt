@@ -1,7 +1,6 @@
 package com.d6.android.app.adapters
 
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.ReportActivity
@@ -18,6 +17,7 @@ import com.d6.android.app.utils.Const.VoiceChatType
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
 import com.d6.android.app.widget.VoiceChatView
+import com.umeng.socialize.utils.Log.toast
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -56,7 +56,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
 
         view.setDeleteClick {
-            doReport("${it.iAppointUserid}","${it.sId}",it.iIsAnonymous!!.toInt())
+            doReport("${it.iAppointUserid}","${it.sId}",it.iIsAnonymous!!.toInt(),it)
         }
 
         voicechat_view.sendVoiceChatListener {
@@ -73,7 +73,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         }
 
         voicechat_view.setDeleteClick {
-            doReport("${it.iAppointUserid}","${it.sId}",it.iIsAnonymous!!.toInt())
+            doReport("${it.iAppointUserid}","${it.sId}",it.iIsAnonymous!!.toInt(),it)
         }
     }
 
@@ -151,14 +151,13 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg,"data" to myAppointment)
                 mDialogYesOrNo.show((context as BaseActivity).supportFragmentManager, "dialogyesorno")
                 mDialogYesOrNo.setDialogListener { p, s ->
-                    mData.remove(myAppointment)
-                    notifyDataSetChanged()
+
                 }
             }
         }
     }
 
-    private fun doReport(userid:String,sDateId:String,iType:Int){
+    private fun doReport(userid:String,sDateId:String,iType:Int,myAppointment: MyAppointment){
         val squareActionDialog = ShareFriendsDialog()
         squareActionDialog.arguments = bundleOf("from" to "selfPullDate","id" to userid,"sResourceId" to sDateId)
         squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
@@ -176,6 +175,15 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
            }else if(p==1){
                isBaseActivity {
                    //删除的方法
+                   it.dialog()
+                   Request.delAppointment(getLoginToken(),sDateId).request(it,false,success={_,_->
+                       mData.remove(myAppointment)
+                       notifyDataSetChanged()
+                   }) {code,msg->
+                       if(code==2){
+                         toast(it,msg)
+                       }
+                   }
                }
            }
         }

@@ -485,7 +485,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                     mTimeCountDown = new TimeCountDown(30000,1000);
                     mTimeCountDown.start();
                     if(mVoiceTips!=null){
-                        updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"1",getTime());
+                        updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"1",0);
                     }
                 }
             }
@@ -524,7 +524,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             btnLayout.findViewById(R.id.rc_voip_handfree).setVisibility(View.INVISIBLE);
             mButtonContainer.removeAllViews();
             mButtonContainer.addView(btnLayout);
-            sendTipsMessage("你已连麦","你已连麦",callSession.getInviterUserId());
+//            sendTipsMessage("你已连麦","你已连麦",callSession.getInviterUserId());
             if(mTimeCountDown!=null){
                 mTimeCountDown.cancel();
                 mTimeCountDown=null;
@@ -782,7 +782,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         RongCallClient.getInstance().acceptCall(session.getCallId());
         Log.i("SinleCallActivity","onReceiveBtnClick");
         if(mVoiceTips!=null){
-            updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"2",getTime());
+            long duration = getTime()%60;
+            updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"2",duration);
         }
     }
 
@@ -854,25 +855,25 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         switch (reason) {
             case CANCEL: //主动取消
                 if(mVoiceTips!=null){
-                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"4",getTime());
+                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"4",0);
                 }
-                sendTipsMessage("你取消了对方的连麦","取消",senderId);
+//                sendTipsMessage("你取消了对方的连麦","取消",senderId);
                 break;
             case REJECT:
-                sendTipsMessage("你拒绝了对方的连麦","拒绝",senderId);
+//                sendTipsMessage("你拒绝了对方的连麦","拒绝",senderId);
 //                text = getString(R.string.rc_voip_mo_reject);
                 break;
             case HANGUP:
                 duration = getTime()%60;
                 if(duration<= MINTIME_VOICECHAT){
-                    sendTipsMessage("连麦时常"+String.format("%02d:%02d",0, duration)+"，时常过段，本次将不打赏喜欢","拒绝",senderId);
+//                    sendTipsMessage("连麦时常"+String.format("%02d:%02d",0, duration)+"，时常过段，本次将不打赏喜欢","拒绝",senderId);
                 }else{
                     if (!TextUtils.isEmpty(senderId)) {
                         extra = getFromatTime(getTime());
-                        sendTipsMessage("连麦时长"+extra,extra,senderId);
+//                        sendTipsMessage("连麦时长"+extra,extra,senderId);
                     }
                 }
-                updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"6",duration);
+//                updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"6",duration);
                 break;
             case NO_RESPONSE:
             case BUSY_LINE:
@@ -882,25 +883,25 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 //                text = getString(R.string.rc_voip_mt_busy);
                 break;
             case REMOTE_CANCEL:
-                sendTipsMessage("对方已取消","取消",senderId);
+//                sendTipsMessage("对方已取消","取消",senderId);
                 if(mVoiceTips!=null){
-                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"3",getTime());
+                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"3",0);
                 }
                 break;
             case REMOTE_REJECT:
-                sendTipsMessage("对方已拒绝","拒绝",senderId);
+//                sendTipsMessage("对方已拒绝","拒绝",senderId);
                 if(mVoiceTips!=null){
-                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"3",getTime());
+                    updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"3",0);
                 }
                 break;
             case REMOTE_HANGUP:
                 duration= getTime()%60;
                 if(duration<=MINTIME_VOICECHAT){
-                    sendTipsMessage("连麦时常"+String.format("%02d:%02d",0, duration)+"，时常过段，本次将不打赏喜欢","拒绝",senderId);
+//                    sendTipsMessage("连麦时常"+String.format("%02d:%02d",0, duration)+"，时常过段，本次将不打赏喜欢","拒绝",senderId);
                 }else{
                     if (!TextUtils.isEmpty(senderId)) {
                         extra = getFromatTime(getTime());
-                        sendTipsMessage("连麦时长"+extra,extra,senderId);
+//                        sendTipsMessage("连麦时长"+extra,extra,senderId);
                     }
                 }
                 updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"6",duration);
@@ -922,7 +923,6 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 //                receivedStatus.setRead();
 //                RongIM.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE, callSession.getTargetId(), senderId, receivedStatus, message, serverTime, null);
 //            }
-//            sendTipsMessage("连麦时长"+extra,extra,senderId);
 //        }
 
         if(mTimeCountDown!=null){
@@ -1012,7 +1012,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
                 tv_voicechat_desc.setText(mVoiceTips.getVoiceChatContent());
 //                AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
-                SimpleDraweeView userPortrait = (SimpleDraweeView) mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
+                SimpleDraweeView userPortrait = mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
                 if (userPortrait != null) {
                     userPortrait.setImageURI(userInfo.getPortraitUri().toString());
                     userPortrait.setOnClickListener(this);
@@ -1227,6 +1227,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         public void onFinish() {
             TextView tv_rc_voip_call_remind_info =  mUserInfoContainer.findViewById(R.id.voice_voip_call_remind_info);
             tv_rc_voip_call_remind_info.setText("对方手机可能不在身边，暂未接受邀请，可稍后再试或等待对方回复");
+
+            updateSquareSignUp(SingleCallActivity.this,mVoiceTips.getVoiceChatId(),"5",0);
         }
 
         @Override

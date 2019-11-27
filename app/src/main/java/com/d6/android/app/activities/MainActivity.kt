@@ -374,11 +374,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //        val head = SPUtils.instance().getString(Const.User.USER_HEAD)
 //        date_headView.setImageURI(head)
 //
-//        date_headView.postDelayed(object:Runnable{
-//            override fun run() {
-//                getUserInfo()
-//            }
-//        },300)
 
 //        UnReadMessageCountChangedObserver()
 
@@ -395,6 +390,18 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         initPopup()
 
         EventBus.getDefault().register(this)
+
+        date_headView.postDelayed(object:Runnable{
+            override fun run() {
+                getUserInfo()
+            }
+        },300)
+
+        RongIM.setUserInfoProvider(object:RongIM.UserInfoProvider{
+            override fun getUserInfo(p0: String?): UserInfo {
+                return UserInfo(getLocalUserId(), getLocalUserName(), Uri.parse(getLocalUserHeadPic()))
+            }
+        },true)
     }
 
     private fun initPopup(){
