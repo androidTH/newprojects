@@ -16,6 +16,7 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.*
+import com.umeng.socialize.utils.Log.toast
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -144,7 +145,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                         context.startActivity<ReportActivity>("id" to squareId, "tiptype" to "2")
                     }
                 } else if (p == 1) {
-                    delete(data)
+                    deleteDate(it)
                 }
             }
         }
@@ -166,6 +167,21 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 
     fun setUserInfo(data: UserData){
            this.mUserData = data
+    }
+
+    private fun deleteDate(square: Square){
+        isBaseActivity {
+            //删除的方法
+            it.dialog()
+            Request.delAppointment(getLoginToken(),"${square.sAppointmentId}").request(it,false,success={_,_->
+                mData.remove(square)
+                notifyDataSetChanged()
+            }) {code,msg->
+                if(code==2){
+                    toast(it,msg)
+                }
+            }
+        }
     }
 
     /**
@@ -342,7 +358,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
             }else if(p==1){
                 isBaseActivity {
                     //删除的方法
-                    delete(data)
+                    deleteDate(data)
                 }
             }
         }
