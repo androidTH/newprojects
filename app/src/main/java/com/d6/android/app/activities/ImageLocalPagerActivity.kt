@@ -35,6 +35,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var adapter: ImageLocalPagerAdapter? = null
     private var mListFragment = SparseArray<Fragment>()
     private var mHashMap = HashMap<Int,Boolean>()
+    private var mPayPointsHashMap = HashMap<Int,Boolean>()
     private var chooseCount = 0
     private var mNoChooseUrls = ArrayList<String>()
     private var type = 0
@@ -95,6 +96,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         urls = intent.getStringArrayListExtra(URLS)
         urls.forEach {
             mHashMap.put(key,true)
+            mPayPointsHashMap.put(key,false)
             mListFragment.put(key++, ImageLocalFragment.newInstance(it, false))
         }
         adapter = ImageLocalPagerAdapter(supportFragmentManager, mListFragment)
@@ -132,6 +134,12 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mHashMap.put(p,setCheckPic(!flag))
             chooseCount = setNoChooseUrls()
             tv_dowork.text = "完成·${chooseCount}"
+        }
+
+        tv_paypoints.setOnClickListener {
+            var p = mImageLocalViewPager.currentItem
+            var checked = mPayPointsHashMap[p] as Boolean
+            mPayPointsHashMap.put(p,setPayPointPic(!checked))
         }
 
         mImageLocalViewPager.addOnPageChangeListener(this)
@@ -178,6 +186,17 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mDrawable = ContextCompat.getDrawable(this, R.mipmap.wancheng_white)
         }
         setLeftDrawable(mDrawable, tv_check)
+        return flag
+    }
+
+    private fun setPayPointPic(flag:Boolean):Boolean{
+        var mDrawable: Drawable? = null
+        if(flag){
+            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypointspic_seleted)
+        }else{
+            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypoint_pic_seleted)
+        }
+        setLeftDrawable(mDrawable, tv_paypoints)
         return flag
     }
 

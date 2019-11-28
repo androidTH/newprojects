@@ -56,7 +56,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_centerVertical="true"
-           android:drawableLeft="@mipmap/ic_close1"
+           android:drawableLeft="@mipmap/full_close_button"
            android:padding="12dp"
            android:id="@+id/tv_close"/>
        <!--ic_close1-->
@@ -82,4 +82,19 @@
            android:id="@+id/tv_delete"
            android:layout_alignParentRight="true"/>
    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_tips"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_C9222222">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:text="该图片设置了打赏后可见，他人打赏后7天内可见"/>
+    </RelativeLayout>
 </com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout>

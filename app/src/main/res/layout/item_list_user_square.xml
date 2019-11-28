@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/margin_8"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_height="80dp">
         <TextView
             android:id="@+id/tv_tips"
@@ -52,5 +52,11 @@
              android:gravity="center"
              android:background="@drawable/shape_10r_orange"
              android:text="打赏"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_30"
+            android:src="@mipmap/feedflower_watermark"/>
     </RelativeLayout>
 </FrameLayout>
