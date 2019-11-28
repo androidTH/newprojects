@@ -49,12 +49,6 @@ class ImageFragment : BaseNoBarFragment() {
 
     override fun contentViewId() = R.layout.fragment_image
 
-    private val width by lazy{
-        if(activity!=null){
-            AppScreenUtils.getScreenWidth(activity)
-        }
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 

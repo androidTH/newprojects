@@ -740,7 +740,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                if (fragment != null && fragment is SpeedDateFragment) {
 //                    fragment.refresh(area, areaType, typeIds, vipIds)
 //                }
-            } else if (requestCode == 1) {//||requestCode==10
+            } else if (requestCode == 1||requestCode==10) {//||requestCode==10
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
                 if (fragment != null && fragment is HomeFragment) {
                     fragment.refresh("-1",0)
@@ -828,10 +828,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
      */
     fun getPermission() {
         RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe {
-            if (it) {//有权限
-
-            } else {
-            }
         }
     }
 

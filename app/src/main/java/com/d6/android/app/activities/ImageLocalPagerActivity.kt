@@ -59,8 +59,8 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         tv_edittiezhi.setOnClickListener {
-            if(urls.size>mImageViewPager.currentItem){
-                var path = urls[mImageViewPager.currentItem]
+            if(urls.size>mImageLocalViewPager.currentItem){
+                var path = urls[mImageLocalViewPager.currentItem]
                 var param: BLBeautifyParam = BLBeautifyParam()
                 param.index = 0
                 param.type = Const.User.SELECTIMAGE
@@ -98,7 +98,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mListFragment.put(key++, ImageLocalFragment.newInstance(it, false))
         }
         adapter = ImageLocalPagerAdapter(supportFragmentManager, mListFragment)
-        mImageViewPager.adapter = adapter
+        mImageLocalViewPager.adapter = adapter
         if (urls != null) {
             tv_dowork.text = "完成·${urls.size}"
         }
@@ -116,7 +116,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         tv_delete.setOnClickListener {
-            var p = mImageViewPager.currentItem
+            var p = mImageLocalViewPager.currentItem
             if(urls.size>p){
                 delete(p)
             } else {
@@ -127,16 +127,16 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_check.setOnClickListener {
             chooseCount = 0
             mNoChooseUrls.clear()
-            var p = mImageViewPager.currentItem
+            var p = mImageLocalViewPager.currentItem
             var flag = mHashMap[p] as Boolean
             mHashMap.put(p,setCheckPic(!flag))
             chooseCount = setNoChooseUrls()
             tv_dowork.text = "完成·${chooseCount}"
         }
 
-        mImageViewPager.addOnPageChangeListener(this)
-        mImageViewPager.currentItem = position
-        mImageViewPager.offscreenPageLimit = urls.size
+        mImageLocalViewPager.addOnPageChangeListener(this)
+        mImageLocalViewPager.currentItem = position
+        mImageLocalViewPager.offscreenPageLimit = urls.size
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         val showDelete = intent.getBooleanExtra("delete", false)
         if (showDelete) {
@@ -148,21 +148,25 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun delete(p: Int) {
-        urls.removeAt(p)
-        mListFragment.removeAt(p)
-        adapter?.notifyDataSetChanged()
-        var mImagelocals = Imagelocals(urls,0,p)
-        ObserverManager.getInstance().notifyObservers(mImagelocals)
-        if (urls.size > 0) {
-            var size = if (urls!!.size < (p + 1)) {
-                urls!!.size
+        try{
+            urls.removeAt(p)
+            mListFragment.removeAt(p)
+            adapter?.notifyDataSetChanged()
+            var mImagelocals = Imagelocals(urls,0,p)
+            ObserverManager.getInstance().notifyObservers(mImagelocals)
+            if (urls.size > 0) {
+                var size = if (urls!!.size < (p + 1)) {
+                    urls!!.size
+                } else {
+                    p + 1
+                }
+                tv_pages.text = String.format("%d/%d", size,urls!!.size)
+                tv_dowork.text = "完成·${urls.size}"
             } else {
-                p + 1
+                onBackPressed()
             }
-            tv_pages.text = String.format("%d/%d", size,urls!!.size)
-            tv_dowork.text = "完成·${urls.size}"
-        } else {
-            onBackPressed()
+        }catch (e:java.lang.Exception){
+            e.printStackTrace()
         }
     }
 
@@ -214,9 +218,9 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE && data != null) {
             var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY)
-            urls[mImageViewPager.currentItem] = param.images[param.index]
-            var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageLocalFragment
-            mImageLocal.setNewPic(urls[mImageViewPager.currentItem],false)
+            urls[mImageLocalViewPager.currentItem] = param.images[param.index]
+            var mImageLocal = mListFragment.get(mImageLocalViewPager.currentItem) as ImageLocalFragment
+            mImageLocal.setNewPic(urls[mImageLocalViewPager.currentItem],false)
             mHashMap.forEach{
                 var flag = it.value
                 if(!flag){
@@ -242,8 +246,8 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onDestroy() {
         try {
-            if (mImageViewPager != null) {
-                mImageViewPager!!.removeOnPageChangeListener(this)
+            if (mImageLocalViewPager != null) {
+                mImageLocalViewPager!!.removeOnPageChangeListener(this)
             }
         } catch (e: Exception) {
             e.printStackTrace()

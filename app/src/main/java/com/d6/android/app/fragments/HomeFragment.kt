@@ -328,7 +328,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                     tv_date_sex.text = getString(R.string.string_sex)
                     mDefualtSex = -1
                 }
-//                type = showDateTypes.get(onPageSelected).type
+                tv_date_city.text = "地区"
                 getSpeedData()
                 getFragment()
             }

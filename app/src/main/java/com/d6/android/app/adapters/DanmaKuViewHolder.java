@@ -1,5 +1,6 @@
 package com.d6.android.app.adapters;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,5 +29,14 @@ public class DanmaKuViewHolder  extends ViewCacheStuffer.ViewHolder {
         mIcon = (CircleImageView) itemView.findViewById(R.id.icon);
 //        mIcon = (SimpleDraweeView) itemView.findViewById(R.id.icon);
         mText = (TextView) itemView.findViewById(R.id.text);
+    }
+
+    @Override
+    public void measure(int widthMeasureSpec, int heightMeasureSpec) {
+        try {
+            super.measure(widthMeasureSpec, heightMeasureSpec);
+        } catch (Exception e) {
+            Log.d("DanmaKuViewHolder", "MyViewHolder.measure: " + e.getMessage());
+        }
     }
 }

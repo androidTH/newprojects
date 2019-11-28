@@ -26,8 +26,10 @@ import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.rong.callkit.RongCallKit
+import io.rong.callkit.util.CallKitUtils
 import io.rong.imkit.RongContext
 import io.rong.imkit.RongIM
+import io.rong.imkit.utilities.PermissionCheckUtil
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
@@ -102,7 +104,15 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
 
         tv_action.setOnClickListener {
             if(TextUtils.equals(voicechatType,"0")){
-                getData()
+                PermissionsUtils.getInstance().checkPermissions((context as BaseActivity), CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
+                    override fun forbidPermissions() {
+
+                    }
+
+                    override fun passPermissions() {
+                        getData()
+                    }
+                })
             }else{
                 if(TextUtils.equals(voicechatType,"2")){
                     if(mLocalUserLoveHeartCount>=mMinLoveHeart?: 0){
@@ -114,7 +124,15 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
                         tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
                     }
                 }else{
-                    getData()
+                    PermissionsUtils.getInstance().checkPermissions((context as BaseActivity), CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
+                        override fun forbidPermissions() {
+
+                        }
+
+                        override fun passPermissions() {
+                            getData()
+                        }
+                    })
                 }
             }
         }
