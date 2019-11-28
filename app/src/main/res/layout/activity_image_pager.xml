@@ -9,6 +9,45 @@
         android:id="@+id/mImageViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:visibility="gone"
+        android:background="@drawable/shape_10r_9900">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_20"
+            android:src="@mipmap/seepic_loveheart_big_icon"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="打赏喜欢后可见"/>
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="@dimen/margin_5"
+            android:paddingRight="@dimen/margin_5"
+            android:paddingTop="@dimen/margin_6"
+            android:paddingBottom="@dimen/margin_6"
+            android:gravity="center"
+            android:background="@drawable/shape_10r_orange"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:text="打赏"/>
+    </RelativeLayout>
+
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="@dimen/title_bar_size"
