@@ -85,7 +85,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
         }
 
         trendView.setDeleteClick {
-//            val squareActionDialog = SquareActionDialog()
+            //            val squareActionDialog = SquareActionDialog()
 //            squareActionDialog.arguments = bundleOf("id" to it.userid.toString())
 //            squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
 //            squareActionDialog.setDialogListener { p, s ->
@@ -166,7 +166,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
     }
 
     fun setUserInfo(data: UserData){
-           this.mUserData = data
+        this.mUserData = data
     }
 
     private fun deleteDate(square: Square){
@@ -189,12 +189,16 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
      */
     private fun signUpVoiceChat(voiceChat:Square) {
         Request.getApplyVoiceSquareLovePoint("${voiceChat.sAppointmentId}", getLoginToken()).request(context as BaseActivity, false,success={ msg, data->
-            var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
-            mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
-            mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            mApplyVoiceChatDialog.setDialogListener { p, s ->
-                // mData.remove(myAppointment)
-                // notifyDataSetChanged()
+            data?.let {
+                var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+                var iRemainPoint = it.optInt("iRemainPoint",0)
+                voiceChat.iRemainPoint = iRemainPoint
+                mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
+                mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                mApplyVoiceChatDialog.setDialogListener { p, s ->
+                    // mData.remove(myAppointment)
+                    // notifyDataSetChanged()
+                }
             }
         }){code,msg->
             if(code==0){
@@ -207,6 +211,9 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
             }else if(code==2||code==3){
                 //2:申请需支付爱心 iAddPoint 需要支付的爱心数量 3:申请需支付爱心，爱心不足，iAddPoint 需要支付的爱心，iRemainPoint剩余的爱心
                 var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+                var jsonObject = JSONObject(msg)
+                var iRemainPoint = jsonObject.optInt("iRemainPoint")
+                voiceChat.iRemainPoint = iRemainPoint
                 mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
                 mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
                 mApplyVoiceChatDialog.setDialogListener { p, s ->
@@ -215,6 +222,9 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
             }else if(code==4){
                 //允许连麦，iAddPoint 为需要打赏的爱心数量
                 var mApplyVoiceChatDialog = ApplyVoiceChatDialog()
+                var jsonObject = JSONObject(msg)
+                var iRemainPoint = jsonObject.optInt("iRemainPoint")
+                voiceChat.iRemainPoint = iRemainPoint
                 mApplyVoiceChatDialog.arguments = bundleOf("data" to voiceChat,"voicechatType" to "${voiceChat.iVoiceConnectType}")
                 mApplyVoiceChatDialog.show((context as BaseActivity).supportFragmentManager, "d")
                 mApplyVoiceChatDialog.setDialogListener { p, s ->
@@ -233,7 +243,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 
     private fun sendFlower(square:Square,lovePoint:Int){
         isBaseActivity {
-//            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
+            //            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
 //            mData?.let {
 //                dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 4,"userId" to square.userid.toString(),"square" to square)
 //            }

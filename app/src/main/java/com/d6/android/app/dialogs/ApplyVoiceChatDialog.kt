@@ -16,6 +16,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.Square
+import com.d6.android.app.models.UserData
 import com.d6.android.app.models.VoiceTips
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.RongD6Utils
@@ -49,7 +50,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
     private var voiceChat:Square?=null
     private var voicechatType = "1"
     private var mLocalUserLoveHeartCount:Int = -1
-    private var mMinLoveHeart:Int? = -1
+    private var mMinLoveHeart:Int = 0
     private var extra:String = ""
     var mVoiceTips = VoiceTips()
 
@@ -91,7 +92,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
             tv_voicechat_title.text = "为了营造良好的社区氛围，请在聊天中文明用语，如果被对方举报，查实将会有封号的风险"
             tv_action.text = "连麦"
         }else if(TextUtils.equals(voicechatType,"2")){
-            mMinLoveHeart = voiceChat?.iOncePayLovePoint
+            mMinLoveHeart = voiceChat?.iOncePayLovePoint!!
             tv_agree_points.text = "1.预付${mMinLoveHeart}个喜欢"
             ll_voicechat_desc.visibility = View.VISIBLE
             tv_voicechat_title.text = "本次连麦需要打赏${mMinLoveHeart}个 [img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
@@ -115,7 +116,7 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
                 })
             }else{
                 if(TextUtils.equals(voicechatType,"2")){
-                    if(mLocalUserLoveHeartCount>=mMinLoveHeart?: 0){
+                    if(mLocalUserLoveHeartCount>=mMinLoveHeart){
                         //申请者需要打赏
                         tv_action.text = "连麦"
                         voicechatType = "0"
@@ -149,20 +150,22 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
         }
 
         if(TextUtils.equals(voicechatType,"2")){
-            getUserInfo()
+//            getUserInfo()
+            mLocalUserLoveHeartCount = voiceChat!!.iRemainPoint!!
+            tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
         }
         mVoiceTips.setVoiceChatContent("${voiceChat?.content}")
         mVoiceTips.setVoiceChatUName("${voiceChat?.name}")
         mVoiceTips.setVoiceChatType(voiceChat?.iVoiceConnectType!!)
 
-        var info = UserInfo("${voiceChat?.userid}","${voiceChat?.name}", Uri.parse("${voiceChat?.picUrl}"))
-        RongContext.getInstance().currentUserInfo = info
+//        var info = UserInfo("${voiceChat?.userid}","${voiceChat?.name}", Uri.parse("${voiceChat?.picUrl}"))
+//        RongContext.getInstance().currentUserInfo = info
     }
 
     private fun getUserInfo() {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-//                if(it.iLovePoint < mMinLoveHeart?.toInt() ?: 0){
+                //                if(it.iLovePoint < mMinLoveHeart?.toInt() ?: 0){
 //                    tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
 //                }
                 mLocalUserLoveHeartCount = it.iLovePoint
@@ -172,7 +175,6 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
     }
 
     private fun getData() {
-//        dismissAllowingStateLoss()
         isBaseActivity {
             var mActivity = it
             Request.addVoiceChat("${voiceChat?.sAppointmentId}", getLoginToken()).request(mActivity,false,success={msg,data->
@@ -187,10 +189,6 @@ class ApplyVoiceChatDialog : DialogFragment(),RequestManager {
             }){code,msg->
                 if(code==3||code==4){
                     CustomToast.showToast(msg)
-//                    var openErrorDialog = OpenDateErrorDialog()
-//                    var openErrorDialog = OpenDatePointNoEnoughDialog
-//                    openErrorDialog.arguments= bundleOf("code" to code)
-//                    openErrorDialog.show(it.supportFragmentManager, "d")
                 }
             }
         }

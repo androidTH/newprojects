@@ -82,12 +82,14 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
      */
     private fun signUpVoiceChat(appointment: MyAppointment) {
         Request.getApplyVoiceSquareLovePoint("${appointment.sId}", getLoginToken()).request(context as BaseActivity, false,success={ msg, data->
-            var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()
-            mApplyVoiceChatOfDateDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
-            mApplyVoiceChatOfDateDialog.show((context as BaseActivity).supportFragmentManager, "d")
-            mApplyVoiceChatOfDateDialog.setDialogListener { p, s ->
-                // mData.remove(myAppointment)
-                // notifyDataSetChanged()
+            data?.let {
+                var iRemainPoint = it.optInt("iRemainPoint",0)
+                var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()
+                appointment.iPoint = iRemainPoint
+                mApplyVoiceChatOfDateDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
+                mApplyVoiceChatOfDateDialog.show((context as BaseActivity).supportFragmentManager, "d")
+                mApplyVoiceChatOfDateDialog.setDialogListener { p, s ->
+                }
             }
         }){code,msg->
             if(code==0){
@@ -100,8 +102,9 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
             }else if(code==2||code==3){
                 //2:申请需支付爱心 iAddPoint 需要支付的爱心数量  3:申请需支付爱心，爱心不足，iAddPoint 需要支付的爱心，iRemainPoint剩余的爱心
                 var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()
-//                var jsonObject = JSONObject(msg)
-//                var iAddPoint = jsonObject.optString("iAddPoint")
+                var jsonObject = JSONObject(msg)
+                var iRemainPoint = jsonObject.optInt("iRemainPoint")
+                appointment.iPoint = iRemainPoint
                 mApplyVoiceChatOfDateDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
                 mApplyVoiceChatOfDateDialog.show((context as BaseActivity).supportFragmentManager, "d")
                 mApplyVoiceChatOfDateDialog.setDialogListener { p, s ->
@@ -110,6 +113,9 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
             }else if(code==4){
                 //允许连麦，iAddPoint 为需要打赏的爱心数量
                 var mApplyVoiceChatOfDateDialog = ApplyVoiceChatOfDateDialog()
+                var jsonObject = JSONObject(msg)
+                var iRemainPoint = jsonObject.optInt("iRemainPoint")
+                appointment.iPoint = iRemainPoint
                 mApplyVoiceChatOfDateDialog.arguments = bundleOf("data" to appointment,"voicechatType" to "${appointment.iVoiceConnectType}")
                 mApplyVoiceChatOfDateDialog.show((context as BaseActivity).supportFragmentManager, "d")
                 mApplyVoiceChatOfDateDialog.setDialogListener { p, s ->
@@ -162,30 +168,30 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
         squareActionDialog.arguments = bundleOf("from" to "selfPullDate","id" to userid,"sResourceId" to sDateId)
         squareActionDialog.show((context as BaseActivity).supportFragmentManager, "action")
         squareActionDialog.setDialogListener { p, s ->
-           if (p == 0) {
+            if (p == 0) {
                 mData?.let {
                     startActivity(sDateId, "3")
                 }
             }else if(p==2){
-               isBaseActivity {
-                   Request.addBlackList(userId, userid,iType).request(it) { _, _ ->
-                       CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
-                   }
-               }
-           }else if(p==1){
-               isBaseActivity {
-                   //删除的方法
-                   it.dialog()
-                   Request.delAppointment(getLoginToken(),sDateId).request(it,false,success={_,_->
-                       mData.remove(myAppointment)
-                       notifyDataSetChanged()
-                   }) {code,msg->
-                       if(code==2){
-                         toast(it,msg)
-                       }
-                   }
-               }
-           }
+                isBaseActivity {
+                    Request.addBlackList(userId, userid,iType).request(it) { _, _ ->
+                        CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
+                    }
+                }
+            }else if(p==1){
+                isBaseActivity {
+                    //删除的方法
+                    it.dialog()
+                    Request.delAppointment(getLoginToken(),sDateId).request(it,false,success={_,_->
+                        mData.remove(myAppointment)
+                        notifyDataSetChanged()
+                    }) {code,msg->
+                        if(code==2){
+                            toast(it,msg)
+                        }
+                    }
+                }
+            }
         }
     }
 

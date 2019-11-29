@@ -18,6 +18,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.models.Square
+import com.d6.android.app.models.UserData
 import com.d6.android.app.models.VoiceTips
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.RongD6Utils
@@ -51,9 +52,12 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
     private var appointment: MyAppointment?=null
     private var voicechatType = "1"
     private var mLocalUserLoveHeartCount:Int = -1
-    private var mMinLoveHeart:Int? = -1
+    private var mMinLoveHeart:Int = 0
     private var extra:String = ""
     var mVoiceTips = VoiceTips()
+
+    private var userJson = SPUtils.instance().getString(Const.USERINFO)
+    private var mUserInfo = GsonHelper.getGson().fromJson(userJson, UserData::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,7 +99,7 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
             tv_voicechat_title.text = "为了营造良好的社区氛围，请在聊天中文明用语，如果被对方举报，查实将会有封号的风险"
             tv_action.text = "连麦"
         }else if(TextUtils.equals(voicechatType,"2")){
-            mMinLoveHeart = appointment?.iOncePayLovePoint
+            mMinLoveHeart = appointment?.iOncePayLovePoint?:0
             tv_agree_points.text = "1.预付${mMinLoveHeart}个喜欢"
             ll_voicechat_desc.visibility = View.VISIBLE
             tv_voicechat_title.text = "本次连麦需要打赏${mMinLoveHeart}个 [img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
@@ -119,7 +123,7 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
                 })
             }else{
                 if(TextUtils.equals(voicechatType,"2")){
-                    if(mLocalUserLoveHeartCount>=mMinLoveHeart?: 0){
+                    if(mLocalUserLoveHeartCount>=mMinLoveHeart){
                         tv_action.text = "连麦"
                         voicechatType = "0"
                     }else{
@@ -152,31 +156,28 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
         }
 
         if(TextUtils.equals(voicechatType,"2")){
-            getUserInfo()
+//            mLocalUserLoveHeartCount = mUserInfo.iLovePoint
+            mLocalUserLoveHeartCount = appointment!!.iPoint!!
+            ll_user_lovepoint.visibility = View.GONE
+            tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
         }
         mVoiceTips.setVoiceChatContent("${appointment?.sDesc}")
         mVoiceTips.setVoiceChatUName("${appointment?.sAppointUserName}")
         appointment?.iVoiceConnectType?.let { mVoiceTips.setVoiceChatType(it) }
-
-        var info = UserInfo("${appointment?.iAppointUserid}","${appointment?.sAppointUserName}", Uri.parse("${appointment?.sAppointmentPicUrl}"))
-        RongContext.getInstance().currentUserInfo = info
     }
 
     private fun getUserInfo() {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-//                if(it.iLovePoint < mMinLoveHeart?.toInt() ?: 0){
-//                    tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
-//                }
                 mLocalUserLoveHeartCount = it.iLovePoint
                 ll_user_lovepoint.visibility = View.GONE
                 tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
+                toast("请求完成")
             }
         })
     }
 
     private fun getData() {
-//        dismissAllowingStateLoss()
         isBaseActivity {
             var mActivity = it
             Request.addVoiceChat("${appointment?.sId}", getLoginToken()).request(mActivity,false,success={msg,data->
@@ -209,10 +210,6 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
             }){code,msg->
                 if(code==3||code==4){
                     CustomToast.showToast(msg)
-//                    var openErrorDialog = OpenDateErrorDialog()
-//                    var openErrorDialog = OpenDatePointNoEnoughDialog
-//                    openErrorDialog.arguments= bundleOf("code" to code)
-//                    openErrorDialog.show(it.supportFragmentManager, "d")
                 }
             }
         }
