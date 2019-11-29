@@ -165,9 +165,6 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
     private fun getUserInfo() {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-//                if(it.iLovePoint < mMinLoveHeart?.toInt() ?: 0){
-//                    tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
-//                }
                 mLocalUserLoveHeartCount = it.iLovePoint
                 ll_user_lovepoint.visibility = View.GONE
                 tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
