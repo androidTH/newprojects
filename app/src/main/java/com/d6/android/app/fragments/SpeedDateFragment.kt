@@ -18,13 +18,10 @@ import com.gyf.barlibrary.ImmersionBar
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
- * 速约（请不要吐槽这个命名，我英语就这样了）
+ * 速约
  */
 class SpeedDateFragment : RecyclerFragment() {
 
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
     private var pageNum = 1
     private val mSpeedDates = ArrayList<MyDate>()
 

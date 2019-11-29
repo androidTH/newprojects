@@ -112,10 +112,10 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(io.rong.callkit.R.layout.rc_voip_activity_single_call);
-		Log.i("AudioPlugin","savedInstanceState != null="+(savedInstanceState != null)+",,,RongCallClient.getInstance() == null"+(RongCallClient.getInstance() == null));
+        Log.i("AudioPlugin","savedInstanceState != null="+(savedInstanceState != null)+",,,RongCallClient.getInstance() == null"+(RongCallClient.getInstance() == null));
         if (savedInstanceState != null && RongCallClient.getInstance() == null) {
             // 音视频请求权限时，用户在设置页面取消权限，导致应用重启，退出当前activity.
-			Log.i("AudioPlugin","音视频请求权限时，用户在设置页面取消权限，导致应用重启，退出当前activity");
+            Log.i("AudioPlugin","音视频请求权限时，用户在设置页面取消权限，导致应用重启，退出当前activity");
             finish();
             return;
         }
@@ -134,7 +134,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 mediaType = RongCallCommon.CallMediaType.AUDIO;
                 String extra = intent.getStringExtra("extra");
                 if(!TextUtils.isEmpty(extra)){
-                   mVoiceTips = GsonHelper.getGson().fromJson(extra,VoiceTips.class);
+                    mVoiceTips = GsonHelper.getGson().fromJson(extra,VoiceTips.class);
                 }
             } else {
                 mediaType = RongCallCommon.CallMediaType.VIDEO;
@@ -233,7 +233,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                         startForCheckPermissions = false;
                         RongCallClient.getInstance().onPermissionDenied();
                     } else {
-						Log.i("AudioPlugin","--onRequestPermissionsResult--finish");
+                        Log.i("AudioPlugin","--onRequestPermissionsResult--finish");
                         finish();
                     }
                 }
@@ -264,7 +264,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 if (startForCheckPermissions) {
                     RongCallClient.getInstance().onPermissionDenied();
                 } else {
-					Log.i("AudioPlugin","onActivityResult finish");
+                    Log.i("AudioPlugin","onActivityResult finish");
                     finish();
                 }
             }
@@ -782,8 +782,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         RongCallClient.getInstance().acceptCall(session.getCallId());
         Log.i("SinleCallActivity","onReceiveBtnClick");
         if(mVoiceTips!=null){
-            long duration = getTime()%60;
-            updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"2",duration);
+//            long duration = getTime()%60;
+            updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"2",getTime());
         }
     }
 
@@ -864,16 +864,17 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 //                text = getString(R.string.rc_voip_mo_reject);
                 break;
             case HANGUP:
-                duration = getTime()%60;
-                if(duration<= MINTIME_VOICECHAT){
+//                duration = getTime()%60;
+//                if(duration<= MINTIME_VOICECHAT){
 //                    sendTipsMessage("连麦时常"+String.format("%02d:%02d",0, duration)+"，时常过段，本次将不打赏喜欢","拒绝",senderId);
-                }else{
-                    if (!TextUtils.isEmpty(senderId)) {
-                        extra = getFromatTime(getTime());
+//                }else{
+//                    if (!TextUtils.isEmpty(senderId)) {
+//                        extra = getFromatTime(getTime());
 //                        sendTipsMessage("连麦时长"+extra,extra,senderId);
-                    }
-                }
-                updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"6",duration);
+//                    }
+//                }
+                Log.i("updateSquareSignUp",getTime()+"时间");
+                updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"6",getTime());
                 break;
             case NO_RESPONSE:
             case BUSY_LINE:
@@ -895,15 +896,15 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 }
                 break;
             case REMOTE_HANGUP:
-                duration= getTime()%60;
-                if(duration<=MINTIME_VOICECHAT){
+//                duration= getTime()%60;
+//                if(duration<=MINTIME_VOICECHAT){
 //                    sendTipsMessage("连麦时常"+String.format("%02d:%02d",0, duration)+"，时常过段，本次将不打赏喜欢","拒绝",senderId);
-                }else{
-                    if (!TextUtils.isEmpty(senderId)) {
-                        extra = getFromatTime(getTime());
+//                }else{
+//                    if (!TextUtils.isEmpty(senderId)) {
+//                        extra = getFromatTime(getTime());
 //                        sendTipsMessage("连麦时长"+extra,extra,senderId);
-                    }
-                }
+//                    }
+//                }
 //                updateSquareSignUp(this,mVoiceTips.getVoiceChatId(),"6",duration);
                 break;
         }
@@ -1105,21 +1106,21 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             TextView localUserName = mUserInfoContainer.findViewById(R.id.tv_localusername);
             if (userInfo.getName() != null)
                 userName.setText(userInfo.getName());
-                localUserName.setText(mVoiceTips.getVoiceChatUName());
-                TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
-                tv_voicechat_desc.setText(mVoiceTips.getVoiceChatContent());
-                SimpleDraweeView userPortrait = mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
-                SimpleDraweeView iv_icoming_backgroud = mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
-                if (userPortrait != null && userInfo.getPortraitUri() != null) {
-                    //临时使用悬浮窗是否显示的字段判断，悬浮窗打开时，此字段不能再使用
-                    if(!CallKitUtils.shouldShowFloat){
-                        userPortrait.setImageURI(userInfo.getPortraitUri().toString());
-                        userPortrait.setOnClickListener(this);
-                        iv_icoming_backgroud.setVisibility(View.VISIBLE);
-                        Log.i("SinleCallActivity", "onEventMainThread");
-                        Helper.showUrlBlur(iv_icoming_backgroud, userInfo.getPortraitUri().toString(), 8, 30);
-                    }
+            localUserName.setText(mVoiceTips.getVoiceChatUName());
+            TextView tv_voicechat_desc = mUserInfoContainer.findViewById(R.id.tv_voicechat_desc);
+            tv_voicechat_desc.setText(mVoiceTips.getVoiceChatContent());
+            SimpleDraweeView userPortrait = mUserInfoContainer.findViewById(R.id.voice_voip_user_portrait);
+            SimpleDraweeView iv_icoming_backgroud = mUserInfoContainer.findViewById(R.id.iv_icoming_backgroud);
+            if (userPortrait != null && userInfo.getPortraitUri() != null) {
+                //临时使用悬浮窗是否显示的字段判断，悬浮窗打开时，此字段不能再使用
+                if(!CallKitUtils.shouldShowFloat){
+                    userPortrait.setImageURI(userInfo.getPortraitUri().toString());
+                    userPortrait.setOnClickListener(this);
+                    iv_icoming_backgroud.setVisibility(View.VISIBLE);
+                    Log.i("SinleCallActivity", "onEventMainThread");
+                    Helper.showUrlBlur(iv_icoming_backgroud, userInfo.getPortraitUri().toString(), 8, 30);
                 }
+            }
 //            AsyncImageView userPortrait = (AsyncImageView) mUserInfoContainer.findViewById(R.id.rc_voip_user_portrait);
 //            if (userPortrait != null && userInfo.getPortraitUri() != null) {
 //                userPortrait.setResource(userInfo.getPortraitUri().toString(), R.drawable.rc_default_portrait);
@@ -1241,8 +1242,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     private void initGift() {
         giftControl = new GiftControl(this);
         giftControl.setGiftLayout(mLLGiftParent, 1)
-                    .setHideMode(false)
-                    .setCustormAnim(new CustormAnim());
+                .setHideMode(false)
+                .setCustormAnim(new CustormAnim());
         giftControl.setmGiftAnimationEndListener(new GiftControl.GiftAnimationEndListener() {
             @Override
             public void getGiftCount(int giftCount) {

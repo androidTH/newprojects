@@ -46,12 +46,12 @@ class DateAdapter(mData: ArrayList<MyDate>) : HFRecyclerAdapter<MyDate>(mData, R
         } else {
             weightView.visible()
         }
-        val l1 = data.speedcity?.length ?: 0
-        val l2 = data.getSpeedStateStr().length
+//        val l1 = data.speedcity?.length ?: 0
+//        val l2 = data.getSpeedStateStr().length
 //        val l3 = data.handspeedwhere?.length ?: 0
-        holder.setText(R.id.tv_content, SpanBuilder(String.format("%s%s-%s", data.speedcity, data.getSpeedStateStr(), data.speedcontent))
-                .color(context, 0, l1 + l2 + 1, R.color.textColor)
-                .build())
+//        holder.setText(R.id.tv_content, SpanBuilder(String.format("%s%s-%s", data.speedcity, data.getSpeedStateStr(), data.speedcontent))
+//                .color(context, 0, l1 + l2 + 1, R.color.textColor)
+//                .build())
         val start = data.beginTime?.parserTime()
         val end = data.endTime?.parserTime()
         holder.setText(R.id.tv_deadline_time, String.format("速约时间:%s-%s",start?.toTime("MM.dd") , end?.toTime("MM.dd")))

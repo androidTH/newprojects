@@ -269,9 +269,11 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
                     mFolderPopupWindow.dismiss();
                 } else {
                     mFolderPopupWindow.show();
-                    int index = mFolderAdapter.getSelectIndex();
-                    index = index == 0 ? index : index - 1;
-                    mFolderPopupWindow.getListView().setSelection(index);
+                    if(mFolderAdapter!=null){
+                        int index = mFolderAdapter.getSelectIndex();
+                        index = index == 0 ? index : index - 1;
+                        mFolderPopupWindow.getListView().setSelection(index);
+                    }
                 }
             }
         });
