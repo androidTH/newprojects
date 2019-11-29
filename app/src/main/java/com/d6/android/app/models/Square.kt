@@ -63,4 +63,6 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var iPrepayLovepoint:Int?=-1 // 预付打赏喜欢总数
     var iOncePayLovePoint:Int?=-1 //  单次打赏喜欢个数
     var iVoiceConnectSignupCount:Int?=-1// 连麦申请个数
+
+    var iRemainPoint:Int?=-1
 }
