@@ -12,10 +12,12 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.ImagePagerAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.gone
+import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.utils.visible
 import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -29,6 +31,7 @@ import java.lang.StringBuilder
 class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var urls = ArrayList<String>()
     private var userData:UserData?=null
+    private var userId:String=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_pager)
@@ -43,6 +46,17 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 if(it.size>p){
                     delete(it[p])
                 }
+            }
+        }
+
+        tv_paypoints.setOnClickListener {
+            isAuthUser() {
+                var mSendLoveHeartDialog = SendLoveHeartDialog()
+                mSendLoveHeartDialog.arguments = bundleOf("userId" to "${userId}")
+                mSendLoveHeartDialog.setDialogListener { p, s ->
+//                    addGiftNums(p, false, true)
+                }
+                mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
             }
         }
 
@@ -87,6 +101,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
         if (intent.hasExtra("data")) {
             userData = intent.getSerializableExtra("data") as UserData
+        }
+        if(intent.hasExtra("userId")){
+            userId = intent.getStringExtra(USERID)
         }
     }
 
@@ -150,6 +167,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     companion object {
         val CURRENT_POSITION = "position"
         val URLS = "urls"
+        val USERID = "userId"
     }
 
 }
