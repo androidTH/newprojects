@@ -31,7 +31,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<UserTrendView>(R.id.mTrendView)
-        val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
+        val dateofsquare_view = holder.run { bind<DateOfSquareView>(R.id.dateofsquare_view) }
         val voicechat_view = holder.bind<VoiceChatListView>(R.id.voicechat_view)
         val rl_paypoints = holder.bind<RelativeLayout>(R.id.rl_paypoints)
         data.sex = mUserData?.sex
@@ -319,7 +319,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
     private fun signUpDate(myAppointment:Square) {
         Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.userid}").request(context as BaseActivity, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
-            var appoinment = MyAppointment(myAppointment.id)
+            var appoinment = MyAppointment(myAppointment.sAppointmentId)
             appoinment.iAppointUserid = myAppointment.userid?.toInt()
             appoinment.sAppointUserName = myAppointment.name
             dateDialog.arguments = bundleOf("data" to appoinment, "explain" to data!!)
@@ -337,7 +337,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                 openErrorDialog.show((context as BaseActivity).supportFragmentManager, "d")
             }else if(code==3){
                 var  mDialogYesOrNo = DialogYesOrNo()
-                var appoinment = MyAppointment(myAppointment.id)
+                var appoinment = MyAppointment(myAppointment.sAppointmentId)
                 appoinment.iAppointUserid = myAppointment.userid?.toInt()
                 appoinment.sAppointUserName = myAppointment.name
                 mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg,"data" to appoinment)
