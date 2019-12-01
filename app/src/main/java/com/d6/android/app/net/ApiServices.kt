@@ -109,9 +109,9 @@ interface ApiServices {
                            , @Query("guoneiarea") guoneiarea: String? = null, @Query("guowaiarea") guowaiarea: String? = null, @Query("arrayuserclassesid") arrayUserClassesId: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<MyDate>>>
 
     @POST("backstage/square/add")
-    fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String, @Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int,
-                      @Query("sTopicId") sTopicId:String,@Query("sVideoUrl") sVideoUrl:String,@Query("sVideoPicUrl") sVideoPicUrl:String,@Query("sVideoWidth") sVideoWidth:String,@Query("sVideoHeight") sVideoHeight:String,@Query("sVoiceUrl") sVoiceUrl:String,@Query("sVoiceLength") sVoiceLength:String
-                      ,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    fun releaseSquare(@Query("userid") userid: String, @Query("classesid") classesid: String?, @Query("squarecity") city: String?, @Query("coverurl") coverurl: String?, @Query("content") content: String, @Query("sAppointUser")sAppointUser:String, @Query("iIsAnonymous") iIsAnonymous:Int,
+                      @Query("sTopicId") sTopicId:String, @Query("sVideoUrl") sVideoUrl:String, @Query("sVideoPicUrl") sVideoPicUrl:String, @Query("sVideoWidth") sVideoWidth:String, @Query("sVideoHeight") sVideoHeight:String, @Query("sVoiceUrl") sVoiceUrl:String, @Query("sVoiceLength") sVoiceLength:String
+                      , @Query("sIfLovePics") sIfLovePics:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     @POST("backstage/selfabout/add")
     fun releaseSelfAbout(@Query("userid") userid: String, @Query("content") content: String?, @Query("handlookwhere") handlookwhere: String?
@@ -528,7 +528,7 @@ interface ApiServices {
 
     //赠送红心 iType：赠送的入口 1、动态 2、卡片 3、主页 4、聊天
     @POST("backstage/userloverule/sendLovePoint")
-    fun sendLovePoint(@Query("sLoginToken")sLoginToken:String, @Query("iReceiveUserid") iReceiveUserid:String, @Query("iLovePoint") iLovePoint:Int, @Query("iType") iType:Int,@Query("sResourceid")sResourceid:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun sendLovePoint(@Query("sLoginToken")sLoginToken:String, @Query("iReceiveUserid") iReceiveUserid:String, @Query("iLovePoint") iLovePoint:Int, @Query("iType") iType:Int, @Query("sResourceid")sResourceid:String, @Query("sPicUrl") sPicUrl:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //查询我发送的爱心列表
     @POST("backstage/userloverule/findSendLoveList")

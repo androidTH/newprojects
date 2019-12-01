@@ -11,6 +11,7 @@
         android:layout_height="match_parent" />
 
     <RelativeLayout
+        android:id="@+id/rl_paypoints"
         android:layout_centerInParent="true"
         android:layout_width="180dp"
         android:layout_height="180dp"
@@ -96,6 +97,6 @@
             android:textSize="12sp"
             android:layout_centerInParent="true"
             android:textStyle="bold"
-            android:text="该图片设置了打赏后可见，他人打赏后7天内可见"/>
+            android:text="该图片设置了打赏后可见，别人打赏才能查看"/>
     </RelativeLayout>
 </com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout>

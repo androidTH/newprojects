@@ -9,7 +9,9 @@ import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.AddImage
+import com.d6.android.app.utils.Const.mLocalBlurMap
 import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.screenWidth
 import com.d6.android.app.utils.visible
@@ -52,7 +54,11 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
             ivDeleteView.visible()
             ivDeleteView.setImageResource(R.mipmap.comment_photo_edit)
             ivVideoPlay.gone()
-            imageView.setImageURI(data.imgUrl)
+            if(data.mBluer){
+                imageView.showBlur(data.imgUrl)
+            }else{
+                imageView.setImageURI(data.imgUrl)
+            }
         }
 
         imageView.setOnClickListener {
@@ -79,12 +85,18 @@ class AddImageV2Adapter(mData:ArrayList<AddImage>): BaseRecyclerAdapter<AddImage
 
     fun startActivity(mData:ArrayList<AddImage>,pos:Int){
         var resultList = ArrayList<String>()
+        mLocalBlurMap.clear()
         mData.forEach {
             if(it.type!=1){
-                resultList.add(it.imgUrl.replace("file://",""))
+                var path = it.imgUrl.replace("file://","")
+                resultList.add(path)
+                mLocalBlurMap.put(path,it.mBluer)
             }
         }
-        (context as BaseActivity).startActivityForResult<ImageLocalPagerActivity>(1000, ImageLocalPagerActivity.TYPE to 0,ImageLocalPagerActivity.CURRENT_POSITION to pos,ImageLocalPagerActivity.URLS to resultList,"delete" to true)
+
+        (context as BaseActivity).startActivityForResult<ImageLocalPagerActivity>(1000, ImageLocalPagerActivity.TYPE to 0,
+                ImageLocalPagerActivity.CURRENT_POSITION to pos,ImageLocalPagerActivity.URLS to resultList,
+                "delete" to true,"paypoints" to true)
     }
 
     fun startVideoActivity(path:String){

@@ -355,7 +355,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             if (images != null) {
                 mImages.addAll(images.toList())
             }
-
             val d = rv_images.getItemDecorationAt(0)
             if (d != null) {
                 rv_images.removeItemDecoration(d)
@@ -368,6 +367,8 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
             }
             imageAdapter.notifyDataSetChanged()
+
+            Log.i("trendView","${square.content},图片位置：${square.sIfLovePics}")
         }
 
         tv_appraise.isSelected = TextUtils.equals(square.isupvote,"1")

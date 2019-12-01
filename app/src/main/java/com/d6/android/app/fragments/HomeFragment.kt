@@ -326,7 +326,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 city = ""
                 if (TextUtils.equals("-1",sex)) {
                     tv_date_sex.text = getString(R.string.string_sex)
-                    mDefualtSex = -1
+//                    mDefualtSex = -1
                 }
                 tv_date_city.text = "地区"
                 getSpeedData()

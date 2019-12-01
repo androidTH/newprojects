@@ -101,9 +101,6 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
     private var REQUESTCODE_IMAGE = 0
 
     private var sTopicId:String = ""
-    private var sVideoUrl:String = ""
-    private var sVideoPicUrl:String = ""
-    private var sVoiceUrl:String = ""
     private var VideoPaths:ArrayList<String> = ArrayList<String>()
     private var mVideoWidth:Int = 0
     private var mVideoHeight:Int = 0
@@ -126,9 +123,14 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             }
         }else if(mImagelocal.mType == 1){
             mImages.clear()
+            var mBlurHashMap = mImagelocal.mPayPointsHashMap
             mImagelocal.mUrls.forEach {
                 val image = AddImage("file://${it}")
                 image.path = it
+                var obj = mBlurHashMap[it]
+                if(obj!=null){
+                    image.mBluer = obj
+                }
                 mImages.add(image)
             }
             mImages.add(AddImage("res:///" + R.mipmap.comment_addphoto_icon, 1))
@@ -537,6 +539,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
         startActivityForResult<MultiImageSelectorActivity>(REQUESTCODE_IMAGE
                 , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
                 ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                ,MultiImageSelectorActivity.EXTRA_PAYPOINTS to true
                 ,MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST to urls
 
         )
@@ -706,8 +709,22 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 } else {
                     this.city
                 }
+                var sbBlur = StringBuffer()
+                mImages.filter {
+                    it.type != 1
+                }.forEach {
+                    if(it.mBluer){
+                        sbBlur.append("2").append(",")
+                    }else{
+                        sbBlur.append("1").append(",")
+                    }
+                }
+                if (sbBlur.isNotEmpty()) {
+                    sbBlur.deleteCharAt(sbBlur.length - 1)
+                }
+                Log.i("sbBlur","图片数量：${mImages.size}，图片下标：${sbBlur}")
 //                var userIds = getShareUserId(mChooseFriends)
-                Request.releaseSquare(userId, tagId, city, it, content,"",iIsAnonymous,sTopicId,"","","","","","")
+                Request.releaseSquare(userId, tagId, city, it, content,"",iIsAnonymous,sTopicId,"","","","","","","${sbBlur}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -754,7 +771,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
     private fun ConvertSuccess(file:File,content:String){
         Request.uploadFile(file,1).flatMap {
             Log.i("releaseautio","${fileAudioPath}音频地址:"+it)
-            Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength)
+            Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength,"")
         }.request(this,false,success= { _, data ->
             showToast("发布成功")
             DiskFileUtils.deleteSingleFile(fileAudioPath)
@@ -793,7 +810,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 Flowable.just(it)
             }.flatMap {
                 Log.i("releaseautio",it[1]+"视频地址"+it[0]+"视频宽度:${mVideoWidth}")
-                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","")
+                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","","")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -844,7 +861,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
         } else {
             this.city
         }
-        Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","").request(this,false,success={
+        Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","","").request(this,false,success={
             _, data ->
             showToast("发布成功")
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){

@@ -1,7 +1,9 @@
 package com.d6.android.app.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -35,10 +37,11 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var adapter: ImageLocalPagerAdapter? = null
     private var mListFragment = SparseArray<Fragment>()
     private var mHashMap = HashMap<Int,Boolean>()
-    private var mPayPointsHashMap = HashMap<Int,Boolean>()
+    private var mPayPointsHashMap = HashMap<String,Boolean>()
     private var chooseCount = 0
     private var mNoChooseUrls = ArrayList<String>()
     private var type = 0
+    private var mShowPayPoints = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +57,8 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mNoChooseUrls.forEach {
                 urls.remove(it)
             }
-            var mImagelocals = Imagelocals(urls, 1, 0)
+
+            var mImagelocals = Imagelocals(urls, 1, 0,mPayPointsHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
             onBackPressed()
         }
@@ -91,16 +95,25 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     var key = 0
+    @SuppressLint("NewApi")
     private fun initData() {
         val position = intent.getIntExtra(CURRENT_POSITION, 0)
         urls = intent.getStringArrayListExtra(URLS)
+        val showDelete = intent.getBooleanExtra("delete", false)
+        mShowPayPoints = intent.getBooleanExtra("paypoints",false)
         urls.forEach {
             mHashMap.put(key,true)
-            mPayPointsHashMap.put(key,false)
+            if(mShowPayPoints){
+              mPayPointsHashMap.put(it,false)
+            }
             mListFragment.put(key++, ImageLocalFragment.newInstance(it, false))
         }
         adapter = ImageLocalPagerAdapter(supportFragmentManager, mListFragment)
         mImageLocalViewPager.adapter = adapter
+        mImageLocalViewPager.addOnPageChangeListener(this)
+        mImageLocalViewPager.currentItem = position
+        mImageLocalViewPager.offscreenPageLimit = urls.size
+        tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         if (urls != null) {
             tv_dowork.text = "完成·${urls.size}"
         }
@@ -115,6 +128,32 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_check.visibility = View.GONE
             tv_dowork.visibility = View.GONE
             tv_delete.visibility = View.VISIBLE
+        }
+
+        if (showDelete) {
+            tv_delete.visible()
+            tv_check.visibility = View.GONE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                if (Const.mLocalBlurMap.size>0&&mShowPayPoints) {
+                    Const.mLocalBlurMap.forEach { t, u ->
+                        mPayPointsHashMap.put(t, u)
+                    }
+                    var path = urls[position]
+                    var checked = mPayPointsHashMap[path] as Boolean
+                    mPayPointsHashMap.put(path, setPayPointPic(checked))
+                }else{
+                    tv_paypoints.visibility = View.GONE
+                }
+            }else{
+                tv_paypoints.visibility = View.GONE
+            }
+        } else {
+            tv_delete.gone()
+            if(mShowPayPoints){
+                tv_paypoints.visibility = View.VISIBLE
+            }else{
+                tv_paypoints.visibility = View.GONE
+            }
         }
 
         tv_delete.setOnClickListener {
@@ -138,29 +177,18 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
         tv_paypoints.setOnClickListener {
             var p = mImageLocalViewPager.currentItem
-            var checked = mPayPointsHashMap[p] as Boolean
-            mPayPointsHashMap.put(p,setPayPointPic(!checked))
-        }
-
-        mImageLocalViewPager.addOnPageChangeListener(this)
-        mImageLocalViewPager.currentItem = position
-        mImageLocalViewPager.offscreenPageLimit = urls.size
-        tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
-        val showDelete = intent.getBooleanExtra("delete", false)
-        if (showDelete) {
-            tv_delete.visible()
-            tv_check.visibility = View.GONE
-        } else {
-            tv_delete.gone()
+            var checked = mPayPointsHashMap[urls[p]] as Boolean
+            mPayPointsHashMap.put(urls[p],setPayPointPic(!checked))
         }
     }
 
     private fun delete(p: Int) {
         try{
-            urls.removeAt(p)
+            var path = urls.removeAt(p)
             mListFragment.removeAt(p)
             adapter?.notifyDataSetChanged()
-            var mImagelocals = Imagelocals(urls,0,p)
+            mPayPointsHashMap.remove(path)
+            var mImagelocals = Imagelocals(urls,0,p,mPayPointsHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
             if (urls.size > 0) {
                 var size = if (urls!!.size < (p + 1)) {
@@ -169,6 +197,8 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                     p + 1
                 }
                 tv_pages.text = String.format("%d/%d", size,urls!!.size)
+
+                updatePayPoints(size-1)
                 tv_dowork.text = "完成·${urls.size}"
             } else {
                 onBackPressed()
@@ -203,7 +233,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     //关闭本页面
     fun closeImageLocalPager(){
         if(type==0){
-            var mImagelocals = Imagelocals(urls,1,0)
+            var mImagelocals = Imagelocals(urls,1,0,mPayPointsHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
             onBackPressed()
         }else{
@@ -219,12 +249,25 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         var flag = mHashMap[position] as Boolean
         setCheckPic(flag)
+
+        updatePayPoints(position)
+        Log.i("pageSelected","${position}")
     }
 
     override fun onPageScrollStateChanged(state: Int) {
 
     }
 
+    private fun updatePayPoints(position:Int){
+        if(mShowPayPoints){
+            var path = urls[position]
+            var obj = mPayPointsHashMap[path]
+            if(obj!=null){
+                var checked = obj as Boolean
+                mPayPointsHashMap.put(path,setPayPointPic(checked))
+            }
+        }
+    }
 
     override fun onBackPressed() {
         urls.clear()
@@ -237,6 +280,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE && data != null) {
             var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY)
+            var path = urls[mImageLocalViewPager.currentItem]
             urls[mImageLocalViewPager.currentItem] = param.images[param.index]
             var mImageLocal = mListFragment.get(mImageLocalViewPager.currentItem) as ImageLocalFragment
             mImageLocal.setNewPic(urls[mImageLocalViewPager.currentItem],false)
@@ -245,6 +289,10 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 if(!flag){
                     mNoChooseUrls.add(urls[it.key])
                 }
+            }
+            if(mShowPayPoints){
+              var blur = mPayPointsHashMap.remove(path)
+                blur?.let { mPayPointsHashMap.put(urls[mImageLocalViewPager.currentItem], it) }
             }
         }
     }

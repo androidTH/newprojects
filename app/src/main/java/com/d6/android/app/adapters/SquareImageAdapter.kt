@@ -1,6 +1,9 @@
 package com.d6.android.app.adapters
 
+import android.text.TextUtils
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import com.d6.android.app.R
 import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.activities.TrendDetailActivity
@@ -8,6 +11,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.Square
+import com.d6.android.app.utils.getLocalUserId
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.startActivity
 
@@ -17,12 +21,27 @@ import org.jetbrains.anko.startActivity
 class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecyclerAdapter<String>(mData, R.layout.item_list_square_image) {
     private var square: Square? = null
     private val mImages = ArrayList<String>()
+    private var mBlurIndex = ArrayList<String>()
     override fun onBind(holder: ViewHolder, position: Int, data: String) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
-
-//        imageView.showBlur(data)
-
-        imageView.setImageURI(data)
+        var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
+        if(TextUtils.equals("${square!!.userid}", getLocalUserId())){
+            iv_lock.visibility = View.GONE
+            imageView.setImageURI(data)
+        }else{
+            if(mBlurIndex!=null&&mBlurIndex.size>0){
+                if(TextUtils.equals("2",mBlurIndex[position])){
+                    iv_lock.visibility = View.VISIBLE
+                    imageView.showBlur(data)
+                }else{
+                    iv_lock.visibility = View.GONE
+                    imageView.setImageURI(data)
+                }
+            }else{
+                iv_lock.visibility = View.GONE
+                imageView.setImageURI(data)
+            }
+        }
 
         Log.i("squareimgage","uri=${data}")
 
@@ -36,7 +55,8 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     }
 
 //                    ImagePreview.getInstance().setContext(context).setImageList(mImages).start()
-                    context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mImages, ImagePagerActivity.CURRENT_POSITION to position,ImagePagerActivity.USERID to "${square!!.userid}")
+                    context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mImages, ImagePagerActivity.CURRENT_POSITION to position,
+                            ImagePagerActivity.USERID to "${square!!.userid}",ImagePagerActivity.SIfLovePics to "${square?.sIfLovePics}")
                 }
             } else {
                 context.startActivity<TrendDetailActivity>(TrendDetailActivity.URLS to mData, TrendDetailActivity.CURRENT_POSITION to position,
@@ -47,5 +67,6 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
 
     fun bindSquare(square: Square) {
         this.square = square
+        square.sIfLovePics?.split(",")?.toList()?.let { this.mBlurIndex.addAll(it) }
     }
 }

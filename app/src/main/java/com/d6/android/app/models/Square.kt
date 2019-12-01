@@ -65,4 +65,6 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var iVoiceConnectSignupCount:Int?=-1// 连麦申请个数
 
     var iRemainPoint:Int?=-1
+
+    var sIfLovePics:String?=""
 }

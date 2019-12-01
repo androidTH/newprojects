@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/margin_8"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_height="80dp">
         <TextView
             android:id="@+id/tv_tips"

@@ -135,8 +135,8 @@ class MineFragment : BaseFragment() {
             startActivityForResult<SettingActivity>(5)
         }
 
-        rl_blacklist.setOnClickListener {
-            startActivity<BlackListActivity>()
+        rl_yinsi.setOnClickListener {
+            startActivity<PrivacySettingActivity>()
 //            startActivity<MemberActivity>()
         }
 

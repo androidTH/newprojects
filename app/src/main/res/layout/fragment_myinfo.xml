@@ -660,19 +660,20 @@
             android:background="@color/color_EFEFEF" />
 
         <RelativeLayout
-            android:id="@+id/rl_blacklist"
+            android:id="@+id/rl_yinsi"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:clickable="true"
             android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/tv_yinsi_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_10"
-                android:text="黑名单"
+                android:drawableLeft="@mipmap/center_yinsi"
+                android:text="隐私设置"
                 android:drawablePadding="@dimen/margin_10"
-                android:drawableLeft="@mipmap/mine_blacklist_icon"
                 android:textColor="@color/color_333333"
                 android:textSize="15sp" />
 

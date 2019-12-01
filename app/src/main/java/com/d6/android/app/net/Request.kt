@@ -189,9 +189,9 @@ object Request {
             RRetrofit.instance().create(ApiServices::class.java).getSelfReleaseList(pageNum, beginTime, endTime, area, outArea, arrayUserClassesId, pageSize)
 
     fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String,iIsAnonymous:Int
-                      ,sTopicId:String,sVideoUrl:String,sVideoPicUrl:String,sVideoWidth:String,sVideoHeight:String,sVoiceUrl:String,sVoiceLength:String) =
+                      ,sTopicId:String,sVideoUrl:String,sVideoPicUrl:String,sVideoWidth:String,sVideoHeight:String,sVoiceUrl:String,sVoiceLength:String,sIfLovePics:String) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser,iIsAnonymous,
-                    sTopicId,sVideoUrl,sVideoPicUrl,sVideoWidth,sVideoHeight,sVoiceUrl,sVoiceLength)
+                    sTopicId,sVideoUrl,sVideoPicUrl,sVideoWidth,sVideoHeight,sVoiceUrl,sVoiceLength,sIfLovePics)
 
     fun releaseSelfAbout(userId: String, outArea: String?, area: String?, city: String?, beginTime: String?, endTime: String?, content: String, imgUrl: String?) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSelfAbout(userId, content, outArea, area, city, beginTime, endTime, imgUrl)
@@ -515,7 +515,7 @@ object Request {
     fun doCashMoneyOfLoveHeart(iUserid:String,iLoveHeartCount:String)=RRetrofit.instance().create(ApiServices::class.java).doCashMoneyOfLoveHeart(iUserid,iLoveHeartCount)
 
     //赠送红心
-    fun sendLovePoint(sLoginToken:String,iReceiveUserid:String,iLovePoint:Int,iType:Int,sResourceid:String)= RRetrofit.instance().create(ApiServices::class.java).sendLovePoint(sLoginToken,iReceiveUserid,iLovePoint,iType,sResourceid)
+    fun sendLovePoint(sLoginToken:String,iReceiveUserid:String,iLovePoint:Int,iType:Int,sResourceid:String,sPicUrl:String="")= RRetrofit.instance().create(ApiServices::class.java).sendLovePoint(sLoginToken,iReceiveUserid,iLovePoint,iType,sResourceid,sPicUrl)
 
     fun findSendLoveList(sLoginToken:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findSendLoveList(sLoginToken,pageNum)
 

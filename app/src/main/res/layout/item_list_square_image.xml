@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         app:viewAspectRatio="1" />
     <ImageView
+        android:id="@+id/iv_lock"
         android:layout_width="23dp"
         android:layout_height="29dp"
         android:layout_centerInParent="true"

@@ -8,17 +8,20 @@ import android.os.Parcelable
  */
 data class AddImage(val imgUrl: String, val type: Int = 0):Parcelable {
     var path: String = ""
+    var mBluer:Boolean = false
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readInt()) {
         path = parcel.readString()
+        mBluer = parcel.readByte() != 0.toByte()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(imgUrl)
         parcel.writeInt(type)
         parcel.writeString(path)
+        parcel.writeByte(if (mBluer) 1 else 0)
     }
 
     override fun describeContents(): Int {

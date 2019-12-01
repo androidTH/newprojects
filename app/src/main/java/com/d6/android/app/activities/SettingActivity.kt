@@ -137,14 +137,14 @@ class SettingActivity : TitleActivity() {
             startActivity<SplashActivity>()
         }
 
-        tv_yinsi_setting.setOnClickListener {
+        tv_blacklist.setOnClickListener {
 //           SPUtils.instance().put(DEBUG_MODE,!getDebugMode()).apply()
 //            tv_blacklist.text = if(getDebugMode()){
 //                "${install_data01}测试环境${install_data02}"
 //            }else{
 //                "${install_data01}正式环境${install_data02}"
 //            }
-            startActivity<PrivacySettingActivity>()
+            startActivity<BlackListActivity>()
         }
 
 //        if(BuildConfig.DEBUG){
