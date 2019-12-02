@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -270,6 +271,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
                 rv_images.addItemDecoration(SpacesItemDecoration(dip(4), 3))
             }
             imageAdapter.notifyDataSetChanged()
+            Log.i("trendView","${square.content},图片位置：${square.sIfLovePics}")
         }
 
         if(TextUtils.isEmpty(square.sTopicName)){

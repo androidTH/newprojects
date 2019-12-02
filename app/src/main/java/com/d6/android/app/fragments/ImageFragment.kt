@@ -69,7 +69,7 @@ class ImageFragment : BaseNoBarFragment() {
     }
 
     fun updatePicUrl(mActivity: Activity, url:String, isBlur:Boolean){
-        tv_tag.text = "${url}"
+//        tv_tag.text = "${url}"
         sampimgview.setMaxScale(15f)
         sampimgview.setZoomEnabled(true)
         FrescoUtils.loadImage(context,url,object: IResult<Bitmap> {

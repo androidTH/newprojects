@@ -18,14 +18,18 @@ import com.d6.android.app.adapters.ImagePagerAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.dialogs.SendRedHeartEndDialog
+import com.d6.android.app.eventbus.BlurMsgEvent
+import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.fragments.ImageFragment
+import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import kotlinx.android.synthetic.main.activity_image_pager.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.toast
 import java.lang.StringBuilder
@@ -37,7 +41,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var urls = ArrayList<String>()
     private var userData:UserData?=null
     private var userId:String=""
+    private var squareId:String=""
     private var PayPoint_Path = ""
+    private lateinit var mSquare: Square
     private var mBlurIndex = ArrayList<String>()
 
     private var mListFragment = SparseArray<Fragment>()
@@ -65,8 +71,6 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 mSendLoveHeartDialog.arguments = bundleOf("userId" to "${userId}")
                 mSendLoveHeartDialog.setDialogListener { p, s ->
                     sendPayPoint(p)
-//                    urls[mImageViewPager.currentItem] = url.replace(Const.BLUR_50,"?imageslim")
-                    //(mImageViewPager.adapter as ImagePagerAdapter).setListBlur(mBlurIndex)
                 }
                 mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
             }
@@ -108,6 +112,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
         if(intent.hasExtra("userId")){
             userId = intent.getStringExtra(USERID)
+            squareId = intent.getStringExtra(SOURCEID)
+            mSquare = intent.getSerializableExtra(mBEAN) as Square
             if(!TextUtils.equals(userId, getLocalUserId())){
                 var sIflovepics = intent.getStringExtra(SIfLovePics)
                 mBlurIndex.addAll(sIflovepics.split(",").toList())
@@ -177,7 +183,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         if(!TextUtils.equals(userId, getLocalUserId())){
             showPayPoints(position)
             urls.let {
-                PayPoint_Path = urls[position]
+                PayPoint_Path = urls[position].replace("?imageslim","")
             }
         }
     }
@@ -199,10 +205,21 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun sendPayPoint(loveHeartNums:Int){
-        Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 1,"${PayPoint_Path}").request(this, false, success = { _, data ->
+        Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 1,"${squareId}","${PayPoint_Path}").request(this, false, success = { _, data ->
             rl_paypoints.visibility = View.GONE
             rl_tips.visibility = View.GONE
             mBlurIndex[mImageViewPager.currentItem] = "1"
+            var sb = StringBuffer()
+            mBlurIndex.forEach {
+                sb.append(it).append(",")
+            }
+            sb.deleteCharAt(sb.length - 1)
+            mSquare.sIfLovePics = sb.toString()
+//            EventBus.getDefault().post(FlowerMsgEvent(0,mSquare))
+            var intent = Intent(Const.SQUARE_MESSAGE)
+            intent.putExtra("bean",mSquare)
+            sendBroadcast(intent)
+
             var url = urls[mImageViewPager.currentItem]
             var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
             mImageLocal.updatePicUrl(this@ImagePagerActivity,url,false)
@@ -241,6 +258,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         val URLS = "urls"
         val USERID = "userId"
         val SIfLovePics = "sIfLovePics"
+        val SOURCEID = "sourceId"
+        val mBEAN = "bean"
     }
 
 }

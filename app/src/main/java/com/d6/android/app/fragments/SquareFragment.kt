@@ -1,10 +1,14 @@
 package com.d6.android.app.fragments
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
@@ -13,6 +17,7 @@ import com.d6.android.app.adapters.SquareAdapter
 import com.d6.android.app.adapters.SquareBannerQuickAdapter
 import com.d6.android.app.adapters.SquareTypeAdapter
 import com.d6.android.app.base.RecyclerFragment
+import com.d6.android.app.eventbus.BlurMsgEvent
 import com.d6.android.app.eventbus.FlowerMsgEvent
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Banner
@@ -21,6 +26,7 @@ import com.d6.android.app.models.TopicBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.recoder.AudioPlayListener
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.ThreadUtils.runOnUiThread
 import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.google.android.flexbox.FlexboxLayoutManager
 import io.rong.eventbus.EventBus
@@ -157,6 +163,8 @@ class SquareFragment : RecyclerFragment() {
         getTopicBanner()
 
         setAudioListener()
+
+        activity.registerReceiver(sIfLovePics, IntentFilter(Const.SQUARE_MESSAGE))
     }
 
     private fun getTopicBanner(){
@@ -345,9 +353,6 @@ class SquareFragment : RecyclerFragment() {
                 mSquares.get(positon).isupvote = mSquare.isupvote
                 mSquares.get(positon).appraiseCount = mSquare.appraiseCount
                 mSquares.get(positon).iLovePoint = mSquare.iLovePoint
-//                mSquares.get(positon).comments = mSquare.comments
-//                mSquares.get(positon).iFlowerCount = mSquare.iFlowerCount
-//                mSquares.get(positon).iIsSendFlower = mSquare.iIsSendFlower
                 squareAdapter.notifyDataSetChanged()
             }
         }
@@ -358,12 +363,31 @@ class SquareFragment : RecyclerFragment() {
         if(flowerEvent.getmSquare()!=null){
             var index = mSquares.indexOf(flowerEvent.getmSquare())
             if(mSquares!=null&&mSquares.size>index){
-//                mSquares.get(index).iFlowerCount = flowerEvent.getmSquare().iFlowerCount
-//                mSquares.get(index).iIsSendFlower = 1
-
-                mSquares.get(index).iLovePoint = flowerEvent.getmSquare().iLovePoint
                 mSquares.get(index).iSendLovePoint = 1
+                if(flowerEvent.getmSquare()!=null){
+                    mSquares.get(index).sIfLovePics = flowerEvent.getmSquare().sIfLovePics
+                    mSquares.get(index).iLovePoint = flowerEvent.getmSquare().iLovePoint
+                }
                 squareAdapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    private val sIfLovePics by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                   intent?.let {
+                       var sq = it.getSerializableExtra("bean") as Square
+                       var index = mSquares.indexOf(sq)
+                       if (mSquares != null && mSquares.size > index) {
+                           if (sq != null) {
+                               mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                           }
+                           squareAdapter.notifyDataSetChanged()
+                       }
+                   }
+                }
             }
         }
     }
@@ -397,5 +421,6 @@ class SquareFragment : RecyclerFragment() {
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
+        activity.unregisterReceiver(sIfLovePics)
     }
 }

@@ -1,8 +1,10 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -79,6 +81,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_square_detail)
         immersionBar.init()
+        registerReceiver(sIfLovePics, IntentFilter(Const.SQUARE_MESSAGE))
 //        var drawable = ContextCompat.getDrawable(this,R.mipmap.titlemore_small_icon)
 //        setRightDrawable(drawable,titleBar.titleView)
         EventBus.getDefault().register(this@SquareTrendDetailActivity)
@@ -472,10 +475,14 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
             mSquare?.let {
                 it.iLovePoint = it.iLovePoint!!.toInt() + flowerEvent.count
                 it.iSendLovePoint=1
+                if(flowerEvent.getmSquare()!=null){
+                    it.sIfLovePics = flowerEvent.getmSquare().sIfLovePics
+                }
 //                it.iFlowerCount = it.iFlowerCount!!.toInt() + flowerEvent.count
 //                it.iIsSendFlower=1
                 updateBean()
                 headerView.mTrendDetailView.updateFlowerCount(it)
+                Log.i("imagePage","对象：")
             }
     }
 
@@ -490,6 +497,24 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         }
     }
 
+    private val sIfLovePics by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                    intent?.let {
+                        var sq = it.getSerializableExtra("bean") as Square
+                        mSquare?.let {
+                            if(sq!=null){
+                                it.sIfLovePics = sq.sIfLovePics
+                            }
+                            headerView.mTrendDetailView.update(it)
+                            updateBean()
+                        }
+                        Log.i("BlurMsgEvent","BlurMsgEvent${sq.sIfLovePics}")
+                    }
+            }
+        }
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         mAudioMedio.onDestoryAudio()
@@ -497,6 +522,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 
     override fun onDestroy() {
         super.onDestroy()
+        unregisterReceiver(sIfLovePics)
         EventBus.getDefault().unregister(this@SquareTrendDetailActivity)
     }
 }

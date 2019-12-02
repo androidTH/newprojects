@@ -54,6 +54,7 @@ object Const {
     val NEW_MESSAGE = "com.d6.app.new_msg"
     val CHAT_MESSAGE = "com.d6.app.chat_msg_count"
     val MINE_MESSAGE = "com.d6.app.mine_msg"//我的关注 粉丝提醒
+    val SQUARE_MESSAGE = "com.d6.app.Square_blur"//我的关注 粉丝提醒
     val MINE_MANSERVICE_YOUKE = "com.d6.app.mine_manservice_youke"//我的关注 粉丝提醒
     val HOMEDATE_STATEBAR = "com.d6.app.homedate_statebar"//约会状态栏
     val BUGTAGS_KEY = "e3ed18af47d9993fbfbc5dc02194079e"

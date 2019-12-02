@@ -35,6 +35,8 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
     /** 默认选择集 */
     public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_list";
 
+    public static final String EXTRA_PAYPOINTS = "paypoints";
+
     /** 图片选择模式，默认选视频和图片 */
     public static final String SELECT_MODE = "select_mode";
 
@@ -52,6 +54,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
     private int mDefaultCount;
     private int mode;//模式
     private int modeType;
+    private boolean mShowPayPoint = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
         modeType = intent.getIntExtra(SELECT_MODE,PICKER_IMAGE);
         boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
+        mShowPayPoint = intent.getBooleanExtra(EXTRA_PAYPOINTS,false);
 
         if(mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {
             mSubmitButton.setVisibility(View.VISIBLE);
@@ -78,6 +82,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         bundle.putInt(MultiImageSelectorFragment.EXTRA_SELECT_MODE, mode);
         bundle.putInt(MultiImageSelectorFragment.SELECT_MODE,modeType);
         bundle.putBoolean(MultiImageSelectorFragment.EXTRA_SHOW_CAMERA, isShow);
+        bundle.putBoolean(MultiImageSelectorFragment.EXTRA_PAYPOINTS, mShowPayPoint);
         bundle.putStringArrayList(MultiImageSelectorFragment.EXTRA_DEFAULT_SELECTED_LIST, resultList);
 
         getSupportFragmentManager().beginTransaction()

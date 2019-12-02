@@ -72,10 +72,17 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
     public static final String EXTRA_SELECT_MODE = "select_count_mode";
     /** 是否显示相机，boolean类型 */
     public static final String EXTRA_SHOW_CAMERA = "show_camera";
+
+    /**
+     * 是否显示打赏可见
+     */
+    public static final String EXTRA_PAYPOINTS = "paypoints";
+
     /** 默认选择的数据集 */
     public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_result";
     /** 图片选择模式，默认选视频和图片 */
     public static final String SELECT_MODE = "select_mode";
+
     /** 单选 */
     public static final int MODE_SINGLE = 0;
     /** 多选 */
@@ -124,6 +131,7 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
     private File mTmpFile;
     private int mode;
     private int ModeType;
+    private boolean mShowPayPoint = false;
 
     @Override
     public void onAttach(Activity activity) {
@@ -233,6 +241,8 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
         mode = getArguments().getInt(EXTRA_SELECT_MODE);
 
         ModeType = getArguments().getInt(SELECT_MODE,PICKER_IMAGE);
+
+        mShowPayPoint = getArguments().getBoolean(EXTRA_PAYPOINTS,false);
         // 默认选择
         if(mode == MODE_MULTI) {
             ArrayList<String> tmp = getArguments().getStringArrayList(EXTRA_DEFAULT_SELECTED_LIST);
@@ -293,6 +303,7 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
                 intent.putStringArrayListExtra("urls",resultList);
                 intent.putExtra("type",1);
                 intent.putExtra("delete",false);
+                intent.putExtra("paypoints",mShowPayPoint);
                 startActivity(intent);
             }
         });

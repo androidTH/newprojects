@@ -19,13 +19,13 @@ import org.jetbrains.anko.startActivity
  *
  */
 class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecyclerAdapter<String>(mData, R.layout.item_list_square_image) {
-    private var square: Square? = null
+    private var mSquare: Square = Square()
     private val mImages = ArrayList<String>()
     private var mBlurIndex = ArrayList<String>()
     override fun onBind(holder: ViewHolder, position: Int, data: String) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
-        if(TextUtils.equals("${square!!.userid}", getLocalUserId())){
+        if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
             iv_lock.visibility = View.GONE
             imageView.setImageURI(data)
         }else{
@@ -37,36 +37,38 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     iv_lock.visibility = View.GONE
                     imageView.setImageURI(data)
                 }
+                Log.i("squareimgage","内容：${mSquare.content}，${mBlurIndex[position]},uri=${data}")
             }else{
                 iv_lock.visibility = View.GONE
                 imageView.setImageURI(data)
             }
         }
 
-        Log.i("squareimgage","uri=${data}")
-
         imageView.setOnClickListener {
             if (type == 1) {
-                square?.let {
+                mSquare?.let {
                     mImages.clear()
                     val images = it.sSourceSquarePics?.split(",")
                     if (images != null) {
                         mImages.addAll(images.toList())
                     }
-
 //                    ImagePreview.getInstance().setContext(context).setImageList(mImages).start()
                     context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mImages, ImagePagerActivity.CURRENT_POSITION to position,
-                            ImagePagerActivity.USERID to "${square!!.userid}",ImagePagerActivity.SIfLovePics to "${square?.sIfLovePics}")
+                            ImagePagerActivity.USERID to "${mSquare!!.userid}", ImagePagerActivity.mBEAN to mSquare,
+                            ImagePagerActivity.SIfLovePics to "${mSquare?.sIfLovePics}",ImagePagerActivity.SOURCEID to "${mSquare?.id}")
                 }
             } else {
                 context.startActivity<TrendDetailActivity>(TrendDetailActivity.URLS to mData, TrendDetailActivity.CURRENT_POSITION to position,
-                        "data" to (square ?: Square()))
+                        "data" to (mSquare ?: Square()))
             }
         }
     }
 
     fun bindSquare(square: Square) {
-        this.square = square
-        square.sIfLovePics?.split(",")?.toList()?.let { this.mBlurIndex.addAll(it) }
+        this.mSquare = square
+        this.mSquare.sIfLovePics?.split(",")?.toList()?.let {
+            this.mBlurIndex.clear()
+            this.mBlurIndex.addAll(it)
+        }
     }
 }
