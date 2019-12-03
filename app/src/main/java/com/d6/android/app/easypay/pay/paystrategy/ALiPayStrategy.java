@@ -7,7 +7,12 @@ import com.alipay.sdk.app.PayTask;
 import com.d6.android.app.easypay.EasyPay;
 import com.d6.android.app.easypay.PayParams;
 import com.d6.android.app.easypay.pay.ALiPayResult;
+import com.d6.android.app.easypay.pay.ResultStatus;
 import com.d6.android.app.easypay.pay.ThreadManager;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -35,33 +40,42 @@ public class ALiPayStrategy extends BasePayStrategy {
             }
             ThreadManager.shutdown();
             ALiPayResult result = new ALiPayResult((Map<String, String>) msg.obj);
+            String Out_trade_no= "";
+            Gson gson = new Gson();
+            try {
+                JSONObject jsonObject = new JSONObject(result.getResult());
+                String str = jsonObject.getString("alipay_trade_app_pay_response");
+                ResultStatus resultStatus = gson.fromJson(str, ResultStatus.class);
+                Out_trade_no = resultStatus.getOut_trade_no();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             switch (result.getResultStatus()) {
                 case ALiPayResult.PAY_OK_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_OK,"");
+                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_OK,Out_trade_no);
                     break;
-
                 case ALiPayResult.PAY_CANCLE_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_USER_CACELED_ERR,"");
+                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_USER_CACELED_ERR,Out_trade_no);
                     break;
 
                 case ALiPayResult.PAY_FAILED_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_ERR,"");
+                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_ERR,Out_trade_no);
                     break;
 
                 case ALiPayResult.PAY_WAIT_CONFIRM_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_WAIT_CONFIRM_ERR,"");
+                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_WAIT_CONFIRM_ERR,Out_trade_no);
                     break;
 
                 case ALiPayResult.PAY_NET_ERR_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_NET_ERR,"");
+                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_NET_ERR,Out_trade_no);
                     break;
 
                 case ALiPayResult.PAY_UNKNOWN_ERR_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_UNKNOW_ERR,"");
+                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_UNKNOW_ERR,Out_trade_no);
                     break;
 
                 default:
-                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_OTHER_ERR,"");
+                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_OTHER_ERR,Out_trade_no);
                     break;
             }
             mHandler.removeCallbacksAndMessages(null);

@@ -10,7 +10,6 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
@@ -26,7 +25,6 @@ import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.Comment
 import com.d6.android.app.models.Square
-import com.d6.android.app.models.SquareTypeBean
 import com.d6.android.app.models.TopicBean
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.frescohelper.FrescoUtils
@@ -34,9 +32,6 @@ import com.d6.android.app.widget.frescohelper.IResult
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
-import com.d6.android.app.widget.popup.EasyPopup
-import com.d6.android.app.widget.popup.XGravity
-import com.d6.android.app.widget.popup.YGravity
 import com.d6.android.app.widget.popup.mLoveHeartPopu
 import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*

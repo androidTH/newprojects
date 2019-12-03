@@ -25,24 +25,28 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
     override fun onBind(holder: ViewHolder, position: Int, data: String) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
-        if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
-            iv_lock.visibility = View.GONE
-            imageView.setImageURI(data)
-        }else{
-            if(mBlurIndex!=null&&mBlurIndex.size>0){
-                if(TextUtils.equals("2",mBlurIndex[position])){
-                    iv_lock.visibility = View.VISIBLE
-                    imageView.showBlur(data)
-                }else{
+        imageView.postDelayed(object:Runnable{
+            override fun run() {
+                if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
                     iv_lock.visibility = View.GONE
                     imageView.setImageURI(data)
+                }else{
+                    if(mBlurIndex!=null&&mBlurIndex.size>0){
+                        if(TextUtils.equals("2",mBlurIndex[position])){
+                            iv_lock.visibility = View.VISIBLE
+                            imageView.showBlur(data)
+                        }else{
+                            iv_lock.visibility = View.GONE
+                            imageView.setImageURI(data)
+                        }
+                        Log.i("squareimgage","内容：${mSquare.content}，${mBlurIndex[position]},uri=${data}")
+                    }else{
+                        iv_lock.visibility = View.GONE
+                        imageView.setImageURI(data)
+                    }
                 }
-                Log.i("squareimgage","内容：${mSquare.content}，${mBlurIndex[position]},uri=${data}")
-            }else{
-                iv_lock.visibility = View.GONE
-                imageView.setImageURI(data)
             }
-        }
+        },200)
 
         imageView.setOnClickListener {
             if (type == 1) {

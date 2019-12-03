@@ -54,7 +54,6 @@ class FilterSquaresActivity : BaseActivity() {
     //播放录音
     private var playIndex = -1
     private var playSquare:Square? = null
-    private var mCirclePop: EasyPopup?=null
 
     private val headerView by lazy {
         layoutInflater.inflate(R.layout.layout_filtersqure_header, swipeRefreshLayout_square.mRecyclerView, false)
@@ -100,7 +99,6 @@ class FilterSquaresActivity : BaseActivity() {
 
         iv_back_close.setOnClickListener {
             hideSoftKeyboard(it)
-
             finish()
         }
 
@@ -230,9 +228,6 @@ class FilterSquaresActivity : BaseActivity() {
 
     private fun initRecyclerView() {
         swipeRefreshLayout_square.setLayoutManager(LinearLayoutManager(this))
-        swipeRefreshLayout_square.setMode(SwipeRefreshRecyclerLayout.Mode.Both)
-        swipeRefreshLayout_square.isRefreshing = false
-        swipeRefreshLayout_square.setAdapter(squareAdapter)
         swipeRefreshLayout_square.setOnRefreshListener(object : SwipeRefreshRecyclerLayout.OnRefreshListener {
             override fun onRefresh() {
                 pullDownRefresh()
@@ -242,33 +237,10 @@ class FilterSquaresActivity : BaseActivity() {
                 loadMore()
             }
         })
+        swipeRefreshLayout_square.setMode(SwipeRefreshRecyclerLayout.Mode.Both)
+        swipeRefreshLayout_square.isRefreshing = false
+        swipeRefreshLayout_square.setAdapter(squareAdapter)
         swipeRefreshLayout_square.mRecyclerView.itemAnimator.changeDuration = 0
-    }
-
-    private fun initPopup(){
-        mCirclePop = EasyPopup.create()
-                .setContentView(this, R.layout.popup_release_layout)
-                .setAnimationStyle(R.style.RightTop2PopAnim)
-                .setOnViewListener { view, popup ->
-                    var tv_create_square = view.findViewById<TextView>(R.id.tv_create_square)
-                    tv_create_square.setOnClickListener {
-                        isCheckOnLineAuthUser(this, getLocalUserId()) {
-                            startActivityForResult<ReleaseNewTrendsActivity>(1)
-                        }
-                        mCirclePop!!.dismiss()
-                    }
-
-                    var tv_create_date = view.findViewById<TextView>(R.id.tv_create_date)
-                    tv_create_date.setOnClickListener {
-                        isCheckOnLineAuthUser(this, getLocalUserId()){
-                            startActivityForResult<PublishFindDateActivity>(10)
-                        }
-                        mCirclePop!!.dismiss()
-                    }
-                }
-                //是否允许点击PopupWindow之外的地方消失
-                .setFocusAndOutsideEnable(true)
-                .apply()
     }
 
     private fun getSquareList() {
@@ -277,10 +249,10 @@ class FilterSquaresActivity : BaseActivity() {
                 mSquares.clear()
                 playIndex = -1
                 mAudioMedio.onClickStop()
-                swipeRefreshLayout_square.isRefreshing = false
                 rl_friends_empty.visibility = View.GONE
                 swipeRefreshLayout_square.visibility = View.VISIBLE
             }
+            swipeRefreshLayout_square.isRefreshing = false
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
                     swipeRefreshLayout_square.setLoadMoreText("没有更多了")
@@ -320,7 +292,8 @@ class FilterSquaresActivity : BaseActivity() {
                                 mSquares.get(index).sIfLovePics = sq.sIfLovePics
                                 mSquares.get(index).iLovePoint = sq.iLovePoint
                             }
-                            squareAdapter.notifyItemChanged(index+1,"sq")
+//                            squareAdapter.notifyItemChanged(index+1,"sq")
+                            squareAdapter.notifyDataSetChanged()
                         }
                     }
                 }

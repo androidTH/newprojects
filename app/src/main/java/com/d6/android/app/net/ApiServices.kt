@@ -511,7 +511,7 @@ interface ApiServices {
     fun findTopicBannerList(@Query("sLoginToken")sLoginToken:String):Flowable<Response<TopicList<TopicBean>>>
 
     //动态查询
-    @POST("backstage/square/findByPageNew")
+    @POST("backstage/square/findByPage")
     fun getFindSquareList(@Query("userid") accountId: String, @Query("classesid") classesid: String?, @Query("pageNum") pageNum: Int, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE, @Query("limit") limit: Int = 0, @Query("sex") sex: Int = 2, @Query("sTopicId") sTopicId:String, @Query("sCity") sCity:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<Square>>>
 
     //2.10.0接口

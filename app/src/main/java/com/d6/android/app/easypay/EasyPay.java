@@ -9,6 +9,7 @@ import com.d6.android.app.easypay.enums.HttpType;
 import com.d6.android.app.easypay.enums.PayWay;
 import com.d6.android.app.easypay.network.NetworkClientFactory;
 import com.d6.android.app.easypay.network.NetworkClientInterf;
+import com.d6.android.app.easypay.pay.paystrategy.ALiPayStrategy;
 import com.d6.android.app.easypay.pay.paystrategy.PayContext;
 import com.d6.android.app.easypay.pay.paystrategy.WeChatPayStrategy;
 import com.d6.android.app.utils.NetworkUtils;
@@ -98,7 +99,7 @@ public final class EasyPay {
                 break;
 
             case ALiPay:
-//                pc = new PayContext(new ALiPayStrategy(mPayParams, prePayInfo, callBack));
+                pc = new PayContext(new ALiPayStrategy(mPayParams, prePayInfo, callBack));
                 break;
 
             case UPPay:
@@ -161,7 +162,6 @@ public final class EasyPay {
      */
     private void sendPayResult(int code,String orderId) {
         if (mPayParams == null) return;
-
         switch (code) {
             case COMMON_PAY_OK:
                 mOnPayResultListener.onPaySuccess(mPayParams.getPayWay(),orderId);

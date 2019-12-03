@@ -144,6 +144,10 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
         mImageViewPager.addOnPageChangeListener(this)
         mImageViewPager.currentItem = position
+
+        urls.let {
+            PayPoint_Path = urls[position].replace("?imageslim", "")
+        }
     }
 
     private fun delete(url:String) {
