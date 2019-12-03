@@ -379,12 +379,15 @@ class SquareFragment : RecyclerFragment() {
                 runOnUiThread {
                    intent?.let {
                        var sq = it.getSerializableExtra("bean") as Square
-                       var index = mSquares.indexOf(sq)
-                       if (mSquares != null && mSquares.size > index) {
-                           if (sq != null) {
-                               mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                       if(sq!=null){
+                           var index = mSquares.indexOf(sq)
+                           if (mSquares != null && mSquares.size > index) {
+                               if (sq != null) {
+                                   mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                                   mSquares.get(index).iLovePoint = sq.iLovePoint
+                               }
+                               squareAdapter.notifyItemChanged(index+1,"sq")
                            }
-                           squareAdapter.notifyDataSetChanged()
                        }
                    }
                 }

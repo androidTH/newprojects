@@ -1,7 +1,10 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -69,6 +72,7 @@ class FilterSquaresActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtersquares)
         immersionBar.init()
+        registerReceiver(sIfLovePics, IntentFilter(Const.SQUARE_MESSAGE))
 
         squareAdapter.setOnItemClickListener { _, position ->
             val square = mSquares[position]
@@ -304,6 +308,26 @@ class FilterSquaresActivity : BaseActivity() {
         }
     }
 
+    private val sIfLovePics by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    intent?.let {
+                        var sq = it.getSerializableExtra("bean") as Square
+                        var index = mSquares.indexOf(sq)
+                        if (mSquares != null && mSquares.size > index) {
+                            if (sq != null) {
+                                mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                                mSquares.get(index).iLovePoint = sq.iLovePoint
+                            }
+                            squareAdapter.notifyItemChanged(index+1,"sq")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fun pullDownRefresh() {
         pageNum = 1
         getSquareList()
@@ -312,5 +336,10 @@ class FilterSquaresActivity : BaseActivity() {
     fun loadMore() {
         pageNum++
         getSquareList()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(sIfLovePics)
     }
 }

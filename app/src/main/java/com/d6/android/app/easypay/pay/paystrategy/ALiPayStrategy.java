@@ -1,19 +1,16 @@
-package com.d6.android.app.easypay.pay.paystrategy;/*
-package io.github.xiong_it.easypay.pay.paystrategy;
+package com.d6.android.app.easypay.pay.paystrategy;
 
 import android.os.Handler;
 import android.os.Message;
 
 import com.alipay.sdk.app.PayTask;
+import com.d6.android.app.easypay.EasyPay;
+import com.d6.android.app.easypay.PayParams;
+import com.d6.android.app.easypay.pay.ALiPayResult;
+import com.d6.android.app.easypay.pay.ThreadManager;
 
 import java.util.Map;
 
-import io.github.xiong_it.easypay.EasyPay;
-import io.github.xiong_it.easypay.PayParams;
-import io.github.xiong_it.easypay.pay.ALiPayResult;
-import io.github.xiong_it.easypay.util.ThreadManager;
-
-*/
 /**
  * Author: michaelx
  * Create: 17-3-13.
@@ -24,7 +21,7 @@ import io.github.xiong_it.easypay.util.ThreadManager;
  * github:https://github.com/xiong-it
  * <p>
  * Description: 支付宝策略.
- *//*
+ */
 
 
 public class ALiPayStrategy extends BasePayStrategy {
@@ -40,31 +37,31 @@ public class ALiPayStrategy extends BasePayStrategy {
             ALiPayResult result = new ALiPayResult((Map<String, String>) msg.obj);
             switch (result.getResultStatus()) {
                 case ALiPayResult.PAY_OK_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_OK);
+                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_OK,"");
                     break;
 
                 case ALiPayResult.PAY_CANCLE_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_USER_CACELED_ERR);
+                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_USER_CACELED_ERR,"");
                     break;
 
                 case ALiPayResult.PAY_FAILED_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_ERR);
+                    mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_ERR,"");
                     break;
 
                 case ALiPayResult.PAY_WAIT_CONFIRM_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_WAIT_CONFIRM_ERR);
+                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_WAIT_CONFIRM_ERR,"");
                     break;
 
                 case ALiPayResult.PAY_NET_ERR_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_NET_ERR);
+                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_NET_ERR,"");
                     break;
 
                 case ALiPayResult.PAY_UNKNOWN_ERR_STATUS:
-                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_UNKNOW_ERR);
+                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_UNKNOW_ERR,"");
                     break;
 
                 default:
-                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_OTHER_ERR);
+                    mOnPayResultListener.onPayCallBack(EasyPay.ALI_PAY_OTHER_ERR,"");
                     break;
             }
             mHandler.removeCallbacksAndMessages(null);
@@ -92,4 +89,4 @@ public class ALiPayStrategy extends BasePayStrategy {
         ThreadManager.execute(payRun);
     }
 }
-*/
+

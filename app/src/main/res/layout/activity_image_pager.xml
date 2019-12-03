@@ -91,12 +91,12 @@
         android:layout_alignParentBottom="true"
         android:background="@color/color_C9222222">
         <TextView
+            android:id="@+id/tv_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:layout_centerInParent="true"
-            android:textStyle="bold"
-            android:text="该图片设置了打赏后可见，别人打赏才能查看"/>
+            android:textStyle="bold" />
     </RelativeLayout>
 </com.d6.android.app.widget.photodrag.PhotoDragRelativeLayout>

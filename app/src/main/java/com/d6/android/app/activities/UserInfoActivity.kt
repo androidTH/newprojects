@@ -1,6 +1,9 @@
 package com.d6.android.app.activities
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -142,6 +145,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .init()
         EventBus.getDefault().register(this)
         ObserverManager.getInstance().addObserver(this)
+        registerReceiver(sIfLovePics, IntentFilter(Const.SQUARE_MESSAGE))
 
         tv_back.setOnClickListener {
             finish()
@@ -230,13 +234,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         iv_sendredheart.setOnClickListener {
-//            mData?.let {
-//                it.accountId?.let {
-//                    var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-//                    dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 3, "userId" to it)
-//                    dialogSendRedFlowerDialog.show(supportFragmentManager, "sendflower")
-//                }
-//            }
             isAuthUser {
                 if(localLoveHeartNums>0){
                     if(sendLoveHeartNums <= localLoveHeartNums){
@@ -1121,8 +1118,32 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
+    private val sIfLovePics by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    intent?.let {
+                        var sq = it.getSerializableExtra("bean") as Square
+                        if(sq!=null){
+                            var index = mSquares.indexOf(sq)
+                            if (mSquares != null && mSquares.size > index) {
+                                if (sq != null) {
+                                    mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                                    mSquares.get(index).iLovePoint = sq.iLovePoint
+                                    mSquares.get(index).iSendLovePoint = 1
+                                }
+                                squareAdapter.notifyItemChanged(index+1,"sq")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
+        unregisterReceiver(sIfLovePics)
     }
 }

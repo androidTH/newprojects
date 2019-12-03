@@ -117,6 +117,7 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
     }
 
     GiftFrameLayout giftFrameLayout;
+
     public void loadNoAnimaGift(GiftModel gift){
         if (mGiftQueue != null) {
             if (mGiftQueue.size() == 0) {

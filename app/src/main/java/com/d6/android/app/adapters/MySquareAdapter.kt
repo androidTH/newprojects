@@ -1,5 +1,8 @@
 package com.d6.android.app.adapters
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.text.TextUtils
 import android.view.View
 import android.widget.RelativeLayout
@@ -15,6 +18,7 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.ThreadUtils.runOnUiThread
 import com.d6.android.app.widget.*
 import com.umeng.socialize.utils.Log.toast
 import org.jetbrains.anko.bundleOf
@@ -243,24 +247,11 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
 
     private fun sendFlower(square:Square,lovePoint:Int){
         isBaseActivity {
-            //            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
-//            mData?.let {
-//                dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 4,"userId" to square.userid.toString(),"square" to square)
-//            }
-//            dialogSendRedFlowerDialog.show(it.supportFragmentManager,"sendflower")
-//
-//            dialogSendRedFlowerDialog.setDialogListener { p, s ->
-//                mData?.let {
-//                    var index = it.indexOf(square)
-//                    it.get(index).iFlowerCount = s.toString().toInt()+square.iFlowerCount!!.toInt()
-//                    it.get(index).iIsSendFlower = 1
-//                    notifyItemChanged(index+1)
-//                }
-//            }
             mData?.let {
                 var index = it.indexOf(square)
                 it.get(index).iLovePoint = lovePoint+square.iLovePoint!!.toInt()
                 it.get(index).iSendLovePoint = lovePoint
+                it.get(index).iSendLovePoint = 1
                 notifyItemChanged(index+1,"dddsasdf")
             }
             Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->

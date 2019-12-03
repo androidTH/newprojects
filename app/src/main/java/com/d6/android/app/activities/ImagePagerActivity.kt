@@ -29,6 +29,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import kotlinx.android.synthetic.main.activity_image_pager.*
+import kotlinx.android.synthetic.main.activity_qr.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.toast
@@ -114,14 +115,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             userId = intent.getStringExtra(USERID)
             squareId = intent.getStringExtra(SOURCEID)
             mSquare = intent.getSerializableExtra(mBEAN) as Square
-            if(!TextUtils.equals(userId, getLocalUserId())){
-                var sIflovepics = intent.getStringExtra(SIfLovePics)
-                mBlurIndex.addAll(sIflovepics.split(",").toList())
-                showPayPoints(position)
-            }else{
-                rl_paypoints.visibility = View.GONE
-                rl_tips.visibility = View.GONE
-            }
+            var sIflovepics = intent.getStringExtra(SIfLovePics)
+            mBlurIndex.addAll(sIflovepics.split(",").toList())
+            showPayPoints(position)
         }
         urls.forEach {
             var url = it
@@ -131,7 +127,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 url = it.replace(Const.Pic_Thumbnail_Size_wh400,"")
             }
             if(mBlurIndex!=null&&mBlurIndex.size>0){
-                if(TextUtils.equals("2",mBlurIndex[key])){
+                if(TextUtils.equals("2",mBlurIndex[key])&&!TextUtils.equals(userId, getLocalUserId())){
                     url = it.replace("?imageslim",Const.BLUR_50)
                 }
             }
@@ -180,11 +176,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onPageSelected(position: Int) {
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
-        if(!TextUtils.equals(userId, getLocalUserId())){
-            showPayPoints(position)
-            urls.let {
-                PayPoint_Path = urls[position].replace("?imageslim","")
-            }
+        showPayPoints(position)
+        urls.let {
+            PayPoint_Path = urls[position].replace("?imageslim", "")
         }
     }
 
@@ -197,6 +191,13 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             if(TextUtils.equals("2",mBlurIndex[position])){
                 rl_paypoints.visibility = View.VISIBLE
                 rl_tips.visibility = View.VISIBLE
+                if(!TextUtils.equals(userId, getLocalUserId())){
+                    tv_tips.text = "打赏后可见"
+                }else{
+                    rl_paypoints.visibility = View.GONE
+                    rl_tips.visibility = View.VISIBLE
+                    tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
+                }
             }else{
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.GONE
@@ -208,6 +209,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 1,"${squareId}","${PayPoint_Path}").request(this, false, success = { _, data ->
             rl_paypoints.visibility = View.GONE
             rl_tips.visibility = View.GONE
+//            tv_tips.text = "解锁状态"
+
             mBlurIndex[mImageViewPager.currentItem] = "1"
             var sb = StringBuffer()
             mBlurIndex.forEach {
@@ -215,7 +218,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }
             sb.deleteCharAt(sb.length - 1)
             mSquare.sIfLovePics = sb.toString()
-//            EventBus.getDefault().post(FlowerMsgEvent(0,mSquare))
+            mSquare.iLovePoint = mSquare.iLovePoint?.let {
+                it+loveHeartNums
+            }
             var intent = Intent(Const.SQUARE_MESSAGE)
             intent.putExtra("bean",mSquare)
             sendBroadcast(intent)

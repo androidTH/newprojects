@@ -74,23 +74,6 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }
         }
 
-//        photo_drag_relaivelayout.setDragListener(PhotoDragHelper().setOnDragListener(object : PhotoDragHelper.OnDragListener {
-//
-//            override fun getDragView(): View {
-//                return mImageViewPager
-//            }
-//
-//            override fun onAlpha(alpha: Float) {
-//                photo_drag_relaivelayout.setAlpha(alpha)
-//            }
-//
-//            override fun onAnimationEnd(mSlop: Boolean) {
-//                if (mSlop) {
-//                    onBackPressed()
-//                }
-//            }
-//        }))
-
         initData()
     }
 
@@ -171,6 +154,9 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             var p = mImageLocalViewPager.currentItem
             var flag = mHashMap[p] as Boolean
             mHashMap.put(p,setCheckPic(!flag))
+            if(flag){
+                mPayPointsHashMap.put(urls[p],setPayPointPic(!flag))
+            }
             chooseCount = setNoChooseUrls()
             tv_dowork.text = "完成·${chooseCount}"
         }
@@ -179,6 +165,14 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             var p = mImageLocalViewPager.currentItem
             var checked = mPayPointsHashMap[urls[p]] as Boolean
             mPayPointsHashMap.put(urls[p],setPayPointPic(!checked))
+
+            if(!checked){
+                chooseCount = 0
+                mNoChooseUrls.clear()
+                mHashMap.put(p,setCheckPic(!checked))
+                chooseCount = setNoChooseUrls()
+                tv_dowork.text = "完成·${chooseCount}"
+            }
         }
     }
 

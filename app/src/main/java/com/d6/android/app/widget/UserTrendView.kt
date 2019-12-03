@@ -312,7 +312,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //            tv_redflower.visibility = View.VISIBLE
 //        }
 
-        tv_redflower.isSelected = if ((square.iIsSendFlower?:0) > 0) {
+        tv_redflower.isSelected = if ((square.iSendLovePoint?:0) > 0) {
             true
         } else {
             false
