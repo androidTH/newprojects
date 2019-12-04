@@ -266,7 +266,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                 }
                 //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）
             }else if(message.content is TipsMessage){
-                if(removeKFService(message.targetId)){
+                if(checkKFService(message.targetId)){
                     var tipsMessage = message.content as TipsMessage
                     var jsonObject = JSONObject(tipsMessage.extra)
                     var type = jsonObject.optString("status")

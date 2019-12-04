@@ -453,9 +453,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             it.setDialogListener { p, s ->
                 SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
                 applyPrivateChat()
-//                relative_tips.visibility = View.GONE
-//                IsAgreeChat = false
-//                fragment?.doIsNotSendMsg(false, "")
             }
         }
     }
@@ -567,10 +564,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
      * 获取私聊状态
      */
     private fun getApplyStatus(){
+
         Request.getApplyStatus(getLocalUserId(),if(iType==2)  mTargetId else mOtherUserId,iType).request(this,false,success={ msg, jsonObjetct->
             jsonObjetct?.let {
                 var code = it.optInt("code")
                 Log.i("chatactivity","code=${code}----${it}")
+                fragment?.hideChatInput(false)
                 if(code == 1){//已申请私聊且对方已同意
                     relative_tips.visibility = View.GONE
                     if(TextUtils.equals("1",sex)){
@@ -966,6 +965,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             return
         }
         fragment = ConversationFragmentEx()
+        if (checkKFService(mOtherUserId)) {
+            fragment?.arguments = bundleOf("hideinput" to true)
+        }else{
+            fragment?.arguments = bundleOf("hideinput" to false)
+        }
 
         val uri = Uri.parse("rong://" + applicationInfo.packageName).buildUpon()
                 .appendPath("conversation").appendPath(mConversationType.getName().toLowerCase())
@@ -998,7 +1002,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }
 
         val transaction = supportFragmentManager.beginTransaction()
-        //xxx 涓轰綘瑕佸姞杞界殑 id
+        //xxx
         transaction.add(R.id.rong_content, fragment)
         transaction.commitAllowingStateLoss()
 
@@ -1124,10 +1128,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     getApplyStatus()
                 }
             }
-
         }
 
-        if (removeKFService(mOtherUserId)) {
+        if (checkKFService(mOtherUserId)) {
             getApplyStatus()
         }
     }
@@ -1169,7 +1172,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
     override fun onSent(p0: Message?, p1: RongIM.SentMessageErrorCode?): Boolean {
         p0?.let {
-            if (removeKFService(mOtherUserId)) {
+            if (checkKFService(mOtherUserId)) {
 //                if (TextUtils.equals("1", sex)) {
                 if (IsAgreeChat||(SendMsgTotal!=-1&&sAppointmentSignupId.isNotEmpty())) {
                     if (p1 == null) {
@@ -1181,7 +1184,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //                    sendOutgoingSystemMessage(getString(R.string.string_system_tips01), "1")
 //                    SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE + getLocalUserId(), false).apply()
 //                }
-
                 Log.i(TAG, "${p1}用户Id${it.senderUserId}")
 //                    }
 //                }

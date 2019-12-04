@@ -49,6 +49,7 @@ public class ConversationFragmentEx extends ConversationFragment {
     private boolean IsNotInput = false;
     private String hitmsg ="";
     private boolean IsNotEditTextClick = false;
+    private boolean IsHideInput = false;
 
     public ConversationFragmentEx(){
 
@@ -59,6 +60,7 @@ public class ConversationFragmentEx extends ConversationFragment {
         super.onCreate(savedInstanceState);
         if(getArguments()!=null){
             IsNotInput = getArguments().getBoolean("flag");
+            IsHideInput = getArguments().getBoolean("hideinput");
             hitmsg = getArguments().getString("hitmsg");
         }
     }
@@ -72,7 +74,7 @@ public class ConversationFragmentEx extends ConversationFragment {
         mMyPluginToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_plugin_toggle);
         mMyVoiceToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_voice_toggle);
         doIsNotSendMsg(IsNotInput,hitmsg);
-        hideChatInput(false);
+        hideChatInput(IsHideInput);
         return v;
     }
 
@@ -231,9 +233,13 @@ public class ConversationFragmentEx extends ConversationFragment {
 
     public void hideChatInput(boolean flag){
         if(flag){
-            rongExtension.setVisibility(View.GONE);
+            if(rongExtension!=null){
+                rongExtension.setVisibility(View.GONE);
+            }
         }else{
-            rongExtension.setVisibility(View.VISIBLE);
+            if(rongExtension!=null){
+                rongExtension.setVisibility(View.VISIBLE);
+            }
         }
     }
 

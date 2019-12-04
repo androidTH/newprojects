@@ -1212,8 +1212,21 @@ fun sendOutgoingSystemMessage(msg:String,type:String,message:Message){
 
 
 fun removeKFService(mOtherUserId:String):Boolean{
-    if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId) || !TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+    if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId)||!TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
         return true
+    }
+    return false
+}
+
+fun checkKFService(mOtherUserId:String):Boolean{
+    if(TextUtils.equals(getUserSex(),"0")){
+        if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+            return true
+        }
+    }else if(TextUtils.equals(getUserSex(),"1")){
+        if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId)){
+            return true
+        }
     }
     return false
 }
