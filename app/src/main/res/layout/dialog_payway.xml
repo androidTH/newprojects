@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_white_4r"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付"
+            android:textColor="@color/color_black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/height_40"
+            android:textColor="@color/color_black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_money_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_5"
+            android:textColor="@color/color_666666"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:id="@+id/rl_alipay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="@dimen/margin_45"
+            android:layout_marginRight="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_45"
+                android:background="@drawable/shape_4r_32a"
+                android:gravity="center"
+                android:text="支付宝支付"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:src="@mipmap/alipay_buttonicon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_wechatpay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginRight="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_45"
+                android:background="@drawable/shape_4r_6dd"
+                android:gravity="center"
+                android:text="微信支付"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:src="@mipmap/wechatpay_buttonicon" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_money_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:visibility="gone"
+            android:text="温馨提示：支付金额大于300元，超出微信支
+付的限额，建议选择支付宝支付"
+            android:textColor="@color/color_8888"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/ic_close_orange2" />
+</RelativeLayout>

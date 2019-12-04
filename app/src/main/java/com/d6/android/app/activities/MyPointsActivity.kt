@@ -57,6 +57,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     fun IsNotNullPointsListDialog()=::mPointsListDialog.isInitialized
     lateinit var mRedHeartListDialog: RedHeartListDialog
     fun IsNotNullRedHeartListDialog()=::mRedHeartListDialog.isInitialized
+    lateinit var mPayWayDialog:PayWayDialog
+    fun IsNotNullPayWayDialog()=::mPayWayDialog.isInitialized
 
     private val mPointsAdapter by lazy {
         PointsAdapter(mUserPoints)
@@ -111,7 +113,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //              mPointsListDialog.arguments = bundleOf("payresult" to PointsListDialog.PAY_)
                 mPointsListDialog.show(supportFragmentManager, "c")
                 mPointsListDialog.setOnPayListener { p, data ->
-                    payMoney(data.iPoint,data.iPrice,0,"积分")
+//                    payMoney(data.iPoint,data.iPrice,0,"积分",PayWay.WechatPay)
+                    showPayWay(data.iPoint,data.iPrice,0,"积分")
                 }
             }else{
                 val commonTiphDialog = CommonTipDialog()
@@ -204,7 +207,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             mRedHeartListDialog = RedHeartListDialog()
             mRedHeartListDialog.show(supportFragmentManager, "c")
             mRedHeartListDialog.setOnPayListener { p, data ->
-                payMoney(data.iLoveCount,data.iPrice,3,"爱心")
+                showPayWay(data.iLoveCount,data.iPrice,3,"爱心")
+//                payMoney(data.iLoveCount,data.iPrice,3,"爱心",PayWay.WechatPay)
             }
         }else{
             val commonTiphDialog = CommonTipDialog()
@@ -356,10 +360,23 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         })
     }
 
-    private fun payMoney(iPoint:Int?,iPrice:Int?,buyType:Int,goodsName:String) {
+    private fun showPayWay(iPoint:Int?,iPrice:Int?,buyType:Int,goodsName:String){
+        mPayWayDialog = PayWayDialog()
+        mPayWayDialog?.arguments = bundleOf("money" to "${iPrice}","classname" to "${goodsName}")
+        mPayWayDialog?.setDialogListener { p, s ->
+            if(p==1){
+                payMoney(iPoint,iPrice,buyType,"${goodsName}",PayWay.WechatPay)
+            }else{
+                payMoney(iPoint,iPrice,buyType,"${goodsName}",PayWay.ALiPay)
+            }
+        }
+        mPayWayDialog?.show(supportFragmentManager,"payway")
+    }
+
+    private fun payMoney(iPoint:Int?,iPrice:Int?,buyType:Int,goodsName:String,payWay:PayWay) {
         val params = PayParams.Builder(this)
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
-                .payWay(PayWay.WechatPay)
+                .payWay(payWay)
                 .UserId(userId.toInt())
                 .setSUserLoginToken(getLoginToken())
                 .iPoint(iPoint)
@@ -383,6 +400,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?,orderId:String) {
+                if(IsNotNullPayWayDialog()){
+                    mPayWayDialog.dismissAllowingStateLoss()
+                }
+
                 if(!TextUtils.isEmpty(orderId)){
                     getOrderStatus(orderId,buyType)
                 }

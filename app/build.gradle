@@ -203,7 +203,7 @@ dependencies {
     implementation 'com.github.ctiao:DanmakuFlameMaster:0.9.25'
     implementation 'com.github.ctiao:ndkbitmap-armv7a:0.9.21'
 
-    compile (name: 'alipaySdk-15.6.8-20191021122514', ext: 'aar')
+    compile (name: 'alipaySdk-15.6.8-20191021122455-noUtdid', ext: 'aar')
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.11'
 
 //    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'

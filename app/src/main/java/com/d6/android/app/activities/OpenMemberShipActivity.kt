@@ -71,6 +71,7 @@ class OpenMemberShipActivity : BaseActivity() {
 
     var mComments = ArrayList<MemberComment>()
     private var mFragments = ArrayList<MemberShipQuickFragment>()
+    private var mPayWayDialog:PayWayDialog?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,7 +140,19 @@ class OpenMemberShipActivity : BaseActivity() {
                     if (member != null) {
                         member.iAndroidPrice?.let {
                             var ids = member.ids
-                            ids?.let { it1 -> buyRedFlowerPay(it, areaName, it1, member.classesname.toString()) }
+                            ids?.let { it1 ->
+                                mPayWayDialog = PayWayDialog()
+                                mPayWayDialog?.arguments = bundleOf("money" to "${it}","classname" to "${member.classesname}")
+                                mPayWayDialog?.setDialogListener { p, s ->
+                                    if(p==1){
+                                        buyRedFlowerPay(it, areaName, it1, member.classesname.toString(),PayWay.WechatPay)
+                                    }else{
+                                        buyRedFlowerPay(it, areaName, it1, member.classesname.toString(),PayWay.ALiPay)
+                                    }
+                                }
+                                mPayWayDialog?.show(supportFragmentManager,"payway")
+
+                            }
                         }
                     }
                 } else if (member.ids == 31) {
@@ -156,7 +169,16 @@ class OpenMemberShipActivity : BaseActivity() {
                                 if (!TextUtils.isEmpty(s)) {
                                     var pirce = s?.let { it.toInt() }
                                     member.ids?.let {
-                                        buyRedFlowerPay(pirce, "", it, member.classesname.toString())
+                                        mPayWayDialog = PayWayDialog()
+                                        mPayWayDialog?.arguments = bundleOf("money" to "${pirce}","classname" to "${member.classesname}")
+                                        mPayWayDialog?.setDialogListener { p, s ->
+                                            if(p==1){
+                                               buyRedFlowerPay(pirce, "", it, "${member.classesname}",PayWay.WechatPay)
+                                            }else{
+                                                buyRedFlowerPay(pirce, "", it, "${member.classesname}",PayWay.ALiPay)
+                                            }
+                                        }
+                                        mPayWayDialog?.show(supportFragmentManager,"payway")
                                     }
                                 }
                             }
@@ -173,21 +195,22 @@ class OpenMemberShipActivity : BaseActivity() {
                         it.setDialogListener { p, s ->
                             if (p == 1000) {
                                 //支付
-                                member.ids?.let {
-                                    if(!TextUtils.equals("",s)){
-                                        var price = s.toString().toInt()
-                                        buyRedFlowerPay(price, areaName, it, member.classesname.toString())
+                                var money = s
+                                mPayWayDialog = PayWayDialog()
+                                mPayWayDialog?.arguments = bundleOf("money" to "${money}","classname" to "${member.classesname}")
+                                mPayWayDialog?.setDialogListener { p, s ->
+                                    member.ids?.let {
+                                        if(!TextUtils.equals("",money)){
+                                            var price = money.toString().toInt()
+                                            if(p==1){
+                                                buyRedFlowerPay(price, areaName, it,"${member.classesname}",PayWay.WechatPay)
+                                            }else{
+                                                buyRedFlowerPay(price, areaName, it,"${member.classesname}",PayWay.ALiPay)
+                                            }
+                                        }
                                     }
-//                                    FinishActivityManager.getManager().finishActivity(AuthMenStateActivity::class.java)
-//                                    var payResultDialog = PayResultDialog()
-//                                    payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
-//                                    payResultDialog.show(supportFragmentManager, "fd")
-//                                    payResultDialog.setDialogListener { p, s ->
-//                                        startActivity<MemberActivity>()
-//                                        onBackPressed()
-//                                    }
-
                                 }
+                                mPayWayDialog?.show(supportFragmentManager,"payway")
                             } else if (p == 2001) {
                                 startActivityForResult<ScreeningAreaActivity>(AREA_REQUEST_CODE_SILIVER)
                             }
@@ -277,10 +300,10 @@ class OpenMemberShipActivity : BaseActivity() {
         tv_openmember.text = openmemberdesc
     }
 
-    private fun buyRedFlowerPay(price: Int?, sAreaName: String, userclassId: Int, userclassname: String) {
+    private fun buyRedFlowerPay(price: Int?, sAreaName: String, userclassId: Int, userclassname: String,payWay:PayWay) {
         val params = PayParams.Builder(this)
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
-                .payWay(PayWay.WechatPay)
+                .payWay(payWay)
                 .UserId(userId.toInt())
                 .setSUserLoginToken(getLoginToken())
                 .goodsPrice(price)// 单位为：分 pointRule.iPrice
@@ -305,6 +328,11 @@ class OpenMemberShipActivity : BaseActivity() {
             }
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?, orderId: String) {
+                if(mPayWayDialog!=null){
+                    mPayWayDialog?.let {
+                        it.dismissAllowingStateLoss()
+                    }
+                }
                 if (!TextUtils.isEmpty(orderId)) {
                     checkOrderStatus(orderId)
                 }
