@@ -31,7 +31,7 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     iv_lock.visibility = View.GONE
                     imageView.setImageURI(data)
                 }else{
-                    if(mBlurIndex!=null&&mBlurIndex.size>0){
+                    if(mBlurIndex!=null&&mBlurIndex.size>position){
                         if(TextUtils.equals("2",mBlurIndex[position])){
                             iv_lock.visibility = View.VISIBLE
                             imageView.showBlur(data)
