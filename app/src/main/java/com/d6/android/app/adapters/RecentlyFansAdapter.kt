@@ -59,7 +59,7 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
         } else {
 //            tv_vip.text = String.format("%s", data.userclassesname)
             tv_vip.visibility = View.VISIBLE
-            tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
+            tv_vip.backgroundDrawable = getLevelDrawable("${data.userclassesid}",context)
         }
 
         var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
