@@ -23,14 +23,15 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_20"
             android:src="@mipmap/seepic_loveheart_big_icon"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:layout_centerInParent="true"
+            android:text="打赏喜欢后可见"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:text="打赏喜欢后可见"/>
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tv_paypoints"
             android:layout_width="60dp"

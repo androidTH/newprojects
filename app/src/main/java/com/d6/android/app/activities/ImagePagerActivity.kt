@@ -192,7 +192,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     private fun showPayPoints(position: Int){
         if(mBlurIndex!=null&&mBlurIndex.size>0){
-            if(TextUtils.equals("2",mBlurIndex[position])){
+            var blurType = mBlurIndex[position]
+            if(TextUtils.equals("2",blurType)){
                 rl_paypoints.visibility = View.VISIBLE
                 rl_tips.visibility = View.VISIBLE
                 if(!TextUtils.equals(userId, getLocalUserId())){
@@ -202,18 +203,28 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                     rl_tips.visibility = View.VISIBLE
                     tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
                 }
+            }else if(TextUtils.equals("1",blurType)){
+                rl_paypoints.visibility = View.GONE
+                rl_tips.visibility = View.VISIBLE
+                if(!TextUtils.equals(userId, getLocalUserId())){
+                    tv_tips.text = "解锁状态"
+                }else{
+                    tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
+                }
             }else{
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.GONE
             }
+        }else{
+            rl_paypoints.visibility = View.GONE
         }
     }
 
     private fun sendPayPoint(loveHeartNums:Int){
-        Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 1,"${squareId}","${PayPoint_Path}").request(this, false, success = { _, data ->
+        Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 5,"${squareId}","${PayPoint_Path}").request(this, false, success = { _, data ->
             rl_paypoints.visibility = View.GONE
-            rl_tips.visibility = View.GONE
-//            tv_tips.text = "解锁状态"
+            rl_tips.visibility = View.VISIBLE
+            tv_tips.text = "解锁状态"
 
             mBlurIndex[mImageViewPager.currentItem] = "1"
             var sb = StringBuffer()

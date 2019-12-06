@@ -29,10 +29,12 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
             override fun run() {
                 if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
                     iv_lock.visibility = View.GONE
-                    imageView.setImageURI(data)
+//                    imageView.setImageURI(data)
+                    imageView.showBlur(data)
                 }else{
                     if(mBlurIndex!=null&&mBlurIndex.size>position){
-                        if(TextUtils.equals("2",mBlurIndex[position])){
+                        var blurType = mBlurIndex[position]
+                        if(TextUtils.equals("2",blurType)){
                             iv_lock.visibility = View.VISIBLE
                             imageView.showBlur(data)
                         }else{
