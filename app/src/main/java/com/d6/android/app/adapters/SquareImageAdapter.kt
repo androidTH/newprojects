@@ -27,25 +27,23 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
         imageView.postDelayed(object:Runnable{
             override fun run() {
-                if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
-                    iv_lock.visibility = View.GONE
-//                    imageView.setImageURI(data)
-                    imageView.showBlur(data)
-                }else{
-                    if(mBlurIndex!=null&&mBlurIndex.size>position){
-                        var blurType = mBlurIndex[position]
-                        if(TextUtils.equals("2",blurType)){
-                            iv_lock.visibility = View.VISIBLE
+                if(mBlurIndex!=null&&mBlurIndex.size>position){
+                    var blurType = mBlurIndex[position]
+                    if(TextUtils.equals("2",blurType)){
+                        if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
+                            iv_lock.visibility = View.GONE
                             imageView.showBlur(data)
                         }else{
-                            iv_lock.visibility = View.GONE
-                            imageView.setImageURI(data)
+                            iv_lock.visibility = View.VISIBLE
+                            imageView.showBlur(data)
                         }
-                        Log.i("squareimgage","内容：${mSquare.content}，${mBlurIndex[position]},uri=${data}")
                     }else{
                         iv_lock.visibility = View.GONE
                         imageView.setImageURI(data)
                     }
+                }else{
+                    iv_lock.visibility = View.GONE
+                    imageView.setImageURI(data)
                 }
             }
         },200)

@@ -125,7 +125,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             mImages.clear()
             var mBlurHashMap = mImagelocal.mPayPointsHashMap
             mImagelocal.mUrls.forEach {
-                val image = AddImage("file://${it}")
+                var image = AddImage("file://${it}")
                 image.path = it
                 var obj = mBlurHashMap[it]
                 if(obj!=null){

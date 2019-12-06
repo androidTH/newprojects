@@ -203,7 +203,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                     rl_tips.visibility = View.VISIBLE
                     tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
                 }
-            }else if(TextUtils.equals("1",blurType)){
+            }else if(TextUtils.equals("3",blurType)){
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.VISIBLE
                 if(!TextUtils.equals(userId, getLocalUserId())){
@@ -226,7 +226,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             rl_tips.visibility = View.VISIBLE
             tv_tips.text = "解锁状态"
 
-            mBlurIndex[mImageViewPager.currentItem] = "1"
+            mBlurIndex[mImageViewPager.currentItem] = "3"
             var sb = StringBuffer()
             mBlurIndex.forEach {
                 sb.append(it).append(",")

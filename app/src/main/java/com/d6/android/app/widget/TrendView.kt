@@ -62,7 +62,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         //        rv_images.layoutManager = GridLayoutManager(context,3)
                 rv_images.adapter = imageAdapter
         //        rv_images.addItemDecoration(SpacesItemDecoration(dip(4),3))
-        //
                 val recyclerViewClickListener = RecyclerViewClickListener(context,rv_images,RecyclerViewClickListener.OnClickListener {
                     square?.let {
                         onItemClick?.onClick(rv_images,it)
@@ -77,7 +76,6 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
                 commentAdapter.setOnCommentClick {
                     square?.let {
-                        Log.i("mOnSquareDetailsClick","dddddd")
                         mOnSquareDetailsClick?.onSquareDetails(it)
                     }
                 }
