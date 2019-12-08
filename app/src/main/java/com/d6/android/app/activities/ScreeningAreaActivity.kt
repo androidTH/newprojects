@@ -83,9 +83,11 @@ class ScreeningAreaActivity : BaseActivity() {
                 if (currentPos != currentItem && currentPos >= 0) {
                     currentItem = currentPos
                     mProciceAdapter.selectItem = currentItem
-                    tv_menu_toptitle.text = mProvinces.get(currentPos).name
-                    mProciceAdapter.notifyDataSetChanged()
-                    rv_menu.getLayoutManager().scrollToPosition(currentPos)
+                    if(mProvinces.size>currentPos){
+                        tv_menu_toptitle.text = mProvinces.get(currentPos).name
+                        mProciceAdapter.notifyDataSetChanged()
+                        rv_menu.getLayoutManager().scrollToPosition(currentPos)
+                    }
                 }
             }
         })

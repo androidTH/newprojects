@@ -157,14 +157,15 @@ class MyInfoActivity : BaseActivity(),Observer{
         }
 
         tv_inputaddress.setOnClickListener {
-            if ("${userData.area}"=="null"||"${userData.area}".isNullOrEmpty()) {
-                startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
-            }else{
-                var isnolocation = SPUtils.instance().getBoolean(ISNOTLOCATION,true)
-                if(isnolocation){
-                    startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
-                }
-            }
+//            if ("${userData.area}"=="null"||"${userData.area}".isNullOrEmpty()) {
+//                startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
+//            }else{
+//                var isnolocation = SPUtils.instance().getBoolean(ISNOTLOCATION,true)
+//                if(isnolocation){
+//                    startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
+//                }
+//            }
+            startActivityForResult<AreaChooseActivity>(AREA_REQUEST_CODE)
         }
 
         tv_sex1.setOnClickListener {
@@ -291,7 +292,7 @@ class MyInfoActivity : BaseActivity(),Observer{
                 if(isnolocation){
                     tv_address_tips.visibility = View.GONE
                 }else{
-                    tv_address_tips.visibility = View.VISIBLE
+                    tv_address_tips.visibility = View.GONE
                 }
             }else{
                 tv_address_tips.visibility = View.GONE
@@ -382,7 +383,7 @@ class MyInfoActivity : BaseActivity(),Observer{
             }else if(requestCode == AREA_REQUEST_CODE){
                 var area = data!!.getStringExtra("area")
                 tv_inputaddress.text = area
-                tv_address_tips.visibility = View.VISIBLE
+                tv_address_tips.visibility = View.GONE
             }
         }
     }

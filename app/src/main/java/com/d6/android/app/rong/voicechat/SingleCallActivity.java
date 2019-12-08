@@ -27,7 +27,6 @@ import com.d6.android.app.R;
 import com.d6.android.app.activities.UserInfoActivity;
 import com.d6.android.app.eventbus.LoveHeartMsgEvent;
 import com.d6.android.app.models.VoiceTips;
-import com.d6.android.app.net.Request;
 import com.d6.android.app.rong.bean.TipsMessage;
 import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.LoveHeart;
@@ -1247,7 +1246,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         giftControl.setmGiftAnimationEndListener(new GiftControl.GiftAnimationEndListener() {
             @Override
             public void getGiftCount(int giftCount) {
-                EventBus.getDefault().post(new LoveHeartMsgEvent(targetId,giftCount));
+                EventBus.getDefault().post(new LoveHeartMsgEvent(targetId+"",giftCount));
             }
         });
     }

@@ -156,7 +156,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     RongIM.getInstance().refreshGroupInfoCache(group)
                 }
             })
-
+            iv_privatechat_sendredheart.visibility = View.GONE
         }else if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
             immersionBar.init()
             mOtherUserId = mTargetId

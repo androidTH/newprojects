@@ -244,7 +244,7 @@ interface ApiServices {
 
     //获取订单支付状态
     @POST("backstage/order/getOrderById")
-    fun getOrderById(@Query("sOrderid") sOrderid:String?,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun getOrderById(@Query("sOrderid") sOrderid:String?, @Query("iOrdertype") iOrdertype:Int, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //发布约会
     @POST("backstage/appointment/add")

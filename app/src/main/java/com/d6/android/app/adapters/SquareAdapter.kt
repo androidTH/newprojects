@@ -35,18 +35,8 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
 
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
-        val dateofsquare_view = holder.bind<DateOfSquareView>(R.id.dateofsquare_view)
-//        val voicechat_view = holder.bind<VoiceChatView>(R.id.voicechat_view)
-        if(data.classesid==66){
-            dateofsquare_view.visibility = View.GONE
-            trendView.visibility = View.GONE
-//            voicechat_view.visibility = View.GONE
-            dateofsquare_view.update(data)
-        }else{
-            dateofsquare_view.visibility = View.GONE
-            trendView.visibility = View.VISIBLE
-            trendView.update(data)
-        }
+        trendView.visibility = View.VISIBLE
+        trendView.update(data)
 
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {
@@ -95,24 +85,6 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
         trendView.onTogglePlay {
             mOnSquareAudioTogglePlay?.onSquareAudioPlayClick(position,it)
         }
-
-        dateofsquare_view.sendDateListener {
-            var appointment = it
-            isBaseActivity {
-                it.isAuthUser {
-                    if(!TextUtils.equals(getLocalUserId(),appointment.userid)){
-                        signUpDate(appointment)
-                    }else{
-                       it.toast("自己的约会禁止邀约")
-                    }
-                }
-            }
-        }
-
-        dateofsquare_view.setDeleteClick {
-            doReport("${it.userid}","${it.sAppointmentId}",it.iIsAnonymous!!.toInt(),data)
-        }
-
 //        voicechat_view.sendVoiceChatListener {
 //            var square = it
 //            isBaseActivity {

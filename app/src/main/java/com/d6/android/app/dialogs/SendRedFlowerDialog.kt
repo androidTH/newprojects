@@ -98,7 +98,7 @@ class SendRedFlowerDialog : DialogFragment() {
             if(!TextUtils.isEmpty(flowerCount)){
                 var mSendFlowerCount = flowerCount.toInt()
                 if(mSendFlowerCount>0){
-                    buyRedFlowerPay(mSendFlowerCount,id,mSquareId)
+                    buyRedFlowerPay(mSendFlowerCount,id,mSquareId,1)
                 }else{
                     CustomToast.showToast("请选中或输入送花的个数")
                 }
@@ -186,7 +186,7 @@ class SendRedFlowerDialog : DialogFragment() {
         })
     }
 
-    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String,sResourceid:String){
+    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String,sResourceid:String,iOrderType:Int){
         val params = PayParams.Builder((context as BaseActivity))
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
@@ -217,7 +217,7 @@ class SendRedFlowerDialog : DialogFragment() {
             override fun onPaySuccess(payWay: PayWay?,orderId:String) {
                 Log.i("redflowerorderId",orderId)
                 if(!TextUtils.isEmpty(orderId)){
-                    checkOrderStatus(receiverUserId,orderId,flowerCount.toString())
+                    checkOrderStatus(receiverUserId,orderId,flowerCount.toString(),iOrderType)
                 }
             }
 
@@ -233,12 +233,12 @@ class SendRedFlowerDialog : DialogFragment() {
     /**
      * 检查订单的状态
      */
-    private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String){
+    private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String,iOrderType:Int){
         if(context!=null){
             if(mToFromType!=5){
                 BuyRedFlowerSuccess(receiverUserId,flowerCount)
             }
-            Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
+            Request.getOrderById(orderId,iOrderType).request((context as BaseActivity),false,success={msg,data->
 //                Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
 //                    if(mToFromType == 1){
 //                        EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))

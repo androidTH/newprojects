@@ -347,7 +347,7 @@ class AuthMenStateActivity : BaseActivity() {
         }).toPay(object : OnPayResultListener {
             override fun onPaySuccess(payWay: PayWay?,orderId:String) {
                 if(!TextUtils.isEmpty(orderId)){
-                    checkOrderStatus(orderId)
+                    checkOrderStatus(orderId,1)
                 }
             }
 
@@ -365,8 +365,8 @@ class AuthMenStateActivity : BaseActivity() {
     /**
      * 检查订单的状态
      */
-    private fun checkOrderStatus(orderId:String){
-            Request.getOrderById(orderId).request(this,false,success={msg,data->
+    private fun checkOrderStatus(orderId:String,iOrderType:Int){
+            Request.getOrderById(orderId,iOrderType).request(this,false,success={msg,data->
                 if(mAppMemberDialog!=null){
                     mAppMemberDialog?.let {
                         it.dismissAllowingStateLoss()

@@ -365,15 +365,15 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         mPayWayDialog?.arguments = bundleOf("money" to "${iPrice}","classname" to "${goodsName}")
         mPayWayDialog?.setDialogListener { p, s ->
             if(p==1){
-                payMoney(iPoint,iPrice,buyType,"${goodsName}",PayWay.WechatPay)
+                payMoney(iPoint,iPrice,buyType,"${goodsName}",PayWay.WechatPay,p)
             }else{
-                payMoney(iPoint,iPrice,buyType,"${goodsName}",PayWay.ALiPay)
+                payMoney(iPoint,iPrice,buyType,"${goodsName}",PayWay.ALiPay,p)
             }
         }
         mPayWayDialog?.show(supportFragmentManager,"payway")
     }
 
-    private fun payMoney(iPoint:Int?,iPrice:Int?,buyType:Int,goodsName:String,payWay:PayWay) {
+    private fun payMoney(iPoint:Int?,iPrice:Int?,buyType:Int,goodsName:String,payWay:PayWay,iOrderType:Int) {
         val params = PayParams.Builder(this)
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(payWay)
@@ -405,7 +405,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
                 if(!TextUtils.isEmpty(orderId)){
-                    getOrderStatus(orderId,buyType)
+                    getOrderStatus(orderId,buyType,iOrderType)
                 }
             }
 
@@ -423,8 +423,8 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     /**
      * 获取支付状态
      */
-    private fun getOrderStatus(orderId:String,buyType:Int){
-        Request.getOrderById(orderId).request(this,false,success={msg,data->
+    private fun getOrderStatus(orderId:String,buyType:Int,iOrderType:Int){
+        Request.getOrderById(orderId,iOrderType).request(this,false,success={msg,data->
             if(IsNotNullPointsListDialog()){
                 mPointsListDialog.dismissAllowingStateLoss()
             }

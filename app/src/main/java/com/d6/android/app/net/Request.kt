@@ -347,7 +347,7 @@ object Request {
     fun findLookAllAboutList(userId:String,iLookType:String,splace:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findLookAllAboutList(userId,iLookType,splace,pageNum)
 
     //获取支付后的订单状态
-    fun getOrderById(sOrderid:String)=RRetrofit.instance().create(ApiServices::class.java).getOrderById(sOrderid)
+    fun getOrderById(sOrderid:String,iOrdertype:Int)=RRetrofit.instance().create(ApiServices::class.java).getOrderById(sOrderid,iOrdertype)
 
     //添加查询约会扣除、退回、取消需要的积分接口
     fun queryAppointmentPoint(userId:String,iAppointUserid:String)=RRetrofit.instance().create(ApiServices::class.java).queryAppointmentPoint(userId,iAppointUserid)

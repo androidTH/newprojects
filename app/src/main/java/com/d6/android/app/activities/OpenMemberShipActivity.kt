@@ -145,9 +145,9 @@ class OpenMemberShipActivity : BaseActivity() {
                                 mPayWayDialog?.arguments = bundleOf("money" to "${it}","classname" to "${member.classesname}")
                                 mPayWayDialog?.setDialogListener { p, s ->
                                     if(p==1){
-                                        buyRedFlowerPay(it, areaName, it1, member.classesname.toString(),PayWay.WechatPay)
+                                        buyRedFlowerPay(it, areaName, it1, member.classesname.toString(),PayWay.WechatPay,p)
                                     }else{
-                                        buyRedFlowerPay(it, areaName, it1, member.classesname.toString(),PayWay.ALiPay)
+                                        buyRedFlowerPay(it, areaName, it1, member.classesname.toString(),PayWay.ALiPay,p)
                                     }
                                 }
                                 mPayWayDialog?.show(supportFragmentManager,"payway")
@@ -173,9 +173,9 @@ class OpenMemberShipActivity : BaseActivity() {
                                         mPayWayDialog?.arguments = bundleOf("money" to "${pirce}","classname" to "${member.classesname}")
                                         mPayWayDialog?.setDialogListener { p, s ->
                                             if(p==1){
-                                               buyRedFlowerPay(pirce, "", it, "${member.classesname}",PayWay.WechatPay)
+                                               buyRedFlowerPay(pirce, "", it, "${member.classesname}",PayWay.WechatPay,p)
                                             }else{
-                                                buyRedFlowerPay(pirce, "", it, "${member.classesname}",PayWay.ALiPay)
+                                                buyRedFlowerPay(pirce, "", it, "${member.classesname}",PayWay.ALiPay,p)
                                             }
                                         }
                                         mPayWayDialog?.show(supportFragmentManager,"payway")
@@ -203,9 +203,9 @@ class OpenMemberShipActivity : BaseActivity() {
                                         if(!TextUtils.equals("",money)){
                                             var price = money.toString().toInt()
                                             if(p==1){
-                                                buyRedFlowerPay(price, areaName, it,"${member.classesname}",PayWay.WechatPay)
+                                                buyRedFlowerPay(price, areaName, it,"${member.classesname}",PayWay.WechatPay,p)
                                             }else{
-                                                buyRedFlowerPay(price, areaName, it,"${member.classesname}",PayWay.ALiPay)
+                                                buyRedFlowerPay(price, areaName, it,"${member.classesname}",PayWay.ALiPay,p)
                                             }
                                         }
                                     }
@@ -300,7 +300,7 @@ class OpenMemberShipActivity : BaseActivity() {
         tv_openmember.text = openmemberdesc
     }
 
-    private fun buyRedFlowerPay(price: Int?, sAreaName: String, userclassId: Int, userclassname: String,payWay:PayWay) {
+    private fun buyRedFlowerPay(price: Int?, sAreaName: String, userclassId: Int, userclassname: String,payWay:PayWay,iOrderType:Int) {
         val params = PayParams.Builder(this)
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(payWay)
@@ -334,7 +334,7 @@ class OpenMemberShipActivity : BaseActivity() {
                     }
                 }
                 if (!TextUtils.isEmpty(orderId)) {
-                    checkOrderStatus(orderId)
+                    checkOrderStatus(orderId,iOrderType)
                 }
             }
 
@@ -352,8 +352,8 @@ class OpenMemberShipActivity : BaseActivity() {
     /**
      * 检查订单的状态
      */
-    private fun checkOrderStatus(orderId: String) {
-        Request.getOrderById(orderId).request(this, false, success = { msg, data ->
+    private fun checkOrderStatus(orderId: String,iOrderType:Int) {
+        Request.getOrderById(orderId,iOrderType).request(this, false, success = { msg, data ->
             if (mAppMemberDialog != null) {
                 mAppMemberDialog?.let {
                     it.dismissAllowingStateLoss()

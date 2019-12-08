@@ -2,11 +2,14 @@ package com.d6.android.app.easypay.pay.paystrategy;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
 import com.d6.android.app.easypay.EasyPay;
 import com.d6.android.app.easypay.PayParams;
 import com.d6.android.app.easypay.pay.ALiPayResult;
+import com.d6.android.app.easypay.pay.BaseModel;
+import com.d6.android.app.easypay.pay.PrePayInfo;
 import com.d6.android.app.easypay.pay.ResultStatus;
 import com.d6.android.app.easypay.pay.ThreadManager;
 import com.google.gson.Gson;
@@ -31,6 +34,7 @@ import java.util.Map;
 
 public class ALiPayStrategy extends BasePayStrategy {
     private static final int PAY_RESULT_MSG = 0;
+    private static String Out_trade_no= "";
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -40,16 +44,15 @@ public class ALiPayStrategy extends BasePayStrategy {
             }
             ThreadManager.shutdown();
             ALiPayResult result = new ALiPayResult((Map<String, String>) msg.obj);
-            String Out_trade_no= "";
-            Gson gson = new Gson();
-            try {
-                JSONObject jsonObject = new JSONObject(result.getResult());
-                String str = jsonObject.getString("alipay_trade_app_pay_response");
-                ResultStatus resultStatus = gson.fromJson(str, ResultStatus.class);
-                Out_trade_no = resultStatus.getOut_trade_no();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            Gson gson = new Gson();
+//            try {
+//                JSONObject jsonObject = new JSONObject(result.getResult());
+//                String str = jsonObject.getString("alipay_trade_app_pay_response");
+//                ResultStatus resultStatus = gson.fromJson(str, ResultStatus.class);
+//                Out_trade_no = resultStatus.getTrade_no();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
             switch (result.getResultStatus()) {
                 case ALiPayResult.PAY_OK_STATUS:
                     mOnPayResultListener.onPayCallBack(EasyPay.COMMON_PAY_OK,Out_trade_no);
@@ -91,13 +94,20 @@ public class ALiPayStrategy extends BasePayStrategy {
         Runnable payRun = new Runnable() {
             @Override
             public void run() {
-                PayTask task = new PayTask(mPayParams.getActivity());
-                // TODO 请根据自身需求解析mPrePayinfo，最终的字符串值应该为一连串key=value形式
-                Map<String, String> result = task.payV2(mPrePayInfo, true);
-                Message message = mHandler.obtainMessage();
-                message.what = PAY_RESULT_MSG;
-                message.obj = result;
-                mHandler.sendMessage(message);
+                Gson gson = new Gson();
+                BaseModel baseModel = gson.fromJson(mPrePayInfo, BaseModel.class);
+                PrePayInfo payInfo = baseModel.getObj();
+                if(payInfo!=null){
+                    PayTask task = new PayTask(mPayParams.getActivity());
+                    // TODO 请根据自身需求解析mPrePayinfo，最终的字符串值应该为一连串key=value形式
+                    Out_trade_no = payInfo.getsOrderid();
+                    Log.i("ALiPayStrategy",Out_trade_no+"orderId,orderInfo"+payInfo.getPrepayid());
+                    Map<String, String> result = task.payV2(payInfo.getPrepayid(), true);
+                    Message message = mHandler.obtainMessage();
+                    message.what = PAY_RESULT_MSG;
+                    message.obj = result;
+                    mHandler.sendMessage(message);
+                }
             }
         };
         ThreadManager.execute(payRun);

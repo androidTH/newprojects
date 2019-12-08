@@ -327,7 +327,8 @@
                     android:layout_alignParentRight="true"
                     android:textColor="@color/color_C1C1C1"
                     android:layout_marginRight="@dimen/margin_10"
-                    android:text="打开D6时将会自动获取你当前所在地"/>
+                    />
+                <!--android:text="打开D6时将会自动获取你当前所在地"-->
             </RelativeLayout>
             <View style="@style/view_line_h"
                 android:layout_alignBottom="@+id/tv_address"

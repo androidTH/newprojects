@@ -281,6 +281,10 @@
                     android:host="${applicationId}"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
+                <data
+                    android:host="${applicationId}"
+                    android:path="/conversationlist/"
+                    android:scheme="rong"/>
             </intent-filter>
         </activity>
         <activity
@@ -550,21 +554,21 @@
         </receiver>
         <!-- HMS 配置结束-->
 
-        <activity
-            android:name=".activities.ConversationListActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+        <!--<activity-->
+            <!--android:name=".activities.ConversationListActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="stateHidden|adjustResize">-->
 
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="cn.rongcloud.im"
-                    android:path="/conversationlist"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<data-->
+                    <!--android:host="cn.rongcloud.im"-->
+                    <!--android:path="/conversationlist"-->
+                    <!--android:scheme="rong" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
         <!-- 此部分代码需要移植到您的 app 下的 manifest，并且 authorities 指定您的包名。例如：com.android.FileProvider -->
         <!-- 否则使用拍照功能时，会崩溃 -->

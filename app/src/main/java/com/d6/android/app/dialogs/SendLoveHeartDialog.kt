@@ -238,7 +238,7 @@ class SendLoveHeartDialog : DialogFragment() {
         })
     }
 
-    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String,sResourceid:String){
+    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String,sResourceid:String,iOrderType:Int){
         val params = PayParams.Builder((context as BaseActivity))
                 .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
                 .payWay(PayWay.WechatPay)
@@ -269,7 +269,7 @@ class SendLoveHeartDialog : DialogFragment() {
             override fun onPaySuccess(payWay: PayWay?,orderId:String) {
                 Log.i("redflowerorderId",orderId)
                 if(!TextUtils.isEmpty(orderId)){
-                    checkOrderStatus(receiverUserId,orderId,flowerCount.toString())
+                    checkOrderStatus(receiverUserId,orderId,flowerCount.toString(),iOrderType)
                 }
             }
 
@@ -285,12 +285,12 @@ class SendLoveHeartDialog : DialogFragment() {
     /**
      * 检查订单的状态
      */
-    private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String){
+    private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String,iOrderType:Int){
         if(context!=null){
             if(mToFromType!=5){
                 BuyRedFlowerSuccess(receiverUserId,flowerCount)
             }
-            Request.getOrderById(orderId).request((context as BaseActivity),false,success={msg,data->
+            Request.getOrderById(orderId,iOrderType).request((context as BaseActivity),false,success={msg,data->
                 if(mToFromType == 1){
                     EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
                 }else if(mToFromType == 2){
