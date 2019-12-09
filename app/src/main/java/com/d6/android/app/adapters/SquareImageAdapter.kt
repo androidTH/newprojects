@@ -1,7 +1,6 @@
 package com.d6.android.app.adapters
 
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import com.d6.android.app.R
@@ -25,6 +24,7 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
     override fun onBind(holder: ViewHolder, position: Int, data: String) {
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
+        var iv_unlock = holder.bind<ImageView>(R.id.iv_unlock)
         imageView.postDelayed(object:Runnable{
             override fun run() {
                 if(mBlurIndex!=null&&mBlurIndex.size>position){
@@ -32,17 +32,31 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     if(TextUtils.equals("2",blurType)){
                         if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
                             iv_lock.visibility = View.GONE
+                            iv_unlock.visibility = View.GONE
                             imageView.showBlur(data)
                         }else{
                             iv_lock.visibility = View.VISIBLE
+                            iv_unlock.visibility = View.GONE
                             imageView.showBlur(data)
                         }
+                    }else if(TextUtils.equals("3",blurType)){
+                        if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
+                            iv_lock.visibility = View.GONE
+                            iv_unlock.visibility = View.GONE
+                            imageView.showBlur(data)
+                        }else{
+                            iv_unlock.visibility = View.VISIBLE
+                            iv_lock.visibility = View.GONE
+                            imageView.setImageURI(data)
+                        }
                     }else{
+                        iv_unlock.visibility = View.GONE
                         iv_lock.visibility = View.GONE
                         imageView.setImageURI(data)
                     }
                 }else{
                     iv_lock.visibility = View.GONE
+                    iv_unlock.visibility = View.GONE
                     imageView.setImageURI(data)
                 }
             }
@@ -56,7 +70,6 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     if (images != null) {
                         mImages.addAll(images.toList())
                     }
-//                    ImagePreview.getInstance().setContext(context).setImageList(mImages).start()
                     context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mImages, ImagePagerActivity.CURRENT_POSITION to position,
                             ImagePagerActivity.USERID to "${mSquare!!.userid}", ImagePagerActivity.mBEAN to mSquare,
                             ImagePagerActivity.SIfLovePics to "${mSquare?.sIfLovePics}",ImagePagerActivity.SOURCEID to "${mSquare?.id}")

@@ -17,6 +17,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.fragments.ImageLocalFragment
 import com.d6.android.app.models.Imagelocals
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.mLocalBlurMap
 import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.setLeftDrawable
 import com.d6.android.app.utils.visible
@@ -87,7 +88,12 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         urls.forEach {
             mHashMap.put(key,true)
             if(mShowPayPoints){
-              mPayPointsHashMap.put(it,false)
+                var mblur = mLocalBlurMap[it]
+                if(mblur!=null){
+                    mPayPointsHashMap.put(it,mblur)
+                }else{
+                    mPayPointsHashMap.put(it,false)
+                }
             }
             mListFragment.put(key++, ImageLocalFragment.newInstance(it, false))
         }
@@ -117,10 +123,10 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_delete.visible()
             tv_check.visibility = View.GONE
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                if (Const.mLocalBlurMap.size>0&&mShowPayPoints) {
-                    Const.mLocalBlurMap.forEach { t, u ->
-                        mPayPointsHashMap.put(t, u)
-                    }
+                if (mShowPayPoints) {
+//                    Const.mLocalBlurMap.forEach { t, u ->
+//                        mPayPointsHashMap.put(t, u)
+//                    }
                     var path = urls[position]
                     var checked = mPayPointsHashMap[path] as Boolean
                     mPayPointsHashMap.put(path, setPayPointPic(checked))
@@ -134,6 +140,9 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_delete.gone()
             if(mShowPayPoints){
                 tv_paypoints.visibility = View.VISIBLE
+                var path = urls[position]
+                var checked = mPayPointsHashMap[path] as Boolean
+                mPayPointsHashMap.put(path, setPayPointPic(checked))
             }else{
                 tv_paypoints.visibility = View.GONE
             }

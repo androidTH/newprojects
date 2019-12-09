@@ -88,6 +88,12 @@ class SendLoveHeartDialog : DialogFragment() {
             e.printStackTrace()
         }
 
+        if(ToFromType == 2){
+            tv_redheart_desc.text="打赏以下任意数量喜欢[img src=redheart_small/]，即可查看"
+        }else{
+            tv_redheart_desc.text="送的[img src=redheart_small/]越多，将会把你优先推荐给TA，回复你的概率越高"
+        }
+
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
@@ -98,18 +104,6 @@ class SendLoveHeartDialog : DialogFragment() {
                  dismissAllowingStateLoss()
              }
         }
-//        tv_wx_pay_flower.setOnClickListener {
-//            var flowerCount= mFlowerCount
-//            if(!TextUtils.isEmpty(flowerCount)){
-//                var mSendFlowerCount = flowerCount.toInt()
-//                if(mSendFlowerCount>0){
-//                    buyRedFlowerPay(mSendFlowerCount,id,mSquareId)
-//                }else{
-//                    CustomToast.showToast("请选中或输入送花的个数")
-//                }
-//            }
-//        }
-
 
         rv_send_redheart.setHasFixedSize(true)
         rv_send_redheart.layoutManager = GridLayoutManager(context,3) as RecyclerView.LayoutManager?
@@ -156,8 +150,6 @@ class SendLoveHeartDialog : DialogFragment() {
         }
         getUserInfo(id)
         setLoveHeartData()
-//        getFlowerList()
-//        sendSysMessage(id)
     }
 
     private fun setLoveHeartData(){

@@ -385,9 +385,10 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
         Request.addConnectVoice(getLocalUserId(),content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mSelectedTimeIndex.toDefaultTime()}").request(this,false,success={
             _, data ->
             showToast("发布成功")
-            if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
-                showTips(data,"发布约会奖励积分","10")
-            }
+//            if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+//                showTips(data,"发布约会奖励积分","10")
+//            }
+            startActivity<UserInfoActivity>("id" to getLocalUserId())
             setResult(Activity.RESULT_OK)
             finish()
         }){code,resMsg->

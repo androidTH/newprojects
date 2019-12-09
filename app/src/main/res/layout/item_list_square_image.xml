@@ -17,4 +17,18 @@
         android:layout_centerInParent="true"
         android:visibility="gone"
         android:src="@mipmap/feed_pic_lock"/>
+    <RelativeLayout
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="@dimen/margin_6"
+        android:layout_marginRight="@dimen/margin_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_unlock"
+            android:visibility="gone"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:src="@mipmap/feedpic_unlock"/>
+    </RelativeLayout>
 </RelativeLayout>

@@ -26,10 +26,16 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.gift.CustormAnim
+import com.d6.android.app.widget.gift.GiftControl
+import com.d6.android.app.widget.gift.GiftModel
 import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import kotlinx.android.synthetic.main.activity_image_pager.*
+import kotlinx.android.synthetic.main.activity_image_pager.ll_gift_parent
+import kotlinx.android.synthetic.main.activity_image_pager.loveheart
 import kotlinx.android.synthetic.main.activity_qr.*
+import kotlinx.android.synthetic.main.fragment_date.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.toast
@@ -48,6 +54,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var mBlurIndex = ArrayList<String>()
 
     private var mListFragment = SparseArray<Fragment>()
+    //礼物
+    private var giftControl: GiftControl? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +77,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_paypoints.setOnClickListener {
             isAuthUser() {
                 var mSendLoveHeartDialog = SendLoveHeartDialog()
-                mSendLoveHeartDialog.arguments = bundleOf("userId" to "${userId}")
+                mSendLoveHeartDialog.arguments = bundleOf("userId" to "${userId}", "ToFromType" to 2)
                 mSendLoveHeartDialog.setDialogListener { p, s ->
                     sendPayPoint(p)
                 }
@@ -95,6 +103,11 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }))
 
         initData()
+        tv_close.postDelayed(object:Runnable{
+            override fun run() {
+                initGift()
+            }
+        },200)
     }
     var key = 0
     private fun initData() {
@@ -146,7 +159,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         mImageViewPager.currentItem = position
 
         urls.let {
-            PayPoint_Path = urls[position].replace("?imageslim", "")
+//            PayPoint_Path = urls[position].replace("?imageslim", "")
+            PayPoint_Path = urls[position].split("?")[0]
         }
     }
 
@@ -182,7 +196,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         showPayPoints(position)
         urls.let {
-            PayPoint_Path = urls[position].replace("?imageslim", "")
+            Log.i("imagepager","图片地址：${urls[position]}")
+//            PayPoint_Path = urls[position].replace("?imageslim", "")
+            PayPoint_Path = urls[position].split("?")[0]
         }
     }
 
@@ -197,7 +213,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 rl_paypoints.visibility = View.VISIBLE
                 rl_tips.visibility = View.VISIBLE
                 if(!TextUtils.equals(userId, getLocalUserId())){
-                    tv_tips.text = "打赏后可见"
+//                    tv_tips.text = "打赏后可见"
+                    iv_unflock.visibility = View.GONE
+                    rl_tips.visibility = View.GONE
                 }else{
                     rl_paypoints.visibility = View.GONE
                     rl_tips.visibility = View.VISIBLE
@@ -207,7 +225,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.VISIBLE
                 if(!TextUtils.equals(userId, getLocalUserId())){
-                    tv_tips.text = "解锁状态"
+//                    tv_tips.text = "解锁状态"
+                    iv_unflock.visibility = View.VISIBLE
+                    rl_tips.visibility = View.GONE
                 }else{
                     tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
                 }
@@ -223,8 +243,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private fun sendPayPoint(loveHeartNums:Int){
         Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 5,"${squareId}","${PayPoint_Path}").request(this, false, success = { _, data ->
             rl_paypoints.visibility = View.GONE
-            rl_tips.visibility = View.VISIBLE
-            tv_tips.text = "解锁状态"
+            rl_tips.visibility = View.GONE
+            iv_unflock.visibility = View.VISIBLE
 
             mBlurIndex[mImageViewPager.currentItem] = "3"
             var sb = StringBuffer()
@@ -251,6 +271,48 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 toast(msg)
             }
         }
+
+        addGiftNums(loveHeartNums,false, true)
+    }
+
+    private fun initGift() {
+        giftControl = GiftControl(this)
+        giftControl?.let {
+            it.setGiftLayout(ll_gift_parent, 1)
+                    .setHideMode(false)
+                    .setCustormAnim(CustormAnim())
+            it.setmGiftAnimationEndListener {
+
+            }
+        }
+    }
+
+    //连击礼物数量
+    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false, JumpCombo: Boolean = false) {
+        if (giftnum == 0) {
+            return
+        } else {
+            giftControl?.let {
+                //这里最好不要直接new对象
+                var giftModel = GiftModel()
+                giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
+                        .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
+                        .setCurrentStart(currentStart)
+                if (currentStart) {
+                    giftModel.setHitCombo(giftnum)
+                }
+                if (JumpCombo) {
+                    giftModel.setJumpCombo(giftnum)
+                }
+                it.loadGift(giftModel)
+                Log.d("TAG", "onClick: " + it.getShowingGiftLayoutCount())
+            }
+            doAnimation()
+        }
+    }
+
+    private fun doAnimation() {
+        loveheart.showAnimationRedHeart(null)
     }
 
     override fun onBackPressed() {

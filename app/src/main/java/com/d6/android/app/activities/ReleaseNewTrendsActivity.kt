@@ -36,6 +36,7 @@ import com.d6.android.app.recoder.RecoderUtil
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
+import com.d6.android.app.utils.Const.mLocalBlurMap
 import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -142,6 +143,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_release_new_trends)
         immersionBar.init()
+        mLocalBlurMap.clear()
         ObserverManager.getInstance().addObserver(this)
         rv_images.setHasFixedSize(true)
         rv_images.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
@@ -534,8 +536,15 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             return
         }
         val c = 9
-        val paths = mImages.filter { it.type!=1 }.map { it.path }
-        val urls = ArrayList<String>(paths)
+        mLocalBlurMap.clear()
+        var urls = ArrayList<String>()
+        mImages.forEach {
+            if(it.type!=1){
+                urls.add(it.path)
+                mLocalBlurMap.put(it.path,it.mBluer)
+            }
+        }
+
         startActivityForResult<MultiImageSelectorActivity>(REQUESTCODE_IMAGE
                 , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
                 ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
@@ -563,6 +572,10 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 result.forEach {
                     val image = AddImage("file://$it")
                     image.path = it
+                    var mblur = mLocalBlurMap[it]
+                    if(mblur!=null){
+                        image.mBluer = mblur
+                    }
                     mImages.add(image)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
                 }
                 mImages.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
@@ -732,6 +745,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 }
                 syncChat(this,"dynamic",sex,userId)
                 setResult(Activity.RESULT_OK)
+                mLocalBlurMap.clear()
 //                FinishActivityManager.getManager().finishActivity()
                 finish()
             }){code,resMsg->

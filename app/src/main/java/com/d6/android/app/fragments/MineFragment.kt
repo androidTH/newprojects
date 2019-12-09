@@ -387,12 +387,15 @@ class MineFragment : BaseFragment() {
                     tv_menber_center.text = getString(R.string.string_vip_tq)
                 }
 
-                if(!TextUtils.equals(it.userclassesid, "7")){
-                    tv_goodfirends.text = "邀请好友入会赢现金奖励"
-                    tv_goodfirends.visibility = View.VISIBLE
-                }else{
-                    tv_goodfirends.visibility = View.GONE
-                }
+//                if(!TextUtils.equals(it.userclassesid, "7")){
+//                    tv_goodfirends.text = "邀请好友入会赢现金奖励"
+//                    tv_goodfirends.visibility = View.VISIBLE
+//                }else{
+//                    tv_goodfirends.visibility = View.GONE
+//                }
+
+                tv_goodfirends.text = "邀请好友入会赢现金奖励"
+                tv_goodfirends.visibility = View.VISIBLE
 
                 tv_menber_center.setCompoundDrawables(drawable, null, null, null)
 
