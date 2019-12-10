@@ -671,7 +671,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:drawableLeft="@mipmap/center_yinsi"
-                android:text="隐私设置"
+                android:text="隐私"
                 android:drawablePadding="@dimen/margin_10"
                 android:textColor="@color/color_333333"
                 android:textSize="15sp" />
