@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="@dimen/margin_45"
+            android:visibility="gone"
             android:layout_marginRight="16dp">
 
             <TextView
