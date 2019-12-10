@@ -487,7 +487,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mHeaderView.tv_work_checkin_tips.text = "做任务得奖励：+${it.iTaskFlower}朵红花"
                 }
 
-                if(!TextUtils.equals(it.userclassesid, "7")){
+                if(!TextUtils.equals("${it.userclassesid}", "7")){
                     if(TextUtils.equals(mLocalSex,"1")){
                         mHeaderView.rl_mypoints_checkin.visibility = View.GONE
                         mHeaderView.rl_mypoints_square.visibility = View.GONE
@@ -498,7 +498,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     }
                 }else{
                     mHeaderView.view_top_bottom.visibility = View.VISIBLE
-                    mHeaderView.rl_redwallet.visibility = View.GONE
+                    mHeaderView.rl_redwallet.visibility = View.VISIBLE
 
                     mHeaderView.rl_mypoints_checkin.visibility = View.GONE
                     mHeaderView.rl_mypoints_square.visibility = View.GONE

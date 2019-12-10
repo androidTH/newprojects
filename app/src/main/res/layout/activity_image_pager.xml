@@ -18,10 +18,10 @@
         android:visibility="visible"
         android:background="@drawable/shape_10r_9900">
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_35"
             android:src="@mipmap/feed_pic_lock"/>
 
         <TextView
@@ -110,13 +110,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/feedpic_unlock"/>
+
     <com.d6.android.app.widget.LoveHeart
         android:id="@+id/loveheart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/margin_50"/>
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="49dp" />
     <LinearLayout
         android:id="@+id/ll_gift_parent"
         android:layout_width="match_parent"
