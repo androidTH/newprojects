@@ -95,8 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
             android:visibility="gone"
-            android:text="温馨提示：支付金额大于3000元，超出微信支
-付的限额，请联系客服支付"
+            android:text="温馨提示：支付金额大于3000元，超出微信支付的限额，请联系客服支付"
             android:textColor="@color/color_8888"
             android:textSize="12sp" />
     </LinearLayout>
