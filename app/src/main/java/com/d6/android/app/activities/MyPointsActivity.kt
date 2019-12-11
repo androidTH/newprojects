@@ -186,12 +186,19 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     dialogCashMoney.setDialogListener { p, s ->
                         //var redflowerNums = (mHeaderView.tv_redflowernums.text.toString().toInt()-s!!.toInt())
 //                    mHeaderView.tv_redflowernums.text = redflowerNums.toString()
+                        crashOk()
                         getUserInfo()
                         getData()
                     }
                 }
             }
         }
+    }
+
+    private fun crashOk(){
+        var mSingleActionTipDialog = SingleActionTipDialog()
+        mSingleActionTipDialog.arguments = bundleOf("msg" to "申请提现成功，三个工作日内审核通过后，提现金额将会进入你的微信钱包，请注意查收 ","type" to "0")
+        mSingleActionTipDialog.show(supportFragmentManager,"crashok")
     }
 
     override fun onResume() {

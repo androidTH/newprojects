@@ -90,7 +90,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
         tv_redheart_nums.text = "我的 [img src=redheart_small/] : ${cashmoney}（10 [img src=redheart_small/]=1元）"
 
         if(type==2){
-            tv_cashmeny_tips.text = "提现将收取20%的手续费，单次最低提现额度0朵小红花，最高200朵小红花"
+            tv_cashmeny_tips.text = "提现将收取20%的手续费，单次最低提现额度0朵小红花"
             linear_redhearliked.visibility = View.GONE
             tv_redheartliked.visibility = View.VISIBLE
             mLoveHeartMoney = cashmoney.toFloat()
@@ -270,7 +270,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             if(type==2){
                 Request.doCashMoney(userId,money).request(this,false,success={msg,data->
                     it.dismissDialog()
-                    showToast("提现成功")
+//                    showToast("提现成功")
                     dialogListener?.onClick(1,money)
                     dismissAllowingStateLoss()
                 }){code,msg->
@@ -287,7 +287,7 @@ class DialogCashMoney : DialogFragment(), RequestManager {
             }else{
                 Request.doCashMoneyOfLoveHeart(userId,money).request(this,false,success={msg,data->
                     it.dismissDialog()
-                    showToast("提现成功")
+//                    showToast("提现成功")
                     dialogListener?.onClick(1,money)
                     dismissAllowingStateLoss()
                 }){code,msg->
