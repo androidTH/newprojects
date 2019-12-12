@@ -401,6 +401,8 @@
             android:theme="@style/chooseAnim"/>
         <activity android:name=".activities.AreaChooseActivity"
             android:theme="@style/chooseAnim"/>
+        <activity android:name=".activities.PublishChooseActivity"
+            android:theme="@style/publishchooseAnim"/>
 
         <activity android:name=".activities.ScreeningAreaActivity"
             android:theme="@style/chooseAnim"/>

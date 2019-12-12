@@ -17,6 +17,7 @@ import com.d6.android.app.net.Request
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.startActivity
 import android.view.Gravity
+import android.view.View
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.adapters.HomeDatePageAdapter
 import com.d6.android.app.dialogs.*
@@ -29,9 +30,11 @@ import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.VoiceChatType
 import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.widget.diskcache.DiskFileUtils
+import com.d6.android.app.widget.popup.blur.MoreWindow
 import com.tbruyelle.rxpermissions2.RxPermissions
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
 import java.lang.Exception
 
@@ -207,7 +210,11 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
 
         iv_publish.setOnClickListener {
-
+//            activity.isAuthUser() {
+//                startActivity<PublishChooseActivity>()
+//                showMoreWindow(it)
+//            }
+            startActivity<PublishChooseActivity>()
         }
 
         mViewPager.postDelayed(object:Runnable{
@@ -225,6 +232,18 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
         loginforPoint()
         checkLocation()
+    }
+
+    private var mMoreWindow: MoreWindow? = null
+
+    private fun showMoreWindow(view: View) {
+        if (null == mMoreWindow) {
+            mMoreWindow = MoreWindow(activity)
+            mMoreWindow?.init()
+        }
+        mMoreWindow?.let {
+            it.showMoreWindow(view, 100)
+        }
     }
 
     private fun showSex() {

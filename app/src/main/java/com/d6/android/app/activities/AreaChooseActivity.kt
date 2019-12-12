@@ -31,7 +31,6 @@ class AreaChooseActivity : BaseActivity() {
 
     private var mCities = ArrayList<Province>()
     private var mProvinces = ArrayList<Province>()
-//    private var mHomeList = ArrayList<CategoryBean.DataBean>()
     private var currentItem: Int = 0
 
     private val locationCity= getReplace(SPUtils.instance().getString(USER_ADDRESS))

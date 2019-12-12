@@ -29,6 +29,12 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="publishchooseAnim" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@style/bottomPopAnim</item>
+    </style>
+
     <style name="selectedBaseDialog" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
