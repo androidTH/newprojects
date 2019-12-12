@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -46,6 +47,7 @@ public class ConversationFragmentEx extends ConversationFragment {
     public ImageView mMyEmoticonToggle;
     private ImageView mMyPluginToggle;
     public ImageView mMyVoiceToggle;
+    public ImageView mLoveHeart;
     private boolean IsNotInput = false;
     private String hitmsg ="";
     private boolean IsNotEditTextClick = false;
@@ -73,9 +75,34 @@ public class ConversationFragmentEx extends ConversationFragment {
         mMyEmoticonToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_emoticon_toggle);
         mMyPluginToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_plugin_toggle);
         mMyVoiceToggle = rongExtension.findViewById(io.rong.imkit.R.id.rc_voice_toggle);
+        mLoveHeart = rongExtension.findViewById(io.rong.imkit.R.id.chat_loveheart);
         doIsNotSendMsg(IsNotInput,hitmsg);
         hideChatInput(IsHideInput);
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mLoveHeart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("loveheart","点击了");
+                if(mOnExtensionExpandedListener!=null){
+                    mOnExtensionExpandedListener.onSendLoveHeart();
+                }
+            }
+        });
+
+        mLoveHeart.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(mOnExtensionExpandedListener!=null){
+                    mOnExtensionExpandedListener.onSendLongLoveHeart();
+                }
+                return true;
+            }
+        });
     }
 
     @Override
@@ -252,5 +279,7 @@ public class ConversationFragmentEx extends ConversationFragment {
 
     public interface OnExtensionExpandedListener{
         void onExpandedListener(Boolean flag);
+        void onSendLoveHeart();
+        void onSendLongLoveHeart();
     }
 }

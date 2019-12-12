@@ -206,6 +206,10 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             }
         }
 
+        iv_publish.setOnClickListener {
+
+        }
+
         mViewPager.postDelayed(object:Runnable{
             override fun run() {
                 mPopupArea = AreaSelectedPopup.create(activity)

@@ -96,6 +96,8 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     private int MINTIME_VOICECHAT = 10;
     private LinearLayout mLLGiftParent;
     private LoveHeart mLoveHeart;
+    private TextView mTvBuyLoveHeart;
+    private TextView mTvPayLoveHeart_Tips;
 
     @Override
     final public boolean handleMessage(Message msg) {
@@ -515,6 +517,10 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             ib_voicechat_loveheart.setOnClickListener(this);
             mLLGiftParent = mUserInfoContainer.findViewById(R.id.ll_gift_parent);
             mLoveHeart = mUserInfoContainer.findViewById(R.id.loveheart);
+            mTvBuyLoveHeart = mUserInfoContainer.findViewById(R.id.tv_buyloveheart);
+            mTvPayLoveHeart_Tips = mUserInfoContainer.findViewById(R.id.tv_payloveheart_tips);
+            mTvBuyLoveHeart.setOnClickListener(this);
+
             //底部按钮
             RelativeLayout btnLayout = (RelativeLayout) inflater.inflate(io.rong.callkit.R.layout.rc_voip_call_bottom_connected_button_layout, null);
             ImageView button = btnLayout.findViewById(io.rong.callkit.R.id.rc_voip_call_mute_btn);
@@ -755,6 +761,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             ib_voicechat_loveheart.setOnClickListener(this);
             mLLGiftParent = mUserInfoContainer.findViewById(R.id.ll_gift_parent);
             mLoveHeart = mUserInfoContainer.findViewById(R.id.loveheart);
+            mTvBuyLoveHeart = mUserInfoContainer.findViewById(R.id.tv_buyloveheart);
+            mTvPayLoveHeart_Tips = mUserInfoContainer.findViewById(R.id.tv_payloveheart_tips);
+            mTvBuyLoveHeart.setOnClickListener(this);
         }
 
         if (pickupDetector != null) {
@@ -1193,6 +1202,10 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             startActivity(intent);
         }else if(v.getId()==R.id.ib_voicechat_loveheart){
             addGiftNums(1,false,false);
+        }else if(v.getId()==R.id.tv_buyloveheart){
+
+        }else if(v.getId()==R.id.tv_payloveheart_tips){
+
         }
     }
 

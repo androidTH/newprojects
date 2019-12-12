@@ -323,26 +323,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //            }
         }
 
-
-        iv_privatechat_sendredheart.setOnClickListener {
-            isAuthUser {
-                addGiftNums(1,false,false)
-                VibrateHelp.Vibrate(this,VibrateHelp.time50)
-            }
-        }
-
-        iv_privatechat_sendredheart.setOnLongClickListener(object : View.OnLongClickListener {
-            override fun onLongClick(v: View?): Boolean {
-                    var mSendLoveHeartDialog = SendLoveHeartDialog()
-                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
-                    mSendLoveHeartDialog.setDialogListener { p, s ->
-                        addGiftNums(p, false,true)
-                    }
-                    mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
-                return true
-            }
-        })
-
         tv_datechat_content.setEllipsize(TextUtils.TruncateAt.END);//收起
         tv_datechat_content.maxLines = 2
 
@@ -408,6 +388,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
             loveheart_privatechat.showAnimationRedHeart(null)
         }
+
+        VibrateHelp.Vibrate(this,VibrateHelp.time50)
+    }
+
+    private fun showLongClickDialog(){
+        var mSendLoveHeartDialog = SendLoveHeartDialog()
+        mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
+        mSendLoveHeartDialog.setDialogListener { p, s ->
+            addGiftNums(p, false,true)
+        }
+        mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
     }
 
     //检查客服是否在线
@@ -992,11 +983,25 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 }
             })
 
-            it.setOnExtensionExpandedListener {it->
-                if(iv_chat_unfold.visibility == View.GONE){
-                    extendDateChatDesc(it)
+            it.setOnExtensionExpandedListener(object:ConversationFragmentEx.OnExtensionExpandedListener{
+                override fun onExpandedListener(flag: Boolean?) {
+                    if(iv_chat_unfold.visibility == View.GONE){
+                        flag?.let {
+                            extendDateChatDesc(flag)
+                        }
+                    }
                 }
-            }
+
+                override fun onSendLoveHeart(){
+                    isAuthUser {
+                        addGiftNums(1,false,false)
+                    }
+                }
+
+                override fun onSendLongLoveHeart() {
+                    showLongClickDialog()
+                }
+            })
             mRongReceiveMessage = rongReceiveMessage(this)
             registerReceiver(mRongReceiveMessage, IntentFilter(Const.CHAT_MESSAGE))
         }
