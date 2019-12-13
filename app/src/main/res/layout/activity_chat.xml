@@ -219,7 +219,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="80dp"
-            android:layout_marginRight="-18dp"
+            android:layout_marginRight="-20dp"
+            android:paddingRight="@dimen/margin_5"
             android:orientation="vertical"/>
 
         <ImageView
