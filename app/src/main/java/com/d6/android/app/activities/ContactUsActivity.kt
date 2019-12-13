@@ -54,6 +54,9 @@ class ContactUsActivity : TitleActivity() {
                 .build()
         dialog()
         getData()
+
+//        circlebarview.setMaxNum(360.0f)
+//        circlebarview.setProgressNum(130.0f,5)
     }
 
     private fun getData() {
