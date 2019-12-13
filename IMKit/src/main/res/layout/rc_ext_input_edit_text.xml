@@ -35,7 +35,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/rc_emotion_toggle_selector"/>
-
     <FrameLayout
         android:id="@+id/rc_send_toggle"
         android:layout_width="44dp"

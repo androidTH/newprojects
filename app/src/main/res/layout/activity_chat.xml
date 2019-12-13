@@ -214,11 +214,12 @@
 
         <LinearLayout
             android:id="@+id/ll_privatechat_gift_parent"
-            android:layout_width="150dp"
+            android:layout_width="90dp"
             android:layout_height="60dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="80dp"
+            android:layout_marginRight="-18dp"
             android:orientation="vertical"/>
 
         <ImageView
@@ -237,7 +238,7 @@
             android:layout_width="180dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="-20dp"
+            android:layout_marginRight="-60dp"
             android:layout_marginBottom="-30dp"
             android:layout_above="@+id/iv_privatechat_sendredheart" />
 
