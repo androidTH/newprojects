@@ -38,6 +38,7 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
             ll_noarea.visibility = View.VISIBLE
             var tv_arealocation = helper.getView<TextView>(R.id.tv_arealocation)
             var tv_no_limit_area = helper.getView<TextView>(R.id.tv_no_limit_area)
+
             if(TextUtils.equals(Const.NO_LIMIT_ERA,Const.selectCategoryType)){
                 tv_no_limit_area.textColor= ContextCompat.getColor(mContext, R.color.white)
                 tv_no_limit_area.backgroundDrawable = ContextCompat.getDrawable(mContext, R.drawable.shape_orange_city)
@@ -71,7 +72,14 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
                     tv_arealocation.setTag(Const.LOCATIONSUCCESS)
                 }
             }
+            var tv_noarea = helper.getView<TextView>(R.id.tv_noarea)
+            if(city.isShowNoArea){
+                tv_noarea.visibility = View.VISIBLE
+            }else{
+                tv_noarea.visibility = View.GONE
+            }
         }
+
         item_menu_title.text = data.name
         rv_menu_right.setHasFixedSize(true)
         rv_menu_right.layoutManager = GridLayoutManager(mContext, 3) as RecyclerView.LayoutManager?
@@ -100,6 +108,7 @@ class CityOfProvinceAdapter(data: List<Province>) : BaseQuickAdapter<Province, B
 
         helper.addOnClickListener(R.id.tv_arealocation)
         helper.addOnClickListener(R.id.tv_no_limit_area)
+        helper.addOnClickListener(R.id.tv_noarea)
     }
 
     private lateinit var mOnSelected: onSelectCityOfProvinceListenerInterface;

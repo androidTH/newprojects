@@ -12,6 +12,7 @@ data class City(val ids: String?,@SerializedName("paramName")val name: String? =
     var isValid: String? = ""//isValid 1 热门地市，0 普通地市
     var pParamName:String?=""
     var isSelected: Boolean = false
+    var isShowNoArea:Boolean = false
 
     override fun setFieldIndexBy(indexField: String?) {
 

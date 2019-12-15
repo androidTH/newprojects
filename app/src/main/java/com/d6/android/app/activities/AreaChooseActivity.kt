@@ -104,6 +104,11 @@ class AreaChooseActivity : BaseActivity() {
                     setResult(RESULT_OK, intent)
                     onBackPressed()
                 }
+            }else if(view.id == R.id.tv_noarea){
+                var intent = Intent()
+                intent.putExtra("area","")
+                setResult(RESULT_OK, intent)
+                onBackPressed()
             }
         })
 
@@ -167,6 +172,7 @@ class AreaChooseActivity : BaseActivity() {
         var city = City("",city)
         city.isSelected = true
         city.isValid ="2"
+        city.isShowNoArea = true
         province.lstDicts.add(city)
     }
 

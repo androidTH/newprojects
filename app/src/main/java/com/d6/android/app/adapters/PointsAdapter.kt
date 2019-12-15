@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
@@ -24,6 +25,12 @@ class PointsAdapter(mData: ArrayList<UserPoints>) : HFRecyclerAdapter<UserPoints
         val tv_mypointstime = holder.bind<TextView>(R.id.tv_mypointstime)
         tv_mypointstime.text = data.dCreatetime.toTime("yyyy.MM.dd HH:mm")
         val tv_nums = holder.bind<TextView>(R.id.tv_nums)
+        if(data.iIsShowPoint==2){
+            tv_nums.visibility = View.GONE
+        }else{
+            tv_nums.visibility = View.VISIBLE
+        }
+
         if (data.iPointtype == 1 || data.iPointtype == 3 || data.iPointtype == 5||data.iPointtype==7||data.iPointtype==9) {
             tv_nums.text = "+${data.iPoint.toString()}"
             tv_nums.textColor = ContextCompat.getColor(context, R.color.color_F7AB00)
@@ -52,7 +59,6 @@ class PointsAdapter(mData: ArrayList<UserPoints>) : HFRecyclerAdapter<UserPoints
         }else{
             tv_mypoints_content.text = data.sPointdesc
         }
-
         Log.i("pointsadpater","${data.iPoint.toString()}--描述：${data.sPointdesc}")
     }
 }
