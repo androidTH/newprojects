@@ -11,15 +11,12 @@ import android.util.Log
 import android.view.View
 import com.alibaba.fastjson.JSONObject
 import com.amap.api.location.AMapLocationClient
-import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.OpenDateErrorDialog
-import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
-import com.d6.android.app.dialogs.VistorPayPointDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.DateType
@@ -86,7 +83,9 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     private var endTime: String = ""
     private var selectedDateType: DateType? = null
     private var REQUEST_CHOOSECODE:Int=10
-
+    private var mVoiceChatType = 1
+    private var loveNums = 0
+    private var iOncePayLovePoint = 0
 
     override fun update(o: Observable?, arg: Any?) {
         var mImagelocal = arg as Imagelocals
@@ -279,6 +278,23 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             }
         }
 
+        ll_voicechat_choose.setOnClickListener {
+            var mVoiceChatTypeDialog = VoiceChatTypeDialog()
+            mVoiceChatTypeDialog.arguments = bundleOf("chooseType" to "0")
+            mVoiceChatTypeDialog.setDialogListener { p, s ->
+                mVoiceChatType = p
+                if(p==2||p==3){
+                    loveNums = 0
+                    iOncePayLovePoint = 0
+                    showRewardVoiceChatPoints(p)
+                    mVoiceChatTypeDialog.dismissAllowingStateLoss()
+                }else{
+                    tv_voicechat_choose.text = s
+                }
+            }
+            mVoiceChatTypeDialog.show(supportFragmentManager,"VoiceChatTypeDialog")
+        }
+
         startTime = getTodayTime()
         tv_startTime.text = startTime
 
@@ -303,7 +319,34 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             iIsAnonymous = 1
             tv_unknow_sf.text = "匿名身份"
         }
+        date_headView.setImageURI(getLocalUserHeadPic())
         getLocalFriendsCount()
+    }
+
+    private fun showRewardVoiceChatPoints(type:Int){
+        var mRewardVoiceChatPointsDialog = RewardVoiceChatPointsDialog()
+        mRewardVoiceChatPointsDialog.arguments = bundleOf("voicechatType" to type)
+        mRewardVoiceChatPointsDialog.show(supportFragmentManager, "d")
+        mRewardVoiceChatPointsDialog.setDialogListener { p, s ->
+            loveNums = p
+            iOncePayLovePoint = p
+            if(type==2){
+                tv_voicechat_choose.text = s
+            }else{
+                appVoiceChatPoints(iOncePayLovePoint)
+            }
+            mRewardVoiceChatPointsDialog.dismissAllowingStateLoss()
+        }
+    }
+
+    private fun appVoiceChatPoints(sendLoveNums:Int){
+        var mApplyVoiceChatPointsDialog = ApplyVoiceChatPointsDialog()
+        mApplyVoiceChatPointsDialog.arguments = bundleOf("lovenums" to sendLoveNums)
+        mApplyVoiceChatPointsDialog.show(supportFragmentManager, "d")
+        mApplyVoiceChatPointsDialog.setDialogListener { p, s ->
+            loveNums = sendLoveNums*p
+            tv_voicechat_choose.text = s
+        }
     }
 
     override fun onResume() {

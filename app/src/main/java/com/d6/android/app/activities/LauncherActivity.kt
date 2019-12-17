@@ -22,7 +22,7 @@ import com.fm.openinstall.listener.AppWakeUpAdapter
 import org.json.JSONObject
 
 
-class LauncherActiviPayWayDialogty : BaseActivity() {
+class LauncherActivity : BaseActivity() {
 
     private val diposable = object : DisposableSubscriber<Long>() {
         override fun onComplete() {}

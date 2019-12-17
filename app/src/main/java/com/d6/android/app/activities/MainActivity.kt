@@ -70,7 +70,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     }
 
     private var isUpdown:Boolean = false
-    private val tabTexts = arrayOf("约会","遇见","广场","消息", "我的")
+    private val tabTexts = arrayOf("邀约","遇见","广场","消息", "我的")
 
     private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)
