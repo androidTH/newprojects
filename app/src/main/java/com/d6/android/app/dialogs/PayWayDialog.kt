@@ -3,6 +3,7 @@ package com.d6.android.app.dialogs
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +20,9 @@ import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 /**
- * 约会发送
+ * 支付
  */
 class PayWayDialog : DialogFragment(),RequestManager {
-
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
 
     private val point_nums by lazy {
         SPUtils.instance().getString(Const.User.USERPOINTS_NUMS)
@@ -75,10 +72,12 @@ class PayWayDialog : DialogFragment(),RequestManager {
         tv_money.text = "¥${money}"
         tv_money_desc.text = "购买${desc}"
         money?.let {
-            if(it.toInt()>=3000){
-                tv_money_tips.visibility = View.VISIBLE
-            }else{
-                tv_money_tips.visibility = View.GONE
+            if(it.isNotEmpty()){
+                if(it.toInt()>=3000){
+                    tv_money_tips.visibility = View.VISIBLE
+                }else{
+                    tv_money_tips.visibility = View.GONE
+                }
             }
         }
     }

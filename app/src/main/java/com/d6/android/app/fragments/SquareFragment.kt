@@ -421,9 +421,14 @@ class SquareFragment : RecyclerFragment() {
         getSquareList()
     }
 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        activity.unregisterReceiver(sIfLovePics)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         EventBus.getDefault().unregister(this)
-        activity.unregisterReceiver(sIfLovePics)
     }
 }

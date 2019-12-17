@@ -177,13 +177,19 @@ class RedHeartGuideDialog : DialogFragment(),RequestManager {
     private fun setShowTips(index:Int,content:String,title:String){
         if(index==0){
 //            tv_content.text = "${content}"
-            tv_banner_desc.text = "${title}"
+            if(tv_banner_desc!=null){
+                tv_banner_desc.text = "${title}"
+            }
         }else if(index==1){
 //            tv_content.text = "${content}"
-            tv_banner_desc.text = "${title}"
+            if(tv_banner_desc!=null){
+                tv_banner_desc.text = "${title}"
+            }
         }else if(index==2){
 //            tv_content.text = "${content}"
-            tv_banner_desc.text = "${title}"
+            if(tv_banner_desc!=null){
+                tv_banner_desc.text = "${title}"
+            }
         }
     }
 
