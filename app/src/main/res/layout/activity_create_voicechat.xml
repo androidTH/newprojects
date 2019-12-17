@@ -187,8 +187,9 @@
                         android:id="@+id/tv_topictype"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:drawablePadding="@dimen/margin_8"
+                        android:drawablePadding="@dimen/margin_5"
                         android:gravity="center_vertical"
+                        android:drawableLeft="@mipmap/time_list_icon"
                         android:text="有效期"
                         android:textColor="@color/color_333333"
                         android:textSize="14sp" />
@@ -220,13 +221,14 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_voicechat_line">
 
-                    <TextView
+                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
                         android:id="@+id/tv_nmtype"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
-                        android:drawablePadding="@dimen/margin_8"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableLeft="@mipmap/liwu_feed"
                         android:gravity="center_vertical"
-                        android:text="打赏连麦"
+                        android:text="打赏连麦 [img src=heart_gray/]"
                         android:textColor="@color/color_333333"
                         android:textSize="14sp" />
 

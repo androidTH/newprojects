@@ -56,8 +56,8 @@ class LauncherActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
         immersionBar.init()
-        OpenInstall.getInstall(mAppInstallAdapter)
         OpenInstall.getWakeUp(intent, wakeUpAdapter)
+//        OpenInstall.getInstall(mAppInstallAdapter)
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
     }
 
@@ -83,6 +83,7 @@ class LauncherActivity : BaseActivity() {
             //获取绑定数据
             var bindData = appData.getData()
             Log.d("OpenInstall", "${channelCode}+AppWakeUpAdapter = ${bindData}")
+            SPUtils.instance().put(OPENSTALL_CHANNEL,appData.channel).apply()
             SPUtils.instance().put(INSTALL_DATA02,"${channelCode}_${bindData}").apply()
         }
     }

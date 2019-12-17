@@ -120,7 +120,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="d6app" android:host="com.d6.android.app" android:pathPrefix="/openwith"/>
+                <!--<data android:scheme="d6app" android:host="com.d6.android.app" android:pathPrefix="/openwith"/>-->
                 <data android:scheme="vwm5ds"/>
 
                 <!--正式：b5zf76  测试：vwm5ds-->
