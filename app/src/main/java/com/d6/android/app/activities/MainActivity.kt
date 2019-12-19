@@ -191,13 +191,13 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 TextUtils.equals(it, tabTexts[0]) -> {
                     tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
                     tv_title.visible()
-                    tv_create_date.visible()
+                    tv_create_date.gone()
                     tv_date_mydate.gone()
                     date_headView.gone()
                     setNoticeIsNoShow()
                     iv_right.gone()
                     tv_title1.gone()
-                    tv_title.text = "约会"
+                    tv_title.text = "邀约"
                     tv_find_tab.visibility = View.VISIBLE
                 }
                 TextUtils.equals(it, tabTexts[1]) -> {
@@ -277,12 +277,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //            filterTrendDialog?.show(supportFragmentManager, "ftd")
         }
 
-//        tv_create_date.gone()
+        tv_create_date.gone()
 
         tv_create_date.setOnClickListener {
             when (tabhost.currentTab) {
                 0 -> {
-                    var view = it;
+                    var view = it
                     mCirclePop?.let {
                         it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -23,-15)
                     }
@@ -345,7 +345,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
 
         //默认标题
-        tv_title.text = "约会"
+        tv_title.text = "邀约"
         tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
         titleBar.visibility = View.VISIBLE
 

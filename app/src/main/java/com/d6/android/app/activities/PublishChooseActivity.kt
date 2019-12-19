@@ -1,19 +1,15 @@
 package com.d6.android.app.activities
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.isAuthUser
-import com.d6.android.app.utils.isCheckOnLineAuthUser
 import com.d6.android.app.widget.popup.blur.FastBlur
 import kotlinx.android.synthetic.main.activity_publishchoose_layout.*
 import org.jetbrains.anko.backgroundDrawable
@@ -27,6 +23,7 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
         setContentView(R.layout.activity_publishchoose_layout)
         immersionBar.fitsSystemWindows(true).init()
         close_button.setOnClickListener {
+            close_button.animate().rotation(-90.0f).setDuration(400).start()
             onBackPressed()
         }
 
@@ -36,9 +33,14 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
 //                var decorView = getWindow().getDecorView().findViewById(android.R.id.content) as View
 //                var bitmap = getBitmapByView(decorView)//这里是将view转成bitmap
 //                setBlurBackground(bitmap)//这里是模糊图片, 这个是重点我会单独讲
-                return true;
+                return true
             }
         })
+
+        rootView.setOnClickListener {
+            close_button.animate().rotation(-90.0f).setDuration(400).start()
+            onBackPressed()
+        }
 
         tv_chat.setOnClickListener (this)
         tv_voicechat.setOnClickListener(this)
@@ -49,52 +51,55 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
         tv_fitnes.setOnClickListener(this)
         tv_more.setOnClickListener(this)
         tv_travel.setOnClickListener(this)
+
+        close_button.animate().rotation(90.0f).setDuration(400).start()
     }
 
     override fun onClick(v: View?) {
         if(v?.id==R.id.tv_chat){
             isAuthUser{
-                startActivityForResult<PublishFindDateActivity>(10)
+                startActivityForResult<PublishFindDateActivity>(10,"type" to 6)
                 finish()
             }
         }else if(v?.id==R.id.tv_voicechat){
             isAuthUser{
-                startActivityForResult<VoiceChatCreateActivity>(1)
+                startActivityForResult<PublishFindDateActivity>(1,"type" to 9)
+//                VoiceChatCreateActivity
                 finish()
             }
         }else if(v?.id==R.id.tv_dink){
             isAuthUser{
-                startActivityForResult<PublishFindDateActivity>(10)
+                startActivityForResult<PublishFindDateActivity>(10,"type" to 4)
                 finish()
             }
         }else if(v?.id==R.id.tv_film){
             isAuthUser {
-                startActivityForResult<PublishFindDateActivity>(10)
+                startActivityForResult<PublishFindDateActivity>(10,"type" to 3)
                 finish()
             }
         }else if(v?.id==R.id.tv_games){
             isAuthUser{
-                startActivityForResult<PublishFindDateActivity>(10)
+                startActivityForResult<PublishFindDateActivity>(10,"type" to 7)
                 finish()
             }
         }else if(v?.id==R.id.tv_meal){
             isAuthUser {
-                startActivityForResult<PublishFindDateActivity>(10)
+                startActivityForResult<PublishFindDateActivity>(10,"type" to 2)
                 finish()
             }
         }else if(v?.id==R.id.tv_fitnes){
             isAuthUser {
-                startActivityForResult<PublishFindDateActivity>(10)
+                startActivityForResult<PublishFindDateActivity>(10,"type" to 8)
                 finish()
             }
         }else if(v?.id==R.id.tv_travel){
             isAuthUser{
-                startActivityForResult<PublishFindDateActivity>(10)
+                startActivityForResult<PublishFindDateActivity>(10,"type" to 1)
                 finish()
             }
         }else if(v?.id==R.id.tv_more){
             isAuthUser{
-                startActivityForResult<PublishFindDateActivity>(10)
+                startActivityForResult<PublishFindDateActivity>(10,"type" to 5)
                 finish()
             }
         }

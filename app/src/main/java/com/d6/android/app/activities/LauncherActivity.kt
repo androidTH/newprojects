@@ -90,13 +90,17 @@ class LauncherActivity : BaseActivity() {
     var mAppInstallAdapter = object: AppInstallAdapter(){
         override fun onInstall(p0: AppData?) {
             p0?.let {
-                var bindData = it.getData()
-                if(bindData.isNotEmpty()){
-                    var jsonObject = JSONObject(bindData)
-                    var userId = jsonObject.optInt("sInviteCode")
-                    Log.d("OpenInstall", "渠道=${it.channel} wakeupData = ${userId}")
-                    SPUtils.instance().put(OPENSTALL_CHANNEL,it.channel).apply()
-                    SPUtils.instance().put(INSTALL_DATA01,"${userId}").apply()
+                SPUtils.instance().put(OPENSTALL_CHANNEL,it.channel).apply()
+                try{
+                    var bindData = it.getData()
+                    if(bindData.isNotEmpty()){
+                        var jsonObject = JSONObject(bindData)
+                        var userId = jsonObject.optInt("sInviteCode")
+                        Log.d("OpenInstall", "渠道=${it.channel} wakeupData = ${userId}")
+                        SPUtils.instance().put(INSTALL_DATA01,"${userId}").apply()
+                    }
+                }catch (e:java.lang.Exception){
+
                 }
             }
         }

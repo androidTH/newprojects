@@ -58,6 +58,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     private var sAddPointDesc="以匿名身份发布"
     private var iAddPoint :String= "" //匿名发布需要消耗的积分
     private var iRemainPoint:String="" //剩余积分
+    private var mTimeOut:Long = 0
     var showDateTypes:Array<DateType> = arrayOf(DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(5))
 
     private val addAdapter by lazy {
@@ -74,6 +75,10 @@ class PublishFindDateActivity : BaseActivity(), Observer {
 
     private val sex by lazy{
         SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
+    private val mDateType by lazy{
+        intent.getIntExtra("type",5)
     }
 
     private var city: String? = null
@@ -135,29 +140,30 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             }
         }
 
-        for (i in 0..(showDateTypes.size-1)) {
-            var dt = showDateTypes[i]
-            dt.dateTypeName = dateTypes[dt.type-1]
-            dt.imgUrl = "res:///${dateTypesDefault[dt.type-1]}"
-            dt.selectedimgUrl = "res:///${dateTypesSelected[dt.type-1]}"
-            dt.isSelected = false
-            mDateTypes.add(dt)
-        }
+//        for (i in 0..(showDateTypes.size-1)) {
+//            var dt = showDateTypes[i]
+//            dt.dateTypeName = dateTypes[dt.type-1]
+//            dt.imgUrl = "res:///${dateTypesDefault[dt.type-1]}"
+//            dt.selectedimgUrl = "res:///${dateTypesSelected[dt.type-1]}"
+//            dt.isSelected = false
+//            mDateTypes.add(dt)
+//        }
 
-        rv_datetype.setHasFixedSize(true)
-        rv_datetype.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rv_datetype.isNestedScrollingEnabled = false
-        rv_datetype.adapter = mDateTypeAdapter
+//        rv_datetype.setHasFixedSize(true)
+//        rv_datetype.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+//        rv_datetype.isNestedScrollingEnabled = false
+//        rv_datetype.adapter = mDateTypeAdapter
 
-        mDateTypeAdapter.setOnItemClickListener { view, position ->
-            for (i in 0..(mDateTypes.size - 1)) {
-                var dt = mDateTypes.get(i)
-                dt.isSelected = i == position
-            }
-            selectedDateType = mDateTypes.get(position)
-            mDateTypeAdapter.notifyDataSetChanged()
-        }
+//        mDateTypeAdapter.setOnItemClickListener { view, position ->
+//            for (i in 0..(mDateTypes.size - 1)) {
+//                var dt = mDateTypes.get(i)
+//                dt.isSelected = i == position
+//            }
+//            selectedDateType = mDateTypes.get(position)
+//            mDateTypeAdapter.notifyDataSetChanged()
+//        }
 
+        setTitle()
         rv_images.setHasFixedSize(true)
         rv_images.layoutManager = GridLayoutManager(this, 3)
         rv_images.adapter = addAdapter
@@ -185,25 +191,28 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         }
 
         tv_startTime.setOnClickListener {
-            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
-            dialog.setOnDateSetListener { year, month, day ->
-                dialog.dismissAllowingStateLoss()
-                startTime = String.format("%s-%02d-%02d", year, month, day)
-                tv_startTime.text = startTime
-            }
-            dialog.show(supportFragmentManager, "start")
+//            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
+//            dialog.setOnDateSetListener { year, month, day ->
+//                dialog.dismissAllowingStateLoss()
+//                startTime = String.format("%s-%02d-%02d", year, month, day)
+//                tv_startTime.text = startTime
+//            }
+//            dialog.show(supportFragmentManager, "start")
+
+            selecteDateTime()
         }
+
         tv_endTime.setOnClickListener {
-            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
-            if (!TextUtils.isEmpty(startTime)) {
-                dialog.isCheckedStartTime(startTime.isNotEmpty(), startTime.substring(startTime.length - 2, startTime.length))
-            }
-            dialog.setOnDateSetListener { year, month, day ->
-                dialog.dismissAllowingStateLoss()
-                endTime = String.format("%s-%02d-%02d", year, month, day)
-                tv_endTime.text = endTime
-            }
-            dialog.show(supportFragmentManager, "end")
+//            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
+//            if (!TextUtils.isEmpty(startTime)) {
+//                dialog.isCheckedStartTime(startTime.isNotEmpty(), startTime.substring(startTime.length - 2, startTime.length))
+//            }
+//            dialog.setOnDateSetListener { year, month, day ->
+//                dialog.dismissAllowingStateLoss()
+//                endTime = String.format("%s-%02d-%02d", year, month, day)
+//                tv_endTime.text = endTime
+//            }
+//            dialog.show(supportFragmentManager, "end")
         }
 
         tv_sure.setOnClickListener {
@@ -295,8 +304,8 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             mVoiceChatTypeDialog.show(supportFragmentManager,"VoiceChatTypeDialog")
         }
 
-        startTime = getTodayTime()
-        tv_startTime.text = startTime
+//        startTime = getTodayTime()
+//        tv_startTime.text = startTime
 
         rv_date_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         rv_date_friends.adapter = mDateFriendsQuickAdapter
@@ -321,6 +330,38 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         }
         date_headView.setImageURI(getLocalUserHeadPic())
         getLocalFriendsCount()
+    }
+
+    private fun setTitle(){
+        if(mDateType == 1){
+            tv_title.text ="旅游"
+        }else if(mDateType == 2){
+            tv_title.text ="吃饭"
+        }else if(mDateType==3){
+            tv_title.text ="看电影"
+        }else if(mDateType==4){
+            tv_title.text ="喝酒"
+        }else if(mDateType==5){
+            tv_title.text ="其他"
+        }else if(mDateType==6){
+            tv_title.text ="聊天"
+        }else if(mDateType==7){
+            tv_title.text ="游戏"
+        }else if(mDateType==8){
+            tv_title.text = "健身"
+        }else if(mDateType==9){
+            tv_title.text = "连麦"
+        }
+    }
+
+    private fun selecteDateTime(){
+        var selectVoiceChatTimeDialog = SelectVoiceChatTimeDialog()
+        selectVoiceChatTimeDialog.arguments = bundleOf("data" to "${tv_startTime.text}")
+        selectVoiceChatTimeDialog.setDialogListener { p, s ->
+            tv_startTime.text = s
+            mTimeOut = getTimeInMillis("${s}")
+        }
+        selectVoiceChatTimeDialog.show(supportFragmentManager,"time")
     }
 
     private fun showRewardVoiceChatPoints(type:Int){
@@ -423,10 +464,11 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     }
 
     private fun publish(): Boolean {
-        if (selectedDateType == null) {
-            showToast("请选择约会类型")
-            return false
-        }
+
+//        if (selectedDateType == null) {
+//            showToast("请选择约会类型")
+//            return false
+//        }
         if (area.isNullOrEmpty()) {
             showToast("请选择城市所属地区")
             return false
@@ -438,19 +480,19 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             return false
         }
 
-        if (startTime.isEmpty()) {
-            showToast("请选择开始时间")
-            return false
-        }
+//        if (startTime.isEmpty()) {
+//            showToast("请选择开始时间")
+//            return false
+//        }
         if (endTime.isEmpty()) {
-            showToast("请选择结束时间")
+            showToast("请选择有效期")
             return false
         }
 
-        if (!isDateOneBigger(endTime, startTime)) {
-            showToast("发布约会截止日期不能早于开始日期")
-            return false
-        }
+//        if (!isDateOneBigger(endTime, startTime)) {
+//            showToast("发布约会截止日期不能早于开始日期")
+//            return false
+//        }
         return true
     }
 
@@ -473,7 +515,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             Flowable.just(sb.toString())
         }.flatMap {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, it,userIds,iIsAnonymous)
+            Request.releasePullDate(userId, area, content, mDateType, startTime, endTime, it,userIds,iIsAnonymous)
         }.request(this, false, success = { _, data ->
             showToast("发布成功")
             if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
@@ -518,7 +560,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             CreateDateOfPics(content)
         } else {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
+            Request.releasePullDate(userId, area, content, mDateType, startTime, endTime, "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
                 showToast("发布成功")
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                     showTips(data, "", "")
