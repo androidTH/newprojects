@@ -198,6 +198,11 @@
                     android:singleLine="true"
                     android:text=""
                     android:textColor="@color/color_666666" />
+                <View
+                    android:id="@+id/view_endtime"
+                    style="@style/view_line_h"
+                    android:layout_alignBottom="@+id/tv_startTime"
+                    android:layout_marginLeft="@dimen/padding_16" />
 
                 <TextView
                     android:id="@+id/tv_endtime_name"
@@ -224,12 +229,6 @@
                     android:singleLine="true"
                     android:text=""
                     android:textColor="@color/color_666666" />
-
-                <View
-                    android:id="@+id/view_endtime"
-                    style="@style/view_line_h"
-                    android:layout_alignBottom="@+id/tv_startTime"
-                    android:layout_marginLeft="@dimen/padding_16" />
 
                 <TextView
                     android:id="@+id/tv_unknow"
@@ -297,6 +296,7 @@
                 </RelativeLayout>
 
                 <View
+                    android:id="@+id/line_datemoney"
                     style="@style/view_line_h"
                     android:layout_alignBottom="@+id/tv_endtime_name"
                     android:layout_marginLeft="@dimen/padding_16" />
