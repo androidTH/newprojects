@@ -24,10 +24,6 @@ import org.jetbrains.anko.wrapContent
  */
 class PayWayDialog : DialogFragment(),RequestManager {
 
-    private val point_nums by lazy {
-        SPUtils.instance().getString(Const.User.USERPOINTS_NUMS)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.FadeDialog)
