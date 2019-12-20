@@ -90,7 +90,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
         if (userVisibleHint) {
             onVisibleToUser()
         }
-        Bugtags.onResume(this)
+//        Bugtags.onResume(this)
     }
 
     override fun onPause() {
@@ -98,7 +98,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
         if (userVisibleHint) {
             onInvisibleToUser()
         }
-        Bugtags.onPause(this)
+//        Bugtags.onPause(this)
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

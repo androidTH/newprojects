@@ -91,13 +91,13 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     override fun onResume() {
         super.onResume()
         MobclickAgent.onResume(this)
-        Bugtags.onResume(this)
+//        Bugtags.onResume(this)
     }
 
     override fun onPause() {
         super.onPause()
         MobclickAgent.onPause(this)
-        Bugtags.onPause(this)
+//        Bugtags.onPause(this)
     }
 
     override fun onDestroy() {
@@ -128,7 +128,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         //注：回调 3
-        Bugtags.onDispatchTouchEvent(this, event)
+//        Bugtags.onDispatchTouchEvent(this, event)
         return super.dispatchTouchEvent(event)
     }
 
