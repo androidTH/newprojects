@@ -351,6 +351,15 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             tv_title.text = "健身"
         }else if(mDateType==9){
             tv_title.text = "连麦"
+            tv_datearea.visibility = View.GONE
+            tv_area.visibility = View.GONE
+            line_area.visibility = View.GONE
+            tv_endtime_name.visibility = View.GONE
+            tv_endTime.visibility = View.GONE
+            view_endtime.visibility = View.GONE
+            tv_unknow.visibility = View.GONE
+            tv_unknow_sf.visibility = View.GONE
+            line_unknow.visibility = View.GONE
         }
     }
 

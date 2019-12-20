@@ -116,6 +116,7 @@
                 android:background="@color/white">
 
                 <TextView
+                    android:id="@+id/tv_datearea"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:drawableLeft="@mipmap/local_list_icon"
@@ -139,7 +140,11 @@
                     android:singleLine="true"
                     android:text=""
                     android:textColor="@color/color_666666" />
-
+                <View
+                    android:id="@+id/line_area"
+                    style="@style/view_line_h"
+                    android:layout_alignBottom="@+id/tv_area"
+                    android:layout_marginLeft="@dimen/padding_16" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
@@ -194,11 +199,6 @@
                     android:text=""
                     android:textColor="@color/color_666666" />
 
-                <View
-                    style="@style/view_line_h"
-                    android:layout_alignBottom="@+id/tv_area"
-                    android:layout_marginLeft="@dimen/padding_16" />
-
                 <TextView
                     android:id="@+id/tv_endtime_name"
                     android:layout_width="wrap_content"
@@ -226,11 +226,13 @@
                     android:textColor="@color/color_666666" />
 
                 <View
+                    android:id="@+id/view_endtime"
                     style="@style/view_line_h"
                     android:layout_alignBottom="@+id/tv_startTime"
                     android:layout_marginLeft="@dimen/padding_16" />
 
                 <TextView
+                    android:id="@+id/tv_unknow"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_below="@+id/tv_endtime_name"
@@ -257,6 +259,7 @@
                     android:textColor="@color/color_666666" />
 
                 <View
+                    android:id="@+id/line_unknow"
                     style="@style/view_line_h"
                     android:layout_alignBottom="@+id/tv_unknow_sf"
                     android:layout_marginLeft="@dimen/padding_16" />
