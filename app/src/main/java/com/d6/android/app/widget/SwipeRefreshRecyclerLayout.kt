@@ -24,6 +24,7 @@ import org.jetbrains.anko.dip
  */
 class SwipeRefreshRecyclerLayout : SwipeRefreshLayout, SwipeRefreshLayout.OnRefreshListener {
     lateinit var mRecyclerView: RecyclerView
+    fun IsNotRecycler()=::mRecyclerView.isInitialized
     var loadMoreTextColor:Int = 0
     private var loadMoreView: TextView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null

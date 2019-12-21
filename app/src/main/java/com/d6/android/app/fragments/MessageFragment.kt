@@ -258,7 +258,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     private fun getNMChat() {
         mNMUnReadTotal = 0
         Log.i("messagefragment", "ssssss${mUnConversations.size}")
-        if (swiprefreshRecyclerlayout_msg.mRecyclerView.hasPendingAdapterUpdates()) {
+        if (swiprefreshRecyclerlayout_msg.IsNotRecycler()&&swiprefreshRecyclerlayout_msg.mRecyclerView.hasPendingAdapterUpdates()) {
             swiprefreshRecyclerlayout_msg.setLayoutManager(LinearLayoutManager(context))
             headerView = layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
         }

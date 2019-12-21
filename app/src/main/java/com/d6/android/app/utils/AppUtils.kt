@@ -140,6 +140,9 @@ class AppUtils {
 
         //0代表相等，1代表version1大于version2，-1代表version1小于version2
         fun compareVersion(version1:String,version2:String):Int{
+            if(version1.isNullOrEmpty()||version2.isNullOrEmpty()){
+                return 3
+            }
             if (version1.equals(version2)) {
                 return 0
             }

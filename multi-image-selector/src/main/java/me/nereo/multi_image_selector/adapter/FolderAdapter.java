@@ -93,19 +93,21 @@ public class FolderAdapter extends BaseAdapter {
                 holder.size.setText(String.format("%d%s", getTotalImageSize(), mContext.getResources().getString(R.string.photo_unit)));
                 if(mFolders.size()>0){
                     Folder f = mFolders.get(0);
-                    Uri uri = Uri.parse("file://"+f.cover.path);
-                    ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
-                            .setLocalThumbnailPreviewsEnabled(true)
-                            .setAutoRotateEnabled(true)
-                            .setResizeOptions(new ResizeOptions(mImageSize,mImageSize))
-                            .build();
+                    if(f.cover!=null){
+                        Uri uri = Uri.parse("file://"+f.cover.path);
+                        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+                                .setLocalThumbnailPreviewsEnabled(true)
+                                .setAutoRotateEnabled(true)
+                                .setResizeOptions(new ResizeOptions(mImageSize,mImageSize))
+                                .build();
 
-                    DraweeController controller = Fresco.newDraweeControllerBuilder()
-                            .setImageRequest(request)
+                        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                                .setImageRequest(request)
 //                        .setUri(uri)
-                            .setOldController(holder.cover.getController())
-                            .build();
-                    holder.cover.setController(controller);
+                                .setOldController(holder.cover.getController())
+                                .build();
+                        holder.cover.setController(controller);
+                    }
 //                    Picasso.with(mContext)
 //                            .load(new File(f.cover.path))
 //                            .error(R.drawable.default_error)
