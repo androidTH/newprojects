@@ -141,7 +141,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }
             if(mBlurIndex!=null&&mBlurIndex.size>0){
                 if(TextUtils.equals("2",mBlurIndex[key])&&!TextUtils.equals(userId, getLocalUserId())){
-                    url = it.replace("?imageslim",Const.BLUR_50)
+                    url = it.replace("?imageslim",Const.BLUR_60)
                 }
             }
             Log.i("ImagePagerAdapter", "图片大小${url}")

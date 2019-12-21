@@ -26,6 +26,7 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.vector.update_app.utils.AppUpdateUtils
 import kotlinx.android.synthetic.main.activity_mypoints.*
 import kotlinx.android.synthetic.main.item_mypoints_header.view.*
 import org.jetbrains.anko.backgroundDrawable
@@ -158,8 +159,21 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         if(TextUtils.equals(SENDLOVEHEART_DIALOG,fromType)){
            redHeartList()
         }
+
+        getIsNotCashMoney()
     }
 
+    private fun getIsNotCashMoney(){
+        Request.getInfo("ios_ audit").request(this) { _, data ->
+            data?.let {
+                var versionNum = data.optString("ext5")
+                if(AppUtils.compareVersion(versionNum, AppUpdateUtils.getVersionName(this))==0){
+                    mHeaderView.tv_cash_money.visibility = View.GONE
+                    mHeaderView.tv_cash_money_redflower.visibility = View.GONE
+                }
+            }
+        }
+    }
 
     private fun doCashMoney(type:Int){
         val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
