@@ -191,7 +191,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 TextUtils.equals(it, tabTexts[0]) -> {
                     tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
                     tv_title.visible()
-                    tv_create_date.gone()
+                    tv_create_date.visibility = View.VISIBLE
                     tv_date_mydate.gone()
                     date_headView.gone()
                     setNoticeIsNoShow()
@@ -277,7 +277,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //            filterTrendDialog?.show(supportFragmentManager, "ftd")
         }
 
-        tv_create_date.gone()
+        tv_create_date.visibility = View.VISIBLE
 
         tv_create_date.setOnClickListener {
             when (tabhost.currentTab) {

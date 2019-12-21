@@ -216,7 +216,7 @@
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="@dimen/margin_30"
             android:layout_marginRight="@dimen/margin_18"
-            android:visibility="visible"
+            android:visibility="gone"
             android:src="@mipmap/publish_button" />
     </android.support.design.widget.CoordinatorLayout>
 
