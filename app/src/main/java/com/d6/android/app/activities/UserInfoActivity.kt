@@ -665,7 +665,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     toast(getString(R.string.string_auth))
                 }
 
-                var drawable = getLevelDrawable(it.userclassesid.toString(),this)
+                var drawable = getLevelDrawable("${it.userclassesid}",this)
                 headerView.tv_vip.backgroundDrawable = drawable
                 headerView.tv_date_vip.backgroundDrawable = drawable
 
