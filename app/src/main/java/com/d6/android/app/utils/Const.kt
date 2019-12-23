@@ -147,9 +147,9 @@ object Const {
     @JvmField
     val Pic_Size_wh500 = "?imageView2/0/w/500/h/500"
     @JvmField
-    val BLUR_50 = "?imageMogr2/blur/50x30"
+    val BLUR_50 = "?imageMogr2/blur/120x120"
     @JvmField
-    val BLUR_60 = "?imageMogr2/blur/60x80"
+    val BLUR_60 = "?imageMogr2/blur/120x120"
     val D6_WWW_TAG = "www.d6-zone.com"
 
     @JvmField
