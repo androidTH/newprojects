@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.activity_create_voicechat.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
+import java.net.URLEncoder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -382,7 +383,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     }
 
     fun addTextSquare(content:String){
-        Request.addConnectVoice(getLocalUserId(),content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mSelectedTimeIndex.toDefaultTime()}").request(this,false,success={
+        Request.addConnectVoice(getLocalUserId(), URLEncoder.encode(content,"UTF-8"),VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mSelectedTimeIndex.toDefaultTime()}").request(this,false,success={
             _, data ->
             showToast("发布成功")
 //            if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){

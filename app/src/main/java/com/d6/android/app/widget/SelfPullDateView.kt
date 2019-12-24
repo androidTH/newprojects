@@ -25,6 +25,7 @@ import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
+import java.net.URLDecoder
 
 /**
  * Created on 2017/12/17.
@@ -113,7 +114,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         tv_self_address.text = "约会地点：${myAppointment.sPlace}"
 
-        tv_content.text = myAppointment.sDesc
+        tv_content.text = URLDecoder.decode(myAppointment.sDesc,"UTF-8")
 
         if (myAppointment.sAppointPic.isNullOrEmpty()) {
             rv_images.gone()

@@ -35,6 +35,7 @@ import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.*
 import org.jetbrains.anko.find
+import java.net.URLDecoder
 
 /**
  * Created on 2017/12/17.
@@ -180,7 +181,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //        }
         tv_createtime.text = square.updatetime?.interval()
 
-        tv_content.text = square.content
+        tv_content.text = URLDecoder.decode(square.content,"UTF-8")
 
         if(square.iResourceType==3){
 

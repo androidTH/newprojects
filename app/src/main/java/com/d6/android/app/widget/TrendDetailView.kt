@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_detail_view.view.*
 import org.jetbrains.anko.*
 import java.lang.Exception
+import java.net.URLDecoder
 
 /**
  * Created on 2017/12/17.
@@ -190,7 +191,7 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 //        }
 
         tv_sub_title.text = square.updatetime?.interval()
-        tv_content.text = square.content
+        tv_content.text = URLDecoder.decode(square.content,"UTF-8")
         if(square.iResourceType==3){
             rv_images.visibility = View.GONE
             rl_root_audio.visibility = View.GONE

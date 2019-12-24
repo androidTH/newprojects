@@ -25,6 +25,7 @@ import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
+import java.net.URLDecoder
 
 /**
  * Created on 2017/12/17.
@@ -101,7 +102,7 @@ class VoiceChatListView @JvmOverloads constructor(context: Context, attrs: Attri
             tv_voicechat_type.text = "无需打赏"
         }
 
-        tv_content.text = voiceChatData.content
+        tv_content.text = URLDecoder.decode(voiceChatData.content,"UTF-8")
 
         if (voiceChatData.imgUrl.isNullOrEmpty()) {
             rv_images.gone()

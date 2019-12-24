@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
 import org.jetbrains.anko.*
 import java.lang.Exception
+import java.net.URLDecoder
 
 /**
  * Created on 2017/12/17.
@@ -262,7 +263,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_content.visibility = View.GONE
         }else{
             tv_content.visibility = View.VISIBLE
-            tv_content.text = square.content
+            tv_content.text = URLDecoder.decode(square.content,"UTF-8")
         }
         //1、文字  2、图片 4、语音 ，新发布的这样区分，之前的为0
         if(square.iResourceType==3){

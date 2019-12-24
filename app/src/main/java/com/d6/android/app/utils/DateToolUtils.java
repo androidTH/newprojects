@@ -176,5 +176,4 @@ public class DateToolUtils {
             SimpleDateFormat sdf = new SimpleDateFormat(fromat);
             return sdf.format(date);
         }
-
 }
