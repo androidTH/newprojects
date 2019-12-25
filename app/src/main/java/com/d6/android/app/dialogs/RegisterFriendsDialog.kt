@@ -5,14 +5,17 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.RegisterUserInfoQuickAdapter
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.models.InviteUserBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
@@ -20,6 +23,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_register_friends.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.dip
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
@@ -62,18 +66,13 @@ class RegisterFriendsDialog : DialogFragment(),RequestManager {
            getData(userId)
         }
 
+
         tv_close.setOnClickListener {
             dismissAllowingStateLoss()
         }
-
-        mData.add("注册D6")
-        mData.add("成为会员：App会员(1月）")
-        mData.add("续费会员：App会员(1月）")
-        mData.add("白银会员")
-        mRegisterUserInfoAdapter?.notifyDataSetChanged()
     }
 
-    var mData = ArrayList<String>()
+    var mData = ArrayList<InviteUserBean>()
     private var mRegisterUserInfoAdapter: RegisterUserInfoQuickAdapter?= RegisterUserInfoQuickAdapter(mData)
 
     private fun initRecycler(){
@@ -85,6 +84,9 @@ class RegisterFriendsDialog : DialogFragment(),RequestManager {
         Request.getUserInfo(getLocalUserId(), userId).request(this, success = { _, data ->
             data?.let {
                 user_headView.setImageURI(it.picUrl)
+                user_headView.setOnClickListener {
+                    startActivity<UserInfoActivity>("id" to "${userId}")
+                }
                 tv_name.text = it.name
                 tv_sex.isSelected = TextUtils.equals("0", it.sex)
                 it.age?.let {
@@ -97,6 +99,17 @@ class RegisterFriendsDialog : DialogFragment(),RequestManager {
                 var drawable = getLevelDrawable("${it.userclassesid}",context)
                 tv_vip.backgroundDrawable = drawable
             }
+        })
+
+        Request.findEventListByUserId(userId).request(this,success={_,data->
+           data?.let {
+               Log.i("RegisterFriends","长度：${it.list?.size}")
+               it.list?.let {
+                   mData.clear()
+                   mData.addAll(it)
+                   mRegisterUserInfoAdapter?.notifyDataSetChanged()
+               }
+           }
         })
     }
 

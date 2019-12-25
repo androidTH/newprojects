@@ -14,6 +14,14 @@
         android:layout_marginRight="8dp"
         android:id="@+id/user_headView"
         app:roundedCornerRadius="26dp"/>
+    <ImageView
+        android:id="@+id/img_auther"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_15"
+        android:layout_marginLeft="27dp"
+        android:layout_marginTop="@dimen/margin_20"
+        android:src="@mipmap/video_small"
+        android:visibility="visible" />
     <LinearLayout
         android:id="@+id/linear_userinfo"
         android:layout_width="match_parent"
@@ -25,7 +33,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_2"
             android:layout_marginBottom="@dimen/margin_3"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -68,6 +75,7 @@
             android:id="@+id/tv_userinfo"
             android:textColor="@color/color_777777"
             android:textSize="12sp"
+            android:singleLine="true"
             android:layout_marginBottom="@dimen/margin_3"/>
     </LinearLayout>
 

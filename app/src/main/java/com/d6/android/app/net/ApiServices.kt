@@ -586,4 +586,10 @@ interface ApiServices {
     //状态 1、发起 2、同意 3、拒绝  4、主动取消  5、过期自动取消 6、完成
     @POST("backstage/squaresignup/updateSquareSignUp")
     fun updateSquareSignUp(@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("iStatus") iStatus:String,@Query("iConnectVoiceLength")iConnectVoiceLength:Long,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @POST("backstage/userevent/findByPage")
+    fun getInviteFindByPage(@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<InviteUserBean>>>
+
+    @POST("backstage/userevent/findEventListByUserId")
+    fun findEventListByUserId(@Query("iUserid") iUserid:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<InviteUserMemberInfo>>
 }

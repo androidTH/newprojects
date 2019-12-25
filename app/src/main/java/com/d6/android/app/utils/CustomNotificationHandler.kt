@@ -67,7 +67,7 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
 
             }else if(TextUtils.equals(type,"9")){
 
-            }else if(TextUtils.equals(type,"10")){//邀请用户
+            }else if(TextUtils.equals(type,"10")||TextUtils.equals(type,"12")){//邀请用户
                 (context as BaseActivity).startActivity<InviteGoodFriendsActivity>()
             }else if(TextUtils.equals(type,"11")){
                 (context as BaseActivity).startActivity<FansActivity>()

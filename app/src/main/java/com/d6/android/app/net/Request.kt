@@ -547,4 +547,8 @@ object Request {
     fun addVoiceChat(sAppointmentId:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).addVoiceChat(sAppointmentId,sLoginToken)
 
     fun updateSquareSignUp(sAppointmentSignupId:String,iStatus:String,iConnectVoiceLength:Long,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).updateSquareSignUp(sAppointmentSignupId,iStatus,iConnectVoiceLength, sLoginToken)
+
+    fun getInviteFindByPage(pageNum: Int=1)=RRetrofit.instance().create(ApiServices::class.java).getInviteFindByPage(pageNum)
+
+    fun findEventListByUserId(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).findEventListByUserId(iUserid)
 }

@@ -979,6 +979,34 @@ inline fun Activity.pushCustomerMessage(requestManager: RequestManager, userId:S
     }
 }
 
+fun getLevelName(levelId:String,mContext:Context):String?{
+        if (TextUtils.equals("27",levelId)) {
+            return "初级会员"
+        } else if (TextUtils.equals( "28",levelId)) {
+            return "中级会员"
+        } else if (TextUtils.equals("29",levelId)) {
+            return "高级会员"
+        } else if (TextUtils.equals("22",levelId)) {
+            return "普通会员"
+        } else if (TextUtils.equals("23",levelId)) {
+            return "白银会员"
+        } else if (TextUtils.equals("24",levelId)) {
+            return "黄金会员"
+        } else if (TextUtils.equals( "25",levelId)) {
+            return "钻石会员"
+        } else if (TextUtils.equals("26",levelId)) {
+            return "私人定制"
+        } else if (TextUtils.equals("7",levelId)) {
+            return "游客"
+        } else if(TextUtils.equals("30",levelId)){
+            return "入群会员"
+        } else if(TextUtils.equals("31",levelId)){
+            return "App会员"
+        }else{
+            return "游客"
+        }
+}
+
 fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
     var mDrawable:Drawable? = null
     try{

@@ -27,6 +27,7 @@ import com.d6.android.app.adapters.InviteAdapter
 import com.d6.android.app.dialogs.InviteFriendsDialog
 import com.d6.android.app.models.Fans
 import com.d6.android.app.models.InviteLinkBean
+import com.d6.android.app.models.InviteUserBean
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.invite_friends_layout.view.*
@@ -48,9 +49,9 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
         getData()
     }
 
-    private val mVistors = ArrayList<Fans>()
+    private val mInviteBeans = ArrayList<InviteUserBean>()
     private val vistorAdapter by lazy {
-        InviteAdapter(mVistors)
+        InviteAdapter(mInviteBeans)
     }
 
     private var pageNum = 1
@@ -96,8 +97,8 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
         }
 
         vistorAdapter.setOnItemClickListener { view, position ->
-            var Fans = mVistors[position]
-            startActivity<UserInfoActivity>("id" to "${Fans.iVistorid}")
+            var InviteUserBean = mInviteBeans[position]
+            startActivity<UserInfoActivity>("id" to "${InviteUserBean.iUserid}")
         }
 
 //      tv_invitationfriends_username.text = getLocalUserName()
@@ -173,20 +174,19 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
     }
 
     private fun getData() {
-        Request.getFindVistors(getLocalUserId(), pageNum).request(this) { _, data ->
+        Request.getInviteFindByPage(pageNum).request(this) { _, data ->
             if (pageNum == 1) {
-                mVistors.clear()
+                mInviteBeans.clear()
             }
             invate_refreshrecycler.isRefreshing = false
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
                     invate_refreshrecycler.setLoadMoreText("没有更多了")
-                    pageNum--
                 } else {
                     invate_refreshrecycler.setLoadMoreText("暂无数据")
                 }
             } else {
-                mVistors.addAll(data.list.results)
+                mInviteBeans.addAll(data.list.results)
             }
             if(data?.list?.totalPage==1){
                 invate_refreshrecycler.setLoadMoreText("没有更多了")
