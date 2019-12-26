@@ -5,15 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewTreeObserver
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.isAuthUser
-import com.d6.android.app.utils.isCheckOnLineAuthUser
 import com.d6.android.app.widget.popup.blur.FastBlur
 import kotlinx.android.synthetic.main.activity_publishchoose_layout.*
 import org.jetbrains.anko.backgroundDrawable
