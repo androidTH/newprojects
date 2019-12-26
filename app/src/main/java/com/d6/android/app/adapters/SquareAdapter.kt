@@ -35,14 +35,13 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
 
     override fun onBind(holder: ViewHolder, position: Int, data: Square) {
         val trendView = holder.bind<TrendView>(R.id.mTrendView)
-        trendView.visibility = View.VISIBLE
         trendView.update(data)
 
         trendView.setPraiseClick {
             if (TextUtils.equals("1", data.isupvote)) {
-                cancelPraise(data)
+                cancelPraise(data,position)
             } else {
-                praise(data)
+                praise(data,position)
             }
         }
 
@@ -200,14 +199,15 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
         }
     }
 
-    private fun praise(square: Square) {
+    private fun praise(square: Square,position:Int) {
         isBaseActivity {
             it.dialog()
             Request.addPraise(getLocalUserId(), square.id).request(it,true) { msg, data ->
                 showTips(data,"","")
                 square.isupvote = "1"
                 square.appraiseCount = (square.appraiseCount?:0) + 1
-                notifyDataSetChanged()
+//                notifyDataSetChanged()
+                notifyItemChanged(position+1,"sq")
             }
         }
     }
@@ -224,13 +224,14 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
         }
     }
 
-    private fun cancelPraise(square: Square) {
+    private fun cancelPraise(square: Square,position:Int) {
         isBaseActivity {
             it.dialog()
             Request.cancelPraise(getLocalUserId(), square.id).request(it) { msg, _ ->
                 square.isupvote = "0"
                 square.appraiseCount = if (((square.appraiseCount?:0) - 1) < 0) 0 else (square.appraiseCount?:0) - 1
-                notifyDataSetChanged()
+//                notifyDataSetChanged()
+                notifyItemChanged(position+1,"sq")
             }
         }
     }

@@ -25,8 +25,8 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
         var iv_unlock = holder.bind<ImageView>(R.id.iv_unlock)
-        imageView.postDelayed(object:Runnable{
-            override fun run() {
+//        imageView.postDelayed(object:Runnable{
+//            override fun run() {
                 if(mBlurIndex!=null&&mBlurIndex.size>position){
                     var blurType = mBlurIndex[position]
                     if(TextUtils.equals("2",blurType)){
@@ -59,8 +59,8 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     iv_unlock.visibility = View.GONE
                     imageView.setImageURI(data)
                 }
-            }
-        },200)
+//            }
+//        },200)
 
         imageView.setOnClickListener {
             if (type == 1) {

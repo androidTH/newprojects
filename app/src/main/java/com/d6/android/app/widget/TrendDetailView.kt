@@ -191,7 +191,9 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 //        }
 
         tv_sub_title.text = square.updatetime?.interval()
-        tv_content.text = URLDecoder.decode(square.content,"UTF-8")
+        if(square.content!!.isNotEmpty()){
+            tv_content.text = URLDecoder.decode(square.content,"UTF-8")
+        }
         if(square.iResourceType==3){
             rv_images.visibility = View.GONE
             rl_root_audio.visibility = View.GONE

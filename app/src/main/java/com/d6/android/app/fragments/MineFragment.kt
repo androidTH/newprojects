@@ -182,6 +182,10 @@ class MineFragment : BaseFragment() {
             SPUtils.instance().put(Const.IS_FIRST_SHOWUNKNOW_TIPS, true).apply()
         }
 
+        rl_inviate.setOnClickListener {
+            startActivity<InviteGoodFriendsActivity>()
+        }
+
         sw_mine_off.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
                 updateUserOnline(2)//1 不在线
@@ -417,7 +421,7 @@ class MineFragment : BaseFragment() {
 
                 ll_square.visibility = View.VISIBLE
                 if (!TextUtils.equals("null", it.sSquarePicList.toString())) {
-                    rv_square_imgs.visibility = View.VISIBLE
+                    rv_square_imgs.visibility = View.GONE
                     addSquareImages(it)
                 }else{
                     rv_square_imgs.visibility = View.GONE

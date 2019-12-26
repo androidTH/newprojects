@@ -392,9 +392,10 @@
                     android:layout_height="wrap_content"
                     android:text="我的动态"
                     android:textColor="@color/color_black"
+                    android:textStyle="bold"
                     android:drawableLeft="@mipmap/me_dynamic_icon"
                     android:drawablePadding="@dimen/margin_10"
-                    android:textSize="14sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_squarewarm"
@@ -413,6 +414,7 @@
                 android:id="@+id/rv_square_imgs"
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
+                android:visibility="gone"
                 android:layout_marginLeft="@dimen/margin_10" />
         </LinearLayout>
         <View
@@ -434,6 +436,7 @@
                 android:layout_marginLeft="@dimen/margin_10"
                 android:text="我的匿名"
                 android:textColor="@color/color_black"
+                android:textStyle="bold"
                 android:drawablePadding="@dimen/margin_10"
                 android:drawableLeft="@mipmap/niming_person"
                 android:textSize="15sp" />
@@ -474,7 +477,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:text="会员中心"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
                 android:drawablePadding="@dimen/margin_10"
                 android:drawableLeft="@mipmap/me_vip_icon"
                 android:textSize="15sp" />
@@ -516,20 +520,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:text="钱包"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
                 android:drawableLeft="@mipmap/my_wallet_icon"
                 android:drawablePadding="@dimen/margin_10"
                 android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/tv_goodfirends"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_F7A300"
-                android:layout_toLeftOf="@+id/iv_reddot"
-                android:layout_marginRight="@dimen/margin_8"
-                android:visibility="gone"
-                android:textSize="12sp" />
             <ImageView
                 android:id="@+id/iv_reddot"
                 android:layout_width="10dp"
@@ -573,7 +569,8 @@
                 android:layout_marginLeft="@dimen/margin_20"
                 android:drawableLeft="@mipmap/intergal_small_mine_coin"
                 android:drawablePadding="@dimen/margin_5"
-                android:text="积分:0"
+                android:text="积分"
+                android:textStyle="bold"
                 android:textColor="@color/color_888888"
                 android:textSize="14sp" />
 
@@ -584,6 +581,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@mipmap/redheart_small"
                 android:drawablePadding="@dimen/margin_5"
+                android:textStyle="bold"
                 android:text="@string/string_redloveheart"
                 android:textColor="@color/color_888888"
                 android:textSize="14sp" />
@@ -593,7 +591,46 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_8"
             android:background="@color/color_F6F7FA" />
+        <RelativeLayout
+            android:id="@+id/rl_inviate"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:gravity="center_vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:text="邀请有礼"
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
+                android:drawablePadding="@dimen/margin_10"
+                android:drawableLeft="@mipmap/center_yaoqingjiangli"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_goodfirends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_F7A300"
+                android:layout_toLeftOf="@+id/tv_arrow"
+                android:layout_marginRight="@dimen/margin_8"
+                android:visibility="gone"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_13"
+                android:drawableRight="@mipmap/center_moreicon"
+                android:drawablePadding="@dimen/margin_3" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:background="@color/color_EFEFEF" />
         <RelativeLayout
             android:id="@+id/rl_customerservice"
             android:layout_width="match_parent"
@@ -609,7 +646,8 @@
                 android:drawablePadding="@dimen/margin_10"
                 android:layout_centerVertical="true"
                 android:drawableLeft="@mipmap/my_contact"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
                 android:textSize="15sp" />
             <!--mine_contactus_icon-->
 
@@ -673,7 +711,8 @@
                 android:drawableLeft="@mipmap/center_yinsi"
                 android:text="隐私"
                 android:drawablePadding="@dimen/margin_10"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
                 android:textSize="15sp" />
 
             <TextView
@@ -705,7 +744,8 @@
                 android:text="设置"
                 android:drawablePadding="@dimen/margin_10"
                 android:drawableLeft="@mipmap/minecenter_colorset"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
                 android:textSize="15sp" />
 
             <TextView
