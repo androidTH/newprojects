@@ -106,7 +106,7 @@ class ShareFriendsDialog : DialogFragment() {
             tv_deldate.visibility = View.GONE
             tv_sharewx.visibility = View.GONE
 
-            var fromType = arguments.getString("from")
+            var fromType = arguments.getString("from","")
             if(TextUtils.equals(fromType,"userInfo")){
                 tv_joinblack.visibility = View.VISIBLE
                 var isInBlackList = arguments.getInt("isInBlackList", 0)
