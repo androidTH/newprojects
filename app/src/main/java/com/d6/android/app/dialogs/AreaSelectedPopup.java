@@ -52,10 +52,12 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
 
     @Override
     protected void initAttributes() {
-        setContentView(R.layout.popup_area_choose_layout, ViewGroup.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen.height_500));
-        setFocusAndOutsideEnable(true)
-                .setBackgroundDimEnable(true)
-                .setDimValue(0.5f);
+        if(mContext!=null){
+            setContentView(R.layout.popup_area_choose_layout, ViewGroup.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen.height_500));
+            setFocusAndOutsideEnable(true)
+                    .setBackgroundDimEnable(true)
+                    .setDimValue(0.5f);
+        }
     }
     @Override
     protected void initViews(View view, AreaSelectedPopup basePopup) {
