@@ -28,6 +28,7 @@ import com.d6.android.app.dialogs.InviteFriendsDialog
 import com.d6.android.app.models.Fans
 import com.d6.android.app.models.InviteLinkBean
 import com.d6.android.app.models.InviteUserBean
+import com.d6.android.app.utils.Const.INVITE_COPY_URL
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.invite_friends_layout.view.*
@@ -206,7 +207,8 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
     private fun getAccountInviteLink(){
         Request.getAccountInviteLink(getLoginToken()).request(this,false,success={msg,data->
             data?.let {
-                 setInviteGoodFriendsUI(it)
+                mInviteLinkBean = it
+                setInviteGoodFriendsUI(it)
             }
         }){code,msg->
 

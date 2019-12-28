@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:banner="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:id="@+id/rl_sharebitmap"
@@ -19,7 +20,58 @@
             <!--android:background="@color/color_F5F5F5">-->
             <include
                 layout="@layout/share_friends_layout"/>
-        <!--</RelativeLayout>-->
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/white"
+            app:cardElevation="0dp"
+            app:cardCornerRadius="@dimen/margin_10">
+
+            <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+                android:id="@+id/share_banner"
+                android:layout_width="match_parent"
+                android:layout_height="621dp"
+                banner:autoTurningTime="3000"
+                banner:canLoop="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="600dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_numone_member"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:background="@drawable/shape_dot_selector"
+                    android:enabled="false"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/tv_numtwo_member"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_5"
+                    android:background="@drawable/shape_dot_selector" />
+
+                <TextView
+                    android:id="@+id/tv_numthree_member"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_marginRight="@dimen/margin_5"
+                    android:background="@drawable/shape_dot_selector" />
+
+                <TextView
+                    android:id="@+id/tv_numfour_member"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:background="@drawable/shape_dot_selector" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
     </RelativeLayout>
     <TextView
         android:id="@+id/tv_close"
@@ -27,7 +79,6 @@
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:background="@mipmap/ic_close_orange2"/>
-    <!--android:background="@color/color_E6FFFFFF"-->
     <LinearLayout
         android:layout_below="@+id/rl_sharebitmap"
         android:layout_marginTop="@dimen/margin_20"

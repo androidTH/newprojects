@@ -2,6 +2,7 @@ package com.d6.android.app.utils
 
 import com.d6.android.app.R
 import com.d6.android.app.net.API
+import com.d6.android.app.net.API.BASE_URL
 
 /**
  *
@@ -244,5 +245,8 @@ object Const {
 
     @JvmField
     var TSUSER_ID = "44233"
+
+    @JvmField
+    var INVITE_COPY_URL = BASE_URL +"static/install/index.html?sInviteCode"
 
 }

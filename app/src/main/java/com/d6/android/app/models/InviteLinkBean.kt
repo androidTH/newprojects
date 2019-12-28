@@ -16,6 +16,7 @@ data class InviteLinkBean(var ids :String="") :Parcelable{
     @SerializedName("iInvitePoint") var iInvitePoint:Int = -1
     @SerializedName("sInviteUserName") var sInviteUserName:String = ""
     @SerializedName("sInviteUserId") var sInviteUserId:String=""
+    var sInviteLinkUrl:String=""
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         iInviteFlower = parcel.readInt()
@@ -25,6 +26,7 @@ data class InviteLinkBean(var ids :String="") :Parcelable{
         iInvitePoint = parcel.readInt()
         sInviteUserName = parcel.readString()
         sInviteUserId = parcel.readString()
+        sInviteLinkUrl = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -36,6 +38,7 @@ data class InviteLinkBean(var ids :String="") :Parcelable{
         parcel.writeInt(iInvitePoint)
         parcel.writeString(sInviteUserName)
         parcel.writeString(sInviteUserId)
+        parcel.writeString(sInviteLinkUrl)
     }
 
     override fun describeContents(): Int {

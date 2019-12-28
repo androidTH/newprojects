@@ -36,7 +36,7 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
         if(data.iIsCode==1){
             holder.setText(R.id.tv_name,"匿名")
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-            headView.setImageURI("res://"+R.mipmap.shenmiren_icon)
+            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
         }else{
             holder.setText(R.id.tv_name,data.sSendUserName)
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)

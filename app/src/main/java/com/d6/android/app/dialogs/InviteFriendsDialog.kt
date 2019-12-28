@@ -7,17 +7,23 @@ import android.os.Handler
 import android.os.Message
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
+import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.adapters.InviateBannerHolder
+import com.d6.android.app.adapters.MemberDescHolder
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
 import com.d6.android.app.models.InviteLinkBean
+import com.d6.android.app.models.MemberDesc
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import com.d6.android.app.widget.convenientbanner.listener.OnPageChangeListener
 import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
@@ -72,18 +78,17 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
             } else {
                 getAccountInviteLink()
             }
+            tv_copy_url.setOnClickListener {
+                dialogListener?.let {
+                    it.onClick(4,"${mInviteLinkBean.sInviteLinkPic}")
+                }
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             getAccountInviteLink()
         }
 
         tv_close.setOnClickListener { dismissAllowingStateLoss() }
-
-        tv_copy_url.setOnClickListener {
-            dialogListener?.let {
-               it.onClick(4,"复制")
-            }
-        }
 
         tv_wxshare.setOnClickListener {
          isBaseActivity {
@@ -113,6 +118,120 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
         tv_invitationfriends_username.text = getLocalUserName()
 
         mHandler = DoHandler(this)
+
+        shareBanner()
+    }
+
+    var mMemberDesc = ArrayList<MemberDesc>()
+
+    private fun shareBanner(){
+        mMemberDesc.add(MemberDesc("","","res:///"+R.mipmap.icon_invite01))
+        mMemberDesc.add(MemberDesc("","",
+                "res:///"+R.mipmap.icon_invite02))
+        mMemberDesc.add(MemberDesc("","",
+                "res:///"+R.mipmap.icon_invite03))
+        mMemberDesc.add(MemberDesc("","",
+                "res:///"+R.mipmap.icon_inviate04))
+
+        share_banner.setPages(
+                object : CBViewHolderCreator {
+                    override fun createHolder(itemView: View): InviateBannerHolder {
+                        return InviateBannerHolder(itemView)
+                    }
+
+                    override fun getLayoutId(): Int {
+                        return R.layout.item_invitefriends_banner
+                    }
+                },mMemberDesc)
+
+        share_banner.setOnPageChangeListener(object: OnPageChangeListener {
+            override fun onPageSelected(index: Int) {
+                when(index){
+                    0-> {
+                        if(tv_numone_member!=null){
+                            tv_numone_member.isEnabled = false
+                        }
+                        if(tv_numtwo_member!=null){
+                            tv_numtwo_member.isEnabled = true
+                        }
+
+                        if(tv_numthree_member!=null){
+                            tv_numthree_member.isEnabled = true
+                        }
+
+                        if(tv_numfour_member!=null){
+                            tv_numfour_member.isEnabled = true
+                        }
+                    }
+                    1->{
+                        if(tv_numone_member!=null){
+                            tv_numone_member.isEnabled = true
+                        }
+                        if(tv_numtwo_member!=null){
+                            tv_numtwo_member.isEnabled = false
+                        }
+
+                        if(tv_numthree_member!=null){
+                            tv_numthree_member.isEnabled = true
+                        }
+
+                        if(tv_numfour_member!=null){
+                            tv_numfour_member.isEnabled = true
+                        }
+                    }
+                    2->{
+
+                        if(tv_numone_member!=null){
+                            tv_numone_member.isEnabled = true
+                        }
+                        if(tv_numtwo_member!=null){
+                            tv_numtwo_member.isEnabled = true
+                        }
+
+                        if(tv_numthree_member!=null){
+                            tv_numthree_member.isEnabled = false
+                        }
+
+                        if(tv_numfour_member!=null){
+                            tv_numfour_member.isEnabled = true
+                        }
+                    }
+                    3->{
+
+                        if(tv_numone_member!=null){
+                            tv_numone_member.isEnabled = true
+                        }
+                        if(tv_numtwo_member!=null){
+                            tv_numtwo_member.isEnabled = true
+                        }
+
+                        if(tv_numthree_member!=null){
+                            tv_numthree_member.isEnabled = true
+                        }
+
+                        if(tv_numfour_member!=null){
+                            tv_numfour_member.isEnabled = false
+                        }
+                    }
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        share_banner.startTurning()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        share_banner.startTurning()
     }
 
     private var mHandler:Handler?=null
