@@ -118,132 +118,18 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
         tv_invitationfriends_username.text = getLocalUserName()
 
         mHandler = DoHandler(this)
-
-        shareBanner()
     }
-
-    var mMemberDesc = ArrayList<MemberDesc>()
-
-    private fun shareBanner(){
-        mMemberDesc.add(MemberDesc("","","res:///"+R.mipmap.icon_invite01))
-        mMemberDesc.add(MemberDesc("","",
-                "res:///"+R.mipmap.icon_invite02))
-        mMemberDesc.add(MemberDesc("","",
-                "res:///"+R.mipmap.icon_invite03))
-        mMemberDesc.add(MemberDesc("","",
-                "res:///"+R.mipmap.icon_inviate04))
-
-        share_banner.setPages(
-                object : CBViewHolderCreator {
-                    override fun createHolder(itemView: View): InviateBannerHolder {
-                        return InviateBannerHolder(itemView)
-                    }
-
-                    override fun getLayoutId(): Int {
-                        return R.layout.item_invitefriends_banner
-                    }
-                },mMemberDesc)
-
-        share_banner.setOnPageChangeListener(object: OnPageChangeListener {
-            override fun onPageSelected(index: Int) {
-                when(index){
-                    0-> {
-                        if(tv_numone_member!=null){
-                            tv_numone_member.isEnabled = false
-                        }
-                        if(tv_numtwo_member!=null){
-                            tv_numtwo_member.isEnabled = true
-                        }
-
-                        if(tv_numthree_member!=null){
-                            tv_numthree_member.isEnabled = true
-                        }
-
-                        if(tv_numfour_member!=null){
-                            tv_numfour_member.isEnabled = true
-                        }
-                    }
-                    1->{
-                        if(tv_numone_member!=null){
-                            tv_numone_member.isEnabled = true
-                        }
-                        if(tv_numtwo_member!=null){
-                            tv_numtwo_member.isEnabled = false
-                        }
-
-                        if(tv_numthree_member!=null){
-                            tv_numthree_member.isEnabled = true
-                        }
-
-                        if(tv_numfour_member!=null){
-                            tv_numfour_member.isEnabled = true
-                        }
-                    }
-                    2->{
-
-                        if(tv_numone_member!=null){
-                            tv_numone_member.isEnabled = true
-                        }
-                        if(tv_numtwo_member!=null){
-                            tv_numtwo_member.isEnabled = true
-                        }
-
-                        if(tv_numthree_member!=null){
-                            tv_numthree_member.isEnabled = false
-                        }
-
-                        if(tv_numfour_member!=null){
-                            tv_numfour_member.isEnabled = true
-                        }
-                    }
-                    3->{
-
-                        if(tv_numone_member!=null){
-                            tv_numone_member.isEnabled = true
-                        }
-                        if(tv_numtwo_member!=null){
-                            tv_numtwo_member.isEnabled = true
-                        }
-
-                        if(tv_numthree_member!=null){
-                            tv_numthree_member.isEnabled = true
-                        }
-
-                        if(tv_numfour_member!=null){
-                            tv_numfour_member.isEnabled = false
-                        }
-                    }
-                }
-            }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-            }
-        })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        share_banner.startTurning()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        share_banner.startTurning()
-    }
-
     private var mHandler:Handler?=null
 
     protected var mSaveBitmapRunnable=object: Runnable{
 
         override fun run() {
-            card_share_friends.setDrawingCacheEnabled(true)
-            card_share_friends.buildDrawingCache()
-            card_share_friends.setDrawingCacheBackgroundColor(Color.WHITE)
-            var mBitmap = card_share_friends.getDrawingCache()
-//            var mBitmap = LongImageUtils.getInstance().getInviteGoodFriendsBitmap(this@InviteGoodFriendsActivity,"测试","偷偷的告诉你一款社交App，上门有很多高端优男女会员，多金有颜，都是经过人工审核的。还有专属客服24H为你提供交友、约会、线上群聊、线下聚会等私人定制服务。",mBitmaps)
+//            card_share_friends.setDrawingCacheEnabled(true)
+//            card_share_friends.buildDrawingCache()
+//            card_share_friends.setDrawingCacheBackgroundColor(Color.WHITE)
+//            var mBitmap = card_share_friends.getDrawingCache()
+//            var mBitmap = LongImageUtils.getInstance().getInviteGoodFriendsBitmap((context as BaseActivity),"测试","偷偷的告诉你一款社交App，上门有很多高端优男女会员，多金有颜，都是经过人工审核的。还有专属客服24H为你提供交友、约会、线上群聊、线下聚会等私人定制服务。",mBitmaps)
+            var mBitmap = LongImageUtils.getInstance().getScrollViewBitmap(nestscroll)
             sendHandlerMessage(mBitmap,mDoIndex)
         }
     }

@@ -187,15 +187,15 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
                     invate_refreshrecycler.setLoadMoreText("暂无数据")
                 }
             } else {
-                mInviteBeans.addAll(data.list.results)
+                data.list.results?.let { mInviteBeans.addAll(it) }
             }
-            if(data?.list?.totalPage==1){
+            if(data?.list?.totalPage==0||data?.list?.totalPage==1){
                 invate_refreshrecycler.setLoadMoreText("没有更多了")
             }else{
                 invate_refreshrecycler.setLoadMoreText("上拉加载更多")
             }
             vistorAdapter.notifyDataSetChanged()
-            if(pageNum==1&&(data?.list?.results == null || data.list.results.isEmpty())){
+            if((data?.list?.results == null || data.list.results.isEmpty())&&data?.list?.totalPage==0){
                 mHeaderView.rl_empty.visibility = View.VISIBLE
                 invate_refreshrecycler.setLoadMoreText("")
             }else {

@@ -25,6 +25,7 @@ abstract class ReRecyclerFragment : BaseFragment() {
      */
     var mSwipeRefreshLayout by Delegates.notNull<SwipeRefreshLayout>()
     lateinit var mBaseRecyclerView:RecyclerView
+    fun ISNOTBaseRecyclerView()=::mBaseRecyclerView.isInitialized
 
     override fun contentViewId(): Int = R.layout.re_base_recyclerview_layout
 

@@ -103,7 +103,7 @@ class RecommendDateQuickFragment : ReRecyclerFragment() {
 
     fun getFindRecommend(ilookType: String="", city: String=""):RecommendDateQuickFragment{
         pageNum = 1
-        if(mSwipeRefreshLayout!=null){
+        if(ISNOTBaseRecyclerView()){
             mSwipeRefreshLayout.isRefreshing = true
             if(pageNum==1){
                 mBaseRecyclerView.scrollToPosition(0)
