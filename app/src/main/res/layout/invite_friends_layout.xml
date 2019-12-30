@@ -73,7 +73,7 @@
             android:paddingTop="@dimen/margin_5"
             android:paddingRight="15dp"
             android:paddingBottom="@dimen/margin_5"
-            android:text="联系客服"
+            android:text="联系客服拿提成"
             android:textColor="@color/color_F7AB00"
             android:textSize="14sp"
             android:textStyle="bold" />

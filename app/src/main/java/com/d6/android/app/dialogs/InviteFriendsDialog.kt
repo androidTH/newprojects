@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.dialog_invitefriends.*
 import kotlinx.android.synthetic.main.share_friends_layout.*
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.wrapContent
 import java.lang.ref.WeakReference
 
@@ -80,7 +81,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
             }
             tv_copy_url.setOnClickListener {
                 dialogListener?.let {
-                    it.onClick(4,"${mInviteLinkBean.sInviteLinkPic}")
+                    it.onClick(4,"${mInviteLinkBean.sInviteLinkUrl}")
                 }
             }
         } catch (e: Exception) {
@@ -110,6 +111,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
             isBaseActivity {
                 mDoIndex = 0
                 it.dialog()
+                it.toast("图片已保存到相册")
                 ThreadPoolManager.getInstance().execute(mSaveBitmapRunnable)
             }
         }

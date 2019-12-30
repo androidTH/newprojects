@@ -1,5 +1,6 @@
 package me.nereo.multi_image_selector.utils.data;
 
+import android.os.Build;
 import android.support.v4.app.LoaderManager;
 import android.content.Context;
 import android.database.Cursor;
@@ -55,6 +56,7 @@ public class ImageVideoLoader extends LoaderM implements LoaderManager.LoaderCal
                 null, // Selection args (none).
                 MediaStore.Files.FileColumns.DATE_ADDED + " DESC" // Sort order.
         );
+
         return cursorLoader;
     }
 
