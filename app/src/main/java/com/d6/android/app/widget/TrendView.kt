@@ -263,7 +263,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_content.visibility = View.GONE
         }else{
             tv_content.visibility = View.VISIBLE
-            tv_content.text = URLDecoder.decode(square.content,"UTF-8")
+            tv_content.text = square.content
         }
         //1、文字  2、图片 4、语音 ，新发布的这样区分，之前的为0
         if(square.iResourceType==3){

@@ -52,7 +52,6 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity.PICKER_VIDEO
 import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 import java.io.File
-import java.net.URLEncoder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -738,7 +737,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 }
                 Log.i("sbBlur","图片数量：${mImages.size}，图片下标：${sbBlur}")
 //                var userIds = getShareUserId(mChooseFriends)
-                Request.releaseSquare(userId, tagId, city, it,URLEncoder.encode(content,"UTF-8") ,"",iIsAnonymous,sTopicId,"","","","","","","${sbBlur}")
+                Request.releaseSquare(userId, tagId, city, it,content ,"",iIsAnonymous,sTopicId,"","","","","","","${sbBlur}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -786,7 +785,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
     private fun ConvertSuccess(file:File,content:String){
         Request.uploadFile(file,1).flatMap {
             Log.i("releaseautio","${fileAudioPath}音频地址:"+it)
-            Request.releaseSquare(userId, tagId, city, "", URLEncoder.encode(content,"UTF-8"),"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength,"")
+            Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength,"")
         }.request(this,false,success= { _, data ->
             showToast("发布成功")
             DiskFileUtils.deleteSingleFile(fileAudioPath)
@@ -825,7 +824,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 Flowable.just(it)
             }.flatMap {
                 Log.i("releaseautio",it[1]+"视频地址"+it[0]+"视频宽度:${mVideoWidth}")
-                Request.releaseSquare(userId, tagId, city, "", URLEncoder.encode(content,"UTF-8"),"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","","")
+                Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","","")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -877,7 +876,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             this.city
         }
 
-        Request.releaseSquare(userId, tagId, city, null, URLEncoder.encode(content,"UTF-8"),"",iIsAnonymous,sTopicId,"","","","","","","").request(this,false,success={
+        Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","","").request(this,false,success={
             _, data ->
             showToast("发布成功")
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){

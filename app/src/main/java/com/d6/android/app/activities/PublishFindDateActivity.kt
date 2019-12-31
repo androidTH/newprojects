@@ -44,7 +44,6 @@ import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.support.v4.startActivity
-import java.net.URLEncoder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -431,7 +430,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             Flowable.just(sb.toString())
         }.flatMap {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, URLEncoder.encode(content,"UTF-8"), selectedDateType?.type, startTime, endTime, it,userIds,iIsAnonymous)
+            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, it,userIds,iIsAnonymous)
         }.request(this, false, success = { _, data ->
             showToast("发布成功")
             if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
@@ -476,7 +475,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             CreateDateOfPics(content)
         } else {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, URLEncoder.encode(content,"UTF-8"), selectedDateType?.type, startTime, endTime, "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
+            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
                 showToast("发布成功")
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                     showTips(data, "", "")
