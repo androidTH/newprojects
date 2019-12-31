@@ -922,6 +922,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     private fun enterActivity() {
 
         val token = SPUtils.instance().getString(Const.User.RONG_TOKEN)
+        Log.i("chatActivity","token=${token}")
         if (TextUtils.equals("default",token)) {
             PushAgent.getInstance(applicationContext).deleteAlias(userId, "D6", { _, _ ->
 

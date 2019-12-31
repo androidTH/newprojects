@@ -10,6 +10,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.Const.User.USER_INVITEMESSAGESETTING
 import com.d6.android.app.utils.Const.User.USER_MESSAGESETTING
 import com.d6.android.app.utils.GsonHelper
 import com.d6.android.app.utils.SPUtils
@@ -37,11 +38,21 @@ class MessageSettingActivity : TitleActivity() {
         }else{
             false
         }
+//        var inviateMessageSetting = SPUtils.instance().getString(USER_INVITEMESSAGESETTING,"1")
+
         sw_friend_notfaction.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
                 updateMessageSet(1)
             }else{
                 updateMessageSet(2)
+            }
+        }
+
+        sw_inviate_notfaction.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+                updateInviteMessageSet(1)
+            }else{
+                updateInviteMessageSet(2)
             }
         }
 
@@ -62,6 +73,11 @@ class MessageSettingActivity : TitleActivity() {
         })
     }
 
+    private fun updateInviteMessageSet(messageState:Int){
+        Request.updateInviteMessageSetting(messageState).request(this,false,success={msg,nojson->
+            SPUtils.instance().put(USER_INVITEMESSAGESETTING,"${messageState}").apply()
+        })
+    }
 
     private fun getUserInfo() {
         Request.getUserInfo("",userId).request(this, success = { _, data ->
@@ -73,6 +89,8 @@ class MessageSettingActivity : TitleActivity() {
                     tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
                 }else if(it.iTalkSetting==2){
                     tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
+                }else{
+                    sw_inviate_notfaction.isChecked = if (it.iShowInviteMsg==1) true else false
                 }
             }
         })

@@ -61,6 +61,7 @@ class SendLoveHeartDialog : DialogFragment() {
     private var mLocalUserLoveHeartCount:Int? = -1
     private var mSquare:Square? = null
     private var mLoveHeartList=ArrayList<LoveHeartRule>()
+    private var iIsAnonymous:String= "2"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +85,7 @@ class SendLoveHeartDialog : DialogFragment() {
         try{
             id =  arguments.getString("userId")
             ToFromType = arguments.getInt("ToFromType",0)
+            iIsAnonymous = arguments.getString("iIsAnonymous","2")
         }catch(e:Exception){
             e.printStackTrace()
         }
@@ -148,7 +150,13 @@ class SendLoveHeartDialog : DialogFragment() {
                 }
             }
         }
-        getUserInfo(id)
+
+        if(TextUtils.equals(iIsAnonymous,"2")){
+            getUserInfo(id)
+        }else{
+            iv_redheart_headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_big)
+            tv_redheart_name.text = "匿名"
+        }
         setLoveHeartData()
     }
 

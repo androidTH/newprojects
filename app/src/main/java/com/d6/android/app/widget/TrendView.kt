@@ -147,7 +147,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                     (context as BaseActivity).isAuthUser(){
                         square?.let {
                             var mSendLoveHeartDialog = SendLoveHeartDialog()
-                            mSendLoveHeartDialog.arguments = bundleOf("userId" to "${it.userid}")
+                            mSendLoveHeartDialog.arguments = bundleOf("userId" to "${it.userid}","iIsAnonymous" to "${it.iIsAnonymous}")
                             mSendLoveHeartDialog.setDialogListener { p, s ->
                                 addGiftNums(p, false,true)
                             }

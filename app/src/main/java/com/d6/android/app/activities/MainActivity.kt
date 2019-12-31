@@ -282,9 +282,13 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         tv_create_date.setOnClickListener {
             when (tabhost.currentTab) {
                 0 -> {
-                    var view = it
-                    mCirclePop?.let {
-                        it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -23,-15)
+//                    var view = it
+//                    mCirclePop?.let {
+//                        it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -23,-15)
+//                    }
+
+                    isCheckOnLineAuthUser(this, getLocalUserId()){
+                        startActivityForResult<PublishFindDateActivity>(10)
                     }
                 }
             }

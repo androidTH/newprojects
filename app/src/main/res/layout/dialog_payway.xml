@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="@dimen/margin_45"
+            android:visibility="gone"
             android:layout_marginRight="16dp">
 
             <TextView
@@ -94,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
             android:visibility="gone"
-            android:text="温馨提示：支付金额大于3000元，超出微信支付的限额，建议选择支付宝支付"
+            android:text="温馨提示：支付金额大于3000元，超出微信支付的限额，请联系客服"
             android:textColor="@color/color_8888"
             android:textSize="12sp" />
     </LinearLayout>

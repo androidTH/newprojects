@@ -55,9 +55,46 @@
             app:kswBackMeasureRatio="1.7"
             app:kswThumbDrawable="@drawable/shape_switchthum" />
     </RelativeLayout>
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="0.5dp"
+         android:layout_below="@+id/rl_sysmsg"
+         android:background="@color/color_F5F5F5"/>
+    <RelativeLayout
+        android:id="@+id/rl_invitemsg"
+        android:layout_below="@+id/rl_sysmsg"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="邀请的好友注册、升级或续费会员提醒我"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+
+        <com.d6.android.app.widget.switchbutton.SwitchButton
+            android:id="@+id/sw_inviate_notfaction"
+            style="@style/SwitchButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:padding="8dp"
+            app:kswAnimationDuration="300"
+            app:kswBackDrawable="@drawable/ios_back_drawable"
+            app:kswBackMeasureRatio="1.7"
+            app:kswThumbDrawable="@drawable/shape_switchthum" />
+    </RelativeLayout>
+
 
     <RelativeLayout
-        android:layout_below="@+id/rl_sysmsg"
+        android:layout_below="@+id/rl_invitemsg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_50"
         android:layout_marginTop="8dp">

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_share_friends"
     android:layout_width="match_parent"
-    android:layout_height="600dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_8r"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/margin_8"
     app:cardElevation="0dp">

@@ -37,6 +37,7 @@ object Const {
         val USER_SCREENID = "screenID"
         val USER_DATACOMPLETION = "iDatacompletion"
         val USER_MESSAGESETTING = "messageSetting"
+        val USER_INVITEMESSAGESETTING = "invitemessageSetting"
         //别人约我
         var SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME="someoneElseMakesAnAppointmentWithMe"
         var IASKSOMEONEELSE="IAskSomeoneElse"  //我约的人

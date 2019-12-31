@@ -12,6 +12,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.InviateBannerHolder
 import com.d6.android.app.adapters.MemberDescHolder
@@ -32,6 +33,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_invitefriends.*
 import kotlinx.android.synthetic.main.share_friends_layout.*
+import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
@@ -57,6 +59,11 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
         dialog.window.setLayout((screenWidth() * 0.90f).toInt()+dip(30), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
         dialog.setCanceledOnTouchOutside(false)
+
+        var params = rl_sharebitmap.layoutParams
+        params.width = matchParent
+        params.height = (screenHeight() * 0.70f).toInt()
+        rl_sharebitmap.layoutParams = params
     }
 
     override fun show(manager: FragmentManager?, tag: String?) {
@@ -81,7 +88,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
             }
             tv_copy_url.setOnClickListener {
                 dialogListener?.let {
-                    it.onClick(4,"${mInviteLinkBean.sInviteLinkUrl}")
+                    it.onClick(4,"${mInviteLinkBean.sInviteLinkPic}")
                 }
             }
         } catch (e: Exception) {

@@ -435,6 +435,9 @@ object Request {
     //消息设置接口
     fun updateMessageSetting(iUserId:String,iMessageSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateMessageSetting(iUserId,iMessageSetting)
 
+    //消息设置接口
+    fun updateInviteMessageSetting(iShowInviteMsg:Int)=RRetrofit.instance().create(ApiServices::class.java).updateInviteMessageSetting(iShowInviteMsg)
+
     //客服查询用户
     fun findAllUserFriends(iUserId:String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAllUserFriends(iUserId,sUserName,pageNum)
 

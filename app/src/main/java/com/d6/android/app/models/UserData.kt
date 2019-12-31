@@ -85,6 +85,7 @@ data class UserData(val accountId: String? = "") : Serializable {
     var iOnline:Int = -1
     var iListSetting:Int = -1 //是否显示 1、显示 2、不显示
     var iSendPointShow:Int = -1 //发送的爱心是否隐藏 1、不隐藏 2、隐藏
+    var iShowInviteMsg:Int = -1 //1、推送 2、不推送
 
     override fun toString(): String {
 

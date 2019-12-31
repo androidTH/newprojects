@@ -13,6 +13,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp">
             <include
+                android:id="@+id/card"
                 layout="@layout/share_friends_layout"/>
     </RelativeLayout>
     <TextView

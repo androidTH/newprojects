@@ -5,11 +5,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <!--ic_popup_bg-->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:background="@mipmap/top_background"
         android:orientation="vertical"
-        android:layout_height="110dp">
+        android:layout_height="90dp">
         <TextView
             android:id="@+id/tv_create_date"
             android:layout_width="wrap_content"
@@ -26,12 +26,14 @@
             android:paddingRight="12dp"
             android:paddingTop="8dp"
             android:drawableLeft="@mipmap/top_date"
+            android:layout_centerInParent="true"
             android:text="发起约会" />
          <View
              android:layout_gravity="center_horizontal"
              android:layout_width="90dp"
              android:layout_marginTop="@dimen/margin_5"
              android:background="@color/color_1EFFFFFF"
+             android:visibility="gone"
              android:layout_height="1dp" />
         <TextView
             android:id="@+id/tv_createvoicechat"
@@ -45,11 +47,12 @@
             android:gravity="center"
             android:textColor="@color/color_FFFDF8"
             android:textStyle="bold"
+            android:visibility="gone"
             android:textSize="15sp"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
             android:drawableLeft="@mipmap/top_voicechat"
             android:text="发布连麦" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

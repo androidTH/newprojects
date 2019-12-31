@@ -404,6 +404,10 @@ interface ApiServices {
     @POST("backstage/account/updateMessageSetting")
     fun updateMessageSetting(@Query("iUserid") userid:String,@Query("iMessageSetting") iMessageSetting:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
 
+    //iShowInviteMsg 1、推送 2、不推送
+    @POST("backstage/account/updateShowInviteMsg")
+    fun updateInviteMessageSetting(@Query("iShowInviteMsg") iMessageSetting:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
+
     //查询用户接口
     @POST("backstage/account/findAllByPage")
     fun findAllUserFriends(@Query("iUserid")userid:String,@Query("sUserName")sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<UserData>>>
