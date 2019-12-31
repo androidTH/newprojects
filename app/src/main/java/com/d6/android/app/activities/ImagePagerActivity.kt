@@ -56,6 +56,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var mListFragment = SparseArray<Fragment>()
     //礼物
     private var giftControl: GiftControl? = null
+    private var iIsAnonymous:String = "2"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_paypoints.setOnClickListener {
             isAuthUser() {
                 var mSendLoveHeartDialog = SendLoveHeartDialog()
-                mSendLoveHeartDialog.arguments = bundleOf("userId" to "${userId}", "ToFromType" to 2)
+                mSendLoveHeartDialog.arguments = bundleOf("userId" to "${userId}", "ToFromType" to 2,"iIsAnonymous" to iIsAnonymous)
                 mSendLoveHeartDialog.setDialogListener { p, s ->
                     sendPayPoint(p)
                 }
@@ -116,6 +117,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         val isBlur = intent.getBooleanExtra("isBlur", false)
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         val showDelete = intent.getBooleanExtra("delete",false)
+        iIsAnonymous = intent.getStringExtra(ISANONYMOUS)
         if (showDelete) {
             tv_delete.visible()
         } else {
@@ -350,6 +352,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         val SIfLovePics = "sIfLovePics"
         val SOURCEID = "sourceId"
         val mBEAN = "bean"
+        val ISANONYMOUS="iIsAnonymous"
     }
 
 }

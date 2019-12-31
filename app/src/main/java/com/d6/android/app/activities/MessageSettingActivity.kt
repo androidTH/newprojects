@@ -84,14 +84,12 @@ class MessageSettingActivity : TitleActivity() {
             SPUtils.instance().put(Const.USERINFO,GsonHelper.getGson().toJson(data)).apply()
             saveUserInfo(data)
             data?.let {
-                if(it.iTalkSetting==1){
-//                    tv_private_chat_type.text=resources.getString(R.string.string_linechat)
-                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
-                }else if(it.iTalkSetting==2){
-                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
-                }else{
-                    sw_inviate_notfaction.isChecked = if (it.iShowInviteMsg==1) true else false
-                }
+//                if(it.iTalkSetting==1){
+//                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
+//                }else if(it.iTalkSetting==2){
+//                    tv_private_chat_type.text=resources.getString(R.string.string_agree_openchat)
+//                }
+                sw_inviate_notfaction.isChecked = if (it.iShowInviteMessage==1) true else false
             }
         })
     }

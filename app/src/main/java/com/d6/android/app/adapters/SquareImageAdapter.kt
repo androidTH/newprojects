@@ -72,7 +72,7 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     }
                     context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mImages, ImagePagerActivity.CURRENT_POSITION to position,
                             ImagePagerActivity.USERID to "${mSquare!!.userid}", ImagePagerActivity.mBEAN to mSquare,
-                            ImagePagerActivity.SIfLovePics to "${mSquare?.sIfLovePics}",ImagePagerActivity.SOURCEID to "${mSquare?.id}")
+                            ImagePagerActivity.SIfLovePics to "${mSquare?.sIfLovePics}",ImagePagerActivity.SOURCEID to "${mSquare?.id}",ImagePagerActivity.ISANONYMOUS to "${mSquare.iIsAnonymous}")
                 }
             } else {
                 context.startActivity<TrendDetailActivity>(TrendDetailActivity.URLS to mData, TrendDetailActivity.CURRENT_POSITION to position,

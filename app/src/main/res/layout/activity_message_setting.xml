@@ -97,6 +97,7 @@
         android:layout_below="@+id/rl_invitemsg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_50"
+        android:visibility="gone"
         android:layout_marginTop="8dp">
         <TextView
             android:layout_width="match_parent"
