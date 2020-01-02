@@ -14,14 +14,15 @@
         android:orientation="vertical"
         android:padding="15dp">
 
-        <TextView
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
             android:gravity="center_horizontal"
-            android:text="设置连麦申请方式，最终的打赏将在连麦结束后到账"
-            android:textSize="15sp"
-            android:textColor="@color/color_333333"/>
+            android:text="请设置连麦打赏方式，10喜欢[img src=redheart_small/]/分钟"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_black"/>
 
         <LinearLayout
             android:layout_width="match_parent"

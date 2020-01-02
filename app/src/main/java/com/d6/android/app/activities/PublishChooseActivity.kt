@@ -63,6 +63,7 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
             }
         }else if(v?.id==R.id.tv_voicechat){
             isAuthUser{
+//                startActivityForResult<VoiceChatCreateActivity>(1)
                 startActivityForResult<PublishFindDateActivity>(1,"type" to 9)
 //                VoiceChatCreateActivity
                 finish()

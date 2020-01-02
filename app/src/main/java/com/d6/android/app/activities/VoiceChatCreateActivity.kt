@@ -404,27 +404,27 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
      * 发布连麦
      */
     private fun submitAddVoiceChat(){
-//        if (mImages.size>0&&mImages[0].type == 0) {
-//            publish()
-//        } else {
-            //发布文字
-            val content = et_content.text.toString().trim()
-            if (content.isEmpty()) {
-                showToast("请输入内容")
-                return
-            }
-            if(mSelectedTimeIndex==-1L){
-                showToast("请选择连麦时间")
-                return
-            }
-            var connentStr = tv_voicechat_choose.text.toString().trim()
-            if(connentStr.isNullOrEmpty()){
-                showToast("请选择连麦方式")
-                return
-            }
+        //发布文字
+        val content = et_content.text.toString().trim()
+        if (content.isEmpty()) {
+            showToast("请输入内容")
+            return
+        }
+        if(mSelectedTimeIndex==-1L){
+            showToast("请选择连麦时间")
+            return
+        }
+        var connentStr = tv_voicechat_choose.text.toString().trim()
+        if(connentStr.isNullOrEmpty()){
+            showToast("请选择连麦方式")
+            return
+        }
+        if (mImages.size>0&&mImages[0].type == 0) {
+            publish()
+        } else {
             dialog()
             addTextSquare(content)
-//        }
+        }
     }
 
     private fun getLocalFriendsCount(){

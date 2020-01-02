@@ -12,8 +12,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import com.d6.android.app.R
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
@@ -54,7 +52,7 @@ import kotlinx.android.synthetic.main.activity_chat.tv_openchat_no_bottom
 import kotlinx.android.synthetic.main.layout_date_chat.*
 import org.jetbrains.anko.*
 import org.json.JSONObject
-import java.lang.ref.WeakReference
+import java.net.URLEncoder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -168,6 +166,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //            checkISFirstReceiverMsg()
         }
 
+
         iv_back_close.setOnClickListener {
             hideSoftKeyboard(it)
             onBackPressed()
@@ -259,23 +258,23 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,false).apply()
         }
 
-        headView_ydate.setOnClickListener {
-            if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
-                startActivity<UserInfoActivity>("id" to mOtherUserId)
-            }else{
-                if(TextUtils.equals("2",mWhoanonymous)){//2 对方匿名
-                    var mUnknowDialog = UnKnowInfoDialog()
-                    mUnknowDialog.arguments = bundleOf("otheruserId" to mOtherUserId)
-                    mUnknowDialog.show(supportFragmentManager,"unknowDialog")
-                }else{
-                    startActivity<UserInfoActivity>("id" to mOtherUserId)
-                }
-            }
-        }
+//        headView_ydate.setOnClickListener {
+//            if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
+//                startActivity<UserInfoActivity>("id" to mOtherUserId)
+//            }else{
+//                if(TextUtils.equals("2",mWhoanonymous)){//2 对方匿名
+//                    var mUnknowDialog = UnKnowInfoDialog()
+//                    mUnknowDialog.arguments = bundleOf("otheruserId" to mOtherUserId)
+//                    mUnknowDialog.show(supportFragmentManager,"unknowDialog")
+//                }else{
+//                    startActivity<UserInfoActivity>("id" to mOtherUserId)
+//                }
+//            }
+//        }
 
-        headView_fdate.setOnClickListener {
-            startActivity<UserInfoActivity>("id" to getLocalUserId())
-        }
+//        headView_fdate.setOnClickListener {
+//            startActivity<UserInfoActivity>("id" to getLocalUserId())
+//        }
 
         //放弃
         tv_datechat_giveup.setOnClickListener {
@@ -707,20 +706,59 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
     private val mImages = ArrayList<String>()
     private fun setDateChatUi(appointment:MyAppointment,talkCount:Int,dateTime:Long){
-        headView_ydate.setImageURI(appointment.sAppointmentPicUrl)
-        headView_fdate.setImageURI(appointment.sPicUrl)
-        tv_yname.text = appointment.sAppointUserName
-        tv_fname.text = appointment.sUserName
+//        headView_ydate.setImageURI(appointment.sAppointmentPicUrl)
+//        headView_fdate.setImageURI(appointment.sPicUrl)
+//        tv_yname.text = appointment.sAppointUserName
+//        tv_fname.text = appointment.sUserName
+        if(appointment.iAppointType==6){
+            rl_circlebar.visibility = View.VISIBLE
+            tv_progress.visibility = View.VISIBLE
+            linear_datechat_agree_bottom.visibility = View.GONE
+            circlebarview.setProgressNum(160.0f,5)
+        }else{
+            rl_circlebar.visibility = View.GONE
+            tv_progress.visibility = View.GONE
+            linear_datechat_agree_bottom.visibility = View.VISIBLE
+        }
+
+        var index = 1
+        if(!TextUtils.equals("null","${appointment.iAppointType}")){
+            index = appointment.iAppointType!!.toInt()-1
+            tv_datetype_name.text = Const.dateTypes[index]
+        }else{
+            tv_datetype_name.text = Const.dateTypes[0]
+            index = 0
+        }
+
+        if(index!= Const.dateTypesBig.size){
+            var drawable = ContextCompat.getDrawable(this,Const.dateTypesBig[index])
+            setLeftDrawable(drawable,tv_datetype_name)
+        }
+
         tv_datechat_content.text = appointment.sDesc
         tv_datchat_address.text = "约会地点：${appointment.sPlace}"
         if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(appointment.iAppointUserid.toString(), getLocalUserId())){
-            tv_date_info.text = "对方申请赴约" //"${appointment.sUserName}申请赴约"
+            if(appointment.iAppointType==6){
+                tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
+                circlebarview.setMaxNum(360.0f)
+                circlebarview.setProgressNum(160.0f,5)
+            }else{
+                tv_date_info.text = "对方申请赴约"
+            }
+            //"${appointment.sUserName}申请赴约"
+
             tv_datechat_no.visibility = View.VISIBLE
             tv_datechat_agree.visibility = View.VISIBLE
             tv_datechat_giveup.visibility = View.GONE
             ISNOTYAODATE = 1
         }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
-            tv_date_info.text = "等待对方确认中…"
+            if(appointment.iAppointType==6){
+                tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
+                circlebarview.setMaxNum(360.0f)
+                circlebarview.setProgressNum(160.0f,5)
+            }else{
+                tv_date_info.text = "等待对方确认中…"
+            }
             tv_datechat_no.visibility = View.GONE
             tv_datechat_agree.visibility = View.GONE
             tv_datechat_giveup.visibility = View.VISIBLE

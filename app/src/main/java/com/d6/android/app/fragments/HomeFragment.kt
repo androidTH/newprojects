@@ -210,11 +210,11 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
 
         iv_publish.setOnClickListener {
-//            activity.isAuthUser() {
-//                startActivity<PublishChooseActivity>()
+            activity.isAuthUser() {
+                startActivity<PublishChooseActivity>()
 //                showMoreWindow(it)
-//            }
-            startActivity<PublishChooseActivity>()
+            }
+//            startActivity<PublishChooseActivity>()
         }
 
         mViewPager.postDelayed(object:Runnable{

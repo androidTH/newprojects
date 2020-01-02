@@ -1,12 +1,10 @@
 package com.d6.android.app.widget
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
@@ -15,7 +13,6 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UnKnowInfoDialog
-import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
@@ -71,11 +68,12 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             tv_datetype_name.text = Const.dateTypes[0]
             index = 0
         }
+
         if(index!= Const.dateTypesBig.size){
             var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[index])
             drawable?.setBounds(0, 0, drawable?.getMinimumWidth(), drawable?.getMinimumHeight());// 设置边界
             tv_datetype_name.setCompoundDrawablePadding(dip(3))
-            tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
+            tv_datetype_name.setCompoundDrawables(drawable,null,null,null);
         }
 
         if(!date.age.toString().isNullOrEmpty()){

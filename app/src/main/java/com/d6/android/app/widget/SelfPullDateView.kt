@@ -82,7 +82,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             var drawable = ContextCompat.getDrawable(context,Const.dateTypesBig[index])
             drawable?.setBounds(0, 0, drawable?.getMinimumWidth(), drawable?.getMinimumHeight());// 设置边界
             tv_datetype_name.setCompoundDrawablePadding(dip(3))
-            tv_datetype_name.setCompoundDrawables(null,drawable,null,null);
+            tv_datetype_name.setCompoundDrawables(drawable,null,null,null)
         }
 
         if(!myAppointment.iAge.toString().isNullOrEmpty()){
@@ -162,7 +162,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         myAppointment.iAppointmentSignupCount?.let {
             if(it>0){
-                tv_date_nums.text = "累计${it}人邀约"
+                tv_date_nums.text = "已有${it}人邀约成功"
             }else{
                 tv_date_nums.text = ""
             }

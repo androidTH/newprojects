@@ -11,15 +11,12 @@ import android.util.Log
 import android.view.View
 import com.alibaba.fastjson.JSONObject
 import com.amap.api.location.AMapLocationClient
-import com.d6.android.app.dialogs.DatePickDialog
 import com.d6.android.app.R
 import com.d6.android.app.adapters.AddImageAdapter
 import com.d6.android.app.adapters.DateTypeAdapter
 import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.OpenDateErrorDialog
-import com.d6.android.app.dialogs.SelectUnKnowTypeDialog
-import com.d6.android.app.dialogs.VistorPayPointDialog
+import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.DateType
@@ -61,6 +58,8 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     private var sAddPointDesc="以匿名身份发布"
     private var iAddPoint :String= "" //匿名发布需要消耗的积分
     private var iRemainPoint:String="" //剩余积分
+    private var mTimeOut:Long =  -1
+    private var mCostIndex:Int = 1
     var showDateTypes:Array<DateType> = arrayOf(DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(5))
 
     private val addAdapter by lazy {
@@ -79,6 +78,10 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
+    private val mDateType by lazy{
+        intent.getIntExtra("type",5)
+    }
+
     private var city: String? = null
     private var areaType = -1
     private var area = ""
@@ -86,7 +89,9 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     private var endTime: String = ""
     private var selectedDateType: DateType? = null
     private var REQUEST_CHOOSECODE:Int=10
-
+    private var mVoiceChatType = 1
+    private var loveNums = 0
+    private var iOncePayLovePoint = 0
 
     override fun update(o: Observable?, arg: Any?) {
         var mImagelocal = arg as Imagelocals
@@ -136,29 +141,30 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             }
         }
 
-        for (i in 0..(showDateTypes.size-1)) {
-            var dt = showDateTypes[i]
-            dt.dateTypeName = dateTypes[dt.type-1]
-            dt.imgUrl = "res:///${dateTypesDefault[dt.type-1]}"
-            dt.selectedimgUrl = "res:///${dateTypesSelected[dt.type-1]}"
-            dt.isSelected = false
-            mDateTypes.add(dt)
-        }
+//        for (i in 0..(showDateTypes.size-1)) {
+//            var dt = showDateTypes[i]
+//            dt.dateTypeName = dateTypes[dt.type-1]
+//            dt.imgUrl = "res:///${dateTypesDefault[dt.type-1]}"
+//            dt.selectedimgUrl = "res:///${dateTypesSelected[dt.type-1]}"
+//            dt.isSelected = false
+//            mDateTypes.add(dt)
+//        }
 
-        rv_datetype.setHasFixedSize(true)
-        rv_datetype.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rv_datetype.isNestedScrollingEnabled = false
-        rv_datetype.adapter = mDateTypeAdapter
+//        rv_datetype.setHasFixedSize(true)
+//        rv_datetype.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+//        rv_datetype.isNestedScrollingEnabled = false
+//        rv_datetype.adapter = mDateTypeAdapter
 
-        mDateTypeAdapter.setOnItemClickListener { view, position ->
-            for (i in 0..(mDateTypes.size - 1)) {
-                var dt = mDateTypes.get(i)
-                dt.isSelected = i == position
-            }
-            selectedDateType = mDateTypes.get(position)
-            mDateTypeAdapter.notifyDataSetChanged()
-        }
+//        mDateTypeAdapter.setOnItemClickListener { view, position ->
+//            for (i in 0..(mDateTypes.size - 1)) {
+//                var dt = mDateTypes.get(i)
+//                dt.isSelected = i == position
+//            }
+//            selectedDateType = mDateTypes.get(position)
+//            mDateTypeAdapter.notifyDataSetChanged()
+//        }
 
+        setTitle()
         rv_images.setHasFixedSize(true)
         rv_images.layoutManager = GridLayoutManager(this, 3)
         rv_images.adapter = addAdapter
@@ -186,68 +192,71 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         }
 
         tv_startTime.setOnClickListener {
-            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
-            dialog.setOnDateSetListener { year, month, day ->
-                dialog.dismissAllowingStateLoss()
-                startTime = String.format("%s-%02d-%02d", year, month, day)
-                tv_startTime.text = startTime
-            }
-            dialog.show(supportFragmentManager, "start")
+//            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
+//            dialog.setOnDateSetListener { year, month, day ->
+//                dialog.dismissAllowingStateLoss()
+//                startTime = String.format("%s-%02d-%02d", year, month, day)
+//                tv_startTime.text = startTime
+//            }
+//            dialog.show(supportFragmentManager, "start")
+
+            selecteDateTime()
         }
+
         tv_endTime.setOnClickListener {
-            val dialog = DatePickDialog(System.currentTimeMillis(), -1)
-            if (!TextUtils.isEmpty(startTime)) {
-                dialog.isCheckedStartTime(startTime.isNotEmpty(), startTime.substring(startTime.length - 2, startTime.length))
+            var mSelectCostTypeDialog = SelectCostTypeDialog()
+            mSelectCostTypeDialog.setDialogListener { p, s ->
+                tv_endTime.text = "${s}"
+                mCostIndex = p
             }
-            dialog.setOnDateSetListener { year, month, day ->
-                dialog.dismissAllowingStateLoss()
-                endTime = String.format("%s-%02d-%02d", year, month, day)
-                tv_endTime.text = endTime
-            }
-            dialog.show(supportFragmentManager, "end")
+            mSelectCostTypeDialog.show(supportFragmentManager,"cost")
         }
 
         tv_sure.setOnClickListener {
             if (!isFastClick()) {
                 if (publish()) {
-                    Request.getAppointmentAuth(userId,getLoginToken()).request(this, true, success = { msg, data ->
-                        dialog()
-                        CreateDate(et_content.text.toString().trim())
-                    }) { code, msg ->
-                        if (code == 0) {
-                            if(TextUtils.equals("1",sex)){
-                                startActivity<MenMemberActivity>()
-                            }else{
-                                startActivity<DateAuthStateActivity>()
-                            }
-                        } else if (code == 2) {
-                            if (msg.isNotEmpty()) {
-                                val jsonObject = JSONObject.parseObject(msg)
-                                var point = jsonObject.getString("iAddPoint")
-                                var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-                                val dateDialog = VistorPayPointDialog()
-                                dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 1)
-                                dateDialog.show(supportFragmentManager, "vistor")
-                                dateDialog.setDialogListener { p, s ->
-                                    if (p == 1) {
-                                        dialog()
-                                        CreateDate(et_content.text.toString().trim())
+                    if(mDateType==9){
+                        publishVoiceChat()
+                    }else{
+                        Request.getAppointmentAuth(userId,getLoginToken()).request(this, true, success = { msg, data ->
+                            dialog()
+                            CreateDate(et_content.text.toString().trim())
+                        }) { code, msg ->
+                            if (code == 0) {
+                                if(TextUtils.equals("1",sex)){
+                                    startActivity<MenMemberActivity>()
+                                }else{
+                                    startActivity<DateAuthStateActivity>()
+                                }
+                            } else if (code == 2) {
+                                if (msg.isNotEmpty()) {
+                                    val jsonObject = JSONObject.parseObject(msg)
+                                    var point = jsonObject.getString("iAddPoint")
+                                    var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                                    val dateDialog = VistorPayPointDialog()
+                                    dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 1)
+                                    dateDialog.show(supportFragmentManager, "vistor")
+                                    dateDialog.setDialogListener { p, s ->
+                                        if (p == 1) {
+                                            dialog()
+                                            CreateDate(et_content.text.toString().trim())
+                                        }
                                     }
                                 }
-                            }
-                        } else if (code == 3) {
-                            if (msg != "null") {
-                                val jsonObject = JSONObject.parseObject(msg)
+                            } else if (code == 3) {
+                                if (msg != "null") {
+                                    val jsonObject = JSONObject.parseObject(msg)
 //                            var point = jsonObject.getIntValue("iAddPoint")
 //                            var remainPoint = jsonObject.getString("iRemainPoint")
-                                var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+                                    var sAddPointDesc = jsonObject.getString("sAddPointDesc")
 //                            val dateDialog = OpenDatePointNoEnoughDialog()
 //                            dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
 //                            dateDialog.show(supportFragmentManager, "d")
 
-                                var openErrorDialog = OpenDateErrorDialog()
-                                openErrorDialog.arguments = bundleOf("code" to 2, "msg" to sAddPointDesc)
-                                openErrorDialog.show(supportFragmentManager, "publishfindDateActivity")
+                                    var openErrorDialog = OpenDateErrorDialog()
+                                    openErrorDialog.arguments = bundleOf("code" to 2, "msg" to sAddPointDesc)
+                                    openErrorDialog.show(supportFragmentManager, "publishfindDateActivity")
+                                }
                             }
                         }
                     }
@@ -279,8 +288,25 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             }
         }
 
-        startTime = getTodayTime()
-        tv_startTime.text = startTime
+        ll_voicechat_choose.setOnClickListener {
+            var mVoiceChatTypeDialog = VoiceChatTypeDialog()
+            mVoiceChatTypeDialog.arguments = bundleOf("chooseType" to "0")
+            mVoiceChatTypeDialog.setDialogListener { p, s ->
+                mVoiceChatType = p
+                if(p==2||p==3){
+                    loveNums = 0
+                    iOncePayLovePoint = 0
+                    showRewardVoiceChatPoints(p)
+                    mVoiceChatTypeDialog.dismissAllowingStateLoss()
+                }else{
+                    tv_voicechat_choose.text = s
+                }
+            }
+            mVoiceChatTypeDialog.show(supportFragmentManager,"VoiceChatTypeDialog")
+        }
+
+//        startTime = getTodayTime()
+//        tv_startTime.text = startTime
 
         rv_date_friends.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         rv_date_friends.adapter = mDateFriendsQuickAdapter
@@ -303,7 +329,102 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             iIsAnonymous = 1
             tv_unknow_sf.text = "匿名身份"
         }
+        date_headView.setImageURI(getLocalUserHeadPic())
         getLocalFriendsCount()
+    }
+
+    private fun setTitle(){
+        if(mDateType == 1){
+            tv_title.text ="旅游"
+            line_unknow.visibility = View.GONE
+            ll_voicechat_choose.visibility = View.GONE
+        }else if(mDateType == 2){
+            tv_title.text ="吃饭"
+            line_unknow.visibility = View.GONE
+            ll_voicechat_choose.visibility = View.GONE
+        }else if(mDateType==3){
+            tv_title.text ="看电影"
+            line_unknow.visibility = View.GONE
+            ll_voicechat_choose.visibility = View.GONE
+        }else if(mDateType==4){
+            tv_title.text ="喝酒"
+            line_unknow.visibility = View.GONE
+            ll_voicechat_choose.visibility = View.GONE
+        }else if(mDateType==5){
+            tv_title.text ="其他"
+            line_unknow.visibility = View.GONE
+            ll_voicechat_choose.visibility = View.GONE
+        }else if(mDateType==6){
+            tv_title.text ="聊天"
+
+            line_unknow.visibility = View.GONE
+            ll_voicechat_choose.visibility = View.GONE
+            tv_datearea.visibility = View.GONE
+            tv_area.visibility = View.GONE
+            line_area.visibility = View.GONE
+            tv_endtime_name.visibility = View.GONE
+            tv_endTime.visibility = View.GONE
+            line_datemoney.visibility=View.GONE
+            tv_unknow.visibility = View.GONE
+            tv_unknow_sf.visibility = View.GONE
+            line_unknow.visibility = View.GONE
+
+        }else if(mDateType==7){
+            tv_title.text ="游戏"
+            line_unknow.visibility = View.GONE
+            ll_voicechat_choose.visibility = View.GONE
+        }else if(mDateType==8){
+            tv_title.text = "健身"
+            line_unknow.visibility = View.GONE
+            ll_voicechat_choose.visibility = View.GONE
+        }else if(mDateType==9){
+            tv_title.text = "连麦"
+            tv_datearea.visibility = View.GONE
+            tv_area.visibility = View.GONE
+            line_area.visibility = View.GONE
+            tv_endtime_name.visibility = View.GONE
+            tv_endTime.visibility = View.GONE
+            line_datemoney.visibility=View.GONE
+            tv_unknow.visibility = View.GONE
+            tv_unknow_sf.visibility = View.GONE
+            line_unknow.visibility = View.GONE
+        }
+    }
+
+    private fun selecteDateTime(){
+        var selectVoiceChatTimeDialog = SelectVoiceChatTimeDialog()
+        selectVoiceChatTimeDialog.arguments = bundleOf("data" to "${tv_startTime.text}")
+        selectVoiceChatTimeDialog.setDialogListener { p, s ->
+            tv_startTime.text = s
+            mTimeOut = getTimeInMillis("${s}")
+        }
+        selectVoiceChatTimeDialog.show(supportFragmentManager,"time")
+    }
+
+    private fun showRewardVoiceChatPoints(type:Int){
+        var mRewardVoiceChatPointsDialog = RewardVoiceChatPointsDialog()
+        mRewardVoiceChatPointsDialog.arguments = bundleOf("voicechatType" to type)
+        mRewardVoiceChatPointsDialog.show(supportFragmentManager, "d")
+        mRewardVoiceChatPointsDialog.setDialogListener { p, s ->
+            loveNums = p
+            iOncePayLovePoint = p
+            if(type==2){
+                tv_voicechat_choose.text = s
+            }else{
+                appVoiceChatPoints(iOncePayLovePoint)
+            }
+            mRewardVoiceChatPointsDialog.dismissAllowingStateLoss()
+        }
+    }
+
+    private fun appVoiceChatPoints(sendLoveNums:Int){
+        var mApplyVoiceChatPointsDialog = ApplyVoiceChatPointsDialog()
+        mApplyVoiceChatPointsDialog.arguments = bundleOf("lovenums" to sendLoveNums)
+        mApplyVoiceChatPointsDialog.show(supportFragmentManager, "d")
+        mApplyVoiceChatPointsDialog.setDialogListener { p, s ->
+            loveNums = sendLoveNums*p
+            tv_voicechat_choose.text = s
+        }
     }
 
     override fun onResume() {
@@ -323,9 +444,9 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             Log.i("CheckAnonMouseNums","${msg}")
             if(code==2){
                 if(msg.isNotEmpty()){
-                    var jsonobject = org.json.JSONObject(msg)
+                   var jsonobject = org.json.JSONObject(msg)
 //                   var iRemainCount = jsonobject.optString("iRemainCount")//还有匿名次数
-                    sAddPointDesc = jsonobject.optString("sAddPointDesc")
+                   sAddPointDesc = jsonobject.optString("sAddPointDesc")
                 }
             }else if(code==3){
                 if(msg.isNotEmpty()){
@@ -380,33 +501,41 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     }
 
     private fun publish(): Boolean {
-        if (selectedDateType == null) {
-            showToast("请选择约会类型")
-            return false
-        }
-        if (area.isNullOrEmpty()) {
-            showToast("请选择城市所属地区")
-            return false
-        }
+        if(mDateType==9){
+            val content = et_content.text.toString().trim()
+            if (content.isEmpty()) {
+                showToast("请输入内容")
+                return false
+            }
+            if(mTimeOut==-1L){
+                showToast("请选择连麦时间")
+                return false
+            }
+            var connentStr = tv_voicechat_choose.text.toString().trim()
+            if(connentStr.isNullOrEmpty()){
+                showToast("请选择连麦方式")
+                return false
+            }
+        }else{
+            if (area.isNullOrEmpty()) {
+                showToast("请选择城市所属地区")
+                return false
+            }
 
-        var content = et_content.text.toString().trim()
-        if (content.isEmpty()) {
-            showToast("请输入内容")
-            return false
-        }
+            var content = et_content.text.toString().trim()
+            if (content.isEmpty()) {
+                showToast("请输入内容")
+                return false
+            }
 
-        if (startTime.isEmpty()) {
-            showToast("请选择开始时间")
-            return false
-        }
-        if (endTime.isEmpty()) {
-            showToast("请选择结束时间")
-            return false
-        }
-
-        if (!isDateOneBigger(endTime, startTime)) {
-            showToast("发布约会截止日期不能早于开始日期")
-            return false
+            if(mTimeOut==-1L){
+                showToast("请选择约会时间")
+                return false
+            }
+//            if (endTime.isEmpty()) {
+//                showToast("请选择有效期")
+//                return false
+//            }
         }
         return true
     }
@@ -430,7 +559,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             Flowable.just(sb.toString())
         }.flatMap {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, it,userIds,iIsAnonymous)
+            Request.releasePullDate(userId, area, content, mDateType, "${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", it,userIds,iIsAnonymous)
         }.request(this, false, success = { _, data ->
             showToast("发布成功")
             if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
@@ -475,7 +604,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             CreateDateOfPics(content)
         } else {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, selectedDateType?.type, startTime, endTime, "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
+            Request.releasePullDate(userId, area, content, mDateType, "${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
                 showToast("发布成功")
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                     showTips(data, "", "")
@@ -490,6 +619,68 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 if (code == 0) {
                     showToast(msg)
                 }
+            }
+        }
+    }
+
+    /**
+     * 发布连麦
+     */
+    private fun publishVoiceChat() {
+        val content = et_content.text.toString().trim()
+        dialog()
+        if (mImages.size > 1) {//有图片
+            val temp = mImages.filter { it.type != 1 }
+            Flowable.fromIterable(temp).subscribeOn(Schedulers.io()).flatMap {
+                //压缩
+                val b = BitmapUtils.compressImageFile(it.path)
+                Flowable.just(b)
+            }.flatMap {
+                Request.uploadFile(it)
+            }.toList().toFlowable().flatMap {
+                val sb = StringBuilder()
+                it.forEach {
+                    sb.append(it).append(",")
+                }
+                if (sb.isNotEmpty()) {
+                    sb.deleteCharAt(sb.length - 1)
+                }
+                Flowable.just(sb.toString())
+            }.flatMap {
+                Request.addConnectVoice(getLocalUserId(),content,mDateType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mTimeOut.toDefaultTime()}")
+            }.request(this,false,success= { _, data ->
+                showToast("发布成功")
+                if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
+                    showTips(data,"发布约会奖励积分","10")
+                }
+//                syncChat(this,"dynamic",sex, getLocalUserId())
+                setResult(Activity.RESULT_OK)
+//                FinishActivityManager.getManager().finishActivity()
+                finish()
+            }){code,resMsg->
+                if(code == 2){
+                    val commonTiphDialog = CommonTipDialog()
+                    commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
+                    commonTiphDialog.show(supportFragmentManager, "resMsg")
+                }
+            }
+        } else {
+            addTextSquare(content)
+        }
+    }
+
+    fun addTextSquare(content:String){
+        Request.addConnectVoice(getLocalUserId(), content,mDateType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mTimeOut.toDefaultTime()}").request(this,false,success={
+            _, data ->
+            showToast("发布成功")
+            startActivity<UserInfoActivity>("id" to getLocalUserId())
+            setResult(Activity.RESULT_OK)
+            finish()
+        }){code,resMsg->
+            if(code == 2){
+                val commonTiphDialog = CommonTipDialog()
+                commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
+                commonTiphDialog.show(supportFragmentManager, "resMsg")
             }
         }
     }
