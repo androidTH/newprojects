@@ -64,6 +64,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     var sendCount: Int = 0
     var SendMsgTotal:Int = 3
     var sAppointmentSignupId:String = ""
+    var sAppointType:Int? = 5
 
     private var IsAgreeChat:Boolean = true //true 代表需要判断聊天次数 false代表不用判断聊天次数
     private var iType:Int=1 //1、私聊 2、匿名组
@@ -710,7 +711,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //        headView_fdate.setImageURI(appointment.sPicUrl)
 //        tv_yname.text = appointment.sAppointUserName
 //        tv_fname.text = appointment.sUserName
-        if(appointment.iAppointType==6){
+        sAppointType = appointment.iAppointType
+        if(sAppointType==6){
             rl_circlebar.visibility = View.VISIBLE
             tv_progress.visibility = View.VISIBLE
             linear_datechat_agree_bottom.visibility = View.GONE
@@ -722,12 +724,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }
 
         var index = 1
-        if(!TextUtils.equals("null","${appointment.iAppointType}")){
-            index = appointment.iAppointType!!.toInt()-1
+        if(!TextUtils.equals("null","${sAppointType}")){
+            index = sAppointType!!.toInt()-1
             tv_datetype_name.text = Const.dateTypes[index]
         }else{
-            tv_datetype_name.text = Const.dateTypes[0]
-            index = 0
+            tv_datetype_name.text = Const.dateTypes[4]
+            index = 4
         }
 
         if(index!= Const.dateTypesBig.size){
@@ -743,7 +745,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 circlebarview.setMaxNum(360.0f)
                 circlebarview.setProgressNum(160.0f,5)
             }else{
-                tv_date_info.text = "对方申请赴约"
+                tv_date_info.text = "${appointment.sUserName} 申请赴约"
             }
             //"${appointment.sUserName}申请赴约"
 
@@ -784,10 +786,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }
 
         setTextViewSpannable(this,"倒计时：${converTime(appointment.dOverduetime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
-        setTextViewSpannable(this,"剩余消息：${talkCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
-        if(SendMsgTotal==-1){
-            tv_datechat_nums.visibility = View.GONE
-        }
+//        setTextViewSpannable(this,"剩余消息：${talkCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+//        if(SendMsgTotal==-1){
+//            tv_datechat_nums.visibility = View.GONE
+//        }
         sAppointmentSignupId = appointment.sAppointmentSignupId
 
         root_date_chat.addOnLayoutChangeListener(this)
@@ -1218,19 +1220,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         p0?.let {
             if (checkKFService(mOtherUserId)) {
 //                if (TextUtils.equals("1", sex)) {
-                if (IsAgreeChat||(SendMsgTotal!=-1&&sAppointmentSignupId.isNotEmpty())) {
+                if (IsAgreeChat||(sAppointType==6)) {
                     if (p1 == null) {
                         checkTalkJustify()
                     }
                 }
-
-//     -----      if (SPUtils.instance().getBoolean(SEND_FIRST_PRIVATE_TIPSMESSAGE + getLocalUserId())) {
-//                    sendOutgoingSystemMessage(getString(R.string.string_system_tips01), "1")
-//                    SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE + getLocalUserId(), false).apply()
-//                }
                 Log.i(TAG, "${p1}用户Id${it.senderUserId}")
-//                    }
-//                }
             }
         }
         return false

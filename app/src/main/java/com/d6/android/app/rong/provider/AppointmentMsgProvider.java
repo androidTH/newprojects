@@ -71,7 +71,7 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
         holder.tv_chat_date_content = view.findViewById(R.id.tv_chat_date_content);
         holder.rv_chat_date_images = view.findViewById(R.id.rv_chat_date_images);
         holder.tv_chat_datetype = view.findViewById(R.id.tv_chat_datetype);
-        holder.tv_chat_date_time = view.findViewById(R.id.tv_chat_date_time);
+//        holder.tv_chat_date_time = view.findViewById(R.id.tv_chat_date_time);
         holder.tv_chat_date_address = view.findViewById(R.id.tv_chat_date_address);
 
         holder.rv_chat_date_images.setHasFixedSize(true);
@@ -126,15 +126,15 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
                 holder.tv_chat_datetype.setText(Const.dateTypes[appointmentMsg.getIAppointType() - 1]);
 
                 if (appointmentMsg.getIAppointType() == 5) {
-                    Drawable drawable = ContextCompat.getDrawable(v.getContext(), R.mipmap.invitation_nolimit_small);
+                    Drawable drawable = ContextCompat.getDrawable(v.getContext(), R.mipmap.invitation_nolimit_default);
                     holder.tv_chat_datetype.setCompoundDrawables(drawable, null, null, null);
                 } else {
-                    Drawable drawable = ContextCompat.getDrawable(v.getContext(), Const.dateTypesImg[appointmentMsg.getIAppointType() - 1]);
+                    Drawable drawable = ContextCompat.getDrawable(v.getContext(), Const.dateTypesBig[appointmentMsg.getIAppointType() - 1]);
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());// 设置边界
                     holder.tv_chat_datetype.setCompoundDrawables(drawable, null, null, null);
                 }
 
-                holder.tv_chat_date_time.setText("倒计时·" + converTime(appointmentMsg.getDEndtime()));
+//                holder.tv_chat_date_time.setText("倒计时·" + converTime(appointmentMsg.getDEndtime()));
                 holder.tv_chat_date_address.setText(appointmentMsg.getSPlace());
                 if (appointmentMsg.getSAppointPic() == null || appointmentMsg.getSAppointPic().length() == 0) {
                     holder.rv_chat_date_images.setVisibility(View.GONE);
@@ -249,7 +249,7 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
         TextView tv_chat_date_content;
         RecyclerView rv_chat_date_images;
         TextView tv_chat_datetype;
-        TextView tv_chat_date_time;
+//        TextView tv_chat_date_time;
         TextView tv_chat_date_address;
 
         boolean longClick;

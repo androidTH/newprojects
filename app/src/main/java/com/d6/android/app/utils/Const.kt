@@ -73,9 +73,9 @@ object Const {
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
 
     @JvmField
-    var dateTypes = arrayOf("旅行","吃饭","电影","看电影","不限","聊天","游戏","健身") // 游戏
+    var dateTypes = arrayOf("旅行","吃饭","电影","看电影","不限","聊天","游戏","健身","连麦") // 游戏
     @JvmField
-    var VoiceChatType = 9;
+    var VoiceChatType = 9
 
     @JvmField
     var dateTypesImg = arrayOf(R.mipmap.invitation_travel_small,R.mipmap.invitation_meal_small,R.mipmap.invitation_film_small,
@@ -91,9 +91,10 @@ object Const {
             R.mipmap.invitation_drink_seleted,R.mipmap.invitation_nolimit_seleted,R.mipmap.invitation_chat_seleted,R.mipmap.invitation_game_seleted
             ,R.mipmap.fitness_seleted)
 
+    @JvmField
     var dateTypesBig = arrayOf(R.mipmap.invitation_travel_feed,R.mipmap.invitation_meal_feed,R.mipmap.invitation_film_feed,
             R.mipmap.drink_nolimit_feed,R.mipmap.invitation_nolimit_feed,R.mipmap.chat_nolimit_feed,R.mipmap.game_nolimit_feed
-            ,R.mipmap.game_fitness_feed)//invitation_shopping_feed
+            ,R.mipmap.game_fitness_feed,R.mipmap.invitation_voicechat_default)//invitation_shopping_feed
 
     var dateListTypes = arrayOf(R.mipmap.invitation_trip_white,R.mipmap.invitation_meal_white,R.mipmap.invitation_film_white,
             R.mipmap.details_drink_icon_white,R.mipmap.details_nolimit_icon_white,R.mipmap.invitation_chat_white,R.mipmap.invitation_game_white

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.d6.android.app.R;
+import com.d6.android.app.activities.MyPointsActivity;
 import com.d6.android.app.activities.UserInfoActivity;
 import com.d6.android.app.eventbus.LoveHeartMsgEvent;
 import com.d6.android.app.models.VoiceTips;
@@ -63,6 +64,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
+import static com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG;
 import static com.d6.android.app.utils.UtilKt.updateSquareSignUp;
 
 /**
@@ -341,6 +343,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
                 iv_icoming_backgroud.setVisibility(View.VISIBLE);
                 Log.i("SinleCallActivity","头像"+userInfo.getPortraitUri());
                 Helper.showUrlBlur(iv_icoming_backgroud,userInfo.getPortraitUri().toString(),8,30);
+
+                mTvBuyLoveHeart = mUserInfoContainer.findViewById(R.id.tv_buyloveheart);
+                mTvBuyLoveHeart.setOnClickListener(this);
 //                GlideUtils.showBlurTransformation(SingleCallActivity.this, iv_icoming_backgroud, null != userInfo ? userInfo.getPortraitUri() : null);
             }
         }
@@ -1203,7 +1208,9 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         }else if(v.getId()==R.id.ib_voicechat_loveheart){
             addGiftNums(1,false,false);
         }else if(v.getId()==R.id.tv_buyloveheart){
-
+            Intent intent = new Intent(SingleCallActivity.this,MyPointsActivity.class);
+            intent.putExtra("fromType",SENDLOVEHEART_DIALOG);
+            startActivity(intent);
         }else if(v.getId()==R.id.tv_payloveheart_tips){
 
         }

@@ -4,7 +4,7 @@
     android:id="@+id/root_date_chat"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:visibility="visible">
+    android:visibility="gone">
     <RelativeLayout
         android:id="@+id/rl_date_chat"
         android:layout_width="match_parent"
@@ -26,10 +26,8 @@
                 android:id="@+id/tv_datetype_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/drink_nolimit_feed"
                 android:drawablePadding="@dimen/margin_3"
                 android:gravity="center"
-                android:text="吃饭"
                 android:textStyle="bold"
                 android:textColor="@color/color_999999"
                 android:textSize="14sp" />
@@ -133,6 +131,8 @@
                 android:layout_marginTop="@dimen/margin_5"
                 android:paddingLeft="5dp"
                 android:paddingRight="@dimen/padding_16"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textColor="@color/color_333333"
                 android:textSize="15sp"/>
 
@@ -210,6 +210,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_888888"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -269,6 +270,7 @@
                 android:id="@+id/rl_circlebar"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_10"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <com.d6.android.app.widget.CircleProgressView
@@ -291,6 +293,7 @@
                 android:id="@+id/tv_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/rl_circlebar"
                 android:layout_marginRight="@dimen/margin_10"
