@@ -117,7 +117,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         val isBlur = intent.getBooleanExtra("isBlur", false)
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         val showDelete = intent.getBooleanExtra("delete",false)
-        iIsAnonymous = intent.getStringExtra(ISANONYMOUS)
+        if(intent.hasExtra(ISANONYMOUS)){
+            iIsAnonymous = intent.getStringExtra(ISANONYMOUS)
+        }
         if (showDelete) {
             tv_delete.visible()
         } else {

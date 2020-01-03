@@ -59,6 +59,7 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
     private var mDoIndex = -1
 
     lateinit var mInviteLinkBean:InviteLinkBean
+    public fun IsNotNULLLinkBean()=::mInviteLinkBean.isInitialized
 
     private val mHeaderView by lazy {
         layoutInflater.inflate(R.layout.invite_friends_layout, invate_refreshrecycler.mRecyclerView, false)
@@ -84,17 +85,19 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
         }
 
         tv_invite.setOnClickListener {
-            var mInviteFriendsDialog = InviteFriendsDialog()
-            mInviteFriendsDialog.arguments = bundleOf("bean" to mInviteLinkBean)
-            mInviteFriendsDialog.setDialogListener { p, s ->
-              if(p==4){
-                  val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                  // 将文本内容放到系统剪贴板里。
-                  cm.text = "${s}"
-                  toast("已复制到剪切板")
-              }
+            if(IsNotNULLLinkBean()){
+                var mInviteFriendsDialog = InviteFriendsDialog()
+                mInviteFriendsDialog.arguments = bundleOf("bean" to mInviteLinkBean)
+                mInviteFriendsDialog.setDialogListener { p, s ->
+                    if(p==4){
+                        val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                        // 将文本内容放到系统剪贴板里。
+                        cm.text = "${s}"
+                        toast("已复制到剪切板")
+                    }
+                }
+                mInviteFriendsDialog.show(supportFragmentManager, "invitefriends")
             }
-            mInviteFriendsDialog.show(supportFragmentManager, "invitefriends")
         }
 
         vistorAdapter.setOnItemClickListener { view, position ->
@@ -153,7 +156,7 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
 
         try{
             mInviteLinkBean = intent.getParcelableExtra<InviteLinkBean>("bean")
-            if(mInviteLinkBean!=null){
+            if(IsNotNULLLinkBean()){
                 setInviteGoodFriendsUI(mInviteLinkBean)
             }else{
                 getAccountInviteLink()
