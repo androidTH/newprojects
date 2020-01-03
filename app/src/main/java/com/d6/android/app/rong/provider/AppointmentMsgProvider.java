@@ -45,6 +45,7 @@ import io.rong.imlib.model.Message;
 
 import static com.d6.android.app.utils.Const.FROM_MY_CHATDATE;
 import static com.d6.android.app.utils.TimeUtilsKt.converTime;
+import static com.d6.android.app.utils.UtilKt.getLevelDrawable;
 
 /**
  * Created by Beyond on 2016/12/5.
@@ -108,6 +109,7 @@ public class AppointmentMsgProvider extends IContainerItemProvider.MessageProvid
 
                 holder.tv_chat_date_content.setText(appointmentMsg.getSDesc());
 
+                holder.tv_chat_date_vip.setBackground(getLevelDrawable(""+appointmentMsg.getUserclassesid(),v.getContext()));
                 if (0 == appointmentMsg.getISex()) {
                     holder.img_chat_date_auther.setVisibility(View.VISIBLE);
                     if (TextUtils.equals("0", "0")) {

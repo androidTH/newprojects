@@ -168,7 +168,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .colorResId(android.R.color.transparent)
                 .size(dip(8))
                 .build())
-
+        InviteGoodFriendsActivity
         tv_like.setOnClickListener(View.OnClickListener {
             mData?.let {
                 if (it.iIsFollow != null) {
@@ -185,7 +185,8 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             if (addImg.type != 1) {
                 mData?.let {
                     val urls = mImages.filter { it.type != 1 }.map { it.imgUrl }
-                    startActivityForResult<ImagePagerActivity>(22,  "data" to it,ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position,"delete" to deletePic)
+                    startActivityForResult<ImagePagerActivity>(22,  "data" to it,ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position,
+                            "delete" to deletePic)
                 }
             }else{
                 if (mImages.size > MAXPICS) {//最多9张

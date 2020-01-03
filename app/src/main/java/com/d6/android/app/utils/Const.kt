@@ -85,7 +85,7 @@ object Const {
 
     var dateTypesDefault = arrayOf(R.mipmap.invitation_travel_default,R.mipmap.invitation_meal_default,R.mipmap.invitation_film_default,
             R.mipmap.invitation_drink_default,R.mipmap.invitation_nolimit_default,R.mipmap.invitation_chat_default,R.mipmap.invitation_game_default,
-            R.mipmap.invitation_fitness_default)
+            R.mipmap.invitation_fitness_default,R.mipmap.invitation_voicechat_default)
 
     var dateTypesSelected = arrayOf(R.mipmap.invitation_travel_seleted,R.mipmap.invitation_meal_seleted,R.mipmap.invitation_film_seleted,
             R.mipmap.invitation_drink_seleted,R.mipmap.invitation_nolimit_seleted,R.mipmap.invitation_chat_seleted,R.mipmap.invitation_game_seleted

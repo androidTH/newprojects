@@ -135,14 +135,14 @@ class RecommendDateActivity : BaseActivity() {
 
         mRecommentTypes.add(RecommentType("全部",""))
         mRecommentTypes.add(RecommentType("觅约","5"))
-        mRecommentTypes.add(RecommentType("救火","1"))
+//        mRecommentTypes.add(RecommentType("救火","1"))
         mRecommentTypes.add(RecommentType("征求","2"))
         mRecommentTypes.add(RecommentType("急约","3"))
         mRecommentTypes.add(RecommentType("旅行","4"))
 
         mFragments.add(RecommendDateQuickFragment.newInstance("",""))
         mFragments.add(RecommendDateQuickFragment.newInstance("5",""))
-        mFragments.add(RecommendDateQuickFragment.newInstance("1",""))
+//        mFragments.add(RecommendDateQuickFragment.newInstance("1",""))
         mFragments.add(RecommendDateQuickFragment.newInstance("2",""))
         mFragments.add(RecommendDateQuickFragment.newInstance("3",""))
         mFragments.add(RecommendDateQuickFragment.newInstance("4",""))

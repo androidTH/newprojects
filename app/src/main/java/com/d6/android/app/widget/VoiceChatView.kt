@@ -90,9 +90,9 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
         }
         tv_voicechat_type.visibility = View.VISIBLE
         if(voiceChatData.iVoiceConnectType==2){
-            tv_voicechat_type.text = "申请者需打赏${voiceChatData.iOncePayLovePoint}个喜欢 [img src=heart_gray/]"
+            tv_voicechat_type.text = "申请者需打赏喜欢 [img src=heart_gray/]，${voiceChatData.iOncePayLovePoint}喜欢/分钟"
         }else if(voiceChatData.iVoiceConnectType==3){
-            tv_voicechat_type.text = "申请者将获得${voiceChatData.iOncePayLovePoint}个喜欢 [img src=heart_gray/]"
+            tv_voicechat_type.text = "申请者将获得喜欢 [img src=heart_gray/]，${voiceChatData.iOncePayLovePoint}喜欢/分钟"
         }else{
             tv_voicechat_type.visibility = View.GONE
             tv_voicechat_type.text = "无需打赏"

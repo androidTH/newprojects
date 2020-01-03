@@ -28,11 +28,6 @@ import org.json.JSONObject
  */
 class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyAppointment>(mData, R.layout.item_list_pull_date) {
 
-
-    private val userId by lazy {
-        SPUtils.instance().getString(Const.User.USER_ID)
-    }
-
     override fun onBind(holder: ViewHolder, position: Int, data: MyAppointment) {
         val view = holder.bind<SelfPullDateView>(R.id.srv_view)
         var voicechat_view = holder.bind<VoiceChatView>(R.id.voicechat_view)
@@ -64,7 +59,8 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
             isBaseActivity {
                 it.isAuthUser {
                     if(!TextUtils.equals(getLocalUserId(),"${appointment.iAppointUserid}")){
-                        signUpVoiceChat(appointment)
+//                        signUpVoiceChat(appointment)
+                        signUpDate(appointment)
                     }else{
                         it.toast("禁止连麦自己")
                     }
@@ -134,7 +130,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
 
 
     private fun signUpDate(myAppointment:MyAppointment) {
-        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}").request(context as BaseActivity, false, success = { msg, data ->
+        Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.iAppointUserid}").request(context as BaseActivity, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
             dateDialog.show((context as BaseActivity).supportFragmentManager, "d")
@@ -174,7 +170,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                 }
             }else if(p==2){
                 isBaseActivity {
-                    Request.addBlackList(userId, userid,iType).request(it) { _, _ ->
+                    Request.addBlackList(getLocalUserId(), userid,iType).request(it) { _, _ ->
                         CustomToast.showToast(it.getString(R.string.string_blacklist_toast))
                     }
                 }

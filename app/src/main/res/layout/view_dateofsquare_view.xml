@@ -209,7 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginTop="@dimen/margin_10"
-            android:layout_marginRight="@dimen/padding_70"
+            android:layout_marginRight="@dimen/height_90"
             android:background="@color/color_EFEFEF" />
     </LinearLayout>
 

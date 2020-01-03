@@ -48,6 +48,15 @@ class MessageSettingActivity : TitleActivity() {
             }
         }
 
+        sw_important_msgimportant.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+
+            }else{
+
+            }
+        }
+
+
         sw_inviate_notfaction.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
                 updateInviteMessageSet(1)

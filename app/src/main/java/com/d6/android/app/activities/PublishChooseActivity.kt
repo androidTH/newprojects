@@ -52,7 +52,7 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
         tv_more.setOnClickListener(this)
         tv_travel.setOnClickListener(this)
 
-        close_button.animate().rotation(90.0f).setDuration(400).start()
+        close_button.animate().translationY(65.0f).rotation(90.0f).setDuration(400).start()
     }
 
     override fun onClick(v: View?) {

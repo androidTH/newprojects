@@ -87,10 +87,10 @@ class OpenDateDialog : DialogFragment(),RequestManager {
 
        if(arguments !=null){
            var it = arguments.getParcelable("explain") as IntegralExplain
-           tv_preparepoints.text = "本次申请赴约将预付${it.iAppointPoint}积分,申请成功后先聊一聊再决定是否赴约哦"
-           tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"
-           tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"
-           tv_timeout_points.text = "3天内未回复,返还${it.iAppointPointCancel}积分"
+           tv_preparepoints.text = "本次申请将预付${it.iAppointPoint}积分,申请之后双方将获得3天的限时免费聊天机会。先聊一聊彼此了解之后再决定是否邀约哦"
+           tv_agree_points.text = "达成邀约,扣除预付${it.iAppointPoint}积分"
+           tv_noagree_points.text = "对方拒绝,返还${it.iAppointPointRefuse}积分"//${it.iAppointPointRefuse}
+           tv_timeout_points.text = "3天后未回复,返还${it.iAppointPointCancel}积分"
         }
     }
 
