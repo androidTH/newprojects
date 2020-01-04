@@ -294,6 +294,12 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                     }
                     Log.i("ffffffffff","${tipsMessage.content}type${type}")
                 }
+            }else if(message.content is LoveHeartMessage){
+                if(message.messageDirection==Message.MessageDirection.SEND){
+                    Log.i("LoveHeartMessage","发送了喜欢${message}")
+                }else{
+                    Log.i("LoveHeartMessage","收到了喜欢")
+                }
             }
         }
 

@@ -154,6 +154,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="@dimen/margin_20"
-        android:layout_marginBottom="65dp"
         android:src="@mipmap/close_button" />
 </RelativeLayout>

@@ -168,7 +168,6 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .colorResId(android.R.color.transparent)
                 .size(dip(8))
                 .build())
-        InviteGoodFriendsActivity
         tv_like.setOnClickListener(View.OnClickListener {
             mData?.let {
                 if (it.iIsFollow != null) {

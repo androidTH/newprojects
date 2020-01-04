@@ -1,5 +1,7 @@
 package com.d6.android.app.activities
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -14,6 +16,7 @@ import com.d6.android.app.widget.popup.blur.FastBlur
 import kotlinx.android.synthetic.main.activity_publishchoose_layout.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivityForResult
+
 
 class PublishChooseActivity : BaseActivity(),View.OnClickListener{
 
@@ -52,7 +55,14 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
         tv_more.setOnClickListener(this)
         tv_travel.setOnClickListener(this)
 
-        close_button.animate().translationY(65.0f).rotation(90.0f).setDuration(400).start()
+        var rotation = ObjectAnimator.ofFloat(close_button, "rotation", -270f, 0f)
+        var translationY = ObjectAnimator.ofFloat(close_button, "translationY", 0f,-200f)
+        // 动画的持续时间，执行多久？
+        var anim= AnimatorSet()
+        anim.playTogether(rotation,translationY)
+        anim.setDuration(300)
+        anim.start()
+//        close_button.animate().rotation(180.0f).translationY(-200.0f).setDuration(400).start()
     }
 
     override fun onClick(v: View?) {

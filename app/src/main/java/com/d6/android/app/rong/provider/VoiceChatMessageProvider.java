@@ -48,7 +48,6 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
         boolean longClick;
         ImageView mIvLeft;
         ImageView mIvRight;
-//        SimpleDraweeView simpleDraweeView;
         LinearLayout mLL_VoiceChatMsg_Body;
     }
 
@@ -62,7 +61,6 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
         holder.mLL_VoiceChatMsg_Body = view.findViewById(R.id.ll_voicechat_body);
         holder.mIvLeft = view.findViewById(R.id.iv_left);
         holder.mIvRight = view.findViewById(R.id.iv_right);
-//        holder.simpleDraweeView = view.findViewById(R.id.iv_rong_custommsg_pic);
         view.setTag(holder);
         return view;
     }

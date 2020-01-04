@@ -59,8 +59,8 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
             isBaseActivity {
                 it.isAuthUser {
                     if(!TextUtils.equals(getLocalUserId(),"${appointment.iAppointUserid}")){
-//                        signUpVoiceChat(appointment)
-                        signUpDate(appointment)
+                        signUpVoiceChat(appointment)
+//                        signUpDate(appointment)
                     }else{
                         it.toast("禁止连麦自己")
                     }
