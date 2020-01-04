@@ -115,7 +115,7 @@ public class AppUpdateUtils {
 
     public static Intent getInstallAppIntent(Context context, File appFile) {
         try {
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.O){
+            if(Build.VERSION.SDK_INT > 28){
                 //适配Android Q,注意mFilePath是通过ContentResolver得到的，上述有相关代码
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setDataAndType(Uri.parse(appFile.getAbsolutePath()) ,"application/vnd.android.package-archive");
