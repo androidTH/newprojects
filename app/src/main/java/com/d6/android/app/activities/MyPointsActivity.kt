@@ -164,7 +164,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun getIsNotCashMoney(){
-        Request.getInfo("ios_ audit").request(this) { _, data ->
+        Request.getInfo("ios_audit").request(this) { _, data ->
             data?.let {
                 var versionNum = data.optString("ext5")
                 if(AppUtils.compareVersion(versionNum, AppUpdateUtils.getVersionName(this))==0){
@@ -494,12 +494,6 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mHeaderView.tv_cash_money.textColor = ContextCompat.getColor(this,R.color.white)
                 }
 
-//                if (TextUtils.equals(it.sex, "0")) {
-//                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
-//                } else {
-//                    mHeaderView.ll_huiyuan_info.visibility = View.GONE
-//                }
-
                 if(it.iWeekTaskPoint>0){
                     mHeaderView.tv_work_tips.text = "奖励积分：${it.iWeekTaskPoint}积分"
                 }
@@ -507,7 +501,6 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if(it.iTaskFlower>0){
                     mHeaderView.tv_work_checkin_tips.text = "做任务得奖励：+${it.iTaskFlower}朵红花"
                 }
-
                 if(!TextUtils.equals("${it.userclassesid}", "7")){
                     if(TextUtils.equals(mLocalSex,"1")){
                         mHeaderView.rl_mypoints_checkin.visibility = View.GONE
