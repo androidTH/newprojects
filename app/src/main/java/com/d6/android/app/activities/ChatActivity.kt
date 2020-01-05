@@ -285,7 +285,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         //拒绝
         tv_datechat_no.setOnClickListener {
             if(sAppointType==9){
-                updateDateStatus(sAppointmentSignupId,4) //连麦放弃
+               //连麦放弃
+
+                updateSquareSignUp("","4")
+
             }else{
                 updateDateStatus(sAppointmentSignupId,3)
             }
@@ -294,7 +297,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         //同意
         tv_datechat_agree.setOnClickListener {
             if(sAppointType==9){
-
+                updateSquareSignUp("","2")
             }else{
                 updateDateStatus(sAppointmentSignupId,2)
             }
@@ -829,6 +832,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         sAppointmentSignupId = appointment.sAppointmentSignupId
 
         root_date_chat.addOnLayoutChangeListener(this)
+    }
+
+    fun updateSquareSignUp(sSquareSignupId:String,iStatus:String) {
+        Request.updateSquareSignUp(sSquareSignupId,iStatus,0, getLoginToken()).request(this,false,success={code,data->
+
+        })
     }
 
     fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int){
