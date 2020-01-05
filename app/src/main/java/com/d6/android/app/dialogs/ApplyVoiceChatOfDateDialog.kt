@@ -94,6 +94,8 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
         }
         voicechatType = arguments.getString("voicechatType","1")
 
+        var desc = arguments.getString("sAddPointDesc")
+
         if(TextUtils.equals(voicechatType,"1")){
             ll_voicechat_desc.visibility = View.GONE
             tv_voicechat_title.text = "为了营造良好的社区氛围，请在聊天中文明用语，如果被对方举报，查实将会有封号的风险"
@@ -101,47 +103,58 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
         }else if(TextUtils.equals(voicechatType,"2")){
             mMinLoveHeart = appointment?.iOncePayLovePoint?:0
             tv_agree_points.text = "1.预付${mMinLoveHeart}个喜欢"
-            ll_voicechat_desc.visibility = View.VISIBLE
-            tv_voicechat_title.text = "本次连麦需要打赏${mMinLoveHeart}个 [img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
-            tv_action.text ="预付${mMinLoveHeart}个喜欢 [img src=redheart_small/]"
+            ll_voicechat_desc.visibility = View.GONE
+            tv_voicechat_title.text = "${desc}" //"本次连麦需要打赏${mMinLoveHeart}个 [img src=redheart_small/]，打赏的喜欢将会在聊天结束后扣除"
+//            tv_action.text ="预付${mMinLoveHeart}个喜欢 [img src=redheart_small/]"
+            tv_action.text = "连麦"
         }else{
             ll_voicechat_desc.visibility = View.GONE
-            tv_voicechat_title.text = "本次连麦可获得${appointment?.iOncePayLovePoint}个 [img src=redheart_small/]，连麦结束后即可到账"
+            tv_voicechat_title.text = "${desc}" //"本次连麦可获得${appointment?.iOncePayLovePoint}个 [img src=redheart_small/]，连麦结束后即可到账"
             tv_action.text = "连麦"
         }
 
         tv_action.setOnClickListener {
-            if(TextUtils.equals(voicechatType,"0")){
-                PermissionsUtils.getInstance().checkPermissions((context as BaseActivity), CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
-                    override fun forbidPermissions() {
+//            if(TextUtils.equals(voicechatType,"0")){
+//                PermissionsUtils.getInstance().checkPermissions((context as BaseActivity), CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
+//                    override fun forbidPermissions() {
+//
+//                    }
+//
+//                    override fun passPermissions() {
+//                        getData()
+//                    }
+//                })
+//            }else{
+//                if(TextUtils.equals(voicechatType,"2")){
+//                    if(mLocalUserLoveHeartCount>=mMinLoveHeart){
+//                        tv_action.text = "连麦"
+//                        voicechatType = "0"
+//                    }else{
+//                        ll_user_lovepoint.visibility = View.VISIBLE
+//                        tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
+//                    }
+//                }else{
+//                    PermissionsUtils.getInstance().checkPermissions((context as BaseActivity), CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
+//                        override fun forbidPermissions() {
+//
+//                        }
+//
+//                        override fun passPermissions() {
+//                            getData()
+//                        }
+//                    })
+//                }
+//            }
 
-                    }
+            PermissionsUtils.getInstance().checkPermissions((context as BaseActivity), CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
+                override fun forbidPermissions() {
 
-                    override fun passPermissions() {
-                        getData()
-                    }
-                })
-            }else{
-                if(TextUtils.equals(voicechatType,"2")){
-                    if(mLocalUserLoveHeartCount>=mMinLoveHeart){
-                        tv_action.text = "连麦"
-                        voicechatType = "0"
-                    }else{
-                        ll_user_lovepoint.visibility = View.VISIBLE
-                        tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
-                    }
-                }else{
-                    PermissionsUtils.getInstance().checkPermissions((context as BaseActivity), CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
-                        override fun forbidPermissions() {
-
-                        }
-
-                        override fun passPermissions() {
-                            getData()
-                        }
-                    })
                 }
-            }
+
+                override fun passPermissions() {
+                    getData()
+                }
+            })
         }
 
         tv_redheart_gobuy.setOnClickListener {
@@ -155,12 +168,12 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
             dismissAllowingStateLoss()
         }
 
-        if(TextUtils.equals(voicechatType,"2")){
+//        if(TextUtils.equals(voicechatType,"2")){
 //            mLocalUserLoveHeartCount = mUserInfo.iLovePoint
-            mLocalUserLoveHeartCount = appointment!!.iPoint!!
-            ll_user_lovepoint.visibility = View.GONE
-            tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
-        }
+//            mLocalUserLoveHeartCount = appointment!!.iPoint!!
+//            ll_user_lovepoint.visibility = View.GONE
+//            tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
+//        }
         mVoiceTips.setVoiceChatContent("${appointment?.sDesc}")
         mVoiceTips.setVoiceChatUName("${appointment?.sAppointUserName}")
         appointment?.iVoiceConnectType?.let { mVoiceTips.setVoiceChatType(it) }
@@ -185,26 +198,9 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
                     var sAppointSignupId = it.optString("sAppointSignupId")
                     Log.i("applyvoice","${data}---${sAppointSignupId}")
                     mVoiceTips.setVoiceChatId("${sAppointSignupId}")
-//                    if(TextUtils.equals(voicechatType,"1")){
-//                        //1 无需打赏
-//                        extra = GsonHelper.getGson().toJson(mVoiceTips)
-//                        RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
-//                        dismissAllowingStateLoss()
-//                    }else if(TextUtils.equals(voicechatType,"0")){
-//                        //申请者需要打赏
-//                        extra = GsonHelper.getGson().toJson(mVoiceTips)
-//                        RongD6Utils.startSingleVoiceChat((context as BaseActivity),"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
-//                        dismissAllowingStateLoss()
-//                    }else {
-//                        //申请者可以获得
-//                        extra = GsonHelper.getGson().toJson(mVoiceTips)
-//                        RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
-//                        dismissAllowingStateLoss()
-//                    }
-
                     extra = GsonHelper.getGson().toJson(mVoiceTips)
                     RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.PRIVATE, "${appointment?.iAppointUserid}", "${appointment?.sAppointUserName}")
-                    RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
+//                    RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
                     dismissAllowingStateLoss()
                 }
             }){code,msg->

@@ -359,7 +359,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
                 }
                 Flowable.just(sb.toString())
             }.flatMap {
-                Request.addConnectVoice(getLocalUserId(),content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis()}","${mSelectedTimeIndex}")
+                Request.addConnectVoice(getLocalUserId(),content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"","${System.currentTimeMillis()}","${mSelectedTimeIndex}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -382,7 +382,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
     }
 
     fun addTextSquare(content:String){
-        Request.addConnectVoice(getLocalUserId(), content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mSelectedTimeIndex.toDefaultTime()}").request(this,false,success={
+        Request.addConnectVoice(getLocalUserId(), content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"","${System.currentTimeMillis().toDefaultTime()}","${mSelectedTimeIndex.toDefaultTime()}").request(this,false,success={
             _, data ->
             showToast("发布成功")
 //            if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){

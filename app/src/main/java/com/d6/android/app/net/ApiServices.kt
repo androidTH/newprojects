@@ -249,8 +249,8 @@ interface ApiServices {
     //发布约会
     @POST("backstage/appointment/add")
     fun releasePullDate(@Query("iUserid") userid: String, @Query("sPlace") sPlace: String?, @Query("sDesc") sDesc: String?
-                        , @Query("iAppointType") iAppointType: Int?, @Query("dStarttime") beginTime: String?
-                        , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?,@Query("sAppointUser")sAppointUser:String,@Query("iIsAnonymous") iIsAnonymous:Int,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+                        , @Query("iAppointType") iAppointType: Int?, @Query("iFeeType") iFeeType:Int?, @Query("dStarttime") beginTime: String?
+                        , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?, @Query("sAppointUser")sAppointUser:String, @Query("iIsAnonymous") iIsAnonymous:Int, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //自主约会
     @POST("backstage/appointment/findAppointmentListByPage")
@@ -576,7 +576,7 @@ interface ApiServices {
     //3.1.0
     // 连麦类型 1、无需打赏 2、申请者打赏 3、发布者打赏  iAppointType 8 连麦
     @POST("backstage/appointment/add")
-    fun addConnectVoice(@Query("iUserid") userid: String,@Query("sDesc") sDesc: String, @Query("iAppointType") iAppointType:Int, @Query("iVoiceConnectType") iVoiceConnectType:Int, @Query("iPrepayLovepoint") iPrepayLovepoint:Int, @Query("iOncePayLovePoint") iOncePayLovePoint:Int,@Query("dStarttime") beginTime: String, @Query("dEndtime") endTime: String?, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+    fun addConnectVoice(@Query("iUserid") userid: String,@Query("sDesc") sDesc: String, @Query("iAppointType") iAppointType:Int, @Query("iVoiceConnectType") iVoiceConnectType:Int, @Query("iPrepayLovepoint") iPrepayLovepoint:Int, @Query("iOncePayLovePoint") iOncePayLovePoint:Int,@Query("sAppointPic") sAppointPic: String?,@Query("dStarttime") beginTime: String, @Query("dEndtime") endTime: String?, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //查询是否允许连麦
     @POST("backstage/squaresignup/getApplyVoiceSquareLovePoint")
@@ -587,7 +587,7 @@ interface ApiServices {
     fun addVoiceChat(@Query("sAppointmentId") sAppointmentId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //连麦申请状态
-    //状态 1、发起 2、同意 3、拒绝  4、主动取消  5、过期自动取消 6、完成
+    //状态 1、发起 2、同意 3、拒绝  4、主动取消  5、过期自动取消 6、完成 7,每分钟
     @POST("backstage/squaresignup/updateSquareSignUp")
     fun updateSquareSignUp(@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("iStatus") iStatus:String,@Query("iConnectVoiceLength")iConnectVoiceLength:Long,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
@@ -596,4 +596,11 @@ interface ApiServices {
 
     @POST("backstage/userevent/findEventListByUserId")
     fun findEventListByUserId(@Query("iUserid") iUserid:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<InviteUserMemberInfo>>
+
+    //重要消息短信提醒
+    @POST("backstage/account/updatePhoneSetting")
+    fun updatePhoneSetting(@Query("iPhoneSetting") iPhoneSetting:Int, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @POST("backstage/account/updateLookaboutSetting")
+    fun updateLookaboutSetting(@Query("iLookaboutSetting") iPhoneSetting:Int, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }

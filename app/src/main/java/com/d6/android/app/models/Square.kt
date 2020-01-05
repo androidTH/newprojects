@@ -58,6 +58,7 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var dStarttime:Long = 0
     var iAppointmentSignupCount:Int?=-1
 
+
     //连麦
     var iVoiceConnectType:Int?=-1//  连麦类型 1、无需打赏 2、申请者打赏 3、发布者打赏
     var iPrepayLovepoint:Int?=-1 // 预付打赏喜欢总数
@@ -67,4 +68,5 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var iRemainPoint:Int?=-1
 
     var sIfLovePics:String?=""
+    var iFeeType:Int?=-1
 }

@@ -662,7 +662,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
             val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
             Log.i("messagesssssss","${unReadMsgNum}显示")
-            if (data?.list?.results == null || data?.list?.results?.isEmpty()) {
+            if (data?.list?.results == null || data?.list?.results?.isEmpty()!!) {
                 //无数据
                // unReadMsgNum = unReadMsgNum - unReadServiceMsgNum//2.5移除
                 if(unReadMsgNum > 0){

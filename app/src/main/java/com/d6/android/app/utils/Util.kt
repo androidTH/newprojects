@@ -40,11 +40,13 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.interfaces.VoiceChatStatus
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.http.UpdateAppHttpUtil
 import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
+import com.d6.android.app.rong.voicechat.SingleCallActivity
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
@@ -831,6 +833,30 @@ fun updateSquareSignUp(activity:Activity,sSquareSignupId:String,iStatus:String,i
        Log.i("updateSquareSignUp","状态：${iStatus},时间：${iConnectVoiceLength}")
     }){code,msg->
 
+    }
+}
+
+fun updateSquareSignUp(activity:Activity,sSquareSignupId:String,iStatus:String,iConnectVoiceLength:Long, voiceChatStatus: VoiceChatStatus) {
+    Request.updateSquareSignUp(sSquareSignupId,iStatus,iConnectVoiceLength, getLoginToken()).request(object:RequestManager{
+        override fun onBind(disposable: Disposable) {
+
+        }
+
+        override fun showToast(msg: String) {
+        }
+
+        override fun dismissDialog() {
+
+        }
+    },false,success={ msg, data->
+        voiceChatStatus.doVoiceChat(1,"${data}")
+        Log.i("updateSquareSignUp","状态：${iStatus},时间：${iConnectVoiceLength},${data}")
+    }){code,msg->
+        if(code==2){
+            if(TextUtils.equals("7",iStatus)){
+                voiceChatStatus.doVoiceChat(code,msg)
+            }
+        }
     }
 }
 

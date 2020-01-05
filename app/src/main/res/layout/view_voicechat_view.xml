@@ -95,7 +95,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_6">
 
             <RelativeLayout
                 android:id="@+id/rl_voicechat_headView"

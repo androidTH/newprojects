@@ -284,12 +284,20 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         //拒绝
         tv_datechat_no.setOnClickListener {
-            updateDateStatus(sAppointmentSignupId,3)
+            if(sAppointType==9){
+                updateDateStatus(sAppointmentSignupId,4) //连麦放弃
+            }else{
+                updateDateStatus(sAppointmentSignupId,3)
+            }
         }
 
         //同意
         tv_datechat_agree.setOnClickListener {
-            updateDateStatus(sAppointmentSignupId,2)
+            if(sAppointType==9){
+
+            }else{
+                updateDateStatus(sAppointmentSignupId,2)
+            }
         }
 
         iv_chat_unfold.setOnClickListener {
@@ -707,20 +715,37 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
     private val mImages = ArrayList<String>()
     private fun setDateChatUi(appointment:MyAppointment,talkCount:Int,dateTime:Long){
-//        headView_ydate.setImageURI(appointment.sAppointmentPicUrl)
-//        headView_fdate.setImageURI(appointment.sPicUrl)
-//        tv_yname.text = appointment.sAppointUserName
-//        tv_fname.text = appointment.sUserName
         sAppointType = appointment.iAppointType
+        linear_datechat_agree_bottom.visibility = View.VISIBLE
         if(sAppointType==6){
             rl_circlebar.visibility = View.VISIBLE
             tv_progress.visibility = View.VISIBLE
+            ll_date_dowhat.visibility = View.GONE
             linear_datechat_agree_bottom.visibility = View.GONE
             circlebarview.setProgressNum(160.0f,5)
+        }else if(sAppointType==9){
+            if(appointment.iVoiceConnectType==2){
+                tv_datchat_address.text = "申请者需打赏喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
+            }else if(appointment.iVoiceConnectType==3){
+                tv_datchat_address.text = "申请者将获得喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
+            }else{
+                tv_datchat_address.text = "无需打赏"
+            }
+            ll_date_dowhat.visibility = View.VISIBLE
+            var drawable = ContextCompat.getDrawable(this, R.mipmap.liwu_feed)
+            setLeftDrawable(drawable,tv_datchat_address)
         }else{
             rl_circlebar.visibility = View.GONE
             tv_progress.visibility = View.GONE
-            linear_datechat_agree_bottom.visibility = View.VISIBLE
+            ll_date_dowhat.visibility = View.VISIBLE
+            if(appointment.iFeeType==1){
+                tv_datchat_address.text = "约会费用：全包"
+            }else{
+                tv_datchat_address.text = "约会费用：AA"
+            }
+
+            var drawable = ContextCompat.getDrawable(this, R.mipmap.list_feiyong_icon)
+            setLeftDrawable(drawable,tv_datchat_address)
         }
 
         var index = 1
@@ -738,12 +763,15 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }
 
         tv_datechat_content.text = appointment.sDesc
-        tv_datchat_address.text = "约会地点：${appointment.sPlace}"
+
         if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(appointment.iAppointUserid.toString(), getLocalUserId())){
-            if(appointment.iAppointType==6){
+            if(sAppointType==6){
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
                 circlebarview.setMaxNum(360.0f)
                 circlebarview.setProgressNum(160.0f,5)
+            }else if(sAppointType==9){
+                tv_date_info.text = "${appointment.sUserName} 申请连麦"
+                tv_datechat_agree.text = "连麦"
             }else{
                 tv_date_info.text = "${appointment.sUserName} 申请赴约"
             }
@@ -751,19 +779,27 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
             tv_datechat_no.visibility = View.VISIBLE
             tv_datechat_agree.visibility = View.VISIBLE
+
             tv_datechat_giveup.visibility = View.GONE
             ISNOTYAODATE = 1
         }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
-            if(appointment.iAppointType==6){
+            tv_datechat_agree.visibility = View.GONE
+            if(sAppointType==6){
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
                 circlebarview.setMaxNum(360.0f)
                 circlebarview.setProgressNum(160.0f,5)
+            }else if(sAppointType==9){
+                tv_date_info.text = "你申请了连麦"
+                tv_datechat_no.visibility = View.VISIBLE
+                tv_datechat_agree.visibility = View.VISIBLE
+                tv_datechat_giveup.visibility = View.GONE
+                tv_datechat_no.text = "放弃"
+                tv_datechat_agree.text = "连麦"
             }else{
                 tv_date_info.text = "等待对方确认中…"
+                tv_datechat_no.visibility = View.GONE
+                tv_datechat_giveup.visibility = View.VISIBLE
             }
-            tv_datechat_no.visibility = View.GONE
-            tv_datechat_agree.visibility = View.GONE
-            tv_datechat_giveup.visibility = View.VISIBLE
             ISNOTYAODATE = 2
         }
 
@@ -1183,13 +1219,19 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
     fun extendDateChatDesc(isextend:Boolean){
         if(isextend){
-            ll_date_dowhat.visibility = View.VISIBLE
+            if(sAppointType!=6){
+                ll_date_dowhat.visibility = View.VISIBLE
+            }else{
+                ll_date_dowhat.visibility = View.GONE
+            }
             rv_datechat_images.visibility = View.VISIBLE
             iv_chat_unfold.visibility = View.GONE
             tv_datechat_content.setEllipsize(null)//展开
             tv_datechat_content.setSingleLine(false)//这个方法是必须设置的，否则无法展开
         }else{
-            ll_date_dowhat.visibility = View.GONE
+            if(sAppointType!=6){
+                ll_date_dowhat.visibility = View.VISIBLE
+            }
             rv_datechat_images.visibility = View.GONE
             iv_chat_unfold.visibility = View.VISIBLE
             tv_datechat_content.setEllipsize(TextUtils.TruncateAt.END);//收起

@@ -9,12 +9,11 @@ import com.d6.android.app.dialogs.SelectChatTypeDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
+import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.USER_INVITEMESSAGESETTING
+import com.d6.android.app.utils.Const.User.USER_LOOKABOUTMESSAGESETTING
 import com.d6.android.app.utils.Const.User.USER_MESSAGESETTING
-import com.d6.android.app.utils.GsonHelper
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.saveUserInfo
+import com.d6.android.app.utils.Const.User.USER_PHONEMESSAGESETTING
 import com.d6.android.app.widget.CustomToast
 import kotlinx.android.synthetic.main.activity_message_setting.*
 import org.jetbrains.anko.toast
@@ -32,27 +31,33 @@ class MessageSettingActivity : TitleActivity() {
         val manager = NotificationManagerCompat.from(this)
         val isOpened = manager.areNotificationsEnabled()
         tv_state.text = if (isOpened) "已开启" else "已关闭"
-        var messageSetting = SPUtils.instance().getString(USER_MESSAGESETTING)
-        sw_friend_notfaction.isChecked = if(TextUtils.equals(messageSetting,"1")){
+        var importantmessageSetting = SPUtils.instance().getString("${USER_PHONEMESSAGESETTING}${getLocalUserId()}")
+        sw_important_msgimportant.isChecked = if(TextUtils.equals(importantmessageSetting,"1")){
             true
         }else{
             false
         }
-//        var inviateMessageSetting = SPUtils.instance().getString(USER_INVITEMESSAGESETTING,"1")
+
+        var LookaboutmessageSetting = SPUtils.instance().getString("${USER_LOOKABOUTMESSAGESETTING}${getLocalUserId()}")
+        sw_friend_notfaction.isChecked = if(TextUtils.equals(LookaboutmessageSetting,"1")){
+            true
+        }else{
+            false
+        }
 
         sw_friend_notfaction.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-                updateMessageSet(1)
+                setUpdateLookaboutSetting(1)
             }else{
-                updateMessageSet(2)
+                setUpdateLookaboutSetting(2)
             }
         }
 
         sw_important_msgimportant.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-
+                setUpdatePhoneSetting(1)
             }else{
-
+                setUpdatePhoneSetting(2)
             }
         }
 
@@ -106,6 +111,23 @@ class MessageSettingActivity : TitleActivity() {
     private fun setPrivateChatType(status:Int,chatType:String?){
         Request.updateTalkSetting(userId,status).request(this,false,success={msg,data->
             tv_private_chat_type.text =chatType.toString()
+        }){code,msg->
+            showToast(msg)
+        }
+    }
+    //1、推送 2、不推送
+    private fun setUpdatePhoneSetting(iPhoneSetting:Int){
+        Request.updatePhoneSetting(iPhoneSetting).request(this,false,success={msg,data->
+            SPUtils.instance().put("${USER_PHONEMESSAGESETTING}${getLocalUserId()}","${iPhoneSetting}").apply()
+        }){code,msg->
+            showToast(msg)
+        }
+    }
+
+    //1、推送 2、不推送 优质嘉宾推荐通知
+    private fun setUpdateLookaboutSetting(iLookaboutSetting:Int){
+        Request.updateLookaboutSetting(iLookaboutSetting).request(this,false,success={msg,data->
+            SPUtils.instance().put("${USER_LOOKABOUTMESSAGESETTING}${getLocalUserId()}","${iLookaboutSetting}").apply()
         }){code,msg->
             showToast(msg)
         }

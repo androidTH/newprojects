@@ -107,9 +107,21 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             iv_date_timeout.visibility = View.VISIBLE
         }
 
-        tv_self_address.text = "约会地点：${date.city}"
+        if(index!=5){
+            tv_self_address.visibility = View.VISIBLE
+            tv_self_address.text = "约会地点：${date.city}"
+            tv_self_money.visibility  = View.VISIBLE
+            if(date.iFeeType==1){
+                tv_self_money.text = "全包"
+            }else{
+                tv_self_money.text = "AA"
+            }
+        }else{
+            tv_self_address.visibility = View.GONE
+            tv_self_money.visibility  = View.GONE
+        }
 
-        tv_content.text = URLDecoder.decode(date.content,"UTF-8")
+        tv_content.text = date.content
 
         if (date.imgUrl.isNullOrEmpty()) {
             rv_images.gone()

@@ -74,6 +74,7 @@
                 android:layout_marginRight="@dimen/margin_15"
                 android:drawableLeft="@mipmap/time_list_icon"
                 android:drawablePadding="@dimen/margin_3"
+                android:layout_marginBottom="@dimen/margin_8"
                 android:textColor="@color/color_888888"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -82,8 +83,8 @@
                 android:id="@+id/tv_self_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
                 android:drawableLeft="@mipmap/local_list_icon"
+                android:layout_marginBottom="@dimen/margin_8"
                 android:textColor="@color/color_888888"
                 android:drawablePadding="@dimen/margin_3"
                 android:textSize="12sp"
@@ -93,11 +94,9 @@
                 android:id="@+id/tv_self_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:drawableLeft="@mipmap/time_xihuan_icon"
+                android:drawableLeft="@mipmap/list_feiyong_icon"
                 android:textColor="@color/color_888888"
                 android:drawablePadding="@dimen/margin_3"
-                android:visibility="gone"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -109,6 +108,7 @@
             android:layout_marginBottom="@dimen/margin_10" />
 
         <RelativeLayout
+            android:layout_marginLeft="@dimen/margin_6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

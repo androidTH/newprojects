@@ -31,84 +31,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/color_999999"
                 android:textSize="14sp" />
-            <!--<com.facebook.drawee.view.SimpleDraweeView-->
-                <!--android:id="@+id/headView_ydate"-->
-                <!--style="@style/DefaultHeadStyle"-->
-                <!--android:layout_width="40dp"-->
-                <!--android:layout_height="40dp"-->
-                <!--app:roundAsCircle="true" />-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="@dimen/height_40"-->
-                <!--android:layout_marginLeft="@dimen/margin_8"-->
-                <!--android:layout_toRightOf="@+id/headView_ydate"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_ydate"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@drawable/shape_ydate_fa8"-->
-                    <!--android:gravity="center"-->
-                    <!--android:padding="@dimen/margin_3"-->
-                    <!--android:text="邀约人"-->
-                    <!--android:layout_gravity="left"-->
-                    <!--android:textColor="@color/color_F7AB00"-->
-                    <!--android:textSize="10sp"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_yname"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:textColor="@color/color_333333"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:textStyle="bold" />-->
-            <!--</LinearLayout>-->
-
-            <!--<com.facebook.drawee.view.SimpleDraweeView-->
-                <!--android:id="@+id/headView_fdate"-->
-                <!--style="@style/DefaultHeadStyle"-->
-                <!--android:layout_width="40dp"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--app:roundAsCircle="true" />-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="40dp"-->
-                <!--android:layout_marginRight="@dimen/margin_8"-->
-                <!--android:layout_toLeftOf="@+id/headView_fdate"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_fdate"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@drawable/shape_fdate_fa8"-->
-                    <!--android:layout_gravity="right"-->
-                    <!--android:gravity="center"-->
-                    <!--android:padding="@dimen/margin_3"-->
-                    <!--android:text="赴约人"-->
-                    <!--android:textColor="@color/color_68BFFF"-->
-                    <!--android:textSize="10sp"-->
-                    <!--android:textStyle="bold" />-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/tv_fname"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:textColor="@color/color_333333"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:textStyle="bold"/>-->
-            <!--</LinearLayout>-->
         </RelativeLayout>
-        <!--android:layout_marginTop="@dimen/margin_10"-->
         <LinearLayout
             android:id="@+id/ll_content"
             android:layout_width="match_parent"
@@ -140,11 +63,11 @@
                 android:id="@+id/rv_datechat_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"
-                android:layout_marginBottom="@dimen/margin_10"/>
+                android:layout_marginTop="@dimen/margin_8"/>
 
             <LinearLayout
                 android:id="@+id/ll_date_dowhat"
+                android:layout_marginTop="@dimen/margin_8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

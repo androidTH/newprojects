@@ -320,8 +320,8 @@ object Request {
     fun getUserPoints(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getUserPoints(userid , pageNum)
 
     //发布约会
-    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,beginTime: String?, endTime: String?, sAppointPic: String?,sAppointUser:String,iIsAnonymous:Int)=RRetrofit.instance().
-            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,beginTime , endTime, sAppointPic,sAppointUser,iIsAnonymous)
+    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,iFeeType:Int?,beginTime: String?, endTime: String?, sAppointPic: String?,sAppointUser:String,iIsAnonymous:Int)=RRetrofit.instance().
+            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,iFeeType,beginTime , endTime, sAppointPic,sAppointUser,iIsAnonymous)
     //自主约会
     fun findAppointmentList(userid: String,iAppointType:String?, sPlace:String?,sex:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAppointmentList(userid,iAppointType ,sPlace,sex,pageNum)
 
@@ -543,7 +543,7 @@ object Request {
 
     fun findSquareTop()=RRetrofit.instance().create(ApiServices::class.java).findSquareTop()
 
-    fun addConnectVoice(userid: String,sDesc: String, iAppointType:Int,iVoiceConnectType:Int,iPrepayLovepoint:Int, iOncePayLovePoint:Int,beginTime: String,dEndTime:String)=RRetrofit.instance().create(ApiServices::class.java).addConnectVoice(userid,sDesc,iAppointType,iVoiceConnectType,iPrepayLovepoint,iOncePayLovePoint,beginTime,dEndTime)
+    fun addConnectVoice(userid: String,sDesc: String, iAppointType:Int,iVoiceConnectType:Int,iPrepayLovepoint:Int, iOncePayLovePoint:Int,sAppointPic: String?,beginTime: String,dEndTime:String)=RRetrofit.instance().create(ApiServices::class.java).addConnectVoice(userid,sDesc,iAppointType,iVoiceConnectType,iPrepayLovepoint,iOncePayLovePoint,sAppointPic,beginTime,dEndTime)
 
     fun getApplyVoiceSquareLovePoint(sAppointmentId:String,sLoginToken:String)=RRetrofit.instance().create(ApiServices::class.java).getApplyVoiceSquareLovePoint(sAppointmentId,sLoginToken)
 
@@ -554,4 +554,8 @@ object Request {
     fun getInviteFindByPage(pageNum: Int=1)=RRetrofit.instance().create(ApiServices::class.java).getInviteFindByPage(pageNum)
 
     fun findEventListByUserId(iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).findEventListByUserId(iUserid)
+
+    fun updatePhoneSetting(iPhoneSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updatePhoneSetting(iPhoneSetting)
+
+    fun updateLookaboutSetting(iLookaboutSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateLookaboutSetting(iLookaboutSetting)
 }

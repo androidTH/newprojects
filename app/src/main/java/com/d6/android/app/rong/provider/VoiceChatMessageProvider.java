@@ -1,10 +1,9 @@
 package com.d6.android.app.rong.provider;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.nfc.Tag;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.Selection;
 import android.text.Spannable;
@@ -19,10 +18,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
+import com.d6.android.app.adapters.ChatImageAdapter;
 import com.d6.android.app.rong.bean.VoiceChatMsgContent;
+import com.d6.android.app.widget.RxRecyclerViewDividerTool;
+import com.d6.android.app.widget.badge.DisplayUtil;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -42,13 +47,22 @@ import io.rong.imlib.model.Message;
 public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProvider<VoiceChatMsgContent>{
     private static final String TAG = VoiceChatMessageProvider.class.getSimpleName();
 
+    ArrayList<String> mImages = new ArrayList<String>();
+
+    private ChatImageAdapter mImageAdapter = new ChatImageAdapter(mImages, 1);
+
     private static class ViewHolder {
-        TextView mTvVoiceChatTitle;
-        TextView mTvVoiceChatContent;
+        LinearLayout mLlVoiceChatCard;
+        SimpleDraweeView mHeaderView;
+        ImageView img_voicechat_auther;
+        TextView tv_voicechat_name;
+        TextView tv_voicechat_sex;
+        TextView tv_voicechat_vip;
+        TextView tv_voicechat_content;
+        RecyclerView rv_voicechat_images;
+        TextView tv_voicechattype;
+        TextView tv_voicechat_address;
         boolean longClick;
-        ImageView mIvLeft;
-        ImageView mIvRight;
-        LinearLayout mLL_VoiceChatMsg_Body;
     }
 
     @Override
@@ -56,11 +70,24 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
         View view = LayoutInflater.from(context).inflate(R.layout.item_rong_voicechatmsg, null);
 
         VoiceChatMessageProvider.ViewHolder holder = new VoiceChatMessageProvider.ViewHolder();
-        holder.mTvVoiceChatTitle = view.findViewById(R.id.tv_voicechat_title);
-        holder.mTvVoiceChatContent = view.findViewById(R.id.tv_voicechat_content);
-        holder.mLL_VoiceChatMsg_Body = view.findViewById(R.id.ll_voicechat_body);
-        holder.mIvLeft = view.findViewById(R.id.iv_left);
-        holder.mIvRight = view.findViewById(R.id.iv_right);
+        holder.mLlVoiceChatCard = view.findViewById(R.id.ll_voicechat_body);
+        holder.mHeaderView = view.findViewById(R.id.voicechat_headView);
+        holder.img_voicechat_auther = view.findViewById(R.id.img_voicechat_auther);
+        holder.tv_voicechat_name = view.findViewById(R.id.tv_voicechat_name);
+        holder.tv_voicechat_sex = view.findViewById(R.id.tv_voicechat_sex);
+        holder.tv_voicechat_vip = view.findViewById(R.id.tv_voicechat_vip);
+        holder.tv_voicechat_content = view.findViewById(R.id.tv_voicechat_content);
+        holder.rv_voicechat_images = view.findViewById(R.id.rv_voicechat_images);
+        holder.tv_voicechattype = view.findViewById(R.id.tv_voicechat_datetype);
+//        holder.tv_chat_date_time = view.findViewById(R.id.tv_chat_date_time);
+        holder.tv_voicechat_address = view.findViewById(R.id.tv_voicechat_address);
+
+        holder.rv_voicechat_images.setHasFixedSize(true);
+        holder.rv_voicechat_images.setLayoutManager(new GridLayoutManager(context, 3));
+        holder.rv_voicechat_images.addItemDecoration(new RxRecyclerViewDividerTool(DisplayUtil.px2dp(context, 8)));//SpacesItemDecoration(dip(4),3)
+
+//        holder.rv_chat_date_images.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        view.setTag(holder);
         view.setTag(holder);
         return view;
     }
@@ -146,8 +173,8 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
     public void bindView(final View v, int position, final VoiceChatMsgContent content, final UIMessage data) {
         VoiceChatMessageProvider.ViewHolder holder = (VoiceChatMessageProvider.ViewHolder) v.getTag();
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
-            holder.mLL_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
-            TextView textView = holder.mTvVoiceChatContent;
+            holder.mLlVoiceChatCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_right);
+            TextView textView = holder.tv_voicechat_content;
             textView.setText("请求连麦...");
             Log.i("VoiceChat",content.getExtra()+"------");
             if(!TextUtils.isEmpty(content.getExtra())){
@@ -158,16 +185,16 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
                     String sCreateUserName = jsonObject.getString("sVoiceUserName");
                     //sSignUserName
                     Log.i(TAG,"extra="+content.getExtra());
-                    holder.mTvVoiceChatContent.setText(sCreateUserName+":"+sVoiceMsg);
+                    holder.tv_voicechat_content.setText(sVoiceMsg);
                 } catch (JSONException e) {
                     e.printStackTrace();
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                    holder.mTvVoiceChatContent.setText("");
+                    holder.tv_voicechat_content.setText("");
                 }
             }
         } else {
-            holder.mLL_VoiceChatMsg_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
-            holder.mTvVoiceChatContent.setText(content.getContent());
+            holder.mLlVoiceChatCard.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+            holder.tv_voicechat_content.setText(content.getContent());
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
@@ -175,11 +202,18 @@ public class VoiceChatMessageProvider extends IContainerItemProvider.MessageProv
                     String sCreateUserName = jsonObject.getString("sVoiceUserName");
                     //sSignUserName
                     Log.i(TAG,"extra="+content.getExtra());
-                    holder.mTvVoiceChatContent.setText(sCreateUserName+":"+sVoiceMsg);
+                    holder.tv_voicechat_content.setText(sVoiceMsg);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+
+//        mImages.clear();
+//        if (!TextUtils.isEmpty(appointmentMsg.getSAppointPic())) {
+//            String[] images = appointmentMsg.getSAppointPic().split(",");
+//            mImages.addAll(Arrays.asList(images));
+//            holder.rv_voicechat_images.setAdapter(mImageAdapter);
+//        }
     }
 }

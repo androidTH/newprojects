@@ -1,8 +1,10 @@
 package com.d6.android.app.rong.voicechat;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -27,8 +29,10 @@ import com.d6.android.app.R;
 import com.d6.android.app.activities.MyPointsActivity;
 import com.d6.android.app.activities.UserInfoActivity;
 import com.d6.android.app.eventbus.LoveHeartMsgEvent;
+import com.d6.android.app.interfaces.VoiceChatStatus;
 import com.d6.android.app.models.VoiceTips;
 import com.d6.android.app.rong.bean.TipsMessage;
+import com.d6.android.app.utils.Const;
 import com.d6.android.app.utils.GsonHelper;
 import com.d6.android.app.widget.LoveHeart;
 import com.d6.android.app.widget.blurry.internal.Helper;
@@ -71,7 +75,7 @@ import static com.d6.android.app.utils.UtilKt.updateSquareSignUp;
  *
  * voice_voip_call_minimize 之前全是Gone 现在全是visible
  */
-public class SingleCallActivity extends BaseCallActivity implements Handler.Callback, View.OnClickListener {
+public class SingleCallActivity extends BaseCallActivity implements Handler.Callback, View.OnClickListener, VoiceChatStatus {
     private static final String TAG = "VoIPSingleActivity";
     private LayoutInflater inflater;
     private RongCallSession callSession;
@@ -100,6 +104,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     private LoveHeart mLoveHeart;
     private TextView mTvBuyLoveHeart;
     private TextView mTvPayLoveHeart_Tips;
+    private BroadcastReceLoveHeart mBroadcastReceLoveHeart;
 
     @Override
     final public boolean handleMessage(Message msg) {
@@ -115,6 +120,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(io.rong.callkit.R.layout.rc_voip_activity_single_call);
+        registerReceiver(mBroadcastReceLoveHeart = new BroadcastReceLoveHeart(), new IntentFilter(Const.VOICECHAT_LOVEHERT_MESSAGE));
         Log.i("AudioPlugin","savedInstanceState != null="+(savedInstanceState != null)+",,,RongCallClient.getInstance() == null"+(RongCallClient.getInstance() == null));
         if (savedInstanceState != null && RongCallClient.getInstance() == null) {
             // 音视频请求权限时，用户在设置页面取消权限，导致应用重启，退出当前activity.
@@ -782,6 +788,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             mTimeCountDown=null;
         }
         onHangupVoiceChat();
+        unregisterReceiver(mBroadcastReceLoveHeart);
         FinLog.e(TAG, "_挂断单人视频出错 callSession="+(callSession == null)+",isFinishing="+isFinishing);
     }
 
@@ -1271,6 +1278,13 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         });
     }
 
+    private class BroadcastReceLoveHeart extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("SingleCallReceiver","成功了");
+        }
+    }
+
     //连击礼物数量
     private void addGiftNums(int giftnum,Boolean currentStart,Boolean JumpCombo) {
         if (giftnum == 0) {
@@ -1291,5 +1305,26 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
             }
             mLoveHeart.showAnimationRedHeart(null);
         }
+    }
+
+    @Override
+    public void sendToServiceStatus() {
+        super.sendToServiceStatus();
+        Log.i("SingleCallReceiver","调用了");
+        updateSquareSignUp(SingleCallActivity.this,mVoiceTips.getVoiceChatId(),"7",getTime(),this);
+    }
+
+    @Override
+    public void doVoiceChat(int iStatus, String data) {
+          if(iStatus==1){
+              Log.i("SingleCallReceiver",""+data);
+          }else if(iStatus==2){
+              if(mTimeCountDown!=null){
+                  mTimeCountDown.cancel();
+                  mTimeCountDown=null;
+              }
+              onHangupVoiceChat();
+              unregisterReceiver(mBroadcastReceLoveHeart);
+          }
     }
 }

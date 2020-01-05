@@ -648,6 +648,11 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
             if (time >= 3600) {
                 onHangupVoiceChat();
             }
+
+            if(time%60==0){
+                sendToServiceStatus();
+            }
+
             handler.postDelayed(this, 1000);
         }
     }
@@ -793,5 +798,9 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
         }
         RongCallClient.getInstance().hangUpCall(session.getCallId());
         stopRing();
+    }
+
+    public void sendToServiceStatus(){
+
     }
 }

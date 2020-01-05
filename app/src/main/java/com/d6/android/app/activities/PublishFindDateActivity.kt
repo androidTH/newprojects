@@ -59,7 +59,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     private var iAddPoint :String= "" //匿名发布需要消耗的积分
     private var iRemainPoint:String="" //剩余积分
     private var mTimeOut:Long =  -1
-    private var mCostIndex:Int = 1
+    private var mCostIndex:Int = -1 //费用
     var showDateTypes:Array<DateType> = arrayOf(DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(5))
 
     private val addAdapter by lazy {
@@ -91,7 +91,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     private var REQUEST_CHOOSECODE:Int=10
     private var mVoiceChatType = 1
     private var loveNums = 0
-    private var iOncePayLovePoint = 0
+    private var iOncePayLovePoint = 10
 
     override fun update(o: Observable?, arg: Any?) {
         var mImagelocal = arg as Imagelocals
@@ -293,14 +293,15 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             mVoiceChatTypeDialog.arguments = bundleOf("chooseType" to "0")
             mVoiceChatTypeDialog.setDialogListener { p, s ->
                 mVoiceChatType = p
-                if(p==2||p==3){
-                    loveNums = 0
-                    iOncePayLovePoint = 0
-                    showRewardVoiceChatPoints(p)
-                    mVoiceChatTypeDialog.dismissAllowingStateLoss()
-                }else{
-                    tv_voicechat_choose.text = s
-                }
+//                if(p==2||p==3){
+//                    loveNums = 0
+//                    iOncePayLovePoint = 0
+//                    showRewardVoiceChatPoints(p)
+//                    mVoiceChatTypeDialog.dismissAllowingStateLoss()
+//                }else{
+//                    tv_voicechat_choose.text = s
+//                }
+                tv_voicechat_choose.text = s
             }
             mVoiceChatTypeDialog.show(supportFragmentManager,"VoiceChatTypeDialog")
         }
@@ -517,10 +518,6 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 return false
             }
         }else{
-            if (area.isNullOrEmpty()) {
-                showToast("请选择城市所属地区")
-                return false
-            }
 
             var content = et_content.text.toString().trim()
             if (content.isEmpty()) {
@@ -528,14 +525,24 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 return false
             }
 
+            if(mDateType!=6){
+                if (area.isNullOrEmpty()) {
+                    showToast("请选择城市所属地区")
+                    return false
+                }
+            }
+
             if(mTimeOut==-1L){
-                showToast("请选择约会时间")
+                showToast("请选择有效期")
                 return false
             }
-//            if (endTime.isEmpty()) {
-//                showToast("请选择有效期")
-//                return false
-//            }
+
+            if(mDateType!=6){
+                if(mCostIndex==-1){
+                    showToast("请选择约会费用")
+                    return false
+                }
+            }
         }
         return true
     }
@@ -559,7 +566,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             Flowable.just(sb.toString())
         }.flatMap {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, mDateType, "${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", it,userIds,iIsAnonymous)
+            Request.releasePullDate(userId, area, content, mDateType, mCostIndex,"${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", it,userIds,iIsAnonymous)
         }.request(this, false, success = { _, data ->
             showToast("发布成功")
             if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
@@ -604,7 +611,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             CreateDateOfPics(content)
         } else {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, mDateType, "${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
+            Request.releasePullDate(userId, area, content, mDateType, mCostIndex,"${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
                 showToast("发布成功")
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                     showTips(data, "", "")
@@ -647,7 +654,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 }
                 Flowable.just(sb.toString())
             }.flatMap {
-                Request.addConnectVoice(getLocalUserId(),content,mDateType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mTimeOut.toDefaultTime()}")
+                Request.addConnectVoice(getLocalUserId(),content,mDateType,mVoiceChatType,loveNums,iOncePayLovePoint,it,"${System.currentTimeMillis().toDefaultTime()}","${mTimeOut.toDefaultTime()}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
@@ -670,7 +677,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     }
 
     fun addTextSquare(content:String){
-        Request.addConnectVoice(getLocalUserId(), content,mDateType,mVoiceChatType,loveNums,iOncePayLovePoint,"${System.currentTimeMillis().toDefaultTime()}","${mTimeOut.toDefaultTime()}").request(this,false,success={
+        Request.addConnectVoice(getLocalUserId(), content,mDateType,mVoiceChatType,loveNums,iOncePayLovePoint,"","${System.currentTimeMillis().toDefaultTime()}","${mTimeOut.toDefaultTime()}").request(this,false,success={
             _, data ->
             showToast("发布成功")
             startActivity<UserInfoActivity>("id" to getLocalUserId())

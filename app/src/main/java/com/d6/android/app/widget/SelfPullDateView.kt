@@ -112,9 +112,23 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             iv_date_timeout.visibility = View.VISIBLE
         }
 
-        tv_self_address.text = "约会地点：${myAppointment.sPlace}"
+        if(index!=5){
+            tv_self_address.visibility = View.VISIBLE
+            tv_self_address.text = "约会地点：${myAppointment.sPlace}"
+            tv_self_money.visibility = View.VISIBLE
+            if(myAppointment.iFeeType==1){
+                tv_self_money.text = "全包"
+            }else if(myAppointment.iFeeType==-1){
+                tv_self_money.visibility = View.GONE
+            }else{
+                tv_self_money.text = "AA"
+            }
+        }else{
+            tv_self_address.visibility = View.GONE
+            tv_self_money.visibility = View.GONE
+        }
 
-        tv_content.text = URLDecoder.decode(myAppointment.sDesc,"UTF-8")
+        tv_content.text = myAppointment.sDesc
 
         if (myAppointment.sAppointPic.isNullOrEmpty()) {
             rv_images.gone()

@@ -38,7 +38,9 @@ object Const {
         val USER_DATACOMPLETION = "iDatacompletion"
         val USER_MESSAGESETTING = "messageSetting"
         val USER_INVITEMESSAGESETTING = "invitemessageSetting"
-        //别人约我
+        val USER_LOOKABOUTMESSAGESETTING = "LookaboutmessageSetting"
+        val USER_PHONEMESSAGESETTING = "PhonemessageSetting"
+        //别人约我d
         var SOMEONE_ELSE_MAKES_AN_APPOINTMENT_WITH_ME="someoneElseMakesAnAppointmentWithMe"
         var IASKSOMEONEELSE="IAskSomeoneElse"  //我约的人
         var  DEVICETOKEN ="devicetoken"
@@ -57,6 +59,8 @@ object Const {
     val CHAT_MESSAGE = "com.d6.app.chat_msg_count"
     val MINE_MESSAGE = "com.d6.app.mine_msg"//我的关注 粉丝提醒
     val SQUARE_MESSAGE = "com.d6.app.Square_blur"//我的关注 粉丝提醒
+    @JvmField
+    val VOICECHAT_LOVEHERT_MESSAGE = "com.d6.app.voicechat_loveheart"//连麦
     val MINE_MANSERVICE_YOUKE = "com.d6.app.mine_manservice_youke"//我的关注 粉丝提醒
     val HOMEDATE_STATEBAR = "com.d6.app.homedate_statebar"//约会状态栏
     val BUGTAGS_KEY = "e3ed18af47d9993fbfbc5dc02194079e"

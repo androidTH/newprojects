@@ -300,6 +300,8 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                 }else{
                     Log.i("LoveHeartMessage","收到了喜欢")
                 }
+
+                sendBroadcast(Intent(Const.VOICECHAT_LOVEHERT_MESSAGE).putExtra("test","test"))
             }
         }
 
