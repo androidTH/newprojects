@@ -37,7 +37,6 @@ import kotlinx.android.synthetic.main.item_audio.view.*
 import kotlinx.android.synthetic.main.view_trend_view.view.*
 import org.jetbrains.anko.*
 import java.lang.Exception
-import java.net.URLDecoder
 
 /**
  * Created on 2017/12/17.

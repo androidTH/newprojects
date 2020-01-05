@@ -1,12 +1,10 @@
 package com.d6.android.app.widget
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
@@ -16,16 +14,13 @@ import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UnKnowInfoDialog
 import com.d6.android.app.models.MyAppointment
-import com.d6.android.app.models.Square
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import kotlinx.android.synthetic.main.view_voicechat_view.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
-import java.net.URLDecoder
 
 /**
  * Created on 2017/12/17.
@@ -98,7 +93,7 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
             tv_voicechat_type.text = "无需打赏"
         }
 
-        tv_content.text = URLDecoder.decode(voiceChatData.sDesc,"UTF-8")
+        tv_content.text = voiceChatData.sDesc
 
         if (voiceChatData.sSourceAppointPic.isNullOrEmpty()) {
             rv_images.gone()
