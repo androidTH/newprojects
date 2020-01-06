@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -1317,8 +1318,20 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     @Override
     public void doVoiceChat(int iStatus, String data) {
           if(iStatus==1){
-              Log.i("SingleCallReceiver",""+data);
+              if(mVoiceTips.getVoiceChatType()!=1){
+                  if(mVoiceTips.getVoiceChatType()==2&&mVoiceTips.getVoiceChatdirection()==2){//2 申请者打赏 2
+                      mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.white));
+                      int mintes = (int) (getTime()/60);
+                      mTvPayLoveHeart_Tips.setText("10个喜欢/分钟，已收到"+(mintes*10)+"喜欢");
+                  }else if(mVoiceTips.getVoiceChatType()==3&&mVoiceTips.getVoiceChatdirection()==1){//3 发布者打赏
+                      mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.white));
+                      int mintes = (int) (getTime()/60);
+                      mTvPayLoveHeart_Tips.setText("10个喜欢/分钟，已收到"+(mintes*10)+"喜欢");
+                  }
+              }
           }else if(iStatus==2){
+              mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.color_F7AB00));
+
               if(mTimeCountDown!=null){
                   mTimeCountDown.cancel();
                   mTimeCountDown=null;

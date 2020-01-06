@@ -53,8 +53,7 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
     private var voicechatType = "1"
     private var mLocalUserLoveHeartCount:Int = -1
     private var mMinLoveHeart:Int = 0
-    private var extra:String = ""
-    var mVoiceTips = VoiceTips()
+//    private var extra:String = ""
 
     private var userJson = SPUtils.instance().getString(Const.USERINFO)
     private var mUserInfo = GsonHelper.getGson().fromJson(userJson, UserData::class.java)
@@ -146,15 +145,7 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
 //                }
 //            }
 
-            PermissionsUtils.getInstance().checkPermissions((context as BaseActivity), CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
-                override fun forbidPermissions() {
-
-                }
-
-                override fun passPermissions() {
-                    getData()
-                }
-            })
+            getData()
         }
 
         tv_redheart_gobuy.setOnClickListener {
@@ -174,9 +165,9 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
 //            ll_user_lovepoint.visibility = View.GONE
 //            tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
 //        }
-        mVoiceTips.setVoiceChatContent("${appointment?.sDesc}")
-        mVoiceTips.setVoiceChatUName("${appointment?.sAppointUserName}")
-        appointment?.iVoiceConnectType?.let { mVoiceTips.setVoiceChatType(it) }
+        Const.mVoiceTips.setVoiceChatContent("${appointment?.sDesc}")
+        Const.mVoiceTips.setVoiceChatUName("${appointment?.sAppointUserName}")
+        appointment?.iVoiceConnectType?.let { Const.mVoiceTips.setVoiceChatType(it) }
     }
 
     private fun getUserInfo() {
@@ -197,10 +188,8 @@ class ApplyVoiceChatOfDateDialog : DialogFragment(),RequestManager {
                 data?.let {
                     var sAppointSignupId = it.optString("sAppointSignupId")
                     Log.i("applyvoice","${data}---${sAppointSignupId}")
-                    mVoiceTips.setVoiceChatId("${sAppointSignupId}")
-                    extra = GsonHelper.getGson().toJson(mVoiceTips)
+                    Const.mVoiceTips.setVoiceChatId("${sAppointSignupId}")
                     RongIM.getInstance().startConversation(mActivity, Conversation.ConversationType.PRIVATE, "${appointment?.iAppointUserid}", "${appointment?.sAppointUserName}")
-//                    RongD6Utils.startSingleVoiceChat(mActivity,"${appointment?.iAppointUserid}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO,extra)
                     dismissAllowingStateLoss()
                 }
             }){code,msg->

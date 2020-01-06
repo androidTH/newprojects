@@ -19,6 +19,7 @@ import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
+import com.d6.android.app.rong.RongD6Utils
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage
 import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
@@ -29,6 +30,7 @@ import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.CHAT_TARGET_ID
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
+import com.d6.android.app.utils.Const.Max_Angle
 import com.d6.android.app.utils.Const.RECEIVER_FIRST_PRIVATE_TIPSMESSAGE
 import com.d6.android.app.utils.Const.SEND_FIRST_PRIVATE_TIPSMESSAGE
 import com.d6.android.app.utils.Const.SEND_GROUP_TIPSMESSAGE
@@ -38,6 +40,8 @@ import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
 import com.umeng.message.PushAgent
+import io.rong.callkit.RongCallKit
+import io.rong.callkit.util.CallKitUtils
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
@@ -65,6 +69,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     var SendMsgTotal:Int = 3
     var sAppointmentSignupId:String = ""
     var sAppointType:Int? = 5
+    private var directionDate:Int = 1 //1 连麦约会创建者 2 代表发起者
 
     private var IsAgreeChat:Boolean = true //true 代表需要判断聊天次数 false代表不用判断聊天次数
     private var iType:Int=1 //1、私聊 2、匿名组
@@ -286,7 +291,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         tv_datechat_no.setOnClickListener {
             if(sAppointType==9){
                //连麦放弃
-                updateSquareSignUp("","4")
+                if(directionDate==1){
+                    updateSquareSignUp("${Const.mVoiceTips.voiceChatId}","3")
+                }else{
+                    updateSquareSignUp("${Const.mVoiceTips.voiceChatId}","4")
+                }
             }else{
                 updateDateStatus(sAppointmentSignupId,3)
             }
@@ -295,7 +304,15 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         //同意
         tv_datechat_agree.setOnClickListener {
             if(sAppointType==9){
-                updateSquareSignUp("","2")
+                PermissionsUtils.getInstance().checkPermissions(this, CallKitUtils.getCallpermissions(), object : PermissionsUtils.IPermissionsResult {
+                    override fun forbidPermissions() {
+
+                    }
+
+                    override fun passPermissions() {
+                        updateSquareSignUp("${Const.mVoiceTips.voiceChatId}","2")
+                    }
+                })
             }else{
                 updateDateStatus(sAppointmentSignupId,2)
             }
@@ -735,6 +752,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             ll_date_dowhat.visibility = View.VISIBLE
             var drawable = ContextCompat.getDrawable(this, R.mipmap.liwu_feed)
             setLeftDrawable(drawable,tv_datchat_address)
+
+            Const.mVoiceTips.setVoiceChatContent("${appointment?.sDesc}")
+            Const.mVoiceTips.setVoiceChatUName("${appointment?.sAppointUserName}")
+            appointment?.iVoiceConnectType?.let { Const.mVoiceTips.setVoiceChatType(it) }
+            Const.mVoiceTips.setVoiceChatId("${appointment?.sAppointmentSignupId}")
         }else{
             rl_circlebar.visibility = View.GONE
             tv_progress.visibility = View.GONE
@@ -766,10 +788,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         tv_datechat_content.text = appointment.sDesc
 
         if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(appointment.iAppointUserid.toString(), getLocalUserId())){
+            directionDate = 1
+            Const.mVoiceTips.voiceChatdirection = directionDate
             if(sAppointType==6){
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
-                circlebarview.setMaxNum(360.0f)
-                circlebarview.setProgressNum(160.0f,5)
+                circlebarview.setMaxNum(Max_Angle)
+                circlebarview.setProgressNum(0.0f,5)
+                tv_progress.text = "${0}%"
             }else if(sAppointType==9){
                 tv_date_info.text = "${appointment.sUserName} 申请连麦"
                 tv_datechat_agree.text = "连麦"
@@ -784,11 +809,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             tv_datechat_giveup.visibility = View.GONE
             ISNOTYAODATE = 1
         }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
+            directionDate = 2
+            Const.mVoiceTips.voiceChatdirection = directionDate
             tv_datechat_agree.visibility = View.GONE
             if(sAppointType==6){
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
-                circlebarview.setMaxNum(360.0f)
-                circlebarview.setProgressNum(160.0f,5)
+                circlebarview.setMaxNum(Max_Angle)
+                circlebarview.setProgressNum(0.0f,5)
+                tv_progress.text = "${0}%"
             }else if(sAppointType==9){
                 tv_date_info.text = "你申请了连麦"
                 tv_datechat_no.visibility = View.VISIBLE
@@ -834,7 +862,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
     fun updateSquareSignUp(sSquareSignupId:String,iStatus:String) {
         Request.updateSquareSignUp(sSquareSignupId,iStatus,0, getLoginToken()).request(this,false,success={code,data->
-
+            if(TextUtils.equals(iStatus,"2")){
+                var extra = GsonHelper.getGson().toJson(Const.mVoiceTips)
+                RongD6Utils.startSingleVoiceChat(this, "${mOtherUserId}", RongCallKit.CallMediaType.CALL_MEDIA_TYPE_AUDIO, extra)
+            }else{
+                root_date_chat.visibility = View.GONE
+                setFragmentTopMargin(0)
+                getApplyStatus()
+            }
         })
     }
 

@@ -194,7 +194,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_10"
                 android:visibility="gone"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content">
                 <com.d6.android.app.widget.CircleProgressView
                     android:id="@+id/circlebarview"
@@ -214,15 +214,14 @@
             </RelativeLayout>
             <TextView
                 android:id="@+id/tv_progress"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/rl_circlebar"
                 android:layout_marginRight="@dimen/margin_10"
                 android:textColor="@color/color_888888"
-                android:gravity="center_vertical"
-                android:text="59%"
+                android:gravity="center"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </RelativeLayout>

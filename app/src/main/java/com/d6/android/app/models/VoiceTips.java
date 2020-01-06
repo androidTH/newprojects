@@ -11,6 +11,7 @@ public class VoiceTips {
     private String VoiceChatContent;
     private String VoiceChatId;
     private int VoiceChatType;
+    private int VoiceChatdirection;
 
     public String getVoiceChatUName() {
         return VoiceChatUName == null ? "" : VoiceChatUName;
@@ -42,5 +43,13 @@ public class VoiceTips {
 
     public void setVoiceChatType(int voiceChatType) {
         VoiceChatType = voiceChatType;
+    }
+
+    public int getVoiceChatdirection() {
+        return VoiceChatdirection;
+    }
+
+    public void setVoiceChatdirection(int voiceChatdirection) {
+        VoiceChatdirection = voiceChatdirection;
     }
 }

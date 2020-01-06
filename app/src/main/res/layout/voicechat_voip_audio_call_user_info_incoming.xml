@@ -184,10 +184,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:textColor="@color/color_F7AB00"
-            android:text="剩余20喜欢，连麦时长不足3分钟"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:gravity="center"/>
+        <!--color_F7AB00-->
+        <!--剩余20喜欢，连麦时长不足3分钟-->
         <TextView
             android:id="@+id/tv_buyloveheart"
             android:layout_marginTop="@dimen/margin_5"
@@ -201,6 +202,7 @@
             android:paddingTop="@dimen/margin_3"
             android:paddingBottom="@dimen/margin_3"
             android:textSize="14sp"
+            android:visibility="gone"
             android:text="购买"/>
     </LinearLayout>
 
