@@ -70,7 +70,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     var sAppointmentSignupId:String = ""
     var sAppointType:Int? = 5
     private var directionDate:Int = 1 //1 连麦约会创建者 2 代表发起者
-
+    private var receiveMsgCount:Int = 0
+    private var SendMsgCount:Int = 0
+    private var progressAngle:Float = 0.0f
     private var IsAgreeChat:Boolean = true //true 代表需要判断聊天次数 false代表不用判断聊天次数
     private var iType:Int=1 //1、私聊 2、匿名组
     private var mGroupIdSplit:List<String> =ArrayList<String>()
@@ -740,7 +742,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             tv_progress.visibility = View.VISIBLE
             ll_date_dowhat.visibility = View.GONE
             linear_datechat_agree_bottom.visibility = View.GONE
-            circlebarview.setProgressNum(160.0f,5)
+            circlebarview.setProgressNum(0.0f,0)
         }else if(sAppointType==9){
             if(appointment.iVoiceConnectType==2){
                 tv_datchat_address.text = "申请者需打赏喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
@@ -793,7 +795,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             if(sAppointType==6){
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
                 circlebarview.setMaxNum(Max_Angle)
-                circlebarview.setProgressNum(0.0f,5)
+                circlebarview.setProgressNum(0.0f,0)
                 tv_progress.text = "${0}%"
             }else if(sAppointType==9){
                 tv_date_info.text = "${appointment.sUserName} 申请连麦"
@@ -815,7 +817,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             if(sAppointType==6){
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
                 circlebarview.setMaxNum(Max_Angle)
-                circlebarview.setProgressNum(0.0f,5)
+                circlebarview.setProgressNum(0.0f,0)
                 tv_progress.text = "${0}%"
             }else if(sAppointType==9){
                 tv_date_info.text = "你申请了连麦"
@@ -1300,13 +1302,27 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         return p0
     }
 
+
+    private fun setChatAngle(){
+        if(receiveMsgCount>=1&&SendMsgCount<=2){
+            progressAngle = progressAngle + 1.0f
+            var Angle_nums = (Max_Angle/100)*progressAngle
+            circlebarview.setProgressNum(Angle_nums,0)
+            tv_progress.text = "${progressAngle.toInt()}%"
+            receiveMsgCount = 0
+            Log.i("onSentchat", "发送了消息成功${progressAngle}")
+        }
+    }
+
     override fun onSent(p0: Message?, p1: RongIM.SentMessageErrorCode?): Boolean {
         p0?.let {
             if (checkKFService(mOtherUserId)) {
 //                if (TextUtils.equals("1", sex)) {
                 if (IsAgreeChat||(sAppointType==6)) {
                     if (p1 == null) {
-                        checkTalkJustify()
+                        SendMsgCount = SendMsgCount +1
+                        setChatAngle()
+//                        checkTalkJustify()
                     }
                 }
                 Log.i(TAG, "${p1}用户Id${it.senderUserId}")
@@ -1328,7 +1344,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     mChatActivity.sendCount = 0
                 }
             }
-            context?.let { setTextViewSpannable(it,"剩余消息：${mChatActivity.sendCount}条",3,5,mChatActivity.tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers) }
+            context?.let {
+                mChatActivity.receiveMsgCount = mChatActivity.receiveMsgCount + 1
+            }
+//            context?.let { setTextViewSpannable(it,"剩余消息：${mChatActivity.sendCount}条",3,5,mChatActivity.tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers) }
         }
     }
 

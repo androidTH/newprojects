@@ -20,6 +20,7 @@ import org.jetbrains.anko.toast
 class ContactUsActivity : TitleActivity() {
     private var manWeChat="000000"
     private var womanWeChat="000000"
+    private var p:Float = 1.0f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact_us)
@@ -43,6 +44,9 @@ class ContactUsActivity : TitleActivity() {
         }
         btn_weChat.setOnClickListener {
             startActivity<QRNewActivity>("type" to 2)
+//            p = p+1.0f
+//            var angle = (360/100)*p
+//            circlebarview.setProgressNum(angle,0)
         }
 
         tv_man_tip.text = SpanBuilder(String.format("男生专属客服\n点击复制微信号:%s","000000"))
@@ -55,8 +59,7 @@ class ContactUsActivity : TitleActivity() {
         dialog()
         getData()
 
-//        circlebarview.setMaxNum(360.0f)
-//        circlebarview.setProgressNum(130.0f,5)
+        circlebarview.setMaxNum(360.0f)
     }
 
     private fun getData() {
