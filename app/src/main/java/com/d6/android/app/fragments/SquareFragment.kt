@@ -424,7 +424,13 @@ class SquareFragment : RecyclerFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        activity.unregisterReceiver(sIfLovePics)
+        try{
+            if(sIfLovePics!=null){
+                activity.unregisterReceiver(sIfLovePics)
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     override fun onDestroy() {
