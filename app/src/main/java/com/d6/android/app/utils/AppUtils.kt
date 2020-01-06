@@ -146,10 +146,8 @@ class AppUtils {
             if (version1.equals(version2)) {
                 return 0
             }
-            val version1Array = version1.split("\\.")
-            val version2Array = version2.split("\\.")
-            Log.d("HomePageActivity", "version1Array==" + version1Array.size)
-            Log.d("HomePageActivity", "version2Array==" + version2Array.size)
+            val version1Array = version1.split(".")
+            val version2Array = version2.split(".")
             var index = 0
             // 获取最小长度值
             val minLen = Math.min(version1Array.size, version2Array.size)

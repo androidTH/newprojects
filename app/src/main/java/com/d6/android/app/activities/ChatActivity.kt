@@ -286,9 +286,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         tv_datechat_no.setOnClickListener {
             if(sAppointType==9){
                //连麦放弃
-
                 updateSquareSignUp("","4")
-
             }else{
                 updateDateStatus(sAppointmentSignupId,3)
             }
