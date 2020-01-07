@@ -603,4 +603,7 @@ interface ApiServices {
 
     @POST("backstage/account/updateLookaboutSetting")
     fun updateLookaboutSetting(@Query("iLookaboutSetting") iPhoneSetting:Int, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @POST("backstage/appointmentsignup/updateProgress")
+    fun updateProgress(@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("iProgress")iProgress:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }

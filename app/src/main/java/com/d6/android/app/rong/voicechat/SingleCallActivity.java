@@ -1319,14 +1319,21 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     public void doVoiceChat(int iStatus, String data) {
           if(iStatus==1){
               if(mVoiceTips.getVoiceChatType()!=1){
-                  if(mVoiceTips.getVoiceChatType()==2&&mVoiceTips.getVoiceChatdirection()==2){//2 申请者打赏 2
-                      mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.white));
+                  if(mVoiceTips.getVoiceChatType()==2){//2 申请者打赏 1 连麦约会创建者 2 代表发起者
+//                      if(mVoiceTips.getVoiceChatdirection()==1){
+//                          mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.white));
+//                          int mintes = (int) (getTime()/60);
+//                          mTvPayLoveHeart_Tips.setText("10个喜欢/分钟，已收到"+(mintes*10)+"喜欢");
+//                      }else{
+//                          mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.white));
+//                          int mintes = (int) (getTime()/60);
+//                          mTvPayLoveHeart_Tips.setText("10个喜欢/分钟，已送出"+(mintes*10)+"喜欢");
+//                      }
                       int mintes = (int) (getTime()/60);
-                      mTvPayLoveHeart_Tips.setText("10个喜欢/分钟，已收到"+(mintes*10)+"喜欢");
-                  }else if(mVoiceTips.getVoiceChatType()==3&&mVoiceTips.getVoiceChatdirection()==1){//3 发布者打赏
-                      mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.white));
+                      UpPayLoveHeartUi("10个喜欢/分钟，已收到"+(mintes*10)+"喜欢","10个喜欢/分钟，已送出"+(mintes*10)+"喜欢");
+                  }else if(mVoiceTips.getVoiceChatType()==3){//3 发布者打赏 1 连麦约会创建者 2 代表发起者
                       int mintes = (int) (getTime()/60);
-                      mTvPayLoveHeart_Tips.setText("10个喜欢/分钟，已收到"+(mintes*10)+"喜欢");
+                      UpPayLoveHeartUi("10个喜欢/分钟，已送出"+(mintes*10)+"喜欢","10个喜欢/分钟，已收到"+(mintes*10)+"喜欢");
                   }
               }
           }else if(iStatus==2){
@@ -1339,5 +1346,17 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
               onHangupVoiceChat();
               unregisterReceiver(mBroadcastReceLoveHeart);
           }
+    }
+
+    //更新收到爱心的ui
+    private void UpPayLoveHeartUi(String sendmsg,String receivemsg){
+        //1 连麦约会创建者 2 代表发起者
+        if(mVoiceTips.getVoiceChatdirection()==1){
+            mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.white));
+            mTvPayLoveHeart_Tips.setText(sendmsg);
+        }else{
+            mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.white));
+            mTvPayLoveHeart_Tips.setText(receivemsg);
+        }
     }
 }

@@ -558,4 +558,6 @@ object Request {
     fun updatePhoneSetting(iPhoneSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updatePhoneSetting(iPhoneSetting)
 
     fun updateLookaboutSetting(iLookaboutSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateLookaboutSetting(iLookaboutSetting)
+
+    fun updateProgress(sAppointmentSignupId:String,iProgress:Int)=RRetrofit.instance().create(ApiServices::class.java).updateProgress(sAppointmentSignupId,iProgress)
 }

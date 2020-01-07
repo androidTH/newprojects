@@ -53,4 +53,6 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
 //    @SerializedName("sSourceAppointPic")
 //    var sSourceAppointPic:String?=""
 //    iAppointmentSignupCount
+
+    var iProgress:Int?=0
 }

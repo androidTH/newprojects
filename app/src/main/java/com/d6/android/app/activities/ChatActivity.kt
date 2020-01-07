@@ -292,10 +292,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         //拒绝
         tv_datechat_no.setOnClickListener {
             if(sAppointType==9){
-               //连麦放弃
                 if(directionDate==1){
                     updateSquareSignUp("${Const.mVoiceTips.voiceChatId}","3")
                 }else{
+                    //连麦放弃
                     updateSquareSignUp("${Const.mVoiceTips.voiceChatId}","4")
                 }
             }else{
@@ -795,8 +795,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             if(sAppointType==6){
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
                 circlebarview.setMaxNum(Max_Angle)
-                circlebarview.setProgressNum(0.0f,0)
-                tv_progress.text = "${0}%"
+                appointment.iProgress?.let { it ->
+                    progressAngle = it *1.0f
+                }
+                var angle_nums = (Max_Angle/100)*progressAngle
+                circlebarview.setProgressNum(angle_nums,0)
+                tv_progress.text = "${progressAngle.toInt()}%"
             }else if(sAppointType==9){
                 tv_date_info.text = "${appointment.sUserName} 申请连麦"
                 tv_datechat_agree.text = "连麦"
@@ -817,8 +821,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             if(sAppointType==6){
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
                 circlebarview.setMaxNum(Max_Angle)
-                circlebarview.setProgressNum(0.0f,0)
-                tv_progress.text = "${0}%"
+                appointment.iProgress?.let { it ->
+                    progressAngle = it *1.0f
+                }
+                var angle_nums = (Max_Angle/100)*progressAngle
+                circlebarview.setProgressNum(angle_nums,0)
+                tv_progress.text = "${progressAngle.toInt()}%"
             }else if(sAppointType==9){
                 tv_date_info.text = "你申请了连麦"
                 tv_datechat_no.visibility = View.VISIBLE
@@ -893,6 +901,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     setFragmentTopMargin(0)
                     getApplyStatus()
                 }
+            }
+        })
+    }
+
+    fun updateProgress(iProgress:Int){
+        Request.updateProgress(sAppointmentSignupId,iProgress).request(this,false,success={msg,data->
+            data?.let {
+
             }
         })
     }
@@ -1136,7 +1152,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             if (!TextUtils.isEmpty(announceMsg)) {
                 var jsonObject = JSONObject(announceMsg)
                 var type = jsonObject.optString("status")
-                Log.i("OnShowAnnounceBar","type${type}")
+                Log.i("OnShowAnnounceBar","${announceMsg}type${type}")
                 if(TextUtils.equals("1",type)){
                     relative_tips_bottom.visibility = View.VISIBLE
                     linear_openchat_agree_bottom.visibility = View.VISIBLE
@@ -1252,6 +1268,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         it.hideChatInput(false)
                     }
                     getApplyStatus()
+                }else {
+                    var iVoiceStatus = jsonObject.optString("iVoiceStatus")
+                    if(TextUtils.equals("4",iVoiceStatus)){
+                        root_date_chat.visibility = View.GONE
+                        setFragmentTopMargin(0)
+                        getApplyStatus()
+                    }
                 }
             }
         }
@@ -1304,13 +1327,30 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
 
     private fun setChatAngle(){
-        if(receiveMsgCount>=1&&SendMsgCount<=2){
+        if(receiveMsgCount==3){//>=1&&SendMsgCount<=2
             progressAngle = progressAngle + 1.0f
-            var Angle_nums = (Max_Angle/100)*progressAngle
-            circlebarview.setProgressNum(Angle_nums,0)
-            tv_progress.text = "${progressAngle.toInt()}%"
             receiveMsgCount = 0
-            Log.i("onSentchat", "发送了消息成功${progressAngle}")
+            SendMsgCount = 0
+            updateProgress(progressAngle.toInt())
+        }else if(SendMsgCount==1&&receiveMsgCount==2){
+            progressAngle = progressAngle + 1.0f
+            receiveMsgCount = 0
+            SendMsgCount = 0
+            updateProgress(progressAngle.toInt())
+        }else if(SendMsgCount==2&&receiveMsgCount==1){
+            progressAngle = progressAngle + 1.0f
+            receiveMsgCount = 0
+            SendMsgCount = 0
+
+            updateProgress(progressAngle.toInt())
+        }
+        var Angle_nums = (Max_Angle/100)*progressAngle
+        circlebarview.setProgressNum(Angle_nums,0)
+        tv_progress.text = "${progressAngle.toInt()}%"
+        Log.i("onSentchat", "发送了消息成功${progressAngle}")
+
+        if(progressAngle>=100){
+            updateDateStatus(sAppointmentSignupId,2)
         }
     }
 
@@ -1321,6 +1361,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 if (IsAgreeChat||(sAppointType==6)) {
                     if (p1 == null) {
                         SendMsgCount = SendMsgCount +1
+                        if(SendMsgCount>=3){
+                            SendMsgCount=2
+                        }
                         setChatAngle()
 //                        checkTalkJustify()
                     }
@@ -1346,6 +1389,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             }
             context?.let {
                 mChatActivity.receiveMsgCount = mChatActivity.receiveMsgCount + 1
+                if(mChatActivity.receiveMsgCount>=3){
+                    mChatActivity.receiveMsgCount = 2
+                }
+                mChatActivity.setChatAngle()
             }
 //            context?.let { setTextViewSpannable(it,"剩余消息：${mChatActivity.sendCount}条",3,5,mChatActivity.tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers) }
         }
