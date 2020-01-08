@@ -849,7 +849,17 @@ fun updateSquareSignUp(activity:Activity,sSquareSignupId:String,iStatus:String,i
 
         }
     },false,success={ msg, data->
-        voiceChatStatus.doVoiceChat(1,"${data}")
+        //iRemainMinute  iRemainLovePoint   剩余xx喜欢，连麦时长不足10分钟
+        data?.let {
+           var iRemainMinute =  it.optInt("iRemainMinute")
+           var iRemainLovePoint =  it.optInt("iRemainLovePoint")
+           var desc = "剩余${iRemainLovePoint}喜欢，连麦时长不足${iRemainMinute}分钟"
+           if(iRemainMinute<=10){
+               voiceChatStatus.doVoiceChat(3,"${desc}")
+           }else{
+               voiceChatStatus.doVoiceChat(1,"${desc}")
+           }
+        }
         Log.i("updateSquareSignUp","状态：${iStatus},时间：${iConnectVoiceLength},${data}")
     }){code,msg->
         if(code==2){

@@ -164,7 +164,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                 et_content.hint = resources.getString(R.string.string_replaycomment,comment.name)
                 iReplyCommnetType = comment.iIsAnonymous
             }
-            replayContent = comment.content.toString()
+            replayContent = "${comment.content}"
 
             replayUid = comment.userId?:""
 //            isAuthUser {

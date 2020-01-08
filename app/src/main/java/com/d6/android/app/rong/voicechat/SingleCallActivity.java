@@ -1331,20 +1331,23 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
 //                      }
                       int mintes = (int) (getTime()/60);
                       UpPayLoveHeartUi("10个喜欢/分钟，已收到"+(mintes*10)+"喜欢","10个喜欢/分钟，已送出"+(mintes*10)+"喜欢");
+                      addGiftNums(10,false,true);
                   }else if(mVoiceTips.getVoiceChatType()==3){//3 发布者打赏 1 连麦约会创建者 2 代表发起者
                       int mintes = (int) (getTime()/60);
                       UpPayLoveHeartUi("10个喜欢/分钟，已送出"+(mintes*10)+"喜欢","10个喜欢/分钟，已收到"+(mintes*10)+"喜欢");
+                      addGiftNums(10,false,true);
                   }
               }
           }else if(iStatus==2){
-              mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.color_F7AB00));
-
               if(mTimeCountDown!=null){
                   mTimeCountDown.cancel();
                   mTimeCountDown=null;
               }
               onHangupVoiceChat();
               unregisterReceiver(mBroadcastReceLoveHeart);
+          }else if(iStatus==3){
+              mTvPayLoveHeart_Tips.setTextColor(ContextCompat.getColor(this,R.color.color_F7AB00));
+              mTvPayLoveHeart_Tips.setText(data);
           }
     }
 
