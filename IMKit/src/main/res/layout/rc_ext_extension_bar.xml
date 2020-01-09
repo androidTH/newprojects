@@ -89,6 +89,7 @@
         android:layout_height="35dp"
         android:layout_marginRight="8dp"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         android:src="@drawable/chat_xihuan_button"/>
 
     <!-- 底部分割线 -->

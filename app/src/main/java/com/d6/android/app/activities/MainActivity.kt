@@ -820,6 +820,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         try {
             unregisterReceiver(broadcast)
             unregisterReceiver(rongBroadcast)
+            unregisterReceiver(mineBroadcast)
         } catch (e: Exception) {
 
         }

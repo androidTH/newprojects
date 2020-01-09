@@ -351,6 +351,25 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //            }
         }
 
+        iv_privatechat_sendredheart.setOnClickListener {
+            isAuthUser {
+                addGiftNums(1,false,false)
+                VibrateHelp.Vibrate(this,VibrateHelp.time50)
+            }
+        }
+
+        iv_privatechat_sendredheart.setOnLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(v: View?): Boolean {
+                var mSendLoveHeartDialog = SendLoveHeartDialog()
+                mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
+                mSendLoveHeartDialog.setDialogListener { p, s ->
+                    addGiftNums(p, false,true)
+                }
+                mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
+                return true
+            }
+        })
+
         tv_datechat_content.setEllipsize(TextUtils.TruncateAt.END);//收起
         tv_datechat_content.maxLines = 2
 

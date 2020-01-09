@@ -164,10 +164,12 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
         urls.let {
 //            PayPoint_Path = urls[position].replace("?imageslim", "")
-            if(urls[position].contains("?")){
-                PayPoint_Path = urls[position].split("?")[0]
-            }else{
-                PayPoint_Path = urls[position]
+            if(urls!=null&&urls.size>0){
+                if(urls[position].contains("?")){
+                    PayPoint_Path = urls[position].split("?")[0]
+                }else{
+                    PayPoint_Path = urls[position]
+                }
             }
         }
     }
@@ -206,10 +208,12 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         urls.let {
             Log.i("imagepager","图片地址：${urls[position]}")
 //            PayPoint_Path = urls[position].replace("?imageslim", "")
-            if(urls[position].contains("?")){
-                PayPoint_Path = urls[position].split("?")[0]
-            }else{
-                PayPoint_Path = urls[position]
+            if(urls!=null&&urls.size>0){
+                if(urls[position].contains("?")){
+                    PayPoint_Path = urls[position].split("?")[0]
+                }else{
+                    PayPoint_Path = urls[position]
+                }
             }
         }
     }

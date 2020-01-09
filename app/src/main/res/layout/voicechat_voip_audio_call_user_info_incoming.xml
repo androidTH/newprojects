@@ -45,6 +45,7 @@
         android:src="@drawable/rc_voip_minimize" />
 
     <RelativeLayout
+        android:id="@+id/rl_voicechat_userinfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -138,11 +139,40 @@
             android:layout_centerHorizontal="true"
             android:orientation="vertical"/>
 
-        <!--
-        android:textColor="#66FFFFFF"
-        android:layout_below="@+id/voice_voip_user_name"
-        android:layout_marginTop="12dp"
-        -->
+        <LinearLayout
+            android:id="@+id/ll_loveheart"
+            android:layout_below="@id/loveheart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/height_50"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_payloveheart_tips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:gravity="center"/>
+            <!--color_F7AB00-->
+            <!--剩余20喜欢，连麦时长不足3分钟-->
+            <TextView
+                android:id="@+id/tv_buyloveheart"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:background="@drawable/shape_orange_4r"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="@dimen/margin_6"
+                android:paddingRight="@dimen/margin_6"
+                android:paddingTop="@dimen/margin_3"
+                android:paddingBottom="@dimen/margin_3"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:text="购买"/>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tv_setupTime"
             android:layout_width="wrap_content"
@@ -173,37 +203,5 @@
             android:text="@string/rc_voip_call_waiting" />
         <!--单人视频——被叫-->
     </RelativeLayout>
-    <LinearLayout
-        android:id="@+id/ll_loveheart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_payloveheart_tips"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:gravity="center"/>
-        <!--color_F7AB00-->
-        <!--剩余20喜欢，连麦时长不足3分钟-->
-        <TextView
-            android:id="@+id/tv_buyloveheart"
-            android:layout_marginTop="@dimen/margin_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_orange_4r"
-            android:layout_gravity="center_horizontal"
-            android:paddingLeft="@dimen/margin_6"
-            android:paddingRight="@dimen/margin_6"
-            android:paddingTop="@dimen/margin_3"
-            android:paddingBottom="@dimen/margin_3"
-            android:textSize="14sp"
-            android:visibility="gone"
-            android:text="购买"/>
-    </LinearLayout>
 
 </RelativeLayout>
