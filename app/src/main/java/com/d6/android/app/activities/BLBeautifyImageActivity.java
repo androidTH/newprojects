@@ -1,6 +1,9 @@
 package com.d6.android.app.activities;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,17 +11,26 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.d6.android.app.R;
 import com.d6.android.app.adapters.StickerAdapter;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import com.d6.android.app.fragments.BLBeautifyFragment;
 
+import www.morefuntrip.cn.sticker.BLBitmapUtils;
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam;
 import www.morefuntrip.cn.sticker.Bean.BLStickerInfo;
+import www.morefuntrip.cn.sticker.DrawableSticker;
+import www.morefuntrip.cn.sticker.StickerView;
 
 /*
  * Created by Administrator on 2017/4/15.
@@ -33,14 +45,44 @@ public class BLBeautifyImageActivity extends AppCompatActivity implements View.O
     private String imgPath;
     private BLBeautifyFragment mBL;
     private BLBeautifyParam mParam;
+    private ImageView mImageView;
+    private StickerView mStickerView;
+    private RelativeLayout mRootRelativeLayout;
 
     private MergeImageTask mMergeTask;
     private StickerAdapter.OnStickerItemClick mOnStickerItemClick = new StickerAdapter.OnStickerItemClick() {
         @Override
         public void selectedStickerItem(BLStickerInfo data, int pos) {
-            mBL.addSticker(data.getUrl());
+//            mBL.addSticker(data.getUrl());
+             addSticker(data.getUrl());
         }
     };
+
+    public void addSticker(String path) {
+        if (TextUtils.isEmpty(path))
+            return;
+        Drawable drawable = getDrawableFromAssetsFile(path);
+        mStickerView.addSticker(new DrawableSticker(drawable));
+    }
+
+    /**
+     * 从Assert文件夹中读取位图数据
+     *
+     * @param fileName
+     * @return
+     */
+    private Drawable getDrawableFromAssetsFile(String fileName) {
+        Drawable drawable = null;
+        AssetManager am = getResources().getAssets();
+        try {
+            InputStream is = am.open(fileName);
+            drawable = Drawable.createFromStream(is, null);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return drawable;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,19 +101,39 @@ public class BLBeautifyImageActivity extends AppCompatActivity implements View.O
               finish();
         }else if(v.getId() == R.id.edit_img_success){
             if (mMergeTask == null) {
-                mBL.stickerLocked(true);
-                mMergeTask = new MergeImageTask();
+//              mBL.stickerLocked(true);
+                mStickerView.setLocked(true);
+                Bitmap bitmap = loadBitmapFromView(mRootRelativeLayout);
+                String path = BLBitmapUtils.saveAsBitmap(BLBeautifyImageActivity.this, bitmap);
+                mParam.getImages().remove(mParam.getIndex());
+                if (path != null && !path.equals("")) {
+                    mParam.getImages().add(mParam.getIndex(),path);
+                }
+                mRootRelativeLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent();
+                        intent.putExtra(BLBeautifyParam.RESULT_KEY, mParam);
+                        setResult(RESULT_OK, intent);
+                        onBackPressed();
+                    }
+                },200);
+//                mMergeTask = new MergeImageTask();
                 /*
                  * 注：AsyncTask只能执行一次，如果mMergeTask不为null,
                  * 则说明已经执行过了
                  */
-                mMergeTask.execute(mBL);
+//                mMergeTask.execute(mBL);
             }
         }
     }
 
     protected void initView() {
         mStickerList = findViewById(R.id.recycler_sticker);
+        mStickerView = findViewById(R.id.bl_sticker_view);
+        mImageView = findViewById(R.id.iv_beautify);
+        mRootRelativeLayout = findViewById(R.id.root_relative);
+
         LinearLayoutManager stickerListLayoutManager = new LinearLayoutManager(this);
         stickerListLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mStickerList.setLayoutManager(stickerListLayoutManager);
@@ -80,11 +142,35 @@ public class BLBeautifyImageActivity extends AppCompatActivity implements View.O
     protected void otherLogic() {
         mParam = getIntent().getParcelableExtra(BLBeautifyParam.KEY);
         imageList = mParam.getImages();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.function_detail, mBL = new BLBeautifyFragment().newInstance(imageList.get(mParam.getIndex())));
-        transaction.commit();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.add(R.id.function_detail, mBL = new BLBeautifyFragment().newInstance(imageList.get(mParam.getIndex())));
+//        transaction.commit();
         //默认滤镜被选中
         onStickerClick();
+
+        Glide.with(this).load(imageList.get(mParam.getIndex())).into(mImageView);
+    }
+
+    private Bitmap loadBitmapFromView(View v) {
+        v.clearFocus();
+        v.setPressed(false);
+        boolean willNotCache = v.willNotCacheDrawing();
+        v.setWillNotCacheDrawing(false);
+        int color = v.getDrawingCacheBackgroundColor();
+        v.setDrawingCacheBackgroundColor(0);
+        if (color != 0) {
+            v.destroyDrawingCache();
+        }
+        v.buildDrawingCache();
+        Bitmap cacheBitmap = v.getDrawingCache();
+        if (cacheBitmap == null) {
+            return null;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
+        v.destroyDrawingCache();
+        v.setWillNotCacheDrawing(willNotCache);
+        v.setDrawingCacheBackgroundColor(color);
+        return bitmap;
     }
 
     protected void setListener() {
