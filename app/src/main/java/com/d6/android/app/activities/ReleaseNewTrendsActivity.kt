@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.media.ThumbnailUtils
 import android.os.Bundle
 import android.os.Environment
+import android.provider.MediaStore
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -588,7 +589,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             }else if(requestCode == REQUESTCODE_VIDEO && data != null){
                 try{
                     VideoPaths = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
-                    var mBitmap = ThumbnailUtils.createVideoThumbnail(VideoPaths[0],0)
+                    var mBitmap = BitmapUtils.getVideoThumbnail(VideoPaths[0], MediaStore.Images.Thumbnails.MINI_KIND,0,0)
                     if(mBitmap!=null){
                         mImages.clear()
                         val image = AddImage("file://${VideoPaths[0]}",2)
