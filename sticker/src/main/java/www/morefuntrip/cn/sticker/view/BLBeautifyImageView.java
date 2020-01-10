@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.muzhi.camerasdk.library.filter.GPUImageView;
 
@@ -37,6 +38,8 @@ public class BLBeautifyImageView extends FrameLayout {
     private Context mContext;
     private StickerView mStickerView;
     private GPUImageView mGpuImageView;
+    private FrameLayout mRootFrameLayout;
+    private ImageView mImageView;
 
     public BLBeautifyImageView(@NonNull Context context) {
         this(context, null);
@@ -55,7 +58,9 @@ public class BLBeautifyImageView extends FrameLayout {
     private void init() {
         View rootView = LayoutInflater.from(mContext).inflate(R.layout.sticker_beautify_image_view, this, true);
         mStickerView = (StickerView) rootView.findViewById(R.id.bl_sticker_view);
+//        mImageView = rootView.findViewById(R.id.bgpu);
         mGpuImageView = (GPUImageView) rootView.findViewById(R.id.bl_gpu_image_view);
+        mRootFrameLayout = rootView.findViewById(R.id.root_framelayout);
         initStickerView();
     }
 
@@ -78,6 +83,10 @@ public class BLBeautifyImageView extends FrameLayout {
 //                        setImage(resource);
 //                    }
 //                });
+
+//        Glide.with(mContext)
+//                .load(url)
+//                .into(mImageView);
     }
 
     /**
@@ -134,11 +143,36 @@ public class BLBeautifyImageView extends FrameLayout {
             //最终合并生成图片
             String path = BLBitmapUtils.saveAsBitmap(mContext, bitmap);
             bitmap.recycle();
-            return path;
 
+//            Bitmap bitmap = loadBitmapFromView(mRootFrameLayout);
+//            String path = BLBitmapUtils.saveAsBitmap(mContext, bitmap);
+            return path;
         } catch (Exception e) {
             return "";
         }
+    }
+
+
+    private Bitmap loadBitmapFromView(View v) {
+        v.clearFocus();
+        v.setPressed(false);
+        boolean willNotCache = v.willNotCacheDrawing();
+        v.setWillNotCacheDrawing(false);
+        int color = v.getDrawingCacheBackgroundColor();
+        v.setDrawingCacheBackgroundColor(0);
+        if (color != 0) {
+            v.destroyDrawingCache();
+        }
+        v.buildDrawingCache();
+        Bitmap cacheBitmap = v.getDrawingCache();
+        if (cacheBitmap == null) {
+            return null;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
+        v.destroyDrawingCache();
+        v.setWillNotCacheDrawing(willNotCache);
+        v.setDrawingCacheBackgroundColor(color);
+        return bitmap;
     }
 
 

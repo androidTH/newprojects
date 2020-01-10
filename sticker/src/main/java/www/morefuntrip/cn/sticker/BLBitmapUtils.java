@@ -29,11 +29,11 @@ public class BLBitmapUtils {
             long size = FileUtils.getFileSize(new File(filePath));
             Bitmap bm;
             //压缩大于1M的图片
-            if (size > 1024 * 1024){
+            if (size > 1024 * 1024*2){
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeFile(filePath, options);
-                options.inSampleSize = 4;
+                options.inSampleSize = 2;
                 options.inJustDecodeBounds = false;
                 bm = BitmapFactory.decodeFile(filePath, options);
             }else{

@@ -337,7 +337,8 @@
         <activity android:name=".activities.MemberActivity" />
         <activity android:name=".activities.MyDateActivity" />
         <activity android:name=".activities.EditImageActivity"></activity>
-        <activity android:name=".activities.BLBeautifyImageActivity"/>
+        <activity android:name=".activities.BLBeautifyImageActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activities.FansActivity"/>
         <activity android:name=".activities.FollowActivity"/>
         <activity android:name=".activities.OldFansActivity"/>
