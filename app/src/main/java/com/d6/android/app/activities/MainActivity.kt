@@ -162,7 +162,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        immersionBar.init()
+        immersionBar.navigationBarColor("#FFFFFF").init()
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
         registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
         registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))

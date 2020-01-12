@@ -61,7 +61,7 @@ abstract class BaseFragment : Fragment() ,RequestManager{
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        immersionBar.init()
+        immersionBar.navigationBarColor("#FFFFFF").init()
         AutoSizeConfig.getInstance().setCustomFragment(true)
         NetworkUtils.registerNetConnChangedReceiver(context)
 

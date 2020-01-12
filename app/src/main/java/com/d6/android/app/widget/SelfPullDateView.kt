@@ -118,7 +118,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             tv_self_money.visibility = View.VISIBLE
             if(myAppointment.iFeeType==1){
                 tv_self_money.text = "全包"
-            }else if(myAppointment.iFeeType==-1){
+            }else if(myAppointment.iFeeType==0){
                 tv_self_money.visibility = View.GONE
             }else{
                 tv_self_money.text = "AA"

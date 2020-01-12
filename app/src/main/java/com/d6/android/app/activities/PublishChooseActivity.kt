@@ -46,7 +46,7 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
         }
 
         tv_chat.setOnClickListener (this)
-        tv_voicechat.setOnClickListener(this)
+//        tv_voicechat.setOnClickListener(this)
         tv_dink.setOnClickListener(this)
         tv_film.setOnClickListener(this)
         tv_games.setOnClickListener(this)
@@ -71,14 +71,16 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
                 startActivityForResult<PublishFindDateActivity>(10,"type" to 6)
                 finish()
             }
-        }else if(v?.id==R.id.tv_voicechat){
-            isAuthUser{
-//                startActivityForResult<VoiceChatCreateActivity>(1)
-                startActivityForResult<PublishFindDateActivity>(1,"type" to 9)
-//                VoiceChatCreateActivity
-                finish()
-            }
-        }else if(v?.id==R.id.tv_dink){
+        }
+//        else if(v?.id==R.id.tv_voicechat){
+//            isAuthUser{
+////                startActivityForResult<VoiceChatCreateActivity>(1)
+//                startActivityForResult<PublishFindDateActivity>(1,"type" to 9)
+////                VoiceChatCreateActivity
+//                finish()
+//            }
+//        }
+        else if(v?.id==R.id.tv_dink){
             isAuthUser{
                 startActivityForResult<PublishFindDateActivity>(10,"type" to 4)
                 finish()

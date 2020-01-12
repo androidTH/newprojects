@@ -68,5 +68,5 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var iRemainPoint:Int?=-1
 
     var sIfLovePics:String?=""
-    var iFeeType:Int?=-1
+    var iFeeType:Int?=0
 }

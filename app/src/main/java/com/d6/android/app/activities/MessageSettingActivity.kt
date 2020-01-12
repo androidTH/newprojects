@@ -31,14 +31,14 @@ class MessageSettingActivity : TitleActivity() {
         val manager = NotificationManagerCompat.from(this)
         val isOpened = manager.areNotificationsEnabled()
         tv_state.text = if (isOpened) "已开启" else "已关闭"
-        var importantmessageSetting = SPUtils.instance().getString("${USER_PHONEMESSAGESETTING}${getLocalUserId()}")
+        var importantmessageSetting = SPUtils.instance().getString("${USER_PHONEMESSAGESETTING}${getLocalUserId()}","1")
         sw_important_msgimportant.isChecked = if(TextUtils.equals(importantmessageSetting,"1")){
             true
         }else{
             false
         }
 
-        var LookaboutmessageSetting = SPUtils.instance().getString("${USER_LOOKABOUTMESSAGESETTING}${getLocalUserId()}")
+        var LookaboutmessageSetting = SPUtils.instance().getString("${USER_LOOKABOUTMESSAGESETTING}${getLocalUserId()}","1")
         sw_friend_notfaction.isChecked = if(TextUtils.equals(LookaboutmessageSetting,"1")){
             true
         }else{

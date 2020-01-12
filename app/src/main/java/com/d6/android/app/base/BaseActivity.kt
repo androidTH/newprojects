@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -40,7 +41,7 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     //改用lazy初始，第一次使用时才会初始化
     val immersionBar by lazy {
         ImmersionBar.with(this)
-                .statusBarColor(R.color.white).statusBarDarkFont(true)
+                .statusBarColor(R.color.white).statusBarDarkFont(true).navigationBarColor("#FFFFFF")
     }
 
     val mKeyboardKt by lazy{
@@ -60,8 +61,13 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
+        ImmersionBar.with(this).navigationBarColor("#FFFFFF").init()
         //竖屏
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        if(Build.VERSION.SDK_INT == Build.VERSION_CODES.O){
+            requestedOrientation = SCREEN_ORIENTATION_UNSPECIFIED
+        }else{
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
         ACTION_CLOSE_ALL = "cn.base.%s.all.close".format(packageName)
         if (isRegisterCloseBroadReceiver()) {
             registerReceiver(closeAllReceiver, IntentFilter(ACTION_CLOSE_ALL))

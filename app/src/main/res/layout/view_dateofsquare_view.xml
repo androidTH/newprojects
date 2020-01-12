@@ -62,7 +62,6 @@
             android:id="@+id/ll_date_dowhat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_10"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingLeft="@dimen/margin_5">
@@ -95,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/list_feiyong_icon"
+                android:layout_marginBottom="@dimen/margin_8"
                 android:textColor="@color/color_888888"
                 android:drawablePadding="@dimen/margin_3"
                 android:textSize="12sp"

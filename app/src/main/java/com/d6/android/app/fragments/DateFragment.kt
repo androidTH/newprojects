@@ -300,28 +300,28 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             it.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3f).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.5f).setScaleTextSize(1.2f)
                     .setCacheStuffer(object : ViewCacheStuffer<DanmaKuViewHolder>() {
                         override fun onBindViewHolder(viewType: Int, viewHolder: DanmaKuViewHolder?, danmaku: BaseDanmaku?, displayerConfig: AndroidDisplayer.DisplayerConfig?, paint: TextPaint?) {
-                            if (paint != null)
-                                danmaku?.let {
-                                    viewHolder?.mText?.paint?.set(paint)
-                                    viewHolder?.mText?.text = danmaku.text
-                                    viewHolder?.mText?.setTextColor(danmaku.textColor)
-                                    viewHolder?.mText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize)
-                                    if(danmaku.tag!=null){
-                                        val imageWare = danmaku.tag as DanMuImageWare
-                                        if (imageWare != null) {
-                                            if (imageWare.bitmap != null) {
-                                                viewHolder?.mIcon?.setImageBitmap(imageWare.bitmap)
-                                            } else {
-                                                viewHolder?.mIcon?.setImageResource(R.mipmap.default_head)
+                            if (paint != null) {
+                                try {
+                                    danmaku?.let {
+                                        viewHolder?.mText?.paint?.set(paint)
+                                        viewHolder?.mText?.text = danmaku.text
+                                        viewHolder?.mText?.setTextColor(danmaku.textColor)
+                                        viewHolder?.mText?.setTextSize(TypedValue.COMPLEX_UNIT_PX, danmaku.textSize)
+                                        if (danmaku.tag != null) {
+                                            val imageWare = danmaku.tag as DanMuImageWare
+                                            if (imageWare != null) {
+                                                if (imageWare.bitmap != null) {
+                                                    viewHolder?.mIcon?.setImageBitmap(imageWare.bitmap)
+                                                } else {
+                                                    viewHolder?.mIcon?.setImageResource(R.mipmap.default_head)
+                                                }
                                             }
                                         }
                                     }
-//                                    FrescoUtils.loadImage(activity, it.tag as String, object : IResult<Bitmap> {
-//                                        override fun onResult(result: Bitmap?) {
-//                                            viewHolder?.mIcon?.setImageBitmap(CircleBitmapTransform.transform(result))
-//                                        }
-//                                    })
+                                }catch (e:Exception){
+                                    e.printStackTrace()
                                 }
+                            }
                         }
 
                         override fun onCreateViewHolder(viewType: Int): DanmaKuViewHolder {
@@ -329,36 +329,24 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         }
 
                         override fun prepare(danmaku: BaseDanmaku?, fromWorkerThread: Boolean) {
-                            danmaku?.let {
-                                if (it.isTimeOut()) {
-                                    return
+                            try{
+                                danmaku?.let {
+                                    if (it.isTimeOut()) {
+                                        return
+                                    }
+                                    if(danmaku.tag!=null){
+                                        var imageWare: DanMuImageWare? = danmaku.tag as DanMuImageWare
+                                        ImageLoader.getInstance().displayImage(imageWare!!.getImageUri(), imageWare)
+                                    }
                                 }
-                                if(danmaku.tag!=null){
-                                    var imageWare: DanMuImageWare? = danmaku.tag as DanMuImageWare
-                                    ImageLoader.getInstance().displayImage(imageWare!!.getImageUri(), imageWare)
-                                }
-//                                if (imageWare == null) {
-//                                    imageWare = DanMuImageWare(avatar, danmaku, mIconWidth, mIconWidth, mDanmakuView)
-//                                    danmaku.setTag(imageWare)
-//                                }
-//                                if (it.text.toString().contains("textview")) {
-//                                    Log.e("DFM", "onAsyncLoadResource======>" + danmaku.tag + "url:" + imageWare!!.getImageUri())
-//                                }
-
-//                                    FrescoUtils.loadImage(activity, imageWare!!.getImageUri(), object : IResult<Bitmap> {
-//                                        override fun onResult(result: Bitmap?) {
-//                                            result?.let {
-//                                                imageWare.bitmap = it
-//                                            }
-//                                        }
-//                                    })
+                            }catch (e:Exception){
+                                e.printStackTrace()
                             }
                         }
 
                         override fun releaseResource(danmaku: BaseDanmaku?) {
                             super.releaseResource(danmaku)
                         }
-
 
                     }, null)
                     .setMaximumLines(maxLinesPair)
@@ -618,13 +606,17 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     }
                     mRecyclerView.adapter.notifyDataSetChanged()
                     if(pageNum!=1){
-                        scrollPosition = mRecyclerView.currentItem + 1
-                        if (mRecyclerView.adapter.itemCount > scrollPosition) {
-                            mRecyclerView.postDelayed(object : Runnable {
-                                override fun run() {
-                                    mRecyclerView.smoothScrollToPosition(scrollPosition)
-                                }
-                            }, 200)
+                        try{
+                            scrollPosition = mRecyclerView.currentItem + 1
+                            if (mRecyclerView.adapter.itemCount > scrollPosition) {
+                                mRecyclerView.postDelayed(object : Runnable {
+                                    override fun run() {
+                                        mRecyclerView.smoothScrollToPosition(scrollPosition)
+                                    }
+                                }, 200)
+                            }
+                        }catch (e:Exception){
+                            e.printStackTrace()
                         }
                     }
                 }
@@ -750,6 +742,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             immersionBar.init()
+            immersionBar.navigationBarColor("#FFFFFF")
             sv_danmaku.resume()
         }
     }
@@ -1128,22 +1121,26 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     internal inner class DanMuHandler : Handler(){
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
-            if(msg?.what==0){
-                if ((mReceiveLoveHearts.size-1) >= mDanMuIndex) {
-                    addDanmaku(mReceiveLoveHearts.get(mDanMuIndex),mDanMuIndex, false)
-                    mDanMuIndex = mDanMuIndex +1
-                    mDanMuHandler.sendEmptyMessageDelayed(0,1000)
-                }else{
-                    mReceiveLoveHearts.clear()
-                }
-                Log.i("datefragment","${mReceiveLoveHearts.size}--${mDanMuIndex}")
-                if (mReceiveLoveHearts.size - mDanMuIndex == 5) {
-                    DANMU_pageNum = DANMU_pageNum + 1
-                    if(mDates.size>0&&mDates.size>mRecyclerView.currentItem){
-                        var findDate = mDates.get(mRecyclerView.currentItem)
-                        getFindReceiveLoveHeart("${findDate.accountId}")
+            try{
+                if(msg?.what==0){
+                    if ((mReceiveLoveHearts.size-1) >= mDanMuIndex) {
+                        addDanmaku(mReceiveLoveHearts.get(mDanMuIndex),mDanMuIndex, false)
+                        mDanMuIndex = mDanMuIndex +1
+                        mDanMuHandler.sendEmptyMessageDelayed(0,1000)
+                    }else{
+                        mReceiveLoveHearts.clear()
+                    }
+                    Log.i("datefragment","${mReceiveLoveHearts.size}--${mDanMuIndex}")
+                    if (mReceiveLoveHearts.size - mDanMuIndex == 5) {
+                        DANMU_pageNum = DANMU_pageNum + 1
+                        if(mDates.size>0&&mDates.size>mRecyclerView.currentItem){
+                            var findDate = mDates.get(mRecyclerView.currentItem)
+                            getFindReceiveLoveHeart("${findDate.accountId}")
+                        }
                     }
                 }
+            }catch (e:Exception){
+                e.printStackTrace()
             }
         }
     }

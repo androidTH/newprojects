@@ -59,7 +59,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     private var iAddPoint :String= "" //匿名发布需要消耗的积分
     private var iRemainPoint:String="" //剩余积分
     private var mTimeOut:Long =  -1
-    private var mCostIndex:Int = -1 //费用
+    private var mCostIndex:Int = 0 //费用
     var showDateTypes:Array<DateType> = arrayOf(DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(5))
 
     private val addAdapter by lazy {
@@ -335,6 +335,11 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     }
 
     private fun setTitle(){
+        if(TextUtils.equals("0", getUserSex())){
+            tv_endtime_name.visibility = View.GONE
+            tv_endTime.visibility = View.GONE
+            line_datemoney.visibility = View.GONE
+        }
         if(mDateType == 1){
             tv_title.text ="旅游"
             line_unknow.visibility = View.GONE
@@ -356,6 +361,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType==6){
+            et_content.hint = "介绍你自己，说一说你想聊的话题…"
             tv_title.text ="聊天"
 
             line_unknow.visibility = View.GONE
@@ -379,7 +385,10 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType==9){
+            et_content.hint = "介绍你自己，说一说你想聊的话题…"
+
             tv_title.text = "连麦"
+
             tv_datearea.visibility = View.GONE
             tv_area.visibility = View.GONE
             line_area.visibility = View.GONE
@@ -538,7 +547,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             }
 
             if(mDateType!=6){
-                if(mCostIndex==-1){
+                if(mCostIndex== 0&&TextUtils.equals("1", getUserSex())){
                     showToast("请选择约会费用")
                     return false
                 }

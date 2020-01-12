@@ -95,11 +95,13 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
-                    String type = jsonObject.getString("status");
-                    if(TextUtils.equals(type,"1")){
-                        holder.mTvMsgContent.setVisibility(View.VISIBLE);
-                    }else if(TextUtils.equals(type,"2")||TextUtils.equals(type,"3")){
-                        holder.mTvMsgContent.setVisibility(View.VISIBLE);
+                    if(jsonObject.has("status")){
+                        String type = jsonObject.getString("status");
+                        if(TextUtils.equals(type,"1")){
+                            holder.mTvMsgContent.setVisibility(View.VISIBLE);
+                        }else if(TextUtils.equals(type,"2")||TextUtils.equals(type,"3")){
+                            holder.mTvMsgContent.setVisibility(View.VISIBLE);
+                        }
                     }
 //                    else if(TextUtils.equals(type,"4")){
 //                        holder.mTvMsgContent.setVisibility(View.VISIBLE);

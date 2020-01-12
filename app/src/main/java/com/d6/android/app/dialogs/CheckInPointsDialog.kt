@@ -115,19 +115,23 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
 
         tv_checkin_action.setOnClickListener {
             tv_checkin_action.isEnabled = false
-            showRewardTipsDialog("150")
+            showRewardTipsDialog(150)
         }
     }
 
-    private fun showRewardTipsDialog(points:String){
+    private fun showRewardTipsDialog(points:Int){
         isBaseActivity {
             Request.signPoint(getLoginToken()).request(it,success={_,data->
                  data?.let {
                      var mRewardTipsDialog = RewardTipsDialog()
-                     var iAddPoint = it.optInt("iAddPoint")
-                     dialogListener?.onClick(1,"${iAddPoint}")
-                     var sAddPointDesc = it.optString("sAddPointDesc")
-                     mRewardTipsDialog.arguments = bundleOf("points" to "${iAddPoint}")
+                     if(it.has("iAddPoint")){
+                         var iAddPoint = it.optInt("iAddPoint",points)
+                         mRewardTipsDialog.arguments = bundleOf("points" to "${iAddPoint}")
+                         dialogListener?.onClick(1,"${iAddPoint}")
+                     }
+                     if(it.has("sAddPointDesc")){
+                         var sAddPointDesc = it.optString("sAddPointDesc")
+                     }
                      mRewardTipsDialog.show((context as BaseActivity).supportFragmentManager,"rewardtipsdialog")
                  }
             })

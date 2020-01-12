@@ -285,8 +285,10 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY)
             var path = urls[mImageLocalViewPager.currentItem]
             urls[mImageLocalViewPager.currentItem] = param.images[param.index]
-            var mImageLocal = mListFragment.get(mImageLocalViewPager.currentItem) as ImageLocalFragment
-            mImageLocal.setNewPic(urls[mImageLocalViewPager.currentItem],false)
+            if(mListFragment.get(mImageLocalViewPager.currentItem)!=null){
+                var mImageLocal = mListFragment.get(mImageLocalViewPager.currentItem) as ImageLocalFragment
+                mImageLocal.setNewPic(urls[mImageLocalViewPager.currentItem],false)
+            }
             mHashMap.forEach{
                 var flag = it.value
                 if(!flag){

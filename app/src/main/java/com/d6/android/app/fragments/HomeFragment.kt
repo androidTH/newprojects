@@ -66,7 +66,8 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         tv_datacount.text = "已有${count}人约会成功"
     }
 
-    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(VoiceChatType),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8))
+//    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(VoiceChatType),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(4))
+    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(4))
 
     private val mSelfDateTypes = ArrayList<DateType>()
 
@@ -131,17 +132,19 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
         var mFragments = listOf(
                 SelfPullDateFragment.instance("", mDefualtSex),
-                SelfPullDateFragment.instance("9",mDefualtSex),
                 SelfPullDateFragment.instance("6",mDefualtSex),
+//                SelfPullDateFragment.instance("9",mDefualtSex),
                 SelfPullDateFragment.instance("2",mDefualtSex),
                 SelfPullDateFragment.instance("1",mDefualtSex),
                 SelfPullDateFragment.instance("3",mDefualtSex),
                 SelfPullDateFragment.instance("7",mDefualtSex),
-                SelfPullDateFragment.instance("8",mDefualtSex)
+                SelfPullDateFragment.instance("8",mDefualtSex),
+                SelfPullDateFragment.instance("4",mDefualtSex)
         )
 
         mFragments[0].setRenGongBackGround(this)
         mFragments[1].setRenGongBackGround(this)
+//        mFragments[2].setRenGongBackGround(this)
         mFragments[2].setRenGongBackGround(this)
         mFragments[3].setRenGongBackGround(this)
         mFragments[4].setRenGongBackGround(this)
@@ -153,7 +156,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             var dt = showDateTypes[i]
             if(i==0){
                 dt.dateTypeName = "全部"
-            }else if(i==1){
+            }else if(i==-1){//2
                 dt.dateTypeName = "连麦"
             }else{
                 dt.dateTypeName = dateTypes[dt.type-1]

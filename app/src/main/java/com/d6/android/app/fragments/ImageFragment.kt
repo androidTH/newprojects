@@ -56,7 +56,11 @@ class ImageFragment : BaseNoBarFragment() {
         } else {
             url = ""
         }
-        updatePicUrl(activity,"${url}",isBlur)
+        try{
+            updatePicUrl(activity,"${url}",isBlur)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
 
         sampimgview.setOnClickListener {
             if(sampimgview!=null){

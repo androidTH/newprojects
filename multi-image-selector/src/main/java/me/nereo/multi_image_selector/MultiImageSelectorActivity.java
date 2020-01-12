@@ -1,9 +1,11 @@
 package me.nereo.multi_image_selector;
 
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import me.nereo.multi_image_selector.utils.FinishActivityManager;
+import me.nereo.multi_image_selector.utils.VersionUtils;
 
 /**
  * 多图选择
@@ -175,15 +178,24 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         if(imageFile != null) {
 
             // notify system
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
-            if (mode == MODE_SINGLE ) {
+            if(VersionUtils.isAndroidQ()){
+//                MediaScannerConnection
+//                        .scanFile(this, new String[] { imageFile.getAbsolutePath() }, null, null);
+//                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(imageFile)));
                 Intent data = new Intent();
                 resultList.add(imageFile.getAbsolutePath());
                 data.putStringArrayListExtra(EXTRA_RESULT, resultList);
                 setResult(RESULT_OK, data);
                 finish();
-            }else if (mode == MODE_MULTI){
-
+            }else{
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
+                if (mode == MODE_SINGLE) {
+                    Intent data = new Intent();
+                    resultList.add(imageFile.getAbsolutePath());
+                    data.putStringArrayListExtra(EXTRA_RESULT, resultList);
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
             }
         }
     }

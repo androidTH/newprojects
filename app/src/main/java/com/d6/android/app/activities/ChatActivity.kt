@@ -77,6 +77,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     private var iType:Int=1 //1、私聊 2、匿名组
     private var mGroupIdSplit:List<String> =ArrayList<String>()
     private var ISNOTYAODATE = 1// 1邀约  2赴约
+    private var iCanTalk:Int = 2 //1 已解锁  2未解锁
 
     private var mRongReceiveMessage:rongReceiveMessage?=null
 
@@ -692,16 +693,21 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     }
                 }else if(code==9){ //报名约会
                     //iTalkCount:已发出的聊天消息次数  iAllTalkCount：总的聊天消息次数
-                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
-                    sendCount = it.optInt("iTalkCount")
-                    SendMsgTotal = it.optInt("iAllTalkCount")
-                    var datetime = it.optLong("dOverduetime")
-                    Log.i("chatactivity","${sendCount}消息数量appointment-----${it.optJsonObj("appointment")}")
-                    var appointment = GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
-                    appointment?.let {
-                        root_date_chat.visibility = View.VISIBLE
-                        setDateChatUi(appointment,sendCount,datetime)
-                        CHAT_TARGET_ID = mTargetId
+                    try{
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
+                        sendCount = it.optInt("iTalkCount")
+                        SendMsgTotal = it.optInt("iAllTalkCount")
+                        var datetime = it.optLong("dOverduetime")
+                        iCanTalk = it.optInt("iCanTalk",2)
+                        Log.i("chatactivity","${sendCount}消息数量appointment-----${it.optJsonObj("appointment")}")
+                        var appointment = GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
+                        appointment?.let {
+                            root_date_chat.visibility = View.VISIBLE
+                            setDateChatUi(appointment,sendCount,datetime)
+                            CHAT_TARGET_ID = mTargetId
+                        }
+                    }catch (e:Exception){
+                        e.printStackTrace()
                     }
                 }else{
                     relative_tips.visibility = View.GONE
@@ -762,6 +768,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             ll_date_dowhat.visibility = View.GONE
             linear_datechat_agree_bottom.visibility = View.GONE
             circlebarview.setProgressNum(0.0f,0)
+            if(iCanTalk==1){
+                rl_date_bottom.visibility = View.GONE
+                line_date_dowhat.visibility = View.GONE
+            }
         }else if(sAppointType==9){
             if(appointment.iVoiceConnectType==2){
                 tv_datchat_address.text = "申请者需打赏喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
@@ -861,15 +871,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             ISNOTYAODATE = 2
         }
 
-        if(SendMsgTotal>0&&talkCount<=0){
-            fragment?.let {
-                it.doIsNotSendMsg(true,getString(R.string.string_applay_date_tips))
-            }
-        }
+//        if(SendMsgTotal>0&&talkCount<=0){
+//            fragment?.let {
+//                it.doIsNotSendMsg(true,getString(R.string.string_applay_date_tips))
+//            }
+//        }
+
         rv_datechat_images.setHasFixedSize(true)
         rv_datechat_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         if (appointment.sAppointPic.isNullOrEmpty()) {
             rv_datechat_images.visibility = View.GONE
+            iv_chat_unfold.visibility = View.GONE
         }else{
             rv_datechat_images.visibility = View.GONE
             val images = appointment.sAppointPic?.split(",")
@@ -1310,7 +1322,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             }else{
                 ll_date_dowhat.visibility = View.GONE
             }
-            rv_datechat_images.visibility = View.VISIBLE
+            if(mImages!=null&&mImages.size>0){
+                rv_datechat_images.visibility = View.VISIBLE
+            }
             iv_chat_unfold.visibility = View.GONE
             tv_datechat_content.setEllipsize(null)//展开
             tv_datechat_content.setSingleLine(false)//这个方法是必须设置的，否则无法展开
@@ -1319,7 +1333,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 ll_date_dowhat.visibility = View.VISIBLE
             }
             rv_datechat_images.visibility = View.GONE
-            iv_chat_unfold.visibility = View.VISIBLE
+            if(mImages!=null&&mImages.size>0){
+                iv_chat_unfold.visibility = View.VISIBLE
+            }else{
+                iv_chat_unfold.visibility = View.GONE
+            }
+
             tv_datechat_content.setEllipsize(TextUtils.TruncateAt.END);//收起
             tv_datechat_content.maxLines = 2
             Log.i("ConversationFragmentEx","${isextend}")
@@ -1399,13 +1418,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             mChatActivity = chatActivity
         }
         override fun onReceive(context: Context?, intent: Intent?) {
-            if(mChatActivity.SendMsgTotal!=-1&&mChatActivity.sAppointmentSignupId.isNotEmpty()){
-                mChatActivity.sendCount = mChatActivity.sendCount - 1
-                if(mChatActivity.sendCount<= 0){
-                    mChatActivity.fragment?.doIsNotSendMsg(true,mChatActivity.getString(R.string.string_applay_date_tips))
-                    mChatActivity.sendCount = 0
-                }
-            }
+//            if(mChatActivity.SendMsgTotal!=-1&&mChatActivity.sAppointmentSignupId.isNotEmpty()){
+//                mChatActivity.sendCount = mChatActivity.sendCount - 1
+//                if(mChatActivity.sendCount<= 0){
+//                    mChatActivity.fragment?.doIsNotSendMsg(true,mChatActivity.getString(R.string.string_applay_date_tips))
+//                    mChatActivity.sendCount = 0
+//                }
+//            }
             context?.let {
                 mChatActivity.receiveMsgCount = mChatActivity.receiveMsgCount + 1
                 if(mChatActivity.receiveMsgCount>=3){

@@ -189,8 +189,12 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
 //        } else {
 //            String.format("%s | %s",square.updatetime?.interval(),square.city)
 //        }
+        try{
+            tv_sub_title.text = square.updatetime?.interval()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
 
-        tv_sub_title.text = square.updatetime?.interval()
         if(square.content!!.isNotEmpty()){
             tv_content.text = square.content
         }

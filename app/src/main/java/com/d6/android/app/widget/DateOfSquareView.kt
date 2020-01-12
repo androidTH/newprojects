@@ -113,8 +113,10 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             tv_self_money.visibility  = View.VISIBLE
             if(date.iFeeType==1){
                 tv_self_money.text = "全包"
-            }else{
+            }else if(date.iFeeType==2){
                 tv_self_money.text = "AA"
+            }else{
+                tv_self_money.visibility  = View.GONE
             }
         }else{
             tv_self_address.visibility = View.GONE
