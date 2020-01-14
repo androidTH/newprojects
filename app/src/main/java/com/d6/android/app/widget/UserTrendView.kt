@@ -181,7 +181,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
 //        }
         tv_createtime.text = square.updatetime?.interval()
 
-        tv_content.text = URLDecoder.decode(square.content,"UTF-8")
+        tv_content.text = square.content
 
         if(square.iResourceType==3){
 

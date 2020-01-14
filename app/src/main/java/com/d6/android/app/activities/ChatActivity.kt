@@ -1300,11 +1300,19 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     }
                     getApplyStatus()
                 }else {
-                    var iVoiceStatus = jsonObject.optString("iVoiceStatus")
-                    if(TextUtils.equals("4",iVoiceStatus)){
-                        root_date_chat.visibility = View.GONE
-                        setFragmentTopMargin(0)
-                        getApplyStatus()
+                    try{
+                        if(jsonObject.has("iVoiceStatus")){
+                            var iVoiceStatus = jsonObject.optString("iVoiceStatus")
+                            if(TextUtils.equals("4",iVoiceStatus)){
+                                root_date_chat.visibility = View.GONE
+                                setFragmentTopMargin(0)
+                                getApplyStatus()
+                            }
+                        }else{
+                            getApplyStatus()
+                        }
+                    }catch (e:java.lang.Exception){
+                        e.printStackTrace()
                     }
                 }
             }
@@ -1426,11 +1434,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //                }
 //            }
             context?.let {
-                mChatActivity.receiveMsgCount = mChatActivity.receiveMsgCount + 1
-                if(mChatActivity.receiveMsgCount>=3){
-                    mChatActivity.receiveMsgCount = 2
+                if(mChatActivity.sAppointType==6){
+                    mChatActivity.receiveMsgCount = mChatActivity.receiveMsgCount + 1
+                    if(mChatActivity.receiveMsgCount>=3){
+                        mChatActivity.receiveMsgCount = 2
+                    }
+                    mChatActivity.setChatAngle()
                 }
-                mChatActivity.setChatAngle()
             }
 //            context?.let { setTextViewSpannable(it,"剩余消息：${mChatActivity.sendCount}条",3,5,mChatActivity.tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers) }
         }

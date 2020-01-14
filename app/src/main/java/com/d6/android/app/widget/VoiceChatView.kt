@@ -98,7 +98,7 @@ class VoiceChatView @JvmOverloads constructor(context: Context, attrs: Attribute
             tv_voicechat_type.text = "无需打赏"
         }
 
-        tv_content.text = URLDecoder.decode(voiceChatData.sDesc,"UTF-8")
+        tv_content.text = voiceChatData.sDesc
 
         if (voiceChatData.sSourceAppointPic.isNullOrEmpty()) {
             rv_images.gone()

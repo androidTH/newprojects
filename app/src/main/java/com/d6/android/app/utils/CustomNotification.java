@@ -8,6 +8,8 @@ import android.util.Log;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.entity.UMessage;
 
+import java.text.SimpleDateFormat;
+
 /**
  * author : jinjiarui
  * time   : 2019/01/16
@@ -28,4 +30,5 @@ public class CustomNotification extends UmengMessageHandler {
         context.sendBroadcast(new Intent(Const.YOUMENG_MSG_NOTIFION));
         return super.getNotification(context, uMessage);
     }
+
 }

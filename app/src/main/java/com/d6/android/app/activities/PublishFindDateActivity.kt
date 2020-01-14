@@ -330,7 +330,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             iIsAnonymous = 1
             tv_unknow_sf.text = "匿名身份"
         }
-        date_headView.setImageURI(getLocalUserHeadPic())
+//        date_headView.setImageURI(getLocalUserHeadPic())
         getLocalFriendsCount()
     }
 
@@ -341,26 +341,32 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             line_datemoney.visibility = View.GONE
         }
         if(mDateType == 1){
+            date_headView.setImageURI("res:///"+R.mipmap.invitation_travel_feed)
             tv_title.text ="旅游"
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType == 2){
+            date_headView.setImageURI("res:///"+R.mipmap.invitation_meal_feed)
             tv_title.text ="吃饭"
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType==3){
+            date_headView.setImageURI("res:///"+R.mipmap.invitation_film_feed)
             tv_title.text ="看电影"
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType==4){
+            date_headView.setImageURI("res:///"+R.mipmap.drink_nolimit_feed)
             tv_title.text ="喝酒"
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType==5){
-            tv_title.text ="其他"
+            date_headView.setImageURI("res:///"+R.mipmap.invitation_nolimit_gray)
+            tv_title.text ="邀约"
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType==6){
+            date_headView.setImageURI("res:///"+R.mipmap.chat_nolimit_feed)
             et_content.hint = "介绍你自己，说一说你想聊的话题…"
             tv_title.text ="聊天"
 
@@ -377,16 +383,18 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             line_unknow.visibility = View.GONE
 
         }else if(mDateType==7){
+            date_headView.setImageURI("res:///"+R.mipmap.game_nolimit_feed)
             tv_title.text ="游戏"
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType==8){
+            date_headView.setImageURI("res:///"+R.mipmap.game_fitness_feed)
             tv_title.text = "健身"
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
         }else if(mDateType==9){
             et_content.hint = "介绍你自己，说一说你想聊的话题…"
-
+            date_headView.setImageURI("res:///"+R.mipmap.invitation_voicechat_default)
             tv_title.text = "连麦"
 
             tv_datearea.visibility = View.GONE

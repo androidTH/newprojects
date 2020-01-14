@@ -140,7 +140,7 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
         val width = mBitmap.getWidth()
         val height = mBitmap.getHeight()
 
-        overlay = Bitmap.createBitmap((width / scaleFactor).toInt(), (height / scaleFactor).toInt(), Bitmap.Config.ARGB_8888)
+        overlay = Bitmap.createBitmap((width / 10).toInt(), (height / 10).toInt(), Bitmap.Config.ARGB_8888)
         val canvas = Canvas(overlay)
         canvas.scale(1 / scaleFactor, 1 / scaleFactor)
         val paint = Paint()

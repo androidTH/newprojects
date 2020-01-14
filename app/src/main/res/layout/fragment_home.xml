@@ -112,7 +112,7 @@
                     android:textColor="@color/color_333333"
                     android:textSize="15sp"
                     android:textStyle="bold"
-                    android:text="自主约会"/>
+                    android:text="邀约"/>
 
                 <TextView
                     android:id="@+id/tv_datacount"

@@ -89,13 +89,32 @@
                 android:src="@mipmap/wechatpay_buttonicon" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_kefu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="@dimen/margin_20"
+            android:visibility="gone"
+            android:layout_marginRight="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_45"
+                android:background="@drawable/shape_4r_6dd"
+                android:gravity="center"
+                android:text="联系客服"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/tv_money_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
             android:visibility="gone"
-            android:text="温馨提示：支付金额大于3000元，超出微信支付的限额，请联系客服"
+            android:text="温馨提示：支付金额大于3000元，超出支付限额，请联系客服购买"
             android:textColor="@color/color_8888"
             android:textSize="12sp" />
     </LinearLayout>

@@ -102,7 +102,7 @@ class VoiceChatListView @JvmOverloads constructor(context: Context, attrs: Attri
             tv_voicechat_type.text = "无需打赏"
         }
 
-        tv_content.text = URLDecoder.decode(voiceChatData.content,"UTF-8")
+        tv_content.text = voiceChatData.content
 
         if (voiceChatData.imgUrl.isNullOrEmpty()) {
             rv_images.gone()

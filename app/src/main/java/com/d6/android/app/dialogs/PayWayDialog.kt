@@ -69,11 +69,17 @@ class PayWayDialog : DialogFragment(),RequestManager {
              dialogListener?.onClick(1,desc)
         }
 
+        rl_kefu.setOnClickListener {
+            chatService((context as BaseActivity))
+        }
+
         tv_money.text = "¥${money}"
         tv_money_desc.text = "购买${desc}"
         money?.let {
             if(it.isNotEmpty()){
                 if(it.toInt()>=3000){
+                    rl_kefu.visibility = View.VISIBLE
+                    rl_wechatpay.visibility = View.GONE
                     tv_money_tips.visibility = View.VISIBLE
                 }else{
                     tv_money_tips.visibility = View.GONE

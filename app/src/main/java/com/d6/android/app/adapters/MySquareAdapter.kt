@@ -18,7 +18,6 @@ import com.d6.android.app.models.Square
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.ThreadUtils.runOnUiThread
 import com.d6.android.app.widget.*
 import com.umeng.socialize.utils.Log.toast
 import org.jetbrains.anko.bundleOf

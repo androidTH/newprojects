@@ -66,7 +66,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                 Log.i("sssssss","${CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+data.targetId}申请约会${applay_date_type}")
                 if(applay_date_type){
                     tv_conversation_type.visibility = View.VISIBLE
-                    tv_conversation_type.text="申请邀约"
+                    tv_conversation_type.text="邀约"
                     var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_date)
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
                     tv_conversation_type.setCompoundDrawables(drawable, null, null, null)

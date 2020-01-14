@@ -78,7 +78,7 @@ object Const {
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"
 
     @JvmField
-    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","不限","聊天","游戏","健身","连麦") // 游戏
+    var dateTypes = arrayOf("旅行","吃饭","电影","喝酒","邀约","聊天","游戏","健身","连麦") // 游戏
     @JvmField
     var VoiceChatType = 9
 

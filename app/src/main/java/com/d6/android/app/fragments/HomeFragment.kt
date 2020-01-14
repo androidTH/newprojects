@@ -63,7 +63,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     override fun showAllDateNums(type: String, count: Int) {
-        tv_datacount.text = "已有${count}人约会成功"
+        tv_datacount.text = "已有${count}人邀约成功"
     }
 
 //    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(VoiceChatType),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(4))
