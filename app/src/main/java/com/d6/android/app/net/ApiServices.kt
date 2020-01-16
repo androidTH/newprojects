@@ -232,7 +232,7 @@ interface ApiServices {
 
     //积分充值列表
     @POST("backstage/userpointrule/find")
-    fun getUserPointsRule(@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<ArrayList<PointRule>>>
+    fun getUserPointsRule(@Query("sVersion") sVersion:String = getAppVersion(),@Query("sLoginToken")sLoginToken:String= getLoginToken()):Flowable<Response<ArrayList<PointRule>>>
 
     //获取用户消费的积分
     @POST("backstage/userpoint/find")

@@ -34,4 +34,5 @@ class ImageLocalPagerAdapter(fm: FragmentManager,listFragments: SparseArray<Frag
     override fun getCount(): Int {
         return mListFragments.size()
     }
+
 }

@@ -387,6 +387,14 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             tv_title.text ="游戏"
             line_unknow.visibility = View.GONE
             ll_voicechat_choose.visibility = View.GONE
+            tv_datearea.visibility = View.GONE
+            tv_area.visibility = View.GONE
+            line_area.visibility = View.GONE
+
+            tv_endtime_name.visibility = View.GONE
+            tv_endTime.visibility = View.GONE
+            line_datemoney.visibility = View.GONE
+
         }else if(mDateType==8){
             date_headView.setImageURI("res:///"+R.mipmap.game_fitness_feed)
             tv_title.text = "健身"
@@ -542,7 +550,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 return false
             }
 
-            if(mDateType!=6){
+            if(mDateType!=6&&mDateType!=7){
                 if (area.isNullOrEmpty()) {
                     showToast("请选择城市所属地区")
                     return false
@@ -554,7 +562,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 return false
             }
 
-            if(mDateType!=6){
+            if(mDateType!=6&&mDateType!=7){
                 if(mCostIndex== 0&&TextUtils.equals("1", getUserSex())){
                     showToast("请选择约会费用")
                     return false

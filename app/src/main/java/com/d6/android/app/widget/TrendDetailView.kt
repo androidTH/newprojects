@@ -194,10 +194,8 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         }catch (e:Exception){
             e.printStackTrace()
         }
+        tv_content.text = square.content
 
-        if(square.content!!.isNotEmpty()){
-            tv_content.text = square.content
-        }
         if(square.iResourceType==3){
             rv_images.visibility = View.GONE
             rl_root_audio.visibility = View.GONE

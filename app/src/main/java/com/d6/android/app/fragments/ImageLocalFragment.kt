@@ -21,6 +21,8 @@ import com.davemorrissey.labs.subscaleview.ImageViewState
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.facebook.drawee.backends.pipeline.Fresco
 import kotlinx.android.synthetic.main.fragment_image.*
+import java.lang.Exception
+
 /**
  * 图片Fragment
  */
@@ -56,18 +58,22 @@ class ImageLocalFragment : BaseNoBarFragment() {
         sampimgview.setZoomEnabled(true)
         FrescoUtils.loadImage(context,"file://"+path,object: IResult<Bitmap> {
             override fun onResult(result: Bitmap?) {
-                result?.let {
-                    var mlistWH = BitmapUtils.getWidthHeight("${path}")
-                    val width = ScreenUtil.getScreenWidth(AppUtils.context)
-                    val scaleW = width / mlistWH[0].toFloat()
-                    if (BitmapUtils.isLongImage(context,mlistWH)) {
-                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
-                        sampimgview.setImage(ImageSource.uri("${path}"))
-                        sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
-                    } else {
-                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
-                        sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
+                try{
+                    result?.let {
+                        var mlistWH = BitmapUtils.getWidthHeight("${path}")
+                        val width = ScreenUtil.getScreenWidth(AppUtils.context)
+                        val scaleW = width / mlistWH[0].toFloat()
+                        if (BitmapUtils.isLongImage(context,mlistWH)) {
+                            sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
+                            sampimgview.setImage(ImageSource.uri("${path}"))
+                            sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
+                        } else {
+                            sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
+                            sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
+                        }
                     }
+                }catch (e:Exception){
+                    e.printStackTrace()
                 }
             }
         })

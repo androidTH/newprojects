@@ -103,8 +103,10 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         mImageLocalViewPager.currentItem = position
         mImageLocalViewPager.offscreenPageLimit = urls.size
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
-        if (urls != null) {
+        if (urls != null&&urls.size>0) {
             tv_dowork.text = "完成·${urls.size}"
+        }else{
+            tv_dowork.text = "完成"
         }
 
         type = intent.getIntExtra(TYPE, 0)
@@ -127,9 +129,11 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 //                    Const.mLocalBlurMap.forEach { t, u ->
 //                        mPayPointsHashMap.put(t, u)
 //                    }
-                    var path = urls[position]
-                    var checked = mPayPointsHashMap[path] as Boolean
-                    mPayPointsHashMap.put(path, setPayPointPic(checked))
+                    if(urls!=null&&urls.size>0){
+                        var path = urls[position]
+                        var checked = mPayPointsHashMap[path] as Boolean
+                        mPayPointsHashMap.put(path, setPayPointPic(checked))
+                    }
                 }else{
                     tv_paypoints.visibility = View.GONE
                 }
@@ -140,9 +144,11 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_delete.gone()
             if(mShowPayPoints){
                 tv_paypoints.visibility = View.VISIBLE
-                var path = urls[position]
-                var checked = mPayPointsHashMap[path] as Boolean
-                mPayPointsHashMap.put(path, setPayPointPic(checked))
+                if(urls!=null&&urls.size>0){
+                    var path = urls[position]
+                    var checked = mPayPointsHashMap[path] as Boolean
+                    mPayPointsHashMap.put(path, setPayPointPic(checked))
+                }
             }else{
                 tv_paypoints.visibility = View.GONE
             }
@@ -193,7 +199,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mPayPointsHashMap.remove(path)
             var mImagelocals = Imagelocals(urls,0,p,mPayPointsHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
-            if (urls.size > 0) {
+            if (urls!=null&&urls.size > 0) {
                 var size = if (urls!!.size < (p + 1)) {
                     urls!!.size
                 } else {
@@ -206,7 +212,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             } else {
                 onBackPressed()
             }
-        }catch (e:java.lang.Exception){
+        }catch (e:Exception){
             e.printStackTrace()
         }
     }
@@ -263,11 +269,13 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     private fun updatePayPoints(position:Int){
         if(mShowPayPoints){
-            var path = urls[position]
-            var obj = mPayPointsHashMap[path]
-            if(obj!=null){
-                var checked = obj as Boolean
-                mPayPointsHashMap.put(path,setPayPointPic(checked))
+            if(urls!=null&&urls.size>0){
+                var path = urls[position]
+                var obj = mPayPointsHashMap[path]
+                if(obj!=null){
+                    var checked = obj as Boolean
+                    mPayPointsHashMap.put(path,setPayPointPic(checked))
+                }
             }
         }
     }
@@ -283,21 +291,23 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE && data != null) {
             var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY)
-            var path = urls[mImageLocalViewPager.currentItem]
-            urls[mImageLocalViewPager.currentItem] = param.images[param.index]
-            if(mListFragment.get(mImageLocalViewPager.currentItem)!=null){
-                var mImageLocal = mListFragment.get(mImageLocalViewPager.currentItem) as ImageLocalFragment
-                mImageLocal.setNewPic(urls[mImageLocalViewPager.currentItem],false)
-            }
-            mHashMap.forEach{
-                var flag = it.value
-                if(!flag){
-                    mNoChooseUrls.add(urls[it.key])
+            if(urls!=null&&urls.size>0){
+                var path = urls[mImageLocalViewPager.currentItem]
+                urls[mImageLocalViewPager.currentItem] = param.images[param.index]
+                if(mListFragment.get(mImageLocalViewPager.currentItem)!=null){
+                    var mImageLocal = mListFragment.get(mImageLocalViewPager.currentItem) as ImageLocalFragment
+                    mImageLocal.setNewPic(urls[mImageLocalViewPager.currentItem],false)
                 }
-            }
-            if(mShowPayPoints){
-              var blur = mPayPointsHashMap.remove(path)
-                blur?.let { mPayPointsHashMap.put(urls[mImageLocalViewPager.currentItem], it) }
+                mHashMap.forEach{
+                    var flag = it.value
+                    if(!flag){
+                        mNoChooseUrls.add(urls[it.key])
+                    }
+                }
+                if(mShowPayPoints){
+                    var blur = mPayPointsHashMap.remove(path)
+                    blur?.let { mPayPointsHashMap.put(urls[mImageLocalViewPager.currentItem], it) }
+                }
             }
         }
     }

@@ -112,7 +112,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             iv_date_timeout.visibility = View.VISIBLE
         }
 
-        if(index!=5){
+        if(index!=5&&index!=6){
             tv_self_address.visibility = View.VISIBLE
             tv_self_address.text = "约会地点：${myAppointment.sPlace}"
             tv_self_money.visibility = View.VISIBLE

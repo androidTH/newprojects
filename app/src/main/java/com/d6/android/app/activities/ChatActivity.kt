@@ -54,11 +54,13 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_agree_bottom
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_no_bottom
 import kotlinx.android.synthetic.main.layout_date_chat.*
+import kotlinx.coroutines.experimental.channels.Send
 import org.jetbrains.anko.*
 import org.json.JSONObject
 import java.net.URLEncoder
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.max
 
 
 //聊天
@@ -78,6 +80,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     private var mGroupIdSplit:List<String> =ArrayList<String>()
     private var ISNOTYAODATE = 1// 1邀约  2赴约
     private var iCanTalk:Int = 2 //1 已解锁  2未解锁
+    private var hasReceiveMsg:Boolean = false
 
     private var mRongReceiveMessage:rongReceiveMessage?=null
 
@@ -997,18 +1000,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     private fun checkTalkJustify() {
         Request.doTalkJustifyNew(userId,if(iType==2)  mTargetId else mOtherUserId ,iType).request(this, false, success = { msg, data ->
             if (data != null) {
-//                var code = data.optInt("iTalkType")
-//                if (code == 2) {//已发送3次聊天消息，需要解锁无限畅聊
-//                    tv_openchat_tips_title.text = resources.getString(R.string.string_openchangchat)
-//                    tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_points)
-//                    fragment?.doIsNotSendMsg(true,resources.getString(R.string.string_pay_points_openchangchat))
-//                } else if (code == 1) {//发送3次聊天消息以内，允许继续发送消息
-//                    var iTalkCount = data.optInt("iTalkCount")
-//                    sendCount = SendMsgTotal - iTalkCount
-//                    tv_openchat_tips_title.text = String.format(getString(R.string.string_openchat_sendcount_msg), sendCount)
-//                    tv_openchat_tips.text = resources.getString(R.string.string_openchat_pay_nopoints)
-//                    Log.i(TAG, "${SendMsgTotal}发送消息数量")
-//                }
                 var code = data.optInt("code")
                 if(code==2){
                     sendCount = data.optInt("iTalkCount")
@@ -1373,23 +1364,38 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
 
     private fun setChatAngle(){
-        if(receiveMsgCount==3){//>=1&&SendMsgCount<=2
-            progressAngle = progressAngle + 1.0f
+        if(SendMsgCount>3){
+            Log.i("onSentchat","收到：${receiveMsgCount},发出：${SendMsgCount}")
+            SendMsgCount = 1
             receiveMsgCount = 0
+        }else if(receiveMsgCount >3){
+            Log.i("onSentchat","收到：${receiveMsgCount},发出：${SendMsgCount}")
             SendMsgCount = 0
-            updateProgress(progressAngle.toInt())
-        }else if(SendMsgCount==1&&receiveMsgCount==2){
-            progressAngle = progressAngle + 1.0f
+            receiveMsgCount = 1
+        }else if(SendMsgCount==3&&receiveMsgCount == 1){
+            SendMsgCount = 1
             receiveMsgCount = 0
+        }else if(receiveMsgCount==3&&SendMsgCount==1){
             SendMsgCount = 0
-            updateProgress(progressAngle.toInt())
-        }else if(SendMsgCount==2&&receiveMsgCount==1){
+            receiveMsgCount = 1
+        }else if (SendMsgCount == 1 && receiveMsgCount == 1) {
             progressAngle = progressAngle + 1.0f
-            receiveMsgCount = 0
-            SendMsgCount = 0
-
             updateProgress(progressAngle.toInt())
+            Log.i("onSentchat","收到：${receiveMsgCount},发出：${SendMsgCount}")
+        }else if (SendMsgCount == 1 && receiveMsgCount==2) {
+            progressAngle = progressAngle + 1.0f
+            updateProgress(progressAngle.toInt())
+            Log.i("onSentchat","收到：${receiveMsgCount},发出：${SendMsgCount}")
+            SendMsgCount = 1
+//            receiveMsgCount=1
+        } else if (SendMsgCount==2 && receiveMsgCount == 1) {
+            progressAngle = progressAngle + 1.0f
+            updateProgress(progressAngle.toInt())
+            Log.i("onSentchat","收到：${receiveMsgCount},发出：${SendMsgCount}")
+//            SendMsgCount = 0
+            receiveMsgCount=1
         }
+        Log.i("onSentchat","收到：${receiveMsgCount},发出：${SendMsgCount}")
         var Angle_nums = (Max_Angle/100)*progressAngle
         circlebarview.setProgressNum(Angle_nums,0)
         tv_progress.text = "${progressAngle.toInt()}%"
@@ -1400,17 +1406,56 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }
     }
 
+    private fun getLastMessage(direction:Message.MessageDirection){
+        var maxCount = 0
+        maxCount=3
+        var hasMessage:Boolean =false
+        try{
+            RongIM.getInstance().getHistoryMessages(mConversationType,mOtherUserId,-1,maxCount,object : RongIMClient.ResultCallback<List<Message>>(){
+                override fun onSuccess(p0: List<Message>?) {
+                    if(p0!=null&&p0.size>0){
+                        for(index in 0.. (p0.size-1)){
+                            if(p0[index].objectName.contains("RC:")){
+                                if(p0[index].messageDirection==direction){
+                                    hasMessage=true
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    if(hasMessage){
+                        progressAngle = progressAngle + 1.0f
+                        updateProgress(progressAngle.toInt())
+                        var Angle_nums = (Max_Angle/100)*progressAngle
+                        circlebarview.setProgressNum(Angle_nums,0)
+                        tv_progress.text = "${progressAngle.toInt()}%"
+                        Log.i("onSentchat", "发送了消息成功${progressAngle}")
+
+                        if(progressAngle>=100){
+                            updateDateStatus(sAppointmentSignupId,2)
+                        }
+                    }
+                }
+
+                override fun onError(p0: RongIMClient.ErrorCode?) {
+
+                }
+            })
+        }catch (e:java.lang.Exception){
+            e.printStackTrace()
+        }
+
+    }
+
     override fun onSent(p0: Message?, p1: RongIM.SentMessageErrorCode?): Boolean {
         p0?.let {
             if (checkKFService(mOtherUserId)) {
 //                if (TextUtils.equals("1", sex)) {
-                if (IsAgreeChat||(sAppointType==6)) {
+                if (sAppointType==6&&iCanTalk==2) {
                     if (p1 == null) {
-                        SendMsgCount = SendMsgCount +1
-                        if(SendMsgCount>=3){
-                            SendMsgCount=2
-                        }
-                        setChatAngle()
+//                        SendMsgCount = SendMsgCount +1
+//                        setChatAngle()
+                        getLastMessage(Message.MessageDirection.RECEIVE)
 //                        checkTalkJustify()
                     }
                 }
@@ -1426,20 +1471,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             mChatActivity = chatActivity
         }
         override fun onReceive(context: Context?, intent: Intent?) {
-//            if(mChatActivity.SendMsgTotal!=-1&&mChatActivity.sAppointmentSignupId.isNotEmpty()){
-//                mChatActivity.sendCount = mChatActivity.sendCount - 1
-//                if(mChatActivity.sendCount<= 0){
-//                    mChatActivity.fragment?.doIsNotSendMsg(true,mChatActivity.getString(R.string.string_applay_date_tips))
-//                    mChatActivity.sendCount = 0
-//                }
-//            }
             context?.let {
-                if(mChatActivity.sAppointType==6){
-                    mChatActivity.receiveMsgCount = mChatActivity.receiveMsgCount + 1
-                    if(mChatActivity.receiveMsgCount>=3){
-                        mChatActivity.receiveMsgCount = 2
-                    }
-                    mChatActivity.setChatAngle()
+                if(mChatActivity.sAppointType==6&&mChatActivity.iCanTalk==2){
+//                    mChatActivity.receiveMsgCount = mChatActivity.receiveMsgCount + 1
+//                    mChatActivity.setChatAngle()
+                    mChatActivity.getLastMessage(Message.MessageDirection.SEND)
                 }
             }
 //            context?.let { setTextViewSpannable(it,"剩余消息：${mChatActivity.sendCount}条",3,5,mChatActivity.tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers) }

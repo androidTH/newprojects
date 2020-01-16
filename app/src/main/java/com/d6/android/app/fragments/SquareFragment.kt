@@ -381,7 +381,7 @@ class SquareFragment : RecyclerFragment() {
                        var sq = it.getSerializableExtra("bean") as Square
                        if(sq!=null){
                            var index = mSquares.indexOf(sq)
-                           if (mSquares != null && mSquares.size > index) {
+                           if (mSquares != null && mSquares.size > index&&index!=-1) {
                                if (sq != null) {
                                    mSquares.get(index).sIfLovePics = sq.sIfLovePics
                                    mSquares.get(index).iLovePoint = sq.iLovePoint
