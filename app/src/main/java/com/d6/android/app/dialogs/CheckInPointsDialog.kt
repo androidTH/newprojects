@@ -130,6 +130,7 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
                      }else{
                          mRewardTipsDialog.arguments = bundleOf("points" to "${points}")
                      }
+                     dialogListener?.onClick(1,"")
                      if(it.has("sAddPointDesc")){
                          var sAddPointDesc = it.optString("sAddPointDesc")
                      }
