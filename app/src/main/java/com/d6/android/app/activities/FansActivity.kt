@@ -85,7 +85,11 @@ class FansActivity : RecyclerActivity() {
 
     override fun onResume() {
         super.onResume()
-        getData()
+        try{
+            getData()
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     private fun getData() {
