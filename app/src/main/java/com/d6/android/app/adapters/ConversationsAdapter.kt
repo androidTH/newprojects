@@ -82,7 +82,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             var groupbean = RongUserInfoManager.getInstance().getGroupInfo(data.targetId)
             if (groupbean != null) {
                 tv_name.text = groupbean.name
-                headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
+                headView.setImageURI("res:///"+R.mipmap.quanguo_icon)//quanguo_icon //nimingtouxiang_small
             }else{
                 tv_name.text = "匿名"
                 headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)

@@ -158,4 +158,5 @@
     <string name="string_nowonline">当前状态</string>
     <string name="string_liked_give_other">把喜欢的机会留给别人吧</string>
     <string name="string_sex">性别</string>
+    <string name="string_group">群聊</string>
 </resources>

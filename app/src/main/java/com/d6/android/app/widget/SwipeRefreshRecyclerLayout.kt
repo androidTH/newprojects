@@ -9,9 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
@@ -34,7 +32,8 @@ class SwipeRefreshRecyclerLayout : SwipeRefreshLayout, SwipeRefreshLayout.OnRefr
     private var lastVisibleItem = 0
     private var lastPositions: IntArray? = null
     private var loadMoreBgColor = Color.TRANSPARENT
-
+    private var mTouchSlop:Int = 0;
+    private var mPrevX:Float=0.0f;
 
     constructor(context: Context) : super(context) {
         init()
@@ -45,6 +44,7 @@ class SwipeRefreshRecyclerLayout : SwipeRefreshLayout, SwipeRefreshLayout.OnRefr
     }
 
     internal fun init() {
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         mRecyclerView = RecyclerView(context)
         mRecyclerView.setHasFixedSize(true)
         mRecyclerView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
@@ -52,6 +52,7 @@ class SwipeRefreshRecyclerLayout : SwipeRefreshLayout, SwipeRefreshLayout.OnRefr
         addView(mRecyclerView)
         setOnRefreshListener(this)
         setMode(mode)
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
     }
 
     private val onScrollListener = object : RecyclerView.OnScrollListener() {
@@ -91,6 +92,23 @@ class SwipeRefreshRecyclerLayout : SwipeRefreshLayout, SwipeRefreshLayout.OnRefr
         override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
         }
+    }
+
+    override fun onInterceptTouchEvent(event: MotionEvent?): Boolean {
+        event?.let {
+            when (event.getAction()) {
+                MotionEvent.ACTION_DOWN -> mPrevX = MotionEvent.obtain(event).x
+
+                MotionEvent.ACTION_MOVE -> {
+                    val eventX = event.getX()
+                    val xDiff = Math.abs(eventX - mPrevX)
+                    if (xDiff > mTouchSlop) {
+                        return false
+                    }
+                }
+            }
+        }
+        return super.onInterceptTouchEvent(event)
     }
 
     fun smoothScrollToPosition(position: Int) {
