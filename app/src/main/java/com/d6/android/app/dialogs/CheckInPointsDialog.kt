@@ -29,7 +29,6 @@ import org.jetbrains.anko.wrapContent
  */
 class CheckInPointsDialog : DialogFragment(),RequestManager {
 
-
     private var checkInDays = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -130,6 +129,7 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
                      }else{
                          mRewardTipsDialog.arguments = bundleOf("points" to "${points}")
                      }
+                     dialogListener?.onClick(1,"")
                      if(it.has("sAddPointDesc")){
                          var sAddPointDesc = it.optString("sAddPointDesc")
                      }
