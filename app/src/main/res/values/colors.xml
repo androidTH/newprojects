@@ -172,4 +172,8 @@
     <color name="my_bg_end">#FF7954</color>
     <color name="my_bg_selected_start">#B63C27</color>
     <color name="my_bg_selected_end">#E95A33</color>
+
+
+    <color name="colorFocus">#FF4081</color>
+    <color name="colorDefault">#eaeaea</color>
 </resources>

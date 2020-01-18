@@ -12,6 +12,7 @@ import com.d6.android.app.adapters.ConversationsAdapter
 import com.d6.android.app.adapters.GroupListAdapter
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseFragment
+import com.d6.android.app.dialogs.JoinGroupDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.Page
@@ -229,6 +230,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         }
 
                         view.findViewById<TextView>(R.id.tv_joingroup).setOnClickListener {
+                            var mJoinGroupDialog = JoinGroupDialog()
+                            mJoinGroupDialog.show(activity.supportFragmentManager,"joingroup")
                             mCirclePop!!.dismiss()
                         }
                         view.findViewById<TextView>(R.id.tv_search_users).setOnClickListener {
