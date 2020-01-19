@@ -170,7 +170,9 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             var flag = mHashMap[p] as Boolean
             mHashMap.put(p,setCheckPic(!flag))
             if(flag){
-                mPayPointsHashMap.put(urls[p],setPayPointPic(!flag))
+                if(urls!=null&&urls.size>0){
+                    mPayPointsHashMap.put(urls[p],setPayPointPic(!flag))
+                }
             }
             chooseCount = setNoChooseUrls()
             tv_dowork.text = "完成·${chooseCount}"
@@ -179,8 +181,10 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         tv_paypoints.setOnClickListener {
             var p = mImageLocalViewPager.currentItem
             var checked = mPayPointsHashMap[urls[p]] as Boolean
-            mPayPointsHashMap.put(urls[p],setPayPointPic(!checked))
+            if(urls!=null&&urls.size>0){
+                mPayPointsHashMap.put(urls[p],setPayPointPic(!checked))
 
+            }
             if(!checked){
                 chooseCount = 0
                 mNoChooseUrls.clear()
