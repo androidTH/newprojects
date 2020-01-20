@@ -39,8 +39,9 @@
         android:paddingRight="@dimen/margin_15"
         android:paddingTop="@dimen/margin_8"
         android:paddingBottom="@dimen/margin_8">
+
         <EditText
-            android:id="@+id/et_searchfriends"
+            android:id="@+id/et_searchusers"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:drawableLeft="@mipmap/search_gray_input"
@@ -54,6 +55,15 @@
             android:paddingRight="@dimen/margin_10"
             android:imeOptions="actionSearch"
             android:background="@drawable/shape_10r_white"/>
+        <ImageView
+            android:id="@+id/iv_search_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_13"
+            android:visibility="gone"
+            android:src="@mipmap/input_clear_icon"/>
     </RelativeLayout>
     <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
         android:id="@+id/swipeRefreshLayout"

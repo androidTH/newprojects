@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.d6.android.app.R
@@ -51,14 +54,33 @@ class GroupUsersActivity : BaseActivity() {
             finish()
         }
 
-        et_searchfriends.setOnEditorActionListener { v, actionId, event ->
+        et_searchusers.setOnEditorActionListener { v, actionId, event ->
             if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                 sUserName = et_searchfriends.text.toString().trim()
+                 sUserName = et_searchusers.text.toString().trim()
                  pullDownRefresh()
-                 hideSoftKeyboard(et_searchfriends)
+                 hideSoftKeyboard(et_searchusers)
                  true
             }
              false
+        }
+
+        et_searchusers.addTextChangedListener(object:TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (TextUtils.isEmpty(s)) {
+                    iv_search_clear.setVisibility(View.GONE)
+                } else {
+                    iv_search_clear.setVisibility(View.VISIBLE)
+                }
+            }
+        })
+        iv_search_clear.setOnClickListener {
+            et_searchusers.text.clear()
         }
     }
 
