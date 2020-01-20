@@ -1,3 +1,4 @@
 include ':app', ':IMLib', ':IMKit', ':cachelib', ':umeng_sdk', ':multi-image-selector',
         ':cardlib', ':sticker',"library"
 include   "jiaozivideoplayer",":update-app",':CallLib',':CallKit',':recorderlib'
+include ":RCSticker"

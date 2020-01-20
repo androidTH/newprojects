@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.rong.imkit.DefaultExtensionModule;
 import io.rong.imkit.RongExtension;
+import io.rong.imkit.emoticon.EmojiTab;
 import io.rong.imkit.emoticon.IEmoticonTab;
 import io.rong.imkit.plugin.CombineLocationPlugin;
 import io.rong.imkit.plugin.IPluginModule;
@@ -96,6 +97,9 @@ public class D6ExtensionModule extends DefaultExtensionModule {
 
     @Override
     public List<IEmoticonTab> getEmoticonTabs() {
+//        List<IEmoticonTab> EmoticonTabs = super.getEmoticonTabs();
+//        EmoticonTabs.add(new EmojiTab());
+//        EmoticonTabs.add(new FlowerEmoticonTab());
         return super.getEmoticonTabs();
     }
 }

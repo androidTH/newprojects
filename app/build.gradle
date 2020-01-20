@@ -13,8 +13,8 @@ android {
         applicationId "com.d6.android.app"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 64 //32 2.2.1
-        versionName "3.3.0"
+        versionCode 67 //32 2.2.1
+        versionName "3.3.1"
         // Enabling multiDex support.
         multiDexEnabled true
         ndk {
@@ -146,6 +146,7 @@ dependencies {
     compile project(':update-app')
     compile project(':jiaozivideoplayer')
     compile project(':recorderlib')
+//    compile project(':RCSticker')
 
     //下拉刷新库
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-28'
@@ -166,7 +167,7 @@ dependencies {
     //    compile 'com.github.zcweng:switch-button:0.0.3@aar'
 
     //debug 包
-    debugCompile 'com.bugtags.library:bugtags-lib:3.1.1'
+//    debugCompile 'com.bugtags.library:bugtags-lib:3.1.1'
     implementation files('libs/MiPush_SDK_Client_3_6_12.jar')
     implementation 'com.huawei.android.hms:push:2.6.1.301'
     implementation 'com.umeng.umsdk:common:1.5.4'
