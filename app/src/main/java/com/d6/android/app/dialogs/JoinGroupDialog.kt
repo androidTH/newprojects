@@ -9,24 +9,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.activities.JoinGroupActivity
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.models.IntegralExplain
+import com.d6.android.app.models.MyAppointment
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.CustomToast
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.dialog_payway.*
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
+import kotlinx.android.synthetic.main.dialog_date_send.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.dip
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 /**
- * 支付
+ * 约会发送
  */
-class PayWayDialog : DialogFragment(),RequestManager {
+class JoinGroupDialog : DialogFragment(),RequestManager {
 
-    private val point_nums by lazy {
-        SPUtils.instance().getString(Const.User.USERPOINTS_NUMS)
+    private val userId by lazy {
+        SPUtils.instance().getString(Const.User.USER_ID)
     }
+
+    private var myAppointment:MyAppointment?=null
+    private var fromType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,45 +64,22 @@ class PayWayDialog : DialogFragment(),RequestManager {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater?.inflate(R.layout.dialog_payway, container, false)
+            inflater?.inflate(R.layout.dialog_joingroup, container, false)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var money =arguments.getString("money")
-        var desc =arguments.getString("classname")
         tv_close.setOnClickListener {
+            isBaseActivity {
+                startActivity<JoinGroupActivity>("groupId" to "12345")
+            }
             dismissAllowingStateLoss()
         }
 
-        rl_alipay.setOnClickListener {
-            dialogListener?.onClick(2,"支付宝支付")
-        }
-
-        rl_wechatpay.setOnClickListener {
-             dialogListener?.onClick(1,desc)
-        }
-
-        rl_kefu.setOnClickListener {
-            chatService((context as BaseActivity))
-        }
-
-        tv_money.text = "¥${money}"
-        tv_money_desc.text = "购买${desc}"
-//        money?.let {
-//            if(it.isNotEmpty()){
-//                if(it.toInt()>=3000){
-//                    rl_kefu.visibility = View.VISIBLE
-//                    rl_wechatpay.visibility = View.GONE
-//                    tv_money_tips.visibility = View.VISIBLE
-//                }else{
-//                    tv_money_tips.visibility = View.GONE
-//                }
-//            }
-//        }
     }
 
     private fun getData() {
-        isBaseActivity{
+        dismissAllowingStateLoss()
+        isBaseActivity {
 
         }
     }

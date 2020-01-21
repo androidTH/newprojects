@@ -3,13 +3,18 @@ package com.d6.android.app.fragments
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.ConversationsAdapter
+import com.d6.android.app.adapters.GroupListAdapter
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseFragment
+import com.d6.android.app.dialogs.JoinGroupDialog
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.MyDate
 import com.d6.android.app.models.Page
 import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.models.SysMessage
@@ -21,6 +26,9 @@ import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.d6.android.app.widget.popup.EasyPopup
+import com.d6.android.app.widget.popup.XGravity
+import com.d6.android.app.widget.popup.YGravity
 import io.rong.imkit.RongContext
 import io.rong.imkit.RongIM
 import io.rong.imkit.userInfoCache.RongUserInfoManager
@@ -29,6 +37,8 @@ import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.startActivityForResult
+import org.jetbrains.anko.support.v4.toast
 import java.lang.Exception
 
 /**
@@ -47,6 +57,11 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
     private val conversationsAdapter by lazy {
         ConversationsAdapter(mConversations)
+    }
+
+    private val mGroupList = ArrayList<MyDate>()
+    private val mGroupListAdapter by lazy {
+        GroupListAdapter(mGroupList)
     }
 
 //    private val topConversationsAdapter by lazy{
@@ -102,11 +117,15 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         }
 
         iv_msg_right.setOnClickListener {
-            startActivity<MessageSettingActivity>()
+//            startActivity<MessageSettingActivity>()
+            var mView = it
+            mCirclePop?.let {
+                it.showAtAnchorView(mView, YGravity.BELOW, XGravity.ALIGN_RIGHT, -23, -15)
+            }
         }
 
         tv_topsearch.setOnClickListener {
-            startActivity<SearchFriendsActivity>()
+            startActivity<MessageSettingActivity>()
         }
 
 
@@ -179,13 +198,53 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         getSysLastOne(SysMsg_time.toString())
         getSquareMsg(SquareMsg_time.toString())
 
-        if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
-            tv_topsearch.visibility = View.VISIBLE
-        }else{
-            tv_topsearch.visibility = View.GONE
-        }
+//        if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
+//            tv_topsearch.visibility = View.VISIBLE
+//        }else{
+//            tv_topsearch.visibility = View.GONE
+//        }
 
         checkPushIsNotShow()
+
+        initPopup()
+    }
+
+    private var mCirclePop: EasyPopup?=null
+    private fun initPopup(){
+        if (activity!= null) {
+            var mContentView  = LayoutInflater.from(activity).inflate(R.layout.popup_message_layout, null)
+            if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
+                mContentView.findViewById<View>(R.id.line_searchusers)?.visibility = View.VISIBLE
+                mContentView.findViewById<View>(R.id.tv_search_users)?.visibility = View.VISIBLE
+            }else{
+                mContentView.findViewById<View>(R.id.line_searchusers)?.visibility = View.VISIBLE
+                mContentView.findViewById<View>(R.id.tv_search_users)?.visibility = View.VISIBLE
+            }
+            mCirclePop = EasyPopup.create()
+                    .setContentView(mContentView)
+                    .setAnimationStyle(R.style.RightTop2PopAnim)
+                    .setOnViewListener { view, popup ->
+                        view.findViewById<TextView>(R.id.tv_creategroup).setOnClickListener {
+                            startActivity<GroupSettingActivity>()
+                            mCirclePop!!.dismiss()
+                        }
+
+                        view.findViewById<TextView>(R.id.tv_joingroup).setOnClickListener {
+                            var mJoinGroupDialog = JoinGroupDialog()
+                            mJoinGroupDialog.show(activity.supportFragmentManager,"joingroup")
+                            mCirclePop!!.dismiss()
+                        }
+                        view.findViewById<TextView>(R.id.tv_search_users).setOnClickListener {
+                            startActivity<SearchFriendsActivity>()
+                            mCirclePop!!.dismiss()
+                        }
+
+                    }
+                    //是否允许点击PopupWindow之外的地方消失
+                    .setFocusAndOutsideEnable(true)
+                    .apply()
+        }
+
     }
 
     private fun checkPushIsNotShow() {
@@ -294,6 +353,30 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             }
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+
+        if(IsNotNullHeaderiew()){
+            headerView.rv_grouplist.setHasFixedSize(true)
+            headerView.rv_grouplist.isNestedScrollingEnabled = true
+            headerView.rv_grouplist.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
+            headerView.rv_grouplist.adapter = mGroupListAdapter
+            mGroupListAdapter.setOnItemClickListener { _, position ->
+                val date = mGroupList[position]
+                startActivity<GroupSettingActivity>()
+            }
+            getGroupData()
+        }
+    }
+
+    private fun getGroupData() {
+        Request.findLookAboutList(getLocalUserId()).request(this,success = { _, data ->
+            mGroupList.clear()
+            data?.let {
+                mGroupList.addAll(it)
+            }
+            mGroupListAdapter.notifyDataSetChanged()
+        }) { code, msg ->
+            toast(msg)
         }
     }
 

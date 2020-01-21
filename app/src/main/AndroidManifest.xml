@@ -270,6 +270,9 @@
             android:name=".activities.MessageSettingActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.GroupSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.ChatActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -336,6 +339,8 @@
         <activity android:name=".activities.D6LoveHeartListActivity" />
         <activity android:name=".activities.AuthWomenStateActivity" />
         <activity android:name=".activities.MemberActivity" />
+        <activity android:name=".activities.JoinGroupActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activities.MyDateActivity" />
         <activity android:name=".activities.EditImageActivity"></activity>
         <activity android:name=".activities.BLBeautifyImageActivity"
@@ -354,6 +359,10 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
         <activity android:name=".activities.SearchFriendsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".activities.GroupUsersActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="orientation|keyboardHidden"/>
