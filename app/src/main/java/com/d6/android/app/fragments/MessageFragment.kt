@@ -225,7 +225,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                     .setAnimationStyle(R.style.RightTop2PopAnim)
                     .setOnViewListener { view, popup ->
                         view.findViewById<TextView>(R.id.tv_creategroup).setOnClickListener {
-                            startActivity<GroupSettingActivity>()
+                            startActivity<CreateGroupActivity>()
+//                            startActivity<GroupSettingActivity>()
                             mCirclePop!!.dismiss()
                         }
 

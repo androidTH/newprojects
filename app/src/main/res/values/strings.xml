@@ -159,4 +159,5 @@
     <string name="string_liked_give_other">把喜欢的机会留给别人吧</string>
     <string name="string_sex">性别</string>
     <string name="string_group">群聊</string>
+    <string name="string_groupname_hint">输入群名称（2-8个字）</string>
 </resources>

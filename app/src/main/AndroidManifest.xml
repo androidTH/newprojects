@@ -272,6 +272,10 @@
         <activity
             android:name=".activities.GroupSettingActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.CreateGroupActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ChatActivity"
             android:launchMode="singleTop"
