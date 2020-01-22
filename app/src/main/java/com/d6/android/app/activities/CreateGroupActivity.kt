@@ -15,9 +15,13 @@ import android.text.TextWatcher
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.SelectPhotosDialog
+import com.d6.android.app.extentions.request
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.AppUtils
+import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getUrlPath
 import kotlinx.android.synthetic.main.activity_creategroup.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import java.io.File
@@ -83,6 +87,22 @@ class CreateGroupActivity : TitleActivity() {
                 }
             }
         }
+
+        btn_creategroup.setOnClickListener {
+            var groupname = "${et_groupname.text}"
+            if(!TextUtils.isEmpty(groupname)){
+                if(groupname.length>=2&&groupname.length<=10){
+                    if(!TextUtils.isEmpty(headFilePath)){
+                        doCreateGroup()
+                    }else{
+                        startActivity<GroupSettingActivity>()
+                        toast("请上传群头像")
+                    }
+                }else{
+                    toast("群名称要求2-10个字")
+                }
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -124,6 +144,15 @@ class CreateGroupActivity : TitleActivity() {
                     }
                 }
             }
+        }
+    }
+
+    fun doCreateGroup(){
+        Request.uploadFile(File(headFilePath)).flatMap {
+            Request.findSquareTop()
+        }.request(this) { _, data ->
+            startActivity<GroupSettingActivity>()
+            finish()
         }
     }
 }

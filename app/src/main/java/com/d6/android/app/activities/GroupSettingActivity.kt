@@ -31,7 +31,7 @@ class GroupSettingActivity : TitleActivity() {
         rv_grouplist.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rv_grouplist.adapter = mGroupUserListAdapter
 
-        sw_message_notfaction.setOnCheckedChangeListener { buttonView, isChecked ->
+        sw_groupmessage_notfaction.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
 
             } else {

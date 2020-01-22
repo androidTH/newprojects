@@ -82,6 +82,7 @@ class JoinGroupDialog : DialogFragment(),RequestManager {
 
             isBaseActivity {
                 startActivity<JoinGroupActivity>("groupId" to "12345")
+                dismissAllowingStateLoss()
             }
 //            tv_title.text = "无此群，请验证群号码"
 //            tv_title.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
