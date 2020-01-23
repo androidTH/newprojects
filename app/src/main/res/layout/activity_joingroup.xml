@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_F7AB00"
-    android:orientation="vertical"
     android:fitsSystemWindows="true">
     <RelativeLayout
         android:id="@+id/rl_joingroup_toolbar"
@@ -34,7 +33,7 @@
             app:autoSizeTextType="uniform" />
     </RelativeLayout>
     <RelativeLayout
-        android:id="@+id/ll_hy_tq"
+        android:id="@+id/rl_joingroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_joingroup_toolbar"
@@ -139,6 +138,7 @@
 
     <RelativeLayout
         android:id="@+id/ll_joingroup_share"
+        android:layout_below="@+id/rl_joingroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_10"
@@ -202,4 +202,4 @@
                 android:textSize="12sp"/>
         </LinearLayout>
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

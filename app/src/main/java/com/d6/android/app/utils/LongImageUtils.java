@@ -48,6 +48,7 @@ import java.util.List;
 import me.nereo.multi_image_selector.utils.TimeUtils;
 
 import static com.d6.android.app.utils.UtilKt.getLevelDrawableOfClassName;
+import static com.d6.android.app.utils.UtilKt.getLocalUserHeadPic;
 
 /**
  * create by 893007592@qq.com
@@ -235,6 +236,23 @@ public class LongImageUtils {
         // 恢复状态
         canvas.restore();
         return newBitmap;
+    }
+
+    public Bitmap getJoinGroupBitmap(Activity activity,String name,String content,List<Bitmap> mBitmaps){
+        int itemWidth = ScreenUtil.getScreenWidth(activity);
+        View mJoinGrooupLayout = activity.getLayoutInflater().inflate(R.layout.joingroup_share, null);
+        CircleImageView groupheaderView = getViewById(mJoinGrooupLayout,R.id.groupheaderview_share);
+        SimpleDraweeView iv_joingroup_qcode = getViewById(mJoinGrooupLayout,R.id.iv_joingroup_qcode__share);
+        if(mBitmaps!=null&&mBitmaps.size()>0){
+            groupheaderView.setImageBitmap(mBitmaps.get(1));
+            iv_joingroup_qcode.setImageBitmap(mBitmaps.get(0));
+        }
+        mJoinGrooupLayout.measure(View.MeasureSpec.makeMeasureSpec(itemWidth , View.MeasureSpec.EXACTLY), 0);
+        mJoinGrooupLayout.layout(0, 0, itemWidth, mJoinGrooupLayout.getMeasuredHeight());
+        mJoinGrooupLayout.setDrawingCacheEnabled(true);
+        mJoinGrooupLayout.buildDrawingCache();
+        mJoinGrooupLayout.setDrawingCacheBackgroundColor(Color.WHITE);
+        return mJoinGrooupLayout.getDrawingCache();
     }
 
     public Bitmap getInviteGoodFriendsBitmap(Activity activity,String name,String content,List<Bitmap> mBitmaps){
