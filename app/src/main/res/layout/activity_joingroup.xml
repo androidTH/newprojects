@@ -69,10 +69,10 @@
             android:layout_below="@+id/tv_groupname"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_20"
-            android:text="274023"
+            android:letterSpacing="0.6"
             android:textColor="@color/color_black"
             android:textStyle="bold"
-            android:textSize="22sp" />
+            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/btn_joingroup"
@@ -85,8 +85,9 @@
             android:background="@drawable/shape_setting_bg"
             android:gravity="center"
             android:text="申请加入该群"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:textSize="@dimen/btnTextSize" />
+            android:textSize="15sp" />
 
         <RelativeLayout
             android:layout_below="@+id/btn_joingroup"

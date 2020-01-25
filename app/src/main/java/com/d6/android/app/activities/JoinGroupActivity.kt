@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.support.v4.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_joingroup.*
 import kotlinx.android.synthetic.main.joingroup_share.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.imageBitmap
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 import java.lang.ref.WeakReference
 
@@ -32,6 +34,8 @@ import java.lang.ref.WeakReference
  * 加入群
  */
 class JoinGroupActivity : BaseActivity() {
+
+    private var JoinGroupStatus:Int = 1 // 1 申请加入 2 正在审核 3 通过
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,10 +92,40 @@ class JoinGroupActivity : BaseActivity() {
         }
 //            ThreadPoolManager.getInstance().execute(mSaveBitmapRunnable) }
 
+        if(JoinGroupStatus==1){
+            btn_joingroup.textColor = ContextCompat.getColor(this,R.color.white)
+            btn_joingroup.text = "申请加入该群"
+            btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_setting_bg)
+        }else if(JoinGroupStatus==2){
+            btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_888888)
+            btn_joingroup.text = "正在审核中"
+            btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
+        }else{
+            btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_black)
+            btn_joingroup.text = "你已入群，打开群聊"
+            btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
+        }
+
         btn_joingroup.setOnClickListener {
-            var mApplayJoinGroupDialog = ApplayJoinGroupDialog()
-            mApplayJoinGroupDialog.arguments = bundleOf("groupId" to "234456")
-            mApplayJoinGroupDialog.show(supportFragmentManager,"joingroup")
+            if(JoinGroupStatus==1){
+                var mApplayJoinGroupDialog = ApplayJoinGroupDialog()
+                mApplayJoinGroupDialog.arguments = bundleOf("groupId" to "234456")
+                mApplayJoinGroupDialog.setDialogListener { p, s ->
+                    if(p==2){
+                        JoinGroupStatus = p
+                        btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_888888)
+                        btn_joingroup.text = "正在审核中"
+                        btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
+                    }else{
+                        btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_black)
+                        btn_joingroup.text = "你已入群，打开群聊"
+                        btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
+                    }
+                }
+                mApplayJoinGroupDialog.show(supportFragmentManager,"joingroup")
+            }else{
+
+            }
         }
 
         mHandler = JoinGroupActivity.DoHandler(this)

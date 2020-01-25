@@ -94,7 +94,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         headerView.rl_sys.setOnClickListener {
             headerView.iv1_sys_num.visibility = View.GONE
             SPUtils.instance().put(Const.SYSMSG_LAST_TIME, D6Application.systemTime).apply()
-            startActivity<SystemMessagesActivity>()
+            startActivity<SystemMessagesNewActivity>()
         }
 
         headerView.rl_square.setOnClickListener {

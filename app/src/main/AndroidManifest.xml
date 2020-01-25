@@ -263,6 +263,11 @@
         <activity
             android:name=".activities.SystemMessagesActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.SystemMessagesNewActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activities.SquareMessagesActivity"
             android:screenOrientation="portrait" />

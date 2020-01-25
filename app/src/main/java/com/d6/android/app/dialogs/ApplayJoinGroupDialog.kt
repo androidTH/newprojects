@@ -23,7 +23,6 @@ import org.jetbrains.anko.wrapContent
  */
 class ApplayJoinGroupDialog : DialogFragment(),RequestManager {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_FRAME, R.style.FadeDialog)
@@ -54,7 +53,8 @@ class ApplayJoinGroupDialog : DialogFragment(),RequestManager {
             isBaseActivity {
                 var content = et_content.text.toString().trim()
                 if(content.isNotEmpty()){
-
+                    dialogListener?.onClick(2,"加入成功")
+                    dismissAllowingStateLoss()
                 }else{
                     toast("请输入内容")
                 }

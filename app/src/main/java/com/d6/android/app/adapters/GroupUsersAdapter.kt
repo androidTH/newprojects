@@ -11,8 +11,10 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.GroupUserMoreDialog
+import com.d6.android.app.extentions.request
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.models.UserData
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.backgroundDrawable
@@ -72,7 +74,12 @@ class GroupUsersAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveH
                 var mGroupUserMoreDialog = GroupUserMoreDialog()
                 mGroupUserMoreDialog.arguments = bundleOf("userId" to "${data.iUserid}")
                 mGroupUserMoreDialog.setDialogListener { p, s ->
-
+                    if(p==1){
+                       setUserManager()
+                    }else if(p==2){
+                        mData.removeAt(position)
+                        notifyDataSetChanged()
+                    }
                 }
                 mGroupUserMoreDialog.show(it.supportFragmentManager,"cost")
             }
@@ -85,4 +92,13 @@ class GroupUsersAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveH
         }
     }
 
+    //设置管理员
+    private fun setUserManager(){
+        isBaseActivity {
+            it.dialog(canCancel = false)
+            Request.deleteSquare(getLocalUserId(), "").request(it) { _, _ ->
+                it.showToast("设置成功")
+            }
+        }
+    }
 }

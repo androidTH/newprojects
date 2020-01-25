@@ -46,8 +46,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_30"
         android:text="274023"
+        android:letterSpacing="0.6"
         android:textColor="@color/color_black"
-        android:textSize="25sp"
+        android:textSize="26sp"
         android:textStyle="bold" />
 
     <RelativeLayout

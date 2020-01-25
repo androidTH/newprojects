@@ -85,6 +85,17 @@
         <item name="roundingBorderColor">@color/color_1A000000</item>
     </style>
 
+    <style name="NoBorderWidthHeadStyle">
+        <item name="failureImage">@mipmap/headempty_coloricon</item>
+        <item name="placeholderImage">@mipmap/headempty_coloricon</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
+        <item name="failureImageScaleType">fitCenter</item>
+        <item name="viewAspectRatio">1</item>
+        <item name="roundedCornerRadius">6dp</item>
+        <item name="roundingBorderWidth">0.0dp</item>
+        <item name="roundAsCircle">true</item>
+    </style>
+
     <style name="DefaultNoHeadStyle">
         <item name="failureImage">@mipmap/headempty_coloricon</item>
         <item name="placeholderImage">@mipmap/headempty_coloricon</item>
