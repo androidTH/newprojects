@@ -13,6 +13,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.ApplayJoinGroupDialog
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.frescohelper.FrescoUtils
@@ -21,6 +22,8 @@ import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
 import com.umeng.socialize.media.UMImage
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_joingroup.*
 import kotlinx.android.synthetic.main.joingroup_share.*
 import org.jetbrains.anko.bundleOf
@@ -36,6 +39,9 @@ import java.lang.ref.WeakReference
 class JoinGroupActivity : BaseActivity() {
 
     private var JoinGroupStatus:Int = 1 // 1 申请加入 2 正在审核 3 通过
+    private var mGroupHeaderPic:String = ""
+    private var mGroupNum:String = ""
+    private var mGroupId:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +51,15 @@ class JoinGroupActivity : BaseActivity() {
                 .statusBarColor(R.color.trans_parent)
                 .init()
 
-        if(intent.hasExtra("groupId")){
-            tv_groupnumber.text = intent.getStringExtra("groupId")
+        if(intent.hasExtra("groupBean")){
+            var mGroupBean = intent.getParcelableExtra<NewGroupBean>("groupBean")
+            mGroupHeaderPic = "${mGroupBean.sGroupPic}"
+            mGroupNum = "${mGroupBean.iGroupNum}"
+            mGroupId = "${mGroupBean.sId}"
+            tv_groupnumber.text = "${mGroupNum}"
+            JoinGroupStatus = mGroupBean.iInGroup!!
+            tv_groupname.text = "${mGroupBean.sGroupName}"
+            groupheaderview.setImageURI("${mGroupHeaderPic}")
         }
 
         iv_back_close.setOnClickListener {
@@ -55,7 +68,7 @@ class JoinGroupActivity : BaseActivity() {
         tv_wxshare.setOnClickListener {
             mDoIndex = 1
             dialog()
-            FrescoUtils.loadImage(this, getLocalUserHeadPic(), object : IResult<Bitmap> {
+            FrescoUtils.loadImage(this, mGroupHeaderPic, object : IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
                         mBitmaps.add(result)
@@ -68,7 +81,7 @@ class JoinGroupActivity : BaseActivity() {
         tv_pengyougroupshare.setOnClickListener {
             mDoIndex = 2
             dialog()
-            FrescoUtils.loadImage(this, getLocalUserHeadPic(), object : IResult<Bitmap> {
+            FrescoUtils.loadImage(this,mGroupHeaderPic, object : IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
                         mBitmaps.add(result)
@@ -81,7 +94,7 @@ class JoinGroupActivity : BaseActivity() {
         tv_save_local.setOnClickListener {
             mDoIndex = 0
             dialog()
-            FrescoUtils.loadImage(this, getLocalUserHeadPic(), object : IResult<Bitmap> {
+            FrescoUtils.loadImage(this, mGroupHeaderPic, object : IResult<Bitmap> {
                 override fun onResult(result: Bitmap?) {
                     result?.let {
                         mBitmaps.add(result)
@@ -97,25 +110,24 @@ class JoinGroupActivity : BaseActivity() {
             btn_joingroup.text = "申请加入该群"
             btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_setting_bg)
         }else if(JoinGroupStatus==2){
-            btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_888888)
-            btn_joingroup.text = "正在审核中"
-            btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
-        }else{
             btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_black)
             btn_joingroup.text = "你已入群，打开群聊"
+            btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
+        }else{
+            btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_888888)
+            btn_joingroup.text = "正在审核中"
             btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
         }
 
         btn_joingroup.setOnClickListener {
             if(JoinGroupStatus==1){
                 var mApplayJoinGroupDialog = ApplayJoinGroupDialog()
-                mApplayJoinGroupDialog.arguments = bundleOf("groupId" to "234456")
+//                mApplayJoinGroupDialog.arguments = bundleOf("groupId" to "${mGroupId}")
                 mApplayJoinGroupDialog.setDialogListener { p, s ->
                     if(p==2){
-                        JoinGroupStatus = p
-                        btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_888888)
-                        btn_joingroup.text = "正在审核中"
-                        btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
+                        s?.let {
+                            applayToGroup(p,"${s}")
+                        }
                     }else{
                         btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_black)
                         btn_joingroup.text = "你已入群，打开群聊"
@@ -124,7 +136,7 @@ class JoinGroupActivity : BaseActivity() {
                 }
                 mApplayJoinGroupDialog.show(supportFragmentManager,"joingroup")
             }else{
-
+                RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,"${mGroupId}","${tv_groupname.text}")
             }
         }
 
@@ -193,7 +205,7 @@ class JoinGroupActivity : BaseActivity() {
 //            rl_joingroup_share.buildDrawingCache()
 //            rl_joingroup_share.setDrawingCacheBackgroundColor(Color.WHITE)
 //            var mBitmap = rl_joingroup_share.getDrawingCache()
-            var mBitmap = LongImageUtils.getInstance().getJoinGroupBitmap(this@JoinGroupActivity,"测试","偷偷的告诉你一款社交App，上门有很多高端优男女会员，多金有颜，都是经过人工审核的。还有专属客服24H为你提供交友、约会、线上群聊、线下聚会等私人定制服务。",mBitmaps)
+            var mBitmap = LongImageUtils.getInstance().getJoinGroupBitmap(this@JoinGroupActivity,"${tv_groupname.text}","${tv_groupnumber.text}",mBitmaps)
             sendHandlerMessage(mBitmap,mDoIndex)
         }
     }
@@ -231,6 +243,17 @@ class JoinGroupActivity : BaseActivity() {
                     activity.sharePlatFrom(msg.obj as Bitmap,SHARE_MEDIA.WEIXIN_CIRCLE)
                 }
             }
+        }
+    }
+
+    fun applayToGroup(p:Int,content:String){
+        Request.applyToGroup("${mGroupId}","${content}").request(this,false,success={msg,data->
+            JoinGroupStatus = p
+            btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_888888)
+            btn_joingroup.text = "正在审核中"
+            btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
+        }){code,msg->
+            toast(msg)
         }
     }
 

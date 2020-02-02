@@ -59,8 +59,7 @@
             android:layout_marginTop="@dimen/margin_10"
             android:textColor="@color/color_666666"
             android:textStyle="bold"
-            android:textSize="15sp"
-            android:text="全国APP群"/>
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/tv_groupnumber"

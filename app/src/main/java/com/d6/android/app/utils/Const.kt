@@ -49,6 +49,7 @@ object Const {
         var  SELECTIMAGE ="selectimage"
         var  USERPOINTS_NUMS = "UserPointNums"//用户积分数量
         var  USERLOVE_NUMS = "UserLoveNums"//用户爱心数量
+        var  USERISCREATE_GROUP = "iIsCreateGroup"//是否允许创建群聊字段
         var  SLOGINTOKEN ="sLoginToken"
 }
 

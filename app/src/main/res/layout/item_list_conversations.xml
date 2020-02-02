@@ -108,11 +108,15 @@
                 android:layout_below="@+id/tv_time"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/margin_8"
-                android:textColor="@color/color_999999"
-                android:drawableLeft="@mipmap/chatlist_chat"
-                android:drawablePadding="@dimen/margin_5"
-                android:textSize="10sp"
+                android:textColor="@color/color_F7B500"
+                android:background="@drawable/shape_2r_26f7a"
+                android:paddingLeft="@dimen/margin_3"
+                android:paddingRight="@dimen/margin_3"
+                android:textSize="11sp"
+                android:textStyle="bold"
                 android:layout_gravity="center_vertical"/>
+            <!--android:drawablePadding="@dimen/margin_5"-->
+            <!--android:drawableLeft="@mipmap/chatlist_chat"-->
             <!--chatlist_date-->
             <ImageView
                 android:layout_width="15dp"

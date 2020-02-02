@@ -13,7 +13,9 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.GroupUsersAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.GroupUserBean
 import com.d6.android.app.models.LoveHeartFans
+import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.utils.hideSoftKeyboard
@@ -28,8 +30,11 @@ import org.jetbrains.anko.startActivity
 class GroupUsersActivity : BaseActivity() {
 
     private var pageNum = 1
-    private val mFriends = ArrayList<LoveHeartFans>()
+    private val mFriends = ArrayList<GroupUserBean>()
     private var sUserName=""
+    private lateinit var mGroupBean: NewGroupBean
+    fun IsNotNullGroupBean()=::mGroupBean.isInitialized
+
     private val mGroupUsersAdapter by lazy {
         GroupUsersAdapter(mFriends)
     }
@@ -42,6 +47,11 @@ class GroupUsersActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_groupusers)
         immersionBar.init()
+
+        if(intent.hasExtra("bean")){
+            mGroupBean = intent.getParcelableExtra("bean")
+        }
+
         mGroupUsersAdapter.setOnItemClickListener { view, position ->
             val mFriends =  mFriends[position]
             startActivity<UserInfoActivity>("id" to "${mFriends.iUserid}")
@@ -110,12 +120,14 @@ class GroupUsersActivity : BaseActivity() {
     }
 
     private fun getData(uname:String) {
-        Request.findSendLoveList(getLoginToken(),pageNum).request(this) { _, data ->
+        Request.getGroupMemberListByGroupId("${mGroupBean.sId}", pageNum).request(this) { _, data ->
             if (pageNum == 1) {
+                tv_grouptile.text = "群成员(${data?.list?.totalRecord})"
                 rl_friends_empty.visibility = View.GONE
                 swipeRefreshLayout.visibility = View.VISIBLE
                 mFriends.clear()
             }
+            swipeRefreshLayout.isRefreshing = false
             if (data?.list?.results == null || data.list.results.isEmpty()) {
                 if (pageNum > 1) {
                     swipeRefreshLayout.setLoadMoreText("没有更多了")
@@ -129,8 +141,12 @@ class GroupUsersActivity : BaseActivity() {
                 }
             } else {
                 mFriends.addAll(data.list.results)
+                if(data.list?.totalPage==1){
+                    swipeRefreshLayout.setLoadMoreText("没有更多了")
+                }else {
+                    swipeRefreshLayout.setLoadMoreText("上拉加载更多")
+                }
             }
-            swipeRefreshLayout.isRefreshing = false
             mGroupUsersAdapter.notifyDataSetChanged()
         }
     }

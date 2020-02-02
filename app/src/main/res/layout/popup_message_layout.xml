@@ -29,6 +29,7 @@
             android:drawableLeft="@mipmap/chuangjian_icon"
             android:text="创建群聊" />
         <View
+            android:id="@+id/line_creategroup"
             android:layout_below="@+id/tv_creategroup"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"

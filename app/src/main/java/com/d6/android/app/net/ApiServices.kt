@@ -606,4 +606,49 @@ interface ApiServices {
 
     @POST("backstage/appointmentsignup/updateProgress")
     fun updateProgress(@Query("sAppointmentSignupId") sAppointmentSignupId:String,@Query("iProgress")iProgress:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //3.4版本
+    @POST("backstage/rongcloudgroup/createRongCloudGroup")
+    fun createRongCloudGroup(@Query("sGroupName") sGroupName:String,@Query("sGroupPic")sGroupPic:String,@Query("sGroupDesc")sGroupDesc:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<NewGroupBean>>
+
+    //解散群
+    @POST("backstage/rongcloudgroup/dissGroup")
+    fun dissGroup(@Query("sGroupId") sGroupId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    //退出群组
+    @POST("backstage/rongcloudgroup/quiteGroup")
+    fun quiteGroup(@Query("sGroupId") sGroupId:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //把用户踢出群组
+    @POST("backstage/rongcloudgroup/kickGroup")
+    fun kickGroup(@Query("sGroupId") sGroupId:String,@Query("iUserid") iUserid:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //申请加入群
+    @POST("backstage/rongcloudgroup/applyToGroup")
+    fun applyToGroup(@Query("sGroupId") sGroupId:String,@Query("sApplyDesc") sApplyDesc:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //同意或拒绝加入群组
+    @POST("backstage/rongcloudgroup/confirmToGroup")
+    fun confirmToGroup(@Query("sApplyId") sApplyId:String, @Query("iStatus") iStatus:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //根据群的编号查询群组
+    @POST("backstage/rongcloudgroup/getGroupByGroupNum")
+    fun getGroupByGroupNum(@Query("iGroupNum") iGroupNum:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<NewGroupBean>>
+
+    //根据组的id查询组的详细信息
+    @POST("backstage/rongcloudgroup/getGroupByGroupId")
+    fun getGroupByGroupId(@Query("sGroupId") iGroupNum:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<NewGroupBean>>
+
+    //查询我的群组
+    @POST("backstage/rongcloudgroup/getMyGrouList")
+    fun getMyGroupList(@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<NewGroupBean>>>
+
+    //根据组的id查询组的成员信息
+    @POST("backstage/rongcloudgroup/getGroupMemberListByGroupId")
+    fun getGroupMemberListByGroupId(@Query("sGroupId") sGroupId:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<GroupUserBean>>>
+
+    @POST("backstage/rongcloudgroup/updateUserGroupManager")
+    fun updateUserGroupManager(@Query("sGroupId") sGroupId:String,@Query("iUserid") iUserid:String,@Query("iIsManager")iIsManager:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @POST("backstage/rongcloudgroup/updateMemberNotification")
+    fun updateMemberNotification(@Query("sGroupId") sGroupId:String,@Query("iIsNotification")iIsNotification:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }

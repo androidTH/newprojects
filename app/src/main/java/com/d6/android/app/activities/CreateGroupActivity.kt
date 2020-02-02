@@ -18,7 +18,6 @@ import com.d6.android.app.dialogs.SelectPhotosDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.AppUtils
-import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getUrlPath
 import kotlinx.android.synthetic.main.activity_creategroup.*
 import org.jetbrains.anko.startActivity
@@ -89,13 +88,15 @@ class CreateGroupActivity : TitleActivity() {
         }
 
         btn_creategroup.setOnClickListener {
-            var groupname = "${et_groupname.text}"
+            var groupname = "${et_groupname.text.trim()}"
             if(!TextUtils.isEmpty(groupname)){
+//                if(AndroidEmoji.isEmoji(groupname)){
+//
+//                }
                 if(groupname.length>=2&&groupname.length<=10){
                     if(!TextUtils.isEmpty(headFilePath)){
                         doCreateGroup()
                     }else{
-                        startActivity<GroupSettingActivity>()
                         toast("请上传群头像")
                     }
                 }else{
@@ -148,11 +149,19 @@ class CreateGroupActivity : TitleActivity() {
     }
 
     fun doCreateGroup(){
+//        SealUserInfoManager.getInstance().addGroup(Groups(mGroupId, mGroupName, imageUrl, 0.toString()))
+//        BroadcastManager.getInstance(mContext).sendBroadcast(REFRESH_GROUP_UI)
+//        toast("创建群成功")
+//        RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP, mGroupId, "${et_groupname.text.trim()}")
+//        finish()
         Request.uploadFile(File(headFilePath)).flatMap {
-            Request.findSquareTop()
+            Request.createRongCloudGroup("${et_groupname.text.trim()}","${it}","")
         }.request(this) { _, data ->
-            startActivity<GroupSettingActivity>()
-            finish()
+            data?.let {
+                toast("创建群成功")
+                startActivity<GroupSettingActivity>("bean" to it)
+                finish()
+            }
         }
     }
 }

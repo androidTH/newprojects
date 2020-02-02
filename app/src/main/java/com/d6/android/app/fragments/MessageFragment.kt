@@ -14,18 +14,17 @@ import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.JoinGroupDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.MyDate
-import com.d6.android.app.models.Page
-import com.d6.android.app.models.SquareMessage
-import com.d6.android.app.models.SysMessage
+import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
+import com.d6.android.app.widget.ScreenUtil
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
+import com.d6.android.app.widget.badge.DisplayUtil
 import com.d6.android.app.widget.popup.EasyPopup
 import com.d6.android.app.widget.popup.XGravity
 import com.d6.android.app.widget.popup.YGravity
@@ -46,6 +45,11 @@ import java.lang.Exception
  */
 class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListener {
 
+
+
+    private val iIsCreateGroup by lazy{
+        SPUtils.instance().getInt(Const.User.USERISCREATE_GROUP,1)
+    }
     fun mode(): SwipeRefreshRecyclerLayout.Mode {
         return SwipeRefreshRecyclerLayout.Mode.Top
     }
@@ -54,12 +58,14 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     private val mUnConversations = ArrayList<Conversation>()
 //    private val mISTopConversations = ArrayList<Conversation>()
     private var mNMUnReadTotal:Int = 0 //我匿名未读消息数
+    private var showNums = 1
+    private var pageNum=1
 
     private val conversationsAdapter by lazy {
         ConversationsAdapter(mConversations)
     }
 
-    private val mGroupList = ArrayList<MyDate>()
+    private val mGroupList = ArrayList<NewGroupBean>()
     private val mGroupListAdapter by lazy {
         GroupListAdapter(mGroupList)
     }
@@ -216,17 +222,31 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
                 mContentView.findViewById<View>(R.id.line_searchusers)?.visibility = View.VISIBLE
                 mContentView.findViewById<View>(R.id.tv_search_users)?.visibility = View.VISIBLE
+                showNums = showNums +1
             }else{
-                mContentView.findViewById<View>(R.id.line_searchusers)?.visibility = View.VISIBLE
-                mContentView.findViewById<View>(R.id.tv_search_users)?.visibility = View.VISIBLE
+                mContentView.findViewById<View>(R.id.line_searchusers)?.visibility = View.GONE
+                mContentView.findViewById<View>(R.id.tv_search_users)?.visibility = View.GONE
             }
+
+            if(iIsCreateGroup==1){
+                mContentView.findViewById<View>(R.id.tv_creategroup)?.visibility = View.GONE
+                mContentView.findViewById<View>(R.id.line_creategroup)?.visibility = View.GONE
+            }else{
+                showNums = showNums +1
+                mContentView.findViewById<View>(R.id.tv_creategroup)?.visibility = View.VISIBLE
+                mContentView.findViewById<View>(R.id.line_creategroup)?.visibility = View.VISIBLE
+            }
+
             mCirclePop = EasyPopup.create()
+//                    if(showNums == 1){
+//
+//                    }else if(showNums==2){
+//                      setContentView(mContentView,ScreenUtil.dip2px(activity,145.0f),ScreenUtil.dip2px(activity,165.0f))//70.0f
+            mCirclePop =  EasyPopup.create().setAnimationStyle(R.style.RightTop2PopAnim)
                     .setContentView(mContentView)
-                    .setAnimationStyle(R.style.RightTop2PopAnim)
                     .setOnViewListener { view, popup ->
                         view.findViewById<TextView>(R.id.tv_creategroup).setOnClickListener {
                             startActivity<CreateGroupActivity>()
-//                            startActivity<GroupSettingActivity>()
                             mCirclePop!!.dismiss()
                         }
 
@@ -362,20 +382,30 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             headerView.rv_grouplist.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
             headerView.rv_grouplist.adapter = mGroupListAdapter
             mGroupListAdapter.setOnItemClickListener { _, position ->
-                val date = mGroupList[position]
-                startActivity<GroupSettingActivity>()
+                val groupBean = mGroupList[position]
+//                startActivity<GroupSettingActivity>()
+//                startActivity<GroupSettingActivity>("bean" to groupBean)
+                RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,"${groupBean.sId}","${groupBean.sGroupName}")
             }
             getGroupData()
         }
     }
 
     private fun getGroupData() {
-        Request.findLookAboutList(getLocalUserId()).request(this,success = { _, data ->
+        Request.getMyGroupList(pageNum).request(this,success = { _, data ->
             mGroupList.clear()
             data?.let {
-                mGroupList.addAll(it)
+                if (it.list?.results == null || it.list.results.isEmpty()) {
+                    if (pageNum > 1) {
+
+                    } else {
+                        headerView.ll_groups.visibility = View.GONE
+                    }
+                }else{
+                    mGroupList.addAll(it.list?.results)
+                    mGroupListAdapter.notifyDataSetChanged()
+                }
             }
-            mGroupListAdapter.notifyDataSetChanged()
         }) { code, msg ->
             toast(msg)
         }

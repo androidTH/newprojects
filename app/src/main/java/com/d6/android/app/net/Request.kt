@@ -560,4 +560,32 @@ object Request {
     fun updateLookaboutSetting(iLookaboutSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateLookaboutSetting(iLookaboutSetting)
 
     fun updateProgress(sAppointmentSignupId:String,iProgress:Int)=RRetrofit.instance().create(ApiServices::class.java).updateProgress(sAppointmentSignupId,iProgress)
+
+
+    //3.4
+    fun createRongCloudGroup(sGroupName:String,sGroupPic:String,sGroupDesc:String)=RRetrofit.instance().create(ApiServices::class.java).createRongCloudGroup(sGroupName,sGroupPic,sGroupDesc)
+
+    fun dissGroup(sGroupId:String)=RRetrofit.instance().create(ApiServices::class.java).dissGroup(sGroupId)
+
+    fun quiteGroup(sGroupId:String)=RRetrofit.instance().create(ApiServices::class.java).quiteGroup(sGroupId)
+
+    fun kickGroup(sGroupId:String,iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).kickGroup(sGroupId,iUserid)
+
+    fun applyToGroup(sGroupId:String,sApplyDesc:String)=RRetrofit.instance().create(ApiServices::class.java).applyToGroup(sGroupId,sApplyDesc)
+
+    //同意或拒绝加入群组
+    fun confirmToGroup(sApplyId:String,iStatus:String)=RRetrofit.instance().create(ApiServices::class.java).confirmToGroup(sApplyId,iStatus)
+
+    fun getGroupByGroupNum(iGroupNum:String)=RRetrofit.instance().create(ApiServices::class.java).getGroupByGroupNum(iGroupNum)
+
+    fun getGroupByGroupId(sGroupId:String)=RRetrofit.instance().create(ApiServices::class.java).getGroupByGroupId(sGroupId)
+
+    fun getMyGroupList(pageNum:Int=1)=RRetrofit.instance().create(ApiServices::class.java).getMyGroupList(pageNum)
+
+    fun getGroupMemberListByGroupId(sGroupId:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getGroupMemberListByGroupId(sGroupId,pageNum)
+
+    fun updateUserGroupManager(sGroupId:String,iUserid:String,iIsManager:Int)=RRetrofit.instance().create(ApiServices::class.java).updateUserGroupManager(sGroupId,iUserid,iIsManager)
+
+    fun updateMemberNotification(sGroupId:String,iIsNotification:Int)=RRetrofit.instance().create(ApiServices::class.java).updateMemberNotification(sGroupId,iIsNotification)
+
 }

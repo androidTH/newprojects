@@ -163,6 +163,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
             .put(Const.User.USER_MESSAGESETTING,"${obj.iMessageSetting}")
             .put(Const.User.USERPOINTS_NUMS,"${obj.iPoint}")
             .put(Const.User.USERLOVE_NUMS,obj.iLovePoint)
+            .put(Const.User.USERISCREATE_GROUP,obj.iIsCreateGroup)
 //            .put(Const.User.IS_LOGIN, true)
             .put(Const.User.SLOGINTOKEN,obj.sLoginToken)
             .apply()

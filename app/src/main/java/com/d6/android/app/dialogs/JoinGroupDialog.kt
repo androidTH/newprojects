@@ -79,15 +79,28 @@ class JoinGroupDialog : DialogFragment(),RequestManager {
         verifyedittext.setInputCompleteListener { et, content ->
             tv_title.text = "正在查找..."
             tv_title.textColor = ContextCompat.getColor(context,R.color.color_888888)
-
-            isBaseActivity {
-                startActivity<JoinGroupActivity>("groupId" to "123456")
-                dismissAllowingStateLoss()
-            }
-//            tv_title.text = "无此群，请验证群号码"
-//            tv_title.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+            getGroupByGroupNums(content)
         }
 
+    }
+
+    private fun getGroupByGroupNums(content:String){
+        isBaseActivity {
+            Request.getGroupByGroupNum("${content}").request(it,false,success={msg,data->
+                data?.let {
+//                    var iInGroup = it.optInt("iInGroup")//1、不在  2、在
+                    if(data.iInGroup==1||data.iInGroup==2){
+                        startActivity<JoinGroupActivity>("groupBean" to data)
+                        dismissAllowingStateLoss()
+                    }else{
+                        tv_title.text = "无此群，请验证群号码"
+                        tv_title.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
+                    }
+                }
+            }){code,msg->
+
+            }
+        }
     }
 
     private fun getData() {

@@ -4,7 +4,7 @@
     android:id="@+id/root_date_chat"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:visibility="visible">
+    android:visibility="gone">
     <RelativeLayout
         android:id="@+id/rl_date_chat"
         android:layout_width="match_parent"

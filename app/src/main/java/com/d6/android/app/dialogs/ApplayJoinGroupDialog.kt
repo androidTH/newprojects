@@ -53,7 +53,7 @@ class ApplayJoinGroupDialog : DialogFragment(),RequestManager {
             isBaseActivity {
                 var content = et_content.text.toString().trim()
                 if(content.isNotEmpty()){
-                    dialogListener?.onClick(2,"加入成功")
+                    dialogListener?.onClick(2,"${content}")
                     dismissAllowingStateLoss()
                 }else{
                     toast("请输入内容")

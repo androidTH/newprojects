@@ -48,9 +48,9 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             tv_conversation_type.visibility = View.VISIBLE
             swipeItemLayout.backgroundColor = ContextCompat.getColor(context,R.color.color_05000000)
             tv_conversation_type.text= context.getString(R.string.string_conversation_type)
-            var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_chat)
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-            tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
+//            var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_chat)
+//            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+//            tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
         }else{
             swipeItemLayout.backgroundColor = ContextCompat.getColor(context,R.color.white)
             var applay_private_type =  SPUtils.instance().getBoolean(CONVERSATION_APPLAY_PRIVATE_TYPE+ getLocalUserId()+"-"+data.targetId,false)
@@ -58,18 +58,18 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             if(applay_private_type){
                 tv_conversation_type.visibility = View.VISIBLE
                 tv_conversation_type.text=context.getString(R.string.string_conversation_type)
-                var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_chat)
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-                tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
+//                var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_chat)
+//                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+//                tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
             }else{
                 var applay_date_type =  SPUtils.instance().getBoolean(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+data.targetId,false)
                 Log.i("sssssss","${CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+data.targetId}申请约会${applay_date_type}")
                 if(applay_date_type){
                     tv_conversation_type.visibility = View.VISIBLE
                     tv_conversation_type.text="邀约"
-                    var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_date)
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-                    tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
+//                    var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_date)
+//                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+//                    tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
                 }else{
                     tv_conversation_type.visibility = View.GONE
                 }

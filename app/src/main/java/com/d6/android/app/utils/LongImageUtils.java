@@ -238,15 +238,20 @@ public class LongImageUtils {
         return newBitmap;
     }
 
-    public Bitmap getJoinGroupBitmap(Activity activity,String name,String content,List<Bitmap> mBitmaps){
+    public Bitmap getJoinGroupBitmap(Activity activity,String name,String groupId,List<Bitmap> mBitmaps){
         int itemWidth = ScreenUtil.getScreenWidth(activity);
         View mJoinGrooupLayout = activity.getLayoutInflater().inflate(R.layout.joingroup_share, null);
         CircleImageView groupheaderView = getViewById(mJoinGrooupLayout,R.id.groupheaderview_share);
         SimpleDraweeView iv_joingroup_qcode = getViewById(mJoinGrooupLayout,R.id.iv_joingroup_qcode__share);
+
         if(mBitmaps!=null&&mBitmaps.size()>0){
             groupheaderView.setImageBitmap(mBitmaps.get(1));
             iv_joingroup_qcode.setImageBitmap(mBitmaps.get(0));
         }
+        TextView tv_groupname_share = getViewById(mJoinGrooupLayout,R.id.tv_groupname_share);
+        tv_groupname_share.setText(name);
+        TextView tv_groupnumber_share = getViewById(mJoinGrooupLayout,R.id.tv_groupnumber_share);
+        tv_groupnumber_share.setText(groupId);
         mJoinGrooupLayout.measure(View.MeasureSpec.makeMeasureSpec(itemWidth , View.MeasureSpec.EXACTLY), 0);
         mJoinGrooupLayout.layout(0, 0, itemWidth, mJoinGrooupLayout.getMeasuredHeight());
         mJoinGrooupLayout.setDrawingCacheEnabled(true);
