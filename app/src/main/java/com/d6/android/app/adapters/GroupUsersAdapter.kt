@@ -88,17 +88,26 @@ class GroupUsersAdapter(mData:ArrayList<GroupUserBean>): HFRecyclerAdapter<Group
         tv_vip.backgroundDrawable =  getLevelDrawable("${data.userclassesid}",context)
 
         val tv_more = holder.bind<TextView>(R.id.tv_choose_friends)
-
-        if(data.iIsOwner==1||data.iIsManager==1){
-            tv_more.visibility = View.GONE
+        if(TextUtils.equals("${data.iUserid}",getLocalUserId())){
+            if(data.iIsOwner==1){
+                tv_more.visibility = View.GONE
+            }else{
+                tv_more.visibility = View.GONE
+            }
         }else{
-            tv_more.visibility = View.VISIBLE
+            if(data.iIsOwner==1){
+                tv_more.visibility = View.GONE
+            }else if(data.iIsManager==1){
+                tv_more.visibility = View.VISIBLE
+            }else{
+                tv_more.visibility = View.VISIBLE
+            }
         }
 
         tv_more.setOnClickListener {
             isBaseActivity {
                 var mGroupUserMoreDialog = GroupUserMoreDialog()
-                mGroupUserMoreDialog.arguments = bundleOf("userId" to "${data.iUserid}")
+                mGroupUserMoreDialog.arguments = bundleOf("userId" to "${data.iUserid}","bean" to data)
                 mGroupUserMoreDialog.setDialogListener { p, s ->
                     if(p==1){
                         data.iIsManager?.let { it1 ->

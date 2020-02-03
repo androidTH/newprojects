@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.models.GroupUserBean
+import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.utils.OnDialogListener
 import kotlinx.android.synthetic.main.dialog_groupusermore_layout.*
 import org.jetbrains.anko.matchParent
@@ -38,6 +40,16 @@ class GroupUserMoreDialog : DialogFragment() {
 
         if(arguments!=null){
            var userId = arguments.getString("userId")
+           var mGroupUserBean = arguments.getParcelable("bean")  as GroupUserBean
+            if(mGroupUserBean!=null){
+               if(mGroupUserBean.iIsOwner==1){
+                   ll_groupdo.visibility = View.VISIBLE
+               }else if(mGroupUserBean.iIsManager==1){
+                   ll_groupdo.visibility = View.GONE
+               }else{
+                   ll_groupdo.visibility = View.GONE
+               }
+            }
         }
         tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()

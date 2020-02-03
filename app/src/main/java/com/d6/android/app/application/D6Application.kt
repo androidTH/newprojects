@@ -17,6 +17,7 @@ import android.widget.RemoteViews
 import android.widget.TextView
 import cn.liaox.cachelib.CacheDBLib
 import cn.liaox.cachelib.CacheDbManager
+import cn.liaox.cachelib.bean.GroupBean
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
 import com.bugtags.library.Bugtags
@@ -24,6 +25,7 @@ import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
 import com.d6.android.app.activities.WebViewActivity
 import com.d6.android.app.audioconverter.callback.ILoadCallback
+import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
@@ -226,6 +228,75 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                                 }
                                 if (view is SimpleDraweeView) {
                                     view.setImageURI(t?.headUrl)
+                                }
+                                removes.add(view)
+                            }
+                        }
+                        views.removeAll(removes)
+                    }
+
+                    override fun onComplete() {
+
+                    }
+                })
+            }
+        })
+
+
+        RongUtils.setGroupProvider(object : RongUtils.GroupProver{
+            private val views = ArrayList<View?>()
+            private val map = HashMap<String, Boolean>()
+            override fun getGroupInfo(groupId: String, textView: TextView?, imageView: ImageView?) {
+                views.add(textView)
+                views.add(imageView)
+                val isLoad = map[groupId] ?: false
+                if (map.containsKey(groupId) && !isLoad) {
+                    return
+                }
+                if (!map.containsKey(groupId)) {
+                    map.put(groupId, false)
+                }
+                CacheDbManager.getInstance().load(groupId, GroupBean::class.java, object : NetworkCache<GroupBean>() {
+                    override fun get(key: String, cls: Class<GroupBean>): Flowable<GroupBean> {
+                        return Request.getGroupByGroupId(key).ioScheduler().flatMap {
+                            val data = it.data
+                            if (it.res == 1) {
+                                val groupBean = GroupBean()
+                                groupBean.groupId = data?.sId
+                                val nick = data?.sGroupName ?: ""
+                                groupBean.groupName = nick
+                                val url = data?.sGroupPic ?: ""
+                                groupBean.groupHeadPic = url
+                                var groupNum = data?.iGroupNum?:0
+                                groupBean.iGroupNum = groupNum
+                                groupBean.sGroupDesc = "${data?.sGroupDesc}"
+                                groupBean.status = 1 //必须设置有效性>0的值
+                                val info = Group(groupId, nick, Uri.parse(url))
+                                RongIM.getInstance().refreshGroupInfoCache(info)
+                                Flowable.just(groupBean)
+                            } else {
+                                Flowable.error(ResultException(it.resMsg))
+                            }
+                        }
+                    }
+                }).defaultScheduler().subscribe(object : DisposableSubscriber<GroupBean>() {
+                    override fun onError(t: Throwable?) {
+                        t?.printStackTrace()
+                        map.put(groupId, true)
+                    }
+
+                    override fun onNext(t: GroupBean?) {
+                        if (map.containsKey(groupId)) {
+                            map.remove(groupId)
+                        }
+                        val removes = ArrayList<View?>()
+                        for (view in views) {
+                            if (checkView(view, groupId)) {
+                                if (view is TextView) {
+                                    view.text = t?.groupName
+                                }
+                                if (view is SimpleDraweeView) {
+                                    view.setImageURI(t?.groupHeadPic)
                                 }
                                 removes.add(view)
                             }

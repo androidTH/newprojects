@@ -627,6 +627,8 @@ interface ApiServices {
     fun applyToGroup(@Query("sGroupId") sGroupId:String,@Query("sApplyDesc") sApplyDesc:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //同意或拒绝加入群组
+    // sApplyId：申请的id
+    //iStatus：状态 2、同意 3、拒绝
     @POST("backstage/rongcloudgroup/confirmToGroup")
     fun confirmToGroup(@Query("sApplyId") sApplyId:String, @Query("iStatus") iStatus:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 

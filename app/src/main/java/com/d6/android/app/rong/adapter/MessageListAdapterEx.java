@@ -78,6 +78,8 @@ public class MessageListAdapterEx extends MessageListAdapter {
                 if (TextUtils.equals("1", mWhoanonmouse)) {
                     holder.rightIconView.setAvatar(null, R.mipmap.nimingtouxiang_small);
                     holder.nameView.setVisibility(View.GONE);
+                }else if(TextUtils.equals("3", mWhoanonmouse)){
+                    holder.nameView.setVisibility(View.GONE);
                 }else{
                     holder.nameView.setVisibility(View.GONE);
                 }
@@ -85,6 +87,8 @@ public class MessageListAdapterEx extends MessageListAdapter {
                 MessageListAdapter.ViewHolder holder = (MessageListAdapter.ViewHolder) v.getTag();
                 if(TextUtils.equals("2", mWhoanonmouse)){
                     holder.leftIconView.setAvatar(null, R.mipmap.nimingtouxiang_small);
+                    holder.nameView.setVisibility(View.GONE);
+                }else if(TextUtils.equals("3", mWhoanonmouse)){
                     holder.nameView.setVisibility(View.GONE);
                 }else{
                     holder.nameView.setVisibility(View.GONE);

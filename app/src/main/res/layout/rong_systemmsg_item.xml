@@ -1,48 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/margin_15"
     android:layout_marginTop="@dimen/margin_15">
 
-    <RelativeLayout
-        android:id="@+id/rl_systemmsg_headView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginRight="@dimen/margin_6">
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/group_headView"
-            style="@style/DefaultHeadStyle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:roundAsCircle="true"
-            app:roundingBorderColor="@color/color_1A000000"
-            app:roundingBorderWidth="0.5dp" />
-
-        <ImageView
-            android:id="@+id/iv_self_servicesign"
-            android:layout_width="20dp"
-            android:layout_height="15dp"
-            android:layout_alignBottom="@+id/group_headView"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="0dp"
-            android:src="@drawable/official_icon" />
-    </RelativeLayout>
-
     <LinearLayout
-        android:layout_width="250dp"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/rl_systemmsg_headView"
         android:background="@drawable/rc_ic_bubble_left"
+        android:paddingLeft="9dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_msg_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="入群申请已发出，请耐心等待群管理员的审核"
             android:textColor="@color/color_333333"
             android:textSize="14sp" />
 
@@ -53,10 +26,11 @@
             android:layout_marginTop="@dimen/margin_10"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/group_headview"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                style="@style/DefaultCircleHeadStyle"
                 android:src="@mipmap/quanguo_icon" />
 
             <TextView
@@ -64,7 +38,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_8"
-                android:text="全国APP群"
                 android:textColor="@color/color_666666"
                 android:textSize="14sp" />
         </LinearLayout>

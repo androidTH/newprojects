@@ -61,8 +61,10 @@ public class DBCache implements ICache {
 
             @Override
             public void subscribe(FlowableEmitter<T> e) throws Exception {
-                UserBean bean = (UserBean) t;
-                UserHelper.getInstance(context).saveUser(key, bean.getNickName(), bean.getHeadUrl(), bean.getTime());
+                if(t instanceof  UserBean){
+                    UserBean bean = (UserBean) t;
+                    UserHelper.getInstance(context).saveUser(key, bean.getNickName(), bean.getHeadUrl(), bean.getTime());
+                }
                 if (!e.isCancelled()) {
                     e.onNext(t);
                     e.onComplete();

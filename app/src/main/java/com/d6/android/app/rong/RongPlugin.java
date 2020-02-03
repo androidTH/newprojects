@@ -6,6 +6,9 @@ import com.d6.android.app.rong.bean.AppointmentMsgContent;
 import com.d6.android.app.rong.bean.BusinessCardFMsgContent;
 import com.d6.android.app.rong.bean.BusinessCardMMsgContent;
 import com.d6.android.app.rong.bean.CommentMsgContent;
+import com.d6.android.app.rong.bean.CustomGroupApplyMsg;
+import com.d6.android.app.rong.bean.CustomGroupMsg;
+import com.d6.android.app.rong.bean.CustomLinkTextMsg;
 import com.d6.android.app.rong.bean.CustomMessage;
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage;
 import com.d6.android.app.rong.bean.CustomSystemMessage;
@@ -20,6 +23,9 @@ import com.d6.android.app.rong.provider.AppointmentMsgProvider;
 import com.d6.android.app.rong.provider.BusinessCardFMsgProvider;
 import com.d6.android.app.rong.provider.BusinessCardMMsgProvider;
 import com.d6.android.app.rong.provider.CommentMsgProvider;
+import com.d6.android.app.rong.provider.CustomGroupApplyMsgProvider;
+import com.d6.android.app.rong.provider.CustomGroupMsgProvider;
+import com.d6.android.app.rong.provider.CustomLinkTextMsgProvider;
 import com.d6.android.app.rong.provider.CustomMessageProvider;
 import com.d6.android.app.rong.provider.CustomUnKnowMessageProvider;
 import com.d6.android.app.rong.provider.GroupUnKnowMessageProvider;
@@ -99,6 +105,9 @@ public class RongPlugin {
         RongIM.registerMessageType(GroupUnKnowTipsMessage.class);
         RongIM.registerMessageType(CustomSystemMessage.class);
         RongIM.registerMessageType(VoiceChatMsgContent.class);//语音连麦
+        RongIM.registerMessageType(CustomGroupApplyMsg.class);//
+        RongIM.registerMessageType(CustomGroupMsg.class);//
+        RongIM.registerMessageType(CustomLinkTextMsg.class);
 
         RongIM.registerMessageTemplate(new LoveHeartMessageProvider());
         RongIM.registerMessageTemplate(new CustomMessageProvider());
@@ -113,6 +122,9 @@ public class RongPlugin {
         RongIM.registerMessageTemplate(new BusinessCardMMsgProvider());//急约
         RongIM.registerMessageTemplate(new GroupUnKnowMessageProvider());//群组消息
         RongIM.registerMessageTemplate(new VoiceChatMessageProvider());//语音连麦
+        RongIM.registerMessageTemplate(new CustomGroupApplyMsgProvider());//语音连麦
+        RongIM.registerMessageTemplate(new CustomGroupMsgProvider());//语音连麦
+        RongIM.registerMessageTemplate(new CustomLinkTextMsgProvider());//语音连麦
 
     }
 }

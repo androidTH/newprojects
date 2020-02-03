@@ -20,7 +20,7 @@ object RongUtils {
     }
 
     fun setGroupProvider(groupProver: GroupProver){
-        RongUtils.groupProvider = groupProvider
+        RongUtils.groupProvider = groupProver
     }
 
     interface UserProvider {

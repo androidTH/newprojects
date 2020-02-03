@@ -16,6 +16,7 @@ data class NewGroupBean(var sId:String?="") :Parcelable{
     var sGroupDesc:String?=""
     var iGroupStatus:Int?=-1
     var iInGroup:Int?=-1
+    var iIsApply:Int?=-1
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         sGroupPic = parcel.readString()
@@ -24,6 +25,7 @@ data class NewGroupBean(var sId:String?="") :Parcelable{
         sGroupDesc = parcel.readString()
         iGroupStatus = parcel.readValue(Int::class.java.classLoader) as? Int
         iInGroup = parcel.readValue(Int::class.java.classLoader) as? Int
+        iIsApply = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -34,6 +36,7 @@ data class NewGroupBean(var sId:String?="") :Parcelable{
         parcel.writeString(sGroupDesc)
         parcel.writeValue(iGroupStatus)
         parcel.writeValue(iInGroup)
+        parcel.writeValue(iIsApply)
     }
 
     override fun describeContents(): Int {

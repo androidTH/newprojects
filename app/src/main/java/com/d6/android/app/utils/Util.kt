@@ -19,9 +19,7 @@ import android.os.StatFs
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.Settings
-import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -46,7 +44,6 @@ import com.d6.android.app.net.Request
 import com.d6.android.app.net.http.UpdateAppHttpUtil
 import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
-import com.d6.android.app.rong.voicechat.SingleCallActivity
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
@@ -56,17 +53,10 @@ import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
 import com.d6.android.app.widget.diskcache.DiskLruCacheHelper
-import com.facebook.common.references.CloseableReference
-import com.facebook.datasource.BaseDataSubscriber
-import com.facebook.datasource.DataSource
-import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.drawable.ScalingUtils
 import com.facebook.drawee.generic.GenericDraweeHierarchy
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.facebook.drawee.generic.RoundingParams
-import com.facebook.imagepipeline.image.CloseableBitmap
-import com.facebook.imagepipeline.image.CloseableImage
-import com.facebook.imagepipeline.request.ImageRequestBuilder
 import com.google.gson.JsonObject
 import com.umeng.analytics.MobclickAgent
 import com.vector.update_app.UpdateAppBean
@@ -90,7 +80,6 @@ import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
-import java.util.concurrent.Executor
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
@@ -873,6 +862,25 @@ fun updateSquareSignUp(activity:Activity,sSquareSignupId:String,iStatus:String,i
     }
 }
 
+fun confirmToGroup(activity:Activity,sApplyId:String,iStatus:String) {
+    Request.confirmToGroup(sApplyId,iStatus).request(object:RequestManager{
+        override fun onBind(disposable: Disposable) {
+
+        }
+
+        override fun showToast(msg: String) {
+        }
+
+        override fun dismissDialog() {
+
+        }
+    },false,success={ msg, data->
+        Log.i("confirmToGroup","状态：${iStatus},时间：${data}")
+    }){code,msg->
+
+    }
+}
+
 fun getReplace(str:String):String{
     return str.replace("省","").replace("市","")
 }
@@ -1331,9 +1339,15 @@ fun setLeftDrawable(drawable:Drawable,textView: TextView){
     textView.setCompoundDrawables(drawable, null, null, null)
 }
 
-fun setRightDrawable(drawable:Drawable,textView: TextView){
-    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-    textView.setCompoundDrawables(null, null, drawable, null)
+fun setRightDrawable(drawable: Drawable?, textView: TextView){
+    drawable?.let {
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+        if(it!=null){
+            textView.setCompoundDrawables(null, null, drawable, null)
+        }else{
+            textView.setCompoundDrawables(null, null, null, null)
+        }
+    }
 }
 
 fun getDialogIsorNot(activity: BaseActivity,code:Int,msg:String): DialogYesOrNo{

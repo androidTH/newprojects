@@ -18,6 +18,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
+import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.rong.RongD6Utils
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage
@@ -54,13 +55,10 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_agree_bottom
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_no_bottom
 import kotlinx.android.synthetic.main.layout_date_chat.*
-import kotlinx.coroutines.experimental.channels.Send
 import org.jetbrains.anko.*
 import org.json.JSONObject
-import java.net.URLEncoder
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.max
 
 
 //聊天
@@ -106,6 +104,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     private var mOtherUserId = ""
     private var mWhoanonymous = "1" //1我自己匿名   2对方匿名
 
+    private lateinit var mGroupBean: NewGroupBean
+    fun IsNotNullGroupBean()=::mGroupBean.isInitialized
     //礼物
     private var giftControl: GiftControl? = null
 
@@ -122,6 +122,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         if(mConversationType==Conversation.ConversationType.GROUP){
             //"anoy_" + 匿名用户的id + "_" + 报名约会用户的id   anoy_103091_100541
             mGroupIdSplit = mTargetId.split("_")
+            iv_privatechat_sendredheart.visibility = View.GONE
             if(mGroupIdSplit!=null&&mGroupIdSplit.size>1){
                 iType = 2
                 immersionBar.statusBarColor(R.color.color_8F5A5A).statusBarDarkFont(true).init()
@@ -166,13 +167,21 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         RongIM.getInstance().refreshGroupInfoCache(group)
                     }
                 })
-                iv_privatechat_sendredheart.visibility = View.GONE
             }else{
+                immersionBar.init()
+                SPUtils.instance().put(WHO_ANONYMOUS,"3").apply()
                 iType = 3
                 mOtherUserId = mTargetId
-                var group = RongUserInfoManager.getInstance().getGroupInfo(mOtherUserId)
-//                tv_chattitle.text = group.name
-//                chat_headView.setImageURI(group.)
+                tv_chattitle.setCompoundDrawables(null, null, null, null)
+                Request.getGroupByGroupId(mOtherUserId).request(this,false,success={msg,data->
+                    data?.let {
+                        mGroupBean = data
+                        tv_chattitle.text = "${data.sGroupName}"
+                        chat_headView.setImageURI(data.sGroupPic)
+                    }
+                })
+
+//                var group = RongUserInfoManager.getInstance().getGroupInfo(mOtherUserId)
             }
         }else if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
             immersionBar.init()
@@ -200,26 +209,34 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     mUnknowDialog.arguments = bundleOf("otheruserId" to mOtherUserId)
                     mUnknowDialog.show(supportFragmentManager,"unknowDialog")
                 }else{
-                    startActivity<UserInfoActivity>("id" to mOtherUserId)
+                    if(iType==3){
+                        startActivity<GroupSettingActivity>("bean" to mGroupBean)
+                    }else{
+                        startActivity<UserInfoActivity>("id" to mOtherUserId)
+                    }
                 }
             }
         }
 
         iv_chat_more.setOnClickListener {
-            val userActionDialog = UserActionDialog()
-            userActionDialog.arguments= bundleOf("isInBlackList" to isInBlackList)
-            userActionDialog.setDialogListener { p, s ->
-                if (p == 0) {//举报
-                    startActivity<ReportActivity>("id" to mOtherUserId, "tiptype" to "1")
-                } else if (p == 1) {
-                    if(isInBlackList==1){
-                        removeBlackList()
-                    }else{
-                        addBlackList()
+            if(iType==1||iType==2){
+                val userActionDialog = UserActionDialog()
+                userActionDialog.arguments= bundleOf("isInBlackList" to isInBlackList)
+                userActionDialog.setDialogListener { p, s ->
+                    if (p == 0) {//举报
+                        startActivity<ReportActivity>("id" to mOtherUserId, "tiptype" to "1")
+                    } else if (p == 1) {
+                        if(isInBlackList==1){
+                            removeBlackList()
+                        }else{
+                            addBlackList()
+                        }
                     }
                 }
+                userActionDialog.show(supportFragmentManager, "user")
+            }else if(iType==3){
+                startActivity<GroupSettingActivity>("bean" to mGroupBean)
             }
-            userActionDialog.show(supportFragmentManager, "user")
         }
 
 //        if(TextUtils.equals("--",mTitle)){

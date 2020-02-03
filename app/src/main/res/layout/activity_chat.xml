@@ -79,6 +79,7 @@
                 android:textColor="@color/color_666666"
                 android:drawablePadding="@dimen/margin_5"
                 android:textStyle="bold"
+                android:visibility="gone"
                 android:textSize="10sp" />
         </RelativeLayout>
 

@@ -80,12 +80,18 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             RongUtils.setUserInfo(data.targetId, tv_name, headView)
         }else if(data.conversationType==Conversation.ConversationType.GROUP){
             var groupbean = RongUserInfoManager.getInstance().getGroupInfo(data.targetId)
-            if (groupbean != null) {
-                tv_name.text = groupbean.name
-                headView.setImageURI("res:///"+R.mipmap.quanguo_icon)//quanguo_icon //nimingtouxiang_small
+            if(data.targetId.contains("_")){
+                if (groupbean != null) {
+                    tv_name.text = "${groupbean.name}"
+                    headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)//quanguo_icon //nimingtouxiang_small
+                }else{
+                    tv_name.text = "匿名"
+                    headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
+                }
             }else{
-                tv_name.text = "匿名"
-                headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
+//                tv_name.text = "${groupbean.name}"
+                RongUtils.setGroupInfo(data.targetId,tv_name,headView)
+//                headView.setImageURI(groupbean.portraitUri)
             }
         }
 

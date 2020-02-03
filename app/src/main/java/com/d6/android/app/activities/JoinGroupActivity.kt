@@ -39,6 +39,7 @@ import java.lang.ref.WeakReference
 class JoinGroupActivity : BaseActivity() {
 
     private var JoinGroupStatus:Int = 1 // 1 申请加入 2 正在审核 3 通过
+    private var iIsApply:Int = -1 //1、申请中  2、未申请
     private var mGroupHeaderPic:String = ""
     private var mGroupNum:String = ""
     private var mGroupId:String = ""
@@ -58,6 +59,7 @@ class JoinGroupActivity : BaseActivity() {
             mGroupId = "${mGroupBean.sId}"
             tv_groupnumber.text = "${mGroupNum}"
             JoinGroupStatus = mGroupBean.iInGroup!!
+            iIsApply = mGroupBean.iIsApply!!
             tv_groupname.text = "${mGroupBean.sGroupName}"
             groupheaderview.setImageURI("${mGroupHeaderPic}")
         }
@@ -106,9 +108,15 @@ class JoinGroupActivity : BaseActivity() {
 //            ThreadPoolManager.getInstance().execute(mSaveBitmapRunnable) }
 
         if(JoinGroupStatus==1){
-            btn_joingroup.textColor = ContextCompat.getColor(this,R.color.white)
-            btn_joingroup.text = "申请加入该群"
-            btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_setting_bg)
+            if(iIsApply!=1){
+                btn_joingroup.textColor = ContextCompat.getColor(this,R.color.white)
+                btn_joingroup.text = "申请加入该群"
+                btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_setting_bg)
+            }else{
+                btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_888888)
+                btn_joingroup.text = "正在审核中"
+                btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
+            }
         }else if(JoinGroupStatus==2){
             btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_black)
             btn_joingroup.text = "你已入群，打开群聊"
@@ -121,20 +129,22 @@ class JoinGroupActivity : BaseActivity() {
 
         btn_joingroup.setOnClickListener {
             if(JoinGroupStatus==1){
-                var mApplayJoinGroupDialog = ApplayJoinGroupDialog()
+                if(iIsApply!=1){
+                    var mApplayJoinGroupDialog = ApplayJoinGroupDialog()
 //                mApplayJoinGroupDialog.arguments = bundleOf("groupId" to "${mGroupId}")
-                mApplayJoinGroupDialog.setDialogListener { p, s ->
-                    if(p==2){
-                        s?.let {
-                            applayToGroup(p,"${s}")
+                    mApplayJoinGroupDialog.setDialogListener { p, s ->
+                        if(p==2){
+                            s?.let {
+                                applayToGroup(p,"${s}")
+                            }
+                        }else{
+                            btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_black)
+                            btn_joingroup.text = "你已入群，打开群聊"
+                            btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
                         }
-                    }else{
-                        btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_black)
-                        btn_joingroup.text = "你已入群，打开群聊"
-                        btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
                     }
+                    mApplayJoinGroupDialog.show(supportFragmentManager,"joingroup")
                 }
-                mApplayJoinGroupDialog.show(supportFragmentManager,"joingroup")
             }else{
                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,"${mGroupId}","${tv_groupname.text}")
             }
@@ -148,8 +158,6 @@ class JoinGroupActivity : BaseActivity() {
         super.onResume()
         getUserInfo()
     }
-
-
 
     private fun getUserInfo() {
 //        Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->
@@ -248,7 +256,7 @@ class JoinGroupActivity : BaseActivity() {
 
     fun applayToGroup(p:Int,content:String){
         Request.applyToGroup("${mGroupId}","${content}").request(this,false,success={msg,data->
-            JoinGroupStatus = p
+            iIsApply = 1
             btn_joingroup.textColor = ContextCompat.getColor(this,R.color.color_888888)
             btn_joingroup.text = "正在审核中"
             btn_joingroup.background = ContextCompat.getDrawable(this,R.drawable.shape_5r_ef)
