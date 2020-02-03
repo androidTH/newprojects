@@ -53,30 +53,30 @@ class GroupUsersAdapter(mData:ArrayList<GroupUserBean>): HFRecyclerAdapter<Group
         }
 
         val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-//        if(!data.gexingqianming.isNullOrEmpty()){
-//            tv_userinfo.text = data.gexingqianming
-//            tv_userinfo.visibility = View.VISIBLE
-//        }else if(!data.ziwojieshao.isNullOrEmpty()){
-//            tv_userinfo.text = data.ziwojieshao
-//            tv_userinfo.visibility = View.VISIBLE
-//        }else{
-//            tv_userinfo.visibility = View.GONE
-//        }
+        if(!data.gexingqianming.isNullOrEmpty()){
+            tv_userinfo.text = data.gexingqianming
+            tv_userinfo.visibility = View.VISIBLE
+        }else if(!data.ziwojieshao.isNullOrEmpty()){
+            tv_userinfo.text = data.ziwojieshao
+            tv_userinfo.visibility = View.VISIBLE
+        }else{
+            tv_userinfo.visibility = View.GONE
+        }
 
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         tv_sex.isSelected = TextUtils.equals("0", "${data.sSex}")
-//        tv_sex.text = data.nianling
+        tv_sex.text = data.age
 
-//        var img_friends_auther = holder.bind<ImageView>(R.id.img_friends_auther)
-//        if(TextUtils.equals("3",data.screen)){
-//            img_friends_auther.visibility=View.GONE
-//            img_friends_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.renzheng_small)
-//        }else if(TextUtils.equals("1",data.screen)){
-//            img_friends_auther.visibility=View.VISIBLE
-//            img_friends_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.video_small)
-//        }else{
-//            img_friends_auther.visibility=View.GONE
-//        }
+        var img_friends_auther = holder.bind<ImageView>(R.id.img_friends_auther)
+        if(TextUtils.equals("3",data.screen)){
+            img_friends_auther.visibility=View.GONE
+            img_friends_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.renzheng_small)
+        }else if(TextUtils.equals("1",data.screen)){
+            img_friends_auther.visibility=View.VISIBLE
+            img_friends_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.video_small)
+        }else{
+            img_friends_auther.visibility=View.GONE
+        }
 
         headView.setOnClickListener {
             isBaseActivity {

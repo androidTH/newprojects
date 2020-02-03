@@ -164,7 +164,6 @@
         android:layout_marginTop="40dp"
         android:background="@color/white"
         android:gravity="center"
-        android:text="退出群聊"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/color_F7AB00" />

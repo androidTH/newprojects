@@ -21,6 +21,11 @@ data class GroupUserBean(@SerializedName("sId")var sId:String?):Parcelable {
     @SerializedName("sex")var sSex:String?=""
     @SerializedName("picUrl")var picUrl:String?=""
     @SerializedName("userclassesid") var userclassesid:String?=""//24黄金 23白银 22普通 28中级
+    @SerializedName("nianling") var age:String?=""
+    @SerializedName("gexingqianming") var gexingqianming:String?=""
+    @SerializedName("screen") var screen:String?=""
+    @SerializedName("userclassesname") var userclassesname:String?=""
+    @SerializedName("ziwojieshao") var ziwojieshao:String?=""
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         iUserid = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -33,9 +38,12 @@ data class GroupUserBean(@SerializedName("sId")var sId:String?):Parcelable {
         sSex = parcel.readString()
         picUrl = parcel.readString()
         userclassesid = parcel.readString()
+        age = parcel.readString()
+        gexingqianming = parcel.readString()
+        screen = parcel.readString()
+        userclassesname = parcel.readString()
+        ziwojieshao = parcel.readString()
     }
-//    @SerializedName("nianling")var nianling:String?=""
-//    @SerializedName("userclassesname") var userclassesname:String?=""
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(sId)
@@ -49,6 +57,11 @@ data class GroupUserBean(@SerializedName("sId")var sId:String?):Parcelable {
         parcel.writeString(sSex)
         parcel.writeString(picUrl)
         parcel.writeString(userclassesid)
+        parcel.writeString(age)
+        parcel.writeString(gexingqianming)
+        parcel.writeString(screen)
+        parcel.writeString(userclassesname)
+        parcel.writeString(ziwojieshao)
     }
 
     override fun describeContents(): Int {
@@ -64,4 +77,5 @@ data class GroupUserBean(@SerializedName("sId")var sId:String?):Parcelable {
             return arrayOfNulls(size)
         }
     }
+
 }

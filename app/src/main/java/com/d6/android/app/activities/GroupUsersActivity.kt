@@ -1,5 +1,6 @@
 package com.d6.android.app.activities
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -21,6 +22,8 @@ import com.d6.android.app.utils.getLoginToken
 import com.d6.android.app.utils.hideSoftKeyboard
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import io.rong.imkit.mention.RongMentionManager
+import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_groupusers.*
 import org.jetbrains.anko.startActivity
 
@@ -34,6 +37,7 @@ class GroupUsersActivity : BaseActivity() {
     private var sUserName=""
     private lateinit var mGroupBean: NewGroupBean
     fun IsNotNullGroupBean()=::mGroupBean.isInitialized
+    private var onMentionedInput:String = ""
 
     private val mGroupUsersAdapter by lazy {
         GroupUsersAdapter(mFriends)
@@ -52,9 +56,21 @@ class GroupUsersActivity : BaseActivity() {
             mGroupBean = intent.getParcelableExtra("bean")
         }
 
+        if(intent.hasExtra("onMentionedInput")){
+            onMentionedInput = intent.getStringExtra("onMentionedInput")
+        }else{
+            onMentionedInput = ""
+        }
+
         mGroupUsersAdapter.setOnItemClickListener { view, position ->
             val mFriends =  mFriends[position]
-            startActivity<UserInfoActivity>("id" to "${mFriends.iUserid}")
+            if(TextUtils.equals(onMentionedInput,"1")){
+                val userInfo = UserInfo("${mFriends.iUserid}", "${mFriends.name}", Uri.parse("${mFriends.picUrl}"))
+                RongMentionManager.getInstance().mentionMember(userInfo)
+                finish()
+            }else{
+                startActivity<UserInfoActivity>("id" to "${mFriends.iUserid}")
+            }
         }
         initRecyclerView()
         dialog()
@@ -90,6 +106,7 @@ class GroupUsersActivity : BaseActivity() {
             }
         })
         iv_search_clear.setOnClickListener {
+            sUserName = ""
             et_searchusers.text.clear()
         }
     }
@@ -120,7 +137,7 @@ class GroupUsersActivity : BaseActivity() {
     }
 
     private fun getData(uname:String) {
-        Request.getGroupMemberListByGroupId("${mGroupBean.sId}", pageNum).request(this) { _, data ->
+        Request.getGroupMemberListByGroupId("${mGroupBean.sId}","${uname}",pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 tv_grouptile.text = "群成员(${data?.list?.totalRecord})"
                 rl_friends_empty.visibility = View.GONE

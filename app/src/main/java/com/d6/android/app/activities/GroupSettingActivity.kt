@@ -41,6 +41,12 @@ class GroupSettingActivity : TitleActivity() {
 
             tv_groupname.text = "${mGroupBean.sGroupName}"
             tv_groupnum.text = "${mGroupBean.iGroupNum}"
+
+            if(mGroupBean.iIsOwner==1){
+                btn_group_leave.text = "解散群聊"
+            }else if(mGroupBean.iIsManager==1){
+                btn_group_leave.text = "退出群聊"
+            }
         }
         rv_grouplist.setHasFixedSize(true)
         rv_grouplist.isNestedScrollingEnabled = true
@@ -60,7 +66,13 @@ class GroupSettingActivity : TitleActivity() {
         }
 
         btn_group_leave.setOnClickListener {
-            quiteGroup()
+            if (IsNotNullGroupBean()) {
+                if (mGroupBean.iIsOwner == 1) {
+                    dissGroup()
+                } else {
+                    quiteGroup()
+                }
+            }
         }
 
         getUserInfo()
@@ -73,7 +85,7 @@ class GroupSettingActivity : TitleActivity() {
     }
 
     private fun getGroupUsersData() {
-        Request.getGroupMemberListByGroupId("${mGroupBean.sId}", pageNum).request(this) { _, data ->
+        Request.getGroupMemberListByGroupId("${mGroupBean.sId}","",pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mGroupUserList.clear()
                 tv_groupcount.text = "群成员(${data?.list?.totalRecord})"
@@ -85,6 +97,16 @@ class GroupSettingActivity : TitleActivity() {
             }
             mGroupUserListAdapter.notifyDataSetChanged()
         }
+
+        Request.getGroupByGroupId("${mGroupBean.sId}").request(this,false,success={msg,data->
+            data?.let {
+//                if(it.iIsOwner==1){
+//                    btn_group_leave.text = "解散群聊"
+//                }else if(it.iIsManager==1){
+//                    btn_group_leave.text = "退出群聊"
+//                }
+            }
+        })
 
        if(RongIM.getInstance() != null){
            RongIM.getInstance().getConversationNotificationStatus(Conversation.ConversationType.GROUP, "${mGroupBean.sId}", object : RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {

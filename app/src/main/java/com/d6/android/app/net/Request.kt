@@ -582,7 +582,9 @@ object Request {
 
     fun getMyGroupList(pageNum:Int=1)=RRetrofit.instance().create(ApiServices::class.java).getMyGroupList(pageNum)
 
-    fun getGroupMemberListByGroupId(sGroupId:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getGroupMemberListByGroupId(sGroupId,pageNum)
+    fun getGroupMemberListByGroupId(sGroupId:String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getGroupMemberListByGroupId(sGroupId,sUserName,pageNum)
+
+    fun getGroupAllMemberListByGroupId(sGroupId:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getGroupAllMemberListByGroupId(sGroupId,pageNum)
 
     fun updateUserGroupManager(sGroupId:String,iUserid:String,iIsManager:Int)=RRetrofit.instance().create(ApiServices::class.java).updateUserGroupManager(sGroupId,iUserid,iIsManager)
 

@@ -44,11 +44,14 @@ import com.umeng.message.PushAgent
 import io.rong.callkit.RongCallKit
 import io.rong.callkit.util.CallKitUtils
 import io.rong.imkit.RongIM
+import io.rong.imkit.mention.IMentionedInputListener
+import io.rong.imkit.mention.RongMentionManager
 import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Group
 import io.rong.imlib.model.Message
+import io.rong.imlib.model.UserInfo
 import io.rong.message.ImageMessage
 import io.rong.message.TextMessage
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -181,6 +184,31 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     }
                 })
 
+//                RongIM.getInstance().setGroupMembersProvider(object:RongIM.IGroupMembersProvider{
+//                    override fun getGroupMembers(p0: String?, callback: RongIM.IGroupMemberCallback?) {
+//                        Request.getGroupAllMemberListByGroupId("${p0}",1).request(this@ChatActivity,false,success={msg,data->
+//                            val userInfos = ArrayList<UserInfo>()
+//                            if (data?.list?.results != null) {
+//                                for (groupMember in data?.list?.results) {
+//                                    if (groupMember != null) {
+//                                        val userInfo = UserInfo("${groupMember.iUserid}", "${groupMember.name}", Uri.parse("${groupMember.picUrl}"))
+//                                        userInfos.add(userInfo)
+//                                    }
+//                                }
+//                            }
+//                            callback?.let {
+//                                callback.onGetGroupMembersResult(userInfos) // 调用 callback 的 onGetGroupMembersResult 回传群组信息
+//                            }
+//                        })
+//                    }
+//                })
+
+                RongMentionManager.getInstance().setMentionedInputListener(object: IMentionedInputListener {
+                    override fun onMentionedInput(p0: Conversation.ConversationType?, p1: String?): Boolean {
+                        startActivity<GroupUsersActivity>("bean" to mGroupBean, "onMentionedInput" to "1")
+                        return true
+                    }
+                })
 //                var group = RongUserInfoManager.getInstance().getGroupInfo(mOtherUserId)
             }
         }else if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
