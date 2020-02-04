@@ -58,6 +58,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_agree_bottom
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_no_bottom
 import kotlinx.android.synthetic.main.layout_date_chat.*
+import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.*
 import org.json.JSONObject
 import java.util.*
@@ -443,6 +444,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         getOtherUser()
 
         initGift()
+
+        FinishActivityManager.getManager().addActivity(this)
 //        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
     }
 

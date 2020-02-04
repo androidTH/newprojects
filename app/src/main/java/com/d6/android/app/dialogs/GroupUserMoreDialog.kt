@@ -39,16 +39,22 @@ class GroupUserMoreDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if(arguments!=null){
-           var userId = arguments.getString("userId")
-           var mGroupUserBean = arguments.getParcelable("bean")  as GroupUserBean
-            if(mGroupUserBean!=null){
-               if(mGroupUserBean.iIsOwner==1){
-                   ll_groupdo.visibility = View.VISIBLE
-               }else if(mGroupUserBean.iIsManager==1){
-                   ll_groupdo.visibility = View.GONE
-               }else{
-                   ll_groupdo.visibility = View.GONE
-               }
+            var userId = arguments.getString("userId")
+            var mGroupUserBean = arguments.getParcelable("bean") as GroupUserBean
+            var status = arguments.getInt("status", -1)
+            if (status == 1) {
+                if (mGroupUserBean.iIsManager == 1) {
+                    tv_allcost.text = "取消管理员"
+                } else if (mGroupUserBean.iIsManager == 2) {
+                    tv_allcost.text = "设置管理员"
+                }
+            } else if (status == 2) {
+                ll_groupdo.visibility = View.GONE
+//                if (mGroupUserBean.iIsOwner == 1 || mGroupUserBean.iIsManager == 1) {
+//                    ll_groupdo.visibility = View.GONE
+//                }else{
+//
+//                }
             }
         }
         tv_cancel.setOnClickListener {

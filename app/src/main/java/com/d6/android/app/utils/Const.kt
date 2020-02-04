@@ -262,4 +262,9 @@ object Const {
     var mVoiceTips = VoiceTips()
 
     var Max_Angle= 360.0f
+
+    @JvmField
+    var ISGROUP_OWER=-1;
+    @JvmField
+    var ISGROUP_MANAGER = -1
 }

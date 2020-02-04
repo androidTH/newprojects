@@ -52,7 +52,6 @@ import kotlinx.android.synthetic.main.activity_user_info_v2.ll_gift_parent
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
-import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

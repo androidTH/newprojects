@@ -1,5 +1,6 @@
 package com.d6.android.app.activities
 
+import android.app.Dialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.d6.android.app.R
@@ -16,6 +17,7 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_groupsetting.*
+import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
@@ -46,6 +48,8 @@ class GroupSettingActivity : TitleActivity() {
                 btn_group_leave.text = "解散群聊"
             }else if(mGroupBean.iIsManager==1){
                 btn_group_leave.text = "退出群聊"
+            }else{
+                btn_group_leave.text = "解散群聊"
             }
         }
         rv_grouplist.setHasFixedSize(true)
@@ -137,6 +141,8 @@ class GroupSettingActivity : TitleActivity() {
 
     private fun dissGroup(){
         if(IsNotNullGroupBean()){
+            dialog()
+            FinishActivityManager.getManager().finishActivity(ChatActivity::class.java)
             Request.dissGroup("${mGroupBean.sId}").request(this,false,success={msg,data->
                 finish()
                 toast("解散成功")
@@ -148,6 +154,8 @@ class GroupSettingActivity : TitleActivity() {
 
     private fun quiteGroup(){
         if(IsNotNullGroupBean()){
+            dialog()
+            FinishActivityManager.getManager().finishActivity(ChatActivity::class.java)
             Request.quiteGroup("${mGroupBean.sId}").request(this,false,success={msg,data->
                 finish()
                 toast("退出成功")

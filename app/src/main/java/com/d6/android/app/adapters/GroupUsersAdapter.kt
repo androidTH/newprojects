@@ -14,6 +14,7 @@ import com.d6.android.app.dialogs.GroupUserMoreDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.GroupUserBean
 import com.d6.android.app.models.LoveHeartFans
+import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -89,32 +90,44 @@ class GroupUsersAdapter(mData:ArrayList<GroupUserBean>): HFRecyclerAdapter<Group
 
         val tv_more = holder.bind<TextView>(R.id.tv_choose_friends)
         if(TextUtils.equals("${data.iUserid}",getLocalUserId())){
-            if(data.iIsOwner==1){
-                tv_more.visibility = View.GONE
-            }else{
-                tv_more.visibility = View.GONE
-            }
+            tv_more.visibility = View.GONE
         }else{
-            if(data.iIsOwner==1){
-                tv_more.visibility = View.GONE
-            }else if(data.iIsManager==1){
-                tv_more.visibility = View.VISIBLE
-            }else{
-                tv_more.visibility = View.VISIBLE
+            if(IsNotNullGroupBean()){
+                if(mGroupBean.iIsOwner==1){
+                     tv_more.visibility = View.VISIBLE
+                }else if(mGroupBean.iIsManager==1){
+                     if(data.iIsOwner==1||data.iIsManager==1){
+                         tv_more.visibility = View.GONE
+                     }else{
+                         tv_more.visibility = View.VISIBLE
+                     }
+                }else{
+                    tv_more.visibility = View.GONE
+                }
             }
         }
 
         tv_more.setOnClickListener {
             isBaseActivity {
+                var status = -1
+                if (IsNotNullGroupBean()) {
+                    if (mGroupBean.iIsOwner == 1) {
+                        status = 1
+                    } else if (mGroupBean.iIsManager == 1) {
+                        status = 2
+                    }
+                }
                 var mGroupUserMoreDialog = GroupUserMoreDialog()
-                mGroupUserMoreDialog.arguments = bundleOf("userId" to "${data.iUserid}","bean" to data)
+                mGroupUserMoreDialog.arguments = bundleOf("userId" to "${data.iUserid}","bean" to data,"status" to status)
                 mGroupUserMoreDialog.setDialogListener { p, s ->
                     if(p==1){
-                        data.iIsManager?.let { it1 ->
-                            if(it1==1){
-                                setUserManager("${data.sGroupId}","${data.iUserid}", 2,position)
-                            }else if(it1==2){
-                                setUserManager("${data.sGroupId}","${data.iUserid}", 1,position)
+                        if(status==1){
+                            data.iIsManager?.let { it1 ->
+                                if(it1==1){
+                                    setUserManager("${data.sGroupId}","${data.iUserid}", 2,position)
+                                }else if(it1==2){
+                                    setUserManager("${data.sGroupId}","${data.iUserid}", 1,position)
+                                }
                             }
                         }
                     }else if(p==2){
@@ -155,5 +168,12 @@ class GroupUsersAdapter(mData:ArrayList<GroupUserBean>): HFRecyclerAdapter<Group
                 it.showToast("剔除成功")
             }
         }
+    }
+
+    lateinit var mGroupBean: NewGroupBean
+    fun IsNotNullGroupBean()=::mGroupBean.isInitialized
+
+    fun setGroupOwner(group:NewGroupBean){
+        mGroupBean = group
     }
 }

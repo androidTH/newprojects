@@ -126,6 +126,7 @@ class GroupUsersActivity : BaseActivity() {
                 loadMore()
             }
         })
+        mGroupUsersAdapter.setGroupOwner(mGroupBean)
     }
 
     protected fun addItemDecoration(colorId:Int = R.color.color_D8D8D8, size:Int=1){
