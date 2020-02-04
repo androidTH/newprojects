@@ -58,8 +58,12 @@ class JoinGroupActivity : BaseActivity() {
             mGroupNum = "${mGroupBean.iGroupNum}"
             mGroupId = "${mGroupBean.sId}"
             tv_groupnumber.text = "${mGroupNum}"
-            JoinGroupStatus = mGroupBean.iInGroup!!
-            iIsApply = mGroupBean.iIsApply!!
+            mGroupBean.iInGroup?.let {
+                JoinGroupStatus = it
+            }
+            mGroupBean.iIsApply?.let {
+                iIsApply = it
+            }
             tv_groupname.text = "${mGroupBean.sGroupName}"
             groupheaderview.setImageURI("${mGroupHeaderPic}")
         }

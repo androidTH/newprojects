@@ -590,4 +590,6 @@ object Request {
 
     fun updateMemberNotification(sGroupId:String,iIsNotification:Int)=RRetrofit.instance().create(ApiServices::class.java).updateMemberNotification(sGroupId,iIsNotification)
 
+    fun updateGroup(sGroupId:String,sGroupName:String,sGroupPic:String,sGroupDesc:String)=RRetrofit.instance().create(ApiServices::class.java).updateGroup(sGroupId,sGroupName,sGroupPic,sGroupDesc)
+
 }

@@ -656,4 +656,8 @@ interface ApiServices {
 
     @POST("backstage/rongcloudgroup/updateMemberNotification")
     fun updateMemberNotification(@Query("sGroupId") sGroupId:String,@Query("iIsNotification")iIsNotification:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //修改群组的信息
+    @POST("backstage/rongcloudgroup/updateGroup")
+    fun updateGroup(@Query("sGroupId") sGroupId:String,@Query("sGroupName")sGroupName:String,@Query("sGroupPic")sGroupPic:String,@Query("sGroupDesc")sGroupDesc:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }

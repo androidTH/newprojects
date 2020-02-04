@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_10"
-            android:text="群聊名称"
+            android:text="群名称"
             android:textColor="@color/color_black"
             android:textStyle="bold"
             android:drawablePadding="@dimen/margin_10"

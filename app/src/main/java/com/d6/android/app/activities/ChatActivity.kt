@@ -177,13 +177,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 iType = 3
                 mOtherUserId = mTargetId
                 tv_chattitle.setCompoundDrawables(null, null, null, null)
-                Request.getGroupByGroupId(mOtherUserId).request(this,false,success={msg,data->
-                    data?.let {
-                        mGroupBean = data
-                        tv_chattitle.text = "${data.sGroupName}"
-                        chat_headView.setImageURI(data.sGroupPic)
-                    }
-                })
 
 //                RongIM.getInstance().setGroupMembersProvider(object:RongIM.IGroupMembersProvider{
 //                    override fun getGroupMembers(p0: String?, callback: RongIM.IGroupMemberCallback?) {
@@ -203,13 +196,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //                        })
 //                    }
 //                })
-
-                RongMentionManager.getInstance().setMentionedInputListener(object: IMentionedInputListener {
-                    override fun onMentionedInput(p0: Conversation.ConversationType?, p1: String?): Boolean {
-                        startActivity<GroupUsersActivity>("bean" to mGroupBean, "onMentionedInput" to "1")
-                        return true
-                    }
-                })
 //                var group = RongUserInfoManager.getInstance().getGroupInfo(mOtherUserId)
             }
         }else if(mConversationType.equals(Conversation.ConversationType.PRIVATE)){
@@ -447,6 +433,26 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         FinishActivityManager.getManager().addActivity(this)
 //        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(iType==3){
+            Request.getGroupByGroupId(mOtherUserId).request(this,false,success={msg,data->
+                data?.let {
+                    mGroupBean = data
+                    tv_chattitle.text = "${data.sGroupName}"
+                    chat_headView.setImageURI(data.sGroupPic)
+                }
+            })
+
+            RongMentionManager.getInstance().setMentionedInputListener(object: IMentionedInputListener {
+                override fun onMentionedInput(p0: Conversation.ConversationType?, p1: String?): Boolean {
+                    startActivity<GroupUsersActivity>("bean" to mGroupBean, "onMentionedInput" to "1")
+                    return true
+                }
+            })
+        }
     }
 
 

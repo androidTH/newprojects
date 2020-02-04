@@ -87,15 +87,15 @@ class JoinGroupDialog : DialogFragment(),RequestManager {
     private fun getGroupByGroupNums(content:String){
         isBaseActivity {
             Request.getGroupByGroupNum("${content}").request(it,false,success={msg,data->
-                data?.let {
-//                    var iInGroup = it.optInt("iInGroup")//1、不在  2、在
+                if(data!=null){
+                    // var iInGroup = it.optInt("iInGroup")//1、不在  2、在
                     if(data.iInGroup==1||data.iInGroup==2){
                         startActivity<JoinGroupActivity>("groupBean" to data)
                         dismissAllowingStateLoss()
-                    }else{
-                        tv_title.text = "无此群，请验证群号码"
-                        tv_title.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
                     }
+                }else{
+                    tv_title.text = "无此群，请验证群号码"
+                    tv_title.textColor = ContextCompat.getColor(context,R.color.color_F7AB00)
                 }
             }){code,msg->
 

@@ -16,6 +16,7 @@ import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.SelectPhotosDialog
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.AppUtils
 import com.d6.android.app.utils.getUrlPath
@@ -30,12 +31,26 @@ class CreateGroupActivity : TitleActivity() {
 
     private var tempFile: File? = null
     private var headFilePath: String? = null
+    private lateinit var mGroupBean: NewGroupBean
+    fun IsNotNullGroupBean()=::mGroupBean.isInitialized
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creategroup)
         immersionBar.init()
-        setTitleBold("创建群聊")
+        if(intent.hasExtra("bean")){
+            setTitleBold("群名称")
+            mGroupBean = intent.getParcelableExtra("bean")
+            btn_creategroup.text = "保存"
+            btn_creategroup.background = ContextCompat.getDrawable(this@CreateGroupActivity,R.drawable.shape_3r_orange_f7)
+            if(IsNotNullGroupBean()){
+                group_headView.setImageURI("${mGroupBean.sGroupPic}")
+                et_groupname.setText("${mGroupBean.sGroupName}")
+            }
+        }else{
+            setTitleBold("创建群聊")
+        }
 
         et_groupname.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(s: Editable?) {
@@ -49,7 +64,7 @@ class CreateGroupActivity : TitleActivity() {
                 if(!TextUtils.isEmpty("${s}")){
                     btn_creategroup.background = ContextCompat.getDrawable(this@CreateGroupActivity,R.drawable.shape_3r_orange_f7)
                 }else{
-                    btn_creategroup.background = ContextCompat.getDrawable(this@CreateGroupActivity,R.drawable.shape_3r_orange_f7)
+                    btn_creategroup.background = ContextCompat.getDrawable(this@CreateGroupActivity,R.drawable.shape_3r_80_orange)
                 }
             }
         })
@@ -94,10 +109,14 @@ class CreateGroupActivity : TitleActivity() {
 //
 //                }
                 if(groupname.length>=2&&groupname.length<=10){
-                    if(!TextUtils.isEmpty(headFilePath)){
-                        doCreateGroup()
+                    if(IsNotNullGroupBean()){
+                        updateGroup()
                     }else{
-                        toast("请上传群头像")
+                        if(!TextUtils.isEmpty(headFilePath)){
+                            doCreateGroup()
+                        }else{
+                            toast("请上传群头像")
+                        }
                     }
                 }else{
                     toast("群名称要求2-10个字")
@@ -160,6 +179,29 @@ class CreateGroupActivity : TitleActivity() {
             data?.let {
                 toast("创建群成功")
                 startActivity<GroupSettingActivity>("bean" to it)
+                finish()
+            }
+        }
+    }
+
+    fun updateGroup(){
+//        SealUserInfoManager.getInstance().addGroup(Groups(mGroupId, mGroupName, imageUrl, 0.toString()))
+//        BroadcastManager.getInstance(mContext).sendBroadcast(REFRESH_GROUP_UI)
+//        toast("创建群成功")
+//        RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP, mGroupId, "${et_groupname.text.trim()}")
+//        finish()
+        if(headFilePath==null){
+            dialog()
+            Request.updateGroup("${mGroupBean.sId}","${et_groupname.text.trim()}","${mGroupBean.sGroupPic}","").request(this) { _, data ->
+                toast("修改成功")
+                finish()
+            }
+        }else{
+            dialog()
+            Request.uploadFile(File(headFilePath)).flatMap {
+                Request.updateGroup("${mGroupBean.sId}","${et_groupname.text.trim()}","${it}","")
+            }.request(this) { _, data ->
+                toast("修改成功")
                 finish()
             }
         }

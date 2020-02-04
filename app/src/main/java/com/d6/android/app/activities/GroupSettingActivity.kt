@@ -41,15 +41,21 @@ class GroupSettingActivity : TitleActivity() {
         if(intent.hasExtra("bean")){
             mGroupBean = intent.getParcelableExtra("bean")
 
-            tv_groupname.text = "${mGroupBean.sGroupName}"
             tv_groupnum.text = "${mGroupBean.iGroupNum}"
-
             if(mGroupBean.iIsOwner==1){
                 btn_group_leave.text = "解散群聊"
             }else if(mGroupBean.iIsManager==1){
                 btn_group_leave.text = "退出群聊"
             }else{
                 btn_group_leave.text = "解散群聊"
+            }
+
+            if(IsNotNullGroupBean()){
+                if(mGroupBean.iIsManager==1){
+                    tv_groupname.text = "${mGroupBean.sGroupName}(可修改)"
+                }else{
+                    tv_groupname.text = "${mGroupBean.sGroupName}"
+                }
             }
         }
         rv_grouplist.setHasFixedSize(true)
@@ -69,6 +75,14 @@ class GroupSettingActivity : TitleActivity() {
             startActivity<GroupUsersActivity>("bean" to mGroupBean)
         }
 
+        rl_groupname.setOnClickListener {
+            if(IsNotNullGroupBean()){
+                if(mGroupBean.iIsManager==1||mGroupBean.iIsOwner==1){
+                    startActivity<CreateGroupActivity>("bean" to mGroupBean)
+                }
+            }
+        }
+
         btn_group_leave.setOnClickListener {
             if (IsNotNullGroupBean()) {
                 if (mGroupBean.iIsOwner == 1) {
@@ -84,7 +98,10 @@ class GroupSettingActivity : TitleActivity() {
             val id = mGroupUserList[position].iUserid
             startActivity<UserInfoActivity>("id" to "${id}")
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         getGroupUsersData()
     }
 
@@ -104,6 +121,12 @@ class GroupSettingActivity : TitleActivity() {
 
         Request.getGroupByGroupId("${mGroupBean.sId}").request(this,false,success={msg,data->
             data?.let {
+                mGroupBean = it
+                if(mGroupBean.iIsManager==1){
+                    tv_groupname.text = "${mGroupBean.sGroupName}(可修改)"
+                }else{
+                    tv_groupname.text = "${mGroupBean.sGroupName}"
+                }
 //                if(it.iIsOwner==1){
 //                    btn_group_leave.text = "解散群聊"
 //                }else if(it.iIsManager==1){
