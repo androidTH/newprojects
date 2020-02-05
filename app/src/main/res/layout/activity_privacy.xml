@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_F5F5F5"
@@ -27,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
-            android:text="隐私设置"
+            android:text="隐私保护"
             android:textColor="@color/color_black"
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -38,135 +37,441 @@
         android:layout_height="0.5dp"
         android:background="@color/color_EAEAEA" />
 
-    <RelativeLayout
-        android:id="@+id/rl_customerservice"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="@dimen/margin_10"
-        android:background="@color/white"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/tv_tips_center"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:text="不在【发现】中展示"
-            android:textColor="@color/color_black"
-            android:textSize="15sp"
-            android:visibility="visible" />
-
-        <com.d6.android.app.widget.switchbutton.SwitchButton
-            android:id="@+id/sw_card_off"
-            style="@style/SwitchButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_15"
-            android:checked="true"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            android:textSize="9sp"
-            app:kswAnimationDuration="300"
-            app:kswBackDrawable="@drawable/ios_mine_drawable"
-            app:kswBackMeasureRatio="1.7"
-            app:kswThumbDrawable="@drawable/shape_switchthum" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:background="@color/white"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <View
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:background="@color/color_EFEFEF" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="center_vertical"
-        android:background="@color/white"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/tv_joinlist"
-            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:text="榜单中隐藏身份"
-            android:textColor="@color/color_black"
-            android:textSize="15sp"
-            android:visibility="visible" />
+            android:layout_marginTop="@dimen/margin_10"
+            android:orientation="vertical">
 
-        <com.d6.android.app.widget.switchbutton.SwitchButton
-            android:id="@+id/sw_list_off"
-            style="@style/SwitchButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_15"
-            android:checked="false"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            android:textSize="9sp"
-            app:kswAnimationDuration="300"
-            app:kswBackDrawable="@drawable/ios_mine_drawable"
-            app:kswBackMeasureRatio="1.7"
-            app:kswThumbDrawable="@drawable/shape_switchthum" />
-    </RelativeLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_15"
+                android:text="隐私设置"
+                android:textColor="@color/color_666666"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-    <RelativeLayout
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:background="@color/color_EFEFEF" />
-    </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:background="@color/color_EAEAEA" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_gravity="center_vertical"
-        android:background="@color/white"
-        android:gravity="center_vertical">
+            <RelativeLayout
+                android:id="@+id/rl_customerservice"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:gravity="center_vertical">
 
-        <com.d6.android.app.widget.textinlineimage.TextInlineImage
-            android:id="@+id/tv_loveisvisible"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:text="弹幕中隐藏[img src=redheart_small/]的赠送记录"
-            android:textColor="@color/color_black"
-            android:textSize="15sp"
-            android:visibility="visible" />
+                <TextView
+                    android:id="@+id/tv_tips_center"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text=" [遇见] 中隐藏我的卡片"
+                    android:textColor="@color/color_black"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
 
-        <com.d6.android.app.widget.switchbutton.SwitchButton
-            android:id="@+id/sw_loveisvisible"
-            style="@style/SwitchButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_15"
-            android:checked="false"
-            android:padding="8dp"
-            android:textColor="@color/white"
-            android:textSize="9sp"
-            app:kswAnimationDuration="300"
-            app:kswBackDrawable="@drawable/ios_mine_drawable"
-            app:kswBackMeasureRatio="1.7"
-            app:kswThumbDrawable="@drawable/shape_switchthum" />
-    </RelativeLayout>
+                <com.d6.android.app.widget.switchbutton.SwitchButton
+                    android:id="@+id/sw_card_off"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:checked="true"
+                    android:padding="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    app:kswAnimationDuration="300"
+                    app:kswBackDrawable="@drawable/ios_mine_drawable"
+                    app:kswBackMeasureRatio="1.7"
+                    app:kswThumbDrawable="@drawable/shape_switchthum" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:background="@color/color_EFEFEF" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_joinlist"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="[榜单] 中隐藏身份"
+                    android:textColor="@color/color_black"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <com.d6.android.app.widget.switchbutton.SwitchButton
+                    android:id="@+id/sw_list_off"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:checked="false"
+                    android:padding="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    app:kswAnimationDuration="300"
+                    app:kswBackDrawable="@drawable/ios_mine_drawable"
+                    app:kswBackMeasureRatio="1.7"
+                    app:kswThumbDrawable="@drawable/shape_switchthum" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:background="@color/color_EFEFEF" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    android:id="@+id/tv_loveisvisible"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="[遇见]弹幕中隐藏[img src=redheart_small/]的赠送记录"
+                    android:textColor="@color/color_black"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <com.d6.android.app.widget.switchbutton.SwitchButton
+                    android:id="@+id/sw_loveisvisible"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:checked="false"
+                    android:padding="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    app:kswAnimationDuration="300"
+                    app:kswBackDrawable="@drawable/ios_mine_drawable"
+                    app:kswBackMeasureRatio="1.7"
+                    app:kswThumbDrawable="@drawable/shape_switchthum" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:background="@color/color_EFEFEF" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    android:id="@+id/tv_lianxi"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="屏蔽通讯录好友"
+                    android:textColor="@color/color_black"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <com.d6.android.app.widget.switchbutton.SwitchButton
+                    android:id="@+id/sw_lianxi"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:checked="false"
+                    android:padding="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    app:kswAnimationDuration="300"
+                    app:kswBackDrawable="@drawable/ios_mine_drawable"
+                    app:kswBackMeasureRatio="1.7"
+                    app:kswThumbDrawable="@drawable/shape_switchthum" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_8F5A5A"
+                android:layout_marginTop="@dimen/margin_10"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:text="我的匿名"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:background="@color/color_1AEFEFEF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:gravity="center|left"
+                    android:text="担心别人知道你的身份吗，害怕自己的隐私被泄漏吗，开通“匿名身份”即可隐身，支持以下匿名功能"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <RelativeLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_20">
+
+                    <TextView
+                        android:id="@+id/tv_unknow_dowhat01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="·匿名发布动态"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_unknow_dowhat02"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="·匿名发起约会"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_unknow_dowhat03"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_unknow_dowhat01"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:text="·匿名身份聊天"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_unknow_dowhat04"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_unknow_dowhat02"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:text="·匿名身份评论"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_25">
+
+                    <RelativeLayout
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/margin_30"
+                        android:background="@drawable/shape_white_5r"
+                        android:paddingBottom="@dimen/margin_15">
+
+                        <TextView
+                            android:id="@+id/tv_unknow_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/margin_35"
+                            android:text="匿名"
+                            android:textColor="@color/color_8F5A5A"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_unknow_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_unknow_name"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/margin_10"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_sex"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/margin_5"
+                                android:background="@drawable/ic_sex_bg_selector"
+                                android:drawableLeft="@drawable/sex_white_selector"
+                                android:drawablePadding="1dp"
+                                android:paddingLeft="3dp"
+                                android:paddingTop="0.5dp"
+                                android:paddingRight="3dp"
+                                android:paddingBottom="0.5dp"
+                                android:text=""
+                                android:textColor="@color/white"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/tv_vip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="15dp"
+                                android:textColor="@color/white"
+                                android:textSize="10sp"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:background="@mipmap/mojing" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv_unknow_tags"
+                            android:layout_width="wrap_content"
+                            android:layout_height="170dp"
+                            android:layout_below="@+id/ll_unknow_level"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_marginRight="@dimen/margin_15" />
+                    </RelativeLayout>
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/unknow_headview"
+                        style="@style/DefaultCircleNoHeadStyle"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@mipmap/nimingtouxiang_big" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_20">
+
+                    <TextView
+                        android:id="@+id/tv_unknow_square"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_4r_8f"
+                        android:gravity="center"
+                        android:text="发布动态"
+                        android:textColor="@color/color_8F5A5A"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_unknow_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_4r_8f"
+                        android:gravity="center"
+                        android:text="发布约会"
+                        android:textColor="@color/color_8F5A5A"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_unknow_start"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/shape_6r_orange"
+                        android:gravity="center"
+                        android:text="开启匿名身份"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_unknow_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

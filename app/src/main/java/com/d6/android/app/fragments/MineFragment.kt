@@ -177,7 +177,8 @@ class MineFragment : BaseFragment() {
         }
 
         rl_unknow.setOnClickListener {
-            startActivity<UnKnownActivity>()
+//            startActivity<UnKnownActivity>()
+            startActivity<PrivacySettingActivity>()
             iv_unknow_reddot.visibility = View.GONE
             SPUtils.instance().put(Const.IS_FIRST_SHOWUNKNOW_TIPS, true).apply()
         }
