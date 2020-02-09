@@ -350,6 +350,8 @@
         <activity android:name=".activities.MemberActivity" />
         <activity android:name=".activities.JoinGroupActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activities.ShareGroupActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activities.MyDateActivity" />
         <activity android:name=".activities.EditImageActivity"></activity>
         <activity android:name=".activities.BLBeautifyImageActivity"

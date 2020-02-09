@@ -30,6 +30,7 @@ import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.bean.SHARE_MEDIA
 import io.rong.imkit.RongIM
+import io.rong.imlib.MD5
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.jetbrains.anko.*
@@ -314,7 +315,7 @@ class SignInActivity : TitleActivity() {
         }
         sysErr("------->$p")
         dialog()
-        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel,sInviteCode = install_data01).request(this,false,success={ msg, data ->
+        Request.loginV2New(1, code, p, devicetoken,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getIMEI(this).toLowerCase()),sOaid = getIMEI(this),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase())).request(this,false,success={ msg, data ->
             msg?.let {
                 try {
                     val json = JSONObject(it)
@@ -346,7 +347,7 @@ class SignInActivity : TitleActivity() {
     }
 
     private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
-        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel,sInviteCode = install_data01).request(this, false, success = { msg, data ->
+        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getIMEI(this).toLowerCase()),sOaid = getIMEI(this),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase())).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
                     startActivityForResult<BindPhoneActivity>(2, "openId" to openId,"unionId" to unionid, "name" to name, "gender" to gender, "headerpic" to iconurl)

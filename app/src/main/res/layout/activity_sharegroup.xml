@@ -26,7 +26,7 @@
             android:layout_centerInParent="true"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="加入群聊"
+            android:text="分享群卡片"
             android:textColor="@color/color_black"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -41,11 +41,21 @@
         android:layout_marginTop="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_30"
         android:paddingBottom="@dimen/margin_10"
-        android:background="@drawable/shape_10r_white">
+        android:background="@drawable/shape_7r_white">
+        <ImageView
+            android:id="@+id/iv_logo_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:src="@mipmap/share_d6logo_pic" />
+
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/groupheaderview"
             style="@style/DefaultCircleHeadStyle"
-            android:layout_marginTop="@dimen/margin_20"
+            android:layout_below="@+id/iv_logo_pic"
+            android:layout_marginTop="@dimen/margin_10"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_centerHorizontal="true"/>
@@ -58,7 +68,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_10"
             android:textColor="@color/color_666666"
-            android:textStyle="bold"
             android:textSize="15sp"/>
 
         <TextView
@@ -73,23 +82,9 @@
             android:textStyle="bold"
             android:textSize="26sp" />
 
-        <TextView
-            android:id="@+id/btn_joingroup"
-            android:layout_below="@+id/tv_groupnumber"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginRight="@dimen/margin_15"
-            android:background="@drawable/shape_setting_bg"
-            android:gravity="center"
-            android:text="申请加入该群"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
 
         <RelativeLayout
-            android:layout_below="@+id/btn_joingroup"
+            android:layout_below="@+id/tv_groupnumber"
             android:layout_marginTop="@dimen/margin_40"
             android:layout_width="match_parent"
             android:layout_marginLeft="@dimen/margin_15"

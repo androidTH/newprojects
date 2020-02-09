@@ -241,8 +241,9 @@ object Request {
             RRetrofit.instance().create(ApiServices::class.java).loginV2(type, vercode, phone, guoneiguowai, openId,devicetoken)
 
 
-    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="",sUnionid:String?="",sChannelId:String = "",sInviteCode:String) =
-            RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken,sUnionid,sChannelId,sInviteCode)
+    fun loginV2New(type: Int, vercode: String? = null, phone: String? = null, guoneiguowai: String? = null, openId: String? = null,devicetoken:String?="",sUnionid:String?="",sChannelId:String = "",sInviteCode:String
+    ,sImei:String,sOaid:String,sAndroidId:String) = RRetrofit.instance().create(ApiServices::class.java).loginV2New(type, vercode, phone, guoneiguowai, openId,devicetoken,sUnionid,sChannelId,sInviteCode,
+            sImei,sOaid,sAndroidId)
 
 
     fun findDataDict(key: String? = "quhao") =
@@ -361,7 +362,7 @@ object Request {
                                 ,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAccountCardListPage(userId,sCity,sex,userclassesid,agemin,agemax,lat,lon,pageNum)
 
     //绑定手机号
-    fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String,sChannelId:String?,sInviteCode:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic,sChannelId,sInviteCode)
+    fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String,sChannelId:String?,sInviteCode:String,sImei:String,sOaid:String,sAndroidId:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic,sChannelId,sInviteCode,sImei,sOaid,sAndroidId)
 
     //赠送积分
     fun loginForPoint(sLoginToken:String,iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPointNew(sLoginToken,iUserid)

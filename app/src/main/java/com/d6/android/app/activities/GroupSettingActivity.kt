@@ -93,6 +93,15 @@ class GroupSettingActivity : TitleActivity() {
             }
         }
 
+        rl_member_center.setOnClickListener {
+            if(IsNotNullGroupBean()){
+                startActivity<ShareGroupActivity>("groupBean" to mGroupBean)
+//                if(mGroupBean.iIsOwner==1||mGroupBean.iIsManager==1){
+//
+//                }
+            }
+        }
+
         getUserInfo()
         mGroupUserListAdapter.setOnItemClickListener { _, position ->
             val id = mGroupUserList[position].iUserid

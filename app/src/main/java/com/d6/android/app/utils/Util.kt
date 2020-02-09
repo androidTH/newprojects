@@ -1,5 +1,6 @@
 package com.d6.android.app.utils
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.AppOpsManager
@@ -23,6 +24,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -69,6 +71,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.rong.imkit.RongIM
+import io.rong.imlib.MD5
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
@@ -1367,6 +1370,29 @@ fun getDialogCommonTips(activity: BaseActivity,msg:String): CommonTipDialog{
 fun getProxyUrl(mConent:Context,url:String):String?{
     var  proxy = D6Application.getProxy(mConent)
     return proxy?.getProxyUrl(url)
+}
+
+//获取手机IMEI号
+@SuppressLint("MissingPermission")
+fun getIMEI(context:Context):String {
+    try {
+        var tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        return tm.getDeviceId()
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+
+    return SPUtils.instance().getString(Const.User.DEVICETOKEN)
+}
+
+fun getAndroidID(context:Context):String{
+    try {
+        return Settings.Secure.getString(context.contentResolver,
+                Settings.Secure.ANDROID_ID)
+    } catch (ex: Exception) {
+        ex.printStackTrace()
+    }
+    return ""
 }
 
 

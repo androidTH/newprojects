@@ -406,6 +406,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 return UserInfo(getLocalUserId(), getLocalUserName(), Uri.parse(getLocalUserHeadPic()))
             }
         },true)
+
     }
 
     private fun initPopup(){
@@ -462,6 +463,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()
         reconnect()
+        Log.i("MainActivity","IMEI=${getIMEI(this)},androidId=${getAndroidID(this)}")
     }
 
     private fun reconnect() {

@@ -15,6 +15,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import io.rong.imkit.RongIM
+import io.rong.imlib.MD5
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_bindphone_layout.*
 import kotlinx.android.synthetic.main.activity_bindphone_layout.et_code
@@ -214,7 +215,7 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
 
-       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel,sInviteCode = install_data01).request(this,false,success = {msg,data->
+       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getIMEI(this).toLowerCase()),sOaid = getIMEI(this),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase())).request(this,false,success = { msg, data->
            clearLoginToken()
            saveMsg(msg)
            saveUserInfo(data)
