@@ -1,5 +1,6 @@
 package com.d6.android.app.fragments
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.Log
@@ -35,6 +36,7 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
+import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
@@ -100,7 +102,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         headerView.rl_sys.setOnClickListener {
             headerView.iv1_sys_num.visibility = View.GONE
             SPUtils.instance().put(Const.SYSMSG_LAST_TIME, D6Application.systemTime).apply()
-            startActivity<SystemMessagesNewActivity>()
+            startActivity<SystemMessagesActivity>()
         }
 
         headerView.rl_square.setOnClickListener {
@@ -218,33 +220,30 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     private var mCirclePop: EasyPopup?=null
     private fun initPopup(){
         if (activity!= null) {
-            var mContentView  = LayoutInflater.from(activity).inflate(R.layout.popup_message_layout, null)
-            if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
+            var mContentView = LayoutInflater.from(activity).inflate(R.layout.popup_message_layout, null)
+            if (TextUtils.equals(CustomerServiceId, getLocalUserId()) || TextUtils.equals(CustomerServiceWomenId, getLocalUserId())) {
                 mContentView.findViewById<View>(R.id.line_searchusers)?.visibility = View.VISIBLE
                 mContentView.findViewById<View>(R.id.tv_search_users)?.visibility = View.VISIBLE
-                showNums = showNums +1
-            }else{
+                showNums = showNums + 1
+            } else {
                 mContentView.findViewById<View>(R.id.line_searchusers)?.visibility = View.GONE
                 mContentView.findViewById<View>(R.id.tv_search_users)?.visibility = View.GONE
             }
 
-            if(iIsCreateGroup==1){
+            if (iIsCreateGroup == 1) {
                 mContentView.findViewById<View>(R.id.tv_creategroup)?.visibility = View.GONE
                 mContentView.findViewById<View>(R.id.line_creategroup)?.visibility = View.GONE
-            }else{
-                showNums = showNums +1
+            } else {
+                showNums = showNums + 1
                 mContentView.findViewById<View>(R.id.tv_creategroup)?.visibility = View.VISIBLE
                 mContentView.findViewById<View>(R.id.line_creategroup)?.visibility = View.VISIBLE
             }
 
-            mCirclePop = EasyPopup.create()
-//                    if(showNums == 1){
-//
-//                    }else if(showNums==2){
-//                      setContentView(mContentView,ScreenUtil.dip2px(activity,145.0f),ScreenUtil.dip2px(activity,165.0f))//70.0f
-            mCirclePop =  EasyPopup.create().setAnimationStyle(R.style.RightTop2PopAnim)
-                    .setContentView(mContentView)
-                    .setOnViewListener { view, popup ->
+            if(showNums == 1) {
+                mContentView.findViewById<View>(R.id.rl_popup)?.backgroundDrawable = ContextCompat.getDrawable(activity,R.mipmap.topwindows01_bg)
+            }
+            mCirclePop = EasyPopup.create().setAnimationStyle(R.style.RightTop2PopAnim)
+                    .setContentView(mContentView).setOnViewListener { view, popup ->
                         view.findViewById<TextView>(R.id.tv_creategroup).setOnClickListener {
                             startActivity<CreateGroupActivity>()
                             mCirclePop!!.dismiss()

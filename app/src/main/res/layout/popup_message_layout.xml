@@ -6,6 +6,7 @@
     android:orientation="vertical">
     <!--ic_popup_bg-->
     <RelativeLayout
+        android:id="@+id/rl_popup"
         android:layout_width="match_parent"
         android:background="@mipmap/top_background"
         android:paddingBottom="@dimen/margin_5"

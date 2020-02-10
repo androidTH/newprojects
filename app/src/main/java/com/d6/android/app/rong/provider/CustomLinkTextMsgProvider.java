@@ -1,6 +1,7 @@
 package com.d6.android.app.rong.provider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -16,6 +17,9 @@ import com.d6.android.app.rong.bean.CustomLinkTextMsg;
 import com.d6.android.app.rong.bean.GroupApplyMessage;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.rong.imkit.emoticon.AndroidEmoji;
 import io.rong.imkit.model.ProviderTag;
@@ -57,16 +61,6 @@ public class CustomLinkTextMsgProvider extends IContainerItemProvider.MessagePro
         holder.line_group = view.findViewById(R.id.line_group);
         holder.tv_checkmore = view.findViewById(R.id.tv_checkmore);
 
-        holder.ll_group_info.setVisibility(View.VISIBLE);
-        holder.linear_group_agree.setVisibility(View.VISIBLE);
-        holder.line_group.setVisibility(View.GONE);
-        holder.tv_checkmore.setVisibility(View.GONE);
-
-        holder.ll_group_info.setVisibility(View.VISIBLE);
-        holder.linear_group_agree.setVisibility(View.GONE);
-        holder.line_group.setVisibility(View.GONE);
-        holder.tv_checkmore.setVisibility(View.GONE);
-
         holder.ll_group_info.setVisibility(View.GONE);
         holder.linear_group_agree.setVisibility(View.GONE);
         holder.line_group.setVisibility(View.VISIBLE);
@@ -92,7 +86,53 @@ public class CustomLinkTextMsgProvider extends IContainerItemProvider.MessagePro
 
     @Override
     public void onItemClick(View view, int position, CustomLinkTextMsg content, UIMessage message) {
+        if(!TextUtils.isEmpty(content.getExtra())){
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(content.getExtra());
+                if(jsonObject.has("type")){
+                    String type = jsonObject.getString("type");
+                    String id = jsonObject.getString("id");
+                    Intent intent = new Intent();
+                    if(TextUtils.equals(type,"1")){
 
+                    }else if(TextUtils.equals(type,"2")){
+                        intent.setAction("com.d6.android.app.activities.SquareTrendDetailActivity");
+                        intent.putExtra("id",id+"");
+                    }else if(TextUtils.equals(type,"3")){
+                        intent.setAction("com.d6.android.app.activities.OldFansActivity");
+                    }else if(TextUtils.equals(type,"4")){
+                        intent.setAction("com.d6.android.app.activities.UserInfoActivity");
+                        intent.putExtra("id",id+"");
+                    }else if(TextUtils.equals(type,"5")){
+                        intent.setAction("com.d6.android.app.activities.SquareTrendDetailActivity");
+
+                    }else if(TextUtils.equals(type,"6")){
+                        intent.setAction("com.d6.android.app.activities.RecommendDateActivity");
+                    }else if(TextUtils.equals(type,"7")){
+                        intent.setAction("com.d6.android.app.activities.SquareTrendDetailActivity");
+                    }else if(TextUtils.equals(type,"8")){
+                        intent.setAction("com.d6.android.app.activities.FindDateDetailActivity");
+                        intent.putExtra("id",id+"");
+                    }else if(TextUtils.equals(type,"9")){
+                        intent.setAction("com.d6.android.app.activities.SpeedDateDetailActivity");
+                        intent.putExtra("id",id+"");
+                    }else if(TextUtils.equals(type,"10")){
+                        intent.setAction("com.d6.android.app.activities.MyPointsActivity");
+                    }else if(TextUtils.equals(type,"11")){
+                        intent.setAction("com.d6.android.app.activities.FansActivity");
+                    }else if(TextUtils.equals(type,"12")){
+                        intent.setAction("com.d6.android.app.activities.InviteGoodFriendsActivity");
+                    }
+                    view.getContext().startActivity(intent);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+//                    else if(TextUtils.equals(type,"4")){
+//                        holder.mTvMsgContent.setVisibility(View.VISIBLE);
+//                    }
+        }
     }
     @Override
     public void onItemLongClick(final View view, int position, final CustomLinkTextMsg content, final UIMessage message) {

@@ -47,7 +47,11 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
     private val position by lazy{
-        intent.getIntExtra("position",-1)
+        if(intent.hasExtra("position")){
+            intent.getIntExtra("position",-1)
+        }else{
+            -1
+        }
     }
 
     private val userId by lazy {

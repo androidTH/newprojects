@@ -177,7 +177,28 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 iType = 3
                 mOtherUserId = mTargetId
                 tv_chattitle.setCompoundDrawables(null, null, null, null)
-
+                Request.getGroupByGroupId("${mOtherUserId}").request(this,false,success={msg,data->
+                    if(data!=null){
+                        // var iInGroup = it.optInt("iInGroup")//1、不在  2、在
+                        if(data.iGroupStatus==1){
+                            if(data.iInGroup==1){
+                                toast("你不在此群聊中")
+                                onBackPressed()
+                            }
+                        }else{
+                            if(data.iGroupStatus==2){
+                                toast("群已停用")
+                            }else{
+                                toast("群已解散")
+                            }
+                            onBackPressed()
+                        }
+                    }else{
+                        onBackPressed()
+                    }
+                }){code,msg->
+                    onBackPressed()
+                }
 //                RongIM.getInstance().setGroupMembersProvider(object:RongIM.IGroupMembersProvider{
 //                    override fun getGroupMembers(p0: String?, callback: RongIM.IGroupMemberCallback?) {
 //                        Request.getGroupAllMemberListByGroupId("${p0}",1).request(this@ChatActivity,false,success={msg,data->

@@ -555,7 +555,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     val view1 = tabhost.tabWidget.getChildTabViewAt(3)
                     if (view1 != null) {
                         unReadMsgNum = 0
+
                         unReadMsgNum = unReadMsgNum + it
+
                         Log.i("messagesssssss","${unReadMsgNum}显示getUnreadCount")
 
                           //2.5移除

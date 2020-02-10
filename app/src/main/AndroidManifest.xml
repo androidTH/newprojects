@@ -356,9 +356,20 @@
         <activity android:name=".activities.EditImageActivity"></activity>
         <activity android:name=".activities.BLBeautifyImageActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activities.FansActivity"/>
+        <activity android:name=".activities.FansActivity">
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.FansActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.FollowActivity"/>
-        <activity android:name=".activities.OldFansActivity"/>
+        <activity android:name=".activities.OldFansActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.OldFansActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.OldFollowActivity"/>
         <activity android:name=".activities.VistorsActivity"/>
         <activity android:name=".activities.FilterSquaresActivity"
@@ -408,7 +419,12 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RecommendDateActivity"/>
+        <activity android:name=".activities.RecommendDateActivity">
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.RecommendDateActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.AppointmentActivity"/>
         <activity android:name=".activities.AudioChatActivity"/>
         <activity android:name=".activities.PointExplainActivity"/>
@@ -416,7 +432,12 @@
         <activity android:name=".activities.PrivilegeDescActivity"/>
         <activity android:name=".activities.BindPhoneActivity"/>
         <activity android:name=".activities.BlackListActivity"/>
-        <activity android:name=".activities.InviteGoodFriendsActivity"/>
+        <activity android:name=".activities.InviteGoodFriendsActivity">
+            <intent-filter>
+                <action android:name="com.d6.android.app.activities.InviteGoodFriendsActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.UnKnownActivity"/>
         <activity android:name=".activities.SexChooseActivity"
             android:theme="@style/chooseAnim"/>

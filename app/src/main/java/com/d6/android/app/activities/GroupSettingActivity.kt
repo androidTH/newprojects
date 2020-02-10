@@ -118,7 +118,6 @@ class GroupSettingActivity : TitleActivity() {
         Request.getGroupMemberListByGroupId("${mGroupBean.sId}","",pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mGroupUserList.clear()
-                tv_groupcount.text = "群成员(${data?.list?.totalRecord})"
             }
             if (data?.list?.results == null || data.list.results.isEmpty()) {
 
@@ -131,6 +130,7 @@ class GroupSettingActivity : TitleActivity() {
         Request.getGroupByGroupId("${mGroupBean.sId}").request(this,false,success={msg,data->
             data?.let {
                 mGroupBean = it
+                tv_groupcount.text = "群成员(${mGroupBean.iMemberCount})"
                 if(mGroupBean.iIsManager==1){
                     tv_groupname.text = "${mGroupBean.sGroupName}(可修改)"
                 }else{
@@ -145,6 +145,7 @@ class GroupSettingActivity : TitleActivity() {
         })
 
        if(RongIM.getInstance() != null){
+
            RongIM.getInstance().getConversationNotificationStatus(Conversation.ConversationType.GROUP, "${mGroupBean.sId}", object : RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
                override fun onSuccess(conversationNotificationStatus: Conversation.ConversationNotificationStatus) {
                    if (conversationNotificationStatus == Conversation.ConversationNotificationStatus.DO_NOT_DISTURB) {

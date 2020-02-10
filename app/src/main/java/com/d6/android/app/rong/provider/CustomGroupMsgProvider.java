@@ -58,11 +58,6 @@ public class CustomGroupMsgProvider extends IContainerItemProvider.MessageProvid
         holder.tv_checkmore = view.findViewById(R.id.tv_checkmore);
 
         holder.ll_group_info.setVisibility(View.VISIBLE);
-        holder.linear_group_agree.setVisibility(View.VISIBLE);
-        holder.line_group.setVisibility(View.GONE);
-        holder.tv_checkmore.setVisibility(View.GONE);
-
-        holder.ll_group_info.setVisibility(View.VISIBLE);
         holder.linear_group_agree.setVisibility(View.GONE);
         holder.line_group.setVisibility(View.GONE);
         holder.tv_checkmore.setVisibility(View.GONE);
@@ -103,7 +98,12 @@ public class CustomGroupMsgProvider extends IContainerItemProvider.MessageProvid
                     GroupApplyMessage msg = GsonHelper.getGson().fromJson(content.getExtra(), GroupApplyMessage.class);
                     holder.tv_msg_content.setText(msg.getContent());
                     holder.tv_groupname.setText(msg.getsGroupName());
-                    holder.group_headview.setImageURI(msg.getsGroupPic());
+                    if(msg.getsGroupPic().isEmpty()){
+                        holder.ll_group_info.setVisibility(View.GONE);
+                    }else{
+                        holder.group_headview.setImageURI(msg.getsGroupPic());
+                        holder.ll_group_info.setVisibility(View.VISIBLE);
+                    }
                 }catch (Exception e) {
                     e.printStackTrace();
                 }

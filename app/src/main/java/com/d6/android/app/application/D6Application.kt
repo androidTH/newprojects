@@ -387,6 +387,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 
 
         if(SystemUtils.isInBackground(this)){
+            var mGroupIdSplit:List<String>?=null
             if(message==null){
                 return false
             }
@@ -411,7 +412,17 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                     myNotificationView.setTextViewText(R.id.notification_title, "D6社区")
                 }
             }else if(message.conversationType==Conversation.ConversationType.GROUP){
-                myNotificationView.setTextViewText(R.id.notification_title,"匿名")
+                mGroupIdSplit = message.targetId.split("_")
+                if(mGroupIdSplit!=null&&mGroupIdSplit.size>1){
+                    myNotificationView.setTextViewText(R.id.notification_title,"匿名")
+                }else{
+                    var groupBean = RongUserInfoManager.getInstance().getGroupInfo(message.targetId)
+                    if(groupBean!=null){
+                        myNotificationView.setTextViewText(R.id.notification_title,"${groupBean.name}")
+                    }else{
+                        myNotificationView.setTextViewText(R.id.notification_title,"群消息")
+                    }
+                }
             }
 
             myNotificationView.setTextViewText(R.id.notification_text,getMessageContent(message.content))
@@ -431,7 +442,27 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             builder.setAutoCancel(true)
             builder.setContentIntent(pendingIntent)
             notification = builder.build()
-            manager.notify(1,notification)
+            if (message.conversationType == Conversation.ConversationType.GROUP) {
+                if (mGroupIdSplit != null && mGroupIdSplit.size > 1) {
+                    manager.notify(1, notification)
+                } else {
+                    if (RongIM.getInstance() != null) {
+                        RongIM.getInstance().getConversationNotificationStatus(Conversation.ConversationType.GROUP, "${message.targetId}", object : RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
+                            override fun onSuccess(conversationNotificationStatus: Conversation.ConversationNotificationStatus) {
+                                if (conversationNotificationStatus == Conversation.ConversationNotificationStatus.NOTIFY) {
+                                    manager.notify(1, notification)
+                                }
+                            }
+
+                            override fun onError(errorCode: RongIMClient.ErrorCode) {
+                                manager.notify(1, notification)
+                            }
+                        })
+                    }
+                }
+            } else {
+                manager.notify(1, notification)
+            }
         }
         return true
     }

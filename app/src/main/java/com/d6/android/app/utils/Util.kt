@@ -878,6 +878,7 @@ fun confirmToGroup(activity:Activity,sApplyId:String,iStatus:String) {
 
         }
     },false,success={ msg, data->
+        showToast("${msg}")
         Log.i("confirmToGroup","状态：${iStatus},时间：${data}")
     }){code,msg->
 
