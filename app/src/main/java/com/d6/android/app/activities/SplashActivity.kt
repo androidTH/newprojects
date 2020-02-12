@@ -177,10 +177,12 @@ class SplashActivity : BaseActivity() {
 //            }
 //        })
 
+
         tv_protocols.movementMethod = LinkMovementMethod.getInstance()
-        val s = "点击登录/注册即表示同意 用户协议"
+        val s = "点击登录/注册即表示同意 用户协议 隐私政策"
         tv_protocols.text = SpanBuilder(s)
-                .click(s.length - 5, s.length, MClickSpan(this))
+                .click(s.length - 10, s.length-5, MClickSpan(this,1))
+                .click(s.length-5,s.length,MClickSpan(this,2))
                 .build()
 
         clearLoginToken()
@@ -340,9 +342,14 @@ class SplashActivity : BaseActivity() {
         }
     }
 
-    private class MClickSpan(val context: Context) : ClickableSpan() {
+    private class MClickSpan(val context: Context,var type:Int) : ClickableSpan() {
         override fun onClick(p0: View?) {
-            context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "file:///android_asset/yonghuxieyi.html")
+            if(type==1){
+                context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "file:///android_asset/yonghuxieyi.html")
+            }else if(type==2){
+                val url = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
+                context.startActivity<WebViewActivity>("title" to "隐私政策", "url" to url)
+            }
         }
 
         override fun updateDrawState(ds: TextPaint?) {

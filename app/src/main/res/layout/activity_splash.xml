@@ -115,10 +115,10 @@
         android:id="@+id/tv_protocols"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/margin_25"
-        android:textSize="12sp"
         android:textColor="@color/color_888888"
         android:text="点击登录/注册即表示同意 用户协议"/>
 </RelativeLayout>

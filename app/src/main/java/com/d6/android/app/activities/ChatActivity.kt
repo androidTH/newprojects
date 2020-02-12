@@ -1385,6 +1385,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                                 setFragmentTopMargin(0)
                                 getApplyStatus()
                             }
+                        }else if(jsonObject.has("iGroupStatus")){
+                            //2、加入 3、踢出 4、主动退出 5、群组解散
+                            var iGroupStatus = jsonObject.optString("iGroupStatus")
+                            if(!TextUtils.equals("2",iGroupStatus)){
+                                onBackPressed()
+                            }
                         }else{
                             getApplyStatus()
                         }

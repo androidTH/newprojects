@@ -195,7 +195,6 @@ public class AppScreenUtils
 	 * @param context 上下文对象
 	 * @return true(显示虚拟导航栏)，false(不显示或不支持虚拟导航栏)
 	 */
-
 	public static boolean checkNavigationBarShow(@NonNull Context context) {
 		boolean hasNavigationBar = false;
 		Resources rs = context.getResources();
@@ -306,7 +305,7 @@ public class AppScreenUtils
 		int resourceId = resources.getIdentifier("navigation_bar_height","dimen", "android");
 		int height = 0;
 		if(checkNavigationBarShow(context)){
-			 height = resources.getDimensionPixelSize(resourceId);
+			height = resources.getDimensionPixelSize(resourceId);
 		}
 		return height;
 	}

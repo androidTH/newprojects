@@ -86,6 +86,7 @@
         android:background="@drawable/shape_4r_red_to_366"
         android:textSize="18sp"/>
     <RelativeLayout
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <com.d6.android.app.widget.CircleProgressView

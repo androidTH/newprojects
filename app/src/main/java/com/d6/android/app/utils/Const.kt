@@ -267,4 +267,7 @@ object Const {
     var ISGROUP_OWER=-1;
     @JvmField
     var ISGROUP_MANAGER = -1
+
+    @JvmField
+    var UPDATE_GROUPS_STATUS:Int = -1
 }

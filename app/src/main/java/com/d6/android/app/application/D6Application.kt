@@ -34,6 +34,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
+import com.d6.android.app.utils.Const.UPDATE_GROUPS_STATUS
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.danikula.videocache.HttpProxyCacheServer
 //import com.didichuxing.doraemonkit.DoraemonKit
@@ -320,10 +321,19 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 
     override fun onReceived(message: Message?, p1: Int): Boolean {
         if (message != null &&(message.conversationType == Conversation.ConversationType.PRIVATE||message.conversationType==Conversation.ConversationType.GROUP)) {
-            sendBroadcast(Intent(Const.NEW_MESSAGE))
-            if(TextUtils.equals(Const.CHAT_TARGET_ID,message.targetId)){
-                sendBroadcast(Intent(Const.CHAT_MESSAGE))
+            if(message.content is CustomGroupMsg){
+                //2、加入 3、踢出 4、主动退出 5、群组解散
+                var groupmsg = message.content as CustomGroupMsg
+                var jsonObject = JSONObject(groupmsg.extra)
+                if(jsonObject.has("status")){
+                    UPDATE_GROUPS_STATUS = -1
+                }
+                Log.i("onReceived","${jsonObject}")
             }
+            sendBroadcast(Intent(Const.NEW_MESSAGE))
+//            if(TextUtils.equals(Const.CHAT_TARGET_ID,message.targetId)){
+//                sendBroadcast(Intent(Const.CHAT_MESSAGE))
+//            }
         }
 
         //“加微信”检测（检测到文本中有连续6位及以上是数字或字母的消息）

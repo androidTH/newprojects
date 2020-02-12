@@ -12,6 +12,7 @@ public class GroupApplyMessage {
    private String content;
    private String sApplyId;
    private String iUserid;
+   private String status;//2、加入群聊 3、踢出群聊
 
     public String getsGroupName() {
         return sGroupName == null ? "" : sGroupName;
@@ -51,5 +52,13 @@ public class GroupApplyMessage {
 
     public void setiUserid(String iUserid) {
         this.iUserid = iUserid;
+    }
+
+    public String getStatus() {
+        return status == null ? "" : status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -35,6 +35,7 @@ import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
+import kotlinx.android.synthetic.main.item_group.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.startActivity
@@ -375,6 +376,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             e.printStackTrace()
         }
 
+        updateGroupList()
+    }
+
+    private fun updateGroupList(){
         if(IsNotNullHeaderiew()){
             headerView.rv_grouplist.setHasFixedSize(true)
             headerView.rv_grouplist.isNestedScrollingEnabled = true
@@ -386,14 +391,18 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                startActivity<GroupSettingActivity>("bean" to groupBean)
                 RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,"${groupBean.sId}","${groupBean.sGroupName}")
             }
-            getGroupData()
+            if(Const.UPDATE_GROUPS_STATUS==-1){
+                getGroupData()
+                Const.UPDATE_GROUPS_STATUS = 0
+            }
         }
     }
 
     private fun getGroupData() {
         Request.getMyGroupList(pageNum).request(this,success = { _, data ->
-            mGroupList.clear()
             data?.let {
+                mGroupList.clear()
+                Log.i("onReceived","${Const.UPDATE_GROUPS_STATUS}-----${it.list?.results?.size}")
                 if (it.list?.results == null || it.list.results.isEmpty()) {
                     if (pageNum > 1) {
 
@@ -401,6 +410,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         headerView.ll_groups.visibility = View.GONE
                     }
                 }else{
+                    headerView.ll_groups.visibility = View.VISIBLE
                     mGroupList.addAll(it.list?.results)
                     mGroupListAdapter.notifyDataSetChanged()
                 }
@@ -443,6 +453,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     override fun onRefresh() {
         SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
         SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
+        Const.UPDATE_GROUPS_STATUS = -1
         getData()
         getSysLastOne(SysMsg_time.toString())
         getSquareMsg(SquareMsg_time.toString())

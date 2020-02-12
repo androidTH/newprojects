@@ -23,6 +23,11 @@ class AboutUsMainActivity : TitleActivity() {
         immersionBar.init()
         title = "关于我们"
 
+        tv_privacy.setOnClickListener {
+            val url = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
+            startActivity<WebViewActivity>("title" to "隐私政策", "url" to url)
+        }
+
         tv_aboutUs.setOnClickListener {
             val about_us = API.STATIC_BASE_URL + "guanyuwomen?header=0"
             startActivity<WebViewActivity>("title" to "关于我们", "url" to about_us)

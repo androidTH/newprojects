@@ -44,7 +44,7 @@ class GroupSettingActivity : TitleActivity() {
             tv_groupnum.text = "${mGroupBean.iGroupNum}"
             if(mGroupBean.iIsOwner==1){
                 btn_group_leave.text = "解散群聊"
-            }else if(mGroupBean.iIsManager==1){
+            }else if(mGroupBean.iIsManager==1||mGroupBean.iIsManager==2){
                 btn_group_leave.text = "退出群聊"
             }else{
                 btn_group_leave.text = "解散群聊"
