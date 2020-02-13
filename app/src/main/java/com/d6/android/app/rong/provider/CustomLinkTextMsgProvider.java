@@ -12,10 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
-import com.d6.android.app.rong.bean.CustomGroupMsg;
 import com.d6.android.app.rong.bean.CustomLinkTextMsg;
-import com.d6.android.app.rong.bean.GroupApplyMessage;
-import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.json.JSONException;

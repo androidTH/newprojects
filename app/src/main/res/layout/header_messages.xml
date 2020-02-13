@@ -89,6 +89,7 @@
         android:id="@+id/rl_sys"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:padding="@dimen/activity_horizontal_margin">
 
         <ImageView
@@ -173,6 +174,7 @@
 
     <View
         style="@style/view_line_h"
+        android:visibility="gone"
         android:layout_marginLeft="25dp" />
     <RelativeLayout
         android:id="@+id/rl_square"

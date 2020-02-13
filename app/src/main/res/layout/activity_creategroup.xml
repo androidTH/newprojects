@@ -21,7 +21,9 @@
             app:roundingBorderWidth="1dp"
             android:gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_15"
-            style="@style/NoBorderWidthHeadStyle"/>
+            app:failureImage="@mipmap/group_nor_icon"
+            app:placeholderImage="@mipmap/group_nor_icon"
+            style="@style/NoDefaultHeadStyle"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

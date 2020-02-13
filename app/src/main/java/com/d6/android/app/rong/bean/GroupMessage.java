@@ -8,15 +8,13 @@ import com.google.gson.annotations.SerializedName;
  * desc   :
  * version:
  */
-public class GroupApplyMessage {
+public class GroupMessage {
     @SerializedName("sGroupName")
     public String sGroupName;
     @SerializedName("sGroupPic")
     public String sGroupPic;
     @SerializedName("content")
     public String content;
-    @SerializedName("sApplyId")
-    public String sApplyId;
 
     public String getsGroupName() {
         return sGroupName == null ? "" : sGroupName;
@@ -40,13 +38,5 @@ public class GroupApplyMessage {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getsApplyId() {
-        return sApplyId == null ? "" : sApplyId;
-    }
-
-    public void setsApplyId(String sApplyId) {
-        this.sApplyId = sApplyId;
     }
 }

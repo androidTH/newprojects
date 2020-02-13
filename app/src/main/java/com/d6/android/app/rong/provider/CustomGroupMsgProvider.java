@@ -11,9 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
-import com.d6.android.app.rong.bean.CustomGroupApplyMsg;
 import com.d6.android.app.rong.bean.CustomGroupMsg;
-import com.d6.android.app.rong.bean.GroupApplyMessage;
+import com.d6.android.app.rong.bean.GroupMessage;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -95,7 +94,7 @@ public class CustomGroupMsgProvider extends IContainerItemProvider.MessageProvid
         if (data.getMessageDirection() == Message.MessageDirection.RECEIVE) {
             if(!TextUtils.isEmpty(content.getExtra())){
                 try{
-                    GroupApplyMessage msg = GsonHelper.getGson().fromJson(content.getExtra(), GroupApplyMessage.class);
+                    GroupMessage msg = GsonHelper.getGson().fromJson(content.getExtra(), GroupMessage.class);
                     holder.tv_msg_content.setText(msg.getContent());
                     holder.tv_groupname.setText(msg.getsGroupName());
                     if(msg.getsGroupPic().isEmpty()){

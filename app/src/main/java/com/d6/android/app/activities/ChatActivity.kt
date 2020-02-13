@@ -462,7 +462,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             Request.getGroupByGroupId(mOtherUserId).request(this,false,success={msg,data->
                 data?.let {
                     mGroupBean = data
-                    tv_chattitle.text = "${data.sGroupName}"
+                    tv_chattitle.text = "${data.sGroupName}(${mGroupBean.iMemberCount})"
                     chat_headView.setImageURI(data.sGroupPic)
                 }
             })

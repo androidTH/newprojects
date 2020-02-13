@@ -17,6 +17,8 @@ import com.d6.android.app.rong.bean.GroupApplyMessage;
 import com.d6.android.app.utils.GsonHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import org.json.JSONObject;
+
 import io.rong.imkit.emoticon.AndroidEmoji;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
@@ -105,6 +107,11 @@ public class CustomGroupApplyMsgProvider extends IContainerItemProvider.MessageP
         if (data.getMessageDirection() == Message.MessageDirection.RECEIVE) {
             if(!TextUtils.isEmpty(content.getExtra())){
                 try{
+//                    JSONObject jsonObject =new JSONObject(content.getExtra());
+//                    String sGroupName = jsonObject.getString("sGroupName");
+//                    String sGroupPic = jsonObject.getString("sGroupPic");
+//                    String sGroupName = jsonObject.getString("sGroupName");
+//                    String sGroupName = jsonObject.getString("sGroupName");
                     final GroupApplyMessage msg = GsonHelper.getGson().fromJson(content.getExtra(), GroupApplyMessage.class);
                     holder.tv_msg_content.setText(msg.getContent());
                     holder.tv_groupname.setText(msg.getsGroupName());

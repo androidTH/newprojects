@@ -1209,6 +1209,7 @@ fun clearLoginToken(){
     mUserId = ""
     mUserName = ""
     mUserHeardPic = ""
+    Const.UPDATE_GROUPS_STATUS = -1
 }
 
 //false 正式环境 true 测试环境

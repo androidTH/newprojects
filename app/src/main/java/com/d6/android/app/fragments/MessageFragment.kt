@@ -329,7 +329,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
             }
         }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
-
+        updateGroupList()
     }
 
     /**
@@ -375,8 +375,6 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-        updateGroupList()
     }
 
     private fun updateGroupList(){

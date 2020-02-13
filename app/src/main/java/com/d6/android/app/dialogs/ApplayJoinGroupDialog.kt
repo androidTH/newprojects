@@ -52,12 +52,14 @@ class ApplayJoinGroupDialog : DialogFragment(),RequestManager {
         tv_joingroup_ok.setOnClickListener {
             isBaseActivity {
                 var content = et_content.text.toString().trim()
-                if(content.isNotEmpty()){
-                    dialogListener?.onClick(2,"${content}")
-                    dismissAllowingStateLoss()
-                }else{
-                    toast("请输入内容")
-                }
+                dialogListener?.onClick(2,"${content}")
+                dismissAllowingStateLoss()
+//                if(content.isNotEmpty()){
+//                    dialogListener?.onClick(2,"${content}")
+//                    dismissAllowingStateLoss()
+//                }else{
+//                    toast("请输入内容")
+//                }
             }
         }
 

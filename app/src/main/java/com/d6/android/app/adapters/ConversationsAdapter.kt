@@ -10,9 +10,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.d6.android.app.R
+import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
+import com.d6.android.app.extentions.request
+import com.d6.android.app.net.Request
 import com.d6.android.app.rong.provider.SquareMsgProvider
+import com.d6.android.app.rong.provider.TipsMessageProvider
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
@@ -26,6 +30,7 @@ import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imkit.utils.RongDateUtils
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
+import io.rong.imlib.model.UserInfo
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.toast
@@ -58,18 +63,12 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             if(applay_private_type){
                 tv_conversation_type.visibility = View.VISIBLE
                 tv_conversation_type.text=context.getString(R.string.string_conversation_type)
-//                var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_chat)
-//                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-//                tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
             }else{
                 var applay_date_type =  SPUtils.instance().getBoolean(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+data.targetId,false)
                 Log.i("sssssss","${CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+data.targetId}申请约会${applay_date_type}")
                 if(applay_date_type){
                     tv_conversation_type.visibility = View.VISIBLE
                     tv_conversation_type.text="邀约"
-//                    var drawable = ContextCompat.getDrawable(context, R.mipmap.chatlist_date)
-//                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
-//                    tv_conversation_type.setCompoundDrawables(drawable, null, null, null)
                 }else{
                     tv_conversation_type.visibility = View.GONE
                 }
@@ -106,7 +105,29 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                     var end = content.subSequence(startsub.length,content.length)
                     tv_content.text = "对方给你赠送了${end}"
                 }else{
-                    tv_content.text = content;
+                    if (data.conversationType == Conversation.ConversationType.PRIVATE) {
+                        tv_content.text =  "${content}"
+                    }else if(data.conversationType==Conversation.ConversationType.GROUP){
+                        var mGroupIdSplit = data.targetId.split("_")
+                        if(mGroupIdSplit!=null&&mGroupIdSplit.size>1){
+                            tv_content.text = "${content}"
+                        }else{
+                            if(content.contains("@")){
+                                var str = content.split(" ")
+                                tv_content.text = "${str[0].replace("@","")}@你 ${str[1]}"
+                            }else{
+                                if(provider is TipsMessageProvider){
+                                    tv_content.text = "${content}"
+                                }else{
+                                    Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
+                                        data?.let {
+                                            tv_content.text = "${it.name}：${content}"
+                                        }
+                                    })
+                                }
+                            }
+                        }
+                    }
                 }
                 tv_time.visibility = View.VISIBLE
             }
