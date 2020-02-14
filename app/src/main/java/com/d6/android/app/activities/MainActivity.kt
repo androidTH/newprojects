@@ -33,6 +33,7 @@ import com.umeng.message.PushAgent
 import io.rong.imkit.RongIM
 import io.rong.imkit.manager.IUnReadMessageObserver
 import io.rong.imkit.userInfoCache.RongUserInfoManager
+import io.rong.imlib.MD5
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Group
@@ -44,6 +45,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
 import org.jetbrains.anko.collections.forEachWithIndex
 import org.json.JSONObject
+import java.util.*
 
 /**
  * 主页
@@ -463,7 +465,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         unReadMsgNum = 0  // 注释
         getUserInfoUnMsg()
         reconnect()
-        Log.i("MainActivity","IMEI=${getIMEI(this)},androidId=${getAndroidID(this)}")
+//        Log.i("MainActivity","IMEI=${MD5.encrypt(getSIMEI(this),true)},androidId=${getAndroidID(this)},MD5=${MD5.encrypt(getSIMEI(this).toLowerCase())}")
+//        Log.i("MainActivity","UUID=${UUID.randomUUID()},MD5=${MD5.encrypt(UUID.randomUUID().toString().toLowerCase())}")
     }
 
     private fun reconnect() {
@@ -545,7 +548,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     }
 
     private fun getUnReadCount() {
-        RongIM.getInstance().getUnreadCount(object : RongIMClient.ResultCallback<Int>() {
+        RongIM.getInstance().getUnreadCount(arrayOf(Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP),false,object : RongIMClient.ResultCallback<Int>() {
             override fun onSuccess(p0: Int?) {
                 p0?.let {
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
@@ -577,7 +580,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
             }
 
-        }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
+        })
     }
 
     private fun myDateUnMsg(){

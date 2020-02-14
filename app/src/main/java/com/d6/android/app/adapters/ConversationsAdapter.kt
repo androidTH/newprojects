@@ -44,7 +44,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
     @SuppressLint("SetTextI18n")
     override fun onBind(holder: ViewHolder, position: Int, data: Conversation) {
         var swipeItemLayout = holder.bind<SwipeItemLayout>(R.id.root_swipitem);
-        val headView = holder.bind<SimpleDraweeView>(R.id.headView)
+        val headView = holder.run { bind<SimpleDraweeView>(R.id.headView) }
         val tv_name = holder.bind<TextView>(R.id.tv_name)
         val tv_time = holder.bind<TextView>(R.id.tv_time)
         val tv_conversation_type = holder.bind<TextView>(R.id.tv_conversation_type)
@@ -94,39 +94,72 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             }
         }
 
+        val tv_unread = holder.bind<TextView>(R.id.tv_unreadnum)
+        val tv_unread_red = holder.bind<TextView>(R.id.tv_unread_red)
         tv_time.text = DateToolUtils.getConversationFormatDate(data.sentTime,false, context)
         val tv_content = holder.bind<TextView>(R.id.tv_content)
+        var count = data.unreadMessageCount
+        if (count > 99) {
+            count = 99
+        }
         if (data.latestMessage != null) {
             val provider = RongContext.getInstance().getMessageTemplate(data.latestMessage.javaClass)
             if (provider != null) {
                 var content = provider.getContentSummary(context,data.latestMessage)
-                if(content.contains("你给${getLocalUserName()}赠送了")){
-                    var startsub = "你给${getLocalUserName()}赠送了"
-                    var end = content.subSequence(startsub.length,content.length)
-                    tv_content.text = "对方给你赠送了${end}"
-                }else{
-                    if (data.conversationType == Conversation.ConversationType.PRIVATE) {
-                        tv_content.text =  "${content}"
-                    }else if(data.conversationType==Conversation.ConversationType.GROUP){
-                        var mGroupIdSplit = data.targetId.split("_")
-                        if(mGroupIdSplit!=null&&mGroupIdSplit.size>1){
-                            tv_content.text = "${content}"
-                        }else{
-                            if(content.contains("@")){
-                                var str = content.split(" ")
-                                tv_content.text = "${str[0].replace("@","")}@你 ${str[1]}"
-                            }else{
-                                if(provider is TipsMessageProvider){
-                                    tv_content.text = "${content}"
-                                }else{
-                                    Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
-                                        data?.let {
-                                            tv_content.text = "${it.name}：${content}"
-                                        }
-                                    })
-                                }
+                if (data.conversationType == Conversation.ConversationType.PRIVATE) {
+                    if (content.contains("你给${getLocalUserName()}赠送了")) {
+                        var startsub = "你给${getLocalUserName()}赠送了"
+                        var end = content.subSequence(startsub.length, content.length)
+                        tv_content.text = "对方给你赠送了${end}"
+                    } else {
+                        tv_content.text = "${content}"
+                    }
+                    tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
+                    tv_unread.text = "${count}"
+                    tv_unread_red.visibility = View.GONE
+                } else if (data.conversationType == Conversation.ConversationType.GROUP) {
+                    var mGroupIdSplit = data.targetId.split("_")
+                    if (mGroupIdSplit != null && mGroupIdSplit.size > 1) {
+                        tv_content.text = "${content}"
+                        var count = data.unreadMessageCount
+                        tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
+                        tv_unread.text = "${count}"
+                        tv_unread_red.visibility = View.GONE
+                    } else {
+                        if (content.contains("@")) {
+                            var str = content.split(" ")
+                            tv_content.text = "${str[0].replace("@", "")}@你 ${str[1]}"
+                        } else {
+                            if (provider is TipsMessageProvider) {
+                                tv_content.text = "${content}"
+                            } else {
+                                Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
+                                    data?.let {
+                                        tv_content.text = "${it.name}：${content}"
+                                    }
+                                })
                             }
                         }
+
+                        if (RongIM.getInstance() != null) {
+                            RongIM.getInstance().getConversationNotificationStatus(Conversation.ConversationType.GROUP, "${data.targetId}", object : RongIMClient.ResultCallback<Conversation.ConversationNotificationStatus>() {
+                                override fun onSuccess(conversationNotificationStatus: Conversation.ConversationNotificationStatus) {
+                                    if (conversationNotificationStatus != Conversation.ConversationNotificationStatus.DO_NOT_DISTURB) {
+                                        tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
+                                        tv_unread.text = "${count}"
+                                        tv_unread_red.visibility = View.GONE
+                                    } else {
+                                        tv_unread.visibility = View.GONE
+                                        tv_unread_red.visibility = if(count>0) View.VISIBLE else View.GONE
+                                    }
+                                }
+
+                                override fun onError(errorCode: RongIMClient.ErrorCode) {
+
+                                }
+                            })
+                        }
+
                     }
                 }
                 tv_time.visibility = View.VISIBLE
@@ -153,13 +186,6 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
             img_servicesign.visibility = View.GONE
         }
 
-        val tv_unread = holder.bind<TextView>(R.id.tv_unreadnum)
-        var count = data.unreadMessageCount
-        if (count > 99) {
-            count = 99
-        }
-        tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
-        tv_unread.text = count.toString() + ""
 
         holder.bind<View>(R.id.rl_main).setOnClickListener {
             if (mOnItemClickListener!=null){

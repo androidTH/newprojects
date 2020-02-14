@@ -9,6 +9,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.drawable.AnimationDrawable
@@ -20,6 +21,7 @@ import android.os.StatFs
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.Settings
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -33,6 +35,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.d6.android.app.BuildConfig
+import com.d6.android.app.Manifest
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application
@@ -85,6 +88,7 @@ import java.security.NoSuchAlgorithmException
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.collections.ArrayList
+import kotlin.text.Typography.tm
 
 /**
  * 打印日志
@@ -1376,15 +1380,22 @@ fun getProxyUrl(mConent:Context,url:String):String?{
 
 //获取手机IMEI号
 @SuppressLint("MissingPermission")
-fun getIMEI(context:Context):String {
+fun getSIMEI(context:Context):String {
+    var deviceId:String?=""
     try {
-        var tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        return tm.getDeviceId()
-    } catch (ex: Exception) {
-        ex.printStackTrace()
+        var tm =  context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        if (Build.VERSION.SDK_INT >= 28) {
+            deviceId = getAndroidID(context)
+        } else {
+            deviceId = tm.getDeviceId();
+        }
+    } catch (e:Exception) {
+        e.printStackTrace();
+        if (deviceId == null || "".equals(deviceId)) {
+            return getAndroidID(context)
+        }
     }
-
-    return SPUtils.instance().getString(Const.User.DEVICETOKEN)
+    return "${deviceId}"
 }
 
 fun getAndroidID(context:Context):String{

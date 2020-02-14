@@ -215,7 +215,7 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
 
-       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getIMEI(this).toLowerCase()),sOaid = getIMEI(this),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase())).request(this,false,success = { msg, data->
+       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getSIMEI(this).toLowerCase(),true),sOaid = getSIMEI(this),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(),true)).request(this,false,success = { msg, data->
            clearLoginToken()
            saveMsg(msg)
            saveUserInfo(data)

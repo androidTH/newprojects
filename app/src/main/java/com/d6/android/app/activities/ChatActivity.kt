@@ -246,7 +246,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     mUnknowDialog.show(supportFragmentManager,"unknowDialog")
                 }else{
                     if(iType==3){
-                        startActivity<GroupSettingActivity>("bean" to mGroupBean)
+//                        if(IsNotNullGroupBean()){
+//                         startActivity<GroupSettingActivity>("bean" to mGroupBean)
+//                        }
                     }else{
                         startActivity<UserInfoActivity>("id" to mOtherUserId)
                     }
@@ -271,7 +273,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 }
                 userActionDialog.show(supportFragmentManager, "user")
             }else if(iType==3){
-                startActivity<GroupSettingActivity>("bean" to mGroupBean)
+                if(IsNotNullGroupBean()){
+                    startActivity<GroupSettingActivity>("bean" to mGroupBean)
+                }
             }
         }
 
@@ -462,14 +466,18 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             Request.getGroupByGroupId(mOtherUserId).request(this,false,success={msg,data->
                 data?.let {
                     mGroupBean = data
-                    tv_chattitle.text = "${data.sGroupName}(${mGroupBean.iMemberCount})"
-                    chat_headView.setImageURI(data.sGroupPic)
+                    if(IsNotNullGroupBean()){
+                        tv_chattitle.text = "${data.sGroupName}(${mGroupBean.iMemberCount})"
+                        chat_headView.setImageURI(mGroupBean.sGroupPic)
+                    }
                 }
             })
 
             RongMentionManager.getInstance().setMentionedInputListener(object: IMentionedInputListener {
                 override fun onMentionedInput(p0: Conversation.ConversationType?, p1: String?): Boolean {
-                    startActivity<GroupUsersActivity>("bean" to mGroupBean, "onMentionedInput" to "1")
+                    if(IsNotNullGroupBean()){
+                        startActivity<GroupUsersActivity>("bean" to mGroupBean, "onMentionedInput" to "1")
+                    }
                     return true
                 }
             })

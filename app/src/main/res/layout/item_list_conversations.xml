@@ -49,6 +49,17 @@
                 android:textSize="12sp"
                 android:layout_marginLeft="-18dp"
                 android:visibility="gone" />
+            <com.d6.android.app.widget.DragPointView
+                android:id="@+id/tv_unread_red"
+                android:layout_toRightOf="@+id/headView"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:layout_gravity="right"
+                android:layout_marginTop="@dimen/margin_18"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:layout_marginLeft="-13dp"
+                android:visibility="gone"/>
             <TextView
                 android:layout_width="15dp"
                 android:layout_height="15dp"
