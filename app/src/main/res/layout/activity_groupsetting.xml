@@ -59,15 +59,17 @@
 
         <TextView
             android:id="@+id/tv_groupname"
+            android:layout_toLeftOf="@+id/tv_groupmore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_30"
             android:drawablePadding="@dimen/margin_3"
+            android:layout_marginRight="@dimen/margin_5"
             android:textColor="@color/color_888888"
             android:gravity="center_vertical"
             android:textSize="15sp"/>
         <TextView
+            android:id="@+id/tv_groupmore"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

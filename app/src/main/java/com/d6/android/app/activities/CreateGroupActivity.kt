@@ -19,6 +19,7 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.AppUtils
+import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.getUrlPath
 import kotlinx.android.synthetic.main.activity_creategroup.*
 import org.jetbrains.anko.startActivity
@@ -33,7 +34,6 @@ class CreateGroupActivity : TitleActivity() {
     private var headFilePath: String? = null
     private lateinit var mGroupBean: NewGroupBean
     fun IsNotNullGroupBean()=::mGroupBean.isInitialized
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +51,8 @@ class CreateGroupActivity : TitleActivity() {
         }else{
             setTitleBold("创建群聊")
         }
+
+        Const.UPDATE_GROUPS_STATUS = -1
 
         et_groupname.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(s: Editable?) {

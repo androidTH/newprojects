@@ -3,6 +3,7 @@ package com.d6.android.app.activities
 import android.app.Dialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.GroupUsersListAdapter
 import com.d6.android.app.base.TitleActivity
@@ -44,8 +45,10 @@ class GroupSettingActivity : TitleActivity() {
             tv_groupnum.text = "${mGroupBean.iGroupNum}"
             if(mGroupBean.iIsOwner==1){
                 btn_group_leave.text = "解散群聊"
+                tv_groupmore.visibility = View.VISIBLE
             }else if(mGroupBean.iIsManager==1||mGroupBean.iIsManager==2){
                 btn_group_leave.text = "退出群聊"
+                tv_groupmore.visibility = View.INVISIBLE
             }else{
                 btn_group_leave.text = "解散群聊"
             }

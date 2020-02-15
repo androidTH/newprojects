@@ -218,6 +218,11 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         initPopup()
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.i("Message","ssssss");
+    }
+
     private var mCirclePop: EasyPopup?=null
     private fun initPopup(){
         if (activity!= null) {
