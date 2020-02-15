@@ -93,7 +93,7 @@ class SendLoveHeartDialog : DialogFragment() {
         if(ToFromType == 2){
             tv_redheart_desc.text="打赏以下任意数量喜欢[img src=redheart_small/]，即可查看"
         }else{
-            tv_redheart_desc.text="送的[img src=redheart_small/]越多，将会把你优先推荐给TA，回复你的概率越高"
+            tv_redheart_desc.text="相互喜欢[img src=redheart_small/]，即可解锁聊天，送的喜欢[img src=redheart_small/]超过100将升级为超级喜欢，直接通知对方"
         }
 
         tv_close.setOnClickListener {

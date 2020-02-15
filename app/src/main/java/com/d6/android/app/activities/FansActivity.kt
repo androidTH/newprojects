@@ -17,6 +17,7 @@ import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import kotlinx.android.synthetic.main.base_recyclerview_layout.*
 import kotlinx.android.synthetic.main.header_receiverliked.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -41,6 +42,10 @@ class FansActivity : RecyclerActivity() {
     private val mHeaderFans = ArrayList<LoveHeartFans>()
     private val mHeaderLikedAdapter by lazy {
         RecentlyFansAdapter(mHeaderFans)
+    }
+
+    override fun IsShowFooter(): Boolean {
+        return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -137,6 +142,8 @@ class FansActivity : RecyclerActivity() {
                 fansAdapter.notifyDataSetChanged()
             }
         }
+
+        tv_bottom_tips.text = "对方送的喜欢[img src=redheart_small/]超过100将升级为超级喜欢，可查看对方身份"
     }
 
     private fun getOldLiked(){

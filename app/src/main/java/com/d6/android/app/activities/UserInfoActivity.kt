@@ -232,7 +232,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }
 
-        iv_sendredheart.setOnClickListener {
+        tv_sendredheart.setOnClickListener {
             isAuthUser {
                 if(localLoveHeartNums>0){
                     if(sendLoveHeartNums <= localLoveHeartNums){
@@ -250,7 +250,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
         }
 
-        iv_sendredheart.setOnLongClickListener {
+        tv_sendredheart.setOnLongClickListener {
             isAuthUser {
                 var mSendLoveHeartDialog = SendLoveHeartDialog()
                 mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")

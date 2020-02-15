@@ -8,6 +8,8 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
@@ -31,7 +33,7 @@ abstract class RecyclerFragment : BaseFragment() {
      */
     var mSwipeRefreshLayout by Delegates.notNull<SwipeRefreshRecyclerLayout>()
 
-    protected open var rootFl by Delegates.notNull<FrameLayout>()
+    protected open var rootFl by Delegates.notNull<RelativeLayout>()
 
     override fun contentViewId(): Int = R.layout.base_recyclerview_layout
 

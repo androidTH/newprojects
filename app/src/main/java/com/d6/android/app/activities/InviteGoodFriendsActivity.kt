@@ -59,7 +59,7 @@ class InviteGoodFriendsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnR
     private var mDoIndex = -1
 
     lateinit var mInviteLinkBean:InviteLinkBean
-    public fun IsNotNULLLinkBean()=::mInviteLinkBean.isInitialized
+    fun IsNotNULLLinkBean()=::mInviteLinkBean.isInitialized
 
     private val mHeaderView by lazy {
         layoutInflater.inflate(R.layout.invite_friends_layout, invate_refreshrecycler.mRecyclerView, false)

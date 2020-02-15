@@ -31,6 +31,10 @@ class UnKnowChatActivity : RecyclerActivity() {
         return SwipeRefreshRecyclerLayout.Mode.Top
     }
 
+    override fun IsShowFooter(): Boolean {
+        return false
+    }
+
     override fun adapter() = mUnKnowChatAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

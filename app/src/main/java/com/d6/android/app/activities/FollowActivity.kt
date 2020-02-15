@@ -18,6 +18,7 @@ import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getLoginToken
 import com.qamaster.android.ui.ScreenshotEditorActivity.startActivity
+import kotlinx.android.synthetic.main.base_recyclerview_layout.*
 import kotlinx.android.synthetic.main.header_sendliked.view.*
 import org.jetbrains.anko.startActivity
 
@@ -26,6 +27,11 @@ class FollowActivity : RecyclerActivity() {
     private val mHeaderView by lazy{
         layoutInflater.inflate(R.layout.header_sendliked,mSwipeRefreshLayout.mRecyclerView,false)
     }
+
+    override fun IsShowFooter(): Boolean {
+        return true
+    }
+
     private var pageNum = 1
     private val mMessages = ArrayList<LoveHeartFans>()
     private val followAdapter by lazy {
@@ -77,6 +83,7 @@ class FollowActivity : RecyclerActivity() {
             }
             followAdapter.notifyDataSetChanged()
         }
+        tv_bottom_tips.text = "送出喜欢[img src=redheart_small/]超过100将升级为超级喜欢，直接通知对方"
     }
 
     private fun getUserInfo(){

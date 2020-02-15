@@ -38,6 +38,10 @@ class OldFansActivity : RecyclerActivity() {
         return fansAdapter
     }
 
+    override fun IsShowFooter(): Boolean {
+        return false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "喜欢我的"
