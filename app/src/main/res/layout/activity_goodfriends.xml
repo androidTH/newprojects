@@ -35,64 +35,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/margin_50"
         android:id="@+id/invate_refreshrecycler"/>
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:background="@color/color_E6FFFFFF"-->
-        <!--android:layout_alignParentBottom="true">-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginLeft="@dimen/margin_10"-->
-            <!--android:layout_marginRight="@dimen/margin_10"-->
-            <!--android:textColor="@color/color_888888"-->
-            <!--android:textSize="12sp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:text="分享到"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/tv_wxshare"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:gravity="center|left"-->
-            <!--android:layout_marginLeft="@dimen/margin_10"-->
-            <!--android:drawableLeft="@mipmap/invite_share_wechat"-->
-            <!--android:drawablePadding="@dimen/margin_6"-->
-            <!--android:textColor="@color/color_333333"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textSize="12sp"-->
-            <!--android:text="微信"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/tv_pengyougroupshare"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:gravity="center|left"-->
-            <!--android:drawablePadding="@dimen/margin_6"-->
-            <!--android:drawableLeft="@mipmap/invite_share_friendscicle"-->
-            <!--android:layout_marginLeft="@dimen/margin_10"-->
-            <!--android:textColor="@color/color_333333"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textSize="12sp"-->
-            <!--android:text="朋友圈"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/tv_save_local"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:gravity="center|left"-->
-            <!--android:drawablePadding="@dimen/margin_6"-->
-            <!--android:drawableLeft="@mipmap/invite_share_photo"-->
-            <!--android:layout_marginLeft="@dimen/margin_10"-->
-            <!--android:textColor="@color/color_333333"-->
-            <!--android:textStyle="bold"-->
-            <!--android:textSize="12sp"-->
-            <!--android:text="保存到相册"/>-->
-    <!--</LinearLayout>-->
+
     <TextView
         android:id="@+id/tv_invite"
         android:layout_width="match_parent"

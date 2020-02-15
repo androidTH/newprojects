@@ -26,6 +26,9 @@ class SystemMessagesActivity : RecyclerActivity() {
     }
     override fun adapter() = adapter
     private var pageNum = 1
+    override fun IsShowFooter(): Boolean {
+        return false
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "系统消息"

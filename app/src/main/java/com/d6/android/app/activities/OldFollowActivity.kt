@@ -33,6 +33,10 @@ class OldFollowActivity : RecyclerActivity() {
         OldFollowAdapter(mMessages)
     }
 
+    override fun IsShowFooter(): Boolean {
+        return false
+    }
+
     override fun adapter(): RecyclerView.Adapter<*> {
         return followAdapter
     }

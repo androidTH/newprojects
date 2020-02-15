@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import com.d6.android.app.adapters.MyDateListAdapter
-import com.d6.android.app.base.RecyclerActivity
 import com.d6.android.app.base.SmartRecyclerActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment

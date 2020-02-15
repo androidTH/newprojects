@@ -2,13 +2,10 @@ package com.d6.android.app.activities
 
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
-import com.d6.android.app.adapters.FansAdapter
-import com.d6.android.app.adapters.FollowAdapter
 import com.d6.android.app.adapters.VistorAdapter
 import com.d6.android.app.base.RecyclerActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
-import com.d6.android.app.models.SquareMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
@@ -22,6 +19,10 @@ class VistorsActivity : RecyclerActivity() {
     private val mVistors = ArrayList<Fans>()
     private val vistorAdapter by lazy {
         VistorAdapter(mVistors)
+    }
+
+    override fun IsShowFooter(): Boolean {
+        return false
     }
 
     override fun adapter(): RecyclerView.Adapter<*> {

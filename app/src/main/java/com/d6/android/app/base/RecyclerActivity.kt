@@ -9,6 +9,8 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
@@ -27,7 +29,8 @@ abstract class RecyclerActivity : TitleActivity() {
     val mSwipeRefreshLayout by lazy {
         find<SwipeRefreshRecyclerLayout>(R.id.swipeRefreshLayout)
     }
-    protected open var rootFl by Delegates.notNull<FrameLayout>()
+    protected open var rootFl by Delegates.notNull<RelativeLayout>()
+    protected open var footer by Delegates.notNull<LinearLayout>()
     private var emptyView: TextView? = null
     private var adapter :RecyclerView.Adapter<*>? = null
 
@@ -54,11 +57,17 @@ abstract class RecyclerActivity : TitleActivity() {
      */
     protected open fun loadMore(){}
 
+    protected abstract open fun IsShowFooter():Boolean
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.base_recyclerview_layout)
         immersionBar.init()
         rootFl = find(R.id.rootFL)
+        footer = find(R.id.footer)
+        if(IsShowFooter()){
+            footer.visibility = View.VISIBLE
+        }
         mSwipeRefreshLayout.setLayoutManager(layoutManager())
         mSwipeRefreshLayout.setMode(mode())
         mSwipeRefreshLayout.isRefreshing = false
