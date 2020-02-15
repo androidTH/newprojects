@@ -126,13 +126,17 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                         tv_unread.text = "${count}"
                         tv_unread_red.visibility = View.GONE
                     } else {
-                        if (content.contains("@")) {
-                            var str = content.split(" ")
-                            tv_content.text = "${str[0].replace("@", "")}@你 ${str[1]}"
+                        if (provider is TipsMessageProvider) {
+                            tv_content.text = "${content}"
                         } else {
-                            if (provider is TipsMessageProvider) {
-                                tv_content.text = "${content}"
-                            } else {
+                            if(content.contains("@${getLocalUserName()}")){
+                                var str = content.split(" ")
+                                Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
+                                    data?.let {
+                                        tv_content.text = "${it.name}@你：${str[str.size-1]}"
+                                    }
+                                })
+                            }else{
                                 Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
                                     data?.let {
                                         tv_content.text = "${it.name}：${content}"
