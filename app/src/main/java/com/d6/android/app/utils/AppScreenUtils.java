@@ -1,5 +1,6 @@
 package com.d6.android.app.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -8,6 +9,8 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -319,4 +322,37 @@ public class AppScreenUtils
         }
         return false;
     }
+
+
+	/**
+	 *
+	 * @param context
+	 * @return
+	 */
+	@SuppressLint("MissingPermission")
+	public static String getIMEI(Context context) {
+		TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+		try {
+			Method method = manager.getClass().getMethod("getImei", int.class);
+			String imei1 = (String) method.invoke(manager, 0);
+			String imei2 = (String) method.invoke(manager, 1);
+			if (TextUtils.isEmpty(imei2)) {
+				return imei1;
+			}
+			if (!TextUtils.isEmpty(imei1)) {
+				//因为手机卡插在不同位置，获取到的imei1和imei2值会交换，所以取它们的最小值,保证拿到的imei都是同一个
+				String imei = "";
+				if (imei1.compareTo(imei2) <= 0) {
+					imei = imei1;
+				} else {
+					imei = imei2;
+				}
+				return imei;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return manager.getDeviceId();
+		}
+		return "";
+	}
 }
