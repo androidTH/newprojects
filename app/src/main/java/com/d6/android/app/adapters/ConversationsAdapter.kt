@@ -113,7 +113,7 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                         tv_content.text = "对方给你赠送了${end}"
                     } else {
                         tv_content.text = "${content}"
-                    }
+                    }AppMemberDialog
                     tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE
                     tv_unread.text = "${count}"
                     tv_unread_red.visibility = View.GONE
