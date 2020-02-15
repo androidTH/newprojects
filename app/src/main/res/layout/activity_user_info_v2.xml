@@ -96,53 +96,50 @@
             android:textSize="15sp"
             android:visibility="gone"/>
 
-        <TextView
+        <Button
             android:id="@+id/tv_siliao"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/margin_8"
             android:layout_marginBottom="@dimen/margin_18"
-            android:background="@drawable/shape_20r_orange"
+            android:background="@drawable/shape_30r_orange"
             android:drawableLeft="@mipmap/siliao_icon"
             android:drawablePadding="@dimen/margin_5"
+            android:elevation="1dp"
+            android:translationZ="@dimen/margin_10"
             android:gravity="center"
             android:paddingLeft="60dp"
-            android:paddingTop="@dimen/margin_8"
             android:paddingRight="60dp"
-            android:paddingBottom="@dimen/margin_8"
             android:text="@string/string_siliao"
             android:textColor="@color/white"
             android:textSize="15sp" />
 
-        <!--<RelativeLayout-->
-            <!--android:id="@+id/rl_sendredheart"-->
+            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_sendredheart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/tv_siliao"
+                android:background="@drawable/shadow_173842"
+                android:textColor="@color/color_666666"
+                android:gravity="center"
+                android:layout_marginBottom="12dp"
+                android:text="[img src=taren_red_icon/]"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:imageSize="0dp"
+                app:imageAlignment="center"/>
+        <!--12 [img src=super_like_icon/]-->
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_sendredheart"-->
             <!--android:layout_width="wrap_content"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:layout_alignParentBottom="true"-->
             <!--android:layout_toRightOf="@+id/tv_siliao"-->
-            <!--android:layout_marginBottom="5dp"-->
-            <!--android:background="@drawable/taren_redbutton_bg">-->
-            <!--<com.d6.android.app.widget.textinlineimage.TextInlineImage-->
-                <!--android:id="@+id/tv_sendredheart"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:textColor="@color/color_666666"-->
-                <!--android:gravity="center"-->
-                <!--android:text="[img src=redheart_small/]12[img src=super_like_icon/]"-->
-                <!--android:textSize="14sp"-->
-                <!--app:imageSize="0dp"-->
-                <!--app:imageAlignment="center"/>-->
-        <!--</RelativeLayout>-->
-        <ImageView
-            android:id="@+id/iv_sendredheart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/tv_siliao"
-            android:paddingBottom="10dp"
-            android:src="@mipmap/taren_redbutton" />
+            <!--android:paddingBottom="10dp"-->
+            <!--android:src="@mipmap/taren_redbutton" />-->
         <!--flowers_button_seleted-->
     </RelativeLayout>
 
