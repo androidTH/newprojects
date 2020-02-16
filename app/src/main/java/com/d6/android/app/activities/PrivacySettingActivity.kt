@@ -88,7 +88,11 @@ class PrivacySettingActivity : BaseActivity() {
                                 if(p==1){
                                     sw_lianxi.isChecked = true
                                 }
-//                             Log.i("privacy","联系人数量：${ContactHelper.getInstance().getContacts(this@PrivacySettingActivity).size}")
+                                sw_lianxi.postDelayed(object:Runnable{
+                                    override fun run() {
+                                        Log.i("privacy","联系人数量：${ContactHelper.getInstance().getContacts(this@PrivacySettingActivity)}")
+                                    }
+                                },300)
                             }
                         })
                     }
