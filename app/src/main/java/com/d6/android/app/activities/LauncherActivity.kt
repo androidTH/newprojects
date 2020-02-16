@@ -1,7 +1,10 @@
 package com.d6.android.app.activities
 
 import android.content.Intent
+import android.nfc.Tag
 import android.os.Bundle
+import android.support.annotation.NonNull
+import android.text.TextUtils
 import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
@@ -9,6 +12,8 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.INSTALL_DATA02
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
+import com.d6.android.app.utils.Const.User.OAID_ANDROID
+import com.d6.android.app.utils.MiitHelper
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.defaultScheduler
 import com.fm.openinstall.OpenInstall
@@ -59,6 +64,22 @@ class LauncherActivity : BaseActivity() {
         OpenInstall.getInstall(mAppInstallAdapter)
         OpenInstall.getWakeUp(intent, wakeUpAdapter)
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(TextUtils.isEmpty(SPUtils.instance().getString(OAID_ANDROID,""))){
+            val miitHelper = MiitHelper(appIdsUpdater)
+            miitHelper.getDeviceIds(applicationContext)
+        }
+    }
+
+    private val appIdsUpdater = object : MiitHelper.AppIdsUpdater {
+
+        override fun OnIdsAvalid(@NonNull ids: String) {
+            Log.i("appIdsUpdater","oaid=${ids}")
+            SPUtils.instance().put(OAID_ANDROID,ids).apply()
+        }
     }
 
     override fun onDestroy() {

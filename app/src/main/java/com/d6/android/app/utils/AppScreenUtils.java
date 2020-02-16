@@ -3,6 +3,7 @@ package com.d6.android.app.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -18,7 +19,9 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.util.UUID;
 
 import static android.view.View.NO_ID;
 
@@ -323,7 +326,9 @@ public class AppScreenUtils
         return false;
     }
 
-
+	protected static final String PREFS_FILE = "device_id.xml";
+	protected static final String PREFS_DEVICE_ID = "device_id";
+	protected static volatile UUID uuid;
 	/**
 	 *
 	 * @param context
@@ -331,28 +336,48 @@ public class AppScreenUtils
 	 */
 	@SuppressLint("MissingPermission")
 	public static String getIMEI(Context context) {
-		TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-		try {
-			Method method = manager.getClass().getMethod("getImei", int.class);
-			String imei1 = (String) method.invoke(manager, 0);
-			String imei2 = (String) method.invoke(manager, 1);
-			if (TextUtils.isEmpty(imei2)) {
-				return imei1;
-			}
-			if (!TextUtils.isEmpty(imei1)) {
-				//因为手机卡插在不同位置，获取到的imei1和imei2值会交换，所以取它们的最小值,保证拿到的imei都是同一个
-				String imei = "";
-				if (imei1.compareTo(imei2) <= 0) {
-					imei = imei1;
-				} else {
-					imei = imei2;
+		if (uuid == null) {
+			synchronized (AppScreenUtils.class) {
+				if (uuid == null) {
+					final SharedPreferences prefs = context
+							.getSharedPreferences(PREFS_FILE, 0);
+					final String id = prefs.getString(PREFS_DEVICE_ID, null);
+					if (id != null) {
+						// Use the ids previously computed and stored in the
+						// prefs file
+						uuid = UUID.fromString(id);
+					} else {
+						final String androidId = Settings.Secure.getString(
+								context.getContentResolver(), Settings.Secure.ANDROID_ID);
+						// Use the Android ID unless it's broken, in which case
+						// fallback on deviceId,
+						// unless it's not available, then fallback on a random
+						// number which we store to a prefs file
+						try {
+							if (!"9774d56d682e549c".equals(androidId)) {
+								uuid = UUID.nameUUIDFromBytes(androidId
+										.getBytes("utf8"));
+							} else {
+								final String deviceId = ((TelephonyManager)
+										context.getSystemService(
+												Context.TELEPHONY_SERVICE))
+										.getDeviceId();
+								uuid = deviceId != null ? UUID
+										.nameUUIDFromBytes(deviceId
+												.getBytes("utf8")) : UUID
+										.randomUUID();
+							}
+						} catch (UnsupportedEncodingException e) {
+							throw new RuntimeException(e);
+						}
+						// Write the value out to the prefs file
+						prefs.edit()
+								.putString(PREFS_DEVICE_ID, uuid.toString())
+								.commit();
+					}
 				}
-				return imei;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return manager.getDeviceId();
 		}
-		return "";
+		return uuid.toString();
 	}
 }

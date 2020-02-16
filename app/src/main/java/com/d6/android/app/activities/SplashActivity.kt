@@ -305,7 +305,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
-        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getSIMEI(this).toLowerCase(),true),sOaid = getSIMEI(this),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(),true)).request(this, false, success = { msg, data ->
+        Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getSIMEI(this).toLowerCase(),true),sOaid = getOaid(),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(),true)).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {
                     startActivityForResult<BindPhoneActivity>(2, "openId" to openId,"unionId" to unionid, "name" to name, "gender" to gender, "headerpic" to iconurl)

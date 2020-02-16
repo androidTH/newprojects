@@ -51,6 +51,7 @@ object Const {
         var  USERLOVE_NUMS = "UserLoveNums"//用户爱心数量
         var  USERISCREATE_GROUP = "iIsCreateGroup"//是否允许创建群聊字段
         var  SLOGINTOKEN ="sLoginToken"
+        var OAID_ANDROID = "Oaid_android"
 }
 
     var WEIXINID = "wx43d13a711f68131c"
@@ -270,4 +271,6 @@ object Const {
 
     @JvmField
     var UPDATE_GROUPS_STATUS:Int = -1
+
+
 }

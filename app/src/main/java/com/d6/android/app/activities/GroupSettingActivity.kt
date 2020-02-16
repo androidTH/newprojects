@@ -1,6 +1,5 @@
 package com.d6.android.app.activities
 
-import android.app.Dialog
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
@@ -8,7 +7,6 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.GroupUsersListAdapter
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Fans
 import com.d6.android.app.models.GroupUserBean
 import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request

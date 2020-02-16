@@ -54,6 +54,7 @@ import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
+import com.d6.android.app.utils.Const.User.OAID_ANDROID
 import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
@@ -1387,7 +1388,7 @@ fun getSIMEI(context:Context):String {
         if (Build.VERSION.SDK_INT >= 28) {
             deviceId = getAndroidID(context)
         } else {
-            deviceId = tm.getDeviceId();
+            deviceId = tm.deviceId
         }
     } catch (e:Exception) {
         e.printStackTrace();
@@ -1407,5 +1408,20 @@ fun getAndroidID(context:Context):String{
     }
     return ""
 }
+
+/**
+ * 获取唯一标识idfa
+ *
+ * @return
+ */
+/**
+ * 获取Oaid
+ *
+ * @return oaid或错误码
+ */
+fun getOaid(): String {
+    return SPUtils.instance().getString(OAID_ANDROID,"")
+}
+
 
 

@@ -50,13 +50,12 @@ class MailListDialog : DialogFragment(),RequestManager {
         super.onViewCreated(view, savedInstanceState)
 
         tv_open.setOnClickListener {
-            isBaseActivity {
-
-            }
+            dialogListener?.onClick(1,"通讯录")
             dismissAllowingStateLoss()
         }
 
         tv_cancel.setOnClickListener {
+            dialogListener?.onClick(2,"通讯录")
             dismissAllowingStateLoss()
         }
 

@@ -1,10 +1,23 @@
 package com.d6.android.app.activities
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.adapters.CardUnKnowTagAdapter
 import com.d6.android.app.base.BaseActivity
@@ -20,13 +33,9 @@ import org.jetbrains.anko.*
 import org.json.JSONObject
 
 /**
- * 客服查找
+ * 隐私保护
  */
 class PrivacySettingActivity : BaseActivity() {
-
-    private val mLocalUserSex by lazy{
-        SPUtils.instance().getString(Const.User.USER_SEX)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,10 +73,29 @@ class PrivacySettingActivity : BaseActivity() {
 
         sw_lianxi.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-              var mMailListDialog = MailListDialog()
+                var mMailListDialog = MailListDialog()
+                mMailListDialog.setDialogListener { p, s ->
+                    if(p==2){
+                        sw_lianxi.isChecked = false
+                    }else{
+                        val permissList = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE)
+                        PermissionsUtils.getInstance().checkPermissions(this, permissList, object : PermissionsUtils.IPermissionsResult {
+                            override fun forbidPermissions() {
+                                sw_lianxi.isChecked = false
+                            }
+
+                            override fun passPermissions() {
+                                if(p==1){
+                                    sw_lianxi.isChecked = true
+                                }
+//                             Log.i("privacy","联系人数量：${ContactHelper.getInstance().getContacts(this@PrivacySettingActivity).size}")
+                            }
+                        })
+                    }
+                }
                 mMailListDialog.show(supportFragmentManager,"MailListDialog")
             }else{
-
+                sw_lianxi.isChecked = false
             }
         }
 
@@ -306,5 +334,10 @@ class PrivacySettingActivity : BaseActivity() {
         Request.updateSendPointShow(getLoginToken(),iSendPointShow).request(this,false,success={_,data->
 
         })
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        PermissionsUtils.getInstance().onRequestPermissionsResult(this,requestCode,permissions,grantResults);
     }
 }

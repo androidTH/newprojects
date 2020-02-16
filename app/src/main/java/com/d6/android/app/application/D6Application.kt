@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.support.annotation.NonNull
 import android.support.multidex.MultiDex
 import android.text.TextUtils
 import android.util.Log
@@ -21,6 +22,7 @@ import cn.liaox.cachelib.bean.GroupBean
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
 import com.bugtags.library.Bugtags
+import com.bun.miitmdid.core.JLibrary
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
 import com.d6.android.app.activities.WebViewActivity
@@ -152,6 +154,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
+        JLibrary.InitEntry(base)
     }
 
     private var proxy:HttpProxyCacheServer?=null
