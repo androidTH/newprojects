@@ -15,6 +15,7 @@ import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.textinlineimage.TextInlineImage
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.backgroundDrawable
@@ -71,8 +72,15 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             tv_vip.backgroundDrawable = getLevelDrawable("${data.userclassesid}",context)
         }
 
-        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
-        tv_receivedliked.text = "${data.iAllLovePoint}"
+        var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
+        if(data.iAllLovePoint>=100){
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
+            tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
+        }else{
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_black)
+            tv_receivedliked.text = "${data.iAllLovePoint} [img src=redheart_small/]"
+        }
+
         Log.i("fansAdapter","数量${data.iAllLovePoint}")
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)

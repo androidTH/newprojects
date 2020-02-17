@@ -15,9 +15,11 @@ import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.widget.textinlineimage.TextInlineImage
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.textColor
 
 /**
  *粉丝
@@ -62,9 +64,16 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
             tv_vip.backgroundDrawable = getLevelDrawable("${data.userclassesid}",context)
         }
 
-        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
-        tv_receivedliked.text = "${data.iPoint}"
+        var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
+        if(data.iPoint>=100){
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
+            tv_receivedliked.text = "${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
+        }else{
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_black)
+            tv_receivedliked.text = "${data.iPoint} [img src=redheart_small/]"
+        }
 
+//        redheart_small
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //        if(data.iIsFollow == 0){
 //            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);

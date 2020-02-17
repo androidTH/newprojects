@@ -96,24 +96,26 @@
             android:textSize="15sp"
             android:visibility="gone"/>
 
+        <!--android:background="@drawable/shape_30r_orange"-->
+
         <Button
             android:id="@+id/tv_siliao"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/margin_8"
-            android:layout_marginBottom="@dimen/margin_18"
-            android:background="@drawable/shape_30r_orange"
+            android:layout_marginBottom="@dimen/margin_12"
+            android:background="@drawable/taren_yellowbutton_bg"
             android:drawableLeft="@mipmap/siliao_icon"
             android:drawablePadding="@dimen/margin_5"
-            android:elevation="1dp"
-            android:translationZ="@dimen/margin_10"
             android:gravity="center"
             android:paddingLeft="60dp"
             android:paddingRight="60dp"
             android:text="@string/string_siliao"
             android:textColor="@color/white"
             android:textSize="15sp" />
+        <!--android:elevation="1dp"-->
+        <!--android:translationZ="@dimen/margin_10"-->
 
             <com.d6.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_sendredheart"
@@ -122,7 +124,7 @@
                 android:layout_centerInParent="true"
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@+id/tv_siliao"
-                android:background="@drawable/shadow_173842"
+                android:background="@drawable/taren_redbutton_bg"
                 android:textColor="@color/color_666666"
                 android:gravity="center"
                 android:layout_marginBottom="12dp"

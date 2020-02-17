@@ -87,7 +87,7 @@
     <!--android:background="@drawable/shape_10r_fans"-->
     <!--android:textColor="@color/color_DFE1E5"-->
 
-    <TextView
+    <com.d6.android.app.widget.textinlineimage.TextInlineImage
         android:id="@+id/tv_receivedliked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -97,8 +97,6 @@
         android:paddingTop="@dimen/margin_5"
         android:paddingRight="@dimen/margin_5"
         android:paddingBottom="@dimen/margin_5"
-        android:drawableRight="@mipmap/redheart_small"
-        android:drawablePadding="@dimen/margin_5"
         android:textColor="@color/color_black"
         android:textSize="15sp" />
 </RelativeLayout>

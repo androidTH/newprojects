@@ -409,6 +409,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
         },true)
 
+//        Log.i("MainActivityfffffff","oaid${getOaid()}---MD5=${MD5.encrypt(getOaid(),true)}")
     }
 
     private fun initPopup(){
