@@ -572,6 +572,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             mSwipeRefreshLayout.isRefreshing = false
             this.mData = data
             data?.let {
+                if(it.iMySendAllLovePoint>=it.iLovePointShow){
+                    tv_sendredheart.text = "[img src=taren_red_icon/] ${it.iMySendAllLovePoint} [img src=super_like_icon/]"
+                }else if(it.iMySendAllLovePoint>0){
+                    tv_sendredheart.text = "[img src=taren_red_icon/] ${it.iMySendAllLovePoint}"
+                }
+
                 val info = UserInfo(data.accountId, data.name, Uri.parse("${data.picUrl}"))
                 RongIM.getInstance().refreshUserInfoCache(info)
                 tv_title_nick.text = it.name

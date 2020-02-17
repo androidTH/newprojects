@@ -593,4 +593,6 @@ object Request {
 
     fun updateGroup(sGroupId:String,sGroupName:String,sGroupPic:String,sGroupDesc:String)=RRetrofit.instance().create(ApiServices::class.java).updateGroup(sGroupId,sGroupName,sGroupPic,sGroupDesc)
 
+    fun updatePhonePrivacy(iPhonePrivacy:String,sPhoneList:String)=RRetrofit.instance().create(ApiServices::class.java).updatePhonePrivacy(iPhonePrivacy,sPhoneList)
+
 }

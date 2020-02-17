@@ -39,6 +39,7 @@ import org.json.JSONObject
  */
 class PrivacySettingActivity : BaseActivity() {
 
+    private var iPhonePrivacy:String = "2"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy)
@@ -78,16 +79,21 @@ class PrivacySettingActivity : BaseActivity() {
                 var mMailListDialog = MailListDialog()
                 mMailListDialog.setDialogListener { p, s ->
                     if(p==2){
+                        iPhonePrivacy = "2"
                         sw_lianxi.isChecked = false
+                        updatePhonePrivacy()
                     }else{
                         val permissList = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE)
                         PermissionsUtils.getInstance().checkPermissions(this, permissList, object : PermissionsUtils.IPermissionsResult {
                             override fun forbidPermissions() {
+                                iPhonePrivacy = "2"
                                 sw_lianxi.isChecked = false
+                                updatePhonePrivacy()
                             }
 
                             override fun passPermissions() {
                                 if(p==1){
+                                    iPhonePrivacy = "${p}"
                                     sw_lianxi.isChecked = true
                                 }
                                 ContactsTask().execute()
@@ -103,6 +109,8 @@ class PrivacySettingActivity : BaseActivity() {
                 mMailListDialog.show(supportFragmentManager,"MailListDialog")
             }else{
                 sw_lianxi.isChecked = false
+                iPhonePrivacy = "2"
+                updatePhonePrivacy()
             }
         }
 
@@ -247,7 +255,11 @@ class PrivacySettingActivity : BaseActivity() {
                     sw_loveisvisible.isChecked = true
                 }
 
-
+                if(it.iPhonePrivacy==1){
+                    sw_lianxi.isChecked = true
+                }else{
+                    sw_lianxi.isChecked = false
+                }
 
                 data?.let {
                     tv_sex.isSelected = TextUtils.equals("0", it.sex)
@@ -368,12 +380,21 @@ class PrivacySettingActivity : BaseActivity() {
 
         override fun onPostExecute(result: List<PhoneBookEntity>?) {
             result?.let {
-                var json = GsonHelper.getGson().toJson(result)
+//                var json = GsonHelper.getGson().toJson(result)
+                var json = ""
                 Log.i("privacy","联系人数量：${result.size},联系人列表：${json}")
+                Request.updatePhonePrivacy("${iPhonePrivacy}","${json}").request(this@PrivacySettingActivity,false,success={msg,data->
+
+                })
             }
-//           Request.getAccountInviteLink("${json}").request(this@PrivacySettingActivity,false,success={msg,data->
-//
-//           })
+        }
+    }
+
+    private fun updatePhonePrivacy(){
+        Request.updatePhonePrivacy("${iPhonePrivacy}","").request(this@PrivacySettingActivity,false,success={msg,data->
+
+        }){code,msg->
+            toast(msg)
         }
     }
 }

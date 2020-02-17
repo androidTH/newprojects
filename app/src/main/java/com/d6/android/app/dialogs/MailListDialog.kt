@@ -34,7 +34,7 @@ class MailListDialog : DialogFragment(),RequestManager {
         super.onActivityCreated(savedInstanceState)
         dialog.window.setLayout((screenWidth() * 0.9f).toInt(), wrapContent)
         dialog.window.setGravity(Gravity.CENTER)
-        dialog.setCanceledOnTouchOutside(true)
+        dialog.setCanceledOnTouchOutside(false)
     }
 
     override fun show(manager: FragmentManager?, tag: String?) {

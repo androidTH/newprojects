@@ -660,4 +660,9 @@ interface ApiServices {
     //修改群组的信息
     @POST("backstage/rongcloudgroup/updateGroup")
     fun updateGroup(@Query("sGroupId") sGroupId:String,@Query("sGroupName")sGroupName:String,@Query("sGroupPic")sGroupPic:String,@Query("sGroupDesc")sGroupDesc:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //3.5版本
+    //2、开启或关闭通讯录隐私保护
+    @POST("backstage/account/updatePhonePrivacy")
+    fun updatePhonePrivacy(@Query("iPhonePrivacy") iPhonePrivacy:String,@Query("sPhoneList") sPhoneList:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }
