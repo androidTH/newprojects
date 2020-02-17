@@ -20,6 +20,7 @@ import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.GroupBean
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
+import com.bun.miitmdid.core.JLibrary
 //import com.bugtags.library.Bugtags
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
@@ -152,6 +153,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
         MultiDex.install(this)
+        JLibrary.InitEntry(base)
     }
 
     private var proxy:HttpProxyCacheServer?=null

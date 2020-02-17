@@ -1387,7 +1387,7 @@ fun getSIMEI(context:Context):String {
         if (Build.VERSION.SDK_INT >= 28) {
             deviceId = getAndroidID(context)
         } else {
-            deviceId = tm.getDeviceId();
+            deviceId = tm.deviceId
         }
     } catch (e:Exception) {
         e.printStackTrace();
@@ -1408,4 +1408,17 @@ fun getAndroidID(context:Context):String{
     return ""
 }
 
+/**
+ * 获取唯一标识idfa
+ *
+ * @return
+ */
+/**
+ * 获取Oaid
+ *
+ * @return oaid或错误码
+ */
+fun getOaid(): String {
+    return SPUtils.instance().getString(OAID_ANDROID,"")
+}
 
