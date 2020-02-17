@@ -309,3 +309,4 @@ public static final int *;
     <fields>;
     <methods>;
 }
+-keep class com.bun.miitmdid.core.** {*;}

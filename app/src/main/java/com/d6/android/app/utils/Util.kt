@@ -54,6 +54,7 @@ import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
+import com.d6.android.app.utils.Const.User.OAID_ANDROID
 import com.d6.android.app.utils.JsonUtil.containsEmoji
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.CustomToast.showToast
