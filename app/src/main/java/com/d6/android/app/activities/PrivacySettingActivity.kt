@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -25,6 +26,7 @@ import com.d6.android.app.dialogs.MailListDialog
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.PhoneBookEntity
 import com.d6.android.app.models.UserUnKnowTag
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -88,11 +90,12 @@ class PrivacySettingActivity : BaseActivity() {
                                 if(p==1){
                                     sw_lianxi.isChecked = true
                                 }
-                                sw_lianxi.postDelayed(object:Runnable{
-                                    override fun run() {
-                                        Log.i("privacy","联系人数量：${ContactHelper.getInstance().getContacts(this@PrivacySettingActivity)}")
-                                    }
-                                },300)
+                                ContactsTask().execute()
+//                                sw_lianxi.postDelayed(object:Runnable{
+//                                    override fun run() {
+//
+//                                    }
+//                                },300)
                             }
                         })
                     }
@@ -343,5 +346,34 @@ class PrivacySettingActivity : BaseActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionsUtils.getInstance().onRequestPermissionsResult(this,requestCode,permissions,grantResults);
+    }
+
+    //[{"displayName":"181 2821 1883","mobileNum":"18128211883"},
+    // {"displayName":"181 2821 1883","mobileNum":""},
+    // {"displayName":"阿里巴巴钉钉客服","mobileNum":"057128834033"},
+    // {"displayName":"钉钉DING消息","mobileNum":"01053912851"},
+    // {"displayName":"钉钉官方短信","mobileNum":"106575258192144"},
+    // {"displayName":"华为客服","mobileNum":"4008308300"},
+    // {"displayName":"企业微信官方客服","mobileNum":"075536557977"},
+    // {"displayName":"企业微信授权服务中心","mobileNum":"02260624298"},
+    // {"displayName":"傻逼","mobileNum":"18755061619"},
+    // {"displayName":"推销","mobileNum":"075536336581"},
+    // {"displayName":"推销","mobileNum":"01052729739"},
+    // {"displayName":"央视频多人通话","mobileNum":"01052729739"},
+    // {"displayName":"智行火车票","mobileNum":"02122500914"}]
+    inner class ContactsTask : AsyncTask<String, String, List<PhoneBookEntity>>() {
+        override fun doInBackground(vararg params: String?): List<PhoneBookEntity> {
+            return ContactHelper.getInstance().getContacts(this@PrivacySettingActivity)
+        }
+
+        override fun onPostExecute(result: List<PhoneBookEntity>?) {
+            result?.let {
+                var json = GsonHelper.getGson().toJson(result)
+                Log.i("privacy","联系人数量：${result.size},联系人列表：${json}")
+            }
+//           Request.getAccountInviteLink("${json}").request(this@PrivacySettingActivity,false,success={msg,data->
+//
+//           })
+        }
     }
 }
