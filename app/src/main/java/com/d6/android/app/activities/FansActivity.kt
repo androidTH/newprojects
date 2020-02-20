@@ -16,6 +16,7 @@ import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.iLovePointShow
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import kotlinx.android.synthetic.main.base_recyclerview_layout.*
 import kotlinx.android.synthetic.main.header_receiverliked.view.*
@@ -143,7 +144,7 @@ class FansActivity : RecyclerActivity() {
             }
         }
 
-        tv_bottom_tips.text = "对方送的喜欢[img src=redheart_small/]超过100将升级为超级喜欢，可查看对方身份"
+        tv_bottom_tips.text = "对方送的喜欢[img src=redheart_small/] 超过${iLovePointShow}将升级为超级喜欢，可查看对方身份"
     }
 
     private fun getOldLiked(){

@@ -83,7 +83,7 @@ class FollowActivity : RecyclerActivity() {
             }
             followAdapter.notifyDataSetChanged()
         }
-        tv_bottom_tips.text = "送出喜欢[img src=redheart_small/]超过100将升级为超级喜欢，直接通知对方"
+        tv_bottom_tips.text = "送出喜欢[img src=redheart_small/] 超过${Const.iLovePointShow}将升级为超级喜欢，直接通知对方"
     }
 
     private fun getUserInfo(){

@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.d6.android.app.models.PhoneBookEntity;
+import com.d6.android.app.models.PhoneNumEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,10 @@ public class ContactHelper {
             ContactsContract.CommonDataKinds.Phone.NUMBER
     };
 
+    private static final String[] PROJECTIONPPHONE = new String[]{
+            ContactsContract.CommonDataKinds.Phone.NUMBER
+    };
+
     private static final String[] NEWPROJECTION = new String[]{
             ContactsContract.Contacts._ID,
             ContactsContract.Contacts.DISPLAY_NAME,
@@ -35,6 +40,8 @@ public class ContactHelper {
     };
 
     private List<PhoneBookEntity> contacts = new ArrayList<>();
+
+    private List<PhoneNumEntity> PhoneNums = new ArrayList<>();
 
     private ContactHelper() {
 
@@ -49,7 +56,7 @@ public class ContactHelper {
     }
 
     /**
-     * 获取所有联系人
+     * 获取通讯录好友
      *
      * @param context 上下文
      * @return 联系人集合
@@ -95,6 +102,116 @@ public class ContactHelper {
             }
         }
         return contacts;
+    }
+
+
+    /**
+     * 获取通讯录好友
+     *
+     * @param context 上下文
+     * @return 联系人集合
+     */
+    public String getSbContacts(Context context) {
+        long currentTimeMillis = System.currentTimeMillis();
+        StringBuilder sb = new StringBuilder();
+        Cursor cursor = null;
+        Cursor phoneCursor = null;
+        ContentResolver cr = context.getContentResolver();
+        try {
+            cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, NEWPROJECTION, null, null, "sort_key");
+
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    String contactId = cursor.getString(cursor
+                            .getColumnIndex(ContactsContract.Contacts._ID));
+                    //获取联系人电话号码
+                    phoneCursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            PROJECTIONPHONE, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId, null, null);
+                    String mobileNo = "";
+                    if(phoneCursor.moveToNext()){
+                        mobileNo = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    }
+                    mobileNo.replace("-", "").replace(" ", "");
+                    sb.append(mobileNo).append(",");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(phoneCursor!=null){
+                phoneCursor.close();
+            }
+            if (cursor != null) {
+                Log.d(TAG, "获取所有联系人耗时: " + (System.currentTimeMillis() - currentTimeMillis) + "，共计：" + cursor.getCount());
+                cursor.close();
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 获取所有联系人
+     *
+     * @param context 上下文
+     * @return 联系人集合
+     */
+    public List<PhoneNumEntity> getAllPhone(Context context) {
+        long currentTimeMillis = System.currentTimeMillis();
+        PhoneNums.clear();
+        Cursor cursor = null;
+        ContentResolver cr = context.getContentResolver();
+        try {
+            cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTIONPPHONE, null, null, "sort_key");
+            if (cursor != null) {
+                final int mobileNoIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String mobileNo;
+                while (cursor.moveToNext()) {
+                    mobileNo = cursor.getString(mobileNoIndex);
+                    PhoneNums.add(new PhoneNumEntity(mobileNo));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                Log.d(TAG, "获取所有联系人耗时: " + (System.currentTimeMillis() - currentTimeMillis) + "，共计：" + cursor.getCount());
+                cursor.close();
+            }
+        }
+        return PhoneNums;
+    }
+
+    /**
+     * 获取所有联系人
+     *
+     * @param context 上下文
+     * @return 联系人集合
+     */
+    public String getAllStringPhone(Context context) {
+        long currentTimeMillis = System.currentTimeMillis();
+        StringBuilder sb = new StringBuilder();
+        Cursor cursor = null;
+        ContentResolver cr = context.getContentResolver();
+        try {
+            cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTIONPPHONE, null, null, "sort_key");
+            if (cursor != null) {
+                int mobileNoIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String mobileNo;
+                while (cursor.moveToNext()) {
+                    mobileNo = cursor.getString(mobileNoIndex);
+                    sb.append(mobileNo.replace("-", "").replace(" ", ""));
+                    sb.append(",");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                Log.d(TAG, "获取所有联系人耗时: " + (System.currentTimeMillis() - currentTimeMillis) + "，共计：" + cursor.getCount());
+                cursor.close();
+            }
+        }
+        return sb.toString();
     }
 
     /**

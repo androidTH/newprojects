@@ -73,7 +73,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         }
 
         var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
-        if(data.iAllLovePoint>=100){
+        if(data.iAllLovePoint>=Const.iLovePointShow){
             tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
             tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
         }else{

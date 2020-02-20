@@ -27,6 +27,7 @@ import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.PhoneBookEntity
+import com.d6.android.app.models.PhoneNumEntity
 import com.d6.android.app.models.UserUnKnowTag
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
@@ -40,6 +41,7 @@ import org.json.JSONObject
 class PrivacySettingActivity : BaseActivity() {
 
     private var iPhonePrivacy:String = "2"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy)
@@ -76,37 +78,39 @@ class PrivacySettingActivity : BaseActivity() {
 
         sw_lianxi.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
-                var mMailListDialog = MailListDialog()
-                mMailListDialog.setDialogListener { p, s ->
-                    if(p==2){
-                        iPhonePrivacy = "2"
-                        sw_lianxi.isChecked = false
-                        updatePhonePrivacy()
-                    }else{
-                        val permissList = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE)
-                        PermissionsUtils.getInstance().checkPermissions(this, permissList, object : PermissionsUtils.IPermissionsResult {
-                            override fun forbidPermissions() {
-                                iPhonePrivacy = "2"
-                                sw_lianxi.isChecked = false
-                                updatePhonePrivacy()
-                            }
-
-                            override fun passPermissions() {
-                                if(p==1){
-                                    iPhonePrivacy = "${p}"
-                                    sw_lianxi.isChecked = true
+                if(TextUtils.equals("2",iPhonePrivacy)){
+                    var mMailListDialog = MailListDialog()
+                    mMailListDialog.setDialogListener { p, s ->
+                        if(p==2){
+                            iPhonePrivacy = "2"
+                            sw_lianxi.isChecked = false
+                            updatePhonePrivacy()
+                        }else{
+                            val permissList = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE)
+                            PermissionsUtils.getInstance().checkPermissions(this, permissList, object : PermissionsUtils.IPermissionsResult {
+                                override fun forbidPermissions() {
+                                    iPhonePrivacy = "2"
+                                    sw_lianxi.isChecked = false
+                                    updatePhonePrivacy()
                                 }
-                                ContactsTask().execute()
+
+                                override fun passPermissions() {
+                                    if(p==1){
+                                        iPhonePrivacy = "${p}"
+                                        sw_lianxi.isChecked = true
+                                    }
+                                    ContactsTask().execute()
 //                                sw_lianxi.postDelayed(object:Runnable{
 //                                    override fun run() {
 //
 //                                    }
 //                                },300)
-                            }
-                        })
+                                }
+                            })
+                        }
                     }
+                    mMailListDialog.show(supportFragmentManager,"MailListDialog")
                 }
-                mMailListDialog.show(supportFragmentManager,"MailListDialog")
             }else{
                 sw_lianxi.isChecked = false
                 iPhonePrivacy = "2"
@@ -256,8 +260,10 @@ class PrivacySettingActivity : BaseActivity() {
                 }
 
                 if(it.iPhonePrivacy==1){
+                    iPhonePrivacy = "1"
                     sw_lianxi.isChecked = true
                 }else{
+                    iPhonePrivacy = "2"
                     sw_lianxi.isChecked = false
                 }
 
@@ -373,17 +379,17 @@ class PrivacySettingActivity : BaseActivity() {
     // {"displayName":"推销","mobileNum":"01052729739"},
     // {"displayName":"央视频多人通话","mobileNum":"01052729739"},
     // {"displayName":"智行火车票","mobileNum":"02122500914"}]
-    inner class ContactsTask : AsyncTask<String, String, List<PhoneBookEntity>>() {
-        override fun doInBackground(vararg params: String?): List<PhoneBookEntity> {
-            return ContactHelper.getInstance().getContacts(this@PrivacySettingActivity)
+    inner class ContactsTask : AsyncTask<String, String, String>() {
+        override fun doInBackground(vararg params: String?): String? {
+            return ContactHelper.getInstance().getSbContacts(this@PrivacySettingActivity)
         }
 
-        override fun onPostExecute(result: List<PhoneBookEntity>?) {
+        override fun onPostExecute(result: String?) {
             result?.let {
 //                var json = GsonHelper.getGson().toJson(result)
-                var json = ""
-                Log.i("privacy","联系人数量：${result.size},联系人列表：${json}")
-                Request.updatePhonePrivacy("${iPhonePrivacy}","${json}").request(this@PrivacySettingActivity,false,success={msg,data->
+//                var json = ""
+                Log.i("privacy","联系人数量：,联系人列表：${it}")
+                Request.updatePhonePrivacy("${iPhonePrivacy}","${it}").request(this@PrivacySettingActivity,false,success={msg,data->
 
                 })
             }

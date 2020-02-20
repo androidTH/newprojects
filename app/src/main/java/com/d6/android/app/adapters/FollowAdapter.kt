@@ -71,7 +71,7 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
         tv_vip.backgroundDrawable = getLevelDrawable("${data.userclassesid}",context)
 
         var  tv_sendliked= holder.bind<TextInlineImage>(R.id.tv_sendliked)
-        if(data.iPoint>=100){
+        if(data.iPoint>=Const.iLovePointShow){
             tv_sendliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
             tv_sendliked.text ="${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
         }else{

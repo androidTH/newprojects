@@ -455,6 +455,7 @@ class MineFragment : BaseFragment() {
                 var intent = Intent(Const.MINE_MANSERVICE_YOUKE)
                 context.sendBroadcast(intent)*/
 
+                Const.iLovePointShow = it.iLovePointShow
             }
         }) { _, _ ->
 //            mSwipeRefreshLayout.isRefreshing = false
