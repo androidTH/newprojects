@@ -93,7 +93,7 @@ class SendLoveHeartDialog : DialogFragment() {
         if(ToFromType == 2){
             tv_redheart_desc.text="打赏以下任意数量喜欢[img src=redheart_small/]，即可查看"
         }else{
-            tv_redheart_desc.text="相互喜欢[img src=redheart_small/]，即可解锁聊天，送的喜欢[img src=redheart_small/]超过100将升级为超级喜欢，直接通知对方"
+            tv_redheart_desc.text="相互喜欢[img src=redheart_small/]即可解锁聊天，送的喜欢[img src=redheart_small/]超过100将升级为超级喜欢，直接通知对方"
         }
 
         tv_close.setOnClickListener {
@@ -195,7 +195,7 @@ class SendLoveHeartDialog : DialogFragment() {
             data?.let {
                 iv_redheart_headView.setImageURI(it.picUrl)
                 if(it.iMySendAllLovePoint>0){
-                    tv_redheart_name.text = "已赠送${it.iMySendAllLovePoint}个喜欢"
+                    tv_redheart_name.text = "已给对方赠送了${it.iMySendAllLovePoint}个喜欢"
                 }else{
 //                    tv_redheart_name.text = it.name
                     tv_redheart_name.visibility = View.INVISIBLE
