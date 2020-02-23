@@ -573,8 +573,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             this.mData = data
             data?.let {
                 if(it.iMySendAllLovePoint>=it.iLovePointShow){
+                    tv_sendredheart.textColor = ContextCompat.getColor(this,R.color.color_FF4133)
                     tv_sendredheart.text = "[img src=taren_red_icon/] ${it.iMySendAllLovePoint} [img src=super_like_icon/]"
                 }else if(it.iMySendAllLovePoint>0){
+                    tv_sendredheart.textColor = ContextCompat.getColor(this,R.color.color_666666)
                     tv_sendredheart.text = "[img src=taren_red_icon/] ${it.iMySendAllLovePoint}"
                 }
 

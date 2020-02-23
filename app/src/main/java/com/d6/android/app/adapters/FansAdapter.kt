@@ -42,7 +42,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
             holder.setText(R.id.tv_name,"匿名")
             holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_8F5A5A)
-            tv_userinfo.text = "未达到超级喜欢已隐藏身份，点击支付积分即可查看身份 "
+            tv_userinfo.text = "未达到超级喜欢，点击支付积分即可查看身份"
             tv_userinfo.visibility = View.VISIBLE
         }else{
             headView.setImageURI(data.sPicUrl)

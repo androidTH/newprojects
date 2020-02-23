@@ -86,7 +86,11 @@ public class PermissionsUtils {
                 if (showSystemSetting) {
                     showSystemPermissionsSettingDialog(context);//跳转到系统设置权限页面，或者直接关闭页面，不让他继续访问
                 } else {
-                    mPermissionsResult.forbidPermissions();
+                    if(!ActivityCompat.shouldShowRequestPermissionRationale(context,permissions[0])){
+                        showSystemPermissionsSettingDialog(context);//跳转到系统设置权限页面，或者直接关闭页面，不让他继续访问
+                    }else{
+                        mPermissionsResult.forbidPermissions();
+                    }
                 }
             } else {
                 //全部权限通过，可以进行下一步操作。。。

@@ -121,6 +121,7 @@ class PrivacySettingActivity : BaseActivity() {
         unknowInfo()
         getUserInfo()
 
+        PermissionsUtils.showSystemSetting = false
     }
 
     private val mTags = ArrayList<UserUnKnowTag>()

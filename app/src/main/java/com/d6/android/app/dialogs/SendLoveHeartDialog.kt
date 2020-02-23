@@ -194,7 +194,12 @@ class SendLoveHeartDialog : DialogFragment() {
         Request.getUserInfo(getLocalUserId(), id).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
                 iv_redheart_headView.setImageURI(it.picUrl)
-                tv_redheart_name.text = it.name
+                if(it.iMySendAllLovePoint>0){
+                    tv_redheart_name.text = "已赠送${it.iMySendAllLovePoint}个喜欢"
+                }else{
+//                    tv_redheart_name.text = it.name
+                    tv_redheart_name.visibility = View.INVISIBLE
+                }
             }
         })
 

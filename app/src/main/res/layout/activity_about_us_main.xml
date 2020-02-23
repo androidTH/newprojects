@@ -9,6 +9,11 @@
         android:text="隐私政策"/>
     <ImageView style="@style/ImageView_h"/>
     <TextView
+        android:id="@+id/tv_userxieyi"
+        style="@style/mineTextStyle"
+        android:text="用户协议"/>
+    <ImageView style="@style/ImageView_h"/>
+    <TextView
         android:id="@+id/tv_aboutUs"
         style="@style/mineTextStyle"
         android:text="关于我们"/>

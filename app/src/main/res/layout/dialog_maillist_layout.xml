@@ -31,10 +31,7 @@
             android:textColor="@color/color_333333"
             android:textSize="15sp"
             android:layout_margin="@dimen/margin_25"
-            android:text="开启屏蔽通讯录好友后，Ta们在D6中将
-不会看到你的任何信息。此功能需要读取
-通讯录权限，请放心D6不会泄漏你的任
-何隐私" />
+            android:text="开启屏蔽通讯录好友后，Ta们在D6中将不会看到你的任何信息。此功能需要读取通讯录权限，请放心D6不会泄漏你的任何隐私" />
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
