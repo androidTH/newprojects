@@ -2,6 +2,7 @@ package com.d6.android.app.dialogs
 
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.text.TextUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,8 @@ import org.jetbrains.anko.wrapContent
  * 用户信息页面操作弹窗
  */
 class UserActionDialog : DialogFragment() {
+
+    private var iType:String = "-1" //1私聊 2 匿名 3 是群聊
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +38,21 @@ class UserActionDialog : DialogFragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var isInBlackList = arguments.getInt("isInBlackList",0)
+        if(arguments.containsKey("iType")){
+            iType = arguments.getString("iType")
+        }
+
         if(isInBlackList == 1){
             tv_joinblack.text = getString(R.string.string_removeblacklist)
         }else{
             tv_joinblack.text = resources.getString(R.string.string_joinblack)
         }
+
+        if(!TextUtils.equals(iType,"3")&&!TextUtils.equals(iType,"-1")){
+            tv_deldate.visibility = View.VISIBLE
+            tv_deldate.text="移除好友"
+        }
+
         tv_report_user.setOnClickListener {
             dialogListener?.onClick(0,"")
             dismissAllowingStateLoss()
@@ -51,6 +64,11 @@ class UserActionDialog : DialogFragment() {
         }
 
         tv_cancel.setOnClickListener {
+            dismissAllowingStateLoss()
+        }
+
+        tv_deldate.setOnClickListener {
+            dialogListener?.onClick(2,"removeuser")
             dismissAllowingStateLoss()
         }
     }

@@ -122,4 +122,9 @@ public class RongD6Utils {
             }
         });
     }
+
+    //移除会话
+    public static void deleConverstion(Conversation.ConversationType conversationType,String targetId,RongIMClient.ResultCallback<Boolean> callback){
+        RongIMClient.getInstance().removeConversation(conversationType, targetId,callback);
+    }
 }

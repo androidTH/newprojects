@@ -238,7 +238,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         iv_chat_more.setOnClickListener {
             if(iType==1||iType==2){
                 val userActionDialog = UserActionDialog()
-                userActionDialog.arguments= bundleOf("isInBlackList" to isInBlackList)
+                userActionDialog.arguments= bundleOf("isInBlackList" to isInBlackList,"iType" to "${iType}")
                 userActionDialog.setDialogListener { p, s ->
                     if (p == 0) {//举报
                         startActivity<ReportActivity>("id" to mOtherUserId, "tiptype" to "1")
@@ -248,6 +248,26 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         }else{
                             addBlackList()
                         }
+                    }else if(p==2){
+                        val mRemoveUserInfo = RemoveUserDialog()
+                        mRemoveUserInfo.setDialogListener { p, s ->
+                            if(p==1){
+                               RongD6Utils.deleConverstion(mConversationType,mOtherUserId,object :RongIMClient.ResultCallback<Boolean>(){
+                                   override fun onSuccess(p0: Boolean?) {
+                                       RongIM.getInstance().clearMessages(mConversationType,
+                                               mOtherUserId, null)
+                                       RongIMClient.getInstance().cleanRemoteHistoryMessages(mConversationType,mOtherUserId, System.currentTimeMillis(),
+                                               null)
+                                       onBackPressed()
+                                   }
+
+                                   override fun onError(p0: RongIMClient.ErrorCode?) {
+                                       toast("删除失败！")
+                                   }
+                               })
+                            }
+                        }
+                        mRemoveUserInfo.show(supportFragmentManager, "user")
                     }
                 }
                 userActionDialog.show(supportFragmentManager, "user")
