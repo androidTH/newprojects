@@ -398,6 +398,9 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 getGroupData()
                 Const.UPDATE_GROUPS_STATUS = 0
             }
+            headerView.tv_more_users.setOnClickListener {
+                startActivity<GoodFriendsListActivity>()
+            }
         }
     }
 
