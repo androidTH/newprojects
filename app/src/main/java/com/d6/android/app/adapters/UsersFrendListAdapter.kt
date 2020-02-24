@@ -12,10 +12,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.dialogs.GroupUserMoreDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.GroupUserBean
-import com.d6.android.app.models.LoveHeartFans
-import com.d6.android.app.models.NewGroupBean
-import com.d6.android.app.models.UserData
+import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
@@ -26,13 +23,13 @@ import org.jetbrains.anko.startActivity
 /**
  * 好友
  */
-class UsersFrendListAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_usergoodfriends_list) ,View.OnClickListener{
+class UsersFrendListAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<FriendBean>(mData, R.layout.item_usergoodfriends_list) ,View.OnClickListener{
     override fun onClick(v: View?) {
 
     }
 
-    override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
-        holder.setText(R.id.tv_name,data.sSendUserName)
+    override fun onBind(holder: ViewHolder, position: Int, data: FriendBean) {
+        holder.setText(R.id.tv_name,data.sUserName)
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
         headView.setImageURI(data.sPicUrl)
 

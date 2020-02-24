@@ -5,21 +5,19 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.d6.android.app.R
-import com.d6.android.app.adapters.GroupListAdapter
 import com.d6.android.app.adapters.HeaderGroupListAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.adapters.UsersFrendListAdapter
 import com.d6.android.app.models.*
-import com.d6.android.app.utils.getLoginToken
+import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_userslist.*
 import kotlinx.android.synthetic.main.header_grouplist.view.*
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 /**
@@ -36,7 +34,7 @@ class GoodFriendsListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRef
         getData()
     }
 
-    private val mFriends = ArrayList<LoveHeartFans>()
+    private val mFriends = ArrayList<FriendBean>()
     private val mGroupUsersAdapter by lazy {
         UsersFrendListAdapter(mFriends)
     }
@@ -61,6 +59,10 @@ class GoodFriendsListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRef
             mHeaderView.rv_grouplist.layoutManager = LinearLayoutManager(this)
             mHeaderView.rv_grouplist.addItemDecoration(getItemDecoration())
             mHeaderView.rv_grouplist.adapter = mGroupListAdapter
+            mGroupListAdapter.setOnItemClickListener { _, position ->
+                val groupBean = mGroupList[position]
+                RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP,"${groupBean.sId}","${groupBean.sGroupName}")
+            }
         }
 
         userlist_refreshrecycler.setOnRefreshListener(this)
@@ -73,7 +75,7 @@ class GoodFriendsListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRef
             var userBean = mFriends[position]
 //            startActivity<UserInfoActivity>("id" to "${InviteUserBean.iUserid}")
             if(RongIM.getInstance()!=null){
-                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, "${userBean.iUserid}", "${userBean.sSendUserName}")
+                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, "${userBean.iUserid}", "${userBean.sUserName}")
             }
         }
         getData()
@@ -119,7 +121,7 @@ class GoodFriendsListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRef
     }
 
     private fun getData() {
-        Request.findReceiveLoveList(getLoginToken(),pageNum).request(this) { _, data ->
+        Request.findUserFriends(getLocalUserId(),"",pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFriends.clear()
             }

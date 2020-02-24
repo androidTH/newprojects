@@ -113,6 +113,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="@dimen/margin_5"
         android:paddingRight="@dimen/margin_5"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/margin_10"
         android:background="@mipmap/icon_discuss_more_feed" />
 </RelativeLayout>

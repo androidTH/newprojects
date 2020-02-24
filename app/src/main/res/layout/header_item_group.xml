@@ -62,5 +62,6 @@
         android:paddingLeft="@dimen/margin_5"
         android:paddingRight="@dimen/margin_5"
         android:layout_marginRight="@dimen/margin_10"
+        android:visibility="gone"
         android:background="@mipmap/icon_discuss_more_feed" />
 </RelativeLayout>
