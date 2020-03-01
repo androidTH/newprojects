@@ -260,15 +260,16 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                                 Request.deleteFriend("${mOtherUserId}").request(this, false, success = { msg, data ->
                                     RongD6Utils.deleConverstion(mConversationType, mOtherUserId, object : RongIMClient.ResultCallback<Boolean>() {
                                         override fun onSuccess(p0: Boolean?) {
-                                            RongIM.getInstance().clearMessages(mConversationType,
-                                                    mOtherUserId, null)
-                                            RongIMClient.getInstance().cleanRemoteHistoryMessages(mConversationType, mOtherUserId, System.currentTimeMillis(),
-                                                    null)
+//                                            RongIM.getInstance().clearMessages(mConversationType,
+//                                                    mOtherUserId, null)
+//                                            RongIMClient.getInstance().cleanRemoteHistoryMessages(mConversationType, mOtherUserId, System.currentTimeMillis(),
+//                                                    null)
+                                            Const.UPDATE_GROUPS_STATUS = -1
                                             iv_chat_more.postDelayed(object:Runnable{
                                                 override fun run() {
                                                     onBackPressed()
                                                 }
-                                            },300)
+                                            },100)
                                         }
 
                                         override fun onError(p0: RongIMClient.ErrorCode?) {
@@ -717,6 +718,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 if(it.has("iIsFriend")){
                     iIsFriend = it.optInt("iIsFriend")
                 }
+
+                if(iIsFriend==1){
+                    Const.UPDATE_GROUPS_STATUS = -1
+                }
+
                 if(code == 1){//已申请私聊且对方已同意
                     relative_tips.visibility = View.GONE
                     if(TextUtils.equals("1",sex)){
@@ -765,6 +771,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         tv_openchat_tips_title_bottom.visibility = View.VISIBLE
                         tv_openchat_tips_bottom.visibility = View.VISIBLE
                         tv_openchat_tips_center_bottom.visibility = View.GONE
+                        linear_openchat_agree_bottom.visibility = View.GONE
 
                         tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
                         tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)

@@ -20,7 +20,7 @@ data class NewGroupBean(var sId:String?="") :Parcelable{
     var iIsOwner:Int?=-1
     var iIsManager:Int?=-1
     var iMemberCount:Int?=-1;//群成员数量
-    var iType:Int?=-1
+    var iType:Int?=-1 //iType 1、群  2、好友
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         sGroupPic = parcel.readString()

@@ -390,9 +390,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             headerView.rv_grouplist.adapter = mGroupListAdapter
             mGroupListAdapter.setOnItemClickListener { _, position ->
                 val groupBean = mGroupList[position]
-//                startActivity<GroupSettingActivity>()
 //                startActivity<GroupSettingActivity>("bean" to groupBean)
-                RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,"${groupBean.sId}","${groupBean.sGroupName}")
+                if(groupBean.iType==1){
+                    RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,"${groupBean.sId}","${groupBean.sGroupName}")
+                }else if(groupBean.iType==2){
+                    startActivity<UserInfoActivity>("id" to "${groupBean.sId}")
+                }
             }
             if(Const.UPDATE_GROUPS_STATUS==-1){
                 getGroupData()

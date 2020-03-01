@@ -111,7 +111,30 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                         var startsub = "你给${getLocalUserName()}赠送了"
                         var end = content.subSequence(startsub.length, content.length)
                         tv_content.text = "对方给你赠送了${end}"
-                    } else {
+                    } else if(content.contains("评论了你的动态:")) {
+                        var str = content.split("评论了你的动态:")
+                        if(TextUtils.equals(getLocalUserId(),data.senderUserId)){
+                            Request.getUserInfoDetail("${data.targetId}").request(context as BaseActivity, false, success = { msg, data ->
+                                data?.let {
+                                    if(str!=null&&str.size==2){
+                                        tv_content.text = "你评论了${it.name}的动态：${str[1]}"
+                                    }else{
+                                        tv_content.text = "${content}"
+                                    }
+                                }
+                            })
+                        }else{
+                            Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
+                                data?.let {
+                                    if(str!=null&&str.size==2){
+                                        tv_content.text = "${it.name}评论了你的动态：${str[1]}"
+                                    }else{
+                                        tv_content.text = "${content}"
+                                    }
+                                }
+                            })
+                        }
+                    }else {
                         tv_content.text = "${content}"
                     }
                     tv_unread.visibility = if (count > 0) View.VISIBLE else View.GONE

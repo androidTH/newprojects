@@ -11,7 +11,6 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.adapters.UsersFrendListAdapter
 import com.d6.android.app.models.*
-import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
 import io.rong.imkit.RongIM
@@ -19,6 +18,7 @@ import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_userslist.*
 import kotlinx.android.synthetic.main.header_grouplist.view.*
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.startActivity
 
 /**
  * 分享群和好友
@@ -73,10 +73,10 @@ class GoodFriendsListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRef
 
         mGroupUsersAdapter.setOnItemClickListener { view, position ->
             var userBean = mFriends[position]
-//            startActivity<UserInfoActivity>("id" to "${InviteUserBean.iUserid}")
-            if(RongIM.getInstance()!=null){
-                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, "${userBean.iUserid}", "${userBean.sUserName}")
-            }
+            startActivity<UserInfoActivity>("id" to "${userBean.iUserid}")
+//            if(RongIM.getInstance()!=null){
+//                RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, "${userBean.iUserid}", "${userBean.sUserName}")
+//            }
         }
         getGroupData()
     }
