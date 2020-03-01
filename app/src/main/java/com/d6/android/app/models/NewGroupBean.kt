@@ -20,6 +20,7 @@ data class NewGroupBean(var sId:String?="") :Parcelable{
     var iIsOwner:Int?=-1
     var iIsManager:Int?=-1
     var iMemberCount:Int?=-1;//群成员数量
+    var iType:Int?=-1
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         sGroupPic = parcel.readString()
@@ -32,6 +33,7 @@ data class NewGroupBean(var sId:String?="") :Parcelable{
         iIsOwner = parcel.readValue(Int::class.java.classLoader) as? Int
         iIsManager = parcel.readValue(Int::class.java.classLoader) as? Int
         iMemberCount = parcel.readValue(Int::class.java.classLoader) as? Int
+        iType = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -46,6 +48,7 @@ data class NewGroupBean(var sId:String?="") :Parcelable{
         parcel.writeValue(iIsOwner)
         parcel.writeValue(iIsManager)
         parcel.writeValue(iMemberCount)
+        parcel.writeValue(iType)
     }
 
     override fun describeContents(): Int {
@@ -61,5 +64,6 @@ data class NewGroupBean(var sId:String?="") :Parcelable{
             return arrayOfNulls(size)
         }
     }
+
 
 }

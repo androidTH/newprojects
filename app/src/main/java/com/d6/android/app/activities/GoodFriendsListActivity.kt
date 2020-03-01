@@ -78,8 +78,12 @@ class GoodFriendsListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRef
                 RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, "${userBean.iUserid}", "${userBean.sUserName}")
             }
         }
-        getData()
         getGroupData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getData()
     }
 
     protected fun getItemDecoration(colorId:Int = R.color.color_EAEAEA, size:Int=1):HorizontalDividerItemDecoration{
@@ -121,7 +125,7 @@ class GoodFriendsListActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRef
     }
 
     private fun getData() {
-        Request.findUserFriends(getLocalUserId(),"",pageNum).request(this) { _, data ->
+        Request.findUserFriends_New("",pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mFriends.clear()
             }

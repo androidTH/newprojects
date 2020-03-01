@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
@@ -49,6 +51,9 @@ public class CommentSquareMsgProvider extends IContainerItemProvider.MessageProv
         holder.tv_chat_comment_title = view.findViewById(R.id.tv_chat_comment_title);
         holder.tv_chat_comment_content = view.findViewById(R.id.tv_chat_comment_content);
         holder.mRightImagView = view.findViewById(R.id.chat_comment_imageView);
+        holder.mIVSmapllplay = view.findViewById(R.id.iv_smapllplay);
+        holder.mRL_Pics = view.findViewById(R.id.rl_pics);
+        holder.mIvType = view.findViewById(R.id.iv_type);
         view.setTag(holder);
         return view;
     }
@@ -80,15 +85,39 @@ public class CommentSquareMsgProvider extends IContainerItemProvider.MessageProv
                     holder.tv_chat_comment_title.setText(mCommentMsg.getCommentUserName() + " 评论了你的动态");
                 }
                 holder.tv_chat_comment_content.setText(mCommentMsg.getContent());
-                if (TextUtils.isEmpty(mCommentMsg.getCoverUrl())) {
-                    holder.mRightImagView.setVisibility(View.GONE);
-                } else {
+                if (mCommentMsg.getSourceType() == 1) {
+                    holder.mRL_Pics.setVisibility(View.GONE);
+                } else if (mCommentMsg.getSourceType() == 2) {
+                    holder.mRL_Pics.setVisibility(View.VISIBLE);
                     holder.mRightImagView.setVisibility(View.VISIBLE);
+                    holder.mIvType.setVisibility(View.GONE);
+                    holder.mIVSmapllplay.setVisibility(View.GONE);
                     String[] imgs = mCommentMsg.getCoverUrl().split(",");
                     if (imgs != null && imgs.length > 0) {
                         holder.mRightImagView.setImageURI(imgs[0]);
                     }
+                } else if (mCommentMsg.getSourceType() == 3) {
+                    holder.mRL_Pics.setVisibility(View.VISIBLE);
+                    holder.mIVSmapllplay.setVisibility(View.VISIBLE);
+                    holder.mRightImagView.setVisibility(View.VISIBLE);
+                    holder.mIvType.setVisibility(View.GONE);
+                    String[] imgs = mCommentMsg.getCoverUrl().split(",");
+                    if (imgs != null && imgs.length > 0) {
+                        holder.mRightImagView.setImageURI(imgs[0]);
+                    }
+                } else if (mCommentMsg.getSourceType() == 4) {
+                    holder.mRL_Pics.setVisibility(View.VISIBLE);
+                    holder.mIvType.setVisibility(View.VISIBLE);
+                    holder.mIVSmapllplay.setVisibility(View.GONE);
+                    holder.mRightImagView.setVisibility(View.GONE);
+                    holder.mIvType.setImageResource(R.mipmap.chat_sound);
                 }
+
+//                if (TextUtils.isEmpty(mCommentMsg.getCoverUrl())) {
+//                    holder.mRL_Pics.setVisibility(View.GONE);
+//                } else {
+//
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -178,6 +207,9 @@ public class CommentSquareMsgProvider extends IContainerItemProvider.MessageProv
 
     private static class ViewHolder {
         LinearLayout mLlChatDynamicCommentCard;
+        RelativeLayout mRL_Pics;
+        ImageView mIVSmapllplay;
+        ImageView mIvType;
         SimpleDraweeView mRightImagView;
         TextView tv_chat_comment_title;
         TextView tv_chat_comment_content;

@@ -433,6 +433,8 @@ object Request {
     //查询好友列表
     fun findUserFriends(iUserId: String,sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findUserFriends(iUserId,sUserName,pageNum)
 
+    fun findUserFriends_New(sUserName:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findUserFriends_New(sUserName,pageNum)
+
     //消息设置接口
     fun updateMessageSetting(iUserId:String,iMessageSetting:Int)=RRetrofit.instance().create(ApiServices::class.java).updateMessageSetting(iUserId,iMessageSetting)
 
@@ -594,5 +596,9 @@ object Request {
     fun updateGroup(sGroupId:String,sGroupName:String,sGroupPic:String,sGroupDesc:String)=RRetrofit.instance().create(ApiServices::class.java).updateGroup(sGroupId,sGroupName,sGroupPic,sGroupDesc)
 
     fun updatePhonePrivacy(iPhonePrivacy:String,sPhoneList:String)=RRetrofit.instance().create(ApiServices::class.java).updatePhonePrivacy(iPhonePrivacy,sPhoneList)
+
+    fun deleteFriend(iFriendUserid:String)=RRetrofit.instance().create(ApiServices::class.java).deleteFriend(iFriendUserid)
+
+    fun getMyGrouListAndFriendList(pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getMyGrouListAndFriendList(pageNum)
 
 }

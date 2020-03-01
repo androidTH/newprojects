@@ -405,7 +405,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     private fun getGroupData() {
-        Request.getMyGroupList(pageNum).request(this,success = { _, data ->
+        Request.getMyGrouListAndFriendList(1).request(this,success = { _, data ->
             data?.let {
                 mGroupList.clear()
                 Log.i("onReceived","${Const.UPDATE_GROUPS_STATUS}-----${it.list?.results?.size}")

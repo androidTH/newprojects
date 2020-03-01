@@ -188,6 +188,13 @@ class SendLoveHeartDialog : DialogFragment() {
         mBuyRedHeartAdapter?.let {
             it.setNewData(mLoveHeartList)
         }
+
+        Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
+            data?.let {
+                mLocalUserLoveHeartCount = it.iLovePoint
+                tv_redheart_count.text = "剩余${mLocalUserLoveHeartCount}"
+            }
+        })
     }
 
     private fun getUserInfo(id: String) {
@@ -200,14 +207,6 @@ class SendLoveHeartDialog : DialogFragment() {
 //                    tv_redheart_name.text = it.name
                     tv_redheart_name.visibility = View.INVISIBLE
                 }
-            }
-        })
-
-        Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
-            data?.let {
-                mLocalUserLoveHeartCount = it.iLovePoint
-                tv_redheart_count.text = "剩余${mLocalUserLoveHeartCount}"
-
             }
         })
     }

@@ -83,6 +83,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     private var ISNOTYAODATE = 1// 1邀约  2赴约
     private var iCanTalk:Int = 2 //1 已解锁  2未解锁
     private var hasReceiveMsg:Boolean = false
+    private var iIsFriend:Int = -1 //1、好友 2、非好友
 
     private var mRongReceiveMessage:rongReceiveMessage?=null
 
@@ -238,7 +239,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         iv_chat_more.setOnClickListener {
             if(iType==1||iType==2){
                 val userActionDialog = UserActionDialog()
-                userActionDialog.arguments= bundleOf("isInBlackList" to isInBlackList,"iType" to "${iType}")
+                if(!TextUtils.equals(mOtherUserId, Const.CustomerServiceId)&&!TextUtils.equals(mOtherUserId, Const.CustomerServiceWomenId)){
+                    userActionDialog.arguments= bundleOf("isInBlackList" to isInBlackList,"iType" to "${iIsFriend}")
+                }else{
+                    userActionDialog.arguments= bundleOf("isInBlackList" to isInBlackList,"iType" to "-1")
+                }
                 userActionDialog.setDialogListener { p, s ->
                     if (p == 0) {//举报
                         startActivity<ReportActivity>("id" to mOtherUserId, "tiptype" to "1")
@@ -252,19 +257,27 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         val mRemoveUserInfo = RemoveUserDialog()
                         mRemoveUserInfo.setDialogListener { p, s ->
                             if(p==1){
-                               RongD6Utils.deleConverstion(mConversationType,mOtherUserId,object :RongIMClient.ResultCallback<Boolean>(){
-                                   override fun onSuccess(p0: Boolean?) {
-                                       RongIM.getInstance().clearMessages(mConversationType,
-                                               mOtherUserId, null)
-                                       RongIMClient.getInstance().cleanRemoteHistoryMessages(mConversationType,mOtherUserId, System.currentTimeMillis(),
-                                               null)
-                                       onBackPressed()
-                                   }
+                                Request.deleteFriend("${mOtherUserId}").request(this, false, success = { msg, data ->
+                                    RongD6Utils.deleConverstion(mConversationType, mOtherUserId, object : RongIMClient.ResultCallback<Boolean>() {
+                                        override fun onSuccess(p0: Boolean?) {
+                                            RongIM.getInstance().clearMessages(mConversationType,
+                                                    mOtherUserId, null)
+                                            RongIMClient.getInstance().cleanRemoteHistoryMessages(mConversationType, mOtherUserId, System.currentTimeMillis(),
+                                                    null)
+                                            iv_chat_more.postDelayed(object:Runnable{
+                                                override fun run() {
+                                                    onBackPressed()
+                                                }
+                                            },300)
+                                        }
 
-                                   override fun onError(p0: RongIMClient.ErrorCode?) {
-                                       toast("删除失败！")
-                                   }
-                               })
+                                        override fun onError(p0: RongIMClient.ErrorCode?) {
+                                            toast("删除失败！")
+                                        }
+                                    })
+                                }) { code, msg ->
+                                    toast("${msg}")
+                                }
                             }
                         }
                         mRemoveUserInfo.show(supportFragmentManager, "user")
@@ -701,6 +714,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 var code = it.optInt("code")
                 Log.i("chatactivity","code=${code}----${it}")
                 fragment?.hideChatInput(false)
+                if(it.has("iIsFriend")){
+                    iIsFriend = it.optInt("iIsFriend")
+                }
                 if(code == 1){//已申请私聊且对方已同意
                     relative_tips.visibility = View.GONE
                     if(TextUtils.equals("1",sex)){

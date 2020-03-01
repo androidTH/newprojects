@@ -400,6 +400,9 @@ interface ApiServices {
     @POST("backstage/userfriend/findByPage")
     fun findUserFriends(@Query("iUserid")userid:String,@Query("sUserName") sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<FriendBean>>>
 
+    @POST("backstage/userfriend/findByPageNew")
+    fun findUserFriends_New(@Query("sUserName") sUserName:String,@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<FriendBean>>>
+
     //动态消息设置
     @POST("backstage/account/updateMessageSetting")
     fun updateMessageSetting(@Query("iUserid") userid:String,@Query("iMessageSetting") iMessageSetting:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonPrimitive>>
@@ -665,4 +668,15 @@ interface ApiServices {
     //2、开启或关闭通讯录隐私保护
     @POST("backstage/account/updatePhonePrivacy")
     fun updatePhonePrivacy(@Query("iPhonePrivacy") iPhonePrivacy:String,@Query("sPhoneList") sPhoneList:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //3.6版本
+    @POST("backstage/userfriend/deleteFriend")
+    fun deleteFriend(@Query("iFriendUserid") iFriendUserid:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //iType 1、群  2、好友
+    //sId  群组id或好友的id
+    //sGroupName 群组或好友的名称
+    //sGroupPic 群组或好友的头像
+    @POST("backstage/rongcloudgroup/getMyGrouListAndFriendList")
+    fun getMyGrouListAndFriendList(@Query("pageNum")pageNum:Int,@Query("pageSize")pageSize:Int=10,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<NewGroupBean>>>
 }

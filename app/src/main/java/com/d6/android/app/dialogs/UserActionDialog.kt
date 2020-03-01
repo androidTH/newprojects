@@ -48,7 +48,7 @@ class UserActionDialog : DialogFragment() {
             tv_joinblack.text = resources.getString(R.string.string_joinblack)
         }
 
-        if(!TextUtils.equals(iType,"3")&&!TextUtils.equals(iType,"-1")){
+        if(!TextUtils.equals(iType,"2")&&!TextUtils.equals(iType,"-1")){
             tv_deldate.visibility = View.VISIBLE
             tv_deldate.text="移除好友"
         }

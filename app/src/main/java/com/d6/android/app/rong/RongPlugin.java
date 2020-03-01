@@ -115,7 +115,7 @@ public class RongPlugin {
         RongIM.registerMessageTemplate(new TipsMessageProvider());
         RongIM.registerMessageTemplate(new CustomUnKnowMessageProvider());
         RongIM.registerMessageTemplate(new SquareMsgProvider());//动态消息
-        RongIM.registerMessageTemplate(new CommentMsgProvider());//评论消息
+//        RongIM.registerMessageTemplate(new CommentMsgProvider());//评论消息
         RongIM.registerMessageTemplate(new CommentSquareMsgProvider());//评论动态消息
         RongIM.registerMessageTemplate(new AppointmentMsgProvider());//约会消息
         RongIM.registerMessageTemplate(new SpeedDateMsgProvider());//急约

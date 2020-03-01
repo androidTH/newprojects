@@ -24,4 +24,5 @@ data class Comment(@SerializedName("ids") val id: String? = ""):Serializable {
     val replyUserName:String?="" //回复某人的评论
     var iIsAnonymous:Int?=0 //1、匿名  2、非匿名状态
     var iIsReplyAnonymous:Int?=0 //回复的那个评论是不是匿名发布的 1 匿名 2 非匿名
+    var sourceType:Int?=-1 //动态的类型 1、文字  2、图片 3、视频 4、语音
 }
