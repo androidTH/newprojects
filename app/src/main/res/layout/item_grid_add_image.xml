@@ -27,7 +27,23 @@
         android:layout_alignParentRight="true"
         android:visibility="visible"
         android:src="@mipmap/comment_photo_edit"/>
-
+    <TextView
+        android:id="@+id/tv_firepic"
+        android:text="阅后即焚"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/margin_3"
+        android:paddingTop="@dimen/margin_3"
+        android:paddingRight="@dimen/margin_5"
+        android:paddingLeft="@dimen/margin_5"
+        android:drawableLeft="@mipmap/yuehoujifen_icon"
+        android:drawablePadding="@dimen/margin_5"
+        android:layout_marginTop="65dp"
+        android:visibility="gone"
+        android:background="@drawable/shape_3r_00"/>
     <!--deleted_button_bg.png-->
     <!--ic_delete_yellow-->
 </RelativeLayout>
