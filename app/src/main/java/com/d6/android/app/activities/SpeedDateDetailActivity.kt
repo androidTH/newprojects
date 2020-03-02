@@ -37,9 +37,17 @@ import org.jetbrains.anko.startActivity
  */
 class SpeedDateDetailActivity : TitleActivity() {
 
-    private val mSpeedDate by lazy {
-        intent.getSerializableExtra("data") as MyDate
-    }
+//    private val mSpeedDate by lazy {
+//        var serializable = intent.getSerializableExtra("data")
+//        if(serializable!=null){
+//            serializable as MyDate
+//        }else{
+//            MyDate("")
+//        }
+//    }
+
+    private lateinit var mSpeedDate:MyDate
+    fun IsNotNullDate()=::mSpeedDate.isInitialized
 
     private val mUrls =ArrayList<String>()
 
@@ -77,11 +85,11 @@ class SpeedDateDetailActivity : TitleActivity() {
         titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
 //            ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
             val shareDialog = ShareFriendsDialog()
-            shareDialog.arguments = bundleOf("from" to "Recommend_speedDate","id" to mSpeedDate.userId.toString(),"sResourceId" to mSpeedDate.id.toString())
+            shareDialog.arguments = bundleOf("from" to "Recommend_speedDate","id" to "${mSpeedDate.userId}","sResourceId" to "${mSpeedDate.id}")
             shareDialog.show(supportFragmentManager, "action")
             shareDialog.setDialogListener { p, s ->
                 if (p == 0) {
-                    startActivity<ReportActivity>("id" to mSpeedDate.id.toString(), "tiptype" to "5")
+                    startActivity<ReportActivity>("id" to "${mSpeedDate.id}", "tiptype" to "5")
                 }else if(p==3){
                     ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
                 }
@@ -124,7 +132,13 @@ class SpeedDateDetailActivity : TitleActivity() {
         if(intent.hasExtra("id")){
             getSpeedDateDetail(intent.getStringExtra("id"))
         }else{
-            getSpeedDateDetail(mSpeedDate.id.toString())
+            var serializable = intent.getSerializableExtra("data")
+            if(serializable!=null){
+                mSpeedDate = serializable as MyDate
+                if(IsNotNullDate()){
+                    getSpeedDateDetail("${mSpeedDate.id}")
+                }
+            }
         }
     }
 
@@ -133,6 +147,7 @@ class SpeedDateDetailActivity : TitleActivity() {
         Request.getSpeedDetail(id).request(this){ _, data->
             data?.let {
                 refreshUI(it)
+                mSpeedDate = it
 //                startActivity<SpeedDateDetailActivity>("data" to it)
             }
         }

@@ -608,7 +608,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     if(pageNum!=1){
                         try{
                             scrollPosition = mRecyclerView.currentItem + 1
-                            if (mRecyclerView.adapter.itemCount > scrollPosition) {
+                            if (mRecyclerView.layoutManager.itemCount > scrollPosition) {
                                 mRecyclerView.postDelayed(object : Runnable {
                                     override fun run() {
                                         mRecyclerView.smoothScrollToPosition(scrollPosition)

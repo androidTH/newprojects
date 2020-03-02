@@ -5,9 +5,14 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextUtils
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
@@ -31,6 +36,8 @@ import com.d6.android.app.widget.gift.GiftControl
 import com.d6.android.app.widget.gift.GiftModel
 import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import com.facebook.drawee.backends.pipeline.Fresco
+import io.reactivex.Flowable
+import io.reactivex.subscribers.DisposableSubscriber
 import kotlinx.android.synthetic.main.activity_image_pager.*
 import kotlinx.android.synthetic.main.activity_image_pager.ll_gift_parent
 import kotlinx.android.synthetic.main.activity_image_pager.loveheart
@@ -38,8 +45,10 @@ import kotlinx.android.synthetic.main.activity_qr.*
 import kotlinx.android.synthetic.main.fragment_date.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import java.lang.StringBuilder
+import java.util.concurrent.TimeUnit
 
 /**
  * 广场照片详情页
@@ -172,6 +181,23 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 }
             }
         }
+
+//        val timer = object : CountDownTimer(4000, 1000) {
+//            override  fun onTick(millisUntilFinished: Long) {
+//                if(millisUntilFinished>=1000){
+//                    var str = "剩余 ${millisUntilFinished/1000}s"
+//                    var style = SpannableStringBuilder(str)
+//                    style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this@ImagePagerActivity,R.color.color_F7AB00)), str.length-2, str.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+//                    tv_countdown.text = style
+//                }else{
+//                    tv_countdown.visibility = View.GONE
+//                }
+//            }
+//
+//            override fun onFinish() {
+//                tv_countdown.visibility = View.GONE
+//            }
+//        }.start()
     }
 
     private fun delete(url:String) {

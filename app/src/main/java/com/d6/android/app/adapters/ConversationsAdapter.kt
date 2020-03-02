@@ -134,6 +134,20 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                                 }
                             })
                         }
+                    }else if(content.contains("赞了你的动态")){
+                        if(TextUtils.equals(getLocalUserId(),data.senderUserId)){
+                            Request.getUserInfoDetail("${data.targetId}").request(context as BaseActivity, false, success = { msg, data ->
+                                data?.let {
+                                    tv_content.text = "你赞了${it.name}的动态"
+                                }
+                            })
+                        }else{
+                            Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->
+                                data?.let {
+                                    tv_content.text = "${it.name}赞了你的动态"
+                                }
+                            })
+                        }
                     }else {
                         tv_content.text = "${content}"
                     }

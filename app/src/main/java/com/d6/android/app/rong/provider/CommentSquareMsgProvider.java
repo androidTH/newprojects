@@ -70,21 +70,42 @@ public class CommentSquareMsgProvider extends IContainerItemProvider.MessageProv
             Log.i(TAG, "评论内容" + content.getExtra());
             try {
                 Comment mCommentMsg = GsonHelper.getGson().fromJson(content.getExtra(), Comment.class);
-                if (data.getMessageDirection() == Message.MessageDirection.SEND) {
-                    if (TextUtils.isEmpty(mCommentMsg.getReplyUserName())) {
-                        if (!TextUtils.isEmpty(mCommentMsg.getSuqareUserName())) {
-                            holder.tv_chat_comment_title.setText("你评论了" + mCommentMsg.getSuqareUserName() + "的动态");
+                if(mCommentMsg.getIType()==1){
+                    if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+                        if (TextUtils.isEmpty(mCommentMsg.getReplyUserName())) {
+                            if (!TextUtils.isEmpty(mCommentMsg.getSuqareUserName())) {
+                                holder.tv_chat_comment_title.setText("你评论了" + mCommentMsg.getSuqareUserName() + "的动态");
+                            } else {
+                                UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+                                holder.tv_chat_comment_title.setText("你评论了" + userInfo.getName() + "的动态");
+                            }
                         } else {
-                            UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                            holder.tv_chat_comment_title.setText("你评论了" + userInfo.getName() + "的动态");
+                            holder.tv_chat_comment_title.setText("你回复了" + mCommentMsg.getReplyUserName() + "的评论");
                         }
                     } else {
-                        holder.tv_chat_comment_title.setText("你回复了" + mCommentMsg.getReplyUserName() + "的评论");
+                        holder.tv_chat_comment_title.setText(mCommentMsg.getCommentUserName() + " 评论了你的动态");
                     }
-                } else {
-                    holder.tv_chat_comment_title.setText(mCommentMsg.getCommentUserName() + " 评论了你的动态");
+
+                    holder.tv_chat_comment_content.setText(mCommentMsg.getContent());
+                }else {
+                    if (data.getMessageDirection() == Message.MessageDirection.SEND) {
+                        if (TextUtils.isEmpty(mCommentMsg.getReplyUserName())) {
+                            if (!TextUtils.isEmpty(mCommentMsg.getSuqareUserName())) {
+                                holder.tv_chat_comment_title.setText("你赞了" + mCommentMsg.getSuqareUserName() + "的动态");
+                            } else {
+                                UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+                                holder.tv_chat_comment_title.setText("你赞了" + userInfo.getName() + "的动态");
+                            }
+                        } else {
+                            holder.tv_chat_comment_title.setText("你赞了" + mCommentMsg.getReplyUserName() + "的评论");
+                        }
+                    } else {
+                        holder.tv_chat_comment_title.setText(mCommentMsg.getCommentUserName() + "赞了你的动态");
+                    }
+
+                    holder.tv_chat_comment_content.setText(mCommentMsg.getSuqareContent());
                 }
-                holder.tv_chat_comment_content.setText(mCommentMsg.getContent());
+
                 if (mCommentMsg.getSourceType() == 1) {
                     holder.mRL_Pics.setVisibility(View.GONE);
                 } else if (mCommentMsg.getSourceType() == 2) {
@@ -113,11 +134,6 @@ public class CommentSquareMsgProvider extends IContainerItemProvider.MessageProv
                     holder.mIvType.setImageResource(R.mipmap.chat_sound);
                 }
 
-//                if (TextUtils.isEmpty(mCommentMsg.getCoverUrl())) {
-//                    holder.mRL_Pics.setVisibility(View.GONE);
-//                } else {
-//
-//                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

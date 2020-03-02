@@ -719,9 +719,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     iIsFriend = it.optInt("iIsFriend")
                 }
 
-                if(iIsFriend==1){
-                    Const.UPDATE_GROUPS_STATUS = -1
-                }
+//                if(iIsFriend==1){
+//                    Const.UPDATE_GROUPS_STATUS = -1
+//                }
 
                 if(code == 1){//已申请私聊且对方已同意
                     relative_tips.visibility = View.GONE
