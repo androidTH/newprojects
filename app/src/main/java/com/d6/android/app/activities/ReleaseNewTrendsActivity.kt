@@ -740,6 +740,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                     this.city
                 }
                 var sbBlur = StringBuffer()
+                var sbFirePics = StringBuffer()
                 mImages.filter {
                     it.type != 1
                 }.forEach {
@@ -748,11 +749,19 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                     }else{
                         sbBlur.append("1").append(",")
                     }
+                    if(it.mFirePic){
+                        sbFirePics.append("2").append(",")
+                    }else{
+                        sbFirePics.append("2").append(",")
+                    }
                 }
                 if (sbBlur.isNotEmpty()) {
                     sbBlur.deleteCharAt(sbBlur.length - 1)
                 }
-                Log.i("sbBlur","图片数量：${mImages.size}，图片下标：${sbBlur}")
+                if (sbFirePics.isNotEmpty()) {
+                    sbFirePics.deleteCharAt(sbFirePics.length - 1)
+                }
+                Log.i("sbBlur","图片数量：${mImages.size}，图片下标：${sbBlur},阅读：${sbFirePics}")
 //                var userIds = getShareUserId(mChooseFriends)
                 Request.releaseSquare(userId, tagId, city, it,content ,"",iIsAnonymous,sTopicId,"","","","","","","${sbBlur}")
             }.request(this,false,success= { _, data ->
