@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/photo_drag_relaivelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -78,22 +79,72 @@
           android:textSize="15sp"
           android:gravity="center_vertical"
           android:text="贴纸/打码"/>
+       <RelativeLayout
+           android:id="@+id/rl_paypoints"
+           android:layout_toRightOf="@+id/tv_edittiezhi"
+           android:layout_marginRight="@dimen/margin_8"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent">
+           <TextView
+               android:id="@+id/tv_paypoints"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent"
+               android:textColor="@color/white"
+               android:textStyle="bold"
+               android:textSize="15sp"
+               android:gravity="center_vertical"
+               android:layout_marginRight="5dp"
+               android:text="打赏可见"/>
+           <Switch
+               android:id="@+id/sw_paypoints"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerVertical="true"
+               android:layout_toRightOf="@+id/tv_paypoints"
+               android:track="@drawable/switch_track"
+               android:thumb="@drawable/switch_thumb"
+               android:checked="false"/>
+       </RelativeLayout>
 
+
+       <RelativeLayout
+           android:layout_toRightOf="@+id/rl_paypoints"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent">
 
        <TextView
-           android:id="@+id/tv_paypoints"
+           android:id="@+id/tv_fire"
            android:layout_width="wrap_content"
            android:layout_height="match_parent"
-           android:layout_toRightOf="@+id/tv_edittiezhi"
-           android:textColor="@color/white"
-           android:textStyle="bold"
-           android:drawableLeft="@mipmap/paypoint_pic_seleted"
-           android:drawablePadding="@dimen/margin_8"
-           android:paddingLeft="@dimen/margin_15"
-           android:paddingRight="@dimen/margin_10"
-           android:textSize="15sp"
            android:gravity="center_vertical"
-           android:text="打赏可见"/>
+           android:paddingRight="@dimen/margin_5"
+           android:text="阅后即焚"
+           android:textColor="@color/white"
+           android:textSize="15sp"
+           android:textStyle="bold" />
+
+           <Switch
+               android:id="@+id/sw_fire"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_centerVertical="true"
+               android:layout_toRightOf="@+id/tv_fire"
+               android:track="@drawable/switch_track"
+               android:thumb="@drawable/switch_thumb"
+               android:checked="false"/>
+       <!--<com.d6.android.app.widget.switchbutton.SwitchButton-->
+           <!--android:id="@+id/sw_fire"-->
+           <!--android:layout_width="wrap_content"-->
+           <!--android:layout_height="wrap_content"-->
+           <!--android:layout_centerVertical="true"-->
+           <!--android:layout_toRightOf="@+id/tv_fire"-->
+           <!--android:checked="false"-->
+           <!--android:textColor="@color/white"-->
+           <!--app:kswAnimationDuration="200"-->
+           <!--app:kswBackDrawable="@drawable/ios_mine_drawable"-->
+           <!--app:kswBackMeasureRatio="1.7"-->
+           <!--app:kswThumbDrawable="@drawable/shape_switchthum" />-->
+       </RelativeLayout>
 
        <TextView
            android:id="@+id/tv_dowork"

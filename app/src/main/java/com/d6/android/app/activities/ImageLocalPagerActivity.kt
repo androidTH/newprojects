@@ -135,22 +135,22 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                         mPayPointsHashMap.put(path, setPayPointPic(checked))
                     }
                 }else{
-                    tv_paypoints.visibility = View.GONE
+                    rl_paypoints.visibility = View.GONE
                 }
             }else{
-                tv_paypoints.visibility = View.GONE
+                rl_paypoints.visibility = View.GONE
             }
         } else {
             tv_delete.gone()
             if(mShowPayPoints){
-                tv_paypoints.visibility = View.VISIBLE
+                rl_paypoints.visibility = View.VISIBLE
                 if(urls!=null&&urls.size>0){
                     var path = urls[position]
                     var checked = mPayPointsHashMap[path] as Boolean
                     mPayPointsHashMap.put(path, setPayPointPic(checked))
                 }
             }else{
-                tv_paypoints.visibility = View.GONE
+                rl_paypoints.visibility = View.GONE
             }
         }
 
@@ -178,20 +178,28 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             tv_dowork.text = "完成·${chooseCount}"
         }
 
-        tv_paypoints.setOnClickListener {
-            var p = mImageLocalViewPager.currentItem
-            var checked = mPayPointsHashMap[urls[p]] as Boolean
-            if(urls!=null&&urls.size>0){
-                mPayPointsHashMap.put(urls[p],setPayPointPic(!checked))
+        rl_paypoints.setOnClickListener {
+            payPoints()
+        }
 
-            }
-            if(!checked){
-                chooseCount = 0
-                mNoChooseUrls.clear()
-                mHashMap.put(p,setCheckPic(!checked))
-                chooseCount = setNoChooseUrls()
-                tv_dowork.text = "完成·${chooseCount}"
-            }
+        sw_paypoints.setOnClickListener {
+            payPoints()
+        }
+    }
+
+    private fun payPoints(){
+        var p = mImageLocalViewPager.currentItem
+        var checked = mPayPointsHashMap[urls[p]] as Boolean
+        if(urls!=null&&urls.size>0){
+            mPayPointsHashMap.put(urls[p],setPayPointPic(!checked))
+
+        }
+        if(!checked){
+            chooseCount = 0
+            mNoChooseUrls.clear()
+            mHashMap.put(p,setCheckPic(!checked))
+            chooseCount = setNoChooseUrls()
+            tv_dowork.text = "完成·${chooseCount}"
         }
     }
 
@@ -233,13 +241,14 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun setPayPointPic(flag:Boolean):Boolean{
-        var mDrawable: Drawable? = null
-        if(flag){
-            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypointspic_seleted)
-        }else{
-            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypoint_pic_seleted)
-        }
-        setLeftDrawable(mDrawable, tv_paypoints)
+         sw_paypoints.isChecked = flag
+//        var mDrawable: Drawable? = null
+//        if(flag){
+//            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypointspic_seleted)
+//        }else{
+//            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypoint_pic_seleted)
+//        }
+//        setLeftDrawable(mDrawable, tv_paypoints)
         return flag
     }
 
