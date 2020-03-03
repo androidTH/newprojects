@@ -31,4 +31,12 @@
             android:layout_height="19dp"
             android:src="@mipmap/feedpic_unlock"/>
     </RelativeLayout>
+    <com.d6.android.app.widget.SquareRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/iv_firepic_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.d6.android.app.widget.SquareRelativeLayout>
 </RelativeLayout>

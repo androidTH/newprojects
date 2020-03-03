@@ -2,12 +2,17 @@ package com.d6.android.app.fragments
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Paint
 import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.View
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.d6.android.app.R
 import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.base.BaseNoBarFragment
@@ -26,6 +31,7 @@ import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_image.*
+import org.jetbrains.anko.backgroundColor
 import java.lang.Exception
 /**
  * 图片Fragment
@@ -58,6 +64,8 @@ class ImageFragment : BaseNoBarFragment() {
         }
         try{
             updatePicUrl(activity,"${url}",isBlur)
+//            Glide.with(this).load(url)
+//                    .into(iv_firepic_gb)
         }catch (e:Exception){
             e.printStackTrace()
         }
@@ -72,7 +80,7 @@ class ImageFragment : BaseNoBarFragment() {
         }
     }
 
-    fun updatePicUrl(mActivity: Activity, url:String, isBlur:Boolean){
+    fun updatePicUrl(mActivity: Activity, url:String, isBlur:Boolean,isFirePic:Boolean = false){
 //        tv_tag.text = "${url}"
         sampimgview.setMaxScale(15f)
         sampimgview.setZoomEnabled(true)
@@ -124,6 +132,22 @@ class ImageFragment : BaseNoBarFragment() {
                 }
             }
         })
+
+
+    }
+
+    fun doFirePics(isFirePic:Boolean = false){
+        if(isFirePic){
+            Log.e("smallsoho", "swatch为空:${url}")
+            sampimgview.visibility = View.GONE
+            Glide.with(context).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
+                override fun onResourceReady(p0: Bitmap?, p1: Transition<in Bitmap>?) {
+                    p0?.let {
+                        BitmapUtils.setVibraiteCanvasBitmap(p0,iv_firepic_gb,drawview_firepicbg)
+                    }
+                }
+            })
+        }
     }
 
 

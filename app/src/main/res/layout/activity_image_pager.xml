@@ -51,6 +51,29 @@
             android:text="打赏"/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_firepics"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/iv_firepic_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/pic_firepic_bigicon"/>
+        <TextView
+            android:layout_below="@+id/iv_firepic_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="照片已焚毁"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
    <RelativeLayout
        android:layout_width="match_parent"
        android:layout_height="@dimen/title_bar_size"
@@ -104,7 +127,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@color/color_C9222222">
         <TextView
             android:id="@+id/tv_countdown"

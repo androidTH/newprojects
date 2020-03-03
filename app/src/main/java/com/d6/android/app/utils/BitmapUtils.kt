@@ -1,10 +1,8 @@
 package com.d6.android.app.utils
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.graphics.Point
+import android.graphics.*
+import android.graphics.Bitmap.Config.*
 import android.graphics.drawable.BitmapDrawable
 import android.media.ExifInterface
 import android.media.ThumbnailUtils
@@ -17,9 +15,13 @@ import java.io.*
 import java.math.BigDecimal
 import android.media.ThumbnailUtils.OPTIONS_RECYCLE_INPUT
 import android.media.ThumbnailUtils.createVideoThumbnail
-
-
-
+import android.support.v7.graphics.Palette
+import android.util.Log
+import android.view.View
+import com.d6.android.app.widget.DrawViewBg
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import org.jetbrains.anko.backgroundColor
 
 
 /**
@@ -54,7 +56,7 @@ object BitmapUtils {
                     scale = max / 1200f
                 }
                 val sampleSize = BigDecimal(scale.toDouble()).setScale(0, BigDecimal.ROUND_HALF_UP).toInt()
-                options.inPreferredConfig = Bitmap.Config.RGB_565
+                options.inPreferredConfig = RGB_565
                 options.inJustDecodeBounds = false
                 options.inSampleSize = sampleSize
                 options.inPurgeable = true
@@ -119,7 +121,7 @@ object BitmapUtils {
             inputStream = FileInputStream(file)
             val option = BitmapFactory.Options()
             option.inSampleSize = sampleSize
-            option.inPreferredConfig = Bitmap.Config.ARGB_8888
+            option.inPreferredConfig = ARGB_8888
             option.inJustDecodeBounds = false
             bitmap = BitmapFactory.decodeStream(inputStream, null, option)
             val degree = readPictureDegree(filePath)
@@ -378,5 +380,39 @@ object BitmapUtils {
         }
 
         return bitmap
+    }
+
+    fun setVibraite(bitmap: Bitmap,view: View) {
+        Palette.from(bitmap).generate { palette ->
+            //				Palette.Swatch swatch = palette.getMutedSwatch();
+            val swatch = palette.vibrantSwatch
+            //Palette.Swatch swatch = palette.getDarkMutedSwatch();
+            //Palette.Swatch swatch = palette.getDarkVibrantSwatch();
+            //Palette.Swatch swatch = palette.getLightMutedSwatch();
+            //Palette.Swatch swatch = palette.getLightVibrantSwatch();
+            if (swatch != null) {
+                Log.e("smallsoho", "swatch为空-----${swatch.rgb}")
+                view.backgroundColor = swatch.rgb
+            } else {
+                Log.e("smallsoho", "swatch为空")
+            }
+        }
+    }
+
+    fun setVibraiteCanvasBitmap(bitmap: Bitmap,sampimgview: ImageView,mFireViewBg:DrawViewBg) {
+        Palette.from(bitmap).generate { palette ->
+            val swatch = palette.vibrantSwatch
+            if (swatch != null) {
+                Log.e("smallsoho", "swatch为空:${swatch.rgb}")
+//                var b =  LongImageUtils.getInstance().loadBitmapFromView(sampimgview)
+//                if(b!=null){
+//                    Log.e("smallsoho", "swatch为空:${b.height}")
+//                    mFireViewBg.setPaintColor(swatch.rgb,b.width,b.height)
+//                }
+                mFireViewBg.setPaintColor(swatch.rgb,2,2)
+            } else {
+                Log.e("smallsoho", "swatch为空")
+            }
+        }
     }
 }

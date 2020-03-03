@@ -66,6 +66,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     //礼物
     private var giftControl: GiftControl? = null
     private var iIsAnonymous:String = "2"
+    private var timer:CountDownTimer?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -182,22 +183,37 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }
         }
 
-//        val timer = object : CountDownTimer(4000, 1000) {
-//            override  fun onTick(millisUntilFinished: Long) {
-//                if(millisUntilFinished>=1000){
-//                    var str = "剩余 ${millisUntilFinished/1000}s"
-//                    var style = SpannableStringBuilder(str)
-//                    style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this@ImagePagerActivity,R.color.color_F7AB00)), str.length-2, str.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-//                    tv_countdown.text = style
-//                }else{
-//                    tv_countdown.visibility = View.GONE
-//                }
-//            }
-//
-//            override fun onFinish() {
-//                tv_countdown.visibility = View.GONE
-//            }
-//        }.start()
+        timer = object : CountDownTimer(4000, 1000) {
+            override  fun onTick(millisUntilFinished: Long) {
+                if(millisUntilFinished>=1000){
+                    var str = "剩余 ${millisUntilFinished/1000}s"
+                    var style = SpannableStringBuilder(str)
+                    style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this@ImagePagerActivity,R.color.color_F7AB00)), str.length-2, str.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    tv_countdown.text = style
+                }else{
+                    doFirePicsBg()
+                    timer?.let {
+                        it.cancel()
+                    }
+                    tv_countdown.visibility = View.GONE
+                }
+            }
+
+            override fun onFinish() {
+                tv_countdown.visibility = View.GONE
+            }
+        }
+        timer?.let {
+            it.start()
+        }
+    }
+
+    private fun doFirePicsBg(){
+        if(urls!=null&&urls.size>0){
+            var url = urls[mImageViewPager.currentItem]
+            var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
+            mImageLocal.doFirePics(true)
+        }
     }
 
     private fun delete(url:String) {

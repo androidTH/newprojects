@@ -1,8 +1,14 @@
 package com.d6.android.app.adapters
 
+import android.graphics.Bitmap
 import android.text.TextUtils
+import android.transition.Transition
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
 import com.d6.android.app.R
 import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.activities.TrendDetailActivity
@@ -10,8 +16,12 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.Square
+import com.d6.android.app.utils.BitmapUtils
 import com.d6.android.app.utils.getLocalUserId
+import com.d6.android.app.widget.frescohelper.FrescoUtils
+import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.startActivity
 
 /**
@@ -25,42 +35,59 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
         var iv_unlock = holder.bind<ImageView>(R.id.iv_unlock)
-//        imageView.postDelayed(object:Runnable{
-//            override fun run() {
+        var mIvBg = holder.bind<ImageView>(R.id.iv_firepic_bg)
                 if(mBlurIndex!=null&&mBlurIndex.size>position){
                     var blurType = mBlurIndex[position]
                     if(TextUtils.equals("2",blurType)){
                         if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
                             iv_lock.visibility = View.GONE
                             iv_unlock.visibility = View.GONE
+                            mIvBg.visibility = View.GONE
                             imageView.showBlur(data)
                         }else{
                             iv_lock.visibility = View.VISIBLE
                             iv_unlock.visibility = View.GONE
+                            mIvBg.visibility = View.GONE
                             imageView.showBlur(data)
                         }
                     }else if(TextUtils.equals("3",blurType)){
                         if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
                             iv_lock.visibility = View.GONE
                             iv_unlock.visibility = View.GONE
+                            mIvBg.visibility = View.GONE
                             imageView.showBlur(data)
+//                            Glide.with(context).asBitmap().load(data).into(object : SimpleTarget<Bitmap>() {
+//                                override fun onResourceReady(p0: Bitmap?, p1: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
+//                                    p0?.let {
+//                                        BitmapUtils.setVibraite(it,mIvBg)
+//                                    }
+//                                }
+//                            })
                         }else{
                             iv_unlock.visibility = View.VISIBLE
                             iv_lock.visibility = View.GONE
+                            mIvBg.visibility = View.GONE
                             imageView.setImageURI(data)
+//                            Glide.with(context).asBitmap().load(data).into(object : SimpleTarget<Bitmap>() {
+//                                override fun onResourceReady(p0: Bitmap?, p1: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
+//                                    p0?.let {
+//                                        BitmapUtils.setVibraite(it,mIvBg)
+//                                    }
+//                                }
+//                            })
                         }
                     }else{
                         iv_unlock.visibility = View.GONE
                         iv_lock.visibility = View.GONE
+                        mIvBg.visibility = View.GONE
                         imageView.setImageURI(data)
                     }
                 }else{
                     iv_lock.visibility = View.GONE
                     iv_unlock.visibility = View.GONE
+                    mIvBg.visibility = View.GONE
                     imageView.setImageURI(data)
                 }
-//            }
-//        },200)
 
         imageView.setOnClickListener {
             if (type == 1) {
