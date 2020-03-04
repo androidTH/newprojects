@@ -105,49 +105,41 @@ class ShareFriendsDialog : DialogFragment() {
             tv_report_user.visibility = View.VISIBLE
             tv_deldate.visibility = View.GONE
             tv_sharewx.visibility = View.GONE
-
-            if(arguments.containsKey("from")){
-                if(TextUtils.equals(fromType,"userInfo")){
-                    tv_joinblack.visibility = View.VISIBLE
-                    var isInBlackList = arguments.getInt("isInBlackList", 0)
-                    if (isInBlackList == 1) {
-                        tv_joinblack.text = getString(R.string.string_removeblacklist)
-                    } else {
-                        tv_joinblack.text = resources.getString(R.string.string_joinblack)
-                    }
-                    iType = 5
-                    sResourceId = arguments.getString("sResourceId")
-                    showFriends()
-                }else if(TextUtils.equals(fromType,"Recommend_speedDate")||TextUtils.equals(fromType,"Recommend_findDate")){
-                    tv_sharewx.visibility = View.VISIBLE
-                    showFriends()
-                    sResourceId = arguments.getString("sResourceId")
-                    iType = if(TextUtils.equals(fromType,"Recommend_speedDate")){
-                        3
-                    }else{
-                        4
-                    }
-                }else if(TextUtils.equals(fromType,"selfPullDate")||TextUtils.equals(fromType,"myDateDetail")){
-//                showFriends()
-                    ll_dialog_title.visibility = View.GONE
-                    tv_sharewx.visibility = View.GONE
-                    rv_chooseuser.visibility = View.GONE
-                    sResourceId = arguments.getString("sResourceId")
-                    iType = 1
-                }else if(TextUtils.equals(fromType,"square")){
-                    showFriends()
-                    sResourceId = arguments.getString("sResourceId")
-                    iType = 2
-                }else if(TextUtils.equals(fromType,"mysquare")){
-                    showFriends()
-                    sResourceId = arguments.getString("sResourceId")
-                    iType = 2
-                }else{
-                    tv_share.visibility = View.GONE
-                    tv_share_tips.visibility = View.GONE
-                    rv_chooseuser.visibility = View.GONE
-                    tv_joinblack.visibility = View.GONE
+            if(TextUtils.equals(fromType,"userInfo")){
+                tv_joinblack.visibility = View.VISIBLE
+                var isInBlackList = arguments.getInt("isInBlackList", 0)
+                if (isInBlackList == 1) {
+                    tv_joinblack.text = getString(R.string.string_removeblacklist)
+                } else {
+                    tv_joinblack.text = resources.getString(R.string.string_joinblack)
                 }
+                iType = 5
+                sResourceId = arguments.getString("sResourceId")
+                showFriends()
+            }else if(TextUtils.equals(fromType,"Recommend_speedDate")||TextUtils.equals(fromType,"Recommend_findDate")){
+                tv_sharewx.visibility = View.VISIBLE
+                showFriends()
+                sResourceId = arguments.getString("sResourceId")
+                iType = if(TextUtils.equals(fromType,"Recommend_speedDate")){
+                    3
+                }else{
+                    4
+                }
+            }else if(TextUtils.equals(fromType,"selfPullDate")||TextUtils.equals(fromType,"myDateDetail")){
+//                showFriends()
+                ll_dialog_title.visibility = View.GONE
+                tv_sharewx.visibility = View.GONE
+                rv_chooseuser.visibility = View.GONE
+                sResourceId = arguments.getString("sResourceId")
+                iType = 1
+            }else if(TextUtils.equals(fromType,"square")){
+                showFriends()
+                sResourceId = arguments.getString("sResourceId")
+                iType = 2
+            }else if(TextUtils.equals(fromType,"mysquare")){
+                showFriends()
+                sResourceId = arguments.getString("sResourceId")
+                iType = 2
             }else{
                 tv_share.visibility = View.GONE
                 tv_share_tips.visibility = View.GONE
