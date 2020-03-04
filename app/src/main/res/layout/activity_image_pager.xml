@@ -124,10 +124,11 @@
             android:textStyle="bold" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/rl_countdowntimer"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@color/color_C9222222">
         <TextView
             android:id="@+id/tv_countdown"

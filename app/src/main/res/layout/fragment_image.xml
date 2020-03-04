@@ -20,7 +20,7 @@
         android:id="@+id/iv_firepic_gb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
     <com.d6.android.app.widget.DrawViewBg
         android:id="@+id/drawview_firepicbg"
         android:layout_centerInParent="true"

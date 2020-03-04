@@ -64,8 +64,8 @@ class ImageFragment : BaseNoBarFragment() {
         }
         try{
             updatePicUrl(activity,"${url}",isBlur)
-//            Glide.with(this).load(url)
-//                    .into(iv_firepic_gb)
+            Glide.with(this).load(url)
+                    .into(iv_firepic_gb)
         }catch (e:Exception){
             e.printStackTrace()
         }

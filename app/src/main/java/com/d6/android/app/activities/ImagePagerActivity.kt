@@ -61,12 +61,14 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var PayPoint_Path = ""
     private lateinit var mSquare: Square
     private var mBlurIndex = ArrayList<String>()
+    private var mFirePicsIndex = ArrayList<String>()
 
     private var mListFragment = SparseArray<Fragment>()
     //礼物
     private var giftControl: GiftControl? = null
     private var iIsAnonymous:String = "2"
     private var timer:CountDownTimer?=null
+    private var IsFirePics:Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,6 +146,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mSquare = intent.getSerializableExtra(mBEAN) as Square
             var sIflovepics = intent.getStringExtra(SIfLovePics)
             mBlurIndex.addAll(sIflovepics.split(",").toList())
+            mFirePicsIndex.addAll(sIflovepics.split(",").toList())
             showPayPoints(position)
         }
         urls.forEach {
@@ -182,29 +185,58 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 }
             }
         }
+    }
 
-        timer = object : CountDownTimer(4000, 1000) {
-            override  fun onTick(millisUntilFinished: Long) {
-                if(millisUntilFinished>=1000){
-                    var str = "剩余 ${millisUntilFinished/1000}s"
-                    var style = SpannableStringBuilder(str)
-                    style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this@ImagePagerActivity,R.color.color_F7AB00)), str.length-2, str.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    tv_countdown.text = style
-                }else{
-                    doFirePicsBg()
+    private fun startCountDownTimer(position: Int){
+        rl_firepics.visibility = View.GONE
+        rl_countdowntimer.visibility = View.GONE
+        if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
+            var fireType = mFirePicsIndex[position]
+            if(TextUtils.equals("2",fireType)&&!TextUtils.equals(userId, getLocalUserId())){
+                if(timer!=null){
                     timer?.let {
                         it.cancel()
+                        timer=null
                     }
-                    tv_countdown.visibility = View.GONE
+                }
+                if(timer==null){
+                    rl_firepics.visibility = View.GONE
+                    timer = object : CountDownTimer(4000, 1000) {
+                        override  fun onTick(millisUntilFinished: Long) {
+                            if(millisUntilFinished>=1000){
+                                rl_countdowntimer.visibility = View.VISIBLE
+                                var str = "剩余 ${millisUntilFinished/1000}s"
+                                var style = SpannableStringBuilder(str)
+                                style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this@ImagePagerActivity,R.color.color_F7AB00)), str.length-2, str.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                tv_countdown.text = style
+                            }else{
+                                timer?.let {
+                                    it.cancel()
+                                }
+                                doFirePicsBg()
+                                mFirePicsIndex[mImageViewPager.currentItem] = "3"
+                                rl_firepics.visibility = View.VISIBLE
+                                rl_countdowntimer.visibility = View.GONE
+                            }
+                        }
+
+                        override fun onFinish() {
+                            rl_countdowntimer.visibility = View.GONE
+                        }
+                    }
+                    timer?.let {
+                        it.start()
+                    }
+                }
+            }else{
+                rl_firepics.visibility = View.VISIBLE
+                if(timer!=null){
+                    timer?.let {
+                        it.cancel()
+                        timer=null
+                    }
                 }
             }
-
-            override fun onFinish() {
-                tv_countdown.visibility = View.GONE
-            }
-        }
-        timer?.let {
-            it.start()
         }
     }
 
@@ -273,6 +305,14 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 //                    tv_tips.text = "打赏后可见"
                     iv_unflock.visibility = View.GONE
                     rl_tips.visibility = View.GONE
+                    if(timer!=null){
+                        timer?.let {
+                            it.cancel()
+                            timer=null
+                            rl_countdowntimer.visibility = View.GONE
+                            rl_firepics.visibility = View.GONE
+                        }
+                    }
                 }else{
                     rl_paypoints.visibility = View.GONE
                     rl_tips.visibility = View.VISIBLE
@@ -285,25 +325,30 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 //                    tv_tips.text = "解锁状态"
                     iv_unflock.visibility = View.VISIBLE
                     rl_tips.visibility = View.GONE
+                    startCountDownTimer(position)
                 }else{
                     tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
                 }
             }else{
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.GONE
+                startCountDownTimer(position)
             }
         }else{
             rl_paypoints.visibility = View.GONE
+            startCountDownTimer(position)
         }
     }
 
     private fun sendPayPoint(loveHeartNums:Int){
         Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 5,"${squareId}","${PayPoint_Path}").request(this, false, success = { _, data ->
-            rl_paypoints.visibility = View.GONE
-            rl_tips.visibility = View.GONE
-            iv_unflock.visibility = View.VISIBLE
+//            rl_paypoints.visibility = View.GONE
+//            rl_tips.visibility = View.GONE
+//            iv_unflock.visibility = View.VISIBLE
 
             mBlurIndex[mImageViewPager.currentItem] = "3"
+            showPayPoints(mImageViewPager.currentItem)
+
             var sb = StringBuffer()
             mBlurIndex.forEach {
                 sb.append(it).append(",")

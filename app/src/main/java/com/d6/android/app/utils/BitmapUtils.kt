@@ -404,11 +404,6 @@ object BitmapUtils {
             val swatch = palette.vibrantSwatch
             if (swatch != null) {
                 Log.e("smallsoho", "swatch为空:${swatch.rgb}")
-//                var b =  LongImageUtils.getInstance().loadBitmapFromView(sampimgview)
-//                if(b!=null){
-//                    Log.e("smallsoho", "swatch为空:${b.height}")
-//                    mFireViewBg.setPaintColor(swatch.rgb,b.width,b.height)
-//                }
                 mFireViewBg.setPaintColor(swatch.rgb,2,2)
             } else {
                 Log.e("smallsoho", "swatch为空")
