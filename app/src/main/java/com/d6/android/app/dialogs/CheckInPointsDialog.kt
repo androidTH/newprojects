@@ -167,8 +167,10 @@ class CheckInPointsDialog : DialogFragment(),RequestManager {
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
-        if (context != null && context is BaseActivity) {
-            next(context as BaseActivity)
+        if (context != null) {
+            if(context is BaseActivity){
+                next(context as BaseActivity)
+            }
         }
     }
 }

@@ -94,64 +94,66 @@ class UnKnowInfoDialog : DialogFragment(), RequestManager {
         isBaseActivity {
             Request.getUserInfo(getLocalUserId(),otherUserId).request(it, success = { _, data ->
                 data?.let{
-                    if (tv_unknow_sex != null) {
-                        tv_unknow_sex.isSelected = TextUtils.equals("0", it.sex)
-                        it.age?.let {
-                            if (it.toInt() <= 0) {
-                                tv_unknow_sex.text = ""
-                            } else {
-                                tv_unknow_sex.text = it
+                    if(context!=null){
+                        if (tv_unknow_sex != null) {
+                            tv_unknow_sex.isSelected = TextUtils.equals("0", it.sex)
+                            it.age?.let {
+                                if (it.toInt() <= 0) {
+                                    tv_unknow_sex.text = ""
+                                } else {
+                                    tv_unknow_sex.text = it
+                                }
                             }
                         }
-                    }
-                    var drawable: Drawable? = getLevelDrawable(it.userclassesid.toString(),context)
-                    //27入门 28中级  29优质
-                    if(drawable!=null){
-                        tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),context)
-                    }else{
-                        tv_vip.visibility = View.GONE
-                    }
+                        var drawable: Drawable? = getLevelDrawable(it.userclassesid.toString(),context)
+                        //27入门 28中级  29优质
+                        if(drawable!=null){
+                            tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),context)
+                        }else{
+                            tv_vip.visibility = View.GONE
+                        }
 
-                    mTags.clear()
-                    if (!it.constellation.isNullOrEmpty()) {
-                        mTags.add(UserUnKnowTag("星座"," ${it.constellation}",R.mipmap.boy_constellation_icon))
-                    }else{
-                        mTags.add(UserUnKnowTag("星座","-",R.mipmap.boy_constellation_icon))
-                    }
+                        mTags.clear()
+                        if (!it.constellation.isNullOrEmpty()) {
+                            mTags.add(UserUnKnowTag("星座"," ${it.constellation}",R.mipmap.boy_constellation_icon))
+                        }else{
+                            mTags.add(UserUnKnowTag("星座","-",R.mipmap.boy_constellation_icon))
+                        }
 
-                    if (!it.city.isNullOrEmpty()) {
-                        mTags.add(UserUnKnowTag("地区","${it.city}",R.mipmap.boy_area_icon))
-                    }else{
-                        mTags.add(UserUnKnowTag("地区","-",R.mipmap.boy_area_icon))
-                    }
+                        if (!it.city.isNullOrEmpty()) {
+                            mTags.add(UserUnKnowTag("地区","${it.city}",R.mipmap.boy_area_icon))
+                        }else{
+                            mTags.add(UserUnKnowTag("地区","-",R.mipmap.boy_area_icon))
+                        }
 
-                    if (!it.job.isNullOrEmpty()) {
-                        mTags.add(UserUnKnowTag("职业", "${it.job}",R.mipmap.boy_profession_icon))
-                    }else{
-                        mTags.add(UserUnKnowTag("职业", "-",R.mipmap.boy_profession_icon))
-                    }
+                        if (!it.job.isNullOrEmpty()) {
+                            mTags.add(UserUnKnowTag("职业", "${it.job}",R.mipmap.boy_profession_icon))
+                        }else{
+                            mTags.add(UserUnKnowTag("职业", "-",R.mipmap.boy_profession_icon))
+                        }
 
-                    if (!it.zuojia.isNullOrEmpty()) {
-                        mTags.add(UserUnKnowTag("座驾","${it.zuojia}",R.mipmap.boy_car_icon))
-                    }else{
-                        mTags.add(UserUnKnowTag("座驾","-",R.mipmap.boy_car_icon))
-                    }
+                        if (!it.zuojia.isNullOrEmpty()) {
+                            mTags.add(UserUnKnowTag("座驾","${it.zuojia}",R.mipmap.boy_car_icon))
+                        }else{
+                            mTags.add(UserUnKnowTag("座驾","-",R.mipmap.boy_car_icon))
+                        }
 
 
-                    if (!it.hobbit.isNullOrEmpty()) {
-                        var mHobbies = it.hobbit?.replace("#", ",")?.split(",")
-                        var sb = StringBuffer()
-                        if (mHobbies != null) {
-                            for (str in mHobbies) {
+                        if (!it.hobbit.isNullOrEmpty()) {
+                            var mHobbies = it.hobbit?.replace("#", ",")?.split(",")
+                            var sb = StringBuffer()
+                            if (mHobbies != null) {
+                                for (str in mHobbies) {
 //                            mTags.add(UserTag(str, R.drawable.shape_tag_bg_6))
-                                sb.append("${str} ")
+                                    sb.append("${str} ")
+                                }
+                                mTags.add(UserUnKnowTag("爱好",sb.toString(),R.mipmap.boy_hobby_icon))
                             }
-                            mTags.add(UserUnKnowTag("爱好",sb.toString(),R.mipmap.boy_hobby_icon))
+                        }else{
+                            mTags.add(UserUnKnowTag("爱好","-",R.mipmap.boy_hobby_icon))
                         }
-                    }else{
-                        mTags.add(UserUnKnowTag("爱好","-",R.mipmap.boy_hobby_icon))
+                        userTagAdapter.notifyDataSetChanged()
                     }
-                    userTagAdapter.notifyDataSetChanged()
                 }
             })
         }

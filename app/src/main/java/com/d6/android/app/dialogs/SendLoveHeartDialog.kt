@@ -191,8 +191,10 @@ class SendLoveHeartDialog : DialogFragment() {
 
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-                mLocalUserLoveHeartCount = it.iLovePoint
-                tv_redheart_count.text = "剩余${mLocalUserLoveHeartCount}"
+                if(context!= null){
+                    mLocalUserLoveHeartCount = it.iLovePoint
+                    tv_redheart_count.text = "剩余${mLocalUserLoveHeartCount}"
+                }
             }
         })
     }

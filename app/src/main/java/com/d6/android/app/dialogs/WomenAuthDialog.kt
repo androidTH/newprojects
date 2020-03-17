@@ -93,7 +93,7 @@ class WomenAuthDialog : DialogFragment() {
     private fun getAuthPercent() {
         isBaseActivity {
                 Request.getAuthState(getLocalUserId()).request(it, success = { _, data ->
-                    if (data != null) {
+                    if (data != null&&context!= null) {
                         wanshanziliao = data.optDouble("wanshanziliao").toInt()
                         tv_percent.text = "${wanshanziliao * 10}%"
                         lianxifangshi = data.optInt("lianxifangshi")

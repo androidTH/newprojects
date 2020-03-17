@@ -720,10 +720,14 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
     }
 
     private void checkTargetPosition(RecyclerView.State state, int targetPosition) {
-        if (targetPosition < 0 || targetPosition >= state.getItemCount()) {
-            throw new IllegalArgumentException(String.format(Locale.US,
-                    "target position out of bounds: position=%d, itemCount=%d",
-                    targetPosition, state.getItemCount()));
+        try{
+            if (targetPosition < 0 || targetPosition >= state.getItemCount()) {
+                throw new IllegalArgumentException(String.format(Locale.US,
+                        "target position out of bounds: position=%d, itemCount=%d",
+                        targetPosition, state.getItemCount()));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 
