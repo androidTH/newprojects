@@ -68,9 +68,13 @@ class LauncherActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(TextUtils.isEmpty(SPUtils.instance().getString(OAID_ANDROID,""))){
-            val miitHelper = MiitHelper(appIdsUpdater)
-            miitHelper.getDeviceIds(applicationContext)
+        try{
+            if(TextUtils.isEmpty(SPUtils.instance().getString(OAID_ANDROID,""))){
+                val miitHelper = MiitHelper(appIdsUpdater)
+                miitHelper.getDeviceIds(applicationContext)
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
     }
 

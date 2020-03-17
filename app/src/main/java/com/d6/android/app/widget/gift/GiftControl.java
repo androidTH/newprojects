@@ -68,14 +68,16 @@ public class GiftControl implements GiftFrameLayout.LeftGiftAnimationStatusListe
      * @return
      */
     public GiftControl setGiftLayout(LinearLayout giftLayoutParent, @NonNull int giftLayoutNums) {
-        if (giftLayoutNums <= 0) {
-            throw new IllegalArgumentException("GiftFrameLayout数量必须大于0");
+        if(giftLayoutParent!=null){
+            if (giftLayoutNums <= 0) {
+                throw new IllegalArgumentException("GiftFrameLayout数量必须大于0");
+            }
+            if (giftLayoutParent.getChildCount() > 0) {//如果父容器没有子孩子，就进行添加
+                return this;
+            }
+            mGiftLayoutParent = giftLayoutParent;
+            mGiftLayoutMaxNums = giftLayoutNums;
         }
-        if (giftLayoutParent.getChildCount() > 0) {//如果父容器没有子孩子，就进行添加
-            return this;
-        }
-        mGiftLayoutParent = giftLayoutParent;
-        mGiftLayoutMaxNums = giftLayoutNums;
 //        LayoutTransition transition = new LayoutTransition();
 //        transition.setAnimator(LayoutTransition.CHANGE_APPEARING,
 //                transition.getAnimator(LayoutTransition.CHANGE_APPEARING));

@@ -61,10 +61,11 @@ public class MiitHelper implements IIdentifierListener {
     }
     @Override
     public void OnSupport(boolean isSupport, IdSupplier _supplier) {
-        if(_supplier==null) {
-            return;
-        }
-        String oaid=_supplier.getOAID();
+        try{
+            if(_supplier==null) {
+                return;
+            }
+            String oaid=_supplier.getOAID();
 //        String vaid=_supplier.getVAID();
 //        String aaid=_supplier.getAAID();
 //        StringBuilder builder=new StringBuilder();
@@ -73,8 +74,11 @@ public class MiitHelper implements IIdentifierListener {
 //        builder.append("VAID: ").append(vaid).append("\n");
 //        builder.append("AAID: ").append(aaid).append("\n");
 //        String idstext=builder.toString();
-        if(_listener!=null){
-            _listener.OnIdsAvalid(oaid);
+            if(_listener!=null){
+                _listener.OnIdsAvalid(oaid);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
     public interface AppIdsUpdater{
