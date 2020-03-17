@@ -252,6 +252,8 @@ object Const {
 
     @JvmField
     var mLocalBlurMap:HashMap<String,Boolean> = HashMap<String,Boolean>()
+    @JvmField
+    var mLocalFirePicsMap:HashMap<String,Boolean> = HashMap<String,Boolean>()
 
     @JvmField
     var TSUSER_ID = "44233"

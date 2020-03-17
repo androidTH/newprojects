@@ -77,6 +77,10 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
      * 是否显示打赏可见
      */
     public static final String EXTRA_PAYPOINTS = "paypoints";
+    /**
+     * 是否显示阅后即焚
+     */
+    public static final String EXTRA_FIREPICS = "firepics";
 
     /** 默认选择的数据集 */
     public static final String EXTRA_DEFAULT_SELECTED_LIST = "default_result";
@@ -132,6 +136,7 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
     private int mode;
     private int ModeType;
     private boolean mShowPayPoint = false;
+    private boolean mFirePics = false;
 
     @Override
     public void onAttach(Activity activity) {
@@ -243,6 +248,11 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
         ModeType = getArguments().getInt(SELECT_MODE,PICKER_IMAGE);
 
         mShowPayPoint = getArguments().getBoolean(EXTRA_PAYPOINTS,false);
+
+        if(getArguments().containsKey(EXTRA_FIREPICS)){
+            mFirePics = getArguments().getBoolean(EXTRA_FIREPICS,false);
+        }
+
         // 默认选择
         if(mode == MODE_MULTI) {
             ArrayList<String> tmp = getArguments().getStringArrayList(EXTRA_DEFAULT_SELECTED_LIST);
@@ -304,6 +314,7 @@ public class MultiImageSelectorFragment extends Fragment implements DataCallback
                 intent.putExtra("type",1);
                 intent.putExtra("delete",false);
                 intent.putExtra("paypoints",mShowPayPoint);
+                intent.putExtra("firepics",mFirePics);
                 startActivity(intent);
             }
         });

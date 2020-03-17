@@ -18,6 +18,7 @@ import com.d6.android.app.fragments.ImageLocalFragment
 import com.d6.android.app.models.Imagelocals
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.Const.mLocalBlurMap
+import com.d6.android.app.utils.Const.mLocalFirePicsMap
 import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.setLeftDrawable
 import com.d6.android.app.utils.visible
@@ -39,10 +40,12 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var mListFragment = SparseArray<Fragment>()
     private var mHashMap = HashMap<Int,Boolean>()
     private var mPayPointsHashMap = HashMap<String,Boolean>()
+    private var mFiresHashMap = HashMap<String,Boolean>()
     private var chooseCount = 0
     private var mNoChooseUrls = ArrayList<String>()
-    private var type = 0
+    private var type = 0//0删除 1 没有删除
     private var mShowPayPoints = false
+    private var mFirePics = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +62,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 urls.remove(it)
             }
 
-            var mImagelocals = Imagelocals(urls, 1, 0,mPayPointsHashMap)
+            var mImagelocals = Imagelocals(urls, 1, 0,mPayPointsHashMap,mFiresHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
             onBackPressed()
         }
@@ -85,6 +88,9 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         urls = intent.getStringArrayListExtra(URLS)
         val showDelete = intent.getBooleanExtra("delete", false)
         mShowPayPoints = intent.getBooleanExtra("paypoints",false)
+        if(intent.hasExtra("firepics")){
+            mFirePics = intent.getBooleanExtra("firepics",false)
+        }
         urls.forEach {
             mHashMap.put(key,true)
             if(mShowPayPoints){
@@ -95,6 +101,16 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                     mPayPointsHashMap.put(it,false)
                 }
             }
+
+            if(mFirePics){
+                var mFire = mLocalFirePicsMap[it]
+                if(mFire!=null){
+                    mFiresHashMap.put(it,mFire)
+                }else{
+                    mFiresHashMap.put(it,false)
+                }
+            }
+
             mListFragment.put(key++, ImageLocalFragment.newInstance(it, false))
         }
         adapter = ImageLocalPagerAdapter(supportFragmentManager, mListFragment)
@@ -135,22 +151,45 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                         mPayPointsHashMap.put(path, setPayPointPic(checked))
                     }
                 }else{
-                    tv_paypoints.visibility = View.GONE
+                    rl_paypoints.visibility = View.GONE
                 }
+
+                if(mFirePics){
+                    if(urls!=null&&urls.size>0){
+                        var path = urls[position]
+                        var checked = mFiresHashMap[path] as Boolean
+                        mFiresHashMap.put(path, checkFirePic(checked))
+                    }
+                }else{
+                    rl_firepcis.visibility = View.GONE
+                }
+
             }else{
-                tv_paypoints.visibility = View.GONE
+                rl_paypoints.visibility = View.GONE
+                rl_firepcis.visibility = View.GONE
             }
         } else {
             tv_delete.gone()
             if(mShowPayPoints){
-                tv_paypoints.visibility = View.VISIBLE
+                rl_paypoints.visibility = View.VISIBLE
                 if(urls!=null&&urls.size>0){
                     var path = urls[position]
                     var checked = mPayPointsHashMap[path] as Boolean
                     mPayPointsHashMap.put(path, setPayPointPic(checked))
                 }
             }else{
-                tv_paypoints.visibility = View.GONE
+                rl_paypoints.visibility = View.GONE
+            }
+
+            if(mFirePics){
+                rl_firepcis.visibility = View.VISIBLE
+                if(urls!=null&&urls.size>0){
+                    var path = urls[position]
+                    var checked = mFiresHashMap[path] as Boolean
+                    mFiresHashMap.put(path, checkFirePic(checked))
+                }
+            }else{
+                rl_firepcis.visibility = View.GONE
             }
         }
 
@@ -172,26 +211,59 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             if(flag){
                 if(urls!=null&&urls.size>0){
                     mPayPointsHashMap.put(urls[p],setPayPointPic(!flag))
+                    mFiresHashMap.put(urls[p],checkFirePic(!flag))
                 }
             }
             chooseCount = setNoChooseUrls()
             tv_dowork.text = "完成·${chooseCount}"
         }
 
-        tv_paypoints.setOnClickListener {
-            var p = mImageLocalViewPager.currentItem
-            var checked = mPayPointsHashMap[urls[p]] as Boolean
-            if(urls!=null&&urls.size>0){
-                mPayPointsHashMap.put(urls[p],setPayPointPic(!checked))
+        rl_paypoints.setOnClickListener {
+            payPoints()
+        }
 
-            }
-            if(!checked){
-                chooseCount = 0
-                mNoChooseUrls.clear()
-                mHashMap.put(p,setCheckPic(!checked))
-                chooseCount = setNoChooseUrls()
-                tv_dowork.text = "完成·${chooseCount}"
-            }
+        sw_paypoints.setOnClickListener {
+            payPoints()
+        }
+
+        rl_firepcis.setOnClickListener {
+           firePoints()
+        }
+
+        sw_fire.setOnClickListener {
+           firePoints()
+        }
+    }
+
+    private fun firePoints(){
+        var p = mImageLocalViewPager.currentItem
+        var checked = mFiresHashMap[urls[p]] as Boolean
+        if(urls!=null&&urls.size>0){
+            mFiresHashMap.put(urls[p],checkFirePic(!checked))
+
+        }
+        if(!checked){
+            chooseCount = 0
+            mNoChooseUrls.clear()
+            mHashMap.put(p,setCheckPic(!checked))
+            chooseCount = setNoChooseUrls()
+            tv_dowork.text = "完成·${chooseCount}"
+        }
+    }
+
+    private fun payPoints(){
+        var p = mImageLocalViewPager.currentItem
+        var checked = mPayPointsHashMap[urls[p]] as Boolean
+        if(urls!=null&&urls.size>0){
+            mPayPointsHashMap.put(urls[p],setPayPointPic(!checked))
+
+        }
+        if(!checked){
+            chooseCount = 0
+            mNoChooseUrls.clear()
+            mHashMap.put(p,setCheckPic(!checked))
+            chooseCount = setNoChooseUrls()
+            tv_dowork.text = "完成·${chooseCount}"
         }
     }
 
@@ -201,7 +273,8 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mListFragment.removeAt(p)
             adapter?.notifyDataSetChanged()
             mPayPointsHashMap.remove(path)
-            var mImagelocals = Imagelocals(urls,0,p,mPayPointsHashMap)
+            mFiresHashMap.remove(path)
+            var mImagelocals = Imagelocals(urls,0,p,mPayPointsHashMap,mFiresHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
             if (urls!=null&&urls.size > 0) {
                 var size = if (urls!!.size < (p + 1)) {
@@ -232,21 +305,34 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         return flag
     }
 
+    private fun checkFirePic(flag:Boolean):Boolean{
+        sw_fire.isChecked = flag
+//        var mDrawable: Drawable? = null
+//        if(flag){
+//            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypointspic_seleted)
+//        }else{
+//            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypoint_pic_seleted)
+//        }
+//        setLeftDrawable(mDrawable, tv_paypoints)
+        return flag
+    }
+
     private fun setPayPointPic(flag:Boolean):Boolean{
-        var mDrawable: Drawable? = null
-        if(flag){
-            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypointspic_seleted)
-        }else{
-            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypoint_pic_seleted)
-        }
-        setLeftDrawable(mDrawable, tv_paypoints)
+         sw_paypoints.isChecked = flag
+//        var mDrawable: Drawable? = null
+//        if(flag){
+//            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypointspic_seleted)
+//        }else{
+//            mDrawable = ContextCompat.getDrawable(this, R.mipmap.paypoint_pic_seleted)
+//        }
+//        setLeftDrawable(mDrawable, tv_paypoints)
         return flag
     }
 
     //关闭本页面
     fun closeImageLocalPager(){
         if(type==0){
-            var mImagelocals = Imagelocals(urls,1,0,mPayPointsHashMap)
+            var mImagelocals = Imagelocals(urls,1,0,mPayPointsHashMap,mFiresHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
             onBackPressed()
         }else{
@@ -282,6 +368,17 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 }
             }
         }
+
+        if(mFirePics){
+            if(urls!=null&&urls.size>0){
+                var path = urls[position]
+                var obj = mFiresHashMap[path]
+                if(obj!=null){
+                    var checked = obj as Boolean
+                    mFiresHashMap.put(path,checkFirePic(checked))
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -311,6 +408,11 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 if(mShowPayPoints){
                     var blur = mPayPointsHashMap.remove(path)
                     blur?.let { mPayPointsHashMap.put(urls[mImageLocalViewPager.currentItem], it) }
+                }
+
+                if(mFirePics){
+                    var fire = mFiresHashMap.remove(path)
+                    fire?.let { mFiresHashMap.put(urls[mImageLocalViewPager.currentItem], it) }
                 }
             }
         }
