@@ -68,7 +68,7 @@ class SystemMessagesNewActivity : BaseActivity() {
                     getSpeedDateDetail((msg.url ?: ""))
                 }
                 msg.urltype == "5"->{
-                    startActivity<MyDateListActivity>()
+//                    startActivity<MyDateListActivity>()
                 }
                 else -> startActivity<MessageDetailActivity>("data" to mMessages[position])
             }

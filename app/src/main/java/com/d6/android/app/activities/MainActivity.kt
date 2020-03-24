@@ -457,7 +457,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     }
 
     private fun getAuthState() {
-        startActivity<MyDateListActivity>()
+//        startActivity<MyDateListActivity>()
     }
 
     override fun onResume() {
