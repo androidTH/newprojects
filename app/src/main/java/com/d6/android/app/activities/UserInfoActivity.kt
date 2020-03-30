@@ -697,7 +697,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
                 if(!it.city.isNullOrEmpty()){
-                    mTags.add(UserTag("约会地 ${it.city}}", R.mipmap.boy_datearea_whiteicon,3))
+                    mTags.add(UserTag("约会地 ${it.city}", R.mipmap.boy_datearea_whiteicon,3))
                 }
 
                 if(mTags.size==0){
