@@ -2,7 +2,6 @@ package io.rong.callkit;
 
 import android.view.SurfaceView;
 
-import java.util.HashMap;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -44,6 +43,7 @@ public class RongCallProxy implements IRongCallListener {
 //        }
     }
 
+    //电话已拨出。
     @Override
     public void onCallOutgoing(RongCallSession callSession, SurfaceView localVideo) {
         if (mCallListener != null) {
@@ -51,6 +51,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //已建立通话。
     @Override
     public void onCallConnected(RongCallSession callSession, SurfaceView localVideo) {
         if (mCallListener != null) {
@@ -58,6 +59,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //通话结束。
     @Override
     public void onCallDisconnected(RongCallSession callSession, RongCallCommon.CallDisconnectedReason reason) {
         RLog.d(TAG, "RongCallProxy onCallDisconnected mCallListener = " + mCallListener);
@@ -68,6 +70,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //被叫端正在振铃。
     @Override
     public void onRemoteUserRinging(String userId) {
         if (mCallListener != null) {
@@ -75,6 +78,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //被叫端加入通话。
     @Override
     public void onRemoteUserJoined(String userId, RongCallCommon.CallMediaType mediaType, int userType, SurfaceView remoteVideo) {
         if (mCallListener != null) {
@@ -82,6 +86,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //通话中的某一个参与者，邀请好友加入通话，发出邀请请求后，回调 onRemoteUserInvited。
     @Override
     public void onRemoteUserInvited(String userId, RongCallCommon.CallMediaType mediaType) {
         if (mCallListener != null) {
@@ -89,6 +94,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //通话中的远端参与者离开。
     @Override
     public void onRemoteUserLeft(String userId, RongCallCommon.CallDisconnectedReason reason) {
         if (mCallListener != null) {
@@ -96,6 +102,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //当通话中的某一个参与者切换通话类型，例如由 audio 切换至 video，回调 onMediaTypeChanged。
     @Override
     public void onMediaTypeChanged(String userId, RongCallCommon.CallMediaType mediaType, SurfaceView video) {
         if (mCallListener != null) {
@@ -103,6 +110,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //通话过程中，发生异常。
     @Override
     public void onError(RongCallCommon.CallErrorCode errorCode) {
         if (mCallListener != null) {
@@ -110,6 +118,7 @@ public class RongCallProxy implements IRongCallListener {
         }
     }
 
+    //远端参与者 camera 状态发生变化时，回调 onRemoteCameraDisabled 通知状态变化。
     @Override
     public void onRemoteCameraDisabled(String userId, boolean disabled) {
         if (mCallListener != null) {
@@ -118,56 +127,65 @@ public class RongCallProxy implements IRongCallListener {
     }
 
     @Override
-    public void onRemoteMicrophoneDisabled(String userId, boolean disabled) {
+    public void onWhiteBoardURL(String url) {
         if (mCallListener != null) {
-            mCallListener.onRemoteMicrophoneDisabled(userId, disabled);
+            mCallListener.onWhiteBoardURL(url);
         }
     }
 
     @Override
-    public void onNetworkSendLost(int lossRate, int delay) {
+    public void onNetworkSendLost(int lossRate) {
         if (mCallListener != null) {
-            mCallListener.onNetworkSendLost(lossRate, delay);
+            mCallListener.onNetworkSendLost(lossRate);
         }
     }
 
     @Override
-    public void onFirstRemoteVideoFrame(String userId, int height, int width) {
+    public void onNetworkReceiveLost(int lossRate) {
         if (mCallListener != null) {
-            mCallListener.onFirstRemoteVideoFrame(userId, height,width);
+            mCallListener.onNetworkReceiveLost(lossRate);
         }
     }
 
     @Override
-    public void onAudioLevelSend(String audioLevel) {
+    public void onNotifySharingScreen(String userId, boolean isSharing) {
         if (mCallListener != null) {
-            mCallListener.onAudioLevelSend(audioLevel);
-        }
-    }
-
-    public void onRemoteUserPublishVideoStream(String userId, String streamId, String tag, SurfaceView surfaceView) {
-        if (mCallListener != null) {
-            mCallListener.onRemoteUserPublishVideoStream(userId, streamId, tag, surfaceView);
+            mCallListener.onNotifySharingScreen(userId, isSharing);
         }
     }
 
     @Override
-    public void onAudioLevelReceive(HashMap<String, String> audioLevel) {
+    public void onNotifyDegradeNormalUserToObserver(String userId) {
         if (mCallListener != null) {
-            mCallListener.onAudioLevelReceive(audioLevel);
-        }
-    }
-
-    public void onRemoteUserUnpublishVideoStream(String userId, String streamId, String tag) {
-        if (mCallListener != null) {
-            mCallListener.onRemoteUserUnpublishVideoStream(userId, streamId, tag);
+            mCallListener.onNotifyDegradeNormalUserToObserver(userId);
         }
     }
 
     @Override
-    public void onNetworkReceiveLost(String userId, int lossRate) {
+    public void onNotifyAnswerObserverRequestBecomeNormalUser(String userId, long status) {
         if (mCallListener != null) {
-            mCallListener.onNetworkReceiveLost(userId, lossRate);
+            mCallListener.onNotifyAnswerObserverRequestBecomeNormalUser(userId, status);
+        }
+    }
+
+    @Override
+    public void onNotifyUpgradeObserverToNormalUser() {
+        if (mCallListener != null) {
+            mCallListener.onNotifyUpgradeObserverToNormalUser();
+        }
+    }
+
+    @Override
+    public void onNotifyHostControlUserDevice(String userId, int dType, int isOpen) {
+        if (mCallListener != null) {
+            mCallListener.onNotifyHostControlUserDevice(userId, dType, isOpen);
+        }
+    }
+
+    @Override
+    public void onNotifyAnswerUpgradeObserverToNormalUser(String userId, SurfaceView remoteVideo) {
+        if (mCallListener != null) {
+            mCallListener.onNotifyAnswerUpgradeObserverToNormalUser(userId,remoteVideo);
         }
     }
 

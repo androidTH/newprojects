@@ -50,28 +50,18 @@
     <string name="rc_message_content_location">[Location]</string>
     <string name="rc_message_content_draft">[Draft]</string>
     <string name="rc_message_content_file">[File]</string>
-    <string name="rc_message_content_sight">[Video]</string>
-    <string name="rc_message_content_combine">[Chat History]</string>
     <string name="rc_message_content_mentioned">[You were mentioned]</string>
-    <string name="rc_message_content_burn">[Secret Chat]</string>
-    <string name="rc_message_content_card">[Card]</string>
-    <string name="rc_message_content_sticker">[Sticker]</string>
-    <string name="rc_message_content_rp">[Red Packet]</string>
-    <string name="rc_message_content_vst">[Audio video call]]</string>
 
     <string name="rc_dialog_item_message_delete">Delete</string>
     <string name="rc_dialog_item_message_copy">Copy</string>
     <string name="rc_dialog_item_message_recall">Recall</string>
     <string name="rc_dialog_item_message_more">Select&#8230;</string>
-    <string name="rc_recall_success">Message recalled</string>
     <string name="rc_recall_failed">Failed to recall the message</string>
     <string name="rc_you_recalled_a_message">You have recalled a message</string>
-    <string name="rc_you_recalled_edit">Edit</string>
     <string name="rc_admin_recalled_a_message">Admin has recalled a message</string>
     <string name="rc_recalled_a_message">&#160; has recalled a message</string>
     <string name="rc_admin_recalled_message">Admin&#160; has recalled a message</string>
     <string name="rc_exceeded_max_limit">Exceeded the maximum limit</string>
-    <string name="rc_exceeded_max_limit_100">Select up to 100 chat transcripts</string>
 
     <string name="rc_message_unread_count">"···"</string>
     <string name="rc_input_voice">Hold to Talk</string>
@@ -162,9 +152,7 @@
 
     <!-- LargePictureActivity -->
     <string name="rc_save_picture">Save Photo</string>
-    <string name="rc_save_video">Save Video</string>
     <string name="rc_save_picture_at">Saved to album</string>
-    <string name="rc_save_video_success">Saved to album</string>
     <string name="rc_src_file_not_found">Source file does not exist.</string>
 
     <string name="rc_blacklist_prompt">You have been added to blacklist</string>
@@ -252,7 +240,6 @@
     <string name="rc_item_remove_self">%1$s has removed by %2$s from the group</string>
 
     <string name="rc_real_time_location_summary">I start a location sharing</string>
-    <string name="rc_real_time_location_start">Start real time location</string>
     <string name="rc_real_time_location_sharing">Start a location sharing</string>
 
     <string name="rc_dialog_button_clear">Clear</string>
@@ -263,26 +250,4 @@
     <string name="rc_toast_message_destruct">The message cannot be viewed due to automatically destroyed</string>
     <string name="rc_receive_new_message">You have received a new message</string>
     <string name="rc_notification_error_ssl_cert_invalid">The webpage certificate you visited is invalid. Continue to visit?</string>
-    <string name="rc_loadmore_loading">Loading...</string>
-    <string name="rc_click_to_view">Click to View</string>
-    <string name="rc_click_to_play">Click to Play</string>
-    <string name="rc_got_it">Got it</string>
-    <string name="rc_burn_after_reading">Secret Chat</string>
-    <string name="rc_burn_hint">Messages are automatically destroyed after viewing, and replication or forwarding of messages is forbidden. The server does not retain message records</string>
-    <string name="rc_sight">Video Clip</string>
-    <string name="rc_select_from_album">Select from Album</string>
-    <string name="rc_no_plugin">No plug-ins available</string>
-
-    <!-- 合并转发-->
-    <string name="rc_combine_stepwise_forwarding">One-by-One Forward</string>
-    <string name="rc_combine_forwarding">Combine and Forward</string>
-    <string name="rc_combine_chat_history">Chat History</string>
-    <string name="rc_combine_group_chat">Group Chat History</string>
-    <string name="rc_combine_the_group_chat_of">Chat History for %s</string>
-    <string name="rc_combine_and">and</string>
-    <string name="rc_combine_unsupported">Failed to send、red packets、burn message,cannot be forwarded</string>
-    <string name="rc_combine_webview_loading">Chat history loading...</string>
-    <string name="rc_combine_webview_download_failed">Chat history download failed</string>
-    <string name="rc_combine_history_deleted">Chat history deleted</string>
-
 </resources>

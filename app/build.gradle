@@ -15,7 +15,6 @@ android {
         targetSdkVersion 28
         versionCode 75 //32 2.2.1
         versionName "3.7.0"
-
         ndk {
             abiFilters "armeabi" //"armeabi"//'arm64-v8a'//'x86', 'x86_64', 'mips', 'mips64'
         }
@@ -25,7 +24,6 @@ android {
     }
 
     dexOptions {
-        preDexLibraries = false
         javaMaxHeapSize "4g"
     }
 
@@ -172,7 +170,7 @@ dependencies {
     //    compile 'com.github.zcweng:switch-button:0.0.3@aar'
 
     //debug 包
-    debugCompile 'com.bugtags.library:bugtags-lib:3.1.1'
+//    debugCompile 'com.bugtags.library:bugtags-lib:3.1.1'
     implementation files('libs/MiPush_SDK_Client_3_6_12.jar')
     implementation 'com.huawei.android.hms:push:2.6.1.301'
     implementation 'com.umeng.umsdk:common:1.5.4'

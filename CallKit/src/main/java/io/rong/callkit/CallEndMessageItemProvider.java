@@ -1,38 +1,29 @@
 package io.rong.callkit;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Locale;
 
-import io.rong.callkit.util.CallKitUtils;
 import io.rong.calllib.RongCallClient;
 import io.rong.calllib.RongCallCommon;
 import io.rong.calllib.RongCallSession;
 import io.rong.calllib.message.CallSTerminateMessage;
-import io.rong.imkit.RongMessageItemLongClickActionManager;
 import io.rong.imkit.widget.AutoLinkTextView;
+import io.rong.imkit.RongIM;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.utilities.OptionsPopupDialog;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
-import io.rong.imkit.widget.provider.MessageItemLongClickAction;
 import io.rong.imlib.model.Message;
 
-import static io.rong.calllib.RongCallCommon.CallDisconnectedReason.HANGUP;
 import static io.rong.calllib.RongCallCommon.CallDisconnectedReason.OTHER_DEVICE_HAD_ACCEPTED;
 
 @ProviderTag(messageContent = CallSTerminateMessage.class, showSummaryWithName = false, showProgress = false, showWarning = false, showReadState = false)
@@ -95,19 +86,9 @@ public class CallEndMessageItemProvider extends IContainerItemProvider.MessagePr
                 break;
             case HANGUP:
             case REMOTE_HANGUP:
-                String mo_reject = v.getResources().getString(R.string.rc_voip_mo_reject);
-                String mt_reject = v.getResources().getString(R.string.rc_voip_mt_reject);
-                String extra = content.getExtra();
-                String timeRegex= "([0-9]?[0-9]:)?([0-5][0-9]:)?([0-5][0-9])$";
-                if (!TextUtils.isEmpty(extra)) {
-                    boolean val = extra.matches(timeRegex);
-                    if (val) {
-                        msgContent = v.getResources().getString(R.string.rc_voip_call_time_length);
-                        msgContent += extra;
-                    } else {
-                        msgContent = content.getReason() == HANGUP ? mo_reject : mt_reject;
-                    }
-                }
+//            case CONN_USER_BLOCKED:
+                msgContent = v.getResources().getString(R.string.rc_voip_call_time_length);
+                msgContent += content.getExtra();
                 break;
             case NETWORK_ERROR:
             case REMOTE_NETWORK_ERROR:
@@ -136,7 +117,7 @@ public class CallEndMessageItemProvider extends IContainerItemProvider.MessagePr
             }
         } else {
             if (direction != null && direction.equals("MO")) {
-                if (content.getReason().equals(HANGUP) ||
+                if (content.getReason().equals(RongCallCommon.CallDisconnectedReason.HANGUP) ||
                         content.getReason().equals(RongCallCommon.CallDisconnectedReason.REMOTE_HANGUP)) {
                     drawable = v.getResources().getDrawable(R.drawable.rc_voip_audio_right_connected);
                 } else {
@@ -146,7 +127,7 @@ public class CallEndMessageItemProvider extends IContainerItemProvider.MessagePr
                 holder.message.setCompoundDrawables(null, null, drawable, null);
                 holder.message.setTextColor(v.getResources().getColor(R.color.rc_voip_color_right));
             } else {
-                if (content.getReason().equals(HANGUP) ||
+                if (content.getReason().equals(RongCallCommon.CallDisconnectedReason.HANGUP) ||
                         content.getReason().equals(RongCallCommon.CallDisconnectedReason.REMOTE_HANGUP)) {
                     drawable = v.getResources().getDrawable(R.drawable.rc_voip_audio_left_connected);
                 } else {
@@ -190,11 +171,6 @@ public class CallEndMessageItemProvider extends IContainerItemProvider.MessagePr
                     .show();
             return;
         }
-        Context context = view.getContext();
-        if (!CallKitUtils.isNetworkAvailable(context)) {
-            Toast.makeText(context, context.getString(R.string.rc_voip_call_network_error), Toast.LENGTH_SHORT).show();
-            return;
-        }
         RongCallCommon.CallMediaType mediaType = content.getMediaType();
         String action = null;
         if (mediaType.equals(RongCallCommon.CallMediaType.VIDEO)) {
@@ -211,45 +187,16 @@ public class CallEndMessageItemProvider extends IContainerItemProvider.MessagePr
     }
 
     @Override
-    public void onItemLongClick(final View view, final int position, final CallSTerminateMessage content, final UIMessage message) {
-        final List<MessageItemLongClickAction> messageItemLongClickActions = RongMessageItemLongClickActionManager.getInstance().getMessageItemLongClickActions(message);
-        Collections.sort(messageItemLongClickActions, new Comparator<MessageItemLongClickAction>() {
-            @Override
-            public int compare(MessageItemLongClickAction lhs, MessageItemLongClickAction rhs) {
-                // desc sort
-                return rhs.priority - lhs.priority;
-            }
-        });
-        List<String> titles = new ArrayList<>();
-        String recallStr = view.getContext().getResources().getString(R.string.rc_dialog_item_message_recall);
-        for (MessageItemLongClickAction action : messageItemLongClickActions) {
-            if (TextUtils.equals(recallStr, action.getTitle(view.getContext()))) {
-                messageItemLongClickActions.remove(action);
-                break;
-            }
-        }
-        for (MessageItemLongClickAction action : messageItemLongClickActions) {
-            titles.add(action.getTitle(view.getContext()));
-        }
+    public void onItemLongClick(final View view, int position, final CallSTerminateMessage content, final UIMessage message) {
 
-        OptionsPopupDialog dialog = OptionsPopupDialog.newInstance(view.getContext(), titles.toArray(new String[titles.size()]))
-                .setOptionsPopupDialogListener(new OptionsPopupDialog.OnOptionsItemClickedListener() {
-                    @Override
-                    public void onOptionsItemClicked(int which) {
-                        if (!messageItemLongClickActions.get(which).listener.onMessageItemLongClick(view.getContext(), message)) {
-                            onItemLongClickAction(view, position, message);
-                        }
-                    }
-                });
-        RongMessageItemLongClickActionManager.getInstance().setLongClickDialog(dialog);
-        RongMessageItemLongClickActionManager.getInstance().setLongClickMessage(message.getMessage());
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        String[] items = new String[] {view.getContext().getResources().getString(R.string.rc_dialog_item_message_delete)};
+
+        OptionsPopupDialog.newInstance(view.getContext(), items).setOptionsPopupDialogListener(new OptionsPopupDialog.OnOptionsItemClickedListener() {
             @Override
-            public void onDismiss(DialogInterface dialog) {
-                RongMessageItemLongClickActionManager.getInstance().setLongClickDialog(null);
-                RongMessageItemLongClickActionManager.getInstance().setLongClickMessage(null);
+            public void onOptionsItemClicked(int which) {
+                if (which == 0)
+                    RongIM.getInstance().deleteMessages(new int[] {message.getMessageId()}, null);
             }
-        });
-        dialog.show();
+        }).show();
     }
 }

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 /**
  * Created by mamingyang on 2018/3/19.
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 public class CallOptionMenu extends PopupWindow {
     private View.OnClickListener onItemClickListener;
-    private TextView tv_right_text;
     private LinearLayout layoutAdd;
     private LinearLayout layoutWhiteBoard;
     private LinearLayout layoutHandUp;
@@ -33,8 +31,6 @@ public class CallOptionMenu extends PopupWindow {
                 if (onItemClickListener != null) onItemClickListener.onClick(v);
             }
         });
-        tv_right_text = content.findViewById(R.id.tv_right_text);
-        tv_right_text.setText(context.getString(R.string.rc_voip_add_member));
         layoutWhiteBoard = (LinearLayout) content.findViewById(R.id.voipItemWhiteboard);
         layoutWhiteBoard.setOnClickListener(new View.OnClickListener() {
             @Override

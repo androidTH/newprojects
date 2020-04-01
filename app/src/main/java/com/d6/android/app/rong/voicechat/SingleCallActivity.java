@@ -45,7 +45,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,7 +57,6 @@ import io.rong.callkit.util.BluetoothUtil;
 import io.rong.callkit.util.CallKitUtils;
 import io.rong.callkit.util.GlideUtils;
 import io.rong.callkit.util.HeadsetInfo;
-import io.rong.callkit.util.RingingMode;
 import io.rong.calllib.CallUserProfile;
 import io.rong.calllib.RongCallClient;
 import io.rong.calllib.RongCallCommon;
@@ -80,7 +78,6 @@ import static com.d6.android.app.utils.UtilKt.updateSquareSignUp;
  */
 public class SingleCallActivity extends BaseCallActivity implements Handler.Callback, View.OnClickListener, VoiceChatStatus {
     private static final String TAG = "VoIPSingleActivity";
-    private static final int LOSS_RATE_ALARM = 20;
     private LayoutInflater inflater;
     private RongCallSession callSession;
     private FrameLayout mLPreviewContainer;
@@ -508,7 +505,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         } catch (Exception e) {
             e.printStackTrace();
         }
-        callRinging(RingingMode.Outgoing);
+        onOutgoingCallRinging();
 
         regisHeadsetPlugReceiver();
         if(BluetoothUtil.hasBluetoothA2dpConnected() || BluetoothUtil.isWiredHeadsetOn(this)){
@@ -703,58 +700,6 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         initAudioCallView();
         handler.removeMessages(EVENT_FULL_SCREEN);
         mButtonContainer.findViewById(io.rong.callkit.R.id.rc_voip_call_mute).setSelected(muted);
-    }
-
-    @Override
-    public void onRemoteMicrophoneDisabled(String s, boolean b) {
-
-    }
-
-    @Override
-    public void onNetworkReceiveLost(String userId, int lossRate) {
-        isReceiveLost = lossRate > LOSS_RATE_ALARM;
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                refreshConnectionState();
-            }
-        });
-    }
-
-    @Override
-    public void onNetworkSendLost(int lossRate, int delay) {
-        isSendLost = lossRate > LOSS_RATE_ALARM;
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                refreshConnectionState();
-            }
-        });
-    }
-
-    @Override
-    public void onFirstRemoteVideoFrame(String s, int i, int i1) {
-
-    }
-
-    @Override
-    public void onAudioLevelSend(String s) {
-
-    }
-
-    @Override
-    public void onAudioLevelReceive(HashMap<String, String> hashMap) {
-
-    }
-
-    @Override
-    public void onRemoteUserPublishVideoStream(String s, String s1, String s2, SurfaceView surfaceView) {
-
-    }
-
-    @Override
-    public void onRemoteUserUnpublishVideoStream(String s, String s1, String s2) {
-
     }
 
     /** 视频转语音 **/
@@ -1015,6 +960,17 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
         });
     }
 
+    @Override
+    public void onNetworkSendLost(int lossRate) {
+        isSendLost = lossRate > 30;
+        refreshConnectionState();
+    }
+
+    @Override
+    public void onNetworkReceiveLost(int lossRate) {
+        isReceiveLost = lossRate > 30;
+        refreshConnectionState();
+    }
 
     private Runnable mCheckConnectionStableTask = new Runnable() {
         @Override

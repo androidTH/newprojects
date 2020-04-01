@@ -1,11 +1,8 @@
 package io.rong.callkit;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.PixelFormat;
-import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,19 +16,14 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import io.rong.callkit.util.ActivityStartCheckUtils;
-import io.rong.callkit.util.BluetoothUtil;
 import io.rong.callkit.util.CallKitUtils;
-import io.rong.calllib.CallUserProfile;
 import io.rong.calllib.IRongCallListener;
 import io.rong.calllib.RongCallClient;
 import io.rong.calllib.RongCallCommon;
@@ -39,12 +31,12 @@ import io.rong.calllib.RongCallSession;
 import io.rong.calllib.message.CallSTerminateMessage;
 import io.rong.common.RLog;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.manager.AudioPlayManager;
 import io.rong.imkit.utils.NotificationUtil;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.message.InformationNotificationMessage;
 
+import static io.rong.callkit.util.CallKitUtils.closeKeyBoard;
 import static io.rong.callkit.util.CallKitUtils.isDial;
 
 /**
@@ -60,11 +52,9 @@ public class CallFloatBoxView {
     private static Bundle mBundle;
     private static final String TAG = "CallFloatBoxView";
     private static TextView showFBCallTime=null;
-    private static FrameLayout remoteVideoContainer = null;
 
     public static void showFB(Context context, Bundle bundle){
         Log.i("audioTag","CallKitUtils.isDial="+CallKitUtils.isDial);
-        setExcludeFromRecents(context, true);
         if(CallKitUtils.isDial){
             CallFloatBoxView.showFloatBoxToCall(context,bundle);
         }else{
@@ -81,50 +71,77 @@ public class CallFloatBoxView {
         RongCallSession session = RongCallClient.getInstance().getCallSession();
         long activeTime = session != null ? session.getActiveTime() : 0;
         mTime = activeTime == 0 ? 0 : (System.currentTimeMillis() - activeTime) / 1000;
-        if (mTime > 0) {
-            setAudioMode(AudioManager.MODE_IN_COMMUNICATION);
-        }
 
         mBundle = bundle;
         wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams params = createLayoutParams(context);
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
 
-        RongCallCommon.CallMediaType mediaType = RongCallCommon.CallMediaType.valueOf(bundle.getInt("mediaType"));
-        if (mediaType == RongCallCommon.CallMediaType.VIDEO && session != null
-                && session.getConversationType() == Conversation.ConversationType.PRIVATE) {
-            SurfaceView remoteVideo = null;
-            for (CallUserProfile profile : session.getParticipantProfileList()) {
-                if (!TextUtils.equals(profile.getUserId(), RongIMClient.getInstance().getCurrentUserId())) {
-                    remoteVideo = profile.getVideoView();
-                }
-            }
-            if (remoteVideo != null) {
-                ViewGroup parent = (ViewGroup) remoteVideo.getParent();
-                if (parent != null) {
-                    parent.removeView(remoteVideo);
-                }
-                Resources resources = mContext.getResources();
-                params.width = resources.getDimensionPixelSize(R.dimen.callkit_dimen_size_60);
-                params.height = resources.getDimensionPixelSize(R.dimen.callkit_dimen_size_80);
-                remoteVideoContainer = new FrameLayout(mContext);
-                remoteVideoContainer.addView(remoteVideo,
-                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                remoteVideoContainer.setOnTouchListener(createTouchListener());
-                wm.addView(remoteVideoContainer, params);
-            }
+        int type;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < 24) {
+            type = WindowManager.LayoutParams.TYPE_TOAST;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            type = WindowManager.LayoutParams.TYPE_PHONE;
         }
-        if (remoteVideoContainer == null) {
-            mView = LayoutInflater.from(context).inflate(R.layout.rc_voip_float_box, null);
-            mView.setOnTouchListener(createTouchListener());
-            wm.addView(mView, params);
-            TextView timeV = (TextView) mView.findViewById(R.id.rc_time);
-            setupTime(timeV);
-            ImageView mediaIconV = (ImageView) mView.findViewById(R.id.rc_voip_media_type);
-            if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
-                mediaIconV.setImageResource(R.drawable.rc_voip_float_audio);
-            } else {
-                mediaIconV.setImageResource(R.drawable.rc_voip_float_video);
+        params.type = type;
+        params.flags = WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+
+        params.format = PixelFormat.TRANSLUCENT;
+        params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.gravity = Gravity.CENTER;
+        params.x = context.getResources().getDisplayMetrics().widthPixels;
+        params.y = 0;
+
+        mView = LayoutInflater.from(context).inflate(R.layout.rc_voip_float_box, null);
+        mView.setOnTouchListener(new View.OnTouchListener() {
+            float lastX, lastY;
+            int oldOffsetX, oldOffsetY;
+            int tag = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int action = event.getAction();
+                float x = event.getX();
+                float y = event.getY();
+                if (tag == 0) {
+                    oldOffsetX = params.x;
+                    oldOffsetY = params.y;
+                }
+                if (action == MotionEvent.ACTION_DOWN) {
+                    lastX = x;
+                    lastY = y;
+                } else if (action == MotionEvent.ACTION_MOVE) {
+                    // 减小偏移量,防止过度抖动
+                    params.x += (int) (x - lastX) / 3;
+                    params.y += (int) (y - lastY) / 3;
+                    tag = 1;
+                    if (mView != null)
+                        wm.updateViewLayout(mView, params);
+                } else if (action == MotionEvent.ACTION_UP) {
+                    int newOffsetX = params.x;
+                    int newOffsetY = params.y;
+                    if (Math.abs(oldOffsetX - newOffsetX) <= 20 && Math.abs(oldOffsetY - newOffsetY) <= 20) {
+                        onClickToResume();
+                    } else {
+                        tag = 0;
+                    }
+                }
+                return true;
             }
+        });
+        wm.addView(mView, params);
+        TextView timeV = (TextView) mView.findViewById(R.id.rc_time);
+        setupTime(timeV);
+        ImageView mediaIconV = (ImageView) mView.findViewById(R.id.rc_voip_media_type);
+        RongCallCommon.CallMediaType mediaType = RongCallCommon.CallMediaType.valueOf(bundle.getInt("mediaType"));
+        if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
+            mediaIconV.setImageResource(R.drawable.rc_voip_float_audio);
+        } else {
+            mediaIconV.setImageResource(R.drawable.rc_voip_float_video);
         }
         RongCallClient.getInstance().setVoIPCallListener(new IRongCallListener() {
             @Override
@@ -196,26 +213,16 @@ public class CallFloatBoxView {
                 }
                 Toast.makeText(mContext, mContext.getString(R.string.rc_voip_call_terminalted), Toast.LENGTH_SHORT).show();
 
-                if (wm != null && mView != null && mView.isAttachedToWindow()) {
+                if (wm != null && mView != null) {
                     wm.removeView(mView);
-                    mView = null;
-                }
-                if ( wm != null && remoteVideoContainer != null && remoteVideoContainer.isAttachedToWindow()) {
-                    wm.removeView(remoteVideoContainer);
-                    remoteVideoContainer.setOnTouchListener(null);
-                    remoteVideoContainer = null;
-                }
-                if (timer != null) {
                     timer.cancel();
                     timer = null;
+                    isShown = false;
+                    mView = null;
+                    mTime = 0;
                 }
-                isShown = false;
-                mTime = 0;
-                setAudioMode(AudioManager.MODE_NORMAL);
-                AudioPlayManager.getInstance().setInVoipMode(false);
                 NotificationUtil.clearNotification(mContext, BaseCallActivity.CALL_NOTIFICATION_ID);
                 RongCallClient.getInstance().setVoIPCallListener(RongCallProxy.getInstance());
-                BluetoothUtil.stopBlueToothSco(mContext);
             }
 
             @Override
@@ -235,73 +242,17 @@ public class CallFloatBoxView {
 
             @Override
             public void onMediaTypeChanged(String userId, RongCallCommon.CallMediaType mediaType, SurfaceView video) {
-                if (mContext == null || !isShown || wm == null) {
-                    Log.e(TAG, "set onMediaTypeChanged Failed CallFloatBoxView is Hiden");
-                    return;
-                }
-                WindowManager.LayoutParams params =createLayoutParams(mContext);
-                if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
-                    if (remoteVideoContainer != null) {
-                        wm.removeView(remoteVideoContainer);
-                        remoteVideoContainer = null;
-                    }
-                    if (mView == null){
-                        mView = LayoutInflater.from(mContext).inflate(R.layout.rc_voip_float_box, null);
-                        mView.setOnTouchListener(createTouchListener());
-                        wm.addView(mView, params);
-                        TextView timeV = (TextView) mView.findViewById(R.id.rc_time);
-                        setupTime(timeV);
-                        ImageView mediaIconV = (ImageView) mView.findViewById(R.id.rc_voip_media_type);
-                        mediaIconV.setImageResource(R.drawable.rc_voip_float_audio);
-                    }
-                }else if (RongCallClient.getInstance().getCallSession() != null){
-                    RongCallSession callSession = RongCallClient.getInstance().getCallSession();
-                    if (callSession.getConversationType() == Conversation.ConversationType.PRIVATE) {
-                        if (mView != null){
-                            wm.removeView(mView);
-                            mView = null;
-                        }
-                        SurfaceView remoteVideo = null;
-                        for (CallUserProfile profile : callSession.getParticipantProfileList()) {
-                            if (!TextUtils.equals(profile.getUserId(), RongIMClient.getInstance().getCurrentUserId())) {
-                                remoteVideo = profile.getVideoView();
-                            }
-                        }
-                        if (remoteVideo != null) {
-                            ViewGroup parent = (ViewGroup) remoteVideo.getParent();
-                            if (parent != null)
-                                parent.removeView(remoteVideo);
-                            Resources resources = mContext.getResources();
-                            params.width = resources.getDimensionPixelSize(R.dimen.callkit_dimen_size_60);
-                            params.height = resources.getDimensionPixelSize(R.dimen.callkit_dimen_size_80);
-                            remoteVideoContainer = new FrameLayout(mContext);
-                            remoteVideoContainer.addView(remoteVideo,
-                                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                            remoteVideoContainer.setOnTouchListener(createTouchListener());
-                            wm.addView(remoteVideoContainer, params);
-                        }
-                    }else if (mView != null){
-                        ImageView mediaIconV = (ImageView) mView.findViewById(R.id.rc_voip_media_type);
-                        if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
-                            mediaIconV.setImageResource(R.drawable.rc_voip_float_audio);
-                        } else {
-                            mediaIconV.setImageResource(R.drawable.rc_voip_float_video);
-                        }
-                    }
-                }
+
             }
 
             @Override
             public void onError(RongCallCommon.CallErrorCode errorCode) {
-                setAudioMode(AudioManager.MODE_NORMAL);
-                AudioPlayManager.getInstance().setInVoipMode(false);
+
             }
 
             @Override
             public void onCallConnected(RongCallSession callInfo, SurfaceView localVideo) {
                 CallKitUtils.isDial=false;
-                setAudioMode(AudioManager.MODE_IN_COMMUNICATION);
-                AudioPlayManager.getInstance().setInVoipMode(true);
             }
 
             @Override
@@ -310,47 +261,62 @@ public class CallFloatBoxView {
             }
 
             @Override
-            public void onRemoteMicrophoneDisabled(String userId, boolean disabled) {
+            public void onWhiteBoardURL(String url) {
 
             }
 
             @Override
-            public void onNetworkReceiveLost(String userId, int lossRate) {
+            public void onNetworkReceiveLost(int lossRate) {
 
             }
 
             @Override
-            public void onNetworkSendLost(int lossRate, int delay) {
+            public void onNetworkSendLost(int lossRate) {
 
             }
 
             @Override
-            public void onFirstRemoteVideoFrame(String userId, int height, int width) {
+            public void onNotifySharingScreen(String userId, boolean isSharing) {
 
             }
 
             @Override
-            public void onAudioLevelSend(String audioLevel) {
-
-            }
-
-            public void onRemoteUserPublishVideoStream(String userId, String streamId, String tag, SurfaceView surfaceView) {
+            public void onNotifyDegradeNormalUserToObserver(String userId) {
 
             }
 
             @Override
-            public void onAudioLevelReceive(HashMap<String, String> audioLevel) {
+            public void onNotifyAnswerObserverRequestBecomeNormalUser(String userId, long status) {
 
             }
 
-            public void onRemoteUserUnpublishVideoStream(String userId, String streamId, String tag) {
+            @Override
+            public void onNotifyUpgradeObserverToNormalUser() {
+
+            }
+
+            @Override
+            public void onNotifyHostControlUserDevice(String userId, int dType, int isOpen) {
+
+            }
+
+            @Override
+            public void onNotifyAnswerUpgradeObserverToNormalUser(String userId, SurfaceView remoteVideo) {
 
             }
         });
     }
 
-    private static WindowManager.LayoutParams createLayoutParams(Context context) {
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+    public static void showFloatBoxToCall(Context context, Bundle bundle) {
+        if (isShown) {
+            return;
+        }
+        mContext = context;
+        isShown = true;
+
+        mBundle = bundle;
+        wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
 
         int type;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < 24) {
@@ -371,67 +337,6 @@ public class CallFloatBoxView {
         params.gravity = Gravity.CENTER;
         params.x = context.getResources().getDisplayMetrics().widthPixels;
         params.y = 0;
-        return params;
-    }
-
-    private static View.OnTouchListener createTouchListener(){
-        return new View.OnTouchListener() {
-            float lastX, lastY;
-            int oldOffsetX, oldOffsetY;
-            int tag = 0;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int action = event.getAction();
-                float x = event.getX();
-                float y = event.getY();
-                WindowManager.LayoutParams params = (WindowManager.LayoutParams) v.getLayoutParams();
-                if (params == null){
-                    return true;
-                }
-                if (tag == 0) {
-                    oldOffsetX = params.x;
-                    oldOffsetY = params.y;
-                }
-                if (action == MotionEvent.ACTION_DOWN) {
-                    lastX = x;
-                    lastY = y;
-                } else if (action == MotionEvent.ACTION_MOVE) {
-                    // 减小偏移量,防止过度抖动
-                    params.x += (int) (x - lastX) / 3;
-                    params.y += (int) (y - lastY) / 3;
-                    tag = 1;
-//                    if (mView != null)
-//                        wm.updateViewLayout(mView, params);
-//                    if (remoteVideoContainer != null) {
-//                        wm.updateViewLayout(remoteVideoContainer, params);
-//                    }
-                    wm.updateViewLayout(v,params);
-                } else if (action == MotionEvent.ACTION_UP) {
-                    int newOffsetX = params.x;
-                    int newOffsetY = params.y;
-                    if (Math.abs(oldOffsetX - newOffsetX) <= 20 && Math.abs(oldOffsetY - newOffsetY) <= 20) {
-                        onClickToResume();
-                    } else {
-                        tag = 0;
-                    }
-                }
-                return true;
-            }
-        };
-    }
-
-
-    public static void showFloatBoxToCall(Context context, Bundle bundle) {
-        if (isShown) {
-            return;
-        }
-        mContext = context;
-        isShown = true;
-
-        mBundle = bundle;
-        wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        final WindowManager.LayoutParams params = createLayoutParams(context);
 
         mView = LayoutInflater.from(context).inflate(R.layout.rc_voip_float_box, null);
         mView.setOnTouchListener(new View.OnTouchListener() {
@@ -559,12 +464,8 @@ public class CallFloatBoxView {
                     mView = null;
                     mTime = 0;
                 }
-                setAudioMode(AudioManager.MODE_NORMAL);
-                AudioPlayManager.getInstance().setInVoipMode(false);
                 NotificationUtil.clearNotification(mContext, BaseCallActivity.CALL_NOTIFICATION_ID);
                 RongCallClient.getInstance().setVoIPCallListener(RongCallProxy.getInstance());
-                AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-                BluetoothUtil.stopBlueToothSco(mContext);
             }
 
             @Override
@@ -574,18 +475,11 @@ public class CallFloatBoxView {
 
             @Override
             public void onMediaTypeChanged(String userId, RongCallCommon.CallMediaType mediaType, SurfaceView video) {
-                ImageView mediaIconV = (ImageView) mView.findViewById(R.id.rc_voip_media_type);
-                if (mediaType.equals(RongCallCommon.CallMediaType.AUDIO)) {
-                    mediaIconV.setImageResource(R.drawable.rc_voip_float_audio);
-                } else {
-                    mediaIconV.setImageResource(R.drawable.rc_voip_float_video);
-                }
+
             }
 
             @Override
             public void onError(RongCallCommon.CallErrorCode errorCode) {
-                setAudioMode(AudioManager.MODE_NORMAL);
-                AudioPlayManager.getInstance().setInVoipMode(false);
             }
 
             @Override
@@ -594,8 +488,6 @@ public class CallFloatBoxView {
                     CallFloatBoxView.showFloatBoxToCallTime();
                     CallKitUtils.isDial=false;
                 }
-                AudioPlayManager.getInstance().setInVoipMode(true);
-                setAudioMode(AudioManager.MODE_IN_COMMUNICATION);
             }
 
 
@@ -618,40 +510,47 @@ public class CallFloatBoxView {
             }
 
             @Override
-            public void onRemoteMicrophoneDisabled(String userId, boolean disabled) {
+            public void onWhiteBoardURL(String url) {
 
             }
 
             @Override
-            public void onNetworkReceiveLost(String userId, int lossRate) {
+            public void onNetworkReceiveLost(int lossRate) {
 
             }
 
             @Override
-            public void onNetworkSendLost(int lossRate, int delay) {
+            public void onNetworkSendLost(int lossRate) {
 
             }
 
             @Override
-            public void onFirstRemoteVideoFrame(String userId, int height, int width) {
+            public void onNotifySharingScreen(String userId, boolean isSharing) {
 
             }
 
             @Override
-            public void onAudioLevelSend(String audioLevel) {
-
-            }
-
-            public void onRemoteUserPublishVideoStream(String userId, String streamId, String tag, SurfaceView surfaceView) {
+            public void onNotifyDegradeNormalUserToObserver(String userId) {
 
             }
 
             @Override
-            public void onAudioLevelReceive(HashMap<String, String> audioLevel) {
+            public void onNotifyAnswerObserverRequestBecomeNormalUser(String userId, long status) {
 
             }
 
-            public void onRemoteUserUnpublishVideoStream(String userId, String streamId, String tag) {
+            @Override
+            public void onNotifyUpgradeObserverToNormalUser() {
+
+            }
+
+            @Override
+            public void onNotifyHostControlUserDevice(String userId, int dType, int isOpen) {
+
+            }
+
+            @Override
+            public void onNotifyAnswerUpgradeObserverToNormalUser(String userId, SurfaceView remoteVideo) {
 
             }
         });
@@ -675,17 +574,9 @@ public class CallFloatBoxView {
     }
 
     public static void hideFloatBox() {
-        setExcludeFromRecents(mContext, false);
         RongCallClient.getInstance().setVoIPCallListener(RongCallProxy.getInstance());
-        if (isShown) {
-            if (mView != null) {
-                wm.removeView(mView);
-            }
-            mView = null;
-            if (remoteVideoContainer != null) {
-                wm.removeView(remoteVideoContainer);
-            }
-            remoteVideoContainer = null;
+        if (isShown && null != mView) {
+            wm.removeView(mView);
             if(null!=timer){
                 timer.cancel();
                 timer = null;
@@ -718,30 +609,20 @@ public class CallFloatBoxView {
             RLog.d(TAG, "onClickToResume mBundle is null");
             return;
         }
-        boolean muteCamera = mBundle.getBoolean("muteCamera");
-        if (mBundle.getInt("mediaType") == RongCallCommon.CallMediaType.VIDEO.getValue() &&
-                !isDial && !muteCamera) {
+        if(mBundle.getInt("mediaType")==RongCallCommon.CallMediaType.VIDEO.getValue() &&
+                !isDial){
             RLog.d(TAG, "onClickToResume setEnableLocalVideo(true)");
             RongCallClient.getInstance().setEnableLocalVideo(true);
         }
-        mBundle.putBoolean("isDial", isDial);
+        mBundle.putBoolean("isDial",isDial);
         RongCallClient.getInstance().setVoIPCallListener(RongCallProxy.getInstance());
         Intent intent = new Intent(mBundle.getString("action"));
         intent.setPackage(mContext.getPackageName());
         intent.putExtra("floatbox", mBundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("callAction", RongCallAction.ACTION_RESUME_CALL.getName());
-
-        ActivityStartCheckUtils.getInstance().startActivity(mContext, intent, BaseCallActivity.class.getSimpleName(), new ActivityStartCheckUtils.ActivityStartResultCallback() {
-            @Override
-            public void onStartActivityResult(boolean isActivityStarted) {
-                if (isActivityStarted) {
-                    mBundle = null;
-                } else {
-                    Toast.makeText(mContext, mContext.getString(R.string.rc_background_start_actvity_deny), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        mContext.startActivity(intent);
+        mBundle = null;
     }
 
     private static void setupTime(final TextView timeView) {
@@ -767,28 +648,5 @@ public class CallFloatBoxView {
 
         timer = new Timer();
         timer.schedule(task, 0, 1000);
-    }
-
-    private static void setAudioMode(int mode) {
-        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-        if (audioManager != null) {
-            audioManager.setMode(mode);
-        }
-    }
-
-    /**
-     * 设置app是否现在在最近列表中，
-     * @param appContext
-     * @param excluded
-     */
-    private static void setExcludeFromRecents(Context appContext, boolean excluded) {
-        if (appContext == null)
-            return;
-        ActivityManager manager = (ActivityManager) appContext.getSystemService(Context.ACTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            for (ActivityManager.AppTask task : manager.getAppTasks()) {
-                task.setExcludeFromRecents(excluded);
-            }
-        }
     }
 }

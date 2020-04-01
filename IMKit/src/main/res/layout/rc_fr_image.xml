@@ -8,18 +8,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"/>
-
+    
     <TextView
-        android:visibility="gone"
         android:id="@+id/rc_count_down"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:background="#33333333"
+        android:layout_marginRight="20dp"
         android:textColor="#fff"
         android:gravity="center"
-        android:layout_gravity="left"/>
+        android:layout_gravity="right"/>
 
     <ProgressBar
         android:id="@id/rc_progress"

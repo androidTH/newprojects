@@ -1,20 +1,14 @@
 package io.rong.callkit;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.IBinder;
-import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -32,39 +26,42 @@ import java.util.List;
 import io.rong.callkit.util.CallKitSearchBarListener;
 import io.rong.callkit.util.CallKitSearchBarView;
 import io.rong.callkit.util.CallKitUtils;
-import io.rong.callkit.util.CallSelectMemberSerializable;
 import io.rong.calllib.RongCallCommon;
-import io.rong.common.RLog;
 import io.rong.imkit.RongContext;
-import io.rong.imkit.RongIM;
-import io.rong.imkit.mention.RongMentionManager;
 import io.rong.imkit.model.GroupUserInfo;
 import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
+/**
+ * @author dengxudong
+ * @version $Rev$
+ */
 public class CallSelectMemberActivity extends BaseNoActionBarActivity {
-    private static final String TAG = "CallSelectMemberActivity";
+
     ArrayList<String> selectedMember;
-    private boolean isFirstDialog = true;
-    /**
-     * 已经选择的观察者列表
-     **/
+    private boolean isFirstDialog=true;
+    /** 已经选择的观察者列表 **/
     private ArrayList<String> observerMember;
-    TextView txtvStart, callkit_conference_selected_number;
+    TextView txtvStart,callkit_conference_selected_number;
     ListAdapter mAdapter;
     ListView mList;
     RongCallCommon.CallMediaType mMediaType;
     private Conversation.ConversationType conversationType;
     private EditText searchView;
-    private HashMap<String, String> tempNickmembers = new HashMap<>();
+    private ArrayList<String> allMembers=null;
 
-    private ArrayList<UserInfo> searchMembers = new ArrayList<>();
+    private HashMap<String,String> tempNickmembers=new HashMap<>();
+
+    private ArrayList<String> searchMembers=new ArrayList<>();
     private ArrayList<String> invitedMembers;
-    private ArrayList<UserInfo> tempMembers = new ArrayList<>();
+    private ArrayList<String> tempMembers=new ArrayList<>();
 
-    private ArrayList<String> allObserver = null;//保存当前通话中从多人音/视频传递过来的观察者列表
+    private ArrayList<String> allObserver=null;//保存当前通话中从多人音/视频传递过来的观察者列表
+
+    private UserInfo userInfo;
+    private GroupUserInfo groupUserInfo;
 
     private String groupId;
     private RelativeLayout rlSearchTop;
@@ -76,45 +73,9 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
      * false:>n个人同时音视频通话之后,其他人视为观察者加入到本次通话中;
      * n ：NORMAL_VIDEO_NUMBER 和 NORMAL_AUDIO_NUMBER
      */
-    private boolean ctrlTag = true;
-    private static final int NORMAL_VIDEO_NUMBER = 7;
-    private static final int NORMAL_AUDIO_NUMBER = 20;
-    private ArrayList<UserInfo> userInfoArrayList=new ArrayList<>();
-    //
-    private Handler uiHandler=new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 2) {
-                Bundle bundle = msg.getData();
-                if (bundle != null) {
-                    CallSelectMemberSerializable callSelectMemberSerializable = (CallSelectMemberSerializable) bundle.getSerializable(CALLSELECTMEMBERSERIALIZABLE_KEY);
-                    if (callSelectMemberSerializable != null) {
-                        tempNickmembers = callSelectMemberSerializable.getHashMap();
-                    }
-                }
-                if (userInfoArrayList.isEmpty() && invitedMembers != null && invitedMembers.size() > 0) {
-                    String tmpUserID = "";
-                    for (int i = 0; i < invitedMembers.size(); i++) {
-                        tmpUserID = invitedMembers.get(i);
-                        if (!TextUtils.isEmpty(tmpUserID)) {
-                            userInfoArrayList.add(getUserInfo(tmpUserID));
-                        }else{
-                            RLog.e(TAG,"uiHandler->userid null.");
-                        }
-                    }
-                }
-                RLog.i(TAG,"setAdapter");
-                mAdapter = new ListAdapter(userInfoArrayList, invitedMembers);
-                mList.setAdapter(mAdapter);
-                callkit_conference_selected_number.setText(getString(R.string.callkit_selected_contacts_count, userInfoArrayList == null ? 0 : userInfoArrayList.size()));
-            }
-        }
-    };
-
-    private Handler mHandler;
-    private static final String GROUPMEMBERSRESULT_KEY = "GROUPMEMBERSRESULTKEY";
-    private static final String CALLSELECTMEMBERSERIALIZABLE_KEY="CALLSELECTMEMBERSERIALIZABLEKEY";
+    private boolean ctrlTag=true;
+    private static final int NORMAL_VIDEO_NUMBER=7;
+    private static final int NORMAL_AUDIO_NUMBER=20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,123 +98,48 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
         int conType = intent.getIntExtra("conversationType", 0);
         conversationType = Conversation.ConversationType.setValue(conType);
         invitedMembers = intent.getStringArrayListExtra("invitedMembers");
+        allObserver=intent.getStringArrayListExtra("allObserver");
+        allMembers = intent.getStringArrayListExtra("allMembers");
         groupId = intent.getStringExtra("groupId");
-        allObserver = intent.getStringArrayListExtra("allObserver");
+        RongCallKit.GroupMembersProvider provider = RongCallKit.getGroupMemberProvider();
+        if (groupId != null && allMembers == null && provider != null) {
+            allMembers=provider.getMemberList(groupId, new RongCallKit.OnGroupMembersResult() {
+                @Override
+                public void onGotMemberList(ArrayList<String> members) {
+                    if (mAdapter != null) {
+                        if (members != null && members.size() > 0) {
+                            mAdapter.setAllMembers(members);
+                            allMembers=members;
+                            mAdapter.notifyDataSetChanged();
 
-        ArrayList<String> list = intent.getStringArrayListExtra("allMembers");
-        if (list != null) {
-            String tmpUserID = "";
-            for (int i = 0; i < list.size(); i++) {
-                tmpUserID = list.get(i);
-                if (!TextUtils.isEmpty(tmpUserID)) {
-                    userInfoArrayList.add(getUserInfo(tmpUserID));
-                } else {
-                    RLog.e(TAG, "onCreate->userid null.");
-                }
-            }
-        }
-        HandlerThread handlerThread = new HandlerThread(TAG);
-        handlerThread.start();
-        mHandler = new Handler(handlerThread.getLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                String key = (String) msg.obj;
-                if (GROUPMEMBERSRESULT_KEY.equals(key)) {
-                    Bundle bundle = msg.getData();
-                    HashMap<String, String> hashMap = new HashMap<>();
-                    if (bundle != null) {
-                        ArrayList<UserInfo> arrayList = bundle.getParcelableArrayList(GROUPMEMBERSRESULT_KEY);
-                        Conversation.ConversationType conversationType = Conversation.ConversationType.setValue(bundle.getInt("conversationType"));
-                        if (arrayList != null) {
-                            RLog.i(TAG, "onGetGroupMembersResult : " + arrayList.size());
-                            UserInfo userInfo = null;
-                            String userNickName = "";
-                            GroupUserInfo groupUserInfo = null;
                             /**转换昵称***/
-                            for (int i = 0; i < arrayList.size(); i++) {
-                                userInfo = arrayList.get(i);
-                                if (userInfo != null && !TextUtils.isEmpty(userInfo.getUserId())) {
-                                    if (conversationType != null && conversationType.equals(Conversation.ConversationType.GROUP)) {
-                                        groupUserInfo = RongUserInfoManager.getInstance().getGroupUserInfo(groupId, userInfo.getUserId());
-                                        if (groupUserInfo != null && !TextUtils.isEmpty(groupUserInfo.getNickname())) {
-                                            userNickName = groupUserInfo.getNickname();
-                                        }
+                            for (int i = 0; i < allMembers.size(); i++) {
+                                String userNickName=allMembers.get(i);
+                                userInfo = RongContext.getInstance().getUserInfoFromCache(userNickName);
+                                String displayName = "";
+                                if (conversationType != null && conversationType.equals(Conversation.ConversationType.GROUP)) {
+                                    groupUserInfo = RongUserInfoManager.getInstance().getGroupUserInfo(groupId, userNickName);
+                                    if (groupUserInfo != null && !TextUtils.isEmpty(groupUserInfo.getNickname())) {
+                                        displayName = groupUserInfo.getNickname();
+                                        userNickName=displayName;
                                     }
-                                    if (TextUtils.isEmpty(userNickName)) {
-                                        userNickName = userInfo.getName();
-                                    } else {
-                                        userInfo.setName(userNickName);
-                                    }
-                                    hashMap.put(userInfo.getUserId(), userNickName);
-                                    userNickName = "";
                                 }
+                                if (TextUtils.isEmpty(displayName)) {
+                                    if (userInfo != null) {
+                                        userNickName=userInfo.getName();
+                                    }
+                                }
+                                tempNickmembers.put(allMembers.get(i),userNickName);
                             }
                         }
                     }
-                    CallSelectMemberSerializable callSelectMemberSerializable = new CallSelectMemberSerializable(hashMap);
-                    Message message = new Message();
-                    message.what = 2;
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putSerializable(CALLSELECTMEMBERSERIALIZABLE_KEY, callSelectMemberSerializable);
-                    message.setData(bundle1);
-                    uiHandler.sendMessage(message);
-                }
-            }
-        };
-
-        RongCallKit.GroupMembersProvider provider = RongCallKit.getGroupMemberProvider();
-        if (TextUtils.isEmpty(groupId)) {
-            return;
-        }
-        if (provider != null) {
-            provider.getMemberList(groupId, new RongCallKit.OnGroupMembersResult() {
-                @Override
-                public void onGotMemberList(ArrayList<String> members) {
-                    String tmpUserID="";
-                    for (int i = 0; i < members.size(); i++) {
-                        tmpUserID = members.get(i);
-                        if (!TextUtils.isEmpty(tmpUserID)) {
-                            userInfoArrayList.add(getUserInfo(tmpUserID));
-                        }else{
-                            RLog.e(TAG,"onGotMemberList->userid null.");
-                        }
-                    }
-                    Message message = new Message();
-                    message.obj = GROUPMEMBERSRESULT_KEY;
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList(GROUPMEMBERSRESULT_KEY, userInfoArrayList);
-                    bundle.putInt("conversationType",conversationType.getValue());
-                    message.setData(bundle);
-                    mHandler.sendMessage(message);
                 }
             });
-        } else {
-            if (RongMentionManager.getInstance().getGroupMembersProvider() != null) {
-                RongMentionManager.getInstance().getGroupMembersProvider().getGroupMembers(groupId, new RongIM.IGroupMemberCallback() {
-                    @Override
-                    public void onGetGroupMembersResult(List<UserInfo> userInfos) {
-                        if (userInfos == null || userInfos.size() == 0) {
-                            RLog.e(TAG, "onGetGroupMembersResult userInfos is null!");
-                            return;
-                        }
-                        userInfoArrayList.addAll(userInfos);
-
-                        Message message = new Message();
-                        message.obj = GROUPMEMBERSRESULT_KEY;
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList(GROUPMEMBERSRESULT_KEY, userInfoArrayList);
-                        bundle.putInt("conversationType",conversationType.getValue());
-                        message.setData(bundle);
-                        mHandler.sendMessage(message);
-                    }
-                });
-            }
         }
 
-        callkit_conference_selected_number = (TextView) findViewById(R.id.callkit_conference_selected_number);
+        callkit_conference_selected_number= (TextView) findViewById(R.id.callkit_conference_selected_number);
+        callkit_conference_selected_number.setText(getString(R.string.callkit_selected_contacts_count,allMembers==null?0:allMembers.size()));
         txtvStart = (TextView) findViewById(R.id.callkit_btn_ok);
-        txtvStart.setText(getString(R.string.callkit_voip_ok));
         txtvStart.setEnabled(false);
         txtvStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,8 +152,16 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
             }
         });
 
+        if (allMembers == null) {
+            allMembers = invitedMembers;
+        }
+
         mList = (ListView) findViewById(R.id.calkit_list_view_select_member);
-        mList.setOnItemClickListener(adapterOnItemClickListener);
+        if (invitedMembers != null && invitedMembers.size() > 0) {
+            mAdapter = new ListAdapter(allMembers, invitedMembers);
+            mList.setAdapter(mAdapter);
+            mList.setOnItemClickListener(adapterOnItemClickListener);
+        }
         rlSearchTop = (RelativeLayout) findViewById(R.id.rl_search_top);
         ivBack = (ImageView) findViewById(R.id.iv_back);
         searchBar = (CallKitSearchBarView) findViewById(R.id.search_bar);
@@ -276,17 +170,17 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
             public void onClick(View v) {
                 rlSearchTop.setVisibility(View.GONE);
                 rlActionBar.setVisibility(View.VISIBLE);
-                mAdapter.setAllMembers(userInfoArrayList);
+                mAdapter.setAllMembers(allMembers);
                 mAdapter.notifyDataSetChanged();
-                CallKitUtils.closeKeyBoard(CallSelectMemberActivity.this, null);
+                CallKitUtils.closeKeyBoard(CallSelectMemberActivity.this,null);
             }
         });
         searchBar.setSearchBarListener(new CallKitSearchBarListener() {
             @Override
             public void onSearchStart(String content) {
-                if (userInfoArrayList != null && userInfoArrayList.size() > 0) {
+                if(allMembers!=null && allMembers.size()>0){
                     startSearchMember(content);
-                } else {
+                }else{
                     Toast.makeText(CallSelectMemberActivity.this, "暂无数据提供搜索！", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -298,7 +192,7 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
             @Override
             public void onClearButtonClick() {
                 if (invitedMembers != null) {
-                    mAdapter = new ListAdapter(userInfoArrayList, invitedMembers);
+                    mAdapter = new ListAdapter(allMembers, invitedMembers);
                     mList.setAdapter(mAdapter);
                     mList.setOnItemClickListener(adapterOnItemClickListener);
                 }
@@ -311,27 +205,25 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
         try {
             searchMembers.clear();
             tempMembers.clear();
-            if (!TextUtils.isEmpty(searchEditContent)) {
-                for (UserInfo info : userInfoArrayList) {
-                    if (info != null && !TextUtils.isEmpty(info.getUserId())) {
-                        if (((String) tempNickmembers.get(info.getUserId())).indexOf(searchEditContent) != -1) {
-                            tempMembers.add(info);
-                        }
+            if(!TextUtils.isEmpty(searchEditContent)){
+                for (String name:allMembers){
+                    if(((String)tempNickmembers.get(name)).indexOf(searchEditContent)!=-1){
+                        searchMembers.add(name);
                     }
                 }
-            } else {
-                tempMembers.addAll(userInfoArrayList);
+                tempMembers.addAll(searchMembers);
+            }else{
+                tempMembers.addAll(allMembers);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            tempMembers.addAll(userInfoArrayList);
+            tempMembers.addAll(allMembers);
         }
-//        closeKeyBoard(this, searchBar);
         setData();
     }
 
     private void setData() {
-        if (null != tempMembers) {
+        if(null!=tempMembers && tempMembers.size()>0){
             ListAdapter adapter = new ListAdapter(tempMembers, invitedMembers);
             mList.setAdapter(adapter);
             mList.setOnItemClickListener(adapterOnItemClickListener);
@@ -345,15 +237,15 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
     }
 
     class ListAdapter extends BaseAdapter {
-        List<UserInfo> mallMembers;
+        List<String> mallMembers;
         List<String> invitedMembers;
 
-        public ListAdapter(List<UserInfo> allMembers, List<String> invitedMembers) {
+        public ListAdapter(List<String> allMembers, List<String> invitedMembers) {
             this.mallMembers = allMembers;
             this.invitedMembers = invitedMembers;
         }
 
-        public void setAllMembers(List<UserInfo> allMembers) {
+        public void setAllMembers(List<String> allMembers) {
             this.mallMembers = allMembers;
         }
 
@@ -384,18 +276,14 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
                 convertView.setTag(holder);
             }
 
-            UserInfo mUserInfo = mallMembers.get(position);
-            if (mUserInfo == null || TextUtils.isEmpty(mUserInfo.getUserId())) {
-                return convertView;
-            }
             holder = (ViewHolder) convertView.getTag();
-            holder.checkbox.setTag(mUserInfo.getUserId());
-            if (invitedMembers.contains(mUserInfo.getUserId())) {
+            holder.checkbox.setTag(mallMembers.get(position));
+            if (invitedMembers.contains(mallMembers.get(position))) {
                 holder.checkbox.setClickable(false);
                 holder.checkbox.setEnabled(false);
                 holder.checkbox.setImageResource(R.drawable.rc_voip_icon_checkbox_checked);
             } else {
-                if (selectedMember.contains(mUserInfo.getUserId())) {
+                if (selectedMember.contains(mallMembers.get(position))) {
                     holder.checkbox.setImageResource(R.drawable.rc_voip_checkbox);
                     holder.checkbox.setSelected(true);
                 } else {
@@ -405,20 +293,27 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
                 holder.checkbox.setClickable(false);
                 holder.checkbox.setEnabled(true);
             }
-
+            UserInfo userInfo = RongContext.getInstance().getUserInfoFromCache(mallMembers.get(position));
             String displayName = "";
             if (conversationType != null && conversationType.equals(Conversation.ConversationType.GROUP)) {
-                GroupUserInfo groupUserInfo = RongUserInfoManager.getInstance().getGroupUserInfo(groupId, mUserInfo.getUserId());
+                GroupUserInfo groupUserInfo = RongUserInfoManager.getInstance().getGroupUserInfo(groupId, mallMembers.get(position));
                 if (groupUserInfo != null && !TextUtils.isEmpty(groupUserInfo.getNickname())) {
                     displayName = groupUserInfo.getNickname();
+                    holder.name.setText(displayName);
                 }
             }
             if (TextUtils.isEmpty(displayName)) {
-                holder.name.setText(mUserInfo.getName());
-            } else {
-                holder.name.setText(displayName);
+                if (userInfo != null) {
+                    holder.name.setText(userInfo.getName());
+                } else {
+                    holder.name.setText(mallMembers.get(position));
+                }
             }
-            holder.portrait.setAvatar(mUserInfo.getPortraitUri());
+            if (userInfo != null) {
+                holder.portrait.setAvatar(userInfo.getPortraitUri());
+            } else {
+                holder.portrait.setAvatar(null);
+            }
             return convertView;
         }
     }
@@ -430,11 +325,8 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
 
             int index = first - 1;
 
-            UserInfo tmpUserInfo;
             while (++index <= last && index >= 0 && index < mAdapter.getCount()) {
-                tmpUserInfo = (UserInfo) mAdapter.getItem(index);
-                if (userInfo != null && !TextUtils.isEmpty(userInfo.getUserId()) &&
-                        tmpUserInfo!=null && tmpUserInfo.getUserId().equals(userInfo.getUserId())) {
+                if (mAdapter.getItem(index).equals(userInfo.getUserId())) {
                     mAdapter.getView(index, mList.getChildAt(index - mList.getFirstVisiblePosition() + mList.getHeaderViewsCount()), mList);
                 }
             }
@@ -462,7 +354,7 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
             }
         });
         TextView titleTextView = (TextView) findViewById(R.id.tv_custom_nav_title);
-        titleTextView.setText(getString(R.string.rc_select_contact));
+        titleTextView.setText("选择联系人");
         titleTextView.setTextSize(18);
         titleTextView.setTextColor(getResources().getColor(R.color.callkit_normal_text));
 
@@ -477,14 +369,14 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
         });
     }
 
-    private AdapterView.OnItemClickListener adapterOnItemClickListener = new AdapterView.OnItemClickListener() {
+    private AdapterView.OnItemClickListener adapterOnItemClickListener=new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             View v = view.findViewById(R.id.rc_checkbox);
             String userId = (String) v.getTag();
             if (!invitedMembers.contains(userId)) {
-                if (v.isSelected()) {
-                    if (selectedMember.contains(userId)) {
+                if(v.isSelected()){
+                    if(selectedMember.contains(userId)){
                         selectedMember.remove(userId);
                     }
                     if (observerMember.contains(userId)) {
@@ -494,55 +386,46 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
                     if (selectedMember.size() == 0 && observerMember.size() == 0) {
                         txtvStart.setEnabled(false);
                         txtvStart.setTextColor(getResources().getColor(R.color.callkit_color_text_operation_disable));
-                        callkit_conference_selected_number.setTextColor(getResources().getColor(R.color.callkit_color_text_operation_disable));
-                    }
-                    if (searchMembers != null) {
-                        callkit_conference_selected_number.setText(getString(R.string.callkit_selected_contacts_count, selectedMember.size()));
                     }
                     return;
                 }
-                int totalNumber = selectedMember.size() + invitedMembers.size();
-                boolean videoObserverState = totalNumber >= (mMediaType.equals(RongCallCommon.CallMediaType.AUDIO) ? NORMAL_AUDIO_NUMBER : NORMAL_VIDEO_NUMBER);
-                if (ctrlTag) {
-                    if (videoObserverState) {
-                        Toast.makeText(CallSelectMemberActivity.this, String.format(getString(mMediaType.equals(RongCallCommon.CallMediaType.AUDIO) ? R.string.rc_voip_audio_numberofobservers : R.string.rc_voip_video_numberofobservers), totalNumber), Toast.LENGTH_SHORT).show();
+                int totalNumber=selectedMember.size() + (invitedMembers.size()-(allObserver==null?0:allObserver.size()));
+                boolean videoObserverState= totalNumber>= (mMediaType.equals(RongCallCommon.CallMediaType.AUDIO)?NORMAL_AUDIO_NUMBER:NORMAL_VIDEO_NUMBER);
+                if(ctrlTag){
+                    if(videoObserverState){
+                        Toast.makeText(CallSelectMemberActivity.this, String.format(getString(mMediaType.equals(RongCallCommon.CallMediaType.AUDIO)?R.string.rc_voip_audio_numberofobservers:R.string.rc_voip_video_numberofobservers),totalNumber), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if (selectedMember.contains(userId)) {
+                    if(selectedMember.contains(userId)){
                         selectedMember.remove(userId);
                     }
                     v.setSelected(!v.isSelected());//1 false
                     if (v.isSelected()) {
                         selectedMember.add(userId);
                     }
-                    if (selectedMember.size() > 0 || observerMember.size() > 0) {
+                    if (selectedMember.size() > 0 || observerMember.size()>0) {
                         txtvStart.setEnabled(true);
                         txtvStart.setTextColor(getResources().getColor(R.color.rc_voip_check_enable));
-                        callkit_conference_selected_number.setTextColor(getResources().getColor(R.color.rc_voip_check_enable));
                     } else {
                         txtvStart.setEnabled(false);
                         txtvStart.setTextColor(getResources().getColor(R.color.callkit_color_text_operation_disable));
-                        callkit_conference_selected_number.setTextColor(getResources().getColor(R.color.callkit_color_text_operation_disable));
                     }
-                } else {
-                    if (videoObserverState && isFirstDialog) {
+                }else{
+                    if(videoObserverState && isFirstDialog){
                         CallPromptDialog dialog = CallPromptDialog.newInstance(CallSelectMemberActivity.this, getString(R.string.rc_voip_video_observer));
                         dialog.setPromptButtonClickedListener(new CallPromptDialog.OnPromptButtonClickedListener() {
                             @Override
-                            public void onPositiveButtonClicked() {
-                            }
-
+                            public void onPositiveButtonClicked() {}
                             @Override
-                            public void onNegativeButtonClicked() {
-                            }
+                            public void onNegativeButtonClicked() {}
                         });
                         dialog.disableCancel();
                         dialog.setCancelable(false);
                         dialog.show();
-                        isFirstDialog = false;
+                        isFirstDialog=false;
                     }
                     v.setSelected(!v.isSelected());//1 false
-                    if (videoObserverState) {
+                    if(videoObserverState){
                         if (observerMember.contains(userId)) {
                             observerMember.remove(userId);
                         }
@@ -554,55 +437,18 @@ public class CallSelectMemberActivity extends BaseNoActionBarActivity {
                     if (v.isSelected()) {
                         selectedMember.add(userId);
                     }
-                    if (selectedMember.size() > 0 || observerMember.size() > 0) {
+                    if (selectedMember.size() > 0 ||observerMember.size()>0) {
                         txtvStart.setEnabled(true);
                         txtvStart.setTextColor(getResources().getColor(R.color.rc_voip_check_enable));
-                        callkit_conference_selected_number.setTextColor(getResources().getColor(R.color.rc_voip_check_enable));
                     } else {
                         txtvStart.setEnabled(false);
                         txtvStart.setTextColor(getResources().getColor(R.color.callkit_color_text_operation_disable));
-                        callkit_conference_selected_number.setTextColor(getResources().getColor(R.color.callkit_color_text_operation_disable));
                     }
                 }
             }
-            if (searchMembers != null) {
+            if(searchMembers!=null){
                 callkit_conference_selected_number.setText(getString(R.string.callkit_selected_contacts_count, selectedMember.size()));
             }
         }
     };
-
-    /**
-     * 关闭软键盘
-     *
-     * @param activity
-     * @param view
-     */
-    private void closeKeyBoard(Activity activity, View view) {
-        IBinder token;
-        if (view == null || view.getWindowToken() == null) {
-            if (null == activity) {
-                return;
-            }
-            Window window = activity.getWindow();
-            if (window == null) {
-                return;
-            }
-            View v = window.peekDecorView();
-            if (v == null) {
-                return;
-            }
-            token = v.getWindowToken();
-        } else {
-            token = view.getWindowToken();
-        }
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(token, 0);
-    }
-
-    private UserInfo getUserInfo(String userid) {
-        if (TextUtils.isEmpty(userid)) {
-            return null;
-        }
-        return RongContext.getInstance().getUserInfoFromCache(userid);
-    }
 }
