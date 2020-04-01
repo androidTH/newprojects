@@ -16,6 +16,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.util.SparseArray
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.ImageNewPagerAdapter
@@ -121,6 +122,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 initGift()
             }
         },200)
+
     }
     var key = 0
     private fun initData() {
@@ -187,12 +189,13 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
     }
 
-    private fun startCountDownTimer(position: Int){
+    fun startCountDownTimer(){
         rl_firepics.visibility = View.GONE
         rl_countdowntimer.visibility = View.GONE
+        rl_firepics_tips.visibility = View.GONE
         if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
-            var fireType = mFirePicsIndex[position]
-            if(TextUtils.equals("2",fireType)&&!TextUtils.equals(userId, getLocalUserId())){
+            var fireType = mFirePicsIndex[mImageViewPager.currentItem]
+            if(TextUtils.equals("1",fireType)&&!TextUtils.equals(userId, getLocalUserId())){
                 if(timer!=null){
                     timer?.let {
                         it.cancel()
@@ -213,10 +216,10 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                                 timer?.let {
                                     it.cancel()
                                 }
-                                doFirePicsBg()
                                 mFirePicsIndex[mImageViewPager.currentItem] = "3"
                                 rl_firepics.visibility = View.VISIBLE
                                 rl_countdowntimer.visibility = View.GONE
+                                doFirePicsBg()
                             }
                         }
 
@@ -229,7 +232,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                     }
                 }
             }else{
-                rl_firepics.visibility = View.VISIBLE
+                rl_firepics.visibility = View.GONE
                 if(timer!=null){
                     timer?.let {
                         it.cancel()
@@ -238,6 +241,19 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 }
             }
         }
+    }
+
+    public fun cancelTimer(){
+        if(timer!=null){
+            timer?.let {
+                it.cancel()
+                timer=null
+            }
+        }
+        mFirePicsIndex[mImageViewPager.currentItem] = "3"
+        rl_firepics.visibility = View.VISIBLE
+        rl_countdowntimer.visibility = View.GONE
+        doFirePicsBg()
     }
 
     private fun doFirePicsBg(){
@@ -305,14 +321,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 //                    tv_tips.text = "打赏后可见"
                     iv_unflock.visibility = View.GONE
                     rl_tips.visibility = View.GONE
-                    if(timer!=null){
-                        timer?.let {
-                            it.cancel()
-                            timer=null
-                            rl_countdowntimer.visibility = View.GONE
-                            rl_firepics.visibility = View.GONE
-                        }
-                    }
+                    rl_countdowntimer.visibility = View.GONE
+                    rl_firepics.visibility = View.GONE
                 }else{
                     rl_paypoints.visibility = View.GONE
                     rl_tips.visibility = View.VISIBLE
@@ -325,18 +335,23 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 //                    tv_tips.text = "解锁状态"
                     iv_unflock.visibility = View.VISIBLE
                     rl_tips.visibility = View.GONE
-                    startCountDownTimer(position)
+//                    startCountDownTimer(position)
+                    rl_firepics_tips.visibility = View.VISIBLE
                 }else{
                     tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
                 }
             }else{
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.GONE
-                startCountDownTimer(position)
+                rl_firepics_tips.visibility = View.VISIBLE
+
+                rl_countdowntimer.visibility = View.GONE
+                rl_firepics.visibility = View.GONE
+//                startCountDownTimer(position)
             }
         }else{
             rl_paypoints.visibility = View.GONE
-            startCountDownTimer(position)
+//            startCountDownTimer(position)
         }
     }
 

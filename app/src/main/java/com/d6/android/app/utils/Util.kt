@@ -1360,6 +1360,17 @@ fun setRightDrawable(drawable: Drawable?, textView: TextView){
     }
 }
 
+fun setTopDrawable(drawable: Drawable?, textView: TextView){
+    drawable?.let {
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight())
+        if(it!=null){
+            textView.setCompoundDrawables(null, drawable, null, null)
+        }else{
+            textView.setCompoundDrawables(null, null, null, null)
+        }
+    }
+}
+
 fun getDialogIsorNot(activity: BaseActivity,code:Int,msg:String): DialogYesOrNo{
     var mDialogYesOrNo = DialogYesOrNo()
     mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg)

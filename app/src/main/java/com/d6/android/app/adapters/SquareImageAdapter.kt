@@ -1,6 +1,7 @@
 package com.d6.android.app.adapters
 
 import android.graphics.Bitmap
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.transition.Transition
 import android.util.Log
@@ -16,8 +17,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.Square
-import com.d6.android.app.utils.BitmapUtils
-import com.d6.android.app.utils.getLocalUserId
+import com.d6.android.app.utils.*
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
@@ -36,6 +36,7 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
         var iv_unlock = holder.bind<ImageView>(R.id.iv_unlock)
         var mIvBg = holder.bind<ImageView>(R.id.iv_firepic_bg)
+        var iv_fire = holder.bind<TextView>(R.id.iv_fire)
                 if(mBlurIndex!=null&&mBlurIndex.size>position){
                     var blurType = mBlurIndex[position]
                     if(TextUtils.equals("2",blurType)){
@@ -43,49 +44,68 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                             iv_lock.visibility = View.GONE
                             iv_unlock.visibility = View.GONE
                             mIvBg.visibility = View.GONE
+                            iv_fire.visibility = View.GONE
+                            imageView.visibility = View.VISIBLE
                             imageView.showBlur(data)
                         }else{
                             iv_lock.visibility = View.VISIBLE
                             iv_unlock.visibility = View.GONE
                             mIvBg.visibility = View.GONE
+                            iv_fire.visibility = View.GONE
+                            imageView.visibility = View.VISIBLE
                             imageView.showBlur(data)
                         }
                     }else if(TextUtils.equals("3",blurType)){
                         if(TextUtils.equals("${mSquare!!.userid}", getLocalUserId())){
                             iv_lock.visibility = View.GONE
                             iv_unlock.visibility = View.GONE
-                            mIvBg.visibility = View.GONE
+                            mIvBg.visibility = View.VISIBLE
+                            iv_fire.visibility = View.VISIBLE
+                            imageView.visibility = View.GONE
                             imageView.showBlur(data)
-//                            Glide.with(context).asBitmap().load(data).into(object : SimpleTarget<Bitmap>() {
-//                                override fun onResourceReady(p0: Bitmap?, p1: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
-//                                    p0?.let {
-//                                        BitmapUtils.setVibraite(it,mIvBg)
-//                                    }
-//                                }
-//                            })
+                            Glide.with(context).asBitmap().load(data).into(object : SimpleTarget<Bitmap>() {
+                                override fun onResourceReady(p0: Bitmap?, p1: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
+                                    p0?.let {
+                                        BitmapUtils.setVibraite(it,mIvBg)
+                                    }
+                                }
+                            })
+                            iv_fire.text = "照片已焚毁"
+                            var drawable  = ContextCompat.getDrawable(context, R.mipmap.pic_firepic_icon)
+                            setTopDrawable(drawable,iv_fire)
                         }else{
                             iv_unlock.visibility = View.VISIBLE
                             iv_lock.visibility = View.GONE
-                            mIvBg.visibility = View.GONE
+                            mIvBg.visibility = View.VISIBLE
+                            iv_fire.visibility = View.VISIBLE
+                            imageView.visibility = View.GONE
                             imageView.setImageURI(data)
-//                            Glide.with(context).asBitmap().load(data).into(object : SimpleTarget<Bitmap>() {
-//                                override fun onResourceReady(p0: Bitmap?, p1: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
-//                                    p0?.let {
-//                                        BitmapUtils.setVibraite(it,mIvBg)
-//                                    }
-//                                }
-//                            })
+                            Glide.with(context).asBitmap().load(data).into(object : SimpleTarget<Bitmap>() {
+                                override fun onResourceReady(p0: Bitmap?, p1: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
+                                    p0?.let {
+                                        BitmapUtils.setVibraite(it,mIvBg)
+                                    }
+                                }
+                            })
+
+                            iv_fire.text = "照片已焚毁"
+                            var drawable  = ContextCompat.getDrawable(context, R.mipmap.pic_firepic_icon)
+                            setTopDrawable(drawable,iv_fire)
                         }
                     }else{
                         iv_unlock.visibility = View.GONE
                         iv_lock.visibility = View.GONE
                         mIvBg.visibility = View.GONE
+                        iv_fire.visibility = View.GONE
+                        imageView.visibility = View.VISIBLE
                         imageView.setImageURI(data)
                     }
                 }else{
                     iv_lock.visibility = View.GONE
                     iv_unlock.visibility = View.GONE
                     mIvBg.visibility = View.GONE
+                    iv_fire.visibility = View.GONE
+                    imageView.visibility = View.VISIBLE
                     imageView.setImageURI(data)
                 }
 

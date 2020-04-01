@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -77,6 +78,28 @@ class ImageFragment : BaseNoBarFragment() {
             if(activity!=null){
                 (activity as ImagePagerActivity).onBackPressed()
             }
+        }
+
+        sampimgview.setOnLongClickListener(object:View.OnLongClickListener{
+            override fun onLongClick(v: View?): Boolean {
+                if(activity!=null){
+                    (activity as ImagePagerActivity).startCountDownTimer()
+                }
+                Log.i("setOnTouchListener","开始了")
+                return true
+            }
+        })
+
+        sampimgview.setOnTouchListener { v, event ->
+            when(event.action){
+                MotionEvent.ACTION_UP-> {
+                    if (activity != null) {
+                        (activity as ImagePagerActivity).cancelTimer()
+                    }
+                    Log.i("setOnTouchListener", "结束了")
+                }
+            }
+            false
         }
     }
 

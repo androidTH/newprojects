@@ -3,7 +3,7 @@
     <!--原图压缩比例-->
     <integer name="rc_image_quality">85</integer>
     <!--原图压缩宽、高-->
-    <integer name="rc_image_size">960</integer>
+    <integer name="rc_image_size">1080</integer>
 
     <!--配置发送图片时，如果图片大小不超过 200k 则发送原图-->
     <integer name="rc_max_original_image_size">200</integer>
@@ -16,13 +16,13 @@
     <bool name="rc_extension_history">false</bool>
     <!-- 设置心跳包的timer, 默认2分半（150000） , 最小值为10秒（10000）建议不要超过3分钟-->
     <string name="rc_heartbeat_timer">150000</string>
-    <!--&lt;!&ndash;实时位置共享最大人数&ndash;&gt;-->
-    <!--<integer name="rc_max_realtime_location_participants">5</integer>-->
-    <!--&lt;!&ndash;实时位置共享会话类型&ndash;&gt;-->
-    <!--<string-array name="rc_realtime_support_conversation_types" translatable="false">-->
-        <!--<item>private</item>-->
-        <!--<item>group</item>-->
-    <!--</string-array>-->
+    <!--实时位置共享最大人数-->
+    <integer name="rc_max_realtime_location_participants">5</integer>
+    <!--实时位置共享会话类型-->
+    <string-array name="rc_realtime_support_conversation_types" translatable="false">
+        <item>private</item>
+        <item>group</item>
+    </string-array>
 
     <!--自定义配置重连间隔-->
     <!--SDK 会自动启动重连机制进行10次重连(根据配置的数量)，分别是1, 2, 4, 8, 16, 32, 64, 128, 256, 512秒后-->
@@ -42,6 +42,8 @@
 
     <!-- 断点续传每片的长度（单位：Byte）默认 1M : 1024 * 1024 = 1048576 -->
     <integer name="rc_resume_file_transfer_size_each_slice">1048576</integer>
+    <!--是否开启 Q 存储空间模式-->
+    <bool name="rc_q_storage_mode_enable">false</bool>
     <!--push 心跳,默认 4 min-->
     <string name="push_heartbeat_timer">240000</string>
 </resources>

@@ -5,8 +5,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 2019060617
-        versionName "2.9.18 Stable"
+        versionCode 2020021918
+        versionName "2.10.4 release"
     }
     buildTypes {
         release {
@@ -31,8 +31,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'src/main/libs', include: ['*.jar'])
-    compile "com.android.support:support-v4:${support_version}"
-    compile 'com.android.support:support-v4:26.0.0'
+    compile "com.android.support:support-v4:26.0.0"
     compile 'com.android.support:exifinterface:26.1.0'
     api 'com.googlecode.mp4parser:isoparser:1.1.21'
     compile project (':IMLib')

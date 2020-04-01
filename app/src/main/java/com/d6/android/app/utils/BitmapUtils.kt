@@ -15,9 +15,11 @@ import java.io.*
 import java.math.BigDecimal
 import android.media.ThumbnailUtils.OPTIONS_RECYCLE_INPUT
 import android.media.ThumbnailUtils.createVideoThumbnail
+import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.util.Log
 import android.view.View
+import com.d6.android.app.R
 import com.d6.android.app.widget.DrawViewBg
 import com.davemorrissey.labs.subscaleview.ImageSource
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
@@ -386,15 +388,19 @@ object BitmapUtils {
         Palette.from(bitmap).generate { palette ->
             //				Palette.Swatch swatch = palette.getMutedSwatch();
             val swatch = palette.vibrantSwatch
-            //Palette.Swatch swatch = palette.getDarkMutedSwatch();
-            //Palette.Swatch swatch = palette.getDarkVibrantSwatch();
-            //Palette.Swatch swatch = palette.getLightMutedSwatch();
-            //Palette.Swatch swatch = palette.getLightVibrantSwatch();
+//            val swatch1 = palette.darkMutedSwatch
+//            var swatch2 = palette.darkVibrantSwatch
+            var swatch3 = palette.lightMutedSwatch
+//            var swatch4 = palette.lightVibrantSwatch
             if (swatch != null) {
                 Log.e("smallsoho", "swatch为空-----${swatch.rgb}")
                 view.backgroundColor = swatch.rgb
             } else {
+                view.backgroundColor = ContextCompat.getColor(view.context, R.color.color_CDCDCD)
                 Log.e("smallsoho", "swatch为空")
+//                if(swatch4!=null){
+//                    view.backgroundColor = swatch4.rgb
+//                }
             }
         }
     }
@@ -406,6 +412,7 @@ object BitmapUtils {
                 Log.e("smallsoho", "swatch为空:${swatch.rgb}")
                 mFireViewBg.setPaintColor(swatch.rgb,2,2)
             } else {
+                mFireViewBg.setPaintColor(ContextCompat.getColor(mFireViewBg.context,R.color.color_666666),2,2)
                 Log.e("smallsoho", "swatch为空")
             }
         }

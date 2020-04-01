@@ -1,13 +1,16 @@
 package io.rong.callkit;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.rongcloud.rtc.utils.FinLog;
+import io.rong.callkit.util.ActivityStartCheckUtils;
 import io.rong.calllib.IRongReceivedCallListener;
 import io.rong.calllib.RongCallClient;
 import io.rong.calllib.RongCallCommon;
@@ -21,6 +24,8 @@ import io.rong.imkit.manager.IExternalModule;
 import io.rong.imkit.plugin.IPluginModule;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.push.RongPushClient;
+import io.rong.push.notification.PushNotificationMessage;
 
 /**
  * Created by weiqinxiao on 16/8/15.
@@ -41,7 +46,7 @@ public class RongCallModule implements IExternalModule {
     public void onInitialized(String appKey) {
         RongIM.registerMessageTemplate(new CallEndMessageItemProvider());
         RongIM.registerMessageTemplate(new MultiCallEndMessageProvider());
-//        initMissedCallListener();
+        initMissedCallListener();
     }
 
     private void initMissedCallListener() {
@@ -70,7 +75,6 @@ public class RongCallModule implements IExternalModule {
                         } else {
                             message.setDirection("MT");
                             io.rong.imlib.model.Message.ReceivedStatus receivedStatus = new io.rong.imlib.model.Message.ReceivedStatus(0);
-                            receivedStatus.setRead();
                             RongIM.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE, callSession.getTargetId(), senderId, receivedStatus, message, callSession.getStartTime(), null);
                         }
                     } else if (callSession.getConversationType() == Conversation.ConversationType.GROUP) {
@@ -98,15 +102,16 @@ public class RongCallModule implements IExternalModule {
     @Override
     public void onConnected(String token) {
         RongCallClient.getInstance().setVoIPCallListener(RongCallProxy.getInstance());
-        // 开启音视频日志，如果不需要开启，则去掉下面这句。
         RongCallClient.getInstance().setEnablePrintLog(true);
-        RongCallClient.getInstance().setVideoProfile(RongCallCommon.CallVideoProfile.VIDEO_PROFILE_720P);
+
+        /**
+         * 音视频参数配置信息设置方法：{@link BaseCallActivity#audioVideoConfig()}
+         */
     }
 
     @Override
     public void onCreate(final Context context) {
         mContext = context;
-        mViewLoaded = true;
         IRongReceivedCallListener callListener = new IRongReceivedCallListener() {
             @Override
             public void onReceivedCall(final RongCallSession callSession) {
@@ -131,6 +136,7 @@ public class RongCallModule implements IExternalModule {
         };
 
         RongCallClient.setReceivedCallListener(callListener);
+        ActivityStartCheckUtils.getInstance().registerActivityLifecycleCallbacks(context);
     }
 
     /**
@@ -142,6 +148,7 @@ public class RongCallModule implements IExternalModule {
      */
     @Override
     public void onViewCreated() {
+        mViewLoaded = true;
         if (mCallSession != null) {
             startVoIPActivity(mContext, mCallSession, false);
         }
@@ -177,8 +184,30 @@ public class RongCallModule implements IExternalModule {
      *                                 其它情况下设置为false。
      */
     private void startVoIPActivity(Context context, final RongCallSession callSession, boolean startForCheckPermissions) {
-        RLog.d("VoIPReceiver", "startVoIPActivity");
         FinLog.d("VoIPReceiver", "startVoIPActivity");
+        //        // 在 Android 10 以上版本不再允许后台运行 Activity
+        if (Build.VERSION.SDK_INT < 29 || isAppOnForeground(context)) {
+//        if (isAppOnForeground(context)) {
+            context.startActivity(createVoIPIntent(context, callSession, startForCheckPermissions));
+        }else {
+            onSendBroadcast(context,callSession,startForCheckPermissions);
+        }
+        mCallSession = null;
+    }
+
+    private void onSendBroadcast(Context context, RongCallSession callSession, boolean startForCheckPermissions) {
+        Intent intent = new Intent();
+        intent.setPackage(context.getPackageName());
+        //intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.putExtra("message", transformToPushMessage(context,callSession));
+        intent.putExtra("callsession",callSession);
+        intent.putExtra("checkPermissions",startForCheckPermissions);
+        intent.setAction(VoIPBroadcastReceiver.ACTION_CALLINVITEMESSAGE);
+        context.sendBroadcast(intent);
+    }
+
+    public static Intent createVoIPIntent(Context context, RongCallSession callSession, boolean startForCheckPermissions) {
+        Intent intent;
         String action;
         if (callSession.getConversationType().equals(Conversation.ConversationType.DISCUSSION)
                 || callSession.getConversationType().equals(Conversation.ConversationType.GROUP)
@@ -188,7 +217,7 @@ public class RongCallModule implements IExternalModule {
             } else {
                 action = RongVoIPIntent.RONG_INTENT_ACTION_VOIP_MULTIAUDIO;
             }
-            Intent intent = new Intent(action);
+            intent = new Intent(action);
             intent.putExtra("callSession", callSession);
             intent.putExtra("callAction", RongCallAction.ACTION_INCOMING_CALL.getName());
             if (startForCheckPermissions) {
@@ -198,14 +227,13 @@ public class RongCallModule implements IExternalModule {
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setPackage(context.getPackageName());
-            context.startActivity(intent);
         } else {
             if (callSession.getMediaType().equals(RongCallCommon.CallMediaType.VIDEO)) {
                 action = RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEVIDEO;
             } else {
                 action = RongVoIPIntent.RONG_INTENT_ACTION_VOIP_SINGLEAUDIO;
             }
-            Intent intent = new Intent(action);
+            intent = new Intent(action);
             intent.putExtra("callSession", callSession);
             intent.putExtra("callAction", RongCallAction.ACTION_INCOMING_CALL.getName());
             if (startForCheckPermissions) {
@@ -215,8 +243,50 @@ public class RongCallModule implements IExternalModule {
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setPackage(context.getPackageName());
-            context.startActivity(intent);
         }
-        mCallSession = null;
+        return intent;
+    }
+
+    /**
+     * 将 RongCallSession 转换为 PushNotificationMessage
+     * @param session
+     * @return
+     */
+    private PushNotificationMessage transformToPushMessage(Context context,RongCallSession session) {
+        PushNotificationMessage pushMsg = new PushNotificationMessage();
+//        pushMsg.setPushContent(session.getMediaType() == RongCallCommon.CallMediaType.AUDIO ? "音频电话呼叫" : "视频电话呼叫");
+        pushMsg.setPushTitle((String) context.getPackageManager().getApplicationLabel(context.getApplicationInfo()));
+        pushMsg.setConversationType(RongPushClient.ConversationType.setValue(session.getConversationType().getValue()));
+        pushMsg.setTargetId(session.getTargetId());
+        pushMsg.setTargetUserName("");
+        pushMsg.setSenderId(session.getCallerUserId());
+        pushMsg.setSenderName("");
+        pushMsg.setObjectName("RC:VCInvite");
+        pushMsg.setPushFlag("false");
+        pushMsg.setToId(RongIMClient.getInstance().getCurrentUserId());
+        pushMsg.setSourceType(PushNotificationMessage.PushSourceType.LOCAL_MESSAGE);
+//        pushMsg.setPushId(session.getUId());
+        return pushMsg;
+    }
+
+    /**
+     * 判断应用是否处于前台
+     * @param context
+     * @return
+     */
+    private boolean isAppOnForeground(Context context){
+        if (context == null)
+            return false;
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null)
+            return false;
+        String apkName = context.getPackageName();
+
+        for (ActivityManager.RunningAppProcessInfo app : appProcesses) {
+            if (TextUtils.equals(apkName,app.processName) && ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND == app.importance)
+                return true;
+        }
+        return false;
     }
 }
