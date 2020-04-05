@@ -32,24 +32,24 @@
             android:layout_height="19dp"
             android:src="@mipmap/feedpic_unlock"/>
     </RelativeLayout>
-    <com.d6.android.app.widget.SquareRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/iv_firepic_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <TextView
-            android:id="@+id/iv_fire"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawablePadding="@dimen/margin_6"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:visibility="gone"
-            android:textStyle="bold"
-            android:drawableTop="@mipmap/pic_fire_icon"/>
-    </com.d6.android.app.widget.SquareRelativeLayout>
+    <TextView
+        android:id="@+id/iv_fire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawablePadding="@dimen/margin_6"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:visibility="gone"
+        android:textStyle="bold"
+        android:drawableTop="@mipmap/pic_fire_icon"/>
+    <!--<com.d6.android.app.widget.SquareRelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_firepic_bg"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+    <!--</com.d6.android.app.widget.SquareRelativeLayout>-->
 
 </RelativeLayout>

@@ -66,10 +66,9 @@ class ImageFragment : BaseNoBarFragment() {
             if(isFire){
                 doFirePics(isFire)
             }else{
+                iv_firepic_gb.visibility = View.GONE
                 updatePicUrl(activity,"${url}",isBlur)
             }
-//            Glide.with(this).load(url)
-//                    .into(iv_firepic_gb)
         }catch (e:Exception){
             e.printStackTrace()
         }
@@ -166,13 +165,14 @@ class ImageFragment : BaseNoBarFragment() {
         if(isFirePic){
             Log.e("smallsoho", "swatch为空:${url}")
             sampimgview.visibility = View.GONE
-            Glide.with(context).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
-                override fun onResourceReady(p0: Bitmap?, p1: Transition<in Bitmap>?) {
-                    p0?.let {
-                        BitmapUtils.setVibraiteCanvasBitmap(p0,iv_firepic_gb,drawview_firepicbg)
-                    }
-                }
-            })
+            iv_firepic_gb.visibility = View.VISIBLE
+//            Glide.with(context).asBitmap().load(url).into(object : SimpleTarget<Bitmap>() {
+//                override fun onResourceReady(p0: Bitmap?, p1: Transition<in Bitmap>?) {
+//                    p0?.let {
+//                        BitmapUtils.setVibraiteCanvasBitmap(p0,iv_firepic_gb,drawview_firepicbg)
+//                    }
+//                }
+//            })
         }
     }
 

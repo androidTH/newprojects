@@ -36,7 +36,7 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         val imageView = with(holder) { bind<SimpleDraweeView>(R.id.imageView) }
         var iv_lock = holder.bind<ImageView>(R.id.iv_lock)
         var iv_unlock = holder.bind<ImageView>(R.id.iv_unlock)
-        var mIvBg = holder.bind<ImageView>(R.id.iv_firepic_bg)
+//        var mIvBg = holder.bind<ImageView>(R.id.iv_firepic_bg)
         var iv_fire = holder.bind<TextView>(R.id.iv_fire)
         if (mBlurIndex != null && mBlurIndex.size > position) {
             var blurType = mBlurIndex[position]
@@ -46,7 +46,7 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     iv_unlock.visibility = View.GONE
                     imageView.visibility = View.VISIBLE
                     imageView.showBlur(data)
-                    updateFirePics(position,mIvBg,imageView,iv_fire,data)
+                    updateFirePics(position,imageView,iv_fire,data)
                 } else {
                     iv_lock.visibility = View.VISIBLE
                     iv_unlock.visibility = View.GONE
@@ -54,7 +54,6 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     imageView.showBlur(data)
 
                     iv_fire.visibility = View.GONE
-                    mIvBg.visibility = View.GONE
                 }
             } else if (TextUtils.equals("3", blurType)) {
                 if (TextUtils.equals("${mSquare!!.userid}", getLocalUserId())) {
@@ -66,20 +65,20 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     iv_lock.visibility = View.GONE
                     imageView.setImageURI(data)
                 }
-                updateFirePics(position,mIvBg,imageView,iv_fire,data)
+                updateFirePics(position,imageView,iv_fire,data)
             } else {
                 iv_unlock.visibility = View.GONE
                 iv_lock.visibility = View.GONE
                 imageView.visibility = View.VISIBLE
                 imageView.setImageURI(data)
-                updateFirePics(position,mIvBg,imageView,iv_fire,data)
+                updateFirePics(position,imageView,iv_fire,data)
             }
         } else {
             iv_lock.visibility = View.GONE
             iv_unlock.visibility = View.GONE
             imageView.visibility = View.VISIBLE
             imageView.setImageURI(data)
-            updateFirePics(position,mIvBg,imageView,iv_fire,data)
+            updateFirePics(position,imageView,iv_fire,data)
         }
         imageView.setOnClickListener {
             if (type == 1) {
@@ -100,13 +99,12 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         }
     }
 
-    private fun updateFirePics(position:Int,mIvBg:ImageView,imageView:SimpleDraweeView,iv_fire:TextView,data: String){
+    private fun updateFirePics(position:Int,imageView:SimpleDraweeView,iv_fire:TextView,data: String){
         if (mSeeFireIndex != null && mSeeFireIndex.size > position) {
             var seeFireIndex = mSeeFireIndex[position]
             Log.i("squareImage","阅后即焚：${seeFireIndex}")
             if(TextUtils.equals("3",seeFireIndex)){
-                mIvBg.visibility = View.GONE
-                iv_fire.visibility = View.GONE
+                iv_fire.visibility = View.VISIBLE
                 imageView.visibility = View.VISIBLE
                 imageView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
 //                Glide.with(context).asBitmap().load(data).into(object : SimpleTarget<Bitmap>() {
@@ -116,12 +114,11 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
 //                        }
 //                    }
 //                })
-//                iv_fire.text = "照片已焚毁"
-//                var drawable = ContextCompat.getDrawable(context, R.mipmap.pic_firepic_icon)
-//                setTopDrawable(drawable, iv_fire)
+                iv_fire.text = "照片已焚毁"
+                var drawable = ContextCompat.getDrawable(context, R.mipmap.pic_firepic_icon)
+                setTopDrawable(drawable, iv_fire)
             }else if(TextUtils.equals("2",seeFireIndex)){
                 iv_fire.visibility = View.VISIBLE
-                mIvBg.visibility = View.GONE
                 imageView.visibility = View.VISIBLE
 
                 iv_fire.text = "阅后即焚"
@@ -130,7 +127,6 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                 imageView.showBlur(data)
             }else{
                 iv_fire.visibility = View.GONE
-                mIvBg.visibility = View.GONE
                 imageView.visibility = View.VISIBLE
             }
         }
