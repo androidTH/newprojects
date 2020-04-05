@@ -20,7 +20,6 @@ import android.view.MotionEvent
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.ImageNewPagerAdapter
-import com.d6.android.app.adapters.ImagePagerAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.dialogs.SendRedHeartEndDialog
@@ -69,7 +68,6 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var giftControl: GiftControl? = null
     private var iIsAnonymous:String = "2"
     private var timer:CountDownTimer?=null
-    private var IsFirePics:Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,7 +146,10 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mSquare = intent.getSerializableExtra(mBEAN) as Square
             var sIflovepics = intent.getStringExtra(SIfLovePics)
             mBlurIndex.addAll(sIflovepics.split(",").toList())
-            mFirePicsIndex.addAll(sIflovepics.split(",").toList())
+
+            var sIfSeepics = intent.getStringExtra(SIfSeePics)
+            mFirePicsIndex.addAll(sIfSeepics.split(",").toList())
+
             showPayPoints(position)
         }
         urls.forEach {
@@ -163,13 +164,20 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                     url = it.replace("?imageslim",Const.BLUR_60)
                 }
             }
+
+            var isFirePic = false
+            if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
+                if(TextUtils.equals("2",mFirePicsIndex[key])){
+                    url = it.replace("?imageslim",Const.BLUR_60)
+                }else if(TextUtils.equals("3",mFirePicsIndex[key])){
+                    isFirePic = true
+                }
+            }
             Log.i("ImagePagerAdapter", "图片大小${url}")
-            mListFragment.put(key++, ImageFragment.newInstance(url, false))
+            mListFragment.put(key++, ImageFragment.newInstance(url, false,isFirePic))
         }
 
         val adapter = ImageNewPagerAdapter(supportFragmentManager,mListFragment)
-//        adapter.isBlur(isBlur)
-//        adapter.setListBlur(mBlurIndex)
         mImageViewPager.adapter = adapter
         if(urls!=null){
             mImageViewPager.offscreenPageLimit = urls.size
@@ -195,7 +203,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         rl_firepics_tips.visibility = View.GONE
         if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
             var fireType = mFirePicsIndex[mImageViewPager.currentItem]
-            if(TextUtils.equals("1",fireType)&&!TextUtils.equals(userId, getLocalUserId())){
+            if(TextUtils.equals("2",fireType)){
                 if(timer!=null){
                     timer?.let {
                         it.cancel()
@@ -216,15 +224,12 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                                 timer?.let {
                                     it.cancel()
                                 }
-                                mFirePicsIndex[mImageViewPager.currentItem] = "3"
-                                rl_firepics.visibility = View.VISIBLE
-                                rl_countdowntimer.visibility = View.GONE
                                 doFirePicsBg()
                             }
                         }
 
                         override fun onFinish() {
-                            rl_countdowntimer.visibility = View.GONE
+                            doFirePicsBg()
                         }
                     }
                     timer?.let {
@@ -243,24 +248,46 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
     }
 
-    public fun cancelTimer(){
+    fun cancelTimer(){
         if(timer!=null){
             timer?.let {
                 it.cancel()
                 timer=null
             }
+            doFirePicsBg()
         }
-        mFirePicsIndex[mImageViewPager.currentItem] = "3"
-        rl_firepics.visibility = View.VISIBLE
-        rl_countdowntimer.visibility = View.GONE
-        doFirePicsBg()
     }
 
     private fun doFirePicsBg(){
         if(urls!=null&&urls.size>0){
-            var url = urls[mImageViewPager.currentItem]
+
+            mFirePicsIndex[mImageViewPager.currentItem] = "3"
+            rl_countdowntimer.visibility = View.GONE
+            rl_firepics.visibility = View.VISIBLE
+
+//            var url = urls[mImageViewPager.currentItem]
             var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
             mImageLocal.doFirePics(true)
+            UpdateUserFirePic(PayPoint_Path)
+
+            var sb = StringBuffer()
+            mFirePicsIndex.forEach {
+                sb.append(it).append(",")
+            }
+            sb.deleteCharAt(sb.length - 1)
+            mSquare.sIfSeePics = sb.toString()
+
+            var intent = Intent(Const.SQUARE_MESSAGE)
+            intent.putExtra("bean",mSquare)
+            sendBroadcast(intent)
+        }
+    }
+
+    private fun UpdateUserFirePic(sPicUrl:String){
+        Request.insertUserVisitPic(sPicUrl).request(this,false,success={data,_msg->
+
+        }){code,msg->
+            toast(msg)
         }
     }
 
@@ -294,7 +321,6 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     override fun onPageSelected(position: Int) {
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
-        showPayPoints(position)
         urls.let {
 //            PayPoint_Path = urls[position].replace("?imageslim", "")
             if(urls!=null&&urls.size>0){
@@ -305,6 +331,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 }
             }
         }
+
+        showPayPoints(position)
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -314,7 +342,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private fun showPayPoints(position: Int){
         if(mBlurIndex!=null&&mBlurIndex.size>0){
             var blurType = mBlurIndex[position]
-            if(TextUtils.equals("2",blurType)){
+            if(TextUtils.equals("2",blurType)){//2 不可见
                 rl_paypoints.visibility = View.VISIBLE
                 rl_tips.visibility = View.VISIBLE
                 if(!TextUtils.equals(userId, getLocalUserId())){
@@ -323,36 +351,50 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                     rl_tips.visibility = View.GONE
                     rl_countdowntimer.visibility = View.GONE
                     rl_firepics.visibility = View.GONE
+                    rl_firepics_tips.visibility = View.GONE
                 }else{
                     rl_paypoints.visibility = View.GONE
                     rl_tips.visibility = View.VISIBLE
                     tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
+                    showFirePics(position)
                 }
-            }else if(TextUtils.equals("3",blurType)){
+            }else if(TextUtils.equals("3",blurType)){//3 可见
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.VISIBLE
                 if(!TextUtils.equals(userId, getLocalUserId())){
 //                    tv_tips.text = "解锁状态"
                     iv_unflock.visibility = View.VISIBLE
                     rl_tips.visibility = View.GONE
-//                    startCountDownTimer(position)
-                    rl_firepics_tips.visibility = View.VISIBLE
                 }else{
                     tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
                 }
+                showFirePics(position)
             }else{
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.GONE
-                rl_firepics_tips.visibility = View.VISIBLE
-
                 rl_countdowntimer.visibility = View.GONE
-                rl_firepics.visibility = View.GONE
-//                startCountDownTimer(position)
+
+                showFirePics(position)
             }
         }else{
             rl_paypoints.visibility = View.GONE
-//            startCountDownTimer(position)
+            showFirePics(position)
         }
+    }
+
+    private fun showFirePics(position: Int){
+        var firePicsIndex = mFirePicsIndex[position]
+        if(TextUtils.equals("3",firePicsIndex)){
+            rl_firepics_tips.visibility = View.GONE
+            rl_firepics.visibility = View.VISIBLE
+        }else if(TextUtils.equals("2",firePicsIndex)) {//2 不可见
+            rl_firepics_tips.visibility = View.VISIBLE
+            rl_firepics.visibility = View.GONE
+        }else if(TextUtils.equals("1",firePicsIndex)){
+            rl_firepics_tips.visibility = View.GONE
+            rl_firepics.visibility = View.GONE
+        }
+
     }
 
     private fun sendPayPoint(loveHeartNums:Int){
@@ -373,13 +415,17 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             mSquare.iLovePoint = mSquare.iLovePoint?.let {
                 it+loveHeartNums
             }
+
             var intent = Intent(Const.SQUARE_MESSAGE)
             intent.putExtra("bean",mSquare)
             sendBroadcast(intent)
 
-            var url = urls[mImageViewPager.currentItem]
-            var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
-            mImageLocal.updatePicUrl(this@ImagePagerActivity,url,false)
+            if(TextUtils.equals("1",mFirePicsIndex[mImageViewPager.currentItem])){
+                var url = urls[mImageViewPager.currentItem]
+                var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
+                mImageLocal.updatePicUrl(this@ImagePagerActivity,url,false)
+            }
+
         }) { code, msg ->
             if (code == 2||code==3) {
                 var mSendRedHeartEndDialog = SendRedHeartEndDialog()
@@ -457,6 +503,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         val URLS = "urls"
         val USERID = "userId"
         val SIfLovePics = "sIfLovePics"
+        val SIfSeePics = "sIfSeePics"
         val SOURCEID = "sourceId"
         val mBEAN = "bean"
         val ISANONYMOUS="iIsAnonymous"

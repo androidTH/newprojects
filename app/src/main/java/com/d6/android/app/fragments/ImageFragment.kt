@@ -2,9 +2,6 @@ package com.d6.android.app.fragments
 
 import android.app.Activity
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Paint
-import android.graphics.PointF
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -32,7 +29,6 @@ import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.imagepipeline.postprocessors.IterativeBoxBlurPostProcessor
 import com.facebook.imagepipeline.request.ImageRequestBuilder
 import kotlinx.android.synthetic.main.fragment_image.*
-import org.jetbrains.anko.backgroundColor
 import java.lang.Exception
 /**
  * 图片Fragment
@@ -40,11 +36,12 @@ import java.lang.Exception
 class ImageFragment : BaseNoBarFragment() {
 
     companion object {
-        fun newInstance(url: String, isBlur: Boolean): Fragment {
+        fun newInstance(url: String, isBlur: Boolean,isFire:Boolean): Fragment {
             val imageFragment = ImageFragment()
             val bundle = Bundle()
             bundle.putString("url", url)
             bundle.putBoolean("isBlur", isBlur)
+            bundle.putBoolean("isFire", isFire)
             imageFragment.arguments = bundle
             return imageFragment
         }
@@ -57,16 +54,22 @@ class ImageFragment : BaseNoBarFragment() {
         super.onActivityCreated(savedInstanceState)
 
         var isBlur = false
+        var isFire = false
         if (arguments != null) {
             url = arguments.getString("url")
             isBlur = arguments.getBoolean("isBlur")
+            isFire = arguments.getBoolean("isFire")
         } else {
             url = ""
         }
         try{
-            updatePicUrl(activity,"${url}",isBlur)
-            Glide.with(this).load(url)
-                    .into(iv_firepic_gb)
+            if(isFire){
+                doFirePics(isFire)
+            }else{
+                updatePicUrl(activity,"${url}",isBlur)
+            }
+//            Glide.with(this).load(url)
+//                    .into(iv_firepic_gb)
         }catch (e:Exception){
             e.printStackTrace()
         }

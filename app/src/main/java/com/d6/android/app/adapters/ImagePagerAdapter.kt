@@ -43,7 +43,7 @@ class ImagePagerAdapter(fm: FragmentManager, urls: List<String>?) : FragmentPage
                 url = url.replace("?imageslim",Const.BLUR_50)
             }
         }
-        return ImageFragment.newInstance(url, isBlur)
+        return ImageFragment.newInstance(url, isBlur,false)
     }
 
     override fun getItemPosition(`object`: Any?): Int {

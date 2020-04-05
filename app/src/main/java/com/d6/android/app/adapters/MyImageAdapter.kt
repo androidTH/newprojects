@@ -2,18 +2,13 @@ package com.d6.android.app.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.d6.android.app.R
-import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.AddImage
-import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.screenWidth
-import com.d6.android.app.utils.visible
 import com.facebook.drawee.view.SimpleDraweeView
 import org.jetbrains.anko.dip
-import org.jetbrains.anko.startActivity
 
 /**
  *

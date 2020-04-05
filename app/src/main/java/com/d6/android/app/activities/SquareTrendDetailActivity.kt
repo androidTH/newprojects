@@ -509,6 +509,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
                         mSquare?.let {
                             if(sq!=null){
                                 it.sIfLovePics = sq.sIfLovePics
+                                it.sIfSeePics = sq.sIfSeePics
                                 it.iLovePoint = sq.iLovePoint
                             }
                             headerView.mTrendDetailView.update(it)

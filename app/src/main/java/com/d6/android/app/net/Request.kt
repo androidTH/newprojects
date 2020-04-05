@@ -189,9 +189,9 @@ object Request {
             RRetrofit.instance().create(ApiServices::class.java).getSelfReleaseList(pageNum, beginTime, endTime, area, outArea, arrayUserClassesId, pageSize)
 
     fun releaseSquare(userId: String, classesId: String?, city: String?, imgUrl: String?, content: String,sAppointUser:String,iIsAnonymous:Int
-                      ,sTopicId:String,sVideoUrl:String,sVideoPicUrl:String,sVideoWidth:String,sVideoHeight:String,sVoiceUrl:String,sVoiceLength:String,sIfLovePics:String) =
+                      ,sTopicId:String,sVideoUrl:String,sVideoPicUrl:String,sVideoWidth:String,sVideoHeight:String,sVoiceUrl:String,sVoiceLength:String,sIfLovePics:String,sIfSeePics:String) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSquare(userId, classesId, city, imgUrl, content,sAppointUser,iIsAnonymous,
-                    sTopicId,sVideoUrl,sVideoPicUrl,sVideoWidth,sVideoHeight,sVoiceUrl,sVoiceLength,sIfLovePics)
+                    sTopicId,sVideoUrl,sVideoPicUrl,sVideoWidth,sVideoHeight,sVoiceUrl,sVoiceLength,sIfLovePics,sIfSeePics)
 
     fun releaseSelfAbout(userId: String, outArea: String?, area: String?, city: String?, beginTime: String?, endTime: String?, content: String, imgUrl: String?) =
             RRetrofit.instance().create(ApiServices::class.java).releaseSelfAbout(userId, content, outArea, area, city, beginTime, endTime, imgUrl)
@@ -600,5 +600,8 @@ object Request {
     fun deleteFriend(iFriendUserid:String)=RRetrofit.instance().create(ApiServices::class.java).deleteFriend(iFriendUserid)
 
     fun getMyGrouListAndFriendList(pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getMyGrouListAndFriendList(pageNum)
+
+    //3.7版本
+    fun insertUserVisitPic(sPicUrl:String)=RRetrofit.instance().create(ApiServices::class.java).insertUserVisitPic(sPicUrl)
 
 }
