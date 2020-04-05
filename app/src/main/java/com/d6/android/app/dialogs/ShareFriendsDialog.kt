@@ -105,7 +105,6 @@ class ShareFriendsDialog : DialogFragment() {
             tv_report_user.visibility = View.VISIBLE
             tv_deldate.visibility = View.GONE
             tv_sharewx.visibility = View.GONE
-
             if (TextUtils.equals(fromType, "userInfo")) {
                 tv_joinblack.visibility = View.VISIBLE
                 var isInBlackList = arguments.getInt("isInBlackList", 0)
@@ -154,14 +153,14 @@ class ShareFriendsDialog : DialogFragment() {
                 startActivity<ShareFriendsActivity>("iType" to iType,"sResourceId" to sResourceId)
                 dismissAllowingStateLoss()
             } else {
-               shareChat((context as BaseActivity),"dynamic", getUserSex(),mUserId)
-               isBaseActivity {
-                   var friendBean = mDialogShareFriendsQuickAdapter.getItem(position)
-                   Request.shareMessage(mUserId,iType,sResourceId,friendBean?.iUserid.toString()).request(it,true,success = {msg,data->
-                       it.toast(msg.toString())
-                       dismissAllowingStateLoss()
-                   })
-               }
+                shareChat((context as BaseActivity),"dynamic", getUserSex(),mUserId)
+                isBaseActivity {
+                    var friendBean = mDialogShareFriendsQuickAdapter.getItem(position)
+                    Request.shareMessage(mUserId,iType,sResourceId,friendBean?.iUserid.toString()).request(it,true,success = {msg,data->
+                        it.toast(msg.toString())
+                        dismissAllowingStateLoss()
+                    })
+                }
             }
         }
 

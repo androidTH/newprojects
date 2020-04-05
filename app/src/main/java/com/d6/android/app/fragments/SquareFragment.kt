@@ -140,9 +140,9 @@ class SquareFragment : RecyclerFragment() {
         headerView.rv_choose_squaretype.layoutManager = FlexboxLayoutManager(context) as RecyclerView.LayoutManager?
 
         mSquareTypeAdapter.setOnItemClickListener { view, position ->
-//            activity.isCheckOnLineAuthUser(this, getLocalUserId()) {
-                var mSqureType = mSquareTypes.get(position)
-                startActivity<FilterSquaresActivity>("squaretype" to mSqureType)
+            //            activity.isCheckOnLineAuthUser(this, getLocalUserId()) {
+            var mSqureType = mSquareTypes.get(position)
+            startActivity<FilterSquaresActivity>("squaretype" to mSqureType)
 //            }
         }
 
@@ -234,26 +234,26 @@ class SquareFragment : RecyclerFragment() {
 
     private fun getSquareTop(){
         Request.findSquareTop().request(this,false,success={_,data->
-              data?.let {
-                  var iAppointmentSignupCount = it.optInt("iAppointmentSignupCount")
-                  headerView.tv_date_count.text = "${iAppointmentSignupCount}人约会成功"
-                  headerView.rl_bangdan_headerview.visibility = View.VISIBLE
-                  headerView.rl_date_headerview.visibility = View.GONE
+            data?.let {
+                var iAppointmentSignupCount = it.optInt("iAppointmentSignupCount")
+                headerView.tv_date_count.text = "${iAppointmentSignupCount}人约会成功"
+                headerView.rl_bangdan_headerview.visibility = View.VISIBLE
+                headerView.rl_date_headerview.visibility = View.GONE
 //                  var coverurl = it.optString("coverurl")
-                  var picUrl = it.optString("picUrl")
+                var picUrl = it.optString("picUrl")
 //                  if(coverurl.isNotEmpty()){
 //                      var imglist = coverurl.split(",")
 //                      headerView.sv_date01.setImageURI(imglist[0])
 //                      headerView.sv_date02.setImageURI(imglist[1])
 //                      headerView.sv_date03.setImageURI(imglist[2])
 //                  }
-                  if(picUrl.isNotEmpty()){
-                      var imglist = picUrl.split(",")
-                      headerView.sv_list01.setImageURI(imglist[0])
-                      headerView.sv_list02.setImageURI(imglist[1])
-                      headerView.sv_list03.setImageURI(imglist[2])
-                  }
-              }
+                if(picUrl.isNotEmpty()){
+                    var imglist = picUrl.split(",")
+                    headerView.sv_list01.setImageURI(imglist[0])
+                    headerView.sv_list02.setImageURI(imglist[1])
+                    headerView.sv_list03.setImageURI(imglist[2])
+                }
+            }
         })
     }
 
@@ -377,19 +377,20 @@ class SquareFragment : RecyclerFragment() {
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
-                   intent?.let {
-                       var sq = it.getSerializableExtra("bean") as Square
-                       if(sq!=null){
-                           var index = mSquares.indexOf(sq)
-                           if (mSquares != null && mSquares.size > index&&index!=-1) {
-                               if (sq != null) {
-                                   mSquares.get(index).sIfLovePics = sq.sIfLovePics
-                                   mSquares.get(index).iLovePoint = sq.iLovePoint
-                               }
-                               squareAdapter.notifyItemChanged(index+1,"sq")
-                           }
-                       }
-                   }
+                    intent?.let {
+                        var sq = it.getSerializableExtra("bean") as Square
+                        if(sq!=null){
+                            var index = mSquares.indexOf(sq)
+                            if (mSquares != null && mSquares.size > index&&index!=-1) {
+                                if (sq != null) {
+                                    mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                                    mSquares.get(index).sIfSeePics = sq.sIfSeePics
+                                    mSquares.get(index).iLovePoint = sq.iLovePoint
+                                }
+                                squareAdapter.notifyItemChanged(index+1,"sq")
+                            }
+                        }
+                    }
                 }
             }
         }

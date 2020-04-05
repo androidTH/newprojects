@@ -378,23 +378,23 @@ inline fun Activity.isVipUser(next: () -> Unit) {
 
 inline fun Activity.isCheckOnLineAuthUser(requestManager: RequestManager, userId:String,from:String="nomine", crossinline next: () -> Unit) {
     Request.getUserInfoDetail(userId).request(requestManager,true,success = {msg,data->
-            data?.let {
-                if (it.userclassesid == "7") {
-                    saveUserInfo(it)
+        data?.let {
+            if (it.userclassesid == "7") {
+                saveUserInfo(it)
 //                    SPUtils.instance().put(Const.User.USER_SCREENID,it.screen).apply()
-                    if (TextUtils.equals("1", it.sex)) {//1是男
-                        this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+                if (TextUtils.equals("1", it.sex)) {//1是男
+                    this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
 //                        var mMemberDialog = MemberDialog()
 //                        mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
 //                        mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
-                    }else{
-                        this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
-//                      this.startActivity<DateAuthStateActivity>()
-                    }
                 }else{
-                    next()
+                    this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
+//                      this.startActivity<DateAuthStateActivity>()
                 }
+            }else{
+                next()
             }
+        }
     })
 }
 
@@ -560,23 +560,23 @@ inline fun BaseActivity.getTrendDetail(id:String,crossinline next:(square:Square
 //    }
 //    return timeStr
 
-    fun stampToTime(stamp: Long): String {
-        val now = System.currentTimeMillis()
-        val intervals = (now - stamp)/1000
-        return if (intervals / 60 <= 1) {
-            "刚刚"
-        } else if (intervals / 60 < 60) {
-            (intervals / 60).toString() + "分钟前"
-        } else if (intervals / 3600 < 24) {
-            (intervals / 3600).toString() + "小时前"
-        } else if (intervals / (3600 * 24) < 30) {
-            (intervals / (3600 * 24)).toString() + "天前"
-        } else if (intervals / (3600 * 24 * 30) < 12) {
-            (intervals / (3600 * 24 * 30)).toString() + "月前"
-        } else {
-           stamp.toTime("yyyy-MM-dd")
-        }
+fun stampToTime(stamp: Long): String {
+    val now = System.currentTimeMillis()
+    val intervals = (now - stamp)/1000
+    return if (intervals / 60 <= 1) {
+        "刚刚"
+    } else if (intervals / 60 < 60) {
+        (intervals / 60).toString() + "分钟前"
+    } else if (intervals / 3600 < 24) {
+        (intervals / 3600).toString() + "小时前"
+    } else if (intervals / (3600 * 24) < 30) {
+        (intervals / (3600 * 24)).toString() + "天前"
+    } else if (intervals / (3600 * 24 * 30) < 12) {
+        (intervals / (3600 * 24 * 30)).toString() + "月前"
+    } else {
+        stamp.toTime("yyyy-MM-dd")
     }
+}
 
 fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
     if(jsonObject!=null){
@@ -593,9 +593,9 @@ fun showTips(jsonObject:JsonObject?,desc:String,iAddPoint:String){
 /**
  * 日期匹配星座
  */
- fun getConstellations(time:String):String{
+fun getConstellations(time:String):String{
     val astrologyArray = arrayOf("魔羯座", "水瓶座", "双鱼座", "白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "魔羯座")
-   //星座分割时间
+    //星座分割时间
     var date= intArrayOf(20,19,21,20,21,22,23,23,23,24,23,22)
     var data = time.split("-")
     var month = Integer.parseInt(data[1])
@@ -675,7 +675,7 @@ fun checkJoinWx(str:String):Boolean{
         return true
     }
     if(limitEx01.contains(str)){
-         return true
+        return true
     }
     return false
 }
@@ -762,30 +762,30 @@ fun diyUpdate(activity: BaseActivity,from:String?) {
                  */
                 public override fun hasNewApp(updateApp: UpdateAppBean, updateAppManager: UpdateAppManager) {
 //                    if(AppUtils.compareVersion(updateApp.newVersion, AppUpdateUtils.getVersionName(activity))==1) {
-                        var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
-                        if (TextUtils.equals(activity::class.java.simpleName, from)) {
-                            var mDialogUpdateApp = DialogUpdateApp()
-                            mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
-                            mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
-                            mDialogUpdateApp.setDialogListener { p, s ->
-                                updateAppManager.download()
-                            }
-                        } else if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
-                            //自定义对话框
-                            var mDialogUpdateApp = DialogUpdateApp()
-                            mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
-                            mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
-                            mDialogUpdateApp.setDialogListener { p, s ->
-                                updateAppManager.download()
-                            }
-                        } else if (updateApp.isConstraint) {
-                            var mDialogUpdateApp = DialogUpdateApp()
-                            mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
-                            mDialogUpdateApp.show(activity.supportFragmentManager, "updateapp")
-                            mDialogUpdateApp.setDialogListener { p, s ->
-                                updateAppManager.download()
-                            }
+                    var ignoreVersion = SPUtils.instance().getString(Const.IGNORE_VERSION, "")
+                    if (TextUtils.equals(activity::class.java.simpleName, from)) {
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
                         }
+                    } else if (!TextUtils.equals(updateApp.newVersion, ignoreVersion)) {
+                        //自定义对话框
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show((activity).supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
+                        }
+                    } else if (updateApp.isConstraint) {
+                        var mDialogUpdateApp = DialogUpdateApp()
+                        mDialogUpdateApp.arguments = bundleOf("data" to updateApp)
+                        mDialogUpdateApp.show(activity.supportFragmentManager, "updateapp")
+                        mDialogUpdateApp.setDialogListener { p, s ->
+                            updateAppManager.download()
+                        }
+                    }
 //                    }
                 }
 
@@ -827,7 +827,7 @@ fun updateSquareSignUp(activity:Activity,sSquareSignupId:String,iStatus:String,i
 
         }
     },false,success={ msg, data->
-       Log.i("updateSquareSignUp","状态：${iStatus},时间：${iConnectVoiceLength}")
+        Log.i("updateSquareSignUp","状态：${iStatus},时间：${iConnectVoiceLength}")
     }){code,msg->
 
     }
@@ -1035,31 +1035,31 @@ inline fun Activity.pushCustomerMessage(requestManager: RequestManager, userId:S
 }
 
 fun getLevelName(levelId:String,mContext:Context):String?{
-        if (TextUtils.equals("27",levelId)) {
-            return "初级会员"
-        } else if (TextUtils.equals( "28",levelId)) {
-            return "中级会员"
-        } else if (TextUtils.equals("29",levelId)) {
-            return "高级会员"
-        } else if (TextUtils.equals("22",levelId)) {
-            return "普通会员"
-        } else if (TextUtils.equals("23",levelId)) {
-            return "白银会员"
-        } else if (TextUtils.equals("24",levelId)) {
-            return "黄金会员"
-        } else if (TextUtils.equals( "25",levelId)) {
-            return "钻石会员"
-        } else if (TextUtils.equals("26",levelId)) {
-            return "私人定制"
-        } else if (TextUtils.equals("7",levelId)) {
-            return "游客"
-        } else if(TextUtils.equals("30",levelId)){
-            return "入群会员"
-        } else if(TextUtils.equals("31",levelId)){
-            return "App会员"
-        }else{
-            return "游客"
-        }
+    if (TextUtils.equals("27",levelId)) {
+        return "初级会员"
+    } else if (TextUtils.equals( "28",levelId)) {
+        return "中级会员"
+    } else if (TextUtils.equals("29",levelId)) {
+        return "高级会员"
+    } else if (TextUtils.equals("22",levelId)) {
+        return "普通会员"
+    } else if (TextUtils.equals("23",levelId)) {
+        return "白银会员"
+    } else if (TextUtils.equals("24",levelId)) {
+        return "黄金会员"
+    } else if (TextUtils.equals( "25",levelId)) {
+        return "钻石会员"
+    } else if (TextUtils.equals("26",levelId)) {
+        return "私人定制"
+    } else if (TextUtils.equals("7",levelId)) {
+        return "游客"
+    } else if(TextUtils.equals("30",levelId)){
+        return "入群会员"
+    } else if(TextUtils.equals("31",levelId)){
+        return "App会员"
+    }else{
+        return "游客"
+    }
 }
 
 fun getLevelDrawable(levelId:String,mContext:Context):Drawable?{
@@ -1119,7 +1119,7 @@ fun getLevelDrawableOfClassName(name:String,mContext:Context):Drawable?{
     }else if (name.indexOf("APP")!=-1) {
         mDrawable = ContextCompat.getDrawable(mContext, R.mipmap.app_vip)
     }
-   return mDrawable
+    return mDrawable
 }
 
 fun getUserSex():String{
@@ -1316,7 +1316,7 @@ fun checkKFService(mOtherUserId:String):Boolean{
 }
 
 fun getSelfDateDialog():Boolean{
-   return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
+    return SPUtils.instance().getBoolean(IS_FIRST_SHOW_SELFDATEDIALOG+getLocalUserId(),true)
 }
 
 fun getIsNotFirstDialog():Int{

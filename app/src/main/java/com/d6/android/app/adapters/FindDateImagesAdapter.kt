@@ -1,35 +1,15 @@
 package com.d6.android.app.adapters
 
 import android.graphics.Bitmap
-import android.graphics.drawable.Animatable
-import android.net.Uri
-import android.os.Build
-import android.support.annotation.Nullable
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.d6.android.app.R
 import com.d6.android.app.activities.ImagePagerActivity
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
-import com.d6.android.app.widget.ScreenUtil
-import com.d6.android.app.widget.SingleImageControllerListener
-import com.d6.android.app.widget.ZoomableDraweeView
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder
-import com.facebook.drawee.controller.BaseControllerListener
-import com.facebook.drawee.controller.ControllerListener
-import com.facebook.drawee.drawable.ScalingUtils
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
-import com.facebook.drawee.interfaces.DraweeController
-import com.facebook.drawee.view.SimpleDraweeView
-import com.facebook.imagepipeline.common.ResizeOptions
-import com.facebook.imagepipeline.common.RotationOptions
-import com.facebook.imagepipeline.image.ImageInfo
-import com.facebook.imagepipeline.request.ImageRequestBuilder
 import org.jetbrains.anko.startActivity
 
 /**

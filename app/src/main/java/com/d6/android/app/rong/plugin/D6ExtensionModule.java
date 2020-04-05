@@ -6,7 +6,6 @@ import io.rong.imkit.DefaultExtensionModule;
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.emoticon.IEmoticonTab;
 import io.rong.imkit.plugin.CombineLocationPlugin;
-import io.rong.imkit.plugin.DestructPlugin;
 import io.rong.imkit.plugin.IPluginModule;
 import io.rong.imkit.plugin.ImagePlugin;
 import io.rong.imkit.widget.provider.FilePlugin;
@@ -90,7 +89,7 @@ public class D6ExtensionModule extends DefaultExtensionModule {
         List<IPluginModule> pluginModuleList = new ArrayList<>();
         pluginModuleList.add(new ImagePlugin());
         pluginModuleList.add(new FilePlugin());
-        pluginModuleList.add(new DestructPlugin());
+//        pluginModuleList.add(new DestructPlugin());
 //        pluginModuleList.add(new FlowerPluginModule());
         return pluginModuleList;
 //        return super.getPluginModules(conversationType);

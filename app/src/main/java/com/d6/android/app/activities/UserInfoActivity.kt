@@ -1136,6 +1136,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                             if (mSquares != null && mSquares.size > index) {
                                 if (sq != null) {
                                     mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                                    mSquares.get(index).sIfSeePics = sq.sIfSeePics
                                     mSquares.get(index).iLovePoint = sq.iLovePoint
                                     mSquares.get(index).iSendLovePoint = 1
                                 }

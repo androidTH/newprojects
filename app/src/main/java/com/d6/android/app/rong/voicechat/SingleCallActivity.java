@@ -45,7 +45,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -741,12 +740,7 @@ public class SingleCallActivity extends BaseCallActivity implements Handler.Call
     public void onAudioLevelSend(String s) {
 
     }
-
-    @Override
-    public void onAudioLevelReceive(HashMap<String, String> hashMap) {
-
-    }
-
+    
     @Override
     public void onRemoteUserPublishVideoStream(String s, String s1, String s2, SurfaceView surfaceView) {
 
