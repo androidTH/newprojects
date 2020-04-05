@@ -18,10 +18,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.facebook.fresco:fresco:1.8.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.facebook.fresco:fresco:1.8.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     //compile project(':xldUtils')
 }

@@ -35,7 +35,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.d6.android.app.BuildConfig
-import com.d6.android.app.Manifest
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
 import com.d6.android.app.application.D6Application

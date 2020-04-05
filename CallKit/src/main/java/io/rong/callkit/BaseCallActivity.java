@@ -68,9 +68,9 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
     private static final String MEDIAPLAYERTAG = "MEDIAPLAYERTAG";
     private final static long DELAY_TIME = 1000;
     public static final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 100;
-    static final int REQUEST_CODE_ADD_MEMBER = 110;
+    public static final int REQUEST_CODE_ADD_MEMBER = 110;
     public final int REQUEST_CODE_ADD_MEMBER_NONE=120;
-    static final int VOIP_MAX_NORMAL_COUNT = 6;
+    public static final int VOIP_MAX_NORMAL_COUNT = 6;
 
     private MediaPlayer mMediaPlayer;
     private Vibrator mVibrator;
@@ -421,29 +421,29 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
     protected void onStop() {
         super.onStop();
         RLog.d(TAG, "BaseCallActivity onStop");
-//        if (CallKitUtils.shouldShowFloat && !checkingOverlaysPermission) {
-//            Bundle bundle = new Bundle();
-//            String action = onSaveFloatBoxState(bundle);
-//            if (checkDrawOverlaysPermission(true)) {
-//                if (action != null) {
-//                    bundle.putString("action", action);
-//                    showFB(getApplicationContext(),bundle);
-//                    int mediaType = bundle.getInt("mediaType");
-//                    showOnGoingNotification(getString(R.string.rc_call_on_going),
-//                            mediaType == RongCallCommon.CallMediaType.AUDIO.getValue()
-//                                    ? getString(R.string.rc_audio_call_on_going) : getString(R.string.rc_video_call_on_going));
-//                    if (!isFinishing()) {
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                            finishAndRemoveTask();
-//                        } else {
-//                            finish();
-//                        }
-//                    }
-//                }
-//            } else {
-//                Toast.makeText(this, getString(R.string.rc_voip_float_window_not_allowed), Toast.LENGTH_SHORT).show();
-//            }
-//        }
+        if (CallKitUtils.shouldShowFloat && !checkingOverlaysPermission) {
+            Bundle bundle = new Bundle();
+            String action = onSaveFloatBoxState(bundle);
+            if (checkDrawOverlaysPermission(true)) {
+                if (action != null) {
+                    bundle.putString("action", action);
+                    showFB(getApplicationContext(),bundle);
+                    int mediaType = bundle.getInt("mediaType");
+                    showOnGoingNotification(getString(R.string.rc_call_on_going),
+                            mediaType == RongCallCommon.CallMediaType.AUDIO.getValue()
+                                    ? getString(R.string.rc_audio_call_on_going) : getString(R.string.rc_video_call_on_going));
+                    if (!isFinishing()) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            finishAndRemoveTask();
+                        } else {
+                            finish();
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.rc_voip_float_window_not_allowed), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -824,22 +824,6 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
         }
     }
 
-    //挂断
-    public void onHangupVoiceChat(){
-        unRegisterHeadsetplugReceiver();
-        RongCallSession session = RongCallClient.getInstance().getCallSession();
-        if (session == null || isFinishing) {
-            finish();
-            return;
-        }
-        RongCallClient.getInstance().hangUpCall(session.getCallId());
-        stopRing();
-    }
-
-    public void sendToServiceStatus(){
-
-    }
-
     /**
      * 设置开始音视频参数配置信息<br />
      * 必须在{@link RongCallClient#startCall} 和 {@link RongCallClient#acceptCall(String)}之前设置 <br />
@@ -855,5 +839,20 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
          */
         //configBuilder.enableHttpsSelfCertificate(true);
         RongCallClient.getInstance().setRTCConfig(configBuilder);
+    }
+
+    //挂断
+    public void onHangupVoiceChat(){
+        unRegisterHeadsetplugReceiver();
+        RongCallSession session = RongCallClient.getInstance().getCallSession();
+        if (session == null || isFinishing) {
+            finish();
+            return;
+        }
+        RongCallClient.getInstance().hangUpCall(session.getCallId());
+        stopRing();
+    }
+    public void sendToServiceStatus(){
+
     }
 }
