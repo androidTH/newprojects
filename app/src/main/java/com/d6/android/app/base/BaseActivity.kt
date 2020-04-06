@@ -24,7 +24,7 @@ import java.lang.Exception
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-//import com.bugtags.library.Bugtags
+import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
 import com.d6.android.app.widget.LoadDialog
 import com.gyf.barlibrary.ImmersionBar
@@ -134,8 +134,13 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         //注：回调 3
-//        Bugtags.onDispatchTouchEvent(this, event)
-        return super.dispatchTouchEvent(event)
+        Bugtags.onDispatchTouchEvent(this, event)
+        try{
+            return super.dispatchTouchEvent(event)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        return false
     }
 
     /**
