@@ -103,6 +103,15 @@ class ImageFragment : BaseNoBarFragment() {
             }
             false
         }
+
+        iv_firepic_gb.setOnClickListener {
+            if(sampimgview!=null){
+                sampimgview.recycle()
+            }
+            if(activity!=null){
+                (activity as ImagePagerActivity).onBackPressed()
+            }
+        }
     }
 
     fun updatePicUrl(mActivity: Activity, url:String, isBlur:Boolean,isFirePic:Boolean = false){

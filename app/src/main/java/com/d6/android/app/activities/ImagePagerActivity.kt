@@ -381,6 +381,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 rl_paypoints.visibility = View.GONE
                 rl_tips.visibility = View.GONE
                 rl_countdowntimer.visibility = View.GONE
+                iv_unflock.visibility = View.GONE
 
                 showFirePics(position)
             }

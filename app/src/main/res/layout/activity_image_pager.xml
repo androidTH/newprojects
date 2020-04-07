@@ -56,8 +56,8 @@
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/shape_10r_9900"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:background="@drawable/shape_10r_9900">
 
         <ImageView
             android:id="@+id/iv_fire_bigicon_bg"
@@ -71,11 +71,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="阅后即焚\n长按图片即可查看"
+            android:text="@string/string_fire_longclick"
             android:layout_marginTop="@dimen/margin_10"
             android:layout_below="@+id/iv_fire_bigicon_bg"
-            android:layout_marginRight="@dimen/margin_30"
-            android:layout_marginLeft="@dimen/margin_30"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_10"
             android:textColor="@color/white"
             android:gravity="center_horizontal"
             android:textSize="15sp"

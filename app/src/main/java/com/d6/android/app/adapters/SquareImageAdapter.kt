@@ -82,6 +82,13 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         }
         imageView.setOnClickListener {
             if (type == 1) {
+                if(mSeeFireIndex != null && mSeeFireIndex.size > position) {
+                    var seeFireIndex = mSeeFireIndex[position]
+                    if(TextUtils.equals("3",seeFireIndex)){
+                        return@setOnClickListener
+                    }
+                }
+
                 mSquare?.let {
                     mImages.clear()
                     val images = it.sSourceSquarePics?.split(",")
