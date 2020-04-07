@@ -170,7 +170,11 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 if(TextUtils.equals("2",mFirePicsIndex[key])){
                     url = it.replace("?imageslim",Const.BLUR_60)
                 }else if(TextUtils.equals("3",mFirePicsIndex[key])){
-                    isFirePic = true
+                    if(TextUtils.equals("2",mBlurIndex[key])&&TextUtils.equals(userId, getLocalUserId())){
+                        isFirePic = true
+                    }else if(!TextUtils.equals("2",mBlurIndex[key])){
+                        isFirePic = true
+                    }
                 }
             }
             Log.i("ImagePagerAdapter", "图片大小${url}")
@@ -186,7 +190,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         mImageViewPager.currentItem = position
 
         urls.let {
-//            PayPoint_Path = urls[position].replace("?imageslim", "")
+            //            PayPoint_Path = urls[position].replace("?imageslim", "")
             if(urls!=null&&urls.size>0){
                 if(urls[position].contains("?")){
                     PayPoint_Path = urls[position].split("?")[0]
@@ -202,8 +206,13 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         rl_countdowntimer.visibility = View.GONE
         rl_firepics_tips.visibility = View.GONE
         if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
-            var fireType = mFirePicsIndex[mImageViewPager.currentItem]
+            var index=mImageViewPager.currentItem
+            var fireType = mFirePicsIndex[index]
             if(TextUtils.equals("2",fireType)){
+                var url = urls[index]
+                var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
+                mImageLocal.updatePicUrl(this@ImagePagerActivity,url,false)
+
                 if(timer!=null){
                     timer?.let {
                         it.cancel()
@@ -265,7 +274,6 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             rl_countdowntimer.visibility = View.GONE
             rl_firepics.visibility = View.VISIBLE
 
-//            var url = urls[mImageViewPager.currentItem]
             var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
             mImageLocal.doFirePics(true)
             UpdateUserFirePic(PayPoint_Path)
@@ -322,7 +330,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     override fun onPageSelected(position: Int) {
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         urls.let {
-//            PayPoint_Path = urls[position].replace("?imageslim", "")
+            //            PayPoint_Path = urls[position].replace("?imageslim", "")
             if(urls!=null&&urls.size>0){
                 if(urls[position].contains("?")){
                     PayPoint_Path = urls[position].split("?")[0]
@@ -399,7 +407,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
 
     private fun sendPayPoint(loveHeartNums:Int){
         Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 5,"${squareId}","${PayPoint_Path}").request(this, false, success = { _, data ->
-//            rl_paypoints.visibility = View.GONE
+            //            rl_paypoints.visibility = View.GONE
 //            rl_tips.visibility = View.GONE
 //            iv_unflock.visibility = View.VISIBLE
 
