@@ -74,8 +74,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
     override fun onItemClick(view: View?, position: Int) {
         if (view?.id == R.id.cardView||view?.id==R.id.rl_small_mendate_layout||view?.id==R.id.imageViewbg||view?.id==R.id.rl_big_mendate_layout) {
-            val dateBean = mDates[position]
-            startActivity<UserInfoActivity>("id" to dateBean.accountId.toString())
+            if(mDates!=null&&mDates.size>position){
+                val dateBean = mDates[position]
+                startActivity<UserInfoActivity>("id" to "${dateBean.accountId}")
+            }
         } else if (view?.id == R.id.tv_perfect_userinfo) {
             mUserInfoData?.let {
                 startActivityForResult<MyInfoActivity>(Const.DOUPDATEUSERINFOCODE, "data" to it, "images" to mImages)
