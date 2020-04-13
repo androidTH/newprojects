@@ -392,18 +392,19 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun showFirePics(position: Int){
-        var firePicsIndex = mFirePicsIndex[position]
-        if(TextUtils.equals("3",firePicsIndex)){
-            rl_firepics_tips.visibility = View.GONE
-            rl_firepics.visibility = View.VISIBLE
-        }else if(TextUtils.equals("2",firePicsIndex)) {//2 不可见
-            rl_firepics_tips.visibility = View.VISIBLE
-            rl_firepics.visibility = View.GONE
-        }else if(TextUtils.equals("1",firePicsIndex)){
-            rl_firepics_tips.visibility = View.GONE
-            rl_firepics.visibility = View.GONE
+        if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
+            var firePicsIndex = mFirePicsIndex[position]
+            if(TextUtils.equals("3",firePicsIndex)){
+                rl_firepics_tips.visibility = View.GONE
+                rl_firepics.visibility = View.VISIBLE
+            }else if(TextUtils.equals("2",firePicsIndex)) {//2 不可见
+                rl_firepics_tips.visibility = View.VISIBLE
+                rl_firepics.visibility = View.GONE
+            }else if(TextUtils.equals("1",firePicsIndex)){
+                rl_firepics_tips.visibility = View.GONE
+                rl_firepics.visibility = View.GONE
+            }
         }
-
     }
 
     private fun sendPayPoint(loveHeartNums:Int){
