@@ -75,6 +75,27 @@ android {
         }
     }
 
+
+    // 使用包名作为同一维度
+    flavorDimensions defaultConfig.applicationId
+    // 友盟多渠道打包
+    productFlavors {
+        umeng { dimension defaultConfig.applicationId }
+        vivo { dimension defaultConfig.applicationId }
+        huawei { dimension defaultConfig.applicationId }
+        oppo { dimension defaultConfig.applicationId }
+    }
+
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+    // rename the apk with the version name
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "d6_${variant.versionName}_${variant.productFlavors[0].name}(${variant.versionCode}).apk".toLowerCase()
+        }
+    }
+
 }
 
 bugtags {
