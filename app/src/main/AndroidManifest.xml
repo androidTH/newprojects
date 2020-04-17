@@ -102,12 +102,17 @@
             android:name="design_height_in_dp"
             android:value="667"/>
 
-        <!-- <meta-data -->
-        <!-- android:name="UMENG_APPKEY" -->
-        <!-- android:value="5a5b309af29d9835ae000262" /> -->
-        <!-- <meta-data -->
-        <!-- android:name="UMENG_MESSAGE_SECRET" -->
-        <!-- android:value="0f16af7d3011a5aad7cf82a996b6b94c" /> -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a5b309af29d9835ae000262" />
+
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="0f16af7d3011a5aad7cf82a996b6b94c" />
+
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
 
         <service android:name="com.amap.api.location.APSService" />
 

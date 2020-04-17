@@ -90,7 +90,8 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         disableAPIDialog()
 //        UMConfigure.setLogEnabled(true)
 //        Bugout.init(this, "ed3b07b4f9f09c390b7dd863e153a276", "d6")
-        UMConfigure.init(this, Const.UMENG_APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
+//        UMConfigure.init(this, Const.UMENG_APPKEY, null, UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
         PlatformConfig.setWeixin(Const.WEIXINID, Const.WEIXINSECERT)
 //        Config.DEBUG = true
         val mPushAgent = PushAgent.getInstance(this)
