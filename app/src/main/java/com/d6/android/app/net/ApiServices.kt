@@ -162,7 +162,7 @@ interface ApiServices {
     fun findDataDict(@Query("dataKey") dataKey:String?="quhao"): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/tip/add")
-    fun report(@Query("userid") userid:String,@Query("tipuserid") tipuserid:String,@Query("content") content:String,@Query("tiptype") tiptype:String,@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
+    fun report(@Query("userid") userid:String,@Query("tipuserid") tipuserid:String,@Query("content") content:String,@Query("tiptype") tiptype:String,@Query("sLoginToken")sLoginToken:String= getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
 
     @POST("backstage/engagementsaccount/update")
     fun updateSeeCount(@Query("userid") userid:String,@Query("seecount") seecount:String="1",@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonPrimitive>>
