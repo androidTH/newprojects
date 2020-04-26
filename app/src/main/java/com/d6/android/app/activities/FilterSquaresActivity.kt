@@ -286,15 +286,17 @@ class FilterSquaresActivity : BaseActivity() {
                 runOnUiThread {
                     intent?.let {
                         var sq = it.getSerializableExtra("bean") as Square
-                        var index = mSquares.indexOf(sq)
-                        if (mSquares != null && mSquares.size > index) {
-                            if (sq != null) {
-                                mSquares.get(index).sIfLovePics = sq.sIfLovePics
-                                mSquares.get(index).sIfSeePics = sq.sIfSeePics
-                                mSquares.get(index).iLovePoint = sq.iLovePoint
-                            }
+                        if(mSquares!=null){
+                            var index = mSquares.indexOf(sq)
+                            if (mSquares.size > index&&index>=0) {
+                                if (sq != null) {
+                                    mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                                    mSquares.get(index).sIfSeePics = sq.sIfSeePics
+                                    mSquares.get(index).iLovePoint = sq.iLovePoint
+                                }
 //                            squareAdapter.notifyItemChanged(index+1,"sq")
-                            squareAdapter.notifyDataSetChanged()
+                                squareAdapter.notifyDataSetChanged()
+                            }
                         }
                     }
                 }

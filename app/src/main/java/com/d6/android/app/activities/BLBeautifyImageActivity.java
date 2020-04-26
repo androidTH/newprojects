@@ -133,6 +133,12 @@ public class BLBeautifyImageActivity extends AppCompatActivity implements View.O
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     protected void initView() {
         mStickerList = findViewById(R.id.recycler_sticker);
         mStickerView = findViewById(R.id.bl_sticker_view);
