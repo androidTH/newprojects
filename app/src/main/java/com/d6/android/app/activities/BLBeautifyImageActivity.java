@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.util.List;
 import com.d6.android.app.fragments.BLBeautifyFragment;
 
+import bolts.ExecutorException;
 import www.morefuntrip.cn.sticker.BLBitmapUtils;
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam;
 import www.morefuntrip.cn.sticker.Bean.BLStickerInfo;
@@ -127,7 +128,11 @@ public class BLBeautifyImageActivity extends AppCompatActivity implements View.O
                     Intent intent = new Intent();
                     intent.putExtra(BLBeautifyParam.RESULT_KEY, mParam);
                     setResult(RESULT_OK, intent);
-                    onBackPressed();
+                    try{
+                        onBackPressed();
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                    }
                 }
             },200);
         }

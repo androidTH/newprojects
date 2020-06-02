@@ -72,10 +72,12 @@ class AreaChooseActivity : BaseActivity() {
 
         mProciceAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.item_name) {
-                mProciceAdapter.selectItem = position
-                tv_menu_toptitle.text = mProvinces.get(position).name
-                mProciceAdapter.notifyDataSetChanged()
-                (rv_menu_right.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 0)
+                if(mProvinces!=null&&mProvinces.size>position){
+                    mProciceAdapter.selectItem = position
+                    tv_menu_toptitle.text = mProvinces.get(position).name
+                    mProciceAdapter.notifyDataSetChanged()
+                    (rv_menu_right.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(position, 0)
+                }
             }
         }
 
@@ -84,11 +86,13 @@ class AreaChooseActivity : BaseActivity() {
                 super.onScrolled(recyclerView, dx, dy)
                 val currentPos = (rv_menu_right.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
                 if (currentPos != currentItem && currentPos >= 0) {
-                    currentItem = currentPos
-                    mProciceAdapter.selectItem = currentItem
-                    tv_menu_toptitle.text = mProvinces.get(currentPos).name
-                    mProciceAdapter.notifyDataSetChanged()
-                    rv_menu.getLayoutManager().scrollToPosition(currentPos)
+                    if(mProvinces!=null&&mProvinces.size>currentPos){
+                        currentItem = currentPos
+                        mProciceAdapter.selectItem = currentItem
+                        tv_menu_toptitle.text = mProvinces.get(currentPos).name
+                        mProciceAdapter.notifyDataSetChanged()
+                        rv_menu.getLayoutManager().scrollToPosition(currentPos)
+                    }
                 }
             }
         })

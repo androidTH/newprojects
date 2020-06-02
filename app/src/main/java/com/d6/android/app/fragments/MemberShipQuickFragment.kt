@@ -73,19 +73,21 @@ class MemberShipQuickFragment : BaseFragment() {
         setData()
         tv_membership_viptq.postDelayed(object:Runnable{
             override fun run() {
-                rv_openmember_fragment.setHasFixedSize(true)
-                rv_openmember_fragment.layoutManager = GridLayoutManager(context, 3) as RecyclerView.LayoutManager?
-                rv_openmember_fragment.adapter = mTeQuanQuickAdapter
+                if(rv_openmember_fragment!=null){
+                    rv_openmember_fragment.setHasFixedSize(true)
+                    rv_openmember_fragment.layoutManager = GridLayoutManager(context, 3) as RecyclerView.LayoutManager?
+                    rv_openmember_fragment.adapter = mTeQuanQuickAdapter
 //        mTeQuanQuickAdapter.setHeaderView(headerView)
-                var divider = GridItemDecoration.Builder(context)
-                        .setHorizontalSpan(R.dimen.margin_1)
-                        .setVerticalSpan(R.dimen.margin_1)
-                        .setColorResource(R.color.color_F5F5F5)
-                        .setShowLastLine(false)
-                        .setShowVerticalLine(false)
-                        .build()
-                rv_openmember_fragment.addItemDecoration(divider)
-                rv_openmember_fragment.isNestedScrollingEnabled = false
+                    var divider = GridItemDecoration.Builder(context)
+                            .setHorizontalSpan(R.dimen.margin_1)
+                            .setVerticalSpan(R.dimen.margin_1)
+                            .setColorResource(R.color.color_F5F5F5)
+                            .setShowLastLine(false)
+                            .setShowVerticalLine(false)
+                            .build()
+                    rv_openmember_fragment.addItemDecoration(divider)
+                    rv_openmember_fragment.isNestedScrollingEnabled = false
+                }
             }
         },100)
     }

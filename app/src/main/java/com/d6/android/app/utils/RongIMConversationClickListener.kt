@@ -73,21 +73,23 @@ class RongIMConversationClickListener : RongIM.ConversationClickListener{
     override fun onUserPortraitClick(p0: Context?, p1: Conversation.ConversationType?, p2: UserInfo?, p3: String?): Boolean {
         if(p1==Conversation.ConversationType.GROUP){
             var mwhoanyonmous = SPUtils.instance().getString(WHO_ANONYMOUS)
-            if(TextUtils.equals(p2!!.userId, getLocalUserId())){
-                if(TextUtils.equals("1",mwhoanyonmous)){
-                    var mUnknowDialog = UnKnowInfoDialog()
-                    mUnknowDialog.arguments = bundleOf("otheruserId" to p2!!.userId)
-                    mUnknowDialog.show((p0 as BaseActivity).supportFragmentManager,"unknowDialog")
-                }else{
-                    p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
-                }
-            }else {
-                if(TextUtils.equals("2",mwhoanyonmous)){
-                    var mUnknowDialog = UnKnowInfoDialog()
-                    mUnknowDialog.arguments = bundleOf("otheruserId" to p2!!.userId)
-                    mUnknowDialog.show((p0 as BaseActivity).supportFragmentManager,"unknowDialog")
-                }else{
-                    p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
+            if(p2!=null){
+                if(TextUtils.equals(p2.userId, getLocalUserId())){
+                    if(TextUtils.equals("1",mwhoanyonmous)){
+                        var mUnknowDialog = UnKnowInfoDialog()
+                        mUnknowDialog.arguments = bundleOf("otheruserId" to p2!!.userId)
+                        mUnknowDialog.show((p0 as BaseActivity).supportFragmentManager,"unknowDialog")
+                    }else{
+                        p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
+                    }
+                }else {
+                    if(TextUtils.equals("2",mwhoanyonmous)){
+                        var mUnknowDialog = UnKnowInfoDialog()
+                        mUnknowDialog.arguments = bundleOf("otheruserId" to p2!!.userId)
+                        mUnknowDialog.show((p0 as BaseActivity).supportFragmentManager,"unknowDialog")
+                    }else{
+                        p0!!.startActivity<UserInfoActivity>("id" to p2!!.userId)
+                    }
                 }
             }
 

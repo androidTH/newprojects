@@ -49,6 +49,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private var mUserInfo: UserData? =null
+    private val BUNDLE_FRAGMENTS_KEY = "android:support:fragments"
 
     private var pageNum = 1
     private val mUserPoints = ArrayList<UserPoints>()
@@ -70,6 +71,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            //重建时清除 fragment的状态
+            savedInstanceState.remove(BUNDLE_FRAGMENTS_KEY)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypoints)
         immersionBar.fitsSystemWindows(true).statusBarDarkFont(true).init()
@@ -161,6 +166,14 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
 
         getIsNotCashMoney()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        if (outState != null) {
+            //销毁时不保存fragment的状态
+            outState.remove(BUNDLE_FRAGMENTS_KEY)
+        }
     }
 
     private fun getIsNotCashMoney(){

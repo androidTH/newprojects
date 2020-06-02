@@ -118,55 +118,58 @@ class ImageFragment : BaseNoBarFragment() {
 //        tv_tag.text = "${url}"
         sampimgview.setMaxScale(15f)
         sampimgview.setZoomEnabled(true)
-        FrescoUtils.loadImage(context,url,object: IResult<Bitmap> {
-            override fun onResult(result: Bitmap?) {
-                try{
-                    result?.let {
-                        var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(SimpleCacheKey(url))
-                        if(resource!=null){
-                            var fileResouce= resource as FileBinaryResource
-                            var mlistWH = BitmapUtils.getWidthHeight(fileResouce.getFile().path)
+        try{
+            FrescoUtils.loadImage(context,url,object: IResult<Bitmap> {
+                override fun onResult(result: Bitmap?) {
+                    try{
+                        result?.let {
+                            var  resource = Fresco.getImagePipelineFactory().getMainFileCache().getResource(SimpleCacheKey(url))
+                            if(resource!=null){
+                                var fileResouce= resource as FileBinaryResource
+                                var mlistWH = BitmapUtils.getWidthHeight(fileResouce.getFile().path)
 //                            var width = AppScreenUtils.getScreenWidth(activity)
 //                            var scaleW = width / mlistWH[0].toFloat()
-                            if (BitmapUtils.isLongImage(mActivity,mlistWH)) {
-                                try{
+                                if (BitmapUtils.isLongImage(mActivity,mlistWH)) {
+                                    try{
+                                        sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
+                                        sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
+                                        sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
+                                    }catch (e: Exception){
+                                        e.printStackTrace()
+                                        if(sampimgview!=null){
+                                            sampimgview.recycle()
+                                        }
+                                        if(activity!=null){
+                                            (activity as ImagePagerActivity).onBackPressed()
+                                        }
+                                    }
+                                } else {
+                                    sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
                                     sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
-                                    sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_START)
-                                    sampimgview.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER_IMMEDIATE)
-                                }catch (e: Exception){
-                                    e.printStackTrace()
-                                    if(sampimgview!=null){
-                                        sampimgview.recycle()
-                                    }
-                                    if(activity!=null){
-                                        (activity as ImagePagerActivity).onBackPressed()
-                                    }
-                                }
-                            } else {
-                                sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
-                                sampimgview.setImage(ImageSource.uri(fileResouce.getFile().path))
 //                                sampimgview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CUSTOM)
 //                                sampimgview.setImage(ImageSource.bitmap(it), ImageViewState(scaleW, PointF(0f, 0f), 0))
-                            }
-                        }else{
-                            if(it!=null){
-                                sampimgview.setImage(ImageSource.bitmap(it))
+                                }
                             }else{
-                                sampimgview.visibility = View.GONE
-                                zoomDrawee.visibility = View.VISIBLE
-                                setZoomableDraweeView("${url}",isBlur)
+                                if(it!=null){
+                                    sampimgview.setImage(ImageSource.bitmap(it))
+                                }else{
+                                    sampimgview.visibility = View.GONE
+                                    zoomDrawee.visibility = View.VISIBLE
+                                    setZoomableDraweeView("${url}",isBlur)
+                                }
                             }
                         }
-                    }
-                }catch(e:Exception){
-                    e.printStackTrace()
-                    if(activity!=null){
-                        (activity as ImagePagerActivity).onBackPressed()
+                    }catch(e:Exception){
+                        e.printStackTrace()
+                        if(activity!=null){
+                            (activity as ImagePagerActivity).onBackPressed()
+                        }
                     }
                 }
-            }
-        })
-
+            })
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
 
     }
 

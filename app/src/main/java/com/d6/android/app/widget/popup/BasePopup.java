@@ -115,7 +115,7 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         return self();
     }
 
-    private void initContentViewAndWH() {
+    private void initContentViewAndWH(){
         if (mContentView == null) {
             if (mLayoutId != 0 && mContext != null) {
                 mContentView = LayoutInflater.from(mContext).inflate(mLayoutId, null);

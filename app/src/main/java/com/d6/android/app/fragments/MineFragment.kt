@@ -594,4 +594,5 @@ class MineFragment : BaseFragment() {
         super.onDestroy()
         immersionBar.destroy()
     }
+    
 }
