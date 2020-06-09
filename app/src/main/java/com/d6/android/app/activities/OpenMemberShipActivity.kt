@@ -272,7 +272,7 @@ class OpenMemberShipActivity : BaseActivity() {
                 var inflater = View.inflate(this, R.layout.tab_item, null)
                 var title = inflater.findViewById<TextView>(R.id.tv_tab)
                 var iv_tuijian = inflater.findViewById<ImageView>(R.id.iv_tag)
-                if (it.classesname!!.startsWith("APP")) {
+                if (it.classesname!!.startsWith("白银")) {
                     iv_tuijian.visibility = View.VISIBLE
                 } else {
                     iv_tuijian.visibility = View.GONE
