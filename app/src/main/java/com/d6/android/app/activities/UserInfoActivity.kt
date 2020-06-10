@@ -743,11 +743,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
                 }else{
-                    if(deletePic){
-                        myImageAdapter.notifyDataSetChanged()
-                        headerView.rv_my_images.visibility = View.VISIBLE
-                    }else{
-                        headerView.rv_my_images.visibility = View.GONE
+                    try{
+                        if(deletePic){
+                            myImageAdapter.notifyDataSetChanged()
+                            headerView.rv_my_images.visibility = View.VISIBLE
+                        }else{
+                            headerView.rv_my_images.visibility = View.GONE
+                        }
+                    }catch (e:java.lang.Exception){
+                        e.printStackTrace()
                     }
                 }
 
@@ -797,24 +801,28 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun refreshImages(userData: UserData) {
-        mImages.clear()
-        if (!userData.userpics.isNullOrEmpty()) {
-            userData.userpics?.let {
-                val images = it.split(",")
-                images.forEach {
-                    mImages.add(AddImage(it))
+        try{
+            mImages.clear()
+            if (!userData.userpics.isNullOrEmpty()) {
+                userData.userpics?.let {
+                    val images = it.split(",")
+                    images.forEach {
+                        mImages.add(AddImage(it))
+                    }
+                }
+            }else{
+                headerView.rv_my_images.visibility = View.GONE
+            }
+            if(deletePic){
+                headerView.rv_my_images.visibility = View.VISIBLE
+                if(MAXPICS!=mImages.size){
+                    mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
                 }
             }
-        }else{
-            headerView.rv_my_images.visibility = View.GONE
+            myImageAdapter.notifyDataSetChanged()
+        }catch (e:Exception){
+            e.printStackTrace()
         }
-        if(deletePic){
-            headerView.rv_my_images.visibility = View.VISIBLE
-            if(MAXPICS!=mImages.size){
-                mImages.add(AddImage("res:///" + R.mipmap.ic_add_v2bg, 1))
-            }
-        }
-        myImageAdapter.notifyDataSetChanged()
     }
 
     /**

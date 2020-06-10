@@ -43,6 +43,7 @@ import com.danikula.videocache.HttpProxyCacheServer
 //import com.didichuxing.doraemonkit.ui.base.BaseActivity
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
+import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.message.IUmengRegisterCallback
 import com.umeng.message.MsgConstant
@@ -98,6 +99,14 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         mPushAgent.notificationPlaySound = MsgConstant.NOTIFICATION_PLAY_SERVER
         mPushAgent.setMessageHandler(CustomNotification())
         mPushAgent.setNotificationClickHandler(CustomNotificationHandler())
+
+        val random = (Math.random() * 2).toInt()
+        if(random==0){
+            MobclickAgent.setCatchUncaughtExceptions(false)
+        }else{
+            MobclickAgent.setCatchUncaughtExceptions(true)
+        }
+
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {
 
@@ -109,6 +118,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             override fun onFailure(s: String, s1: String) {
             }
         })
+
 
         if (applicationInfo.packageName.equals(getCurProcessName(applicationContext))) {
 //            RongPushClient.registerHWPush(this);
