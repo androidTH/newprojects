@@ -283,7 +283,8 @@ class OpenMemberShipActivity : BaseActivity() {
             }
             viewpager_membership.adapter = MemberShipPageAdapter(supportFragmentManager, mFragments, mMemberPriceList)
             viewpager_membership.offscreenPageLimit = mFragments.size
-            setButtonContent(0)
+            viewpager_membership.currentItem = 1
+            setButtonContent(viewpager_membership.currentItem)
         }
     }
 
