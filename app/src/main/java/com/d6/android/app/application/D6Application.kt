@@ -106,8 +106,6 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             MobclickAgent.setCatchUncaughtExceptions(true)
         }
 
-        Log.i("suijishu","数字：${random}")
-
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {
 
