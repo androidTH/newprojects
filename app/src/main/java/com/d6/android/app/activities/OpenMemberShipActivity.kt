@@ -272,7 +272,7 @@ class OpenMemberShipActivity : BaseActivity() {
                 var inflater = View.inflate(this, R.layout.tab_item, null)
                 var title = inflater.findViewById<TextView>(R.id.tv_tab)
                 var iv_tuijian = inflater.findViewById<ImageView>(R.id.iv_tag)
-                if (it.classesname!!.startsWith("白银")) {
+                if (it.classesname!!.startsWith("黄金")) {
                     iv_tuijian.visibility = View.VISIBLE
                 } else {
                     iv_tuijian.visibility = View.GONE
@@ -283,7 +283,7 @@ class OpenMemberShipActivity : BaseActivity() {
             }
             viewpager_membership.adapter = MemberShipPageAdapter(supportFragmentManager, mFragments, mMemberPriceList)
             viewpager_membership.offscreenPageLimit = mFragments.size
-            viewpager_membership.currentItem = 1
+            viewpager_membership.currentItem = 2
             setButtonContent(viewpager_membership.currentItem)
         }
     }

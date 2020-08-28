@@ -28,7 +28,7 @@
                     android:paddingLeft="@dimen/margin_3"
                     android:paddingTop="@dimen/margin_2"
                     android:paddingBottom="@dimen/margin_2"
-                    android:text="有限期 "
+                    android:text="入群时长 "
                     android:textColor="@color/color_F7AB00"
                     android:textStyle="bold"
                     android:textSize="14sp" />

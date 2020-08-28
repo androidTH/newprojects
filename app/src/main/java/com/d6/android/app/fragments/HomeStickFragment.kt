@@ -331,6 +331,7 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
             if (data != null) {
                 var pointDesc = data.optString("sAddPointDesc")
                 var sLoginToken = data.optString("sLoginToken")
+                Log.i("slogintoken","stoken="+sLoginToken)
                 if (!TextUtils.isEmpty(pointDesc)) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
                     SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()

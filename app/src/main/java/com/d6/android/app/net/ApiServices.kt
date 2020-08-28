@@ -327,7 +327,7 @@ interface ApiServices {
 
     //绑定微信
     @POST("backstage/account/bindWxid")
-    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String,@Query("sWxName") sWxName:String,@Query("sWxpic") sWxpic:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sUnionid")sUnionid:String?="",@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String,@Query("sWxName") sWxName:String,@Query("sWxpic") sWxpic:String,@Query("sUnionid")sUnionid:String?="",@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //大赏小红花
     @POST("backstage/userflowerrule/sendFlowerByOrderId")

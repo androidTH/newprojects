@@ -216,7 +216,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                 }
 
                 var tv_vip = holder.bind<TextView>(R.id.tv_vip)
-                tv_vip.visibility = View.VISIBLE
+                tv_vip.visibility = View.GONE
                 if (TextUtils.equals(data.userclassesid.toString(), "22")) {
                     tv_vip.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.vip_ordinary)
                 } else if (TextUtils.equals(data.userclassesid, "23")) {
@@ -526,7 +526,7 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         holder.setText(R.id.tv_newname, data.name)
 
         var tv_newvip = holder.bind<TextView>(R.id.tv_newvip)
-        tv_newvip.visibility = View.VISIBLE
+        tv_newvip.visibility = View.GONE
         var drawable = getLevelDrawable(data.userclassesid,context)
         if(drawable==null){
             tv_newvip.backgroundDrawable = null

@@ -146,6 +146,7 @@ fun Activity?.saveUserInfo(obj: UserData?) {
     if (obj == null) {
         return
     }
+    Log.i("slogintoken","token="+obj.sLoginToken);
     SPUtils.instance().put(Const.User.USER_ID, obj.accountId)
             .put(Const.User.USER_TOKEN, obj.apptoken)
             .put(Const.User.USER_PHONE, obj.phone)

@@ -289,6 +289,23 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_help_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_10"
+                android:background="@drawable/shape_ff6452"
+                android:paddingLeft="@dimen/margin_13"
+                android:paddingTop="@dimen/margin_8"
+                android:paddingRight="@dimen/margin_13"
+                android:paddingBottom="@dimen/margin_8"
+                android:text="@string/string_help_service"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+            <TextView
                 android:id="@+id/tv_openchat_apply_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
