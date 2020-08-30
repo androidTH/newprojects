@@ -180,6 +180,10 @@ class SpeedDateDetailActivity : TitleActivity() {
             mTags.add(UserTag("地区 " + speedDate.speedcity, R.mipmap.boy_constellation_icon))
         }
 
+        if(!TextUtils.isEmpty(speedDate.sLookUserClass)){
+            mTags.add(UserTag("要求 " + speedDate.sLookUserClass, R.mipmap.boy_constellation_icon))
+        }
+
         rv_speeddate_tags.setHasFixedSize(true)
         rv_speeddate_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
         rv_speeddate_tags.isNestedScrollingEnabled = false

@@ -325,11 +325,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }
 
         tv_help_service.setOnClickListener {
+            showServiceDialog()
+        }
 
-            val customerServiceDialog = CustomerServiceDialog()
-            customerServiceDialog.arguments = bundleOf("resMsg" to "对方可能暂时没看到你的申请，你可以求助你的专属微信客服联系对方",
-                    "dialog_title" to "求助客服联系对方","service_type" to "1")
-            customerServiceDialog.show(supportFragmentManager, "resMsg")
+        tv_help_service_chat.setOnClickListener {
+            showServiceDialog()
         }
 
         tv_openchat_points.setOnClickListener {
@@ -479,6 +479,16 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         FinishActivityManager.getManager().addActivity(this)
 //        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
+    }
+
+    /**
+     * 显示求助客服dialog
+     */
+    private fun showServiceDialog(){
+        val customerServiceDialog = CustomerServiceDialog()
+        customerServiceDialog.arguments = bundleOf("resMsg" to "对方可能暂时没看到你的申请，你可以求助你的专属微信客服联系对方",
+                "dialog_title" to "求助客服联系对方","service_type" to "1")
+        customerServiceDialog.show(supportFragmentManager, "resMsg")
     }
 
     override fun onResume() {
@@ -890,6 +900,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         sAppointType = appointment.iAppointType
         linear_datechat_agree_bottom.visibility = View.VISIBLE
         if(sAppointType==6){
+            tv_help_service_chat.visibility = View.VISIBLE
             rl_circlebar.visibility = View.VISIBLE
             tv_progress.visibility = View.VISIBLE
             ll_date_dowhat.visibility = View.GONE
@@ -994,6 +1005,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 tv_date_info.text = "等待对方确认中…"
                 tv_datechat_no.visibility = View.GONE
                 tv_datechat_giveup.visibility = View.VISIBLE
+                tv_help_service_chat.visibility = View.VISIBLE
             }
             ISNOTYAODATE = 2
         }

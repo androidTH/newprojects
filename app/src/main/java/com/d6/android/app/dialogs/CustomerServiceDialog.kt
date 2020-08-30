@@ -1,5 +1,8 @@
 package com.d6.android.app.dialogs
 
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
@@ -57,10 +60,28 @@ class CustomerServiceDialog : DialogFragment(),RequestManager {
         }
         tv_customerservice_contact.setOnClickListener {
             isBaseActivity {
-//                chatService(it)
-                it.pushCustomerMessage(it, getLocalUserId(),5,"",next = {
-                    chatService(it)
-                })
+//                it.pushCustomerMessage(it, getLocalUserId(),5,"",next = {
+//                    chatService(it)
+//                })
+//                var lan = it.getPackageManager().getLaunchIntentForPackage("com.tencent.mm");
+//                var intent = Intent(Intent.ACTION_MAIN);
+//                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.setComponent(lan.getComponent());
+//                startActivity(intent)
+                if(TextUtils.equals("1",service_type)){
+                    try {
+                        val intent = Intent(Intent.ACTION_MAIN)
+                        val cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
+                        intent.addCategory(Intent.CATEGORY_LAUNCHER)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        intent.component = cmp
+                        startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        // TODO: handle exception
+                        toast("检查到您手机没有安装微信，请安装后使用该功能")
+                    }
+                }
             }
             dismissAllowingStateLoss()
         }

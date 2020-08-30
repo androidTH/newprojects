@@ -309,7 +309,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     private fun getProvinceData() {
         try{
-            if (TextUtils.isEmpty(cityJson)) {
+            if (!TextUtils.isEmpty(cityJson)) {
                 getServiceProvinceData()
             } else {
                 if (!TextUtils.equals(getTodayTime(), lastTime)) {
@@ -327,7 +327,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     private fun getServiceProvinceData(){
-        Request.getProvinceAll().request(this) { _, data ->
+        Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()

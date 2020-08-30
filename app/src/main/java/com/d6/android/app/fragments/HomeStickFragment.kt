@@ -248,7 +248,7 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
     }
 
     private fun getServiceProvinceData(){
-        Request.getProvinceAll().request(this) { _, data ->
+        Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()

@@ -168,6 +168,10 @@ class FindDateDetailActivity : TitleActivity() {
             mTags.add(UserTag("地区 " + mLookDate.city, R.mipmap.boy_constellation_icon))
         }
 
+        if(!TextUtils.isEmpty(mLookDate.sLookUserClass)){
+            mTags.add(UserTag("要求 " + mLookDate.sLookUserClass, R.mipmap.boy_constellation_icon))
+        }
+
         rv_tags.setHasFixedSize(true)
         rv_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
         rv_tags.isNestedScrollingEnabled = false

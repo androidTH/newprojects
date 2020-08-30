@@ -159,14 +159,14 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }else if(it.contains(Const.Pic_Thumbnail_Size_wh400)){
                 url = it.replace(Const.Pic_Thumbnail_Size_wh400,"")
             }
-            if(mBlurIndex!=null&&mBlurIndex.size>0){
+            if(mBlurIndex!=null&&mBlurIndex.size>key){
                 if(TextUtils.equals("2",mBlurIndex[key])&&!TextUtils.equals(userId, getLocalUserId())){
                     url = it.replace("?imageslim",Const.BLUR_60)
                 }
             }
 
             var isFirePic = false
-            if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
+            if(mFirePicsIndex!=null&&mFirePicsIndex.size>key){
                 if(TextUtils.equals("2",mFirePicsIndex[key])){
                     url = it.replace("?imageslim",Const.BLUR_60)
                 }else if(TextUtils.equals("3",mFirePicsIndex[key])){
@@ -392,7 +392,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun showFirePics(position: Int){
-        if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
+        if(mFirePicsIndex!=null&&mFirePicsIndex.size>position){
             var firePicsIndex = mFirePicsIndex[position]
             if(TextUtils.equals("3",firePicsIndex)){
                 rl_firepics_tips.visibility = View.GONE
