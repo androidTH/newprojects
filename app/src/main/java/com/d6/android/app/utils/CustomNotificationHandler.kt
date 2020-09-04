@@ -5,10 +5,7 @@ import android.content.Intent
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import com.d6.android.app.activities.FansActivity
-import com.d6.android.app.activities.InviteGoodFriendsActivity
-import com.d6.android.app.activities.MyDateActivity
-import com.d6.android.app.activities.MyPointsActivity
+import com.d6.android.app.activities.*
 import com.d6.android.app.base.BaseActivity
 import com.umeng.message.UmengNotificationClickHandler
 import com.umeng.message.entity.UMessage
@@ -71,6 +68,9 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
                 (context as BaseActivity).startActivity<InviteGoodFriendsActivity>()
             }else if(TextUtils.equals(type,"11")){
                 (context as BaseActivity).startActivity<FansActivity>()
+            }else if(TextUtils.equals(type,"13")){
+                //跳转到动态详情页面
+                (context as BaseActivity).startActivity<SquareTrendDetailActivity>("id" to "${13}")
             }
         }
     }

@@ -1,26 +1,16 @@
 package com.d6.android.app.activities
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.text.Html
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
-import com.d6.android.app.adapters.AuthTipsQuickAdapter
-import com.d6.android.app.adapters.MemberCommentHolder
-import com.d6.android.app.adapters.MemberLevelAdapter
-import com.d6.android.app.adapters.MemberShipPageAdapter
+import com.d6.android.app.adapters.*
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.easypay.EasyPay
@@ -38,15 +28,15 @@ import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
-import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
 import com.d6.android.app.widget.CustomToast
+import com.d6.android.app.widget.gallery.DSVOrientation
+import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_openmember_ship.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.textColor
 
 /**
@@ -62,6 +52,9 @@ class OpenMemberShipActivity : BaseActivity() {
     private val AREA_REQUEST_CODE_SILIVER = 12
     private var mMemberPriceList = ArrayList<MemberBean>()
 
+    private val mMemberLevelAdapter by lazy{
+        MemberLevelNewAdapter(mMemberPriceList)
+    }
     private var mOpenMemberShipDialog: OpenMemberShipDialog? = null
     private var mSilverMemberDialog: SilverMemberDialog? = null
     private var mAppMemberDialog: AppMemberDialog? = null
@@ -285,6 +278,17 @@ class OpenMemberShipActivity : BaseActivity() {
             viewpager_membership.offscreenPageLimit = mFragments.size
             viewpager_membership.currentItem = 2
             setButtonContent(viewpager_membership.currentItem)
+
+//            rv_viptypes.setHasFixedSize(true)
+//            rv_viptypes.setOrientation(DSVOrientation.HORIZONTAL)
+//            rv_viptypes.setSlideOnFling(false)
+//            rv_viptypes.isNestedScrollingEnabled = false
+//            rv_viptypes.adapter = mMemberLevelAdapter
+//            rv_viptypes.scrollToPosition(2)
+//            rv_viptypes.setItemTransitionTimeMillis(150)
+//            rv_viptypes.setItemTransformer(ScaleTransformer.Builder()
+//                    .setMinScale(0.9f)
+//                    .build())
         }
     }
 

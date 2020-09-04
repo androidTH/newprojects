@@ -446,8 +446,9 @@
         <activity android:name=".activities.BindPhoneActivity"/>
         <activity android:name=".activities.BlackListActivity"/>
         <activity android:name=".activities.GoodFriendsListActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.RGServiceInfoActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activities.InviteGoodFriendsActivity">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.InviteGoodFriendsActivity"/>

@@ -84,7 +84,9 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/color_888888"
                 android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
+
+
 
             <View
                 android:id="@+id/view_line_openmember"

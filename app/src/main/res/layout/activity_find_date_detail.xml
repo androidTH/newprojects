@@ -255,4 +255,17 @@
             android:textStyle="bold"
             android:textSize="10sp" />
     </LinearLayout>
+    <Button
+        android:id="@+id/tv_finddate"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/taren_yellowbutton_bg"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="觅约"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 </RelativeLayout>

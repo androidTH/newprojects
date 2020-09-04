@@ -127,7 +127,7 @@ interface ApiServices {
     @POST("backstage/sysDict/findautoNew")
     fun getProvince(@Query("isShow") isShow:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 
-    @POST("backstage/sysDict/findautoForAll") //findautoAll  findautoForAll  paramKey 1:海外地市 0：国内地市  isShow 1、查询全部  2、过滤查询，只显示有数据的
+    @POST("backstage/sysDict/findautoAll") //findautoAll  findautoForAll  paramKey 1:海外地市 0：国内地市  isShow 1、查询全部  2、过滤查询，只显示有数据的
     fun getProvinceAll(@Query("isShow") isShow:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 
     @POST("backstage/comments/findByPageguangchangxiaoxi")

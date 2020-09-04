@@ -103,7 +103,9 @@ class FindDateDetailActivity : TitleActivity() {
             isAuthUser() {
                 mData?.let {
                     ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, it.lookfriendstand ?: "", it.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+it.id, shareListener)
+//                    startActivity<RGServiceInfoActivity>("data" to it)
                 }
+
             }
 //            var mDateTypeDialog = DateTypeDialog()
 //            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])
@@ -168,9 +170,9 @@ class FindDateDetailActivity : TitleActivity() {
             mTags.add(UserTag("地区 " + mLookDate.city, R.mipmap.boy_constellation_icon))
         }
 
-        if(!TextUtils.isEmpty(mLookDate.sLookUserClass)){
-            mTags.add(UserTag("要求 " + mLookDate.sLookUserClass, R.mipmap.boy_constellation_icon))
-        }
+//        if(!TextUtils.isEmpty(mLookDate.sLookUserClass)){
+//            mTags.add(UserTag("要求 " + mLookDate.sLookUserClass, R.mipmap.icon_need))
+//        }
 
         rv_tags.setHasFixedSize(true)
         rv_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)

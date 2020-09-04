@@ -116,6 +116,8 @@ class SpeedDateDetailActivity : TitleActivity() {
         btn_contact.setOnClickListener {
             isAuthUser() {
                 ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+
+//                startActivity<RGServiceInfoActivity>("data" to it)
             }
 //            var mDateTypeDialog = DateTypeDialog()
 //            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])
@@ -180,9 +182,9 @@ class SpeedDateDetailActivity : TitleActivity() {
             mTags.add(UserTag("地区 " + speedDate.speedcity, R.mipmap.boy_constellation_icon))
         }
 
-        if(!TextUtils.isEmpty(speedDate.sLookUserClass)){
-            mTags.add(UserTag("要求 " + speedDate.sLookUserClass, R.mipmap.boy_constellation_icon))
-        }
+//        if(!TextUtils.isEmpty(speedDate.sLookUserClass)){
+//            mTags.add(UserTag("要求 " + speedDate.sLookUserClass, R.mipmap.icon_need))
+//        }
 
         rv_speeddate_tags.setHasFixedSize(true)
         rv_speeddate_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)

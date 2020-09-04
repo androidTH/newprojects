@@ -676,7 +676,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             tv_openchat_apply_bottom.visibility = View.GONE
             tv_openchat_tips_title_bottom.text = getString(R.string.string_appaying_openchat)
             tv_openchat_tips_bottom.text = getString(R.string.string_give_redflower)
-            tv_help_service.visibility = View.VISIBLE
+            tv_help_service.visibility = View.GONE //VISIBLE
         }) { code, msg ->
             showToast(msg)
         }
@@ -761,7 +761,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
                     tv_openchat_tips_title_bottom.text = getString(R.string.string_appaying_openchat)
                     tv_openchat_tips_bottom.text = getString(R.string.string_give_redflower)
-                    tv_help_service.visibility = View.VISIBLE
+                    tv_help_service.visibility = View.GONE //VISIBLE
 
                     fragment?.hideChatInput( true)
 
@@ -900,7 +900,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         sAppointType = appointment.iAppointType
         linear_datechat_agree_bottom.visibility = View.VISIBLE
         if(sAppointType==6){
-            tv_help_service_chat.visibility = View.VISIBLE
+            tv_help_service_chat.visibility = View.GONE //VISIBLE
             rl_circlebar.visibility = View.VISIBLE
             tv_progress.visibility = View.VISIBLE
             ll_date_dowhat.visibility = View.GONE
@@ -1005,7 +1005,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 tv_date_info.text = "等待对方确认中…"
                 tv_datechat_no.visibility = View.GONE
                 tv_datechat_giveup.visibility = View.VISIBLE
-                tv_help_service_chat.visibility = View.VISIBLE
+                tv_help_service_chat.visibility = View.GONE //VISIBLE
             }
             ISNOTYAODATE = 2
         }

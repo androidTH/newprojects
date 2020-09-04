@@ -86,7 +86,7 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
 
     @Override
     public void onItemClick(View view, int position, TipsMessage content, UIMessage message) {
-        if(content.getContent().endsWith("求助客服联系对方")){
+        if(content.getContent().endsWith("求助客服联系")){
             CustomerServiceDialog customerServiceDialog = new CustomerServiceDialog();
             Bundle bundle = new Bundle();
             bundle.putString("resMsg", "对方可能暂时没看到你的申请，你可以求助你的专属微信客服联系对方");
@@ -108,9 +108,9 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             TextView textView = holder.mTvMsgContent;
             String txt = content.getContent();
-            if(txt.endsWith("求助客服联系对方")){
+            if(txt.endsWith("求助客服联系")){
                 SpanBuilder sb = new SpanBuilder(txt);
-                sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_96FE6E17);
+                sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_F7B500);
                 textView.setText(sb.build());
 //                SpannableStringBuilder spanStringBuilder = new SpanBuilder(txt)
 //                        .click(txt.length() - 8, txt.length(), clickSpan)
@@ -137,13 +137,13 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
         } else {
             TextView textView = holder.mTvMsgContent;
             String txt = content.getContent();
-            if(txt.endsWith("求助客服联系对方")){
+            if(txt.endsWith("求助客服联系")){
 //                SpannableStringBuilder spanStringBuilder = new SpanBuilder(txt)
 //                        .click(txt.length() - 8, txt.length(), clickSpan)
 //                        .build();
 //                textView.setText(spanStringBuilder);
                 SpanBuilder sb = new SpanBuilder(txt);
-                sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_96FE6E17);
+                sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_F7B500);
                 textView.setText(sb.build());
             }else{
                 textView.setText(txt);
