@@ -258,4 +258,17 @@
             android:textStyle="bold"
             android:textSize="10sp" />
     </RelativeLayout>
+    <Button
+        android:id="@+id/tv_speeddate"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/taren_yellowbutton_bg"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="速约"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 </RelativeLayout>

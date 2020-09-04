@@ -99,7 +99,6 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         mPushAgent.notificationPlaySound = MsgConstant.NOTIFICATION_PLAY_SERVER
         mPushAgent.setMessageHandler(CustomNotification())
         mPushAgent.setNotificationClickHandler(CustomNotificationHandler())
-
         val random = (Math.random() * 2).toInt()
         if(random==0){
             MobclickAgent.setCatchUncaughtExceptions(false)
@@ -118,7 +117,6 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             override fun onFailure(s: String, s1: String) {
             }
         })
-
 
         if (applicationInfo.packageName.equals(getCurProcessName(applicationContext))) {
 //            RongPushClient.registerHWPush(this);

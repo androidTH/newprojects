@@ -328,7 +328,7 @@ class SignInActivity : TitleActivity() {
             }
             clearLoginToken()
             saveUserInfo(data)
-            SPUtils.instance().put(INSTALL_DATA01,"").apply()
+//            SPUtils.instance().put(INSTALL_DATA01,"").apply()
             data?.let {
                 val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                 RongIM.getInstance().refreshUserInfoCache(info)
@@ -363,7 +363,7 @@ class SignInActivity : TitleActivity() {
                         }
                     }
                     saveUserInfo(it)
-                    SPUtils.instance().put(INSTALL_DATA01,"").apply()
+//                    SPUtils.instance().put(INSTALL_DATA01,"").apply()
                     val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
                     RongIM.getInstance().refreshUserInfoCache(info)
                     if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称

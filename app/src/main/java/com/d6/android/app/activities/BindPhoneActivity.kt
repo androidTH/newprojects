@@ -219,7 +219,7 @@ class BindPhoneActivity : TitleActivity() {
            clearLoginToken()
            saveMsg(msg)
            saveUserInfo(data)
-           SPUtils.instance().put(Const.INSTALL_DATA01,"").apply()
+//           SPUtils.instance().put(Const.INSTALL_DATA01,"").apply()
            data?.let {
                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
                RongIM.getInstance().refreshUserInfoCache(info)

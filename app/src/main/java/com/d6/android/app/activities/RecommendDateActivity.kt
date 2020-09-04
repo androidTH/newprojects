@@ -189,7 +189,7 @@ class RecommendDateActivity : BaseActivity() {
     }
 
     private fun getProvinceData() {
-        Request.getProvinceAll().request(this) { _, data ->
+        Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(this).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 setLocationCity()

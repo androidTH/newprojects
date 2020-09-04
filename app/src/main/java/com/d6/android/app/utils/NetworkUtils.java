@@ -4,13 +4,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
+import android.os.ParcelFileDescriptor;
 import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 
-import com.d6.android.app.models.FriendBean;
-
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -398,4 +406,124 @@ public class NetworkUtils {
         }
         return "";
     }
+
+    public void normalBitmap(Context context,String path){
+        int degree = readPictureDegree(context, path);
+        rotateImage(degree, path);
+        int[] newSize =getImageSizeForUrl(path);
+    }
+    /**
+     * get Local image width or height
+     *
+     * @return
+     */
+    public static int[] getImageSizeForUrl(String url) {
+        int[] size = new int[2];
+        try {
+            ExifInterface exifInterface = new ExifInterface(url);
+            // 获取图片的宽度
+            int width = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_WIDTH, ExifInterface.ORIENTATION_NORMAL);
+            // 获取图片的高度
+            int height = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_LENGTH, ExifInterface.ORIENTATION_NORMAL);
+            size[0] = width;
+            size[1] = height;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
+    /**
+     * 读取图片属性：旋转的角度
+     *
+     * @param path 图片绝对路径
+     * @return degree旋转的角度
+     */
+    public static int readPictureDegree(Context context, String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface;
+            if (Build.VERSION.SDK_INT >=29) {
+                ParcelFileDescriptor parcelFileDescriptor =
+                        context.getContentResolver()
+                                .openFileDescriptor(Uri.parse(path), "r");
+                exifInterface = new ExifInterface(parcelFileDescriptor.getFileDescriptor());
+            } else {
+                exifInterface = new ExifInterface(path);
+            }
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+
+
+
+    /**
+     * 旋转Bitmap
+     *
+     * @param bitmap
+     * @param angle
+     * @return
+     */
+    public static Bitmap rotatingImage(Bitmap bitmap, int angle) {
+        Matrix matrix = new Matrix();
+
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+    /**
+     * 判断拍照 图片是否旋转
+     *
+     * @param degree
+     */
+    public static void rotateImage(int degree, String path) {
+        if (degree > 0) {
+            try {
+                // 针对相片有旋转问题的处理方式
+                BitmapFactory.Options opts = new BitmapFactory.Options();
+                opts.inSampleSize = 2;
+                File file = new File(path);
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(), opts);
+                bitmap = rotatingImage(bitmap, degree);
+                if (bitmap != null) {
+                    saveBitmapFile(bitmap, file);
+                    bitmap.recycle();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 保存Bitmap至本地
+     *
+     * @param bitmap
+     * @param file
+     */
+    public static void saveBitmapFile(Bitmap bitmap, File file) {
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bos.flush();
+            bos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

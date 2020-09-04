@@ -127,8 +127,8 @@ interface ApiServices {
     @POST("backstage/sysDict/findautoNew")
     fun getProvince(@Query("isShow") isShow:Int,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 
-    @POST("backstage/sysDict/findautoAll")
-    fun getProvinceAll(@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
+    @POST("backstage/sysDict/findautoAll") //findautoAll  findautoForAll  paramKey 1:海外地市 0：国内地市  isShow 1、查询全部  2、过滤查询，只显示有数据的
+    fun getProvinceAll(@Query("isShow") isShow:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<ArrayList<Province>>>
 
     @POST("backstage/comments/findByPageguangchangxiaoxi")
     fun getSquareMessages(@Query("userid") userid: String, @Query("pageNum") pageNum: Int, @Query("createTime") createTime: String? = null, @Query("pageSize") pageSize: Int = Request.PAGE_SIZE,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<Page<SquareMessage>>>
@@ -327,7 +327,7 @@ interface ApiServices {
 
     //绑定微信
     @POST("backstage/account/bindWxid")
-    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String,@Query("sWxName") sWxName:String,@Query("sWxpic") sWxpic:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sUnionid")sUnionid:String?="",@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun doBindWxId(@Query("iUserid") iUserid:String,@Query("wxid") wxId:String,@Query("sWxName") sWxName:String,@Query("sWxpic") sWxpic:String,@Query("sUnionid")sUnionid:String?="",@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //大赏小红花
     @POST("backstage/userflowerrule/sendFlowerByOrderId")

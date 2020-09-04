@@ -46,7 +46,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
         intent.getStringExtra("id")
     }
 
-    private val position by lazy{
+    private val mPosition by lazy{
         if(intent.hasExtra("position")){
             intent.getIntExtra("position",-1)
         }else{
@@ -435,12 +435,14 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
     }
 
     private fun updateBean(){
-        var intent = Intent()
-        var bundle=Bundle()
-        bundle.putSerializable("bean",mSquare)
-        bundle.putInt("position",position)
-        intent.putExtras(bundle)
-        setResult(Activity.RESULT_OK,intent)
+        if (mPosition > -1) {
+            var intent = Intent()
+            var bundle = Bundle()
+            bundle.putSerializable("bean", mSquare)
+            bundle.putInt("position", mPosition)
+            intent.putExtras(bundle)
+            setResult(Activity.RESULT_OK, intent)
+        }
     }
 
     override fun onRefresh() {

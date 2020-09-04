@@ -362,7 +362,7 @@ class SquareFragment : RecyclerFragment() {
     fun onEvent(flowerEvent: FlowerMsgEvent){
         if(flowerEvent.getmSquare()!=null){
             var index = mSquares.indexOf(flowerEvent.getmSquare())
-            if(mSquares!=null&&mSquares.size>index){
+            if(mSquares!=null&&mSquares.size>index&&index!=-1){
                 mSquares.get(index).iSendLovePoint = 1
                 if(flowerEvent.getmSquare()!=null){
                     mSquares.get(index).sIfLovePics = flowerEvent.getmSquare().sIfLovePics
@@ -379,15 +379,13 @@ class SquareFragment : RecyclerFragment() {
                 runOnUiThread {
                    intent?.let {
                        var sq = it.getSerializableExtra("bean") as Square
-                       if(sq!=null){
+                       if (sq != null && mSquares != null && mSquares.size > 0) {
                            var index = mSquares.indexOf(sq)
-                           if (mSquares != null && mSquares.size > index&&index!=-1) {
-                               if (sq != null) {
-                                   mSquares.get(index).sIfLovePics = sq.sIfLovePics
-                                   mSquares.get(index).sIfSeePics = sq.sIfSeePics
-                                   mSquares.get(index).iLovePoint = sq.iLovePoint
-                               }
-                               squareAdapter.notifyItemChanged(index+1,"sq")
+                           if (index != -1) {
+                               mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                               mSquares.get(index).sIfSeePics = sq.sIfSeePics
+                               mSquares.get(index).iLovePoint = sq.iLovePoint
+                               squareAdapter.notifyItemChanged(index + 1, "sq")
                            }
                        }
                    }

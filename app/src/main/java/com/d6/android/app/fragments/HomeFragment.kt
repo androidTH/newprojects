@@ -309,7 +309,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     private fun getProvinceData() {
         try{
-            if (TextUtils.isEmpty(cityJson)) {
+            if (!TextUtils.isEmpty(cityJson)) {
                 getServiceProvinceData()
             } else {
                 if (!TextUtils.equals(getTodayTime(), lastTime)) {
@@ -327,7 +327,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     private fun getServiceProvinceData(){
-        Request.getProvinceAll().request(this) { _, data ->
+        Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
@@ -420,11 +420,11 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             if (data != null) {
                 var sLoginToken = data.optString("sLoginToken")
                 var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
+                SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
                 if (lstTask!=null&&lstTask.size>0) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
                     SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
                     SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
-                    SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
                     var today = getTodayTime()
                     var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW+getLocalUserId(),"")
                     if(!TextUtils.equals(today,yesterday)){

@@ -324,6 +324,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
         }
 
+        tv_help_service.setOnClickListener {
+            showServiceDialog()
+        }
+
+        tv_help_service_chat.setOnClickListener {
+            showServiceDialog()
+        }
+
         tv_openchat_points.setOnClickListener {
             payPoints(mTitle)//支付积分
         }
@@ -471,6 +479,16 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         FinishActivityManager.getManager().addActivity(this)
 //        RongUtils.setConversationTop(this,mConversationType,if(iType==2)  mTargetId else mOtherUserId,true)
+    }
+
+    /**
+     * 显示求助客服dialog
+     */
+    private fun showServiceDialog(){
+        val customerServiceDialog = CustomerServiceDialog()
+        customerServiceDialog.arguments = bundleOf("resMsg" to "对方可能暂时没看到你的申请，你可以求助你的专属微信客服联系对方",
+                "dialog_title" to "求助客服联系对方","service_type" to "1")
+        customerServiceDialog.show(supportFragmentManager, "resMsg")
     }
 
     override fun onResume() {
@@ -658,6 +676,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             tv_openchat_apply_bottom.visibility = View.GONE
             tv_openchat_tips_title_bottom.text = getString(R.string.string_appaying_openchat)
             tv_openchat_tips_bottom.text = getString(R.string.string_give_redflower)
+            tv_help_service.visibility = View.GONE //VISIBLE
         }) { code, msg ->
             showToast(msg)
         }
@@ -742,6 +761,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
                     tv_openchat_tips_title_bottom.text = getString(R.string.string_appaying_openchat)
                     tv_openchat_tips_bottom.text = getString(R.string.string_give_redflower)
+                    tv_help_service.visibility = View.GONE //VISIBLE
 
                     fragment?.hideChatInput( true)
 
@@ -752,6 +772,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     linear_openchat_agree_bottom.visibility = View.VISIBLE
                     tv_openchat_tips_title_bottom.visibility = View.GONE
                     tv_openchat_tips_bottom.visibility = View.GONE
+                    tv_help_service.visibility = View.GONE
                     tv_openchat_tips_center_bottom.visibility = View.VISIBLE
                     tv_openchat_tips_center_bottom.text =String.format(getString(R.string.string_applay_tips_center),tv_chattitle.text)
                     fragment?.let {
@@ -772,6 +793,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         tv_openchat_tips_bottom.visibility = View.VISIBLE
                         tv_openchat_tips_center_bottom.visibility = View.GONE
                         linear_openchat_agree_bottom.visibility = View.GONE
+                        tv_help_service.visibility = View.GONE
 
                         tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
                         tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
@@ -878,6 +900,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         sAppointType = appointment.iAppointType
         linear_datechat_agree_bottom.visibility = View.VISIBLE
         if(sAppointType==6){
+            tv_help_service_chat.visibility = View.GONE //VISIBLE
             rl_circlebar.visibility = View.VISIBLE
             tv_progress.visibility = View.VISIBLE
             ll_date_dowhat.visibility = View.GONE
@@ -982,6 +1005,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 tv_date_info.text = "等待对方确认中…"
                 tv_datechat_no.visibility = View.GONE
                 tv_datechat_giveup.visibility = View.VISIBLE
+                tv_help_service_chat.visibility = View.GONE //VISIBLE
             }
             ISNOTYAODATE = 2
         }

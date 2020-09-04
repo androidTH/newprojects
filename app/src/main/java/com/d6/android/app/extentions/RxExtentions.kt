@@ -34,11 +34,15 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
     this.defaultScheduler().subscribe(object : DisposableSubscriber<I>() {
         override fun onStart() {
             super.onStart()
-            requestManager.onBind(this)
+            if(requestManager!=null){
+                requestManager.onBind(this)
+            }
         }
         override fun onError(t: Throwable?) {
             t?.printStackTrace()
-            requestManager.dismissDialog()
+            if(requestManager!=null){
+                requestManager.dismissDialog()
+            }
             var code = -1
             var msg = ""
             when (t) {
@@ -76,6 +80,9 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                                     .remove(Const.User.RONG_TOKEN)
                                     .remove(Const.User.USER_TOKEN)
                                     .apply()
+                            if(requestManager==null){
+                                return;
+                            }
                             if (requestManager is BaseActivity) {
                                 requestManager.closeAll()
                                 requestManager.startActivity<SplashActivity>()
@@ -89,6 +96,9 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                     }else if(tCode == 404){
                         msg = Error.SERVER_404ERROR
                     } else if (tCode == -3) {//账号已禁用
+                        if(requestManager==null){
+                            return
+                        }
                         if (requestManager is BaseActivity) {
                             val confirmDialog = ConfirmDialog()
                             confirmDialog.arguments = bundleOf("msg" to "对不起，您的账号已被禁用，如有疑问，请联系D6客服。")
@@ -109,16 +119,20 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
             if(!TextUtils.isEmpty(msg)){
                 error(code, msg)
                 if (code == 200 || code == -3) {
-                    if (requestManager is BaseFragment) {
-                        if (requestManager.activity != null && requestManager.activity is BaseActivity) {
-                            val mSingleActionDialog = SingleActionDialog()
-                            mSingleActionDialog.arguments = bundleOf("message" to msg)
-                            mSingleActionDialog.show((requestManager.activity as BaseActivity).supportFragmentManager, "action")
+                    if(requestManager!=null){
+                        if (requestManager is BaseFragment) {
+                            if (requestManager.activity != null && requestManager.activity is BaseActivity) {
+                                val mSingleActionDialog = SingleActionDialog()
+                                mSingleActionDialog.arguments = bundleOf("message" to msg)
+                                mSingleActionDialog.show((requestManager.activity as BaseActivity).supportFragmentManager, "action")
+                            }
                         }
                     }
                 }else{
                     if (showToast&&msg.isNotEmpty()) {////-2 该用户已注销
-                        requestManager.showToast("${msg}")
+                        if(requestManager!=null){
+                            requestManager.showToast("${msg}")
+                        }
                     }
                 }
             }
@@ -129,14 +143,18 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
         }
 
         override fun onNext(t: I) {
-            requestManager.dismissDialog()
+            if(requestManager!=null){
+                requestManager.dismissDialog()
+            }
             if (t.res == 1) {//成功
                 success(t.resMsg,t.data)
             }else {
                 if(t.data!=null&&t.data!="null"){
                     error(t.res, t.data.toString())
                     if (showToast) {
-                        requestManager.showToast("${t.resMsg}")
+                        if(requestManager!=null){
+                            requestManager.showToast("${t.resMsg}")
+                        }
                     }
                 }else{
                     onError(ResultException(t.res, "${t.resMsg}"))

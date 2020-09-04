@@ -25,7 +25,14 @@
     <!--https://github.com/quiph/RecyclerView-FastScroller-->
     <!--https://github.com/zhpanvip/BannerViewPager-->
     <!--多图选择：https://github.com/donkingliang/ImageSelector-->
-
+    <!--基于腾讯浏览服务Tbs,使用X5Webkit内核,实现文件的展示功能，支持多种文件格式 https://github.com/ZhongXiaoHong/superFileView-->
+    <!--一行代码检测XP/调试/多开/模拟器/root https://github.com/lamster2018/EasyProtector-->
+    <!--图片选择 https://github.com/LuckSiege/PictureSelector,Imageselect-->
+    <!--开源项目 https://github.com/VIPyinzhiwei/Eyepetizer-->
+    <!--输入法面板 https://github.com/YummyLau/PanelSwitchHelper-->
+    <!--一个轻量级（<180KB）、易扩展的Android滤镜和动态贴纸框架，支持摄像头、视频、图片和视图添加滤镜和贴纸。 https://github.com/uestccokey/EZFilter-->
+     <!--自定义相机 https://github.com/CJT2325/CameraView，https://github.com/xionger0520/flowcamera-->
+    <!--手势体验极棒但使用简单的ImageView控件 https://github.com/boycy815/PinchImageView-->
 
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -289,7 +296,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ChatActivity"
-            android:launchMode="singleTop"
+            android:launchMode="standard"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -439,8 +446,9 @@
         <activity android:name=".activities.BindPhoneActivity"/>
         <activity android:name=".activities.BlackListActivity"/>
         <activity android:name=".activities.GoodFriendsListActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.RGServiceInfoActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activities.InviteGoodFriendsActivity">
             <intent-filter>
                 <action android:name="com.d6.android.app.activities.InviteGoodFriendsActivity"/>

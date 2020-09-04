@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_black">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_size">
+
+        <TextView
+            android:id="@+id/tv_rgservice_back"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/back"
+            android:paddingLeft="@dimen/padding_16" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="人工服务说明"
+            android:textColor="@color/color_black"
+            android:textSize="18dp"
+            android:visibility="gone"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_below="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="速约是为D6会员提供的"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="客服一对一高端速配服务"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_vipservice"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="@dimen/margin_30"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@mipmap/vip_serves_two"/>-->
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_30"
+            android:layout_marginLeft="@dimen/margin_40"
+            android:layout_marginRight="@dimen/margin_40"
+            app:viewAspectRatio="0.8"
+            app:actualImageScaleType="centerInside"
+            android:id="@+id/sdv_vipservice"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
+            <!--android:layout_marginLeft="@dimen/margin_10"-->
+            <!--android:textSize="14sp"-->
+            <!--android:text="|服务保障"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
+            <!--android:layout_marginLeft="@dimen/margin_10"-->
+            <!--android:textSize="14sp"-->
+            <!--android:text="严格筛选，为你推荐优质会员"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
+            <!--android:layout_marginLeft="@dimen/margin_10"-->
+            <!--android:textSize="14sp"-->
+            <!--android:text="直接微信快速约会，一对一速配"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
+            <!--android:layout_marginLeft="@dimen/margin_10"-->
+            <!--android:textSize="14sp"-->
+            <!--android:text="客服全程助攻，为你牵线搭桥"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
+            <!--android:layout_marginLeft="@dimen/margin_10"-->
+            <!--android:textSize="14sp"-->
+            <!--android:text="｜步骤"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
+            <!--android:layout_marginLeft="@dimen/margin_10"-->
+            <!--android:textSize="14sp"-->
+            <!--android:text="开通会员->选人速配->直接奔现"/>-->
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:layout_marginLeft="@dimen/margin_40"
+        android:layout_marginRight="@dimen/margin_40">
+        <TextView
+            android:id="@+id/tv_rgservice_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_20"
+            android:textSize="12sp"
+            android:textColor="@color/white"
+            android:text=""/>
+        <TextView
+            android:id="@+id/tv_rgservice_invite"
+            android:layout_below="@+id/tv_rgservice_tips"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/shape_setting_bg"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

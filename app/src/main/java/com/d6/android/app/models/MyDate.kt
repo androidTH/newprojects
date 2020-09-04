@@ -57,6 +57,8 @@ data class MyDate(@SerializedName("ids") val id: String?) : Serializable {
     val selfpicurl: String? = ""//自助发布图片
     @SerializedName("iType")
     var iType:Int?=-1  // 1你约  2 速约
+    var iLookClass:Int?=-1 //觅约或速约要求的会员等级
+    var sLookUserClass:String?="" //觅约或速约要求的会员等级名称
     fun getSpeedStateStr(): String {
         return when ( lookstate?:speedstate) {
             "1" -> "救火"

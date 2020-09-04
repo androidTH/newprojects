@@ -1139,16 +1139,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 runOnUiThread {
                     intent?.let {
                         var sq = it.getSerializableExtra("bean") as Square
-                        if(sq!=null){
+                        if(sq!=null&&mSquares!=null&&mSquares.size>0){
                             var index = mSquares.indexOf(sq)
-                            if (mSquares != null && mSquares.size > index) {
-                                if (sq != null) {
-                                    mSquares.get(index).sIfLovePics = sq.sIfLovePics
-                                    mSquares.get(index).sIfSeePics = sq.sIfSeePics
-                                    mSquares.get(index).iLovePoint = sq.iLovePoint
-                                    mSquares.get(index).iSendLovePoint = 1
-                                }
-                                squareAdapter.notifyItemChanged(index+1,"sq")
+                            if (index != -1) {
+                                mSquares.get(index).sIfLovePics = sq.sIfLovePics
+                                mSquares.get(index).sIfSeePics = sq.sIfSeePics
+                                mSquares.get(index).iLovePoint = sq.iLovePoint
+                                mSquares.get(index).iSendLovePoint = 1
+                                squareAdapter.notifyItemChanged(index + 1, "sq")
                             }
                         }
                     }

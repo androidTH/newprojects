@@ -162,4 +162,5 @@
     <string name="string_groupname_hint">输入群名称（2-8个字）</string>
     <string name="string_grouporfriends">群聊与好友</string>
     <string name="string_fire_longclick">阅后即焚\n长按图片即可查看</string>
+    <string name="string_help_service">求助客服</string>
 </resources>

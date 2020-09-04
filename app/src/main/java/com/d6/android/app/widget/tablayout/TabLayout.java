@@ -2058,7 +2058,7 @@ public class TabLayout extends HorizontalScrollView {
                     //Tab的中心点的坐标（mIndicatorRight-width/2也是）
                     int tabCenter = mIndicatorLeft+width/2;
                     RectF oval3;
-                    if(IsNotCenter&&getSelectedTabPosition()==0){
+                    if(IsNotCenter&&getSelectedTabPosition()==2){
                         oval3 = new RectF(tabCenter-mTabLineOffset-25, getHeight() - mSelectedIndicatorHeight,
                                 mIndicatorRight-width/2+mTabLineOffset-25, getHeight());
                     }else{

@@ -161,12 +161,12 @@ class MemberActivity : BaseActivity() {
                      tv_viplevel.text = data.classesname
                  }
                  data.dUserClassEndTime?.let {
-                     if(it>0){
-                         if(TextUtils.equals("0",sex)){
-                             tv_vipendtime.visibility = View.GONE
-                         }else{
+                     if (it > 0) {
+                         if (TextUtils.equals(data.userclassesid, "31")) {
                              tv_vipendtime.visibility = View.VISIBLE
-                             tv_vipendtime.text = "到期时间：${data.dUserClassEndTime.toTime(timeFormat)}"
+                             tv_vipendtime.text = "有效期：${data.dUserClassEndTime.toTime(timeFormat)}"
+                         } else {
+                             tv_vipendtime.visibility = View.GONE
                          }
                      }else{
                          tv_vipendtime.visibility = View.GONE

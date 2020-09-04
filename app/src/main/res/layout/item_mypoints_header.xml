@@ -299,7 +299,7 @@
             android:textSize="10sp"
             android:textColor="@color/color_888888"
             android:layout_marginBottom="@dimen/margin_20"
-            android:text="奖励的积分每周日24:00清零，记得及时使用哦"/>
+            android:text="奖励和返还的积分每周日24:00清零，记得及时使用"/>
 
         <View
             android:id="@+id/view_top_bottom"
