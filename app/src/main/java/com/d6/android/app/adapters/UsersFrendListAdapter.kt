@@ -45,8 +45,16 @@ class UsersFrendListAdapter(mData:ArrayList<FriendBean>): HFRecyclerAdapter<Frie
         }
 
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
+        val tv_age = holder.bind<TextView>(R.id.tv_age)
         tv_sex.isSelected = TextUtils.equals("0", "${data.sSex}")
-        tv_sex.text = data.nianling
+
+        if(data.nianling.isNullOrEmpty()){
+           tv_age.visibility = View.GONE
+        }else{
+            tv_age.isSelected = TextUtils.equals("0", "${data.sSex}")
+            tv_age.visibility = View.VISIBLE
+            tv_age.text = "${data.nianling}岁"
+        }
 
         var img_friends_auther = holder.bind<ImageView>(R.id.img_friends_auther)
         if(TextUtils.equals("3",data.screen)){

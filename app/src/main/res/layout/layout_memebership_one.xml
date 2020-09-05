@@ -4,21 +4,29 @@
     android:layout_height="wrap_content"
     android:background="@color/color_F6F7FA">
 
+    <ImageView
+        android:id="@+id/iv_zhixiang"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_centerHorizontal="true"
+        android:background="@mipmap/zhixiang_icon"/>
+    <!--android:layout_marginTop="@dimen/margin_10"-->
     <android.support.v4.widget.NestedScrollView
+        android:layout_below="@+id/iv_zhixiang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_10"
             android:background="@color/white">
             <LinearLayout
                 android:id="@+id/rl_membership_vipfw"
                 android:layout_marginTop="@dimen/margin_10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
+                android:gravity="center_horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -84,16 +92,16 @@
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/color_888888"
                 android:textSize="10sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
-
-
+            <!--tv_membership_viptq-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
             <View
                 android:id="@+id/view_line_openmember"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_1"
+                android:layout_height="1dp"
                 android:layout_below="@+id/tv_membership_viptq"
-                android:layout_marginTop="@dimen/margin_10"
                 android:background="@color/color_F5F5F5" />
 
             <android.support.v7.widget.RecyclerView

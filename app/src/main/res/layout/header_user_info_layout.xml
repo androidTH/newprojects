@@ -117,6 +117,20 @@
             android:textSize="10sp" />
 
         <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_sex_bg_selector"
+            android:paddingLeft="3dp"
+            android:paddingTop="0.5dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="0.5dp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:textSize="10sp" />
+
+        <TextView
             android:id="@+id/tv_vip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

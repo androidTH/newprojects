@@ -53,11 +53,16 @@ class InviteAdapter(mData:ArrayList<InviteUserBean>): HFRecyclerAdapter<InviteUs
         }
 
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
+        val tv_age = holder.bind<TextView>(R.id.tv_age)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
         if(TextUtils.equals("0",data.nianling)||TextUtils.equals("-1",data.nianling)){
-            tv_sex.text = ""
+            tv_age.visibility = View.GONE
+        }else if(data.nianling.isNullOrEmpty()){
+            tv_age.visibility = View.GONE
         }else{
-            tv_sex.text = data.nianling
+            tv_age.isSelected = TextUtils.equals("0", data.sSex)
+            tv_age.visibility = View.VISIBLE
+            tv_age.text = "${data.nianling}岁"
         }
 
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)

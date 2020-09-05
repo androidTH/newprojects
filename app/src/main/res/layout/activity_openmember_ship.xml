@@ -37,6 +37,7 @@
         android:layout_below="@+id/rl_openmember_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:background="@color/white">
         <com.d6.android.app.widget.tablayout.TabLayout
             android:id="@+id/tab_membership"
@@ -57,18 +58,18 @@
             app:tabTextColor="@color/color_666666" />
     </RelativeLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager_membership"
-        android:layout_below="@+id/rl_openmber_tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <com.d6.android.app.widget.gallery.DiscreteScrollView
         android:id="@+id/rv_viptypes"
-        android:layout_below="@+id/rl_openmber_tab"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_below="@+id/rl_openmember_title"
         android:layout_width="match_parent"
-        android:layout_height="155dp"
-        android:visibility="gone"/>
+        android:layout_height="155dp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_membership"
+        android:layout_below="@+id/rv_viptypes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:id="@+id/ll_bottom"
@@ -115,13 +116,13 @@
             <!--android:layout_marginLeft="@dimen/margin_5"-->
 
             <!--<TextView-->
-                <!--android:id="@+id/tv_member_showdes"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="@dimen/margin_3"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="14sp"-->
-                <!--android:textStyle="bold" />-->
+            <!--android:id="@+id/tv_member_showdes"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="@dimen/margin_3"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textStyle="bold" />-->
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

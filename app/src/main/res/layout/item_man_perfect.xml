@@ -33,7 +33,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tv_man_pecfect_age"
+        android:id="@+id/tv_man_pecfect_sex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/man_perfect_headView"
@@ -52,18 +52,35 @@
         android:textSize="10sp" />
 
     <TextView
-        android:id="@+id/tv_man_perfect_vip"
+        android:id="@+id/tv_man_pecfect_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/man_perfect_headView"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_13"
+        android:layout_marginLeft="@dimen/margin_5"
+        android:layout_toRightOf="@+id/tv_man_pecfect_sex"
+        android:background="@drawable/ic_sex_circle_bg_selector"
+        android:gravity="center_vertical"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="0.5dp"
+        android:paddingBottom="0.5dp"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_man_perfect_vip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_alignTop="@+id/man_perfect_headView"
+        android:layout_marginLeft="@dimen/margin_5"
         android:layout_toRightOf="@+id/tv_man_pecfect_age"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:textColor="@color/white"
-        android:textSize="11sp"
-        android:visibility="gone" />
+        android:textSize="11sp" />
 
     <RelativeLayout
         android:id="@+id/ll_vistorfollownums"
@@ -99,35 +116,6 @@
                 android:textColor="@color/white"
                 android:textSize="12sp" />
         </LinearLayout>
-
-        <!--<LinearLayout-->
-            <!--android:id="@+id/ll_man_pecfert_like"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginRight="@dimen/margin_10"-->
-            <!--android:layout_toEndOf="@+id/ll_man_pecfert_vistor"-->
-            <!--android:layout_toRightOf="@+id/ll_man_pecfert_vistor"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/tv_like_man_pecfert_count"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="8"-->
-                <!--android:textColor="@color/color_888888"-->
-                <!--android:textSize="18sp" />-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@+id/tv_like_man_pecfert_count"-->
-                <!--android:layout_alignLeft="@+id/tv_like_man_pecfert_count"-->
-                <!--android:text="喜欢"-->
-                <!--android:textColor="@color/color_888888"-->
-                <!--android:textSize="12sp" />-->
-        <!--</LinearLayout>-->
-
     </RelativeLayout>
 
 

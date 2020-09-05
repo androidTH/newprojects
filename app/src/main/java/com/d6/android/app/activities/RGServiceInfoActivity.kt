@@ -88,7 +88,7 @@ class RGServiceInfoActivity : BaseActivity() {
                         tv_rgservice_invite.text = "联系客服"
                     }else{
                         sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
-                        tv_rgservice_invite.text = "开通会员·联系微信客服"
+                        tv_rgservice_invite.text = "联系客服升级会员"
                     }
                 } else if (iLookClass <= userClassId!!) {
                     sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
@@ -97,7 +97,7 @@ class RGServiceInfoActivity : BaseActivity() {
                 } else {
                     sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
                     tv_rgservice_tips.text = "对方${mData.sLookUserClass}会员才能速配"
-                    tv_rgservice_invite.text = "开通会员·联系微信客服"
+                    tv_rgservice_invite.text = "联系客服升级会员"
                 }
                 saveUserInfo(data)
             }

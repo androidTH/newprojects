@@ -1,24 +1,15 @@
 package com.d6.android.app.adapters
 
-import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import com.d6.android.app.R
-import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.adapters.BaseRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.models.MyDate
-import com.d6.android.app.models.NewDateBean
-import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
-import kotlinx.android.synthetic.main.view_trend_view.view.*
-import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.backgroundResource
 
 /**
  *
@@ -28,9 +19,18 @@ class RecommendDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDat
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         imageView.setImageURI(data.lookpics)
         val nameView = holder.bind<TextView>(R.id.tv_name)
+        val tv_age = holder.bind<TextView>(R.id.tv_age)
 //        nameView.text = String.format("%s%s", data.speedwhere + data.handspeedwhere, data.speednumber)
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
+        tv_age.isSelected = TextUtils.equals(data.sex, "0")
+        if(data.age.isNullOrEmpty()){
+            tv_age.visibility = View.GONE
+        }else{
+            tv_age.visibility = View.VISIBLE
+            tv_age.text = "${data.age}岁"
+        }
+
         var tv_info = holder.bind<TextView>(R.id.tv_info)
         if(TextUtils.equals("0",data.sex)){
             tv_info.visibility = View.GONE

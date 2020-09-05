@@ -183,9 +183,21 @@
                         android:text=""
                         android:textColor="@color/white"
                         android:textSize="10sp" />
-
                     <TextView
-                        android:id="@+id/tv_date_vip"
+                        android:id="@+id/tv_date_user_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_sex_bg_selector"
+                        android:layout_marginLeft="3dp"
+                        android:paddingLeft="3dp"
+                        android:paddingTop="0.5dp"
+                        android:paddingRight="3dp"
+                        android:paddingBottom="0.5dp"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        android:textSize="10sp" />
+                    <ImageView
+                        android:id="@+id/iv_date_vip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp" />

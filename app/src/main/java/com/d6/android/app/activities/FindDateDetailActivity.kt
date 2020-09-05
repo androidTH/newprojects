@@ -99,13 +99,14 @@ class FindDateDetailActivity : TitleActivity() {
 //        val helper = PagerSnapHelper()
 //        helper.attachToRecyclerView(rv_images)
 
-        tv_contact.setOnClickListener {
-            isAuthUser() {
-                mData?.let {
-                    ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, it.lookfriendstand ?: "", it.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+it.id, shareListener)
-//                    startActivity<RGServiceInfoActivity>("data" to it)
-                }
-
+        tv_finddate.setOnClickListener {
+//            isAuthUser() {
+//                mData?.let {
+//                    ShareUtils.share(this@FindDateDetailActivity, SHARE_MEDIA.WEIXIN, it.lookfriendstand ?: "", it.looknumber?:"", "http://www.d6-zone.com/JyD6/#/miyuexiangqing?ids="+it.id, shareListener)
+//                }
+//            }
+            mData?.let {
+                startActivity<RGServiceInfoActivity>("data" to it)
             }
 //            var mDateTypeDialog = DateTypeDialog()
 //            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])
@@ -151,7 +152,7 @@ class FindDateDetailActivity : TitleActivity() {
 
     private fun refreshUI(mLookDate:MyDate) {
         date_type.text = String.format("觅约：%s", mLookDate.looknumber)
-        tv_sex.text = "${mLookDate.age}"
+        tv_age.text = "${mLookDate.age}岁"
 
         mTags.clear()
         if (!TextUtils.isEmpty(mLookDate.height)) {
@@ -170,9 +171,9 @@ class FindDateDetailActivity : TitleActivity() {
             mTags.add(UserTag("地区 " + mLookDate.city, R.mipmap.boy_constellation_icon))
         }
 
-//        if(!TextUtils.isEmpty(mLookDate.sLookUserClass)){
-//            mTags.add(UserTag("要求 " + mLookDate.sLookUserClass, R.mipmap.icon_need))
-//        }
+        if(!TextUtils.isEmpty(mLookDate.sLookUserClass)){
+            mTags.add(UserTag("要求 " + mLookDate.sLookUserClass, R.mipmap.icon_need))
+        }
 
         rv_tags.setHasFixedSize(true)
         rv_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
@@ -221,11 +222,13 @@ class FindDateDetailActivity : TitleActivity() {
 
         if (TextUtils.equals(mLookDate.sex, "1")) {
             tv_sex.isSelected = false
+            tv_age.isSelected = false
             tv_vip.visibility = View.VISIBLE
             img_auther.visibility = View.GONE
             tv_vip.backgroundDrawable = getLevelDrawableOfClassName(mLookDate.classesname.toString(),this)
         } else {
             tv_sex.isSelected = true
+            tv_age.isSelected = true
             tv_vip.visibility = View.GONE
             img_auther.visibility = View.VISIBLE
             if (TextUtils.equals("1", mLookDate.screen)) {

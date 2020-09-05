@@ -185,17 +185,19 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 
             if (!data.nianling.isNullOrEmpty()) {
                 if (TextUtils.equals("0", data.nianling)) {
-                    tv_woman_age.text = ""
+                    tv_woman_age.visibility = View.GONE
                 } else {
-                    tv_woman_age.text = data.nianling
+                    tv_woman_age.visibility = View.VISIBLE
+                    tv_woman_age.text = "${data.nianling}岁"
                 }
-            }
-
-            if(data.nianling.isNullOrEmpty()){
-                tv_woman_age.text = ""
+            }else{
+                tv_woman_age.visibility = View.GONE
             }
 
             tv_woman_age.isSelected = TextUtils.equals("0", data.sex)
+
+            val tv_woman_sex = holder.bind<TextView>(R.id.tv_womang_sex)
+            tv_woman_sex.isSelected = TextUtils.equals("0", data.sex)
 
             var tv_content = holder.bind<TextView>(R.id.tv_content)
 
@@ -433,6 +435,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
 //        }
 
         val tv_age = holder.bind<TextView>(R.id.tv_man_pecfect_age)
+        val tv_sex = holder.bind<TextView>(R.id.tv_man_pecfect_sex)
 
         var ll_vistor = holder.bind<LinearLayout>(R.id.ll_man_pecfert_vistor)
         var tv_men_love_visitors = holder.bind<TextView>(R.id.tv_men_love_visitors)
@@ -468,15 +471,24 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             }
         }
 
+        tv_age.isSelected = TextUtils.equals("0", data.sex)
         if (!data.nianling.isNullOrEmpty()) {
             if (TextUtils.equals("0", data.nianling)) {
-                tv_age.text = ""
+                tv_age.visibility = View.GONE
             } else {
-                tv_age.text = if(data.nianling.equals("null")) "0" else data.nianling
+                if(data.nianling.equals("null")) {
+                    tv_age.visibility = View.GONE
+                } else{
+                    tv_age.visibility =View.VISIBLE
+                    tv_age.text = "${data.nianling}岁"
+                }
             }
+        }else{
+            tv_age.visibility = View.GONE
         }
 
-        tv_age.isSelected = TextUtils.equals("0", data.sex)
+
+        tv_sex.isSelected = TextUtils.equals("0", data.sex)
         if (!data.egagementtext.isNullOrEmpty()) {
             holder.setText(R.id.tv_man_pecfect_content, data.egagementtext)
         } else if (!(data.gexingqianming.isNullOrEmpty())) {

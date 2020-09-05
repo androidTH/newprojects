@@ -208,6 +208,13 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         tv_name.text = square.name
 
         tv_sex.isSelected = TextUtils.equals("0",square.sex)
+        tv_age.isSelected = TextUtils.equals("0",square.sex)
+        if(square.age.isNullOrEmpty()){
+            tv_age.visibility = View.GONE
+        }else{
+            tv_age.visibility = View.VISIBLE
+            tv_age.text = "${square.age}岁"
+        }
 //        tv_vip.text = square.userclassesname
         tv_vip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
 

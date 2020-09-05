@@ -608,14 +608,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
                 headerView.tv_sex.isSelected = TextUtils.equals("0", it.sex)
-                it.age?.let {
-                    if (it.toInt() <= 0) {
-                        headerView.tv_sex.text = ""
-                        headerView.tv_user_date_sex.text = ""
-                    } else {
-                        headerView.tv_sex.text = it
-                        headerView.tv_user_date_sex.text = it
-                    }
+                headerView.tv_age.isSelected = TextUtils.equals("0", it.sex)
+                if (it.age.isNullOrEmpty()) {
+                    headerView.tv_age.visibility = View.GONE
+                    headerView.tv_user_date_sex.text = ""
+                } else {
+                    headerView.tv_age.visibility = View.VISIBLE
+                    headerView.tv_age.text = "${it.age}岁"
+                    headerView.tv_user_date_sex.text = "${it.age}"
                 }
 
 //                if (TextUtils.equals("0", it.sex)) {

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
@@ -30,6 +31,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.gallery.DSVOrientation
+import com.d6.android.app.widget.gallery.DiscreteScrollView
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.fm.openinstall.OpenInstall
 import kotlinx.android.synthetic.main.activity_openmember_ship.*
@@ -42,7 +44,7 @@ import org.jetbrains.anko.textColor
 /**
  * 开通会员
  */
-class OpenMemberShipActivity : BaseActivity() {
+class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder> {
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -89,24 +91,24 @@ class OpenMemberShipActivity : BaseActivity() {
                 API.BASE_URL + "static/image/006koYhFly8g2u7m94y4oj30ro0rotai.jpg"))
 
 //        tab_membership.setupWithViewPager(viewpager_membership)
-        tab_membership.addOnTabSelectedListener(object : com.d6.android.app.widget.tablayout.TabLayout.OnTabSelectedListener {
-            override fun onTabReselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
-
-            }
-
-            override fun onTabSelected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
-                tab?.let {
-                    setTabSelected(true, it)
-                    viewpager_membership.setCurrentItem(it.getPosition())
-                }
-            }
-
-            override fun onTabUnselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
-                tab?.let {
-                    setTabSelected(false, it)
-                }
-            }
-        })
+//        tab_membership.addOnTabSelectedListener(object : com.d6.android.app.widget.tablayout.TabLayout.OnTabSelectedListener {
+//            override fun onTabReselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
+//
+//            }
+//
+//            override fun onTabSelected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
+//                tab?.let {
+//                    setTabSelected(true, it)
+//                    viewpager_membership.setCurrentItem(it.getPosition())
+//                }
+//            }
+//
+//            override fun onTabUnselected(tab: com.d6.android.app.widget.tablayout.TabLayout.Tab?) {
+//                tab?.let {
+//                    setTabSelected(false, it)
+//                }
+//            }
+//        })
         viewpager_membership.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
@@ -118,9 +120,10 @@ class OpenMemberShipActivity : BaseActivity() {
 
             override fun onPageSelected(position: Int) {
                 if (mMemberPriceList != null && mMemberPriceList.size > 0) {
-                    tab_membership.getTabAt(position)?.let {
-                        tab_membership.selectTab(it, true)
-                    }
+//                    tab_membership.getTabAt(position)?.let {
+//                        tab_membership.selectTab(it, true)
+//                    }
+                    rv_viptypes.smoothScrollToPosition(position)
                     setButtonContent(position)
                 }
             }
@@ -261,34 +264,40 @@ class OpenMemberShipActivity : BaseActivity() {
         if (mMemberPriceList != null && mMemberPriceList.size > 0) {
             mMemberPriceList.forEach {
                 mFragments.add(MemberShipQuickFragment.newInstance(it, it.sDesc.toString()))
-                var tab = tab_membership.newTab()
-                var inflater = View.inflate(this, R.layout.tab_item, null)
-                var title = inflater.findViewById<TextView>(R.id.tv_tab)
-                var iv_tuijian = inflater.findViewById<ImageView>(R.id.iv_tag)
-                if (it.classesname!!.startsWith("黄金")) {
-                    iv_tuijian.visibility = View.VISIBLE
-                } else {
-                    iv_tuijian.visibility = View.GONE
-                }
-                title.text = it.classesname
-                tab.setCustomView(inflater)
-                tab_membership.addTab(tab)
+//                var tab = tab_membership.newTab()
+//                var inflater = View.inflate(this, R.layout.tab_item, null)
+//                var title = inflater.findViewById<TextView>(R.id.tv_tab)
+//                var iv_tuijian = inflater.findViewById<ImageView>(R.id.iv_tag)
+//                if (it.classesname!!.startsWith("黄金")) {
+//                    iv_tuijian.visibility = View.VISIBLE
+//                } else {
+//                    iv_tuijian.visibility = View.GONE
+//                }
+//                title.text = it.classesname
+//                tab.setCustomView(inflater)
+//                tab_membership.addTab(tab)
             }
             viewpager_membership.adapter = MemberShipPageAdapter(supportFragmentManager, mFragments, mMemberPriceList)
             viewpager_membership.offscreenPageLimit = mFragments.size
             viewpager_membership.currentItem = 2
             setButtonContent(viewpager_membership.currentItem)
 
-//            rv_viptypes.setHasFixedSize(true)
-//            rv_viptypes.setOrientation(DSVOrientation.HORIZONTAL)
-//            rv_viptypes.setSlideOnFling(false)
-//            rv_viptypes.isNestedScrollingEnabled = false
-//            rv_viptypes.adapter = mMemberLevelAdapter
-//            rv_viptypes.scrollToPosition(2)
-//            rv_viptypes.setItemTransitionTimeMillis(150)
-//            rv_viptypes.setItemTransformer(ScaleTransformer.Builder()
-//                    .setMinScale(0.9f)
-//                    .build())
+            rv_viptypes.setHasFixedSize(true)
+            rv_viptypes.setOrientation(DSVOrientation.HORIZONTAL)
+            rv_viptypes.setSlideOnFling(true)
+            rv_viptypes.isNestedScrollingEnabled = false
+            rv_viptypes.adapter = mMemberLevelAdapter
+            rv_viptypes.scrollToPosition(2)
+            rv_viptypes.setItemTransitionTimeMillis(150)
+            rv_viptypes.setItemTransformer(ScaleTransformer.Builder()
+                    .setMinScale(0.9f)
+                    .build())
+
+            rv_viptypes.addOnItemChangedListener { viewHolder, adapterPosition ->
+                viewpager_membership.setCurrentItem(adapterPosition)
+            }
+            rv_viptypes.addScrollStateChangeListener(this)
+            rv_viptypes.addScrollStateChangeListener(this)
         }
     }
 
@@ -414,6 +423,16 @@ class OpenMemberShipActivity : BaseActivity() {
             pushCustomerMessage(this, getLocalUserId(), 7, "") {
             }
         }
+    }
+
+    override fun onScroll(scrollPosition: Float, currentPosition: Int, newPosition: Int, currentHolder: RecyclerView.ViewHolder?, newCurrent: RecyclerView.ViewHolder?) {
+
+    }
+
+    override fun onScrollEnd(currentItemHolder: RecyclerView.ViewHolder, adapterPosition: Int) {
+    }
+
+    override fun onScrollStart(currentItemHolder: RecyclerView.ViewHolder, adapterPosition: Int) {
     }
 
     override fun onDestroy() {

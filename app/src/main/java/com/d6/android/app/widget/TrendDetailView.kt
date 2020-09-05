@@ -149,6 +149,13 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
         headView.setImageURI(square.picUrl)
         tv_name.text = square.name
         tv_sex.isSelected = if(TextUtils.equals("0",square.sex)) true else false
+        tv_age.isSelected = if(TextUtils.equals("0",square.sex)) true else false
+        if(square.age.isNullOrEmpty()){
+            tv_age.visibility = View.GONE
+        }else{
+            tv_age.visibility = View.VISIBLE
+            tv_age.text = "${square.age}岁"
+        }
 
         if(TextUtils.equals("3",square.screen)){
             img_auther.visibility= View.GONE

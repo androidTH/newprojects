@@ -33,7 +33,6 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_5"
                 android:singleLine="true"
                 android:text="--"
                 android:textSize="15sp"
@@ -43,8 +42,8 @@
                 android:id="@+id/tv_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tv_nick"
-                android:layout_marginRight="@dimen/margin_5"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_5"
                 android:background="@drawable/ic_sex_bg_selector"
                 android:drawableLeft="@drawable/sex_white_selector"
                 android:drawablePadding="1dp"
@@ -52,14 +51,31 @@
                 android:paddingTop="0.5dp"
                 android:paddingRight="3dp"
                 android:paddingBottom="0.5dp"
-                android:text="0"
                 android:textColor="@color/white"
                 android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tv_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:background="@drawable/ic_sex_bg_selector"
+                android:paddingLeft="3dp"
+                android:paddingTop="0.5dp"
+                android:paddingRight="3dp"
+                android:paddingBottom="0.5dp"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:textSize="10sp" />
+
 
             <TextView
                 android:id="@+id/tv_vip"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/margin_16"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_5"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 android:visibility="visible" />

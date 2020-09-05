@@ -37,8 +37,18 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
             Log.i("recoment","${it}")
         }
         val nameView = helper.getView<TextView>(R.id.tv_name)
+        val tv_age = helper.getView<TextView>(R.id.tv_age)
         nameView.text = String.format("%s", data.looknumber) //String.format("%s%s", data.speedcity, data.speednumber)
         nameView.isSelected = TextUtils.equals(data.sex, "0")
+        tv_age.isSelected = TextUtils.equals(data.sex, "0")
+
+        if(data.age.isNullOrEmpty()){
+            tv_age.visibility = View.GONE
+        }else{
+            tv_age.visibility = View.VISIBLE
+            tv_age.text = "${data.age}岁"
+        }
+
         var tv_info = helper.getView<TextView>(R.id.tv_info)
         if(TextUtils.equals("0",data.sex)){
             tv_info.visibility = View.GONE

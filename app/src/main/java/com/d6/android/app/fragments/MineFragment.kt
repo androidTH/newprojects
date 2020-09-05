@@ -301,12 +301,22 @@ class MineFragment : BaseFragment() {
                 }
 
                 tv_sex.isSelected = TextUtils.equals("0", it.sex)
-                it.age?.let {
-                    if (it.toInt() <= 0) {
-                        tv_sex.text = ""
-                    } else {
-                        tv_sex.text = it
-                    }
+                tv_age.isSelected = TextUtils.equals("0", it.sex)
+//                it.age?.let {
+//                    if (it.toInt() <= 0) {
+//                        tv_age.visibility = View.GONE
+//                        tv_age.text = ""
+//                    } else {
+//                        tv_age.visibility = View.VISIBLE
+//                        tv_age.text = it
+//                    }
+//                }
+                if(it.age.isNullOrEmpty()){
+                    tv_age.visibility = View.GONE
+                    tv_age.text = ""
+                }else{
+                    tv_age.visibility = View.VISIBLE
+                    tv_age.text = "${it.age}岁"
                 }
 
 //                SPUtils.instance().put(Const.User.USERPOINTS_NUMS, it.iPoint.toString()).apply()

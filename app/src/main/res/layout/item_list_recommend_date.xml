@@ -49,9 +49,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:background="@drawable/ic_sex_bg_selector"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="0.5dp"
+                    android:paddingRight="3dp"
+                    android:paddingBottom="0.5dp"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    android:textSize="10sp" />
+
+                <TextView
                     android:id="@+id/tv_auth_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:drawablePadding="@dimen/margin_1"
                     android:paddingLeft="@dimen/margin_5"
@@ -63,7 +79,7 @@
                     android:id="@+id/tv_auth_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:drawablePadding="@dimen/margin_1"
                     android:paddingLeft="@dimen/margin_8"

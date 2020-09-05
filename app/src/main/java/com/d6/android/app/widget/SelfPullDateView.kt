@@ -84,16 +84,23 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             tv_datetype_name.setCompoundDrawablePadding(dip(3))
             tv_datetype_name.setCompoundDrawables(drawable,null,null,null)
         }
+        tv_date_user_age.isSelected = myAppointment.iSex == 0
 
         if(!myAppointment.iAge.toString().isNullOrEmpty()){
             if(myAppointment.iAge!=null){
                 myAppointment.iAge?.let {
                     if(it>0){
-//                        sb.append("${myAppointment.iAge}岁")
-                        tv_date_user_sex.text = "${myAppointment.iAge}"
+                        tv_date_user_age.visibility = View.VISIBLE
+                        tv_date_user_age.text = "${myAppointment.iAge}岁"
+                    }else{
+                        tv_date_user_age.visibility = View.GONE
                     }
                 }
+            }else{
+                tv_date_user_age.visibility = View.GONE
             }
+        }else{
+            tv_date_user_age.visibility = View.GONE
         }
 
         var time  = converToDays(myAppointment.dEndtime)
@@ -154,7 +161,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        tv_date_vip.backgroundDrawable = getLevelDrawable("${myAppointment.userclassesid}",context)
+        iv_date_vip.backgroundDrawable = getLevelDrawable("${myAppointment.userclassesid}",context)
 
         if(TextUtils.equals(CustomerServiceId,myAppointment.iAppointUserid.toString())||TextUtils.equals(CustomerServiceWomenId,myAppointment.iAppointUserid.toString())){
             iv_self_servicesign.visibility = View.VISIBLE

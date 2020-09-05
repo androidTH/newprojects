@@ -47,6 +47,7 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
         headView.setImageURI(date.picUrl)
         tv_name.text = date.name
         tv_date_user_sex.isSelected = TextUtils.equals("0",date.sex)
+        tv_date_user_age.isSelected = TextUtils.equals("0",date.sex)
         headView.setOnClickListener(OnClickListener {
             val id = date.userid
             isBaseActivity {
@@ -78,13 +79,11 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         if(!date.age.toString().isNullOrEmpty()){
             if(date.age!=null){
-                date.age?.let {
-                    tv_date_user_sex.text = "${date.age}"
-//                    if(it>0){
-//                        tv_date_user_sex.text = "${date.age}"
-//                    }
-                }
+                tv_date_user_age.visibility = View.VISIBLE
+                tv_date_user_age.text = "${date.age}岁"
             }
+        }else{
+            tv_date_user_age.visibility = View.GONE
         }
 
         var time  = converToDays(date.dEndtime)

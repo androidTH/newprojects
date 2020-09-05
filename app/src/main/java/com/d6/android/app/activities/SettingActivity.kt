@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
@@ -184,12 +185,20 @@ class SettingActivity : TitleActivity() {
                 //7 游客 25钻石 24黄金 23白银 22普通  28中级  27入门 28中级  29优质 30 入群
                 tv_vip.backgroundDrawable = getLevelDrawable(it.userclassesid.toString(),this)
                 tv_sex.isSelected = TextUtils.equals("0",it.sex)
-                it.age?.let {
-                    if(it.toInt()<=0){
-                        tv_sex.text =""
-                    }else{
-                        tv_sex.text = it
-                    }
+                tv_age.isSelected = TextUtils.equals("0",it.sex)
+//                it.age?.let {
+//                    if(it.toInt()<=0){
+//                        tv_sex.text =""
+//                    }else{
+//                        tv_sex.text = it
+//                    }
+//                }
+
+                if(it.age.isNullOrEmpty()){
+                    tv_age.visibility = View.GONE
+                }else{
+                    tv_age.visibility = View.VISIBLE
+                    tv_age.text = "${it.age}岁"
                 }
 
                 headView.setImageURI(it.picUrl)

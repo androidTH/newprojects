@@ -70,6 +70,19 @@
                             android:paddingBottom="0.5dp"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
+                        <TextView
+                            android:id="@+id/tv_age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/ic_sex_bg_selector"
+                            android:drawablePadding="1dp"
+                            android:paddingLeft="3dp"
+                            android:paddingTop="0.5dp"
+                            android:paddingRight="3dp"
+                            android:paddingBottom="0.5dp"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/tv_vip"
@@ -226,6 +239,7 @@
         android:layout_height="68dp"
         android:layout_alignParentBottom="true"
         android:background="@color/color_E6FFFFFF"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <TextView
@@ -264,7 +278,6 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/taren_yellowbutton_bg"
         android:gravity="center"
-        android:visibility="gone"
         android:text="觅约"
         android:textColor="@color/white"
         android:textSize="15sp" />

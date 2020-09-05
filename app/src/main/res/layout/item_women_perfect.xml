@@ -34,7 +34,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_women_perfect_age"
+            android:id="@+id/tv_women_perfect_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_25"
@@ -50,8 +50,24 @@
             android:paddingTop="0.5dp"
             android:paddingBottom="0.5dp"
             android:textColor="@color/white"
-            android:textSize="10sp"
-            android:text="0" />
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_women_perfect_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_25"
+            android:layout_marginRight="8dp"
+            android:layout_toRightOf="@+id/tv_women_perfect_sex"
+            android:background="@drawable/ic_sex_circle_bg_selector"
+            android:gravity="center_vertical"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:paddingTop="0.5dp"
+            android:paddingBottom="0.5dp"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_women_perfect_vip"
@@ -63,8 +79,7 @@
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:textColor="@color/white"
-            android:textSize="12dp"
-            android:visibility="visible" />
+            android:textSize="12dp" />
 
         <LinearLayout
             android:id="@+id/ll_user_vistorfollownums"

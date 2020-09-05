@@ -113,12 +113,11 @@ class SpeedDateDetailActivity : TitleActivity() {
         rv_speeddateimages.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rv_speeddateimages.adapter = imgAdapter
 
-        btn_contact.setOnClickListener {
-            isAuthUser() {
-                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
-
-//                startActivity<RGServiceInfoActivity>("data" to it)
-            }
+        tv_speeddate.setOnClickListener {
+//            isAuthUser() {
+//                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+//            }
+            startActivity<RGServiceInfoActivity>("data" to mSpeedDate)
 //            var mDateTypeDialog = DateTypeDialog()
 //            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])
 //            mDateTypeDialog.setDialogListener { p, s ->
@@ -160,7 +159,8 @@ class SpeedDateDetailActivity : TitleActivity() {
         tv_speeddate_time.text = "${speedDate.getSpeedStateStr()}时间"
         tv_speeddate_info.text = "${speedDate.getSpeedStateStr()}说明"
 
-        tv_speeddate_sex.text = "${speedDate.age}"
+        tv_speeddate_age.text = "${speedDate.age}岁"
+        tv_speeddate_age.isSelected = TextUtils.equals(speedDate.sex, "0")
         tv_speeddate_sex.isSelected = TextUtils.equals(speedDate.sex, "0")
 //        val images = arrayListOf<String>()
 
@@ -182,9 +182,9 @@ class SpeedDateDetailActivity : TitleActivity() {
             mTags.add(UserTag("地区 " + speedDate.speedcity, R.mipmap.boy_constellation_icon))
         }
 
-//        if(!TextUtils.isEmpty(speedDate.sLookUserClass)){
-//            mTags.add(UserTag("要求 " + speedDate.sLookUserClass, R.mipmap.icon_need))
-//        }
+        if(!TextUtils.isEmpty(speedDate.sLookUserClass)){
+            mTags.add(UserTag("要求 " + speedDate.sLookUserClass, R.mipmap.icon_need))
+        }
 
         rv_speeddate_tags.setHasFixedSize(true)
         rv_speeddate_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)

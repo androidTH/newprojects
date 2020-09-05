@@ -1,7 +1,5 @@
 package com.d6.android.app.adapters
 
-import android.graphics.Bitmap
-import android.os.AsyncTask
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -23,18 +21,10 @@ import com.d6.android.app.models.UserTag
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.BLUR_50
 import com.d6.android.app.utils.Const.D6_WWW_TAG
-import com.d6.android.app.widget.frescohelper.FrescoUtils
-import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
-import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
-import java.util.*
 import kotlin.collections.ArrayList
 
 class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate>(mData, R.layout.item_date_newcard) {
@@ -238,7 +228,8 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     tv_vip.visibility = View.GONE
                 }
 
-                val tv_age = holder.bind<TextView>(R.id.tv_age)
+                val tv_sex = holder.bind<TextView>(R.id.tv_sex)
+                tv_sex.isSelected = TextUtils.equals("0", data.sex)
 
                 var ll_like = holder.bind<LinearLayout>(R.id.ll_like)
                 var tv_linetime = holder.bind<TextView>(R.id.tv_vistor_count)
@@ -277,15 +268,20 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
                     }
                 }
 
+                val tv_age = holder.bind<TextView>(R.id.tv_age)
                 if (!data.nianling.isNullOrEmpty()) {
-                    if (TextUtils.equals("0", data.nianling.toString())) {
-                        tv_age.text = ""
+                    if (TextUtils.equals("0", data.nianling)) {
+                        tv_age.visibility = View.GONE
                     } else {
-                        tv_age.text = data.nianling
+                        tv_age.isSelected = TextUtils.equals("0", data.sex)
+                        tv_age.visibility = View.VISIBLE
+                        tv_age.text = "${data.nianling}岁"
                     }
+                }else{
+                    tv_age.visibility = View.GONE
                 }
 
-                tv_age.isSelected = TextUtils.equals("0", data.sex)
+
                 if (!data.egagementtext.isNullOrEmpty()) {
                     if (!TextUtils.equals("null", data.egagementtext)) {
                         holder.setText(R.id.tv_content, data.egagementtext)
@@ -568,14 +564,20 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }
 
         val tv_newage = holder.bind<TextView>(R.id.tv_newage)
+        val tv_newsex = holder.bind<TextView>(R.id.tv_newsex)
         if (!data.nianling.isNullOrEmpty()) {
-            if (TextUtils.equals("0", data.nianling.toString())) {
-                tv_newage.text = ""
+            if (TextUtils.equals("0", data.nianling)) {
+                tv_newage.visibility = View.GONE
             } else {
-                tv_newage.text = data.nianling
+                tv_newage.isSelected = TextUtils.equals("0", data.sex)
+                tv_newage.visibility = View.VISIBLE
+                tv_newage.text = "${data.nianling}岁"
             }
+        }else{
+            tv_newage.visibility = View.GONE
         }
-        tv_newage.isSelected = TextUtils.equals("0", data.sex)
+
+        tv_newsex.isSelected = TextUtils.equals("0", data.sex)
 
         var  tv_newcontent = holder.bind<TextView>(R.id.tv_newcontent)
         if (!data.egagementtext.isNullOrEmpty()) {
@@ -666,16 +668,22 @@ class DateCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<FindDate
         }
 
         val tv_age = holder.bind<TextView>(R.id.tv_women_perfect_age)
+        val tv_sex = holder.bind<TextView>(R.id.tv_women_perfect_sex)
 
         if (!data.nianling.isNullOrEmpty()) {
             if (TextUtils.equals("0", data.nianling)) {
-                tv_age.text = ""
+                tv_age.visibility = View.GONE
             } else {
-                tv_age.text = data.nianling
+                tv_age.visibility = View.VISIBLE
+                tv_age.text = "${data.nianling}岁"
             }
+        }else{
+            tv_age.visibility = View.GONE
         }
 
         tv_age.isSelected = TextUtils.equals("0", data.sex)
+
+        tv_sex.isSelected = TextUtils.equals("0", data.sex)
         if (!data.egagementtext.isNullOrEmpty()) {
             holder.setText(R.id.tv_content, data.egagementtext)
         } else if (!(data.gexingqianming.isNullOrEmpty())) {

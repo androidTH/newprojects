@@ -52,8 +52,17 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
             tv_userinfo.visibility = View.GONE
         }
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
+        val tv_age = holder.bind<TextView>(R.id.tv_age)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
-        tv_sex.text = data.nianling
+
+        if(data.nianling.isNullOrEmpty()){
+            tv_age.visibility = View.GONE
+        }else{
+            tv_age.isSelected = TextUtils.equals("0", "${data.sSex}")
+            tv_age.visibility = View.VISIBLE
+            tv_age.text = "${data.nianling}岁"
+        }
+
         val tv_vip = holder.bind<TextView>(R.id.tv_vip)
         if (TextUtils.equals("1", sex)&& TextUtils.equals(data.sSex, "0")) {//0 女 1 男
             tv_vip.text = String.format("%s", data.userclassesname)

@@ -89,13 +89,15 @@ class RegisterFriendsDialog : DialogFragment(),RequestManager {
                 }
                 tv_name.text = it.name
                 tv_sex.isSelected = TextUtils.equals("0", it.sex)
-                it.age?.let {
-                    if (it.toInt() <= 0) {
-                        tv_sex.text = ""
-                    } else {
-                        tv_sex.text = "${it}"
-                    }
+
+                if(it.age.isNullOrEmpty()){
+                    tv_age.visibility = View.GONE
+                }else{
+                    tv_age.isSelected = TextUtils.equals("0", "${data.sex}")
+                    tv_age.visibility = View.VISIBLE
+                    tv_age.text = "${data.age}岁"
                 }
+
                 var drawable = getLevelDrawable("${it.userclassesid}",context)
                 tv_vip.backgroundDrawable = drawable
             }
