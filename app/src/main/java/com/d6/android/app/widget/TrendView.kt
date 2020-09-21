@@ -215,6 +215,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             tv_age.visibility = View.VISIBLE
             tv_age.text = "${square.age}岁"
         }
+
 //        tv_vip.text = square.userclassesname
         tv_vip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
 
@@ -308,7 +309,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }else{
                 rl_vidoe.visibility = View.GONE
             }
-            Log.i("trendView","动态类型=${square.iResourceType},视频所属人:${square.name},内容：${square.content},${square.sVideoUrl}视频链接," +
+            Log.i("trendView","${square.age}动态类型=${square.iResourceType},视频所属人:${square.name},内容：${square.content},${square.sVideoUrl}视频链接," +
                     "图片链接=${square.sVideoPicUrl},图片宽高${square.sVideoWidth},${square.sVideoHeight}")
         }else if(square.iResourceType==4){
             rv_images.visibility = View.GONE
@@ -369,7 +370,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
             }
             imageAdapter.notifyDataSetChanged()
 
-            Log.i("trendView","${square.content},图片位置：${square.sIfLovePics}")
+            Log.i("trendView","年龄：${square.age},${square.content},图片位置：${square.sIfLovePics}")
         }
 
         tv_appraise.isSelected = TextUtils.equals(square.isupvote,"1")

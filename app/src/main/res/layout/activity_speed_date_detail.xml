@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ll_speeddate_level"
                         android:layout_marginTop="@dimen/margin_22"
-                        android:layout_marginBottom="@dimen/margin_8"
+                        android:paddingBottom="@dimen/margin_8"
                         android:minHeight="30dp" />
 
                     <LinearLayout
@@ -112,6 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rv_speeddate_tags"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <TextView
@@ -130,7 +131,6 @@
                             android:id="@+id/tv_zuojia"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_job"
                             android:layout_marginRight="@dimen/margin_25"
                             android:layout_marginBottom="@dimen/margin_10"
                             android:drawableLeft="@mipmap/boy_car_icon"
@@ -143,9 +143,8 @@
                             android:id="@+id/tv_aihao"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_zuojia"
                             android:layout_marginRight="@dimen/margin_25"
-                            android:drawableLeft="@mipmap/boy_car_icon"
+                            android:drawableLeft="@mipmap/boy_hobby_icon"
                             android:drawablePadding="@dimen/margin_5"
                             android:ellipsize="end"
                             android:singleLine="true"

@@ -2,6 +2,7 @@ package com.d6.android.app.widget
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -38,7 +39,7 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
     init {
         LayoutInflater.from(context).inflate(R.layout.view_dateofsquare_view, this, true)
         rv_images.setHasFixedSize(true)
-        rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//        rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_images.adapter = imageAdapter
     }
 
@@ -47,7 +48,7 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
         headView.setImageURI(date.picUrl)
         tv_name.text = date.name
         tv_date_user_sex.isSelected = TextUtils.equals("0",date.sex)
-        tv_date_user_age.isSelected = TextUtils.equals("0",date.sex)
+
         headView.setOnClickListener(OnClickListener {
             val id = date.userid
             isBaseActivity {
@@ -77,13 +78,16 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             tv_datetype_name.setCompoundDrawables(drawable,null,null,null);
         }
 
-        if(!date.age.toString().isNullOrEmpty()){
+        if(date.age.isNullOrEmpty()){
+            tv_date_user_age.visibility = View.GONE
+        }else{
             if(date.age!=null){
+                tv_date_user_age.isSelected = TextUtils.equals("0",date.sex)
                 tv_date_user_age.visibility = View.VISIBLE
                 tv_date_user_age.text = "${date.age}岁"
+            }else{
+                tv_date_user_age.visibility = View.GONE
             }
-        }else{
-            tv_date_user_age.visibility = View.GONE
         }
 
         var time  = converToDays(date.dEndtime)
@@ -134,7 +138,20 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
         val images = date.imgUrl?.split(",")
         if (images != null) {
             mImages.addAll(images.toList())
+
+            val d = rv_images.getItemDecorationAt(0)
+            if (d != null) {
+                rv_images.removeItemDecoration(d)
+            }
+            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
+                rv_images.layoutManager = GridLayoutManager(context, 2)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),2)
+            } else {
+                rv_images.layoutManager = GridLayoutManager(context, 3)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
+            }
         }
+
 //        Log.i("fff",myAppointment.sSourceAppointPic)
         imageAdapter.notifyDataSetChanged()
         tv_send_date.setOnClickListener {

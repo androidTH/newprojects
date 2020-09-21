@@ -34,6 +34,7 @@ data class MemberBean(var ids:Int?=0):Parcelable{
     var sAndroidPriceDiscountDesc:String?=""
     var sAndroidAPriceDiscountDesc:String?=""
     var sAndroidYPriceDiscountDesc:String?=""
+    var sClassPointDesc:String?=""
     var sRemark:String?=""
     var iIsPayapp:Int?=0
     var lstPrice:List<AppMemberPrice>?=null
@@ -64,6 +65,7 @@ data class MemberBean(var ids:Int?=0):Parcelable{
         sAndroidPriceDiscountDesc = parcel.readString()
         sAndroidAPriceDiscountDesc = parcel.readString()
         sAndroidYPriceDiscountDesc = parcel.readString()
+        sClassPointDesc = parcel.readString()
         sRemark = parcel.readString()
         iIsPayapp = parcel.readValue(Int::class.java.classLoader) as? Int
         lstPrice = parcel.createTypedArrayList(AppMemberPrice)
@@ -96,6 +98,7 @@ data class MemberBean(var ids:Int?=0):Parcelable{
         parcel.writeString(sAndroidPriceDiscountDesc)
         parcel.writeString(sAndroidAPriceDiscountDesc)
         parcel.writeString(sAndroidYPriceDiscountDesc)
+        parcel.writeString(sClassPointDesc)
         parcel.writeString(sRemark)
         parcel.writeValue(iIsPayapp)
         parcel.writeTypedList(lstPrice)

@@ -26,21 +26,6 @@ class RGServiceInfoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_rgserviceinfo)
         immersionBar.fitsSystemWindows(true).statusBarColor(R.color.color_black).statusBarDarkFont(false).init()
-//        tv_invite.setOnClickListener {
-//            if(IsNotNULLLinkBean()){
-//                var mInviteFriendsDialog = InviteFriendsDialog()
-//                mInviteFriendsDialog.arguments = bundleOf("bean" to mInviteLinkBean)
-//                mInviteFriendsDialog.setDialogListener { p, s ->
-//                    if(p==4){
-//                        val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-//                        // 将文本内容放到系统剪贴板里。
-//                        cm.text = "${s}"
-//                        toast("已复制到剪切板")
-//                    }
-//                }
-//                mInviteFriendsDialog.show(supportFragmentManager, "invitefriends")
-//            }
-//        }
 
         tv_rgservice_back.setOnClickListener {
             finish()
@@ -65,6 +50,7 @@ class RGServiceInfoActivity : BaseActivity() {
                                     ?: "", it.speednumber
                                     ?: "", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids=" + it.id, shareListener)
                         }
+//                        chatService(this)
                     } else{
                         isAuthUser("mine") {
                             chatService(this)
@@ -78,30 +64,60 @@ class RGServiceInfoActivity : BaseActivity() {
     }
 
     private fun getUserInfo() {
-        Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->
-            data?.let {
-                var userClassId = data.userclassesid?.toInt()
-                var iLookClass = mData.iLookClass!!.toInt()
-                if (iLookClass == 31) {
-                    if(userClassId!=7){
-                        sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
-                        tv_rgservice_invite.text = "联系客服"
-                    }else{
-                        sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
-                        tv_rgservice_invite.text = "联系客服升级会员"
-                    }
-                } else if (iLookClass <= userClassId!!) {
-                    sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
-                    tv_rgservice_tips.text = "想要约她可将卡片分享给客服"
-                    tv_rgservice_invite.text = "联系客服"
-                } else {
-                    sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
-                    tv_rgservice_tips.text = "对方${mData.sLookUserClass}会员才能速配"
-                    tv_rgservice_invite.text = "联系客服升级会员"
-                }
-                saveUserInfo(data)
+        var ClassId = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
+        var userClassId = 7
+        if(ClassId.isNotEmpty()){
+            userClassId = ClassId.toInt()
+        }
+        var iLookClass = mData.iLookClass!!.toInt()
+        if (iLookClass == 31) {
+            if(userClassId!=7){
+                sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
+                tv_rgservice_invite.text = "联系客服"
+            }else{
+                sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
+                tv_rgservice_invite.text = "开通会员"
             }
-        })
+        } else if (iLookClass <= userClassId) {
+            if(userClassId==31){
+                sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
+                tv_rgservice_tips.text = "对方要求${mData.sLookUserClass}才能速配"
+                tv_rgservice_invite.text = "开通会员"
+            }else{
+                sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
+                tv_rgservice_tips.text = "想要约她可将卡片分享给客服"
+                tv_rgservice_invite.text = "联系客服"
+            }
+        } else {
+            sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
+            tv_rgservice_tips.text = "对方要求${mData.sLookUserClass}才能速配"
+            tv_rgservice_invite.text = "开通会员"
+        }
+
+//        Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->
+//            data?.let {
+//                var userClassId = data.userclassesid?.toInt()
+//                var iLookClass = mData.iLookClass!!.toInt()
+//                if (iLookClass == 31) {
+//                    if(userClassId!=7){
+//                        sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
+//                        tv_rgservice_invite.text = "联系客服"
+//                    }else{
+//                        sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
+//                        tv_rgservice_invite.text = "联系客服升级会员"
+//                    }
+//                } else if (iLookClass <= userClassId!!) {
+//                    sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
+//                    tv_rgservice_tips.text = "想要约她可将卡片分享给客服"
+//                    tv_rgservice_invite.text = "联系客服"
+//                } else {
+//                    sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
+//                    tv_rgservice_tips.text = "对方${mData.sLookUserClass}会员才能速配"
+//                    tv_rgservice_invite.text = "联系客服升级会员"
+//                }
+//                saveUserInfo(data)
+//            }
+//        })
     }
 
     private val shareListener by lazy {

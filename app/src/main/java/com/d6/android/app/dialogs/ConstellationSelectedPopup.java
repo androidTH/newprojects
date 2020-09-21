@@ -77,7 +77,7 @@ public class ConstellationSelectedPopup extends BasePopup<ConstellationSelectedP
                 if(TextUtils.equals(mLocalUseSex,"0")){
                     onPopupItemClick(view, constellationsmen[position].getId(),constellationsmen[position].getContent());
                 }else{
-                    onPopupItemClick(view, constellationsmen[position].getId(),constellations[position].getContent());
+                    onPopupItemClick(view, constellations[position].getId(),constellations[position].getContent());
                 }
             }
         });

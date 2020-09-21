@@ -146,13 +146,13 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/height_60"
-                android:background="@drawable/shape_ebeb"
+                android:background="@drawable/shape_orange"
                 android:paddingLeft="@dimen/margin_6"
                 android:paddingRight="@dimen/margin_6"
                 android:paddingTop="@dimen/margin_5"
                 android:paddingBottom="@dimen/margin_5"
                 android:text="@string/string_help_service"
-                android:textColor="@color/color_666666"
+                android:textColor="@color/white"
                 android:visibility="gone"
                 android:textStyle="bold"/>
 

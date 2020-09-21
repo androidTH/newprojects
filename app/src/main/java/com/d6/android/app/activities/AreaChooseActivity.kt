@@ -136,7 +136,7 @@ class AreaChooseActivity : BaseActivity() {
         if (cityJson.isNullOrEmpty()) {
             getServiceProvinceData()
         } else {
-            if (!TextUtils.equals(getTodayTime(), lastTime)) {
+            if (TextUtils.equals(getTodayTime(), lastTime)) {
                 getServiceProvinceData()
             } else {
                 var data: MutableList<Province>? = GsonHelper.jsonToList(cityJson,Province::class.java)
@@ -155,7 +155,7 @@ class AreaChooseActivity : BaseActivity() {
     }
 
     private fun getServiceProvinceData(){
-        Request.getProvince().request(this) { _, data ->
+        Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(this).put(PROVINCE_DATA, GsonHelper.getGson().toJson(it))
                 mProvinces.clear()

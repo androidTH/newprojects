@@ -175,31 +175,27 @@ class SpeedDateDetailActivity : TitleActivity() {
         }
 
         if (!TextUtils.isEmpty(speedDate.xingzuo)) {
-            mTags.add(UserTag("星座 " + speedDate.xingzuo, R.mipmap.boy_profession_icon))
+            mTags.add(UserTag("星座 " + speedDate.xingzuo,R.mipmap.boy_constellation_icon ))
         }
 
         if (!TextUtils.isEmpty(speedDate.speedcity)) {
-            mTags.add(UserTag("地区 " + speedDate.speedcity, R.mipmap.boy_constellation_icon))
+            mTags.add(UserTag("地区 " + speedDate.speedcity,R.mipmap.date_area_icon))
         }
 
         if(!TextUtils.isEmpty(speedDate.sLookUserClass)){
             mTags.add(UserTag("要求 " + speedDate.sLookUserClass, R.mipmap.icon_need))
         }
 
-        rv_speeddate_tags.setHasFixedSize(true)
-        rv_speeddate_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
-        rv_speeddate_tags.isNestedScrollingEnabled = false
-        rv_speeddate_tags.adapter = mUserTagAdapter
-
-
         if (!TextUtils.isEmpty(speedDate.job)) {
-            AppUtils.setTvTag(this, "职业 ${speedDate.job}", 0, 2, tv_job)
+//            AppUtils.setTvTag(this, "职业 ${speedDate.job}", 0, 2, tv_job)
+            mTags.add(UserTag("职业 ${speedDate.job}", R.mipmap.boy_profession_icon));
         } else {
             tv_job.visibility = View.GONE
         }
 
         if (!speedDate.zuojia.isNullOrEmpty()) {
-            AppUtils.setTvTag(this, "座驾 ${speedDate.zuojia}", 0, 2, tv_zuojia)
+//            AppUtils.setTvTag(this, "座驾 ${speedDate.zuojia}", 0, 2, tv_zuojia)
+            mTags.add(UserTag("座驾 ${speedDate.zuojia}", R.mipmap.boy_car_icon))
         } else {
             tv_zuojia.visibility = View.GONE
         }
@@ -212,11 +208,17 @@ class SpeedDateDetailActivity : TitleActivity() {
                 for (str in mHobbies) {
                     sb.append("${str} ")
                 }
-                AppUtils.setTvTag(this, sb.toString(), 0, 2, tv_aihao)
+//                AppUtils.setTvTag(this, sb.toString(), 0, 2, tv_aihao)
+                mTags.add(UserTag("${sb}", R.mipmap.boy_hobby_icon))
             }
         } else {
             tv_aihao.visibility = View.GONE
         }
+
+        rv_speeddate_tags.setHasFixedSize(true)
+        rv_speeddate_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
+        rv_speeddate_tags.isNestedScrollingEnabled = false
+        rv_speeddate_tags.adapter = mUserTagAdapter
 
         mUrls.clear()
         speedDate.coverurl?.let {
@@ -291,9 +293,11 @@ class SpeedDateDetailActivity : TitleActivity() {
             iv_speed_timeout.visibility = View.VISIBLE
 //            btn_contact.visibility = View.VISIBLE
             rl_bottom.visibility = View.GONE
+            tv_speeddate.visibility = View.GONE
         } else {
             iv_speed_timeout.visibility = View.GONE
-            btn_contact.visibility = View.VISIBLE
+//            btn_contact.visibility = View.VISIBLE
+            tv_speeddate.visibility = View.VISIBLE
 //            titleBar.hideRightButton(0,false)
 //            btn_contact.isEnabled = true
 //            btn_contact.text = "联系客服"

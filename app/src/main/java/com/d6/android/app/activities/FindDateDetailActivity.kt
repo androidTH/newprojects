@@ -164,30 +164,29 @@ class FindDateDetailActivity : TitleActivity() {
         }
 
         if (!TextUtils.isEmpty(mLookDate.xingzuo)) {
-            mTags.add(UserTag("星座 " + mLookDate.xingzuo, R.mipmap.boy_profession_icon))
+            mTags.add(UserTag("星座 " + mLookDate.xingzuo,R.mipmap.boy_constellation_icon))
         }
 
         if (!TextUtils.isEmpty(mLookDate.city)) {
-            mTags.add(UserTag("地区 " + mLookDate.city, R.mipmap.boy_constellation_icon))
+            mTags.add(UserTag("地区 " + mLookDate.city,R.mipmap.date_area_icon))
         }
 
         if(!TextUtils.isEmpty(mLookDate.sLookUserClass)){
             mTags.add(UserTag("要求 " + mLookDate.sLookUserClass, R.mipmap.icon_need))
         }
 
-        rv_tags.setHasFixedSize(true)
-        rv_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
-        rv_tags.isNestedScrollingEnabled = false
-        rv_tags.adapter = mUserTagAdapter
-
         if (!TextUtils.isEmpty(mLookDate.job)) {
-            AppUtils.setTvTag(this, "职业 ${mLookDate.job}", 0, 2, tv_job)
+//            AppUtils.setTvTag(this, "职业 ${mLookDate.job}", 0, 2, tv_job)
+            mTags.add(UserTag("职业 ${mLookDate.job}", R.mipmap.boy_profession_icon))
+            tv_job.visibility = View.GONE
         } else {
             tv_job.visibility = View.GONE
         }
 
         if (!mLookDate.zuojia.isNullOrEmpty()) {
-            AppUtils.setTvTag(this, "座驾 ${mLookDate.zuojia}", 0, 2, tv_zuojia)
+//            AppUtils.setTvTag(this, "座驾 ${mLookDate.zuojia}", 0, 2, tv_zuojia)
+            mTags.add(UserTag("座驾 ${mLookDate.zuojia}", R.mipmap.boy_car_icon))
+            tv_zuojia.visibility = View.GONE
         } else {
             tv_zuojia.visibility = View.GONE
         }
@@ -201,10 +200,16 @@ class FindDateDetailActivity : TitleActivity() {
                     sb.append("${str} ")
                 }
                 AppUtils.setTvTag(this, sb.toString(), 0, 2, tv_aihao)
+//                mTags.add(UserTag("${sb.toString()}", R.mipmap.boy_hobby_icon))
             }
         } else {
             tv_aihao.visibility = View.GONE
         }
+
+        rv_tags.setHasFixedSize(true)
+        rv_tags.layoutManager = GridLayoutManager(this, 2)//FlexboxLayoutManager(this)
+        rv_tags.isNestedScrollingEnabled = false
+        rv_tags.adapter = mUserTagAdapter
 
         if(!TextUtils.isEmpty(mLookDate.lookfriendstand)){
             tv_content.text = mLookDate.lookfriendstand
@@ -246,8 +251,11 @@ class FindDateDetailActivity : TitleActivity() {
             tv_contact.isEnabled = false
             tv_contact.text = "已觅约"
             ll_finddate_details.visibility = View.GONE
+
+            tv_finddate.visibility = View.GONE
         } else {
 //            titleBar.hideRightButton(0,false)
+            tv_finddate.visibility = View.VISIBLE
             tv_contact.isEnabled = true
             tv_contact.text = "联系专属客服"
         }

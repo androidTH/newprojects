@@ -3,6 +3,7 @@ package com.d6.android.app.widget
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -41,7 +42,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         LayoutInflater.from(context).inflate(R.layout.view_self_release_view, this, true)
         rv_images.setHasFixedSize(true)
 //        rv_images.layoutManager = GridLayoutManager(context, 3)
-        rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//        rv_images.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rv_images.adapter = imageAdapter
 //        rv_images.addItemDecoration(SpacesItemDecoration(dip(4)))
     }
@@ -142,13 +143,23 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         } else {
             rv_images.visible()
         }
-
         mImages.clear()
         val images = myAppointment.sAppointPic?.split(",")
         if (images != null) {
             mImages.addAll(images.toList())
+
+            val d = rv_images.getItemDecorationAt(0)
+            if (d != null) {
+                rv_images.removeItemDecoration(d)
+            }
+            if (mImages.size == 1 || mImages.size == 2 || mImages.size == 4) {
+                rv_images.layoutManager = GridLayoutManager(context, 2)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),2)
+            } else {
+                rv_images.layoutManager = GridLayoutManager(context, 3)
+                rv_images.addItemDecoration(RxRecyclerViewDividerTool(dip(2)))//SpacesItemDecoration(dip(4),3)
+            }
         }
-//        Log.i("fff",myAppointment.sSourceAppointPic)
         imageAdapter.notifyDataSetChanged()
         tv_send_date.setOnClickListener {
             mSendDateClick?.let {

@@ -125,10 +125,20 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
             public void onClick(View view) {
                 if(resultList != null && resultList.size() >0){
                     // 返回已选择的图片数据
-                    Intent data = new Intent();
-                    data.putStringArrayListExtra(EXTRA_RESULT, resultList);
-                    setResult(RESULT_OK, data);
-                    finish();
+//                    Intent data = new Intent();
+//                    data.putStringArrayListExtra(EXTRA_RESULT, resultList);
+//                    setResult(RESULT_OK, data);
+//                    finish();
+
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.ImageLocalPagerActivity");
+                    intent.putExtra("position",0);
+                    intent.putStringArrayListExtra("urls",resultList);
+                    intent.putExtra("type",1);
+                    intent.putExtra("delete",false);
+                    intent.putExtra("paypoints",mShowPayPoint);
+                    intent.putExtra("firepics",mFirePics);
+                    startActivity(intent);
                 }
             }
         });

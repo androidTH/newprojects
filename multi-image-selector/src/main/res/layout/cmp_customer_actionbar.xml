@@ -28,7 +28,7 @@
         android:background="@drawable/action_btn"
         android:minHeight="1dp"
         android:minWidth="1dp"
-        android:text="完成"
+        android:text="确定"
         android:layout_marginRight="16dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"

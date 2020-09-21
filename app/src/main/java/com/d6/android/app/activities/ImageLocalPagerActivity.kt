@@ -128,7 +128,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         type = intent.getIntExtra(TYPE, 0)
         if (type == 1) {
             tv_delete.visibility = View.GONE
-            tv_check.visibility = View.VISIBLE
+            tv_check.visibility = View.GONE
             var mDrawable = ContextCompat.getDrawable(this, R.mipmap.wancheng_color)
             setLeftDrawable(mDrawable, tv_check)
         }else{

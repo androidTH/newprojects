@@ -423,7 +423,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
                 if (lstTask!=null&&lstTask.size>0) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
-                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
+//                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
                     SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
                     var today = getTodayTime()
                     var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW+getLocalUserId(),"")

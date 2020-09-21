@@ -60,13 +60,30 @@
             android:drawableRight="@drawable/sex_selector" />
 
         <TextView
+            android:id="@+id/tv_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_2"
+            android:layout_below="@+id/tv_name"
+            android:layout_toRightOf="@+id/tv_sex"
+            android:background="@drawable/ic_sex_bg_selector"
+            android:paddingLeft="3dp"
+            android:paddingTop="0.5dp"
+            android:paddingRight="3dp"
+            android:paddingBottom="0.5dp"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/tv_vip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/headView"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="@dimen/margin_5"
             android:layout_marginTop="@dimen/margin_5"
-            android:layout_toRightOf="@+id/tv_sex"
+            android:layout_toRightOf="@+id/tv_age"
             android:textColor="@color/orange_f6a"
             android:textSize="8sp" />
 

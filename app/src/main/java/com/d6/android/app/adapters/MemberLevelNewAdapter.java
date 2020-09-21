@@ -39,6 +39,7 @@ public class MemberLevelNewAdapter extends BaseQuickAdapter<MemberBean,BaseViewH
         TextView mTvVipLevelTime = helper.getView(R.id.tv_viplevel_time);
         ImageView  mIvVipLevel = helper.getView(R.id.iv_viplevel);
         helper.setText(R.id.tv_viplevel_name,item.getClassesname());
+        helper.setText(R.id.tv_viplevel_points,item.getSClassPointDesc());
 
         if(TextUtils.isEmpty(item.getSTitle())){
             tv_vip_percent.setVisibility(View.VISIBLE);
@@ -55,7 +56,7 @@ public class MemberLevelNewAdapter extends BaseQuickAdapter<MemberBean,BaseViewH
             mTvVipLevelAddress.setText("服务范围："+item.getSServiceArea());
         }
 
-        mTvVipLevelTime.setText("入群时长："+item.getIEnableDate());
+        mTvVipLevelTime.setText("入群时长："+item.getIEnableDate()+"个月");
 
         Log.i("MemberLevelAdapter",item.getSServiceArea()+"会员备注,会员id ="+item.getIds());
         if(item.getIds()==22){
@@ -81,6 +82,12 @@ public class MemberLevelNewAdapter extends BaseQuickAdapter<MemberBean,BaseViewH
         }else if(item.getIds()==31){
             mRlTopBg.setBackground(ContextCompat.getDrawable(mContext,R.drawable.shape_5r_appmember));
             mIvVipLevel.setImageResource(R.mipmap.app_vip);
+        }
+
+        if(item.getIds()==25){
+            helper.setVisible(R.id.iv_vip_tag,true);
+        }else{
+            helper.setVisible(R.id.iv_vip_tag,false);
         }
               //R.color.color_848484   R.color.color_888888  R.color.color_A19BB0 R.color.color_C69F60
                                          //R.color.color_8170D2 R.color.color_323432

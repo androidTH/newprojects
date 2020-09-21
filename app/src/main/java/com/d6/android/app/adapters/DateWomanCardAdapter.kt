@@ -234,10 +234,12 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             }
 
             if(data.iPositionType==1){
-                holder.setText(R.id.tv_city, data.city)
+                holder.setText(R.id.tv_city, "${data.city}")
             }else{
-                holder.setText(R.id.tv_city, data.sPosition)
+                holder.setText(R.id.tv_city, "${data.sPosition}")
             }
+
+            Log.i("address","${data.city},--${data.sPosition}")
 
             val tv_vistorfollownums = holder.bind<TextView>(R.id.tv_vistorfollownums)
             var ll_user_vistorfollownums = holder.bind<LinearLayout>(R.id.ll_user_vistorfollownums)

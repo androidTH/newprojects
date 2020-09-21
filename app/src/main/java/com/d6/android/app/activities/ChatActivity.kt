@@ -489,6 +489,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         customerServiceDialog.arguments = bundleOf("resMsg" to "对方可能暂时没看到你的申请，你可以求助你的专属微信客服联系对方",
                 "dialog_title" to "求助客服联系对方","service_type" to "1")
         customerServiceDialog.show(supportFragmentManager, "resMsg")
+
+//        var mWeChatKfDialog = WeChatKFDialog()
+//        mWeChatKfDialog.show(supportFragmentManager,"wechatkf")
     }
 
     override fun onResume() {
@@ -1366,6 +1369,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     tv_openchat_apply_bottom.visibility = View.VISIBLE
                     tv_openchat_apply_bottom.isEnabled = true
                     tv_apply_sendflower.visibility = View.GONE
+                    tv_help_service.visibility = View.GONE
                     tv_openchat_apply_bottom.text = resources.getText(R.string.string_apply_openchat)
                     tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
                     tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
@@ -1388,6 +1392,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     tv_openchat_apply_bottom.isEnabled = true
 
                     tv_apply_sendflower.visibility = View.GONE
+                    tv_help_service.visibility = View.GONE
                     tv_openchat_tips_center_bottom.visibility = View.GONE
                     linear_openchat_agree_bottom.visibility = View.GONE
 

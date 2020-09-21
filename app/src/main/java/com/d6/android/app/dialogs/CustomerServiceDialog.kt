@@ -1,8 +1,6 @@
 package com.d6.android.app.dialogs
 
-import android.content.ActivityNotFoundException
-import android.content.ComponentName
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
@@ -13,7 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.extentions.request
 import com.d6.android.app.interfaces.RequestManager
+import com.d6.android.app.net.Request
 import com.d6.android.app.net.Request.pushCustomerMessage
 import com.d6.android.app.utils.*
 import io.reactivex.disposables.CompositeDisposable
@@ -71,12 +71,17 @@ class CustomerServiceDialog : DialogFragment(),RequestManager {
 //                startActivity(intent)
                 if(TextUtils.equals("1",service_type)){
                     try {
-                        val intent = Intent(Intent.ACTION_MAIN)
-                        val cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
-                        intent.addCategory(Intent.CATEGORY_LAUNCHER)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        intent.component = cmp
-                        startActivity(intent)
+//                        val intent = Intent(Intent.ACTION_MAIN)
+//                        val cmp = ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI")
+//                        intent.addCategory(Intent.CATEGORY_LAUNCHER)
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                        intent.component = cmp
+//                        startActivity(intent)
+
+                        val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        // 将文本内容放到系统剪贴板里。
+                        cm.text = weChat
+                        toast("微信号已复制到剪切板")
                     } catch (e: ActivityNotFoundException) {
                         // TODO: handle exception
                         toast("检查到您手机没有安装微信，请安装后使用该功能")
@@ -95,6 +100,23 @@ class CustomerServiceDialog : DialogFragment(),RequestManager {
         tv_customerservice_tips.text = resMsg
         tv_customerservice_title.text = title
 
+    }
+
+    private var weChat=""
+    private fun getData() {
+        Request.getInfo(Const.SERVICE_WECHAT_CODE).request(this) { _, data ->
+            data?.let {
+                val sex = SPUtils.instance().getString(Const.User.USER_SEX)
+                if(TextUtils.equals(sex, "0")){
+                    weChat  = data.optString("ext5")
+                }else{
+                    weChat = data.optString("ext6")
+                }
+//                tv_wx.text= "客服微信号：$weChat"
+//
+//                tv_action.text = "复制客服微信：${weChat}"
+            }
+        }
     }
 
     private var dialogListener: OnDialogListener? = null

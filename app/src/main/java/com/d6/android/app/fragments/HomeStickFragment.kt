@@ -335,7 +335,7 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
                 if (!TextUtils.isEmpty(pointDesc)) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
                     SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
-                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+//                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
                 }
                 SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
             }

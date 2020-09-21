@@ -161,7 +161,16 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         headView.setImageURI(square.picUrl)
         tv_name.text = square.name
         tv_sex.isSelected = TextUtils.equals("0",square.sex)
-        tv_vip.backgroundDrawable = getLevelDrawable(square.userclassesid.toString(),context)
+
+        if(square.age.isNullOrEmpty()){
+            tv_age.visibility = View.GONE
+        }else{
+            tv_age.isSelected = TextUtils.equals("0",square.sex)
+            tv_age.visibility = View.VISIBLE
+            tv_age.text = "${square.age}岁"
+        }
+
+        tv_vip.backgroundDrawable = getLevelDrawable("${square.userclassesid}",context)
 
         if(TextUtils.equals("3",square.screen)){
             img_auther.visibility=View.GONE
@@ -182,6 +191,7 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         tv_createtime.text = square.updatetime?.interval()
 
         tv_content.text = square.content
+        Log.i("usertrendView","年龄：${square.age},动态vip：${square.userclassesid}")
 
         if(square.iResourceType==3){
 

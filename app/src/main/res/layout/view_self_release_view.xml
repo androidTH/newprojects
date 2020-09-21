@@ -9,7 +9,7 @@
     android:background="@drawable/shape_date_white"
     android:paddingLeft="@dimen/margin_10"
     android:paddingTop="@dimen/padding_16"
-    android:paddingRight="@dimen/margin_5"
+    android:paddingRight="@dimen/margin_10"
     android:paddingBottom="@dimen/margin_5">
 
     <TextView

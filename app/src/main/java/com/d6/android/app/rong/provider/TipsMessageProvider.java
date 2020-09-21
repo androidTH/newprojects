@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.d6.android.app.R;
 import com.d6.android.app.dialogs.CustomerServiceDialog;
+import com.d6.android.app.dialogs.WeChatKFDialog;
 import com.d6.android.app.rong.bean.TipsMessage;
 import com.d6.android.app.rong.bean.TipsTxtMessage;
 import com.d6.android.app.utils.GsonHelper;
@@ -86,14 +87,20 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
 
     @Override
     public void onItemClick(View view, int position, TipsMessage content, UIMessage message) {
-        if(content.getContent().endsWith("求助客服联系")){
-            CustomerServiceDialog customerServiceDialog = new CustomerServiceDialog();
-            Bundle bundle = new Bundle();
-            bundle.putString("resMsg", "对方可能暂时没看到你的申请，你可以求助你的专属微信客服联系对方");
-            bundle.putString("dialog_title","求助客服联系对方");
-            bundle.putString("service_type","1");
-            customerServiceDialog.setArguments(bundle);
-            customerServiceDialog.show(((FragmentActivity)mContext).getSupportFragmentManager(),"resMsg");
+        if(content.getContent().endsWith("求助客服联系对方")){
+            if(mContext!=null){
+                CustomerServiceDialog customerServiceDialog = new CustomerServiceDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("resMsg", "对方可能暂时没看到你的申请，你可以求助你的专属微信客服联系对方");
+                bundle.putString("dialog_title","求助客服联系对方");
+                bundle.putString("service_type","1");
+                customerServiceDialog.setArguments(bundle);
+                customerServiceDialog.show(((FragmentActivity)mContext).getSupportFragmentManager(),"resMsg");
+            }
+//            if(mContext!=null){
+//                WeChatKFDialog mWeChatKfDialog = new  WeChatKFDialog();
+//                mWeChatKfDialog.show(((FragmentActivity)mContext).getSupportFragmentManager(),"wechatkf");
+//            }
         }
     }
     @Override
@@ -108,7 +115,7 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             TextView textView = holder.mTvMsgContent;
             String txt = content.getContent();
-            if(txt.endsWith("求助客服联系")){
+            if(txt.endsWith("求助客服联系对方")){
                 SpanBuilder sb = new SpanBuilder(txt);
                 sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_F7B500);
                 textView.setText(sb.build());
@@ -137,7 +144,7 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
         } else {
             TextView textView = holder.mTvMsgContent;
             String txt = content.getContent();
-            if(txt.endsWith("求助客服联系")){
+            if(txt.endsWith("求助客服联系对方")){
 //                SpannableStringBuilder spanStringBuilder = new SpanBuilder(txt)
 //                        .click(txt.length() - 8, txt.length(), clickSpan)
 //                        .build();
