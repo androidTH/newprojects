@@ -117,6 +117,7 @@ class SpeedDateDetailActivity : TitleActivity() {
 //            isAuthUser() {
 //                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
 //            }
+            mSpeedDate.iType=2
             startActivity<RGServiceInfoActivity>("data" to mSpeedDate)
 //            var mDateTypeDialog = DateTypeDialog()
 //            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])

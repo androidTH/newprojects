@@ -106,6 +106,7 @@ class FindDateDetailActivity : TitleActivity() {
 //                }
 //            }
             mData?.let {
+                it.iType = 1
                 startActivity<RGServiceInfoActivity>("data" to it)
             }
 //            var mDateTypeDialog = DateTypeDialog()

@@ -79,6 +79,8 @@
     <dimen name="width_145">145.0dp</dimen>
     <dimen name="height_100">100dp</dimen>
     <dimen name="height_120">120dp</dimen>
+    <dimen name="height_110">110dp</dimen>
+    <dimen name="height_103">103dp</dimen>
     <dimen name="height_250">250dp</dimen>
     <dimen name="height_200">200dp</dimen>
     <dimen name="height_210">210dp</dimen>

@@ -305,7 +305,7 @@ interface ApiServices {
 
     //赠送积分
     @POST("backstage/new_login/loginForPointNew")
-    fun loginForPointNew(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun loginForPointNew(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("devicetoken") devicetoken:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //解锁聊天支付多少积分
     //iTalkRefusePoint 拒绝邀请返还积分    iTalkOverDuePoint 过期返还积分

@@ -39,7 +39,7 @@
                 android:layout_marginLeft="@dimen/margin_2"
                 android:text="完善资料，异性约会成功率将显著提高"
                 android:textColor="@color/white"
-                android:textSize="13sp" />
+                android:textSize="12dp" />
 
             <TextView
                 android:id="@+id/tv_edituserinfo"

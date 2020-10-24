@@ -69,29 +69,35 @@ class RGServiceInfoActivity : BaseActivity() {
         if(ClassId.isNotEmpty()){
             userClassId = ClassId.toInt()
         }
-        var iLookClass = mData.iLookClass!!.toInt()
-        if (iLookClass == 31) {
-            if(userClassId!=7){
-                sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
-                tv_rgservice_invite.text = "联系客服"
-            }else{
-                sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
-                tv_rgservice_invite.text = "开通会员"
-            }
-        } else if (iLookClass <= userClassId) {
-            if(userClassId==31){
+        if(mData.iLookClass!=null){
+            var iLookClass = mData.iLookClass!!.toInt()
+            if (iLookClass == 31) {
+                if(userClassId!=7){
+                    sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
+                    tv_rgservice_invite.text = "联系客服"
+                }else{
+                    sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
+                    tv_rgservice_invite.text = "开通会员"
+                }
+            } else if (iLookClass <= userClassId) {
+                if(userClassId==31){
+                    sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
+                    tv_rgservice_tips.text = "对方要求${mData.sLookUserClass}才能速配"
+                    tv_rgservice_invite.text = "开通会员"
+                }else{
+                    sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
+                    tv_rgservice_tips.text = "想要约她可将卡片分享给客服"
+                    tv_rgservice_invite.text = "联系客服"
+                }
+            } else {
                 sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
                 tv_rgservice_tips.text = "对方要求${mData.sLookUserClass}才能速配"
                 tv_rgservice_invite.text = "开通会员"
-            }else{
-                sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
-                tv_rgservice_tips.text = "想要约她可将卡片分享给客服"
-                tv_rgservice_invite.text = "联系客服"
             }
-        } else {
-            sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_two)
-            tv_rgservice_tips.text = "对方要求${mData.sLookUserClass}才能速配"
-            tv_rgservice_invite.text = "开通会员"
+        }else{
+            sdv_vipservice.setImageURI("res:///"+R.mipmap.vip_serves_one)
+            tv_rgservice_tips.text = "想要约她可将卡片分享给客服"
+            tv_rgservice_invite.text = "联系客服"
         }
 
 //        Request.getUserInfo("", getLocalUserId()).request(this, success = { _, data ->

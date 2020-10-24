@@ -3,6 +3,7 @@ package com.d6.android.app.adapters
 import android.graphics.Color
 import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
@@ -32,7 +33,7 @@ class SpeedDateAdapter(mData: ArrayList<MyDate>) : BaseRecyclerAdapter<MyDate>(m
         holder.setText(R.id.tv_content, data.speedcontent)
         holder.setText(R.id.tv_type, data.getSpeedStateStr())
         holder.setText(R.id.tv_address,data.speedcity)
-        val tv_audio_auth = holder.bind<TextView>(R.id.tv_audio_auth)
+        val tv_audio_auth = holder.bind<ImageView>(R.id.tv_audio_auth)
         if (TextUtils.equals("1", data.screen)) {
             tv_audio_auth.visible()
         } else {

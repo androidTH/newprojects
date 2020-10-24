@@ -365,7 +365,7 @@ object Request {
     fun bindPhone(phone:String,vercode:String,openid:String,sUnionid:String,devicetoken:String,sWxName:String,sWxpic:String,sChannelId:String?,sInviteCode:String,sImei:String,sOaid:String,sAndroidId:String)=RRetrofit.instance().create(ApiServices::class.java).bindPhone(phone,vercode,openid,sUnionid,devicetoken,sWxName,sWxpic,sChannelId,sInviteCode,sImei,sOaid,sAndroidId)
 
     //赠送积分
-    fun loginForPoint(sLoginToken:String,iUserid: String)=RRetrofit.instance().create(ApiServices::class.java).loginForPointNew(sLoginToken,iUserid)
+    fun loginForPoint(sLoginToken:String,iUserid: String,devicetoken:String)=RRetrofit.instance().create(ApiServices::class.java).loginForPointNew(sLoginToken,iUserid,devicetoken)
 
 
     //支付多少积分

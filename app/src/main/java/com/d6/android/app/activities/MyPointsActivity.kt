@@ -48,6 +48,10 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         SPUtils.instance().getString(Const.User.USER_SEX)
     }
 
+    private val devicetoken by lazy{
+        SPUtils.instance().getString(Const.User.DEVICETOKEN)
+    }
+
     private var mUserInfo: UserData? =null
     private val BUNDLE_FRAGMENTS_KEY = "android:support:fragments"
 
@@ -253,7 +257,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun loginforPoint(){
-        Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
+        Request.loginForPoint(getLoginToken(),userId,devicetoken).request(this,false,success = {msg,data->
             if (data != null) {
                 var sLoginToken = data.optString("sLoginToken")
                 var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)

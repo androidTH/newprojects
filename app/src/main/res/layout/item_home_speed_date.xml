@@ -26,20 +26,17 @@
             app:roundAsCircle="false"
             app:roundedCornerRadius="@dimen/margin_2"/>
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_auth_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_5"
             android:layout_marginTop="108dp"
-            android:background="@drawable/shape_10r_8e"
-            android:drawablePadding="@dimen/margin_2"
+            android:src="@drawable/shape_10r_8e"
             android:textColor="@color/white"
             android:paddingLeft="@dimen/margin_5"
-            android:paddingTop="@dimen/margin_2"
             android:paddingRight="@dimen/margin_5"
-            android:paddingBottom="@dimen/margin_2"
             android:textSize="10sp"
             android:visibility="visible" />
         <TextView
@@ -73,11 +70,12 @@
                 android:drawableRight="@drawable/sex_selector"
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
-                android:maxWidth="150dp"
+                android:maxWidth="80dp"
                 android:singleLine="true"
                 android:text="--"
+                android:ellipsize="end"
                 android:textColor="@color/color_333333"
-                android:textSize="12sp" />
+                android:textSize="11dp" />
             <TextView
                 android:id="@+id/tv_age"
                 android:layout_width="wrap_content"
@@ -91,7 +89,7 @@
                 android:paddingBottom="0.5dp"
                 android:textColor="@color/white"
                 android:visibility="gone"
-                android:textSize="10sp" />
+                android:textSize="10dp" />
         </LinearLayout>
 
         <TextView

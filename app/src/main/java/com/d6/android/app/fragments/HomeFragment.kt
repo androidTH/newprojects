@@ -75,6 +75,10 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val devicetoken by lazy{
+        SPUtils.instance().getString(Const.User.DEVICETOKEN)
+    }
+
     private var type: Int = 0
     private var city: String? = ""
     private var mDefualtSex = -1
@@ -309,7 +313,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
     private fun getProvinceData() {
         try{
-            if (!TextUtils.isEmpty(cityJson)) {
+            if (cityJson.isNullOrEmpty()) {
                 getServiceProvinceData()
             } else {
                 if (!TextUtils.equals(getTodayTime(), lastTime)) {
@@ -416,7 +420,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     private fun loginforPoint(){
-        Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
+        Request.loginForPoint(getLoginToken(),userId,devicetoken).request(this,false,success = {msg,data->
             if (data != null) {
                 var sLoginToken = data.optString("sLoginToken")
                 var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)

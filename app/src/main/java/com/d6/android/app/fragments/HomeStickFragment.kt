@@ -65,6 +65,10 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
         SPUtils.instance().getString(Const.User.USER_ID)
     }
 
+    private val devicetoken by lazy{
+        SPUtils.instance().getString(Const.User.DEVICETOKEN)
+    }
+
     private var type: Int = 0
     private var city: String? = ""
 
@@ -326,7 +330,7 @@ class HomeStickFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground
     }
 
     private fun loginforPoint(){
-        Request.loginForPoint(getLoginToken(),userId).request(this,false,success = {msg,data->
+        Request.loginForPoint(getLoginToken(),userId,devicetoken).request(this,false,success = {msg,data->
             showTips(data,"","")
             if (data != null) {
                 var pointDesc = data.optString("sAddPointDesc")
