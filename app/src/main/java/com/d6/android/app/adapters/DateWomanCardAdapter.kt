@@ -172,7 +172,7 @@ class DateWomanCardAdapter(mData: ArrayList<FindDate>) : BaseRecyclerAdapter<Fin
             }
 
             var tv_women_vip = holder.bind<TextView>(R.id.tv_vip)
-            tv_women_vip.visibility = View.GONE
+            tv_women_vip.visibility = View.VISIBLE
             var drawable = getLevelDrawable(data.userclassesid,context)
             if(drawable!=null){
                 tv_women_vip.backgroundDrawable = drawable
