@@ -561,4 +561,9 @@
         <item name="android:windowEnterAnimation">@anim/right_top_in_2</item>
         <item name="android:windowExitAnimation">@anim/right_top_out_2</item>
     </style>
+
+    <declare-styleable name="PullLeftToRefreshLayout">
+        <attr name="footerBgColor" format="color"/>
+    </declare-styleable>
+
 </resources>

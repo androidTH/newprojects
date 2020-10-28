@@ -163,4 +163,7 @@
     <string name="string_grouporfriends">群聊与好友</string>
     <string name="string_fire_longclick">阅后即焚\n长按图片即可查看</string>
     <string name="string_help_service">求助客服联系TA</string>
+
+    <string name="scan_more">查看更多</string>
+    <string name="release_scan_more">释放查看</string>
 </resources>
