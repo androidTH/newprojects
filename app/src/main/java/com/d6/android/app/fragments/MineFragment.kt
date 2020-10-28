@@ -125,8 +125,15 @@ class MineFragment : BaseFragment() {
                         openErrorDialog.arguments = bundleOf("code" to 1000, "msg" to sAddPointDesc)
                         openErrorDialog.show((context as BaseActivity).supportFragmentManager, "publishfindDateActivity")
                     }
+                } else if(code==0){
+                    var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+                    if(TextUtils.equals("1",sex)){
+                        startActivity<AuthMenStateActivity>()
+                    }else{
+                        startActivity<AuthWomenStateActivity>()
+                    }
                 } else {
-                    showToast(msg)
+                    showToast("$msg")
                 }
             }
         })
