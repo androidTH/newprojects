@@ -23,52 +23,51 @@
         app:viewAspectRatio="1.0" />
 
     <LinearLayout
+        android:id="@+id/ll_sendliked"
+        android:layout_below="@+id/user_headView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_above="@+id/ll_userinfo"
-        android:paddingLeft="@dimen/margin_5"
-        android:background="@drawable/shape_top_bottom_yy_bg"
+        android:layout_height="30dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_likedtype"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_10"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/tv_likedtype"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginTop="@dimen/margin_10"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="12sp" />-->
 
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_10"
             android:paddingLeft="@dimen/margin_5"
             android:paddingRight="@dimen/margin_5"
-            android:textColor="@color/color_black"
-            android:textSize="15sp" />
+            android:textColor="@color/color_666666"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_userinfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_headView"
-        android:layout_marginLeft="@dimen/margin_5"
-        android:layout_marginTop="@dimen/margin_5"
-        android:layout_marginBottom="@dimen/margin_3"
+        android:layout_height="50dp"
+        android:layout_above="@+id/ll_sendliked"
         android:gravity="center_vertical"
+        android:background="@drawable/shape_top_bottom_yy_bg"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginLeft="@dimen/margin_5"
             android:singleLine="true"
             android:textStyle="bold"
-            android:textColor="@color/color_black" />
+            android:textSize="14sp"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_sex"
@@ -76,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_8"
             android:background="@drawable/ic_sex_bg_selector"
             android:drawableLeft="@drawable/sex_white_selector"
             android:drawablePadding="1dp"
@@ -91,6 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/margin_8"
             android:layout_marginLeft="@dimen/margin_5"
             android:background="@drawable/ic_sex_bg_selector"
             android:paddingLeft="3dp"
@@ -106,38 +107,11 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/margin_16"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/margin_8"
             android:layout_marginLeft="@dimen/margin_5"
             android:background="@mipmap/vip_gold"
             android:textColor="@color/white"
             android:textSize="10sp"
             android:visibility="visible" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_userinfo"
-        android:layout_marginLeft="@dimen/margin_5"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:text="170cm·北京"
-        android:textColor="@color/color_999999"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_job"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_info"
-        android:layout_marginLeft="@dimen/margin_5"
-        android:layout_marginTop="@dimen/margin_3"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:textColor="@color/color_999999"
-        android:layout_marginBottom="@dimen/margin_5"
-        android:textSize="12sp" />
-
 </RelativeLayout>

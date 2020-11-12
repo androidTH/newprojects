@@ -1,8 +1,11 @@
 package com.d6.android.app.activities
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.FansAdapter
 import com.d6.android.app.adapters.FollowAdapter
@@ -17,9 +20,12 @@ import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLocalUserId
 import com.d6.android.app.utils.getLoginToken
+import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import com.qamaster.android.ui.ScreenshotEditorActivity.startActivity
 import kotlinx.android.synthetic.main.base_recyclerview_layout.*
 import kotlinx.android.synthetic.main.header_sendliked.view.*
+import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 
 class FollowActivity : RecyclerActivity() {
@@ -34,6 +40,10 @@ class FollowActivity : RecyclerActivity() {
 
     private var pageNum = 1
     private val mMessages = ArrayList<LoveHeartFans>()
+    override fun layoutManager(): RecyclerView.LayoutManager {
+        return GridLayoutManager(this,2)
+    }
+
     private val followAdapter by lazy {
         FollowAdapter(mMessages)
     }
@@ -45,12 +55,18 @@ class FollowActivity : RecyclerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitleBold("送出的喜欢",true)
+        rootFl.backgroundColor = ContextCompat.getColor(this,R.color.color_F6F7FA)
+        var params= mSwipeRefreshLayout.layoutParams as RelativeLayout.LayoutParams
+        params.leftMargin = dip(5)
+        params.rightMargin = dip(5)
+        mSwipeRefreshLayout.layoutParams = params
+        addItemDecoration(RxRecyclerViewDividerTool(dip(10)))
+
         followAdapter.setOnItemClickListener { view, position ->
             val id = mMessages[position].iSenduserid
             startActivity<UserInfoActivity>("id" to id.toString())
         }
         followAdapter.setHeaderView(mHeaderView)
-        addItemDecoration()
         dialog()
     }
 

@@ -2,9 +2,10 @@ package com.d6.android.app.activities
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.RelativeLayout
 import com.d6.android.app.R
 import com.d6.android.app.adapters.FansAdapter
 import com.d6.android.app.adapters.RecentlyFansAdapter
@@ -12,15 +13,16 @@ import com.d6.android.app.base.RecyclerActivity
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.iLovePointShow
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration
+import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import kotlinx.android.synthetic.main.base_recyclerview_layout.*
 import kotlinx.android.synthetic.main.header_receiverliked.view.*
+import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
 import org.json.JSONObject
 
@@ -32,6 +34,10 @@ class FansActivity : RecyclerActivity() {
 
     private var pageNum = 1
     private val mMessages = ArrayList<LoveHeartFans>()
+    override fun layoutManager(): RecyclerView.LayoutManager {
+        return GridLayoutManager(this,2)
+    }
+
     private val fansAdapter by lazy {
         FansAdapter(mMessages)
     }
@@ -52,6 +58,12 @@ class FansActivity : RecyclerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitleBold("收到的喜欢",true)
+        rootFl.backgroundColor = ContextCompat.getColor(this,R.color.color_F6F7FA)
+        var params= mSwipeRefreshLayout.layoutParams as RelativeLayout.LayoutParams
+        params.leftMargin = dip(5)
+        params.rightMargin = dip(5)
+        mSwipeRefreshLayout.layoutParams = params
+
         fansAdapter.setOnItemClickListener { view, position ->
             var fans = mMessages[position]
             if(fans.iIsCode!=1){
@@ -80,12 +92,19 @@ class FansActivity : RecyclerActivity() {
 
         if(mHeaderFans!=null){
             mHeaderView.rv_receivedliked.setHasFixedSize(true)
-            mHeaderView.rv_receivedliked.layoutManager = LinearLayoutManager(this)
-            mHeaderView.rv_receivedliked.addItemDecoration(getItemDecoration())
+            mHeaderView.rv_receivedliked.layoutManager = GridLayoutManager(this,2)
+            mHeaderView.rv_receivedliked.addItemDecoration(RxRecyclerViewDividerTool(dip(10)))
             mHeaderView.rv_receivedliked.adapter = mHeaderLikedAdapter
         }
-
-        addItemDecoration()
+//        var divider = GridItemDecoration.Builder(this)
+//                .setHorizontalSpan(R.dimen.margin_10)
+//                .setVerticalSpan(R.dimen.margin_15)
+//                .setColorResource(R.color.color_F6F7FA)
+//                .setShowLastLine(false)
+//                .setShowVerticalLine(true)
+//                .build()
+//        addItemDecoration(divider)
+        addItemDecoration(RxRecyclerViewDividerTool(dip(10)))
         dialog()
     }
 

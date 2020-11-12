@@ -24,7 +24,7 @@ import org.jetbrains.anko.textColor
 /**
  *粉丝
  */
-class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_fans) ,View.OnClickListener{
+class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFans>(mData, R.layout.item_list_recentlyfans) ,View.OnClickListener{
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -38,19 +38,20 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
         if(data.iIsCode==1){
             holder.setText(R.id.tv_name,"匿名")
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+//            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+            headView.showBlur(data.sPicUrl)
         }else{
             holder.setText(R.id.tv_name,data.sSendUserName)
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
             headView.setImageURI(data.sPicUrl)
         }
-        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.sPointdesc.isNullOrEmpty()){
-            tv_userinfo.visibility = View.VISIBLE
-            tv_userinfo.text = data.sPointdesc
-        }else{
-            tv_userinfo.visibility = View.GONE
-        }
+//        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
+//        if(!data.sPointdesc.isNullOrEmpty()){
+//            tv_userinfo.visibility = View.VISIBLE
+//            tv_userinfo.text = data.sPointdesc
+//        }else{
+//            tv_userinfo.visibility = View.GONE
+//        }
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)
@@ -74,13 +75,14 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
         }
 
         var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
-        if(data.iPoint>=Const.iLovePointShow){
-            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-            tv_receivedliked.text = "${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
-        }else{
-            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_black)
-            tv_receivedliked.text = "${data.iPoint} [img src=redheart_small/]"
-        }
+        tv_receivedliked.text = "送了你${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
+//        if(data.iPoint>=Const.iLovePointShow){
+//            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
+//            tv_receivedliked.text = "${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
+//        } else{
+//            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_black)
+//            tv_receivedliked.text = "${data.iPoint} [img src=redheart_small/]"
+//        }
 
 //        redheart_small
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)

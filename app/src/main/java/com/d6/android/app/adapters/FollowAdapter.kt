@@ -9,6 +9,7 @@ import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.request
+import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
@@ -30,29 +31,34 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
 
     override fun onBind(holder: ViewHolder, position: Int, data: LoveHeartFans) {
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
-        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
+//        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
         if(data.iIsCode==1){
             holder.setText(R.id.tv_name,"匿名")
-            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_8F5A5A)
-            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
-            tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "
-            tv_userinfo.visibility = View.VISIBLE
+//            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_8F5A5A)
+            if(data.sPicUrl.isNullOrEmpty()){
+                headView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
+            }else{
+                headView.showBlur(data.sPicUrl)
+            }
+//            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
+//            tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "
+//            tv_userinfo.visibility = View.VISIBLE
         }else{
             holder.setText(R.id.tv_name,data.sSendUserName)
-            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_black)
+//            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_black)
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")
 
             headView.setImageURI(data.sPicUrl)
-            if(!data.gexingqianming.isNullOrEmpty()){
-                tv_userinfo.text = data.gexingqianming
-                tv_userinfo.visibility = View.VISIBLE
-            }else if(!data.ziwojieshao.isNullOrEmpty()){
-                tv_userinfo.text = data.ziwojieshao
-                tv_userinfo.visibility = View.VISIBLE
-            }else{
-                tv_userinfo.visibility = View.GONE
-            }
+//            if(!data.gexingqianming.isNullOrEmpty()){
+//                tv_userinfo.text = data.gexingqianming
+//                tv_userinfo.visibility = View.VISIBLE
+//            }else if(!data.ziwojieshao.isNullOrEmpty()){
+//                tv_userinfo.text = data.ziwojieshao
+//                tv_userinfo.visibility = View.VISIBLE
+//            }else{
+//                tv_userinfo.visibility = View.GONE
+//            }
 
         }
 
@@ -80,13 +86,17 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
         tv_vip.backgroundDrawable = getLevelDrawable("${data.userclassesid}",context)
 
         var  tv_sendliked= holder.bind<TextInlineImage>(R.id.tv_sendliked)
-        if(data.iPoint>=Const.iLovePointShow){
-            tv_sendliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-            tv_sendliked.text ="${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
-        }else{
-            tv_sendliked.textColor = ContextCompat.getColor(context,R.color.color_black)
-            tv_sendliked.text =  "${data.iPoint} [img src=redheart_small/]"
-        }
+//        if(data.iPoint>=Const.iLovePointShow){
+//            tv_sendliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
+//            tv_sendliked.text ="${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
+//        }else{
+//            tv_sendliked.textColor = ContextCompat.getColor(context,R.color.color_black)
+//            tv_sendliked.text =  "${data.iPoint} [img src=redheart_small/]"
+//        }
+        var tv_likedtype = holder.bind<TextView>(R.id.tv_likedtype)
+        tv_likedtype.setText("送TA")
+        tv_sendliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
+        tv_sendliked.text ="${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //

@@ -36,13 +36,13 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")
         headView.setImageURI(data.sPicUrl)
-        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
-        if(!data.gexingqianming.isNullOrEmpty()){
-            tv_userinfo.visibility = View.VISIBLE
-            tv_userinfo.text = data.gexingqianming
-        }else{
-            tv_userinfo.visibility = View.GONE
-        }
+//        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
+//        if(!data.gexingqianming.isNullOrEmpty()){
+//            tv_userinfo.visibility = View.VISIBLE
+//            tv_userinfo.text = data.gexingqianming
+//        }else{
+//            tv_userinfo.visibility = View.GONE
+//        }
 
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
