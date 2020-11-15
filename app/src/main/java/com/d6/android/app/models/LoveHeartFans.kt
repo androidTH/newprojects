@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName
  *     version:
  */
 data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
+
     @SerializedName("iSenduserid") var iSenduserid: Int=-1
     @SerializedName("sId") var sId:String=""
     @SerializedName("sPointdesc") var sPointdesc:String="" //"给客服六妹赠送了10颗❤",
@@ -36,6 +37,9 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
     @SerializedName("ziwojieshao") var ziwojieshao:String = ""// "ziwojieshao": "人工客服在线时间早9点－晚1点，官方客服Vx:dkn042"
     @SerializedName("iIsCode") var iIsCode:Int = -1 // 2、允许显示用户头像  1、头像和名称打码
     var iListSetting:Int = -1
+    @SerializedName("shengao")var shengao:String?=""
+    @SerializedName("zhiye")var zhiye:String?=""
+    @SerializedName("sPosition")var sPosition:String?=""
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         iSenduserid = parcel.readInt()
@@ -45,6 +49,7 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         sSendUserName = parcel.readString()
         sSex = parcel.readString()
         sPicUrl = parcel.readString()
+        iAllLovePoint = parcel.readInt()
         userclassesid = parcel.readString()
         nianling = parcel.readString()
         gexingqianming = parcel.readString()
@@ -52,8 +57,10 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         userclassesname = parcel.readString()
         ziwojieshao = parcel.readString()
         iIsCode = parcel.readInt()
-        iAllLovePoint = parcel.readInt()
         iListSetting = parcel.readInt()
+        shengao = parcel.readString()
+        zhiye = parcel.readString()
+        sPosition = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -62,18 +69,21 @@ data class LoveHeartFans(@SerializedName("iUserid")var iUserid:Int?):Parcelable 
         parcel.writeString(sId)
         parcel.writeString(sPointdesc)
         parcel.writeInt(iPoint)
-        parcel.writeInt(iIsCode)
-        parcel.writeInt(iAllLovePoint)
-        parcel.writeInt(iListSetting)
         parcel.writeString(sSendUserName)
         parcel.writeString(sSex)
         parcel.writeString(sPicUrl)
+        parcel.writeInt(iAllLovePoint)
         parcel.writeString(userclassesid)
         parcel.writeString(nianling)
         parcel.writeString(gexingqianming)
         parcel.writeString(screen)
         parcel.writeString(userclassesname)
         parcel.writeString(ziwojieshao)
+        parcel.writeInt(iIsCode)
+        parcel.writeInt(iListSetting)
+        parcel.writeString(shengao)
+        parcel.writeString(zhiye)
+        parcel.writeString(sPosition)
     }
 
     override fun describeContents(): Int {

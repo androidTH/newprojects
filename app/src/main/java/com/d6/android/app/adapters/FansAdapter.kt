@@ -46,9 +46,6 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
                 headView.showBlur(data.sPicUrl)
             }
             holder.setText(R.id.tv_name,"匿名")
-//            holder.bind<TextView>(R.id.tv_name).textColor = ContextCompat.getColor(context,R.color.color_black)
-//            tv_userinfo.text = "未达到超级喜欢，点击支付积分即可查看身份"
-//            tv_userinfo.visibility = View.VISIBLE
         }else{
             headView.setImageURI(data.sPicUrl)
             holder.setText(R.id.tv_name,data.sSendUserName)
@@ -92,9 +89,33 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
 
         var tv_info = holder.bind<TextView>(R.id.tv_info)
-        tv_info.text = "170cm·北京"
+        var mInfo = ""
+        if(!data.shengao.isNullOrEmpty()){
+            mInfo = "${data.shengao}"
+        }
+        if(!data.sPosition.isNullOrEmpty()){
+            if(data.shengao.isNullOrEmpty()){
+                mInfo = "${data.sPosition}"
+            }else{
+                mInfo = "${data.shengao}·${data.sPosition}"
+            }
+        }
+
+        if(mInfo.isNullOrEmpty()){
+            tv_info.visibility = View.GONE
+        }else{
+            tv_info.visibility = View.VISIBLE
+            tv_info.text = "${mInfo}"
+        }
+
         var tv_job = holder.bind<TextView>(R.id.tv_job)
-        tv_job.text = "职业：潜水家"
+        if(data.zhiye.isNullOrEmpty()){
+            tv_job.visibility = View.GONE
+        }else{
+            tv_job.visibility = View.VISIBLE
+            tv_job.text = "职业：${data.zhiye}"
+        }
+
 //        if(data.iAllLovePoint>=Const.iLovePointShow){
 //            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
 //            tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
@@ -103,7 +124,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
 //            tv_receivedliked.text = "${data.iAllLovePoint} [img src=redheart_small/]"
 //        }
 
-        Log.i("fansAdapter","${data.sPicUrl}数量${data.iAllLovePoint}")
+//        Log.i("fansAdapter","${data.sPicUrl}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //        if(data.iIsFollow == 0){

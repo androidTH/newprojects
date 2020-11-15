@@ -250,6 +250,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/color_8F5A5A"
                 android:layout_marginTop="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_15"
                 android:orientation="vertical">
 
                 <TextView

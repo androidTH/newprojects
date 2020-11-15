@@ -683,4 +683,15 @@ interface ApiServices {
     //3.7版本
     @POST("backstage/square/insertUserVisitPic")
     fun insertUserVisitPic(@Query("sPicUrl") sPicUrl:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //3.8版本
+    //获取解锁匿名身份需要的积分
+    @POST("backstage/userloverule/getAnyonousPointQueryAuth")
+    fun getAnyonousPointQueryAuth(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //支付积分解锁身份
+    @POST("backstage/userloverule/anyonousPayPoint")
+    fun getUserAnonymousPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+
 }

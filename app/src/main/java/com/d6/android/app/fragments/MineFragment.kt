@@ -99,43 +99,44 @@ class MineFragment : BaseFragment() {
         }
 
         rl_vistors_count.setOnClickListener(View.OnClickListener {
-            Request.getVistorAuth(getLocalUserId()).request(this, false, success = { msg, data ->
-                startActivity<VistorsActivity>()
-            }) { code, msg ->
-                if (code == 2) {
-                    //积分充足
-                    if (msg.isNotEmpty()) {
-                        val jsonObject = JSONObject.parseObject(msg)
-                        var point = jsonObject.getString("iAddPoint")
-                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-                        val dateDialog = VistorPayPointDialog()
-                        dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 0)
-                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistor")
-                    }
-                } else if (code == 3) {
-                    //积分不足
-                    if (msg.isNotEmpty()) {
-                        val jsonObject = JSONObject.parseObject(msg)
-                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
-//                        val dateDialog = OpenDatePointNoEnoughDialog()
-//                        dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
-//                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistors")
-
-                        var openErrorDialog = OpenDateErrorDialog()
-                        openErrorDialog.arguments = bundleOf("code" to 1000, "msg" to sAddPointDesc)
-                        openErrorDialog.show((context as BaseActivity).supportFragmentManager, "publishfindDateActivity")
-                    }
-                } else if(code==0){
-                    var sex = SPUtils.instance().getString(Const.User.USER_SEX)
-                    if(TextUtils.equals("1",sex)){
-                        startActivity<AuthMenStateActivity>()
-                    }else{
-                        startActivity<AuthWomenStateActivity>()
-                    }
-                } else {
-                    showToast("$msg")
-                }
-            }
+            startActivity<VistorsActivity>("count" to "${tv_vistor_count.text}")
+//            Request.getVistorAuth(getLocalUserId()).request(this, false, success = { msg, data ->
+//                startActivity<VistorsActivity>("count" to "${tv_vistor_count.text}")
+//            }) { code, msg ->
+//                if (code == 2) {
+//                    //积分充足
+//                    if (msg.isNotEmpty()) {
+//                        val jsonObject = JSONObject.parseObject(msg)
+//                        var point = jsonObject.getString("iAddPoint")
+//                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+//                        val dateDialog = VistorPayPointDialog()
+//                        dateDialog.arguments = bundleOf("point" to point, "pointdesc" to sAddPointDesc, "type" to 0)
+//                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistor")
+//                    }
+//                } else if (code == 3) {
+//                    //积分不足
+//                    if (msg.isNotEmpty()) {
+//                        val jsonObject = JSONObject.parseObject(msg)
+//                        var sAddPointDesc = jsonObject.getString("sAddPointDesc")
+////                        val dateDialog = OpenDatePointNoEnoughDialog()
+////                        dateDialog.arguments= bundleOf("point" to point.toString(),"remainPoint" to remainPoint)
+////                        dateDialog.show((context as BaseActivity).supportFragmentManager, "vistors")
+//
+//                        var openErrorDialog = OpenDateErrorDialog()
+//                        openErrorDialog.arguments = bundleOf("code" to 1000, "msg" to sAddPointDesc)
+//                        openErrorDialog.show((context as BaseActivity).supportFragmentManager, "publishfindDateActivity")
+//                    }
+//                } else if(code==0){
+//                    var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+//                    if(TextUtils.equals("1",sex)){
+//                        startActivity<AuthMenStateActivity>()
+//                    }else{
+//                        startActivity<AuthWomenStateActivity>()
+//                    }
+//                } else {
+//                    showToast("$msg")
+//                }
+//            }
         })
 
         rl_setting.setOnClickListener {

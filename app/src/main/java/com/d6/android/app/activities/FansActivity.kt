@@ -173,7 +173,7 @@ class FansActivity : RecyclerActivity() {
     }
 
     private fun DoSeeUserInfo(loveHeartFans:LoveHeartFans){
-        Request.getLovePointQueryAuth(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
+        Request.getAnyonousPointQueryAuth(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
             startActivity<UserInfoActivity>("id" to "${loveHeartFans.iSenduserid}")
         }){code,msg->
             if(code==2){
@@ -185,7 +185,7 @@ class FansActivity : RecyclerActivity() {
                     var vistorUserDialog = VistorPayPointDialog()
                     vistorUserDialog.arguments = bundleOf("point" to "${iAddPoint}", "pointdesc" to sAddPointDesc, "type" to 3)
                     vistorUserDialog.setDialogListener { p, s ->
-                        Request.loveUserQueryPayPoint(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
+                        Request.getUserAnonymousPayPoint(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
                             startActivity<UserInfoActivity>("id" to "${loveHeartFans.iSenduserid}")
                         })
                     }

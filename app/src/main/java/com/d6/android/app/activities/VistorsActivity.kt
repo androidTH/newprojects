@@ -8,18 +8,23 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import com.d6.android.app.R
-import com.d6.android.app.adapters.VistorAdapter
+import com.d6.android.app.a.VistorAdapter
 import com.d6.android.app.base.RecyclerActivity
+import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
+import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.Const
 import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.widget.GridItemDecoration
+import com.d6.android.app.utils.getLoginToken
+import com.d6.android.app.utils.isAuthUser
 import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import org.jetbrains.anko.backgroundColor
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.startActivity
+import org.json.JSONObject
 
 class VistorsActivity : RecyclerActivity() {
     private val userId by lazy {
@@ -50,10 +55,18 @@ class VistorsActivity : RecyclerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = "访客"
+        var count = intent.getStringExtra("count")
+        setTitleBold("访客·${count}",true)
         vistorAdapter.setOnItemClickListener { view, position ->
-            val id =  mVistors[position].iVistorid
-            startActivity<UserInfoActivity>("id" to id.toString())
+            val vistor =  mVistors[position]
+
+            if(vistor.iIsCode!=1){
+                startActivity<UserInfoActivity>("id" to "${vistor.iVistorid}")
+            }else{
+                isAuthUser() {
+                    DoSeeUserInfo(vistor)
+                }
+            }
         }
 
 //        vistorAdapter.setHeaderView(mHeaderView)
@@ -93,6 +106,39 @@ class VistorsActivity : RecyclerActivity() {
                 mVistors.addAll(data.list.results)
             }
             vistorAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun DoSeeUserInfo(vistor:Fans){
+        Request.getAnyonousPointQueryAuth(getLoginToken(),"${vistor.iVistorid}").request(this,false,success={_,data->
+            startActivity<UserInfoActivity>("id" to "${vistor.iVistorid}")
+        }){code,msg->
+            if(code==2){
+                if(msg.isNotEmpty()){
+                    var jsonObject = JSONObject(msg)
+                    var iAddPoint = jsonObject.optInt("iAddPoint")
+                    var iRemainPoint = jsonObject.optInt("iRemainPoint")
+                    var sAddPointDesc = jsonObject.optString("sAddPointDesc")
+                    var vistorUserDialog = VistorPayPointDialog()
+                    vistorUserDialog.arguments = bundleOf("point" to "${iAddPoint}", "pointdesc" to sAddPointDesc, "type" to 3)
+                    vistorUserDialog.setDialogListener { p, s ->
+                        Request.getUserAnonymousPayPoint(getLoginToken(),"${vistor.iVistorid}").request(this,false,success={_,data->
+                            startActivity<UserInfoActivity>("id" to "${vistor.iVistorid}")
+                        })
+                    }
+                    vistorUserDialog.show(supportFragmentManager, "unknow")
+                }
+            }else if(code==3){
+                if(msg.isNotEmpty()){
+                    var jsonObject = JSONObject(msg)
+                    var msg = jsonObject.optString("sAddPointDesc")
+                    var iAddPoint = jsonObject.getString("iAddPoint")
+                    var iRemainPoint = jsonObject.getString("iRemainPoint")
+                    var openErrorDialog = OpenDatePointNoEnoughDialog()
+                    openErrorDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 1)
+                    openErrorDialog.show(supportFragmentManager, "d")
+                }
+            }
         }
     }
 

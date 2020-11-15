@@ -1,5 +1,6 @@
-package com.d6.android.app.adapters
+package com.d6.android.app.a
 
+import com.d6.android.app.extentions.showBlur
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
@@ -15,7 +16,6 @@ import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.backgroundDrawable
-import org.jetbrains.anko.textColor
 
 /**
  *粉丝
@@ -31,11 +31,9 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
     }
 
     override fun onBind(holder: ViewHolder, position: Int, data: Fans) {
-        holder.setText(R.id.tv_name,data.sUserName)
         val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
 //        val tv_time =holder.bind<TextView>(R.id.tv_time)
 //        tv_time.text = data.dJointime.toTime("MM.dd")
-        headView.setImageURI(data.sPicUrl)
 //        val tv_userinfo = holder.bind<TextView>(R.id.tv_userinfo)
 //        if(!data.gexingqianming.isNullOrEmpty()){
 //            tv_userinfo.visibility = View.VISIBLE
@@ -43,6 +41,18 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
 //        }else{
 //            tv_userinfo.visibility = View.GONE
 //        }
+
+        if(data.iIsCode==1){
+            if(data.sPicUrl.isNullOrEmpty()){
+                headView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
+            }else{
+                headView.showBlur(data.sPicUrl)
+            }
+            holder.setText(R.id.tv_name,"匿名")
+        }else{
+            headView.setImageURI(data.sPicUrl)
+            holder.setText(R.id.tv_name,data.sUserName)
+        }
 
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
@@ -67,9 +77,43 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
             tv_vip.visibility = View.VISIBLE
             tv_vip.backgroundDrawable = getLevelDrawable(data.userclassesid.toString(),context)
         }
+        var tv_likedtype = holder.bind<TextView>(R.id.tv_likedtype)
+        if(data.iVisitCount!!.toInt() >=2){
+            tv_likedtype.visibility = View.VISIBLE
+            tv_likedtype.text = "访问了你${data.iVisitCount}次"
+        }else{
+            tv_likedtype.visibility = View.GONE
+        }
+        var tv_info = holder.bind<TextView>(R.id.tv_info)
+        var mInfo = ""
+        if(!data.shengao.isNullOrEmpty()){
+            mInfo = "${data.shengao}"
+        }
+        if(!data.sPosition.isNullOrEmpty()){
+            if(data.shengao.isNullOrEmpty()){
+                mInfo = "${data.sPosition}"
+            }else{
+                mInfo = "${data.shengao}·${data.sPosition}"
+            }
+        }
 
-        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
-        tv_receivedliked.visibility = View.GONE
+        if(mInfo.isNullOrEmpty()){
+            tv_info.visibility = View.GONE
+        }else{
+            tv_info.visibility = View.VISIBLE
+            tv_info.text = "${mInfo}"
+        }
+        var tv_job = holder.bind<TextView>(R.id.tv_job)
+
+        if(data.zhiye.isNullOrEmpty()){
+            tv_job.visibility = View.GONE
+        }else{
+            tv_job.visibility = View.VISIBLE
+            tv_job.text = "职业：${data.zhiye}"
+        }
+
+//        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
+//        tv_receivedliked.visibility = View.GONE
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //
@@ -99,7 +143,7 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
     private fun addFollow(fans:Fans,tv_focus:TextView){
         Request.getAddFollow(userId, fans.iVistorid.toString()).request((context as BaseActivity),true){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_fans)
-            tv_focus.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
+            tv_focus.setTextColor(ContextCompat.getColor(context,R.color.color_DFE1E5))
             tv_focus.setText("已喜欢")
             fans.isFollow ="1"
         }
@@ -108,7 +152,7 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
     private fun delFollow(fans:Fans,tv_focus:TextView){
         Request.getDelFollow(userId, fans.iVistorid.toString()).request((context as BaseActivity)){ s: String?, jsonObject: JsonObject? ->
             tv_focus.setBackgroundResource(R.drawable.shape_10r_nofans)
-            tv_focus.setTextColor(context.resources.getColor(R.color.color_F7AB00))
+            tv_focus.setTextColor(ContextCompat.getColor(context,R.color.color_F7AB00))
             tv_focus.text ="喜欢"
             fans.isFollow ="0"
         }

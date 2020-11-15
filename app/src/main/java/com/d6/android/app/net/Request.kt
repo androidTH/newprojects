@@ -604,4 +604,10 @@ object Request {
     //3.7版本
     fun insertUserVisitPic(sPicUrl:String)=RRetrofit.instance().create(ApiServices::class.java).insertUserVisitPic(sPicUrl)
 
+    //3.8版本
+    fun getAnyonousPointQueryAuth(sLoginToken: String,iUserid:String)=RRetrofit.instance().create(ApiServices::class.java).getAnyonousPointQueryAuth(sLoginToken,iUserid)
+
+    //支付积分解锁匿名身份
+    fun getUserAnonymousPayPoint(sLoginToken:String,iUserid:String) = RRetrofit.instance().create(ApiServices::class.java).getUserAnonymousPayPoint(sLoginToken,iUserid)
+
 }

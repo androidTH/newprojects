@@ -98,6 +98,34 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
         tv_sendliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
         tv_sendliked.text ="${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
 
+        var tv_info = holder.bind<TextView>(R.id.tv_info)
+        var mInfo = ""
+        if(!data.shengao.isNullOrEmpty()){
+            mInfo = "${data.shengao}"
+        }
+        if(!data.sPosition.isNullOrEmpty()){
+            if(data.shengao.isNullOrEmpty()){
+                mInfo = "${data.sPosition}"
+            }else{
+                mInfo = "${data.shengao}·${data.sPosition}"
+            }
+        }
+
+        if(mInfo.isNullOrEmpty()){
+            tv_info.visibility = View.GONE
+        }else{
+            tv_info.visibility = View.VISIBLE
+            tv_info.text = "${mInfo}"
+        }
+        var tv_job = holder.bind<TextView>(R.id.tv_job)
+
+        if(data.zhiye.isNullOrEmpty()){
+            tv_job.visibility = View.GONE
+        }else{
+            tv_job.visibility = View.VISIBLE
+            tv_job.text = "职业：${data.zhiye}"
+        }
+
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //
 //        if(data.iIsFollow == 0){

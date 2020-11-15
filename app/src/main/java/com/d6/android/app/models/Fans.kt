@@ -11,6 +11,7 @@ import com.google.gson.annotations.SerializedName
  *     version:
  */
 data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
+
     @SerializedName("iFollowUserid")var iFollowUserid:Int?=0
     @SerializedName("iVistorid")var iVistorid:Int?=0
     @SerializedName("dJointime")var dJointime:Long? = 0
@@ -23,7 +24,11 @@ data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
     @SerializedName("iIsFollow")var iIsFollow:Int?=0
     @SerializedName("userclassesname") var userclassesname:String?=""
     @SerializedName("isFollow") var isFollow:String?=""
-//    screen
+    @SerializedName("iIsCode") var iIsCode:Int?=-1 //2、表示已解锁  1、表示未解锁
+    @SerializedName("iVisitCount") var iVisitCount:Int?=-1 //表示访问次数
+    @SerializedName("shengao")var shengao:String?=""
+    @SerializedName("zhiye")var zhiye:String?=""
+    @SerializedName("sPosition") var sPosition:String?=""
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
         iFollowUserid = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -38,6 +43,11 @@ data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
         iIsFollow = parcel.readValue(Int::class.java.classLoader) as? Int
         userclassesname = parcel.readString()
         isFollow = parcel.readString()
+        iIsCode = parcel.readValue(Int::class.java.classLoader) as? Int
+        iVisitCount = parcel.readValue(Int::class.java.classLoader) as? Int
+        shengao = parcel.readString()
+        zhiye = parcel.readString()
+        sPosition = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -54,6 +64,11 @@ data class Fans(@SerializedName("iUserid")var iUserid:Int?):Parcelable {
         parcel.writeValue(iIsFollow)
         parcel.writeString(userclassesname)
         parcel.writeString(isFollow)
+        parcel.writeValue(iIsCode)
+        parcel.writeValue(iVisitCount)
+        parcel.writeString(shengao)
+        parcel.writeString(zhiye)
+        parcel.writeString(sPosition)
     }
 
     override fun describeContents(): Int {
