@@ -84,9 +84,8 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
 
         var tv_likedtype = holder.bind<TextView>(R.id.tv_likedtype)
         tv_likedtype.setText("送你")
-        var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
-        tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-        tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
+//        tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
+//        tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
 
         var tv_info = holder.bind<TextView>(R.id.tv_info)
         var mInfo = ""
@@ -116,13 +115,14 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             tv_job.text = "职业：${data.zhiye}"
         }
 
-//        if(data.iAllLovePoint>=Const.iLovePointShow){
-//            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-//            tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
-//        }else{
-//            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_black)
-//            tv_receivedliked.text = "${data.iAllLovePoint} [img src=redheart_small/]"
-//        }
+        var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
+        if(data.iAllLovePoint>=Const.iLovePointShow){
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
+            tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
+        }else{
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
+            tv_receivedliked.text = "${data.iAllLovePoint} [img src=redheart_small/]"
+        }
 
 //        Log.i("fansAdapter","${data.sPicUrl}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
 

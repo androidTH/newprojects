@@ -56,10 +56,14 @@ class VistorsActivity : RecyclerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var count = intent.getStringExtra("count")
-        setTitleBold("访客·${count}",true)
+        if(count.equals("0")){
+            setTitleBold("访客",true)
+        }else{
+            setTitleBold("访客·${count}",true)
+        }
+
         vistorAdapter.setOnItemClickListener { view, position ->
             val vistor =  mVistors[position]
-
             if(vistor.iIsCode!=1){
                 startActivity<UserInfoActivity>("id" to "${vistor.iVistorid}")
             }else{
@@ -86,6 +90,10 @@ class VistorsActivity : RecyclerActivity() {
 //                .build()
         addItemDecoration(RxRecyclerViewDividerTool(dip(10)))
         dialog()
+    }
+
+    override fun onResume() {
+        super.onResume()
         getData()
     }
 
@@ -103,6 +111,11 @@ class VistorsActivity : RecyclerActivity() {
                     mSwipeRefreshLayout.setLoadMoreText("暂无数据")
                 }
             } else {
+                if (data.list?.totalPage == 1) {
+                    mSwipeRefreshLayout.setLoadMoreText("没有更多了")
+                } else {
+                    mSwipeRefreshLayout.setLoadMoreText("上拉加载更多")
+                }
                 mVistors.addAll(data.list.results)
             }
             vistorAdapter.notifyDataSetChanged()
@@ -135,7 +148,7 @@ class VistorsActivity : RecyclerActivity() {
                     var iAddPoint = jsonObject.getString("iAddPoint")
                     var iRemainPoint = jsonObject.getString("iRemainPoint")
                     var openErrorDialog = OpenDatePointNoEnoughDialog()
-                    openErrorDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 1)
+                    openErrorDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 0)
                     openErrorDialog.show(supportFragmentManager, "d")
                 }
             }

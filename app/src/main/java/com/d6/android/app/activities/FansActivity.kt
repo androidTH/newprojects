@@ -20,6 +20,7 @@ import com.d6.android.app.utils.Const.iLovePointShow
 import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import kotlinx.android.synthetic.main.base_recyclerview_layout.*
 import kotlinx.android.synthetic.main.header_receiverliked.view.*
+import kotlinx.android.synthetic.main.item_list_fans.view.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
@@ -120,6 +121,7 @@ class FansActivity : RecyclerActivity() {
                     mMessages.clear()
                     mHeaderFans.clear()
                     mHeaderView.tv_receivedliked_nums.text ="${it.iAllReceiveLovePoint} [img src=redheart_small/]"
+                    mHeaderView.tv_liked_order.text = "收到的喜欢排名"
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
                     if (pageNum > 1) {
@@ -141,7 +143,10 @@ class FansActivity : RecyclerActivity() {
                         if(it1.size>0){
                             mHeaderFans.addAll(it1)
                             mHeaderLikedAdapter.notifyDataSetChanged()
+                            mHeaderView.tv_receiveliked_title.text="最近收到的喜欢"
+                            mHeaderView.tv_receiveliked_title.visibility = View.VISIBLE
                         }else{
+                            mHeaderView.tv_receiveliked_title.text=""
                             mHeaderView.tv_receiveliked_title.visibility = View.GONE
                             mHeaderView.rv_receivedliked.visibility = View.GONE
                             mHeaderView.rv_receivedliked.visibility = View.GONE
@@ -201,6 +206,8 @@ class FansActivity : RecyclerActivity() {
                     openErrorDialog.arguments = bundleOf("point" to "${iAddPoint}", "remainPoint" to iRemainPoint,"type" to 1)
                     openErrorDialog.show(supportFragmentManager, "d")
                 }
+            }else{
+
             }
         }
     }
