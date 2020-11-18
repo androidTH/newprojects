@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/margin_3"
     android:background="@drawable/shape_date_white_3r">>
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -68,6 +69,8 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textStyle="bold"
+            android:maxLength="6"
+            android:ellipsize="end"
             android:textColor="@color/color_black" />
 
         <TextView
@@ -119,6 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_userinfo"
         android:layout_marginLeft="@dimen/margin_5"
+        android:layout_marginBottom="@dimen/margin_3"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
@@ -131,12 +135,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_info"
         android:layout_marginLeft="@dimen/margin_5"
-        android:layout_marginTop="@dimen/margin_3"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:textColor="@color/color_999999"
-        android:layout_marginBottom="@dimen/margin_5"
         android:textSize="12sp" />
 
 </RelativeLayout>

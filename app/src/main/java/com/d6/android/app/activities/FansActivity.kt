@@ -20,7 +20,6 @@ import com.d6.android.app.utils.Const.iLovePointShow
 import com.d6.android.app.widget.RxRecyclerViewDividerTool
 import kotlinx.android.synthetic.main.base_recyclerview_layout.*
 import kotlinx.android.synthetic.main.header_receiverliked.view.*
-import kotlinx.android.synthetic.main.item_list_fans.view.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
