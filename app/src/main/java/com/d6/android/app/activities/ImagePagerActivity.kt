@@ -159,9 +159,9 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }else if(it.contains(Const.Pic_Thumbnail_Size_wh400)){
                 url = it.replace(Const.Pic_Thumbnail_Size_wh400,"")
             }
-            if(mBlurIndex!=null&&mBlurIndex.size>key){
-                if(TextUtils.equals("2",mBlurIndex[key])&&!TextUtils.equals(userId, getLocalUserId())){
-                    url = it.replace("?imageslim",Const.BLUR_60)
+            if (mBlurIndex != null && mBlurIndex.size > key) {
+                if (TextUtils.equals("2", mBlurIndex[key]) && !TextUtils.equals(userId, getLocalUserId())) {
+                    url = it.replace("?imageslim", Const.BLUR_60)
                 }
             }
 

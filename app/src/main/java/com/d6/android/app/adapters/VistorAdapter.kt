@@ -13,6 +13,9 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.BLUR_50
+import com.d6.android.app.utils.Const.BLUR_60
+import com.d6.android.app.utils.Const.D6_WWW_TAG
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.backgroundDrawable
@@ -46,7 +49,11 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
             if(data.sPicUrl.isNullOrEmpty()){
                 headView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
             }else{
-                headView.showBlur(data.sPicUrl)
+                if("${data.sPicUrl}".contains(D6_WWW_TAG)){
+                    headView.showBlur(data.sPicUrl)
+                }else{
+                    headView.setImageURI("${data.sPicUrl}${BLUR_60}")
+                }
             }
             holder.setText(R.id.tv_name,"匿名")
         }else{

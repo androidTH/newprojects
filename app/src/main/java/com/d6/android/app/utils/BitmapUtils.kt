@@ -327,7 +327,7 @@ object BitmapUtils {
         return false
     }
 
-    public fun saveImageToFile(bmp:Bitmap):String{
+    fun saveImageToFile(bmp:Bitmap):String{
         val appDir = File(Environment.getExternalStorageDirectory(), "d6")
         // 测试由此抽象路径名表示的文件或目录是否存在
         if (!appDir.exists()) {

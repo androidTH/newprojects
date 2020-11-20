@@ -15,6 +15,9 @@ import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.BLUR_50
+import com.d6.android.app.utils.Const.BLUR_60
+import com.d6.android.app.utils.Const.D6_WWW_TAG
 import com.d6.android.app.widget.textinlineimage.TextInlineImage
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
@@ -39,7 +42,15 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
             holder.setText(R.id.tv_name,"匿名")
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
 //            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
-            headView.showBlur(data.sPicUrl)
+            if(data.sPicUrl.isNullOrEmpty()){
+                headView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
+            }else{
+                if("${data.sPicUrl}".contains(D6_WWW_TAG)){
+                    headView.showBlur(data.sPicUrl)
+                }else{
+                    headView.setImageURI("${data.sPicUrl}${BLUR_60}")
+                }
+            }
         }else{
             holder.setText(R.id.tv_name,data.sSendUserName)
             val headView = holder.bind<SimpleDraweeView>(R.id.user_headView)
@@ -75,14 +86,14 @@ class RecentlyFansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<Lov
         }
 
         var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
-        tv_receivedliked.text = "送了你${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
-//        if(data.iPoint>=Const.iLovePointShow){
-//            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-//            tv_receivedliked.text = "${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
-//        } else{
-//            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_black)
-//            tv_receivedliked.text = "${data.iPoint} [img src=redheart_small/]"
-//        }
+//        tv_receivedliked.text = "送了你${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
+        if(data.iPoint>=Const.iLovePointShow){
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
+            tv_receivedliked.text = "在你的主页中送了${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
+        } else{
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
+            tv_receivedliked.text = "在你的主页中送了${data.iPoint} [img src=redheart_small/]"
+        }
 
 //        redheart_small
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
