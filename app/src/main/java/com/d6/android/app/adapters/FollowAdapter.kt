@@ -14,6 +14,8 @@ import com.d6.android.app.models.Fans
 import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.BLUR_60
+import com.d6.android.app.utils.Const.D6_WWW_TAG
 import com.d6.android.app.widget.textinlineimage.TextInlineImage
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
@@ -38,7 +40,12 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
             if(data.sPicUrl.isNullOrEmpty()){
                 headView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
             }else{
-                headView.showBlur(data.sPicUrl)
+                if("${data.sPicUrl}".contains(D6_WWW_TAG)){
+                    headView.showBlur(data.sPicUrl,40,60)
+                }else{
+                    headView.setImageURI("${data.sPicUrl}${BLUR_60}")
+                }
+//                headView.showBlur(data.sPicUrl,20)
             }
 //            headView.setImageURI("res:///"+R.mipmap.shenmiren_icon)
 //            tv_userinfo.text = "对方送的[img src=redheart_small/]较少，支付积分即可查看身份 "

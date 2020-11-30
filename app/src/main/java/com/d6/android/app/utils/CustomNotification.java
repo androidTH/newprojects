@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.d6.android.app.activities.MainActivity;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.entity.UMessage;
 
@@ -22,11 +23,12 @@ public class CustomNotification extends UmengMessageHandler {
     @Override
     public void dealWithCustomMessage(Context context, UMessage uMessage) {
         super.dealWithCustomMessage(context, uMessage);
+        Log.i(TAG,"dealWithCustomMessage");
     }
 
     @Override
     public Notification getNotification(Context context, UMessage uMessage) {
-        Log.i(TAG,"success");
+        Log.i(TAG,"success-"+uMessage.extra.get("type"));
         context.sendBroadcast(new Intent(Const.YOUMENG_MSG_NOTIFION));
         return super.getNotification(context, uMessage);
     }

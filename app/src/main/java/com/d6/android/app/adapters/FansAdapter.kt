@@ -47,7 +47,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
                 headView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
             }else{
                 if("${data.sPicUrl}".contains(D6_WWW_TAG)){
-                    headView.showBlur(data.sPicUrl)
+                    headView.showBlur(data.sPicUrl,40,60)
                 }else{
                     headView.setImageURI("${data.sPicUrl}${BLUR_60}")
                 }

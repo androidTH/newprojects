@@ -21,7 +21,7 @@ import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.GroupBean
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
-//import com.bugtags.library.Bugtags
+import com.bugtags.library.Bugtags
 import com.bun.miitmdid.core.JLibrary
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
@@ -110,6 +110,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         mPushAgent.register(object : IUmengRegisterCallback {
 
             override fun onSuccess(deviceToken: String) {
+                Log.i("mPushAgent","devicetoken${deviceToken}")
                 SPUtils.instance().put(Const.User.DEVICETOKEN, deviceToken).apply()
                 //注册成功会返回device token ArblO5X82GPZtR8dvWGOMXlPXpdJsOcOdTAoti6gm_ew
             }
@@ -140,7 +141,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
 
         //在这里初始化
-//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
+        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
 
         if(isMainProcess()){
             OpenInstall.init(this)

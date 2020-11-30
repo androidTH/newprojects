@@ -9,6 +9,7 @@ import com.d6.android.app.activities.*
 import com.d6.android.app.base.BaseActivity
 import com.umeng.message.UmengNotificationClickHandler
 import com.umeng.message.entity.UMessage
+import com.umeng.socialize.utils.Log.toast
 import org.jetbrains.anko.startActivity
 
 import java.util.HashMap
@@ -28,6 +29,11 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
 
     override fun openActivity(context: Context, msg: UMessage) {
         super.openActivity(context, msg)
+        var type = msg.extra.get("type");
+        if(type.equals("14")){
+            context!!.sendBroadcast( Intent(Const.YOUMENG_MSG_NOTIFION_MINE));
+        }
+        Log.i(TAG,"success=${msg.extra.get("type")}");
     }
 
     fun open(context:Context,type:String){
@@ -55,7 +61,7 @@ class  CustomNotificationHandler: UmengNotificationClickHandler() {
             //                PushMessageResponse response = mMapper.readValue(msg.custom, PushMessageResponse.class);
             //                int type = response.getCode();
             val type = msg.extra["type"]
-            val intent: Intent? = null
+            Log.i(TAG,"handleCustomAction=${msg.extra.get("type")}");
             if (TextUtils.equals(type,"1")) {
                 (context as BaseActivity).startActivity<MyPointsActivity>()
             } else if (TextUtils.equals(type,"2")) {

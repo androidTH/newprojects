@@ -152,15 +152,18 @@ object Const {
     val YOUMENG_MSG_NOTIFION = "com.d6.app.youmeng_msg_notifion"
 
     @JvmField
+    val YOUMENG_MSG_NOTIFION_MINE = "com.d6.app.youmeng_msg_notifion_mine"
+
+    @JvmField
     val Pic_Size_wh400 = "?imageView2/0/w/400/h/400"
     @JvmField
     val Pic_Size_wh300 = "?imageView2/0/w/300/h/300"
     @JvmField
     val Pic_Size_wh500 = "?imageView2/0/w/500/h/500"
     @JvmField
-    val BLUR_50 = "?imageMogr2/blur/50x30"
+    val BLUR_50 = "?imageMogr2/blur/100x100"
     @JvmField
-    val BLUR_60 = "?imageMogr2/blur/60x80"
+    val BLUR_60 = "?imageMogr2/blur/100x100"
     val D6_WWW_TAG = "www.d6-zone.com"
 
     @JvmField

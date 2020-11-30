@@ -98,6 +98,16 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
     }
 
+    private val broadcasmine by lazy {
+        object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                runOnUiThread {
+                    tabhost.currentTab = 4
+                }
+            }
+        }
+    }
+
     private val rongBroadcast by lazy {
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -166,6 +176,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         setContentView(R.layout.activity_main)
         immersionBar.navigationBarColor("#FFFFFF").init()
         registerReceiver(broadcast, IntentFilter(Const.YOUMENG_MSG_NOTIFION))
+        registerReceiver(broadcasmine, IntentFilter(Const.YOUMENG_MSG_NOTIFION_MINE))
         registerReceiver(rongBroadcast, IntentFilter(Const.NEW_MESSAGE))
         registerReceiver(mineBroadcast, IntentFilter(Const.MINE_MESSAGE))
 //        registerReceiver(manService, IntentFilter(Const.MINE_MANSERVICE_YOUKE)) 2.5移除
@@ -410,7 +421,6 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         },true)
 
 //        Log.i("MainActivityfffffff","oaid${getOaid()}---MD5=${MD5.encrypt(getOaid(),true)}")
-
 
     }
 
