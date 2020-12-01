@@ -163,7 +163,7 @@ object Const {
     @JvmField
     val BLUR_50 = "?imageMogr2/blur/100x100"
     @JvmField
-    val BLUR_60 = "?imageMogr2/blur/100x100"
+    val BLUR_60 = "?imageMogr2/blur/200x200"
     val D6_WWW_TAG = "www.d6-zone.com"
 
     @JvmField

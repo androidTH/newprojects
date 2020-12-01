@@ -3,6 +3,7 @@ package com.d6.android.app.a
 import com.d6.android.app.extentions.showBlur
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.d6.android.app.R
@@ -56,6 +57,8 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
                 }
             }
             holder.setText(R.id.tv_name,"匿名")
+            Log.i("VistorAdapter","${data.sPicUrl}数量，身高${data.shengao},位置：${data.sPosition}")
+
         }else{
             headView.setImageURI(data.sPicUrl)
             holder.setText(R.id.tv_name,data.sUserName)

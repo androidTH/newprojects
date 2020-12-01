@@ -54,6 +54,9 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
 //                headView.showBlur(data.sPicUrl)
             }
             holder.setText(R.id.tv_name,"匿名")
+
+            Log.i("fansAdapter","${data.sPicUrl}${BLUR_60}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
+
         }else{
             headView.setImageURI(data.sPicUrl)
             holder.setText(R.id.tv_name,data.sSendUserName)
@@ -131,8 +134,6 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
             tv_receivedliked.text = "${data.iAllLovePoint} [img src=redheart_small/]"
         }
-
-        Log.i("fansAdapter","${data.sPicUrl}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //        if(data.iIsFollow == 0){
