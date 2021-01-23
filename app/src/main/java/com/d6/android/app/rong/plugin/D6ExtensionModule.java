@@ -89,6 +89,9 @@ public class D6ExtensionModule extends DefaultExtensionModule {
         List<IPluginModule> pluginModuleList = new ArrayList<>();
         pluginModuleList.add(new ImagePlugin());
         pluginModuleList.add(new FilePlugin());
+        if(conversationType.equals(Conversation.ConversationType.GROUP)){
+            pluginModuleList.add(new RedWalletPluginModule());
+        }
 //        pluginModuleList.add(new DestructPlugin());
 //        pluginModuleList.add(new FlowerPluginModule());
         return pluginModuleList;

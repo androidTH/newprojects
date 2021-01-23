@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_top_bg"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:adjustViewBounds="true"
+            android:background="@mipmap/redwallet_top_background" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/vipheaderview"
+            style="@style/DefaultCircleHeadStyle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/height_75" />
+
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vipheaderview"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_6"
+            android:textColor="@color/color_333333"
+            android:text="新年快乐心想事成"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_redmoney_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_username"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_5"
+            android:text="“新年快乐心想事成”"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_redmoneynums"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_redmoney_desc"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="领取4/20个"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
+
+         <android.support.v7.widget.RecyclerView
+             android:id="@+id/rv_redmoney_list"
+             android:layout_marginTop="@dimen/margin_20"
+             android:layout_below="@+id/tv_redmoneynums"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_marginTop="@dimen/margin_25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_back_close"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="@dimen/margin_8"
+            android:src="@mipmap/back_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="领取详情"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</RelativeLayout>

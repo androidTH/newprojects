@@ -3,12 +3,12 @@ package com.d6.android.app.rong.plugin;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import com.d6.android.app.R;
 import com.d6.android.app.activities.RedMoneyActivity;
+
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.plugin.IPluginModule;
 import io.rong.imlib.model.Conversation;
@@ -19,19 +19,19 @@ import io.rong.imlib.model.Conversation;
  * desc   :
  * version:
  */
-public class FlowerPluginModule implements IPluginModule {
+public class RedWalletPluginModule implements IPluginModule {
 
     Conversation.ConversationType conversationType;
     String targetId;
 
     @Override
     public Drawable obtainDrawable(Context context) {
-        return ContextCompat.getDrawable(context, R.drawable.send_redflowers);
+        return ContextCompat.getDrawable(context, R.drawable.send_redwallet);
     }
 
     @Override
     public String obtainTitle(Context context) {
-        return context.getString(R.string.string_red_flower);
+        return "红包";
     }
 
     @Override

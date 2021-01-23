@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.application.D6Application
 import com.d6.android.app.models.MyDate
+import com.d6.android.app.utils.getLevelDrawableOfClassName
 import com.d6.android.app.widget.frescohelper.FrescoUtils
 import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
@@ -104,22 +105,7 @@ class RecommentAllQuickDateAdapter(data: List<MyDate>) : BaseQuickAdapter<MyDate
             tv_audio_auth.visibility = View.GONE
             tv_audio_level.visibility = View.VISIBLE
 //            tv_audio_level.text = data.classesname
-
-            if (data.classesname.toString().startsWith("普通")) {
-                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_ordinary)
-            } else if (data.classesname.toString().startsWith("白银")) {
-                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_silver)
-            } else if (data.classesname.toString().startsWith("黄金")) {
-                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_gold)
-            } else if (data.classesname.toString().startsWith( "钻石")) {
-                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_zs)
-            } else if (data.classesname.toString().startsWith("私人")) {
-                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.vip_private)
-            }else if (data.classesname.toString().startsWith("入群")) {
-                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.ruqun_icon)
-            }else if (data.classesname.toString().startsWith("APP")) {
-                tv_audio_level.backgroundDrawable = ContextCompat.getDrawable(mContext, R.mipmap.app_vip)
-            }
+            tv_audio_level.backgroundDrawable = getLevelDrawableOfClassName(data.classesname.toString(),mContext)
         }
 
         Log.i("viptype","会员类型${data.classesname}")
