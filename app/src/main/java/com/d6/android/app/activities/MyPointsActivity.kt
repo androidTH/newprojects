@@ -1,7 +1,9 @@
 package com.d6.android.app.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.LocalBroadcastManager
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -24,6 +26,7 @@ import com.d6.android.app.models.*
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.LOCALBROADCAST_SENDREDMONEY
 import com.d6.android.app.utils.Const.SENDLOVEHEART_DIALOG
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
 import com.vector.update_app.utils.AppUpdateUtils
@@ -445,6 +448,9 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 if(!TextUtils.isEmpty(orderId)){
                     getOrderStatus(orderId,buyType,iOrderType)
                 }
+                var intent = Intent(LOCALBROADCAST_SENDREDMONEY)
+                intent.putExtra("buy_success",true)
+                LocalBroadcastManager.getInstance(this@MyPointsActivity).sendBroadcast(intent)
             }
 
             override fun onPayCancel(payWay: PayWay?) {

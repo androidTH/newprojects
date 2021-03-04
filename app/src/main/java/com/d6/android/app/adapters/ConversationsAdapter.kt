@@ -15,6 +15,7 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
+import com.d6.android.app.rong.provider.RedWalletTipsMessageProvider
 import com.d6.android.app.rong.provider.SquareMsgProvider
 import com.d6.android.app.rong.provider.TipsMessageProvider
 import com.d6.android.app.utils.*
@@ -165,7 +166,9 @@ class ConversationsAdapter(mData: ArrayList<Conversation>) : HFRecyclerAdapter<C
                     } else {
                         if (provider is TipsMessageProvider) {
                             tv_content.text = "${content}"
-                        } else {
+                        }else if(provider is RedWalletTipsMessageProvider) {
+                            tv_content.text = "${content}"
+                        }else {
                             if(content.contains("@${getLocalUserName()}")){
                                 var str = content.split(" ")
                                 Request.getUserInfoDetail("${data.senderUserId}").request(context as BaseActivity, false, success = { msg, data ->

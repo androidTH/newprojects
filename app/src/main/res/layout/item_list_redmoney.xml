@@ -13,7 +13,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/margin_13"
+        android:layout_marginLeft="@dimen/margin_5"
         android:layout_marginRight="8dp"
         android:layout_toRightOf="@+id/tv_order"
         app:roundedCornerRadius="26dp" />
@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/margin_5"
+                android:visibility="gone"
                 android:background="@drawable/ic_sex_bg_selector"
                 android:drawableLeft="@drawable/sex_white_selector"
                 android:drawablePadding="1dp"
@@ -80,12 +81,12 @@
                 android:id="@+id/tv_vip"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/margin_16"
+                android:visibility="gone"
                 android:layout_marginLeft="@dimen/margin_5"
                 android:layout_gravity="center_vertical"
                 android:background="@mipmap/vip_gold"
                 android:textColor="@color/white"
-                android:textSize="10sp"
-                android:visibility="visible" />
+                android:textSize="10sp" />
         </LinearLayout>
 
         <TextView
@@ -93,13 +94,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_3"
-            android:background="@drawable/shape_2r_33_bg"
             android:ellipsize="end"
             android:padding="@dimen/margin_2"
             android:singleLine="true"
-            android:textColor="@color/color_8F5A5A"
-            android:textSize="10sp"
-            android:textStyle="bold" />
+            android:textColor="@color/color_888888"
+            android:textSize="12sp"/>
+        <!--android:background="@drawable/shape_2r_33_bg"-->
     </LinearLayout>
 
     <TextView
@@ -114,6 +114,7 @@
         android:paddingTop="@dimen/margin_5"
         android:paddingRight="@dimen/margin_5"
         android:paddingBottom="@dimen/margin_5"
-        android:textColor="@color/color_666666"
-        android:textSize="12sp" />
+        android:textColor="@color/color_black"
+        android:textStyle="bold"
+        android:textSize="15sp" />
 </RelativeLayout>

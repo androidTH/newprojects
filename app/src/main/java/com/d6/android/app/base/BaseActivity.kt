@@ -24,6 +24,7 @@ import java.lang.Exception
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import com.bugtags.library.Bugtags
 import com.d6.android.app.utils.KeyboardktUtils
 import com.d6.android.app.widget.LoadDialog
@@ -149,6 +150,19 @@ abstract class BaseActivity : AppCompatActivity(), AnkoLogger, RequestManager {
 
     override fun showToast(msg:String) {
         toast(msg)
+    }
+
+    fun hintKeyBoard() {
+        //拿到InputMethodManager
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        //如果window上view获取焦点 && view不为空
+        if (imm.isActive && currentFocus != null) {
+            //拿到view的token 不为空
+            if (currentFocus.windowToken != null) {
+                //表示软键盘窗口总是隐藏，除非开始时以SHOW_FORCED显示。
+                imm.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
+        }
     }
 
     fun noTitleBar(){

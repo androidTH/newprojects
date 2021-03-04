@@ -102,7 +102,7 @@
                   android:textSize="12sp"
                   android:textStyle="bold"
                   android:textColor="@color/color_888888"
-                  android:text="服务范围: 全球"/>
+                  android:text=""/>
 
               <TextView
                   android:id="@+id/tv_viplevel_rate"
@@ -113,8 +113,7 @@
                   android:layout_height="wrap_content"
                   android:textSize="12sp"
                   android:textStyle="bold"
-                  android:textColor="@color/color_888888"
-                  android:text="约会成功率"/>
+                  android:textColor="@color/color_888888"/>
           </LinearLayout>
       </RelativeLayout>
    </RelativeLayout>

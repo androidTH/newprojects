@@ -38,7 +38,7 @@ import io.rong.imlib.model.Message;
 @ProviderTag(messageContent = RedWalletTipsMessage.class, showReadState = true,showPortrait = false,centerInHorizontal = true)
 public class RedWalletTipsMessageProvider extends IContainerItemProvider.MessageProvider<RedWalletTipsMessage>{
 
-    private static final String TAG = "TipsMessageProvider";
+    private static final String TAG = "RedWalletTipsMessageProvider";
     private ClickableSpan clickSpan;
 
     private Context mContext;

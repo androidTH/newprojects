@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.dialog_redmoneydesc.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 
 /**
@@ -46,7 +47,13 @@ class RedMoneyDesDialog : DialogFragment() {
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
     }
-    private var mToFromType = 0//1 动态详情页送小红花 2 动态列表送小红花 3 聊天输入框扩展框 4 个人信息页动态送小红花 5 申请私聊送小红花
+
+    private lateinit var sEnvelopeId:String
+
+    private lateinit var sendUserId:String
+
+    private lateinit var sEnvelopeDesc:String
+    private var messageId:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +72,15 @@ class RedMoneyDesDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mToFromType = arguments.getInt("ToFromType")
+        sEnvelopeId = arguments.getString("sEnvelopeId")
+        sendUserId = arguments.getString("iUserId")
+        sEnvelopeDesc = arguments.getString("sEnvelopeDesc")
+        messageId = arguments.getInt("messageId")
 
         ll_redwallet_desc.setOnClickListener {
             isBaseActivity {
-                startActivity<RedMoneyDesActivity>()
+                startActivity<RedMoneyDesActivity>("sEnvelopeId" to sEnvelopeId,"iUserId" to sendUserId,"sEnvelopeDesc" to sEnvelopeDesc)
+                dismissAllowingStateLoss()
             }
         }
 
@@ -77,125 +88,114 @@ class RedMoneyDesDialog : DialogFragment() {
             dismissAllowingStateLoss()
         }
 
+        iv_redwallet_open.setOnClickListener {
+              reveiveEnvelope()
+        }
+
+
+        getUserInfo(sendUserId)
+
+        if(TextUtils.isEmpty(sEnvelopeDesc.trim())){
+            tv_redwallet_desc.visibility = View.GONE
+        }
+        tv_redwallet_desc.text ="“${sEnvelopeDesc}”"
+
+        findEnvelopeById()
     }
 
     private fun getUserInfo(id: String) {
         Request.getUserInfo(userId, id).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-
+                iv_redwallet_headView.setImageURI(it.picUrl)
+                tv_redwallet_name.text = it.name
+                tv_redheart_desc.text = "的小心心红包[img src=redheart_small/]"
             }
-        })
+        }){code,msg->
+            toast(msg)
+        }
     }
 
-    private fun getFlowerList(){
-        Request.getUserFlower().request((context as BaseActivity),false,success = {msg,data->
+    private fun findEnvelopeById(){
+        //返回数据：
+        //iIsGet  0 ：未领取  1：已领取
+        //iStatus  1、已发出 2、已领完 3、已过期  {"sGuid":"d8c30bb2-c4c2-401b-a20c-80a6321cd0bc","iUserId":103170,"iLovePoint":6,"iLoveCount":3,"iType":2,"sResourceId":"cf0549c2-a702-4992-ae69-623662dda9f3","sSendUserName":null,"sEnvelopeDesc":"","iIsGet":1,"iGetLovePoint":2,"iRemainCount":2,"iRemainPoint":4,"dCreatetime":1614487621000,"iStatus":3}
+        //iGetLovePoint 领取的爱心数量  iLoveCount   iRemainCount这两个字段
+        Request.findEnvelopeById(sEnvelopeId).request((context as BaseActivity),false,success = {msg,data->
+            data?.let {
+                var isGet = it.iIsGet// it.optInt("iIsGet ",0)
+                var iStatus = it.iStatus//it.optInt("iStatus ",0)
+                if(isGet==0){
+                    if(TextUtils.equals(userId,sendUserId)){
+                        ll_redwallet_desc.visibility = View.VISIBLE
+                        if(iStatus==2){
+                            iv_redwallet_open.visibility = View.GONE
+                            tv_redwallet_status.text = "手慢了，红包派完了"
+                        }else if(iStatus==3){
+                            iv_redwallet_open.visibility = View.GONE
+                            tv_redwallet_status.text = "该红包已超过24小时\n" +
+                                    "已过期无法领取"
+                        }else{
+                            iv_redwallet_open.visibility = View.VISIBLE
+                        }
+                    }else{
+                        if(iStatus==2){
+                            iv_redwallet_open.visibility = View.GONE
+                            ll_redwallet_desc.visibility = View.VISIBLE
+                            tv_redwallet_status.text = "手慢了，红包派完了"
+                        }else if(iStatus==3){
+                            iv_redwallet_open.visibility = View.GONE
+                            ll_redwallet_desc.visibility = View.VISIBLE
+                            tv_redwallet_status.text = "该红包已超过24小时\n" +
+                                    "已过期无法领取"
+                        }else{
+                            ll_redwallet_desc.visibility = View.GONE
+                            iv_redwallet_open.visibility = View.VISIBLE
+                        }
+                    }
 
-        })
-    }
-
-    private fun BuyRedFlowerSuccess(id:String,flowerCount:String){
-        val dialogSendFlowerSuccess = DialogSendFlowerSuccess()
-            dialogSendFlowerSuccess.arguments = bundleOf("ToFromType" to mToFromType ,"userId" to id,"nums" to flowerCount)
-            dialogSendFlowerSuccess.show((context as BaseActivity).supportFragmentManager, "sendflower")
-    }
-
-    private fun sendSysMessage(targetId:String){
-         var systemmsg = CustomSystemMessage("申请置顶")
-         var richContentMessage = CustomSystemMessage.obtain("申请置顶",GsonHelper.getGson().toJson(systemmsg))
-         var msg = Message.obtain(targetId, Conversation.ConversationType.PRIVATE, richContentMessage);
-         RongIM.getInstance().sendMessage(msg, null, null, object : IRongCallback.ISendMessageCallback{
-            override fun onAttached(p0: Message?) {
-            }
-
-            override fun onError(p0: Message?, p1: RongIMClient.ErrorCode?) {
-
-            }
-
-            override fun onSuccess(p0: Message?) {
-            }
-        })
-    }
-
-    private fun buyRedFlowerPay(flowerCount:Int,receiverUserId:String,sResourceid:String,iOrderType:Int){
-        val params = PayParams.Builder((context as BaseActivity))
-                .wechatAppID(Const.WXPAY_APP_ID)// 仅当支付方式选择微信支付时需要此参数
-                .payWay(PayWay.WechatPay)
-                .UserId(userId.toInt())
-                .setSUserLoginToken(getLoginToken())
-                .setSendUserid(receiverUserId.toInt())
-                .setSResourceid(sResourceid)
-                .iFlowerCount(flowerCount)
-                .goodsPrice(flowerCount)// 单位为：分 pointRule.iPrice
-                .goodsName("小红花")
-                .goodsIntroduction("")
-                .httpType(HttpType.Post)
-                .httpClientType(NetworkClientType.Retrofit)
-                .requestBaseUrl(API.BASE_URL)// 此处替换为为你的app服务器host主机地址
-                .setType(1)
-                .build()
-        EasyPay.newInstance(params).requestPayInfo(object : OnPayInfoRequestListener {
-            override fun onPayInfoRequetStart() {
-            }
-
-            override fun onPayInfoRequstSuccess() {
-
-            }
-
-            override fun onPayInfoRequestFailure() {
-            }
-        }).toPay(object : OnPayResultListener {
-            override fun onPaySuccess(payWay: PayWay?,orderId:String) {
-                Log.i("redflowerorderId",orderId)
-                if(!TextUtils.isEmpty(orderId)){
-                    checkOrderStatus(receiverUserId,orderId,flowerCount.toString(),iOrderType)
+                }else{
+                    tv_redwallet_status.text = "${it.iGetLovePoint} [img src=redheart_small/]"
+                    ll_redwallet_desc.visibility = View.VISIBLE
+                    iv_redwallet_open.visibility = View.GONE
                 }
-            }
 
-            override fun onPayCancel(payWay: PayWay?) {
-            }
-
-            override fun onPayFailure(payWay: PayWay?, errCode: Int) {
-
-            }
-        })
-    }
-
-    /**
-     * 检查订单的状态
-     */
-    private fun checkOrderStatus(receiverUserId:String,orderId:String,flowerCount:String,iOrderType:Int){
-        if(context!=null){
-            if(mToFromType!=5){
-                BuyRedFlowerSuccess(receiverUserId,flowerCount)
-            }
-            Request.getOrderById(orderId,iOrderType).request((context as BaseActivity),false,success={msg,data->
-//                Request.sendFlowerByOrderId(userId,receiverUserId,orderId,mSquareId).request((context as BaseActivity),true,success={msg,data->
-//                    if(mToFromType == 1){
-//                        EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
-//                    }else if(mToFromType == 2){
-//                        mSquare?.let {
-//                            it.iFlowerCount = flowerCount.toInt()+it.iFlowerCount!!.toInt()
-//                            EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt(),mSquare))
-//                        }
-//                    }else if(mToFromType == 4){
-//                        dialogListener?.onClick(1,flowerCount)
+//                RongIMClient.getInstance().setMessageExtra(messageId,GsonHelper.getGson().toJson(it),object:RongIMClient.ResultCallback<Boolean>(){
+//                    override fun onError(p0: RongIMClient.ErrorCode?) {
+//
 //                    }
-//                    dismissAllowingStateLoss()
+//
+//                    override fun onSuccess(p0: Boolean?) {
+//
+//                    }
 //                })
-                if(mToFromType == 1){
-                    EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt()))
-                }else if(mToFromType == 2){
-//                    mSquare?.let {
-//                        it.iFlowerCount = flowerCount.toInt()+it.iFlowerCount!!.toInt()
-//                        EventBus.getDefault().post(FlowerMsgEvent(flowerCount.toInt(),mSquare))
-//                    }
-                }else if(mToFromType == 4){
-                    dialogListener?.onClick(1,flowerCount)
-                }
-                dismissAllowingStateLoss()
-            }){code,msg->
-                CustomToast.showToast(msg)
             }
+        }){code,msg->
+            toast(msg)
+        }
+    }
+
+    private fun reveiveEnvelope(){
+        Request.reveiveEnvelope(sEnvelopeId).request((context as BaseActivity),false,success = {msg,data->
+             data?.let {
+                 Log.i("RedMoneyDesDialog","json=${it}")
+                 iv_redwallet_open.visibility = View.GONE
+                 var resCode = it.optInt("resCode")
+                 if(resCode==100){
+                     tv_redwallet_status.text = "已领取红包，不能重复领取"
+                 }else if(resCode==200){
+                     tv_redwallet_status.text = "领取成功"
+                 }else if(resCode==300){
+                     tv_redwallet_status.text = "手慢了，红包派完了"
+                 }else if(resCode==400){
+                     tv_redwallet_status.text = "该红包已超过24小时\n" +
+                             "已过期无法领取"
+                 }
+
+                 startActivity<RedMoneyDesActivity>("sEnvelopeId" to sEnvelopeId,"iUserId" to sendUserId,"sEnvelopeDesc" to sEnvelopeDesc)
+                 dismissAllowingStateLoss()
+             }
+        }){code,msg->
+
         }
     }
 

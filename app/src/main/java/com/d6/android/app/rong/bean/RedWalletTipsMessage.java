@@ -23,7 +23,7 @@ import io.rong.imlib.model.UserInfo;
  * Created by Beyond on 2016/12/5.
  */
 
-@MessageTag(value = "app:CustomRedWalletTipsMsg", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
+@MessageTag(value = "app:CustomGroupReceiveMsg", flag = MessageTag.ISCOUNTED | MessageTag.ISPERSISTED)
 public class RedWalletTipsMessage extends MessageContent {
     private final static String TAG = RedWalletTipsMessage.class.getSimpleName();
 

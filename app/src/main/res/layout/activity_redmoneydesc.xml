@@ -17,7 +17,7 @@
             android:background="@mipmap/redwallet_top_background" />
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/vipheaderview"
+            android:id="@+id/headerview"
             style="@style/DefaultCircleHeadStyle"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -28,11 +28,10 @@
             android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/vipheaderview"
+            android:layout_below="@+id/headerview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_6"
             android:textColor="@color/color_333333"
-            android:text="新年快乐心想事成"
             android:textStyle="bold"
             android:textSize="15sp" />
 
@@ -43,7 +42,6 @@
             android:layout_below="@+id/tv_username"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_5"
-            android:text="“新年快乐心想事成”"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
 
@@ -54,7 +52,6 @@
             android:layout_below="@+id/tv_redmoney_desc"
             android:layout_marginTop="@dimen/margin_20"
             android:layout_marginLeft="@dimen/margin_15"
-            android:text="领取4/20个"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
 

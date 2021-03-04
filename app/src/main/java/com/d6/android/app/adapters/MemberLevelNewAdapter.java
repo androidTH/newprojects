@@ -42,9 +42,9 @@ public class MemberLevelNewAdapter extends BaseQuickAdapter<MemberBean,BaseViewH
         helper.setText(R.id.tv_viplevel_points,item.getSClassPointDesc());
 
         if(TextUtils.isEmpty(item.getSTitle())){
-            tv_vip_percent.setVisibility(View.VISIBLE);
+            tv_vip_percent.setVisibility(View.GONE);
         }else{
-            tv_vip_percent.setVisibility(View.VISIBLE);
+            tv_vip_percent.setVisibility(View.GONE);
             tv_vip_percent.setText(item.getSTitle());
         }
 

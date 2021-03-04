@@ -693,5 +693,20 @@ interface ApiServices {
     @POST("backstage/userloverule/anyonousPayPoint")
     fun getUserAnonymousPayPoint(@Query("sLoginToken")sLoginToken:String,@Query("iUserid") iUserid:String,@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
+    //3.9
+    //发送红包接口
+    @POST("backstage/envelope/saveEnvelope")
+    fun saveEnvelope(@Query("iLovePoint") iLovePoint:Int, @Query("iLoveCount") iLoveCount:Int, @Query("iType") iType:Int, @Query("sResourceId") sResourceId:String, @Query("sEnvelopeDesc") sEnvelopeDesc:String,@Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
+    //抢红包接口
+    @POST("backstage/envelope/reveiveEnvelope")
+    fun reveiveEnvelope(@Query("sEnvelopeId") sEnvelopeId:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    //查询红包领取记录
+    @POST("backstage/envelope/findEnvelopeList")
+    fun findEnvelopeList(@Query("sEnvelopeId") sEnvelopeId:String, @Query("pageNum")pageNum:Int, @Query("pageSize")pageSize:Int=100, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<EnvelopeBean>>>
+
+    //查询红包的详细信息
+    @POST("backstage/envelope/findEnvelopeById")
+    fun findEnvelopeById(@Query("sEnvelopeId") sEnvelopeId:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<EnvelopeStatus>>
 }

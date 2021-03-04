@@ -9,6 +9,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imkit.utilities.OptionsPopupDialog;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
@@ -42,7 +44,6 @@ import io.rong.imlib.model.UserInfo;
 public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvider<RedWalletMessage>{
     private static final String TAG = RedMoenyMessageProvider.class.getSimpleName();
 
-    private Context mContext;
     private static class ViewHolder {
         TextView mTvReMoneyMsgContent;
         TextView mTvReMoneyState;
@@ -53,7 +54,6 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
 
     @Override
     public View newView(Context context, ViewGroup group) {
-        mContext = context;
         View view = LayoutInflater.from(context).inflate(R.layout.item_rong_redmoneymsg, null);
 
         RedMoenyMessageProvider.ViewHolder holder = new RedMoenyMessageProvider.ViewHolder();
@@ -94,9 +94,23 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
         if(view.getContext()!=null){
             RedMoneyDesDialog dialogRedMoenyDialog =new RedMoneyDesDialog();
             Bundle bundle = new Bundle();
-            bundle.putInt("ToFromType", 3);
-            dialogRedMoenyDialog.setArguments(bundle);
-            dialogRedMoenyDialog.show(((FragmentActivity)view.getContext()).getSupportFragmentManager(),"RedMoneyDesc");
+            if(!TextUtils.isEmpty(content.getExtra())){
+                try {
+                    JSONObject jsonObject = new JSONObject(content.getExtra());
+                    String sEnvelopeId = jsonObject.getString("sGuid");
+                    String sendUserId = jsonObject.getString("iUserId");
+                    String sEnvelopeDesc = jsonObject.getString("sEnvelopeDesc");
+                    bundle.putString("sEnvelopeId",sEnvelopeId);
+                    bundle.putString("iUserId",sendUserId);
+                    bundle.putString("sEnvelopeDesc",sEnvelopeDesc);
+                    bundle.putInt("messageId",message.getMessageId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                dialogRedMoenyDialog.setArguments(bundle);
+                dialogRedMoenyDialog.show(((FragmentActivity)view.getContext()).getSupportFragmentManager(),"RedMoneyDesc");
+            }
+
         }
     }
 
@@ -158,38 +172,66 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
     @Override
     public void bindView(final View v, int position, final RedWalletMessage content, final UIMessage data) {
         RedMoenyMessageProvider.ViewHolder holder = (RedMoenyMessageProvider.ViewHolder) v.getTag();
+       //内容:发了一个红包,extra{"iRemainPoint":10,"iUserId":103163,"iLovePoint":10,"sResourceId":"cf0549c2-a702-4992-ae69-623662dda9f3","sEnvelopeDesc":"测试红包","iStatus":1,"sGuid":"6b292df1-d6af-4318-ab77-add98c8fe738","iLoveCount":3,"iType":2,"iRemainCount":3,"dCreatetime":1612097293422}
+       //sSendUserName
+        Log.i(TAG,data.getMessageDirection()+"内容"+content.getContent()+",extra"+content.getExtra());
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             holder.mLl_RedMoney_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_redwallet_right);
             TextView textView = holder.mTvReMoneyMsgContent;
 //            textView.setText(content.getContent());
             if(!TextUtils.isEmpty(content.getExtra())){
-                int nums = 1;
+//                int nums = 1;
                 try {
                     JSONObject jsonObject = new JSONObject(content.getExtra());
-                    nums = jsonObject.getInt("nums");
-                    String receivename = jsonObject.getString("receiveusername");
-//                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-//                  strDir=userInfo.getName()+"给你分享了一条动态";
-                    textView.setText("你给"+receivename+"赠送了");
+                    int iStatus = jsonObject.getInt("iStatus");
+                    if(jsonObject.has("sSendUserName")){
+                        String sSendUserName = jsonObject.getString("sSendUserName");
+                        textView.setText("来自"+sSendUserName+"的小心心红包");
+                    }else{
+                        String userId = jsonObject.getString("iUserId");
+                        UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(userId);
+                        if(userInfo!=null){
+                            textView.setText("来自"+userInfo.getName()+"的小心心红包");
+                        }
+                    }
+                    TextView textState = holder.mTvReMoneyState;
+                    if(iStatus==1){
+                        textState.setText("领取红包");
+                    }else{
+                        textState.setText("已领取");
+                    }
+//                    textView.setText("你"+content.getContent());
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                    textView.setText("你给"+userInfo.getName()+"赠送了");//"+nums+"颗爱心"
                 }
             }
         } else {
-            holder.mLl_RedMoney_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_left);
+            holder.mLl_RedMoney_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_redwallet_left);
             TextView textView = holder.mTvReMoneyMsgContent;
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
-                    String sendusername = jsonObject.getString("sendusername");
-                    textView.setText(sendusername+"给你赠送了");
+                    int iStatus = jsonObject.getInt("iStatus");
+                    if(jsonObject.has("sSendUserName")){
+                        String sSendUserName = jsonObject.getString("sSendUserName");
+                        textView.setText("来自"+sSendUserName+"的小心心红包");
+                    }else{
+                        String userId = jsonObject.getString("iUserId");
+                        UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(userId);
+                        if(userInfo!=null){
+                            textView.setText("来自"+userInfo.getName()+"的小心心红包");
+                        }
+                    }
+
+                    TextView textState = holder.mTvReMoneyState;
+                    if(iStatus==1){
+                        textState.setText("领取红包");
+                    }else{
+                        textState.setText("已领取");
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                textView.setText(userInfo.getName()+"给你赠送了");//+num+"颗爱心"
             }
         }
     }

@@ -279,4 +279,6 @@ object Const {
 
     @JvmField
     var iLovePointShow:Int = -1 //超级喜欢的爱心数量
+
+    val LOCALBROADCAST_SENDREDMONEY = "com.d6.app.sendredmoney.buyloveheart"
 }

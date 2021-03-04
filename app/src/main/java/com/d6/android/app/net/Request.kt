@@ -610,4 +610,12 @@ object Request {
     //支付积分解锁匿名身份
     fun getUserAnonymousPayPoint(sLoginToken:String,iUserid:String) = RRetrofit.instance().create(ApiServices::class.java).getUserAnonymousPayPoint(sLoginToken,iUserid)
 
+    //3.9版本
+    fun saveEnvelope(iLovePoint:Int,iLoveCount:Int,iType:Int,sResourceId:String, sEnvelopeDesc:String)= RRetrofit.instance().create(ApiServices::class.java).saveEnvelope(iLovePoint,iLoveCount,iType,sResourceId,sEnvelopeDesc)
+
+    fun reveiveEnvelope(sEnvelopeId:String)= RRetrofit.instance().create(ApiServices::class.java).reveiveEnvelope(sEnvelopeId)
+
+    fun findEnvelopeList(sEnvelopeId:String,pageNum:Int) = RRetrofit.instance().create(ApiServices::class.java).findEnvelopeList(sEnvelopeId,pageNum)
+
+    fun findEnvelopeById(sEnvelopeId:String)=RRetrofit.instance().create(ApiServices::class.java).findEnvelopeById(sEnvelopeId)
 }
