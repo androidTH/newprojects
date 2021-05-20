@@ -10,8 +10,11 @@ buildscript {
     ext.TINKER_VERSION = "1.9.1"
     repositories {
         google()
-        jcenter()
-        maven { url 'https://dl.bintray.com/umsdk/release'}
+//        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public'}
+        maven { url 'https://repo1.maven.org/maven2/' }
+        maven { url 'https://developer.huawei.com/repo/'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.2'
@@ -26,12 +29,13 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+//        jcenter()
         mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public'}
         maven { url 'http://developer.huawei.com/repo/'}
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url 'https://repo1.maven.org/maven2/' }
         maven { url 'https://jitpack.io' }
-        maven { url "http://dl.bintray.com/piasy/maven" }
+//        maven { url "http://dl.bintray.com/piasy/maven" }
         flatDir {
             dirs 'libs'
         }

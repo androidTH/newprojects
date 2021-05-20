@@ -17,7 +17,6 @@ import com.d6.android.app.utils.Const.VoiceChatType
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
 import com.d6.android.app.widget.VoiceChatView
-import com.umeng.socialize.utils.Log.toast
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -191,7 +190,7 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
                         notifyDataSetChanged()
                     }) {code,msg->
                         if(code==2){
-                            toast(it,msg)
+//                            toast(it,msg)
                         }
                     }
                 }

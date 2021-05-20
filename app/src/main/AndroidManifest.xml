@@ -70,19 +70,22 @@
      <!--录制权限-->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
 
-    <!--小米推送权限-->
-    <permission android:name="com.d6.android.app.permission.MIPUSH_RECEIVE"
-        android:protectionLevel="signature" />
-
-    <uses-permission android:name="com.d6.android.app.permission.MIPUSH_RECEIVE" />
-
      <!--华为推送-->
     <!--如果是安卓8.0，应用编译配置的targetSdkVersion>=26，请务必添加以下权限 -->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+<!--    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />-->
 
     <!--<uses-sdk tools:overrideLibrary="com.shuyu.gsyvideoplayer,com.shuyu.gsyvideoplayer.armv5,com.shuyu.gsy.base,shuyu.com.androidvideocache"/>-->
 
     <uses-permission android:name="android.permission.VIBRATE"/>
+
+
+
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_ADDED"/>
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED"/>
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL"/>
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".application.D6Application"
@@ -90,6 +93,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        tools:replace="android:allowBackup"
         android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
@@ -101,7 +105,7 @@
 
         <meta-data
             android:name="com.openinstall.APP_KEY"
-            android:value="vwm5ds"/>
+            android:value="b5zf76"/>
         <!--正式：b5zf76  测试：vwm5ds-->
 
         <meta-data
@@ -138,7 +142,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!--<data android:scheme="d6app" android:host="com.d6.android.app" android:pathPrefix="/openwith"/>-->
-                <data android:scheme="vwm5ds"/>
+                <data android:scheme="b5zf76"/>
 
                 <!--正式：b5zf76  测试：vwm5ds-->
             </intent-filter>
@@ -574,62 +578,171 @@
         </receiver>
         <!--小米推送集成结束-->
 
-        <!-- HMS 配置开始-->
-        <meta-data
-            android:name="com.huawei.hms.client.appid"
-            android:value="" />
-
-        <!-- BridgeActivity定义了HMS-SDK中一些跳转所需要的透明页面-->
-        <activity
-            android:name="com.huawei.hms.activity.BridgeActivity"
-            android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent">
-            <meta-data
-                android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent" />
-        </activity>
-
-        <!-- 解决华为移动服务升级问题的透明界面（必须声明）-->
-        <activity
-            android:name="io.rong.push.platform.hms.common.HMSAgentActivity"
-            android:configChanges="orientation|locale|screenSize|layoutDirection|fontScale"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent">
-            <meta-data
-                android:name="hwc-theme"
-                android:value="androidhwext:style/Theme.Emui.Translucent" />
-        </activity>
-
-        <!--<provider-->
-            <!--android:name="com.huawei.hms.update.provider.UpdateProvider"-->
-            <!--android:authorities="cn.rongcloud.im.hms.update.provider"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true"/>-->
         <!-- 第三方相关 :接收Push消息（注册、Push消息、Push连接状态）广播 -->
-        <receiver android:name="io.rong.push.platform.hms.HMSReceiver">
-            <intent-filter>
-                <!-- 必须,用于接收token -->
-                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
-                <!-- 必须，用于接收消息 -->
-                <action android:name="com.huawei.android.push.intent.RECEIVE" />
-                <!-- 可选，用于点击通知栏或通知栏上的按钮后触发onEvent回调 -->
-                <action android:name="com.huawei.android.push.intent.CLICK" />
-                <!-- 可选，查看push通道是否连接，不查看则不需要 -->
-                <action android:name="com.huawei.intent.action.PUSH_STATE" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">
-            <intent-filter>
+<!--        <receiver android:name="io.rong.push.platform.hms.HMSReceiver">-->
+<!--            <intent-filter>-->
+<!--                &lt;!&ndash; 必须,用于接收token &ndash;&gt;-->
+<!--                <action android:name="com.huawei.android.push.intent.REGISTRATION" />-->
+<!--                &lt;!&ndash; 必须，用于接收消息 &ndash;&gt;-->
+<!--                <action android:name="com.huawei.android.push.intent.RECEIVE" />-->
+<!--                &lt;!&ndash; 可选，用于点击通知栏或通知栏上的按钮后触发onEvent回调 &ndash;&gt;-->
+<!--                <action android:name="com.huawei.android.push.intent.CLICK" />-->
+<!--                &lt;!&ndash; 可选，查看push通道是否连接，不查看则不需要 &ndash;&gt;-->
+<!--                <action android:name="com.huawei.intent.action.PUSH_STATE" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+<!--        <receiver android:name="com.huawei.hms.support.api.push.PushEventReceiver">-->
+<!--            <intent-filter>-->
 
-                <!-- 接收通道发来的通知栏消息，兼容老版本Push -->
-                <action android:name="com.huawei.intent.action.PUSH" />
+<!--                &lt;!&ndash; 接收通道发来的通知栏消息，兼容老版本Push &ndash;&gt;-->
+<!--                <action android:name="com.huawei.intent.action.PUSH" />-->
+<!--            </intent-filter>-->
+<!--        </receiver>-->
+
+        <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 start-->
+        <service
+            android:name="com.taobao.accs.ChannelService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.SERVICE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.ELECTION" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.taobao.accs.data.MsgDistributeService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.taobao.accs.EventReceiver"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name="com.taobao.accs.ServiceReceiver"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.COMMAND" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.START_FROM_AGOO" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.taobao.accs.internal.AccsJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":channel" />
+
+        <service
+            android:name="com.taobao.accs.ChannelService$KernelService"
+            android:process=":channel" />
+
+        <service
+            android:name="org.android.agoo.accs.AgooService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.taobao.accs.intent.action.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.umeng.message.UmengIntentService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.umeng.message.XiaomiIntentService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="org.agoo.android.intent.action.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.taobao.agoo.AgooCommondReceiver"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="${applicationId}.intent.action.COMMAND" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.umeng.message.UmengMessageIntentReceiverService"
+            android:exported="true"
+            android:process=":channel">
+            <intent-filter>
+                <action android:name="org.android.agoo.client.MessageReceiverService" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.umeng.message.NotificationProxyBroadcastReceiver"
+            android:exported="false" />
+
+        <service
+            android:name="com.umeng.message.UmengMessageCallbackHandlerService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+            <intent-filter>
+                <action android:name="com.umeng.messge.registercallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.enablecallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.disablecallback.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.message.handler.action" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.umeng.message.message.sendmessage.action" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.umeng.message.UmengDownloadResourceService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <provider
+            android:name="com.umeng.message.provider.MessageProvider"
+            android:authorities="${applicationId}.umeng.message"
+            android:exported="false">
+            <grant-uri-permission android:pathPattern=".*" />
+        </provider>
+        <!-- 以下为基本配置信息，需要自行添加至您的AndroidManifest文件中 end-->
         <!-- HMS 配置结束-->
 
         <!--<activity-->
@@ -664,6 +777,8 @@
             android:name="com.zlw.main.recorderlib.recorder.RecordService"
             android:enabled="true"
             android:exported="false" />
+
+
     </application>
 
 </manifest>

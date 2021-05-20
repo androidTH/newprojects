@@ -28,20 +28,17 @@ android {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api "com.android.support:appcompat-v7:${support_version}"
-    api files('libs/open_sdk_r5781.jar')
-    api files('libs/httpmime-4.1.3.jar')
-    api files('libs/SocialSDK_shake.jar')
-    api files('libs/SocialSDK_QQ_Full.jar')
-    api files('libs/SocialSDK_Sina_Simplify.jar')
-    api files('libs/SocialSDK_WeiXin_Full.jar')
-    api files('libs/umeng_social_api.jar')
-    api files('libs/umeng_social_net.jar')
-    api files('libs/umeng_social_tool.jar')
-    api files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
-    api files('libs/umeng_shareboard_widget.jar')
-    api files('libs/umeng_social_shareboard.jar')
-    api 'com.umeng.sdk:analytics:7.5.0'
+//    api files('libs/open_sdk_r5781.jar')
+//    api files('libs/httpmime-4.1.3.jar')
+//    api files('libs/SocialSDK_shake.jar')
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation files('libs/umeng-common-9.3.8.jar')
+    implementation files('libs/umeng-share-core-7.1.4.jar')
+    implementation files('libs/umeng-share-QQ-full-7.1.4.jar')
+    implementation files('libs/umeng-share-wechat-full-7.1.4.jar')
+    implementation files('libs/umeng-share-sina-full-7.1.4.jar')
+    implementation files('libs/umeng-shareboard-widget-7.1.4.jar')
+    implementation files('libs/umeng-sharetool-7.1.4.jar')
 //    compile 'com.umeng.sdk:common:1.5.0'
 }
 repositories {

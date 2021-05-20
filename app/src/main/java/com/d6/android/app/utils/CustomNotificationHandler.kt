@@ -9,7 +9,6 @@ import com.d6.android.app.activities.*
 import com.d6.android.app.base.BaseActivity
 import com.umeng.message.UmengNotificationClickHandler
 import com.umeng.message.entity.UMessage
-import com.umeng.socialize.utils.Log.toast
 import org.jetbrains.anko.startActivity
 
 import java.util.HashMap

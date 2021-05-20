@@ -34,17 +34,17 @@ class AboutUsMainActivity : TitleActivity() {
         }
 
         tv_aboutUs.setOnClickListener {
-            val about_us = API.STATIC_BASE_URL + "guanyuwomen?header=0"
+            val about_us = API.STATIC_BASE_URL + "us"
             startActivity<WebViewActivity>("title" to "关于我们", "url" to about_us)
         }
 
         tv_platform_service.setOnClickListener {
-            val service = API.STATIC_BASE_URL + "pingtaifuwu?header=0"
+            val service = API.STATIC_BASE_URL + "paas"
             startActivity<WebViewActivity>("title" to "平台服务", "url" to service)
         }
 
         tv_business.setOnClickListener {
-            val business = API.STATIC_BASE_URL + "shangwuhezuo?header=0"
+            val business = API.STATIC_BASE_URL + "business"
             startActivity<WebViewActivity>("title" to "商务合作", "url" to business)
         }
 

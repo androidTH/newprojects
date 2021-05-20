@@ -20,7 +20,6 @@ import com.d6.android.app.widget.TrendView
 import com.d6.android.app.widget.VoiceChatView
 import com.d6.android.app.widget.gift.CustormAnim
 import com.d6.android.app.widget.gift.GiftControl
-import com.umeng.socialize.utils.Log.toast
 import kotlinx.android.synthetic.main.item_audio.view.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf

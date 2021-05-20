@@ -1,5 +1,8 @@
 package com.d6.android.app.application
 
+//import com.bugtags.library.Bugtags
+//import com.didichuxing.doraemonkit.DoraemonKit
+//import com.didichuxing.doraemonkit.ui.base.BaseActivity
 import android.app.*
 import android.content.Context
 import android.content.Intent
@@ -8,7 +11,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.support.annotation.NonNull
 import android.support.multidex.MultiDex
 import android.text.TextUtils
 import android.util.Log
@@ -21,13 +23,9 @@ import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.GroupBean
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
-import com.bugtags.library.Bugtags
 import com.bun.miitmdid.core.JLibrary
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
-import com.d6.android.app.activities.WebViewActivity
-import com.d6.android.app.audioconverter.callback.ILoadCallback
-import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
@@ -37,10 +35,9 @@ import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.Const.UPDATE_GROUPS_STATUS
+import com.d6.android.app.utils.Const.XIAOMIAPPKEY
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.danikula.videocache.HttpProxyCacheServer
-//import com.didichuxing.doraemonkit.DoraemonKit
-//import com.didichuxing.doraemonkit.ui.base.BaseActivity
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
 import com.umeng.analytics.MobclickAgent
@@ -59,10 +56,9 @@ import io.rong.imlib.model.*
 import io.rong.message.TextMessage
 import io.rong.push.RongPushClient
 import io.rong.push.pushconfig.PushConfig
-import org.jetbrains.anko.startActivity
+import org.android.agoo.xiaomi.MiPushRegistar
 import org.jetbrains.anko.toast
 import org.json.JSONObject
-import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -116,8 +112,13 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             }
 
             override fun onFailure(s: String, s1: String) {
+                Log.i("mPushAgent","$s,devicetoken${s1}")
             }
         })
+
+
+        //小米通道，填写您在小米后台APP对应的xiaomi id和key
+        MiPushRegistar.register(this,Const.XIAOMIAPPID,Const.XIAOMIAPPKEY)
 
         if (applicationInfo.packageName.equals(getCurProcessName(applicationContext))) {
 //            RongPushClient.registerHWPush(this);
@@ -141,7 +142,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         }
 
         //在这里初始化
-        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
+//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
 
         if(isMainProcess()){
             OpenInstall.init(this)
