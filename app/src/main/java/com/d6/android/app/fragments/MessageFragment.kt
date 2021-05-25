@@ -169,17 +169,13 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                // Log.i("messageFragment","${conversation.targetId}") //anoy_100486_100541 anoy_100486_21881  anoy_100491_100486
                 RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,conversation.targetId, "")
             }else {
-                activity.isAuthUser{
-                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
-//                    Request.getApplyStatus(userId, conversation.targetId).request(this, false, success = { msg, jsonObjetct ->
-//                        jsonObjetct?.let {
-//                            var code = it.optInt("code")
-//                            if (code != 7) {
-//                                RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
-//                            }
-//                        }
-//                    })
-                }
+//                if (SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)) {
+//                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
+//                }else{
+                    activity.isAuthUser{
+                        RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
+                    }
+//                }
             }
             conversation.unreadMessageCount = 0
 //            conversationsAdapter.notifyDataSetChanged()

@@ -26,11 +26,13 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
 import com.umeng.socialize.bean.SHARE_MEDIA
+import com.vector.update_app.utils.AppUpdateUtils
 import io.rong.imkit.RongIM
 import io.rong.imlib.MD5
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.android.synthetic.main.fragment_splash.*
+import kotlinx.android.synthetic.main.item_mypoints_header.view.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult

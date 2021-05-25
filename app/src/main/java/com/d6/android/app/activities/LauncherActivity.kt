@@ -8,14 +8,13 @@ import android.text.TextUtils
 import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.utils.Const
+import com.d6.android.app.extentions.request
+import com.d6.android.app.net.Request
+import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.INSTALL_DATA02
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.utils.Const.User.OAID_ANDROID
-import com.d6.android.app.utils.MiitHelper
-import com.d6.android.app.utils.SPUtils
-import com.d6.android.app.utils.defaultScheduler
 import com.fm.openinstall.OpenInstall
 import com.fm.openinstall.listener.AppInstallAdapter
 import io.reactivex.Flowable
@@ -24,6 +23,8 @@ import org.jetbrains.anko.startActivity
 import java.util.concurrent.TimeUnit
 import com.fm.openinstall.model.AppData
 import com.fm.openinstall.listener.AppWakeUpAdapter
+import com.vector.update_app.utils.AppUpdateUtils
+import org.jetbrains.anko.toast
 import org.json.JSONObject
 
 
@@ -64,6 +65,8 @@ class LauncherActivity : BaseActivity() {
         OpenInstall.getInstall(mAppInstallAdapter)
         OpenInstall.getWakeUp(intent, wakeUpAdapter)
         Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
+
+        getFreeChatTag()
     }
 
     override fun onResume() {
@@ -75,6 +78,29 @@ class LauncherActivity : BaseActivity() {
             }
         }catch (e:Exception){
             e.printStackTrace()
+        }
+
+    }
+
+    private fun getFreeChatTag(){
+        Request.getInfo("android_audit").request(this,success={ _, data ->
+            data?.let {
+                var channels = data.optString("ext1")
+                var versionNum = data.optString("ext2")
+                Log.i("getFreeChatTag","渠道：$channels,版本号：$versionNum,${AppUtils.getChannelName(this)}")
+                if(channels.isNullOrEmpty()){
+                    SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
+                }else{
+                    if(channels.contains(AppUtils.getChannelName(this))&&
+                            AppUtils.compareVersion(versionNum, AppUpdateUtils.getVersionName(this))==0){
+                        SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,true).apply()
+                    }else{
+                        SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
+                    }
+                }
+            }
+        }){code,msg->
+            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
         }
     }
 

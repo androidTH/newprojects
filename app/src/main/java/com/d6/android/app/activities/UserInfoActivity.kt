@@ -33,6 +33,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
+import com.d6.android.app.utils.Const.User.ISNOTFREECHATTAG
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
@@ -964,7 +965,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun showDatePayPointDialog(name: String) {
-        isAuthUser{
+        isAuthUser {
             RongIM.getInstance().startConversation(this, Conversation.ConversationType.PRIVATE, id, name)
         }
     }

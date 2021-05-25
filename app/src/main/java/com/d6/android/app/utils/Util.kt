@@ -50,6 +50,7 @@ import com.d6.android.app.rong.bean.TipsMessage
 import com.d6.android.app.rong.bean.TipsTxtMessage
 import com.d6.android.app.utils.Const.DEBUG_MODE
 import com.d6.android.app.utils.Const.NO_VIP_FROM_TYPE
+import com.d6.android.app.utils.Const.User.ISNOTFREECHATTAG
 import com.d6.android.app.utils.Const.User.IS_FIRST_FAST_CLICK
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_FINDDIALOG
 import com.d6.android.app.utils.Const.User.IS_FIRST_SHOW_SELFDATEDIALOG
@@ -347,16 +348,20 @@ fun File?.getFileSuffix(): String {
 inline fun Activity.isAuthUser(from:String="nomine",next: () -> Unit) {
     val className = SPUtils.instance().getString(Const.User.USER_CLASS_ID)
     if (className == "7") {// 22 普通会员
-        var sex = SPUtils.instance().getString(Const.User.USER_SEX)
-        if(TextUtils.equals("1",sex)){
+        if(SPUtils.instance().getBoolean(ISNOTFREECHATTAG,false)){
+            next()
+        }else{
+            var sex = SPUtils.instance().getString(Const.User.USER_SEX)
+            if(TextUtils.equals("1",sex)){
 //            var mMemberDialog = MemberDialog()
 //            mMemberDialog.arguments = bundleOf(NO_VIP_FROM_TYPE to from)
 //            mMemberDialog.show((this as BaseActivity).supportFragmentManager,"memberdialog")
-            this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
+                this.startActivity<AuthMenStateActivity>(NO_VIP_FROM_TYPE to from)
 //            this.startActivity<OpenMemberShipActivity>()
-        }else{
-            this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
+            }else{
+                this.startActivity<AuthWomenStateActivity>(NO_VIP_FROM_TYPE to from)
 //             this.startActivity<DateAuthStateActivity>()
+            }
         }
     }else{
         next()
@@ -877,6 +882,7 @@ fun confirmToGroup(activity:Activity,sApplyId:String,iStatus:String) {
         }
 
         override fun showToast(msg: String) {
+
         }
 
         override fun dismissDialog() {

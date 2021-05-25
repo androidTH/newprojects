@@ -140,13 +140,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 if(TextUtils.equals(mGroupIdSplit[1], getLocalUserId())){
                     //我是匿名
                     mOtherUserId = mGroupIdSplit[2]
-                    RongIM.getInstance().getHistoryMessages(mConversationType,mTargetId,-1,20,object : RongIMClient.ResultCallback<List<Message>>(){
+                    RongIM.getInstance().getHistoryMessages(mConversationType, mTargetId, -1, 20, object : RongIMClient.ResultCallback<List<Message>>() {
                         override fun onSuccess(p0: List<Message>?) {
                             if (p0!!.size == 0) {
-                                sendOutgoingMessage(getString(R.string.string_nm_tips),"1")
+                                sendOutgoingMessage(getString(R.string.string_nm_tips), "1")
                             } else {
                                 if (getOneDay(SPUtils.instance().getLong(SEND_GROUP_TIPSMESSAGE + mOtherUserId, System.currentTimeMillis()))) {
-                                    sendOutgoingMessage(getString(R.string.string_nm_tips),"1")
+                                    sendOutgoingMessage(getString(R.string.string_nm_tips), "1")
                                 }
                             }
                         }
@@ -156,8 +156,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         }
                     })
                     mWhoanonymous = "1"
-                    SPUtils.instance().put(WHO_ANONYMOUS,"1").apply()
-                    RongUtils.setUserInfo(mOtherUserId,tv_chattitle,chat_headView)
+                    SPUtils.instance().put(WHO_ANONYMOUS, "1").apply()
+                    RongUtils.setUserInfo(mOtherUserId, tv_chattitle, chat_headView)
                 }else{
                     chat_headView.setImageURI("res:///"+R.mipmap.nimingtouxiang_small)
                     mOtherUserId = mGroupIdSplit[1] //对方匿名
@@ -1256,7 +1256,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         fragment = ConversationFragmentEx()
         if (checkKFService(mOtherUserId)) {
             if(iType!=3){
-                fragment?.arguments = bundleOf("hideinput" to true)
+                if(SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG,false)){
+                    fragment?.arguments = bundleOf("hideinput" to false)
+                }else{
+                    fragment?.arguments = bundleOf("hideinput" to true)
+                }
             }else{
                 fragment?.arguments = bundleOf("hideinput" to false)
             }
@@ -1314,24 +1318,25 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         transaction.commitAllowingStateLoss()
 
         fragment?.setOnShowAnnounceBarListener { announceMsg, annouceUrl ->
-            if (!TextUtils.isEmpty(announceMsg)) {
-                var jsonObject = JSONObject(announceMsg)
-                var type = jsonObject.optString("status")
-                Log.i("OnShowAnnounceBar","${announceMsg}type${type}")
-                if(TextUtils.equals("1",type)){
-                    relative_tips_bottom.visibility = View.VISIBLE
-                    linear_openchat_agree_bottom.visibility = View.VISIBLE
-                    tv_openchat_apply_bottom.visibility = View.GONE
-                    tv_openchat_tips_title_bottom.visibility = View.GONE
-                    tv_openchat_tips_bottom.visibility = View.GONE
-                    tv_openchat_tips_center_bottom.visibility = View.VISIBLE
-                    tv_openchat_tips_center_bottom.text =String.format(getString(R.string.string_applay_tips_center),tv_chattitle.text)
-                    fragment?.let {
-                        it.hideChatInput( true)
-                    }
-                    SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,true).apply()
-                }else if(TextUtils.equals("2",type)){//同意
-                    relative_tips_bottom.visibility = View.GONE
+            if(!SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG,false)){
+                if (!TextUtils.isEmpty(announceMsg)) {
+                    var jsonObject = JSONObject(announceMsg)
+                    var type = jsonObject.optString("status")
+                    Log.i("OnShowAnnounceBar", "${announceMsg}type${type}")
+                    if (TextUtils.equals("1", type)) {
+                        relative_tips_bottom.visibility = View.VISIBLE
+                        linear_openchat_agree_bottom.visibility = View.VISIBLE
+                        tv_openchat_apply_bottom.visibility = View.GONE
+                        tv_openchat_tips_title_bottom.visibility = View.GONE
+                        tv_openchat_tips_bottom.visibility = View.GONE
+                        tv_openchat_tips_center_bottom.visibility = View.VISIBLE
+                        tv_openchat_tips_center_bottom.text = String.format(getString(R.string.string_applay_tips_center), tv_chattitle.text)
+                        fragment?.let {
+                            it.hideChatInput(true)
+                        }
+                        SPUtils.instance().put(APPLAY_CONVERTION_ISTOP + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, true).apply()
+                    } else if (TextUtils.equals("2", type)) {//同意
+                        relative_tips_bottom.visibility = View.GONE
 //                    if(TextUtils.equals("1",sex)){
 //                        relative_tips.visibility = View.VISIBLE
 //                        tv_openchat_points.visibility = View.VISIBLE
@@ -1342,12 +1347,12 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //                        IsAgreeChat = true
 //                    }
 
-                    IsAgreeChat = true
+                        IsAgreeChat = true
 //                    ---SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),true).apply()
-                    fragment?.let {
-                        it.hideChatInput(false)
-                    }
-                    SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
+                        fragment?.let {
+                            it.hideChatInput(false)
+                        }
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
 
 //                    checkISFirstSendMsg()
 //                    if(!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)){
@@ -1356,7 +1361,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //                    }else{
 //
 //                    }
-                }else if(TextUtils.equals("3",type)){//拒绝
+                    } else if (TextUtils.equals("3", type)) {//拒绝
 //                    relative_tips.visibility = View.VISIBLE
 //                    tv_openchat_apply.visibility = View.VISIBLE
 //                    tv_openchat_apply.isEnabled = true
@@ -1365,96 +1370,97 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //                    tv_openchat_tips.text = resources.getString(R.string.string_apply_agree_openchat)
 
 //                    IsAgreeChat = false
-                    relative_tips_bottom.visibility = View.VISIBLE
-                    tv_openchat_apply_bottom.visibility = View.VISIBLE
-                    tv_openchat_apply_bottom.isEnabled = true
-                    tv_apply_sendflower.visibility = View.GONE
-                    tv_help_service.visibility = View.GONE
-                    tv_openchat_apply_bottom.text = resources.getText(R.string.string_apply_openchat)
-                    tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
-                    fragment?.let {
-                        it.hideChatInput(true)
-                    }
+                        relative_tips_bottom.visibility = View.VISIBLE
+                        tv_openchat_apply_bottom.visibility = View.VISIBLE
+                        tv_openchat_apply_bottom.isEnabled = true
+                        tv_apply_sendflower.visibility = View.GONE
+                        tv_help_service.visibility = View.GONE
+                        tv_openchat_apply_bottom.text = resources.getText(R.string.string_apply_openchat)
+                        tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
+                        tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
+                        fragment?.let {
+                            it.hideChatInput(true)
+                        }
 
-                    SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
 //                    if(!SPUtils.instance().getBoolean(Const.IS_FIRST_SHOW_TIPS, false)){
 //                        var mDialogPrivateChat = DialogPrivateChat()
 //                        mDialogPrivateChat.show(supportFragmentManager, "DialogPrivateChat")
 //                    }else{
 //
 //                    }
-                }else if(TextUtils.equals("4",type)){
-                    relative_tips_bottom.visibility = View.VISIBLE
-                    tv_openchat_apply_bottom.visibility = View.VISIBLE
-                    tv_openchat_tips_title_bottom.visibility = View.VISIBLE
-                    tv_openchat_tips_bottom.visibility = View.VISIBLE
-                    tv_openchat_apply_bottom.isEnabled = true
+                    } else if (TextUtils.equals("4", type)) {
+                        relative_tips_bottom.visibility = View.VISIBLE
+                        tv_openchat_apply_bottom.visibility = View.VISIBLE
+                        tv_openchat_tips_title_bottom.visibility = View.VISIBLE
+                        tv_openchat_tips_bottom.visibility = View.VISIBLE
+                        tv_openchat_apply_bottom.isEnabled = true
 
-                    tv_apply_sendflower.visibility = View.GONE
-                    tv_help_service.visibility = View.GONE
-                    tv_openchat_tips_center_bottom.visibility = View.GONE
-                    linear_openchat_agree_bottom.visibility = View.GONE
+                        tv_apply_sendflower.visibility = View.GONE
+                        tv_help_service.visibility = View.GONE
+                        tv_openchat_tips_center_bottom.visibility = View.GONE
+                        linear_openchat_agree_bottom.visibility = View.GONE
 
-                    tv_openchat_apply_bottom.text = resources.getText(R.string.string_apply_openchat)
-                    tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
-                    tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
-                    fragment?.let {
-                        it.hideChatInput(true)
-                    }
-                    SPUtils.instance().put(APPLAY_CONVERTION_ISTOP+ getLocalUserId()+"-"+if(iType==2)  mTargetId else mOtherUserId,false).apply()
-                    SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE+ getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
-                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
+                        tv_openchat_apply_bottom.text = resources.getText(R.string.string_apply_openchat)
+                        tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
+                        tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
+                        fragment?.let {
+                            it.hideChatInput(true)
+                        }
+                        SPUtils.instance().put(APPLAY_CONVERTION_ISTOP + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
 //                    linear_openchat_agree_bottom.visibility = View.GONE
 //                    getApplyStatus()
-                }else if(TextUtils.equals("5",type)){
-                    //staus 5、6、7、8分别是接受、拒绝、取消、过期
-                    root_date_chat.visibility = View.GONE
-                    setFragmentTopMargin(0)
-                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
-                }else if(TextUtils.equals("6",type)){
-                    root_date_chat.visibility = View.GONE
-                    setFragmentTopMargin(0)
-                    getApplyStatus()
-                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
-                }else if(TextUtils.equals("7",type)){
-                    root_date_chat.visibility = View.GONE
-                    setFragmentTopMargin(0)
-                    getApplyStatus()
-                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
-                }else if(TextUtils.equals("8",type)){
-                    root_date_chat.visibility = View.GONE
-                    setFragmentTopMargin(0)
-                    getApplyStatus()
-                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,false).apply()
-                }else if(TextUtils.equals("9",type)){
-                    relative_tips_bottom.visibility = View.GONE
-                    relative_tips.visibility = View.GONE
-                    setFragmentTopMargin(0)
-                    fragment?.let {
-                        it.hideChatInput(false)
-                    }
-                    getApplyStatus()
-                }else {
-                    try{
-                        if(jsonObject.has("iVoiceStatus")){
-                            var iVoiceStatus = jsonObject.optString("iVoiceStatus")
-                            if(TextUtils.equals("4",iVoiceStatus)){
-                                root_date_chat.visibility = View.GONE
-                                setFragmentTopMargin(0)
+                    } else if (TextUtils.equals("5", type)) {
+                        //staus 5、6、7、8分别是接受、拒绝、取消、过期
+                        root_date_chat.visibility = View.GONE
+                        setFragmentTopMargin(0)
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
+                    } else if (TextUtils.equals("6", type)) {
+                        root_date_chat.visibility = View.GONE
+                        setFragmentTopMargin(0)
+                        getApplyStatus()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
+                    } else if (TextUtils.equals("7", type)) {
+                        root_date_chat.visibility = View.GONE
+                        setFragmentTopMargin(0)
+                        getApplyStatus()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
+                    } else if (TextUtils.equals("8", type)) {
+                        root_date_chat.visibility = View.GONE
+                        setFragmentTopMargin(0)
+                        getApplyStatus()
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
+                    } else if (TextUtils.equals("9", type)) {
+                        relative_tips_bottom.visibility = View.GONE
+                        relative_tips.visibility = View.GONE
+                        setFragmentTopMargin(0)
+                        fragment?.let {
+                            it.hideChatInput(false)
+                        }
+                        getApplyStatus()
+                    } else {
+                        try {
+                            if (jsonObject.has("iVoiceStatus")) {
+                                var iVoiceStatus = jsonObject.optString("iVoiceStatus")
+                                if (TextUtils.equals("4", iVoiceStatus)) {
+                                    root_date_chat.visibility = View.GONE
+                                    setFragmentTopMargin(0)
+                                    getApplyStatus()
+                                }
+                            } else if (jsonObject.has("iGroupStatus")) {
+                                //2、加入 3、踢出 4、主动退出 5、群组解散
+                                var iGroupStatus = jsonObject.optString("iGroupStatus")
+                                if (!TextUtils.equals("2", iGroupStatus)) {
+                                    CheckUserInGroup()
+                                }
+                            } else {
                                 getApplyStatus()
                             }
-                        }else if(jsonObject.has("iGroupStatus")){
-                            //2、加入 3、踢出 4、主动退出 5、群组解散
-                            var iGroupStatus = jsonObject.optString("iGroupStatus")
-                            if(!TextUtils.equals("2",iGroupStatus)){
-                                CheckUserInGroup()
-                            }
-                        }else{
-                            getApplyStatus()
+                        } catch (e: java.lang.Exception) {
+                            e.printStackTrace()
                         }
-                    }catch (e:java.lang.Exception){
-                        e.printStackTrace()
                     }
                 }
             }
@@ -1462,7 +1468,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         if (checkKFService(mOtherUserId)) {
             if(iType!=3){
-                getApplyStatus()
+                if(!SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG,false)){
+                    getApplyStatus()
+                }
             }
         }
     }

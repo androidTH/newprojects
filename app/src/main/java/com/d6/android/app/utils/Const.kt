@@ -20,6 +20,7 @@ object Const {
         val IS_FIRST_SHOW_FINDLASTDAYNOTICEDIALOG="isFirstShowFindLastDayNoticDialog"
         val IS_FIRST_FAST_CLICK="isFirstFastClick"
         val ISNOTLOCATION = "isnolocation"
+        val ISNOTFREECHATTAG = "isnofreechat"
 
         @JvmField
         val USER_ID="userId"
