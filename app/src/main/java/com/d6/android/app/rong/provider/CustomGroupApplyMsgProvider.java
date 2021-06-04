@@ -23,6 +23,7 @@ import io.rong.imkit.emoticon.AndroidEmoji;
 import io.rong.imkit.model.ProviderTag;
 import io.rong.imkit.model.UIMessage;
 import io.rong.imkit.widget.provider.IContainerItemProvider;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 import static com.d6.android.app.utils.UtilKt.confirmToGroup;
 
@@ -102,7 +103,7 @@ public class CustomGroupApplyMsgProvider extends IContainerItemProvider.MessageP
 
     @Override
     public void bindView(final View v, int position, final CustomGroupApplyMsg content, final UIMessage data) {
-        CustomGroupApplyMsgProvider.ViewHolder holder = (CustomGroupApplyMsgProvider.ViewHolder) v.getTag();
+        final CustomGroupApplyMsgProvider.ViewHolder holder = (CustomGroupApplyMsgProvider.ViewHolder) v.getTag();
 
         if (data.getMessageDirection() == Message.MessageDirection.RECEIVE) {
             if(!TextUtils.isEmpty(content.getExtra())){
@@ -116,10 +117,26 @@ public class CustomGroupApplyMsgProvider extends IContainerItemProvider.MessageP
                     holder.tv_msg_content.setText(msg.getContent());
                     holder.tv_groupname.setText(msg.getsGroupName());
                     holder.group_headview.setImageURI(msg.getsGroupPic());
+                    Message message = data.getMessage();
+                    if(TextUtils.isEmpty(message.getExtra())){
+                        holder.tv_group_no.setText("拒绝");
+                        holder.tv_group_agree.setText("同意");
+                    }else{
+                        if(TextUtils.equals("3",message.getExtra())){
+                            holder.tv_group_no.setText("已拒绝");
+                        }else if(TextUtils.equals("2",message.getExtra())){
+                            holder.tv_group_agree.setText("已同意");
+                        }
+                    }
+
+
                     holder.tv_group_agree.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             confirmToGroup((Activity) v.getContext(),msg.getsApplyId()+"","2");
+//                            updateExtra(data.getMessageId(),"2");
+//                            holder.tv_group_agree.setText("已同意");
+//                            holder.tv_group_no.setText("拒绝");
                         }
                     });
 
@@ -127,6 +144,9 @@ public class CustomGroupApplyMsgProvider extends IContainerItemProvider.MessageP
                         @Override
                         public void onClick(View v) {
                             confirmToGroup((Activity) v.getContext(),msg.getsApplyId()+"","3");
+//                            updateExtra(data.getMessageId(),"3");
+//                            holder.tv_group_agree.setText("同意");
+//                            holder.tv_group_no.setText("已拒绝");
                         }
                     });
                 }catch (Exception e) {
@@ -134,5 +154,19 @@ public class CustomGroupApplyMsgProvider extends IContainerItemProvider.MessageP
                 }
             }
         }
+    }
+
+    public void updateExtra(int messageId,String code){
+        RongIMClient.getInstance().setMessageExtra(messageId,code,new RongIMClient.ResultCallback<Boolean>(){
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+            }
+        });
     }
 }

@@ -90,6 +90,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 //        UMConfigure.init(this, Const.UMENG_APPKEY, "Umeng", UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
         UMConfigure.init(this,UMConfigure.DEVICE_TYPE_PHONE, Const.UMENG_MESSAGE_SECRET)
         PlatformConfig.setWeixin(Const.WEIXINID, Const.WEIXINSECERT)
+        PlatformConfig.setWXFileProvider("com.d6.android.app.FileProvider");
 //        Config.DEBUG = true
         val mPushAgent = PushAgent.getInstance(this)
         mPushAgent.notificationPlaySound = MsgConstant.NOTIFICATION_PLAY_SERVER

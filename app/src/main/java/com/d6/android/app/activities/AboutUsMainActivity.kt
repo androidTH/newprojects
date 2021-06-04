@@ -43,10 +43,10 @@ class AboutUsMainActivity : TitleActivity() {
             startActivity<WebViewActivity>("title" to "平台服务", "url" to service)
         }
 
-        tv_business.setOnClickListener {
-            val business = API.STATIC_BASE_URL + "business"
-            startActivity<WebViewActivity>("title" to "商务合作", "url" to business)
-        }
+//        tv_business.setOnClickListener {
+//            val business = API.STATIC_BASE_URL + "business"
+//            startActivity<WebViewActivity>("title" to "商务合作", "url" to business)
+//        }
 
         rl_checkversion.setOnClickListener {
             diyUpdate(this,TAG)
