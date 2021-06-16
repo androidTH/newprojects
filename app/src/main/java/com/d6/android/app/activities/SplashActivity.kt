@@ -15,6 +15,8 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.SplashHolder
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
+import com.d6.android.app.dialogs.CommonTipDialog
+import com.d6.android.app.dialogs.UserAgreemetDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MemberDesc
 import com.d6.android.app.net.Request
@@ -65,20 +67,22 @@ class SplashActivity : BaseActivity() {
 //            if (!isLogin) {
 //                startActivity<SignInActivity>()
 //            }
-            startActivity<SignInActivity>()
+            if(check_box.isChecked){
+                startActivity<SignInActivity>()
+            }else{
+                toast("同意用户协议及隐私声明后，才可登录注册哦～")
+            }
         }
 
         rl_wxlogin.setOnClickListener {
-            if (wxApi.isWXAppInstalled) {
-                SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
-                val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
-                if (!isLogin) {
-                    weChatLogin()
-                }
-            } else {
-                toast("请先安装微信")
+            if(check_box.isChecked){
+                WXLogin()
+            }else{
+                toast("同意用户协议及隐私声明后，才可登录注册哦～")
             }
         }
+
+
 
         mMemberDesc.add(MemberDesc("人工精准匹配约会、超高成功率","专属客服匹配","res:///"+R.mipmap.tezheng1_big,
                 R.drawable.shape_tz1))
@@ -181,7 +185,7 @@ class SplashActivity : BaseActivity() {
 
 
         tv_protocols.movementMethod = LinkMovementMethod.getInstance()
-        val s = "点击登录/注册即表示同意 用户协议 隐私政策"
+        val s = "我已阅读并同意 用户协议 隐私政策"
         tv_protocols.text = SpanBuilder(s)
                 .click(s.length - 10, s.length-5, MClickSpan(this,1))
                 .click(s.length-5,s.length,MClickSpan(this,2))
@@ -358,6 +362,35 @@ class SplashActivity : BaseActivity() {
             ds?.color = ContextCompat.getColor(context, R.color.color_F7AB00)
             ds?.isUnderlineText = false
         }
+    }
+
+    private fun WXLogin(){
+        if (wxApi.isWXAppInstalled) {
+            SPUtils.instance().put(Const.User.IS_FIRST, false).apply()
+            val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
+            if (!isLogin) {
+                weChatLogin()
+            }
+        } else {
+            toast("请先安装微信")
+        }
+    }
+
+    private fun showUserAgreementDialog(loginType:Int) {
+        val mUserAgreemetDialog = UserAgreemetDialog()
+        mUserAgreemetDialog.setDialogListener { p, s ->
+            if (p == 1) {
+                SPUtils.instance().put(Const.User.ISNOTUESERAGREEMENT, true).apply()
+                if(loginType==1){
+                    startActivity<SignInActivity>()
+                }else{
+                    WXLogin()
+                }
+            }else{
+                System.exit(0)
+            }
+        }
+        mUserAgreemetDialog.show(supportFragmentManager, "useragreement")
     }
 
     override fun onDestroy() {

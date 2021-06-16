@@ -21,6 +21,7 @@ object Const {
         val IS_FIRST_FAST_CLICK="isFirstFastClick"
         val ISNOTLOCATION = "isnolocation"
         val ISNOTFREECHATTAG = "isnofreechat"
+        val ISNOTUESERAGREEMENT = "isnouseragreement"
 
         @JvmField
         val USER_ID="userId"

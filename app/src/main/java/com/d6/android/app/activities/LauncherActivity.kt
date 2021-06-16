@@ -8,8 +8,10 @@ import android.text.TextUtils
 import android.util.Log
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.UserAgreemetDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
+import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.INSTALL_DATA02
@@ -24,12 +26,18 @@ import java.util.concurrent.TimeUnit
 import com.fm.openinstall.model.AppData
 import com.fm.openinstall.listener.AppWakeUpAdapter
 import com.vector.update_app.utils.AppUpdateUtils
+import io.rong.imkit.RongIM
+import io.rong.push.RongPushClient
+import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 
 
 class LauncherActivity : BaseActivity() {
 
+    private val agree:Boolean by lazy{
+        SPUtils.instance().getBoolean(Const.User.ISNOTUESERAGREEMENT)
+    }
     private val diposable = object : DisposableSubscriber<Long>() {
         override fun onComplete() {}
         override fun onError(t: Throwable?) {}
@@ -62,24 +70,21 @@ class LauncherActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
         immersionBar.init()
-        OpenInstall.getInstall(mAppInstallAdapter)
-        OpenInstall.getWakeUp(intent, wakeUpAdapter)
-        Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
-
+        if(agree){
+            OpenInstall.getInstall(mAppInstallAdapter)
+            OpenInstall.getWakeUp(intent, wakeUpAdapter)
+            Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
+        }else{
+            showUserAgreementDialog()
+        }
         getFreeChatTag()
     }
 
     override fun onResume() {
         super.onResume()
-        try{
-            if(TextUtils.isEmpty(SPUtils.instance().getString(OAID_ANDROID,""))){
-                val miitHelper = MiitHelper(appIdsUpdater)
-                miitHelper.getDeviceIds(applicationContext)
-            }
-        }catch (e:Exception){
-            e.printStackTrace()
+        if(agree){
+            getOAID()
         }
-
     }
 
     private fun getFreeChatTag(){
@@ -109,6 +114,46 @@ class LauncherActivity : BaseActivity() {
         override fun OnIdsAvalid(@NonNull ids: String) {
             Log.i("appIdsUpdater","oaid=${ids}")
             SPUtils.instance().put(OAID_ANDROID,ids).apply()
+        }
+    }
+
+    private fun showUserAgreementDialog() {
+        val mUserAgreemetDialog = UserAgreemetDialog()
+        mUserAgreemetDialog.setDialogListener { p, s ->
+            if (p == 1) {
+                SPUtils.instance().put(Const.User.ISNOTUESERAGREEMENT, true).apply()
+                initApp()
+                OpenInstall.getInstall(mAppInstallAdapter)
+                OpenInstall.getWakeUp(intent, wakeUpAdapter)
+                Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
+                getOAID();
+            }else{
+                finish()
+            }
+        }
+        mUserAgreemetDialog.show(supportFragmentManager, "useragreement")
+    }
+
+    private fun initApp(){
+        PushHelper.init(this)
+        var config = PushConfig.Builder().enableMiPush(Const.XIAOMIAPPID, Const.XIAOMIAPPKEY).build()
+        RongPushClient.setPushConfig(config)
+        RongIM.init(this)
+        RongPlugin.init(this)
+
+        if(PushHelper.isMainProcess(this)){
+            OpenInstall.init(this)
+        }
+    }
+
+    private fun getOAID(){
+        try{
+            if(TextUtils.isEmpty(SPUtils.instance().getString(OAID_ANDROID,""))){
+                val miitHelper = MiitHelper(appIdsUpdater)
+                miitHelper.getDeviceIds(applicationContext)
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
         }
     }
 

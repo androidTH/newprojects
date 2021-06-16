@@ -111,14 +111,28 @@
                 android:textSize="15sp" />
         </RelativeLayout>
     </LinearLayout>
-    <TextView
-        android:id="@+id/tv_protocols"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/margin_25"
-        android:textColor="@color/color_888888"
-        android:text="点击登录/注册即表示同意 用户协议"/>
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="@dimen/margin_25">
+        <CheckBox
+            android:id="@+id/check_box"
+            style="@style/MyCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"/>
+        <TextView
+            android:id="@+id/tv_protocols"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/check_box"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_gravity="center_horizontal"
+            android:textSize="12sp"
+            android:textColor="@color/color_888888"
+            android:text="我已阅读并同意 用户协议"/>
+    </RelativeLayout>
 </RelativeLayout>
