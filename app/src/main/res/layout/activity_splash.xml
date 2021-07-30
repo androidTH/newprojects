@@ -117,6 +117,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
         android:layout_gravity="center_vertical"
+        android:visibility="gone"
         android:layout_marginBottom="@dimen/margin_25">
         <CheckBox
             android:id="@+id/check_box"

@@ -67,19 +67,21 @@ class SplashActivity : BaseActivity() {
 //            if (!isLogin) {
 //                startActivity<SignInActivity>()
 //            }
-            if(check_box.isChecked){
-                startActivity<SignInActivity>()
-            }else{
-                toast("同意用户协议及隐私声明后，才可登录注册哦～")
-            }
+//            if(check_box.isChecked){
+//                startActivity<SignInActivity>()
+//            }else{
+//                toast("同意用户协议及隐私声明后，才可登录注册哦～")
+//            }
+            startActivity<SignInActivity>()
         }
 
         rl_wxlogin.setOnClickListener {
-            if(check_box.isChecked){
-                WXLogin()
-            }else{
-                toast("同意用户协议及隐私声明后，才可登录注册哦～")
-            }
+            WXLogin()
+//            if(check_box.isChecked){
+//                WXLogin()
+//            }else{
+//                toast("同意用户协议及隐私声明后，才可登录注册哦～")
+//            }
         }
 
 
