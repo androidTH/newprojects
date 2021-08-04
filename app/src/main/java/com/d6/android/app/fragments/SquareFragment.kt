@@ -235,6 +235,7 @@ class SquareFragment : RecyclerFragment() {
     private fun getSquareTop(){
         Request.findSquareTop().request(this,false,success={_,data->
               data?.let {
+                  headerView.ll_topshow.visibility = View.GONE
                   var iAppointmentSignupCount = it.optInt("iAppointmentSignupCount")
                   headerView.tv_date_count.text = "${iAppointmentSignupCount}人约会成功"
                   headerView.rl_bangdan_headerview.visibility = View.VISIBLE

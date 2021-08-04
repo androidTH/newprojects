@@ -48,8 +48,6 @@ import java.lang.Exception
  */
 class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListener {
 
-
-
     private val iIsCreateGroup by lazy{
         SPUtils.instance().getInt(Const.User.USERISCREATE_GROUP,1)
     }

@@ -2,22 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_redheart_item"
     android:layout_width="80dp"
-    android:layout_height="@dimen/height_50"
-    android:orientation="horizontal"
-    android:background="@drawable/shape_white_ef"
-    android:gravity="center">
+    android:layout_height="@dimen/height_60"
+    android:orientation="vertical"
+    android:background="@drawable/shape_white_ef">
 
     <TextView
         android:id="@+id/tv_redheartnums"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/height_40"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
         android:gravity="center"
         android:textColor="@color/color_333333"
         android:text="100"
+        android:layout_gravity="center_horizontal"
         android:layout_marginRight="@dimen/margin_3"
         android:drawableRight="@mipmap/redheart_small"
         android:drawablePadding="@dimen/margin_3"
         android:textSize="17sp"/>
+
+    <TextView
+        android:id="@+id/tv_redheartinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/color_333333"
+        android:text="爱你哦"
+        android:textSize="14sp"/>
       <!--<ImageView-->
           <!--android:layout_width="wrap_content"-->
           <!--android:layout_height="wrap_content"-->

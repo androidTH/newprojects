@@ -22,7 +22,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin_15" />
 
-        <TextView
+        <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_redheart_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,8 +31,8 @@
             android:layout_marginBottom="@dimen/margin_10"
             android:text="-----"
             android:textColor="@color/color_333333"
-            android:textStyle="bold"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_redheart_desc"
             android:layout_width="wrap_content"

@@ -24,7 +24,7 @@
             android:textSize="20dp"
             android:id="@+id/tv_title"
             android:paddingRight="@dimen/padding_16"
-            android:text="消息"
+            android:text="聊天"
             android:textStyle="bold"
             android:gravity="center"/>
         <TextView

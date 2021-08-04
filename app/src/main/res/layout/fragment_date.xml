@@ -65,6 +65,7 @@
             android:layout_toRightOf="@+id/bar_left"
             android:layout_alignParentRight="true"
             android:layout_width="100dp"
+            android:visibility="gone"
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/tv_mycard"

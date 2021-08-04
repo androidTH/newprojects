@@ -132,12 +132,12 @@ class RedMoneyDesDialog : DialogFragment() {
                             iv_redwallet_open.visibility = View.GONE
                             tv_redwallet_status.text = "手慢了，红包派完了"
 
-//                            updateMessageExtra("300")
+                            updateMessageExtra("300")
                         }else if(iStatus==3){
                             iv_redwallet_open.visibility = View.GONE
                             tv_redwallet_status.text = "该红包已超过24小时\n" +
                                     "已过期无法领取"
-//                            updateMessageExtra("400")
+                            updateMessageExtra("400")
                         }else{
                             iv_redwallet_open.visibility = View.VISIBLE
                         }
@@ -147,14 +147,14 @@ class RedMoneyDesDialog : DialogFragment() {
                             ll_redwallet_desc.visibility = View.VISIBLE
                             tv_redwallet_status.text = "手慢了，红包派完了"
 
-//                            updateMessageExtra("300")
+                            updateMessageExtra("300")
                         }else if(iStatus==3){
                             iv_redwallet_open.visibility = View.GONE
                             ll_redwallet_desc.visibility = View.VISIBLE
                             tv_redwallet_status.text = "该红包已超过24小时\n" +
                                     "已过期无法领取"
 
-//                            updateMessageExtra("400")
+                            updateMessageExtra("400")
                         }else{
                             ll_redwallet_desc.visibility = View.GONE
                             iv_redwallet_open.visibility = View.VISIBLE
@@ -200,7 +200,7 @@ class RedMoneyDesDialog : DialogFragment() {
                             "已过期无法领取"
                 }
 
-//                updateMessageExtra("$resCode")
+                updateMessageExtra("$resCode")
 
                 startActivity<RedMoneyDesActivity>("sEnvelopeId" to sEnvelopeId,"iUserId" to sendUserId,"sEnvelopeDesc" to sEnvelopeDesc)
                 dismissAllowingStateLoss()
