@@ -420,7 +420,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
         },true)
 
-//        Log.i("MainActivityfffffff","oaid${getOaid()}---MD5=${MD5.encrypt(getOaid(),true)}")
+        Log.i("MainActivityfffffff","${getLoginToken()}")
 
     }
 
@@ -564,11 +564,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         RongIM.getInstance().getUnreadCount(arrayOf(Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP),false,object : RongIMClient.ResultCallback<Int>() {
             override fun onSuccess(p0: Int?) {
                 p0?.let {
-                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
                     if (fragment != null && fragment is MessageFragment) {
                         fragment.getChatMsg()
                     }
-                    val view1 = tabhost.tabWidget.getChildTabViewAt(3)
+                    val view1 = tabhost.tabWidget.getChildTabViewAt(2)
                     if (view1 != null) {
                         unReadMsgNum = 0
 
@@ -654,12 +654,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
     private fun getSysLastOne() {
         Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = (tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView)
+            val view = (tabhost.tabWidget.getChildTabViewAt(2).findViewById<View>(R.id.tv_msg_red) as TextView)
             if (data?.list?.results == null || data.list?.results?.isEmpty()) {
                 //无数据
                 getSquareMsg()
             } else {
-                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSysMsg(data)
                 }
@@ -680,7 +680,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
     private fun getSquareMsg() {
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
+            val view = tabhost.tabWidget.getChildTabViewAt(2).findViewById<View>(R.id.tv_msg_count) as TextView
             Log.i("messagesssssss","${unReadMsgNum}显示")
             if (data?.list?.results == null || data?.list?.results?.isEmpty()!!) {
                 //无数据
@@ -697,7 +697,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     view?.gone()
                 }
             } else {
-                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }

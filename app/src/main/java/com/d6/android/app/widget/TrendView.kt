@@ -48,7 +48,11 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private var square: Square? = null
     private val mImages = ArrayList<String>()
 //    private var localLoveHeartNums =
-    private var sendLoveHeartNums = 1
+    private var sendLoveHeartNums = if(TextUtils.equals(getUserSex(),"0")){
+        1
+    }else{
+        10
+    }
 
     private val imageAdapter by lazy {
         SquareImageAdapter(mImages,1)
@@ -117,8 +121,14 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                         if(!TextUtils.equals(getLocalUserId(),"${square?.userid}")){
                             if(getLocalUserLoveHeart()>0){
                                 if(sendLoveHeartNums <= getLocalUserLoveHeart()){
-                                    sendLoveHeartNums = sendLoveHeartNums+1
-                                    addGiftNums(1, false, false)
+                                    if(TextUtils.equals(getUserSex(),"0")){
+                                        sendLoveHeartNums = sendLoveHeartNums+1
+                                        addGiftNums(1, false, false,"")
+                                    }else{
+                                        sendLoveHeartNums = sendLoveHeartNums+10
+                                        addGiftNums(10, false, true,"")
+                                    }
+
                                     VibrateHelp.Vibrate((context as BaseActivity), VibrateHelp.time50)
                                 }else{
                                     var mSendRedHeartEndDialog = SendRedHeartEndDialog()
@@ -149,7 +159,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                             var mSendLoveHeartDialog = SendLoveHeartDialog()
                             mSendLoveHeartDialog.arguments = bundleOf("userId" to "${it.userid}","iIsAnonymous" to "${it.iIsAnonymous}")
                             mSendLoveHeartDialog.setDialogListener { p, s ->
-                                addGiftNums(p, false,true)
+                                addGiftNums(p, false,true,"${s}")
                             }
                             mSendLoveHeartDialog.show((context as BaseActivity).supportFragmentManager, "sendloveheartDialog")
                         }
@@ -460,9 +470,14 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 it.setmGiftAnimationEndListener {
                     var lovePoint = it
                     square?.let {
+                        it.desc = mDesc
                         SendFlowerAction?.onSendFlowerClick(it,lovePoint)
                     }
-                    sendLoveHeartNums = 1
+                    if(TextUtils.equals(getUserSex(),"0")){
+                        sendLoveHeartNums = 1
+                    }else{
+                        sendLoveHeartNums = 10
+                    }
                 }
             }
         }
@@ -472,8 +487,9 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         square_loveheart.showAnimationRedHeart(tv_redflower)
     }
 
+    private var mDesc:String=""
     //连击礼物数量
-    fun addGiftNums(giftnum: Int, currentStart: Boolean = false,JumpCombo:Boolean = false) {
+    fun addGiftNums(giftnum: Int, currentStart: Boolean = false,JumpCombo:Boolean = false,desc:String) {
         if (giftnum == 0) {
             return
         } else {
@@ -483,6 +499,7 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
                         .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
                         .setCurrentStart(currentStart)
+                mDesc = desc
                 if (currentStart) {
                     giftModel.setHitCombo(giftnum)
                 }

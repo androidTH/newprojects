@@ -113,6 +113,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     fun IsNotNullGroupBean()=::mGroupBean.isInitialized
     //礼物
     private var giftControl: GiftControl? = null
+    private var sDesc = "";
 
     /**
      * 会话类型
@@ -442,8 +443,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         iv_privatechat_sendredheart.setOnClickListener {
             isAuthUser {
-                addGiftNums(1,false,false)
-                VibrateHelp.Vibrate(this,VibrateHelp.time50)
+                if (TextUtils.equals(getUserSex(), "0")) {
+                    addGiftNums(1,false,false,"")
+                    VibrateHelp.Vibrate(this,VibrateHelp.time50)
+                }else{
+                    var mSendLoveHeartDialog = SendLoveHeartDialog()
+                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
+                    mSendLoveHeartDialog.setDialogListener { p, s ->
+                        addGiftNums(p, false, true, "${s}")
+                    }
+                    mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
+                }
             }
         }
 
@@ -452,7 +462,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 var mSendLoveHeartDialog = SendLoveHeartDialog()
                 mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
                 mSendLoveHeartDialog.setDialogListener { p, s ->
-                    addGiftNums(p, false,true)
+                    addGiftNums(p, false,true,"${s}")
                 }
                 mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
                 return true
@@ -526,7 +536,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     .setHideMode(false)
                     .setCustormAnim(CustormAnim())
             it.setmGiftAnimationEndListener {
-                Request.sendLovePoint(getLoginToken(), "${mOtherUserId}",it, 4,"").request(this, false, success = { _, data ->
+                Request.sendLovePoint(getLoginToken(), "${mOtherUserId}",it, 4,"","",sDesc).request(this, false, success = { _, data ->
                     Log.i("GiftControl", "礼物数量${it}")
                 }) { code, msg ->
                     if (code == 2||code==3) {
@@ -541,7 +551,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     }
 
     //连击礼物数量
-    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false,JumpCombo:Boolean = false) {
+    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false,JumpCombo:Boolean = false,desc:String) {
         if (giftnum == 0) {
             return
         } else {
@@ -551,6 +561,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
                         .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
                         .setCurrentStart(currentStart)
+                sDesc = desc
                 if (currentStart) {
                     giftModel.setHitCombo(giftnum)
                 }
@@ -571,7 +582,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         var mSendLoveHeartDialog = SendLoveHeartDialog()
         mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
         mSendLoveHeartDialog.setDialogListener { p, s ->
-            addGiftNums(p, false,true)
+            addGiftNums(p, false,true,s.toString())
         }
         mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
     }
@@ -1300,7 +1311,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
                 override fun onSendLoveHeart(){
                     isAuthUser {
-                        addGiftNums(1,false,false)
+                        addGiftNums(1,false,false,"")
                     }
                 }
 

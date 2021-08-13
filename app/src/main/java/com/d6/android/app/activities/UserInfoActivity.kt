@@ -121,6 +121,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     //播放录音
     private var playIndex = -1
     private var playSquare:Square? = null
+    private var mDesc = ""
 
     override fun update(o: Observable?, arg: Any?) {
         var mImagelocal = arg as Imagelocals
@@ -235,18 +236,27 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
         tv_sendredheart.setOnClickListener {
             isAuthUser {
-                if(localLoveHeartNums>0){
-                    if(sendLoveHeartNums <= localLoveHeartNums){
-                        sendLoveHeartNums = sendLoveHeartNums+1
-                        addGiftNums(1,false,false)
-                        VibrateHelp.Vibrate(this,VibrateHelp.time50)
-                    }else{
+                if (TextUtils.equals(getUserSex(), "0")) {
+                    if (localLoveHeartNums > 0) {
+                        if (sendLoveHeartNums <= localLoveHeartNums) {
+                            sendLoveHeartNums = sendLoveHeartNums + 1
+                            addGiftNums(1, false, false, "")
+                            VibrateHelp.Vibrate(this, VibrateHelp.time50)
+                        } else {
+                            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                            mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                        }
+                    } else {
                         var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                         mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
                     }
-                }else{
-                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
-                    mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                } else {
+                    var mSendLoveHeartDialog = SendLoveHeartDialog()
+                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
+                    mSendLoveHeartDialog.setDialogListener { p, s ->
+                        addGiftNums(p,false,true,"${s}")
+                    }
+                    mSendLoveHeartDialog.show(supportFragmentManager,"sendloveheartDialog")
                 }
             }
         }
@@ -256,7 +266,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 var mSendLoveHeartDialog = SendLoveHeartDialog()
                 mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
                 mSendLoveHeartDialog.setDialogListener { p, s ->
-                    addGiftNums(p,false,true)
+                    addGiftNums(p,false,true,"${s}")
                 }
                 mSendLoveHeartDialog.show(supportFragmentManager,"sendloveheartDialog")
             }
@@ -1091,7 +1101,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     .setHideMode(false)
                     .setCustormAnim(CustormAnim())
             it.setmGiftAnimationEndListener {
-                Request.sendLovePoint(getLoginToken(),"${id}",it,3,"").request(this,false,success={_,data->
+                Request.sendLovePoint(getLoginToken(),"${id}",it,3,"","",mDesc).request(this,false,success={_,data->
                     sendLoveHeartNums = 1
                     Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
                         data?.let {
@@ -1112,7 +1122,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
     //连击礼物数量
-    private fun addGiftNums(giftnum:Int,currentStart: Boolean = false,JumpCombo:Boolean = false){
+    private fun addGiftNums(giftnum:Int,currentStart: Boolean = false,JumpCombo:Boolean = false,desc:String){
         if (giftnum == 0) {
             return
         } else {
@@ -1122,6 +1132,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
                         .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
                         .setCurrentStart(currentStart)
+                mDesc = desc
                 if (currentStart) {
                     giftModel.setHitCombo(giftnum)
                 }

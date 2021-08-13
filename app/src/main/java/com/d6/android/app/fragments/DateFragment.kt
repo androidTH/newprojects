@@ -3,6 +3,7 @@ package com.d6.android.app.fragments
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v4.content.ContextCompat
@@ -124,6 +125,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     private var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
     //礼物
     private var giftControl: GiftControl? = null
+    private var mDesc = ""
 
     override fun contentViewId() = R.layout.fragment_date
 
@@ -193,7 +195,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 if (localLoveHeartNums > 0) {
                     if (sendLoveHeartNums <= localLoveHeartNums) {
                         sendLoveHeartNums = sendLoveHeartNums + 1
-                        addGiftNums(1, false, false)
+                        addGiftNums(1, false, false,"")
                         IsNotFastClick = is500sFastClick()
                         VibrateHelp.Vibrate(activity, VibrateHelp.time50)
                     } else {
@@ -217,7 +219,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         mSendLoveHeartDialog.arguments = bundleOf("userId" to "${findDate.accountId}")
                     }
                     mSendLoveHeartDialog.setDialogListener { p, s ->
-                        addGiftNums(p, false, true)
+                        addGiftNums(p, false, true,"${s}")
                     }
                     mSendLoveHeartDialog.show(childFragmentManager, "sendloveheartDialog")
                     hideRedHeartGuide()
@@ -454,7 +456,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
     }
 
     //连击礼物数量
-    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false, JumpCombo: Boolean = false) {
+    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false, JumpCombo: Boolean = false,desc:String) {
         if (giftnum == 0) {
             return
         } else {
@@ -464,6 +466,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                 giftModel.setGiftId("礼物Id").setGiftName("礼物名字").setGiftCount(giftnum).setGiftPic("")
                         .setSendUserId("1234").setSendUserName("吕靓茜").setSendUserPic("").setSendGiftTime(System.currentTimeMillis())
                         .setCurrentStart(currentStart)
+                mDesc = desc
                 if (currentStart) {
                     giftModel.setHitCombo(giftnum)
                 }
@@ -647,7 +650,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if (mDates.size > scrollPosition) {
             var findDate = mDates.get(scrollPosition)
 
-            Request.sendLovePoint(getLoginToken(), "${findDate.accountId}", giftCount, 2, "").request(this, false, success = { _, data ->
+            Request.sendLovePoint(getLoginToken(), "${findDate.accountId}", giftCount, 2, "","","${mDesc}").request(this, false, success = { _, data ->
                 Log.i("GiftControl", "礼物数量${giftCount}")
                 sendLoveHeartNums = 1
                 Request.getUserInfo("", getLocalUserId()).request(this, false, success = { _, data ->
@@ -1174,5 +1177,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         mReceiveLoveHearts.clear()
         DANMU_pageNum = 1
         mDanMuIndex = 0
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: Int) =
+                DateFragment().apply {
+                    arguments = Bundle().apply {
+
+                    }
+                }
     }
 }

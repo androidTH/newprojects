@@ -33,7 +33,7 @@
     <View
         android:id="@+id/banner_line"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_12"
+        android:layout_height="@dimen/margin_5"
         android:layout_below="@+id/mBanner"
         android:background="@color/color_F5F5F5" />
 
@@ -46,6 +46,7 @@
         android:layout_height="50dp"
         android:paddingLeft="@dimen/margin_12"
         android:paddingRight="@dimen/margin_12"
+        android:visibility="gone"
         android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/rl_bangdan"

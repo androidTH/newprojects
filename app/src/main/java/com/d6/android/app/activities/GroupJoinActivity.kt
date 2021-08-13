@@ -8,6 +8,7 @@ import com.d6.android.app.adapters.GroupUsersListAdapter
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.dialogs.JoinGroupDialog
 import com.d6.android.app.extentions.request
+import com.d6.android.app.models.FindGroupBean
 import com.d6.android.app.models.GroupUserBean
 import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
@@ -32,6 +33,7 @@ class GroupJoinActivity : TitleActivity() {
     }
 
     private lateinit var mGroupBean:NewGroupBean
+    private lateinit var mFindGroupBean: FindGroupBean
     fun IsNotNullGroupBean()=::mGroupBean.isInitialized
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,9 +41,9 @@ class GroupJoinActivity : TitleActivity() {
         setContentView(R.layout.activity_groupjoin)
         immersionBar.init()
         if(intent.hasExtra("bean")){
-            mGroupBean = intent.getParcelableExtra("bean")
-            setTitleBold(mGroupBean.sGroupName)
-            tv_groupnum.text = "${mGroupBean.iGroupNum}"
+            mFindGroupBean = intent.getParcelableExtra("bean")
+            setTitleBold(mFindGroupBean.sGroupName)
+            tv_groupnum.text = "${mFindGroupBean.iGroupNum}"
 //            if(mGroupBean.iIsOwner==1){
 //                btn_group_leave.text = "解散群聊"
 //                tv_groupmore.visibility = View.VISIBLE
@@ -55,8 +57,8 @@ class GroupJoinActivity : TitleActivity() {
             btn_group_leave.text = "申请入群"
 
             if(IsNotNullGroupBean()){
-                tv_groupname.text = "${mGroupBean.sGroupName}"
-                group_headView.setImageURI("${mGroupBean.sGroupPic}")
+                tv_groupname.text = "${mFindGroupBean.sGroupName}"
+                group_headView.setImageURI("${mFindGroupBean.sGroupPic}")
             }
         }
         rv_grouplist.setHasFixedSize(true)
@@ -68,22 +70,8 @@ class GroupJoinActivity : TitleActivity() {
             startActivity<GroupUsersActivity>("bean" to mGroupBean)
         }
 
-//        rl_groupname.setOnClickListener {
-//            if(IsNotNullGroupBean()){
-//                if(mGroupBean.iIsManager==1||mGroupBean.iIsOwner==1){
-//                    startActivity<CreateGroupActivity>("bean" to mGroupBean)
-//                }
-//            }
-//        }
-
         btn_group_leave.setOnClickListener {
             if (IsNotNullGroupBean()) {
-//                if (mGroupBean.iIsOwner == 1) {
-//                    dissGroup()
-//                } else {
-//                    quiteGroup()
-//                }
-
                 var mJoinGroupDialog = JoinGroupDialog()
                 mJoinGroupDialog.show(supportFragmentManager,"joingroup")
             }
@@ -92,9 +80,6 @@ class GroupJoinActivity : TitleActivity() {
         rl_member_center.setOnClickListener {
             if(IsNotNullGroupBean()){
                 startActivity<ShareGroupActivity>("groupBean" to mGroupBean)
-//                if(mGroupBean.iIsOwner==1||mGroupBean.iIsManager==1){
-//
-//                }
             }
         }
 
@@ -111,7 +96,7 @@ class GroupJoinActivity : TitleActivity() {
     }
 
     private fun getGroupUsersData() {
-        Request.getGroupMemberListByGroupId("${mGroupBean.sId}","",pageNum).request(this) { _, data ->
+        Request.getGroupMemberListByGroupId("${mFindGroupBean.sId}","",pageNum).request(this) { _, data ->
             if (pageNum == 1) {
                 mGroupUserList.clear()
             }
@@ -123,15 +108,17 @@ class GroupJoinActivity : TitleActivity() {
             mGroupUserListAdapter.notifyDataSetChanged()
         }
 
-        Request.getGroupByGroupId("${mGroupBean.sId}").request(this,false,success={msg,data->
+        Request.getGroupByGroupId("${mFindGroupBean.sId}").request(this,false,success={msg,data->
             data?.let {
                 mGroupBean = it
                 tv_groupcount.text = "群成员(${mGroupBean.iMemberCount})"
-                if(mGroupBean.iIsManager==1){
-                    tv_groupname.text = "${mGroupBean.sGroupName}(可修改)"
-                }else{
-                    tv_groupname.text = "${mGroupBean.sGroupName}"
-                }
+                tv_groupname.text = "${mGroupBean.sGroupName}"
+                group_headView.setImageURI("${mGroupBean.sGroupPic}")
+//                if(mGroupBean.iIsManager==1){
+//                    tv_groupname.text = "${mGroupBean.sGroupName}(可修改)"
+//                }else{
+//                    tv_groupname.text = "${mGroupBean.sGroupName}"
+//                }
 //                if(it.iIsOwner==1){
 //                    btn_group_leave.text = "解散群聊"
 //                }else if(it.iIsManager==1){
@@ -150,46 +137,5 @@ class GroupJoinActivity : TitleActivity() {
             data?.let {
             }
         })
-    }
-
-    private fun dissGroup(){
-        if(IsNotNullGroupBean()){
-            dialog()
-            FinishActivityManager.getManager().finishActivity(ChatActivity::class.java)
-            Request.dissGroup("${mGroupBean.sId}").request(this,false,success={msg,data->
-                finish()
-                toast("解散成功")
-            }){code,msg->
-                toast("${msg}")
-            }
-        }
-    }
-
-    private fun quiteGroup(){
-        if(IsNotNullGroupBean()){
-            dialog()
-            FinishActivityManager.getManager().finishActivity(ChatActivity::class.java)
-            Request.quiteGroup("${mGroupBean.sId}").request(this,false,success={msg,data->
-                finish()
-                toast("退出成功")
-            }){code,msg->
-                toast("${msg}")
-            }
-        }
-    }
-
-    //iIsNotification状态 1、提醒 2、不提醒
-    private fun setNotifi(iIsNotification:Int){
-        if(IsNotNullGroupBean()){
-            Request.updateMemberNotification("${mGroupBean.sId}",iIsNotification).request(this,false,success = {msg,data->
-                if (iIsNotification==2) {
-                    RongD6Utils.setConverstionNotif(this, Conversation.ConversationType.GROUP, "${mGroupBean.sId}", true)
-                } else {
-                    RongD6Utils.setConverstionNotif(this, Conversation.ConversationType.GROUP, "${mGroupBean.sId}", false)
-                }
-            }){code,msg->
-                toast(msg)
-            }
-        }
     }
 }

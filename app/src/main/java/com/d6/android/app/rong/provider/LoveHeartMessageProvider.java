@@ -47,6 +47,7 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
     private static class ViewHolder {
         TextView mTvMsgContent;
         TextView mTvReceivedLoveHeartNums;
+        TextView mTvDesc;
         boolean longClick;
 //        SimpleDraweeView simpleDraweeView;
         LinearLayout mLl_LoveHeart_Body;
@@ -60,6 +61,7 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
         holder.mTvMsgContent = view.findViewById(R.id.tv_rongloveheart_content);
         holder.mLl_LoveHeart_Body = view.findViewById(R.id.ll_loveheart_body);
         holder.mTvReceivedLoveHeartNums = view.findViewById(R.id.tv_receivedloveheart_nums);
+        holder.mTvDesc = view.findViewById(R.id.tv_loveheart_desc);
 //        holder.simpleDraweeView = view.findViewById(R.id.iv_rong_custommsg_pic);
         view.setTag(holder);
         return view;
@@ -160,10 +162,12 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                     JSONObject jsonObject = new JSONObject(content.getExtra());
                     nums = jsonObject.getInt("nums");
                     String receivename = jsonObject.getString("receiveusername");
+                    String desc = jsonObject.getString("sDesc");
                     holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
 //                  strDir=userInfo.getName()+"给你分享了一条动态";
                     textView.setText("你给"+receivename+"赠送了");
+                    holder.mTvDesc.setText("“"+desc+"”");
                 } catch (JSONException e) {
                     e.printStackTrace();
                     UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
@@ -180,8 +184,10 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                     JSONObject jsonObject =new JSONObject(content.getExtra());
                     num = jsonObject.getString("nums");
                     String sendusername = jsonObject.getString("sendusername");
+                    String desc = jsonObject.getString("sDesc");
                     textView.setText(sendusername+"给你赠送了");
                     holder.mTvReceivedLoveHeartNums.setText(num);
+                    holder.mTvDesc.setText("“"+desc+"”");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

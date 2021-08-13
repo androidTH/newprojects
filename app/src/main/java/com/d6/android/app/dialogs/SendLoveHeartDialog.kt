@@ -45,6 +45,7 @@ import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.Message
 import kotlinx.android.synthetic.main.dialog_send_redheart.*
 import org.jetbrains.anko.bundleOf
+import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.toast
@@ -70,8 +71,8 @@ class SendLoveHeartDialog : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        dialog.window.setLayout((screenWidth() * 0.85f).toInt()+dip(30), wrapContent)
-        dialog.window.setGravity(Gravity.CENTER)
+        dialog.window.setLayout(matchParent, wrapContent)
+        dialog.window.setGravity(Gravity.BOTTOM)
         dialog.setCanceledOnTouchOutside(true)
     }
 
@@ -121,12 +122,13 @@ class SendLoveHeartDialog : DialogFragment() {
                     it.selectedIndex = position
                     mSendLoveHeartCount = it.data.get(position).iLoveCount
                 }
+                var desc = it.data.get(position).sDesc
                 it.notifyDataSetChanged()
                 if(ToFromType!=1){
                     mSendLoveHeartCount = it.data.get(position).iLoveCount
                     mSendLoveHeartCount?.let {
                         if(it<=mLocalUserLoveHeartCount!!.toInt()){
-                            dialogListener?.onClick(it, "")
+                            dialogListener?.onClick(it, "${desc}")
                             dismissAllowingStateLoss()
                         }else{
                             ll_user_lovepoint.visibility = View.VISIBLE
@@ -134,7 +136,7 @@ class SendLoveHeartDialog : DialogFragment() {
                     }
                 }else{
                     isBaseActivity {
-                        Request.sendLovePoint(getLoginToken(), "${id}", mSendLoveHeartCount!!.toInt(), 4,"").request(it, false, success = { _, data ->
+                        Request.sendLovePoint(getLoginToken(), "${id}", mSendLoveHeartCount!!.toInt(), 4,"","",desc).request(it, false, success = { _, data ->
                             Log.i("GiftControl", "礼物数量${mSendLoveHeartCount}")
                             dismissAllowingStateLoss()
                         }) { code, msg ->
@@ -162,22 +164,28 @@ class SendLoveHeartDialog : DialogFragment() {
 
     private fun setLoveHeartData(){
         var mLoveHeartRule1 = LoveHeartRule("1")
-        mLoveHeartRule1.iLoveCount = 10
+        mLoveHeartRule1.iLoveCount = 200
+        mLoveHeartRule1.sDesc = "爱你哦"
 
         var mLoveHeartRule2 = LoveHeartRule("1")
-        mLoveHeartRule2.iLoveCount = 36
+        mLoveHeartRule2.iLoveCount = 520
+        mLoveHeartRule2.sDesc = "爱你哦"
 
         var mLoveHeartRule3 = LoveHeartRule("1")
-        mLoveHeartRule3.iLoveCount = 66
+        mLoveHeartRule3.iLoveCount = 1314
+        mLoveHeartRule3.sDesc = "一生一世"
 
         var mLoveHeartRule4 = LoveHeartRule("1")
-        mLoveHeartRule4.iLoveCount = 99
+        mLoveHeartRule4.iLoveCount = 3399
+        mLoveHeartRule4.sDesc = "长长久久"
 
         var mLoveHeartRule5 = LoveHeartRule("1")
-        mLoveHeartRule5.iLoveCount = 520
+        mLoveHeartRule5.iLoveCount = 9420
+        mLoveHeartRule5.sDesc = "就是爱你"
 
         var mLoveHeartRule6 = LoveHeartRule("1")
-        mLoveHeartRule6.iLoveCount = 1314
+        mLoveHeartRule6.iLoveCount = 20100
+        mLoveHeartRule6.sDesc = "爱你一万年"
 
         mLoveHeartList.add(mLoveHeartRule1)
         mLoveHeartList.add(mLoveHeartRule2)
@@ -204,7 +212,7 @@ class SendLoveHeartDialog : DialogFragment() {
             data?.let {
                 iv_redheart_headView.setImageURI(it.picUrl)
                 if(it.iMySendAllLovePoint>0){
-                    tv_redheart_name.text = "已送对方${it.iMySendAllLovePoint}[img src=redheart_small/]"
+                    tv_redheart_name.text = "已送对方${it.iMySendAllLovePoint} [img src=redheart_small/]"
                 }else{
 //                    tv_redheart_name.text = it.name
                     tv_redheart_name.visibility = View.INVISIBLE

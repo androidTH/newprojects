@@ -91,7 +91,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 var mSendLoveHeartDialog = SendLoveHeartDialog()
                 mSendLoveHeartDialog.arguments = bundleOf("userId" to "${userId}", "ToFromType" to 2,"iIsAnonymous" to iIsAnonymous)
                 mSendLoveHeartDialog.setDialogListener { p, s ->
-                    sendPayPoint(p)
+                    sendPayPoint(p,"${s}")
                 }
                 mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
             }
@@ -407,8 +407,8 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
     }
 
-    private fun sendPayPoint(loveHeartNums:Int){
-        Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 5,"${squareId}","${PayPoint_Path}").request(this, false, success = { _, data ->
+    private fun sendPayPoint(loveHeartNums:Int,desc:String){
+        Request.sendLovePoint(getLoginToken(), "${userId}", loveHeartNums, 5,"${squareId}","${PayPoint_Path}",desc).request(this, false, success = { _, data ->
             //            rl_paypoints.visibility = View.GONE
 //            rl_tips.visibility = View.GONE
 //            iv_unflock.visibility = View.VISIBLE

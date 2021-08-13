@@ -252,7 +252,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                 it.get(index).iSendLovePoint = 1
                 notifyItemChanged(index+1,"dddsasdf")
             }
-            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,false,success={_,Data->
+            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}","","${square.desc}").request(it,false,success={_,Data->
                 var activity = it
                 mData?.let {
                     Request.getUserInfo("", getLocalUserId()).request(activity,false,success = { _, data ->

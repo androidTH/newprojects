@@ -2,49 +2,44 @@ package com.d6.android.app.fragments
 
 import android.Manifest
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
-import com.d6.android.app.adapters.RecommendDateAdapter
+import com.d6.android.app.adapters.*
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.extentions.request
-import com.d6.android.app.net.Request
-import org.jetbrains.anko.support.v4.startActivity
-import android.view.Gravity
-import android.view.View
-import com.amap.api.location.AMapLocationClient
-import com.d6.android.app.adapters.HomeDatePageAdapter
 import com.d6.android.app.dialogs.*
+import com.d6.android.app.extentions.request
 import com.d6.android.app.models.*
+import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.LOGIN_FOR_POINT_NEW
 import com.d6.android.app.utils.Const.User.ISNOTLOCATION
 import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
-import com.d6.android.app.utils.Const.dateTypes
+import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
+import com.d6.android.app.widget.convenientbanner.holder.Holder
 import com.d6.android.app.widget.diskcache.DiskFileUtils
-import com.d6.android.app.widget.popup.blur.MoreWindow
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.subscribers.DisposableSubscriber
 import kotlinx.android.synthetic.main.fragment_homefind.*
 import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.support.v4.toast
-import java.lang.Exception
+import org.jetbrains.anko.support.v4.startActivity
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.MutableList
+import kotlin.collections.toList
 
 /**
  * 主页
  */
-class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,ViewPager.OnPageChangeListener{
+class HomeFindFragment : BaseFragment(){
 
     private var mTAG = HomeFindFragment::class.java.simpleName
-
-    private var onPageSelected:Int = 0
-
-//    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(VoiceChatType),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(4))
-    var showDateTypes:Array<DateType> = arrayOf(DateType(0),DateType(6),DateType(2),DateType(1),DateType(3),DateType(7),DateType(8),DateType(4))
-
-    private val mSelfDateTypes = ArrayList<DateType>()
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
@@ -54,17 +49,8 @@ class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,
         SPUtils.instance().getString(Const.User.DEVICETOKEN)
     }
 
-    private var type: Int = 0
-    private var city: String? = ""
     private var mDefualtSex = -1
-
-    lateinit var mPopupSex:SelectedSexPopup
-    fun IsNotNullPopupSex()=::mPopupSex.isInitialized
-
-    private var mSelfPullDateFragment:SelfPullDateFragment?=null
-//    private var mFragments = ArrayList<SelfPullDateFragment>()
-
-    var province = Province(Const.LOCATIONCITYCODE,"不限/定位")
+    var province = Province(Const.LOCATIONCITYCODE, "不限/定位")
 
     private val cityJson by lazy{
         DiskFileUtils.getDiskLruCacheHelper(context).getAsString(Const.PROVINCE_DATAOFFIND)
@@ -74,80 +60,19 @@ class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
     }
 
-    private val mSpeedDates = ArrayList<MyDate>()
-    private val speedDateAdapter by lazy {
-        RecommendDateAdapter(mSpeedDates)
-    }
+    private lateinit var mFindDateInfo:FindDateInfo
 
     override fun contentViewId() = R.layout.fragment_homefind
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        mSwipeRefreshLayout.isRefreshing = true
-
-        speedDateAdapter.setOnItemClickListener { _, position ->
-                val date = mSpeedDates[position]
-                if(date.iType == 1){
-                    startActivity<FindDateDetailActivity>("data" to date)
-                }else if(date.iType == 2){
-                    startActivity<SpeedDateDetailActivity>("data" to date)
-                }
-        }
+        mSwipeRefreshLayout.isRefreshing = false
 
         if (TextUtils.equals("0", getUserSex())) {
-            tv_date_sex.text = "男生"
             mDefualtSex = 1
         } else {
-            tv_date_sex.text = "女生"
             mDefualtSex = 0
-        }
-        var mFragments = listOf(
-                SelfPullDateFragment.instance("", mDefualtSex),
-                SelfPullDateFragment.instance("6",mDefualtSex),
-//                SelfPullDateFragment.instance("9",mDefualtSex),
-                SelfPullDateFragment.instance("2",mDefualtSex),
-                SelfPullDateFragment.instance("1",mDefualtSex),
-                SelfPullDateFragment.instance("3",mDefualtSex),
-                SelfPullDateFragment.instance("7",mDefualtSex),
-                SelfPullDateFragment.instance("8",mDefualtSex),
-                SelfPullDateFragment.instance("4",mDefualtSex)
-        )
-
-        mFragments[0].setRenGongBackGround(this)
-        mFragments[1].setRenGongBackGround(this)
-//        mFragments[2].setRenGongBackGround(this)
-        mFragments[2].setRenGongBackGround(this)
-        mFragments[3].setRenGongBackGround(this)
-        mFragments[4].setRenGongBackGround(this)
-        mFragments[5].setRenGongBackGround(this)
-        mFragments[6].setRenGongBackGround(this)
-        mFragments[7].setRenGongBackGround(this)
-
-        for (i in 0..(showDateTypes.size-1)) {
-            var dt = showDateTypes[i]
-            if(i==0){
-                dt.dateTypeName = "全部"
-            }else if(i==-1){//2
-                dt.dateTypeName = "连麦"
-            }else{
-                dt.dateTypeName = dateTypes[dt.type-1]
-            }
-            mSelfDateTypes.add(dt)
-        }
-
-        mViewPager.offscreenPageLimit = mFragments.size
-        mViewPager.adapter = HomeDatePageAdapter(childFragmentManager,mFragments,mSelfDateTypes)
-
-        tab_home_date.setupWithViewPager(mViewPager)
-        mViewPager.addOnPageChangeListener(this)
-
-        tv_date_sex.setOnClickListener {
-            activity.isAuthUser(){
-                if(IsNotNullPopupSex()){
-                    showSex()
-                }
-            }
         }
 
         rl_rgservice.setOnClickListener {
@@ -167,82 +92,56 @@ class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,
         }
 
         mSwipeRefreshLayout.setOnRefreshListener {
-            //            getBanner()
-            getSpeedData()
-            val fragments = childFragmentManager.fragments
-            var mSelfPullDateFragment:SelfPullDateFragment = fragments.get(onPageSelected) as SelfPullDateFragment
-            mSelfPullDateFragment?.let {
-//                var area = if(!TextUtils.isEmpty(city)) city else ""
-                type = showDateTypes.get(onPageSelected).type
-                var dateType = if(type==0){//type == 6||
-                    ""
-                }else{
-                    type.toString()
-                }
-                mSelfPullDateFragment.refresh("" ,dateType,mDefualtSex)
-//                mSelfPullDateFragment.refresh()
-            }
-        }
-
-        getSpeedData()
-
-        tv_date_city.setOnClickListener {
-            activity.isAuthUser(){
-                showArea()
-            }
+            mSwipeRefreshLayout.isRefreshing = false
+            getPeoples()
         }
 
         iv_publish.setOnClickListener {
             activity.isAuthUser() {
                 startActivity<PublishChooseActivity>()
-//                showMoreWindow(it)
             }
-//            startActivity<PublishChooseActivity>()
         }
 
-        mViewPager.postDelayed(object:Runnable{
+        viewpagerbanner.postDelayed(object : Runnable {
             override fun run() {
-                mPopupArea = AreaSelectedPopup.create(activity)
-                        .setDimView(mSwipeRefreshLayout)
-                        .apply()
-
-                mPopupSex = SelectedSexPopup.create(activity)
-                        .setDimView(mSwipeRefreshLayout)
-                        .apply()
                 getProvinceData()
             }
-        },200)
+        }, 200)
 
         loginforPoint()
         checkLocation()
+
+        getPeoples()
+        getData()
     }
 
-    private var mMoreWindow: MoreWindow? = null
+    private fun initBanner(){
+        if (TextUtils.equals(getUserSex(), "0")) {
+            viewpagerbanner.setPages(
+                    object : CBViewHolderCreator {
+                        override fun createHolder(itemView: View): Holder<FindDate> {
+                            return FindDateMenCardHolder(itemView, context)
+                        }
 
-    private fun showMoreWindow(view: View) {
-        if (null == mMoreWindow) {
-            mMoreWindow = MoreWindow(activity)
-            mMoreWindow?.init()
+                        override fun getLayoutId(): Int {
+                            return R.layout.item_finddatecard
+                        }
+                    }, mDates)
+        } else {
+            viewpagerbanner.setPages(
+                    object : CBViewHolderCreator {
+                        override fun createHolder(itemView: View): Holder<FindDate> {
+                            return FindDateWoMenCardHolder(itemView, context)
+                        }
+
+                        override fun getLayoutId(): Int {
+                            return R.layout.item_finddate_womencard
+                        }
+                    }, mDates)
         }
-        mMoreWindow?.let {
-            it.showMoreWindow(view, 100)
-        }
-    }
 
-    private fun showSex() {
-        mPopupSex.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_73))
-        mPopupSex.setOnPopupItemClick { basePopup, position, string ->
-            mDefualtSex = position
-            if (mDefualtSex == -1) {
-                tv_date_sex.text = getString(R.string.string_sex)
-            }else{
-                tv_date_sex.text = string
-            }
-            getFragment()
-        }
-
-        mPopupSex.setOnDismissListener {
-
+        viewpagerbanner.setOnItemClickListener {
+            startActivity<FindDateActivity>()
         }
     }
 
@@ -263,18 +162,18 @@ class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,
         RxPermissions(activity).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
             if (it) {
                 startLocation()
-                SPUtils.instance().put(ISNOTLOCATION,false).apply()
+                SPUtils.instance().put(ISNOTLOCATION, false).apply()
             }else{
-                SPUtils.instance().put(ISNOTLOCATION,true).apply()
+                SPUtils.instance().put(ISNOTLOCATION, true).apply()
             }
         }
 
         locationClient.setLocationListener {
             if (it != null) {
                 locationClient.stopLocation()
-                SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
-                SPUtils.instance().put(USER_PROVINCE,it.province).apply()
-                getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
+                SPUtils.instance().put(USER_ADDRESS, it.city).apply() //it.city
+                SPUtils.instance().put(USER_PROVINCE, it.province).apply()
+                getUserLocation(it.city, it.province, it.country, "${it.latitude}", "${it.longitude}")
             }
         }
     }
@@ -282,8 +181,8 @@ class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,
     /**
      * 经纬度提交给服务端
      */
-    private fun getUserLocation(city:String,sProvince:String,sCountry:String,lat:String,lon:String){
-        Request.updateUserPosition(getLocalUserId(),sProvince,sCountry,city,lat,lon).request(this,false,success={_,data->
+    private fun getUserLocation(city: String, sProvince: String, sCountry: String, lat: String, lon: String){
+        Request.updateUserPosition(getLocalUserId(), sProvince, sCountry, city, lat, lon).request(this, false, success = { _, data ->
         })
     }
 
@@ -297,11 +196,11 @@ class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,
                 } else {
                     var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
                     setLocationCity()
-                    ProvinceData!!.add(0,province)
-                    mPopupArea.setData(ProvinceData)
+                    ProvinceData!!.add(0, province)
+//                    mPopupArea.setData(ProvinceData)
                 }
             }
-        }catch (e:Exception){
+        }catch (e: Exception){
             getServiceProvinceData()
         }
     }
@@ -310,34 +209,16 @@ class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,
         Request.getProvinceAll("1").request(this) { _, data ->
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
-                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
+                SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND, getTodayTime()).apply()
                 setLocationCity()
-                it.add(0,province)
-                mPopupArea.setData(it)
+                it.add(0, province)
             }
         }
     }
 
-    fun refresh(sex:String,pageSelected:Int){
+    fun refresh(sex: String, pageSelected: Int){
         mSwipeRefreshLayout.isEnabled = true
         mSwipeRefreshLayout.isRefreshing = true
-        mSwipeRefreshLayout.scrollTo(0,0)
-        if(pageSelected==0){
-            onPageSelected = pageSelected
-            mViewPager.setCurrentItem(onPageSelected)
-        }
-        mSwipeRefreshLayout.postDelayed(object:Runnable{
-            override fun run() {
-                city = ""
-                if (TextUtils.equals("-1",sex)) {
-                    tv_date_sex.text = getString(R.string.string_sex)
-//                    mDefualtSex = -1
-                }
-                tv_date_city.text = "地区"
-                getSpeedData()
-                getFragment()
-            }
-        },600)
     }
 
     //设置定位城市
@@ -348,127 +229,182 @@ class HomeFindFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,
         province.lstDicts.add(city)
     }
 
-    lateinit var mPopupArea: AreaSelectedPopup
-
-    private fun showArea(){
-        mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_73))
-        mPopupArea.setOnPopupItemClick { basePopup, position, string ->
-
-            if(position == -1){
-                tv_date_city.text = "同城"
-                city = string
-//                setSearChUI(0,true)
-            }else if(position == -2){
-                //定位失败
-                checkLocation()
-            }else if(position == -3){
-                city = ""
-                tv_date_city.text = "地区"
-//                setSearChUI(0,false)
-            }else {
-                city = string
-                tv_date_city.text = string
-//                setSearChUI(0,true)
-            }
-            getFragment()
-        }
-
-        mPopupArea.setOnDismissListener {
-        }
-    }
-
-    private fun getFragment(){
-        val fragments = childFragmentManager.fragments
-        var mSelfPullDateFragment:SelfPullDateFragment = fragments.get(onPageSelected) as SelfPullDateFragment
-        mSelfPullDateFragment?.let {
-            var area = if(!TextUtils.isEmpty(city)) city else ""
-            type = showDateTypes.get(onPageSelected).type
-            var dateType = if(type==0){//type == 6||
-                ""
-            }else{
-                type.toString()
-            }
-            it.refresh(area ,dateType,mDefualtSex)
-        }
-    }
-
     private fun loginforPoint(){
-        Request.loginForPoint(getLoginToken(),userId,devicetoken).request(this,false,success = {msg,data->
+        Request.loginForPoint(getLoginToken(), userId, devicetoken).request(this, false, success = { msg, data ->
             if (data != null) {
                 var sLoginToken = data.optString("sLoginToken")
-                var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"),TaskBean::class.java)
-                SPUtils.instance().put(Const.User.SLOGINTOKEN,sLoginToken).apply()
-                if (lstTask!=null&&lstTask.size>0) {
+                var lstTask = GsonHelper.jsonToList(data.optJsonArray("lstTask"), TaskBean::class.java)
+                SPUtils.instance().put(Const.User.SLOGINTOKEN, sLoginToken).apply()
+                if (lstTask != null && lstTask.size > 0) {
                     SPUtils.instance().put(Const.LASTDAYTIME, "").apply()
 //                    SPUtils.instance().put(Const.LASTLONGTIMEOFProvince,"").apply()
-                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,"").apply()
+                    SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND, "").apply()
                     var today = getTodayTime()
-                    var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW+getLocalUserId(),"")
-                    if(!TextUtils.equals(today,yesterday)){
+                    var yesterday = SPUtils.instance().getString(LOGIN_FOR_POINT_NEW + getLocalUserId(), "")
+                    if (!TextUtils.equals(today, yesterday)) {
                         var mCheckInPointsDialog = CheckInPointsDialog()
                         mCheckInPointsDialog.arguments = bundleOf("beans" to lstTask)
-                        mCheckInPointsDialog.show(childFragmentManager,"rewardtips")
+                        mCheckInPointsDialog.show(childFragmentManager, "rewardtips")
                         mCheckInPointsDialog.setDialogListener { p, s ->
                             mCheckInPointsDialog.dismissAllowingStateLoss()
                         }
-                        SPUtils.instance().put(LOGIN_FOR_POINT_NEW+getLocalUserId(), getTodayTime()).apply()
+                        SPUtils.instance().put(LOGIN_FOR_POINT_NEW + getLocalUserId(), getTodayTime()).apply()
                     }
                 }
             }
         })
     }
 
-    private fun getSpeedData() {
-        Request.findLookAboutList(userId).request(this,success = { _, data ->
-            mSwipeRefreshLayout.isRefreshing = false
-            mSpeedDates.clear()
-            data?.let {
-                mSpeedDates.addAll(it)
-            }
-            speedDateAdapter.notifyDataSetChanged()
-        }) { code, msg ->
-            toast(msg)
-            mSwipeRefreshLayout.isRefreshing = false
-        }
-    }
-
-    override fun onPageScrollStateChanged(state: Int) {
-    }
-
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-    }
-
-    override fun onPageSelected(position: Int) {
-        onPageSelected = position
-        Log.i("selfpulldate","onPageSelected${onPageSelected}")
-    }
-
-
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             immersionBar.init()
-//            if(mHomeIsUpDown){
-//                Log.i(mTAG,"向上")
-//                immersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init()//这里是不需要的
-//            }else{
-//                immersionBar.statusBarColor(R.color.color_black).statusBarDarkFont(false).init()//这里是不需要的
-//                Log.i(mTAG,"向下")
-//            }
         }
+    }
+
+    private fun getPeoples(){
+        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
+            tv_datecount.text = "已有${data?.iAllAppointCount}人邀约成功"
+        }
+        getLatestNews()
+    }
+
+
+    private fun getLatestNews(){
+        Request.queryLatestNews().request(this){ _, data->
+            data?.let {
+//                var rongGroup_name = it.optString("rongGroup_name")
+                mFindDateInfo = it
+                if(mFindDateInfo!=null){
+                    Log.i("topInfo", "信息：${it.rongGroup_name}")
+                    sv_finddate01.setImageURI(it.lookabout_picurl)
+
+                    sv_finddate02.setImageURI("${it.appointment_picurl}")
+                    tv_02.text = "发布了约会"
+
+                    sv_finddate03.setImageURI(it.userpoint_picUrl)
+                    tv_03.text = "收到${mFindDateInfo.userpoint_allLovePoint} [img src=redheart_small/]"
+                    hideTopInfoFindDate()
+                }
+            }
+        }
+
+    }
+
+    private fun hideTopInfoFindDate(){
+        var annotation = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
+        var annotation1 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
+        var annotation2 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
+        var annotation3 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
+        annotation.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationEnd(animation: Animation?) {
+                sv_finddate01.visibility = View.VISIBLE
+                tv_01.text = "觅约"
+                showTopInfoFindDate()
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+        })
+        ll_finddate01.startAnimation(annotation)
+
+        annotation1.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationEnd(animation: Animation?) {
+                ll_finddate02.visibility = View.VISIBLE
+                var annotation1 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
+                ll_finddate02.startAnimation(annotation1)
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+        })
+        tv_datecount.startAnimation(annotation1)
+
+        annotation2.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationEnd(animation: Animation?) {
+                ll_finddate03.visibility = View.VISIBLE
+                var annotation2 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
+                ll_finddate03.startAnimation(annotation2)
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+        })
+
+        tv_finddate_tips.startAnimation(annotation2)
+
+        annotation3.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationEnd(animation: Animation?) {
+                tv_finddate_02.text = "新人报道群(${mFindDateInfo.rongGroup_count}）"
+                var annotation3 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
+                tv_finddate_02.startAnimation(annotation3)
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+        })
+        tv_finddate_02.startAnimation(annotation3)
+    }
+
+    private fun showTopInfoFindDate(){
+        var annotation = AnimationUtils.loadAnimation(context, R.anim.show_anim)
+        ll_finddate01.startAnimation(annotation)
+    }
+
+    private var mDates = ArrayList<FindDate>()
+    private var pageNum = 1
+    /**
+     * 搜索
+     */
+    fun getData(city: String = "", userclassesid: String = "", agemin: String = "", agemax: String = "", lat: String = "", lon: String = "") {
+        Request.findAccountCardListPage(userId, city, "", userclassesid, agemin, agemax, lat, lon, pageNum).request(this) { _, data ->
+            Log.i("DateFragment", "${data?.list?.totalPage}---${pageNum}")
+            if (data?.list?.results == null || data.list.results.isEmpty()) {
+
+            } else {
+                if (pageNum == 1) {
+                    mDates.clear()
+                }
+                data.list.results?.let {
+                    mDates.addAll(it.subList(0, 3))
+                    var h = LinkedHashSet<FindDate>(mDates)
+                    mDates.clear()
+                    mDates.addAll(h.toList())
+                }
+                initBanner()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewpagerbanner.startTurning()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewpagerbanner.stopTurning()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         immersionBar.destroy()
-    }
-
-    override fun showBackground(mUpDown: Boolean) {
-
-    }
-
-    override fun showAllDateNums(type: String, count: Int) {
-//        tv_datacount.text = "已有${count}人邀约成功"
     }
 
     companion object {

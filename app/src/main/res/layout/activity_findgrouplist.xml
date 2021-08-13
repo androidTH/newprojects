@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_F5F5F5">
+    android:orientation="vertical"
+    android:background="@color/color_F6F7FA">
 
     <RelativeLayout
         android:id="@+id/rl_title"
@@ -29,11 +30,16 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-        android:layout_below="@+id/rl_title"
+<!--    <com.d6.android.app.widget.SwipeRefreshRecyclerLayout-->
+<!--        android:layout_below="@+id/rl_title"-->
+<!--        android:layout_marginTop="@dimen/margin_5"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/userlist_refreshrecycler"/>-->
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mViewPager"
         android:layout_marginTop="@dimen/margin_5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:id="@+id/userlist_refreshrecycler"/>
-</RelativeLayout>
+        android:layout_height="match_parent"/>
+</LinearLayout>

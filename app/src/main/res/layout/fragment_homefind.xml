@@ -1,5 +1,6 @@
 <com.d6.android.app.widget.CustomSwipeToRefresh xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mSwipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,19 +13,18 @@
         <RelativeLayout
             android:id="@+id/rl_homefindtop"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/margin_8"
             android:layout_height="150dp">
             <RelativeLayout
                 android:id="@+id/rl_rgservice"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_below="@+id/rl_user_info"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginRight="@dimen/margin_8"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_3"
+                android:layout_marginLeft="@dimen/margin_8"
                 android:layout_toLeftOf="@+id/iv_middle"
                 android:paddingLeft="@dimen/margin_10"
-                android:background="@drawable/shape_6r_orange">
+                android:background="@drawable/shape_list_6r_ff">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -33,34 +33,53 @@
                     android:layout_marginBottom="@dimen/margin_8"
                     android:gravity="center_vertical"
                     android:text="人工牵线"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/color_BFFFFFFF"
+                    android:textSize="16sp" />
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/ll_finddate01"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/sv_finddate01"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginRight="@dimen/margin_3"
+                        android:visibility="gone"
+                        fresco:viewAspectRatio="1.0"
+                        fresco:roundingBorderColor="@color/color_D8D8D8"
+                        fresco:roundingBorderWidth="0.5dp"
+                        fresco:roundAsCircle="true" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:text="速约/觅约/救火/旅行约"
+                        android:textColor="@color/color_BFFFFFFF"
+                        android:id="@+id/tv_01"/>
+                </LinearLayout>
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
-                    android:text="人工牵线"
-                    android:textColor="@color/white"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_5"
-                    android:id="@+id/tv_work_tips"/>
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/icon_renggong"/>
             </RelativeLayout>
             <View
                 android:id="@+id/iv_middle"
-                android:layout_width="1dp"
+                android:layout_width="3dp"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true" />
             <RelativeLayout
                 android:id="@+id/rl_datepage"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="@dimen/margin_8"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_20"
-                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_height="60dp"
+                android:layout_marginRight="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/margin_3"
                 android:layout_toRightOf="@+id/iv_middle"
-                android:background="@drawable/shape_6r_ff5a"
+                android:background="@drawable/shape_list_6r_fb"
                 android:paddingLeft="@dimen/margin_10">
 
                 <TextView
@@ -70,30 +89,60 @@
                     android:layout_marginBottom="@dimen/margin_8"
                     android:gravity="center_vertical"
                     android:text="自主约会"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/color_BFFFFFFF"
+                    android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_datecount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
-                    android:text="已有xxx人"
-                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text=""
+                    android:textColor="@color/color_BFFFFFFF"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_5" />
+                    android:layout_marginBottom="@dimen/margin_12" />
+                <LinearLayout
+                    android:id="@+id/ll_finddate02"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/sv_finddate02"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginRight="@dimen/margin_3"
+                        fresco:viewAspectRatio="1.0"
+                        fresco:roundingBorderColor="@color/color_D8D8D8"
+                        fresco:roundingBorderWidth="0.5dp"
+                        fresco:roundAsCircle="true" />
+                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/color_BFFFFFFF"
+                        android:id="@+id/tv_02"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/icon_yuehui"/>
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_bangdanpage"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:layout_below="@+id/rl_rgservice"
-                android:layout_marginRight="@dimen/margin_8"
                 android:layout_marginBottom="@dimen/margin_10"
-                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginLeft="@dimen/margin_8"
                 android:layout_toLeftOf="@+id/iv_middle"
                 android:paddingLeft="@dimen/margin_10"
-                android:background="@drawable/shape_6r_orange">
+                android:background="@drawable/shape_list_6r_4b">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,17 +151,48 @@
                     android:layout_marginBottom="@dimen/margin_8"
                     android:gravity="center_vertical"
                     android:text="榜单"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/color_BFFFFFFF"
+                    android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_finddate_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
-                    android:text="魅力榜&amp;土豪榜"
-                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:text="魅力榜·土豪榜"
+                    android:textColor="@color/color_BFFFFFFF"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_5" />
+                    android:layout_marginBottom="@dimen/margin_12" />
+                <LinearLayout
+                    android:id="@+id/ll_finddate03"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/sv_finddate03"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginRight="@dimen/margin_3"
+                        fresco:viewAspectRatio="1.0"
+                        fresco:roundingBorderColor="@color/color_D8D8D8"
+                        fresco:roundingBorderWidth="0.5dp"
+                        fresco:roundAsCircle="true" />
+                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/color_BFFFFFFF"
+                        android:id="@+id/tv_03"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/icon_bangdan"/>
             </RelativeLayout>
 
 
@@ -120,12 +200,11 @@
                 android:id="@+id/rl_groupchat"
                 android:layout_below="@+id/rl_rgservice"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="@dimen/margin_8"
-                android:layout_marginRight="@dimen/margin_10"
+                android:layout_height="60dp"
+                android:layout_marginRight="@dimen/margin_8"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_toRightOf="@+id/iv_middle"
-                android:background="@drawable/shape_6r_ff5a"
+                android:background="@drawable/shape_list_6r_a3"
                 android:paddingLeft="@dimen/margin_10">
 
                 <TextView
@@ -135,102 +214,59 @@
                     android:layout_marginBottom="@dimen/margin_8"
                     android:gravity="center_vertical"
                     android:text="群聊"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textStyle="bold"
+                    android:textColor="@color/color_BFFFFFFF"
+                    android:textSize="16sp" />
                 <TextView
+                    android:id="@+id/tv_finddate_02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     android:text="优质私密群等你加入"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_BFFFFFFF"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_5" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_date_title"
-            android:layout_below="@+id/rl_homefindtop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_8"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:layout_toLeftOf="@+id/tv_leibie">
-
-                    <com.d6.android.app.widget.tablayout.TabLayout
-                        android:id="@+id/tab_home_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="27dp"
-                        android:layout_gravity="center_vertical"
-                        android:scrollbars="horizontal"
-                        app:tabBackground="@drawable/tablayout_background"
-                        app:tabGravity="center"
-                        app:tabIndicatorColor="@color/color_F7AB00"
-                        app:tabIndicatorHeight="0dp"
-                        app:tabLineOffset="@dimen/margin_15"
-                        app:tabMaxWidth="@dimen/margin_45"
-                        app:tabMode="scrollable"
-                        app:tabPaddingEnd="0dp"
-                        app:tabPaddingStart="0dp"
-                        app:tabSelectedTextColor="@color/white"
-                        app:tabTextAppearance="@style/tab_home_date"
-                        app:tabTextColor="@color/color_666666" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_leibie"
-                    android:layout_width="6dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:layout_toLeftOf="@+id/tv_date_sex"
-                    android:drawableLeft="@mipmap/leibie_shadows"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tv_date_sex"
+                    android:layout_marginBottom="@dimen/margin_12"/>
+                <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/margin_12"
-                    android:layout_toLeftOf="@+id/tv_date_city"
-                    android:drawableRight="@mipmap/downmore_icon"
-                    android:drawablePadding="@dimen/margin_5"
-                    android:gravity="center"
-                    android:text="@string/string_sex"
-                    android:textColor="@color/color_F7AB00"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tv_date_city"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_8"
-                    android:drawableRight="@mipmap/downmore_icon"
-                    android:drawablePadding="@dimen/margin_5"
-                    android:gravity="center"
-                    android:text="地区"
-                    android:textColor="@color/color_F7AB00"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:src="@mipmap/icon_duihua"/>
             </RelativeLayout>
         </RelativeLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/mViewPager"
-            android:layout_below="@+id/rl_date_title"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_888888"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_15"
+            android:layout_below="@+id/rl_homefindtop"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:gravity="center_vertical"
+            android:drawableRight="@mipmap/icon_zshy_right"
+            android:drawableLeft="@mipmap/icon_zshy_left"
+            android:drawablePadding="@dimen/margin_5"
+            android:text="优质会员"/>
+
+<!--        <android.support.v4.view.ViewPager-->
+<!--            android:id="@+id/mViewPager"-->
+<!--            android:layout_below="@+id/rl_homefindtop"-->
+<!--            android:layout_marginTop="@dimen/margin_30"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"/>-->
+
+        <com.d6.android.app.widget.convenientbanner.ConvenientBanner
+            android:id="@+id/viewpagerbanner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_homefindtop"
+            android:layout_marginTop="@dimen/margin_40"
+            android:layout_marginBottom="@dimen/margin_30"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            banner:canLoop="true"
+            banner:autoTurningTime="2000"/>
 
         <ImageView
             android:id="@+id/iv_publish"

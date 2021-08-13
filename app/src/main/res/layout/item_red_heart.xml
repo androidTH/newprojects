@@ -10,15 +10,14 @@
         android:id="@+id/tv_redheartnums"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginTop="@dimen/margin_10"
         android:gravity="center"
         android:textColor="@color/color_333333"
         android:text="100"
         android:layout_gravity="center_horizontal"
-        android:layout_marginRight="@dimen/margin_3"
         android:drawableRight="@mipmap/redheart_small"
-        android:drawablePadding="@dimen/margin_3"
-        android:textSize="17sp"/>
+        android:drawablePadding="@dimen/margin_2"
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/tv_redheartinfo"
@@ -27,9 +26,8 @@
         android:layout_marginBottom="@dimen/margin_5"
         android:layout_marginTop="@dimen/margin_5"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/color_333333"
-        android:text="爱你哦"
-        android:textSize="14sp"/>
+        android:textColor="@color/color_888888"
+        android:textSize="12sp"/>
       <!--<ImageView-->
           <!--android:layout_width="wrap_content"-->
           <!--android:layout_height="wrap_content"-->

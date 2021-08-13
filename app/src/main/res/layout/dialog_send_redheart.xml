@@ -7,10 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/shape_white_8r"
+        android:background="@drawable/shape_white_top_8r"
         android:orientation="vertical"
         android:paddingBottom="@dimen/margin_20">
 
@@ -20,6 +17,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/margin_15" />
 
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
@@ -27,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_20"
             android:layout_marginBottom="@dimen/margin_10"
             android:text="-----"
             android:textColor="@color/color_333333"
@@ -86,5 +84,6 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         android:background="@mipmap/ic_close_orange2"/>
 </RelativeLayout>

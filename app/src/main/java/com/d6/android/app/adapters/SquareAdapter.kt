@@ -111,7 +111,7 @@ class SquareAdapter(mData: ArrayList<Square>) : HFRecyclerAdapter<Square>(mData,
             square.iLovePoint = lovePoint+square.iLovePoint!!.toInt()
             square.iSendLovePoint = lovePoint
             notifyDataSetChanged()
-            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(it,true,success={_,Data->
+            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}","","${square.desc}").request(it,true,success={_,Data->
 //                square.iLovePoint = lovePoint+square.iLovePoint!!.toInt() 2.11
 //                notifyDataSetChanged()   2.11
 //                EventBus.getDefault().post(FlowerMsgEvent(lovePoint,square))

@@ -6,7 +6,7 @@ import com.d6.android.app.R
 import com.d6.android.app.adapters.*
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.fragments.*
-import kotlinx.android.synthetic.main.fragment_homefind.*
+import kotlinx.android.synthetic.main.activity_invatedate.*
 
 /**
  * 邀约

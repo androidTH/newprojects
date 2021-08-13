@@ -228,6 +228,10 @@
         <activity
             android:name=".activities.InviteDateActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.FindDateActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.RedMoneyDesActivity"
             android:screenOrientation="portrait"

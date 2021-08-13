@@ -23,6 +23,7 @@ import cn.liaox.cachelib.CacheDbManager
 import cn.liaox.cachelib.bean.GroupBean
 import cn.liaox.cachelib.bean.UserBean
 import cn.liaox.cachelib.cache.NetworkCache
+import com.bugtags.library.Bugtags
 import com.bun.miitmdid.core.JLibrary
 import com.d6.android.app.R
 import com.d6.android.app.activities.SplashActivity
@@ -110,7 +111,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 
 
         //在这里初始化
-//        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
+        Bugtags.start(Const.BUGTAGS_KEY, this, Bugtags.BTGInvocationEventBubble)
 
 //        BigImageViewer.initialize(FrescoImageLoader.with(this))
 
