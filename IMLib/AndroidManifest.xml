@@ -21,18 +21,18 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="82hegw5u8du6x" />
         <!--测试：82hegw5u8du6x   正式：e0x9wycfetfsq-->
+        <!-- imlib config begin -->
         <service
             android:name="io.rong.imlib.ipc.RongService"
-            android:exported="true"
             android:process=":ipc" />
 
-        <receiver
-            android:name="io.rong.imlib.ConnectChangeReceiver"
-            android:exported="true" />
+        <receiver android:name="io.rong.imlib.ConnectChangeReceiver" />
 
         <receiver
             android:name="io.rong.imlib.HeartbeatReceiver"
             android:process=":ipc" />
+        <!-- imlib config end -->
+
         <!--必选： SDK 核心功能-->
         <service
             android:name="io.rong.push.rongpush.PushService"
@@ -48,14 +48,16 @@
             <intent-filter>
                 <action android:name="io.rong.push.intent.action.HEART_BEAT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
             </intent-filter>
+
+            <!-- 部分用户事件监听, 用来提高推送拉活率; 可移除 -->
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

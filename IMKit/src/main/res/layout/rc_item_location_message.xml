@@ -2,7 +2,7 @@
 <io.rong.imkit.widget.RCMessageFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@id/rc_layout"
-    android:layout_width="200dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_centerInParent="true"
@@ -11,15 +11,15 @@
 
     <io.rong.imkit.widget.AsyncImageView
         android:id="@id/rc_img"
-        android:layout_width="200dp"
-        android:layout_height="115dp"
-        android:scaleType="fitXY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
         app:RCDefDrawable="@drawable/rc_ic_location_item_default"
         app:RCMask="true" />
 
     <TextView
         android:id="@id/rc_content"
-        android:layout_width="194dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|left"

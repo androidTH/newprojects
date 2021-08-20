@@ -44,6 +44,7 @@ import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Discussion;
+import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
 /**
@@ -579,7 +580,9 @@ public class MultiAudioCallActivity extends BaseCallActivity {
         multiCallEndMessage.setReason(reason);
         multiCallEndMessage.setMediaType(RongIMClient.MediaType.AUDIO);
         long serverTime = System.currentTimeMillis() - RongIMClient.getInstance().getDeltaTime();
-        RongIM.getInstance().insertMessage(callSession.getConversationType(), callSession.getTargetId(), callSession.getCallerUserId(), multiCallEndMessage, serverTime, null);
+//        RongIM.getInstance().insertMessage(callSession.getConversationType(), callSession.getTargetId(), callSession.getCallerUserId(), multiCallEndMessage, serverTime, null);
+        RongIM.getInstance().insertOutgoingMessage(callSession.getConversationType(), callSession.getTargetId(), Message.SentStatus.SENT,multiCallEndMessage, serverTime, null);
+
         cancelTime();
         stopRing();
         postRunnableDelay(new Runnable() {

@@ -14,7 +14,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import cn.rongcloud.rtc.RongRTCConfig;
 import io.rong.callkit.util.CallKitUtils;
 import io.rong.calllib.RongCallClient;
 import io.rong.calllib.RongCallCommon;

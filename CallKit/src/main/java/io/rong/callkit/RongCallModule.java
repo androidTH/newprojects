@@ -24,6 +24,7 @@ import io.rong.imkit.manager.IExternalModule;
 import io.rong.imkit.plugin.IPluginModule;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
 import io.rong.push.RongPushClient;
 import io.rong.push.notification.PushNotificationMessage;
 
@@ -85,7 +86,10 @@ public class RongCallModule implements IExternalModule {
                         } else if (callSession.getMediaType() == RongCallCommon.CallMediaType.VIDEO) {
                             multiCallEndMessage.setMediaType(RongIMClient.MediaType.VIDEO);
                         }
-                        RongIM.getInstance().insertMessage(callSession.getConversationType(), callSession.getTargetId(), callSession.getCallerUserId(), multiCallEndMessage, callSession.getStartTime(), null);
+
+                        RongIM.getInstance().insertOutgoingMessage(callSession.getConversationType(), callSession.getTargetId(), Message.SentStatus.SENT,multiCallEndMessage, callSession.getStartTime(), null);
+
+//                        RongIM.getInstance().insertMessage(callSession.getConversationType(), callSession.getTargetId(), callSession.getCallerUserId(), multiCallEndMessage, callSession.getStartTime(), null);
                     }
                 }
                 if (missedListener != null) {
@@ -101,9 +105,15 @@ public class RongCallModule implements IExternalModule {
 
     @Override
     public void onConnected(String token) {
-        RongCallClient.getInstance().setVoIPCallListener(RongCallProxy.getInstance());
-        RongCallClient.getInstance().setEnablePrintLog(true);
+//        RongCallClient.getInstance().setVoIPCallListener(RongCallProxy.getInstance());
+//        RongCallClient.getInstance().setEnablePrintLog(true);
 
+        RongCallClient instance = RongCallClient.getInstance();
+        if (instance != null) {
+            instance.setVoIPCallListener(RongCallProxy.getInstance());
+        } else {
+            FinLog.e(TAG, "[onConnected] RongCallClient is null");
+        }
         /**
          * 音视频参数配置信息设置方法：{@link BaseCallActivity#audioVideoConfig()}
          */

@@ -38,7 +38,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.rongcloud.rtc.RongRTCConfig;
+import cn.rongcloud.rtc.api.stream.RCRTCVideoStreamConfig;
+import cn.rongcloud.rtc.api.stream.RCRTCVideoStreamConfig.Builder;
+import cn.rongcloud.rtc.base.RCRTCParamsType;
 import cn.rongcloud.rtc.utils.FinLog;
 import io.rong.callkit.util.BluetoothUtil;
 import io.rong.callkit.util.CallKitUtils;
@@ -829,16 +831,25 @@ public class BaseCallActivity extends BaseNoActionBarActivity implements IRongCa
      * 必须在{@link RongCallClient#startCall} 和 {@link RongCallClient#acceptCall(String)}之前设置 <br />
      */
     public void audioVideoConfig() {
-        RongRTCConfig.Builder configBuilder = new RongRTCConfig.Builder();
-        configBuilder.setVideoProfile(RongRTCConfig.RongRTCVideoProfile.RONGRTC_VIDEO_PROFILE_480P_15f_1);
-        configBuilder.setMaxRate(1000);
-        configBuilder.setMinRate(350);
+//        RongRTCConfig.Builder configBuilder = new RongRTCConfig.Builder();
+//        configBuilder.setVideoProfile(RongRTCConfig.RongRTCVideoProfile.RONGRTC_VIDEO_PROFILE_480P_15f_1);
+//        configBuilder.setMaxRate(1000);
+//        configBuilder.setMinRate(350);
         /*
          * 设置建立 Https 连接时，是否使用自签证书。
          * 公有云用户无需调用此方法，私有云用户使用自签证书时调用此方法设置
          */
         //configBuilder.enableHttpsSelfCertificate(true);
-        RongCallClient.getInstance().setRTCConfig(configBuilder);
+//        RongCallClient.getInstance().setRTCConfig(configBuilder);
+
+
+        Builder builder = Builder.create()
+                .setVideoResolution(RCRTCParamsType.RCRTCVideoResolution.RESOLUTION_480_640)
+                .setVideoFps(RCRTCParamsType.RCRTCVideoFps.Fps_15)
+                .setMaxRate(1000)
+                .setMinRate(350);
+        RongCallClient.getInstance().setVideoConfig(builder);
+
     }
 
     //挂断

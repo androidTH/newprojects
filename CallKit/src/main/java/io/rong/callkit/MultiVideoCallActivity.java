@@ -40,14 +40,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import cn.rongcloud.rtc.CenterManager;
+import cn.rongcloud.rtc.api.stream.RCRTCVideoView;
+import cn.rongcloud.rtc.base.RCRTCStream;
 import cn.rongcloud.rtc.core.RendererCommon;
 import cn.rongcloud.rtc.custom.MediaMode;
-import cn.rongcloud.rtc.custom.OnSendListener;
-import cn.rongcloud.rtc.engine.view.RongRTCVideoView;
-import cn.rongcloud.rtc.stream.local.RongRTCAVOutputStream;
 import cn.rongcloud.rtc.utils.FinLog;
-import io.rong.blink.Utils;
 import io.rong.callkit.util.BluetoothUtil;
 import io.rong.callkit.util.CallKitUtils;
 import io.rong.callkit.util.GlideUtils;
@@ -58,6 +55,7 @@ import io.rong.calllib.RongCallClient;
 import io.rong.calllib.RongCallCommon;
 import io.rong.calllib.RongCallSession;
 import io.rong.calllib.StreamProfile;
+import io.rong.calllib.Utils;
 import io.rong.calllib.message.MultiCallEndMessage;
 import io.rong.common.RLog;
 import io.rong.imkit.RongContext;
@@ -68,6 +66,7 @@ import io.rong.imkit.widget.AsyncImageView;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Discussion;
+import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 
 /**
@@ -387,7 +386,7 @@ public class MultiVideoCallActivity extends BaseCallActivity {
         RongCallClient.getInstance().setEnableLocalVideo(true);
         localView = localVideo;
         callRinging(RingingMode.Outgoing);
-        ((RongRTCVideoView) localView).setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_BALANCED);
+        ((RCRTCVideoView) localView).setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_BALANCED);
 //        localView.setZOrderOnTop(true);
 //        localView.setZOrderMediaOverlay(true);
         localViewContainer.addView(localView);
@@ -725,10 +724,10 @@ public class MultiVideoCallActivity extends BaseCallActivity {
             ((ViewGroup) video.getParent()).removeView(video);
         }
         video.setTag(CallKitUtils.getStitchedContent(userId, REMOTE_FURFACEVIEW_TAG));
-        if (TextUtils.equals(CenterManager.RONG_TAG, streamTag)) {
-            ((RongRTCVideoView) video).setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FILL);
+        if (TextUtils.equals(RCRTCStream.RONG_TAG, streamTag)) {
+            ((RCRTCVideoView) video).setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FILL);
         } else {
-            ((RongRTCVideoView) video).setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
+            ((RCRTCVideoView) video).setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FIT);
         }
         remoteVideoView.addView(video, new FrameLayout.LayoutParams(
                 remoteUserViewWidth, remoteUserViewWidth, Gravity.CENTER));
@@ -828,7 +827,8 @@ public class MultiVideoCallActivity extends BaseCallActivity {
         multiCallEndMessage.setMediaType(RongIMClient.MediaType.VIDEO);
         multiCallEndMessage.setReason(reason);
         long serverTime = System.currentTimeMillis() - RongIMClient.getInstance().getDeltaTime();
-        RongIM.getInstance().insertMessage(callSession.getConversationType(), callSession.getTargetId(), callSession.getCallerUserId(), multiCallEndMessage, serverTime, null);
+//        RongIM.getInstance().insertMessage(callSession.getConversationType(), callSession.getTargetId(), callSession.getCallerUserId(), multiCallEndMessage, serverTime, null);
+        RongIM.getInstance().insertOutgoingMessage(callSession.getConversationType(), callSession.getTargetId(), Message.SentStatus.SENT,multiCallEndMessage, serverTime, null);
         cancelTime();
         stopRing();
         postRunnableDelay(new Runnable() {
@@ -1255,7 +1255,7 @@ public class MultiVideoCallActivity extends BaseCallActivity {
         UserInfo toUserInfo = RongContext.getInstance().getUserInfoFromCache(toUid);
         UserInfo fromUserInfo = RongContext.getInstance().getUserInfoFromCache(fromUid);
         String toTag = Utils.parseTag(to);
-        if (TextUtils.equals(toTag, CenterManager.RONG_TAG)) {
+        if (TextUtils.equals(toTag, RCRTCStream.RONG_TAG)) {
             userPortraitView.setVisibility(View.VISIBLE);
         } else {
             userPortraitView.setVisibility(View.GONE);
