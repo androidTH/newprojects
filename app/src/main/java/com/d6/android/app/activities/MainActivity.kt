@@ -377,10 +377,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 override fun onSuccess(p0: String?) {
                 }
 
-                override fun onError(p0: RongIMClient.ErrorCode?) {
+                override fun onDatabaseOpened(p0: RongIMClient.DatabaseOpenStatus?) {
                 }
 
-                override fun onTokenIncorrect() {
+                override fun onError(p0: RongIMClient.ConnectionErrorCode?) {
+
                 }
             })
         }
@@ -487,13 +488,14 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             getUnReadCount()
         }else{
             RongIM.connect(token, object : RongIMClient.ConnectCallback() {
-                override fun onTokenIncorrect() {}
+                override fun onDatabaseOpened(p0: RongIMClient.DatabaseOpenStatus?) {
+                }
 
                 override fun onSuccess(s: String) {
                     getUnReadCount()
                 }
 
-                override fun onError(e: RongIMClient.ErrorCode) {
+                override fun onError(p0: RongIMClient.ConnectionErrorCode?) {
                 }
             })
         }

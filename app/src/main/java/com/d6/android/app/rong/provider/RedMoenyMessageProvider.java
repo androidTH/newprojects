@@ -18,10 +18,19 @@ import android.widget.TextView;
 
 import com.d6.android.app.R;
 import com.d6.android.app.dialogs.RedMoneyDesDialog;
+import com.d6.android.app.dialogs.SelectTagDialog;
+import com.d6.android.app.models.EnvelopeStatus;
+import com.d6.android.app.models.MyAppointment;
 import com.d6.android.app.rong.bean.RedWalletMessage;
+import com.d6.android.app.utils.GsonHelper;
+import com.d6.android.app.utils.OnDialogListener;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
@@ -35,6 +44,8 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function2;
 
 /**
  * Created by Beyond on 2016/12/5.
@@ -86,7 +97,7 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
     }
 
     @Override
-    public void onItemClick(View view, int position, RedWalletMessage content, UIMessage message) {
+    public void onItemClick(final View view, final int position, final RedWalletMessage content, final UIMessage message) {
 //        Intent intent = new Intent();
 //        intent.setAction("com.d6.android.app.activities.RedMoneyDesActivity");
 //        view.getContext().startActivity(intent);
@@ -103,10 +114,20 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
                     bundle.putString("sEnvelopeId",sEnvelopeId);
                     bundle.putString("iUserId",sendUserId);
                     bundle.putString("sEnvelopeDesc",sEnvelopeDesc);
+                    bundle.putString("messageUId",message.getMessage().getUId());
                     bundle.putInt("messageId",message.getMessageId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                dialogRedMoenyDialog.setDialogListener(new Function2<Integer, String, Unit>() {
+                    @Override
+                    public Unit invoke(Integer integer, String s) {
+                        Log.i("redMoneyMesssage","执行了");
+                        message.getMessage().setExtra(s);
+                        RongContext.getInstance().getEventBus().post(message.getMessage());
+                        return null;
+                    }
+                });
                 dialogRedMoenyDialog.setArguments(bundle);
                 dialogRedMoenyDialog.show(((FragmentActivity)view.getContext()).getSupportFragmentManager(),"RedMoneyDesc");
             }
@@ -195,10 +216,25 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
                         }
                     }
                     TextView textState = holder.mTvReMoneyState;
+                    Message message = data.getMessage();
+//                    if(message.isCanIncludeExpansion()){
+//                        Map<String,String> has=message.getExpansion();
+//                    }
+                    Log.i("redMoney","send,extra:"+message.getExtra());
+
                     if(iStatus==1){
-                        textState.setText("领取红包");
-                    }else{
-                        textState.setText("已领取");
+                        if(TextUtils.isEmpty(message.getExtra())){
+                            textState.setText("领取红包");
+                        }else{
+                            String resCode =message.getExtra();
+                            if(TextUtils.equals(resCode,"100")||TextUtils.equals(resCode,"200")){
+                                textState.setText("已领取");
+                            }else if(TextUtils.equals(resCode,"300")){
+                                textState.setText("已被领完");
+                            }else{
+                                textState.setText("已过期");
+                            }
+                        }
                     }
 //                    textView.setText("你"+content.getContent());
                 } catch (JSONException e) {
@@ -223,16 +259,41 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
                         }
                     }
 
+                    Message message = data.getMessage();
+                    Log.i("redMoney","receive,extra:"+message.getExtra());
                     TextView textState = holder.mTvReMoneyState;
                     if(iStatus==1){
-                        textState.setText("领取红包");
-                    }else{
-                        textState.setText("已领取");
+                        if(TextUtils.isEmpty(message.getExtra())){
+                            textState.setText("领取红包");
+                        }else{
+                            String resCode = message.getExtra();
+                            if(TextUtils.equals(resCode,"100")||TextUtils.equals(resCode,"200")){
+                                textState.setText("已领取");
+                            }else if(TextUtils.equals(resCode,"300")){
+                                textState.setText("已被领完");
+                            }else{
+                                textState.setText("已过期");
+                            }
+                        }
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void updateExtra(int messageId,String code){
+        RongIMClient.getInstance().setMessageExtra(messageId,code,new RongIMClient.ResultCallback<Boolean>(){
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
     }
 }

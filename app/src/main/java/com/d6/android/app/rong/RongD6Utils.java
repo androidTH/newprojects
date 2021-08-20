@@ -66,7 +66,7 @@ public class RongD6Utils {
     private static void reconnect(final Activity activity, final String targetId, final RongCallKit.CallMediaType CallMediaType, final String extra) {
         RongIM.connect(token,new RongIMClient.ConnectCallback(){
             @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
+            public void onError(RongIMClient.ConnectionErrorCode connectionErrorCode) {
 
             }
 
@@ -76,7 +76,7 @@ public class RongD6Utils {
             }
 
             @Override
-            public void onTokenIncorrect() {
+            public void onDatabaseOpened(RongIMClient.DatabaseOpenStatus databaseOpenStatus) {
 
             }
         });

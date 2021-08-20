@@ -1236,16 +1236,21 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
     private fun reconnect(token: String) {
         RongIM.connect(token, object : RongIMClient.ConnectCallback() {
-            override fun onTokenIncorrect() {}
+            override fun onDatabaseOpened(p0: RongIMClient.DatabaseOpenStatus?) {
+                Log.i("chatActivity","onDatabaseOpened")
+            }
 
             override fun onSuccess(s: String) {
+                Log.i("chatActivity","onSuccess:$s")
                 enterFragment(mConversationType, mTargetId)
             }
 
-            override fun onError(e: RongIMClient.ErrorCode) {
+            override fun onError(p0: RongIMClient.ConnectionErrorCode?) {
+                Log.i("chatActivity","error:$p0")
                 enterFragment(mConversationType, mTargetId)
             }
         })
+
     }
 
     private var fragment: ConversationFragmentEx? = null

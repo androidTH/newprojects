@@ -76,6 +76,9 @@ object Const {
     val SCORE_EXPLAIN_CODE = "integral_explain"
     val PIECES_VIP_INSTRODUCE = "vip_introduce"
     val CONST_RES_MIPMAP= "res:///"
+    val RONGIM_APPKEY = "82hegw5u8du6x"
+//    val RONGIM_APPKEY = "e0x9wycfetfsq"
+
     // APP_ID 替换为你的应用从官方网站申请到的合法appId
     @JvmField
     var WXPAY_APP_ID:String?= "wx43d13a711f68131c"

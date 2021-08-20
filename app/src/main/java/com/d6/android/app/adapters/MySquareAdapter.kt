@@ -19,7 +19,6 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.widget.*
-import com.umeng.socialize.utils.Log.toast
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -181,7 +180,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
                 notifyDataSetChanged()
             }) {code,msg->
                 if(code==2){
-                    toast(it,msg)
+//                    toast(msg)
                 }
             }
         }

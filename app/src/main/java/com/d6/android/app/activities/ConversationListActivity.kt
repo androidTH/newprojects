@@ -38,7 +38,8 @@ class ConversationListActivity : BaseActivity() {
             enterActivity()
         } else {//通知过来
             //程序切到后台，收到消息后点击进入,会执行这里
-            if (RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
+            if (RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT
+                    ||RongIM.getInstance().currentConnectionStatus == RongIMClient.ConnectionStatusListener.ConnectionStatus.CONN_USER_BLOCKED) {
                 enterActivity()
             } else {
                 startActivity(Intent(this@ConversationListActivity, MainActivity::class.java))
@@ -72,16 +73,15 @@ class ConversationListActivity : BaseActivity() {
 
     private fun reconnect(token: String) {
         RongIM.connect(token, object : RongIMClient.ConnectCallback() {
-            override fun onTokenIncorrect() {
+            override fun onDatabaseOpened(p0: RongIMClient.DatabaseOpenStatus?) {
             }
-
             override fun onSuccess(s: String) {
                 dismissDialog()
                 startActivity(Intent(this@ConversationListActivity, MainActivity::class.java))
                 finish()
             }
 
-            override fun onError(e: RongIMClient.ErrorCode) {
+            override fun onError(p0: RongIMClient.ConnectionErrorCode?) {
             }
         })
 

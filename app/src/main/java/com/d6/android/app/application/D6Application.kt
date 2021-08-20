@@ -124,7 +124,8 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             var config = PushConfig.Builder().enableMiPush(Const.XIAOMIAPPID, Const.XIAOMIAPPKEY).build()
             RongPushClient.setPushConfig(config)
 
-            RongIM.init(this)
+
+            RongIM.init(this,Const.RONGIM_APPKEY)
             RongPlugin.init(this)
             RongIM.getInstance().setMessageAttachedUserInfo(true)
 //            RongIMClient.getInstance().setPushContentShowStatus(false, object : RongIMClient.OperationCallback() {

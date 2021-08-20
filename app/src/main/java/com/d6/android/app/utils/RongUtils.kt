@@ -70,15 +70,18 @@ object RongUtils {
 
     fun getConnectCallback(): RongIMClient.ConnectCallback {
         return object : RongIMClient.ConnectCallback() {
-            override fun onTokenIncorrect() {
-            }
-
-            override fun onSuccess(s: String) {
+            override fun onSuccess(p0: String?) {
 
             }
 
-            override fun onError(e: RongIMClient.ErrorCode) {
+            override fun onDatabaseOpened(p0: RongIMClient.DatabaseOpenStatus?) {
+
             }
+
+            override fun onError(p0: RongIMClient.ConnectionErrorCode?) {
+
+            }
+
         }
     }
 }

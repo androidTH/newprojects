@@ -1,7 +1,6 @@
 package com.d6.android.app.easypay.network;
 
 import com.d6.android.app.easypay.pay.BaseModel;
-import com.umeng.socialize.sina.message.BaseResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

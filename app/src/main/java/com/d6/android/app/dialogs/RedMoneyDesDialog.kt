@@ -53,7 +53,8 @@ class RedMoneyDesDialog : DialogFragment() {
     private lateinit var sendUserId:String
 
     private lateinit var sEnvelopeDesc:String
-    private var messageId:Int = 0
+    private var messageUId:String=""
+    private var messageId:Int= 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +76,7 @@ class RedMoneyDesDialog : DialogFragment() {
         sEnvelopeId = arguments.getString("sEnvelopeId")
         sendUserId = arguments.getString("iUserId")
         sEnvelopeDesc = arguments.getString("sEnvelopeDesc")
+        messageUId = arguments.getString("messageUId")
         messageId = arguments.getInt("messageId")
 
         ll_redwallet_desc.setOnClickListener {
@@ -91,7 +93,6 @@ class RedMoneyDesDialog : DialogFragment() {
         iv_redwallet_open.setOnClickListener {
               reveiveEnvelope()
         }
-
 
         getUserInfo(sendUserId)
 
@@ -130,10 +131,13 @@ class RedMoneyDesDialog : DialogFragment() {
                         if(iStatus==2){
                             iv_redwallet_open.visibility = View.GONE
                             tv_redwallet_status.text = "手慢了，红包派完了"
+
+                            updateMessageExtra("300")
                         }else if(iStatus==3){
                             iv_redwallet_open.visibility = View.GONE
                             tv_redwallet_status.text = "该红包已超过24小时\n" +
                                     "已过期无法领取"
+                            updateMessageExtra("400")
                         }else{
                             iv_redwallet_open.visibility = View.VISIBLE
                         }
@@ -142,11 +146,15 @@ class RedMoneyDesDialog : DialogFragment() {
                             iv_redwallet_open.visibility = View.GONE
                             ll_redwallet_desc.visibility = View.VISIBLE
                             tv_redwallet_status.text = "手慢了，红包派完了"
+
+                            updateMessageExtra("300")
                         }else if(iStatus==3){
                             iv_redwallet_open.visibility = View.GONE
                             ll_redwallet_desc.visibility = View.VISIBLE
                             tv_redwallet_status.text = "该红包已超过24小时\n" +
                                     "已过期无法领取"
+
+                            updateMessageExtra("400")
                         }else{
                             ll_redwallet_desc.visibility = View.GONE
                             iv_redwallet_open.visibility = View.VISIBLE
@@ -159,13 +167,14 @@ class RedMoneyDesDialog : DialogFragment() {
                     iv_redwallet_open.visibility = View.GONE
                 }
 
-//                RongIMClient.getInstance().setMessageExtra(messageId,GsonHelper.getGson().toJson(it),object:RongIMClient.ResultCallback<Boolean>(){
+
+//                RongIMClient.getInstance().updateMessageExpansion(null,"$messageUId",object : RongIMClient.OperationCallback(){
 //                    override fun onError(p0: RongIMClient.ErrorCode?) {
-//
+//                        TODO("Not yet implemented")
 //                    }
 //
-//                    override fun onSuccess(p0: Boolean?) {
-//
+//                    override fun onSuccess() {
+//                        TODO("Not yet implemented")
 //                    }
 //                })
             }
@@ -191,12 +200,29 @@ class RedMoneyDesDialog : DialogFragment() {
                              "已过期无法领取"
                  }
 
+                 updateMessageExtra("$resCode")
+
                  startActivity<RedMoneyDesActivity>("sEnvelopeId" to sEnvelopeId,"iUserId" to sendUserId,"sEnvelopeDesc" to sEnvelopeDesc)
                  dismissAllowingStateLoss()
+
              }
         }){code,msg->
 
         }
+    }
+
+    private fun updateMessageExtra(code:String){
+        RongIMClient.getInstance().setMessageExtra(messageId,"$code",object:RongIMClient.ResultCallback<Boolean>(){
+            override fun onError(p0: RongIMClient.ErrorCode?) {
+
+            }
+
+            override fun onSuccess(p0: Boolean?) {
+                if(dialogListener!=null){
+                    dialogListener?.onClick(1,code)
+                }
+            }
+        })
     }
 
     private inline fun isBaseActivity(next: (a: BaseActivity) -> Unit) {
