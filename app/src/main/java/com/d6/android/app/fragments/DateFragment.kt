@@ -164,6 +164,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             }
         })
 
+        iv_back.setOnClickListener {
+            activity.finish()
+        }
+
         tv_city.setOnClickListener {
             activity.isCheckOnLineAuthUser(this, userId) {
                 showArea(it)
@@ -192,19 +196,34 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         fb_heat_like.setOnClickListener {
             activity.isAuthUser() {
-                if (localLoveHeartNums > 0) {
-                    if (sendLoveHeartNums <= localLoveHeartNums) {
-                        sendLoveHeartNums = sendLoveHeartNums + 1
-                        addGiftNums(1, false, false,"")
-                        IsNotFastClick = is500sFastClick()
-                        VibrateHelp.Vibrate(activity, VibrateHelp.time50)
+                if (TextUtils.equals(getUserSex(), "0")) {
+                    if (localLoveHeartNums > 0) {
+                        if (sendLoveHeartNums <= localLoveHeartNums) {
+                            sendLoveHeartNums = sendLoveHeartNums + 1
+                            addGiftNums(1, false, false, "")
+                            IsNotFastClick = is500sFastClick()
+                            VibrateHelp.Vibrate(activity, VibrateHelp.time50)
+                        } else {
+                            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                            mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
+                        }
                     } else {
                         var mSendRedHeartEndDialog = SendRedHeartEndDialog()
                         mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
                     }
-                } else {
-                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
-                    mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
+                }else{
+                     if(!isFastClick()) {
+                        var mSendLoveHeartDialog = SendLoveHeartDialog()
+                         mDates.get(mRecyclerView.currentItem)
+                         if (mDates.size > mRecyclerView.currentItem) {
+                             var findDate = mDates.get(mRecyclerView.currentItem)
+                             mSendLoveHeartDialog.arguments = bundleOf("userId" to "${findDate.accountId}")
+                         }
+                        mSendLoveHeartDialog.setDialogListener { p, s ->
+                            addGiftNums(p, false, true, "${s}")
+                        }
+                        mSendLoveHeartDialog.show(childFragmentManager, "sendloveheartDialog")
+                    }
                 }
                 hideRedHeartGuide()
             }
@@ -436,15 +455,19 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     ++clickNums
                     SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), clickNums).apply()
                 } else if (clickNums == 1 && !IsNotFastClick) {
-                    tv_redheart_guide.visibility = View.VISIBLE
-                    tv_redheart_guide.text = "连击可以送出多个喜欢"
-                    ++clickNums
-                    SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), clickNums).apply()
+                    if(TextUtils.equals(getUserSex(), "0")){
+                        tv_redheart_guide.visibility = View.VISIBLE
+                        tv_redheart_guide.text = "连击可以送出多个喜欢"
+                        ++clickNums
+                        SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), clickNums).apply()
+                    }
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 } else if (it >= 3 && !mIsFirstFastClick) {
-                    tv_redheart_guide.visibility = View.VISIBLE
-                    tv_redheart_guide.text = "长按可快捷选择520、1314个喜欢"
-                    SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(), true).apply()
+                    if(TextUtils.equals(getUserSex(), "0")){
+                        tv_redheart_guide.visibility = View.VISIBLE
+                        tv_redheart_guide.text = "长按可快捷选择520、1314个喜欢"
+                        SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(), true).apply()
+                    }
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 }
             }

@@ -212,6 +212,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title1.gone()
                     tv_title.text = "发现"
                     tv_find_tab.visibility = View.VISIBLE
+
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                    if (fragment != null && fragment is HomeFindFragment) {
+                        fragment.refresh(getUserSex(),-1)
+                    }
                 }
 //                TextUtils.equals(it, tabTexts[1]) -> {
 //                    immersionBar.init()

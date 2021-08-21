@@ -169,7 +169,7 @@ class SendLoveHeartDialog : DialogFragment() {
 
         var mLoveHeartRule2 = LoveHeartRule("1")
         mLoveHeartRule2.iLoveCount = 520
-        mLoveHeartRule2.sDesc = "爱你哦"
+        mLoveHeartRule2.sDesc = "我爱你"
 
         var mLoveHeartRule3 = LoveHeartRule("1")
         mLoveHeartRule3.iLoveCount = 1314
@@ -214,8 +214,8 @@ class SendLoveHeartDialog : DialogFragment() {
                 if(it.iMySendAllLovePoint>0){
                     tv_redheart_name.text = "已送对方${it.iMySendAllLovePoint} [img src=redheart_small/]"
                 }else{
-//                    tv_redheart_name.text = it.name
-                    tv_redheart_name.visibility = View.INVISIBLE
+                    tv_redheart_name.text = "给对方送喜欢 [img src=redheart_small/]"
+                    tv_redheart_name.visibility = View.VISIBLE
                 }
             }
         })

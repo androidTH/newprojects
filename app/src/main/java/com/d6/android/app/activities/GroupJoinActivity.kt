@@ -1,11 +1,13 @@
 package com.d6.android.app.activities
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.GroupUsersListAdapter
 import com.d6.android.app.base.TitleActivity
+import com.d6.android.app.dialogs.ApplayJoinGroupDialog
 import com.d6.android.app.dialogs.JoinGroupDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.FindGroupBean
@@ -18,9 +20,12 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_groupjoin.*
+import kotlinx.android.synthetic.main.activity_groupjoin.tv_groupname
+import kotlinx.android.synthetic.main.activity_joingroup.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.imageURI
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 
 class GroupJoinActivity : TitleActivity() {
@@ -72,8 +77,16 @@ class GroupJoinActivity : TitleActivity() {
 
         btn_group_leave.setOnClickListener {
             if (IsNotNullGroupBean()) {
-                var mJoinGroupDialog = JoinGroupDialog()
-                mJoinGroupDialog.show(supportFragmentManager,"joingroup")
+                var mApplayJoinGroupDialog = ApplayJoinGroupDialog()
+//                mApplayJoinGroupDialog.arguments = bundleOf("groupId" to "${mGroupId}")
+                mApplayJoinGroupDialog.setDialogListener { p, s ->
+                    if(p==2){
+                        s?.let {
+                            applayToGroup("${s}")
+                        }
+                    }
+                }
+                mApplayJoinGroupDialog.show(supportFragmentManager,"joingroup")
             }
         }
 
@@ -127,6 +140,14 @@ class GroupJoinActivity : TitleActivity() {
             }
         })
 
+    }
+
+    fun applayToGroup(content:String){
+        Request.applyToGroup("${tv_groupnum.text.trim()}","${content}").request(this,false,success={msg,data->
+
+        }){code,msg->
+            toast(msg)
+        }
     }
 
 

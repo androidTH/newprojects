@@ -54,7 +54,7 @@ public class BuyRedHeartAdapter extends BaseQuickAdapter<LoveHeartRule,BaseViewH
          if(item.getILoveCount()==200){
              helper.setText(R.id.tv_redheartinfo,"爱你哦");
          }else if(item.getILoveCount()==520){
-            helper.setText(R.id.tv_redheartinfo,"爱你哦");
+            helper.setText(R.id.tv_redheartinfo,"我爱你");
         }else if(item.getILoveCount()==1314){
             helper.setText(R.id.tv_redheartinfo,"一生一世");
         }else if(item.getILoveCount()==3399){

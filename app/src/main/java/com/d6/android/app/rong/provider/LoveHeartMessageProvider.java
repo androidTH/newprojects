@@ -167,7 +167,12 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
 //                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
 //                  strDir=userInfo.getName()+"给你分享了一条动态";
                     textView.setText("你给"+receivename+"赠送了");
-                    holder.mTvDesc.setText("“"+desc+"”");
+                    if(TextUtils.isEmpty(desc)){
+                        holder.mTvDesc.setVisibility(View.GONE);
+                    }else{
+                        holder.mTvDesc.setVisibility(View.VISIBLE);
+                        holder.mTvDesc.setText("“"+desc+"”");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
@@ -187,7 +192,12 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                     String desc = jsonObject.getString("sDesc");
                     textView.setText(sendusername+"给你赠送了");
                     holder.mTvReceivedLoveHeartNums.setText(num);
-                    holder.mTvDesc.setText("“"+desc+"”");
+                    if(TextUtils.isEmpty(desc)){
+                        holder.mTvDesc.setVisibility(View.GONE);
+                    }else{
+                        holder.mTvDesc.setVisibility(View.VISIBLE);
+                        holder.mTvDesc.setText("“"+desc+"”");
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

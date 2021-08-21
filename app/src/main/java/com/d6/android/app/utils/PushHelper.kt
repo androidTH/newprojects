@@ -59,11 +59,13 @@ object PushHelper {
         mPushAgent.setMessageHandler(CustomNotification())
         mPushAgent.setNotificationClickHandler(CustomNotificationHandler())
         val random = (Math.random() * 2).toInt()
-        if(random==0){
-            MobclickAgent.setCatchUncaughtExceptions(false)
-        }else{
-            MobclickAgent.setCatchUncaughtExceptions(true)
-        }
+//        if(random==0){
+//            MobclickAgent.setCatchUncaughtExceptions(false)
+//        }else{
+//            MobclickAgent.setCatchUncaughtExceptions(true)
+//        }
+
+        MobclickAgent.setCatchUncaughtExceptions(true)
 
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {

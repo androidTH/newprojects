@@ -224,7 +224,7 @@ dependencies {
     implementation 'com.umeng.umsdk:agoo_networksdk:3.5.8'
     implementation 'com.umeng.umsdk:agoo_tnet4android:3.1.14.10'
 
-    implementation files('libs/OpenInstall_v2.5.1.jar')
+    implementation files('libs/OpenInstall_v2.5.3.jar')
     implementation 'com.airbnb.android:lottie:2.3.0'
     implementation 'me.jessyan:autosize:1.1.2'
     implementation 'com.danikula:videocache:2.7.1'

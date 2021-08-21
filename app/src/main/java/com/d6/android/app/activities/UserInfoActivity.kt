@@ -251,12 +251,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
                     }
                 } else {
-                    var mSendLoveHeartDialog = SendLoveHeartDialog()
-                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
-                    mSendLoveHeartDialog.setDialogListener { p, s ->
-                        addGiftNums(p,false,true,"${s}")
+                    if (!isFastClick()) {
+                        var mSendLoveHeartDialog = SendLoveHeartDialog()
+                        mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
+                        mSendLoveHeartDialog.setDialogListener { p, s ->
+                            addGiftNums(p, false, true, "${s}")
+                        }
+                        mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
                     }
-                    mSendLoveHeartDialog.show(supportFragmentManager,"sendloveheartDialog")
                 }
             }
         }

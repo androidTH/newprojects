@@ -96,12 +96,6 @@ class HomeFindFragment : BaseFragment(){
             getPeoples()
         }
 
-        iv_publish.setOnClickListener {
-            activity.isAuthUser() {
-                startActivity<PublishChooseActivity>()
-            }
-        }
-
         viewpagerbanner.postDelayed(object : Runnable {
             override fun run() {
                 getProvinceData()
@@ -111,9 +105,9 @@ class HomeFindFragment : BaseFragment(){
         loginforPoint()
         checkLocation()
 
-        getPeoples()
         getData()
     }
+
 
     private fun initBanner(){
         if (TextUtils.equals(getUserSex(), "0")) {
@@ -218,7 +212,8 @@ class HomeFindFragment : BaseFragment(){
 
     fun refresh(sex: String, pageSelected: Int){
         mSwipeRefreshLayout.isEnabled = true
-        mSwipeRefreshLayout.isRefreshing = true
+//        mSwipeRefreshLayout.isRefreshing = true
+        getPeoples()
     }
 
     //设置定位城市
@@ -264,9 +259,18 @@ class HomeFindFragment : BaseFragment(){
 
     private fun getPeoples(){
         Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
-            tv_datecount.text = "已有${data?.iAllAppointCount}人邀约成功"
+            sv_finddate01.visibility = View.GONE
+            tv_01.text = "速约/觅约/救火/旅行约"
+
+            sv_finddate02.visibility = View.GONE
+            tv_02.text = "已有${data?.iAllAppointCount}人邀约成功"
+
+            sv_finddate03.visibility = View.GONE
+            tv_03.text = "魅力榜·土豪榜"
+
+            tv_finddate_02.text = "优质私密群等你加入"
+            getLatestNews()
         }
-        getLatestNews()
     }
 
 
@@ -276,26 +280,33 @@ class HomeFindFragment : BaseFragment(){
 //                var rongGroup_name = it.optString("rongGroup_name")
                 mFindDateInfo = it
                 if(mFindDateInfo!=null){
-                    Log.i("topInfo", "信息：${it.rongGroup_name}")
-                    sv_finddate01.setImageURI(it.lookabout_picurl)
 
-                    sv_finddate02.setImageURI("${it.appointment_picurl}")
-                    tv_02.text = "发布了约会"
+                    if(it.lookabout_picurl.isNotEmpty()){
+                        sv_finddate01.setImageURI(it.lookabout_picurl)
+                        lookAbout()
+                    }
 
-                    sv_finddate03.setImageURI(it.userpoint_picUrl)
-                    tv_03.text = "收到${mFindDateInfo.userpoint_allLovePoint} [img src=redheart_small/]"
-                    hideTopInfoFindDate()
+                    if(it.appointment_picurl.isNotEmpty()){
+                        sv_finddate02.setImageURI("${it.appointment_picurl}")
+                        dateCount()
+                    }
+
+                    if(it.userpoint_picUrl.isNotEmpty()){
+                        sv_finddate03.setImageURI(it.userpoint_picUrl)
+                        bangdang()
+                    }
+
+                    if(mFindDateInfo.rongGroup_count>=100){
+                        groupChat()
+                    }
                 }
             }
         }
 
     }
 
-    private fun hideTopInfoFindDate(){
+    private fun lookAbout(){
         var annotation = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
-        var annotation1 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
-        var annotation2 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
-        var annotation3 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
         annotation.setAnimationListener(object : Animation.AnimationListener{
             override fun onAnimationEnd(animation: Animation?) {
                 sv_finddate01.visibility = View.VISIBLE
@@ -311,10 +322,15 @@ class HomeFindFragment : BaseFragment(){
             }
         })
         ll_finddate01.startAnimation(annotation)
+    }
 
+    private fun dateCount(){
+        var annotation1 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
         annotation1.setAnimationListener(object : Animation.AnimationListener{
             override fun onAnimationEnd(animation: Animation?) {
-                ll_finddate02.visibility = View.VISIBLE
+                sv_finddate02.visibility = View.VISIBLE
+                tv_02.text = "发布了约会"
+
                 var annotation1 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
                 ll_finddate02.startAnimation(annotation1)
             }
@@ -326,11 +342,18 @@ class HomeFindFragment : BaseFragment(){
             override fun onAnimationRepeat(animation: Animation?) {
             }
         })
-        tv_datecount.startAnimation(annotation1)
+        ll_finddate02.startAnimation(annotation1)
+    }
 
+    private fun bangdang(){
+        var annotation2 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
         annotation2.setAnimationListener(object : Animation.AnimationListener{
             override fun onAnimationEnd(animation: Animation?) {
-                ll_finddate03.visibility = View.VISIBLE
+                mFindDateInfo?.let {
+                    tv_03.text = "收到${mFindDateInfo.userpoint_allLovePoint} [img src=redheart_small/]"
+                    sv_finddate03.visibility = View.VISIBLE
+                }
+
                 var annotation2 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
                 ll_finddate03.startAnimation(annotation2)
             }
@@ -343,8 +366,11 @@ class HomeFindFragment : BaseFragment(){
             }
         })
 
-        tv_finddate_tips.startAnimation(annotation2)
+        ll_finddate03.startAnimation(annotation2)
+    }
 
+    private fun groupChat(){
+        var annotation3 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
         annotation3.setAnimationListener(object : Animation.AnimationListener{
             override fun onAnimationEnd(animation: Animation?) {
                 tv_finddate_02.text = "新人报道群(${mFindDateInfo.rongGroup_count}）"
@@ -395,6 +421,7 @@ class HomeFindFragment : BaseFragment(){
     override fun onResume() {
         super.onResume()
         viewpagerbanner.startTurning()
+        getPeoples()
     }
 
     override fun onPause() {

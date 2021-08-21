@@ -1,8 +1,5 @@
 package com.d6.android.app.application
 
-//import com.bugtags.library.Bugtags
-//import com.didichuxing.doraemonkit.DoraemonKit
-//import com.didichuxing.doraemonkit.ui.base.BaseActivity
 import android.app.*
 import android.content.Context
 import android.content.Intent

@@ -93,20 +93,10 @@
                     android:textColor="@color/color_BFFFFFFF"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_datecount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:text=""
-                    android:textColor="@color/color_BFFFFFFF"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_12" />
                 <LinearLayout
                     android:id="@+id/ll_finddate02"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/margin_10"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <com.facebook.drawee.view.SimpleDraweeView
@@ -114,6 +104,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_marginRight="@dimen/margin_3"
+                        android:visibility="gone"
                         fresco:viewAspectRatio="1.0"
                         fresco:roundingBorderColor="@color/color_D8D8D8"
                         fresco:roundingBorderWidth="0.5dp"
@@ -155,26 +146,17 @@
                     android:textColor="@color/color_BFFFFFFF"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tv_finddate_tips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:text="魅力榜·土豪榜"
-                    android:textColor="@color/color_BFFFFFFF"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_12" />
                 <LinearLayout
                     android:id="@+id/ll_finddate03"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/margin_10"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/sv_finddate03"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
+                        android:visibility="gone"
                         android:layout_marginRight="@dimen/margin_3"
                         fresco:viewAspectRatio="1.0"
                         fresco:roundingBorderColor="@color/color_D8D8D8"
@@ -185,6 +167,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
                         android:textColor="@color/color_BFFFFFFF"
+                        android:text="魅力榜·土豪榜"
                         android:id="@+id/tv_03"/>
                 </LinearLayout>
 
@@ -268,15 +251,6 @@
             banner:canLoop="true"
             banner:autoTurningTime="2000"/>
 
-        <ImageView
-            android:id="@+id/iv_publish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_15"
-            android:layout_marginBottom="@dimen/margin_18"
-            android:src="@mipmap/publish_button" />
     </RelativeLayout>
 
 </com.d6.android.app.widget.CustomSwipeToRefresh>
