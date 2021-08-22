@@ -521,7 +521,7 @@ object Request {
     fun doCashMoneyOfLoveHeart(iUserid:String,iLoveHeartCount:String)=RRetrofit.instance().create(ApiServices::class.java).doCashMoneyOfLoveHeart(iUserid,iLoveHeartCount)
 
     //赠送红心
-    fun sendLovePoint(sLoginToken:String,iReceiveUserid:String,iLovePoint:Int,iType:Int,sResourceid:String,sPicUrl:String="")= RRetrofit.instance().create(ApiServices::class.java).sendLovePoint(sLoginToken,iReceiveUserid,iLovePoint,iType,sResourceid,sPicUrl)
+    fun sendLovePoint(sLoginToken:String,iReceiveUserid:String,iLovePoint:Int,iType:Int,sResourceid:String,sPicUrl:String="",sDesc:String="")= RRetrofit.instance().create(ApiServices::class.java).sendLovePoint(sLoginToken,iReceiveUserid,iLovePoint,iType,sResourceid,sPicUrl,sDesc)
 
     fun findSendLoveList(sLoginToken:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findSendLoveList(sLoginToken,pageNum)
 
@@ -618,4 +618,8 @@ object Request {
     fun findEnvelopeList(sEnvelopeId:String,pageNum:Int) = RRetrofit.instance().create(ApiServices::class.java).findEnvelopeList(sEnvelopeId,pageNum)
 
     fun findEnvelopeById(sEnvelopeId:String)=RRetrofit.instance().create(ApiServices::class.java).findEnvelopeById(sEnvelopeId)
+
+    fun queryLatestNews()=RRetrofit.instance().create(ApiServices::class.java).queryLatestNews()
+
+    fun findGroups(sGroupName: String="",pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findGroups(sGroupName,pageNum)
 }

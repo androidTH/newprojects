@@ -29,7 +29,7 @@
             android:layout_centerVertical="true"
             android:drawableRight="@mipmap/wenhao_daohang"
             android:drawablePadding="@dimen/margin_5"
-            android:text="推荐"
+            android:text="人工牵线"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:textStyle="bold" />

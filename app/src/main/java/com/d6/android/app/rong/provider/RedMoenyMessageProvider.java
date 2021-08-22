@@ -59,7 +59,7 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
         TextView mTvReMoneyMsgContent;
         TextView mTvReMoneyState;
         boolean longClick;
-//        SimpleDraweeView simpleDraweeView;
+        //        SimpleDraweeView simpleDraweeView;
         LinearLayout mLl_RedMoney_Body;
     }
 
@@ -122,7 +122,7 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
                 dialogRedMoenyDialog.setDialogListener(new Function2<Integer, String, Unit>() {
                     @Override
                     public Unit invoke(Integer integer, String s) {
-                        Log.i("redMoneyMesssage","执行了");
+//                        Log.i("redMoneyMesssage","执行了");
                         message.getMessage().setExtra(s);
                         RongContext.getInstance().getEventBus().post(message.getMessage());
                         return null;
@@ -193,8 +193,8 @@ public class RedMoenyMessageProvider extends IContainerItemProvider.MessageProvi
     @Override
     public void bindView(final View v, int position, final RedWalletMessage content, final UIMessage data) {
         RedMoenyMessageProvider.ViewHolder holder = (RedMoenyMessageProvider.ViewHolder) v.getTag();
-       //内容:发了一个红包,extra{"iRemainPoint":10,"iUserId":103163,"iLovePoint":10,"sResourceId":"cf0549c2-a702-4992-ae69-623662dda9f3","sEnvelopeDesc":"测试红包","iStatus":1,"sGuid":"6b292df1-d6af-4318-ab77-add98c8fe738","iLoveCount":3,"iType":2,"iRemainCount":3,"dCreatetime":1612097293422}
-       //sSendUserName
+        //内容:发了一个红包,extra{"iRemainPoint":10,"iUserId":103163,"iLovePoint":10,"sResourceId":"cf0549c2-a702-4992-ae69-623662dda9f3","sEnvelopeDesc":"测试红包","iStatus":1,"sGuid":"6b292df1-d6af-4318-ab77-add98c8fe738","iLoveCount":3,"iType":2,"iRemainCount":3,"dCreatetime":1612097293422}
+        //sSendUserName
         Log.i(TAG,data.getMessageDirection()+"内容"+content.getContent()+",extra"+content.getExtra());
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             holder.mLl_RedMoney_Body.setBackgroundResource(io.rong.imkit.R.drawable.rc_ic_bubble_redwallet_right);

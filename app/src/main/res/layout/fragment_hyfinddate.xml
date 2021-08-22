@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_find"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_date"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.d6.android.app.widget.gallery.DiscreteScrollView
+            android:id="@+id/mRecyclerView"
+            android:layout_marginTop="@dimen/margin_2"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="25dp"/>
+
+        <ImageView
+            android:id="@+id/tv_main_card_bg_im_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/home_main_card_bg"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_main_card_Bg_tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_main_card_bg_im_id"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/padding_12"
+            android:text="暂时没有符合条件的人，等会再来看看吧"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/textSize"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rl_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/find_loading_bg">
+            <com.d6.android.app.widget.WaveView
+                android:id="@+id/find_waveview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:wave_color="@color/color_F7AB00"
+                app:wave_coreImageRadius="90"
+                app:wave_width="90"/>
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/loading_headView"
+                style="@style/DefaultCircleHeadStyle"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:roundAsCircle="true"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

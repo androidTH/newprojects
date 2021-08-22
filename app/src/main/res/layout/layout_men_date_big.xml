@@ -133,9 +133,6 @@
             android:textColor="@color/white"
             android:textSize="14sp" />
     </LinearLayout>
-
-    <!--android:layout_below="@+id/ll_date_newmenheadView"-->
-    <!--android:layout_marginTop="@dimen/margin_15"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="165dp"

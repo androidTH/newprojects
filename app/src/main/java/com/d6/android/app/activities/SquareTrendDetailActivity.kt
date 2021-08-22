@@ -108,7 +108,7 @@ class SquareTrendDetailActivity : TitleActivity(), SwipeRefreshRecyclerLayout.On
 //            var dialogSendRedFlowerDialog = SendRedFlowerDialog()
 //            dialogSendRedFlowerDialog.arguments = bundleOf("ToFromType" to 1,"userId" to it.userid.toString(),"squareId" to it.id.toString())
 //            dialogSendRedFlowerDialog.show(supportFragmentManager,"sendflower")
-            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}").request(this,false,success={_,Data->
+            Request.sendLovePoint(getLoginToken(),"${square.userid}",lovePoint,1,"${square.id}","","${square.desc}").request(this,false,success={_,Data->
                 EventBus.getDefault().post(FlowerMsgEvent(lovePoint))
                 Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
                     data?.let {

@@ -2,20 +2,19 @@ package com.d6.android.app.utils
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Build
 import android.os.Environment
-import android.support.annotation.NonNull
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextUtils
 import android.text.style.TextAppearanceSpan
+import android.util.Log
 import android.widget.TextView
 import com.d6.android.app.R
+import com.facebook.common.internal.Preconditions
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
+import com.umeng.analytics.AnalyticsConfig
 import java.io.File
-import android.util.Log
-import com.facebook.common.internal.Preconditions
 import java.math.BigDecimal
 
 
@@ -136,6 +135,10 @@ class AppUtils {
             if (!file!!.exists()) {
                 file.mkdirs()
             }
+        }
+
+        fun getChannelName(ctx: Context?): String {
+            return AnalyticsConfig.getChannel(ctx)
         }
 
         //0代表相等，1代表version1大于version2，-1代表version1小于version2

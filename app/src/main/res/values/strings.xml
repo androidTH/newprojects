@@ -166,4 +166,5 @@
 
     <string name="scan_more">查看更多</string>
     <string name="release_scan_more">释放查看</string>
+    <string name="string_useragreement">请你务必审慎阅读、充分理解《用户协议》和《隐私政策》各条款，包括但不限于:为了向你提供即时通讯、内容分享等服务,我们需要收集你的设备信息、操作日志等个人信息。 你可以在设置中查看、变更、删除个人信息并管理你的授权。 你可阅读《用户协议》《隐私政策》了解详细信息。如你同意，请点击同意开始接受我们的服务。</string>
 </resources>

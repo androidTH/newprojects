@@ -8,6 +8,7 @@ import android.os.Message
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -158,6 +159,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
             }
 
             override fun onError(p0: SHARE_MEDIA?, p1: Throwable?) {
+                Log.i("invitefriends","错误${p1?.message}")
             }
 
             override fun onResult(p0: SHARE_MEDIA?) {

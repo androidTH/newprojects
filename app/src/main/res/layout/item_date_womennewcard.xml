@@ -181,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/rl_date_womenheadView"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/margin_20"
+                android:layout_marginTop="23dp"
                 android:layout_marginRight="16dp"
                 android:ellipsize="end"
                 android:gravity="right"

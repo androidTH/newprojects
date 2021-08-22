@@ -39,7 +39,6 @@ dependencies {
     implementation files('libs/umeng-share-sina-full-7.1.4.jar')
     implementation files('libs/umeng-shareboard-widget-7.1.4.jar')
     implementation files('libs/umeng-sharetool-7.1.4.jar')
-//    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //    compile 'com.umeng.sdk:common:1.5.0'
 }
 repositories {

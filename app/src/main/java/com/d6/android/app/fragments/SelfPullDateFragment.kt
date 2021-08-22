@@ -57,7 +57,7 @@ class SelfPullDateFragment : RecyclerFragment() {
         SelfPullDateAdapter(mFindDates)
     }
 
-    override fun getMode() = SwipeRefreshRecyclerLayout.Mode.Bottom
+    override fun getMode() = SwipeRefreshRecyclerLayout.Mode.Both
 
     override fun setAdapter() = dateAdapter
 
@@ -101,12 +101,16 @@ class SelfPullDateFragment : RecyclerFragment() {
                             }
                             if(!mIsUpDown){
                                 mIsUpDown =!mIsUpDown
-                                mRenGongBackground?.showBackground(mIsUpDown)
+                                if(mRenGongBackground!=null){
+                                    mRenGongBackground?.showBackground(mIsUpDown)
+                                }
                             }
                         }else if(h==0&&dy<0){
                             //表示向下滑动
                             mIsUpDown = !mIsUpDown
-                            mRenGongBackground?.showBackground(mIsUpDown)
+                            if(mRenGongBackground!=null){
+                                mRenGongBackground?.showBackground(mIsUpDown)
+                            }
                         }
                     }
                 }

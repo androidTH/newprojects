@@ -12,11 +12,13 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.MyAppointment
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
+import com.d6.android.app.utils.Const.User.ISNOTFREECHATTAG
 import com.d6.android.app.utils.Const.VoiceChatType
 import com.d6.android.app.widget.CustomToast
 import com.d6.android.app.widget.SelfPullDateView
 import com.d6.android.app.widget.VoiceChatView
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -42,9 +44,19 @@ class SelfPullDateAdapter(mData:ArrayList<MyAppointment>): HFRecyclerAdapter<MyA
 
         view.sendDateListener {
             var appointment = it
-            isBaseActivity {
-                it.isAuthUser {
-                    signUpDate(appointment)
+            if(SPUtils.instance().getBoolean(ISNOTFREECHATTAG,false)){
+                isBaseActivity{
+                    if(appointment?.iIsAnonymous==1){
+                        RongIM.getInstance().startConversation(it, Conversation.ConversationType.GROUP, "anoy_${appointment?.iAppointUserid}_${getLocalUserId()}", "匿名")
+                    }else{
+                        RongIM.getInstance().startConversation(it, Conversation.ConversationType.PRIVATE, "${appointment.iAppointUserid}", "${appointment.sAppointUserName}")
+                    }
+                }
+            }else{
+                isBaseActivity {
+                    it.isAuthUser {
+                        signUpDate(appointment)
+                    }
                 }
             }
         }

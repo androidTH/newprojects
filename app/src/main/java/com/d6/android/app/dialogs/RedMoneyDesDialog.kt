@@ -91,7 +91,7 @@ class RedMoneyDesDialog : DialogFragment() {
         }
 
         iv_redwallet_open.setOnClickListener {
-              reveiveEnvelope()
+            reveiveEnvelope()
         }
 
         getUserInfo(sendUserId)
@@ -185,27 +185,27 @@ class RedMoneyDesDialog : DialogFragment() {
 
     private fun reveiveEnvelope(){
         Request.reveiveEnvelope(sEnvelopeId).request((context as BaseActivity),false,success = {msg,data->
-             data?.let {
-                 Log.i("RedMoneyDesDialog","json=${it}")
-                 iv_redwallet_open.visibility = View.GONE
-                 var resCode = it.optInt("resCode")
-                 if(resCode==100){
-                     tv_redwallet_status.text = "已领取红包，不能重复领取"
-                 }else if(resCode==200){
-                     tv_redwallet_status.text = "领取成功"
-                 }else if(resCode==300){
-                     tv_redwallet_status.text = "手慢了，红包派完了"
-                 }else if(resCode==400){
-                     tv_redwallet_status.text = "该红包已超过24小时\n" +
-                             "已过期无法领取"
-                 }
+            data?.let {
+                Log.i("RedMoneyDesDialog","json=${it}")
+                iv_redwallet_open.visibility = View.GONE
+                var resCode = it.optInt("resCode")
+                if(resCode==100){
+                    tv_redwallet_status.text = "已领取红包，不能重复领取"
+                }else if(resCode==200){
+                    tv_redwallet_status.text = "领取成功"
+                }else if(resCode==300){
+                    tv_redwallet_status.text = "手慢了，红包派完了"
+                }else if(resCode==400){
+                    tv_redwallet_status.text = "该红包已超过24小时\n" +
+                            "已过期无法领取"
+                }
 
-                 updateMessageExtra("$resCode")
+                updateMessageExtra("$resCode")
 
-                 startActivity<RedMoneyDesActivity>("sEnvelopeId" to sEnvelopeId,"iUserId" to sendUserId,"sEnvelopeDesc" to sEnvelopeDesc)
-                 dismissAllowingStateLoss()
+                startActivity<RedMoneyDesActivity>("sEnvelopeId" to sEnvelopeId,"iUserId" to sendUserId,"sEnvelopeDesc" to sEnvelopeDesc)
+                dismissAllowingStateLoss()
 
-             }
+            }
         }){code,msg->
 
         }

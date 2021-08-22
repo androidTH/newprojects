@@ -35,7 +35,7 @@ object ShareUtils {
                     resolveIntent, 0)
 
             val ri = apps.iterator().next() as ResolveInfo
-            return ri != null
+            return true//ri != null
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }

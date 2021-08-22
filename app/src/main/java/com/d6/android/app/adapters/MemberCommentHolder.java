@@ -1,17 +1,13 @@
 package com.d6.android.app.adapters;
 
-import android.text.TextUtils;
-import android.util.Log;
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
 import com.d6.android.app.R;
-import com.d6.android.app.models.Banner;
 import com.d6.android.app.models.MemberComment;
 import com.d6.android.app.widget.convenientbanner.holder.Holder;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import java.util.ArrayList;
 
 
 /**
@@ -37,8 +33,14 @@ public class MemberCommentHolder extends Holder<MemberComment> {
             "https://tva1.sinaimg.cn/crop.10.0.492.492.180/9ba8d31djw8f9ocv5yysfj20e80doaar.jpg"
     };
 
+    private Context mContext;
     public MemberCommentHolder(View itemView) {
         super(itemView);
+    }
+
+    public MemberCommentHolder(View itemView, Context context) {
+        super(itemView);
+        this.mContext = context;
     }
 
     @Override

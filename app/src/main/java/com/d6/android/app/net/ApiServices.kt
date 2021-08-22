@@ -535,7 +535,7 @@ interface ApiServices {
 
     //赠送红心 iType：赠送的入口 1、动态 2、卡片 3、主页 4、聊天
     @POST("backstage/userloverule/sendLovePoint")
-    fun sendLovePoint(@Query("sLoginToken")sLoginToken:String, @Query("iReceiveUserid") iReceiveUserid:String, @Query("iLovePoint") iLovePoint:Int, @Query("iType") iType:Int, @Query("sResourceid")sResourceid:String, @Query("sPicUrl") sPicUrl:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+    fun sendLovePoint(@Query("sLoginToken")sLoginToken:String, @Query("iReceiveUserid") iReceiveUserid:String, @Query("iLovePoint") iLovePoint:Int, @Query("iType") iType:Int, @Query("sResourceid")sResourceid:String, @Query("sPicUrl") sPicUrl:String, @Query("sDesc") sDesc:String, @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 
     //查询我发送的爱心列表
     @POST("backstage/userloverule/findSendLoveList")
@@ -709,4 +709,11 @@ interface ApiServices {
     //查询红包的详细信息
     @POST("backstage/envelope/findEnvelopeById")
     fun findEnvelopeById(@Query("sEnvelopeId") sEnvelopeId:String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<EnvelopeStatus>>
+
+    //3.9
+    @POST("backstage/account/queryLatestNews")
+    fun queryLatestNews(@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<FindDateInfo>>
+
+    @POST("backstage/rongcloudgroup/findByPage")
+    fun findGroups(@Query("sGroupName") sGroupName: String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<FindGroupBean>>>
 }
