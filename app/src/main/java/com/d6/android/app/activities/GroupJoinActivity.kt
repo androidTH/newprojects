@@ -143,8 +143,8 @@ class GroupJoinActivity : TitleActivity() {
     }
 
     fun applayToGroup(content:String){
-        Request.applyToGroup("${tv_groupnum.text.trim()}","${content}").request(this,false,success={msg,data->
-
+        Request.applyToGroup("${mFindGroupBean.sId}","${content}").request(this,false,success={msg,data->
+            toast("${msg}")
         }){code,msg->
             toast(msg)
         }
