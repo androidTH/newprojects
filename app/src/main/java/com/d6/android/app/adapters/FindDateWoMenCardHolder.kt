@@ -1,17 +1,17 @@
 package com.d6.android.app.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.d6.android.app.R
+import com.d6.android.app.activities.FindDateActivity
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
@@ -22,6 +22,7 @@ import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.support.v4.startActivity
 import java.util.*
 
 /**
