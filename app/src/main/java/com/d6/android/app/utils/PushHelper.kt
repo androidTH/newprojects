@@ -2,6 +2,7 @@ package com.d6.android.app.utils
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import com.d6.android.app.utils.Const.UMENG_APPKEY
@@ -9,6 +10,7 @@ import com.d6.android.app.utils.Const.UMENG_MESSAGE_SECRET
 import com.taobao.accs.ACCSClient
 import com.taobao.accs.AccsClientConfig
 import com.taobao.agoo.TaobaoRegister
+import com.uc.crashsdk.export.CrashApi
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.commonsdk.utils.UMUtils
@@ -66,6 +68,10 @@ object PushHelper {
 //        }
 
         MobclickAgent.setCatchUncaughtExceptions(true)
+
+//        var customInfo = Bundle()
+//        customInfo.putBoolean("mCallNativeDefaultHandler",true);
+//        CrashApi.getInstance().updateCustomInfo(customInfo);
 
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {
