@@ -149,6 +149,7 @@ class RecommendDateActivity : BaseActivity() {
 
         viewpager_recommenddate.adapter = RecommentDatePageAdapter(supportFragmentManager,mFragments,mRecommentTypes)
         viewpager_recommenddate.offscreenPageLimit = mFragments.size
+        viewpager_recommenddate.currentItem = 1
         tab_recommentdate.setupWithViewPager(viewpager_recommenddate)
         viewpager_recommenddate.addOnPageChangeListener(object:ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {

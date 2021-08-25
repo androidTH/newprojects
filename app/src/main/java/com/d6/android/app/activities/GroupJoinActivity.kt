@@ -1,9 +1,7 @@
 package com.d6.android.app.activities
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.GroupUsersListAdapter
 import com.d6.android.app.base.TitleActivity
@@ -14,18 +12,10 @@ import com.d6.android.app.models.FindGroupBean
 import com.d6.android.app.models.GroupUserBean
 import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
-import com.d6.android.app.rong.RongD6Utils
 import com.d6.android.app.utils.*
-import io.rong.imkit.RongIM
-import io.rong.imlib.RongIMClient
-import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.activity_groupjoin.*
 import kotlinx.android.synthetic.main.activity_groupjoin.tv_groupname
-import kotlinx.android.synthetic.main.activity_joingroup.*
-import me.nereo.multi_image_selector.utils.FinishActivityManager
-import org.jetbrains.anko.imageURI
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.textColor
 import org.jetbrains.anko.toast
 
 class GroupJoinActivity : TitleActivity() {

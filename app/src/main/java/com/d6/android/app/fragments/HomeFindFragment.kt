@@ -106,6 +106,7 @@ class HomeFindFragment : BaseFragment(){
         checkLocation()
 
         getData()
+        getPeoples()
     }
 
 
@@ -273,6 +274,21 @@ class HomeFindFragment : BaseFragment(){
         }
     }
 
+    public fun setResetTopInfo(){
+        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
+            sv_finddate01.visibility = View.GONE
+            tv_01.text = "速约/觅约/救火/旅行约"
+
+            sv_finddate02.visibility = View.GONE
+            tv_02.text = "已有${data?.iAllAppointCount}人邀约成功"
+
+            sv_finddate03.visibility = View.GONE
+            tv_03.text = "魅力榜·土豪榜"
+
+            tv_finddate_02.text = "优质私密群等你加入"
+        }
+    }
+
 
     private fun getLatestNews(){
         Request.queryLatestNews().request(this){ _, data->
@@ -421,7 +437,6 @@ class HomeFindFragment : BaseFragment(){
     override fun onResume() {
         super.onResume()
         viewpagerbanner.startTurning()
-        getPeoples()
     }
 
     override fun onPause() {

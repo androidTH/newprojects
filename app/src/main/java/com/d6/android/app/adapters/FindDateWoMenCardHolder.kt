@@ -1,17 +1,17 @@
 package com.d6.android.app.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import com.d6.android.app.R
+import com.d6.android.app.activities.FindDateActivity
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag
@@ -22,6 +22,7 @@ import com.d6.android.app.widget.frescohelper.IResult
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.support.v4.startActivity
 import java.util.*
 
 /**
@@ -36,7 +37,6 @@ class FindDateWoMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
     private lateinit var bigImgView: SimpleDraweeView
     private lateinit var iv_wh: SimpleDraweeView
     private lateinit var rv_mydate_tags: RecyclerView
-    private lateinit var tv_indexofpics: TextView
     private lateinit var tv_name: TextView
     private lateinit var img_date_womenauther: ImageView
     private lateinit var tv_women_vip: TextView
@@ -61,7 +61,6 @@ class FindDateWoMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
         bigImgView = itemView.findViewById(R.id.imageView)
         iv_wh = itemView.findViewById(R.id.iv_wh)
         rv_mydate_tags = itemView.findViewById(R.id.rv_mydate_tags)
-        tv_indexofpics = itemView.findViewById(R.id.tv_indexofpics)
         tv_name = itemView.findViewById(R.id.tv_name)
         img_date_womenauther = itemView.findViewById(R.id.img_date_womenauther)
         tv_women_vip = itemView.findViewById(R.id.tv_vip)
@@ -125,22 +124,14 @@ class FindDateWoMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
         if (!TextUtils.equals(data.userpics, "null")) {
             if (TextUtils.isEmpty(data.userpics)) {
                 mBannerImages.add(data.picUrl)
-                tv_indexofpics.visibility = View.GONE
             } else {
                 var images = data.userpics.split(",")
                 if (images.size > 0) {
                     mBannerImages.addAll(images)
                 }
-                if(images.size>1){
-                    tv_indexofpics.visibility = View.VISIBLE
-                    tv_indexofpics.setText("1/${images.size}")
-                }else{
-                    tv_indexofpics.visibility = View.GONE
-                }
             }
         } else {
             mBannerImages.add(data.picUrl)
-            tv_indexofpics.visibility = View.GONE
         }
         FrescoUtils.loadImage(mContext, mBannerImages[0], object : IResult<Bitmap> {
             override fun onResult(result: Bitmap?) {

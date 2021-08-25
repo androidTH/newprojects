@@ -212,6 +212,7 @@ dependencies {
     api 'com.umeng.umsdk:common:9.3.8'
     implementation 'com.umeng.umsdk:asms:1.2.2'
     implementation 'com.umeng.umsdk:utdid:1.5.2.1'
+//    implementation 'com.umeng.umsdk:apm:1.2.0'
 
     //友盟Push相关依赖（必须）
     api 'com.umeng.umsdk:push:6.3.3'

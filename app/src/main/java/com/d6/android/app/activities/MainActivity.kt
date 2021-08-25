@@ -257,6 +257,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    tv_title1.gone()
 //                    tv_title.text = "人工服务"
 //                    tv_date_tab.visibility = View.VISIBLE
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                    if (fragment != null && fragment is HomeFindFragment) {
+                        fragment.setResetTopInfo()
+                    }
                 }
 
                 TextUtils.equals(it, tabTexts[2]) -> {
@@ -270,6 +274,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    iv_right.text = "发布"
                     tv_title1.text = ""
                     getUserInfoUnMsg()
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                    if (fragment != null && fragment is HomeFindFragment) {
+                        fragment.setResetTopInfo()
+                    }
                 }
                 TextUtils.equals(it, tabTexts[3]) -> {
                     immersionBar.init()
@@ -279,6 +287,10 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title1.gone()
                     tv_title.text = "我的"
                     line.gone()
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                    if (fragment != null && fragment is HomeFindFragment) {
+                        fragment.setResetTopInfo()
+                    }
                 }
             }
         }
