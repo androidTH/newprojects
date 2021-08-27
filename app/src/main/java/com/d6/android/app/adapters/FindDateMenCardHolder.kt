@@ -57,7 +57,7 @@ class FindDateMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
     private val mImages = ArrayList<String>()
     private val mTags = ArrayList<UserTag>()
     private lateinit var mContext: Context
-    private lateinit var holder:View;
+    private lateinit var holder:View
 
     constructor(itemView: View?, context: Context) : this(itemView) {
         suspend { itemView }
