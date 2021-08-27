@@ -25,6 +25,7 @@ data class FindGroupBean(var sId:String?="") :Parcelable{
     var sLastJoinMember:String?=""
     var iCreateUserid:Int?=-1
     var sMemberId:String?=""
+    var iJoinGroup:Int=-1
 
     constructor(parcel: Parcel) : this(parcel.readString()) {
         sGroupPic = parcel.readString()
@@ -42,6 +43,7 @@ data class FindGroupBean(var sId:String?="") :Parcelable{
         sLastJoinMember = parcel.readString()
         iCreateUserid = parcel.readValue(Int::class.java.classLoader) as? Int
         sMemberId = parcel.readString()
+        iJoinGroup = parcel.readValue(Int::class.java.classLoader) as Int
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -61,6 +63,7 @@ data class FindGroupBean(var sId:String?="") :Parcelable{
         parcel.writeString(sLastJoinMember)
         parcel.writeValue(iCreateUserid)
         parcel.writeString(sMemberId)
+        parcel.writeValue(iJoinGroup)
     }
 
     override fun describeContents(): Int {
