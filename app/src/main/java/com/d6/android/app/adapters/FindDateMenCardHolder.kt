@@ -68,7 +68,7 @@ class FindDateMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
     override fun initView(itemView: View) {
         holder = itemView
         rl_man_card = itemView.findViewById(R.id.rl_man_card)
-        imageView = itemView.findViewById(R.id.imageView)
+        imageView = itemView.findViewById(R.id.imageView)//item_finddatecard  layout_men_finddate_big
         rl_small_mendate_layout = itemView.findViewById(R.id.rl_small_mendate_layout)
         rl_big_mendate_layout = itemView.findViewById(R.id.rl_big_mendate_layout)
         rv_mydate_images = itemView.findViewById(R.id.rv_mydate_images)
@@ -81,8 +81,8 @@ class FindDateMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
         tv_sex = itemView.findViewById(R.id.tv_sex)
         tv_vip = itemView.findViewById(R.id.tv_vip)
         ll_like = itemView.findViewById(R.id.ll_like)
-        tv_linetime = itemView.findViewById(R.id.tv_linetime)
-        tv_loveheart_vistor = itemView.findViewById(R.id.tv_loveheart_vistor)
+        tv_linetime = itemView.findViewById(R.id.tv_vistor_count)
+        tv_loveheart_vistor = itemView.findViewById(R.id.tv_like_count)
         tv_age = itemView.findViewById(R.id.tv_age)
         tv_content = itemView.findViewById(R.id.tv_content)
     }
