@@ -12,6 +12,8 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.FindGroupBean
 import com.d6.android.app.net.Request
 import com.d6.android.app.widget.loadmore.FindGroupLoadMoreView
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.Conversation
 import org.jetbrains.anko.support.v4.startActivity
 
 /**
@@ -40,7 +42,11 @@ class FindGroupQuickFragment : ReRecyclerFragment() {
         FindGroupAdapter.setLoadMoreView(FindGroupLoadMoreView())
         FindGroupAdapter.setOnItemClickListener { adapter, view, position ->
             val groupBean = mGroupList[position]
-            startActivity<GroupJoinActivity>("bean" to groupBean)
+            if(groupBean.iJoinGroup>0){
+                RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,"${groupBean.sId}", "")
+            }else{
+                startActivity<GroupJoinActivity>("bean" to groupBean)
+            }
         }
         FindGroupAdapter.setHeaderAndEmpty(true)
     }
