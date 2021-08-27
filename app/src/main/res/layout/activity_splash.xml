@@ -81,7 +81,7 @@
             android:background="@drawable/shape_sign_login_press_circle">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="50dp"
                 android:text="手机号注册/登录"
                 android:textColor="@color/white"
                 android:drawableLeft="@mipmap/login_cellphone"
@@ -101,7 +101,7 @@
             android:background="@drawable/shape_sign_wxlogin_press_circle">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
+                android:layout_height="50dp"
                 android:drawableLeft="@mipmap/login_wechat"
                 android:drawablePadding="@dimen/margin_6"
                 android:layout_centerHorizontal="true"
