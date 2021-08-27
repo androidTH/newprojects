@@ -69,6 +69,7 @@ class FindDateMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
         holder = itemView
         rl_man_card = itemView.findViewById(R.id.rl_man_card)
         imageView = itemView.findViewById(R.id.imageView)//item_finddatecard  layout_men_finddate_big
+        headView = itemView.findViewById(R.id.headView)
         rl_small_mendate_layout = itemView.findViewById(R.id.rl_small_mendate_layout)
         rl_big_mendate_layout = itemView.findViewById(R.id.rl_big_mendate_layout)
         rv_mydate_images = itemView.findViewById(R.id.rv_mydate_images)
