@@ -258,6 +258,11 @@ class HomeFindFragment : BaseFragment(){
         }
     }
 
+
+    private var mRunnable = Runnable {
+        getLatestNews()
+    }
+
     private fun getPeoples(){
         Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
             sv_finddate01.visibility = View.GONE
@@ -270,11 +275,14 @@ class HomeFindFragment : BaseFragment(){
             tv_03.text = "魅力榜·土豪榜"
 
             tv_finddate_02.text = "优质私密群等你加入"
-            getLatestNews()
+
+            rl_homefindtop.removeCallbacks(mRunnable)
+            rl_homefindtop.postDelayed(mRunnable,2000)
         }
     }
 
     public fun setResetTopInfo(){
+        rl_homefindtop.removeCallbacks(mRunnable)
         Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
             sv_finddate01.visibility = View.GONE
             tv_01.text = "速约/觅约/救火/旅行约"

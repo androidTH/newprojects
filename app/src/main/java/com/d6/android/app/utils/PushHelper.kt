@@ -10,7 +10,7 @@ import com.d6.android.app.utils.Const.UMENG_MESSAGE_SECRET
 import com.taobao.accs.ACCSClient
 import com.taobao.accs.AccsClientConfig
 import com.taobao.agoo.TaobaoRegister
-import com.uc.crashsdk.export.CrashApi
+//import com.uc.crashsdk.export.CrashApi
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.commonsdk.utils.UMUtils
