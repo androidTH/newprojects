@@ -114,13 +114,13 @@ class FindDateMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
             if (!TextUtils.equals(data.userpics, "null")) {
                 if (TextUtils.isEmpty(data.userpics)) {
                     mImages.add(data.picUrl)
-                    rv_mydate_images.visibility = View.VISIBLE
+                    rv_mydate_images.visibility = View.GONE
 //                        nomg_line.visibility = View.GONE
                 } else {
                     var imglist = data.userpics.split(",")
                     if (imglist.size == 0) {
                         mImages.add(data.picUrl)
-                        rv_mydate_images.visibility = View.VISIBLE
+                        rv_mydate_images.visibility = View.GONE
 //                            nomg_line.visibility = View.GONE
                     } else {
 //                            nomg_line.visibility = View.GONE
@@ -134,18 +134,15 @@ class FindDateMenCardHolder(itemView: View?) : Holder<FindDate>(itemView) {
                 }
             } else {
                 mImages.add(data.picUrl)
-                rv_mydate_images.visibility = View.VISIBLE
+                rv_mydate_images.visibility = View.GONE
 //                    nomg_line.visibility = View.VISIBLE
             }
 
-            rv_mydate_images.visibility = View.VISIBLE
+            rv_mydate_images.visibility = View.GONE
             rv_mydate_images.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
             rv_mydate_images.setHasFixedSize(true)
 
             rv_mydate_images.adapter = DatelmageAdapter(mImages, 1)
-            (rv_mydate_images.adapter as DatelmageAdapter).setOnItemClickListener { adapter, view, p ->
-//                context.startActivity<UserInfoActivity>("id" to data.accountId.toString())
-            }
             rv_mydate_tags.setHasFixedSize(true)
             rv_mydate_tags.layoutManager = GridLayoutManager(mContext, 2)
             rv_mydate_tags.isNestedScrollingEnabled = false
