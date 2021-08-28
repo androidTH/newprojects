@@ -131,6 +131,7 @@ class SendLoveHeartDialog : DialogFragment() {
                             dialogListener?.onClick(it, "${desc}")
                             dismissAllowingStateLoss()
                         }else{
+                            tv_redheart_balance.text = "还差${mSendLoveHeartCount!!.toInt()-mLocalUserLoveHeartCount!!.toInt()}"
                             ll_user_lovepoint.visibility = View.VISIBLE
                         }
                     }
@@ -201,7 +202,7 @@ class SendLoveHeartDialog : DialogFragment() {
             data?.let {
                 if(context!= null){
                     mLocalUserLoveHeartCount = it.iLovePoint
-                    tv_redheart_count.text = "剩余${mLocalUserLoveHeartCount}"
+                    tv_redheart_count.text = "${mLocalUserLoveHeartCount} [img src=redheart_small/]"
                 }
             }
         })
