@@ -12,6 +12,7 @@
         style="@style/DefaultHeadStyle"
         android:layout_width="43dp"
         android:layout_height="43dp"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginRight="@dimen/margin_10"
         app:roundedCornerRadius="26dp" />
@@ -21,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginRight="@dimen/margin_45"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/group_headView"
         android:gravity="center_vertical"
-        android:paddingTop="@dimen/margin_5"
         android:orientation="vertical">
 
         <LinearLayout
@@ -51,8 +52,7 @@
             <TextView
                 android:id="@+id/tv_groupnums"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:layout_height="match_parent"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/color_888888"

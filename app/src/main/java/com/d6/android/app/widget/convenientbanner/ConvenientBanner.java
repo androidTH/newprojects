@@ -44,7 +44,7 @@ public class ConvenientBanner<T> extends RelativeLayout {
     private boolean turning;
     private boolean canTurn = false;
     private boolean canLoop = true;
-    private boolean noScrollEnabled = false;
+    private boolean noScrollEnabled = true;
     private CBLoopScaleHelper cbLoopScaleHelper;
     private CBPageChangeListener pageChangeListener;
     private OnPageChangeListener onPageChangeListener;
@@ -70,7 +70,7 @@ public class ConvenientBanner<T> extends RelativeLayout {
     }
 
     private CustomLayoutManager linearLayoutManager;
-//    private RecyclerViewDisabler mRecyclerViewDisabler;
+    //    private RecyclerViewDisabler mRecyclerViewDisabler;
     private void init(Context context) {
         View hView = LayoutInflater.from(context).inflate(
                 R.layout.include_viewpager, this, true);
@@ -78,11 +78,14 @@ public class ConvenientBanner<T> extends RelativeLayout {
         loPageTurningPoint = (ViewGroup)hView
                 .findViewById(R.id.loPageTurningPoint);
 //        viewPager.addOnItemTouchListener(mRecyclerViewDisabler = new RecyclerViewDisabler());
-
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         linearLayoutManager = new CustomLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        linearLayoutManager.setScrollEnabled(!noScrollEnabled);
 
+        if(noScrollEnabled){
+            linearLayoutManager.setScrollEnabled(noScrollEnabled);
+        }else{
+            linearLayoutManager.setScrollEnabled(true);
+        }
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         viewPager.setLayoutManager(linearLayoutManager);
 
         cbLoopScaleHelper = new CBLoopScaleHelper();

@@ -96,7 +96,7 @@ class HomeFindFragment : BaseFragment(){
             getPeoples()
         }
 
-        viewpagerbanner.postDelayed(object : Runnable {
+        mSwipeRefreshLayout.postDelayed(object : Runnable {
             override fun run() {
                 getProvinceData()
             }
@@ -432,13 +432,12 @@ class HomeFindFragment : BaseFragment(){
                     mDates.clear()
                 }
                 data.list.results?.let {
-                    mDates.clear()
                     mDates.addAll(it.subList(0, 3))
 //                    var h = LinkedHashSet<FindDate>(mDates)
 //                    mDates.clear()
 //                    mDates.addAll(h.toList())
+                    initBanner()
                 }
-                initBanner()
             }
         }
     }

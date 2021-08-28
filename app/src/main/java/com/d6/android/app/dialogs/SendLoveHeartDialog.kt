@@ -102,10 +102,10 @@ class SendLoveHeartDialog : DialogFragment() {
         }
 
         tv_redheart_gobuy.setOnClickListener {
-             isBaseActivity {
-                 startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
-                 dismissAllowingStateLoss()
-             }
+            isBaseActivity {
+                startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
+                dismissAllowingStateLoss()
+            }
         }
 
         rv_send_redheart.setHasFixedSize(true)
@@ -232,15 +232,15 @@ class SendLoveHeartDialog : DialogFragment() {
 
     private fun BuyRedFlowerSuccess(id:String,flowerCount:String){
         val dialogSendFlowerSuccess = DialogSendFlowerSuccess()
-            dialogSendFlowerSuccess.arguments = bundleOf("ToFromType" to mToFromType ,"userId" to id,"nums" to flowerCount)
-            dialogSendFlowerSuccess.show((context as BaseActivity).supportFragmentManager, "sendflower")
+        dialogSendFlowerSuccess.arguments = bundleOf("ToFromType" to mToFromType ,"userId" to id,"nums" to flowerCount)
+        dialogSendFlowerSuccess.show((context as BaseActivity).supportFragmentManager, "sendflower")
     }
 
     private fun sendSysMessage(targetId:String){
-         var systemmsg = CustomSystemMessage("申请置顶")
-         var richContentMessage = CustomSystemMessage.obtain("申请置顶",GsonHelper.getGson().toJson(systemmsg))
-         var msg = Message.obtain(targetId, Conversation.ConversationType.PRIVATE, richContentMessage);
-         RongIM.getInstance().sendMessage(msg, null, null, object : IRongCallback.ISendMessageCallback{
+        var systemmsg = CustomSystemMessage("申请置顶")
+        var richContentMessage = CustomSystemMessage.obtain("申请置顶",GsonHelper.getGson().toJson(systemmsg))
+        var msg = Message.obtain(targetId, Conversation.ConversationType.PRIVATE, richContentMessage);
+        RongIM.getInstance().sendMessage(msg, null, null, object : IRongCallback.ISendMessageCallback{
             override fun onAttached(p0: Message?) {
             }
 
