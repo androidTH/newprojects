@@ -94,6 +94,7 @@ class HomeFindFragment : BaseFragment(){
         mSwipeRefreshLayout.setOnRefreshListener {
             mSwipeRefreshLayout.isRefreshing = false
             getPeoples()
+            getData()
         }
 
         mSwipeRefreshLayout.postDelayed(object : Runnable {
@@ -105,8 +106,8 @@ class HomeFindFragment : BaseFragment(){
         loginforPoint()
         checkLocation()
 
-        getData()
         getPeoples()
+        getData()
     }
 
 
@@ -397,7 +398,7 @@ class HomeFindFragment : BaseFragment(){
         var annotation3 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
         annotation3.setAnimationListener(object : Animation.AnimationListener{
             override fun onAnimationEnd(animation: Animation?) {
-                tv_finddate_02.text = "新人报道群(${mFindDateInfo.rongGroup_count}）"
+                tv_finddate_02.text = "新人报道群(${mFindDateInfo.rongGroup_count}人）"
                 var annotation3 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
                 tv_finddate_02.startAnimation(annotation3)
             }
@@ -433,9 +434,6 @@ class HomeFindFragment : BaseFragment(){
                 }
                 data.list.results?.let {
                     mDates.addAll(it.subList(0, 3))
-//                    var h = LinkedHashSet<FindDate>(mDates)
-//                    mDates.clear()
-//                    mDates.addAll(h.toList())
                     initBanner()
                 }
             }

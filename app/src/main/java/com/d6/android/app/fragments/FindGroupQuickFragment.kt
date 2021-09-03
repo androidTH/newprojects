@@ -3,6 +3,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.d6.android.app.R
 import com.d6.android.app.activities.GroupJoinActivity
@@ -71,6 +72,10 @@ class FindGroupQuickFragment : ReRecyclerFragment() {
                     FindGroupAdapter.loadMoreComplete()
                 }
                 FindGroupAdapter.notifyDataSetChanged()
+
+                if(FindGroupAdapter.data.size==0&&activity!=null){
+                    FindGroupAdapter.emptyView = LayoutInflater.from(activity).inflate(R.layout.empty_group_layout,null)
+                }
             }
         }
     }

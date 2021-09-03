@@ -269,6 +269,7 @@ public class ConvenientBanner<T> extends RelativeLayout {
         canTurn = true;
         this.autoTurningTime = autoTurningTime;
         turning = true;
+        removeCallbacks(adSwitchTask);
         postDelayed(adSwitchTask, autoTurningTime);
         return this;
     }
@@ -322,6 +323,7 @@ public class ConvenientBanner<T> extends RelativeLayout {
                 if (convenientBanner.viewPager != null && convenientBanner.turning) {
                     int page = convenientBanner.cbLoopScaleHelper.getCurrentItem() + 1;
                     convenientBanner.cbLoopScaleHelper.setCurrentItem(page, true);
+                    convenientBanner.removeCallbacks(convenientBanner.adSwitchTask);
                     convenientBanner.postDelayed(convenientBanner.adSwitchTask, convenientBanner.autoTurningTime);
                 }
             }
