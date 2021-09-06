@@ -136,6 +136,9 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
         mTvMenuTopTitle.setText(mCities.get(0).getName());
     }
 
+    public void updateCityOfProvice(){
+        mCityOfProvinceAdapter.notifyDataSetChanged();
+    }
 
     private void onPopupItemClick(int position,String name){
         if (mOnPopupItemClickListener != null) {

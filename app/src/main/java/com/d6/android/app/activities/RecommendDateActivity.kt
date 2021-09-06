@@ -1,9 +1,11 @@
 package com.d6.android.app.activities
 
+import android.Manifest
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.view.View
+import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.adapters.RecommentDatePageAdapter
 import com.d6.android.app.base.BaseActivity
@@ -23,6 +25,7 @@ import com.d6.android.app.utils.Const.User.USER_CLASS_NAME
 import com.d6.android.app.utils.Const.User.USER_HEAD
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_recommend_date.*
 import org.jetbrains.anko.startActivity
 
@@ -40,7 +43,11 @@ class RecommendDateActivity : BaseActivity() {
 
     private var mFragments = ArrayList<RecommendDateQuickFragment>()
 
-    private var pageSelected = 0
+    private var pageSelected = 1
+
+    private val locationClient by lazy {
+        AMapLocationClient(this)
+    }
 
     private val lastTime by lazy{
         SPUtils.instance().getString(Const.LASTTIMEOFPROVINCEINFIND)
@@ -149,7 +156,7 @@ class RecommendDateActivity : BaseActivity() {
 
         viewpager_recommenddate.adapter = RecommentDatePageAdapter(supportFragmentManager,mFragments,mRecommentTypes)
         viewpager_recommenddate.offscreenPageLimit = mFragments.size
-        viewpager_recommenddate.currentItem = 1
+        viewpager_recommenddate.currentItem = pageSelected
         tab_recommentdate.setupWithViewPager(viewpager_recommenddate)
         viewpager_recommenddate.addOnPageChangeListener(object:ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(state: Int) {
@@ -215,19 +222,63 @@ class RecommendDateActivity : BaseActivity() {
     private fun showArea(){
         mPopupArea.showAsDropDown(ll_rgchoose,0,resources.getDimensionPixelOffset(R.dimen.margin_1))
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
-            if(position == -3){
-                city = ""
-                tv_date_city.text = getString(R.string.string_area_city)
+            if (position == -2) {
+                checkLocation()
             }else{
-                city = string
-                tv_date_city.text = string
+                if(position == -3){
+                    city = ""
+                    tv_date_city.text = getString(R.string.string_area_city)
+                }else{
+                    city = string
+                    tv_date_city.text = string
+                }
+                mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,city)
             }
-            mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,city)
         }
 
         mPopupArea.setOnDismissListener {
 
         }
+    }
+
+    private fun checkLocation(){
+        RxPermissions(this).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
+            if (it) {
+                startLocation()
+                SPUtils.instance().put(Const.User.ISNOTLOCATION,false).apply()
+            }else{
+                SPUtils.instance().put(Const.User.ISNOTLOCATION,true).apply()
+            }
+        }
+
+        locationClient.setLocationListener {
+            if (it != null) {
+                locationClient.stopLocation()
+                SPUtils.instance().put(Const.User.USER_ADDRESS,it.city).apply() //it.city
+                SPUtils.instance().put(Const.User.USER_PROVINCE,it.province).apply()
+                getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
+
+                tv_date_city.text = getReplace(it.province)
+                mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,"${tv_date_city.text}")
+
+                if(mPopupArea!=null){
+                    mPopupArea.updateCityOfProvice()
+                }
+            }
+        }
+    }
+
+    /**
+     * 经纬度提交给服务端
+     */
+    private fun getUserLocation(city:String,sProvince:String,sCountry:String,lat:String,lon:String){
+        Request.updateUserPosition(getLocalUserId(),sProvince,sCountry,city,lat,lon).request(this,false,success={_,data->
+        })
+    }
+
+    private fun startLocation() {
+        locationClient.stopLocation()
+        locationClient.startLocation()
     }
 
     override fun onDestroy() {

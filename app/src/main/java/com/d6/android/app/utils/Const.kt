@@ -77,6 +77,9 @@ object Const {
     val SERVICE_WECHAT_CODE = "service_wechat_code"
     val SCORE_EXPLAIN_CODE = "integral_explain"
     val PIECES_VIP_INSTRODUCE = "vip_introduce"
+    val  PRIVACY_POLICY="privacy_policy"
+    val  USER_AGREEMENT="user agreement"
+
     val CONST_RES_MIPMAP= "res:///"
     val RONGIM_APPKEY = "82hegw5u8du6x"
 //    val RONGIM_APPKEY = "e0x9wycfetfsq"
@@ -286,4 +289,7 @@ object Const {
     var iLovePointShow:Int = -1 //超级喜欢的爱心数量
 
     val LOCALBROADCAST_SENDREDMONEY = "com.d6.app.sendredmoney.buyloveheart"
+
+    var PRIVATE_URL = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
+    var USER_AGREEMENT_URL = "file:///android_asset/yonghuxieyi.html"
 }

@@ -10,7 +10,7 @@ import com.d6.android.app.utils.Const.UMENG_MESSAGE_SECRET
 import com.taobao.accs.ACCSClient
 import com.taobao.accs.AccsClientConfig
 import com.taobao.agoo.TaobaoRegister
-//import com.uc.crashsdk.export.CrashApi
+import com.uc.crashsdk.export.CrashApi
 import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import com.umeng.commonsdk.utils.UMUtils
@@ -61,17 +61,14 @@ object PushHelper {
         mPushAgent.setMessageHandler(CustomNotification())
         mPushAgent.setNotificationClickHandler(CustomNotificationHandler())
         val random = (Math.random() * 2).toInt()
-//        if(random==0){
-//            MobclickAgent.setCatchUncaughtExceptions(false)
-//        }else{
-//            MobclickAgent.setCatchUncaughtExceptions(true)
-//        }
-
-        MobclickAgent.setCatchUncaughtExceptions(true)
-
-//        var customInfo = Bundle()
-//        customInfo.putBoolean("mCallNativeDefaultHandler",true);
-//        CrashApi.getInstance().updateCustomInfo(customInfo);
+        var customInfo = Bundle()
+        if(random==0){
+            customInfo.putBoolean("mCallNativeDefaultHandler",false)
+        }else{
+            customInfo.putBoolean("mCallNativeDefaultHandler",true)
+        }
+//        MobclickAgent.setCatchUncaughtExceptions(true)
+        CrashApi.getInstance().updateCustomInfo(customInfo)
 
         //注册推送服务，每次调用register方法都会回调该接口
         mPushAgent.register(object : IUmengRegisterCallback {

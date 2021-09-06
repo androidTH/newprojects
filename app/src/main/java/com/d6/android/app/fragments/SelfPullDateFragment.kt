@@ -57,7 +57,7 @@ class SelfPullDateFragment : RecyclerFragment() {
         SelfPullDateAdapter(mFindDates)
     }
 
-    override fun getMode() = SwipeRefreshRecyclerLayout.Mode.Both
+    override fun getMode() = SwipeRefreshRecyclerLayout.Mode.Bottom
 
     override fun setAdapter() = dateAdapter
 

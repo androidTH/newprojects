@@ -13,8 +13,8 @@ android {
         applicationId "com.d6.android.app"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 90 //32 2.2.1
-        versionName "3.9.0"
+        versionCode 92 //32 2.2.1
+        versionName "3.9.2"
 
         ndk {
             abiFilters "armeabi" //"armeabi"//'arm64-v8a'//'x86', 'x86_64', 'mips', 'mips64'
@@ -212,7 +212,7 @@ dependencies {
     api 'com.umeng.umsdk:common:9.3.8'
     implementation 'com.umeng.umsdk:asms:1.2.2'
     implementation 'com.umeng.umsdk:utdid:1.5.2.1'
-//    implementation 'com.umeng.umsdk:apm:1.2.0'
+    implementation 'com.umeng.umsdk:apm:1.2.0'
 
     //友盟Push相关依赖（必须）
     api 'com.umeng.umsdk:push:6.3.3'

@@ -14,121 +14,120 @@
             android:id="@+id/rl_homefindtop"
             android:layout_width="match_parent"
             android:layout_marginTop="@dimen/margin_8"
-            android:layout_height="150dp">
-            <RelativeLayout
-                android:id="@+id/rl_rgservice"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_below="@+id/rl_user_info"
-                android:layout_marginBottom="@dimen/margin_3"
-                android:layout_marginLeft="@dimen/margin_8"
-                android:layout_toLeftOf="@+id/iv_middle"
-                android:paddingLeft="@dimen/margin_10"
-                android:background="@drawable/shape_list_6r_ff">
+            android:layout_height="75dp">
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/rl_rgservice"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:layout_below="@+id/rl_user_info"-->
+<!--                android:layout_marginBottom="@dimen/margin_3"-->
+<!--                android:layout_marginLeft="@dimen/margin_8"-->
+<!--                android:layout_toLeftOf="@+id/iv_middle"-->
+<!--                android:paddingLeft="@dimen/margin_10"-->
+<!--                android:background="@drawable/shape_list_6r_ff">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:layout_marginBottom="@dimen/margin_8"
-                    android:gravity="center_vertical"
-                    android:text="人工牵线"
-                    android:textStyle="bold"
-                    android:textColor="@color/color_BFFFFFFF"
-                    android:textSize="16sp" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/margin_8"-->
+<!--                    android:layout_marginBottom="@dimen/margin_8"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:text="人工牵线"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/color_BFFFFFFF"-->
+<!--                    android:textSize="16sp" />-->
 
-                <LinearLayout
-                    android:id="@+id/ll_finddate01"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/sv_finddate01"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginRight="@dimen/margin_3"
-                        android:visibility="gone"
-                        fresco:viewAspectRatio="1.0"
-                        fresco:roundingBorderColor="@color/color_D8D8D8"
-                        fresco:roundingBorderWidth="0.5dp"
-                        fresco:roundAsCircle="true" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:text="速约/觅约/救火/旅行约"
-                        android:textColor="@color/color_BFFFFFFF"
-                        android:id="@+id/tv_01"/>
-                </LinearLayout>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/icon_renggong"/>
-            </RelativeLayout>
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/ll_finddate01"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    android:layout_marginBottom="@dimen/margin_10"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <com.facebook.drawee.view.SimpleDraweeView-->
+<!--                        android:id="@+id/sv_finddate01"-->
+<!--                        android:layout_width="18dp"-->
+<!--                        android:layout_height="18dp"-->
+<!--                        android:layout_marginRight="@dimen/margin_3"-->
+<!--                        android:visibility="gone"-->
+<!--                        fresco:viewAspectRatio="1.0"-->
+<!--                        fresco:roundingBorderColor="@color/color_D8D8D8"-->
+<!--                        fresco:roundingBorderWidth="0.5dp"-->
+<!--                        fresco:roundAsCircle="true" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:text="速约/觅约/救火/旅行约"-->
+<!--                        android:textColor="@color/color_BFFFFFFF"-->
+<!--                        android:id="@+id/tv_01"/>-->
+<!--                </LinearLayout>-->
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:src="@mipmap/icon_renggong"/>-->
+<!--            </RelativeLayout>-->
             <View
                 android:id="@+id/iv_middle"
                 android:layout_width="3dp"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true" />
-            <RelativeLayout
-                android:id="@+id/rl_datepage"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginRight="@dimen/margin_8"
-                android:layout_marginBottom="@dimen/margin_3"
-                android:layout_toRightOf="@+id/iv_middle"
-                android:background="@drawable/shape_list_6r_fb"
-                android:paddingLeft="@dimen/margin_10">
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/rl_datepage"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:layout_marginRight="@dimen/margin_8"-->
+<!--                android:layout_marginBottom="@dimen/margin_3"-->
+<!--                android:layout_toRightOf="@+id/iv_middle"-->
+<!--                android:background="@drawable/shape_list_6r_fb"-->
+<!--                android:paddingLeft="@dimen/margin_10">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_8"
-                    android:layout_marginBottom="@dimen/margin_8"
-                    android:gravity="center_vertical"
-                    android:text="自主约会"
-                    android:textStyle="bold"
-                    android:textColor="@color/color_BFFFFFFF"
-                    android:textSize="16sp" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/margin_8"-->
+<!--                    android:layout_marginBottom="@dimen/margin_8"-->
+<!--                    android:gravity="center_vertical"-->
+<!--                    android:text="自主约会"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/color_BFFFFFFF"-->
+<!--                    android:textSize="16sp" />-->
 
-                <LinearLayout
-                    android:id="@+id/ll_finddate02"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/margin_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/sv_finddate02"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_marginRight="@dimen/margin_3"
-                        android:visibility="gone"
-                        fresco:viewAspectRatio="1.0"
-                        fresco:roundingBorderColor="@color/color_D8D8D8"
-                        fresco:roundingBorderWidth="0.5dp"
-                        fresco:roundAsCircle="true" />
-                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="@color/color_BFFFFFFF"
-                        android:id="@+id/tv_02"/>
-                </LinearLayout>
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/ll_finddate02"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    android:layout_marginBottom="@dimen/margin_10"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <com.facebook.drawee.view.SimpleDraweeView-->
+<!--                        android:id="@+id/sv_finddate02"-->
+<!--                        android:layout_width="18dp"-->
+<!--                        android:layout_height="18dp"-->
+<!--                        android:layout_marginRight="@dimen/margin_3"-->
+<!--                        android:visibility="gone"-->
+<!--                        fresco:viewAspectRatio="1.0"-->
+<!--                        fresco:roundingBorderColor="@color/color_D8D8D8"-->
+<!--                        fresco:roundingBorderWidth="0.5dp"-->
+<!--                        fresco:roundAsCircle="true" />-->
+<!--                    <com.d6.android.app.widget.textinlineimage.TextInlineImage-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/color_BFFFFFFF"-->
+<!--                        android:id="@+id/tv_02"/>-->
+<!--                </LinearLayout>-->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/icon_yuehui"/>
-            </RelativeLayout>
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:src="@mipmap/icon_yuehui"/>-->
+<!--            </RelativeLayout>-->
 
             <RelativeLayout
                 android:id="@+id/rl_bangdanpage"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_below="@+id/rl_rgservice"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:layout_marginLeft="@dimen/margin_8"
                 android:layout_toLeftOf="@+id/iv_middle"
@@ -181,7 +180,6 @@
 
             <RelativeLayout
                 android:id="@+id/rl_groupchat"
-                android:layout_below="@+id/rl_rgservice"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginRight="@dimen/margin_8"

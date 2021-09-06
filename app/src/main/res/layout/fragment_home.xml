@@ -67,7 +67,7 @@
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:textStyle="bold"
-                    android:text="查看全部客服推荐"
+                    android:text="查看人工牵线"
                     android:textColor="@color/orange_f6a"
                     android:textSize="15sp" />
 

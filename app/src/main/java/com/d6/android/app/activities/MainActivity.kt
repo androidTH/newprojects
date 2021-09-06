@@ -72,11 +72,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     }
 
     private var isUpdown:Boolean = false
-    private val tabTexts = arrayOf("发现","动态","聊天", "我的")//"遇见",
+    private val tabTexts = arrayOf("邀约","发现","动态","聊天", "我的")//"遇见",
 
-    private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_square_selector
+    private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)//R.drawable.home_speed_date_selector,
-    private val fragmentArray = arrayOf<Class<*>>(HomeFindFragment::class.java, SquareMainFragment::class.java,
+    private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,HomeFindFragment::class.java, SquareMainFragment::class.java,
             MessageFragment::class.java,MineFragment::class.java)//DateFragment::class.java
     private var unReadDateMsg:Int=-1
     private var unReadMsgNum:Int=0
@@ -102,7 +102,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
-                    tabhost.currentTab = 3
+                    tabhost.currentTab = 4
                 }
             }
         }
@@ -136,7 +136,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
-                    val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView
+                    val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_red) as TextView
                     intent?.let {
                         var showwarm = intent.getBooleanExtra("showwarm",false)
                         if(showwarm){
@@ -210,15 +210,15 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     setNoticeIsNoShow()
                     iv_right.gone()
                     tv_title1.gone()
-                    tv_title.text = "发现"
+                    tv_title.text = "邀约"
                     tv_find_tab.visibility = View.VISIBLE
 
-                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
                     if (fragment != null && fragment is HomeFindFragment) {
-                        fragment.refresh(getUserSex(),-1)
+                        fragment.setResetTopInfo()
                     }
                 }
-//                TextUtils.equals(it, tabTexts[1]) -> {
+                TextUtils.equals(it, tabTexts[1]) -> {
 //                    immersionBar.init()
 //                    titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
 //                    titleBar.gone()
@@ -227,8 +227,24 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    tv_title.text = "D6社区"
 //                    tv_square_tab.visibility = View.VISIBLE
 //                    getUserInfoUnMsg()
-//                }
-                TextUtils.equals(it, tabTexts[1]) -> {
+
+                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
+                    tv_title.visible()
+                    tv_create_date.visibility = View.GONE
+                    tv_date_mydate.gone()
+                    date_headView.gone()
+                    setNoticeIsNoShow()
+                    iv_right.gone()
+                    tv_title1.gone()
+                    tv_title.text = "发现"
+                    tv_square_tab.visibility = View.VISIBLE
+
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
+                    if (fragment != null && fragment is HomeFindFragment) {
+                        fragment.refresh()
+                    }
+                }
+                TextUtils.equals(it, tabTexts[2]) -> {
                     immersionBar.init()
                     titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     tv_create_date.gone()
@@ -257,13 +273,13 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    tv_title1.gone()
 //                    tv_title.text = "人工服务"
 //                    tv_date_tab.visibility = View.VISIBLE
-                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
                     if (fragment != null && fragment is HomeFindFragment) {
                         fragment.setResetTopInfo()
                     }
                 }
 
-                TextUtils.equals(it, tabTexts[2]) -> {
+                TextUtils.equals(it, tabTexts[3]) -> {
                     immersionBar.init()
                     titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     titleBar.gone()
@@ -274,12 +290,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    iv_right.text = "发布"
                     tv_title1.text = ""
                     getUserInfoUnMsg()
-                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
                     if (fragment != null && fragment is HomeFindFragment) {
                         fragment.setResetTopInfo()
                     }
                 }
-                TextUtils.equals(it, tabTexts[3]) -> {
+                TextUtils.equals(it, tabTexts[4]) -> {
                     immersionBar.init()
                     titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     titleBar.gone()
@@ -287,7 +303,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title1.gone()
                     tv_title.text = "我的"
                     line.gone()
-                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
                     if (fragment != null && fragment is HomeFindFragment) {
                         fragment.setResetTopInfo()
                     }
@@ -336,14 +352,14 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         tv_find_tab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
-            if (fragment != null && fragment is HomeFindFragment) {
+            if (fragment != null && fragment is HomeFragment) {
                 fragment.refresh(getUserSex(),-1)
             }
         }
 
         tv_square_tab.setOnClickListener {
             val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
-            if (fragment != null && fragment is DateFragment) {
+            if (fragment != null && fragment is HomeFindFragment) {
                 fragment.refresh()
             }
         }
@@ -363,7 +379,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                         it.showAtAnchorView(view, YGravity.BELOW, XGravity.ALIGN_RIGHT, -23,-15)
                     }
                 }
-                1 -> {
+                2 -> {
                     isCheckOnLineAuthUser(this, getLocalUserId()) {
                         startActivityForResult<ReleaseNewTrendsActivity>(11)
                     }
@@ -379,7 +395,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         }
 
         //默认标题
-        tv_title.text = "发现"
+        tv_title.text = "邀约"
         tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
         titleBar.visibility = View.VISIBLE
 
@@ -583,11 +599,11 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
         RongIM.getInstance().getUnreadCount(arrayOf(Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP),false,object : RongIMClient.ResultCallback<Int>() {
             override fun onSuccess(p0: Int?) {
                 p0?.let {
-                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
+                    val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                     if (fragment != null && fragment is MessageFragment) {
                         fragment.getChatMsg()
                     }
-                    val view1 = tabhost.tabWidget.getChildTabViewAt(2)
+                    val view1 = tabhost.tabWidget.getChildTabViewAt(3)
                     if (view1 != null) {
                         unReadMsgNum = 0
 
@@ -629,13 +645,13 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
     private fun getUserInfoUnMsg(){
         Request.getUserFollowAndFansandVistor(getLocalUserId()).request(this,success = { s:String?, data: FollowFansVistor?->
             data?.let {
-                val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView
+                val view = tabhost.tabWidget.getChildTabViewAt(4).findViewById<View>(R.id.tv_msg_red) as TextView
                 var mFollowFansVistor = it
                 Request.getUserInfo(getLocalUserId(), getLocalUserId()).request(this,false,success= { msg, data ->
                     data?.let {
                         if (it.iReceiveNewLovePoint!!>0||mFollowFansVistor.iVistorCount!!>0) {
 //                    view.visibility = View.VISIBLE
-                            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
+                            val fragment = supportFragmentManager.findFragmentByTag(tabTexts[4])
                             if (fragment != null && fragment is MineFragment) {
                                 fragment.showLikeWarm(true,it.iReceiveNewLovePoint, mFollowFansVistor.iPointNew!!.toInt(), mFollowFansVistor.iVistorCount!!.toInt())
                             }
@@ -673,12 +689,12 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
     private fun getSysLastOne() {
         Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = (tabhost.tabWidget.getChildTabViewAt(2).findViewById<View>(R.id.tv_msg_red) as TextView)
+            val view = (tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_red) as TextView)
             if (data?.list?.results == null || data.list?.results?.isEmpty()) {
                 //无数据
                 getSquareMsg()
             } else {
-                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSysMsg(data)
                 }
@@ -699,7 +715,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
     private fun getSquareMsg() {
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this, false, success = { _, data ->
-            val view = tabhost.tabWidget.getChildTabViewAt(2).findViewById<View>(R.id.tv_msg_count) as TextView
+            val view = tabhost.tabWidget.getChildTabViewAt(3).findViewById<View>(R.id.tv_msg_count) as TextView
             Log.i("messagesssssss","${unReadMsgNum}显示")
             if (data?.list?.results == null || data?.list?.results?.isEmpty()!!) {
                 //无数据
@@ -716,7 +732,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     view?.gone()
                 }
             } else {
-                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[2])
+                val fragment = supportFragmentManager.findFragmentByTag(tabTexts[3])
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }
@@ -785,7 +801,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                }
             } else if (requestCode == 1||requestCode==10) {//||requestCode==10
                 val fragment = supportFragmentManager.findFragmentByTag(tabTexts[0])
-                if (fragment != null && fragment is HomeFindFragment) {
+                if (fragment != null && fragment is HomeFragment) {
                     fragment.refresh("-1",0)
                 }
             }else if(requestCode == 11){

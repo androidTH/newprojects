@@ -32,6 +32,13 @@ import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.d6.android.app.widget.popup.blur.MoreWindow
 import com.tbruyelle.rxpermissions2.RxPermissions
+import kotlinx.android.synthetic.main.fragment_home.mSwipeRefreshLayout
+import kotlinx.android.synthetic.main.fragment_home.mViewPager
+import kotlinx.android.synthetic.main.fragment_home.rl_date_title
+import kotlinx.android.synthetic.main.fragment_home.tab_home_date
+import kotlinx.android.synthetic.main.fragment_home.tv_date_city
+import kotlinx.android.synthetic.main.fragment_home.tv_date_sex
+import kotlinx.android.synthetic.main.fragment_invatedatepage.*
 import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivityForResult
@@ -299,6 +306,13 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                 SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
                 SPUtils.instance().put(USER_PROVINCE,it.province).apply()
                 getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
+
+                city = getReplace(it.province)
+                tv_date_city.text = city
+                getFragment()
+                if(mPopupArea!=null){
+                    mPopupArea.updateCityOfProvice()
+                }
             }
         }
     }
@@ -378,24 +392,25 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     private fun showArea(){
         mPopupArea.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_73))
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
-
-            if(position == -1){
-                tv_date_city.text = "同城"
-                city = string
-//                setSearChUI(0,true)
-            }else if(position == -2){
+            if(position == -2){
                 //定位失败
                 checkLocation()
-            }else if(position == -3){
-                city = ""
-                tv_date_city.text = "地区"
-//                setSearChUI(0,false)
-            }else {
-                city = string
-                tv_date_city.text = string
+            }else{
+                if(position == -1){
+                    tv_date_city.text = "同城"
+                    city = string
 //                setSearChUI(0,true)
+                }else if(position == -3){
+                    city = ""
+                    tv_date_city.text = "地区"
+//                setSearChUI(0,false)
+                }else {
+                    city = string
+                    tv_date_city.text = string
+//                setSearChUI(0,true)
+                }
+                getFragment()
             }
-            getFragment()
         }
 
         mPopupArea.setOnDismissListener {

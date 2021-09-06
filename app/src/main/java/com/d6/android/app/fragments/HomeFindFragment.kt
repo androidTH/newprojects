@@ -25,14 +25,11 @@ import com.d6.android.app.widget.convenientbanner.holder.CBViewHolderCreator
 import com.d6.android.app.widget.convenientbanner.holder.Holder
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
-import io.reactivex.subscribers.DisposableSubscriber
 import kotlinx.android.synthetic.main.fragment_homefind.*
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivity
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.MutableList
-import kotlin.collections.toList
 
 /**
  * 主页
@@ -75,13 +72,13 @@ class HomeFindFragment : BaseFragment(){
             mDefualtSex = 0
         }
 
-        rl_rgservice.setOnClickListener {
-            startActivity<RecommendDateActivity>()
-        }
-
-        rl_datepage.setOnClickListener {
-            startActivity<InviteDateActivity>()
-        }
+//        rl_rgservice.setOnClickListener {
+//            startActivity<RecommendDateActivity>()
+//        }
+//
+//        rl_datepage.setOnClickListener {
+//            startActivity<InviteDateActivity>()
+//        }
 
         rl_bangdanpage.setOnClickListener {
             startActivity<D6LoveHeartListActivity>()
@@ -104,7 +101,7 @@ class HomeFindFragment : BaseFragment(){
         }, 200)
 
         loginforPoint()
-        checkLocation()
+//        checkLocation()
 
         getPeoples()
         getData()
@@ -212,7 +209,7 @@ class HomeFindFragment : BaseFragment(){
         }
     }
 
-    fun refresh(sex: String, pageSelected: Int){
+    fun refresh(){
         mSwipeRefreshLayout.isEnabled = true
 //        mSwipeRefreshLayout.isRefreshing = true
         getPeoples()
@@ -265,37 +262,50 @@ class HomeFindFragment : BaseFragment(){
     }
 
     private fun getPeoples(){
-        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
-            sv_finddate01.visibility = View.GONE
-            tv_01.text = "速约/觅约/救火/旅行约"
+//        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
+//            sv_finddate01.visibility = View.GONE
+//            tv_01.text = "速约/觅约/救火/旅行约"
+//
+//            sv_finddate02.visibility = View.GONE
+//            tv_02.text = "已有${data?.iAllAppointCount}人邀约成功"
 
-            sv_finddate02.visibility = View.GONE
-            tv_02.text = "已有${data?.iAllAppointCount}人邀约成功"
+//            sv_finddate03.visibility = View.GONE
+//            tv_03.text = "魅力榜·土豪榜"
+//
+//            tv_finddate_02.text = "优质私密群等你加入"
+//
+//            rl_homefindtop.removeCallbacks(mRunnable)
+//            rl_homefindtop.postDelayed(mRunnable,2000)
+//        }
 
-            sv_finddate03.visibility = View.GONE
-            tv_03.text = "魅力榜·土豪榜"
+        sv_finddate03.visibility = View.GONE
+        tv_03.text = "魅力榜·土豪榜"
 
-            tv_finddate_02.text = "优质私密群等你加入"
+        tv_finddate_02.text = "优质私密群等你加入"
 
-            rl_homefindtop.removeCallbacks(mRunnable)
-            rl_homefindtop.postDelayed(mRunnable,2000)
-        }
+        rl_homefindtop.removeCallbacks(mRunnable)
+        rl_homefindtop.postDelayed(mRunnable,2000)
     }
 
     public fun setResetTopInfo(){
         rl_homefindtop.removeCallbacks(mRunnable)
-        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
-            sv_finddate01.visibility = View.GONE
-            tv_01.text = "速约/觅约/救火/旅行约"
+//        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
+//            sv_finddate01.visibility = View.GONE
+//            tv_01.text = "速约/觅约/救火/旅行约"
+//
+//            sv_finddate02.visibility = View.GONE
+//            tv_02.text = "已有${data?.iAllAppointCount}人邀约成功"
 
-            sv_finddate02.visibility = View.GONE
-            tv_02.text = "已有${data?.iAllAppointCount}人邀约成功"
+//            sv_finddate03.visibility = View.GONE
+//            tv_03.text = "魅力榜·土豪榜"
+//
+//            tv_finddate_02.text = "优质私密群等你加入"
+//        }
 
-            sv_finddate03.visibility = View.GONE
-            tv_03.text = "魅力榜·土豪榜"
+        sv_finddate03.visibility = View.GONE
+        tv_03.text = "魅力榜·土豪榜"
 
-            tv_finddate_02.text = "优质私密群等你加入"
-        }
+        tv_finddate_02.text = "优质私密群等你加入"
     }
 
 
@@ -306,15 +316,15 @@ class HomeFindFragment : BaseFragment(){
                 mFindDateInfo = it
                 if(mFindDateInfo!=null){
 
-                    if(it.lookabout_picurl.isNotEmpty()){
-                        sv_finddate01.setImageURI(it.lookabout_picurl)
-                        lookAbout()
-                    }
-
-                    if(it.appointment_picurl.isNotEmpty()){
-                        sv_finddate02.setImageURI("${it.appointment_picurl}")
-                        dateCount()
-                    }
+//                    if(it.lookabout_picurl.isNotEmpty()){
+//                        sv_finddate01.setImageURI(it.lookabout_picurl)
+//                        lookAbout()
+//                    }
+//
+//                    if(it.appointment_picurl.isNotEmpty()){
+//                        sv_finddate02.setImageURI("${it.appointment_picurl}")
+//                        dateCount()
+//                    }
 
                     if(it.userpoint_picUrl.isNotEmpty()){
                         sv_finddate03.setImageURI(it.userpoint_picUrl)
@@ -331,43 +341,43 @@ class HomeFindFragment : BaseFragment(){
     }
 
     private fun lookAbout(){
-        var annotation = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
-        annotation.setAnimationListener(object : Animation.AnimationListener{
-            override fun onAnimationEnd(animation: Animation?) {
-                sv_finddate01.visibility = View.VISIBLE
-                tv_01.text = "觅约"
-                showTopInfoFindDate()
-            }
-
-            override fun onAnimationStart(animation: Animation?) {
-
-            }
-
-            override fun onAnimationRepeat(animation: Animation?) {
-            }
-        })
-        ll_finddate01.startAnimation(annotation)
+//        var annotation = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
+//        annotation.setAnimationListener(object : Animation.AnimationListener{
+//            override fun onAnimationEnd(animation: Animation?) {
+//                sv_finddate01.visibility = View.VISIBLE
+//                tv_01.text = "觅约"
+//                showTopInfoFindDate()
+//            }
+//
+//            override fun onAnimationStart(animation: Animation?) {
+//
+//            }
+//
+//            override fun onAnimationRepeat(animation: Animation?) {
+//            }
+//        })
+//        ll_finddate01.startAnimation(annotation)
     }
 
     private fun dateCount(){
-        var annotation1 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
-        annotation1.setAnimationListener(object : Animation.AnimationListener{
-            override fun onAnimationEnd(animation: Animation?) {
-                sv_finddate02.visibility = View.VISIBLE
-                tv_02.text = "发布了约会"
-
-                var annotation1 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
-                ll_finddate02.startAnimation(annotation1)
-            }
-
-            override fun onAnimationStart(animation: Animation?) {
-
-            }
-
-            override fun onAnimationRepeat(animation: Animation?) {
-            }
-        })
-        ll_finddate02.startAnimation(annotation1)
+//        var annotation1 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
+//        annotation1.setAnimationListener(object : Animation.AnimationListener{
+//            override fun onAnimationEnd(animation: Animation?) {
+//                sv_finddate02.visibility = View.VISIBLE
+//                tv_02.text = "发布了约会"
+//
+//                var annotation1 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
+//                ll_finddate02.startAnimation(annotation1)
+//            }
+//
+//            override fun onAnimationStart(animation: Animation?) {
+//
+//            }
+//
+//            override fun onAnimationRepeat(animation: Animation?) {
+//            }
+//        })
+//        ll_finddate02.startAnimation(annotation1)
     }
 
     private fun bangdang(){
@@ -414,8 +424,8 @@ class HomeFindFragment : BaseFragment(){
     }
 
     private fun showTopInfoFindDate(){
-        var annotation = AnimationUtils.loadAnimation(context, R.anim.show_anim)
-        ll_finddate01.startAnimation(annotation)
+//        var annotation = AnimationUtils.loadAnimation(context, R.anim.show_anim)
+//        ll_finddate01.startAnimation(annotation)
     }
 
     private var mDates = ArrayList<FindDate>()

@@ -20,7 +20,7 @@
         android:layout_height="9dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/margin_32"
+        android:layout_marginRight="@dimen/margin_26"
         android:layout_marginTop="@dimen/margin_3"
         android:background="@drawable/shape_4r_red"
         android:gravity="center"
@@ -35,7 +35,7 @@
         android:layout_width="19dp"
         android:layout_height="19dp"
         android:layout_gravity="right"
-        android:layout_marginRight="@dimen/margin_25"
+        android:layout_marginRight="@dimen/margin_13"
         android:textColor="@android:color/white"
         android:textSize="11sp"
         android:visibility="invisible"/>
