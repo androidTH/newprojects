@@ -23,8 +23,8 @@ class AboutUsMainActivity : TitleActivity() {
 
     private var TAG:String? = AboutUsMainActivity::class.java.simpleName
 
-    private var private_url = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
-    private var user_agreement = "file:///android_asset/yonghuxieyi.html"
+//    private var private_url = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
+//    private var user_agreement = "file:///android_asset/yonghuxieyi.html"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +33,15 @@ class AboutUsMainActivity : TitleActivity() {
         title = "关于我们"
 
         tv_privacy.setOnClickListener {
-            val url = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
-            startActivity<WebViewActivity>("title" to "隐私政策", "url" to private_url)
+            val url = "https://d6-zone.com/JyPhone/static/privacy/privacy_policy.html"
+//            val url = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
+            startActivity<WebViewActivity>("title" to "隐私政策", "url" to url)
         }
 
         tv_userxieyi.setOnClickListener {
-            val url = "file:///android_asset/yonghuxieyi.html"
-            startActivity<WebViewActivity>("title" to "用户协议", "url" to user_agreement)
+//            val url = "file:///android_asset/yonghuxieyi.html"
+            val url = "https://d6-zone.com/JyPhone/static/privacy/user_agreement.html"
+            startActivity<WebViewActivity>("title" to "用户协议", "url" to url)
         }
 
         tv_aboutUs.setOnClickListener {
@@ -62,29 +64,29 @@ class AboutUsMainActivity : TitleActivity() {
 //               checkVersion()
         }
 
-        getPrivicy()
+//        getPrivicy()
 
     }
 
 
     private fun getPrivicy(){
-        Request.getInfo(PRIVACY_POLICY).request(this, success = { _, data ->
-            data?.let {
-                private_url = data.optString("privacy_policy")
-
-            }
-        }){ code, msg->
-            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, false).apply()
-        }
-
-        Request.getInfo(USER_AGREEMENT).request(this, success = { _, data ->
-            data?.let {
-                user_agreement = data.optString("user agreement")
-
-            }
-        }){ code, msg->
-            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, false).apply()
-        }
+//        Request.getInfo(PRIVACY_POLICY).request(this, success = { _, data ->
+//            data?.let {
+//                private_url = data.optString("privacy_policy")
+//
+//            }
+//        }){ code, msg->
+//            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, false).apply()
+//        }
+//
+//        Request.getInfo(USER_AGREEMENT).request(this, success = { _, data ->
+//            data?.let {
+//                user_agreement = data.optString("user agreement")
+//
+//            }
+//        }){ code, msg->
+//            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, false).apply()
+//        }
     }
 
     private fun checkVersion() {

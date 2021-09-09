@@ -23,10 +23,7 @@ import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
-import com.d6.android.app.utils.Const.PRIVATE_URL
-import com.d6.android.app.utils.Const.USER_AGREEMENT_URL
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.umeng.socialize.UMAuthListener
 import com.umeng.socialize.UMShareAPI
@@ -405,7 +402,7 @@ class SignInActivity : TitleActivity() {
     private class MClickSpan(val context: Context) : ClickableSpan() {
 
         override fun onClick(p0: View?) {
-            context.startActivity<WebViewActivity>("title" to "用户协议", "url" to USER_AGREEMENT_URL)
+            context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "https://d6-zone.com/JyPhone/static/privacy/user_agreement.html")
         }
 
         override fun updateDrawState(ds: TextPaint?) {
@@ -425,14 +422,14 @@ class SignInActivity : TitleActivity() {
 //            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
 //        }
 
-        Request.getInfo(Const.USER_AGREEMENT).request(this,success={ _, data ->
-            data?.let {
-                USER_AGREEMENT_URL = data.optString("user agreement")
-
-            }
-        }){code,msg->
-            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
-        }
+//        Request.getInfo(Const.USER_AGREEMENT).request(this,success={ _, data ->
+//            data?.let {
+//                USER_AGREEMENT_URL = data.optString("user agreement")
+//
+//            }
+//        }){code,msg->
+//            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
+//        }
     }
 
     override fun onDestroy() {
