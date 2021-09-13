@@ -233,14 +233,16 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
 
         mViewPager.postDelayed(object:Runnable{
             override fun run() {
-                mPopupArea = AreaSelectedPopup.create(activity)
-                        .setDimView(mSwipeRefreshLayout)
-                        .apply()
+                if(activity!=null){
+                    mPopupArea = AreaSelectedPopup.create(activity)
+                            .setDimView(mSwipeRefreshLayout)
+                            .apply()
 
-                mPopupSex = SelectedSexPopup.create(activity)
-                        .setDimView(mSwipeRefreshLayout)
-                        .apply()
-                getProvinceData()
+                    mPopupSex = SelectedSexPopup.create(activity)
+                            .setDimView(mSwipeRefreshLayout)
+                            .apply()
+                    getProvinceData()
+                }
             }
         },200)
 

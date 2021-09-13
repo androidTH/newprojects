@@ -83,15 +83,15 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/textSize"/>
 
-            <ImageView
-                android:id="@+id/iv_mycade_newnotice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_15"
-                android:layout_marginTop="@dimen/margin_10"
-                android:src="@mipmap/mycenter_top_newnotice"/>
+<!--            <ImageView-->
+<!--                android:id="@+id/iv_mycade_newnotice"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_marginRight="@dimen/margin_15"-->
+<!--                android:layout_marginTop="@dimen/margin_10"-->
+<!--                android:src="@mipmap/mycenter_top_newnotice"/>-->
         </RelativeLayout>
     </LinearLayout>
 

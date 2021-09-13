@@ -84,14 +84,16 @@ class SpeedDateDetailActivity : TitleActivity() {
 
         titleBar.addRightButton(rightId = R.mipmap.ic_more_orange, onClickListener = View.OnClickListener {
 //            ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
-            val shareDialog = ShareFriendsDialog()
-            shareDialog.arguments = bundleOf("from" to "Recommend_speedDate","id" to "${mSpeedDate.userId}","sResourceId" to "${mSpeedDate.id}")
-            shareDialog.show(supportFragmentManager, "action")
-            shareDialog.setDialogListener { p, s ->
-                if (p == 0) {
-                    startActivity<ReportActivity>("id" to "${mSpeedDate.id}", "tiptype" to "5")
-                }else if(p==3){
-                    ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+            if(IsNotNullDate()){
+                val shareDialog = ShareFriendsDialog()
+                shareDialog.arguments = bundleOf("from" to "Recommend_speedDate","id" to "${mSpeedDate.userId}","sResourceId" to "${mSpeedDate.id}")
+                shareDialog.show(supportFragmentManager, "action")
+                shareDialog.setDialogListener { p, s ->
+                    if (p == 0) {
+                        startActivity<ReportActivity>("id" to "${mSpeedDate.id}", "tiptype" to "5")
+                    }else if(p==3){
+                        ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
+                    }
                 }
             }
         })
@@ -117,7 +119,9 @@ class SpeedDateDetailActivity : TitleActivity() {
 //            isAuthUser() {
 //                ShareUtils.share(this@SpeedDateDetailActivity, SHARE_MEDIA.WEIXIN, mSpeedDate.speedcontent ?: "", mSpeedDate.speednumber?:"", "http://www.d6-zone.com/JyD6/#/suyuexiangqing?ids="+mSpeedDate.id, shareListener)
 //            }
-            mSpeedDate.iType=2
+            if(IsNotNullDate()){
+                mSpeedDate.iType=2
+            }
             startActivity<RGServiceInfoActivity>("data" to mSpeedDate)
 //            var mDateTypeDialog = DateTypeDialog()
 //            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])

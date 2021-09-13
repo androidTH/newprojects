@@ -271,7 +271,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         }
 
         tv_mycard.setOnClickListener {
-            iv_mycade_newnotice.visibility = View.GONE
+//            iv_mycade_newnotice.visibility = View.GONE
             SPUtils.instance().put(IS_FIRST_SHOW_FINDLASTDAYNOTICEDIALOG + getLocalUserId(),System.currentTimeMillis()).apply()
             startActivity<MyCardActivity>()
 //            startActivity<D6LoveHeartListActivity>()
@@ -746,18 +746,18 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             data?.let {
                 if(getOneDay(SPUtils.instance().getLong(IS_FIRST_SHOW_FINDLASTDAYNOTICEDIALOG + getLocalUserId(), System.currentTimeMillis()))){
                     if(it.iLastDayExposureCount>0){
-                        iv_mycade_newnotice.visibility = View.VISIBLE
+//                        iv_mycade_newnotice.visibility = View.VISIBLE
                     }else{
-                        iv_mycade_newnotice.visibility = View.GONE
+//                        iv_mycade_newnotice.visibility = View.GONE
                     }
                 }else{
-                    iv_mycade_newnotice.visibility = View.GONE
+//                    iv_mycade_newnotice.visibility = View.GONE
                 }
                 tv_mycard.postDelayed(object:Runnable{
                     override fun run() {
                         var flag = SPUtils.instance().getBoolean(IS_FIRST_SHOW_FINDNOTICEDIALOG + getLocalUserId(),false)
                         if(!flag){
-                            iv_mycade_newnotice.visibility = View.VISIBLE
+//                            iv_mycade_newnotice.visibility = View.VISIBLE
                             SPUtils.instance().put(IS_FIRST_SHOW_FINDNOTICEDIALOG + getLocalUserId(), true).apply()
                         }
                     }

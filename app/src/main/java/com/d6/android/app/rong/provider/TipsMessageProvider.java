@@ -149,9 +149,13 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
 //                        .click(txt.length() - 8, txt.length(), clickSpan)
 //                        .build();
 //                textView.setText(spanStringBuilder);
-                SpanBuilder sb = new SpanBuilder(txt);
-                sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_F7B500);
-                textView.setText(sb.build());
+                try{
+                    SpanBuilder sb = new SpanBuilder(txt);
+                    sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_F7B500);
+                    textView.setText(sb.build());
+                }catch (Exception e){
+                    textView.setText(txt);
+                }
             }else{
                 textView.setText(txt);
             }
