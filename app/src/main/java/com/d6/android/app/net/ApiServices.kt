@@ -716,4 +716,8 @@ interface ApiServices {
 
     @POST("backstage/rongcloudgroup/findByPage")
     fun findGroups(@Query("sGroupName") sGroupName: String,@Query("pageNum") pageNum: Int = 1,@Query("pageSize") pageSize: Int = 10,@Query("sLoginToken")sLoginToken:String = getLoginToken(),@Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<Page<FindGroupBean>>>
+
+    //3.9.2
+    @POST("backstage/account/delAccount")
+    fun delAccount(@Query("iUserid") iUserid:String, @Query("phone") phone: String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
 }

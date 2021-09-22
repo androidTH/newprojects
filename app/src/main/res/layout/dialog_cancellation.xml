@@ -1,54 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/ll_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/shape_white_8r"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_cancellation_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_15"
-            android:gravity="center"
-            android:text="用户协议和隐私政策"
+            android:gravity="center_horizontal"
+            android:text="注销"
             android:textSize="17sp"
             android:textColor="@color/color_black"
             android:textStyle="bold" />
 
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv_updateinfo"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="@dimen/margin_15" />-->
         <TextView
-            android:id="@+id/tv_common_tips"
+            android:id="@+id/tv_cancellation_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
             android:lineSpacingExtra="@dimen/margin_5"
             android:textColor="@color/color_333333"
             android:textSize="15sp"
-            android:layout_margin="@dimen/margin_25"
-            android:text="@string/string_useragreement" />
+            android:text="注销后你的账号所有信息将会被清空，确定要注销吗"
+            android:layout_margin="@dimen/margin_25"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/color_DFE1E5" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_common_cancel"
+                android:id="@+id/tv_cancellation_no"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="55dp"
                 android:layout_alignParentBottom="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="拒绝"
+                android:text="@string/string_cancel"
+                android:textStyle="bold"
                 android:textColor="@color/color_888888"
                 android:textSize="15sp" />
 
@@ -59,15 +68,17 @@
                 android:background="@color/color_DFE1E5" />
 
             <TextView
-                android:id="@+id/tv_agree"
+                android:id="@+id/tv_cancellation_yes"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="55dp"
                 android:layout_alignParentBottom="true"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="同意"
+                android:text="@string/string_ok"
+                android:textStyle="bold"
                 android:textColor="@color/color_F7AB00"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>

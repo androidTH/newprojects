@@ -81,7 +81,7 @@ class UserAgreemetDialog : DialogFragment(),RequestManager {
 
         str.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "file:///android_asset/yonghuxieyi.html")
+                context.startActivity<WebViewActivity>("title" to "用户协议", "url" to "https://d6-zone.com/JyPhone/static/privacy/user_agreement.html")
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -94,7 +94,7 @@ class UserAgreemetDialog : DialogFragment(),RequestManager {
         val end = content.indexOf(appServiceTitle)
         str.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                val url = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
+                val url = "https://d6-zone.com/JyPhone/static/privacy/privacy_policy.html"
                 context.startActivity<WebViewActivity>("title" to "隐私政策", "url" to url)
             }
 

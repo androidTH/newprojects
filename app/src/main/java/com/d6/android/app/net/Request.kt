@@ -622,4 +622,6 @@ object Request {
     fun queryLatestNews()=RRetrofit.instance().create(ApiServices::class.java).queryLatestNews()
 
     fun findGroups(sGroupName: String="",pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findGroups(sGroupName,pageNum)
+
+    fun delAccount(iUserid:String, phone: String)=RRetrofit.instance().create(ApiServices::class.java).delAccount(iUserid,phone)
 }

@@ -43,4 +43,5 @@ public interface PrePayInfoService {
 
     @POST("backstage/order/addLovePoint")
     Call<ResponseBody> buyLoveHeart(@Query("sLoginToken") String sLoginToken, @Query("iOrdertype") int iOrdertype, @Query("iPrice") int iPrice, @Query("iLoveCount") int iLoveCount);
+
 }

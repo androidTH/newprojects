@@ -9,6 +9,8 @@ import android.text.TextUtils
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
+import com.d6.android.app.dialogs.DialogCancellation
+import com.d6.android.app.dialogs.UserAgreemetDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.AddImage
 import com.d6.android.app.models.UserData
@@ -25,12 +27,17 @@ import kotlinx.android.synthetic.main.activity_setting.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import org.jetbrains.anko.toast
 import kotlin.collections.ArrayList
 
 class SettingActivity : TitleActivity() {
 
     private val sex by lazy{
         SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
+    private val phone by lazy{
+        SPUtils.instance().getString(Const.User.USER_PHONE)
     }
 
     private var mData: UserData?=null
@@ -121,21 +128,21 @@ class SettingActivity : TitleActivity() {
         }
 
         btn_sign_out.setOnClickListener {
-            SPUtils.instance().remove(Const.User.USER_ID)
-                    .remove(Const.User.IS_LOGIN)
-                    .remove(Const.User.RONG_TOKEN)
-                    .remove(Const.User.USER_TOKEN)
-                    .remove(Const.User.SLOGINTOKEN)
-                    .apply()
-            clearLoginToken()
-            SPUtils.instance().remove(Const.USERINFO)
-            PushAgent.getInstance(applicationContext).deleteAlias(getLocalUserId(), "D6", { _, _ ->
-
-            })
-            RongIM.getInstance().disconnect()
-            closeAll()
+            loginOut()
 //            startActivity<SignInActivity>()
             startActivity<SplashActivity>()
+        }
+
+        btn_cancellation.setOnClickListener {
+            val mDialogCancellation = DialogCancellation()
+            mDialogCancellation.setDialogListener { p, s ->
+                if(p==1){
+                    mDialogCancellation.dismissAllowingStateLoss()
+                    dialog("正在注销...")
+                    delAccount()
+                }
+            }
+            mDialogCancellation.show(supportFragmentManager, "DialogCancellation")
         }
 
         tv_blacklist.setOnClickListener {
@@ -171,6 +178,18 @@ class SettingActivity : TitleActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             getUserInfo()
+        }
+    }
+
+
+    private fun delAccount(){
+        Request.delAccount(getLocalUserId(),phone).request(this,success = {_,data->
+            dismissDialog()
+            loginOut()
+            toast("你的账号已注销")
+            startActivity<SplashActivity>()
+        }){_,msg->
+            toast(msg)
         }
     }
 
@@ -228,6 +247,22 @@ class SettingActivity : TitleActivity() {
         }) { _, _ ->
             mSwipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    private fun loginOut(){
+        SPUtils.instance().remove(Const.User.USER_ID)
+                .remove(Const.User.IS_LOGIN)
+                .remove(Const.User.RONG_TOKEN)
+                .remove(Const.User.USER_TOKEN)
+                .remove(Const.User.SLOGINTOKEN)
+                .apply()
+        clearLoginToken()
+        SPUtils.instance().remove(Const.USERINFO)
+        PushAgent.getInstance(applicationContext).deleteAlias(getLocalUserId(), "D6", { _, _ ->
+
+        })
+        RongIM.getInstance().disconnect()
+        closeAll()
     }
 
     override fun onDestroy() {

@@ -6,12 +6,7 @@ import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.API
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.Const.PRIVACY_POLICY
-import com.d6.android.app.utils.Const.USER_AGREEMENT
-import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.diyUpdate
-import com.d6.android.app.utils.optString
 import com.vector.update_app.utils.AppUpdateUtils
 import kotlinx.android.synthetic.main.activity_about_us_main.*
 import org.jetbrains.anko.startActivity
