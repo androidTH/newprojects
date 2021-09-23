@@ -9,11 +9,13 @@ import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import com.alibaba.fastjson.JSON
 import com.d6.android.app.R
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.Const.MD5_ENCRYPT_KEY
 import io.rong.imkit.RongIM
 import io.rong.imlib.MD5
 import io.rong.imlib.model.UserInfo
@@ -26,8 +28,11 @@ import kotlinx.android.synthetic.main.activity_bindphone_layout.tv_get_code
 import kotlinx.android.synthetic.main.activity_bindphone_layout.tv_phone_error
 import kotlinx.android.synthetic.main.activity_bindphone_layout.tv_type
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import org.jetbrains.anko.*
 import org.json.JSONObject
+
 
 /**
  *
@@ -46,7 +51,7 @@ class BindPhoneActivity : TitleActivity() {
     }
 
     private val channel by lazy{
-        SPUtils.instance().getString(Const.OPENSTALL_CHANNEL,"Openinstall")
+        SPUtils.instance().getString(Const.OPENSTALL_CHANNEL, "Openinstall")
     }
 
     private val openId by lazy {
@@ -74,7 +79,7 @@ class BindPhoneActivity : TitleActivity() {
         setContentView(R.layout.activity_bindphone_layout)
         immersionBar.init()
 
-        setTitleBold("绑定手机号",true)
+        setTitleBold("绑定手机号", true)
 
         btn_bindphone.setOnClickListener(View.OnClickListener {
             phoneLogin()
@@ -184,7 +189,22 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
         dialog()
-        Request.getVerifyCodeV2(p, 0).request(this) { msg, data ->
+//        Request.getVerifyCodeV2(p, 0).request(this) { msg, data ->
+//            showToast("验证码发送成功")
+//            tv_get_code.isEnabled = false
+//            countDownTimer.start()
+//            tv_get_code.textColor = ContextCompat.getColor(this@BindPhoneActivity, R.color.color_CCCCCC)
+//            tv_get_code.backgroundResource = R.drawable.circle_gray_bg
+//        }
+
+        var mHasMap = HashMap<String,String>()
+        mHasMap.put("phone",p)
+        mHasMap.put("vercodetype","0")
+        mHasMap.put("deviceId",getOaid())
+        var json = JSON.toJSONString(mHasMap)
+        var pm: RequestBody = RequestBody.create(MediaType.parse("text/plain"), AppScreenUtils.encrypt(json,MD5_ENCRYPT_KEY))
+
+        Request.getVerifyCodeNewV2(pm).request(this) { msg, data ->
             showToast("验证码发送成功")
             tv_get_code.isEnabled = false
             countDownTimer.start()
@@ -215,7 +235,7 @@ class BindPhoneActivity : TitleActivity() {
             "$countryCode-$phone"
         }
 
-       Request.bindPhone(p,code,openId,unionId,devicetoken,name,headerpic,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getSIMEI(this).toLowerCase(),true),sOaid = getOaid(),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(),true)).request(this,false,success = { msg, data->
+       Request.bindPhone(p, code, openId, unionId, devicetoken, name, headerpic, sChannelId = channel, sInviteCode = install_data01, sImei = MD5.encrypt(getSIMEI(this).toLowerCase(), true), sOaid = getOaid(), sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(), true)).request(this, false, success = { msg, data ->
            clearLoginToken()
            saveMsg(msg)
            saveUserInfo(data)
@@ -225,14 +245,14 @@ class BindPhoneActivity : TitleActivity() {
                RongIM.getInstance().refreshUserInfoCache(info)
            }
            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-               startActivityForResult<SetUserInfoActivity>(3,"name" to name, "gender" to gender,"headerpic" to headerpic,"openid" to openId,"unionid" to unionId)
+               startActivityForResult<SetUserInfoActivity>(3, "name" to name, "gender" to gender, "headerpic" to headerpic, "openid" to openId, "unionid" to unionId)
            } else {
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                startActivity<MainActivity>()
                setResult(Activity.RESULT_OK)
                finish()
            }
-       }){code,msg->
+       }){ code, msg->
            if (code == 2) {
                clearLoginToken()
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
@@ -245,7 +265,7 @@ class BindPhoneActivity : TitleActivity() {
        }
     }
 
-    private fun saveMsg(msg:String?){
+    private fun saveMsg(msg: String?){
         msg?.let {
             try {
                 val json = JSONObject(it)

@@ -17,6 +17,7 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
+import com.alibaba.fastjson.JSON
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.TitleActivity
@@ -31,7 +32,17 @@ import com.umeng.socialize.bean.SHARE_MEDIA
 import io.rong.imkit.RongIM
 import io.rong.imlib.MD5
 import io.rong.imlib.model.UserInfo
+import kotlinx.android.synthetic.main.activity_bindphone_layout.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import kotlinx.android.synthetic.main.activity_sign_in.et_code
+import kotlinx.android.synthetic.main.activity_sign_in.et_phone
+import kotlinx.android.synthetic.main.activity_sign_in.phoneLine
+import kotlinx.android.synthetic.main.activity_sign_in.tv_code_error
+import kotlinx.android.synthetic.main.activity_sign_in.tv_get_code
+import kotlinx.android.synthetic.main.activity_sign_in.tv_phone_error
+import kotlinx.android.synthetic.main.activity_sign_in.tv_type
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import org.jetbrains.anko.*
 import org.json.JSONObject
 
@@ -229,7 +240,21 @@ class SignInActivity : TitleActivity() {
             "$countryCode-$phone"
         }
         dialog()
-        Request.getVerifyCodeV2(p, 0).request(this) { msg, data ->
+//        Request.getVerifyCodeV2(p, 0).request(this) { msg, data ->
+//            showToast("验证码发送成功")
+//            tv_get_code.isEnabled = false
+//            countDownTimer.start()
+//            tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
+//            tv_get_code.backgroundResource = R.drawable.circle_gray_bg
+//        }
+
+        var mHasMap = HashMap<String,String>()
+        mHasMap.put("phone",p)
+        mHasMap.put("vercodetype","0")
+        mHasMap.put("deviceId",getOaid())
+        var json = JSON.toJSONString(mHasMap)
+        var pm: RequestBody = RequestBody.create(MediaType.parse("text/plain"), AppScreenUtils.encrypt(json, Const.MD5_ENCRYPT_KEY))
+        Request.getVerifyCodeNewV2(pm).request(this) { msg, data ->
             showToast("验证码发送成功")
             tv_get_code.isEnabled = false
             countDownTimer.start()

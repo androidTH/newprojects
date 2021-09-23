@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,13 @@ import android.view.WindowManager;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.security.SecureRandom;
 import java.util.UUID;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 
 import static android.view.View.NO_ID;
 
@@ -379,5 +386,33 @@ public class AppScreenUtils
 			}
 		}
 		return uuid.toString();
+	}
+
+	/**
+	 * 进行加密操作
+	 * 参数一：待加密的字符串，参数二：加密密钥
+	 * 返回经过Base64编码后的字符串
+	 * 编码格式为UTF-8
+	 */
+	public static String encrypt(String encryptionStr, String password) {
+		try{
+			byte[] encryptionBytes = encryptionStr.getBytes("UTF-8");
+			SecureRandom random = new SecureRandom();
+			DESKeySpec desKey = new DESKeySpec(password.getBytes());
+			// 创建一个密钥工厂，然后用它把DESKeySpec转换成
+			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+			SecretKey securekey = keyFactory.generateSecret(desKey);
+			// Cipher对象实际完成加密操作
+			Cipher cipher = Cipher.getInstance("DES");
+			// 用密钥初始化Cipher对象
+			cipher.init(Cipher.ENCRYPT_MODE, securekey, random);
+			// 执行加密操作
+//			byte[] encryptionBase64Bytes = Base64.encodeToString(cipher.doFinal(encryptionBytes),0);
+			// 转换为字符串返回
+			return Base64.encodeToString(cipher.doFinal(encryptionBytes),Base64.NO_WRAP);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

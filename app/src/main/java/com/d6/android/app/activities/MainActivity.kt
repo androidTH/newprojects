@@ -456,7 +456,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
         Log.i("MainActivityfffffff","${getLoginToken()}")
 
-        BaseUtils.connectingAddress()
+        NetStateUtil.connectingAddress()
     }
 
     private fun initPopup(){

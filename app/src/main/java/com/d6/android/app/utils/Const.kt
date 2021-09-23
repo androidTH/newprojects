@@ -289,6 +289,8 @@ object Const {
 
     val LOCALBROADCAST_SENDREDMONEY = "com.d6.app.sendredmoney.buyloveheart"
 
+    val MD5_ENCRYPT_KEY = "wang!@#$%"
+
 //    var PRIVATE_URL = "http://www.d6-zone.com/JyPhone/static/privacy/index.html"
 //    var USER_AGREEMENT_URL = "file:///android_asset/yonghuxieyi.html"
 }

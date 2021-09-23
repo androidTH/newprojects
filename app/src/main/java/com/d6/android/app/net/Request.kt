@@ -8,6 +8,8 @@ import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 import java.io.File
@@ -624,4 +626,6 @@ object Request {
     fun findGroups(sGroupName: String="",pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findGroups(sGroupName,pageNum)
 
     fun delAccount(iUserid:String, phone: String)=RRetrofit.instance().create(ApiServices::class.java).delAccount(iUserid,phone)
+
+    fun getVerifyCodeNewV2(requestBody: RequestBody)=RRetrofit.instance().create(ApiServices::class.java).getVerifyCodeNewV2(requestBody)
 }

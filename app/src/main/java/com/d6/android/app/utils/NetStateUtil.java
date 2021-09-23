@@ -1,15 +1,33 @@
 package com.d6.android.app.utils;
 
 
+import android.util.Log;
+
+import com.d6.android.app.models.IPBean;
+import com.d6.android.app.models.IPList;
+import com.d6.android.app.net.API;
+import com.d6.android.app.widget.retrofitmanager.RetrofitUrlManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * author : jinjiarui
@@ -127,4 +145,79 @@ public class NetStateUtil {
         }
     }
     /*以上是Https适用*/
+
+    public static boolean isConnect(String url) {
+        String result = null;
+        try {
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS).build();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            Response response = client.newCall(request).execute();
+            if(response.code()!=200){
+                return false;
+            }
+            result = response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public static void connectingAddress(){
+        ThreadPoolManager.getInstance().execute(new Runnable() {
+            @Override
+            public void run() {
+                boolean IsConnect = isConnect(API.URL);//NetStateUtil.connectingAddress(API.URL);//BaseUtils.isConnect("http://apis_test.d6-zone.com/");
+                if(!IsConnect){
+                    OkHttpClient mOkHttpClient = new OkHttpClient();
+                    Request request = new Request.Builder().url("http://domain_test.d6-zone.com/getDomain").build();
+                    mOkHttpClient.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(okhttp3.Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    String obj = jsonObject.optString("obj");
+                                    List<IPBean> mIPList = GsonHelper.GsonToBean(obj, IPList.class).getDomain();
+                                    Log.i("httpurl","内容："+mIPList.get(0));
+                                    if(mIPList!=null&&mIPList.size()>=1){
+                                        if(isConnect(mIPList.get(0).getIp())){
+                                            RetrofitUrlManager.getInstance().setGlobalDomain(mIPList.get(0).getIp()+"JyPhone/");
+                                            return;
+                                        }
+                                    }
+
+                                    if(mIPList!=null&&mIPList.size()>=2){
+                                        if(isConnect(mIPList.get(1).getIp())){
+                                            RetrofitUrlManager.getInstance().setGlobalDomain(mIPList.get(1).getIp()+"JyPhone/");
+                                            return;
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                }else{
+                    Log.i("httpurl","状态"+IsConnect);
+                }
+            }
+        });
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        }).start();
+    }
 }

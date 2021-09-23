@@ -10,6 +10,7 @@ import io.reactivex.Flowable
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
+import okhttp3.RequestBody
 
 /**
  * Created on 2017/12/27.
@@ -720,4 +721,10 @@ interface ApiServices {
     //3.9.2
     @POST("backstage/account/delAccount")
     fun delAccount(@Query("iUserid") iUserid:String, @Query("phone") phone: String, @Query("sLoginToken")sLoginToken:String = getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()):Flowable<Response<JsonObject>>
+
+    @POST("backstage/new_login/getVerifyCodeV2")
+    fun getVerifyCodeNewV2(@Body requestBody:RequestBody,
+                           @Query("sLoginToken") sLoginToken: String = getLoginToken(),
+                           @Query("sVersion") sVersion: String = getAppVersion()): Flowable<Response<JsonObject>>
+
 }
