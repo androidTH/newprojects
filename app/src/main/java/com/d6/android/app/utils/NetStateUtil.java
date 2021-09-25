@@ -171,7 +171,7 @@ public class NetStateUtil {
         ThreadPoolManager.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                boolean IsConnect = isConnect(API.URL);//NetStateUtil.connectingAddress(API.URL);//BaseUtils.isConnect("http://apis_test.d6-zone.com/");
+                boolean IsConnect = isConnect(API.BASE_URL);//NetStateUtil.connectingAddress(API.URL);//BaseUtils.isConnect("http://apis_test.d6-zone.com/");
                 if(!IsConnect){
                     OkHttpClient mOkHttpClient = new OkHttpClient();
                     Request request = new Request.Builder().url("http://domain_test.d6-zone.com/getDomain").build();
