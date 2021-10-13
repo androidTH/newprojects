@@ -126,6 +126,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private fun initData() {
         val position = intent.getIntExtra(CURRENT_POSITION, 0)
         urls = intent.getStringArrayListExtra(URLS)
+        Log.i("imagepager","aa"+urls.toString())
         val isBlur = intent.getBooleanExtra("isBlur", false)
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         val showDelete = intent.getBooleanExtra("delete",false)
@@ -305,15 +306,20 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             if (s.isNotEmpty()) {
                 s.remove(url)
             }
-            val imgs = StringBuilder()
-            s.forEach {
-                imgs.append(it).append(",")
-            }
-            if (imgs.isNotEmpty()) {
-                imgs.deleteCharAt(imgs.length-1)
+            Log.i("imagepager","${s.size},aa"+urls.toString())
+            if(s.size>0){
+                val imgs = StringBuilder()
+                s.forEach {
+                    imgs.append(it).append(",")
+                }
+                if (imgs.isNotEmpty()) {
+                    imgs.deleteCharAt(imgs.length-1)
+                }
+                user.userpics = imgs.toString()
+            }else{
+                user.userpics = ""
             }
             dialog()
-            user.userpics = imgs.toString()
             Request.updateUserInfo(user).request(this){_,data->
                 data?.let {
                     setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to it)))

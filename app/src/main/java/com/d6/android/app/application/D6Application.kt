@@ -33,17 +33,10 @@ import com.d6.android.app.utils.Const.APPLAY_CONVERTION_ISTOP
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_DATE_TYPE
 import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.Const.UPDATE_GROUPS_STATUS
-import com.d6.android.app.utils.Const.XIAOMIAPPKEY
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.danikula.videocache.HttpProxyCacheServer
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
-import com.umeng.analytics.MobclickAgent
-import com.umeng.commonsdk.UMConfigure
-import com.umeng.message.IUmengRegisterCallback
-import com.umeng.message.MsgConstant
-import com.umeng.message.PushAgent
-import com.umeng.socialize.PlatformConfig
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
@@ -53,9 +46,7 @@ import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.*
 import io.rong.message.TextMessage
 import io.rong.push.RongPushClient
-import io.rong.push.core.PushUtils
 import io.rong.push.pushconfig.PushConfig
-import org.android.agoo.xiaomi.MiPushRegistar
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.util.*
@@ -122,6 +113,7 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
 //        }
 
 //        AppUtils.setHWRatio(this)
+
     }
 
     override fun attachBaseContext(base: Context?) {
@@ -129,6 +121,8 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         MultiDex.install(this)
         JLibrary.InitEntry(base)
     }
+
+
 
     private var proxy:HttpProxyCacheServer?=null
 

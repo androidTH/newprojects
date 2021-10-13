@@ -71,6 +71,7 @@ class LauncherActivity : BaseActivity() {
         setContentView(R.layout.activity_launcher)
         immersionBar.init()
         if(agree){
+            NetStateUtil.connectingAddress(this)
             OpenInstall.getInstall(mAppInstallAdapter)
             OpenInstall.getWakeUp(intent, wakeUpAdapter)
             Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)

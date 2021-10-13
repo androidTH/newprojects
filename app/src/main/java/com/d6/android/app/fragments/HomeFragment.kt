@@ -203,14 +203,14 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             val fragments = childFragmentManager.fragments
             var mSelfPullDateFragment:SelfPullDateFragment = fragments.get(onPageSelected) as SelfPullDateFragment
             mSelfPullDateFragment?.let {
-//                var area = if(!TextUtils.isEmpty(city)) city else ""
+                var area = if(!TextUtils.isEmpty(city)) city else ""
                 type = showDateTypes.get(onPageSelected).type
                 var dateType = if(type==0){//type == 6||
                     ""
                 }else{
                     type.toString()
                 }
-                mSelfPullDateFragment.refresh("" ,dateType,mDefualtSex)
+                mSelfPullDateFragment.refresh(area ,dateType,mDefualtSex)
 //                mSelfPullDateFragment.refresh()
             }
         }
@@ -369,12 +369,12 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
         mSwipeRefreshLayout.postDelayed(object:Runnable{
             override fun run() {
-                city = ""
+//                city = ""
                 if (TextUtils.equals("-1",sex)) {
                     tv_date_sex.text = getString(R.string.string_sex)
 //                    mDefualtSex = -1
                 }
-                tv_date_city.text = "地区"
+//                tv_date_city.text = "地区"
                 getSpeedData()
                 getFragment()
             }

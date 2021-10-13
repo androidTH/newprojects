@@ -1,8 +1,13 @@
 package com.d6.android.app.utils;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.d6.android.app.application.D6Application;
 import com.d6.android.app.models.IPBean;
 import com.d6.android.app.models.IPList;
 import com.d6.android.app.net.API;
@@ -167,14 +172,14 @@ public class NetStateUtil {
         return true;
     }
 
-    public static void connectingAddress(){
+    public static void connectingAddress(final Context activity){
         ThreadPoolManager.getInstance().execute(new Runnable() {
             @Override
             public void run() {
-                boolean IsConnect = isConnect(API.BASE_URL);//NetStateUtil.connectingAddress(API.URL);//BaseUtils.isConnect("http://apis_test.d6-zone.com/");
+                boolean IsConnect = isConnect(API.BASE_URL+"backstage/account/pin");//NetStateUtil.connectingAddress(API.URL);//BaseUtils.isConnect("http://apis_test.d6-zone.com/");
                 if(!IsConnect){
                     OkHttpClient mOkHttpClient = new OkHttpClient();
-                    Request request = new Request.Builder().url("http://domain_test.d6-zone.com/getDomain").build();
+                    Request request = new Request.Builder().url(API.GETDOMAIN).build();
                     mOkHttpClient.newCall(request).enqueue(new Callback() {
                         @Override
                         public void onFailure(okhttp3.Call call, IOException e) {
@@ -189,16 +194,19 @@ public class NetStateUtil {
                                     String obj = jsonObject.optString("obj");
                                     List<IPBean> mIPList = GsonHelper.GsonToBean(obj, IPList.class).getDomain();
                                     Log.i("httpurl","内容："+mIPList.get(0));
+//                                    Looper.prepare();
+//                                    Toast.makeText(activity,"域名切换成功",Toast.LENGTH_SHORT).show();
+//                                    Looper.loop();
                                     if(mIPList!=null&&mIPList.size()>=1){
                                         if(isConnect(mIPList.get(0).getIp())){
-                                            RetrofitUrlManager.getInstance().setGlobalDomain(mIPList.get(0).getIp()+"JyPhone/");
+                                            RetrofitUrlManager.getInstance().setGlobalDomain(mIPList.get(0).getIp()+API.LIYU_URL);
                                             return;
                                         }
                                     }
 
                                     if(mIPList!=null&&mIPList.size()>=2){
                                         if(isConnect(mIPList.get(1).getIp())){
-                                            RetrofitUrlManager.getInstance().setGlobalDomain(mIPList.get(1).getIp()+"JyPhone/");
+                                            RetrofitUrlManager.getInstance().setGlobalDomain(mIPList.get(1).getIp()+API.LIYU_URL);
                                             return;
                                         }
                                     }
@@ -213,11 +221,5 @@ public class NetStateUtil {
                 }
             }
         });
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }).start();
     }
 }

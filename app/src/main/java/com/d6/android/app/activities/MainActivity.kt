@@ -454,9 +454,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             }
         },true)
 
-        Log.i("MainActivityfffffff","${getLoginToken()}")
+//        Log.i("MainActivityfffffff","${getLoginToken()}")
 
-        NetStateUtil.connectingAddress()
+//        NetStateUtil.connectingAddress(this)
     }
 
     private fun initPopup(){
@@ -864,8 +864,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 toast("再按一次返回桌面")
                 mExitTime = System.currentTimeMillis()
             } else {
-                moveTaskToBack(true)
-//                finish()
+//                moveTaskToBack(true)
+                finish()
             }
             return true
         }

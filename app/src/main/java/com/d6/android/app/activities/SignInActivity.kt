@@ -254,12 +254,14 @@ class SignInActivity : TitleActivity() {
         mHasMap.put("deviceId",getOaid())
         var json = JSON.toJSONString(mHasMap)
         var pm: RequestBody = RequestBody.create(MediaType.parse("text/plain"), AppScreenUtils.encrypt(json, Const.MD5_ENCRYPT_KEY))
-        Request.getVerifyCodeNewV2(pm).request(this) { msg, data ->
+        Request.getVerifyCodeNewV2(pm).request(this,false,{ msg, data ->
             showToast("验证码发送成功")
             tv_get_code.isEnabled = false
             countDownTimer.start()
             tv_get_code.textColor = ContextCompat.getColor(this@SignInActivity, R.color.color_CCCCCC)
             tv_get_code.backgroundResource = R.drawable.circle_gray_bg
+        }){code, msg ->
+            toast(msg)
         }
     }
 
