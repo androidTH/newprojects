@@ -110,6 +110,10 @@
             android:value="b5zf76"/>
         <!--正式：b5zf76  测试：vwm5ds-->
 
+        <meta-data android:name="com.xinstall.APP_KEY"
+            android:value="3eua8k1"/>
+        <!--正式：b5zf76  测试：3eua8k1-->
+
         <meta-data
             android:name="design_width_in_dp"
             android:value="375"/>
@@ -145,8 +149,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!--<data android:scheme="d6app" android:host="com.d6.android.app" android:pathPrefix="/openwith"/>-->
                 <data android:scheme="b5zf76"/>
-
                 <!--正式：b5zf76  测试：vwm5ds-->
+
+                <data android:scheme="xi3eua8k1"/>
+                <!--正式：b5zf76  测试：xi3eua8k1-->
             </intent-filter>
         </activity>
         <activity

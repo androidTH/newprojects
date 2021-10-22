@@ -30,7 +30,7 @@ import org.jetbrains.anko.toast
 import java.io.File
 import java.util.*
 import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
-
+import com.xinstall.XInstall
 
 
 /**
@@ -185,7 +185,8 @@ class SetUserInfoActivity : BaseActivity() {
                 .color(this,s.length-5,s.length-2,R.color.orange_f6a)
                 .build()
 
-        OpenInstall.reportRegister()
+//        OpenInstall.reportRegister()
+        XInstall.reportRegister()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -290,7 +291,8 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_SEX, user.sex)
                         .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
-                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
+//                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
+                XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
@@ -307,7 +309,8 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_SEX, user.sex)
                         .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
-                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
+                XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
+//                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)

@@ -13,13 +13,9 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.widget.Toast
 import com.alibaba.fastjson.JSON
 import com.d6.android.app.R
-import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.TitleActivity
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
@@ -366,6 +362,7 @@ class SignInActivity : TitleActivity() {
                 startActivity<MainActivity>()
             }
             setResult(Activity.RESULT_OK)
+            ActivitiesManager.getInstance().finishActivity(SplashActivity::class.java)
             finish()
         }){code,msg->
             toast(msg)
@@ -399,6 +396,7 @@ class SignInActivity : TitleActivity() {
                         startActivity<MainActivity>()
                     }
                     setResult(Activity.RESULT_OK)
+                    ActivitiesManager.getInstance().finishActivity(SplashActivity::class.java)
                     finish()
                 }
             }

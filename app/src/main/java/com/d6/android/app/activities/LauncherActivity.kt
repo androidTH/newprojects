@@ -1,7 +1,6 @@
 package com.d6.android.app.activities
 
 import android.content.Intent
-import android.nfc.Tag
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.text.TextUtils
@@ -19,18 +18,21 @@ import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.utils.Const.User.OAID_ANDROID
 import com.fm.openinstall.OpenInstall
 import com.fm.openinstall.listener.AppInstallAdapter
+import com.fm.openinstall.listener.AppWakeUpAdapter
+import com.fm.openinstall.model.AppData
+import com.vector.update_app.utils.AppUpdateUtils
+import com.xinstall.XInstall
+import com.xinstall.listener.XWakeUpAdapter
+import com.xinstall.model.XAppData
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
-import org.jetbrains.anko.startActivity
-import java.util.concurrent.TimeUnit
-import com.fm.openinstall.model.AppData
-import com.fm.openinstall.listener.AppWakeUpAdapter
-import com.vector.update_app.utils.AppUpdateUtils
 import io.rong.imkit.RongIM
 import io.rong.push.RongPushClient
 import io.rong.push.pushconfig.PushConfig
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.json.JSONObject
+import java.util.concurrent.TimeUnit
 
 
 class LauncherActivity : BaseActivity() {
@@ -72,8 +74,9 @@ class LauncherActivity : BaseActivity() {
         immersionBar.init()
         if(agree){
             NetStateUtil.connectingAddress(this)
-            OpenInstall.getInstall(mAppInstallAdapter)
-            OpenInstall.getWakeUp(intent, wakeUpAdapter)
+//            OpenInstall.getInstall(mAppInstallAdapter)
+//            OpenInstall.getWakeUp(intent, wakeUpAdapter)
+            XInstall.getWakeUpParam(this,getIntent(), mWakeUpAdapter);
             Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
         }else{
             showUserAgreementDialog()
@@ -89,32 +92,32 @@ class LauncherActivity : BaseActivity() {
     }
 
     private fun getFreeChatTag(){
-        Request.getInfo("android_audit").request(this,success={ _, data ->
+        Request.getInfo("android_audit").request(this, success = { _, data ->
             data?.let {
                 var channels = data.optString("ext1")
                 var versionNum = data.optString("ext2")
 //                Log.i("getFreeChatTag","渠道：$channels,版本号：$versionNum,${AppUtils.getChannelName(this)}")
-                if(channels.isNullOrEmpty()){
-                    SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
-                }else{
-                    if(channels.contains(AppUtils.getChannelName(this))&&
-                            AppUtils.compareVersion(versionNum, AppUpdateUtils.getVersionName(this))==0){
-                        SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,true).apply()
-                    }else{
-                        SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
+                if (channels.isNullOrEmpty()) {
+                    SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, false).apply()
+                } else {
+                    if (channels.contains(AppUtils.getChannelName(this)) &&
+                            AppUtils.compareVersion(versionNum, AppUpdateUtils.getVersionName(this)) == 0) {
+                        SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, true).apply()
+                    } else {
+                        SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, false).apply()
                     }
                 }
             }
-        }){code,msg->
-            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG,false).apply()
+        }){ code, msg->
+            SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, false).apply()
         }
     }
 
     private val appIdsUpdater = object : MiitHelper.AppIdsUpdater {
 
         override fun OnIdsAvalid(@NonNull ids: String) {
-            Log.i("appIdsUpdater","oaid=${ids}")
-            SPUtils.instance().put(OAID_ANDROID,ids).apply()
+            Log.i("appIdsUpdater", "oaid=${ids}")
+            SPUtils.instance().put(OAID_ANDROID, ids).apply()
         }
     }
 
@@ -124,10 +127,12 @@ class LauncherActivity : BaseActivity() {
             if (p == 1) {
                 SPUtils.instance().put(Const.User.ISNOTUESERAGREEMENT, true).apply()
                 initApp()
-                OpenInstall.getInstall(mAppInstallAdapter)
-                OpenInstall.getWakeUp(intent, wakeUpAdapter)
+//                OpenInstall.getInstall(mAppInstallAdapter)
+//                OpenInstall.getWakeUp(intent, wakeUpAdapter)
+
+                XInstall.getWakeUpParam(this,getIntent(), mWakeUpAdapter);
                 Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
-                getOAID();
+                getOAID()
             }else{
                 finish()
             }
@@ -143,17 +148,17 @@ class LauncherActivity : BaseActivity() {
         RongPlugin.init(this)
 
         if(PushHelper.isMainProcess(this)){
-            OpenInstall.init(this)
+//            OpenInstall.init(this)
         }
     }
 
     private fun getOAID(){
         try{
-            if(TextUtils.isEmpty(SPUtils.instance().getString(OAID_ANDROID,""))){
+            if(TextUtils.isEmpty(SPUtils.instance().getString(OAID_ANDROID, ""))){
                 val miitHelper = MiitHelper(appIdsUpdater)
                 miitHelper.getDeviceIds(applicationContext)
             }
-        }catch (e:Exception){
+        }catch (e: Exception){
             e.printStackTrace()
         }
     }
@@ -166,11 +171,14 @@ class LauncherActivity : BaseActivity() {
         } catch (e: Exception) {
 //            e.printStackTrace()
         }
+
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        OpenInstall.getWakeUp(intent, wakeUpAdapter)
+//        OpenInstall.getWakeUp(intent, wakeUpAdapter)
+        // 此处要调用，否则App在后台运行时，会无法截获
+        XInstall.getWakeUpParam(this,intent, mWakeUpAdapter)
     }
 
     var wakeUpAdapter: AppWakeUpAdapter = object : AppWakeUpAdapter() {
@@ -180,23 +188,49 @@ class LauncherActivity : BaseActivity() {
             //获取绑定数据
             var bindData = appData.getData()
             Log.d("OpenInstall", "${channelCode}+AppWakeUpAdapter = ${bindData}")
-            SPUtils.instance().put(INSTALL_DATA02,"${channelCode}_${bindData}").apply()
+            SPUtils.instance().put(INSTALL_DATA02, "${channelCode}_${bindData}").apply()
+        }
+    }
+
+
+    var mWakeUpAdapter: XWakeUpAdapter = object : XWakeUpAdapter() {
+        override fun onWakeUp(XAppData: XAppData) {
+            // 获取渠道数据
+            val channelCode = XAppData.channelCode
+//            SPUtils.instance().put(OPENSTALL_CHANNEL, channelCode).apply()
+            //获取数据
+            var data = XAppData.extraData
+            // 通过链接后面携带的参数或者通过webSdk初始化传入的data值。
+            var uo = data["uo"]
+            // webSdk初始，在buttonId里面定义的按钮点击携带数据
+//            val co = data["co"]
+
+            //获取时间戳
+//            val timeSpan = XAppData.timeSpan
+            uo?.let {
+                var jsonObject = JSONObject(it)
+                var uovalue = jsonObject.optString("sInviteCode")
+                var covalue = jsonObject.optString("co")
+                SPUtils.instance().put(INSTALL_DATA01, "${uovalue}").apply()
+                Log.d("XWakeUpAdapter", "$it,${channelCode}+uo = ${uovalue},co=${covalue}")
+                toast("参数：uo=$uovalue,co=$covalue")//{"uo":"uovalue","xLinkCode":"4KBCR88","co":"covalue"}
+            }
         }
     }
 
     var mAppInstallAdapter = object: AppInstallAdapter(){
         override fun onInstall(p0: AppData?) {
             p0?.let {
-                SPUtils.instance().put(OPENSTALL_CHANNEL,it.channel).apply()
+                SPUtils.instance().put(OPENSTALL_CHANNEL, it.channel).apply()
                 try{
                     var bindData = it.getData()
                     if(bindData.isNotEmpty()){
                         var jsonObject = JSONObject(bindData)
                         var userId = jsonObject.optInt("sInviteCode")
                         Log.d("OpenInstall", "渠道=${it.channel} wakeupData = ${userId}")
-                        SPUtils.instance().put(INSTALL_DATA01,"${userId}").apply()
+                        SPUtils.instance().put(INSTALL_DATA01, "${userId}").apply()
                     }
-                }catch (e:java.lang.Exception){
+                }catch (e: java.lang.Exception){
 
                 }
             }

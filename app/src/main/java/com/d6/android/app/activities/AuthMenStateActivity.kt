@@ -38,6 +38,8 @@ import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.fm.openinstall.OpenInstall
+import com.fm.openinstall.OpenInstall.reportEffectPoint
+import com.xinstall.XInstall
 import kotlinx.android.synthetic.main.activity_auth_state.*
 import kotlinx.android.synthetic.main.include_member.*
 import kotlinx.android.synthetic.main.layout_auth_top.*
@@ -387,7 +389,8 @@ class AuthMenStateActivity : BaseActivity() {
                 payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
                 payResultDialog.show(supportFragmentManager, "fd")
                 getUserInfo()
-                OpenInstall.reportEffectPoint("open_vip",1)//会员转化
+//                OpenInstall.reportEffectPoint("open_vip",1)//会员转化
+                XInstall.reportEvent("openvip1",1)//会员转化
             }){code,msg->
                 CustomToast.showToast(msg)
             }

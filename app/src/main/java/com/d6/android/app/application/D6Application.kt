@@ -1,6 +1,7 @@
 package com.d6.android.app.application
 
 import android.app.*
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -37,6 +38,7 @@ import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.danikula.videocache.HttpProxyCacheServer
 import com.facebook.drawee.view.SimpleDraweeView
 import com.fm.openinstall.OpenInstall
+import com.xinstall.XInstall
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
@@ -89,10 +91,12 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
             }
 
             if(isMainProcess()){
-                OpenInstall.init(this)
+//                OpenInstall.init(this)
+                // 初始化
+                XInstall.init(this);
             }
         }
-
+        ActivitiesManager.getInstance().init(this)
         RongIM.getInstance().setMessageAttachedUserInfo(true)
         initCacheLib()
         setInputProvider()

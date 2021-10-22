@@ -34,6 +34,7 @@ import com.d6.android.app.widget.gallery.DSVOrientation
 import com.d6.android.app.widget.gallery.DiscreteScrollView
 import com.d6.android.app.widget.gallery.transform.ScaleTransformer
 import com.fm.openinstall.OpenInstall
+import com.xinstall.XInstall
 import kotlinx.android.synthetic.main.activity_openmember_ship.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.bundleOf
@@ -383,7 +384,8 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
 //            ns_auth_mem.visibility = View.GONE
 //            ll_bottom.visibility = View.GONE
 //            member.visibility = View.VISIBLE
-            OpenInstall.reportEffectPoint("open_vip", 1)//会员转化
+//            OpenInstall.reportEffectPoint("open_vip", 1)//会员转化
+            XInstall.reportEvent("openvip1",1)//会员转化
             FinishActivityManager.getManager().finishActivity(AuthMenStateActivity::class.java)
             var payResultDialog = PayResultDialog()
             payResultDialog.arguments = bundleOf("buyType" to "memeber", "payresult" to "wx_pay_success")
