@@ -765,6 +765,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 Request.releaseSquare(userId, tagId, city, it,content ,"",iIsAnonymous,sTopicId,"","","","","","","${sbBlur}","${sbFirePics}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
+                dismissDialog()
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
@@ -814,6 +815,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength,"","")
         }.request(this,false,success= { _, data ->
             showToast("发布成功")
+            dismissDialog()
             DiskFileUtils.deleteSingleFile(fileAudioPath)
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                 showTips(data,"发布约会奖励积分","10")
@@ -823,6 +825,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
 //            FinishActivityManager.getManager().finishActivity()
             finish()
         }){code,resMsg->
+            dismissDialog()
             if(code == 2){
                 val commonTiphDialog = CommonTipDialog()
                 commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
@@ -853,6 +856,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","","","")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
+                dismissDialog()
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
@@ -861,6 +865,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
 //                FinishActivityManager.getManager().finishActivity()
                 finish()
             }){code,resMsg->
+                dismissDialog()
                 if(code == 2){
                     val commonTiphDialog = CommonTipDialog()
                     commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
@@ -905,6 +910,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
         Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","","","").request(this,false,success={
             _, data ->
             showToast("发布成功")
+            dismissDialog()
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                 showTips(data,"发布约会奖励积分","10")
             }
@@ -913,6 +919,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
 //            FinishActivityManager.getManager().finishActivity()
             finish()
         }){code,resMsg->
+            dismissDialog()
             if(code == 2){
                 val commonTiphDialog = CommonTipDialog()
                 commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)

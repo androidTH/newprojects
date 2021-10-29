@@ -530,6 +530,7 @@ class MineV2Fragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListe
             mData = userData
             Request.updateUserInfo(userData)
         }.request(this) { _, _ ->
+            dismissDialog()
             refreshImages(userData)
         }
     }

@@ -362,6 +362,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
                 Request.addConnectVoice(getLocalUserId(),content,VoiceChatType,mVoiceChatType,loveNums,iOncePayLovePoint,"","${System.currentTimeMillis()}","${mSelectedTimeIndex}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
+                dismissDialog()
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
@@ -370,6 +371,7 @@ class VoiceChatCreateActivity : BaseActivity(),Observer{
 //                FinishActivityManager.getManager().finishActivity()
                 finish()
             }){code,resMsg->
+                dismissDialog()
                 if(code == 2){
                     val commonTiphDialog = CommonTipDialog()
                     commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)

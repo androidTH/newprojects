@@ -139,7 +139,9 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
         }
 
         override fun onComplete() {
-
+            if(requestManager!=null){
+                requestManager.dismissDialog()
+            }
         }
 
         override fun onNext(t: I) {

@@ -117,7 +117,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_info"
+        android:id="@+id/tv_userinfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_userinfo"
@@ -133,7 +133,7 @@
         android:id="@+id/tv_job"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_info"
+        android:layout_below="@+id/tv_userinfo"
         android:layout_marginLeft="@dimen/margin_5"
         android:ellipsize="end"
         android:gravity="center_vertical"

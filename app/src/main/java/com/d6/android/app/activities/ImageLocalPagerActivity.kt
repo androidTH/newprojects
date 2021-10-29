@@ -22,7 +22,6 @@ import com.d6.android.app.utils.Const.mLocalFirePicsMap
 import com.d6.android.app.utils.gone
 import com.d6.android.app.utils.setLeftDrawable
 import com.d6.android.app.utils.visible
-import com.d6.android.app.widget.photodrag.PhotoDragHelper
 import kotlinx.android.synthetic.main.activity_localimage_pager.*
 import com.d6.android.app.widget.ObserverManager
 import com.gyf.barlibrary.ImmersionBar
@@ -62,7 +61,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 urls.remove(it)
             }
 
-            var mImagelocals = Imagelocals(urls, 1, 0,mPayPointsHashMap,mFiresHashMap)
+            var mImagelocals = Imagelocals(urls, type, 0,mPayPointsHashMap,mFiresHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
             onBackPressed()
         }
@@ -126,7 +125,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         type = intent.getIntExtra(TYPE, 0)
-        if (type == 1) {
+        if (type!=0) {
             tv_delete.visibility = View.GONE
             tv_check.visibility = View.GONE
             var mDrawable = ContextCompat.getDrawable(this, R.mipmap.wancheng_color)

@@ -594,6 +594,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             Request.releasePullDate(userId, area, content, mDateType, mCostIndex,"${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", it,userIds,iIsAnonymous)
         }.request(this, false, success = { _, data ->
             showToast("发布成功")
+            dismissDialog()
             if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                 showTips(data, "", "")
             }
@@ -603,6 +604,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
 //            startActivity<AppointmentActivity>("from"  to "PublishFindDateActivity")
             finish()
         }) { code, msg ->
+            dismissDialog()
             if (code == 0) {
                 showToast(msg)
             }

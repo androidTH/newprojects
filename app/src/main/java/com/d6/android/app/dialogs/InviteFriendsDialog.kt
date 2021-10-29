@@ -30,6 +30,7 @@ import com.share.utils.ShareUtils
 import com.umeng.socialize.UMShareListener
 import com.umeng.socialize.bean.SHARE_MEDIA
 import com.umeng.socialize.media.UMImage
+import com.xinstall.XInstall
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.dialog_invitefriends.*
@@ -74,6 +75,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
     }
 
     private var mDoIndex = -1
+    private var sInviteUserId=""
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater?.inflate(R.layout.dialog_invitefriends, container, false)
@@ -102,6 +104,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
         tv_wxshare.setOnClickListener {
          isBaseActivity {
              mDoIndex = 1
+             XInstall.reportShareByXinShareId(sInviteUserId)
              it.dialog()
              ThreadPoolManager.getInstance().execute(mSaveBitmapRunnable)
          }
@@ -110,6 +113,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
         tv_pengyougroupshare.setOnClickListener {
             isBaseActivity {
                 mDoIndex = 2
+                XInstall.reportShareByXinShareId(sInviteUserId)
                 it.dialog()
                 ThreadPoolManager.getInstance().execute(mSaveBitmapRunnable)
             }
@@ -119,6 +123,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
             isBaseActivity {
                 mDoIndex = 0
                 it.dialog()
+                XInstall.reportShareByXinShareId(sInviteUserId)
                 it.toast("图片已保存到相册")
                 ThreadPoolManager.getInstance().execute(mSaveBitmapRunnable)
             }
@@ -217,6 +222,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
     private fun setInviteGoodFriendsUI(mInviteLinkBean: InviteLinkBean) {
         iv_invitationfriends_qcode.setImageURI(mInviteLinkBean.sInviteLinkPic)
         tv_invitationfriends_desc.text = mInviteLinkBean.sInviteDesc
+        sInviteUserId = mInviteLinkBean.sInviteUserId
     }
 
     private var dialogListener: OnDialogListener? = null

@@ -16,12 +16,12 @@ import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.INSTALL_DATA02
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.utils.Const.User.OAID_ANDROID
-import com.fm.openinstall.OpenInstall
 import com.fm.openinstall.listener.AppInstallAdapter
 import com.fm.openinstall.listener.AppWakeUpAdapter
 import com.fm.openinstall.model.AppData
 import com.vector.update_app.utils.AppUpdateUtils
 import com.xinstall.XInstall
+import com.xinstall.listener.XInstallAdapter
 import com.xinstall.listener.XWakeUpAdapter
 import com.xinstall.model.XAppData
 import io.reactivex.Flowable
@@ -76,11 +76,13 @@ class LauncherActivity : BaseActivity() {
             NetStateUtil.connectingAddress(this)
 //            OpenInstall.getInstall(mAppInstallAdapter)
 //            OpenInstall.getWakeUp(intent, wakeUpAdapter)
-            XInstall.getWakeUpParam(this,getIntent(), mWakeUpAdapter);
+            XInstall.getInstallParam(mXInstallAdapter)
+            XInstall.getWakeUpParam(this, getIntent(), mWakeUpAdapter);
             Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
         }else{
             showUserAgreementDialog()
         }
+
         getFreeChatTag()
     }
 
@@ -129,8 +131,8 @@ class LauncherActivity : BaseActivity() {
                 initApp()
 //                OpenInstall.getInstall(mAppInstallAdapter)
 //                OpenInstall.getWakeUp(intent, wakeUpAdapter)
-
-                XInstall.getWakeUpParam(this,getIntent(), mWakeUpAdapter);
+                XInstall.getInstallParam(mXInstallAdapter)
+                XInstall.getWakeUpParam(this, getIntent(), mWakeUpAdapter);
                 Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 getOAID()
             }else{
@@ -149,6 +151,7 @@ class LauncherActivity : BaseActivity() {
 
         if(PushHelper.isMainProcess(this)){
 //            OpenInstall.init(this)
+            XInstall.init(this)
         }
     }
 
@@ -178,7 +181,7 @@ class LauncherActivity : BaseActivity() {
         super.onNewIntent(intent)
 //        OpenInstall.getWakeUp(intent, wakeUpAdapter)
         // 此处要调用，否则App在后台运行时，会无法截获
-        XInstall.getWakeUpParam(this,intent, mWakeUpAdapter)
+        XInstall.getWakeUpParam(this, intent, mWakeUpAdapter)
     }
 
     var wakeUpAdapter: AppWakeUpAdapter = object : AppWakeUpAdapter() {
@@ -196,24 +199,27 @@ class LauncherActivity : BaseActivity() {
     var mWakeUpAdapter: XWakeUpAdapter = object : XWakeUpAdapter() {
         override fun onWakeUp(XAppData: XAppData) {
             // 获取渠道数据
-            val channelCode = XAppData.channelCode
-//            SPUtils.instance().put(OPENSTALL_CHANNEL, channelCode).apply()
+//            val channelCode = XAppData.channelCode
             //获取数据
             var data = XAppData.extraData
             // 通过链接后面携带的参数或者通过webSdk初始化传入的data值。
             var uo = data["uo"]
-            // webSdk初始，在buttonId里面定义的按钮点击携带数据
-//            val co = data["co"]
-
-            //获取时间戳
-//            val timeSpan = XAppData.timeSpan
-            uo?.let {
-                var jsonObject = JSONObject(it)
-                var uovalue = jsonObject.optString("sInviteCode")
-                var covalue = jsonObject.optString("co")
-                SPUtils.instance().put(INSTALL_DATA01, "${uovalue}").apply()
-                Log.d("XWakeUpAdapter", "$it,${channelCode}+uo = ${uovalue},co=${covalue}")
-                toast("参数：uo=$uovalue,co=$covalue")//{"uo":"uovalue","xLinkCode":"4KBCR88","co":"covalue"}
+            try{
+                uo?.let {
+                    var jsonObject = JSONObject(it)
+                    var uovalue = jsonObject.optString("sInviteCode")
+                    if(uovalue.isNotEmpty()){
+                        SPUtils.instance().put(INSTALL_DATA01, "${uovalue}").apply()
+                    }
+                    var covalue = jsonObject.optString("channelCode")
+                    if(covalue.isNotEmpty()){
+                        SPUtils.instance().put(OPENSTALL_CHANNEL, "${covalue}").apply()
+                    }
+                    Log.d("XWakeUpAdapter", "WakeUp,$it,${covalue}+uo = ${uovalue}")
+//                toast("参数：sInviteCode=$uovalue,channelCode=$channelCode")//{"uo":"uovalue","xLinkCode":"4KBCR88","co":"covalue"}
+                }
+            }catch (E:Exception){
+                toast("WakeUp报错了")
             }
         }
     }
@@ -236,4 +242,33 @@ class LauncherActivity : BaseActivity() {
             }
         }
     }
+    var mXInstallAdapter = object : XInstallAdapter() {
+        override fun onInstall(XAppData: XAppData) {
+//            val channelCode = XAppData.channelCode
+            //获取数据
+            var data = XAppData.extraData
+//            var ifFirst = XAppData.isFirstFetch
+            // 通过链接后面携带的参数或者通过webSdk初始化传入的data值。
+            var uo = data["uo"]
+            try{
+                uo?.let {
+                    var jsonObject = JSONObject(it)
+                    var uovalue = jsonObject.optString("sInviteCode")
+                    if(uovalue.isNotEmpty()){
+                        SPUtils.instance().put(INSTALL_DATA01, "${uovalue}").apply()
+                    }
+                    var covalue = jsonObject.optString("channelCode")
+                    if(covalue.isNotEmpty()){
+                        SPUtils.instance().put(OPENSTALL_CHANNEL, "${covalue}").apply()
+                    }
+                    Log.d("XWakeUpAdapter", "install,$it,${covalue}+uo = ${uovalue}")
+//                toast("参数：install,sInviteCode=$uovalue,channelCode=$channelCode")//{"uo":"uovalue","xLinkCode":"4KBCR88","co":"covalue"}
+                }
+            }catch (e: java.lang.Exception){
+                toast("install报错了")
+            }
+
+        }
+    }
+
 }

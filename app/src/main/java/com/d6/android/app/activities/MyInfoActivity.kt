@@ -25,15 +25,13 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.ISNOTLOCATION
 import com.d6.android.app.widget.MaxEditTextWatcher
 import com.d6.android.app.widget.ObserverManager
+import com.xinstall.XInstall
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_my_info.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.startActivityForResult
-import org.jetbrains.anko.toast
+import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
 import java.io.File
 import java.util.*
@@ -48,6 +46,7 @@ class MyInfoActivity : BaseActivity(),Observer{
     private val AREA_REQUEST_CODE = 11
 
     private var tempFile: File? = null
+    private var  mType = 2
 
     private val userData by lazy {
         intent.getSerializableExtra("data") as UserData
@@ -65,7 +64,7 @@ class MyInfoActivity : BaseActivity(),Observer{
 
     override fun update(o: Observable?, arg: Any?) {
         var mImagelocal = arg as Imagelocals
-        if(mImagelocal.mType == 1){
+        if(mImagelocal.mType == mType){
             var localImages = ArrayList<String>()
             mImagelocal.mUrls.forEach {
                 localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
@@ -108,6 +107,7 @@ class MyInfoActivity : BaseActivity(),Observer{
                 startActivityForResult<MultiImageSelectorActivity>(8
                         , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
                         ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                ,MultiImageSelectorActivity.FROMTYPE to mType
                 )
             }
         }
@@ -429,6 +429,7 @@ class MyInfoActivity : BaseActivity(),Observer{
             }
             Request.updateUserInfo(userData)
         }.request(this) { _, _ ->
+            dismissDialog()
             refreshImages(userData)
         }
     }
@@ -488,6 +489,7 @@ class MyInfoActivity : BaseActivity(),Observer{
         if (headFilePath == null) {
             Request.updateUserInfo(userData).request(this) { msg, data ->
                 showToast(msg.toString())
+                dismissDialog()
                 var updateIntent = Intent()
                 var bd= Bundle()
                 bd.putSerializable("userinfo",data)
@@ -496,15 +498,32 @@ class MyInfoActivity : BaseActivity(),Observer{
                 finish()
             }
         } else {
-            Request.uploadFile(File(headFilePath)).flatMap {
-                sysErr("----------------->$it")
+            Flowable.just(headFilePath).flatMap {
+                val file = BitmapUtils.compressImageFile("$headFilePath")
+                Request.uploadFile(file)
+            }.flatMap {
                 userData.picUrl = it
                 Request.updateUserInfo(userData)
-            }.request(this) { msg, _ ->
+            }.request(this) { msg,_ ->
+                dismissDialog()
                 showToast(msg.toString())
                 setResult(Activity.RESULT_OK)
                 finish()
+
             }
+
+
+//            Request.uploadFile(File(headFilePath)).flatMap {
+//                sysErr("----------------->$it")
+//                dismissDialog()
+//                userData.picUrl = it
+//                Request.updateUserInfo(userData)
+//            }.request(this) { msg, _ ->
+//                dismissDialog()
+//                showToast(msg.toString())
+//                setResult(Activity.RESULT_OK)
+//                finish()
+//            }
         }
     }
 }

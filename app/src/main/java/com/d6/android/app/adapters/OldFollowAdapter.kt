@@ -10,7 +10,6 @@ import com.d6.android.app.base.adapters.HFRecyclerAdapter
 import com.d6.android.app.base.adapters.util.ViewHolder
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.Fans
-import com.d6.android.app.models.LoveHeartFans
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.facebook.drawee.view.SimpleDraweeView

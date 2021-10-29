@@ -1049,7 +1049,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun updateImages(mImages:ArrayList<String>) {
         val userData = mData ?: return
-        dialog()
+        dialog("加载中...",true,false)
         Flowable.fromIterable(mImages).subscribeOn(Schedulers.io()).flatMap {
             //压缩
             val b = BitmapUtils.compressImageFile(it)
@@ -1074,6 +1074,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             mData = userData
             Request.updateUserInfo(userData)
         }.request(this) { _, _ ->
+            dismissDialog()
             refreshImages(userData)
         }
     }

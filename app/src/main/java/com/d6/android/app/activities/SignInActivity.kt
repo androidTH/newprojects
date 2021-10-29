@@ -60,7 +60,7 @@ class SignInActivity : TitleActivity() {
     }
 
     private val channel by lazy{
-        SPUtils.instance().getString(OPENSTALL_CHANNEL,"Openinstall")
+        SPUtils.instance().getString(OPENSTALL_CHANNEL,"")
     }
 
     private val shareApi by lazy {
@@ -336,6 +336,7 @@ class SignInActivity : TitleActivity() {
             "$countryCode-$phone"
         }
         sysErr("------->$p")
+        toast("登录注册：$install_data01")
         dialog()
         Request.loginV2New(1, code, p, devicetoken,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getSIMEI(this).toLowerCase(),true),sOaid = getOaid(),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(),true)).request(this,false,success={ msg, data ->
             msg?.let {

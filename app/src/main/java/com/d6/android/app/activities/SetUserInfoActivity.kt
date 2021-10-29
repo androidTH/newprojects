@@ -31,6 +31,7 @@ import java.io.File
 import java.util.*
 import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
 import com.xinstall.XInstall
+import io.reactivex.Flowable
 
 
 /**
@@ -279,10 +280,14 @@ class SetUserInfoActivity : BaseActivity() {
         user.sUnionid = unionId
         dialog()
         if(ISNOTEDIT){
-            Request.uploadFile(File(headFilePath)).flatMap {
+            Flowable.just(headFilePath).flatMap {
+                val file = BitmapUtils.compressImageFile("$headFilePath")
+                Request.uploadFile(file)
+            }.flatMap {
                 user.picUrl = it
                 Request.updateUserInfo(user)
             }.request(this) { _, data ->
+                dismissDialog()
                 clearLoginToken()
                 SPUtils.instance()
                         .put(Const.User.IS_LOGIN,true)
@@ -298,6 +303,26 @@ class SetUserInfoActivity : BaseActivity() {
                 setResult(Activity.RESULT_OK)
                 finish()
             }
+
+//            Request.uploadFile(File(headFilePath)).flatMap {
+//                user.picUrl = it
+//                Request.updateUserInfo(user)
+//            }.request(this) { _, data ->
+//                clearLoginToken()
+//                SPUtils.instance()
+//                        .put(Const.User.IS_LOGIN,true)
+//                        .put(Const.User.USER_NICK, nick)
+//                        .put(Const.User.USER_HEAD, user.picUrl)
+//                        .put(Const.User.USER_SEX, user.sex)
+//                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
+//                        .apply()
+////                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
+//                XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
+//                startActivity<MainActivity>()
+//                dismissDialog()
+//                setResult(Activity.RESULT_OK)
+//                finish()
+//            }
         }else{
             user.picUrl = headFilePath
             Request.updateUserInfo(user).request(this, success = {msg,data->
