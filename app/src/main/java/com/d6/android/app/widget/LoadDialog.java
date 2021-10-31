@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.d6.android.app.R;
 import com.d6.android.app.utils.NToast;
@@ -115,7 +116,11 @@ public class LoadDialog extends Dialog {
      */
     public static void dismiss(Context context) {
         try {
+//            Toast.makeText(context,"ok",Toast.LENGTH_SHORT).show();
             if (context instanceof Activity) {
+                if(loadDialog !=null){
+                    loadDialog.dismiss();
+                }
                 if (((Activity) context).isFinishing()) {
                     loadDialog = null;
                     return;
@@ -126,6 +131,7 @@ public class LoadDialog extends Dialog {
                 Context loadContext = loadDialog.getContext();
                 if (loadContext != null && loadContext instanceof Activity) {
                     if (((Activity) loadContext).isFinishing()) {
+                        loadDialog.dismiss();
                         loadDialog = null;
                         return;
                     }
@@ -138,4 +144,6 @@ public class LoadDialog extends Dialog {
             loadDialog = null;
         }
     }
+
+
 }

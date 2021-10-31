@@ -306,7 +306,6 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             if (s.isNotEmpty()) {
                 s.remove(url)
             }
-            Log.i("imagepager","${s.size},aa"+urls.toString())
             if(s.size>0){
                 val imgs = StringBuilder()
                 s.forEach {
@@ -320,11 +319,15 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 user.userpics = ""
             }
             dialog()
-            Request.updateUserInfo(user).request(this){_,data->
+            Request.updateUserInfo(user).request(this,success={_,data->
+                dismissDialog()
                 data?.let {
-                    setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to it)))
+                    setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to user)))
                 }
                 onBackPressed()
+            }){msg,code->
+                dismissDialog()
+                toast(msg)
             }
         }
     }

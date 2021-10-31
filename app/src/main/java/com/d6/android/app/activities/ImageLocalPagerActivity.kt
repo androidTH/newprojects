@@ -45,6 +45,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     private var type = 0//0删除 1 没有删除
     private var mShowPayPoints = false
     private var mFirePics = false
+    private var mDoWork = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +62,8 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
                 urls.remove(it)
             }
 
-            var mImagelocals = Imagelocals(urls, type, 0,mPayPointsHashMap,mFiresHashMap)
+            Log.i("imagelocal","dowork")
+            var mImagelocals = Imagelocals(urls, type, 0, mPayPointsHashMap, mFiresHashMap)
             ObserverManager.getInstance().notifyObservers(mImagelocals)
             onBackPressed()
         }

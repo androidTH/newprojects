@@ -94,7 +94,7 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
         }else{
             tv_likedtype.visibility = View.GONE
         }
-        var tv_info = holder.bind<TextView>(R.id.tv_info)
+        var tv_info = holder.bind<TextView>(R.id.tv_userinfo)
         var mInfo = ""
         if(!data.shengao.isNullOrEmpty()){
             mInfo = "${data.shengao}"

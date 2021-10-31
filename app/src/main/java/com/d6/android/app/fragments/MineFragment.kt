@@ -603,9 +603,12 @@ class MineFragment : BaseFragment() {
             }
             mData = userData
             Request.updateUserInfo(userData)
-        }.request(this) { _, _ ->
+        }.request(this,success={ _, _ ->
             dismissDialog()
             setPicsWall(userData)
+        }){msg,code->
+            dismissDialog()
+            toast(msg)
         }
     }
 

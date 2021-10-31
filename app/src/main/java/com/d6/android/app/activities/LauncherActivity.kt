@@ -219,7 +219,7 @@ class LauncherActivity : BaseActivity() {
 //                toast("参数：sInviteCode=$uovalue,channelCode=$channelCode")//{"uo":"uovalue","xLinkCode":"4KBCR88","co":"covalue"}
                 }
             }catch (E:Exception){
-                toast("WakeUp报错了")
+//                toast("WakeUp报错了")
             }
         }
     }
@@ -265,7 +265,7 @@ class LauncherActivity : BaseActivity() {
 //                toast("参数：install,sInviteCode=$uovalue,channelCode=$channelCode")//{"uo":"uovalue","xLinkCode":"4KBCR88","co":"covalue"}
                 }
             }catch (e: java.lang.Exception){
-                toast("install报错了")
+//                toast("install报错了")
             }
 
         }

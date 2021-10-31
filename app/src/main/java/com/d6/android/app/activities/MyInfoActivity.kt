@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.MyImageAdapter
@@ -25,11 +26,14 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.ISNOTLOCATION
 import com.d6.android.app.widget.MaxEditTextWatcher
 import com.d6.android.app.widget.ObserverManager
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.xinstall.XInstall
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_image_pager.*
 import kotlinx.android.synthetic.main.activity_my_info.*
+import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
@@ -61,9 +65,11 @@ class MyInfoActivity : BaseActivity(),Observer{
     }
 
     private var MAXPICS = 9
+    private var mLocalUserPices =""
 
     override fun update(o: Observable?, arg: Any?) {
         var mImagelocal = arg as Imagelocals
+        Log.i("imagelocal","update=${mImagelocal.mUrls.size}")
         if(mImagelocal.mType == mType){
             var localImages = ArrayList<String>()
             mImagelocal.mUrls.forEach {
@@ -114,7 +120,7 @@ class MyInfoActivity : BaseActivity(),Observer{
 
         tv_back.setOnClickListener {
             mKeyboardKt.hideKeyboard(it)
-            finish()
+            onBackPressed()
         }
         tv_save.setOnClickListener {
             if(!isFastClick()){
@@ -275,6 +281,7 @@ class MyInfoActivity : BaseActivity(),Observer{
         tv_weight1.text = userData.weight
 //        tv_age1.setText(userData.age)
         sex = userData.sex ?: "1"
+        mLocalUserPices = "${userData.userpics}"
         tv_sex1.text = if (TextUtils.equals(sex, "1")) {
             "男"
         } else "女"
@@ -365,7 +372,7 @@ class MyInfoActivity : BaseActivity(),Observer{
                 }
                 updateImages(localImages)
             }else if(requestCode==22){
-                 refreshImages(data!!.getSerializableExtra("data") as UserData)
+                 refreshImages()//data!!.getSerializableExtra("data") as UserData
             }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
                 var param = data.getParcelableExtra<BLBeautifyParam>(BLBeautifyParam.RESULT_KEY);
                 if (param.type.equals(Const.User.HEADERIMAGE)) {
@@ -427,25 +434,38 @@ class MyInfoActivity : BaseActivity(),Observer{
             } else {
                 userData.userpics = userData.userpics + "," + it
             }
+            Log.i("imagepager","接口：${it}")
             Request.updateUserInfo(userData)
-        }.request(this) { _, _ ->
+        }.request(this,success= { _, _ ->
             dismissDialog()
-            refreshImages(userData)
+            refreshImages()
+        }){msg,code->
+            dismissDialog()
+            toast(msg)
         }
     }
 
-    private fun refreshImages(userData: UserData) {
-        mImagesData.clear()
-        if (!userData.userpics.isNullOrEmpty()) {
-            val images = userData.userpics!!.split(",")
-            images.forEach {
-                mImagesData.add(AddImage(it))
+    private fun refreshImages() {
+        Request.getUserInfo(getLocalUserId(),"${userData.accountId}").request(this, success = { _, data ->
+            try{
+                data?.let {
+                    mImagesData.clear()
+                    userData.userpics = data.userpics
+                    if (!data.userpics.isNullOrEmpty()) {
+                        val images = data.userpics!!.split(",")
+                        images.forEach {
+                            mImagesData.add(AddImage(it))
+                        }
+                    }
+                    if(MAXPICS!=mImagesData.size){
+                        mImagesData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
+                    }
+                    myImageAdapter.notifyDataSetChanged()
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
             }
-        }
-        if(MAXPICS!=mImagesData.size){
-            mImagesData.add(AddImage("res:///" + R.mipmap.ic_add_bg, 1))
-        }
-        myImageAdapter.notifyDataSetChanged()
+        })
     }
 
     private fun saveInfo() {
@@ -525,5 +545,13 @@ class MyInfoActivity : BaseActivity(),Observer{
 //                finish()
 //            }
         }
+    }
+
+    override fun onBackPressed() {
+        userData.userpics = mLocalUserPices
+        Request.updateUserInfo(userData).request(this, success = { _, _ ->
+
+        })
+        finish()
     }
 }

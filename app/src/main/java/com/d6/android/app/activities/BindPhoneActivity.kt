@@ -234,7 +234,7 @@ class BindPhoneActivity : TitleActivity() {
         } else {
             "$countryCode-$phone"
         }
-        toast("绑定手机号：${install_data01}")
+//        toast("绑定手机号：${install_data01}")
        Request.bindPhone(p, code, openId, unionId, devicetoken, name, headerpic, sChannelId = channel, sInviteCode = install_data01, sImei = MD5.encrypt(getSIMEI(this).toLowerCase(), true), sOaid = getOaid(), sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(), true)).request(this, false, success = { msg, data ->
            clearLoginToken()
            saveMsg(msg)

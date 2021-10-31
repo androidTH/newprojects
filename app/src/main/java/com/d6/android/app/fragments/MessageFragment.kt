@@ -48,19 +48,21 @@ import java.lang.Exception
  */
 class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshListener {
 
-    private val iIsCreateGroup by lazy{
-        SPUtils.instance().getInt(Const.User.USERISCREATE_GROUP,1)
+    private val iIsCreateGroup by lazy {
+        SPUtils.instance().getInt(Const.User.USERISCREATE_GROUP, 1)
     }
+
     fun mode(): SwipeRefreshRecyclerLayout.Mode {
         return SwipeRefreshRecyclerLayout.Mode.Top
     }
 
     private val mConversations = ArrayList<Conversation>()
     private val mUnConversations = ArrayList<Conversation>()
-//    private val mISTopConversations = ArrayList<Conversation>()
-    private var mNMUnReadTotal:Int = 0 //我匿名未读消息数
+
+    //    private val mISTopConversations = ArrayList<Conversation>()
+    private var mNMUnReadTotal: Int = 0 //我匿名未读消息数
     private var showNums = 1
-    private var pageNum=1
+    private var pageNum = 1
 
     private val conversationsAdapter by lazy {
         ConversationsAdapter(mConversations)
@@ -79,7 +81,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     private var SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
 
     private lateinit var headerView: View
-    fun IsNotNullHeaderiew()=::headerView.isInitialized
+    fun IsNotNullHeaderiew() = ::headerView.isInitialized
 
     override fun contentViewId(): Int {
         return R.layout.message_fragment
@@ -116,7 +118,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
         headerView.iv_msgtip_close.setOnClickListener {
             headerView.rl_msg_tips.visibility = View.GONE
-            SPUtils.instance().put(PUSH_ISNOTSHOW,System.currentTimeMillis()).apply()
+            SPUtils.instance().put(PUSH_ISNOTSHOW, System.currentTimeMillis()).apply()
         }
 
         headerView.tv_openmsg.setOnClickListener {
@@ -137,15 +139,16 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
 
         conversationsAdapter.setOnItemClickListener { _, position ->
-            val conversation = mConversations[position]
-            var s = "--"
-            val info = RongUserInfoManager.getInstance().getUserInfo(conversation.targetId)
-            if (info != null) {
-                s = info.name
-            }
+            if (mConversations.size > 0) {
+                val conversation = mConversations[position]
+                var s = "--"
+                val info = RongUserInfoManager.getInstance().getUserInfo(conversation.targetId)
+                if (info != null) {
+                    s = info.name
+                }
 
-            if (TextUtils.equals(Const.CustomerServiceId, conversation.targetId)||TextUtils.equals(Const.CustomerServiceWomenId, conversation.targetId)) {
-                //客服
+                if (TextUtils.equals(Const.CustomerServiceId, conversation.targetId) || TextUtils.equals(Const.CustomerServiceWomenId, conversation.targetId)) {
+                    //客服
 //                    val textMsg = TextMessage.obtain("欢迎使用D6社区APP\nD6社区官网：www-d6-zone.com\n微信公众号：D6社区CM\n可关注实时了解社区动向。")
 //                    RongIMClient.getInstance().insertIncomingMessage(Conversation.ConversationType.PRIVATE
 //                            ,"5" ,"5", Message.ReceivedStatus(0)
@@ -162,22 +165,22 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                builder.loginName("D6客服")
 //                builder.city("北京")
 //                RongIM.getInstance().startCustomerServiceChat(activity, "KEFU146001495753714", "在线客服", builder.build())
-                RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
-            } else if(conversation.conversationType ==Conversation.ConversationType.GROUP){
-               // Log.i("messageFragment","${conversation.targetId}") //anoy_100486_100541 anoy_100486_21881  anoy_100491_100486
-                RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,conversation.targetId, "")
-            }else {
+                    RongIM.getInstance().startConversation(context, conversation.conversationType, conversation.targetId, "D6客服")
+                } else if (conversation.conversationType == Conversation.ConversationType.GROUP) {
+                    // Log.i("messageFragment","${conversation.targetId}") //anoy_100486_100541 anoy_100486_21881  anoy_100491_100486
+                    RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP, conversation.targetId, "")
+                } else {
 //                if (SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)) {
 //                    RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
 //                }else{
-                    activity.isAuthUser{
+                    activity.isAuthUser {
                         RongIM.getInstance().startConversation(activity, Conversation.ConversationType.PRIVATE, conversation.targetId, s)
                     }
 //                }
-            }
-            conversation.unreadMessageCount = 0
+                }
+                conversation.unreadMessageCount = 0
 //            conversationsAdapter.notifyDataSetChanged()
-        }
+            }
 
 //        topConversationsAdapter.setOnItemClickListener { view, position ->
 //            val conversation = mISTopConversations[position]
@@ -196,10 +199,10 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                }
 //            }
 //            conversation.unreadMessageCount = 0
-//        }
-        getData()
-        getSysLastOne(SysMsg_time.toString())
-        getSquareMsg(SquareMsg_time.toString())
+        }
+            getData()
+            getSysLastOne(SysMsg_time.toString())
+            getSquareMsg(SquareMsg_time.toString())
 
 //        if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
 //            tv_topsearch.visibility = View.VISIBLE
@@ -214,12 +217,12 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
     override fun onResume() {
         super.onResume()
-        Log.i("Message","ssssss");
+        Log.i("Message", "ssssss");
     }
 
-    private var mCirclePop: EasyPopup?=null
-    private fun initPopup(){
-        if (activity!= null) {
+    private var mCirclePop: EasyPopup? = null
+    private fun initPopup() {
+        if (activity != null) {
             var mContentView = LayoutInflater.from(activity).inflate(R.layout.popup_message_layout, null)
             if (TextUtils.equals(CustomerServiceId, getLocalUserId()) || TextUtils.equals(CustomerServiceWomenId, getLocalUserId())) {
                 mContentView.findViewById<View>(R.id.line_searchusers)?.visibility = View.VISIBLE
@@ -239,8 +242,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 mContentView.findViewById<View>(R.id.line_creategroup)?.visibility = View.VISIBLE
             }
 
-            if(showNums == 1) {
-                mContentView.findViewById<View>(R.id.rl_popup)?.backgroundDrawable = ContextCompat.getDrawable(activity,R.mipmap.topwindows01_bg)
+            if (showNums == 1) {
+                mContentView.findViewById<View>(R.id.rl_popup)?.backgroundDrawable = ContextCompat.getDrawable(activity, R.mipmap.topwindows01_bg)
             }
             mCirclePop = EasyPopup.create().setAnimationStyle(R.style.RightTop2PopAnim)
                     .setContentView(mContentView).setOnViewListener { view, popup ->
@@ -251,7 +254,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
                         view.findViewById<TextView>(R.id.tv_joingroup).setOnClickListener {
                             var mJoinGroupDialog = JoinGroupDialog()
-                            mJoinGroupDialog.show(activity.supportFragmentManager,"joingroup")
+                            mJoinGroupDialog.show(activity.supportFragmentManager, "joingroup")
                             mCirclePop!!.dismiss()
                         }
                         view.findViewById<TextView>(R.id.tv_search_users).setOnClickListener {
@@ -271,7 +274,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         if (isNotificationEnabled(context)) {
             headerView.rl_msg_tips.visibility = View.GONE
         } else {
-            if(SPUtils.instance().getLong(PUSH_ISNOTSHOW,System.currentTimeMillis())!=System.currentTimeMillis()){
+            if (SPUtils.instance().getLong(PUSH_ISNOTSHOW, System.currentTimeMillis()) != System.currentTimeMillis()) {
                 if (getSevenDays(SPUtils.instance().getLong(PUSH_ISNOTSHOW, System.currentTimeMillis()))) {
                     if (isNotificationEnabled(context)) {
                         headerView.rl_msg_tips.visibility = View.GONE
@@ -281,7 +284,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                 } else {
                     headerView.rl_msg_tips.visibility = View.GONE
                 }
-            }else{
+            } else {
                 headerView.rl_msg_tips.visibility = View.VISIBLE
             }
         }
@@ -295,11 +298,11 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //                mISTopConversations.clear()
                 if (conversations != null) {
                     mConversations.addAll(conversations)
-                    for(c:Conversation in conversations){
-                        if(c.conversationType == Conversation.ConversationType.GROUP){
+                    for (c: Conversation in conversations) {
+                        if (c.conversationType == Conversation.ConversationType.GROUP) {
                             var split = c.targetId.split("_")
-                            if(split.size==GROUPSPLIT_LEN){
-                                if(TextUtils.equals(split[1], getLocalUserId())){
+                            if (split.size == GROUPSPLIT_LEN) {
+                                if (TextUtils.equals(split[1], getLocalUserId())) {
                                     mConversations.remove(c)
                                     mUnConversations.add(c)
                                 }
@@ -327,9 +330,11 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
             override fun onError(errorCode: RongIMClient.ErrorCode) {
 
             }
-        }, Conversation.ConversationType.PRIVATE,Conversation.ConversationType.GROUP)
+        }, Conversation.ConversationType.PRIVATE, Conversation.ConversationType.GROUP)
         updateGroupList()
     }
+
+
 
     /**
      * 密聊是否显示和未读消息数量
@@ -337,13 +342,13 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     private fun getNMChat() {
         mNMUnReadTotal = 0
         Log.i("messagefragment", "ssssss${mUnConversations.size}")
-        if (swiprefreshRecyclerlayout_msg.IsNotRecycler()&&swiprefreshRecyclerlayout_msg.mRecyclerView.hasPendingAdapterUpdates()) {
+        if (swiprefreshRecyclerlayout_msg.IsNotRecycler() && swiprefreshRecyclerlayout_msg.mRecyclerView.hasPendingAdapterUpdates()) {
             swiprefreshRecyclerlayout_msg.setLayoutManager(LinearLayoutManager(context))
             headerView = layoutInflater.inflate(R.layout.header_messages, swiprefreshRecyclerlayout_msg.mRecyclerView, false)
         }
         try {
             if (mUnConversations != null && mUnConversations.size > 0) {
-                if(IsNotNullHeaderiew()){
+                if (IsNotNullHeaderiew()) {
                     headerView.rl_unknowchat.visibility = View.VISIBLE
                     headerView.line_mchat.visibility = View.VISIBLE
 
@@ -366,7 +371,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                     }
                 }
             } else {
-                if(IsNotNullHeaderiew()){
+                if (IsNotNullHeaderiew()) {
                     headerView.rl_unknowchat.visibility = View.GONE
                     headerView.line_mchat.visibility = View.GONE
                 }
@@ -376,22 +381,24 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         }
     }
 
-    private fun updateGroupList(){
-        if(IsNotNullHeaderiew()){
+    private fun updateGroupList() {
+        if (IsNotNullHeaderiew()) {
             headerView.rv_grouplist.setHasFixedSize(true)
             headerView.rv_grouplist.isNestedScrollingEnabled = true
-            headerView.rv_grouplist.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
+            headerView.rv_grouplist.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             headerView.rv_grouplist.adapter = mGroupListAdapter
             mGroupListAdapter.setOnItemClickListener { _, position ->
-                val groupBean = mGroupList[position]
+                if(mGroupList.size>0){
+                    val groupBean = mGroupList[position]
 //                startActivity<GroupSettingActivity>("bean" to groupBean)
-                if(groupBean.iType==1){
-                    RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP,"${groupBean.sId}","${groupBean.sGroupName}")
-                }else if(groupBean.iType==2){
-                    startActivity<UserInfoActivity>("id" to "${groupBean.sId}")
+                    if (groupBean.iType == 1) {
+                        RongIM.getInstance().startConversation(context, Conversation.ConversationType.GROUP, "${groupBean.sId}", "${groupBean.sGroupName}")
+                    } else if (groupBean.iType == 2) {
+                        startActivity<UserInfoActivity>("id" to "${groupBean.sId}")
+                    }
                 }
             }
-            if(Const.UPDATE_GROUPS_STATUS==-1){
+            if (Const.UPDATE_GROUPS_STATUS == -1) {
                 getGroupData()
                 Const.UPDATE_GROUPS_STATUS = 0
             }
@@ -402,17 +409,17 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     private fun getGroupData() {
-        Request.getMyGrouListAndFriendList(1).request(this,success = { _, data ->
+        Request.getMyGrouListAndFriendList(1).request(this, success = { _, data ->
             data?.let {
                 mGroupList.clear()
-                Log.i("onReceived","${Const.UPDATE_GROUPS_STATUS}-----${it.list?.results?.size}")
+                Log.i("onReceived", "${Const.UPDATE_GROUPS_STATUS}-----${it.list?.results?.size}")
                 if (it.list?.results == null || it.list.results.isEmpty()) {
                     if (pageNum > 1) {
 
                     } else {
                         headerView.ll_groups.visibility = View.GONE
                     }
-                }else{
+                } else {
                     headerView.ll_groups.visibility = View.VISIBLE
                     mGroupList.addAll(it.list?.results)
                     mGroupListAdapter.notifyDataSetChanged()
@@ -423,7 +430,7 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         }
     }
 
-    private fun setIsTopConversation(){
+    private fun setIsTopConversation() {
 //        headerView.rv_top_conversation.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
 //        if(mISTopConversations.size>0){
 //            headerView.rv_top_conversation.visibility = View.VISIBLE
@@ -436,18 +443,18 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     /**
      * 系统消息
      */
-    private fun getSysLastOne(lastTime:String) {
+    private fun getSysLastOne(lastTime: String) {
         Request.getSystemMessages(getLocalUserId(), 1, pageSize = 1).request(this) { _, data ->
-             data?.let {
-                 setSysMsg(data)
-             }
+            data?.let {
+                setSysMsg(data)
+            }
         }
     }
 
     /**
      * 广场消息
      */
-    private fun getSquareMsg(lastTime:String) {
+    private fun getSquareMsg(lastTime: String) {
         Request.getNewSquareMessages(getLocalUserId(), 1, pageSize = 1).request(this) { _, data ->
             setSquareMsg(data)
         }
@@ -464,13 +471,13 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     //获得聊天消息
-    fun getChatMsg(){
+    fun getChatMsg() {
         getData()
     }
 
-    fun setSysMsg(data:Page<SysMessage>){
+    fun setSysMsg(data: Page<SysMessage>) {
         if (data != null) {
-            if(data.list != null){
+            if (data.list != null) {
                 if (data.list.results != null) {
                     var c = if ((data.count ?: 0) > 99) {
                         "99+"
@@ -478,19 +485,19 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         data.count.toString()
                     }
                     if ((data.count ?: 0) > 0) {
-                        if(IsNotNullHeaderiew()){
+                        if (IsNotNullHeaderiew()) {
                             headerView.iv1_sys_num.visibility = View.VISIBLE
                             headerView.iv1_sys_num.text = c
                         }
                     } else {
-                        if(IsNotNullHeaderiew()){
+                        if (IsNotNullHeaderiew()) {
                             headerView.iv1_sys_num.visibility = View.GONE
                         }
                     }
                     var sysmsg = data.list.results[0]
-                    if(IsNotNullHeaderiew()){
+                    if (IsNotNullHeaderiew()) {
                         headerView.tv_content1.text = sysmsg.content
-                        headerView.tv_systemmsg_time.text = DateToolUtils.getConversationFormatDate(sysmsg.createTime!!.toLong(),false, context)
+                        headerView.tv_systemmsg_time.text = DateToolUtils.getConversationFormatDate(sysmsg.createTime!!.toLong(), false, context)
                     }
                 }
             }
@@ -498,16 +505,16 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     //获得广场消息
-    fun setSquareMsg(data:Page<SquareMessage>?){
+    fun setSquareMsg(data: Page<SquareMessage>?) {
         if (data != null) {
             data.list?.let {
-                if(it.results!=null){
+                if (it.results != null) {
                     var c = if ((data.count ?: 0) > 99) {
                         "99+"
                     } else {
                         data.count.toString()
                     }
-                    if(IsNotNullHeaderiew()){
+                    if (IsNotNullHeaderiew()) {
                         if ((data.count ?: 0) > 0) {
                             headerView.iv2_square_num.visibility = View.VISIBLE
                             headerView.iv2_square_num.text = c
@@ -516,17 +523,17 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
                         }
                     }
                     var squaremsg = it.results[0];
-                    if(squaremsg.content.isNullOrEmpty()){
-                        if(IsNotNullHeaderiew()){
+                    if (squaremsg.content.isNullOrEmpty()) {
+                        if (IsNotNullHeaderiew()) {
                             headerView.tv_content2.text = squaremsg.title
                         }
-                    }else{
-                        if(IsNotNullHeaderiew()){
+                    } else {
+                        if (IsNotNullHeaderiew()) {
                             headerView.tv_content2.text = squaremsg.content
                         }
                     }
-                    if(IsNotNullHeaderiew()){
-                        headerView.tv_squaremsg_time.text = DateToolUtils.getConversationFormatDate(squaremsg.createTime!!.toLong(),false, context)
+                    if (IsNotNullHeaderiew()) {
+                        headerView.tv_squaremsg_time.text = DateToolUtils.getConversationFormatDate(squaremsg.createTime!!.toLong(), false, context)
                     }
                 }
             }

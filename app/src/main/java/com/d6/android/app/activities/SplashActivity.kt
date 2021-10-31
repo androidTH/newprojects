@@ -310,7 +310,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun thirdLogin(openId: String,unionid: String, name: String, url: String, gender: String, iconurl: String) {
-        toast("微信注册：${install_data01}")
+//        toast("微信注册：${install_data01}")
         Request.loginV2New(0, openId = openId,sUnionid=unionid,sChannelId = channel,sInviteCode = install_data01,sImei = MD5.encrypt(getSIMEI(this).toLowerCase(),true),sOaid = getOaid(),sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(),true)).request(this, false, success = { msg, data ->
             data?.let {
                 if (it.accountId.isNullOrEmpty()) {

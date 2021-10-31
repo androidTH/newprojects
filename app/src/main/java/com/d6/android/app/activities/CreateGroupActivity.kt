@@ -1,6 +1,7 @@
 package com.d6.android.app.activities
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -18,9 +19,9 @@ import com.d6.android.app.dialogs.SelectPhotosDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.NewGroupBean
 import com.d6.android.app.net.Request
-import com.d6.android.app.utils.AppUtils
-import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.getUrlPath
+import com.d6.android.app.utils.*
+import com.xinstall.XInstall
+import io.reactivex.Flowable
 import kotlinx.android.synthetic.main.activity_creategroup.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
@@ -175,15 +176,38 @@ class CreateGroupActivity : TitleActivity() {
 //        toast("创建群成功")
 //        RongIM.getInstance().startConversation(this, Conversation.ConversationType.GROUP, mGroupId, "${et_groupname.text.trim()}")
 //        finish()
-        Request.uploadFile(File(headFilePath)).flatMap {
+        dialog("加载中...",true,false)
+//        Request.uploadFile(File(headFilePath)).flatMap {
+//            Request.createRongCloudGroup("${et_groupname.text.trim()}","${it}","")
+//        }.request(this,success={ _, data ->
+//            dismissDialog()
+//            data?.let {
+//                toast("创建群成功")
+//                startActivity<GroupSettingActivity>("bean" to it)
+//                finish()
+//            }
+//        }){code,msg->
+//            toast(msg)
+//        }
+
+        Flowable.just(headFilePath).flatMap {
+            val file = BitmapUtils.compressImageFile("${it}")
+            Request.uploadFile(file)
+        }.flatMap {
             Request.createRongCloudGroup("${et_groupname.text.trim()}","${it}","")
-        }.request(this) { _, data ->
+        }.request(this,success={ _, data ->
+            dismissDialog()
             data?.let {
                 toast("创建群成功")
                 startActivity<GroupSettingActivity>("bean" to it)
                 finish()
             }
+        }){msg,code->
+            dismissDialog()
+            toast(msg)
         }
+
+
     }
 
     fun updateGroup(){
@@ -198,13 +222,26 @@ class CreateGroupActivity : TitleActivity() {
                 toast("修改成功")
                 finish()
             }
+
         }else{
             dialog()
-            Request.uploadFile(File(headFilePath)).flatMap {
+//            Request.uploadFile(File(headFilePath)).flatMap {
+//                Request.updateGroup("${mGroupBean.sId}","${et_groupname.text.trim()}","${it}","")
+//            }.request(this) { _, data ->
+//                toast("修改成功")
+//                finish()
+//            }
+
+            Flowable.just(headFilePath).flatMap {
+                val file = BitmapUtils.compressImageFile("${it}")
+                Request.uploadFile(file)
+            }.flatMap {
                 Request.updateGroup("${mGroupBean.sId}","${et_groupname.text.trim()}","${it}","")
-            }.request(this) { _, data ->
+            }.request(this,success={ _, data ->
                 toast("修改成功")
                 finish()
+            }){msg,code->
+                toast(msg)
             }
         }
     }

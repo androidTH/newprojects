@@ -105,7 +105,7 @@ class FollowAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeart
 //        tv_sendliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
 //        tv_sendliked.text ="${data.iPoint} [img src=super_like_icon/] [img src=redheart_small/]"
 
-        var tv_info = holder.bind<TextView>(R.id.tv_info)
+        var tv_info = holder.bind<TextView>(R.id.tv_userinfo)
         var mInfo = ""
         if(!data.shengao.isNullOrEmpty()){
             mInfo = "${data.shengao}"

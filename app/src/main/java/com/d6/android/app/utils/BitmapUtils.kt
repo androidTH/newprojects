@@ -44,6 +44,7 @@ object BitmapUtils {
         var tempBitmap: Bitmap? = null
         val path = AppUtils.PICDIR + filePath.hashCode() + ".jpg"
         val fileInfo = FileInfo(path)
+        Log.i("compreess","$filePath")
         try {
             val options = BitmapFactory.Options()
             options.inJustDecodeBounds = true
@@ -51,7 +52,7 @@ object BitmapUtils {
             var scale = 1f
             val min = Math.min(options.outWidth, options.outHeight)
             val max = Math.max(options.outWidth, options.outHeight)
-            if(options.outHeight<=ScreenUtil.getScreenHeight(AppUtils.context)){
+            if(options.outHeight>=720){
                 if (min >= 800) {
                     scale = max / 800f
                 } else if (max >= 1200) {
@@ -69,7 +70,7 @@ object BitmapUtils {
                 val height = options.outHeight
                 fileInfo.width = width
                 fileInfo.height = height
-
+                Log.i("compreess","scale$scale")
                 val degree = readPictureDegree(filePath)
                 tempBitmap = adjustPhotoRotation(tempBitmap, degree)
                 val baos = ByteArrayOutputStream()

@@ -226,7 +226,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    tv_title1.gone()
 //                    tv_title.text = "D6社区"
 //                    tv_square_tab.visibility = View.VISIBLE
-//                    getUserInfoUnMsg()
+                    getUserInfoUnMsg()
 
                     tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
                     tv_title.visible()

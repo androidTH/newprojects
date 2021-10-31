@@ -286,7 +286,7 @@ class SetUserInfoActivity : BaseActivity() {
             }.flatMap {
                 user.picUrl = it
                 Request.updateUserInfo(user)
-            }.request(this) { _, data ->
+            }.request(this,success={ _, data ->
                 dismissDialog()
                 clearLoginToken()
                 SPUtils.instance()
@@ -302,6 +302,9 @@ class SetUserInfoActivity : BaseActivity() {
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
                 finish()
+            }){msg,code->
+                dismissDialog()
+                toast(msg)
             }
 
 //            Request.uploadFile(File(headFilePath)).flatMap {

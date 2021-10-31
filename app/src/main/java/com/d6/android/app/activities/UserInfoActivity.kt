@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -752,6 +753,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.tv_aihao.visibility = View.GONE
                 }
 
+                Log.i("userInfo","图片url:${it.userpics}")
                 if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
                 }else{
@@ -1020,8 +1022,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
-            if(requestCode == 22||requestCode==0){
+            if(requestCode==0){
                 onRefresh()
+            }else if(requestCode==22){
+                getNetImages()
             }else if (requestCode == 8 && data != null) {//选择图片
                 val result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
                 var localImages = ArrayList<String>()
@@ -1073,9 +1077,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             }
             mData = userData
             Request.updateUserInfo(userData)
-        }.request(this) { _, _ ->
+        }.request(this,success={ _, _ ->
+//            refreshImages(userData)
+            getUserInfoImages()
+        }){msg,code->
             dismissDialog()
-            refreshImages(userData)
+            toast(msg)
         }
     }
 
@@ -1083,6 +1090,29 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         pageNum = 1
         getUserInfo()
         getUserFollowAndFansandVistor()
+    }
+
+    private fun getUserInfoImages(){
+        Request.getUserInfo(userId, id).request(this, success = { _, data ->
+            data?.let {
+                dismissDialog()
+                mData = it
+                refreshImages(it)
+            }
+        }){msg,code->
+            dismissDialog()
+            toast(msg)
+        }
+    }
+
+
+    private fun getNetImages(){
+        Request.getUserInfo(userId, id).request(this, success = { _, data ->
+            data?.let {
+                mData = it
+                refreshImages(it)
+            }
+        })
     }
 
     override fun showToast(msg: String) {
