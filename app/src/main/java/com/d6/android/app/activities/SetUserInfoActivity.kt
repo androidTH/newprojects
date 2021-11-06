@@ -286,7 +286,7 @@ class SetUserInfoActivity : BaseActivity() {
             }.flatMap {
                 user.picUrl = it
                 Request.updateUserInfo(user)
-            }.request(this,success={ _, data ->
+            }.request(this){ _, data ->
                 dismissDialog()
                 clearLoginToken()
                 SPUtils.instance()
@@ -299,12 +299,8 @@ class SetUserInfoActivity : BaseActivity() {
 //                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
                 XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
                 startActivity<MainActivity>()
-                dismissDialog()
                 setResult(Activity.RESULT_OK)
                 finish()
-            }){msg,code->
-                dismissDialog()
-                toast(msg)
             }
 
 //            Request.uploadFile(File(headFilePath)).flatMap {

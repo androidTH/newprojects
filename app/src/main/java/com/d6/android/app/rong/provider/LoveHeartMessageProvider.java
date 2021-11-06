@@ -187,9 +187,9 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){
                     JSONObject jsonObject =new JSONObject(content.getExtra());
-                    num = jsonObject.getString("nums");
-                    String sendusername = jsonObject.getString("sendusername");
-                    String desc = jsonObject.getString("sDesc");
+                    num = jsonObject.optString("nums");
+                    String sendusername = jsonObject.optString("sendusername");
+                    String desc = jsonObject.optString("sDesc");
                     textView.setText(sendusername+"给你赠送了");
                     holder.mTvReceivedLoveHeartNums.setText(num);
                     if(TextUtils.isEmpty(desc)){

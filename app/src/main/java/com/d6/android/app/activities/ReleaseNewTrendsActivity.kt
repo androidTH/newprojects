@@ -39,6 +39,7 @@ import com.d6.android.app.utils.AppUtils.Companion.context
 import com.d6.android.app.utils.Const.CHOOSE_Friends
 import com.d6.android.app.utils.Const.mLocalBlurMap
 import com.d6.android.app.utils.Const.mLocalFirePicsMap
+import com.d6.android.app.widget.CropressDialog
 import com.d6.android.app.widget.ObserverManager
 import com.d6.android.app.widget.diskcache.DiskFileUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -108,6 +109,7 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
     private var mVideoWidth:Int = 0
     private var mVideoHeight:Int = 0
     private var recordManager:RecordManager?=null
+    private var mProgressDilog = CropressDialog()
     /**
      * 删除图片后更新数据
      */
@@ -714,7 +716,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
      */
     private fun publish() {
         val content = et_content.text.toString().trim()
-        dialog()
+        if(mProgressDilog!=null){
+            mProgressDilog.show(fragmentManager,"dialog")
+        }
         if (mImages.size > 1) {//有图片
             val temp = mImages.filter { it.type != 1 }
             Flowable.fromIterable(temp).subscribeOn(Schedulers.io()).flatMap {
@@ -765,7 +769,13 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 Request.releaseSquare(userId, tagId, city, it,content ,"",iIsAnonymous,sTopicId,"","","","","","","${sbBlur}","${sbFirePics}")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
-                dismissDialog()
+                try {
+                    if(mProgressDilog!=null){
+                        mProgressDilog.dismiss()
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
@@ -776,6 +786,13 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
 //                FinishActivityManager.getManager().finishActivity()
                 finish()
             }){code,resMsg->
+                try {
+                    if(mProgressDilog!=null){
+                        mProgressDilog.dismiss()
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
                 if(code == 2){
                     val commonTiphDialog = CommonTipDialog()
                     commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
@@ -792,7 +809,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
      */
     fun submitAudioSquare(){
         val content = et_content.text.toString().trim()
-        dialog()
+        if(mProgressDilog!=null){
+            mProgressDilog.show(fragmentManager,"dialog")
+        }
         if (DiskFileUtils.IsExists(fileAudioPath)) {//有语音
 //            if(fileAudioPath.endsWith(".wav")){
 //                AudioConvert(content)
@@ -815,7 +834,13 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
             Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,"","","","",it,mVoiceLength,"","")
         }.request(this,false,success= { _, data ->
             showToast("发布成功")
-            dismissDialog()
+            try {
+                if(mProgressDilog!=null){
+                    mProgressDilog.dismiss()
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
             DiskFileUtils.deleteSingleFile(fileAudioPath)
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                 showTips(data,"发布约会奖励积分","10")
@@ -825,7 +850,13 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
 //            FinishActivityManager.getManager().finishActivity()
             finish()
         }){code,resMsg->
-            dismissDialog()
+            try {
+                if(mProgressDilog!=null){
+                    mProgressDilog.dismiss()
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
             if(code == 2){
                 val commonTiphDialog = CommonTipDialog()
                 commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
@@ -839,7 +870,9 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
      */
     fun submitVideoSquare(){
         val content = et_content.text.toString().trim()
-        dialog()
+        if(mProgressDilog!=null){
+            mProgressDilog.show(fragmentManager,"dialog")
+        }
         if (mImages[0].type==2) {//有视频
             val temp = File(mImages[0].path)
             Flowable.fromIterable(VideoPaths).subscribeOn(Schedulers.io()).flatMap {
@@ -856,7 +889,13 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 Request.releaseSquare(userId, tagId, city, "", content,"",iIsAnonymous,sTopicId,it[1],it[0],"${mVideoWidth}","${mVideoHeight}","","","","")
             }.request(this,false,success= { _, data ->
                 showToast("发布成功")
-                dismissDialog()
+                try {
+                    if(mProgressDilog!=null){
+                        mProgressDilog.dismiss()
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
                 if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                     showTips(data,"发布约会奖励积分","10")
                 }
@@ -865,7 +904,13 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
 //                FinishActivityManager.getManager().finishActivity()
                 finish()
             }){code,resMsg->
-                dismissDialog()
+                try {
+                    if(mProgressDilog!=null){
+                        mProgressDilog.dismiss()
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
                 if(code == 2){
                     val commonTiphDialog = CommonTipDialog()
                     commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
@@ -910,7 +955,14 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
         Request.releaseSquare(userId, tagId, city, null, content,"",iIsAnonymous,sTopicId,"","","","","","","","").request(this,false,success={
             _, data ->
             showToast("发布成功")
-            dismissDialog()
+//            dismissDialog()
+            try {
+                if(mProgressDilog!=null){
+                    mProgressDilog.dismiss()
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
             if(TextUtils.equals("0",SPUtils.instance().getString(Const.User.USER_SEX))){
                 showTips(data,"发布约会奖励积分","10")
             }
@@ -919,7 +971,13 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
 //            FinishActivityManager.getManager().finishActivity()
             finish()
         }){code,resMsg->
-            dismissDialog()
+            try {
+                if(mProgressDilog!=null){
+                    mProgressDilog.dismiss()
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
             if(code == 2){
                 val commonTiphDialog = CommonTipDialog()
                 commonTiphDialog.arguments = bundleOf("resMsg" to resMsg)
@@ -944,7 +1002,10 @@ class ReleaseNewTrendsActivity : BaseActivity(),MediaPlayer.OnCompletionListener
                 showToast("请输入内容")
                 return
             }
-            dialog()
+//            dialog("加载中...",true,false)
+            if(mProgressDilog!=null){
+                mProgressDilog.show(fragmentManager,"dialog")
+            }
             addTextSquare(content)
         }
     }

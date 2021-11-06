@@ -114,7 +114,7 @@ class CropImageActivity : TitleActivity() {
                 }
             })
 //            bitmap = BitmapUtils.decodeBitmapFromPath(this, uri)
-            mZoomImageView.imageBitmap = bitmap
+//            mZoomImageView.imageBitmap = bitmap
         }
 
     }

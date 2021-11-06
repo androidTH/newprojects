@@ -89,6 +89,7 @@
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+
     <application
         android:name=".application.D6Application"
         android:allowBackup="true"
@@ -112,7 +113,7 @@
 
         <meta-data android:name="com.xinstall.APP_KEY"
             android:value="3eua8k1"/>
-        <!--正式：b5zf76  测试：3eua8k1-->
+        <!--正式：  测试：3eua8k1-->
 
         <meta-data
             android:name="design_width_in_dp"

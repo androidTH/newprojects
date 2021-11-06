@@ -232,7 +232,16 @@ class RecommendDateActivity : BaseActivity() {
                     city = string
                     tv_date_city.text = string
                 }
-                mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,city)
+                mFragments.get(0).getFindRecommend("",city)
+
+                mFragments.get(1).getFindRecommend("5",city)
+
+                mFragments.get(2).getFindRecommend("2",city)
+
+                mFragments.get(3).getFindRecommend("3",city)
+
+                mFragments.get(4).getFindRecommend("4",city)
+
             }
         }
 

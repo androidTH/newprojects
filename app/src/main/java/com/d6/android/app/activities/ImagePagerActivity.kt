@@ -322,6 +322,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             Request.updateUserInfo(user).request(this,success={_,data->
                 dismissDialog()
                 data?.let {
+                    Log.i("imagepager","获取：${it.userpics}")
                     setResult(Activity.RESULT_OK,Intent().putExtras(bundleOf("data" to user)))
                 }
                 onBackPressed()

@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -49,7 +48,6 @@ import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
-import kotlinx.android.synthetic.main.activity_user_info_v2.ll_gift_parent
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
@@ -58,6 +56,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.*
 import www.morefuntrip.cn.sticker.Bean.BLBeautifyParam
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -124,13 +123,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private var mDesc = ""
 
     override fun update(o: Observable?, arg: Any?) {
-        var mImagelocal = arg as Imagelocals
-        if(mImagelocal.mType == 1){
-            var localImages = ArrayList<String>()
-            mImagelocal.mUrls.forEach {
-                localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+        try{
+            var mImagelocal = arg as Imagelocals
+            if(mImagelocal.mType == 1){
+                var localImages = ArrayList<String>()
+                mImagelocal.mUrls.forEach {
+                    localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+                }
+                updateImages(localImages)
             }
-            updateImages(localImages)
+        }catch (e: Exception){
+            e.printStackTrace()
         }
     }
 
@@ -185,7 +188,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             if (addImg.type != 1) {
                 mData?.let {
                     val urls = mImages.filter { it.type != 1 }.map { it.imgUrl }
-                    startActivityForResult<ImagePagerActivity>(22,  "data" to it,ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position,
+                    startActivityForResult<ImagePagerActivity>(22, "data" to it, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to position,
                             "delete" to deletePic)
                 }
             }else{
@@ -194,9 +197,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     return@setOnItemClickListener
                 }
                 val c = (MAXPICS - mImages.size+1)
-                startActivityForResult<MultiImageSelectorActivity>(8
-                        , MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI
-                        ,MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c,MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
+                startActivityForResult<MultiImageSelectorActivity>(8, MultiImageSelectorActivity.EXTRA_SELECT_MODE to MultiImageSelectorActivity.MODE_MULTI, MultiImageSelectorActivity.EXTRA_SELECT_COUNT to c, MultiImageSelectorActivity.EXTRA_SHOW_CAMERA to true
                 )
             }
         }
@@ -268,9 +269,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 var mSendLoveHeartDialog = SendLoveHeartDialog()
                 mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
                 mSendLoveHeartDialog.setDialogListener { p, s ->
-                    addGiftNums(p,false,true,"${s}")
+                    addGiftNums(p, false, true, "${s}")
                 }
-                mSendLoveHeartDialog.show(supportFragmentManager,"sendloveheartDialog")
+                mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
             }
             true
         }
@@ -279,7 +280,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             val shareDialog = ShareFriendsDialog()
             mData?.let {
                 it.iIsInBlackList?.let {
-                    shareDialog.arguments = bundleOf("from" to "userInfo","id" to id,"isInBlackList" to it,"sResourceId" to id)
+                    shareDialog.arguments = bundleOf("from" to "userInfo", "id" to id, "isInBlackList" to it, "sResourceId" to id)
                 }
             }
             shareDialog.setDialogListener { p, s ->
@@ -317,7 +318,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         headerView.headView.setOnClickListener {
             mData?.let {
                 it.picUrl?.let {
-                    var url = it.replace(Const.Pic_Thumbnail_Size_wh200,"")
+                    var url = it.replace(Const.Pic_Thumbnail_Size_wh200, "")
                     val urls = ArrayList<String>()
                     urls.add(url)
                     startActivityForResult<ImagePagerActivity>(22, ImagePagerActivity.URLS to urls, ImagePagerActivity.CURRENT_POSITION to 0)
@@ -371,7 +372,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun setAudioListener(){
-        mAudioMedio.setmAudioListener(object: AudioPlayListener {
+        mAudioMedio.setmAudioListener(object : AudioPlayListener {
             override fun onPrepared(var1: Int) {
 
             }
@@ -382,7 +383,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
             override fun onInfo(var1: Int, var2: Int) {
                 when (var1) {
-                    AudioPlayUtils.MEDIA_INFO_STATE_CHANGED_PAUSED ->{
+                    AudioPlayUtils.MEDIA_INFO_STATE_CHANGED_PAUSED -> {
                         playSquare?.let {
                             it.isPlaying = false
                             mSquares[playIndex] = it
@@ -415,7 +416,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
             }
 
-            var proxyUrl =  getProxyUrl(this,square.sVoiceUrl)
+            var proxyUrl =  getProxyUrl(this, square.sVoiceUrl)
             mAudioMedio.singleAudioPlay(proxyUrl)
         }
     }
@@ -438,20 +439,20 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun createGroupName(){
-        Request.doToUserAnonyMousGroup(getLoginToken(),id,2).request(this,false,success = { msg, jsonObject->
+        Request.doToUserAnonyMousGroup(getLoginToken(), id, 2).request(this, false, success = { msg, jsonObject ->
             jsonObject?.let {
-                Log.i("createGroupName","json=${it.sId}---sId----${it.iTalkUserid}")
+                Log.i("createGroupName", "json=${it.sId}---sId----${it.iTalkUserid}")
             }
-        }){code,msg->
-            Log.i("createGroupName","fail${msg}")//保存失败
+        }){ code, msg->
+            Log.i("createGroupName", "fail${msg}")//保存失败
         }
     }
 
     private fun checkUserOnline(){
-        Request.checkUserOnline(getLoginToken(),id).request(this,success={ _, data->
+        Request.checkUserOnline(getLoginToken(), id).request(this, success = { _, data ->
             data?.let {
                 var iOnline = it.optInt("iOnline")
-                if(iOnline==1){
+                if (iOnline == 1) {
                     tv_online_time.visibility = View.GONE
                 } else if (iOnline == 2) {
                     var sOnlineMsg = it.optString("sOnlineMsg")
@@ -585,11 +586,11 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             mSwipeRefreshLayout.isRefreshing = false
             this.mData = data
             data?.let {
-                if(it.iMySendAllLovePoint>=it.iLovePointShow){
-                    tv_sendredheart.textColor = ContextCompat.getColor(this,R.color.color_FF4133)
+                if (it.iMySendAllLovePoint >= it.iLovePointShow) {
+                    tv_sendredheart.textColor = ContextCompat.getColor(this, R.color.color_FF4133)
                     tv_sendredheart.text = "[img src=taren_red_icon/] ${it.iMySendAllLovePoint} [img src=super_like_icon/]"
-                }else if(it.iMySendAllLovePoint>0){
-                    tv_sendredheart.textColor = ContextCompat.getColor(this,R.color.color_666666)
+                } else if (it.iMySendAllLovePoint > 0) {
+                    tv_sendredheart.textColor = ContextCompat.getColor(this, R.color.color_666666)
                     tv_sendredheart.text = "[img src=taren_red_icon/] ${it.iMySendAllLovePoint}"
                 }
 
@@ -632,17 +633,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
 
 //                if (TextUtils.equals("0", it.sex)) {
-                if(TextUtils.equals(id,CustomerServiceId)||TextUtils.equals(id,CustomerServiceWomenId)){
+                if (TextUtils.equals(id, CustomerServiceId) || TextUtils.equals(id, CustomerServiceWomenId)) {
                     headerView.img_other_auther.visibility = View.GONE
                     headerView.img_date_auther.visibility = View.GONE
                     headerView.img_official.visibility = View.VISIBLE
-                    headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_iconnew)
-                }else{
+                    headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.official_iconnew)
+                } else {
                     if (TextUtils.equals("0", it.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
                         headerView.img_other_auther.visibility = View.GONE
                         headerView.img_date_auther.visibility = View.GONE
-                        headerView.img_other_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.renzheng_big)
-                        headerView.img_date_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.renzheng_small)
+                        headerView.img_other_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.renzheng_big)
+                        headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.renzheng_small)
                         if (TextUtils.equals("3", it.screen)) {
                             headerView.tv_other_auther_sign.visibility = View.GONE
                         } else {
@@ -653,23 +654,23 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         headerView.img_date_auther.visibility = View.VISIBLE
                         headerView.tv_other_auther_sign.visibility = View.GONE
 
-                        headerView.img_other_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_big)
-                        headerView.img_date_auther.backgroundDrawable=ContextCompat.getDrawable(context,R.mipmap.video_small)
+                        headerView.img_other_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.video_big)
+                        headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.video_small)
                     }
 
-                    if(TextUtils.equals("0",it.isValid)||TextUtils.equals("2",it.isValid)){
+                    if (TextUtils.equals("0", it.isValid) || TextUtils.equals("2", it.isValid)) {
                         headerView.img_other_auther.visibility = View.GONE
                         headerView.img_date_auther.visibility = View.VISIBLE
                         headerView.rl_prompt.visibility = View.VISIBLE
                         headerView.img_official.visibility = View.VISIBLE
-                        headerView.img_official.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_forbidden_icon)
-                        headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context,R.mipmap.official_forbidden_icon)
+                        headerView.img_official.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.official_forbidden_icon)
+                        headerView.img_date_auther.backgroundDrawable = ContextCompat.getDrawable(context, R.mipmap.official_forbidden_icon)
 
 
-                        if(TextUtils.equals(getLocalUserId(), id)){
+                        if (TextUtils.equals(getLocalUserId(), id)) {
                             headerView.rl_prompt.visibility = View.GONE
                             headerView.img_official.visibility = View.GONE
-                        }else{
+                        } else {
                             var lp = RelativeLayout.LayoutParams(headerView.rl_headView.layoutParams)
                             lp?.let {
                                 lp.topMargin = resources.getDimensionPixelOffset(R.dimen.height_120)
@@ -685,7 +686,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     toast(getString(R.string.string_auth))
                 }
 
-                var drawable = getLevelDrawable("${it.userclassesid}",this)
+                var drawable = getLevelDrawable("${it.userclassesid}", this)
                 headerView.tv_vip.backgroundDrawable = drawable
                 headerView.tv_date_vip.backgroundDrawable = drawable
 
@@ -705,17 +706,17 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     mTags.add(UserTag("地区 ${it.area}", R.mipmap.boy_area_whiteicon))
                 }
 
-                if(!it.job.isNullOrEmpty()){
+                if (!it.job.isNullOrEmpty()) {
                     mTags.add(UserTag("职业 ${it.job}", R.mipmap.boy_profession_whiteicon))
                 }
 
-                if(!it.city.isNullOrEmpty()){
-                    mTags.add(UserTag("约会地 ${it.city}", R.mipmap.boy_datearea_whiteicon,3))
+                if (!it.city.isNullOrEmpty()) {
+                    mTags.add(UserTag("约会地 ${it.city}", R.mipmap.boy_datearea_whiteicon, 3))
                 }
 
-                if(mTags.size==0){
+                if (mTags.size == 0) {
                     headerView.rv_tags.visibility = View.GONE
-                }else{
+                } else {
                     headerView.rv_tags.visibility = View.VISIBLE
                 }
 
@@ -753,18 +754,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.tv_aihao.visibility = View.GONE
                 }
 
-                Log.i("userInfo","图片url:${it.userpics}")
+                Log.i("userInfo", "图片url:${it.userpics}")
                 if (!TextUtils.equals("null", it.userpics)) {
                     refreshImages(it)
-                }else{
-                    try{
-                        if(deletePic){
+                } else {
+                    try {
+                        if (deletePic) {
                             myImageAdapter.notifyDataSetChanged()
                             headerView.rv_my_images.visibility = View.VISIBLE
-                        }else{
+                        } else {
                             headerView.rv_my_images.visibility = View.GONE
                         }
-                    }catch (e:java.lang.Exception){
+                    } catch (e: java.lang.Exception) {
                         e.printStackTrace()
                     }
                 }
@@ -834,7 +835,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
             }
             myImageAdapter.notifyDataSetChanged()
-        }catch (e:Exception){
+        }catch (e: Exception){
             e.printStackTrace()
         }
     }
@@ -880,9 +881,9 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     squareAdapter.notifyDataSetChanged()
                 }
 
-                if(data.list?.totalPage==1){
+                if (data.list?.totalPage == 1) {
                     mSwipeRefreshLayout.setLoadMoreText("没有更多了")
-                }else{
+                } else {
                     mSwipeRefreshLayout.setLoadMoreText("上拉加载更多")
                 }
             }
@@ -900,7 +901,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         mDialogAddBlackList.show(supportFragmentManager, "addBlacklist")
         mDialogAddBlackList.setDialogListener { p, s ->
             dialog()
-            Request.addBlackList(userId, id,2).request(this) { _, _ ->
+            Request.addBlackList(userId, id, 2).request(this) { _, _ ->
                 CustomToast.showToast(getString(R.string.string_blacklist_toast))
                 mData?.iIsInBlackList = 1
             }
@@ -909,7 +910,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     //移除黑名单
     private fun removeBlackList(){
-        Request.removeBlackList(userId,id,2).request(this){msg,jsonPrimitive->
+        Request.removeBlackList(userId, id, 2).request(this){ msg, jsonPrimitive->
             CustomToast.showToast(msg.toString())
             mData?.iIsInBlackList = 0
         }
@@ -930,7 +931,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun addFollow() {
         dialog()//35578
-        Request.getAddFollow(userId, id).request(this,false,success ={ s: String?, jsonObject: JsonObject? ->
+        Request.getAddFollow(userId, id).request(this, false, success = { s: String?, jsonObject: JsonObject? ->
             //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
 
@@ -945,14 +946,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
             mData?.iIsFollow = 1
             showTips(jsonObject, "", "")
-        }){code,msg->
+        }){ code, msg->
             CustomToast.showToast(msg)
         }
     }
 
     private fun delFollow() {
         dialog()
-        Request.getDelFollow(userId, id).request(this,true) { s: String?, jsonObject: JsonObject? ->
+        Request.getDelFollow(userId, id).request(this, true) { s: String?, jsonObject: JsonObject? ->
             //            data.optDouble("wanshanziliao")
 //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
@@ -984,7 +985,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun signUpDate(myAppointment: MyAppointment) {
-        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}").request(this, false, success = { msg, data ->
+        Request.queryAppointmentPoint(userId, "${myAppointment.iAppointUserid}").request(this, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
             dateDialog.show(supportFragmentManager, "d")
@@ -1051,38 +1052,43 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
 
-    private fun updateImages(mImages:ArrayList<String>) {
-        val userData = mData ?: return
-        dialog("加载中...",true,false)
-        Flowable.fromIterable(mImages).subscribeOn(Schedulers.io()).flatMap {
-            //压缩
-            val b = BitmapUtils.compressImageFile(it)
-            Flowable.just(b)
-        }.flatMap {
-            Request.uploadFile(it)
-        }.toList().toFlowable().flatMap {
-            val sb = StringBuilder()
-            it.forEach {
-                sb.append(it).append(",")
-            }
-            if (sb.isNotEmpty()) {
-                sb.deleteCharAt(sb.length - 1)
-            }
-            Flowable.just(sb.toString())
-        }.flatMap {
-            if (userData.userpics.isNullOrEmpty()) {
-                userData.userpics = it
-            } else {
-                userData.userpics = userData.userpics + "," + it
-            }
-            mData = userData
-            Request.updateUserInfo(userData)
-        }.request(this,success={ _, _ ->
+    private fun updateImages(mImages: ArrayList<String>) {
+        try{
+            val userData = mData ?: return
+            dialog("加载中...", true, false)
+            Flowable.fromIterable(mImages).flatMap {
+                //压缩
+                val b = BitmapUtils.compressImageFile(it)
+                Flowable.just(b)
+            }.subscribeOn(Schedulers.io()).flatMap {
+                Request.uploadFile(it)
+            }.toList().toFlowable().flatMap {
+                val sb = StringBuilder()
+                it.forEach {
+                    sb.append(it).append(",")
+                }
+                if (sb.isNotEmpty()) {
+                    sb.deleteCharAt(sb.length - 1)
+                }
+                Flowable.just(sb.toString())
+            }.flatMap {
+                if (userData.userpics.isNullOrEmpty()) {
+                    userData.userpics = it
+                } else {
+                    userData.userpics = userData.userpics + "," + it
+                }
+                mData = userData
+                Request.updateUserInfo(userData)
+            }.request(this, success = { _, _ ->
 //            refreshImages(userData)
-            getUserInfoImages()
-        }){msg,code->
+                getUserInfoImages()
+            }) { msg, code ->
+                dismissDialog()
+                toast(msg)
+            }
+        }catch (e: Exception){
             dismissDialog()
-            toast(msg)
+            e.printStackTrace()
         }
     }
 
@@ -1099,7 +1105,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 mData = it
                 refreshImages(it)
             }
-        }){msg,code->
+        }){ msg, code->
             dismissDialog()
             toast(msg)
         }
@@ -1133,15 +1139,15 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     .setHideMode(false)
                     .setCustormAnim(CustormAnim())
             it.setmGiftAnimationEndListener {
-                Request.sendLovePoint(getLoginToken(),"${id}",it,3,"","",mDesc).request(this,false,success={_,data->
+                Request.sendLovePoint(getLoginToken(), "${id}", it, 3, "", "", mDesc).request(this, false, success = { _, data ->
                     sendLoveHeartNums = 1
-                    Request.getUserInfo("", getLocalUserId()).request(this,false,success = { _, data ->
+                    Request.getUserInfo("", getLocalUserId()).request(this, false, success = { _, data ->
                         data?.let {
-                            SPUtils.instance().put(Const.User.USERLOVE_NUMS,it.iLovePoint).apply()
+                            SPUtils.instance().put(Const.User.USERLOVE_NUMS, it.iLovePoint).apply()
                             localLoveHeartNums = it.iLovePoint
                         }
                     })
-                }){code,msg->
+                }){ code, msg->
                     sendLoveHeartNums = 1
                     if(code==2||code==3){
                         var mSendRedHeartEndDialog = SendRedHeartEndDialog()
@@ -1154,7 +1160,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         }
     }
     //连击礼物数量
-    private fun addGiftNums(giftnum:Int,currentStart: Boolean = false,JumpCombo:Boolean = false,desc:String){
+    private fun addGiftNums(giftnum: Int, currentStart: Boolean = false, JumpCombo: Boolean = false, desc: String){
         if (giftnum == 0) {
             return
         } else {

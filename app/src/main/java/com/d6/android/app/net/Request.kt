@@ -3,15 +3,11 @@ package com.d6.android.app.net
 import com.d6.android.app.models.Response
 import com.d6.android.app.models.UserData
 import com.d6.android.app.utils.*
-import com.google.gson.JsonPrimitive
 import com.qiniu.android.storage.UploadManager
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.Query
 import java.io.File
 
 
@@ -26,26 +22,31 @@ object Request {
     fun uploadFile(file: File,type:Int = 0): Flowable<String> {
         return RRetrofit.instance().create(ApiServices::class.java).getQiniuToken().ioScheduler().flatMap {
             if (it.res == 1) {
-                val upload = UploadManager()
-                val objectKey = System.currentTimeMillis().toString() + "." + file.getFileSuffix()
-                val token = it.resMsg
-                Flowable.create<String>({
-                    val info = upload.syncPut(file, objectKey, token, null)
-                    sysErr("--->$info")
-                    sysErr("--->" + info.response)
-                    if (info.isOK) {
-                        val key = info.response.optString("key")
-                        if(type!=0){
+                    val upload = UploadManager()
+                    val objectKey = System.currentTimeMillis().toString() + "." + file.getFileSuffix()
+                    val token = it.resMsg
+                    Flowable.create<String>({
+                        try {
+                            val info = upload.syncPut(file, objectKey, token, null)
+                            sysErr("--->$info")
+                            sysErr("--->" + info.response)
+                            if (info.isOK) {
+                                val key = info.response.optString("key")
+                                if(type!=0){
 //                            it.onNext("http://video.d6-zone.com/$key")
-                            it.onNext("http://image.d6-zone.com/$key")
-                        }else{
-                            it.onNext("http://image.d6-zone.com/$key")
+                                    it.onNext("http://image.d6-zone.com/$key")
+                                }else{
+                                    it.onNext("http://image.d6-zone.com/$key")
+                                }
+                                it.onComplete()
+                            } else {
+                                it.onError(ResultException("上传失败！"))
+                            }
+                        }catch (e:Exception){
+                            e.printStackTrace()
                         }
-                        it.onComplete()
-                    } else {
-                        it.onError(ResultException("上传失败！"))
-                    }
-                }, BackpressureStrategy.DROP).subscribeOn(Schedulers.io())
+                    }, BackpressureStrategy.DROP).subscribeOn(Schedulers.io())
+
             } else {
                 Flowable.error {
                     ResultException(it.resMsg)

@@ -115,15 +115,21 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
         if (data.getMessageDirection() == Message.MessageDirection.SEND) {
             TextView textView = holder.mTvMsgContent;
             String txt = content.getContent();
-            if(txt.endsWith("求助客服联系对方")){
-                SpanBuilder sb = new SpanBuilder(txt);
-                sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_F7B500);
-                textView.setText(sb.build());
+            try{
+                if (!TextUtils.isEmpty(txt)) {
+                    if (txt.endsWith("求助客服联系对方")) {
+                        SpanBuilder sb = new SpanBuilder(txt);
+                        sb.color(mContext, txt.length() - 8, txt.length(), R.color.color_F7B500);
+                        textView.setText(sb.build());
 //                SpannableStringBuilder spanStringBuilder = new SpanBuilder(txt)
 //                        .click(txt.length() - 8, txt.length(), clickSpan)
 //                        .build();
-            }else{
-                textView.setText(txt);
+                    } else {
+                        textView.setText(txt);
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
 
             if(!TextUtils.isEmpty(content.getExtra())){
@@ -144,20 +150,26 @@ public class TipsMessageProvider extends IContainerItemProvider.MessageProvider<
         } else {
             TextView textView = holder.mTvMsgContent;
             String txt = content.getContent();
-            if(txt.endsWith("求助客服联系对方")){
+            try{
+                if(!TextUtils.isEmpty(txt)){
+                    if(txt.endsWith("求助客服联系对方")){
 //                SpannableStringBuilder spanStringBuilder = new SpanBuilder(txt)
 //                        .click(txt.length() - 8, txt.length(), clickSpan)
 //                        .build();
 //                textView.setText(spanStringBuilder);
-                try{
-                    SpanBuilder sb = new SpanBuilder(txt);
-                    sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_F7B500);
-                    textView.setText(sb.build());
-                }catch (Exception e){
-                    textView.setText(txt);
+                        try{
+                            SpanBuilder sb = new SpanBuilder(txt);
+                            sb.color(mContext,txt.length() - 8,txt.length(),R.color.color_F7B500);
+                            textView.setText(sb.build());
+                        }catch (Exception e){
+                            textView.setText(txt);
+                        }
+                    }else{
+                        textView.setText(txt);
+                    }
                 }
-            }else{
-                textView.setText(txt);
+            }catch (Exception e){
+                e.printStackTrace();
             }
             try {
                 if(!TextUtils.isEmpty(content.getExtra())){

@@ -121,8 +121,8 @@ class SpeedDateDetailActivity : TitleActivity() {
 //            }
             if(IsNotNullDate()){
                 mSpeedDate.iType=2
+                startActivity<RGServiceInfoActivity>("data" to mSpeedDate)
             }
-            startActivity<RGServiceInfoActivity>("data" to mSpeedDate)
 //            var mDateTypeDialog = DateTypeDialog()
 //            mDateTypeDialog.arguments = bundleOf("pics" to mUrls[0])
 //            mDateTypeDialog.setDialogListener { p, s ->

@@ -57,15 +57,21 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         }
 
         tv_dowork.setOnClickListener {
-            FinishActivityManager.getManager().finishActivity(MultiImageSelectorActivity::class.java)
-            mNoChooseUrls.forEach {
-                urls.remove(it)
-            }
+            try{
+                FinishActivityManager.getManager().finishActivity(MultiImageSelectorActivity::class.java)
+                if (mNoChooseUrls != null && mNoChooseUrls.size > 0) {
+                    mNoChooseUrls.forEach {
+                        urls.remove(it)
+                    }
+                }
 
-            Log.i("imagelocal","dowork")
-            var mImagelocals = Imagelocals(urls, type, 0, mPayPointsHashMap, mFiresHashMap)
-            ObserverManager.getInstance().notifyObservers(mImagelocals)
-            onBackPressed()
+                Log.i("imagelocal","dowork")
+                var mImagelocals = Imagelocals(urls, type, 0, mPayPointsHashMap, mFiresHashMap)
+                ObserverManager.getInstance().notifyObservers(mImagelocals)
+                onBackPressed()
+            }catch(e:Exception){
+                e.printStackTrace()
+            }
         }
 
         tv_edittiezhi.setOnClickListener {
@@ -118,7 +124,7 @@ class ImageLocalPagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
         mImageLocalViewPager.adapter = adapter
         mImageLocalViewPager.addOnPageChangeListener(this)
         mImageLocalViewPager.currentItem = position
-        mImageLocalViewPager.offscreenPageLimit = urls.size
+//        mImageLocalViewPager.offscreenPageLimit = urls.size
         tv_pages.text = String.format("%d/%d", position + 1, urls!!.size)
         if (urls != null&&urls.size>0) {
             tv_dowork.text = "完成·${urls.size}"

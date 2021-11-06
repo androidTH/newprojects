@@ -26,8 +26,6 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.ISNOTLOCATION
 import com.d6.android.app.widget.MaxEditTextWatcher
 import com.d6.android.app.widget.ObserverManager
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.xinstall.XInstall
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -68,14 +66,18 @@ class MyInfoActivity : BaseActivity(),Observer{
     private var mLocalUserPices =""
 
     override fun update(o: Observable?, arg: Any?) {
-        var mImagelocal = arg as Imagelocals
-        Log.i("imagelocal","update=${mImagelocal.mUrls.size}")
-        if(mImagelocal.mType == mType){
-            var localImages = ArrayList<String>()
-            mImagelocal.mUrls.forEach {
-                localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+        try{
+            var mImagelocal = arg as Imagelocals
+            Log.i("imagelocal","update=${mImagelocal.mUrls.size}")
+            if(mImagelocal.mType == mType){
+                var localImages = ArrayList<String>()
+                mImagelocal.mUrls.forEach {
+                    localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+                }
+                updateImages(localImages)
             }
-            updateImages(localImages)
+        }catch (e:Exception){
+            e.printStackTrace()
         }
     }
 
@@ -364,13 +366,17 @@ class MyInfoActivity : BaseActivity(),Observer{
                 param.images.add(path)
                 startActivityForResult<BLBeautifyImageActivity>(BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE, BLBeautifyParam.KEY to param);
             }else if (requestCode == 8 && data != null) {
+                try{
                     //选择图片
-                var result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
-                var localImages = ArrayList<String>()
-                result.forEach {
-                    localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+                    var result: ArrayList<String> = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT)
+                    var localImages = ArrayList<String>()
+                    result.forEach {
+                        localImages.add(it)///storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1104-_9E598779094E2DB3E89366E34B1A6D50.jpg
+                    }
+                    updateImages(localImages)
+                }catch (e:Exception){
+                    e.printStackTrace()
                 }
-                updateImages(localImages)
             }else if(requestCode==22){
                  refreshImages()//data!!.getSerializableExtra("data") as UserData
             }else if(requestCode == BLBeautifyParam.REQUEST_CODE_BEAUTIFY_IMAGE&& data != null){
@@ -412,36 +418,41 @@ class MyInfoActivity : BaseActivity(),Observer{
 //    }
 
     private fun updateImages(mImages:ArrayList<String>) {
-        dialog()
-        Flowable.fromIterable(mImages).subscribeOn(Schedulers.io()).flatMap {
-            //压缩
-            val b = BitmapUtils.compressImageFile(it)
-            Flowable.just(b)
-        }.flatMap {
-            Request.uploadFile(it)
-        }.toList().toFlowable().flatMap {
-            val sb = StringBuilder()
-            it.forEach {
-                sb.append(it).append(",")
+        try {
+            dialog()
+            Flowable.fromIterable(mImages).flatMap {
+                //压缩
+                val b = BitmapUtils.compressImageFile(it)
+                Flowable.just(b)
+            }.subscribeOn(Schedulers.io()).flatMap {
+                Request.uploadFile(it)
+            }.toList().toFlowable().flatMap {
+                val sb = StringBuilder()
+                it.forEach {
+                    sb.append(it).append(",")
+                }
+                if (sb.isNotEmpty()) {
+                    sb.deleteCharAt(sb.length - 1)
+                }
+                Flowable.just(sb.toString())
+            }.flatMap {
+                if (userData.userpics.isNullOrEmpty()) {
+                    userData.userpics = it
+                } else {
+                    userData.userpics = userData.userpics + "," + it
+                }
+                Log.i("imagepager","接口：${it}")
+                Request.updateUserInfo(userData)
+            }.request(this,success= { _, _ ->
+                dismissDialog()
+                refreshImages()
+            }){msg,code->
+                dismissDialog()
+                toast(msg)
             }
-            if (sb.isNotEmpty()) {
-                sb.deleteCharAt(sb.length - 1)
-            }
-            Flowable.just(sb.toString())
-        }.flatMap {
-            if (userData.userpics.isNullOrEmpty()) {
-                userData.userpics = it
-            } else {
-                userData.userpics = userData.userpics + "," + it
-            }
-            Log.i("imagepager","接口：${it}")
-            Request.updateUserInfo(userData)
-        }.request(this,success= { _, _ ->
+        }catch (e:Exception){
             dismissDialog()
-            refreshImages()
-        }){msg,code->
-            dismissDialog()
-            toast(msg)
+            e.printStackTrace()
         }
     }
 

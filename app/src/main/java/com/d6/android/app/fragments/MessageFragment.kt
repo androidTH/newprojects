@@ -200,9 +200,11 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //            }
 //            conversation.unreadMessageCount = 0
         }
-            getData()
-            getSysLastOne(SysMsg_time.toString())
-            getSquareMsg(SquareMsg_time.toString())
+
+        Const.UPDATE_GROUPS_STATUS = -1
+        getData()
+        getSysLastOne(SysMsg_time.toString())
+        getSquareMsg(SquareMsg_time.toString())
 
 //        if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
 //            tv_topsearch.visibility = View.VISIBLE

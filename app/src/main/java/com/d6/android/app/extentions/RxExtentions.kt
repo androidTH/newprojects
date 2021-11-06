@@ -22,6 +22,7 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.support.v4.startActivity
 import org.json.JSONObject
 import retrofit2.HttpException
+import java.lang.Exception
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
@@ -159,7 +160,12 @@ inline fun <reified O, I : Response<O>> Flowable<I>.request(requestManager: Requ
                         }
                     }
                 }else{
-                    onError(ResultException(t.res, "${t.resMsg}"))
+                    try{
+                        onError(ResultException(t.res, "${t.resMsg}"))
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+
                 }
             }
         }
