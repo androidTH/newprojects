@@ -113,7 +113,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     fun IsNotNullGroupBean()=::mGroupBean.isInitialized
     //礼物
     private var giftControl: GiftControl? = null
-    private var sDesc = "";
+    private var sDesc = ""
+    private var mDateGiftType = 1
 
     /**
      * 会话类型
@@ -406,8 +407,17 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     }
                 })
             }else{
-                updateDateStatus(sAppointmentSignupId,2)
+                if (mDateGiftType ==1) {
+                    showGiftDuiHuan()
+                } else {
+                    updateDateStatus(sAppointmentSignupId, 2)
+                }
             }
+        }
+
+        tv_dategift_agree.setOnClickListener {
+            root_date_chat.visibility = View.GONE
+            setFragmentTopMargin(0)
         }
 
         iv_chat_unfold.setOnClickListener {
@@ -502,6 +512,20 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
 //        var mWeChatKfDialog = WeChatKFDialog()
 //        mWeChatKfDialog.show(supportFragmentManager,"wechatkf")
+    }
+
+    /**
+     * 礼物兑换弹窗
+     */
+    private fun showGiftDuiHuan(){
+        val mSendDateGiftDialog = SendDateGiftDialog()
+        mSendDateGiftDialog.show(supportFragmentManager, "gift")
+        mSendDateGiftDialog.setDialogListener { p, s ->
+            if(p==1){
+                mDateGiftType = 2
+                updateDateStatus(sAppointmentSignupId,2)
+            }
+        }
     }
 
     override fun onResume() {
@@ -986,7 +1010,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 tv_date_info.text = "${appointment.sUserName} 申请连麦"
                 tv_datechat_agree.text = "连麦"
             }else{
-                tv_date_info.text = "${appointment.sUserName} 申请赴约"
+                tv_date_info.text = "${appointment.sUserName}·申请赴约"
             }
             //"${appointment.sUserName}申请赴约"
 
@@ -1016,7 +1040,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 tv_datechat_no.text = "放弃"
                 tv_datechat_agree.text = "连麦"
             }else{
-                tv_date_info.text = "等待对方确认中…"
+                if(mDateGiftType==2){
+                    tv_date_info.textColor = ContextCompat.getColor(AppUtils.context, R.color.color_F7AB00)
+                    tv_date_info.text = "赴约中"
+                }else{
+                    tv_date_info.textColor = ContextCompat.getColor(AppUtils.context, R.color.color_333333)
+                    tv_date_info.text = "等待对方确认中…"
+                }
                 tv_datechat_no.visibility = View.GONE
                 tv_datechat_giveup.visibility = View.VISIBLE
                 tv_help_service_chat.visibility = View.VISIBLE //VISIBLE
@@ -1044,7 +1074,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             rv_datechat_images.adapter = SelfReleaselmageAdapter(mImages,1)
         }
 
-        setTextViewSpannable(this,"倒计时：${converTime(appointment.dOverduetime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+        if(mDateGiftType==2){
+            tv_datechat_time.visibility = View.GONE
+            tv_dategift_tips.text = "对方确认赴约后你可收到·钻石x5"
+        }else{
+            tv_datechat_time.visibility = View.VISIBLE
+            tv_dategift_tips.visibility = View.GONE
+            setTextViewSpannable(this,"倒计时：${converTime(appointment.dOverduetime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+        }
 //        setTextViewSpannable(this,"剩余消息：${talkCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
 //        if(SendMsgTotal==-1){
 //            tv_datechat_nums.visibility = View.GONE
@@ -1068,11 +1105,25 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
     }
 
     fun updateDateStatus(sAppointmentSignupId:String,iStatus:Int){
-        Request.updateDateStatus(sAppointmentSignupId,iStatus,"").request(this, success = {msg, data->
+           Request.updateDateStatus(sAppointmentSignupId,iStatus,"").request(this, success = {msg, data->
             run {
                 if (iStatus == 2) {
-                    root_date_chat.visibility = View.GONE
-                    setFragmentTopMargin(0)
+                    if(mDateGiftType==2){
+                        tv_date_info.textColor = ContextCompat.getColor(AppUtils.context, R.color.color_F7AB00)
+                        tv_date_info.text = "赴约中"
+
+                        tv_datechat_time.visibility = View.GONE
+                        tv_dategift_tips.text = "确认赴约后对方可收到·钻石x5"
+
+                        tv_datechat_giveup.text = "放弃赴约"
+
+                        tv_datechat_agree.visibility = View.GONE
+                        tv_dategift_agree.visibility =View.VISIBLE
+
+                    }else{
+                        root_date_chat.visibility = View.GONE
+                        setFragmentTopMargin(0)
+                    }
 //                    tv_date_status.text = "状态:赴约"
                 } else if (iStatus == 3) {
 //                    tv_date_status.text = "状态：已拒绝"

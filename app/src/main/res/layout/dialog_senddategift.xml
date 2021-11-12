@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="385dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/shape_1ablack_10r"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/margin_13"
+        android:paddingTop="@dimen/margin_15"
+        android:paddingRight="@dimen/margin_13"
+        android:paddingBottom="@dimen/margin_20">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:gravity="center_horizontal"
+            android:text="邀约礼物"
+            android:textSize="17sp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_voicechat_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:text="添加礼物后即可同意邀约。见面后确认“赴约“对方将会收到你赠送的礼物，取消赴约礼物将会退还"
+            android:textColor="@color/color_333333" />
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/gift_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:actualImageScaleType="centerInside" />
+            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_gift_heartnums"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_action"
+            android:text="兑换礼物"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_black"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_4r_orange" />
+
+        <LinearLayout
+            android:id="@+id/ll_user_lovepoint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_25">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_666666"
+                android:textSize="14sp"
+                android:text="剩余"/>
+            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_redheart_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_FF6957"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_redheart_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_666666"
+                android:layout_marginLeft="@dimen/margin_2"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_redheart_gobuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_F7AB00"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:background="@drawable/shape_orange_2r_radius"
+                android:padding="@dimen/margin_5"
+                android:textSize="12sp"
+                android:text="点击购买"/>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_20"
+        android:background="@mipmap/close_orange"/>
+</RelativeLayout>

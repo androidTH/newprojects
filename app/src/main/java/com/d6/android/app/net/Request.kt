@@ -20,32 +20,32 @@ object Request {
 
     //0图片 1是视频 语音
     fun uploadFile(file: File,type:Int = 0): Flowable<String> {
-        return RRetrofit.instance().create(ApiServices::class.java).getQiniuToken().ioScheduler().flatMap {
+        return RRetrofit.instance().create(ApiServices::class.java).getQiniuToken().flatMap {
             if (it.res == 1) {
-                    val upload = UploadManager()
-                    val objectKey = System.currentTimeMillis().toString() + "." + file.getFileSuffix()
-                    val token = it.resMsg
-                    Flowable.create<String>({
-                        try {
-                            val info = upload.syncPut(file, objectKey, token, null)
-                            sysErr("--->$info")
-                            sysErr("--->" + info.response)
-                            if (info.isOK) {
-                                val key = info.response.optString("key")
-                                if(type!=0){
+                val upload = UploadManager()
+                val objectKey = System.currentTimeMillis().toString() + "." + file.getFileSuffix()
+                val token = it.resMsg
+                Flowable.create<String>({
+                    try {
+                        val info = upload.syncPut(file, objectKey, token, null)
+                        sysErr("--->$info")
+                        sysErr("--->" + info.response)
+                        if (info.isOK) {
+                            val key = info.response.optString("key")
+                            if(type!=0){
 //                            it.onNext("http://video.d6-zone.com/$key")
-                                    it.onNext("http://image.d6-zone.com/$key")
-                                }else{
-                                    it.onNext("http://image.d6-zone.com/$key")
-                                }
-                                it.onComplete()
-                            } else {
-                                it.onError(ResultException("上传失败！"))
+                                it.onNext("http://image.d6-zone.com/$key")
+                            }else{
+                                it.onNext("http://image.d6-zone.com/$key")
                             }
-                        }catch (e:Exception){
-                            e.printStackTrace()
+                            it.onComplete()
+                        } else {
+                            it.onError(ResultException("上传失败！"))
                         }
-                    }, BackpressureStrategy.DROP).subscribeOn(Schedulers.io())
+                    }catch (e:Exception){
+                        e.printStackTrace()
+                    }
+                }, BackpressureStrategy.DROP).subscribeOn(Schedulers.io())
 
             } else {
                 Flowable.error {

@@ -137,6 +137,15 @@
                     android:textSize="12sp"
                     android:visibility="gone"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_dategift_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:textColor="@color/color_888888"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <TextView
@@ -207,6 +216,22 @@
                     android:textColor="@color/color_666666"
                     android:textSize="14sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_dategift_agree"
+                    android:layout_width="50dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_5"
+                    android:background="@drawable/shape_orange"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:text="已赴约"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
             </LinearLayout>
 
 

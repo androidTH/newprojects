@@ -212,6 +212,10 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             mSelectCostTypeDialog.show(supportFragmentManager,"cost")
         }
 
+        ll_date_gift.setOnClickListener {
+
+        }
+
         tv_sure.setOnClickListener {
             if (!isFastClick()) {
                 if (publish()) {
