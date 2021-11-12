@@ -20,6 +20,7 @@ object Const {
         val IS_FIRST_FAST_CLICK="isFirstFastClick"
         val ISNOTLOCATION = "isnolocation"
         val ISNOTFREECHATTAG = "isnofreechat"
+        val ISNOTFIREPIC = "firepic"
         val ISNOTUESERAGREEMENT = "isnouseragreement"
 
         @JvmField

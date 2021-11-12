@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.activity_image_pager.ll_gift_parent
 import kotlinx.android.synthetic.main.activity_image_pager.loveheart
 import kotlinx.android.synthetic.main.activity_qr.*
 import kotlinx.android.synthetic.main.fragment_date.*
+import kotlinx.android.synthetic.main.fragment_image.*
 import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.startActivity
@@ -146,10 +147,14 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             squareId = intent.getStringExtra(SOURCEID)
             mSquare = intent.getSerializableExtra(mBEAN) as Square
             var sIflovepics = intent.getStringExtra(SIfLovePics)
-            mBlurIndex.addAll(sIflovepics.split(",").toList())
+            if(!SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
+                mBlurIndex.addAll(sIflovepics.split(",").toList())
+            }
 
-            var sIfSeepics = intent.getStringExtra(SIfSeePics)
-            mFirePicsIndex.addAll(sIfSeepics.split(",").toList())
+            if(!SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
+                var sIfSeepics = intent.getStringExtra(SIfSeePics)
+                mFirePicsIndex.addAll(sIfSeepics.split(",").toList())
+            }
 
             showPayPoints(position)
         }
@@ -160,6 +165,7 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
             }else if(it.contains(Const.Pic_Thumbnail_Size_wh400)){
                 url = it.replace(Const.Pic_Thumbnail_Size_wh400,"")
             }
+
             if (mBlurIndex != null && mBlurIndex.size > key) {
                 if (TextUtils.equals("2", mBlurIndex[key]) && !TextUtils.equals(userId, getLocalUserId())) {
                     url = it.replace("?imageslim", Const.BLUR_60)
@@ -357,46 +363,48 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun showPayPoints(position: Int){
-        if(mBlurIndex!=null&&mBlurIndex.size>0){
-            var blurType = mBlurIndex[position]
-            if(TextUtils.equals("2",blurType)){//2 不可见
-                rl_paypoints.visibility = View.VISIBLE
-                rl_tips.visibility = View.VISIBLE
-                if(!TextUtils.equals(userId, getLocalUserId())){
+        if(!SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)){
+            if (mBlurIndex != null && mBlurIndex.size > 0) {
+                var blurType = mBlurIndex[position]
+                if (TextUtils.equals("2", blurType)) {//2 不可见
+                    rl_paypoints.visibility = View.VISIBLE
+                    rl_tips.visibility = View.VISIBLE
+                    if (!TextUtils.equals(userId, getLocalUserId())) {
 //                    tv_tips.text = "打赏后可见"
-                    iv_unflock.visibility = View.GONE
-                    rl_tips.visibility = View.GONE
-                    rl_countdowntimer.visibility = View.GONE
-                    rl_firepics.visibility = View.GONE
-                    rl_firepics_tips.visibility = View.GONE
-                }else{
+                        iv_unflock.visibility = View.GONE
+                        rl_tips.visibility = View.GONE
+                        rl_countdowntimer.visibility = View.GONE
+                        rl_firepics.visibility = View.GONE
+                        rl_firepics_tips.visibility = View.GONE
+                    } else {
+                        rl_paypoints.visibility = View.GONE
+                        rl_tips.visibility = View.VISIBLE
+                        tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
+                        showFirePics(position)
+                    }
+                } else if (TextUtils.equals("3", blurType)) {//3 可见
                     rl_paypoints.visibility = View.GONE
                     rl_tips.visibility = View.VISIBLE
-                    tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
+                    if (!TextUtils.equals(userId, getLocalUserId())) {
+//                    tv_tips.text = "解锁状态"
+                        iv_unflock.visibility = View.VISIBLE
+                        rl_tips.visibility = View.GONE
+                    } else {
+                        tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
+                    }
+                    showFirePics(position)
+                } else {
+                    rl_paypoints.visibility = View.GONE
+                    rl_tips.visibility = View.GONE
+                    rl_countdowntimer.visibility = View.GONE
+                    iv_unflock.visibility = View.GONE
+
                     showFirePics(position)
                 }
-            }else if(TextUtils.equals("3",blurType)){//3 可见
+            } else {
                 rl_paypoints.visibility = View.GONE
-                rl_tips.visibility = View.VISIBLE
-                if(!TextUtils.equals(userId, getLocalUserId())){
-//                    tv_tips.text = "解锁状态"
-                    iv_unflock.visibility = View.VISIBLE
-                    rl_tips.visibility = View.GONE
-                }else{
-                    tv_tips.text = "该图片设置了打赏后可见，别人打赏才能查看"
-                }
-                showFirePics(position)
-            }else{
-                rl_paypoints.visibility = View.GONE
-                rl_tips.visibility = View.GONE
-                rl_countdowntimer.visibility = View.GONE
-                iv_unflock.visibility = View.GONE
-
                 showFirePics(position)
             }
-        }else{
-            rl_paypoints.visibility = View.GONE
-            showFirePics(position)
         }
     }
 

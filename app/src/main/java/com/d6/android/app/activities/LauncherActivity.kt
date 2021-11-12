@@ -98,7 +98,7 @@ class LauncherActivity : BaseActivity() {
             data?.let {
                 var channels = data.optString("ext1")
                 var versionNum = data.optString("ext2")
-//                Log.i("getFreeChatTag","渠道：$channels,版本号：$versionNum,${AppUtils.getChannelName(this)}")
+                Log.i("getFreeChatTag","渠道：$channels,版本号：$versionNum,${AppUtils.getChannelName(this)}")
                 if (channels.isNullOrEmpty()) {
                     SPUtils.instance().put(Const.User.ISNOTFREECHATTAG, false).apply()
                 } else {

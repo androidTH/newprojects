@@ -27,7 +27,7 @@ import org.jetbrains.anko.startActivity
 /**
  *
  */
-class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecyclerAdapter<String>(mData, R.layout.item_list_square_image) {
+class SquareImageAdapter(mData: ArrayList<String>, val type: Int = 0) : HFRecyclerAdapter<String>(mData, R.layout.item_list_square_image) {
     private var mSquare: Square = Square()
     private val mImages = ArrayList<String>()
     private var mBlurIndex = ArrayList<String>()
@@ -38,53 +38,60 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         var iv_unlock = holder.bind<ImageView>(R.id.iv_unlock)
 //        var mIvBg = holder.bind<ImageView>(R.id.iv_firepic_bg)
         var iv_fire = holder.bind<TextView>(R.id.iv_fire)
-        if (mBlurIndex != null && mBlurIndex.size > position) {
-            var blurType = mBlurIndex[position]
-            if (TextUtils.equals("2", blurType)) {
-                if (TextUtils.equals("${mSquare!!.userid}", getLocalUserId())) {
-                    iv_lock.visibility = View.GONE
-                    iv_unlock.visibility = View.GONE
-                    imageView.visibility = View.VISIBLE
-                    imageView.showBlur(data)
-                    updateFirePics(position,imageView,iv_fire,data)
-                } else {
-                    iv_lock.visibility = View.VISIBLE
-                    iv_unlock.visibility = View.GONE
-                    imageView.visibility = View.VISIBLE
-                    imageView.showBlur(data)
-
-                    iv_fire.visibility = View.GONE
-                }
-            } else if (TextUtils.equals("3", blurType)) {
-                if (TextUtils.equals("${mSquare!!.userid}", getLocalUserId())) {
-                    iv_lock.visibility = View.GONE
-                    iv_unlock.visibility = View.GONE
-                    imageView.showBlur(data)
-                } else {
-                    iv_unlock.visibility = View.VISIBLE
-                    iv_lock.visibility = View.GONE
-                    imageView.setImageURI(data)
-                }
-                updateFirePics(position,imageView,iv_fire,data)
-            } else {
-                iv_unlock.visibility = View.GONE
-                iv_lock.visibility = View.GONE
-                imageView.visibility = View.VISIBLE
-                imageView.setImageURI(data)
-                updateFirePics(position,imageView,iv_fire,data)
-            }
-        } else {
+        if (SPUtils.instance().getBoolean(Const.User.ISNOTFREECHATTAG, false)) {
             iv_lock.visibility = View.GONE
             iv_unlock.visibility = View.GONE
             imageView.visibility = View.VISIBLE
             imageView.setImageURI(data)
-            updateFirePics(position,imageView,iv_fire,data)
+        } else {
+            if (mBlurIndex != null && mBlurIndex.size > position) {
+                var blurType = mBlurIndex[position]
+                if (TextUtils.equals("2", blurType)) {
+                    if (TextUtils.equals("${mSquare!!.userid}", getLocalUserId())) {
+                        iv_lock.visibility = View.GONE
+                        iv_unlock.visibility = View.GONE
+                        imageView.visibility = View.VISIBLE
+                        imageView.showBlur(data)
+                        updateFirePics(position, imageView, iv_fire, data)
+                    } else {
+                        iv_lock.visibility = View.VISIBLE
+                        iv_unlock.visibility = View.GONE
+                        imageView.visibility = View.VISIBLE
+                        imageView.showBlur(data)
+
+                        iv_fire.visibility = View.GONE
+                    }
+                } else if (TextUtils.equals("3", blurType)) {
+                    if (TextUtils.equals("${mSquare!!.userid}", getLocalUserId())) {
+                        iv_lock.visibility = View.GONE
+                        iv_unlock.visibility = View.GONE
+                        imageView.showBlur(data)
+                    } else {
+                        iv_unlock.visibility = View.VISIBLE
+                        iv_lock.visibility = View.GONE
+                        imageView.setImageURI(data)
+                    }
+                    updateFirePics(position, imageView, iv_fire, data)
+                } else {
+                    iv_unlock.visibility = View.GONE
+                    iv_lock.visibility = View.GONE
+                    imageView.visibility = View.VISIBLE
+                    imageView.setImageURI(data)
+                    updateFirePics(position, imageView, iv_fire, data)
+                }
+            } else {
+                iv_lock.visibility = View.GONE
+                iv_unlock.visibility = View.GONE
+                imageView.visibility = View.VISIBLE
+                imageView.setImageURI(data)
+                updateFirePics(position, imageView, iv_fire, data)
+            }
         }
         imageView.setOnClickListener {
             if (type == 1) {
-                if(mSeeFireIndex != null && mSeeFireIndex.size > position) {
+                if (mSeeFireIndex != null && mSeeFireIndex.size > position) {
                     var seeFireIndex = mSeeFireIndex[position]
-                    if(TextUtils.equals("3",seeFireIndex)){
+                    if (TextUtils.equals("3", seeFireIndex)) {
                         return@setOnClickListener
                     }
                 }
@@ -97,7 +104,8 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                     }
                     context.startActivity<ImagePagerActivity>(ImagePagerActivity.URLS to mImages, ImagePagerActivity.CURRENT_POSITION to position,
                             ImagePagerActivity.USERID to "${mSquare!!.userid}", ImagePagerActivity.mBEAN to mSquare,
-                            ImagePagerActivity.SIfLovePics to "${mSquare?.sIfLovePics}",ImagePagerActivity.SIfSeePics to "${mSquare?.sIfSeePics}",ImagePagerActivity.SOURCEID to "${mSquare?.id}",ImagePagerActivity.ISANONYMOUS to "${mSquare.iIsAnonymous}")
+                            ImagePagerActivity.SIfLovePics to "${mSquare?.sIfLovePics}", ImagePagerActivity.SIfSeePics to "${mSquare?.sIfSeePics}", ImagePagerActivity.SOURCEID to "${mSquare?.id}",
+                            ImagePagerActivity.ISANONYMOUS to "${mSquare.iIsAnonymous}")
                 }
             } else {
                 context.startActivity<TrendDetailActivity>(TrendDetailActivity.URLS to mData, TrendDetailActivity.CURRENT_POSITION to position,
@@ -106,14 +114,14 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
         }
     }
 
-    private fun updateFirePics(position:Int,imageView:SimpleDraweeView,iv_fire:TextView,data: String){
+    private fun updateFirePics(position: Int, imageView: SimpleDraweeView, iv_fire: TextView, data: String) {
         if (mSeeFireIndex != null && mSeeFireIndex.size > position) {
             var seeFireIndex = mSeeFireIndex[position]
-            Log.i("squareImage","阅后即焚：${seeFireIndex}")
-            if(TextUtils.equals("3",seeFireIndex)){
+            Log.i("squareImage", "阅后即焚：${seeFireIndex}")
+            if (TextUtils.equals("3", seeFireIndex)) {
                 iv_fire.visibility = View.VISIBLE
                 imageView.visibility = View.VISIBLE
-                imageView.setImageURI("res:///"+R.mipmap.mask_fenhui_bg)
+                imageView.setImageURI("res:///" + R.mipmap.mask_fenhui_bg)
 //                Glide.with(context).asBitmap().load(data).into(object : SimpleTarget<Bitmap>() {
 //                    override fun onResourceReady(p0: Bitmap?, p1: com.bumptech.glide.request.transition.Transition<in Bitmap>?) {
 //                        p0?.let {
@@ -124,7 +132,7 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                 iv_fire.text = "照片已焚毁"
                 var drawable = ContextCompat.getDrawable(context, R.mipmap.pic_firepic_icon)
                 setTopDrawable(drawable, iv_fire)
-            }else if(TextUtils.equals("2",seeFireIndex)){
+            } else if (TextUtils.equals("2", seeFireIndex)) {
                 iv_fire.visibility = View.VISIBLE
                 imageView.visibility = View.VISIBLE
 
@@ -132,7 +140,7 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
                 var drawable = ContextCompat.getDrawable(context, R.mipmap.pic_fire_icon)
                 setTopDrawable(drawable, iv_fire)
                 imageView.showBlur(data)
-            }else{
+            } else {
                 iv_fire.visibility = View.GONE
                 imageView.visibility = View.VISIBLE
             }
@@ -150,6 +158,6 @@ class SquareImageAdapter(mData: ArrayList<String>,val type:Int = 0) : HFRecycler
             this.mSeeFireIndex.clear()
             this.mSeeFireIndex.addAll(it)
         }
-        Log.i("squareImage","内容：${square.content},打赏可见：${this.mSquare.sIfLovePics},阅后即焚：${this.mSquare.sIfSeePics}")
+        Log.i("squareImage", "内容：${square.content},打赏可见：${this.mSquare.sIfLovePics},阅后即焚：${this.mSquare.sIfSeePics}")
     }
 }
