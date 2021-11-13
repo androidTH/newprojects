@@ -35,7 +35,6 @@ class SelectCostTypeDialog : DialogFragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         tv_cancel.setOnClickListener {
             dismissAllowingStateLoss()
         }

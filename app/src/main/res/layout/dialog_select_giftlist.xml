@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="@drawable/shape_black_top_10r"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_20">
+
+        <TextView
+            android:id="@+id/tv_yaoyuetitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_20"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:text="邀约礼物"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_redheart_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_20"
+            android:layout_marginRight="@dimen/margin_25"
+            android:textColor="@color/color_666666"
+            android:gravity="center"
+            android:text="添加礼物将会收到更多人申请哦"
+            android:textSize="12sp"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_complate_gift_layout"
+            android:layout_width="match_parent"
+            android:layout_height="220dp" />
+
+        <com.d6.android.app.widget.EmotionIndicatorView
+            android:id="@+id/ll_point_group"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_user_lovepoint"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_25">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_666666"
+                android:textSize="12sp"
+                android:text="剩余"/>
+            <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                android:id="@+id/tv_redheart_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_FF6957"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_redheart_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_666666"
+                android:layout_marginLeft="@dimen/margin_2"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_redheart_gobuy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_F7AB00"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:background="@drawable/shape_orange_2r_radius"
+                android:padding="@dimen/margin_5"
+                android:textSize="12sp"
+                android:text="点击购买"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

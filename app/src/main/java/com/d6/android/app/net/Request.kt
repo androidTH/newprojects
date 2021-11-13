@@ -629,4 +629,7 @@ object Request {
     fun delAccount(iUserid:String, phone: String)=RRetrofit.instance().create(ApiServices::class.java).delAccount(iUserid,phone)
 
     fun getVerifyCodeNewV2(requestBody: RequestBody)=RRetrofit.instance().create(ApiServices::class.java).getVerifyCodeNewV2(requestBody)
+
+    //3.10.0版本
+    fun getGiftList()=RRetrofit.instance().create(ApiServices::class.java).getGiftList()
 }

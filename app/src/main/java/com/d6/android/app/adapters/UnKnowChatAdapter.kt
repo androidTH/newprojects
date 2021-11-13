@@ -20,13 +20,9 @@ import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.RongUtils
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getLocalUserId
-import com.d6.android.app.widget.SwipeItemLayout
 import com.facebook.drawee.view.SimpleDraweeView
 import io.rong.imkit.RongContext
 import io.rong.imkit.RongIM
-import io.rong.imkit.model.ConversationProviderTag
-import io.rong.imkit.model.UIConversation
-import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imkit.utils.RongDateUtils
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation

@@ -254,19 +254,19 @@
                         android:textColor="@color/color_333333"
                         android:textSize="14sp" />
 
-                    <TextView
+                    <com.d6.android.app.widget.textinlineimage.TextInlineImage
                         android:id="@+id/tv_gift_type"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/margin_12"
                         android:drawableRight="@mipmap/center_moreicon"
                         android:drawablePadding="@dimen/margin_8"
                         android:gravity="center"
-                        android:paddingLeft="@dimen/margin_6"
-                        android:paddingRight="@dimen/margin_6"
-                        android:textColorHint="@color/color_c5c5c5"
-                        android:textColor="@color/color_888888"
                         android:hint="选择邀约礼物"
+                        android:paddingLeft="@dimen/margin_5"
+                        android:textColor="@color/color_888888"
+                        android:textColorHint="@color/color_c5c5c5"
                         android:textSize="12sp" />
                 </RelativeLayout>
 

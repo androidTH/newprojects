@@ -18,10 +18,7 @@ import com.d6.android.app.adapters.NoticeFriendsQuickAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.AddImage
-import com.d6.android.app.models.DateType
-import com.d6.android.app.models.FriendBean
-import com.d6.android.app.models.Imagelocals
+import com.d6.android.app.models.*
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW
@@ -205,6 +202,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
 
         tv_endTime.setOnClickListener {
             var mSelectCostTypeDialog = SelectCostTypeDialog()
+            mSelectCostTypeDialog.arguments = bundleOf("giftlist" to mAllGiftList)
             mSelectCostTypeDialog.setDialogListener { p, s ->
                 tv_endTime.text = "${s}"
                 mCostIndex = p
@@ -213,7 +211,21 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         }
 
         ll_date_gift.setOnClickListener {
-
+            var mSelectGiftListDialog = SelectGiftListDialog()
+            mSelectGiftListDialog.setDialogListener { p, s ->
+                for(j in mAllGiftList){
+                    if(TextUtils.equals(s,j.name)){
+                        mGiftBeans = j
+                        break;
+                    }
+                }
+                if(mGiftBeans!=null){
+                    mGiftBeans?.let {
+                        tv_gift_type.text = "${s}(${it.loveNum} 颗 [img src=redheart_small/])"
+                    }
+                }
+            }
+            mSelectGiftListDialog.show(supportFragmentManager,"gift")
         }
 
         tv_sure.setOnClickListener {
@@ -336,6 +348,19 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         }
 //        date_headView.setImageURI(getLocalUserHeadPic())
         getLocalFriendsCount()
+
+        getGiftList()
+    }
+
+    private var mAllGiftList:ArrayList<GiftBeans> = ArrayList()
+    private var mGiftBeans:GiftBeans?= null
+
+    private fun getGiftList(){
+        Request.getGiftList().request(this, false, success = { msg, data ->
+            data?.let {
+                mAllGiftList = it
+            }
+        })
     }
 
     private fun setTitle(){
@@ -386,6 +411,9 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             tv_unknow_sf.visibility = View.GONE
             line_unknow.visibility = View.GONE
 
+            line_dategift.visibility = View.GONE
+            ll_date_gift.visibility = View.GONE
+
         }else if(mDateType==7){
             date_headView.setImageURI("res:///"+R.mipmap.game_nolimit_feed)
             tv_title.text ="游戏"
@@ -397,7 +425,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
 
             tv_endtime_name.visibility = View.GONE
             tv_endTime.visibility = View.GONE
-            line_datemoney.visibility = View.GONE
+            line_datemoney.visibility = View.VISIBLE
 
         }else if(mDateType==8){
             date_headView.setImageURI("res:///"+R.mipmap.game_fitness_feed)

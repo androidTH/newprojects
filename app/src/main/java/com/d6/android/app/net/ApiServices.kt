@@ -11,6 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.Query
 import okhttp3.RequestBody
+import retrofit2.http.GET
 
 /**
  * Created on 2017/12/27.
@@ -727,4 +728,6 @@ interface ApiServices {
                            @Query("sLoginToken") sLoginToken: String = getLoginToken(),
                            @Query("sVersion") sVersion: String = getAppVersion()): Flowable<Response<JsonObject>>
 
+    @GET("twoService/gift/getGiftList")
+    fun getGiftList(@Query("sLoginToken") sLoginToken: String = getLoginToken(), @Query("sVersion") sVersion: String = getAppVersion()):Flowable<Response<ArrayList<GiftBeans>>>
 }

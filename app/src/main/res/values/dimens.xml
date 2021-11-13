@@ -53,6 +53,7 @@
     <dimen name="margin_5">5dp</dimen>
     <dimen name="margin_6">6dp</dimen>
     <dimen name="margin_1">1dp</dimen>
+    <dimen name="margin_0">0dp</dimen>
     <dimen name="margin_2halfe">1.5dp</dimen>
     <dimen name="margin_zerohalfe">0.5dp</dimen>
     <dimen name="margin_2">2dp</dimen>

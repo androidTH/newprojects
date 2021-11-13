@@ -418,6 +418,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         tv_dategift_agree.setOnClickListener {
             root_date_chat.visibility = View.GONE
             setFragmentTopMargin(0)
+            SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
+
+        }
+
+        tv_dategift_giveup.setOnClickListener {
+            root_date_chat.visibility = View.GONE
+            setFragmentTopMargin(0)
+            SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
         }
 
         iv_chat_unfold.setOnClickListener {
@@ -857,9 +865,38 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         it.doIsNotSendMsg(false, resources.getString(R.string.string_other_agreee_openchat))
                     }
                 }else if(code == 6){//以前聊过天的允许私聊(包括付过积分，约会过的，送过花的)
-                    relative_tips_bottom.visibility = View.GONE
-                    IsAgreeChat = false
-                    SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
+                    if(mDateGiftType==1){
+                        root_date_chat.visibility = View.VISIBLE
+                        linear_datechat_agree_bottom.visibility = View.VISIBLE
+
+                        tv_datechat_no.visibility = View.GONE
+                        tv_datechat_agree.visibility = View.GONE
+                        tv_datechat_giveup.visibility = View.GONE
+                        tv_help_service_chat.visibility = View.GONE
+
+                        tv_dategift_giveup.visibility = View.VISIBLE
+                        tv_dategift_tips.visibility = View.VISIBLE
+                        if(ISNOTYAODATE==2){
+                            tv_dategift_tips.text = "对方确认赴约后你可收到·钻石x5"
+                            tv_dategift_agree.visibility =View.GONE
+                        }else{
+                            tv_dategift_agree.visibility =View.VISIBLE
+                            tv_dategift_tips.text = "确认赴约后对方可收到·钻石x5"
+                        }
+
+                        tv_date_info.textColor = ContextCompat.getColor(AppUtils.context, R.color.color_F7AB00)
+                        tv_date_info.text = "赴约中"
+
+                        tv_datechat_time.visibility = View.GONE
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,true).apply()
+
+                    }else{
+                        relative_tips_bottom.visibility = View.GONE
+                        IsAgreeChat = false
+                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE+ getLocalUserId()+"-"+ if(iType==2) mTargetId else mOtherUserId,false).apply()
+
+                    }
+
 //                    ---SPUtils.instance().put(SEND_FIRST_PRIVATE_TIPSMESSAGE+getLocalUserId(),false).apply()
                 }else if(code ==8){
                     CustomToast.showToast(getString(R.string.string_addblacklist))
@@ -1075,6 +1112,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }
 
         if(mDateGiftType==2){
+            tv_dategift_tips.visibility = View.VISIBLE
             tv_datechat_time.visibility = View.GONE
             tv_dategift_tips.text = "对方确认赴约后你可收到·钻石x5"
         }else{
@@ -1112,13 +1150,23 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         tv_date_info.textColor = ContextCompat.getColor(AppUtils.context, R.color.color_F7AB00)
                         tv_date_info.text = "赴约中"
 
-                        tv_datechat_time.visibility = View.GONE
-                        tv_dategift_tips.text = "确认赴约后对方可收到·钻石x5"
-
-                        tv_datechat_giveup.text = "放弃赴约"
-
+                        tv_datechat_no.visibility = View.GONE
                         tv_datechat_agree.visibility = View.GONE
-                        tv_dategift_agree.visibility =View.VISIBLE
+                        tv_datechat_giveup.visibility = View.GONE
+                        tv_help_service_chat.visibility = View.GONE
+
+                        tv_dategift_giveup.visibility = View.VISIBLE
+                        tv_dategift_tips.visibility = View.VISIBLE
+                        if(ISNOTYAODATE==2){
+                            tv_dategift_tips.text = "对方确认赴约后你可收到·钻石x5"
+                            tv_dategift_agree.visibility =View.GONE
+                        }else{
+                            tv_dategift_agree.visibility =View.VISIBLE
+                            tv_dategift_tips.text = "确认赴约后对方可收到·钻石x5"
+                        }
+
+                        tv_datechat_time.visibility = View.GONE
+
 
                     }else{
                         root_date_chat.visibility = View.GONE
@@ -1126,11 +1174,13 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     }
 //                    tv_date_status.text = "状态:赴约"
                 } else if (iStatus == 3) {
+                    mDateGiftType = iStatus
 //                    tv_date_status.text = "状态：已拒绝"
                     root_date_chat.visibility = View.GONE
                     setFragmentTopMargin(0)
                     getApplyStatus()
                 }else if(iStatus == 4){
+                    mDateGiftType = iStatus
 //                    tv_date_status.text="状态：主动取消"
                     root_date_chat.visibility = View.GONE
                     setFragmentTopMargin(0)
@@ -1402,7 +1452,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                             it.hideChatInput(true)
                         }
                         SPUtils.instance().put(APPLAY_CONVERTION_ISTOP + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, true).apply()
-                    } else if (TextUtils.equals("2", type)) {//同意
+                    } else if (TextUtils.equals("2", type)) {//申请私聊 同意
                         relative_tips_bottom.visibility = View.GONE
 //                    if(TextUtils.equals("1",sex)){
 //                        relative_tips.visibility = View.VISIBLE
@@ -1428,7 +1478,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //                    }else{
 //
 //                    }
-                    } else if (TextUtils.equals("3", type)) {//拒绝
+                    } else if (TextUtils.equals("3", type)) {//申请私聊 拒绝
 //                    relative_tips.visibility = View.VISIBLE
 //                    tv_openchat_apply.visibility = View.VISIBLE
 //                    tv_openchat_apply.isEnabled = true
@@ -1456,7 +1506,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //                    }else{
 //
 //                    }
-                    } else if (TextUtils.equals("4", type)) {
+                    } else if (TextUtils.equals("4", type)) {//申请私聊
                         relative_tips_bottom.visibility = View.VISIBLE
                         tv_openchat_apply_bottom.visibility = View.VISIBLE
                         tv_openchat_tips_title_bottom.visibility = View.VISIBLE
@@ -1479,11 +1529,36 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
 //                    linear_openchat_agree_bottom.visibility = View.GONE
 //                    getApplyStatus()
-                    } else if (TextUtils.equals("5", type)) {
+                    } else if (TextUtils.equals("5", type)) { //邀约 同意
                         //staus 5、6、7、8分别是接受、拒绝、取消、过期
-                        root_date_chat.visibility = View.GONE
-                        setFragmentTopMargin(0)
-                        SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
+                        if(mDateGiftType==1){
+                            tv_date_info.textColor = ContextCompat.getColor(AppUtils.context, R.color.color_F7AB00)
+                            tv_date_info.text = "赴约中"
+
+                            tv_datechat_no.visibility = View.GONE
+                            tv_datechat_agree.visibility = View.GONE
+                            tv_datechat_giveup.visibility = View.GONE
+
+                            tv_dategift_giveup.visibility = View.VISIBLE
+                            tv_dategift_tips.visibility = View.VISIBLE
+                            if(ISNOTYAODATE==2){
+                                tv_dategift_tips.text = "对方确认赴约后你可收到·钻石x5"
+                                tv_dategift_agree.visibility =View.GONE
+                            }else{
+                                tv_dategift_agree.visibility =View.VISIBLE
+                                tv_dategift_tips.text = "确认赴约后对方可收到·钻石x5"
+                            }
+
+                            tv_datechat_time.visibility = View.GONE
+                            SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, true).apply()
+
+                        }else{
+                            root_date_chat.visibility = View.GONE
+                            setFragmentTopMargin(0)
+                            SPUtils.instance().put(CONVERSATION_APPLAY_DATE_TYPE + getLocalUserId() + "-" + if (iType == 2) mTargetId else mOtherUserId, false).apply()
+
+                        }
+
                     } else if (TextUtils.equals("6", type)) {
                         root_date_chat.visibility = View.GONE
                         setFragmentTopMargin(0)

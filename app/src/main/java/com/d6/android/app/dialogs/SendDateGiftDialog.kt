@@ -64,7 +64,8 @@ class SendDateGiftDialog : DialogFragment(),RequestManager {
 
         tv_action.setOnClickListener {
             dialogListener?.let {
-                it.onClick(0,"ok")
+                it.onClick(1,"payredheart")
+                dismissAllowingStateLoss()
             }
         }
 
