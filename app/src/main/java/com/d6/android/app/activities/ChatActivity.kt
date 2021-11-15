@@ -912,7 +912,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         var datetime = it.optLong("dOverduetime")
                         iCanTalk = it.optInt("iCanTalk",2)
                         Log.i("chatactivity","${sendCount}消息数量appointment-----${it.optJsonObj("appointment")}")
-                        var appointment = GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
+                        var  appointment = GsonHelper.getGson().fromJson(it.optJsonObj("appointment"), MyAppointment::class.java)
                         appointment?.let {
                             root_date_chat.visibility = View.VISIBLE
                             setDateChatUi(appointment,sendCount,datetime)

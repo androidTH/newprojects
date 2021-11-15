@@ -3,6 +3,7 @@ package com.d6.android.app.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.d6.android.app.R;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
  * Created by SiberiaDante
  * Describe: 自定义表情底部指示器
  * Time: 2017/6/26
- * Email: 994537867@qq.com
  * GitHub: https://github.com/SiberiaDante
  * 博客园： http://www.cnblogs.com/shen-hua/
  */
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class EmotionIndicatorView extends LinearLayout {
 
     private Context mContext;
-    private ArrayList<View> mImageViews ;//所有指示器集合
+    private ArrayList<ImageView> mImageViews ;//所有指示器集合
     private int size = 6;
     private int marginSize=15;
     private int pointSize ;//指示器的大小
@@ -52,18 +52,15 @@ public class EmotionIndicatorView extends LinearLayout {
         this.removeAllViews();
         LayoutParams lp ;
         for (int i = 0 ; i<count ; i++){
-            View v = new View(mContext);
-            lp = new LayoutParams(pointSize,pointSize);
-            if(i!=0)
-                 lp.leftMargin = marginLeft;
-            v.setLayoutParams(lp);
+            ImageView pointView = new ImageView(getContext());
+            pointView.setPadding(5, 0, 5, 0);
             if (i == 0){
-                v.setBackgroundResource(R.drawable.shape_bg_indicator_point_select);
+                pointView.setImageResource(R.drawable.shape_bg_indicator_point_select);
             }else{
-                v.setBackgroundResource(R.drawable.shape_bg_indicator_point_nomal);
+                pointView.setImageResource(R.drawable.shape_bg_indicator_point_nomal);
             }
-            mImageViews.add(v);
-            this.addView(v);
+            mImageViews.add(pointView);
+            this.addView(pointView);
         }
     }
 
@@ -74,10 +71,10 @@ public class EmotionIndicatorView extends LinearLayout {
         if(startPosition < 0 || nextPosition < 0 || nextPosition == startPosition){
             startPosition = nextPosition = 0;
         }
-        final View ViewStrat =  mImageViews.get(startPosition);
-        final View ViewNext =  mImageViews.get(nextPosition);
-        ViewNext.setBackgroundResource(R.drawable.shape_bg_indicator_point_select);
-        ViewStrat.setBackgroundResource(R.drawable.shape_bg_indicator_point_nomal);
+        final ImageView ViewStrat = mImageViews.get(startPosition);
+        final ImageView ViewNext = mImageViews.get(nextPosition);
+        ViewNext.setImageResource(R.drawable.shape_bg_indicator_point_select);
+        ViewStrat.setImageResource(R.drawable.shape_bg_indicator_point_nomal);
     }
 
 }

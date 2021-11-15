@@ -42,9 +42,9 @@
 
         <com.d6.android.app.widget.EmotionIndicatorView
             android:id="@+id/ll_point_group"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:gravity="center"
+            android:layout_gravity="center_horizontal"
             android:orientation="horizontal" />
 
 
