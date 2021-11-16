@@ -91,7 +91,7 @@ class InviteFriendsDialog : DialogFragment(),RequestManager {
             }
             tv_copy_url.setOnClickListener {
                 dialogListener?.let {
-                    it.onClick(4,"${mInviteLinkBean.sInviteLinkPic}")
+                    it.onClick(4,"${mInviteLinkBean.sInviteLinkUrl}")
                 }
             }
         } catch (e: Exception) {

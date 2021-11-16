@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyPointsActivity
 import com.d6.android.app.base.BaseActivity
@@ -30,9 +31,12 @@ import org.jetbrains.anko.support.v4.startActivity
  */
 class SendDateGiftDialog : DialogFragment(),RequestManager {
 
-    private var voiceChat:Square?=null
-    private var voicechatType = "1"
     private var mLocalUserLoveHeartCount:Int = -1
+    private var giftNum:Int?=0
+    private var giftLoveNum:Int?=0
+    private var giftName:String?=""
+    private var giftIcon:String?=""
+    private var mLoveGiftSum:Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +65,21 @@ class SendDateGiftDialog : DialogFragment(),RequestManager {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(arguments!=null){
+            giftIcon = arguments.getString("gifticon")
+            giftName = arguments.getString("giftName")
+            giftLoveNum = arguments.getInt("giftloveNum")
+            giftNum = arguments.getInt("giftNum")
+        }
 
         tv_action.setOnClickListener {
             dialogListener?.let {
-                it.onClick(1,"payredheart")
-                dismissAllowingStateLoss()
+                if(mLocalUserLoveHeartCount < mLoveGiftSum){
+                    toast("爱心不足，请充值")
+                }else{
+                    it.onClick(1,"payredheart")
+                    dismissAllowingStateLoss()
+                }
             }
         }
 
@@ -81,14 +95,19 @@ class SendDateGiftDialog : DialogFragment(),RequestManager {
         }
 
 
-        if(TextUtils.equals(voicechatType,"2")){
-            mLocalUserLoveHeartCount = voiceChat!!.iRemainPoint!!
-            tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
+//        if(TextUtils.equals(voicechatType,"2")){
+//            mLocalUserLoveHeartCount = voiceChat!!.iRemainPoint!!
+//            tv_redheart_count.text = "剩余 [img src=redheart_small/] 不足 (剩余${mLocalUserLoveHeartCount})"
+//        }
+
+        gift_pic.setImageURI(giftIcon)
+        giftLoveNum?.let {
+            var loveNum = it
+            giftNum?.let {
+                mLoveGiftSum = loveNum * it
+                tv_gift_heartnums.text="${mLoveGiftSum} [img src=redheart_small/]"
+            }
         }
-
-        gift_pic.setImageURI("")
-
-        tv_gift_heartnums.text="900 [img src=redheart_small/]"
 
         getUserInfo()
 //        var info = UserInfo("${voiceChat?.userid}","${voiceChat?.name}", Uri.parse("${voiceChat?.picUrl}"))
@@ -98,12 +117,14 @@ class SendDateGiftDialog : DialogFragment(),RequestManager {
     private fun getUserInfo() {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-                //                if(it.iLovePoint < mMinLoveHeart?.toInt() ?: 0){
-//                    tv_action.background = ContextCompat.getDrawable(context,R.drawable.shape_radius_4r_33)
-//                }
                 mLocalUserLoveHeartCount = it.iLovePoint
-                tv_redheart_count.text = "${mLocalUserLoveHeartCount} [img src=redheart_small/]"
-                tv_redheart_balance.text = "还差30 "
+                if(mLocalUserLoveHeartCount < mLoveGiftSum){
+                    ll_user_lovepoint.visibility = View.VISIBLE
+                    tv_redheart_count.text = "${mLocalUserLoveHeartCount} [img src=redheart_small/]"
+                    tv_redheart_balance.text = "还差 ${mLoveGiftSum-mLocalUserLoveHeartCount}"
+                }else{
+                    ll_user_lovepoint.visibility = View.GONE
+                }
             }
         })
     }

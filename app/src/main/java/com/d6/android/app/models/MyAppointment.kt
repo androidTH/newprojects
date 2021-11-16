@@ -55,4 +55,9 @@ data class MyAppointment(@SerializedName("sId") var sId:String?=""): Serializabl
 //    iAppointmentSignupCount
 
     var iProgress:Int?=0
+    var giftNum:Int?=0
+    var giftLoveNum:Int?=0
+    var giftName:String?=""
+    var giftIcon:String?=""
+    var hasGift:Boolean=false
 }

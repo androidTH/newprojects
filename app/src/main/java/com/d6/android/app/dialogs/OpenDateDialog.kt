@@ -91,8 +91,16 @@ class OpenDateDialog : DialogFragment(),RequestManager {
            tv_agree_points.text = "达成邀约，扣除预付积分"
            tv_noagree_points.text = "对方拒绝，返还一半积分"//${it.iAppointPointRefuse}
            tv_timeout_points.text = "3天后未回复，返还全部积分"
-
-           tv_self_gift.text = "邀约礼物·钻石x5(≈500 [img src=redheart_small/])"
+           myAppointment?.let {
+               if(it.hasGift){
+                   tv_gift_tips.visibility = View.VISIBLE
+                   tv_self_gift.visibility = View.VISIBLE
+                   tv_self_gift.text = "邀约礼物·${it.giftName}x${it.giftNum}(≈${it.giftLoveNum} [img src=redheart_small/])"
+               }else{
+                   tv_gift_tips.visibility = View.GONE
+                   tv_self_gift.visibility = View.GONE
+               }
+           }
         }
     }
 

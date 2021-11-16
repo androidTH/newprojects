@@ -8,6 +8,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.RequestBody
+import retrofit2.http.Query
 import java.io.File
 
 
@@ -324,8 +325,8 @@ object Request {
     fun getUserPoints(userid: String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).getUserPoints(userid , pageNum)
 
     //发布约会
-    fun releasePullDate(userid: String,sPlace: String?,sDesc: String?,iAppointType: Int?,iFeeType:Int?,beginTime: String?, endTime: String?, sAppointPic: String?,sAppointUser:String,iIsAnonymous:Int)=RRetrofit.instance().
-            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,iFeeType,beginTime , endTime, sAppointPic,sAppointUser,iIsAnonymous)
+    fun releasePullDate(userid: String, sPlace: String?, sDesc: String?, iAppointType: Int?, iFeeType:Int?, beginTime: String?, endTime: String?, sAppointPic: String?, sAppointUser:String, iIsAnonymous:Int, giftLoveLNum:Int?, giftNum:Int?,giftName:String,giftIcon:String)=RRetrofit.instance().
+            create(ApiServices::class.java).releasePullDate(userid,sPlace,sDesc,iAppointType,iFeeType,beginTime , endTime, sAppointPic,sAppointUser,iIsAnonymous,giftLoveLNum, giftNum,giftName,giftIcon)
     //自主约会
     fun findAppointmentList(userid: String,iAppointType:String?, sPlace:String?,sex:String,pageNum:Int)=RRetrofit.instance().create(ApiServices::class.java).findAppointmentList(userid,iAppointType ,sPlace,sex,pageNum)
 

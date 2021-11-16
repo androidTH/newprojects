@@ -32,6 +32,10 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_publish_find_date.*
+import kotlinx.android.synthetic.main.activity_publish_find_date.et_content
+import kotlinx.android.synthetic.main.activity_publish_find_date.rv_images
+import kotlinx.android.synthetic.main.activity_publish_find_date.tv_back
+import kotlinx.android.synthetic.main.activity_release_new_trends.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
@@ -89,6 +93,10 @@ class PublishFindDateActivity : BaseActivity(), Observer {
     private var mVoiceChatType = 1
     private var loveNums = 0
     private var iOncePayLovePoint = 10
+    private var giftLoveLNum:Int?=null
+    private var giftNum:Int?=null
+    private var giftName:String=""
+    private var giftIcon:String=""
 
     override fun update(o: Observable?, arg: Any?) {
         var mImagelocal = arg as Imagelocals
@@ -211,21 +219,22 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         }
 
         ll_date_gift.setOnClickListener {
-            var mSelectGiftListDialog = SelectGiftListDialog()
-            mSelectGiftListDialog.setDialogListener { p, s ->
-                for(j in mAllGiftList){
-                    if(TextUtils.equals(s,j.name)){
-                        mGiftBeans = j
-                        break;
-                    }
-                }
-                if(mGiftBeans!=null){
-                    mGiftBeans?.let {
-                        tv_gift_type.text = "${s}(${it.loveNum} 颗 [img src=redheart_small/])"
-                    }
-                }
+            showGiftDialog()
+        }
+
+        tv_gift_type.setOnClickListener {
+            if(mGiftBeans!=null){
+                tv_gift_type.text = ""
+                tv_gift_type.hint = "选择邀约礼物"
+                tv_gift_type.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.center_moreicon, 0)
+                mGiftBeans = null
+                giftLoveLNum = null
+                giftNum = null
+                giftName = ""
+                giftIcon = ""
+            }else{
+                showGiftDialog()
             }
-            mSelectGiftListDialog.show(supportFragmentManager,"gift")
         }
 
         tv_sure.setOnClickListener {
@@ -361,6 +370,29 @@ class PublishFindDateActivity : BaseActivity(), Observer {
                 mAllGiftList = it
             }
         })
+    }
+
+    private fun showGiftDialog(){
+        var mSelectGiftListDialog = SelectGiftListDialog()
+        mSelectGiftListDialog.setDialogListener { p, s ->
+            for(j in mAllGiftList){
+                if(TextUtils.equals(s,j.name)){
+                    mGiftBeans = j
+                    break
+                }
+            }
+            if(mGiftBeans!=null){
+                mGiftBeans?.let {
+                    tv_gift_type.text = "${s}(${it.loveNum} 颗 [img src=redheart_small/])"
+                    tv_gift_type.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.comment_local_del, 0)
+                    giftLoveLNum = it.loveNum
+                    giftNum=1
+                    giftName = it.name
+                    giftIcon = it.icon
+                }
+            }
+        }
+        mSelectGiftListDialog.show(supportFragmentManager,"gift")
     }
 
     private fun setTitle(){
@@ -623,7 +655,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             Flowable.just(sb.toString())
         }.flatMap {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, mDateType, mCostIndex,"${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", it,userIds,iIsAnonymous)
+            Request.releasePullDate(userId, area, content, mDateType, mCostIndex,"${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", it,userIds,iIsAnonymous,giftLoveLNum,giftNum,giftName,giftIcon)
         }.request(this, false, success = { _, data ->
             showToast("发布成功")
             dismissDialog()
@@ -670,7 +702,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             CreateDateOfPics(content)
         } else {
             var userIds = getShareUserId(mChooseFriends)
-            Request.releasePullDate(userId, area, content, mDateType, mCostIndex,"${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", "",userIds,iIsAnonymous).request(this, false, success = { _, data ->
+            Request.releasePullDate(userId, area, content, mDateType, mCostIndex,"${System.currentTimeMillis().toDefaultTime()}", "${mTimeOut.toDefaultTime()}", "",userIds,iIsAnonymous,giftLoveLNum,giftNum,giftName,giftIcon).request(this, false, success = { _, data ->
                 showToast("发布成功")
                 if (TextUtils.equals("0", SPUtils.instance().getString(Const.User.USER_SEX))) {
                     showTips(data, "", "")

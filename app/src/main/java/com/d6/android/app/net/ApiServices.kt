@@ -252,7 +252,7 @@ interface ApiServices {
     @POST("backstage/appointment/add")
     fun releasePullDate(@Query("iUserid") userid: String, @Query("sPlace") sPlace: String?, @Query("sDesc") sDesc: String?
                         , @Query("iAppointType") iAppointType: Int?, @Query("iFeeType") iFeeType:Int?, @Query("dStarttime") beginTime: String?
-                        , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?, @Query("sAppointUser")sAppointUser:String, @Query("iIsAnonymous") iIsAnonymous:Int, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
+                        , @Query("dEndtime") endTime: String?, @Query("sAppointPic") sAppointPic: String?, @Query("sAppointUser")sAppointUser:String, @Query("iIsAnonymous") iIsAnonymous:Int, @Query("giftLoveLNum") giftLoveLNum:Int?, @Query("giftNum") giftNum:Int?, @Query("giftName") giftName:String, @Query("giftIcon") giftIcon:String, @Query("sLoginToken")sLoginToken:String= getLoginToken(), @Query("sVersion") sVersion:String = getAppVersion()): Flowable<Response<JsonObject>>
 
     //自主约会
     @POST("backstage/appointment/findAppointmentListByPage")

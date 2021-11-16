@@ -200,7 +200,19 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        tv_self_gift.text = "邀约礼物·钻石x5(≈500 [img src=redheart_small/])"
+        if(myAppointment.hasGift){
+            tv_self_gift.visibility = View.VISIBLE
+
+            myAppointment.giftNum?.let {
+                var num = it
+                myAppointment.giftLoveNum?.let {
+                    var count = num * it
+                    tv_self_gift.text = "邀约礼物·${myAppointment.giftName}x${myAppointment.giftNum}(≈${count} [img src=redheart_small/])"
+                }
+            }
+        }else{
+            tv_self_gift.visibility = View.GONE
+        }
 
 //            if (TextUtils.equals("0", myAppointment.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
 //                img_other_auther.visibility = View.GONE

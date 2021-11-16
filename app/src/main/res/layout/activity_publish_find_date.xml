@@ -268,6 +268,7 @@
                         android:textColor="@color/color_888888"
                         android:textColorHint="@color/color_c5c5c5"
                         android:textSize="12sp" />
+
                 </RelativeLayout>
 
                 <View
