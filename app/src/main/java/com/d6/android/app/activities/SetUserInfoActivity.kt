@@ -32,6 +32,8 @@ import java.util.*
 import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
 import com.xinstall.XInstall
 import io.reactivex.Flowable
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.UserInfo
 
 
 /**
@@ -287,7 +289,6 @@ class SetUserInfoActivity : BaseActivity() {
                 user.picUrl = it
                 Request.updateUserInfo(user)
             }.request(this){ _, data ->
-                dismissDialog()
                 clearLoginToken()
                 SPUtils.instance()
                         .put(Const.User.IS_LOGIN,true)
@@ -296,6 +297,8 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_SEX, user.sex)
                         .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
+                val info = UserInfo(accountId, "${user.name}", Uri.parse("${user.picUrl}"))
+                RongIM.getInstance().refreshUserInfoCache(info)
 //                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
                 XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
                 startActivity<MainActivity>()
@@ -333,6 +336,8 @@ class SetUserInfoActivity : BaseActivity() {
                         .put(Const.User.USER_SEX, user.sex)
                         .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
+                val info = UserInfo(accountId, "${user.name}", Uri.parse("${user.picUrl}"))
+                RongIM.getInstance().refreshUserInfoCache(info)
                 XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
 //                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
                 startActivity<MainActivity>()

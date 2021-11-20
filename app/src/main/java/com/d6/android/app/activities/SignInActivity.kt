@@ -13,6 +13,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import com.alibaba.fastjson.JSON
 import com.d6.android.app.R
@@ -353,18 +354,19 @@ class SignInActivity : TitleActivity() {
             saveUserInfo(data)
 //            SPUtils.instance().put(INSTALL_DATA01,"").apply()
             data?.let {
-                val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
-                RongIM.getInstance().refreshUserInfoCache(info)
+                Log.i("login","username=${data?.name}")
+                if (it.name.isNullOrEmpty()) {//如果没有昵称
+                    startActivity<SetUserInfoActivity>()
+                } else {
+                    val info = UserInfo(it.accountId, "${it.name}", Uri.parse("${it.picUrl}"))
+                    RongIM.getInstance().refreshUserInfoCache(info)
+                    SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
+                    startActivity<MainActivity>()
+                }
+                setResult(Activity.RESULT_OK)
+                ActivitiesManager.getInstance().finishActivity(SplashActivity::class.java)
+                finish()
             }
-            if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-                startActivity<SetUserInfoActivity>()
-            } else {
-                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
-                startActivity<MainActivity>()
-            }
-            setResult(Activity.RESULT_OK)
-            ActivitiesManager.getInstance().finishActivity(SplashActivity::class.java)
-            finish()
         }){code,msg->
             toast(msg)
         }
@@ -386,13 +388,13 @@ class SignInActivity : TitleActivity() {
                             e.printStackTrace()
                         }
                     }
-                    saveUserInfo(it)
-//                    SPUtils.instance().put(INSTALL_DATA01,"").apply()
-                    val info = UserInfo(it.accountId, it.name, Uri.parse("" + data.picUrl))
-                    RongIM.getInstance().refreshUserInfoCache(info)
-                    if (it.name == null || it.name!!.isEmpty()) {//如果没有昵称
+                    if (it.name.isNullOrEmpty()) {//如果没有昵称
                         startActivity<SetUserInfoActivity>("name" to name, "gender" to gender, "headerpic" to iconurl,"openid" to openId,"unionid" to unionid)
                     } else {
+                        saveUserInfo(it)
+//                    SPUtils.instance().put(INSTALL_DATA01,"").apply()
+                        val info = UserInfo(it.accountId, "${it.name}", Uri.parse("${it.picUrl}"))
+                        RongIM.getInstance().refreshUserInfoCache(info)
                         SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                         startActivity<MainActivity>()
                     }

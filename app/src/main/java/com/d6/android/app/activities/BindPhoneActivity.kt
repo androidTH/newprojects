@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import com.alibaba.fastjson.JSON
 import com.d6.android.app.R
@@ -238,15 +239,16 @@ class BindPhoneActivity : TitleActivity() {
        Request.bindPhone(p, code, openId, unionId, devicetoken, name, headerpic, sChannelId = channel, sInviteCode = install_data01, sImei = MD5.encrypt(getSIMEI(this).toLowerCase(), true), sOaid = getOaid(), sAndroidId = MD5.encrypt(getAndroidID(this).toLowerCase(), true)).request(this, false, success = { msg, data ->
            clearLoginToken()
            saveMsg(msg)
-           saveUserInfo(data)
-//           SPUtils.instance().put(Const.INSTALL_DATA01,"").apply()
-           data?.let {
-               val info = UserInfo(data.accountId, data.name, Uri.parse("" + data.picUrl))
-               RongIM.getInstance().refreshUserInfoCache(info)
-           }
-           if (data?.name == null || data.name!!.isEmpty()) {//如果没有昵称
-               startActivityForResult<SetUserInfoActivity>(3, "name" to name, "gender" to gender, "headerpic" to headerpic, "openid" to openId, "unionid" to unionId)
+           Log.i("login","username=${data?.name}")
+           if (data?.name.isNullOrEmpty()) {//如果没有昵称
+               startActivityForResult<SetUserInfoActivity>(3, "name" to "${name}", "gender" to "${gender}", "headerpic" to "${headerpic}", "openid" to "${openId}", "unionid" to "${unionId}")
            } else {
+               saveUserInfo(data)
+//           SPUtils.instance().put(Const.INSTALL_DATA01,"").apply()
+               data?.let {
+                   val info = UserInfo(it.accountId, "${it.name}", Uri.parse("${it.picUrl}"))
+                   RongIM.getInstance().refreshUserInfoCache(info)
+               }
                SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                startActivity<MainActivity>()
                setResult(Activity.RESULT_OK)

@@ -203,13 +203,12 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
         if(myAppointment.hasGift){
             tv_self_gift.visibility = View.VISIBLE
 
-            myAppointment.giftNum?.let {
-                var num = it
+//            myAppointment.giftNum?.let {
+//                var num = it
                 myAppointment.giftLoveNum?.let {
-                    var count = num * it
-                    tv_self_gift.text = "邀约礼物·${myAppointment.giftName}x${myAppointment.giftNum}(≈${count} [img src=redheart_small/])"
+                    tv_self_gift.text = "邀约礼物·${myAppointment.giftName}(${it}颗 [img src=redheart_small/])" //x${myAppointment.giftNum}
                 }
-            }
+//            }
         }else{
             tv_self_gift.visibility = View.GONE
         }

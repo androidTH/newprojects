@@ -95,7 +95,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
                if(it.hasGift){
                    tv_gift_tips.visibility = View.VISIBLE
                    tv_self_gift.visibility = View.VISIBLE
-                   tv_self_gift.text = "邀约礼物·${it.giftName}x${it.giftNum}(≈${it.giftLoveNum} [img src=redheart_small/])"
+                   tv_self_gift.text = "邀约礼物·${it.giftName}(${it.giftLoveNum}颗 [img src=redheart_small/])" //x${it.giftNum}
                }else{
                    tv_gift_tips.visibility = View.GONE
                    tv_self_gift.visibility = View.GONE

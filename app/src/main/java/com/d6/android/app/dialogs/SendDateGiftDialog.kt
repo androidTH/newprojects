@@ -32,11 +32,11 @@ import org.jetbrains.anko.support.v4.startActivity
 class SendDateGiftDialog : DialogFragment(),RequestManager {
 
     private var mLocalUserLoveHeartCount:Int = -1
-    private var giftNum:Int?=0
-    private var giftLoveNum:Int?=0
+//    private var giftNum:Int?=0
+//    private var giftLoveNum:Int?=0
     private var giftName:String?=""
     private var giftIcon:String?=""
-    private var mLoveGiftSum:Int=0
+    private var mCountHeart:Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,14 +68,15 @@ class SendDateGiftDialog : DialogFragment(),RequestManager {
         if(arguments!=null){
             giftIcon = arguments.getString("gifticon")
             giftName = arguments.getString("giftName")
-            giftLoveNum = arguments.getInt("giftloveNum")
-            giftNum = arguments.getInt("giftNum")
+            mCountHeart = arguments.getInt("countHeart")
+//            giftNum = arguments.getInt("giftNum")
         }
 
         tv_action.setOnClickListener {
             dialogListener?.let {
-                if(mLocalUserLoveHeartCount < mLoveGiftSum){
-                    toast("爱心不足，请充值")
+                if(mLocalUserLoveHeartCount < mCountHeart){
+//                    toast("爱心不足，请充值")
+                    ll_user_lovepoint.visibility = View.VISIBLE
                 }else{
                     it.onClick(1,"payredheart")
                     dismissAllowingStateLoss()
@@ -101,13 +102,7 @@ class SendDateGiftDialog : DialogFragment(),RequestManager {
 //        }
 
         gift_pic.setImageURI(giftIcon)
-        giftLoveNum?.let {
-            var loveNum = it
-            giftNum?.let {
-                mLoveGiftSum = loveNum * it
-                tv_gift_heartnums.text="${mLoveGiftSum} [img src=redheart_small/]"
-            }
-        }
+        tv_gift_heartnums.text="${mCountHeart} [img src=redheart_small/]"
 
         getUserInfo()
 //        var info = UserInfo("${voiceChat?.userid}","${voiceChat?.name}", Uri.parse("${voiceChat?.picUrl}"))
@@ -118,10 +113,10 @@ class SendDateGiftDialog : DialogFragment(),RequestManager {
         Request.getUserInfo(getLocalUserId(), getLocalUserId()).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
                 mLocalUserLoveHeartCount = it.iLovePoint
-                if(mLocalUserLoveHeartCount < mLoveGiftSum){
-                    ll_user_lovepoint.visibility = View.VISIBLE
+                if(mLocalUserLoveHeartCount < mCountHeart){
+                    ll_user_lovepoint.visibility = View.GONE
                     tv_redheart_count.text = "${mLocalUserLoveHeartCount} [img src=redheart_small/]"
-                    tv_redheart_balance.text = "还差 ${mLoveGiftSum-mLocalUserLoveHeartCount}"
+                    tv_redheart_balance.text = "还差 ${mCountHeart-mLocalUserLoveHeartCount}"
                 }else{
                     ll_user_lovepoint.visibility = View.GONE
                 }

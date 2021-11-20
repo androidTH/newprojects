@@ -58,6 +58,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_agree_bottom
 import kotlinx.android.synthetic.main.activity_chat.tv_openchat_no_bottom
 import kotlinx.android.synthetic.main.layout_date_chat.*
+import kotlinx.android.synthetic.main.view_self_release_view.view.*
 import me.nereo.multi_image_selector.utils.FinishActivityManager
 import org.jetbrains.anko.*
 import org.json.JSONObject
@@ -536,8 +537,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         giftNum?.let {
             var mGiftNum = it
             giftLoveNum?.let {
-                var heartNum = it
-                mSendDateGiftDialog.arguments= bundleOf("giftNum" to "${mGiftNum}","giftloveNum" to "${heartNum}","giftName" to "${giftName}","gifticon" to "${giftIcon}")
+                var countHeart = it*mGiftNum
+                mSendDateGiftDialog.arguments= bundleOf("countHeart" to countHeart,"giftName" to "${giftName}","gifticon" to "${giftIcon}")
             }
         }
         mSendDateGiftDialog.show(supportFragmentManager, "gift")
@@ -1018,6 +1019,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
             var drawable = ContextCompat.getDrawable(this, R.mipmap.list_feiyong_icon)
             setLeftDrawable(drawable,tv_datchat_address)
+
+
+            if(mDateHasGift){
+                tv_datechat_gift.visibility = View.VISIBLE
+                tv_datechat_gift.text = "邀约礼物·${appointment.giftName}(${appointment.giftLoveNum}颗 [img src=redheart_small/])" //x${myAppointment.giftNum}
+            }else{
+                tv_datechat_gift.visibility = View.GONE
+            }
         }
 
         var index = 1
@@ -1031,10 +1040,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
         if(index!= Const.dateTypesBig.size){
             var drawable = ContextCompat.getDrawable(this,Const.dateTypesBig[index])
-            setLeftDrawable(drawable,tv_datetype_name)
+            setTopDrawable(drawable,tv_datetype_name)
         }
 
-        tv_datechat_content.text = appointment.sDesc
+        tv_datechat_content.text = "${appointment.sDesc}"
 
         if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(appointment.iAppointUserid.toString(), getLocalUserId())){
             directionDate = 1
@@ -1065,12 +1074,14 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             tv_datechat_no.visibility = View.VISIBLE
             tv_datechat_agree.visibility = View.VISIBLE
             tv_datechat_giveup.visibility = View.GONE
+            tv_help_service_chat.visibility = View.GONE
         }else if(appointment.sAppointmentSignupId.isNotEmpty()&&TextUtils.equals(getLocalUserId(),appointment.iUserid.toString())){
             directionDate = 2
             ISNOTYAODATE = 2
             Const.mVoiceTips.voiceChatdirection = directionDate
             tv_datechat_agree.visibility = View.GONE
             if(sAppointType==6){
+                tv_help_service_chat.visibility = View.GONE
                 tv_date_info.text = "聊天可填充 [img src=heart_gray/]，填满后即可无限聊天"
                 circlebarview.setMaxNum(Max_Angle)
                 appointment.iProgress?.let { it ->
@@ -1150,6 +1161,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             }
 
         }else{
+            tv_dategift_agree.visibility = View.GONE
+            tv_dategift_giveup.visibility = View.GONE
+
             tv_datechat_time.visibility = View.VISIBLE
             tv_dategift_tips.visibility = View.GONE
             setTextViewSpannable(this,"倒计时：${converTime(appointment.dOverduetime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
@@ -1225,7 +1239,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                        getApplyStatus()
                    }
                }
-           })
+           }){code,msg->
+               toast(msg)
+           }
     }
 
     fun updateProgress(iProgress:Int){

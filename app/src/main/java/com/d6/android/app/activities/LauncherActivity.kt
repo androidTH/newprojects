@@ -52,7 +52,7 @@ class LauncherActivity : BaseActivity() {
                     val isLogin = SPUtils.instance().getBoolean(Const.User.IS_LOGIN)
                     if (isLogin) {
                         val name = SPUtils.instance().getString(Const.User.USER_NICK)
-                        if (name.isEmpty()) {
+                        if (name.isNullOrEmpty()) {
                             startActivity<SetUserInfoActivity>()
                         } else {
                             startActivity<MainActivity>()

@@ -222,18 +222,16 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             showGiftDialog()
         }
 
-        tv_gift_type.setOnClickListener {
+        tv_clear_gift.setOnClickListener {
             if(mGiftBeans!=null){
                 tv_gift_type.text = ""
                 tv_gift_type.hint = "选择邀约礼物"
-                tv_gift_type.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.center_moreicon, 0)
+                tv_clear_gift.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.center_moreicon, 0)
                 mGiftBeans = null
                 giftLoveLNum = null
                 giftNum = null
                 giftName = ""
                 giftIcon = ""
-            }else{
-                showGiftDialog()
             }
         }
 
@@ -384,7 +382,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
             if(mGiftBeans!=null){
                 mGiftBeans?.let {
                     tv_gift_type.text = "${s}(${it.loveNum} 颗 [img src=redheart_small/])"
-                    tv_gift_type.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.comment_local_del, 0)
+                    tv_clear_gift.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.comment_local_del, 0)
                     giftLoveLNum = it.loveNum
                     giftNum=1
                     giftName = it.name

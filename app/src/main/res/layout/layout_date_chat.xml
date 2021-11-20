@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_datechat_white"
         android:paddingLeft="@dimen/margin_5"
-        android:paddingTop="@dimen/padding_16"
+        android:paddingTop="@dimen/padding_10"
         android:paddingRight="@dimen/margin_5"
         android:paddingBottom="@dimen/margin_5"
         android:visibility="visible">
@@ -19,7 +19,7 @@
         <RelativeLayout
             android:id="@+id/rl_date_headView"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_5"
             android:layout_marginRight="@dimen/margin_5">
             <TextView
@@ -31,6 +31,17 @@
                 android:textStyle="bold"
                 android:textColor="@color/color_999999"
                 android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_datechat_content"
+                android:layout_toRightOf="@+id/tv_datetype_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_8"
+                android:layout_centerInParent="true"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/color_333333"
+                android:textSize="15sp"/>
         </RelativeLayout>
         <LinearLayout
             android:id="@+id/ll_content"
@@ -46,32 +57,13 @@
                 android:layout_marginBottom="@dimen/margin_5"
                 android:visibility="gone"
                 android:background="@color/color_EFEFEF" />
-
-            <TextView
-                android:id="@+id/tv_datechat_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5"
-                android:paddingLeft="5dp"
-                android:paddingRight="@dimen/padding_16"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:textColor="@color/color_333333"
-                android:textSize="15sp"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_datechat_images"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8"/>
-
             <LinearLayout
                 android:id="@+id/ll_date_dowhat"
-                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginLeft="@dimen/dp_40"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:visibility="gone"
                 android:paddingLeft="@dimen/margin_5">
 
@@ -85,7 +77,24 @@
                     android:textColor="@color/color_888888"
                     android:textSize="12sp" />
 
+                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    android:id="@+id/tv_datechat_gift"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_6"
+                    android:drawableLeft="@mipmap/date_giftsend"
+                    android:textColor="@color/color_888888"
+                    android:drawablePadding="@dimen/margin_3"
+                    android:textSize="12sp"
+                    android:text=""
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_datechat_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"/>
 
             <View
                 android:id="@+id/line_date_dowhat"

@@ -37,7 +37,7 @@
             android:gravity="center"
             android:textSize="12sp"
             android:text="添加礼物后即可同意邀约。见面后确认“赴约“对方将会收到你赠送的礼物，取消赴约礼物将会退还"
-            android:textColor="@color/color_333333" />
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:layout_marginTop="15dp"
@@ -47,10 +47,10 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/gift_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:layout_gravity="center"
-                app:actualImageScaleType="centerInside" />
+                app:actualImageScaleType="fitXY" />
             <com.d6.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_gift_heartnums"
                 android:layout_width="wrap_content"

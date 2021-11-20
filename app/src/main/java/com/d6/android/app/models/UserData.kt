@@ -8,7 +8,7 @@ import java.io.Serializable
  */
 data class UserData(val accountId: String? = "") : Serializable {
     val loginName: String? = ""
-    var name: String? = ""
+    var name: String? = null
     var classesname: String? = ""
     var userclassesid: String? = ""
     var picUrl: String? = ""
