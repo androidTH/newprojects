@@ -17,6 +17,7 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.BLUR_50
 import com.d6.android.app.utils.Const.BLUR_60
 import com.d6.android.app.utils.Const.D6_WWW_TAG
+import com.d6.android.app.utils.Const.Pic_Size_wh400
 import com.facebook.drawee.view.SimpleDraweeView
 import com.google.gson.JsonObject
 import org.jetbrains.anko.backgroundDrawable
@@ -60,7 +61,11 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
             Log.i("VistorAdapter","${data.sPicUrl}数量，身高${data.shengao},位置：${data.sPosition}")
 
         }else{
-            headView.setImageURI(data.sPicUrl)
+            if("${data.sPicUrl}".contains("p22l7xdxa.bkt.clouddn.com")){
+                headView.setImageURI("${data.sPicUrl}?imageView2/blur/1x1")
+            }else{
+                headView.setImageURI(data.sPicUrl)
+            }
             holder.setText(R.id.tv_name,data.sUserName)
         }
 

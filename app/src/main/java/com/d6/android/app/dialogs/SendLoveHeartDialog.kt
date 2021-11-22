@@ -59,7 +59,7 @@ class SendLoveHeartDialog : DialogFragment() {
     private var mBuyRedHeartAdapter: BuyRedHeartAdapter?=null
     private var mToFromType = 0//1 动态详情页送小红花 2 动态列表送小红花 3 聊天输入框扩展框 4 个人信息页动态送小红花 5 申请私聊送小红花
     private var mSendLoveHeartCount:Int? = -1
-    private var mLocalUserLoveHeartCount:Int? = -1
+    private var mLocalUserLoveHeartCount:Int = -1
     private var mSquare:Square? = null
     private var mLoveHeartList=ArrayList<LoveHeartRule>()
     private var iIsAnonymous:String= "2"
@@ -115,42 +115,53 @@ class SendLoveHeartDialog : DialogFragment() {
         rv_send_redheart.adapter = mBuyRedHeartAdapter
 
         mBuyRedHeartAdapter?.setOnItemClickListener() { adapter, view, position ->
-            mBuyRedHeartAdapter?.let {
-                if(it.selectedIndex == position){
-                    it.selectedIndex= -1
-                }else{
-                    it.selectedIndex = position
-                    mSendLoveHeartCount = it.data.get(position).iLoveCount
-                }
-                var desc = it.data.get(position).sDesc
-                it.notifyDataSetChanged()
-                if(ToFromType!=1){
-                    mSendLoveHeartCount = it.data.get(position).iLoveCount
-                    mSendLoveHeartCount?.let {
-                        if(it<=mLocalUserLoveHeartCount!!.toInt()){
-                            dialogListener?.onClick(it, "${desc}")
-                            dismissAllowingStateLoss()
-                        }else{
-                            tv_redheart_balance.text = "还差${mSendLoveHeartCount!!.toInt()-mLocalUserLoveHeartCount!!.toInt()}"
-                            ll_user_lovepoint.visibility = View.VISIBLE
-                        }
+            try {
+                mBuyRedHeartAdapter?.let {
+                    if(it.selectedIndex == position){
+                        it.selectedIndex= -1
+                    }else{
+                        it.selectedIndex = position
                     }
-                }else{
-                    isBaseActivity {
-                        Request.sendLovePoint(getLoginToken(), "${id}", mSendLoveHeartCount!!.toInt(), 4,"","",desc).request(it, false, success = { _, data ->
-                            Log.i("GiftControl", "礼物数量${mSendLoveHeartCount}")
-                            dismissAllowingStateLoss()
-                        }) { code, msg ->
-                            if (code == 2||code==3) {
-                                var mSendRedHeartEndDialog = SendRedHeartEndDialog()
-                                mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
+                    it.notifyDataSetChanged()
+                    if(ToFromType!=1){
+                        var bean = it.data.get(position)
+                        if (bean != null) {
+                            var desc = bean.sDesc
+                            mSendLoveHeartCount = bean.iLoveCount
+                            mSendLoveHeartCount?.let {
+                                if (it <= mLocalUserLoveHeartCount) {
+                                    dialogListener?.onClick(it, "${desc}")
+                                    dismissAllowingStateLoss()
+                                } else {
+                                    tv_redheart_balance.text = "还差${mSendLoveHeartCount!!.toInt() - mLocalUserLoveHeartCount}"
+                                    ll_user_lovepoint.visibility = View.VISIBLE
+                                }
+                            }
+                        }
+                    }else{
+                        var bean = it.data.get(position)
+                        isBaseActivity {
+                            if(bean!=null){
+                                mSendLoveHeartCount =bean.iLoveCount
+                                var sDesc = bean.sDesc
+                            Request.sendLovePoint(getLoginToken(), "${id}", mSendLoveHeartCount!!.toInt(), 4,"","",sDesc).request(it, false, success = { _, data ->
+                                Log.i("GiftControl", "礼物数量${mSendLoveHeartCount}")
                                 dismissAllowingStateLoss()
-                            }else{
-                                it.toast(msg)
+                            }) { code, msg ->
+                                if (code == 2||code==3) {
+                                    var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                                    mSendRedHeartEndDialog.show(it.supportFragmentManager, "redheartendDialog")
+                                    dismissAllowingStateLoss()
+                                }else{
+                                    it.toast(msg)
+                                }
+                            }
                             }
                         }
                     }
                 }
+            }catch (e:Exception){
+                e.printStackTrace()
             }
         }
 
@@ -211,12 +222,18 @@ class SendLoveHeartDialog : DialogFragment() {
     private fun getUserInfo(id: String) {
         Request.getUserInfo(getLocalUserId(), id).request((context as BaseActivity),false,success= { msg, data ->
             data?.let {
-                iv_redheart_headView.setImageURI(it.picUrl)
+//                if(iv_redheart_headView!=null){
+//                    iv_redheart_headView.setImageURI(it.picUrl)
+//                }
                 if(it.iMySendAllLovePoint>0){
-                    tv_redheart_name.text = "已送对方${it.iMySendAllLovePoint} [img src=redheart_small/]"
+                    if(tv_redheart_name!=null){
+                        tv_redheart_name.text = "已送对方${it.iMySendAllLovePoint} [img src=redheart_small/]"
+                    }
                 }else{
-                    tv_redheart_name.text = "给对方送喜欢 [img src=redheart_small/]"
-                    tv_redheart_name.visibility = View.VISIBLE
+                    if(tv_redheart_name!=null){
+                        tv_redheart_name.text = "给对方送喜欢 [img src=redheart_small/]"
+                        tv_redheart_name.visibility = View.VISIBLE
+                    }
                 }
             }
         })

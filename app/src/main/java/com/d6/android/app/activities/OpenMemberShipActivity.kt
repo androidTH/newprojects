@@ -139,7 +139,7 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
                             var ids = member.ids
                             ids?.let { it1 ->
                                 mPayWayDialog = PayWayDialog()
-                                mPayWayDialog?.arguments = bundleOf("money" to "${it}","classname" to "${member.classesname}")
+                                mPayWayDialog?.arguments = bundleOf("ids" to "${member.ids}","money" to "${it}","classname" to "${member.classesname}")
                                 mPayWayDialog?.setDialogListener { p, s ->
                                     if(p==1){
                                         buyRedFlowerPay(it, areaName, it1, member.classesname.toString(),PayWay.WechatPay,p)
@@ -167,7 +167,7 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
                                     var pirce = s?.let { it.toInt() }
                                     member.ids?.let {
                                         mPayWayDialog = PayWayDialog()
-                                        mPayWayDialog?.arguments = bundleOf("money" to "${pirce}","classname" to "${member.classesname}")
+                                        mPayWayDialog?.arguments = bundleOf("ids" to "${member.ids}","money" to "${pirce}","classname" to "${member.classesname}")
                                         mPayWayDialog?.setDialogListener { p, s ->
                                             if(p==1){
                                                buyRedFlowerPay(pirce, "", it, "${member.classesname}",PayWay.WechatPay,p)
@@ -194,7 +194,7 @@ class OpenMemberShipActivity : BaseActivity(),DiscreteScrollView.ScrollStateChan
                                 //支付
                                 var money = s
                                 mPayWayDialog = PayWayDialog()
-                                mPayWayDialog?.arguments = bundleOf("money" to "${money}","classname" to "${member.classesname}")
+                                mPayWayDialog?.arguments = bundleOf("ids" to "${member.ids}","money" to "${money}","classname" to "${member.classesname}")
                                 mPayWayDialog?.setDialogListener { p, s ->
                                     member.ids?.let {
                                         if(!TextUtils.equals("",money)){

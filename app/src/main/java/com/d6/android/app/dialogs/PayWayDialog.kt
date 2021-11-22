@@ -34,7 +34,7 @@ class PayWayDialog : DialogFragment(),RequestManager {
     }
 
     private val compositeDisposable by lazy {
-        CompositeDisposable()
+         CompositeDisposable()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,6 +75,18 @@ class PayWayDialog : DialogFragment(),RequestManager {
 
         tv_money.text = "¥${money}"
         tv_money_desc.text = "购买${desc}"
+
+        var ids = if(arguments.containsKey("ids")){
+                arguments.getString("ids")
+        }else{
+            "-1"
+        }
+
+        if(TextUtils.equals("25",ids)||TextUtils.equals("26",ids)){
+            rl_wechatpay.visibility = View.GONE
+        }else{
+            rl_wechatpay.visibility = View.VISIBLE
+        }
 //        money?.let {
 //            if(it.isNotEmpty()){
 //                if(it.toInt()>=3000){

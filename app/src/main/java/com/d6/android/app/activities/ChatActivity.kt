@@ -469,27 +469,29 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         iv_privatechat_sendredheart.setOnClickListener {
             isAuthUser {
                 if (TextUtils.equals(getUserSex(), "0")) {
-                    addGiftNums(1,false,false,"")
-                    VibrateHelp.Vibrate(this,VibrateHelp.time50)
+                    addGiftNums(1, false, false, "")
+                    VibrateHelp.Vibrate(this, VibrateHelp.time50)
                 }else{
-                    var mSendLoveHeartDialog = SendLoveHeartDialog()
-                    mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
-                    mSendLoveHeartDialog.setDialogListener { p, s ->
-                        addGiftNums(p, false, true, "${s}")
+                    if (!isFastClick()) {
+                        var mSendLoveHeartDialog = SendLoveHeartDialog()
+                        mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
+                        mSendLoveHeartDialog.setDialogListener { p, s ->
+                            addGiftNums(p, false, true, "${s}")
+                        }
+                        mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
                     }
-                    mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
                 }
             }
         }
 
         iv_privatechat_sendredheart.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
-                var mSendLoveHeartDialog = SendLoveHeartDialog()
-                mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mOtherUserId}")
-                mSendLoveHeartDialog.setDialogListener { p, s ->
-                    addGiftNums(p, false,true,"${s}")
-                }
-                mSendLoveHeartDialog.show(supportFragmentManager, "sendloveheartDialog")
+                var  mSendLoveHeartDialog = SendLoveHeartDialog()
+                    mSendLoveHeartDialog?.arguments = bundleOf("userId" to "${mOtherUserId}")
+                    mSendLoveHeartDialog?.setDialogListener { p, s ->
+                        addGiftNums(p, false,true,"${s}")
+                    }
+                mSendLoveHeartDialog?.show(supportFragmentManager, "sendloveheartDialog")
                 return true
             }
         })

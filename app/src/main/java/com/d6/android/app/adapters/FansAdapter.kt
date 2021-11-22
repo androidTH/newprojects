@@ -54,8 +54,6 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
             }
             holder.setText(R.id.tv_name,"匿名")
 
-            Log.i("fansAdapter","${data.sPicUrl}${BLUR_60}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
-
         }else{
             headView.setImageURI(data.sPicUrl)
             holder.setText(R.id.tv_name,data.sSendUserName)
@@ -71,6 +69,8 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
 //                tv_userinfo.visibility = View.GONE
 //            }
         }
+        Log.i("fansAdapter","${data.sPicUrl}数量,名字：${data.sSendUserName},身高${data.shengao},位置：${data.sPosition}")
+
         val tv_sex = holder.bind<TextView>(R.id.tv_sex)
         val tv_age = holder.bind<TextView>(R.id.tv_age)
         tv_sex.isSelected = TextUtils.equals("0", data.sSex)

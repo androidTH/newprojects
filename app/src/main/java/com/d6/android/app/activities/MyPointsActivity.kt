@@ -403,7 +403,7 @@ class MyPointsActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private fun showPayWay(iPoint:Int?,iPrice:Int?,buyType:Int,goodsName:String){
         mPayWayDialog = PayWayDialog()
-        mPayWayDialog?.arguments = bundleOf("money" to "${iPrice}","classname" to "${goodsName}")
+        mPayWayDialog?.arguments = bundleOf("ids" to "-1","money" to "${iPrice}","classname" to "${goodsName}")
         mPayWayDialog?.setDialogListener { p, s ->
             if(p==1){
                 payMoney(iPoint,iPrice,buyType,"${goodsName}",PayWay.WechatPay,p)

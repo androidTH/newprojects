@@ -71,7 +71,7 @@ class FansActivity : RecyclerActivity() {
                 startActivity<UserInfoActivity>("id" to id.toString())
             }else{
                 isAuthUser() {
-                    DoSeeUserInfo(fans)
+                    DoSeeUserInfo(fans,position,false)
                 }
             }
         }
@@ -83,7 +83,7 @@ class FansActivity : RecyclerActivity() {
                 startActivity<UserInfoActivity>("id" to id.toString())
             }else{
                 isAuthUser(){
-                    DoSeeUserInfo(fans)
+                    DoSeeUserInfo(fans,position,true)
                 }
             }
         }
@@ -106,11 +106,11 @@ class FansActivity : RecyclerActivity() {
 //        addItemDecoration(divider)
         addItemDecoration(RxRecyclerViewDividerTool(dip(10)))
         dialog()
+        getData()
     }
 
     override fun onResume() {
         super.onResume()
-        getData()
     }
 
     private fun getData() {
@@ -176,7 +176,7 @@ class FansActivity : RecyclerActivity() {
         }
     }
 
-    private fun DoSeeUserInfo(loveHeartFans:LoveHeartFans){
+    private fun DoSeeUserInfo(loveHeartFans:LoveHeartFans,positon:Int,IsHeader:Boolean){
         Request.getAnyonousPointQueryAuth(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
             startActivity<UserInfoActivity>("id" to "${loveHeartFans.iSenduserid}")
         }){code,msg->
@@ -190,6 +190,12 @@ class FansActivity : RecyclerActivity() {
                     vistorUserDialog.arguments = bundleOf("point" to "${iAddPoint}", "pointdesc" to sAddPointDesc, "type" to 3)
                     vistorUserDialog.setDialogListener { p, s ->
                         Request.getUserAnonymousPayPoint(getLoginToken(),"${loveHeartFans.iSenduserid}").request(this,false,success={_,data->
+                            loveHeartFans.iIsCode = 2
+                            if(IsHeader){
+                                mHeaderLikedAdapter.notifyDataSetChanged()
+                            }else{
+                                fansAdapter.notifyDataSetChanged()
+                            }
                             startActivity<UserInfoActivity>("id" to "${loveHeartFans.iSenduserid}")
                         })
                     }

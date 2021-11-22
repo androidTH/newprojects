@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -68,7 +69,7 @@ class VistorsActivity : RecyclerActivity() {
                 startActivity<UserInfoActivity>("id" to "${vistor.iVistorid}")
             }else{
                 isAuthUser() {
-                    DoSeeUserInfo(vistor)
+                    DoSeeUserInfo(vistor,position)
                 }
             }
         }
@@ -90,11 +91,12 @@ class VistorsActivity : RecyclerActivity() {
 //                .build()
         addItemDecoration(RxRecyclerViewDividerTool(dip(10)))
         dialog()
+
+        getData()
     }
 
     override fun onResume() {
         super.onResume()
-        getData()
     }
 
     private fun getData() {
@@ -122,7 +124,7 @@ class VistorsActivity : RecyclerActivity() {
         }
     }
 
-    private fun DoSeeUserInfo(vistor:Fans){
+    private fun DoSeeUserInfo(vistor:Fans,positon:Int){
         Request.getAnyonousPointQueryAuth(getLoginToken(),"${vistor.iVistorid}").request(this,false,success={_,data->
             startActivity<UserInfoActivity>("id" to "${vistor.iVistorid}")
         }){code,msg->
@@ -136,6 +138,8 @@ class VistorsActivity : RecyclerActivity() {
                     vistorUserDialog.arguments = bundleOf("point" to "${iAddPoint}", "pointdesc" to sAddPointDesc, "type" to 3)
                     vistorUserDialog.setDialogListener { p, s ->
                         Request.getUserAnonymousPayPoint(getLoginToken(),"${vistor.iVistorid}").request(this,false,success={_,data->
+                            vistor.iIsCode = 2
+                            vistorAdapter.notifyItemChanged(positon,"vistor")
                             startActivity<UserInfoActivity>("id" to "${vistor.iVistorid}")
                         })
                     }
