@@ -72,4 +72,10 @@ data class Square(@SerializedName("ids") val id: String? = ""):Serializable {
     var sIfSeePics:String?=""
     var iFeeType:Int?=0
     var desc:String = ""
+    var giftNum:Int?=0
+    var giftLoveNum:Int?=0
+    var giftName:String?=""
+    var giftIcon:String?=""
+    var hasGift:Boolean=false
+
 }

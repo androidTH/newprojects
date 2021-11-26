@@ -19,6 +19,24 @@ import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import kotlinx.android.synthetic.main.view_dateofsquare_view.view.*
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.headView
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.img_self_auther
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.iv_date_timeout
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.iv_self_servicesign
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.rv_images
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_content
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_date_more
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_date_nums
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_date_user_age
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_date_user_sex
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_datetype_name
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_name
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_self_address
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_self_gift
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_self_money
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_send_date
+import kotlinx.android.synthetic.main.view_dateofsquare_view.view.tv_time_long
+import kotlinx.android.synthetic.main.view_self_release_view.view.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.dip
@@ -191,6 +209,15 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             }else{
                 tv_date_nums.text = ""
             }
+        }
+
+        if(date.hasGift){
+            tv_self_gift.visibility = View.VISIBLE
+            date.giftLoveNum?.let {
+                tv_self_gift.text = "邀约礼物·${date.giftName}(${it}颗 [img src=redheart_small/])" //x${myAppointment.giftNum}
+            }
+        }else{
+            tv_self_gift.visibility = View.GONE
         }
     }
 

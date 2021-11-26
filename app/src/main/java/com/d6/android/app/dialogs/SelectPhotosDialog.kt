@@ -84,7 +84,7 @@ class SelectPhotosDialog : DialogFragment() {
         //选择相册
         find<Button>(android.R.id.button2).onClick {
             isBaseActivity {
-                RxPermissions(it).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe {
+                RxPermissions(it).request(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE).subscribe {
                     if (it) {//有权限
                         dialogListener?.onClick(1,"")
                         dismissAllowingStateLoss()

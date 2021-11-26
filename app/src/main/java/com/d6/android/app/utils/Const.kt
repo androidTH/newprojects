@@ -69,8 +69,8 @@ object Const {
     val MINE_MANSERVICE_YOUKE = "com.d6.app.mine_manservice_youke"//我的关注 粉丝提醒
     val HOMEDATE_STATEBAR = "com.d6.app.homedate_statebar"//约会状态栏
     val BUGTAGS_KEY = "e3ed18af47d9993fbfbc5dc02194079e"
-//    val UMENG_APPKEY = "57c3f326677baa41db000b98"//线上：5a5b309af29d9835ae000262 测试：57c3f326677baa41db000b98
-    val UMENG_APPKEY = "5a5b309af29d9835ae000262"//线上：5a5b309af29d9835ae000262 测试：57c3f326677baa41db000b98
+    val UMENG_APPKEY = "57c3f326677baa41db000b98"//线上：5a5b309af29d9835ae000262 测试：57c3f326677baa41db000b98
+//    val UMENG_APPKEY = "5a5b309af29d9835ae000262"//线上：5a5b309af29d9835ae000262 测试：57c3f326677baa41db000b98
     val UMENG_MESSAGE_SECRET = "0f16af7d3011a5aad7cf82a996b6b94c"//线上：0f16af7d3011a5aad7cf82a996b6b94c
     val XIAOMIAPPID="2882303761517748078"
     val XIAOMIAPPKEY = "5141774885078"

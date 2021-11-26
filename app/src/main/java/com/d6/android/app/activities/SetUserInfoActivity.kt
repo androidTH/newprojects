@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextUtils
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.RadioButton
@@ -21,19 +20,20 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
+import com.d6.android.app.utils.luban.CompressionPredicate
+import com.d6.android.app.utils.luban.Luban
+import com.d6.android.app.utils.luban.OnCompressListener
 import com.d6.android.app.widget.MaxEditTextWatcher
-import com.fm.openinstall.OpenInstall
+import com.xinstall.XInstall
+import io.reactivex.Flowable
+import io.rong.imkit.RongIM
+import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_set_user_info.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import java.io.File
 import java.util.*
-import android.content.pm.PackageManager.MATCH_DEFAULT_ONLY
-import com.xinstall.XInstall
-import io.reactivex.Flowable
-import io.rong.imkit.RongIM
-import io.rong.imlib.model.UserInfo
 
 
 /**
@@ -67,7 +67,7 @@ class SetUserInfoActivity : BaseActivity() {
         }
 
         if(name.length>8){
-            name = name.substring(0,8)
+            name = name.substring(0, 8)
         }
         et_nick.setText(name)
 
@@ -86,7 +86,7 @@ class SetUserInfoActivity : BaseActivity() {
         sex = if (intent.hasExtra("gender")) {
             val s = intent.getStringExtra("gender")
             when (s) {
-                "男" ->{
+                "男" -> {
                     rb_male.isChecked = true
                     rb_female.isChecked = false
                     1
@@ -121,7 +121,7 @@ class SetUserInfoActivity : BaseActivity() {
 //            startActivityForResult<SelectPhotoDialog>(0)
 
             var mSelectPhotoDialog = SelectPhotosDialog()
-            mSelectPhotoDialog.show(supportFragmentManager,"dsate")
+            mSelectPhotoDialog.show(supportFragmentManager, "dsate")
             mSelectPhotoDialog.setDialogListener { p, s ->
                 if(p==0){
                     AppUtils.initFilePath()
@@ -166,7 +166,7 @@ class SetUserInfoActivity : BaseActivity() {
             update()
         }
 
-        et_nick.addTextChangedListener(object: MaxEditTextWatcher(CHINESE_TWO,16,this,et_nick){
+        et_nick.addTextChangedListener(object : MaxEditTextWatcher(CHINESE_TWO, 16, this, et_nick) {
             override fun onTextChanged(charSequence: CharSequence?, i: Int, i1: Int, i2: Int) {
 
             }
@@ -185,7 +185,7 @@ class SetUserInfoActivity : BaseActivity() {
         tv_change_head.gone()
         val s = "注册成功后性别将不可以修改"
         tv_info.text = SpanBuilder(s)
-                .color(this,s.length-5,s.length-2,R.color.orange_f6a)
+                .color(this, s.length - 5, s.length - 2, R.color.orange_f6a)
                 .build()
 
 //        OpenInstall.reportRegister()
@@ -282,7 +282,46 @@ class SetUserInfoActivity : BaseActivity() {
         user.sUnionid = unionId
         dialog()
         if(ISNOTEDIT){
-            Flowable.just(headFilePath).flatMap {
+            Luban.with(this)
+                    .load(headFilePath)
+                    .ignoreBy(900)
+                    .filter(object : CompressionPredicate {
+                        override fun apply(path: String): Boolean {
+                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"))
+                        }
+                    }).setCompressListener(object : OnCompressListener {
+                        override fun onStart() {
+
+                        }
+
+                        override fun onSuccess(file: File) {
+                            if(file!=null){
+                                Request.uploadFile(file).flatMap {
+                                    user.picUrl = it
+                                    Request.updateUserInfo(user)
+                                }.request(this@SetUserInfoActivity) { _, data ->
+                                    clearLoginToken()
+                                    SPUtils.instance()
+                                            .put(Const.User.IS_LOGIN, true)
+                                            .put(Const.User.USER_NICK, nick)
+                                            .put(Const.User.USER_HEAD, user.picUrl)
+                                            .put(Const.User.USER_SEX, user.sex)
+                                            .put(Const.User.SLOGINTOKEN, data?.sLoginToken)
+                                            .apply()
+                                    XInstall.reportEvent("perfectprofile", 1)//完善资料成功时上报
+                                    startActivity<MainActivity>()
+                                    dismissDialog()
+                                    setResult(Activity.RESULT_OK)
+                                    finish()
+                                }
+                            }
+                        }
+
+                        override fun onError(e: Throwable?) {
+
+                        }
+                    }).launch()
+            /*Flowable.just(headFilePath).flatMap {
                 val file = BitmapUtils.compressImageFile("$headFilePath")
                 Request.uploadFile(file)
             }.flatMap {
@@ -291,54 +330,36 @@ class SetUserInfoActivity : BaseActivity() {
             }.request(this){ _, data ->
                 clearLoginToken()
                 SPUtils.instance()
-                        .put(Const.User.IS_LOGIN,true)
+                        .put(Const.User.IS_LOGIN, true)
                         .put(Const.User.USER_NICK, nick)
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
-                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
+                        .put(Const.User.SLOGINTOKEN, data?.sLoginToken)
                         .apply()
                 val info = UserInfo(accountId, "${user.name}", Uri.parse("${user.picUrl}"))
                 RongIM.getInstance().refreshUserInfoCache(info)
 //                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
-                XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
+                XInstall.reportEvent("perfectprofile", 1)//完善资料成功时上报
                 startActivity<MainActivity>()
+                dismissDialog()
                 setResult(Activity.RESULT_OK)
                 finish()
-            }
+            }*/
 
-//            Request.uploadFile(File(headFilePath)).flatMap {
-//                user.picUrl = it
-//                Request.updateUserInfo(user)
-//            }.request(this) { _, data ->
-//                clearLoginToken()
-//                SPUtils.instance()
-//                        .put(Const.User.IS_LOGIN,true)
-//                        .put(Const.User.USER_NICK, nick)
-//                        .put(Const.User.USER_HEAD, user.picUrl)
-//                        .put(Const.User.USER_SEX, user.sex)
-//                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
-//                        .apply()
-////                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
-//                XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
-//                startActivity<MainActivity>()
-//                dismissDialog()
-//                setResult(Activity.RESULT_OK)
-//                finish()
-//            }
         }else{
             user.picUrl = headFilePath
-            Request.updateUserInfo(user).request(this, success = {msg,data->
+            Request.updateUserInfo(user).request(this, success = { msg, data ->
                 clearLoginToken()
                 SPUtils.instance()
-                        .put(Const.User.IS_LOGIN,true)
+                        .put(Const.User.IS_LOGIN, true)
                         .put(Const.User.USER_NICK, nick)
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
-                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
+                        .put(Const.User.SLOGINTOKEN, data?.sLoginToken)
                         .apply()
                 val info = UserInfo(accountId, "${user.name}", Uri.parse("${user.picUrl}"))
                 RongIM.getInstance().refreshUserInfoCache(info)
-                XInstall.reportEvent("perfectprofile",1)//完善资料成功时上报
+                XInstall.reportEvent("perfectprofile", 1)//完善资料成功时上报
 //                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
                 startActivity<MainActivity>()
                 dismissDialog()

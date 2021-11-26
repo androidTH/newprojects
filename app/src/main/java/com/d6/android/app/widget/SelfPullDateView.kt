@@ -200,7 +200,7 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        if(myAppointment.hasGift){
+        if(myAppointment.hasGift&&myAppointment.iAppointType!=6){
             tv_self_gift.visibility = View.VISIBLE
 
 //            myAppointment.giftNum?.let {

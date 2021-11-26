@@ -636,11 +636,11 @@ class PublishFindDateActivity : BaseActivity(), Observer {
 
     private fun CreateDateOfPics(content: String) {
         val temp = mImages.filter { it.type != 1 }
-        Flowable.fromIterable(temp).subscribeOn(Schedulers.io()).flatMap {
+        Flowable.fromIterable(temp).flatMap {
             //压缩
             val b = BitmapUtils.compressImageFile(it.path)
             Flowable.just(b)
-        }.flatMap {
+        }.subscribeOn(Schedulers.io()).flatMap {
             Request.uploadFile(it)
         }.toList().toFlowable().flatMap {
             val sb = StringBuilder()

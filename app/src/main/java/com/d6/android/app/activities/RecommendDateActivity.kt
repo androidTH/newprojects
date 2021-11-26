@@ -28,6 +28,7 @@ import com.facebook.drawee.backends.pipeline.Fresco
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_recommend_date.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 /**
  * 全部人工推荐
@@ -131,9 +132,11 @@ class RecommendDateActivity : BaseActivity() {
         }else{
             try{
                 var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-                setLocationCity()
-                ProvinceData?.add(0,province)
-                mPopupArea.setData(ProvinceData)
+                ProvinceData?.let {
+                    setLocationCity()
+                    it.add(0,province)
+                    mPopupArea.setData(ProvinceData)
+                }
             }catch(e:Exception){
                 e.printStackTrace()
                 getProvinceData()
@@ -211,6 +214,7 @@ class RecommendDateActivity : BaseActivity() {
     //设置不限
     private fun setLocationCity(){
 //        var city = City("","不限地区")
+
         var sameCity = SPUtils.instance().getString(Const.User.USER_PROVINCE)
         var city = City("", getReplace(sameCity))
         city.isSelected = true
@@ -256,6 +260,7 @@ class RecommendDateActivity : BaseActivity() {
                 startLocation()
                 SPUtils.instance().put(Const.User.ISNOTLOCATION,false).apply()
             }else{
+                toast("请前往系统设置开启定位权限")
                 SPUtils.instance().put(Const.User.ISNOTLOCATION,true).apply()
             }
         }
@@ -268,7 +273,18 @@ class RecommendDateActivity : BaseActivity() {
                 getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
 
                 tv_date_city.text = getReplace(it.province)
-                mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,"${tv_date_city.text}")
+//                mFragments.get(pageSelected).getFindRecommend(mRecommentTypes.get(pageSelected).type,"${tv_date_city.text}")
+
+
+//                mFragments.get(0).getFindRecommend("","${tv_date_city.text}")
+//
+//                mFragments.get(1).getFindRecommend("5","${tv_date_city.text}")
+//
+//                mFragments.get(2).getFindRecommend("2","${tv_date_city.text}")
+//
+//                mFragments.get(3).getFindRecommend("3","${tv_date_city.text}")
+//
+//                mFragments.get(4).getFindRecommend("4","${tv_date_city.text}")
 
                 if(mPopupArea!=null){
                     mPopupArea.updateCityOfProvice()

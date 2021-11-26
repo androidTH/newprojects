@@ -43,6 +43,7 @@ import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.toast
 import java.lang.Exception
 
 /**
@@ -319,6 +320,34 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         }
     }
 
+    private fun ReCheckLocation(){
+        RxPermissions(activity).request(Manifest.permission.ACCESS_COARSE_LOCATION).subscribe {
+            if (it) {
+                startLocation()
+                SPUtils.instance().put(ISNOTLOCATION,false).apply()
+            }else{
+                toast("请前往系统设置开启定位权限")
+                SPUtils.instance().put(ISNOTLOCATION,true).apply()
+            }
+        }
+
+        locationClient.setLocationListener {
+            if (it != null) {
+                locationClient.stopLocation()
+                SPUtils.instance().put(USER_ADDRESS,it.city).apply() //it.city
+                SPUtils.instance().put(USER_PROVINCE,it.province).apply()
+                getUserLocation(it.city,it.province,it.country,"${it.latitude}","${it.longitude}")
+
+                city = getReplace(it.province)
+                tv_date_city.text = city
+//                getFragment()
+                if(mPopupArea!=null){
+                    mPopupArea.updateCityOfProvice()
+                }
+            }
+        }
+    }
+
     /**
      * 经纬度提交给服务端
      */
@@ -336,9 +365,11 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
                     getServiceProvinceData()
                 } else {
                     var ProvinceData: MutableList<Province>? = GsonHelper.jsonToList(cityJson, Province::class.java)
-                    setLocationCity()
-                    ProvinceData!!.add(0,province)
-                    mPopupArea.setData(ProvinceData)
+                    ProvinceData?.let {
+                        setLocationCity(3)
+                        it.add(0,province)
+                        mPopupArea.setData(ProvinceData)
+                    }
                 }
             }
         }catch (e:Exception){
@@ -351,7 +382,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
             data?.let {
                 DiskFileUtils.getDiskLruCacheHelper(context).put(Const.PROVINCE_DATAOFFIND, GsonHelper.getGson().toJson(it))
                 SPUtils.instance().put(Const.LASTTIMEOFPROVINCEINFIND,getTodayTime()).apply()
-                setLocationCity()
+                setLocationCity(3)
                 it.add(0,province)
                 mPopupArea.setData(it)
             }
@@ -382,11 +413,19 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     //设置定位城市
-    private fun setLocationCity(){
-        var sameCity = SPUtils.instance().getString(USER_PROVINCE)
-        var city = City("", getReplace(sameCity))
-        city.isSelected = true
-        province.lstDicts.add(city)
+    private fun setLocationCity(flag:Int){
+        if(flag==2){
+            SPUtils.instance().put(USER_ADDRESS,"").apply() //it.city
+            SPUtils.instance().put(USER_PROVINCE,"").apply()
+            var city = City("","")
+            city.isSelected = true
+            province.lstDicts.add(city)
+        }else{
+            var sameCity = SPUtils.instance().getString(USER_PROVINCE)
+            var city = City("", getReplace(sameCity))
+            city.isSelected = true
+            province.lstDicts.add(city)
+        }
     }
 
     lateinit var mPopupArea: AreaSelectedPopup
@@ -396,7 +435,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
         mPopupArea.setOnPopupItemClick { basePopup, position, string ->
             if(position == -2){
                 //定位失败
-                checkLocation()
+                ReCheckLocation()
             }else{
                 if(position == -1){
                     tv_date_city.text = "同城"

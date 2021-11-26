@@ -24,8 +24,12 @@ import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.User.ISNOTLOCATION
+import com.d6.android.app.utils.luban.CompressionPredicate
+import com.d6.android.app.utils.luban.Luban
+import com.d6.android.app.utils.luban.OnCompressListener
 import com.d6.android.app.widget.MaxEditTextWatcher
 import com.d6.android.app.widget.ObserverManager
+import com.xinstall.XInstall
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration
 import io.reactivex.Flowable
 import io.reactivex.schedulers.Schedulers
@@ -529,32 +533,51 @@ class MyInfoActivity : BaseActivity(),Observer{
                 finish()
             }
         } else {
-            Flowable.just(headFilePath).flatMap {
-                val file = BitmapUtils.compressImageFile("$headFilePath")
-                Request.uploadFile(file)
-            }.flatMap {
-                userData.picUrl = it
-                Request.updateUserInfo(userData)
-            }.request(this) { msg,_ ->
-                dismissDialog()
-                showToast(msg.toString())
-                setResult(Activity.RESULT_OK)
-                finish()
-
-            }
-
-
-//            Request.uploadFile(File(headFilePath)).flatMap {
-//                sysErr("----------------->$it")
-//                dismissDialog()
+//            Flowable.just(headFilePath).flatMap {
+//                val file = BitmapUtils.compressImageFile("$headFilePath")
+//                Request.uploadFile(file)
+//            }.flatMap {
 //                userData.picUrl = it
 //                Request.updateUserInfo(userData)
-//            }.request(this) { msg, _ ->
+//            }.request(this) { msg,_ ->
 //                dismissDialog()
 //                showToast(msg.toString())
 //                setResult(Activity.RESULT_OK)
 //                finish()
+//
 //            }
+
+            Luban.with(this)
+                    .load(headFilePath)
+                    .ignoreBy(900)
+                    .filter(object : CompressionPredicate {
+                        override fun apply(path: String): Boolean {
+                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"))
+                        }
+                    }).setCompressListener(object : OnCompressListener {
+                        override fun onStart() {
+
+                        }
+
+                        override fun onSuccess(file: File) {
+                            if(file!=null){
+                                Request.uploadFile(file).flatMap {
+                                    userData.picUrl = it
+                                    Request.updateUserInfo(userData)
+                                }.request(this@MyInfoActivity) { msg, _ ->
+                                    dismissDialog()
+                                    showToast(msg.toString())
+                                    setResult(Activity.RESULT_OK)
+                                    finish()
+                                }
+                            }
+                        }
+
+                        override fun onError(e: Throwable?) {
+
+                        }
+                    }).launch()
+
         }
     }
 

@@ -71,6 +71,17 @@
                     android:id="@+id/tv_datchat_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:drawableLeft="@mipmap/local_list_icon"
+                    android:textColor="@color/color_888888"
+                    android:drawablePadding="@dimen/margin_3"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_datchat_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:drawableLeft="@mipmap/time_list_icon"
                     android:drawablePadding="@dimen/margin_2"
                     android:textStyle="bold"
@@ -81,7 +92,7 @@
                     android:id="@+id/tv_datechat_gift"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_6"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:drawableLeft="@mipmap/date_giftsend"
                     android:textColor="@color/color_888888"
                     android:drawablePadding="@dimen/margin_3"

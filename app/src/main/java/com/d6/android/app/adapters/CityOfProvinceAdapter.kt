@@ -13,7 +13,6 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.d6.android.app.R
 import com.d6.android.app.models.Province
 import com.d6.android.app.utils.Const
-import com.d6.android.app.utils.Const.User.USER_ADDRESS
 import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.SPUtils
 import com.d6.android.app.utils.getReplace

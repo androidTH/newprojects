@@ -144,6 +144,8 @@ public class AreaSelectedPopup extends BasePopup<AreaSelectedPopup>  {
         if (mOnPopupItemClickListener != null) {
             mOnPopupItemClickListener.onPopupItemClick(this, position,name);
         }
-        dismiss();
+        if(position!=-2){
+            dismiss();
+        }
     }
 }

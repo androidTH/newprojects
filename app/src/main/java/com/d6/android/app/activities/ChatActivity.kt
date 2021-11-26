@@ -994,16 +994,19 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                 line_date_dowhat.visibility = View.GONE
             }
         }else if(sAppointType==9){
+
+            tv_datchat_address.visibility = View.GONE
+            tv_datechat_gift.visibility = View.GONE
             if(appointment.iVoiceConnectType==2){
-                tv_datchat_address.text = "申请者需打赏喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
+                tv_datchat_money.text = "申请者需打赏喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
             }else if(appointment.iVoiceConnectType==3){
-                tv_datchat_address.text = "申请者将获得喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
+                tv_datchat_money.text = "申请者将获得喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
             }else{
-                tv_datchat_address.text = "无需打赏"
+                tv_datchat_money.text = "无需打赏"
             }
             ll_date_dowhat.visibility = View.VISIBLE
             var drawable = ContextCompat.getDrawable(this, R.mipmap.liwu_feed)
-            setLeftDrawable(drawable,tv_datchat_address)
+            setLeftDrawable(drawable,tv_datchat_money)
 
             Const.mVoiceTips.setVoiceChatContent("${appointment?.sDesc}")
             Const.mVoiceTips.setVoiceChatUName("${appointment?.sAppointUserName}")
@@ -1013,15 +1016,16 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             rl_circlebar.visibility = View.GONE
             tv_progress.visibility = View.GONE
             ll_date_dowhat.visibility = View.VISIBLE
+            tv_datchat_address.text = "约会地点：${appointment.sPlace}"
+
             if(appointment.iFeeType==1){
-                tv_datchat_address.text = "约会费用：全包"
+                tv_datchat_money.text = "约会费用：全包"
             }else{
-                tv_datchat_address.text = "约会费用：AA"
+                tv_datchat_money.text = "约会费用：AA"
             }
 
             var drawable = ContextCompat.getDrawable(this, R.mipmap.list_feiyong_icon)
-            setLeftDrawable(drawable,tv_datchat_address)
-
+            setLeftDrawable(drawable,tv_datchat_money)
 
             if(mDateHasGift){
                 tv_datechat_gift.visibility = View.VISIBLE
@@ -1140,9 +1144,9 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             giftNum = appointment.giftNum
 
             if (ISNOTYAODATE == 2) {
-                tv_dategift_tips.text = "对方确认赴约后你可收到·${appointment.giftName}x${appointment.giftNum}"
+                tv_dategift_tips.text = "对方确认赴约后你可收到·${appointment.giftName}"
             } else {
-                tv_dategift_tips.text = "确认赴约后对方可收到·${appointment.giftName}x${appointment.giftNum}"
+                tv_dategift_tips.text = "确认赴约后对方可收到·${appointment.giftName}"
             }
         }
 
