@@ -20,19 +20,26 @@ import org.jetbrains.anko.startActivity
 class SquareMessageAdapter(mData:ArrayList<SquareMessage>): HFRecyclerAdapter<SquareMessage>(mData, R.layout.item_list_square_msg) {
 
     override fun onBind(holder: ViewHolder, position: Int, data: SquareMessage) {
-        holder.setText(R.id.tv_name,data.title)
-        holder.setText(R.id.tv_time,data.createTime?.interval())
-        val headView = holder.bind<SimpleDraweeView>(R.id.headView)
-        headView.setImageURI(data.userPic)
-
+        var tv_name = holder.bind<TextView>(R.id.tv_name)
         var tv_content = holder.bind<TextView>(R.id.tv_content)
+        if(data.title.isNullOrEmpty()){
+            tv_name.visibility = View.GONE
+        }else{
+            tv_name.visibility = View.VISIBLE
+            tv_name.text = "${data.title}"
+        }
+
         if(data.content.isNullOrEmpty()){
             tv_content.visibility = View.GONE
         }else{
             tv_content.visibility = View.VISIBLE
         }
 
-        tv_content.text = data.content
+        tv_content.text = "${data.content}"
+
+        holder.setText(R.id.tv_time,data.createTime?.interval())
+        val headView = holder.bind<SimpleDraweeView>(R.id.headView)
+        headView.setImageURI(data.userPic)
 
         val imageView = holder.bind<SimpleDraweeView>(R.id.imageView)
         val textContent = holder.bind<TextView>(R.id.tv_square_content)

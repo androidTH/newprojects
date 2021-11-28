@@ -211,7 +211,7 @@ class DateOfSquareView @JvmOverloads constructor(context: Context, attrs: Attrib
             }
         }
 
-        if(date.hasGift){
+        if(date.hasGift&&date.iAppointType!=6){
             tv_self_gift.visibility = View.VISIBLE
             date.giftLoveNum?.let {
                 tv_self_gift.text = "邀约礼物·${date.giftName}(${it}颗 [img src=redheart_small/])" //x${myAppointment.giftNum}

@@ -99,7 +99,7 @@ class DialogYesOrNo : DialogFragment(), RequestManager, DialogInterface.OnKeyLis
     private fun getData() {
         dismissAllowingStateLoss()
         isBaseActivity {
-            Request.signUpdate(getLocalUserId(),myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
+            Request.signUpdate(getLocalUserId(),"${myAppointment?.sId}","").request(it,success = { msg, data ->
                 if(myAppointment?.iIsAnonymous==1){
                     RongIM.getInstance().startConversation(it, Conversation.ConversationType.GROUP, "anoy_${myAppointment?.iAppointUserid}_${getLocalUserId()}", "匿名")
                 }else{

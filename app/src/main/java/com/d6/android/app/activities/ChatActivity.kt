@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.d6.android.app.R
+import com.d6.android.app.adapters.DateChatImageAdapter
 import com.d6.android.app.adapters.SelfReleaselmageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
@@ -997,6 +998,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 
             tv_datchat_address.visibility = View.GONE
             tv_datechat_gift.visibility = View.GONE
+            tv_date_chattime.visibility = View.GONE
             if(appointment.iVoiceConnectType==2){
                 tv_datchat_money.text = "申请者需打赏喜欢，${appointment.iOncePayLovePoint}喜欢/分钟"
             }else if(appointment.iVoiceConnectType==3){
@@ -1015,6 +1017,8 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }else{
             rl_circlebar.visibility = View.GONE
             tv_progress.visibility = View.GONE
+            tv_date_chattime.visibility = View.GONE
+
             ll_date_dowhat.visibility = View.VISIBLE
             tv_datchat_address.text = "约会地点：${appointment.sPlace}"
 
@@ -1123,8 +1127,6 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
 //            }
 //        }
 
-        rv_datechat_images.setHasFixedSize(true)
-        rv_datechat_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         if (appointment.sAppointPic.isNullOrEmpty()) {
             rv_datechat_images.visibility = View.GONE
             iv_chat_unfold.visibility = View.GONE
@@ -1134,7 +1136,10 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             if (images != null) {
                 mImages.addAll(images.toList())
             }
-            rv_datechat_images.adapter = SelfReleaselmageAdapter(mImages,1)
+
+            rv_datechat_images.setHasFixedSize(true)
+            rv_datechat_images.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            rv_datechat_images.adapter = DateChatImageAdapter(mImages,1)
         }
 
         if(mDateHasGift){
@@ -1156,6 +1161,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             tv_datechat_giveup.visibility = View.GONE
             tv_help_service_chat.visibility = View.GONE
             tv_datechat_time.visibility = View.GONE
+            tv_date_chattime.visibility = View.GONE
 
             tv_dategift_giveup.visibility = View.VISIBLE
             tv_dategift_tips.visibility = View.VISIBLE
@@ -1169,10 +1175,16 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
         }else{
             tv_dategift_agree.visibility = View.GONE
             tv_dategift_giveup.visibility = View.GONE
+            tv_dategift_tips.visibility = View.GONE
 
             tv_datechat_time.visibility = View.VISIBLE
-            tv_dategift_tips.visibility = View.GONE
             setTextViewSpannable(this,"倒计时：${converTime(appointment.dOverduetime)}",3,4,tv_datechat_time,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+            if(iCanTalk==1&&sAppointType==6){
+                tv_date_chattime.visibility = View.VISIBLE
+                setTextViewSpannable(this,"倒计时：${converTime(appointment.dOverduetime)}",3,4,tv_date_chattime,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
+            }else{
+                tv_date_chattime.visibility = View.GONE
+            }
         }
 //        setTextViewSpannable(this,"剩余消息：${talkCount}条",3,5,tv_datechat_nums,R.style.tv_datechat_time,R.style.tv_datechat_numbers)
 //        if(SendMsgTotal==-1){
@@ -1616,6 +1628,11 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         setFragmentTopMargin(0)
                         fragment?.let {
                             it.hideChatInput(false)
+                        }
+                        if(iCanTalk==1){
+                            rl_date_bottom.visibility = View.VISIBLE
+                            line_date_dowhat.visibility = View.VISIBLE
+                            tv_date_chattime.visibility = View.GONE
                         }
                         getApplyStatus()
                     } else if(TextUtils.equals("10", type)){

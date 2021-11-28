@@ -92,7 +92,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
             override fun onReceive(context: Context?, intent: Intent?) {
                 runOnUiThread {
                     unReadMsgNum=0
-                    getSysLastOne()
+//                    getSysLastOne()
+                    getSquareMsg()
                 }
             }
         }
@@ -293,6 +294,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
                     if (fragment != null && fragment is HomeFindFragment) {
                         fragment.setResetTopInfo()
+                    }
+                    if(unReadMsgNum==0){
+                        getSquareMsg()
                     }
                 }
                 TextUtils.equals(it, tabTexts[4]) -> {
@@ -620,7 +624,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                            getSysLastOne()
 //                        }
 
-                        getSysLastOne()
+//                        getSysLastOne()
+                        getSquareMsg()
                     }
                 }
             }
@@ -737,8 +742,9 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                 if (fragment != null && fragment is MessageFragment) {
                     fragment.setSquareMsg(data)
                 }
+                Log.i("messagesssssss","SquareMsg${data.count}显示")
 //                unReadMsgNum = unReadMsgNum + data.count!!.toInt() - unReadServiceMsgNum//2.5移除
-                unReadMsgNum = unReadMsgNum + data.count!!.toInt()
+                unReadMsgNum = unReadMsgNum + data.count
                 if(unReadMsgNum>0){
                     if(unReadMsgNum>=99){
                         view.text = "99+"

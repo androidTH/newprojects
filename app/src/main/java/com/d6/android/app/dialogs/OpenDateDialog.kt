@@ -92,7 +92,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
            tv_noagree_points.text = "对方拒绝，返还一半积分"//${it.iAppointPointRefuse}
            tv_timeout_points.text = "3天后未回复，返还全部积分"
            myAppointment?.let {
-               if(it.hasGift){
+               if(it.hasGift&&it.iAppointType!=6){
                    tv_gift_tips.visibility = View.VISIBLE
                    tv_self_gift.visibility = View.VISIBLE
                    tv_self_gift.text = "邀约礼物·${it.giftName}(${it.giftLoveNum}颗 [img src=redheart_small/])" //x${it.giftNum}
@@ -108,7 +108,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
         dismissAllowingStateLoss()
         isBaseActivity {
             //194ecdb4-4809-4b2d-bf32-42a3342964df
-            Request.signUpdate(userId,myAppointment?.sId.toString(),"").request(it,success = { msg, data ->
+            Request.signUpdate(userId,"${myAppointment?.sId}","").request(it,success = { msg, data ->
 //                var openSuccessDialog = OpenDateSuccessDialog()
 //                var sId = data?.optString("sId")
 //                var explain = arguments.getParcelable("explain") as IntegralExplain

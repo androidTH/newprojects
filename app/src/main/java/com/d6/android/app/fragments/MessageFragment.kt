@@ -1,5 +1,6 @@
 package com.d6.android.app.fragments
 
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -15,17 +16,18 @@ import com.d6.android.app.application.D6Application
 import com.d6.android.app.base.BaseFragment
 import com.d6.android.app.dialogs.JoinGroupDialog
 import com.d6.android.app.extentions.request
-import com.d6.android.app.models.*
+import com.d6.android.app.models.NewGroupBean
+import com.d6.android.app.models.Page
+import com.d6.android.app.models.SquareMessage
+import com.d6.android.app.models.SysMessage
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.CustomerServiceId
 import com.d6.android.app.utils.Const.CustomerServiceWomenId
 import com.d6.android.app.utils.Const.GROUPSPLIT_LEN
 import com.d6.android.app.utils.Const.PUSH_ISNOTSHOW
-import com.d6.android.app.widget.ScreenUtil
 import com.d6.android.app.widget.SwipeItemLayout
 import com.d6.android.app.widget.SwipeRefreshRecyclerLayout
-import com.d6.android.app.widget.badge.DisplayUtil
 import com.d6.android.app.widget.popup.EasyPopup
 import com.d6.android.app.widget.popup.XGravity
 import com.d6.android.app.widget.popup.YGravity
@@ -35,13 +37,10 @@ import io.rong.imkit.userInfoCache.RongUserInfoManager
 import io.rong.imlib.RongIMClient
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.header_messages.view.*
-import kotlinx.android.synthetic.main.item_group.view.*
 import kotlinx.android.synthetic.main.message_fragment.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.support.v4.startActivity
-import org.jetbrains.anko.support.v4.startActivityForResult
 import org.jetbrains.anko.support.v4.toast
-import java.lang.Exception
 
 /**
  * 消息列表页
@@ -77,8 +76,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 //        TopConversationsAdapter(mISTopConversations)
 //    }
 
-    private var SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
-    private var SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
+//    private var SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
+//    private var SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
 
     private lateinit var headerView: View
     fun IsNotNullHeaderiew() = ::headerView.isInitialized
@@ -203,8 +202,8 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
 
         Const.UPDATE_GROUPS_STATUS = -1
         getData()
-        getSysLastOne(SysMsg_time.toString())
-        getSquareMsg(SquareMsg_time.toString())
+        getSysLastOne("")
+        getSquareMsg("")
 
 //        if(TextUtils.equals(CustomerServiceId, getLocalUserId())||TextUtils.equals(CustomerServiceWomenId,getLocalUserId())){
 //            tv_topsearch.visibility = View.VISIBLE
@@ -463,12 +462,13 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
     }
 
     override fun onRefresh() {
-        SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
-        SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
+//        SquareMsg_time = SPUtils.instance().getLong(Const.SQUAREMSG_LAST_TIME)
+//        SysMsg_time = SPUtils.instance().getLong(Const.SYSMSG_LAST_TIME)
         Const.UPDATE_GROUPS_STATUS = -1
         getData()
-        getSysLastOne(SysMsg_time.toString())
-        getSquareMsg(SquareMsg_time.toString())
+//        getSysLastOne()
+//        getSquareMsg("")
+        activity.sendBroadcast(Intent(Const.YOUMENG_MSG_NOTIFION))
         setRefresh(false)
     }
 
@@ -511,34 +511,42 @@ class MessageFragment : BaseFragment(), SwipeRefreshRecyclerLayout.OnRefreshList
         if (data != null) {
             data.list?.let {
                 if (it.results != null) {
-                    var c = if ((data.count ?: 0) > 99) {
+                    var c = if (data.count > 99) {
                         "99+"
                     } else {
                         data.count.toString()
                     }
                     if (IsNotNullHeaderiew()) {
-                        if ((data.count ?: 0) > 0) {
-                            headerView.iv2_square_num.visibility = View.VISIBLE
-                            headerView.iv2_square_num.text = c
+                        var isv2_square_num =  conversationsAdapter.headerViewHolder?.bind<TextView>(R.id.iv2_square_num)
+                        if (data.count!!.toInt()> 0) {
+                            isv2_square_num?.visibility = View.VISIBLE
+                            isv2_square_num?.text = "${c}"
                         } else {
-                            headerView.iv2_square_num.visibility = View.GONE
+                           isv2_square_num?.visibility = View.GONE
                         }
                     }
-                    var squaremsg = it.results[0];
+                    var squaremsg = it.results[0]
                     if (squaremsg.content.isNullOrEmpty()) {
                         if (IsNotNullHeaderiew()) {
-                            headerView.tv_content2.text = squaremsg.title
+                           var tv_content2 =  conversationsAdapter.headerViewHolder?.bind<TextView>(R.id.tv_content2)
+                            tv_content2?.text = squaremsg.title
                         }
                     } else {
                         if (IsNotNullHeaderiew()) {
-                            headerView.tv_content2.text = squaremsg.content
+                            var tv_content2 =  conversationsAdapter.headerViewHolder?.bind<TextView>(R.id.tv_content2)
+                            tv_content2?.text = squaremsg.content
                         }
                     }
+
                     if (IsNotNullHeaderiew()) {
-                        headerView.tv_squaremsg_time.text = DateToolUtils.getConversationFormatDate(squaremsg.createTime!!.toLong(), false, context)
+                        var tv_squaremsg_time = conversationsAdapter.headerViewHolder?.bind<TextView>(R.id.tv_squaremsg_time)
+                        tv_squaremsg_time?.text = DateToolUtils.getConversationFormatDate(squaremsg.createTime!!.toLong(), false, context)
                     }
                 }
             }
+        }else{
+            headerView.iv2_square_num.visibility = View.GONE
+            conversationsAdapter.notifyDataSetChanged()
         }
     }
 

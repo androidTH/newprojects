@@ -202,16 +202,13 @@ class SelfPullDateView @JvmOverloads constructor(context: Context, attrs: Attrib
 
         if(myAppointment.hasGift&&myAppointment.iAppointType!=6){
             tv_self_gift.visibility = View.VISIBLE
-
-//            myAppointment.giftNum?.let {
-//                var num = it
-                myAppointment.giftLoveNum?.let {
-                    tv_self_gift.text = "邀约礼物·${myAppointment.giftName}(${it}颗 [img src=redheart_small/])" //x${myAppointment.giftNum}
-                }
-//            }
+            myAppointment.giftLoveNum?.let {
+                tv_self_gift.text = "邀约礼物·${myAppointment.giftName}(${it}颗 [img src=redheart_small/])" //x${myAppointment.giftNum}
+            }
         }else{
             tv_self_gift.visibility = View.GONE
         }
+        Log.i("selfpulldate","用户名：${myAppointment.sAppointUserName},约会内容：${myAppointment.sDesc},是否有礼物：${myAppointment.hasGift},礼物名字：${myAppointment.giftName}")
 
 //            if (TextUtils.equals("0", myAppointment.screen) || TextUtils.equals("3", it.screen) || it.screen.isNullOrEmpty()) {
 //                img_other_auther.visibility = View.GONE
