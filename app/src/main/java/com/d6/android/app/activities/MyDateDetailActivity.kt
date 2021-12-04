@@ -489,7 +489,7 @@ class MyDateDetailActivity : BaseActivity() {
     }
 
     private fun signUpDate(myAppointment:MyAppointment) {
-        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}").request(this, false, success = { msg, data ->
+        Request.queryAppointmentPoint(userId,"${myAppointment.iAppointUserid}",myAppointment.iAppointType!!.toInt()).request(this, false, success = { msg, data ->
             explainAppoint = data?.iAppointPoint.toString()
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!,"fromType" to "MydateDetail")
@@ -502,6 +502,13 @@ class MyDateDetailActivity : BaseActivity() {
                 var openErrorDialog = OpenDateErrorDialog()
                 openErrorDialog.arguments = bundleOf("code" to code, "msg" to msg)
                 openErrorDialog.show(supportFragmentManager, "d")
+            }else if(code==3){
+                var  mDialogYesOrNo = DialogYesOrNo()
+                mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg,"data" to myAppointment)
+                mDialogYesOrNo.show(supportFragmentManager, "dialogyesorno")
+                mDialogYesOrNo.setDialogListener { p, s ->
+
+                }
             }
         }
     }
@@ -529,7 +536,7 @@ class MyDateDetailActivity : BaseActivity() {
             }) { code, msg ->
                 if(code == 3){
                     var openErrorDialog = OpenDateErrorDialog()
-                    openErrorDialog.arguments= bundleOf("code" to code)
+                    openErrorDialog.arguments= bundleOf("code" to code,"appoint_type" to myAppointment?.iAppointType!!.toInt())
                     openErrorDialog.show(supportFragmentManager, "d")
                 }else{
                     CustomToast.showToast(msg)

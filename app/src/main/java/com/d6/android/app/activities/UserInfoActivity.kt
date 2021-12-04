@@ -985,7 +985,7 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     }
 
     private fun signUpDate(myAppointment: MyAppointment) {
-        Request.queryAppointmentPoint(userId, "${myAppointment.iAppointUserid}").request(this, false, success = { msg, data ->
+        Request.queryAppointmentPoint(userId, "${myAppointment.iAppointUserid}",myAppointment.iAppointType!!.toInt()).request(this, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             dateDialog.arguments = bundleOf("data" to myAppointment, "explain" to data!!)
             dateDialog.show(supportFragmentManager, "d")
@@ -994,6 +994,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 var openErrorDialog = OpenDateErrorDialog()
                 openErrorDialog.arguments = bundleOf("code" to code, "msg" to msg)
                 openErrorDialog.show(supportFragmentManager, "d")
+            }else if(code==3){
+                var  mDialogYesOrNo = DialogYesOrNo()
+                mDialogYesOrNo.arguments = bundleOf("code" to "${code}", "msg" to msg,"data" to myAppointment)
+                mDialogYesOrNo.show((context as BaseActivity).supportFragmentManager, "dialogyesorno")
+                mDialogYesOrNo.setDialogListener { p, s ->
+
+                }
             }
         }
     }

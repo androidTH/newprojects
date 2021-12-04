@@ -306,7 +306,7 @@ class MySquareAdapter(mData: ArrayList<Square>,val type: Int) : HFRecyclerAdapte
     }
 
     private fun signUpDate(myAppointment:Square) {
-        Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.userid}").request(context as BaseActivity, false, success = { msg, data ->
+        Request.queryAppointmentPoint(getLocalUserId(),"${myAppointment.userid}",myAppointment.iAppointType!!.toInt()).request(context as BaseActivity, false, success = { msg, data ->
             val dateDialog = OpenDateDialog()
             var appoinment = MyAppointment(myAppointment.sAppointmentId)
             appoinment.iAppointUserid = myAppointment.userid?.toInt()

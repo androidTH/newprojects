@@ -24,6 +24,7 @@ import com.d6.android.app.utils.luban.CompressionPredicate
 import com.d6.android.app.utils.luban.Luban
 import com.d6.android.app.utils.luban.OnCompressListener
 import com.d6.android.app.widget.MaxEditTextWatcher
+import com.fm.openinstall.OpenInstall
 import com.xinstall.XInstall
 import io.reactivex.Flowable
 import io.rong.imkit.RongIM
@@ -282,69 +283,64 @@ class SetUserInfoActivity : BaseActivity() {
         user.sUnionid = unionId
         dialog()
         if(ISNOTEDIT){
-            Luban.with(this)
-                    .load(headFilePath)
-                    .ignoreBy(900)
-                    .filter(object : CompressionPredicate {
-                        override fun apply(path: String): Boolean {
-                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"))
-                        }
-                    }).setCompressListener(object : OnCompressListener {
-                        override fun onStart() {
-
-                        }
-
-                        override fun onSuccess(file: File) {
-                            if(file!=null){
-                                Request.uploadFile(file).flatMap {
-                                    user.picUrl = it
-                                    Request.updateUserInfo(user)
-                                }.request(this@SetUserInfoActivity) { _, data ->
-                                    clearLoginToken()
-                                    SPUtils.instance()
-                                            .put(Const.User.IS_LOGIN, true)
-                                            .put(Const.User.USER_NICK, nick)
-                                            .put(Const.User.USER_HEAD, user.picUrl)
-                                            .put(Const.User.USER_SEX, user.sex)
-                                            .put(Const.User.SLOGINTOKEN, data?.sLoginToken)
-                                            .apply()
-                                    XInstall.reportEvent("perfectprofile", 1)//完善资料成功时上报
-                                    startActivity<MainActivity>()
-                                    dismissDialog()
-                                    setResult(Activity.RESULT_OK)
-                                    finish()
-                                }
-                            }
-                        }
-
-                        override fun onError(e: Throwable?) {
-
-                        }
-                    }).launch()
-            /*Flowable.just(headFilePath).flatMap {
-                val file = BitmapUtils.compressImageFile("$headFilePath")
-                Request.uploadFile(file)
-            }.flatMap {
+            Request.uploadFile(File(headFilePath)).flatMap {
                 user.picUrl = it
                 Request.updateUserInfo(user)
-            }.request(this){ _, data ->
+            }.request(this) { _, data ->
                 clearLoginToken()
                 SPUtils.instance()
-                        .put(Const.User.IS_LOGIN, true)
+                        .put(Const.User.IS_LOGIN,true)
                         .put(Const.User.USER_NICK, nick)
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
-                        .put(Const.User.SLOGINTOKEN, data?.sLoginToken)
+                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
                         .apply()
-                val info = UserInfo(accountId, "${user.name}", Uri.parse("${user.picUrl}"))
-                RongIM.getInstance().refreshUserInfoCache(info)
-//                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
-                XInstall.reportEvent("perfectprofile", 1)//完善资料成功时上报
+                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
                 finish()
-            }*/
+            }
+
+//            Luban.with(this)
+//                    .load(headFilePath)
+//                    .ignoreBy(900)
+//                    .filter(object : CompressionPredicate {
+//                        override fun apply(path: String): Boolean {
+//                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"))
+//                        }
+//                    }).setCompressListener(object : OnCompressListener {
+//                        override fun onStart() {
+//
+//                        }
+//
+//                        override fun onSuccess(file: File) {
+//                            if(file!=null){
+//                                Request.uploadFile(file).flatMap {
+//                                    user.picUrl = it
+//                                    Request.updateUserInfo(user)
+//                                }.request(this@SetUserInfoActivity) { _, data ->
+//                                    clearLoginToken()
+//                                    SPUtils.instance()
+//                                            .put(Const.User.IS_LOGIN, true)
+//                                            .put(Const.User.USER_NICK, nick)
+//                                            .put(Const.User.USER_HEAD, user.picUrl)
+//                                            .put(Const.User.USER_SEX, user.sex)
+//                                            .put(Const.User.SLOGINTOKEN, data?.sLoginToken)
+//                                            .apply()
+//                                    XInstall.reportEvent("perfectprofile", 1)//完善资料成功时上报
+//                                    startActivity<MainActivity>()
+//                                    dismissDialog()
+//                                    setResult(Activity.RESULT_OK)
+//                                    finish()
+//                                }
+//                            }
+//                        }
+//
+//                        override fun onError(e: Throwable?) {
+//
+//                        }
+//                    }).launch()
 
         }else{
             user.picUrl = headFilePath

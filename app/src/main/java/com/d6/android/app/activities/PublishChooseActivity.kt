@@ -133,22 +133,26 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
         val view = getWindow().getDecorView()
         view.setDrawingCacheEnabled(true)
         view.buildDrawingCache(true)
-        mBitmap = view.getDrawingCache()
+        if(view.getDrawingCache()!=null){
+            mBitmap = view.getDrawingCache()
 
-        val scaleFactor = 8f//图片缩放比例
-        val radius = 10f//模糊程度
-        val width = mBitmap.getWidth()
-        val height = mBitmap.getHeight()
+            val scaleFactor = 8f//图片缩放比例
+            val radius = 10f//模糊程度
+            val width = mBitmap.getWidth()
+            val height = mBitmap.getHeight()
 
-        overlay = Bitmap.createBitmap((width / 10).toInt(), (height / 10).toInt(), Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(overlay)
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor)
-        val paint = Paint()
-        paint.flags = Paint.FILTER_BITMAP_FLAG
-        canvas.drawBitmap(mBitmap, 0f, 0f, paint)
+            overlay = Bitmap.createBitmap((width / 10).toInt(), (height / 10).toInt(), Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(overlay)
+            canvas.scale(1 / scaleFactor, 1 / scaleFactor)
+            val paint = Paint()
+            paint.flags = Paint.FILTER_BITMAP_FLAG
+            canvas.drawBitmap(mBitmap, 0f, 0f, paint)
 
-        overlay = FastBlur.doBlur(overlay, radius.toInt(), true)
-        return overlay
+            overlay = FastBlur.doBlur(overlay, radius.toInt(), true)
+            return overlay
+        }else{
+            return overlay
+        }
     }
 
     override fun onDestroy() {

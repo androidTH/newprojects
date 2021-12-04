@@ -106,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/date_giftsend"
                 android:textColor="@color/color_888888"
+                android:layout_marginBottom="@dimen/margin_8"
                 android:drawablePadding="@dimen/margin_3"
                 android:textSize="12sp"
                 android:text=""

@@ -9,14 +9,12 @@ import android.view.View
 import com.d6.android.app.R
 import com.d6.android.app.adapters.CardUnKnowTagAdapter
 import com.d6.android.app.base.BaseActivity
-import com.d6.android.app.dialogs.OpenDateErrorDialog
 import com.d6.android.app.dialogs.OpenDatePointNoEnoughDialog
 import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserUnKnowTag
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.Const.CHECK_OPEN_UNKNOW_MSG
 import kotlinx.android.synthetic.main.activity_unknow.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.bundleOf

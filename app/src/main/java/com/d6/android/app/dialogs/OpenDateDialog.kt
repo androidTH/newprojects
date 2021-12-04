@@ -123,7 +123,7 @@ class OpenDateDialog : DialogFragment(),RequestManager {
             }) { code, msg ->
                 if(code == 3){
                     var openErrorDialog = OpenDateErrorDialog()
-                    openErrorDialog.arguments= bundleOf("code" to code)
+                    openErrorDialog.arguments= bundleOf("code" to code,"appoint_type" to myAppointment?.iAppointType!!.toInt())
                     openErrorDialog.show(it.supportFragmentManager, "d")
                 }else{
                     CustomToast.showToast(msg)

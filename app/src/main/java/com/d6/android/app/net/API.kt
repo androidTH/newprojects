@@ -49,7 +49,7 @@ object API {
 //    val LIYU_URL ="JyPhone/"
 //
 //    @JvmField
-//    var URL = "http://sh1.k9s.run:46515/"
+//    var URL = "http://sunkiha_sly_d6_988.v.frp.fit/"
 //
 //    @JvmField
 //    val BASE_URL = URL+ LIYU_URL

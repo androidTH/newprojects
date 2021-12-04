@@ -74,10 +74,12 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
         var code = arguments.get("code")
         if(code == 0){
             tv_date_send_fail.text = getString(R.string.string_senddatefail)
-            getData()
+            var appoint_type = arguments.getInt("appoint_type")
+            getData(appoint_type)
         }else if(code == 3){
             tv_date_send_fail.text = getString(R.string.senddatepointlow)
-            getData()
+            var appoint_type = arguments.getInt("appoint_type")
+            getData(appoint_type)
         }else if(code == 2){
             tv_date_send_fail.text = getString(R.string.senddatepointlow)
             tv_tishi_point.text = arguments.getString("msg")
@@ -93,9 +95,9 @@ class OpenDateErrorDialog : DialogFragment(),RequestManager {
         }
     }
 
-    private fun getData() {
+    private fun getData(appoint_type:Int) {
         isBaseActivity{
-            Request.queryAppointmentPoint(userId,"").request(it, success = {msg,data->
+            Request.queryAppointmentPoint(userId,"",appoint_type).request(it, success = {msg,data->
                 data?.let {
                     //                        tv_preparepoints.text = "本次约会将预付${it.iAppointPoint}积分"
 //                        tv_agree_points.text = "对方同意,预付${it.iAppointPoint}积分"

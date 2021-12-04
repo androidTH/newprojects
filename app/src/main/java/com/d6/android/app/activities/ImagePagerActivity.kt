@@ -209,55 +209,57 @@ class ImagePagerActivity : BaseActivity(), ViewPager.OnPageChangeListener {
     }
 
     fun startCountDownTimer(){
-        rl_firepics.visibility = View.GONE
-        rl_countdowntimer.visibility = View.GONE
-        rl_firepics_tips.visibility = View.GONE
-        if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
-            var index=mImageViewPager.currentItem
-            var fireType = mFirePicsIndex[index]
-            if(TextUtils.equals("2",fireType)){
-                var url = urls[index]
-                var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
-                mImageLocal.updatePicUrl(this@ImagePagerActivity,url,false)
+        if(rl_firepics!=null){
+            rl_firepics.visibility = View.GONE
+            rl_countdowntimer.visibility = View.GONE
+            rl_firepics_tips.visibility = View.GONE
+            if(mFirePicsIndex!=null&&mFirePicsIndex.size>0){
+                var index=mImageViewPager.currentItem
+                var fireType = mFirePicsIndex[index]
+                if(TextUtils.equals("2",fireType)){
+                    var url = urls[index]
+                    var mImageLocal = mListFragment.get(mImageViewPager.currentItem) as ImageFragment
+                    mImageLocal.updatePicUrl(this@ImagePagerActivity,url,false)
 
-                if(timer!=null){
-                    timer?.let {
-                        it.cancel()
-                        timer=null
+                    if(timer!=null){
+                        timer?.let {
+                            it.cancel()
+                            timer=null
+                        }
                     }
-                }
-                if(timer==null){
-                    rl_firepics.visibility = View.GONE
-                    timer = object : CountDownTimer(4000, 1000) {
-                        override  fun onTick(millisUntilFinished: Long) {
-                            if(millisUntilFinished>=1000){
-                                rl_countdowntimer.visibility = View.VISIBLE
-                                var str = "剩余 ${millisUntilFinished/1000}s"
-                                var style = SpannableStringBuilder(str)
-                                style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this@ImagePagerActivity,R.color.color_F7AB00)), str.length-2, str.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                                tv_countdown.text = style
-                            }else{
-                                timer?.let {
-                                    it.cancel()
+                    if(timer==null){
+                        rl_firepics.visibility = View.GONE
+                        timer = object : CountDownTimer(4000, 1000) {
+                            override  fun onTick(millisUntilFinished: Long) {
+                                if(millisUntilFinished>=1000){
+                                    rl_countdowntimer.visibility = View.VISIBLE
+                                    var str = "剩余 ${millisUntilFinished/1000}s"
+                                    var style = SpannableStringBuilder(str)
+                                    style.setSpan(ForegroundColorSpan(ContextCompat.getColor(this@ImagePagerActivity,R.color.color_F7AB00)), str.length-2, str.length-1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                                    tv_countdown.text = style
+                                }else{
+                                    timer?.let {
+                                        it.cancel()
+                                    }
+                                    doFirePicsBg()
                                 }
+                            }
+
+                            override fun onFinish() {
                                 doFirePicsBg()
                             }
                         }
-
-                        override fun onFinish() {
-                            doFirePicsBg()
+                        timer?.let {
+                            it.start()
                         }
                     }
-                    timer?.let {
-                        it.start()
-                    }
-                }
-            }else{
-                rl_firepics.visibility = View.GONE
-                if(timer!=null){
-                    timer?.let {
-                        it.cancel()
-                        timer=null
+                }else{
+                    rl_firepics.visibility = View.GONE
+                    if(timer!=null){
+                        timer?.let {
+                            it.cancel()
+                            timer=null
+                        }
                     }
                 }
             }

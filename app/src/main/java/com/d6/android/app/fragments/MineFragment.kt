@@ -18,8 +18,6 @@ import com.d6.android.app.activities.*
 import com.d6.android.app.adapters.MyImageAdapter
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.base.BaseFragment
-import com.d6.android.app.dialogs.OpenDateErrorDialog
-import com.d6.android.app.dialogs.VistorPayPointDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.models.*
 import com.d6.android.app.net.Request

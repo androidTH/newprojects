@@ -103,13 +103,17 @@ class VistorPayPointDialog : DialogFragment(),RequestManager {
     }
 
     private fun getData(point:String,remainPoint:String) {
-        Request.getVistorPayPoint(userId, getLoginToken()).request((context as BaseActivity),false,success={ msg, data->
-            if (type == 0) {
-                startActivity<VistorsActivity>()
+        try {
+            Request.getVistorPayPoint(userId, getLoginToken()).request((context as BaseActivity),false,success={ msg, data->
+                if (type == 0) {
+                    startActivity<VistorsActivity>()
+                }
+                dismissAllowingStateLoss()
+            }){code,msg->
+                showToast(msg)
             }
-            dismissAllowingStateLoss()
-        }){code,msg->
-            showToast(msg)
+        }catch (e:Exception){
+            e.printStackTrace()
         }
     }
 
