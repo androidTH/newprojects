@@ -1,21 +1,37 @@
 package com.d6.android.app.activities
 
+import android.app.Application
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import cn.liaox.cachelib.CacheDBLib
+import cn.liaox.cachelib.CacheDbManager
+import cn.liaox.cachelib.bean.GroupBean
+import cn.liaox.cachelib.bean.UserBean
+import cn.liaox.cachelib.cache.NetworkCache
 import com.d6.android.app.R
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.UserAgreemetDialog
 import com.d6.android.app.extentions.request
 import com.d6.android.app.net.Request
+import com.d6.android.app.net.ResultException
 import com.d6.android.app.rong.RongPlugin
 import com.d6.android.app.utils.*
 import com.d6.android.app.utils.Const.INSTALL_DATA01
 import com.d6.android.app.utils.Const.INSTALL_DATA02
 import com.d6.android.app.utils.Const.OPENSTALL_CHANNEL
 import com.d6.android.app.utils.Const.User.OAID_ANDROID
+import com.facebook.common.internal.Preconditions
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.view.SimpleDraweeView
+import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.fm.openinstall.listener.AppInstallAdapter
 import com.fm.openinstall.listener.AppWakeUpAdapter
 import com.fm.openinstall.model.AppData
@@ -27,6 +43,8 @@ import com.xinstall.model.XAppData
 import io.reactivex.Flowable
 import io.reactivex.subscribers.DisposableSubscriber
 import io.rong.imkit.RongIM
+import io.rong.imlib.model.Group
+import io.rong.imlib.model.UserInfo
 import io.rong.push.RongPushClient
 import io.rong.push.pushconfig.PushConfig
 import org.jetbrains.anko.startActivity
@@ -153,6 +171,17 @@ class LauncherActivity : BaseActivity() {
 //            OpenInstall.init(this)
             XInstall.init(this)
         }
+
+        ActivitiesManager.getInstance().init(AppUtils.context as Application?)
+        RongIM.getInstance().setMessageAttachedUserInfo(true)
+
+        var imagePipelineConfig = ImagePipelineConfig.newBuilder(Preconditions.checkNotNull(this))
+                .setBitmapsConfig(Bitmap.Config.ARGB_8888) // 若不是要求忒高清显示应用，就用使用RGB_565吧（默认是ARGB_8888)
+                .setDownsampleEnabled(true)
+                .build()
+        Fresco.initialize(this,imagePipelineConfig)
+
+        initCacheLib()
     }
 
     private fun getOAID(){
@@ -269,6 +298,150 @@ class LauncherActivity : BaseActivity() {
             }
 
         }
+    }
+
+    private fun initCacheLib() {
+        CacheDBLib.init(this)
+
+        RongUtils.setUserProvider(object : RongUtils.UserProvider {
+            private val views = ArrayList<View?>()
+            private val map = HashMap<String, Boolean>()
+            override fun getUser(userId: String, textView: TextView?, imageView: ImageView?) {
+                views.add(textView)
+                views.add(imageView)
+                val isLoad = map[userId] ?: false
+                if (map.containsKey(userId) && !isLoad) {
+                    return
+                }
+                if (!map.containsKey(userId)) {
+                    map.put(userId, false)
+                }
+
+                CacheDbManager.getInstance().load(userId, UserBean::class.java, object : NetworkCache<UserBean>() {
+                    override fun get(key: String, cls: Class<UserBean>): Flowable<UserBean> {
+                        return Request.getUserInfoDetail(key).ioScheduler().flatMap {
+                            val data = it.data
+                            if (it.res == 1) {
+                                val userBean = UserBean()
+                                userBean.userId = data?.accountId
+                                val nick = data?.name ?: ""
+                                userBean.nickName = nick
+                                val url = data?.picUrl ?: ""
+                                userBean.headUrl = url
+                                userBean.status = 1//必须设置有效性>0的值
+                                val info = UserInfo(userId, nick, Uri.parse(url))
+                                RongIM.getInstance().refreshUserInfoCache(info)
+                                Flowable.just(userBean)
+                            } else {
+                                Flowable.error(ResultException(it.resMsg))
+                            }
+                        }
+                    }
+                }).defaultScheduler().subscribe(object : DisposableSubscriber<UserBean>() {
+                    override fun onError(t: Throwable?) {
+                        t?.printStackTrace()
+                        map.put(userId, true)
+                    }
+
+                    override fun onNext(t: UserBean?) {
+                        if (map.containsKey(userId)) {
+                            map.remove(userId)
+                        }
+                        val removes = ArrayList<View?>()
+                        for (view in views) {
+                            if (checkView(view, userId)) {
+                                if (view is TextView) {
+                                    view.text = t?.nickName
+                                }
+                                if (view is SimpleDraweeView) {
+                                    view.setImageURI(t?.headUrl)
+                                }
+                                removes.add(view)
+                            }
+                        }
+                        views.removeAll(removes)
+                    }
+
+                    override fun onComplete() {
+
+                    }
+                })
+            }
+        })
+
+
+        RongUtils.setGroupProvider(object : RongUtils.GroupProver{
+            private val views = ArrayList<View?>()
+            private val map = HashMap<String, Boolean>()
+            override fun getGroupInfo(groupId: String, textView: TextView?, imageView: ImageView?) {
+                views.add(textView)
+                views.add(imageView)
+                val isLoad = map[groupId] ?: false
+                if (map.containsKey(groupId) && !isLoad) {
+                    return
+                }
+                if (!map.containsKey(groupId)) {
+                    map.put(groupId, false)
+                }
+                CacheDbManager.getInstance().load(groupId, GroupBean::class.java, object : NetworkCache<GroupBean>() {
+                    override fun get(key: String, cls: Class<GroupBean>): Flowable<GroupBean> {
+                        return Request.getGroupByGroupId(key).ioScheduler().flatMap {
+                            val data = it.data
+                            if (it.res == 1) {
+                                val groupBean = GroupBean()
+                                groupBean.groupId = data?.sId
+                                val nick = data?.sGroupName ?: ""
+                                groupBean.groupName = nick
+                                val url = data?.sGroupPic ?: ""
+                                groupBean.groupHeadPic = url
+                                var groupNum = data?.iGroupNum?:0
+                                groupBean.iGroupNum = groupNum
+                                groupBean.sGroupDesc = "${data?.sGroupDesc}"
+                                groupBean.status = 1 //必须设置有效性>0的值
+                                val info = Group(groupId, nick, Uri.parse(url))
+                                RongIM.getInstance().refreshGroupInfoCache(info)
+                                Flowable.just(groupBean)
+                            } else {
+                                Flowable.error(ResultException(it.resMsg))
+                            }
+                        }
+                    }
+                }).defaultScheduler().subscribe(object : DisposableSubscriber<GroupBean>() {
+                    override fun onError(t: Throwable?) {
+                        t?.printStackTrace()
+                        map.put(groupId, true)
+                    }
+
+                    override fun onNext(t: GroupBean?) {
+                        if (map.containsKey(groupId)) {
+                            map.remove(groupId)
+                        }
+                        val removes = ArrayList<View?>()
+                        for (view in views) {
+                            if (checkView(view, groupId)) {
+                                if (view is TextView) {
+                                    view.text = t?.groupName
+                                }
+                                if (view is SimpleDraweeView) {
+                                    view.setImageURI(t?.groupHeadPic)
+                                }
+                                removes.add(view)
+                            }
+                        }
+                        views.removeAll(removes)
+                    }
+
+                    override fun onComplete() {
+
+                    }
+                })
+            }
+        })
+
+    }
+
+    private fun checkView(view: View?, key: String): Boolean {
+        return view?.getTag(R.id.view_tag) != null && view.getTag(R.id.view_tag) is String && TextUtils.equals(view.getTag(R.id.view_tag).toString(), key)
     }
 
 }

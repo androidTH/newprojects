@@ -144,6 +144,7 @@ fun Activity.callPhone(phone: String?) {
 }
 
 fun Activity?.saveUserInfo(obj: UserData?) {
+
     if (obj == null) {
         return
     }

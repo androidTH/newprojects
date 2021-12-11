@@ -115,12 +115,6 @@ class AppUtils {
         fun init(context: Context) {
             this.context = context.applicationContext
             initFilePath()
-
-            var imagePipelineConfig = ImagePipelineConfig.newBuilder(Preconditions.checkNotNull(context))
-                    .setBitmapsConfig(Bitmap.Config.ARGB_8888) // 若不是要求忒高清显示应用，就用使用RGB_565吧（默认是ARGB_8888)
-                    .setDownsampleEnabled(true)
-                    .build()
-            Fresco.initialize(context,imagePipelineConfig)
         }
 
         fun initFilePath() {

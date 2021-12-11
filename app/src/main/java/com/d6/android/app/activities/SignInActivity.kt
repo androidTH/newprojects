@@ -350,16 +350,16 @@ class SignInActivity : TitleActivity() {
                     e.printStackTrace()
                 }
             }
-            clearLoginToken()
-            saveUserInfo(data)
 //            SPUtils.instance().put(INSTALL_DATA01,"").apply()
             data?.let {
+                clearLoginToken()
+                saveUserInfo(data)
+                val info = UserInfo(it.accountId, "${it.name}", Uri.parse("${it.picUrl}"))
+                RongIM.getInstance().refreshUserInfoCache(info)
                 Log.i("login","username=${data?.name}")
                 if (it.name.isNullOrEmpty()) {//如果没有昵称
                     startActivity<SetUserInfoActivity>()
                 } else {
-                    val info = UserInfo(it.accountId, "${it.name}", Uri.parse("${it.picUrl}"))
-                    RongIM.getInstance().refreshUserInfoCache(info)
                     SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                     startActivity<MainActivity>()
                 }

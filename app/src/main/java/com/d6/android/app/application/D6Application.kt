@@ -4,6 +4,7 @@ import android.app.*
 import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
@@ -36,7 +37,10 @@ import com.d6.android.app.utils.Const.CONVERSATION_APPLAY_PRIVATE_TYPE
 import com.d6.android.app.utils.Const.UPDATE_GROUPS_STATUS
 import com.d6.android.app.utils.RongUtils.getConnectCallback
 import com.danikula.videocache.HttpProxyCacheServer
+import com.facebook.common.internal.Preconditions
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
+import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.fm.openinstall.OpenInstall
 import com.xinstall.XInstall
 import io.reactivex.Flowable
@@ -83,6 +87,12 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         var agreed = SPUtils.instance().getBoolean(Const.User.ISNOTUESERAGREEMENT)
         if(agreed&&PushHelper.isMainProcess(this)){
             PushHelper.init(this)
+            var imagePipelineConfig = ImagePipelineConfig.newBuilder(Preconditions.checkNotNull(this))
+                    .setBitmapsConfig(Bitmap.Config.ARGB_8888) // 若不是要求忒高清显示应用，就用使用RGB_565吧（默认是ARGB_8888)
+                    .setDownsampleEnabled(true)
+                    .build()
+            Fresco.initialize(this,imagePipelineConfig)
+
             if (applicationInfo.packageName.equals(getCurProcessName(applicationContext))) {
                 var config = PushConfig.Builder().enableMiPush(Const.XIAOMIAPPID, Const.XIAOMIAPPKEY).build()
                 RongPushClient.setPushConfig(config)
@@ -95,10 +105,11 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
                 // 初始化
                 XInstall.init(this);
             }
+            RongIM.getInstance().setMessageAttachedUserInfo(true)
+            initCacheLib()
+
         }
         ActivitiesManager.getInstance().init(this)
-        RongIM.getInstance().setMessageAttachedUserInfo(true)
-        initCacheLib()
         setInputProvider()
 
 

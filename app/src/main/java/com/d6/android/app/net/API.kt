@@ -8,32 +8,32 @@ object API {
     /**
      * 测试环境
      */
-    @JvmField
-    val LIYU_URL ="JyPhone/"
-
-    @JvmField
-    var URL = "http://test76.d6-zone.com/"
-
-    @JvmField
-    val BASE_URL = URL + LIYU_URL    //JyPhone/
-    val STATIC_BASE_URL = URL + LIYU_URL+"#/"
-
-    const val GETDOMAIN = "http://domain_test.d6-zone.com/getDomain"
-
-    /**
-     * 正式环境
-     */
 //    @JvmField
 //    val LIYU_URL ="JyPhone/"
 //
 //    @JvmField
-//    var URL = "https://api-v2.d6-zone.com/"
+//    var URL = "http://test76.d6-zone.com/"
 //
 //    @JvmField
-//    val BASE_URL = URL+ LIYU_URL
-//    val STATIC_BASE_URL = "https://www.d6-zone.com/JyD6/#/"
+//    val BASE_URL = URL + LIYU_URL    //JyPhone/
+//    val STATIC_BASE_URL = URL + LIYU_URL+"#/"
 //
-//    const val GETDOMAIN = "http://domain.d6-zone.com/getDomain"
+//    const val GETDOMAIN = "http://domain_test.d6-zone.com/getDomain"
+
+    /**
+     * 正式环境
+     */
+    @JvmField
+    val LIYU_URL ="JyPhone/"
+
+    @JvmField
+    var URL = "https://api-v2.d6-zone.com/"
+
+    @JvmField
+    val BASE_URL = URL+ LIYU_URL
+    val STATIC_BASE_URL = "https://www.d6-zone.com/JyD6/#/"
+
+    const val GETDOMAIN = "http://domain.d6-zone.com/getDomain"
 
 
 
