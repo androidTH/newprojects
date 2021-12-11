@@ -326,12 +326,12 @@ class SplashActivity : BaseActivity() {
                             e.printStackTrace()
                         }
                     }
+                    saveUserInfo(it)
+                    val info = UserInfo(it.accountId, "${it.name}", Uri.parse("${it.picUrl}"))
+                    RongIM.getInstance().refreshUserInfoCache(info)
                     if (it.name.isNullOrEmpty()) {//如果没有昵称
                         startActivity<SetUserInfoActivity>("name" to name, "gender" to gender, "headerpic" to iconurl,"openid" to openId,"unionid" to unionid)
                     } else {
-                        saveUserInfo(it)
-                        val info = UserInfo(it.accountId, "${it.name}", Uri.parse("${it.picUrl}"))
-                        RongIM.getInstance().refreshUserInfoCache(info)
                         SPUtils.instance().put(Const.User.IS_LOGIN, true).apply()
                         startActivity<MainActivity>()
                     }

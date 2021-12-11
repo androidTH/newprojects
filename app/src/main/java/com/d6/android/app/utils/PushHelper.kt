@@ -62,12 +62,12 @@ object PushHelper {
         mPushAgent.setNotificationClickHandler(CustomNotificationHandler())
         val random = (Math.random() * 3).toInt()
         var customInfo = Bundle()
-//        if(random==1){
-//            customInfo.putBoolean("mCallNativeDefaultHandler",false)
-//        }else{
-//            customInfo.putBoolean("mCallNativeDefaultHandler",true)
-//        }
-        MobclickAgent.setCatchUncaughtExceptions(true)
+        if(random==1){
+            customInfo.putBoolean("mCallNativeDefaultHandler",false)
+        }else{
+            customInfo.putBoolean("mCallNativeDefaultHandler",true)
+        }
+//        MobclickAgent.setCatchUncaughtExceptions(true)
         CrashApi.getInstance().updateCustomInfo(customInfo)
 
         //注册推送服务，每次调用register方法都会回调该接口
