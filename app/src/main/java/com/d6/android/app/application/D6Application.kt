@@ -87,11 +87,6 @@ class D6Application : BaseApplication(), RongIMClient.OnReceiveMessageListener, 
         var agreed = SPUtils.instance().getBoolean(Const.User.ISNOTUESERAGREEMENT)
         if(agreed&&PushHelper.isMainProcess(this)){
             PushHelper.init(this)
-            var imagePipelineConfig = ImagePipelineConfig.newBuilder(Preconditions.checkNotNull(this))
-                    .setBitmapsConfig(Bitmap.Config.ARGB_8888) // 若不是要求忒高清显示应用，就用使用RGB_565吧（默认是ARGB_8888)
-                    .setDownsampleEnabled(true)
-                    .build()
-            Fresco.initialize(this,imagePipelineConfig)
 
             if (applicationInfo.packageName.equals(getCurProcessName(applicationContext))) {
                 var config = PushConfig.Builder().enableMiPush(Const.XIAOMIAPPID, Const.XIAOMIAPPKEY).build()

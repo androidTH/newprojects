@@ -64,21 +64,20 @@ class SplashActivity : BaseActivity() {
 //            if (!isLogin) {
 //                startActivity<SignInActivity>()
 //            }
-//            if(check_box.isChecked){
-//                startActivity<SignInActivity>()
-//            }else{
-//                toast("同意用户协议及隐私声明后，才可登录注册哦～")
-//            }
-            startActivity<SignInActivity>()
+            if(check_box.isChecked){
+                startActivity<SignInActivity>()
+            }else{
+                toast("请阅读并同意用户协议和隐私协议后继续")
+            }
+//            startActivity<SignInActivity>()
         }
 
         rl_wxlogin.setOnClickListener {
-            WXLogin()
-//            if(check_box.isChecked){
-//                WXLogin()
-//            }else{
-//                toast("同意用户协议及隐私声明后，才可登录注册哦～")
-//            }
+            if(check_box.isChecked){
+                WXLogin()
+            }else{
+                toast("请阅读并同意用户协议和隐私协议后继续")
+            }
         }
 
 
@@ -184,7 +183,7 @@ class SplashActivity : BaseActivity() {
 
 
         tv_protocols.movementMethod = LinkMovementMethod.getInstance()
-        val s = "我已阅读并同意 用户协议 隐私政策"
+        val s = "已阅读并同意 用户协议 隐私政策"
         tv_protocols.text = SpanBuilder(s)
                 .click(s.length - 10, s.length-5, MClickSpan(this,1))
                 .click(s.length-5,s.length,MClickSpan(this,2))

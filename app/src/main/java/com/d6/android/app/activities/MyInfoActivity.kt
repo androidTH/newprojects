@@ -59,7 +59,17 @@ class MyInfoActivity : BaseActivity(),Observer{
     }
 
     private val mImagesData by lazy<ArrayList<AddImage>>{
-        intent.getParcelableArrayListExtra("images")
+        try {
+            if(intent.hasExtra("images")){
+                intent.getParcelableArrayListExtra("images")
+            }else{
+                ArrayList<AddImage>()
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+            ArrayList<AddImage>()
+        }
+
     }
 
     private val myImageAdapter by lazy {

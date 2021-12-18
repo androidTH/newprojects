@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -57,7 +58,7 @@ class VistorsActivity : RecyclerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var count = intent.getStringExtra("count")
-        if(count.equals("0")){
+        if(TextUtils.equals("0",count)){
             setTitleBold("访客",true)
         }else{
             setTitleBold("访客·${count}",true)

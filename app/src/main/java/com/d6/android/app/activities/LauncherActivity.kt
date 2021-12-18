@@ -175,12 +175,6 @@ class LauncherActivity : BaseActivity() {
         ActivitiesManager.getInstance().init(AppUtils.context as Application?)
         RongIM.getInstance().setMessageAttachedUserInfo(true)
 
-        var imagePipelineConfig = ImagePipelineConfig.newBuilder(Preconditions.checkNotNull(this))
-                .setBitmapsConfig(Bitmap.Config.ARGB_8888) // 若不是要求忒高清显示应用，就用使用RGB_565吧（默认是ARGB_8888)
-                .setDownsampleEnabled(true)
-                .build()
-        Fresco.initialize(this,imagePipelineConfig)
-
         initCacheLib()
     }
 

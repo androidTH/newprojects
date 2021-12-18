@@ -78,7 +78,7 @@ class MyCardActivity : BaseActivity() {
 
         tv_adduserinfo.setOnClickListener {
             mData?.let {
-                startActivityForResult<MyInfoActivity>(0, "data" to it, ("images" to mImages) as Pair<String, Any>)
+                startActivityForResult<MyInfoActivity>(0, "data" to it, "images" to mImages)
             }
         }
 

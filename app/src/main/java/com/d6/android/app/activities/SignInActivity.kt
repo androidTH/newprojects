@@ -356,7 +356,7 @@ class SignInActivity : TitleActivity() {
                 saveUserInfo(data)
                 val info = UserInfo(it.accountId, "${it.name}", Uri.parse("${it.picUrl}"))
                 RongIM.getInstance().refreshUserInfoCache(info)
-                Log.i("login","username=${data?.name}")
+                Log.i("login","username=${it.name}")
                 if (it.name.isNullOrEmpty()) {//如果没有昵称
                     startActivity<SetUserInfoActivity>()
                 } else {

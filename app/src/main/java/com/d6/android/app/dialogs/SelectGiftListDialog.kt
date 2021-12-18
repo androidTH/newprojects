@@ -104,33 +104,36 @@ class SelectGiftListDialog : DialogFragment() {
     }
 
     private fun showGift(data: ArrayList<GiftBeans>){
-        var screenWidth = AppScreenUtils.getScreenRealWidth((context as BaseActivity))
-        // item的间距
-        val spacing: Int = DisplayUtil.dp2px(activity, 15f)
-        // 动态计算item的宽度和高度
-        val itemWidth = (screenWidth - spacing * 5) / 4
-        //动态计算gridview的总高度
-        val gvHeight = itemWidth * 2 + spacing * 1
-        for (j in data) {
-            emotionNames.add(j)
-            if (emotionNames.size == 8) {
-                val gv: GridView = createEmotionGridView(emotionNames, screenWidth, spacing, itemWidth, gvHeight)
-                emotionViews.add(gv)
-                // 添加完一组表情,重新创建一个表情名字集合
-                emotionNames = ArrayList()
+        if(context!=null){
+            var screenWidth = AppScreenUtils.getScreenRealWidth((context as BaseActivity))
+            // item的间距
+            val spacing: Int = DisplayUtil.dp2px(activity, 15f)
+            // 动态计算item的宽度和高度
+            val itemWidth = (screenWidth - spacing * 5) / 4
+            //动态计算gridview的总高度
+            val gvHeight = itemWidth * 2 + spacing * 1
+            for (j in data) {
+                emotionNames.add(j)
+                if (emotionNames.size == 8) {
+                    val gv: GridView = createEmotionGridView(emotionNames, screenWidth, spacing, itemWidth, gvHeight)
+                    emotionViews.add(gv)
+                    // 添加完一组表情,重新创建一个表情名字集合
+                    emotionNames = ArrayList()
+                }
             }
+
+            // 判断最后是否有不足20个表情的剩余情况
+            if (emotionNames.size > 0) {
+                val gv = createEmotionGridView(emotionNames, screenWidth, spacing, itemWidth, gvHeight)
+                emotionViews.add(gv)
+            }
+            //初始化指示器
+            ll_point_group.initIndicator(emotionViews.size)
+            // 将多个GridView添加显示到ViewPager中
+            emotionPagerGvAdapter = EmotionPagerAdapter(emotionViews)
+            vp_complate_gift_layout.setAdapter(emotionPagerGvAdapter)
         }
 
-        // 判断最后是否有不足20个表情的剩余情况
-        if (emotionNames.size > 0) {
-            val gv = createEmotionGridView(emotionNames, screenWidth, spacing, itemWidth, gvHeight)
-            emotionViews.add(gv)
-        }
-        //初始化指示器
-        ll_point_group.initIndicator(emotionViews.size)
-        // 将多个GridView添加显示到ViewPager中
-        emotionPagerGvAdapter = EmotionPagerAdapter(emotionViews)
-        vp_complate_gift_layout.setAdapter(emotionPagerGvAdapter)
     }
 
     /**
