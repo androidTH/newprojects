@@ -76,8 +76,8 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 
     private val tabImages = arrayOf(R.drawable.home_main_selector,R.drawable.home_speed_date_selector,R.drawable.home_square_selector
             ,R.drawable.home_msg_selector, R.drawable.home_mine_selector)//R.drawable.home_speed_date_selector,
-    private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,HomeFindFragment::class.java, SquareMainFragment::class.java,
-            MessageFragment::class.java,MineFragment::class.java)//DateFragment::class.java
+    private val fragmentArray = arrayOf<Class<*>>(HomeFragment::class.java,DateFragment::class.java, SquareMainFragment::class.java,
+            MessageFragment::class.java,MineFragment::class.java)//DateFragment::class.java   HomeFindFragment::class.java
     private var unReadDateMsg:Int=-1
     private var unReadMsgNum:Int=0
     private var unReadServiceMsgNum:Int=0//男游客浮动移除
@@ -215,7 +215,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_find_tab.visibility = View.VISIBLE
 
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
-                    if (fragment != null && fragment is HomeFindFragment) {
+                    if (fragment != null && fragment is DateFragment) {
                         fragment.setResetTopInfo()
                     }
                 }
@@ -227,22 +227,24 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    tv_title1.gone()
 //                    tv_title.text = "D6社区"
 //                    tv_square_tab.visibility = View.VISIBLE
+                    titleBar.gone()
+                    line.gone()
                     getUserInfoUnMsg()
 
-                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
-                    tv_title.visible()
-                    tv_create_date.visibility = View.GONE
-                    tv_date_mydate.gone()
-                    date_headView.gone()
+//                    tv_title.textColor = ContextCompat.getColor(this,R.color.color_333333)
+//                    tv_title.visible()
+//                    tv_create_date.visibility = View.GONE
+//                    tv_date_mydate.gone()
+//                    date_headView.gone()
                     setNoticeIsNoShow()
                     iv_right.gone()
                     tv_title1.gone()
-                    tv_title.text = "发现"
+//                    tv_title.text = "发现"
                     tv_square_tab.visibility = View.VISIBLE
 
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
-                    if (fragment != null && fragment is HomeFindFragment) {
-                        fragment.refresh()
+                    if (fragment != null && fragment is DateFragment) {
+                        fragment.getPeoples()
                     }
                 }
                 TextUtils.equals(it, tabTexts[2]) -> {
@@ -275,7 +277,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
 //                    tv_title.text = "人工服务"
 //                    tv_date_tab.visibility = View.VISIBLE
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
-                    if (fragment != null && fragment is HomeFindFragment) {
+                    if (fragment != null && fragment is DateFragment) {
                         fragment.setResetTopInfo()
                     }
                 }
@@ -284,6 +286,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     immersionBar.init()
                     titleBar.backgroundColor = ContextCompat.getColor(this,R.color.white)
                     titleBar.gone()
+                    line.gone()
 //                    iv_right.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 //                    iv_right.imageResource = R.mipmap.ic_msg_setting
                     tv_title.text = "聊天"
@@ -292,7 +295,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title1.text = ""
                     getUserInfoUnMsg()
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
-                    if (fragment != null && fragment is HomeFindFragment) {
+                    if (fragment != null && fragment is DateFragment) {
                         fragment.setResetTopInfo()
                     }
                     if(unReadMsgNum==0){
@@ -308,7 +311,7 @@ class MainActivity : BaseActivity(), IUnReadMessageObserver,RongIM.GroupInfoProv
                     tv_title.text = "我的"
                     line.gone()
                     val fragment = supportFragmentManager.findFragmentByTag(tabTexts[1])
-                    if (fragment != null && fragment is HomeFindFragment) {
+                    if (fragment != null && fragment is DateFragment) {
                         fragment.setResetTopInfo()
                     }
                 }

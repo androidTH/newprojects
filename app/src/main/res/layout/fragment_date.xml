@@ -1,22 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_find"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rl_homefindtop"
+        android:layout_width="match_parent"
+        android:layout_height="75dp">
+        <View
+            android:id="@+id/iv_middle"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+
+        <RelativeLayout
+            android:id="@+id/rl_bangdanpage"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_8"
+            android:layout_toLeftOf="@+id/iv_middle"
+            android:paddingLeft="@dimen/margin_10"
+            android:background="@drawable/shape_list_6r_4b">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/margin_8"
+                android:gravity="center_vertical"
+                android:text="榜单"
+                android:textStyle="bold"
+                android:textColor="@color/color_BFFFFFFF"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_finddate03"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sv_finddate03"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:visibility="gone"
+                    android:layout_marginRight="@dimen/margin_3"
+                    fresco:viewAspectRatio="1.0"
+                    fresco:roundingBorderColor="@color/color_D8D8D8"
+                    fresco:roundingBorderWidth="0.5dp"
+                    fresco:roundAsCircle="true" />
+                <com.d6.android.app.widget.textinlineimage.TextInlineImage
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_BFFFFFFF"
+                    android:text="魅力榜·土豪榜"
+                    android:id="@+id/tv_03"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_bangdan"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_groupchat"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_8"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_toRightOf="@+id/iv_middle"
+            android:background="@drawable/shape_list_6r_a3"
+            android:paddingLeft="@dimen/margin_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/margin_8"
+                android:gravity="center_vertical"
+                android:text="群聊"
+                android:textStyle="bold"
+                android:textColor="@color/color_BFFFFFFF"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tv_finddate_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="优质私密群等你加入"
+                android:textColor="@color/color_BFFFFFFF"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/margin_12"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_duihua"/>
+        </RelativeLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/mTitleBar"
+        android:layout_below="@id/rl_homefindtop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
         android:orientation="horizontal"
         android:background="@color/white">
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="@dimen/margin_15"
-            android:src="@mipmap/back"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_back"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:paddingLeft="@dimen/margin_15"-->
+<!--            android:src="@mipmap/back"/>-->
         <RelativeLayout
             android:id="@+id/bar_left"
             android:layout_width="wrap_content"

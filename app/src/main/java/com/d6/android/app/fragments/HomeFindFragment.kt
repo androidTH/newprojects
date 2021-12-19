@@ -287,7 +287,7 @@ class HomeFindFragment : BaseFragment(){
         rl_homefindtop.postDelayed(mRunnable,2000)
     }
 
-    public fun setResetTopInfo(){
+    fun setResetTopInfo(){
         rl_homefindtop.removeCallbacks(mRunnable)
 //        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
 //            sv_finddate01.visibility = View.GONE

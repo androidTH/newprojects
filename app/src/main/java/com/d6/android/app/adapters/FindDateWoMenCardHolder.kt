@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import com.d6.android.app.R
-import com.d6.android.app.activities.FindDateActivity
 import com.d6.android.app.extentions.showBlur
 import com.d6.android.app.models.FindDate
 import com.d6.android.app.models.UserTag

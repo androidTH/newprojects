@@ -47,6 +47,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
     public static final int PICKER_IMAGE = 100;
     public static final int PICKER_IMAGE_VIDEO = 101;
     public static final int PICKER_VIDEO = 102;
+    public static final String FROMTYPE = "from_type";
 
     /** 单选 */
     public static final int MODE_SINGLE = 0;
@@ -60,6 +61,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
     private int modeType;
     private boolean mShowPayPoint = false;
     private boolean mFirePics = false;
+    private int mFromType = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,8 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
         modeType = intent.getIntExtra(SELECT_MODE,PICKER_IMAGE);
         boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
         mShowPayPoint = intent.getBooleanExtra(EXTRA_PAYPOINTS,false);
+        mFromType = intent.getIntExtra(FROMTYPE,1);
+
         if(intent.hasExtra("firepics")){
             mFirePics = intent.getBooleanExtra(EXTRA_FIREPICS,false);
         }
@@ -134,7 +138,7 @@ public class MultiImageSelectorActivity extends AppCompatActivity implements Mul
                     intent.setAction("android.intent.action.ImageLocalPagerActivity");
                     intent.putExtra("position",0);
                     intent.putStringArrayListExtra("urls",resultList);
-                    intent.putExtra("type",1);
+                    intent.putExtra("type",(mFromType==1)?1:mFromType);
                     intent.putExtra("delete",false);
                     intent.putExtra("paypoints",mShowPayPoint);
                     intent.putExtra("firepics",mFirePics);

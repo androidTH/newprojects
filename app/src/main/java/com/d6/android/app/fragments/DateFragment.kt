@@ -13,6 +13,8 @@ import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import com.amap.api.location.AMapLocationClient
 import com.d6.android.app.R
 import com.d6.android.app.activities.*
@@ -45,6 +47,11 @@ import io.rong.imageloader.core.ImageLoader
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
 import kotlinx.android.synthetic.main.fragment_date.*
+import kotlinx.android.synthetic.main.fragment_date.ll_finddate03
+import kotlinx.android.synthetic.main.fragment_date.rl_homefindtop
+import kotlinx.android.synthetic.main.fragment_date.sv_finddate03
+import kotlinx.android.synthetic.main.fragment_date.tv_03
+import kotlinx.android.synthetic.main.fragment_date.tv_finddate_02
 import master.flame.danmaku.controller.IDanmakuView
 import master.flame.danmaku.danmaku.model.BaseDanmaku
 import master.flame.danmaku.danmaku.model.DanmakuTimer
@@ -64,9 +71,7 @@ import org.jetbrains.anko.textColor
 import java.io.InputStream
 import java.lang.Exception
 import java.util.*
-import java.util.stream.Collectors
 import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
 /**
  * 约会
@@ -164,9 +169,9 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             }
         })
 
-        iv_back.setOnClickListener {
-            activity.finish()
-        }
+//        iv_back.setOnClickListener {
+//            activity.finish()
+//        }
 
         tv_city.setOnClickListener {
             activity.isCheckOnLineAuthUser(this, userId) {
@@ -277,6 +282,14 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //            startActivity<D6LoveHeartListActivity>()
         }
 
+        rl_bangdanpage.setOnClickListener{
+            startActivity<D6LoveHeartListActivity>()
+        }
+
+        rl_groupchat.setOnClickListener {
+            startActivity<FindGroupListActivity>()
+        }
+
         root_find.setOnClickListener {
             hideRedHeartGuide()
         }
@@ -306,6 +319,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 
         initDanMu()
 
+        getPeoples()
     }
 
     private var mDanmakuContext: DanmakuContext? = null
@@ -807,6 +821,132 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             // dont forget release!
             sv_danmaku.release()
         }
+    }
+
+
+    private var mRunnable = Runnable {
+        getLatestNews()
+    }
+
+    public fun getPeoples(){
+//        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
+//            sv_finddate01.visibility = View.GONE
+//            tv_01.text = "速约/觅约/救火/旅行约"
+//
+//            sv_finddate02.visibility = View.GONE
+//            tv_02.text = "已有${data?.iAllAppointCount}人邀约成功"
+
+//            sv_finddate03.visibility = View.GONE
+//            tv_03.text = "魅力榜·土豪榜"
+//
+//            tv_finddate_02.text = "优质私密群等你加入"
+//
+//            rl_homefindtop.removeCallbacks(mRunnable)
+//            rl_homefindtop.postDelayed(mRunnable,2000)
+//        }
+
+        sv_finddate03.visibility = View.GONE
+        tv_03.text = "魅力榜·土豪榜"
+
+        tv_finddate_02.text = "优质私密群等你加入"
+
+        rl_homefindtop.removeCallbacks(mRunnable)
+        rl_homefindtop.postDelayed(mRunnable,2000)
+    }
+
+    fun setResetTopInfo(){
+        rl_homefindtop.removeCallbacks(mRunnable)
+//        Request.findAppointmentList(userId, "", "", "${mDefualtSex}", 1).request(this) { _, data ->
+//            sv_finddate01.visibility = View.GONE
+//            tv_01.text = "速约/觅约/救火/旅行约"
+//
+//            sv_finddate02.visibility = View.GONE
+//            tv_02.text = "已有${data?.iAllAppointCount}人邀约成功"
+
+//            sv_finddate03.visibility = View.GONE
+//            tv_03.text = "魅力榜·土豪榜"
+//
+//            tv_finddate_02.text = "优质私密群等你加入"
+//        }
+
+        sv_finddate03.visibility = View.GONE
+        tv_03.text = "魅力榜·土豪榜"
+
+        tv_finddate_02.text = "优质私密群等你加入"
+    }
+
+    private lateinit var mFindDateInfo:FindDateInfo
+    private fun getLatestNews(){
+        Request.queryLatestNews().request(this){ _, data->
+            data?.let {
+//                var rongGroup_name = it.optString("rongGroup_name")
+                mFindDateInfo = it
+                if(mFindDateInfo!=null){
+
+//                    if(it.lookabout_picurl.isNotEmpty()){
+//                        sv_finddate01.setImageURI(it.lookabout_picurl)
+//                        lookAbout()
+//                    }
+//
+//                    if(it.appointment_picurl.isNotEmpty()){
+//                        sv_finddate02.setImageURI("${it.appointment_picurl}")
+//                        dateCount()
+//                    }
+
+                    if(it.userpoint_picUrl.isNotEmpty()){
+                        sv_finddate03.setImageURI(it.userpoint_picUrl)
+                        bangdang()
+                    }
+
+                    if(mFindDateInfo.rongGroup_count>=100){
+                        groupChat()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun bangdang(){
+        var annotation2 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
+        annotation2.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationEnd(animation: Animation?) {
+                mFindDateInfo?.let {
+                    tv_03.text = "收到${mFindDateInfo.userpoint_allLovePoint} [img src=redheart_small/]"
+                    sv_finddate03.visibility = View.VISIBLE
+                }
+
+                var annotation2 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
+                ll_finddate03.startAnimation(annotation2)
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+        })
+
+        ll_finddate03.startAnimation(annotation2)
+    }
+
+    private fun groupChat(){
+        var annotation3 = AnimationUtils.loadAnimation(context, R.anim.hide_anim)
+        annotation3.setAnimationListener(object : Animation.AnimationListener{
+            override fun onAnimationEnd(animation: Animation?) {
+                tv_finddate_02.text = "新人报道群(${mFindDateInfo.rongGroup_count}人）"
+                var annotation3 = AnimationUtils.loadAnimation(context, R.anim.show_anim)
+                tv_finddate_02.startAnimation(annotation3)
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+        })
+        tv_finddate_02.startAnimation(annotation3)
     }
 
     private val mImages = ArrayList<AddImage>()
