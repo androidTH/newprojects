@@ -282,6 +282,8 @@ fun getDataColumn(context: Context, uri: Uri?, selection: String?, selectionArgs
             val index = cursor.getColumnIndexOrThrow(column)
             return cursor.getString(index)
         }
+    } catch (e:Exception){
+        e.printStackTrace()
     } finally {
         if (cursor != null)
             cursor.close()

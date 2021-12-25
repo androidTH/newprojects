@@ -146,7 +146,7 @@ class SetUserInfoActivity : BaseActivity() {
                         }
                     }
                 }else{
-                    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)// 调用android的图库
+                    val intent = Intent(Intent.ACTION_GET_CONTENT,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     intent.type = "image/*"
                     startActivityForResult(intent, 3)
                 }
