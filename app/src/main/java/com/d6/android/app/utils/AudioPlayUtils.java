@@ -85,19 +85,28 @@ public class AudioPlayUtils {
     public void prepare() {
         try {
             if(!TextUtils.isEmpty(mAudioPath)){
-                if (mMediaPlayer == null) {
+                try{
+                    if (mMediaPlayer == null) {
+                        mMediaPlayer = new MediaPlayer();
+                    }
+                    mMediaPlayer.setDataSource(mAudioPath);
+                    mMediaPlayer.prepare();
+                }catch (Exception e){
+                    mMediaPlayer.release();
+                    mMediaPlayer = null;
                     mMediaPlayer = new MediaPlayer();
-                    mMediaPlayer.setLooping(false);
-                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
-                    mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
-                    mMediaPlayer.setOnErrorListener(mOnErrorListener);
-                    mMediaPlayer.setOnInfoListener(mOnInfoListener);
-                    mMediaPlayer.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
-                    mMediaPlayer.setWakeMode(mContext, PowerManager.PARTIAL_WAKE_LOCK);
+                    mMediaPlayer.setDataSource(mAudioPath);
+                    mMediaPlayer.prepare();
                 }
-                mMediaPlayer.setDataSource(mAudioPath);
-                mMediaPlayer.prepare();
+
+                mMediaPlayer.setLooping(false);
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mMediaPlayer.setOnPreparedListener(mOnPreparedListener);
+                mMediaPlayer.setOnCompletionListener(mOnCompletionListener);
+                mMediaPlayer.setOnErrorListener(mOnErrorListener);
+                mMediaPlayer.setOnInfoListener(mOnInfoListener);
+                mMediaPlayer.setOnBufferingUpdateListener(mOnBufferingUpdateListener);
+                mMediaPlayer.setWakeMode(mContext, PowerManager.PARTIAL_WAKE_LOCK);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -20,13 +20,9 @@ import com.d6.android.app.extentions.request
 import com.d6.android.app.models.UserData
 import com.d6.android.app.net.Request
 import com.d6.android.app.utils.*
-import com.d6.android.app.utils.luban.CompressionPredicate
-import com.d6.android.app.utils.luban.Luban
-import com.d6.android.app.utils.luban.OnCompressListener
 import com.d6.android.app.widget.MaxEditTextWatcher
 import com.fm.openinstall.OpenInstall
 import com.xinstall.XInstall
-import io.reactivex.Flowable
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_set_user_info.*
@@ -146,9 +142,16 @@ class SetUserInfoActivity : BaseActivity() {
                         }
                     }
                 }else{
-                    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)// 调用android的图库
-                    intent.type = "image/*"
-                    startActivityForResult(intent, 3)
+                    val getIntent = Intent(Intent.ACTION_GET_CONTENT,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    getIntent.type = "image/*"
+                    startActivityForResult(getIntent, 3)
+
+//                    val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)// 调用android的图库
+//                    pickIntent.type = "image/*"
+//                    val chooserIntent: Intent = Intent.createChooser(getIntent, "Select Image")
+//
+//                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf<Intent>(pickIntent,getIntent))
+//                    startActivityForResult(chooserIntent, 3)
                 }
             }
         }
@@ -289,13 +292,13 @@ class SetUserInfoActivity : BaseActivity() {
             }.request(this) { _, data ->
                 clearLoginToken()
                 SPUtils.instance()
-                        .put(Const.User.IS_LOGIN,true)
+                        .put(Const.User.IS_LOGIN, true)
                         .put(Const.User.USER_NICK, nick)
                         .put(Const.User.USER_HEAD, user.picUrl)
                         .put(Const.User.USER_SEX, user.sex)
-                        .put(Const.User.SLOGINTOKEN,data?.sLoginToken)
+                        .put(Const.User.SLOGINTOKEN, data?.sLoginToken)
                         .apply()
-                OpenInstall.reportEffectPoint("perfect_profile",1)//完善资料成功时上报
+                OpenInstall.reportEffectPoint("perfect_profile", 1)//完善资料成功时上报
                 startActivity<MainActivity>()
                 dismissDialog()
                 setResult(Activity.RESULT_OK)
