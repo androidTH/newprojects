@@ -175,8 +175,8 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                    textView.setText("你给"+userInfo.getName()+"赠送了");//"+nums+"颗爱心"
+//                    UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+//                    textView.setText("你给"+userInfo.getName()+"赠送了");//"+nums+"颗爱心"
                     holder.mTvReceivedLoveHeartNums.setText(String.valueOf(nums));
                 }
             }
@@ -201,8 +201,8 @@ public class LoveHeartMessageProvider extends IContainerItemProvider.MessageProv
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
-                textView.setText(userInfo.getName()+"给你赠送了");//+num+"颗爱心"
+//                UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(data.getTargetId());
+//                textView.setText(userInfo.getName()+"给你赠送了");//+num+"颗爱心"
                 holder.mTvReceivedLoveHeartNums.setText(num);
             }
         }

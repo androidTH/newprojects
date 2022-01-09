@@ -151,6 +151,7 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
             overlay = FastBlur.doBlur(overlay, radius.toInt(), true)
             return overlay
         }else{
+            overlay = Bitmap.createBitmap(720,1080, Bitmap.Config.ARGB_8888)
             return overlay
         }
     }
