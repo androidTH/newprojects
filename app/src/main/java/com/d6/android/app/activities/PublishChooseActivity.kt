@@ -3,6 +3,7 @@ package com.d6.android.app.activities
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
@@ -151,6 +152,7 @@ class PublishChooseActivity : BaseActivity(),View.OnClickListener{
             overlay = FastBlur.doBlur(overlay, radius.toInt(), true)
             return overlay
         }else{
+            overlay = Bitmap.createBitmap(720,1080, Bitmap.Config.ARGB_8888)
             return overlay
         }
     }

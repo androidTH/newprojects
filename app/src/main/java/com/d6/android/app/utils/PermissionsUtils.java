@@ -94,7 +94,9 @@ public class PermissionsUtils {
                 }
             } else {
                 //全部权限通过，可以进行下一步操作。。。
-                mPermissionsResult.passPermissions();
+                if(mPermissionsResult!=null){
+                    mPermissionsResult.passPermissions();
+                }
             }
         }
 
