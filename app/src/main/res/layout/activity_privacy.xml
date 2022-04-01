@@ -63,6 +63,53 @@
                 android:layout_height="0.5dp"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:background="@color/color_EAEAEA" />
+            <RelativeLayout
+                android:id="@+id/rl_gifthistory"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_gifthistory"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text=" [主页] 中不展示收到/送出礼物记录"
+                    android:textColor="@color/color_black"
+                    android:textSize="15sp"
+                    android:visibility="visible" />
+
+                <com.d6.android.app.widget.switchbutton.SwitchButton
+                    android:id="@+id/sw_gifthistory_off"
+                    style="@style/SwitchButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:checked="false"
+                    android:padding="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="9sp"
+                    app:kswAnimationDuration="300"
+                    app:kswBackDrawable="@drawable/ios_mine_drawable"
+                    app:kswBackMeasureRatio="1.7"
+                    app:kswThumbDrawable="@drawable/shape_switchthum" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:background="@color/color_EFEFEF" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_customerservice"

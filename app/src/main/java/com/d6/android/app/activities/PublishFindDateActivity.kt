@@ -225,7 +225,7 @@ class PublishFindDateActivity : BaseActivity(), Observer {
         tv_clear_gift.setOnClickListener {
             if(mGiftBeans!=null){
                 tv_gift_type.text = ""
-                tv_gift_type.hint = "选择邀约礼物"
+                tv_gift_type.hint = "添加邀约礼物将会收到更多人赴约哦"//选择邀约礼物
                 tv_clear_gift.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.center_moreicon, 0)
                 mGiftBeans = null
                 giftLoveLNum = null

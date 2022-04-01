@@ -205,7 +205,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     if (localLoveHeartNums > 0) {
                         if (sendLoveHeartNums <= localLoveHeartNums) {
                             sendLoveHeartNums = sendLoveHeartNums + 1
-                            addGiftNums(1, false, false, "")
+                            addGiftNums(10, false, false, "")
                             IsNotFastClick = is500sFastClick()
                             VibrateHelp.Vibrate(activity, VibrateHelp.time50)
                         } else {

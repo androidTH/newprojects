@@ -52,6 +52,14 @@ class PrivacySettingActivity : BaseActivity() {
             finish()
         }
 
+        sw_gifthistory_off.setOnCheckedChangeListener{buttonView,isChecked->
+             if(isChecked){
+
+             }else{
+
+             }
+        }
+
         sw_card_off.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
                 updateIsFind(1)

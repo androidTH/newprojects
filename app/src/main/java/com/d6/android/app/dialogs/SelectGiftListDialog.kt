@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.GridView
 import com.d6.android.app.R
 import com.d6.android.app.activities.MyPointsActivity
-import com.d6.android.app.adapters.BuyRedHeartAdapter
 import com.d6.android.app.adapters.EmotionGridViewAdapter
 import com.d6.android.app.adapters.EmotionPagerAdapter
 import com.d6.android.app.base.BaseActivity
@@ -41,7 +40,7 @@ import java.util.*
  */
 class SelectGiftListDialog : DialogFragment() {
 
-    private var mLocalUserLoveHeartCount:Int? = -1
+    private var mLocalUserLoveHeartCount:Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +87,8 @@ class SelectGiftListDialog : DialogFragment() {
         }else{
             showGift(mAllGiftList)
         }
+        ll_user_lovepoint.visibility = View.GONE
+        setLoveHeartData()
     }
 
     private var mAllGiftList: ArrayList<GiftBeans> = ArrayList()
@@ -157,8 +158,14 @@ class SelectGiftListDialog : DialogFragment() {
         gv.adapter = adapter
         //设置全局点击事件
         gv.setOnItemClickListener { parent, view, position, id ->
-            dialogListener?.onClick(position,emotionNames.get(position).name)
-            dismissAllowingStateLoss()
+            var loveNum = emotionNames.get(position).loveNum?.toInt() ?: 0;
+            if(mLocalUserLoveHeartCount >= loveNum){
+                dialogListener?.onClick(position,emotionNames.get(position).name)
+                dismissAllowingStateLoss()
+            }else{
+                ll_user_lovepoint.visibility = View.VISIBLE
+                tv_redheart_balance.text = "还差${loveNum - mLocalUserLoveHeartCount}"
+            }
         }
         return gv
     }
@@ -171,6 +178,8 @@ class SelectGiftListDialog : DialogFragment() {
                 if (context != null) {
                     mLocalUserLoveHeartCount = it.iLovePoint
                     tv_redheart_count.text = "${mLocalUserLoveHeartCount} [img src=redheart_small/]"
+
+                    tv_my_redheart.text = "${mLocalUserLoveHeartCount} [img src=redheart_small/]"
                 }
             }
         })
