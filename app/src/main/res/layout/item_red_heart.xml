@@ -4,13 +4,13 @@
     android:layout_width="80dp"
     android:layout_height="@dimen/height_60"
     android:orientation="vertical"
+    android:gravity="center"
     android:background="@drawable/shape_white_ef">
 
     <TextView
         android:id="@+id/tv_redheartnums"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_10"
         android:gravity="center"
         android:textColor="@color/color_333333"
         android:text="100"
@@ -27,6 +27,7 @@
         android:layout_marginTop="@dimen/margin_5"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/color_888888"
+        android:visibility="gone"
         android:textSize="12sp"/>
       <!--<ImageView-->
           <!--android:layout_width="wrap_content"-->

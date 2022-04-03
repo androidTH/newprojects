@@ -739,6 +739,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
             tv_openchat_tips_title_bottom.text = getString(R.string.string_appaying_openchat)
             tv_openchat_tips_bottom.text = getString(R.string.string_give_redflower)
             tv_help_service.visibility = View.VISIBLE //VISIBLE
+            tv_sendgift_service.visibility = View.VISIBLE
         }) { code, msg ->
             showToast(msg)
         }
@@ -824,7 +825,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     tv_openchat_tips_title_bottom.text = getString(R.string.string_appaying_openchat)
                     tv_openchat_tips_bottom.text = getString(R.string.string_give_redflower)
                     tv_help_service.visibility = View.VISIBLE //VISIBLE
-
+                    tv_sendgift_service.visibility = View.VISIBLE
                     fragment?.hideChatInput( true)
 
                     SPUtils.instance().put(CONVERSATION_APPLAY_PRIVATE_TYPE + getLocalUserId()+"-"+ if(iType==2)  mTargetId else mOtherUserId,true).apply()
@@ -835,6 +836,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                     tv_openchat_tips_title_bottom.visibility = View.GONE
                     tv_openchat_tips_bottom.visibility = View.GONE
                     tv_help_service.visibility = View.GONE
+                    tv_sendgift_service.visibility = View.GONE
                     tv_openchat_tips_center_bottom.visibility = View.VISIBLE
                     tv_openchat_tips_center_bottom.text =String.format(getString(R.string.string_applay_tips_center),tv_chattitle.text)
                     fragment?.let {
@@ -856,6 +858,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         tv_openchat_tips_center_bottom.visibility = View.GONE
                         linear_openchat_agree_bottom.visibility = View.GONE
                         tv_help_service.visibility = View.GONE
+                        tv_sendgift_service.visibility = View.GONE
 
                         tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
                         tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)
@@ -1564,6 +1567,7 @@ class ChatActivity : BaseActivity(), RongIM.OnSendMessageListener, View.OnLayout
                         tv_openchat_apply_bottom.isEnabled = true
                         tv_apply_sendflower.visibility = View.GONE
                         tv_help_service.visibility = View.GONE
+                        tv_sendgift_service.visibility = View.GONE
                         tv_openchat_apply_bottom.text = resources.getText(R.string.string_apply_openchat)
                         tv_openchat_tips_title_bottom.text = resources.getString(R.string.string_openchat)
                         tv_openchat_tips_bottom.text = resources.getString(R.string.string_apply_agree_openchat_warm)

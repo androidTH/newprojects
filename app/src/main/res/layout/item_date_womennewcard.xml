@@ -18,12 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<com.d6.android.app.widget.convenientbanner.ConvenientBanner-->
-            <!--android:id="@+id/banner_grils"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--app:canLoop="true"-->
-            <!--app:autoTurningTime="2000"/>-->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imageView"
             style="@style/DefaultImageStyle"
@@ -58,6 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_rgpic_bg"
+            android:paddingBottom="@dimen/margin_20"
+            android:paddingRight="@dimen/margin_50"
             android:layout_alignParentBottom="true">
 
             <RelativeLayout
@@ -174,20 +170,17 @@
                     android:text="[img src=redheart_small/]   "
                     android:textColor="@color/white"
                     android:textSize="12dp" />
+                <TextView
+                    android:id="@+id/tv_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLength="8"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             </LinearLayout>
-            <TextView
-                android:id="@+id/tv_city"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/rl_date_womenheadView"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="23dp"
-                android:layout_marginRight="16dp"
-                android:ellipsize="end"
-                android:gravity="right"
-                android:maxLength="8"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_content"
@@ -209,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_content"
                 android:layout_marginBottom="@dimen/margin_10"
-                android:paddingLeft="12dp" />
+                android:paddingLeft="@dimen/margin_12" />
         </RelativeLayout>
     </RelativeLayout>
 

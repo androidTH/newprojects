@@ -32,6 +32,7 @@ import com.d6.android.app.widget.badge.DisplayUtil
 import kotlinx.android.synthetic.main.dialog_select_giftlist.*
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.support.v4.startActivity
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.wrapContent
 import java.util.*
 
@@ -41,6 +42,7 @@ import java.util.*
 class SelectGiftListDialog : DialogFragment() {
 
     private var mLocalUserLoveHeartCount:Int = -1
+    private var titleStype = "date"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +63,27 @@ class SelectGiftListDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if(arguments!=null){
-            mAllGiftList = arguments.getParcelableArrayList<GiftBeans>("giftlist")
+            if(arguments.containsKey("giftlist")){
+                mAllGiftList = arguments.getParcelableArrayList<GiftBeans>("giftlist")
+            }
+            titleStype = arguments.getString("titleStype","date")
+            if(TextUtils.equals("other",titleStype)){
+                tv_yaoyuetitle.text="赠送礼物"
+                tv_redheart_desc.text="赠送礼物表表心意,更容易收到对方的回复哦"
+            }else{
+                tv_yaoyuetitle.text="邀约礼物"
+                tv_redheart_desc.text="添加礼物将会收到更多人申请哦"
+            }
         }
 
         tv_redheart_gobuy.setOnClickListener {
+            isBaseActivity {
+                startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
+                dismissAllowingStateLoss()
+            }
+        }
+
+        tv_my_redheart.setOnClickListener {
             isBaseActivity {
                 startActivity<MyPointsActivity>("fromType" to SENDLOVEHEART_DIALOG)
                 dismissAllowingStateLoss()
@@ -160,8 +179,12 @@ class SelectGiftListDialog : DialogFragment() {
         gv.setOnItemClickListener { parent, view, position, id ->
             var loveNum = emotionNames.get(position).loveNum?.toInt() ?: 0;
             if(mLocalUserLoveHeartCount >= loveNum){
-                dialogListener?.onClick(position,emotionNames.get(position).name)
-                dismissAllowingStateLoss()
+                if(TextUtils.equals("other",titleStype)){
+                    toast("接口")
+                }else{
+                    dialogListener?.onClick(position,emotionNames.get(position).name)
+                    dismissAllowingStateLoss()
+                }
             }else{
                 ll_user_lovepoint.visibility = View.VISIBLE
                 tv_redheart_balance.text = "还差${loveNum - mLocalUserLoveHeartCount}"

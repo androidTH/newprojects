@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="80dp"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/margin_10"
+    android:orientation="vertical">
+   <com.facebook.drawee.view.SimpleDraweeView
+       style="@style/DefaultImageStyle"
+       android:layout_width="70dp"
+       android:layout_height="70dp"
+       android:layout_gravity="center_horizontal"
+       android:id="@+id/sampimgview_gift"/>
+    <com.d6.android.app.widget.textinlineimage.TextInlineImage
+        android:id="@+id/gift_name"
+        android:text="900"
+        android:textSize="12sp"
+        android:layout_marginTop="@dimen/margin_10"
+        android:textColor="@color/color_888888"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

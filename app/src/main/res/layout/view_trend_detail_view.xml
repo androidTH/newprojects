@@ -190,12 +190,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_content"
-        android:layout_marginTop="@dimen/margin_15"
-        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginTop="14dp"
         android:textColor="@color/color_999999"
         android:textSize="12sp"
         android:gravity="center"
         android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/tv_squaredetails_gift"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/ll_content"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@+id/tv_redflower"
+        android:layout_marginRight="@dimen/margin_22"
+        android:drawableLeft="@mipmap/liwu_list_s"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:textColor="@color/textColor99"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_redflower"
@@ -204,7 +217,7 @@
         android:layout_below="@+id/ll_content"
         android:layout_marginTop="8dp"
         android:layout_toLeftOf="@+id/tv_comment"
-        android:layout_marginRight="@dimen/margin_40"
+        android:layout_marginRight="@dimen/margin_25"
         android:drawableLeft="@drawable/ic_redflower_selector"
         android:drawablePadding="4dp"
         android:gravity="center"
@@ -219,7 +232,7 @@
         android:layout_below="@+id/ll_content"
         android:layout_toLeftOf="@+id/tv_appraise"
         android:drawableLeft="@mipmap/ic_comment"
-        android:layout_marginRight="@dimen/margin_40"
+        android:layout_marginRight="@dimen/margin_25"
         android:drawablePadding="4dp"
         android:paddingLeft="8dp"
         android:paddingTop="8dp"

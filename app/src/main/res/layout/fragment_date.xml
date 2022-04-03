@@ -113,14 +113,14 @@
         android:layout_below="@id/rl_homefindtop"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_size"
-        android:orientation="horizontal"
-        android:background="@color/white">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="@color/color_black"
             android:textSize="15sp"
+            android:textStyle="bold"
             android:text="优质会员"/>
         <RelativeLayout
             android:id="@+id/bar_left"
@@ -188,28 +188,15 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/textSize"/>
 
-<!--            <ImageView-->
-<!--                android:id="@+id/iv_mycade_newnotice"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:visibility="gone"-->
-<!--                android:layout_alignParentRight="true"-->
-<!--                android:layout_marginRight="@dimen/margin_15"-->
-<!--                android:layout_marginTop="@dimen/margin_10"-->
-<!--                android:src="@mipmap/mycenter_top_newnotice"/>-->
         </RelativeLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/mTitleBar"
-        android:background="@color/color_e6e6e6" />
     <RelativeLayout
         android:id="@+id/rl_date"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/margin_2"
+        android:layout_marginBottom="@dimen/margin_12"
         android:layout_below="@+id/mTitleBar">
 
         <com.d6.android.app.widget.gallery.DiscreteScrollView
@@ -219,7 +206,7 @@
             android:layout_marginRight="@dimen/margin_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="115dp"/>
+            android:layout_marginBottom="10dp"/>
 
         <master.flame.danmaku.ui.widget.DanmakuView
             android:id="@+id/sv_danmaku"
@@ -275,48 +262,35 @@
             android:id="@+id/ll_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/margin_20"
             android:layout_marginBottom="@dimen/margin_28"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_10">
-
+            android:orientation="vertical">
             <ImageButton
-                android:id="@+id/fb_unlike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/fb_liwu"
+                android:layout_width="@dimen/height_30"
+                android:layout_height="@dimen/height_30"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="43dp"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/toleft_button" />
-            <!--discover_back_button-->
+                android:src="@mipmap/liwu_list_big" />
             <ImageButton
                 android:id="@+id/fb_find_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/height_30"
+                android:layout_height="@dimen/height_30"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/margin_15"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/find_chat_button" />
+                android:src="@mipmap/feed_comment_big_icon" />
 
             <ImageButton
                 android:id="@+id/fb_heat_like"
-                android:layout_width="74dp"
-                android:layout_height="74dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="43dp"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/center_like_button" />
-            <!--discover_like_button-->
-
-            <ImageButton
-                android:id="@+id/btn_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/height_30"
+                android:layout_height="@dimen/height_30"
                 android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/toright_button" />
+                android:src="@mipmap/feed_chatlike_normal_icon" />
 
         </LinearLayout>
 

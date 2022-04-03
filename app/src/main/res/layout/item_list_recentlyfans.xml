@@ -94,15 +94,6 @@
         android:layout_height="30dp"
         android:orientation="horizontal">
 
-        <!--<TextView-->
-        <!--android:id="@+id/tv_likedtype"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_marginTop="@dimen/margin_10"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="12sp" />-->
-
         <com.d6.android.app.widget.textinlineimage.TextInlineImage
             android:id="@+id/tv_receivedliked"
             android:layout_width="wrap_content"

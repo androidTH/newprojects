@@ -127,8 +127,8 @@ class VistorAdapter(mData:ArrayList<Fans>): HFRecyclerAdapter<Fans>(mData, R.lay
             tv_job.text = "职业：${data.zhiye}"
         }
 
-//        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
-//        tv_receivedliked.visibility = View.GONE
+        var tv_receivedliked = holder.bind<TextView>(R.id.tv_receivedliked)
+        tv_receivedliked.visibility = View.GONE
 
 //        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
 //

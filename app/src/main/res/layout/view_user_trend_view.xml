@@ -146,7 +146,7 @@
                 android:layout_marginTop="@dimen/margin_10"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/margin_5">
+                android:paddingLeft="@dimen/margin_1">
 
                 <TextView
                     android:id="@+id/tv_square_city"
@@ -213,21 +213,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_comments"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_13"
             android:gravity="center"
             android:singleLine="true"
             android:text="--"
             android:textColor="@color/color_999999"
             android:textSize="12sp" />
 
+
+        <TextView
+            android:id="@+id/tv_userinfo_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/ll_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:layout_marginRight="@dimen/margin_22"
+            android:layout_toLeftOf="@+id/tv_redflower"
+            android:drawableLeft="@mipmap/liwu_list_s"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_8"
+            android:textColor="@color/textColor99"
+            android:textSize="12sp" />
         <TextView
             android:id="@+id/tv_redflower"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_below="@+id/ll_content"
             android:layout_marginTop="@dimen/margin_8"
-            android:layout_marginRight="@dimen/margin_40"
+            android:layout_marginRight="@dimen/margin_25"
             android:layout_toLeftOf="@+id/tv_comment"
             android:drawableLeft="@drawable/ic_redflower_selector"
             android:drawablePadding="4dp"
@@ -259,7 +274,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_content"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/margin_40"
+            android:layout_marginLeft="@dimen/margin_25"
             android:drawableLeft="@drawable/ic_praise_selector"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"

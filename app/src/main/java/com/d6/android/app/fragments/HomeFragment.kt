@@ -30,6 +30,8 @@ import com.d6.android.app.utils.Const.User.USER_PROVINCE
 import com.d6.android.app.utils.Const.VoiceChatType
 import com.d6.android.app.utils.Const.dateTypes
 import com.d6.android.app.widget.diskcache.DiskFileUtils
+import com.d6.android.app.widget.popup.XGravity
+import com.d6.android.app.widget.popup.YGravity
 import com.d6.android.app.widget.popup.blur.MoreWindow
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_home.mSwipeRefreshLayout
@@ -264,7 +266,7 @@ class HomeFragment : BaseFragment() ,SelfPullDateFragment.RenGongBackground,View
     }
 
     private fun showSex() {
-        mPopupSex.showAtLocation(mSwipeRefreshLayout,Gravity.NO_GRAVITY,0,resources.getDimensionPixelOffset(R.dimen.height_73))
+        mPopupSex.showAtAnchorView(rl_date_title, YGravity.BELOW, XGravity.CENTER,0,0)
         mPopupSex.setOnPopupItemClick { basePopup, position, string ->
             mDefualtSex = position
             if (mDefualtSex == -1) {

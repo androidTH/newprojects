@@ -18,6 +18,7 @@ import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.SelectGiftListDialog
 import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.models.Comment
@@ -96,6 +97,14 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
                 deleteAction?.onDelete(it)
             }
         }
+
+
+        tv_userinfo_gift.setOnClickListener {
+            (context as BaseActivity).isAuthUser(){
+                   showGiftDialog()
+            }
+        }
+
 
         tv_redflower.setOnClickListener {
 //               square?.let {
@@ -364,6 +373,13 @@ class UserTrendView @JvmOverloads constructor(context: Context, attrs: Attribute
         initGiftControl()
     }
 
+    private fun showGiftDialog(){
+        var mSelectGiftListDialog = SelectGiftListDialog()
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.setDialogListener { p, s ->
+        }
+        mSelectGiftListDialog.show((context as BaseActivity).supportFragmentManager,"gift")
+    }
 
     //礼物
     private var giftControl: GiftControl? = null

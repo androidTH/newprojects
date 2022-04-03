@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_userinfo_gift"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:visibility="visible"
+    app:cardCornerRadius="@dimen/margin_6"
+    app:cardElevation="@dimen/margin_5"
+    app:cardMaxElevation="@dimen/margin_5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/margin_8"
+        android:paddingRight="@dimen/margin_8"
+        android:paddingBottom="@dimen/margin_5"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_receivedgift_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:textColor="@color/color_333333"
+            android:textSize="12sp" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_receivegiftlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_2" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

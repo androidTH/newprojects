@@ -46,11 +46,13 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.rong.imageloader.core.ImageLoader
 import io.rong.imkit.RongIM
 import io.rong.imlib.model.Conversation
+import kotlinx.android.synthetic.main.activity_publish_find_date.*
 import kotlinx.android.synthetic.main.fragment_date.*
 import kotlinx.android.synthetic.main.fragment_date.ll_finddate03
 import kotlinx.android.synthetic.main.fragment_date.rl_homefindtop
 import kotlinx.android.synthetic.main.fragment_date.sv_finddate03
 import kotlinx.android.synthetic.main.fragment_date.tv_03
+import kotlinx.android.synthetic.main.fragment_date.tv_city
 import kotlinx.android.synthetic.main.fragment_date.tv_finddate_02
 import master.flame.danmaku.controller.IDanmakuView
 import master.flame.danmaku.danmaku.model.BaseDanmaku
@@ -173,6 +175,12 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //            activity.finish()
 //        }
 
+        fb_liwu.setOnClickListener {
+            activity.isAuthUser() {
+                showGiftDialog()
+            }
+        }
+
         tv_city.setOnClickListener {
             activity.isCheckOnLineAuthUser(this, userId) {
                 showArea(it)
@@ -194,10 +202,10 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
             hideRedHeartGuide()
         }
 
-        btn_like.setOnClickListener {
-            doNextCard()
-            hideRedHeartGuide()
-        }
+//        btn_like.setOnClickListener {
+//            doNextCard()
+//            hideRedHeartGuide()
+//        }
 
         fb_heat_like.setOnClickListener {
             activity.isAuthUser() {
@@ -205,7 +213,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     if (localLoveHeartNums > 0) {
                         if (sendLoveHeartNums <= localLoveHeartNums) {
                             sendLoveHeartNums = sendLoveHeartNums + 1
-                            addGiftNums(10, false, false, "")
+                            addGiftNums(1, false, false, "")
                             IsNotFastClick = is500sFastClick()
                             VibrateHelp.Vibrate(activity, VibrateHelp.time50)
                         } else {
@@ -217,18 +225,31 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                         mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
                     }
                 }else{
-                     if(!isFastClick()) {
+                    if (localLoveHeartNums > 0) {
+                        if (sendLoveHeartNums <= localLoveHeartNums) {
+                            sendLoveHeartNums = sendLoveHeartNums + 1
+                            addGiftNums(10, false, true, "")
+                            IsNotFastClick = is500sFastClick()
+                            VibrateHelp.Vibrate(activity, VibrateHelp.time50)
+                        } else {
+                            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                            mSendRedHeartEndDialog.show(childFragmentManager, "redheartendDialog")
+                        }
+                    }else{
                         var mSendLoveHeartDialog = SendLoveHeartDialog()
-                         mDates.get(mRecyclerView.currentItem)
-                         if (mDates.size > mRecyclerView.currentItem) {
-                             var findDate = mDates.get(mRecyclerView.currentItem)
-                             mSendLoveHeartDialog.arguments = bundleOf("userId" to "${findDate.accountId}")
-                         }
+                        mDates.get(mRecyclerView.currentItem)
+                        if (mDates.size > mRecyclerView.currentItem) {
+                            var findDate = mDates.get(mRecyclerView.currentItem)
+                            mSendLoveHeartDialog.arguments = bundleOf("userId" to "${findDate.accountId}")
+                        }
                         mSendLoveHeartDialog.setDialogListener { p, s ->
                             addGiftNums(p, false, true, "${s}")
                         }
                         mSendLoveHeartDialog.show(childFragmentManager, "sendloveheartDialog")
                     }
+//                    if(!isFastClick()) {
+//
+//                    }
                 }
                 hideRedHeartGuide()
             }
@@ -265,15 +286,15 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //            }
         }
 
-        fb_unlike.setOnClickListener {
-            if (mDates.isNotEmpty()) {
-                scrollPosition = mRecyclerView.currentItem - 1
-                if (scrollPosition >= 0) {
-                    mRecyclerView.smoothScrollToPosition(scrollPosition)
-                }
-            }
-            hideRedHeartGuide()
-        }
+//        fb_unlike.setOnClickListener {
+//            if (mDates.isNotEmpty()) {
+//                scrollPosition = mRecyclerView.currentItem - 1
+//                if (scrollPosition >= 0) {
+//                    mRecyclerView.smoothScrollToPosition(scrollPosition)
+//                }
+//            }
+//            hideRedHeartGuide()
+//        }
 
         tv_mycard.setOnClickListener {
 //            iv_mycade_newnotice.visibility = View.GONE
@@ -320,6 +341,30 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         initDanMu()
 
         getPeoples()
+    }
+
+    private fun showGiftDialog(){
+        var mSelectGiftListDialog = SelectGiftListDialog()
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.setDialogListener { p, s ->
+//            for(j in mAllGiftList){
+//                if(TextUtils.equals(s,j.name)){
+//                    mGiftBeans = j
+//                    break
+//                }
+//            }
+//            if(mGiftBeans!=null){
+//                mGiftBeans?.let {
+//                    tv_gift_type.text = "${s}(${it.loveNum} 颗 [img src=redheart_small/])"
+//                    tv_clear_gift.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.comment_local_del, 0)
+//                    giftLoveLNum = it.loveNum
+//                    giftNum=1
+//                    giftName = it.name
+//                    giftIcon = it.icon
+//                }
+//            }
+        }
+        mSelectGiftListDialog.show(childFragmentManager,"gift")
     }
 
     private var mDanmakuContext: DanmakuContext? = null
@@ -470,7 +515,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), clickNums).apply()
                 } else if (clickNums == 1 && !IsNotFastClick) {
                     if(TextUtils.equals(getUserSex(), "0")){
-                        tv_redheart_guide.visibility = View.VISIBLE
+                        tv_redheart_guide.visibility = View.GONE
                         tv_redheart_guide.text = "连击可以送出多个喜欢"
                         ++clickNums
                         SPUtils.instance().put(IS_FIRST_SHOW_FINDDIALOG + getLocalUserId(), clickNums).apply()
@@ -478,7 +523,7 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //                    Flowable.interval(0, 1, TimeUnit.SECONDS).defaultScheduler().subscribe(diposable)
                 } else if (it >= 3 && !mIsFirstFastClick) {
                     if(TextUtils.equals(getUserSex(), "0")){
-                        tv_redheart_guide.visibility = View.VISIBLE
+                        tv_redheart_guide.visibility = View.GONE
                         tv_redheart_guide.text = "长按可快捷选择520、1314个喜欢"
                         SPUtils.instance().put(IS_FIRST_FAST_CLICK + getLocalUserId(), true).apply()
                     }
@@ -587,8 +632,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
         if (mDates.size == 0) {
             tv_main_card_bg_im_id.gone()
             tv_main_card_Bg_tv_id.gone()
-            fb_unlike.gone()
-            btn_like.gone()
+//            fb_unlike.gone()
+//            btn_like.gone()
             fb_heat_like.gone()
             fb_find_chat.gone()
             if (TextUtils.equals(sex, "1")) {
@@ -608,16 +653,16 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
 //                    tv_tip.gone()
                         tv_main_card_bg_im_id.visible()
                         tv_main_card_Bg_tv_id.visible()
-                        fb_unlike.gone()
-                        btn_like.gone()
+//                        fb_unlike.gone()
+//                        btn_like.gone()
                         fb_heat_like.gone()
                         fb_find_chat.gone()
                     } else {
                         mRecyclerView.visibility = View.VISIBLE
                         tv_main_card_bg_im_id.gone()
                         tv_main_card_Bg_tv_id.gone()
-                        fb_unlike.visible()
-                        btn_like.visible()
+//                        fb_unlike.visible()
+//                        btn_like.visible()
                         fb_heat_like.visible()
                         fb_find_chat.visible()
                     }
@@ -625,8 +670,8 @@ class DateFragment : BaseFragment(), BaseRecyclerAdapter.OnItemClickListener {
                     mRecyclerView.visibility = View.VISIBLE
                     tv_main_card_bg_im_id.gone()
                     tv_main_card_Bg_tv_id.gone()
-                    fb_unlike.visible()
-                    btn_like.visible()
+//                    fb_unlike.visible()
+//                    btn_like.visible()
                     fb_heat_like.visible()
                     fb_find_chat.visible()
                     if (pageNum == 1) {

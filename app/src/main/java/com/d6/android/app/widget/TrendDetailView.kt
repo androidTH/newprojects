@@ -16,6 +16,7 @@ import com.d6.android.app.activities.SimplePlayer
 import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.SelectGiftListDialog
 import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.dialogs.UnKnowInfoDialog
@@ -84,6 +85,12 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
 
+        tv_squaredetails_gift.setOnClickListener {
+            (context as BaseActivity).isAuthUser(){
+                showGiftDialog()
+            }
+        }
+
         tv_redflower.setOnClickListener {
             (context as BaseActivity).isAuthUser(){
                 if(!TextUtils.equals(getLocalUserId(),"${square?.userid}")){
@@ -149,6 +156,14 @@ class TrendDetailView @JvmOverloads constructor(context: Context, attrs: Attribu
             }
         }
 
+    }
+
+    private fun showGiftDialog(){
+        var mSelectGiftListDialog = SelectGiftListDialog()
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.setDialogListener { p, s ->
+        }
+        mSelectGiftListDialog.show((context as BaseActivity).supportFragmentManager,"gift")
     }
 
     fun update(square: Square) {

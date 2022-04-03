@@ -10,6 +10,7 @@ import com.d6.android.app.rong.bean.CustomGroupApplyMsg;
 import com.d6.android.app.rong.bean.CustomGroupMsg;
 import com.d6.android.app.rong.bean.CustomLinkTextMsg;
 import com.d6.android.app.rong.bean.CustomMessage;
+import com.d6.android.app.rong.bean.GiftRongIMMessage;
 import com.d6.android.app.rong.bean.GroupUnKnowTipsMessage;
 import com.d6.android.app.rong.bean.CustomSystemMessage;
 import com.d6.android.app.rong.bean.LookDateMsgContent;
@@ -31,6 +32,7 @@ import com.d6.android.app.rong.provider.CustomGroupMsgProvider;
 import com.d6.android.app.rong.provider.CustomLinkTextMsgProvider;
 import com.d6.android.app.rong.provider.CustomMessageProvider;
 import com.d6.android.app.rong.provider.CustomUnKnowMessageProvider;
+import com.d6.android.app.rong.provider.GiftMessageProvider;
 import com.d6.android.app.rong.provider.GroupUnKnowMessageProvider;
 import com.d6.android.app.rong.provider.LookDateMsgProvider;
 import com.d6.android.app.rong.provider.LoveHeartMessageProvider;
@@ -96,6 +98,7 @@ public class RongPlugin {
             }
         }
 
+        RongIM.registerMessageType(GiftRongIMMessage.class);
         RongIM.registerMessageType(LoveHeartMessage.class);
         RongIM.registerMessageType(RedWalletMessage.class);
         RongIM.registerMessageType(CustomMessage.class);
@@ -116,6 +119,7 @@ public class RongPlugin {
         RongIM.registerMessageType(CustomGroupMsg.class);//
         RongIM.registerMessageType(CustomLinkTextMsg.class);
 
+        RongIM.registerMessageTemplate(new GiftMessageProvider());
         RongIM.registerMessageTemplate(new LoveHeartMessageProvider());
         RongIM.registerMessageTemplate(new RedMoenyMessageProvider());
         RongIM.registerMessageTemplate(new CustomMessageProvider());

@@ -51,19 +51,19 @@ public class BuyRedHeartAdapter extends BaseQuickAdapter<LoveHeartRule,BaseViewH
              view.setBackgroundDrawable(ContextCompat.getDrawable(mContext,R.drawable.shape_white_ef));
          }
          helper.setText(R.id.tv_redheartnums,item.getILoveCount()+"");
-         if(item.getILoveCount()==200){
-             helper.setText(R.id.tv_redheartinfo,"爱你哦");
-         }else if(item.getILoveCount()==520){
-            helper.setText(R.id.tv_redheartinfo,"我爱你");
-        }else if(item.getILoveCount()==1314){
-            helper.setText(R.id.tv_redheartinfo,"一生一世");
-        }else if(item.getILoveCount()==3399){
-            helper.setText(R.id.tv_redheartinfo,"长长久久");
-        }else if(item.getILoveCount()==9420){
-            helper.setText(R.id.tv_redheartinfo,"就是爱你");
-        }else if(item.getILoveCount()==20100){
-             helper.setText(R.id.tv_redheartinfo,"爱你一万年");
-        }
+//         if(item.getILoveCount()==200){
+//             helper.setText(R.id.tv_redheartinfo,"爱你哦");
+//         }else if(item.getILoveCount()==520){
+//            helper.setText(R.id.tv_redheartinfo,"我爱你");
+//        }else if(item.getILoveCount()==1314){
+//            helper.setText(R.id.tv_redheartinfo,"一生一世");
+//        }else if(item.getILoveCount()==3399){
+//            helper.setText(R.id.tv_redheartinfo,"长长久久");
+//        }else if(item.getILoveCount()==9420){
+//            helper.setText(R.id.tv_redheartinfo,"就是爱你");
+//        }else if(item.getILoveCount()==20100){
+//             helper.setText(R.id.tv_redheartinfo,"爱你一万年");
+//        }
 //         helper.setText(R.id.tv_redheartinfo,item.getSProductId());
     }
 }

@@ -94,8 +94,6 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
 
         var tv_likedtype = holder.bind<TextView>(R.id.tv_likedtype)
         tv_likedtype.setText("送你")
-//        tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-//        tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
 
         var tv_info = holder.bind<TextView>(R.id.tv_userinfo)
         var mInfo = ""
@@ -113,7 +111,7 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         if(mInfo.isNullOrEmpty()){
             tv_info.visibility = View.GONE
         }else{
-            tv_info.visibility = View.VISIBLE
+            tv_info.visibility = View.GONE
             tv_info.text = "${mInfo}"
         }
 
@@ -121,31 +119,22 @@ class FansAdapter(mData:ArrayList<LoveHeartFans>): HFRecyclerAdapter<LoveHeartFa
         if(data.zhiye.isNullOrEmpty()){
             tv_job.visibility = View.GONE
         }else{
-            tv_job.visibility = View.VISIBLE
+            tv_job.visibility = View.GONE
             tv_job.text = "职业：${data.zhiye}"
         }
 
         var tv_receivedliked = holder.bind<TextInlineImage>(R.id.tv_receivedliked)
+        var tv_showgift = holder.bind<TextInlineImage>(R.id.tv_showgift)
+        tv_showgift.visibility = View.VISIBLE
         if(data.iAllLovePoint>=Const.iLovePointShow){
-            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-            tv_receivedliked.text = "${data.iAllLovePoint} [img src=super_like_icon/] [img src=redheart_small/]"
+            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_666666)
+            tv_receivedliked.text = "${data.iAllLovePoint}颗 [img src=super_like_icon/] [img src=redheart_small/]"
+            tv_showgift.text = "送你礼物\n(${data.iAllLovePoint}颗[img src=redheart_small/])"
         }else{
-            tv_receivedliked.textColor = ContextCompat.getColor(context,R.color.color_FF4133)
-            tv_receivedliked.text = "${data.iAllLovePoint} [img src=redheart_small/]"
+            tv_receivedliked.text = "${data.iAllLovePoint}颗 [img src=redheart_small/]"
+            tv_showgift.text = "送你礼物\n(${data.iAllLovePoint}颗[img src=redheart_small/])"
         }
 
-//        var mTvFollow = holder.bind<TextView>(R.id.tv_follow)
-//        if(data.iIsFollow == 0){
-//            mTvFollow.setBackgroundResource(R.drawable.shape_10r_nofans);
-//            mTvFollow.setTextColor(context.resources.getColor(R.color.color_F7AB00))
-//            mTvFollow.setText("喜欢")
-//        }else{
-//            mTvFollow.setBackgroundResource(R.drawable.shape_10r_fans)
-//            mTvFollow.setTextColor(context.resources.getColor(R.color.color_DFE1E5))
-//            mTvFollow.setText("已喜欢")
-//        }
-//        mTvFollow.setOnClickListener(this)
-//        mTvFollow.setTag(data)
     }
 
     override fun onClick(v: View?) {

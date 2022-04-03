@@ -176,28 +176,28 @@ class SendLoveHeartDialog : DialogFragment() {
 
     private fun setLoveHeartData(){
         var mLoveHeartRule1 = LoveHeartRule("1")
-        mLoveHeartRule1.iLoveCount = 200
-        mLoveHeartRule1.sDesc = "爱你哦"
+        mLoveHeartRule1.iLoveCount = 100
+//        mLoveHeartRule1.sDesc = "爱你哦"
 
         var mLoveHeartRule2 = LoveHeartRule("1")
-        mLoveHeartRule2.iLoveCount = 520
-        mLoveHeartRule2.sDesc = "我爱你"
+        mLoveHeartRule2.iLoveCount = 200
+//        mLoveHeartRule2.sDesc = "我爱你"
 
         var mLoveHeartRule3 = LoveHeartRule("1")
-        mLoveHeartRule3.iLoveCount = 1314
-        mLoveHeartRule3.sDesc = "一生一世"
+        mLoveHeartRule3.iLoveCount = 520
+//        mLoveHeartRule3.sDesc = "一生一世"
 
         var mLoveHeartRule4 = LoveHeartRule("1")
-        mLoveHeartRule4.iLoveCount = 3399
-        mLoveHeartRule4.sDesc = "长长久久"
+        mLoveHeartRule4.iLoveCount = 666
+//        mLoveHeartRule4.sDesc = "长长久久"
 
         var mLoveHeartRule5 = LoveHeartRule("1")
-        mLoveHeartRule5.iLoveCount = 9420
-        mLoveHeartRule5.sDesc = "就是爱你"
+        mLoveHeartRule5.iLoveCount = 888
+//        mLoveHeartRule5.sDesc = "就是爱你"
 
         var mLoveHeartRule6 = LoveHeartRule("1")
-        mLoveHeartRule6.iLoveCount = 20100
-        mLoveHeartRule6.sDesc = "爱你一万年"
+        mLoveHeartRule6.iLoveCount = 1314
+//        mLoveHeartRule6.sDesc = "爱你一万年"
 
         mLoveHeartList.add(mLoveHeartRule1)
         mLoveHeartList.add(mLoveHeartRule2)

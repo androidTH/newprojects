@@ -17,10 +17,7 @@ import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
-import com.d6.android.app.adapters.MyImageAdapter
-import com.d6.android.app.adapters.MySquareAdapter
-import com.d6.android.app.adapters.SelfReleaselmageAdapter
-import com.d6.android.app.adapters.UserTagAdapter
+import com.d6.android.app.adapters.*
 import com.d6.android.app.base.BaseActivity
 import com.d6.android.app.dialogs.*
 import com.d6.android.app.eventbus.LikeMsgEvent
@@ -50,6 +47,9 @@ import io.rong.imlib.model.UserInfo
 import kotlinx.android.synthetic.main.activity_user_info_v2.*
 import kotlinx.android.synthetic.main.header_user_info_layout.view.*
 import kotlinx.android.synthetic.main.layout_userinfo_date.view.*
+import kotlinx.android.synthetic.main.layout_userinfo_date.view.rl_userinfo_date
+import kotlinx.android.synthetic.main.layout_userinfo_date.view.tv_sub_title
+import kotlinx.android.synthetic.main.layout_userinfo_receivegiftlist.view.*
 import me.nereo.multi_image_selector.MultiImageSelectorActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -71,6 +71,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
     private val userId by lazy {
         SPUtils.instance().getString(Const.User.USER_ID)
+    }
+
+    private val mIsShowGift by lazy{
+        SPUtils.instance().getBoolean("IsShowGift"+ getLocalUserId(),false)
     }
 
     private var localLoveHeartNums = SPUtils.instance().getInt(Const.User.USERLOVE_NUMS, 0)
@@ -109,6 +113,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     private val userTagAdapter by lazy {
         UserTagAdapter(mTags)
     }
+
+    private var mAllGiftList: ArrayList<GiftBeans> = ArrayList()
+
+    private val mReceiveGiftListQuickAdapter by lazy{
+        ReceiveGiftListQuickAdapter(mAllGiftList)
+    }
+
     private val colorDrawable by lazy {
         ColorDrawable(Color.WHITE).mutate()
     }
@@ -172,17 +183,18 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 .colorResId(android.R.color.transparent)
                 .size(dip(8))
                 .build())
-        tv_like.setOnClickListener(View.OnClickListener {
-            mData?.let {
-                if (it.iIsFollow != null) {
-                    if (it.iIsFollow == 0) {//mData?.iIsFollow
-                        addFollow()
-                    } else {
-                        delFollow()
-                    }
-                }
-            }
-        })
+//        tv_like.setOnClickListener(View.OnClickListener {
+//            mData?.let {
+//                if (it.iIsFollow != null) {
+//                    if (it.iIsFollow == 0) {//mData?.iIsFollow
+//                        addFollow()
+//                    } else {
+//                        delFollow()
+//                    }
+//                }
+//            }
+//        })
+
         myImageAdapter.setOnItemClickListener { _, position ->
             val addImg = mImages[position]
             if (addImg.type != 1) {
@@ -206,6 +218,10 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
         headerView.rv_tags.isNestedScrollingEnabled = false
         headerView.rv_tags.adapter = userTagAdapter
 
+        headerView.rv_receivegiftlist.setHasFixedSize(true)
+        headerView.rv_receivegiftlist.layoutManager = LinearLayoutManager(this,RecyclerView.HORIZONTAL,false)
+        headerView.rv_receivegiftlist.adapter = mReceiveGiftListQuickAdapter
+
         mSwipeRefreshLayout.mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -227,6 +243,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                 }
             }
         })
+
+
+        iv_userinfo_giftred.setOnClickListener {
+            isAuthUser {
+                showGiftDialog()
+            }
+        }
 
         tv_siliao.setOnClickListener {
             mData?.let {
@@ -252,7 +275,16 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                         mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
                     }
                 } else {
-                    if (!isFastClick()) {
+                    if (localLoveHeartNums > 0) {
+                        if (sendLoveHeartNums <= localLoveHeartNums) {
+                            sendLoveHeartNums = sendLoveHeartNums + 1
+                            addGiftNums(10, false, true, "")
+                            VibrateHelp.Vibrate(this, VibrateHelp.time50)
+                        } else {
+                            var mSendRedHeartEndDialog = SendRedHeartEndDialog()
+                            mSendRedHeartEndDialog.show(supportFragmentManager, "redheartendDialog")
+                        }
+                    } else {
                         var mSendLoveHeartDialog = SendLoveHeartDialog()
                         mSendLoveHeartDialog.arguments = bundleOf("userId" to "${mData?.accountId}")
                         mSendLoveHeartDialog.setDialogListener { p, s ->
@@ -369,6 +401,28 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //        getUserFollowAndFansandVistor()
 
         setAudioListener()
+        if(mIsShowGift){
+            headerView.rl_userinfo_gift.visibility = View.VISIBLE
+            getGiftList()
+        }else{
+            headerView.rl_userinfo_gift.visibility = View.GONE
+        }
+    }
+
+    private fun getGiftList(){
+        Request.getGiftList().request(this, false, success = { msg, data ->
+            data?.let {
+                mReceiveGiftListQuickAdapter.setNewData(it)
+            }
+        })
+    }
+
+    private fun showGiftDialog(){
+        var mSelectGiftListDialog = SelectGiftListDialog()
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.setDialogListener { p, s ->
+        }
+        mSelectGiftListDialog.show(supportFragmentManager,"gift")
     }
 
     private fun setAudioListener(){
@@ -632,6 +686,12 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
                     headerView.tv_user_date_sex.text = "${it.age}"
                 }
 
+                if(TextUtils.equals("0",it.sex)){
+                    headerView.tv_receivedgift_title.text = "收到的礼物"
+                }else{
+                    headerView.tv_receivedgift_title.text = "送出的礼物"
+                }
+
 //                if (TextUtils.equals("0", it.sex)) {
                 if (TextUtils.equals(id, CustomerServiceId) || TextUtils.equals(id, CustomerServiceWomenId)) {
                     headerView.img_other_auther.visibility = View.GONE
@@ -785,20 +845,20 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 
                 if (data.iIsFollow != null) {
                     if (data.iIsFollow == 1) {
-                        tv_like.setCompoundDrawables(null, null, null, null);
-                        tv_like.text = resources.getString(R.string.string_liked)
-                        tv_like.backgroundResource = R.drawable.shade_20r_white
-                        tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
-
-                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
+//                        tv_like.setCompoundDrawables(null, null, null, null);
+//                        tv_like.text = resources.getString(R.string.string_liked)
+//                        tv_like.backgroundResource = R.drawable.shade_20r_white
+//                        tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
+//
+//                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
                         tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
                     } else {
-                        tv_like.visibility = View.GONE
-                        tv_like.text = resources.getString(R.string.string_like)
-                        tv_like.backgroundResource = R.drawable.shape_20r_ff6
-                        tv_like.textColor = ContextCompat.getColor(context, R.color.white)
-
-                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
+//                        tv_like.visibility = View.GONE
+//                        tv_like.text = resources.getString(R.string.string_like)
+//                        tv_like.backgroundResource = R.drawable.shape_20r_ff6
+//                        tv_like.textColor = ContextCompat.getColor(context, R.color.white)
+//
+//                        tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
 
                     }
                 }
@@ -935,13 +995,13 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
             //            toast("$s,$jsonObject")
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_liked_button
 
-            tv_like.setCompoundDrawables(null, null, null, null);
-
-            tv_like.text = resources.getString(R.string.string_liked)
-            tv_like.backgroundResource = R.drawable.shade_20r_white
-            tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
-
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
+//            tv_like.setCompoundDrawables(null, null, null, null);
+//
+//            tv_like.text = resources.getString(R.string.string_liked)
+//            tv_like.backgroundResource = R.drawable.shade_20r_white
+//            tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
+//
+//            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
 
             mData?.iIsFollow = 1
@@ -959,14 +1019,14 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
 //            headerView.iv_isfollow.imageResource = R.mipmap.usercenter_like_button
             var drawable = ContextCompat.getDrawable(context, R.mipmap.icon_like_button)
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-            tv_like.setCompoundDrawables(drawable, null, null, null);
-
-            tv_like.text = resources.getString(R.string.string_like)
-            tv_like.backgroundResource = R.drawable.shape_20r_ff6
-            tv_like.textColor = ContextCompat.getColor(context, R.color.white)
-
-
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
+//            tv_like.setCompoundDrawables(drawable, null, null, null);
+//
+//            tv_like.text = resources.getString(R.string.string_like)
+//            tv_like.backgroundResource = R.drawable.shape_20r_ff6
+//            tv_like.textColor = ContextCompat.getColor(context, R.color.white)
+//
+//
+//            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_10))
             mData?.iIsFollow = 0
         }
@@ -1008,21 +1068,21 @@ class UserInfoActivity : BaseActivity(), SwipeRefreshRecyclerLayout.OnRefreshLis
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: LikeMsgEvent) {
         if (event.type == 1) {
-            tv_like.setCompoundDrawables(null, null, null, null);
-            tv_like.text = resources.getString(R.string.string_liked)
-            tv_like.backgroundResource = R.drawable.shade_20r_white
-            tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
-
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
+//            tv_like.setCompoundDrawables(null, null, null, null);
+//            tv_like.text = resources.getString(R.string.string_liked)
+//            tv_like.backgroundResource = R.drawable.shade_20r_white
+//            tv_like.textColor = ContextCompat.getColor(context, R.color.color_666666)
+//
+//            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.margin_20), resources.getDimensionPixelSize(R.dimen.margin_12))
             tv_siliao.setPadding(resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10), resources.getDimensionPixelSize(R.dimen.padding_60), resources.getDimensionPixelSize(R.dimen.margin_10))
         } else {
-            tv_like.visibility = View.GONE
-
-            tv_like.text = resources.getString(R.string.string_like)
-            tv_like.backgroundResource = R.drawable.shape_20r_ff6
-            tv_like.textColor = ContextCompat.getColor(context, R.color.white)
-
-            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
+//            tv_like.visibility = View.GONE
+//
+//            tv_like.text = resources.getString(R.string.string_like)
+//            tv_like.backgroundResource = R.drawable.shape_20r_ff6
+//            tv_like.textColor = ContextCompat.getColor(context, R.color.white)
+//
+//            tv_like.setPadding(resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12), resources.getDimensionPixelSize(R.dimen.padding_30), resources.getDimensionPixelSize(R.dimen.margin_12))
         }
     }
 

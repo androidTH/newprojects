@@ -271,13 +271,29 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="--" />
+
+        <TextView
+            android:id="@+id/tv_square_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_comments"
+            android:layout_toLeftOf="@+id/tv_redflower"
+            android:layout_marginRight="@dimen/margin_22"
+            android:layout_marginTop="@dimen/margin_12"
+            android:drawableLeft="@mipmap/liwu_list_s"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_8"
+            android:paddingTop="3dp"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp" />
         <TextView
             android:id="@+id/tv_redflower"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_comments"
             android:layout_toLeftOf="@+id/tv_comment"
-            android:layout_marginRight="@dimen/margin_40"
+            android:layout_marginRight="@dimen/margin_25"
             android:layout_marginTop="@dimen/margin_12"
             android:drawableLeft="@drawable/ic_redflower_selector"
             android:drawablePadding="4dp"
@@ -296,7 +312,7 @@
             android:layout_toLeftOf="@+id/tv_appraise"
             android:layout_marginTop="@dimen/margin_12"
             android:drawableLeft="@mipmap/ic_comment"
-            android:layout_marginRight="@dimen/margin_40"
+            android:layout_marginRight="@dimen/margin_25"
             android:drawablePadding="4dp"
             android:gravity="center"
             android:paddingLeft="5dp"
@@ -318,7 +334,7 @@
             android:text="0"
             android:textColor="@color/color_888888"
             android:textSize="12sp" />
-        <!--android:layout_toRightOf="@+id/tv_comment"-->
+
         <LinearLayout
             android:id="@+id/square_gift_parent"
             android:layout_width="match_parent"
@@ -333,5 +349,6 @@
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginBottom="-45dp"
             android:layout_above="@+id/tv_comment"  />
+
     </RelativeLayout>
 </RelativeLayout>

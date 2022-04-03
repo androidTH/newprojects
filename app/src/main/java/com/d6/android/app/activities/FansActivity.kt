@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import android.widget.RelativeLayout
 import com.d6.android.app.R
@@ -34,6 +35,10 @@ class FansActivity : RecyclerActivity() {
 
     private var pageNum = 1
     private val mMessages = ArrayList<LoveHeartFans>()
+    private val sex by lazy {
+        SPUtils.instance().getString(Const.User.USER_SEX)
+    }
+
     override fun layoutManager(): RecyclerView.LayoutManager {
         return GridLayoutManager(this,2)
     }
@@ -120,7 +125,11 @@ class FansActivity : RecyclerActivity() {
                     mMessages.clear()
                     mHeaderFans.clear()
                     mHeaderView.tv_receivedliked_nums.text ="${it.iAllReceiveLovePoint} [img src=redheart_small/]"
-                    mHeaderView.tv_liked_order.text = "收到的喜欢排名"
+                    if(TextUtils.equals("0",sex)){
+                        mHeaderView.tv_liked_order.text = "收到的喜欢排名"
+                    }else{
+                        mHeaderView.tv_liked_order.visibility = View.GONE
+                    }
                 }
                 if (it.list?.results == null || it.list?.results?.isEmpty() as Boolean) {
                     if (pageNum > 1) {
@@ -134,26 +143,31 @@ class FansActivity : RecyclerActivity() {
                         mHeaderView.tv_liked_order.visibility = View.GONE
                     }
                 } else {
-                    it.list?.results?.let {
-                        mMessages.addAll(it)
+                    if(TextUtils.equals("0",sex)){
+                        it.list?.results?.let {
+                            mMessages.addAll(it)
+                        }
                     }
 
                     it.unreadlist?.let { it1 ->
                         if(it1.size>0){
-                            mHeaderFans.addAll(it1)
-                            mHeaderLikedAdapter.notifyDataSetChanged()
+                            if(TextUtils.equals("0",sex)){
+                                mHeaderFans.addAll(it1)
+                                mHeaderLikedAdapter.notifyDataSetChanged()
+                            }else{
+                                mHeaderView.rv_receivedliked.visibility = View.GONE
+                                mMessages.addAll(it1)
+                            }
                             mHeaderView.tv_receiveliked_title.text="最近收到的喜欢"
                             mHeaderView.tv_receiveliked_title.visibility = View.VISIBLE
                         }else{
                             mHeaderView.tv_receiveliked_title.text=""
                             mHeaderView.tv_receiveliked_title.visibility = View.GONE
                             mHeaderView.rv_receivedliked.visibility = View.GONE
-                            mHeaderView.rv_receivedliked.visibility = View.GONE
                         }
                     }
                     if(it.unreadlist==null){
                         mHeaderView.tv_receiveliked_title.visibility = View.GONE
-                        mHeaderView.rv_receivedliked.visibility = View.GONE
                         mHeaderView.rv_receivedliked.visibility = View.GONE
                     }
 

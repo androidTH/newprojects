@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:paddingRight="@dimen/margin_50"
         android:background="@drawable/shape_rgpic_bg">
         <TextView
             android:id="@+id/tv_women_perfect_name"
@@ -108,19 +109,16 @@
                 android:text="收到[img src=redheart_small/]·50     访客·189"
                 android:textColor="@color/white"
                 android:textSize="12dp" />
+            <TextView
+                android:id="@+id/tv_women_perfect_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:gravity="center"
+                android:text="广州"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_women_perfect_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="@dimen/margin_35"
-            android:layout_marginRight="16dp"
-            android:gravity="center"
-            android:text="广州"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_women_perfect_content"

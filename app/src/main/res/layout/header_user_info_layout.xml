@@ -399,6 +399,16 @@
         android:background="@drawable/shape_f6_top_8r" />
 
     <include
+        layout="@layout/layout_userinfo_receivegiftlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fl_add_square"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_5"/>
+
+    <include
         layout="@layout/layout_userinfo_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

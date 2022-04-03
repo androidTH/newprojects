@@ -36,7 +36,7 @@ public class SelectedSexPopup extends BasePopup<SelectedSexPopup> implements Vie
         setContentView(R.layout.popup_selectedsex_layout, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setFocusAndOutsideEnable(true)
                 .setBackgroundDimEnable(true)
-                .setDimValue(0.5f);
+                .setDimValue(0.0f);
     }
 
     @Override

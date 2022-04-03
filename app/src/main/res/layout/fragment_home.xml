@@ -142,7 +142,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/margin_8"
-                        android:layout_marginRight="@dimen/margin_10"
+                        android:layout_marginRight="@dimen/height_60"
                         android:layout_toLeftOf="@+id/tv_leibie">
 
                         <com.d6.android.app.widget.tablayout.TabLayout
@@ -173,29 +173,28 @@
                         android:visibility="gone"
                         android:drawableLeft="@mipmap/leibie_shadows"/>
                     <TextView
-                        android:id="@+id/tv_date_sex"
-                        android:layout_toLeftOf="@+id/tv_date_city"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="@dimen/margin_12"
-                        android:drawableRight="@mipmap/downmore_icon"
-                        android:drawablePadding="@dimen/margin_5"
-                        android:gravity="center"
-                        android:text="@string/string_sex"
-                        android:visibility="gone"
-                        android:textColor="@color/color_F7AB00"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                    <TextView
                         android:id="@+id/tv_date_city"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
+                        android:layout_toLeftOf="@+id/tv_date_sex"
                         android:layout_marginRight="@dimen/margin_8"
                         android:drawableRight="@mipmap/downmore_icon"
                         android:drawablePadding="@dimen/margin_5"
                         android:gravity="center"
                         android:text="地区"
+                        android:textColor="@color/color_F7AB00"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_date_sex"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/margin_8"
+                        android:drawableRight="@mipmap/downmore_icon"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:gravity="center"
+                        android:text="@string/string_sex"
                         android:textColor="@color/color_F7AB00"
                         android:textSize="14sp"
                         android:textStyle="bold" />

@@ -77,51 +77,45 @@
         android:orientation="horizontal"
         android:paddingBottom="@dimen/margin_10">
 
-        <TextView
-            android:id="@+id/tv_like"
+        <ImageView
+            android:id="@+id/iv_userinfo_giftred"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/tv_siliao"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/margin_18"
-            android:background="@drawable/shape_20r_ff6"
-            android:drawableLeft="@mipmap/like_button"
+            android:background="@drawable/taren_redbutton_bg"
+            android:src="@mipmap/gift_red_icon"
             android:drawablePadding="@dimen/margin_5"
+            android:layout_marginBottom="12dp"
             android:gravity="center"
             android:paddingLeft="30dp"
             android:paddingTop="@dimen/margin_12"
             android:paddingRight="30dp"
-            android:paddingBottom="@dimen/margin_12"
-            android:text="@string/string_like"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:visibility="gone"/>
+            android:paddingBottom="@dimen/margin_12" />
 
         <!--android:background="@drawable/shape_30r_orange"-->
 
         <Button
             android:id="@+id/tv_siliao"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="@dimen/margin_8"
             android:layout_marginBottom="@dimen/margin_12"
+            android:layout_centerInParent="true"
             android:background="@drawable/taren_yellowbutton_bg"
             android:drawableLeft="@mipmap/siliao_icon"
-            android:drawablePadding="@dimen/margin_5"
             android:gravity="center"
-            android:paddingLeft="60dp"
-            android:paddingRight="60dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
             android:text="@string/string_siliao"
             android:textColor="@color/white"
             android:textSize="15sp" />
-        <!--android:elevation="1dp"-->
-        <!--android:translationZ="@dimen/margin_10"-->
+
 
             <com.d6.android.app.widget.textinlineimage.TextInlineImage
                 android:id="@+id/tv_sendredheart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@+id/tv_siliao"
                 android:background="@drawable/taren_redbutton_bg"

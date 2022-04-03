@@ -20,6 +20,7 @@ import com.d6.android.app.activities.UserInfoActivity
 import com.d6.android.app.adapters.SquareCommentAdapter
 import com.d6.android.app.adapters.SquareImageAdapter
 import com.d6.android.app.base.BaseActivity
+import com.d6.android.app.dialogs.SelectGiftListDialog
 import com.d6.android.app.dialogs.SendLoveHeartDialog
 import com.d6.android.app.dialogs.SendRedHeartEndDialog
 import com.d6.android.app.dialogs.UnKnowInfoDialog
@@ -113,6 +114,12 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 tv_delete.setOnClickListener {
                     square?.let {
                         deleteAction?.onDelete(it)
+                    }
+                }
+
+                tv_square_gift.setOnClickListener {
+                    (context as BaseActivity).isAuthUser() {
+                        showGiftDialog()
                     }
                 }
 
@@ -481,6 +488,14 @@ class TrendView @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 }
             }
         }
+    }
+
+    private fun showGiftDialog(){
+        var mSelectGiftListDialog = SelectGiftListDialog()
+        mSelectGiftListDialog.arguments= bundleOf("titleStype" to "other")
+        mSelectGiftListDialog.setDialogListener { p, s ->
+        }
+        mSelectGiftListDialog.show((context as BaseActivity).supportFragmentManager,"gift")
     }
 
     private fun doLoveHeartAnimation(){

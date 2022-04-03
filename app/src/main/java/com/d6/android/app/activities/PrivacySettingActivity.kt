@@ -42,6 +42,10 @@ class PrivacySettingActivity : BaseActivity() {
 
     private var iPhonePrivacy:String = "2"
 
+    private val mIsShowGift by lazy{
+        SPUtils.instance().getBoolean("IsShowGift"+ getLocalUserId(),false)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_privacy)
@@ -54,9 +58,9 @@ class PrivacySettingActivity : BaseActivity() {
 
         sw_gifthistory_off.setOnCheckedChangeListener{buttonView,isChecked->
              if(isChecked){
-
+                 SPUtils.instance().put("IsShowGift"+ getLocalUserId(),true).apply()
              }else{
-
+                 SPUtils.instance().put("IsShowGift"+ getLocalUserId(),false).apply()
              }
         }
 
@@ -130,6 +134,8 @@ class PrivacySettingActivity : BaseActivity() {
         getUserInfo()
 
         PermissionsUtils.showSystemSetting = false
+
+        sw_gifthistory_off.isChecked = mIsShowGift
     }
 
     private val mTags = ArrayList<UserUnKnowTag>()
